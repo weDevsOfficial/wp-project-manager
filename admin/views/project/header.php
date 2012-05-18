@@ -17,5 +17,5 @@ if ( !$detail ) {
 
 <?php echo $project->nav_menu( $project_id, $cpm_active_menu ); ?>
 <script type="text/javascript">
-    var cpm_nonce = '<?php echo wp_create_nonce('cpm_task'); ?>';
+    var cpm_nonce = '<?php echo wp_create_nonce('cpm_nonce'); ?>';
 </script>
