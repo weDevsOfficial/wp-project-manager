@@ -10,6 +10,7 @@ class CPM_Milestone {
     private $_db;
     private $_task_obj;
     private $_msg_obj;
+    private static $_instance;
 
     public function __construct() {
         global $wpdb;
@@ -17,6 +18,14 @@ class CPM_Milestone {
         $this->_db = $wpdb;
         $this->_task_obj = new CPM_Task();
         $this->_msg_obj = new CPM_Message();
+    }
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new CPM_Milestone();
+        }
+
+        return self::$_instance;
     }
 
     function create( $values, $project_id ) {
@@ -76,6 +85,28 @@ class CPM_Milestone {
 
             return $this->_db->query( $this->_db->prepare( $sql, $milestone_id ) );
         }
+    }
+
+    function mark_complete( $milestone_id ) {
+        $data = array(
+            'completed' => 1,
+            'completed_on' => current_time( 'mysql' )
+        );
+
+        $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
+    }
+
+    /**
+     * Mark a task as uncomplete/open
+     *
+     * @param int $task_id task id
+     */
+    function mark_open( $milestone_id ) {
+        $data = array(
+            'completed' => 0,
+        );
+
+        $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
     }
 
     function get( $milestone_id ) {

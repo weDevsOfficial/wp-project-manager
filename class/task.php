@@ -20,12 +20,21 @@ class CPM_Task {
      * @var object
      */
     private $_comment_obj;
+    private static $_instance;
 
     public function __construct() {
         global $wpdb;
 
         $this->_db = $wpdb;
         $this->_comment_obj = new CPM_Comment();
+    }
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new CPM_Task();
+        }
+
+        return self::$_instance;
     }
 
     function insert_list( $values ) {
@@ -275,7 +284,7 @@ class CPM_Task {
 
     function get_completeness( $list_id ) {
         $sql = "SELECT count(id) as total, SUM(CASE complete WHEN '1' THEN 1 ELSE 0 END) as done FROM " . CPM_TASKS_TABLE .
-            "  WHERE list_id = %d AND status = 1";
+                "  WHERE list_id = %d AND status = 1";
 
         return $this->_db->get_row( $this->_db->prepare( $sql, $list_id ) );
     }

@@ -20,12 +20,21 @@ class CPM_Message {
      * @var object
      */
     private $_comment_obj;
+    private static $_instance;
 
     public function __construct() {
         global $wpdb;
 
         $this->_db = $wpdb;
         $this->_comment_obj = new CPM_Comment();
+    }
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new CPM_Message();
+        }
+
+        return self::$_instance;
     }
 
     function get_all( $project_id ) {

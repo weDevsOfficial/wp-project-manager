@@ -8,11 +8,20 @@
 class CPM_Project {
 
     private $_db;
+    private static $_instance;
 
     public function __construct() {
         global $wpdb;
 
         $this->_db = $wpdb;
+    }
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new CPM_Project();
+        }
+
+        return self::$_instance;
     }
 
     function delete( $project_id ) {
@@ -70,7 +79,7 @@ class CPM_Project {
 
         $menu = array();
         foreach ($links as $url => $label) {
-            if( $active == $label ) {
+            if ( $active == $label ) {
                 $menu[] = sprintf( '<li class="active"><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
             } else {
                 $menu[] = sprintf( '<li><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );

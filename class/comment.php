@@ -8,11 +8,20 @@
 class CPM_Comment {
 
     private $_db;
+    private static $_instance;
 
     public function __construct() {
         global $wpdb;
 
         $this->_db = $wpdb;
+    }
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new CPM_Comment();
+        }
+
+        return self::$_instance;
     }
 
     function create( $values, $object_id, $type ) {
