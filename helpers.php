@@ -241,3 +241,85 @@ function cpm_is_left( $from, $to ) {
 
     return false;
 }
+
+function cpm_show_milestone( $milestone, $project_id ) {
+    $milestone_obj = CPM_Milestone::getInstance();
+    $task_obj = CPM_Task::getInstance();
+
+    $due = strtotime( $milestone->due_date );
+    $is_left = cpm_is_left( time(), $due );
+    $milestone_completed = (int) $milestone->completed;
+
+    if ( $milestone_completed ) {
+        $class = 'complete';
+    } else {
+        $class = ($is_left == true) ? 'left' : 'late';
+    }
+    $string = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
+    ?>
+    <div class="cpm-milestone <?php echo $class; ?>">
+        <h3>
+            <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone->id ); ?>"><?php echo stripslashes( $milestone->name ); ?></a>
+            <?php if ( !$milestone_completed ) { ?>
+                (<?php echo human_time_diff( time(), $due ) . ' ' . $string; ?>)
+            <?php } ?>
+        </h3>
+        <p>Due Date: <?php echo cpm_show_date( $milestone->due_date ); ?></p>
+        <p><?php echo stripslashes( $milestone->description ); ?></p>
+
+        <?php
+        $tasks = $milestone_obj->get_tasklists( $milestone->id );
+        $messages = $milestone_obj->get_messages( $milestone->id );
+        if ( $tasks ) {
+            //var_dump( $tasks );
+            ?>
+            <h3>Task List</h3>
+            <ul>
+                <?php foreach ($tasks as $task) { ?>
+                    <li>
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->id ); ?>"><?php echo stripslashes( $task->name ); ?></a>
+                        <div class="cpm-right">
+                            <?php
+                            $complete = $task_obj->get_completeness( $task->id );
+                            cpm_task_completeness( $complete->total, $complete->done );
+                            ?>
+                        </div>
+                        <div class="cpm-clear"></div>
+                    </li>
+                <?php } ?>
+            </ul>
+
+        <?php } ?>
+
+        <?php
+        if ( $messages ) {
+            //var_dump( $messages );
+            ?>
+            <h3>Messages</h3>
+            <ul>
+                <?php foreach ($messages as $message) { ?>
+                    <li>
+                        <a href="<?php echo cpm_url_single_message( $message->id ); ?>"><?php echo stripslashes( $message->title ); ?></a>
+                        (<?php echo cpm_show_date( $message->created, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->author ); ?>)
+                    </li>
+                <?php } ?>
+            </ul>
+
+        <?php } ?>
+
+        <?php if ( $milestone_completed ) { ?>
+            Completed on: <?php echo cpm_show_date( $milestone->completed_on, true ); ?>
+        <?php } ?>
+
+        <ul class="cpm-links">
+            <li><a href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->id ); ?>">Edit</a></li>
+            <li><a class="cpm-milestone-delete" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Delete</a></li>
+            <?php if ( $milestone->completed == '0' ) { ?>
+                <li><a class="cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Mark as complete</a></li>
+            <?php } else { ?>
+                <li><a class="cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Reopen</a></li>
+            <?php } ?>
+        </ul>
+    </div>
+    <?php
+}
