@@ -1,19 +1,4 @@
 jQuery(function($) {
-    $('#project_manager, #project_coworker, #project_client').chosen();
-    $( "#project_started, #project_ends" ).datepicker();
-    $( ".datepicker" ).datepicker();
-
-    $( "#project-status-slider" ).slider({
-        range: "min",
-        value: 0,
-        min: 0,
-        max: 100,
-        slide: function( event, ui ) {
-            $( "#project-status" ).val( ui.value );
-            $( "#project-status-text" ).text( ui.value + ' %' );
-        }
-    });
-
     (function ($) {
 
         var weDevs_CPM = {
@@ -26,6 +11,7 @@ jQuery(function($) {
                 $('.cpm-task-list').on('click', '.cpm-hide-tasks', this.Task.toggleTasks);
                 $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
                 $('.cpm-links').on('click', '.cpm-milestone-complete', this.Milestone.markComplete);
+                $('.cpm-links').on('click', '.cpm-milestone-open', this.Milestone.markOpen);
             },
             Task: {
                 fieldAdd: function () {
@@ -78,11 +64,17 @@ jQuery(function($) {
                 }
             },
             Milestone: {
-                remove: function () {
+                remove: function (e) {
+                    e.preventDefault();
                     weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_delete_milestone');
                 },
-                markComplete: function () {
-                    weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_milestone_read');
+                markComplete: function (e) {
+                    e.preventDefault();
+                    weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_milestone_complete');
+                },
+                markOpen: function (e) {
+                    e.preventDefault();
+                    weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_milestone_open');
                 },
                 ajaxRequest: function (action) {
                     var that = $(this),
@@ -91,7 +83,6 @@ jQuery(function($) {
                         action: action,
                         '_wpnonce': cpm_nonce
                     };
-                    console.log(data);
 
                     that.addClass('cpm-loading');
                     $.post(ajaxurl, data, function (response) {
@@ -102,6 +93,21 @@ jQuery(function($) {
         };
 
         weDevs_CPM.init();
+
+        $('#project_manager, #project_coworker, #project_client').chosen();
+        $( "#project_started, #project_ends" ).datepicker();
+        $( ".datepicker" ).datepicker();
+
+        $( "#project-status-slider" ).slider({
+            range: "min",
+            value: 0,
+            min: 0,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#project-status" ).val( ui.value );
+                $( "#project-status-text" ).text( ui.value + ' %' );
+            }
+        });
 
     })(jQuery);
 });
