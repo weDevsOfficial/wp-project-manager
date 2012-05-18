@@ -7,49 +7,60 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 <h2><?php _e( 'Milestones', 'cpm' ) ?> <a id="cpm-add-milestone" href="<?php echo cpm_url_new_milestone( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a></h2>
 
 <?php
-$milestone_obj = new CPM_Milestone();
+$milestone_obj = CPM_Milestone::getInstance();
 $milestones = $milestone_obj->get_by_project( $project_id );
+$task_obj = CPM_Task::getInstance();
+
+$completed_milestones = array();
+$late_milestones = array();
+$upcoming_milestones = array();
+
+if ( $milestones ) {
+    foreach ($milestones as $milestone) {
+        $due = strtotime( $milestone->due_date );
+        $is_left = cpm_is_left( time(), $due );
+        $milestone_completed = (int) $milestone->completed;
+
+        if ( $milestone_completed ) {
+            $completed_milestones[] = $milestone;
+        } else if ( $is_left ) {
+            $upcoming_milestones[] = $milestone;
+        } else {
+            $late_milestones[] = $milestone;
+        }
+    }
+}
+//var_dump( $completed_milestones, $upcoming_milestones, $late_milestones );
 ?>
 
-<?php if ( $milestones ) { ?>
-    <div class="cpm-milestones">
+<div class="cpm-milestones">
+    <?php if ( $late_milestones ) { ?>
+
+        <h3>Late Milestones</h3>
         <?php
-        foreach ($milestones as $milestone) {
-            $due = strtotime( $milestone->due_date );
-            $is_left = cpm_is_left( time(), $due );
-            $class = ($is_left == true) ? 'left' : 'late';
-            $string = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
-            ?>
-            <div class="cpm-milestone <?php echo $class; ?>">
-                <h3><a href="<?php echo cpm_url_single_milestone( $project_id, $milestone->id ); ?>"><?php echo stripslashes( $milestone->name ); ?></a> (<?php echo human_time_diff( time(), $due ) . ' ' . $string; ?>)</h3>
-                <p>Due Date: <?php echo cpm_show_date( $milestone->due_date ); ?></p>
-                <p><?php echo stripslashes( $milestone->description ); ?></p>
+        foreach ($late_milestones as $milestone) {
+            cpm_show_milestone( $milestone, $project_id );
+        }
+        ?>
+    <?php } ?>
 
-                <?php
-                $tasks = $milestone_obj->get_tasklists( $milestone->id );
-                $messages = $milestone_obj->get_messages( $milestone->id );
-                if ( $tasks ) {
-                    //var_dump( $tasks );
-                    ?>
-                    <h3>Task List</h3>
-                    <?php foreach ($tasks as $task) { ?>
-                        <li><a href="<?php echo cpm_url_single_tasklist( $project_id, $task->id ); ?>"><?php echo stripslashes( $task->name ); ?></a></li>
-                    <?php } ?>
+    <?php if ( $upcoming_milestones ) { ?>
 
-                <?php } ?>
+        <h3>Upcoming Milestones</h3>
+        <?php
+        foreach ($upcoming_milestones as $milestone) {
+            cpm_show_milestone( $milestone, $project_id );
+        }
+        ?>
+    <?php } ?>
 
-                <?php
-                if ( $messages ) {
-                    //var_dump( $messages );
-                    ?>
-                    <h3>Messages</h3>
-                    <?php foreach ($messages as $message) { ?>
-                        <li><a href="<?php echo cpm_url_single_message( $message->id ); ?>"><?php echo stripslashes( $message->title ); ?></a></li>
-                    <?php } ?>
-
-                <?php } ?>
-            </div>
-        <?php } ?>
-    </div>
-    <?php
-}?>
+    <?php if ( $completed_milestones ) { ?>
+        
+        <h3>Completed Milestones</h3>
+        <?php
+        foreach ($completed_milestones as $milestone) {
+            cpm_show_milestone( $milestone, $project_id );
+        }
+        ?>
+    <?php } ?>
+</div>

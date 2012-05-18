@@ -3,7 +3,7 @@ $cpm_active_menu = __( 'Milestones', 'cpm' );
 
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
-$milestone_obj = new CPM_Milestone();
+$milestone_obj = CPM_Milestone::getInstance();
 $error = false;
 if ( isset( $_POST['create_milestone'] ) ) {
     check_admin_referer( 'new_milestone' );
