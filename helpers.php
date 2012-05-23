@@ -36,6 +36,10 @@ function cpm_url_single_message( $message_id ) {
     return sprintf( '%s?page=cpm_messages&action=single&mid=%d', admin_url( 'admin.php' ), $message_id );
 }
 
+function cpm_url_new_message( $project_id ) {
+    return sprintf( '%s?page=cpm_messages&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
+}
+
 function cpm_msg_edit_url( $message_id ) {
     return sprintf( '%s?page=cpm_messages&action=edit&mid=%d', admin_url( 'admin.php' ), $message_id );
 }
@@ -52,6 +56,14 @@ function cpm_url_edit_milestone( $project_id, $milestone_id ) {
     return sprintf( '%s?page=cpm_projects&action=milestone_edit&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
 }
 
+function cpm_url_new_invoice( $project_id ) {
+    return sprintf( '%s?page=cpm_projects&action=invoice_new&pid=%d', admin_url( 'admin.php' ), $project_id );
+}
+
+function cpm_url_single_invoice( $project_id, $invoice_id ) {
+    return sprintf( '%s?page=cpm_projects&action=invoice_detail&pid=%d&in_id=%d', admin_url( 'admin.php' ), $project_id, $invoice_id );
+}
+
 function cpm_get_privacy( $value ) {
     return ($value == 0) ? __( 'Public', 'cpm' ) : __( 'Private', 'cpm' );
 }
@@ -64,7 +76,7 @@ function wedevs_dropdown_users( $args = '' ) {
         'show' => 'display_name', 'echo' => 1,
         'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
         'blog_id' => $GLOBALS['blog_id'], 'who' => '', 'include_selected' => false,
-        'role' => '', 'multiple' => false
+        'role' => '', 'multiple' => false, 'disabled' => false
     );
 
     $defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
@@ -86,6 +98,8 @@ function wedevs_dropdown_users( $args = '' ) {
 
         if ( $multiple ) {
             $output = "<select name='{$name}'{$id} class='$class' multiple='multiple'>\n";
+        } else if ( $disabled ) {
+            $output = "<select name='{$name}'{$id} class='$class' disabled='disabled'>\n";
         } else {
             $output = "<select name='{$name}'{$id} class='$class'>\n";
         }
@@ -131,9 +145,9 @@ function wedevs_date2mysql( $date, $gmt = 0 ) {
     return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', ( $time + ( get_option( 'gmt_offset' ) * 3600 ) ) );
 }
 
-function cpm_comment_form( $privacy = true ) {
+function cpm_comment_form( $object_id, $type, $privacy = true ) {
     ?>
-    <form action="" method="post" class="cpm-comment-form" enctype="multipart/form-data">
+    <form class="cpm-comment-form">
 
         <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
@@ -141,7 +155,7 @@ function cpm_comment_form( $privacy = true ) {
             <legend><?php _e( 'Post Comment', 'cpm' ); ?></legend>
 
             <p>
-                <textarea name="cpm_message" id="" cols="55" rows="8" placeholder="<?php esc_attr_e( 'Enter your message', 'cpm' ); ?>"></textarea>
+                <textarea name="cpm_message" class="required" cols="55" rows="8" placeholder="<?php esc_attr_e( 'Enter your message', 'cpm' ); ?>"></textarea>
             </p>
 
             <?php if ( $privacy ) { ?>
@@ -154,12 +168,13 @@ function cpm_comment_form( $privacy = true ) {
 
             <fieldset>
                 <legend>Attach Files</legend>
-                <p>
-                    <input type="file" name="cpm_attachment" />
-                </p>
+                <?php cpm_upload_field(); ?>
             </fieldset>
 
             <p>
+                <input type="hidden" name="action" value="cpm_new_comment" />
+                <input type="hidden" name="object_id" value="<?php echo $object_id; ?>" />
+                <input type="hidden" name="type" value="<?php echo $type; ?>" />
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add Comment', 'cpm' ); ?>" id="" />
             </p>
 
@@ -168,20 +183,38 @@ function cpm_comment_form( $privacy = true ) {
     <?php
 }
 
+function cpm_upload_field() {
+    ?>
+    <div id="cpm-upload-container">
+        <div id="cpm-upload-filelist"></div>
+        <a id="cpm-upload-pickfiles" class="button" href="#">Select files</a>
+    </div>
+    <script type="text/javascript" src="<?php echo plugins_url( 'js/upload.js', __FILE__ ) ?>"></script>
+    <?php
+}
+
 function cpm_show_comment( $comment ) {
     $user = get_user_by( 'id', $comment->user_id );
+    //var_dump($comment);
     ?>
     <div class="cpm-comment">
         <div class="cpm-comment-meta">
             <span class="author">author: <?php echo $user->display_name; ?></span> |
-            <span class="date">posted: <?php echo cpm_show_date( $comment->created, true ); ?></span>
+            <span class="date">posted: <?php echo cpm_show_date( $comment->created, true ); ?></span> |
+            <a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->id; ?>">Edit</a>
         </div>
-        <div class="cpm-comment-content">
-            <?php echo $comment->text; ?>
+        <div class="cpm-comment-container">
+            <div class="cpm-comment-content">
+                <?php echo $comment->text; ?>
+            </div>
 
-            <?php if ( $comment->url ) { ?>
-                <div class="cpm-attachment">
-                    Attachment: <a href="<?php echo $comment->url; ?>" target="_blank"><?php echo $comment->name; ?></a>
+            <?php if ( count( $comment->files ) > 0 ) { ?>
+                <div class="cpm-attachments">
+                    <?php foreach ($comment->files as $file) { ?>
+                        <div class="cpm-attachment">
+                            <a href="<?php echo $file['url']; ?>" target="_blank"><?php echo $file['name']; ?></a>
+                        </div>
+                    <?php } ?>
                 </div>
             <?php } ?>
         </div>
@@ -322,4 +355,23 @@ function cpm_show_milestone( $milestone, $project_id ) {
         </ul>
     </div>
     <?php
+}
+
+/**
+ * Check if the file is a image
+ *
+ * @param string $file url of the file to check
+ * @param string $mime mime type of the file
+ * @return bool
+ */
+function cpm_is_file_image( $file, $mime ) {
+    $ext = preg_match( '/\.([^.]+)$/', $file, $matches ) ? strtolower( $matches[1] ) : false;
+
+    $image_exts = array('jpg', 'jpeg', 'gif', 'png');
+
+    if ( 'image/' == substr( $mime, 0, 6 ) || $ext && 'import' == $mime && in_array( $ext, $image_exts ) ) {
+        return true;
+    }
+
+    return false;
 }

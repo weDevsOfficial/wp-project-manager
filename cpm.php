@@ -40,7 +40,9 @@ class WeDevs_CPM {
         define( 'CPM_TASKS_TABLE', $this->_db->prefix . 'cpm_tasks' );
         define( 'CPM_FILES_TABLE', $this->_db->prefix . 'cpm_files' );
         define( 'CPM_INVOICE_TABLE', $this->_db->prefix . 'cpm_invoice' );
+        define( 'CPM_INVOICE_ITEM_TABLE', $this->_db->prefix . 'cpm_invoice_item' );
         define( 'CPM_MILESTONE_TABLE', $this->_db->prefix . 'cpm_milestone' );
+
         define( 'CPM_PLUGIN_PATH', dirname( __FILE__ ) );
         define( 'CPM_PLUGIN_URI', plugins_url( '', __FILE__ ) );
     }
@@ -51,7 +53,33 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-slider' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'chosen', plugins_url( 'js/chosen.jquery.min.js', __FILE__ ) );
+        wp_enqueue_script( 'validate', plugins_url( 'js/jquery.validate.min.js', __FILE__ ) );
+        wp_enqueue_script( 'plupload-handlers' );
+        wp_enqueue_script( 'underscore', plugins_url( 'js/underscore-min.js', __FILE__ ) );
         wp_enqueue_script( 'cpm_admin', plugins_url( 'js/admin.js', __FILE__ ) );
+
+        $post_params = array();
+        wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'cpm_nonce' ),
+            'pay_symbol' => '$',
+            'plupload' => array(
+                'runtimes' => 'html5,silverlight,flash,html4',
+                'browse_button' => 'cpm-upload-pickfiles',
+                'container' => 'cpm-upload-container',
+                'file_data_name' => 'cpm_attachment',
+                'multiple_queues' => false,
+                'max_file_size' => wp_max_upload_size() . 'b',
+                'url' => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
+                'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
+                'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
+                'filters' => array(array('title' => __( 'Allowed Files' ), 'extensions' => '*')),
+                'multipart' => true,
+                'urlstream_upload' => true,
+                'multipart_params' => $post_params,
+                'resize' => array('width' => (int) get_option( 'large_size_w' ), 'height' => (int) get_option( 'large_size_h' ), 'quality' => 100)
+            )
+        ) );
 
         wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.8.18.custom.css', __FILE__ ) );
@@ -103,6 +131,7 @@ class WeDevs_CPM {
         $tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
+        $invoice_id = (isset( $_GET['in_id'] )) ? (int) $_GET['in_id'] : 0;
 
         switch ($page) {
             case 'cpm_projects':
@@ -112,7 +141,7 @@ class WeDevs_CPM {
                         break;
 
                     case 'new':
-                        include_once dirname( __FILE__ ) . '/admin/views/project-new.php';
+                        include_once dirname( __FILE__ ) . '/admin/views/project/new.php';
                         break;
 
                     case 'task_list':
@@ -159,6 +188,22 @@ class WeDevs_CPM {
                         include_once dirname( __FILE__ ) . '/admin/views/milestone/edit.php';
                         break;
 
+                    case 'invoice':
+                        include_once dirname( __FILE__ ) . '/admin/views/invoice/project.php';
+                        break;
+
+                    case 'invoice_new':
+                        include_once dirname( __FILE__ ) . '/admin/views/invoice/new.php';
+                        break;
+
+                    case 'invoice_detail':
+                        include_once dirname( __FILE__ ) . '/admin/views/invoice/single.php';
+                        break;
+
+                    case 'invoice_edit':
+                        include_once dirname( __FILE__ ) . '/admin/views/invoice/edit.php';
+                        break;
+
                     default:
                         include_once dirname( __FILE__ ) . '/admin/views/project/list.php';
                         break;
@@ -168,7 +213,7 @@ class WeDevs_CPM {
             case 'cpm_messages':
                 switch ($action) {
                     case 'project':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/project-list.php';
+                        include_once dirname( __FILE__ ) . '/admin/views/message/project.php';
                         break;
 
                     case 'single':
@@ -176,11 +221,15 @@ class WeDevs_CPM {
                         break;
 
                     case 'edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-edit.php';
+                        include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
+                        break;
+
+                    case 'new':
+                        include_once dirname( __FILE__ ) . '/admin/views/message/new.php';
                         break;
 
                     default:
-                        include_once dirname( __FILE__ ) . '/admin/views/message-list.php';
+                        include_once dirname( __FILE__ ) . '/admin/views/message/list.php';
                         break;
                 }
                 break;

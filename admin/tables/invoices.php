@@ -5,14 +5,14 @@
  *
  * @package Client Project Manager
  */
-class CPM_Message_List_Table extends WP_List_Table {
+class CPM_Invoice_List_Table extends WP_List_Table {
 
     private $_single_project;
 
     function __construct( $project_id = 0 ) {
         parent::__construct( array(
-            'singular' => 'cpm_project_list',
-            'plural' => 'cpm_project_lists',
+            'singular' => 'cpm_invoice_list',
+            'plural' => 'cpm_invoice_lists',
             'ajax' => false
         ) );
 
@@ -36,8 +36,11 @@ class CPM_Message_List_Table extends WP_List_Table {
             $columns['project'] = __( 'Project' );
         }
 
-        $columns['reply_count'] = __( 'Reply Count' );
-        $columns['privacy'] = __( 'Visibility' );
+        $columns['client'] = __( 'Client' );
+        $columns['gateway'] = __( 'Payment Method' );
+        $columns['total'] = __( 'Amount' );
+        $columns['status'] = __( 'Status' );
+        $columns['due'] = __( 'Due Date' );
         $columns['created'] = __( 'Created' );
         $columns['actions'] = __( 'Actions' );
 
@@ -52,8 +55,12 @@ class CPM_Message_List_Table extends WP_List_Table {
     function get_sortable_columns() {
         $columns = array(
             'title' => array('title', false),
-            'privacy' => array('privacy', false),
-            'created' => array('created', false)
+            'created' => array('created', false),
+            'client' => array('client_id', false),
+            'due' => array('due_date', false),
+            'total' => array('total', false),
+            'status' => array('pay_status', false),
+            'gateway' => array('gateway', false),
         );
 
         if ( !$this->_single_project ) {
@@ -66,12 +73,12 @@ class CPM_Message_List_Table extends WP_List_Table {
     function column_default( $item, $column_name ) {
         switch ($column_name) {
             case 'title':
-                $detail_link = admin_url( 'admin.php?page=cpm_messages&action=single&mid=' . $item->id );
+                $detail_link = cpm_url_single_invoice( $item->project_id, $item->id );
                 echo '<strong><a class="row-title" href="' . $detail_link . '" title="Edit">' . stripslashes( $item->title ) . '</a></strong>';
                 break;
 
             case 'client':
-                $user = get_user_by( 'id', $item->client );
+                $user = get_user_by( 'id', $item->client_id );
                 $link = '#';
                 echo '<a href="' . $link . '" title="Edit">' . $user->display_name . '</a>';
                 break;
@@ -81,8 +88,22 @@ class CPM_Message_List_Table extends WP_List_Table {
                 echo '<a href="' . $link . '" title="Edit">' . $item->name . '</a>';
                 break;
 
-            case 'reply_count':
-                echo $item->reply_count;
+            case 'gateway':
+                echo $item->gateway;
+                break;
+
+            case 'total':
+                echo $item->total;
+                break;
+
+            case 'due':
+                $date = mysql2date( get_option( 'date_format' ), $item->due_date );
+                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $item->due_date ) );
+                printf( '<abbr title="%s">%s</abbr>', $abbr, $date );
+                break;
+
+            case 'status':
+                echo $item->pay_status;
                 break;
 
             case 'created':
@@ -98,7 +119,10 @@ class CPM_Message_List_Table extends WP_List_Table {
             case 'actions':
                 $edit_link = '#';
                 $del_link = '#';
-                printf( '<a class="cpm-get-message" data-id="%1$d" href="%2$s">' . __( 'Edit', 'cpm' ) . '</a> | <a class="cpm-del-message" data-id="%1$d" href="%3$s">' . __( 'Delete', 'cpm' ) . '</a>', $item->id, $edit_link, $del_link );
+                printf( '<a href="%s">' . __( 'Edit', 'cpm' ) . '</a> | <a href="%s">' . __( 'Delete', 'cpm' ) . '</a>', $edit_link, $del_link );
+                break;
+
+            default:
                 break;
         }
     }
@@ -115,11 +139,10 @@ class CPM_Message_List_Table extends WP_List_Table {
         $screen = get_current_screen();
 
         /* -- Preparing your query -- */
-        $query = "SELECT m.*, p.name FROM " . CPM_MESSAGE_TABLE . " m
-                INNER JOIN " . CPM_PROJECT_TABLE . " p ON p.id = m.project_id";
+        $query = "SELECT * FROM " . CPM_INVOICE_TABLE . " i WHERE status = 1";
 
         if ( $this->_single_project ) {
-            $query .= ' WHERE m.project_id = ' . $this->_single_project;
+            $query .= ' AND i.project_id = ' . $this->_single_project;
         }
 
         /* -- Ordering parameters -- */

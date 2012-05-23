@@ -17,17 +17,20 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 $error = false;
 if ( isset( $_POST['cpm_new_comment'] ) ) {
     $posted = $_POST;
-
+    $files = array();
     $text = trim( $posted['cpm_message'] );
+
+    if ( isset( $posted['cpm_attachment'] ) ) {
+        $files = $posted['cpm_attachment'];
+    }
 
     if ( empty( $text ) ) {
         $error = new WP_Error( 'empty_message', __( 'Empty message', 'cpm' ) );
     } else {
         $data = array(
-            'object_id' => $project_id,
             'text' => $text,
             'privacy' => (int) $posted['privacy'],
-            'file' => $msg_obj->upload_file()
+            'file' => implode( ',', $files )
         );
 
         $comment_id = $msg_obj->new_comment( $data, $message_id );
@@ -46,7 +49,7 @@ if ( is_wp_error( $error ) ) {
 }
 ?>
 
-<h2>Messages</h2>
+<h3 class="cpm-nav-title">Messages</h3>
 
 <h3><?php echo $message->title; ?></h3>
 
@@ -57,12 +60,17 @@ Date: <?php echo $message->created; ?> | Created By: <?php echo get_author_name(
 <p><strong><?php _e( 'Details', 'cpm' ) ?></strong></p>
 <p><?php echo $message->message; ?></p>
 
-<?php
-$comments = $msg_obj->get_comments( $message_id );
-if ( $comments ) {
-    foreach ($comments as $comment) {
-        cpm_show_comment( $comment );
+<div class="cpm-comment-wrap">
+    <?php
+    $comments = $msg_obj->get_comments( $message_id );
+    if ( $comments ) {
+        //var_dump( $comments );
+        foreach ($comments as $comment) {
+            cpm_show_comment( $comment );
+        }
     }
-}
+    ?>
 
-cpm_comment_form();
+</div>
+
+<?php cpm_comment_form( $message_id, 'MESSAGE' ); ?>

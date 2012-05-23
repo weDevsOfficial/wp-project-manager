@@ -38,7 +38,7 @@ if ( isset( $_POST['create_task'] ) ) {
 }
 ?>
 
-<h2>Add Task to: <?php echo $list->name; ?></h2>
+<h3 class="cpm-nav-title">Add Task to: <?php echo $list->name; ?></h3>
 
 <form class="cpm_new_tasklist" action="" method="post">
     <?php wp_nonce_field( 'cpm_new_task' ); ?>

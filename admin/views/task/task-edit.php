@@ -41,7 +41,7 @@ $task = $task_obj->get_task( $task_id );
 $lists = $task_obj->get_task_lists( $project_id );
 ?>
 
-<h2>Edit Task</h2>
+<h3 class="cpm-nav-title">Edit Task</h3>
 
 <form class="cpm_new_tasklist" action="" method="post">
     <?php wp_nonce_field( 'cpm_update_task' ); ?>

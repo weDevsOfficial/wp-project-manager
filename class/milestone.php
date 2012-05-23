@@ -16,8 +16,8 @@ class CPM_Milestone {
         global $wpdb;
 
         $this->_db = $wpdb;
-        $this->_task_obj = new CPM_Task();
-        $this->_msg_obj = new CPM_Message();
+        $this->_task_obj = CPM_Task::getInstance();
+        $this->_msg_obj = CPM_Message::getInstance();
     }
 
     public static function getInstance() {
@@ -127,6 +127,20 @@ class CPM_Milestone {
 
     function get_messages( $milestone_id ) {
         return $this->_msg_obj->get_by_milestone( $milestone_id );
+    }
+
+    function get_dropdown( $project_id, $selected = 0 ) {
+        $milestones = $this->get_by_project( $project_id );
+        $string = '';
+        //var_dump($milestones);
+
+        if ( $milestones ) {
+            foreach ($milestones as $milestone) {
+                $string .= sprintf( "<option value='%d'%s>%s</option>\n", $milestone->id, selected( $selected, $milestone->id, false ), $milestone->name );
+            }
+        }
+
+        return $string;
     }
 
 }

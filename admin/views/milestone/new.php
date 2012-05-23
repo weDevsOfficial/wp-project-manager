@@ -34,6 +34,7 @@ if ( isset( $_POST['create_milestone'] ) ) {
     }
 }
 ?>
+<h3 class="cpm-nav-title">New Milestone</h3>
 
 <form class="cpm_new_milestone cpm-form" action="" method="post">
     <?php wp_nonce_field( 'new_milestone' ); ?>

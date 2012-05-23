@@ -135,4 +135,3 @@ if ( is_wp_error( $error ) ) {
         <input type="submit" name="add_project" id="add_project" class="button-primary" value="<?php esc_attr_e( 'Add New Project', 'cpm' ) ?>">
     </p>
 </form>
-

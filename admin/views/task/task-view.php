@@ -33,7 +33,7 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
 
 $task = $task_obj->get_task( $task_id );
 ?>
-<h2><?php _e( 'Task List', 'cpm' ) ?> : <?php echo $list->name; ?></h2>
+<h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo $list->name; ?></h3>
 
 <div class="cpm-task-list">
     <?php $class = $task->complete == '0' ? 'open' : 'close'; ?>

@@ -30,7 +30,7 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
     }
 }
 ?>
-<h2><?php _e( 'Task List', 'cpm' ) ?> : <?php echo $list->name; ?></h2>
+<h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo $list->name; ?></h3>
 
 <div class="cpm-task-list">
     <div class="cpm-list-title">

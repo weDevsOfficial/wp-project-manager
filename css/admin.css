@@ -59,6 +59,9 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 .cpm-clear {
   clear: both;
 }
+span.required {
+  color: #cd0a0a;
+}
 .cpm-loading:after {
   background: url('../images/loading.gif') no-repeat;
   height: 16px;
@@ -78,16 +81,37 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   padding: 10px;
   width: 50%;
 }
-.cpm_new_tasklist .form-table, .cpm-form .form-table {
-  width: 60%;
+.cpm-comment .cpm-upload-container {
+  background: #fff;
+  padding: 10px;
 }
-.cpm_new_tasklist .description, .cpm-form .description {
+.cpm-nav-title {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  border-top: none;
+  color: #898989;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin: 0 0 10px 0;
+}
+.cpm-form {
+  width: 100%;
+  overflow: hidden;
+}
+.cpm-form .form-table {
+  width: 70%;
+}
+.cpm-form .form-table .form-field {
+  max-width: 100%;
+}
+.cpm-form .description {
   display: block;
 }
-.cpm_new_tasklist .form-field input[type=radio],
-.cpm-form .form-field input[type=radio],
-.cpm_new_tasklist .form-field input[type=checkbox],
-.cpm-form .form-field input[type=checkbox] {
+.cpm-form .form-field input[type=radio], .cpm-form .form-field input[type=checkbox] {
   width: auto;
 }
 .cpm-task-list {
@@ -119,7 +143,7 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 10px 10px 0 10px;
+  padding: 10px;
 }
 .cpm-task-list .cpm-list-title h3 {
   margin: 0;
@@ -159,7 +183,7 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   background: #F9ECE6;
 }
 .cpm-milestones .cpm-milestone.complete {
-  background: green;
+  background: #E4FFE4;
 }
 .cpm-comment-form {
   width: 50%;
@@ -266,4 +290,100 @@ ul.cpm-links li a {
 }
 ul.cpm-links li a.cpm-loading {
   background: #eee;
+}
+label.error {
+  color: red;
+}
+input.error {
+  border: 1px solid red;
+}
+.cpm-invoice .cpm-invoice-wrap {
+  width: 75%;
+}
+.cpm-invoice .cpm-invoice-wrap .form-table {
+  width: 100%;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-items {
+  background: #eee;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-items a {
+  text-decoration: none;
+  font-size: 11px;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-items textarea.entry-details {
+  width: 100%;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-items th {
+  background: #257DA6;
+  border-bottom: 1px solid #257DA6;
+  color: #fff;
+  vertical-align: top;
+  padding: 5px;
+  margin: 0;
+  text-shadow: none;
+  text-align: center;
+  font-weight: bold;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-items td {
+  vertical-align: top;
+  text-align: center;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box {
+  width: 230px;
+  float: right;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box .fill {
+  background: #257DA6;
+  color: #fff;
+  font-weight: bold;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box table.cpm-invoice-totals {
+  background: #eee;
+  border: 1px solid #E0E0E0;
+  display: block;
+  margin: 7px 0;
+  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box table.cpm-invoice-totals th {
+  text-align: left;
+  width: 130px;
+  padding: 5px 5px 10px 25px;
+  font-weight: normal;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box table.cpm-invoice-totals td {
+  padding: 5px;
+  text-align: right;
+  width: 45%;
+}
+.cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box table.cpm-invoice-totals .divider td, .cpm-invoice .cpm-invoice-wrap .cpm-invoice-total-box table.cpm-invoice-totals .divider th {
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #fff;
+  padding: 0;
+  margin: 0;
+}
+.cpm-uploaded-item {
+  background: #eee;
+  padding: 10px;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0 0 10px 0;
+}
+.cpm-uploaded-item img {
+  float: left;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-right: 20px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fff;
+  max-width: 150px;
 }

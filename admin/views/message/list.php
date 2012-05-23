@@ -1,7 +1,9 @@
 <?php require_once CPM_PLUGIN_PATH . '/admin/tables/messages.php'; ?>
 
 <div id="icon-edit" class="icon32 icon32-posts-post"><br></div>
-<h2><?php _e( 'All Messages', 'cpm' ) ?> <a href="#" class="add-new-h2"><?php _e( 'Add New Message', 'cpm' ) ?></a></h2>
+<h3 class="cpm-nav-title">
+    <?php _e( 'All Messages', 'cpm' ) ?> <a href="#" class="add-new-h2"><?php _e( 'Add New Message', 'cpm' ) ?></a>
+</h3>
 
 <form id="movies-filter" method="get">
     <?php

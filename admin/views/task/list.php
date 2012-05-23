@@ -5,7 +5,9 @@ require_once CPM_PLUGIN_PATH . '/class/task.php';
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
 
-<h2><?php _e( 'Task Lists', 'cpm' ) ?> <a id="cpm-add-task" href="<?php echo cpm_url_new_tasklist( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add New Task List', 'cpm' ) ?></a></h2>
+<h3 class="cpm-nav-title">
+    <?php _e( 'Task Lists', 'cpm' ) ?> <a id="cpm-add-task" href="<?php echo cpm_url_new_tasklist( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add New Task List', 'cpm' ) ?></a>
+</h2>
 
 <?php
 $task_obj = new CPM_Task();

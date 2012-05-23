@@ -4,7 +4,7 @@ $cpm_active_menu = __( 'Milestones', 'cpm' );
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
 
-<h2><?php _e( 'Milestones', 'cpm' ) ?> <a id="cpm-add-milestone" href="<?php echo cpm_url_new_milestone( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a></h2>
+<h3 class="cpm-nav-title"><?php _e( 'Milestones', 'cpm' ) ?> <a id="cpm-add-milestone" href="<?php echo cpm_url_new_milestone( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a></h3>
 
 <?php
 $milestone_obj = CPM_Milestone::getInstance();

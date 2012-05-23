@@ -80,13 +80,16 @@ class CPM_Project {
         $menu = array();
         foreach ($links as $url => $label) {
             if ( $active == $label ) {
-                $menu[] = sprintf( '<li class="active"><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
+                //$menu[] = sprintf( '<li class="active"><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
+                $menu[] = sprintf( '<a href="%1$s" class="nav-tab nav-tab-active" title="%2$s">%2$s</a>', $url, $label );
             } else {
-                $menu[] = sprintf( '<li><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
+                //$menu[] = sprintf( '<li><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
+                $menu[] = sprintf( '<a href="%1$s" class="nav-tab" title="%2$s">%2$s</a>', $url, $label );
             }
         }
 
-        return '<ul class="cpm-nav">' . implode( "\n", $menu ) . '</ul>';
+        //return '<ul class="cpm-nav">' . implode( "\n", $menu ) . '</ul>';
+        return implode( "\n", $menu );
     }
 
     function notify_coworker_new_project( $project_id ) {

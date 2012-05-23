@@ -37,7 +37,7 @@ if ( isset( $_POST['create_milestone'] ) ) {
 $milestone = $milestone_obj->get( $milestone_id );
 ?>
 
-<h2>Update Milestone: <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone_id ); ?>"><?php echo $milestone->name; ?></a></h2>
+<h3 class="cpm-nav-title">Update Milestone: <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone_id ); ?>"><?php echo $milestone->name; ?></a></h3>
 <form class="cpm_new_milestone cpm-form" action="" method="post">
     <?php wp_nonce_field( 'new_milestone' ); ?>
     <table class="form-table">

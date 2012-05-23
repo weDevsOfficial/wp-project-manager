@@ -26,7 +26,7 @@ class CPM_Message {
         global $wpdb;
 
         $this->_db = $wpdb;
-        $this->_comment_obj = new CPM_Comment();
+        $this->_comment_obj = CPM_Comment::getInstance();
     }
 
     public static function getInstance() {
@@ -47,8 +47,40 @@ class CPM_Message {
         return $this->_db->get_row( $sql );
     }
 
-    function create( $data ) {
+    function insert( $data ) {
+        $data['created'] = current_time( 'mysql' );
+        $data['author'] = get_current_user_id();
 
+        $result = $this->_db->insert( CPM_MESSAGE_TABLE, $data );
+
+        return $this->_db->insert_id;
+    }
+
+    function create( $project_id, $files ) {
+        $post = $_POST;
+
+        $data = array(
+            'project_id' => $project_id,
+            'milestone_id' => (int) $post['milestone'],
+            'title' => $post['message_title'],
+            'privacy' => (int) $post['message_privacy'],
+            'message' => $post['message_detail']
+        );
+
+        $message_id = $this->insert( $data );
+        if ( $message_id ) {
+
+            //if there is any file, update the object reference
+            if ( count( $files ) > 0 ) {
+                $comment_obj = CPM_Comment::getInstance();
+                
+                foreach ($files as $file_id) {
+                    $comment_obj->associate_file( $file_id, $message_id, 'MESSAGE' );
+                }
+            }
+        }
+
+        return $message_id;
     }
 
     function update( $data ) {
@@ -89,8 +121,8 @@ class CPM_Message {
         return $comment_id;
     }
 
-    function upload_file() {
-        return $this->_comment_obj->upload_file();
+    function upload_file( $project_id ) {
+        return $this->_comment_obj->upload_file( $project_id );
     }
 
     function increase_comment_count( $message_id ) {
