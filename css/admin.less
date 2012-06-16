@@ -1,5 +1,77 @@
 @import "../../../../theme-framework/assets/css/mixins.less";
 
+.cpm-table {
+  width: 100%;
+  margin-bottom: 18px;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  // Cells
+  th,
+  td {
+    padding: 5px;
+    line-height: 18px;
+    text-align: left;
+    border-top: 1px solid #ddd;
+  }
+  th {
+    font-weight: bold;
+    vertical-align: bottom;
+  }
+  td {
+    vertical-align: top;
+  }
+  thead:first-child tr th,
+  thead:first-child tr td {
+    border-top: 0;
+  }
+  tbody + tbody {
+    border-top: 2px solid #ddd;
+  }
+
+  .no-border {
+      border: none;
+  }
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+  border-collapse: separate; // Done so we can round those corners!
+  *border-collapse: collapsed; // IE7 can't round corners anyway
+  .border-radius(4px);
+  th + th,
+  td + td,
+  th + td,
+  td + th {
+    border-left: 1px solid #ddd;
+  }
+  // Prevent a double border
+  thead:first-child tr:first-child th,
+  tbody:first-child tr:first-child th,
+  tbody:first-child tr:first-child td {
+    border-top: 0;
+  }
+  // For first th or td in the first row in the first thead or tbody
+  thead:first-child tr:first-child th:first-child,
+  tbody:first-child tr:first-child td:first-child {
+    .border-radius(4px 0 0 0);
+  }
+  thead:first-child tr:first-child th:last-child,
+  tbody:first-child tr:first-child td:last-child {
+    .border-radius(0 4px 0 0);
+  }
+  // For first th or td in the first row in the first thead or tbody
+  thead:last-child tr:last-child th:first-child,
+  tbody:last-child tr:last-child td:first-child {
+    .border-radius(0 0 0 4px);
+  }
+  thead:last-child tr:last-child th:last-child,
+  tbody:last-child tr:last-child td:last-child {
+    .border-radius(0 0 4px 0);
+  }
+}
+
 ul.cpm-nav{
     list-style: none;
     float: right;
@@ -320,7 +392,18 @@ input.error {
             width: 100%;
         }
 
-        .cpm-invoice-items {
+        .fill {
+            background: #257DA6;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: none;
+        }
+
+        .actions {
+            width: 60px;
+        }
+
+        table.cpm-invoice-items {
             background: #eee;
             border: 1px solid #ddd;
             .border-radius(5px);
@@ -333,35 +416,11 @@ input.error {
             textarea.entry-details {
                 width: 100%;
             }
-
-            th {
-                background: #257DA6;
-                border-bottom: 1px solid #257DA6;
-                color: #fff;
-                vertical-align: top;
-                padding: 5px;
-                margin: 0;
-                text-shadow: none;
-                text-align: center;
-                font-weight: bold;
-            }
-
-            td {
-                vertical-align: top;
-                text-align: center;
-            }
         }
 
         .cpm-invoice-total-box {
             width: 230px;
             float: right;
-
-            .fill {
-                background: #257DA6;
-                color: #fff;
-                font-weight: bold;
-            }
-
 
             table.cpm-invoice-totals {
                 background: #eee;
@@ -393,6 +452,93 @@ input.error {
                         margin: 0;
                     }
                 }
+            }
+        }
+    }
+
+    &.invoice-display {
+        width: 670px;
+        overflow: hidden;
+        border-collapse: collapse;
+        border-spacing: 0;
+        position: relative;
+        margin: 30px 0 30px 0;
+
+        .inv-items-container {
+            margin: 0;
+            padding: 0;
+        }
+
+        .col-task {
+            width: 110px;
+        }
+
+        .col-space {
+            width: 430px;
+            border: none !important;
+        }
+
+        .col-unit {
+            width: 70px;
+            text-align: center;
+        }
+
+        .col-qty {
+            width: 50px;
+            text-align: center;
+        }
+
+        .col-total {
+            width: 73px;
+            text-align: right;
+        }
+
+        .border-left {
+            border-left: 1px solid #ddd;
+        }
+
+        .fill {
+            background: #ddd;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .invoice-title {
+            color: #eee;
+            position: absolute;
+            line-height: 26px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice-top {
+            overflow: hidden;
+            margin: 0 0 15px 0;
+
+            .invoice-address {
+                float: left;
+                width: 50%;
+            }
+
+            .invoice-from {
+                min-height: 120px;
+            }
+
+            .invoice-logo {
+                float: right;
+                width: 50%;
+            }
+        }
+
+        .invoice-totals {
+            th {
+                text-align: right;
             }
         }
     }

@@ -140,9 +140,17 @@ jQuery(function($) {
             Invoice: {
                 fieldAdd: function () {
                     var row = $('#cpm-form-invoice-tmpl').html();
+                    var tpl = _.template($('#cpm-form-invoice-tmpl').html()),
+                        type = 'item';
 
-                    var template = $.validator.format(row, i++);
-                    $(template).insertAfter($(this).parent().parent());
+                    if($(this).parents('table').hasClass('hourly')) {
+                        console.log('hourly');
+                        type = 'hour';
+                    } else {
+                        console.log('normal');
+                    }
+
+                    $(tpl({type:type})).insertAfter($(this).parent().parent());
 
                     return false;
                 },
@@ -219,7 +227,7 @@ jQuery(function($) {
 
                     //update subtotal
                     totals_table.find('span.subtotal').text(sub_total.toFixed(2));
-                    totals_table.find('input.invoice-subtotal').val(sub_total.toFixed(2));
+                    totals_table.find('input.subtotal').val(sub_total.toFixed(2));
 
                     //update discount
                     totals_table.find('span.discount').text('0.00');
@@ -227,7 +235,7 @@ jQuery(function($) {
 
                     //update tax
                     totals_table.find('span.tax').text(total_tax.toFixed(2));
-                    totals_table.find('input.invoice-tax').val(total_tax.toFixed(2));
+                    totals_table.find('input.tax').val(total_tax.toFixed(2));
 
                     //update discount
                     totals_table.find('span.invoice-discount').text(discount.toFixed(2));

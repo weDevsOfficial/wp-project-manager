@@ -115,30 +115,40 @@ class CPM_Ajax {
             'project_id' => $project_id,
             'client_id' => $post['client_id'],
             'gateway' => $post['gateway'],
+            'note' => $post['invoice-notes'],
+            'terms' => $post['invoice-terms'],
             'due_date' => wedevs_date2mysql( $post['due_date'] ),
-            'taxable' => $post['taxable'],
-            'total' => $post['grand_total']
+            'tax' => $post['invoice-tax'],
+            'discount' => $post['invoice-discount'],
+            'subtotal' => $post['invoice-subtotal'],
+            'total' => $post['invoice-total'] //total = ( subtotal + tax ) - discount
         );
 
-        //echo '<pre>';
-        //print_r($post);
-        //print_r( $data );
-        //echo '</pre>';
-        //exit;
+//        echo '<pre>';
+//        print_r($post);
+//        print_r( $data );
+//        echo '</pre>';
+//        exit;
 
         $invoice_id = $invoice_obj->create( $data );
 
         if ( $invoice_id ) {
             foreach ($post['entry_name'] as $key => $entry) {
+                $entry = sanitize_text_field( $entry );
+
                 $item = array(
                     'invoice_id' => $invoice_id,
                     'title' => $entry,
                     'amount' => $post['entry_amount'][$key],
                     'text' => $post['entry_details'][$key],
-                    'qty' => $post['entry_qty'][$key]
+                    'qty' => $post['entry_qty'][$key],
+                    'tax' => $post['entry_tax'][$key],
+                    'type' => $post['row_type'][$key],
                 );
 
-                $invoice_obj->create_item( $item );
+                if ( !empty( $entry ) ) {
+                    $invoice_obj->create_item( $item );
+                }
             }
         }
 

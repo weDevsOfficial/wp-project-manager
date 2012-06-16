@@ -64,6 +64,10 @@ function cpm_url_single_invoice( $project_id, $invoice_id ) {
     return sprintf( '%s?page=cpm_projects&action=invoice_detail&pid=%d&in_id=%d', admin_url( 'admin.php' ), $project_id, $invoice_id );
 }
 
+function cpm_url_edit_invoice( $project_id, $invoice_id ) {
+    return sprintf( '%s?page=cpm_projects&action=invoice_edit&pid=%d&in_id=%d', admin_url( 'admin.php' ), $project_id, $invoice_id );
+}
+
 function cpm_get_privacy( $value ) {
     return ($value == 0) ? __( 'Public', 'cpm' ) : __( 'Private', 'cpm' );
 }
@@ -220,6 +224,10 @@ function cpm_show_comment( $comment ) {
         </div>
     </div>
     <?php
+}
+
+function cpm_get_currency() {
+    return '$';
 }
 
 function cpm_show_date( $date, $show_time = false ) {

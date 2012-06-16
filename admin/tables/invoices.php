@@ -117,7 +117,7 @@ class CPM_Invoice_List_Table extends WP_List_Table {
                 break;
 
             case 'actions':
-                $edit_link = '#';
+                $edit_link = cpm_url_edit_invoice( $item->project_id, $item->id );
                 $del_link = '#';
                 printf( '<a href="%s">' . __( 'Edit', 'cpm' ) . '</a> | <a href="%s">' . __( 'Delete', 'cpm' ) . '</a>', $edit_link, $del_link );
                 break;

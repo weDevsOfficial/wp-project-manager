@@ -42,12 +42,6 @@ $project = $project_obj->get( $project_id );
                     </select>
                 </td>
             </tr>
-            <tr class="form-field">
-                <th scope="row"><label for="taxable">Taxable</label></th>
-                <td><input type="radio" name="taxable" value="1" /> Yes
-                    <input type="radio" checked="checked" name="taxable" id="taxable" value="0" /> No
-                </td>
-            </tr>
             <tr class="form-field form-required">
                 <th scope="row"><label for="due_date">Due date <span class="required">*</span></label></th>
                 <td><input name="due_date" autocomplete="off" class="datepicker required" type="text" id="due_date" value=""></td>
@@ -61,15 +55,15 @@ $project = $project_obj->get( $project_id );
 
     <h3>Initial Invoice Entry</h3>
     <div class="cpm-invoice-wrap">
-        <table class="form-table cpm-invoice-items">
+        <table class="form-table cpm-invoice-items hourly">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
-                    <th>Task</th>
-                    <th>Rate</th>
-                    <th>Hour</th>
-                    <th>Tax</th>
-                    <th>Total</th>
+                    <th class="fill actions">&nbsp;</th>
+                    <th class="fill">Task</th>
+                    <th class="fill">Rate</th>
+                    <th class="fill">Hour</th>
+                    <th class="fill">Tax</th>
+                    <th class="fill">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,17 +73,18 @@ $project = $project_obj->get( $project_id );
                         <img style="cursor:pointer; margin:0;" alt="<?php esc_attr_e( 'Remove', 'wedevs' ) ?>" title="<?php esc_attr_e( 'Remove this task', 'wedevs' ) ?>" class="cpm-remove-invoice-item" src="<?php echo CPM_PLUGIN_URI . '/images/ico-delete.png'; ?>">
                     </td>
                     <td>
-                        <input type="text" class="required" name="entry_name[0]" size="30" />
+                        <input type="text" name="entry_name[]" size="30" />
                         <a class="toggle-description" href="#">Toggle time entry notes</a>
                         <textarea name="entry_details[]" class="entry-details" style="display:none;" rows="2"></textarea>
                     </td>
-                    <td><input type="text" class="required number price" name="entry_amount[0]" value="0.00" size="4" /></td>
-                    <td><input type="text" class="qty" name="entry_qty[0]" size="3" value="1" /></td>
-                    <td><input type="text" class="tax" name="entry_tax[0]" size="3" value="0" />%</td>
+                    <td><input type="text" class="number price" name="entry_amount[]" value="0.00" size="4" /></td>
+                    <td><input type="text" class="qty" name="entry_qty[]" size="3" value="1" /></td>
+                    <td><input type="text" class="tax" name="entry_tax[]" size="3" value="0" />%</td>
                     <td>
                         <span class="total">0.00</span>
-                        <input type="hidden" name="entry_total[0]" class="entry-total" />
-                        <input type="hidden" name="entry_tax[0]" class="entry-tax" />
+                        <input type="hidden" name="row_total[]" class="entry-total" />
+                        <input type="hidden" name="row_tax[]" class="entry-tax" />
+                        <input type="hidden" name="row_type[]" value="hour" />
                     </td>
                 </tr>
             </tbody>
@@ -97,12 +92,12 @@ $project = $project_obj->get( $project_id );
         <table class="form-table cpm-invoice-items">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
-                    <th>Name</th>
-                    <th>Unit Price</th>
-                    <th>Qty</th>
-                    <th>Tax</th>
-                    <th>Total</th>
+                    <th class="fill actions">&nbsp;</th>
+                    <th class="fill">Name</th>
+                    <th class="fill">Unit Price</th>
+                    <th class="fill">Qty</th>
+                    <th class="fill">Tax</th>
+                    <th class="fill">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,17 +107,18 @@ $project = $project_obj->get( $project_id );
                         <img style="cursor:pointer; margin:0;" alt="<?php esc_attr_e( 'Remove', 'wedevs' ) ?>" title="<?php esc_attr_e( 'Remove this task', 'wedevs' ) ?>" class="cpm-remove-invoice-item" src="<?php echo CPM_PLUGIN_URI . '/images/ico-delete.png'; ?>">
                     </td>
                     <td>
-                        <input type="text" class="required" name="entry_name[0]" size="30" />
+                        <input type="text" name="entry_name[]" size="30" />
                         <a class="toggle-description" href="#">Toggle Description</a>
                         <textarea name="entry_details[]" class="entry-details" style="display:none;" rows="2"></textarea>
                     </td>
-                    <td><input type="text" class="required number price" name="entry_amount[0]" value="0.00" size="4" /></td>
-                    <td><input type="text" class="qty" name="entry_qty[0]" size="3" value="1" /></td>
-                    <td><input type="text" class="tax" name="entry_tax[0]" size="3" value="0" />%</td>
+                    <td><input type="text" class="number price" name="entry_amount[]" value="0.00" size="4" /></td>
+                    <td><input type="text" class="qty" name="entry_qty[]" size="3" value="1" /></td>
+                    <td><input type="text" class="tax" name="entry_tax[]" size="3" value="0" />%</td>
                     <td>
                         <span class="total">0.00</span>
-                        <input type="hidden" name="entry_total[0]" class="entry-total" />
-                        <input type="hidden" name="entry_tax[0]" class="entry-tax" />
+                        <input type="hidden" name="row_total[]" class="entry-total" />
+                        <input type="hidden" name="row_tax[]" class="entry-tax" />
+                        <input type="hidden" name="row_type[]" value="item" />
                     </td>
                 </tr>
             </tbody>
@@ -137,18 +133,18 @@ $project = $project_obj->get( $project_id );
                             <input type="hidden" class="subtotal" name="invoice-subtotal" value="0.00" />
                         </td>
                     </tr>
-                    <tr id="cpm-discount-total-row">
-                        <th>Discount</th>
-                        <td>
-                            - $<span class="invoice-discount">0.00</span>
-                            <input type="hidden" class="invoice-discount" name="invoice-discount" value="0.00" />
-                        </td>
-                    </tr>
                     <tr id="cpm-tax-row">
                         <th>Tax</th>
                         <td>
                             $<span class="tax">0.00</span>
                             <input type="hidden" class="tax" name="invoice-tax" value="0.00" />
+                        </td>
+                    </tr>
+                    <tr id="cpm-discount-total-row">
+                        <th>Discount</th>
+                        <td>
+                            - $<span class="invoice-discount">0.00</span>
+                            <input type="hidden" class="invoice-discount" name="invoice-discount" value="0.00" />
                         </td>
                     </tr>
                     <tr class="divider">
@@ -180,6 +176,19 @@ $project = $project_obj->get( $project_id );
         </div>
         <div class="cpm-clear"></div>
 
+        <table class="cpm-table">
+            <tr>
+                <td class="no-border">
+                    <h3><?php _e( 'Terms', 'cpm' ); ?>:</h3>
+                    <textarea name="invoice-terms" id="invoice-terms" rows="4" cols="50">Here is the default terms</textarea>
+                </td>
+                <td class="no-border">
+                    <h3><?php _e( 'Notes Visible to Client', 'cpm' ); ?>:</h3>
+                    <textarea name="invoice-notes" id="invoice-notes" rows="4" cols="50"></textarea>
+                </td>
+            </tr>
+        </table>
+
         <p class="submit">
             <input type="hidden" name="action" value="cpm_new_invoice" />
             <input type="submit" name="create_invoice" id="create_invoice" class="button-primary" value="Add Invoice">
@@ -194,22 +203,18 @@ $project = $project_obj->get( $project_id );
             <img style="cursor:pointer; margin:0;" alt="<?php esc_attr_e( 'Remove', 'wedevs' ) ?>" title="<?php esc_attr_e( 'Remove this task', 'wedevs' ) ?>" class="cpm-remove-invoice-item" src="<?php echo CPM_PLUGIN_URI . '/images/ico-delete.png'; ?>">
         </td>
         <td>
-            <input type="text" class="required" name="entry_name[0]" size="30" />
+            <input type="text" class="required" name="entry_name[]" size="30" />
             <a class="toggle-description" href="#">Toggle Description</a>
             <textarea name="entry_details[]" class="entry-details" style="display:none;" rows="2"></textarea>
         </td>
-        <td><input type="text" class="required number price" name="entry_amount[0]" value="0.00" size="4" /></td>
-        <td><input type="text" class="qty" name="entry_qty[0]" size="3" value="1" /></td>
-        <td><input type="text" class="tax" name="entry_tax[0]" size="3" value="0" />%</td>
+        <td><input type="text" class="required number price" name="entry_amount[]" value="0.00" size="4" /></td>
+        <td><input type="text" class="qty" name="entry_qty[]" size="3" value="1" /></td>
+        <td><input type="text" class="tax" name="entry_tax[]" size="3" value="0" />%</td>
         <td>
             <span class="total">0.00</span>
-            <input type="hidden" name="entry_total[0]" class="entry-total" />
-            <input type="hidden" name="entry_tax[0]" class="entry-tax" />
+            <input type="hidden" name="row_total[]" class="entry-total" />
+            <input type="hidden" name="row_tax[]" class="entry-tax" />
+            <input type="hidden" name="row_type[]" value="<%= type %>" />
         </td>
     </tr>
-</script>
-
-
-<script type="text/javascript">
-    var i = 1;
 </script>

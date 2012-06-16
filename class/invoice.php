@@ -36,6 +36,23 @@ class CPM_Invoice {
         return $this->_db->get_results( $sql );
     }
 
+    function get_formatted_items( $invoice_id ) {
+        $holder = array('hour' => array(), 'item' => array());
+        $items = $this->get_items( $invoice_id );
+
+        if ( $items ) {
+            foreach ($items as $item) {
+                if ( $item->type == 'hour' ) {
+                    $holder['hour'][] = $item;
+                } else {
+                    $holder['item'][] = $item;
+                }
+            }
+        }
+
+        return $holder;
+    }
+
     function create( $data ) {
         $data['created'] = current_time( 'mysql' );
         $result = $this->_db->insert( CPM_INVOICE_TABLE, $data );
