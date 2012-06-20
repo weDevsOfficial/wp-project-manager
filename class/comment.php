@@ -24,7 +24,7 @@ class CPM_Comment {
         return self::$_instance;
     }
 
-    function create( $values, $object_id, $type, $files ) {
+    function create( $values, $object_id = 0, $project_id = 0, $type = '', $files = array() ) {
         $data = array(
             'object_id' => $object_id,
             'text' => $values['text'],
@@ -41,11 +41,12 @@ class CPM_Comment {
         //if there is any file, update the object reference
         if ( count( $files ) > 0 ) {
             foreach ($files as $file_id) {
-                $this->associate_file( $file_id, $comment_id, 'COMMENT' );
+                $this->associate_file( $file_id, $comment_id, $project_id, 'COMMENT' );
             }
         }
 
-        //now return the comment id
+        do_action( 'cpm_new_comment', $comment_id, $data );
+
         return $comment_id;
     }
 
@@ -166,8 +167,9 @@ class CPM_Comment {
         return $this->_db->get_row( $sql );
     }
 
-    function associate_file( $file_id, $object_id, $type ) {
+    function associate_file( $file_id, $object_id = 0, $project_id = 0, $type ) {
         $data = array(
+            'project_id' => $project_id,
             'object_id' => $object_id,
             'type' => $type
         );
