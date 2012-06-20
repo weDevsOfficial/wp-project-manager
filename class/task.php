@@ -46,8 +46,11 @@ class CPM_Task {
         $data = wp_parse_args( $data, $values );
 
         $this->_db->insert( CPM_TASK_LIST_TABLE, $data );
+        $list_id = $this->_db->insert_id;
 
-        return $this->_db->insert_id;
+        do_action( 'cpm_new_tasklist', $list_id, $data );
+
+        return $list_id;
     }
 
     function insert_task( $values ) {
@@ -59,8 +62,11 @@ class CPM_Task {
         $data = wp_parse_args( $data, $values );
 
         $this->_db->insert( CPM_TASKS_TABLE, $data );
+        $task_id = $this->_db->insert_id;
 
-        return $this->_db->insert_id;
+        do_action( 'cpm_new_task', $task_id, $data );
+
+        return $task_id;
     }
 
     function add_list( $project_id ) {
