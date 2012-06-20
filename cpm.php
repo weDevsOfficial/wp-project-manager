@@ -9,6 +9,9 @@
  * Version: 0.1
  */
 
+//notification module
+require_once dirname( __FILE__ ) . '/class/notification.php';
+
 /**
  * WeDevs Client Project Manager
  *
@@ -308,3 +311,9 @@ function cpm_autoload( $class ) {
 }
 
 spl_autoload_register( 'cpm_autoload' );
+
+function cpm_init() {
+
+}
+
+add_action( 'init', 'cpm_init' );
