@@ -246,6 +246,7 @@ class CPM_Ajax {
         $files = array();
 
         $text = trim( $posted['cpm_message'] );
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
         $object_id = isset( $posted['object_id'] ) ? intval( $posted['object_id'] ) : 0;
         $type = $posted['type'];
 
@@ -259,7 +260,7 @@ class CPM_Ajax {
         );
 
         $comment_obj = CPM_Comment::getInstance();
-        $comment_id = $comment_obj->create( $data, $object_id, $type, $files );
+        $comment_id = $comment_obj->create( $data, $object_id, $project_id, $type, $files );
 
         if ( $comment_id ) {
 
