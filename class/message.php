@@ -68,14 +68,15 @@ class CPM_Message {
         );
 
         $message_id = $this->insert( $data );
+        
         if ( $message_id ) {
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
                 $comment_obj = CPM_Comment::getInstance();
-                
+
                 foreach ($files as $file_id) {
-                    $comment_obj->associate_file( $file_id, $message_id, 'MESSAGE' );
+                    $comment_obj->associate_file( $file_id, $message_id, $project_id, 'MESSAGE' );
                 }
             }
         }
