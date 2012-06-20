@@ -149,7 +149,14 @@ function wedevs_date2mysql( $date, $gmt = 0 ) {
     return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', ( $time + ( get_option( 'gmt_offset' ) * 3600 ) ) );
 }
 
-function cpm_comment_form( $object_id, $type, $privacy = true ) {
+/**
+ * Comment form
+ *
+ * @param int $object_id object id of the comment parent
+ * @param string $type MESSAGE, TASK, TASK_LIST
+ * @param type $privacy
+ */
+function cpm_comment_form( $project_id, $object_id, $type, $privacy = true ) {
     ?>
     <form class="cpm-comment-form">
 
@@ -173,6 +180,28 @@ function cpm_comment_form( $object_id, $type, $privacy = true ) {
             <fieldset>
                 <legend>Attach Files</legend>
                 <?php cpm_upload_field(); ?>
+            </fieldset>
+
+            <fieldset>
+                <legend>Notify</legend>
+                <?php
+                $pro_obj = CPM_Project::getInstance();
+                $users = $pro_obj->get_users( $project_id );
+                $cur_user = get_current_user_id();
+
+                //remove current logged in user from list
+                if ( array_key_exists( $cur_user, $users ) ) {
+                    unset( $users[$cur_user] );
+                }
+
+                if ( $users ) {
+                    //var_dump( $users );
+                    foreach ($users as $user) {
+                        printf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
+                        printf( '<label for="cpm_notify_%d"> %s</label> ', $user['id'], $user['name'] );
+                    }
+                }
+                ?>
             </fieldset>
 
             <p>
@@ -383,3 +412,33 @@ function cpm_is_file_image( $file, $mime ) {
 
     return false;
 }
+
+/**
+ * The main logging function
+ *
+ * @uses error_log
+ * @param string $type type of the error. e.g: debug, error, info
+ * @param string $msg
+ */
+function cpm_log( $type = '', $msg = '' ) {
+    if ( WP_DEBUG == true ) {
+        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
+        error_log( $msg, 3, dirname( __FILE__ ) . '/debug.log' );
+    }
+}
+
+/**
+ * Log the mail to text file
+ *
+ * @uses `wp_mail` filter
+ * @param array $mail
+ */
+function wedevs_mail_log( $mail ) {
+
+    $message = "to: {$mail['to']} \nsub: {$mail['subject']}, \nmsg:{$mail['message']}";
+    cpm_log( 'mail', $message );
+
+    return $mail;
+}
+
+add_filter( 'wp_mail', 'wedevs_mail_log', 10 );
