@@ -68,7 +68,7 @@ class CPM_Message {
         );
 
         $message_id = $this->insert( $data );
-        
+
         if ( $message_id ) {
 
             //if there is any file, update the object reference
@@ -80,6 +80,8 @@ class CPM_Message {
                 }
             }
         }
+
+        do_action( 'cpm_new_message', $message_id, $data );
 
         return $message_id;
     }

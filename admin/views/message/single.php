@@ -73,4 +73,4 @@ Date: <?php echo $message->created; ?> | Created By: <?php echo get_author_name(
 
 </div>
 
-<?php cpm_comment_form( $message_id, 'MESSAGE' ); ?>
+<?php cpm_comment_form( $project_id, $message_id, 'MESSAGE' ); ?>

@@ -98,12 +98,14 @@ if ( is_wp_error( $error ) ) {
 
 <h3>Comments:</h3>
 
-<?php
-$comments = $task_obj->get_comments( $tasklist_id );
-if ( $comments ) {
-    foreach ($comments as $comment) {
-        cpm_show_comment( $comment );
+<div class="cpm-comment-wrap">
+    <?php
+    $comments = $task_obj->get_comments( $tasklist_id );
+    if ( $comments ) {
+        foreach ($comments as $comment) {
+            cpm_show_comment( $comment );
+        }
     }
-}
-
-cpm_comment_form( false );
+    ?>
+</div>
+<?php cpm_comment_form( $project_id, $tasklist_id, 'TASK_LIST' ); ?>

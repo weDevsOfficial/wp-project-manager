@@ -32,6 +32,48 @@ class CPM_Project {
 
     }
 
+    /**
+     * Get all the users of this project
+     *
+     * @param int $project_id
+     * @param bool $exclude_client
+     * @return array user emails with id as index
+     */
+    function get_users( $project_id, $exclude_client = false ) {
+
+        $project = $this->get( $project_id );
+
+        $mail = array();
+        $user_ids = array($project->author);
+
+        //if has privacy, exclude the client
+        if ( !$exclude_client ) {
+            array_push( $user_ids, $project->client );
+        }
+
+        //coworker email needs to be explode as they are saved in single field
+        if ( $project->coworker != '' ) {
+            $coworker = explode( '|', $project->coworker );
+            $user_ids = array_merge( $user_ids, $coworker );
+        }
+
+        //insert the mail addresses in array, user id as key
+        if ( $user_ids ) {
+            foreach ($user_ids as $id) {
+                $user = get_user_by( 'id', $id );
+                if ( !is_wp_error( $user ) && $user ) {
+                    $mail[$id] = array(
+                        'id' => $user->ID,
+                        'email' => $user->user_email,
+                        'name' => $user->display_name
+                    );
+                }
+            }
+        }
+
+        return $mail;
+    }
+
     function get( $project_id ) {
         $sql = $this->_db->prepare( 'SELECT * FROM ' . CPM_PROJECT_TABLE . ' WHERE id=%d AND status = 1', $project_id );
 

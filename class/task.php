@@ -64,7 +64,7 @@ class CPM_Task {
         $this->_db->insert( CPM_TASKS_TABLE, $data );
         $task_id = $this->_db->insert_id;
 
-        do_action( 'cpm_new_task', $task_id, $data );
+        do_action( 'cpm_new_task', $data['list_id'], $task_id, $data );
 
         return $task_id;
     }

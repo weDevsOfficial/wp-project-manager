@@ -7,7 +7,7 @@ $milestone_obj = CPM_Milestone::getInstance();
 ?>
 
 <h3 class="cpm-nav-title">
-    Messages <a class="add-new-h2 cpm-new-message-btn" href="<?php echo cpm_url_new_message($project_id) ?>">Add New</a>
+    Messages <a class="add-new-h2 cpm-new-message-btn" href="<?php echo cpm_url_new_message( $project_id ) ?>">Add New</a>
 </h3>
 
 <form class="cpm-new-message cpm-form" style="display: none">
@@ -49,6 +49,13 @@ $milestone_obj = CPM_Milestone::getInstance();
                 <th scope="row"><label for="cpm-attachment">Attachment</label></th>
                 <td>
                     <?php cpm_upload_field(); ?>
+                </td>
+            </tr>
+
+            <tr class="form-field">
+                <th scope="row"><label for="cpm-notify">Notify</label></th>
+                <td>
+                    <?php cpm_user_checkboxes( $project_id ); ?>
                 </td>
             </tr>
 

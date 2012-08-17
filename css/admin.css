@@ -260,6 +260,7 @@ span.required {
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 10px;
+  margin-bottom: 10px;
 }
 .cpm-comment-form legend {
   font-weight: bold;

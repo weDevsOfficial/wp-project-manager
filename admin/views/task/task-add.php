@@ -58,7 +58,10 @@ if ( isset( $_POST['create_task'] ) ) {
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="task_notification">Send Notification</label></th>
-                <td><input type="checkbox" name="task_notification" value="1" /> Yes</td>
+                <td>
+                    <input type="checkbox" name="task_notification" id="task_notification_choice" value="1" />
+                    <label for="task_notification_choice">Yes</label>
+                </td>
             </tr>
         </tbody>
     </table>

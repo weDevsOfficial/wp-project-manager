@@ -183,30 +183,14 @@ function cpm_comment_form( $project_id, $object_id, $type, $privacy = true ) {
             </fieldset>
 
             <fieldset>
-                <legend>Notify</legend>
-                <?php
-                $pro_obj = CPM_Project::getInstance();
-                $users = $pro_obj->get_users( $project_id );
-                $cur_user = get_current_user_id();
-
-                //remove current logged in user from list
-                if ( array_key_exists( $cur_user, $users ) ) {
-                    unset( $users[$cur_user] );
-                }
-
-                if ( $users ) {
-                    //var_dump( $users );
-                    foreach ($users as $user) {
-                        printf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
-                        printf( '<label for="cpm_notify_%d"> %s</label> ', $user['id'], $user['name'] );
-                    }
-                }
-                ?>
+                <legend>Email Notification</legend>
+                <?php cpm_user_checkboxes( $project_id ); ?>
             </fieldset>
 
             <p>
                 <input type="hidden" name="action" value="cpm_new_comment" />
                 <input type="hidden" name="object_id" value="<?php echo $object_id; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
                 <input type="hidden" name="type" value="<?php echo $type; ?>" />
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add Comment', 'cpm' ); ?>" id="" />
             </p>
@@ -214,6 +198,30 @@ function cpm_comment_form( $project_id, $object_id, $type, $privacy = true ) {
         </fieldset>
     </form>
     <?php
+}
+
+/**
+ * Displays users as checkboxes from a project
+ *
+ * @param int $project_id
+ */
+function cpm_user_checkboxes( $project_id ) {
+    $pro_obj = CPM_Project::getInstance();
+    $users = $pro_obj->get_users( $project_id );
+    $cur_user = get_current_user_id();
+
+    //remove current logged in user from list
+    if ( array_key_exists( $cur_user, $users ) ) {
+        unset( $users[$cur_user] );
+    }
+
+    if ( $users ) {
+        //var_dump( $users );
+        foreach ($users as $user) {
+            printf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
+            printf( '<label for="cpm_notify_%d"> %s</label> ', $user['id'], $user['name'] );
+        }
+    }
 }
 
 function cpm_upload_field() {
