@@ -2,15 +2,33 @@
 
 /**
  * Plugin Name: Client Project Manager
- * Plugin URI: http://wedevs.com
+ * Plugin URI: http://weDevs.com
  * Description: Client Project Management was never been easier
- * Author: weDevs
- * Author URI: http://wedevs.com
+ * Author: Tareq Hasan
+ * Author URI: http://tareq.weDevs.com
  * Version: 0.1
  */
-
 //notification module
 require_once dirname( __FILE__ ) . '/class/notification.php';
+
+/**
+ * Autoload class files on demand
+ *
+ * @param string $class requested class name
+ */
+function cpm_autoload( $class ) {
+    $name = explode( '_', $class );
+    if ( isset( $name[1] ) ) {
+        $class_name = strtolower( $name[1] );
+        $filename = dirname( __FILE__ ) . '/class/' . $class_name . '.php';
+
+        if ( file_exists( $filename ) ) {
+            require_once $filename;
+        }
+    }
+}
+
+spl_autoload_register( 'cpm_autoload' );
 
 /**
  * WeDevs Client Project Manager
@@ -27,12 +45,18 @@ class WeDevs_CPM {
         $this->_db = $wpdb;
 
         $this->constants();
+        $this->instantiate();
 
         register_activation_hook( __FILE__, array($this, 'install') );
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
+    }
+
+    function instantiate() {
+        $project = new CPM_Project();
+        $message = new CPM_Message();
     }
 
     function constants() {
@@ -87,19 +111,6 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.8.18.custom.css', __FILE__ ) );
         wp_enqueue_style( 'chosen', plugins_url( 'css/chosen.css', __FILE__ ) );
-    }
-
-    function install() {
-        $this->create_tables();
-        $this->default_options();
-    }
-
-    function create_tables() {
-
-    }
-
-    function default_options() {
-
     }
 
     function admin_includes() {
@@ -293,25 +304,7 @@ class WeDevs_CPM {
 
 $cpm = new WeDevs_CPM();
 
-/**
- * Autoload class files on demand
- *
- * @param string $class requested class name
- */
-function cpm_autoload( $class ) {
-    $name = explode( '_', $class );
-    if ( isset( $name[1] ) ) {
-        $class_name = strtolower( $name[1] );
-        $filename = dirname( __FILE__ ) . '/class/' . $class_name . '.php';
-
-        if ( file_exists( $filename ) ) {
-            require_once $filename;
-        }
-    }
-}
-
-spl_autoload_register( 'cpm_autoload' );
-
+//test function
 function cpm_init() {
 
 }
