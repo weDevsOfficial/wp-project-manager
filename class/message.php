@@ -7,26 +7,11 @@
  */
 class CPM_Message {
 
-    /**
-     * $wpdb comment object
-     *
-     * @var object
-     */
-    private $_db;
-
-    /**
-     * CPM Comment class
-     *
-     * @var object
-     */
-    private $_comment_obj;
     private static $_instance;
 
     public function __construct() {
-        global $wpdb;
-
-        $this->_db = $wpdb;
-        $this->_comment_obj = CPM_Comment::getInstance();
+        add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'manage_project-manager_page_cpm_messages_columns', array($this, 'manage_message_columns') );
     }
 
     public static function getInstance() {
@@ -37,14 +22,53 @@ class CPM_Message {
         return self::$_instance;
     }
 
+    function register_post_type() {
+        register_post_type( 'message', array(
+            'label' => __( 'Messages', 'cpm' ),
+            'description' => __( 'message post type', 'cpm' ),
+            'public' => false,
+            'show_ui' => false,
+            'show_in_menu' => true,
+            'capability_type' => 'post',
+            'hierarchical' => false,
+            'rewrite' => array('slug' => ''),
+            'query_var' => true,
+            'supports' => array('title', 'editor'),
+            'labels' => array(
+                'name' => __( 'Messages', 'cpm' ),
+                'singular_name' => __( 'Message', 'cpm' ),
+                'menu_name' => __( 'Message', 'cpm' ),
+                'add_new' => __( 'Add Message', 'cpm' ),
+                'add_new_item' => __( 'Add New Message', 'cpm' ),
+                'edit' => __( 'Edit', 'cpm' ),
+                'edit_item' => __( 'Edit Message', 'cpm' ),
+                'new_item' => __( 'New Message', 'cpm' ),
+                'view' => __( 'View Message', 'cpm' ),
+                'view_item' => __( 'View Message', 'cpm' ),
+                'search_items' => __( 'Search Messages', 'cpm' ),
+                'not_found' => __( 'No Messages Found', 'cpm' ),
+                'not_found_in_trash' => __( 'No Messages Found in Trash', 'cpm' ),
+                'parent' => __( 'Parent Message', 'cpm' ),
+            ),
+        ) );
+    }
+
+    function manage_message_columns( $columns ) {
+        $columns = array(
+            'cb' => '<input type="checkbox" />',
+            'title' => _x( 'Title', 'column name' ),
+            'date' => __( 'Date' )
+        );
+
+        return $columns;
+    }
+
     function get_all( $project_id ) {
 
     }
 
     function get( $message_id ) {
-        $sql = $this->_db->prepare( "SELECT * FROM " . CPM_MESSAGE_TABLE . " WHERE id=%d AND status = 1", $message_id );
-
-        return $this->_db->get_row( $sql );
+        return get_post( $message_id );
     }
 
     function insert( $data ) {
