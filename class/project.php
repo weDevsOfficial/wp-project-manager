@@ -3,17 +3,17 @@
 /**
  * Description of project
  *
- * @author weDevs
+ * @author Tareq Hasan (http://tareq.weDevs.com)
  */
 class CPM_Project {
 
-    private $_db;
     private static $_instance;
 
     public function __construct() {
-        global $wpdb;
-
-        $this->_db = $wpdb;
+        add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'manage_toplevel_page_cpm_projects_columns', array($this, 'manage_project_columns') );
+        add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
+        add_filter( 'post_row_actions', array($this, 'post_row_actions'), 10, 2 );
     }
 
     public static function getInstance() {
@@ -24,12 +24,90 @@ class CPM_Project {
         return self::$_instance;
     }
 
-    function delete( $project_id ) {
-
+    function register_post_type() {
+        register_post_type( 'project', array(
+            'label' => __( 'Project', 'cpm' ),
+            'description' => __( 'project manager post type', 'cpm' ),
+            'public' => true,
+            'show_ui' => false,
+            'show_in_menu' => false,
+            'capability_type' => 'post',
+            'hierarchical' => false,
+            'rewrite' => array('slug' => ''),
+            'query_var' => true,
+            'supports' => array('title', 'editor'),
+            'labels' => array(
+                'name' => __( 'Project', 'cpm' ),
+                'singular_name' => __( 'Project', 'cpm' ),
+                'menu_name' => __( 'Project', 'cpm' ),
+                'add_new' => __( 'Add Project', 'cpm' ),
+                'add_new_item' => __( 'Add New Project', 'cpm' ),
+                'edit' => __( 'Edit', 'cpm' ),
+                'edit_item' => __( 'Edit Project', 'cpm' ),
+                'new_item' => __( 'New Project', 'cpm' ),
+                'view' => __( 'View Project', 'cpm' ),
+                'view_item' => __( 'View Project', 'cpm' ),
+                'search_items' => __( 'Search Project', 'cpm' ),
+                'not_found' => __( 'No Project Found', 'cpm' ),
+                'not_found_in_trash' => __( 'No Project Found in Trash', 'cpm' ),
+                'parent' => __( 'Parent Project', 'cpm' ),
+            ),
+        ) );
     }
 
-    function get_all() {
+    function get_edit_post_link( $url, $post_id, $context ) {
+        global $post;
 
+        if ( $post->post_type == 'project' && $context == 'display' && is_admin() ) {
+            $url = admin_url( sprintf( 'admin.php?page=cpm_projects&action=details&pid=%d', $post->ID ) );
+        }
+
+        return $url;
+    }
+
+    function post_row_actions( $actions, $post ) {
+        //var_dump( $actions, $post );
+
+        if ( $post->post_type == 'project' ) {
+            $actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, 'project' ) . '" title="' . esc_attr( __( 'Edit this project' ) ) . '">' . __( 'Edit' ) . '</a>';
+        }
+
+        return $actions;
+    }
+
+    function manage_project_columns( $columns ) {
+        $columns = array(
+            'cb' => '<input type="checkbox" />',
+            'title' => _x( 'Title', 'column name' ),
+            'client' => __( 'Client', 'cpm' ),
+            'status' => __( 'Status', 'cpm' ),
+            'billing' => __( 'Billing', 'cpm' ),
+            'starts' => __( 'Starts', 'cpm' ),
+            'ends' => __( 'Ends', 'cpm' )
+        );
+
+        return $columns;
+    }
+
+    function manage_edit_columns( $column_name, $post_id ) {
+
+        $custom_fields = get_post_custom( $post_id );
+
+        $client = isset( $custom_fields['client'] ) ? $custom_fields['client'][0] : '';
+        $status = isset( $custom_fields['status'] ) ? $custom_fields['status'][0] : '';
+
+        switch ($column_name) {
+            case 'client' :
+                echo $client;
+                get_edit_post_link();
+                break;
+
+            case 'status' :
+                echo $status;
+                break;
+
+            default:
+        }
     }
 
     /**
@@ -75,9 +153,7 @@ class CPM_Project {
     }
 
     function get( $project_id ) {
-        $sql = $this->_db->prepare( 'SELECT * FROM ' . CPM_PROJECT_TABLE . ' WHERE id=%d AND status = 1', $project_id );
-
-        return $this->_db->get_row( $sql );
+        return get_post( $project_id );
     }
 
     function create( $data ) {
@@ -104,6 +180,7 @@ class CPM_Project {
 
     function nav_links( $project_id ) {
         $base = admin_url( 'admin.php' );
+
         $links = array(
             sprintf( '%s?page=cpm_projects&action=details&pid=%d', $base, $project_id ) => __( 'Details', 'cpm' ),
             sprintf( '%s?page=cpm_messages&action=project&pid=%d', $base, $project_id ) => __( 'Messages', 'cpm' ),
