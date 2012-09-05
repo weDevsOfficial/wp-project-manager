@@ -301,6 +301,11 @@ function cpm_show_message( $msg, $type = 'updated' ) {
 }
 
 function cpm_task_completeness( $total, $completed ) {
+    //skipping vision by zero problem
+    if ( $total < 1 ) {
+        return;
+    }
+
     $percentage = (100 * $completed) / $total;
     ?>
     <div class="cpm-progress cpm-progress-info">
