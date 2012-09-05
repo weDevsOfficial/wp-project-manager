@@ -1,9 +1,16 @@
 <?php
+/**
+ * This page displays all the projects using WP_Post_List_Table
+ *
+ * TODO: fix views (All, Published, Trash links)
+ * TODO: fix search and bulk actions
+ * TODO: fix columns
+ */
 require_once CPM_PLUGIN_PATH . '/admin/tables/projects.php';
 
 global $current_screen;
-$post_type = 'project';
 
+$post_type = 'project';
 $current_screen->post_type = $post_type;
 $post_type_object = get_post_type_object( $post_type );
 
