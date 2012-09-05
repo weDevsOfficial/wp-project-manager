@@ -1,9 +1,26 @@
 <?php
+/**
+ * This page displays all the messages attached with a project
+ *
+ * TODO: fix views (All, Published, Trash links)
+ * TODO: fix search and bulk actions
+ * TODO: fix columns
+ */
+require_once CPM_PLUGIN_PATH . '/admin/tables/messages.php';
+
+global $current_screen, $wp_query;
+
+$post_type = 'message';
+$current_screen->post_type = $post_type;
+$post_type_object = get_post_type_object( $post_type );
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
-require_once CPM_PLUGIN_PATH . '/admin/tables/messages.php';
-require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 $milestone_obj = CPM_Milestone::getInstance();
+$message_table = new CPM_Message_List_Table();
+$message_table->prepare_items();
+//var_dump( $current_screen );
+
+include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
 
 <h3 class="cpm-nav-title">
@@ -69,13 +86,24 @@ $milestone_obj = CPM_Milestone::getInstance();
     </p>
 </form>
 
+<?php $message_table->views(); ?>
+<form id="posts-filter" action="" method="get">
+    <?php $message_table->search_box( $post_type_object->labels->search_items, 'post' ); ?>
+
+    <input type="hidden" name="post_status" class="post_status_page" value="<?php echo!empty( $_REQUEST['post_status'] ) ? esc_attr( $_REQUEST['post_status'] ) : 'all'; ?>" />
+    <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
+    <?php if ( !empty( $_REQUEST['show_sticky'] ) ) { ?>
+        <input type="hidden" name="show_sticky" value="1" />
+    <?php } ?>
+
+    <?php $message_table->display(); ?>
+</form>
+
 <?php
-$message_list = new CPM_Message_List_Table( $project_id );
-$message_list->prepare_items();
-
-$message_list->views();
-
-//$project_list_table->search_box( '', 'post' );
-
-$message_list->display();
+if ( $message_table->has_items() ) {
+    $message_table->inline_edit();
+}
 ?>
+
+<div id="ajax-response"></div>
+<br class="clear" />
