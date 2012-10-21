@@ -7,46 +7,6 @@ $fields = array(
     'project_status', 'project_notify'
 );
 extract( $fields );
-
-if ( isset( $_POST['add_project'] ) ) {
-
-    check_admin_referer( 'new_project' );
-
-    if ( empty( $_POST['project_name'] ) ) {
-        $error = new WP_Error( 'empty_name', __( 'Empty project name', 'cpm' ) );
-    } else {
-        $posted = $_POST;
-        $data = array(
-            'name' => $posted['project_name'],
-            'description' => $posted['project_description'],
-            'started' => wedevs_date2mysql( $posted['project_started'] ),
-            'ends' => wedevs_date2mysql( $posted['project_ends'] ),
-            'client' => (int) $posted['project_client'],
-            'budget' => (float) $posted['project_budget']
-        );
-
-        if ( !empty( $posted['project_coworker'] ) ) {
-            $data['coworker'] = implode( '|', $posted['project_coworker'] );
-        }
-
-        if ( !class_exists( 'CPM_Projects' ) ) {
-            require_once CPM_PLUGIN_PATH . '/class/project.php';
-        }
-
-        $project = new CPM_Project();
-        $project_id = $project->create( $data );
-
-        if ( $project_id ) {
-            //notify users
-            if ( $posted['project_notify'] == 'yes' && !empty( $posted['project_coworker'] ) ) {
-                $project->notify_coworker_new_project( $project_id );
-            }
-
-            $url = apply_filters( 'cpm_new_project_redirect_url', cpm_project_details_url( $project_id ) );
-            echo '<script type="text/javascript">window.location = "' . $url . '";</script>';
-        }
-    }
-}
 ?>
 
 <div id="icon-edit" class="icon32 icon32-posts-post"><br></div>
@@ -54,13 +14,6 @@ if ( isset( $_POST['add_project'] ) ) {
 
 <div id="ajax-response"></div>
 <p>&nbsp;</p>
-
-<?php
-if ( is_wp_error( $error ) ) {
-    $errors = $error->get_error_messages();
-    cpm_show_errors( $errors );
-}
-?>
 
 <form action="" method="post" class="cpm-project-form">
     <?php wp_nonce_field( 'new_project' ); ?>
