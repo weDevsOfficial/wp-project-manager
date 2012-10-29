@@ -246,28 +246,23 @@ class CPM_Ajax {
         $files = array();
 
         $text = trim( $posted['cpm_message'] );
-        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
-        $object_id = isset( $posted['object_id'] ) ? intval( $posted['object_id'] ) : 0;
-        $type = $posted['type'];
+        $parent_id = isset( $posted['parent_id'] ) ? intval( $posted['parent_id'] ) : 0;
+        $privacy = (int) $posted['privacy'];
 
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
         }
 
         $data = array(
-            'text' => $text,
-            'privacy' => (int) $posted['privacy']
+            'comment_post_ID' => $parent_id,
+            'comment_content' => $text,
+            'user_id' => get_current_user_id()
         );
 
         $comment_obj = CPM_Comment::getInstance();
-        $comment_id = $comment_obj->create( $data, $object_id, $project_id, $type, $files );
+        $comment_id = $comment_obj->create( $data, $privacy, $files );
 
         if ( $comment_id ) {
-
-            if ( $type == 'MESSAGE' ) {
-                $message_obj = CPM_Message::getInstance();
-                $message_obj->increase_comment_count( $object_id );
-            }
 
             $comments = $comment_obj->get( $comment_id );
             foreach ($comments as $comment) {
@@ -303,12 +298,14 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
         $posted = $_POST;
         $comment_id = isset( $posted['id'] ) ? intval( $posted['id'] ) : 0;
+        $privacy = get_comment_meta( $comment_id, 'privacy', true );
 
-        $comment_obj = CPM_Comment::getInstance();
-        $comment = $comment_obj->get( $comment_id );
+        $comment = CPM_Comment::getInstance()->get( $comment_id );
+        $comment->privacy = $privacy;
+        $comment->files = array();
 
-        $comment = array_slice( $comment, 0, 1, false ); //get the first array
-        echo json_encode( $comment[0] );
+        //$comment = array_slice( $comment, 0, 1, false ); //get the first array
+        echo json_encode( $comment );
 
         exit;
     }
@@ -330,7 +327,7 @@ class CPM_Ajax {
         $message_id = $message_obj->create( $project_id, $files );
 
         if ( $message_id ) {
-            echo cpm_url_single_message( $message_id );
+            echo cpm_url_single_message( $project_id, $message_id );
         }
 
         exit;

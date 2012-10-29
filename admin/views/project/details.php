@@ -6,8 +6,9 @@
  */
 require_once CPM_PLUGIN_PATH . '/class/project.php';
 
-$project = new CPM_Project();
+$project = CPM_Project::getInstance();
 $project_detail = $project->get( $project_id );
+
 if ( !$project_detail ) {
     echo '<h2>' . __( 'Error: Project not found', 'cpm' ) . '</h2>';
     return;
@@ -43,14 +44,14 @@ $cpm_active_menu = __( 'Details', 'cpm' );
         </tr>
         <tr>
             <th><label><?php _e( 'Budget', 'cpm' ) ?></label></th>
-            <td><?php echo $project_detail->post_title; ?></td>
+            <td><?php echo $project_detail->budget; ?></td>
         </tr>
         <tr>
             <th><label><?php _e( 'Start Date', 'cpm' ) ?></label></th>
             <td>
                 <?php
-                $date = mysql2date( get_option( 'date_format' ), $project_detail->post_date );
-                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->post_date ) );
+                $date = mysql2date( get_option( 'date_format' ), $project_detail->started );
+                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->started ) );
                 printf( '<abbr title="%s">%s</abbr>', $abbr, $date );
                 ?>
             </td>
@@ -59,8 +60,8 @@ $cpm_active_menu = __( 'Details', 'cpm' );
             <th><label><?php _e( 'End Goal', 'cpm' ) ?></label></th>
             <td>
                 <?php
-                $date = mysql2date( get_option( 'date_format' ), $project_detail->post_date );
-                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->post_date ) );
+                $date = mysql2date( get_option( 'date_format' ), $project_detail->ends );
+                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->ends ) );
                 printf( '<abbr title="%s">%s</abbr>', $abbr, $date );
                 ?>
             </td>

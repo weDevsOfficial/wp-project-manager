@@ -16,9 +16,10 @@ $post_type_object = get_post_type_object( $post_type );
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
 $milestone_obj = CPM_Milestone::getInstance();
-$message_table = new CPM_Message_List_Table();
+$message_table = new CPM_Child_List_Table( $post_type, $project_id );
 $message_table->prepare_items();
 //var_dump( $current_screen );
+//var_dump( $wp_query );
 
 include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>

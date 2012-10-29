@@ -11,7 +11,8 @@ class CPM_Message {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
-        add_filter( 'manage_project-manager_page_cpm_messages_columns', array($this, 'manage_message_columns') );
+        add_filter( 'manage_toplevel_page_cpm_projects_columns', array($this, 'manage_message_columns') );
+        add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
     }
 
     public static function getInstance() {
@@ -33,7 +34,7 @@ class CPM_Message {
             'hierarchical' => false,
             'rewrite' => array('slug' => ''),
             'query_var' => true,
-            'supports' => array('title', 'editor'),
+            'supports' => array('title', 'editor', 'comments'),
             'labels' => array(
                 'name' => __( 'Messages', 'cpm' ),
                 'singular_name' => __( 'Message', 'cpm' ),
@@ -57,10 +58,22 @@ class CPM_Message {
         $columns = array(
             'cb' => '<input type="checkbox" />',
             'title' => _x( 'Title', 'column name' ),
+            'comments' => '<span class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></span>',
             'date' => __( 'Date' )
         );
 
         return $columns;
+    }
+
+    function get_edit_post_link( $url, $post_id, $context ) {
+        global $post;
+
+        if ( $post->post_type == 'message' && $context == 'display' && is_admin() ) {
+            $project_id = $_GET['pid']; //FIXME: set to message parent
+            $url = admin_url( sprintf( 'admin.php?page=cpm_projects&action=message_single&pid=%d&mid=%d', $project_id, $post->ID ) );
+        }
+
+        return $url;
     }
 
     function get_all( $project_id ) {
@@ -71,41 +84,37 @@ class CPM_Message {
         return get_post( $message_id );
     }
 
-    function insert( $data ) {
-        $data['created'] = current_time( 'mysql' );
-        $data['author'] = get_current_user_id();
-
-        $result = $this->_db->insert( CPM_MESSAGE_TABLE, $data );
-
-        return $this->_db->insert_id;
-    }
-
     function create( $project_id, $files ) {
         $post = $_POST;
 
-        $data = array(
-            'project_id' => $project_id,
-            'milestone_id' => (int) $post['milestone'],
-            'title' => $post['message_title'],
-            'privacy' => (int) $post['message_privacy'],
-            'message' => $post['message_detail']
+        $postarr = array(
+            'post_parent' => $project_id,
+            'post_title' => $post['message_title'],
+            'post_content' => $post['message_detail'],
+            'post_type' => 'message',
+            'post_status' => 'publish'
         );
 
-        $message_id = $this->insert( $data );
+        $message_id = wp_insert_post( $postarr );
 
         if ( $message_id ) {
+            $milestone_id = (int) $post['milestone'];
+            $privacy = (int) $post['message_privacy'];
+
+            update_post_meta( $message_id, '_milestone_id', $milestone_id );
+            update_post_meta( $message_id, '_privacy', $privacy );
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
-                $comment_obj = CPM_Comment::getInstance();
-
-                foreach ($files as $file_id) {
-                    $comment_obj->associate_file( $file_id, $message_id, $project_id, 'MESSAGE' );
-                }
+//                $comment_obj = CPM_Comment::getInstance();
+//
+//                foreach ($files as $file_id) {
+//                    $comment_obj->associate_file( $file_id, $message_id, $project_id, 'MESSAGE' );
+//                }
             }
         }
 
-        do_action( 'cpm_new_message', $message_id, $data );
+        do_action( 'cpm_new_message', $message_id, $postarr );
 
         return $message_id;
     }
@@ -119,9 +128,9 @@ class CPM_Message {
     }
 
     function get_comments( $message_id, $sort = 'ASC' ) {
-        $comemnts = $this->_comment_obj->get_comments( $message_id, 'MESSAGE', $sort );
+        $comments = CPM_Comment::getInstance()->get_comments( $message_id );
 
-        return $comemnts;
+        return $comments;
     }
 
     function get_by_milestone( $milestone_id ) {

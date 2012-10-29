@@ -32,8 +32,8 @@ function cpm_edit_task_url( $project_id, $list_id, $task_id ) {
     return sprintf( '%s?page=cpm_projects&action=task_edit&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
 }
 
-function cpm_url_single_message( $message_id ) {
-    return sprintf( '%s?page=cpm_messages&action=single&mid=%d', admin_url( 'admin.php' ), $message_id );
+function cpm_url_single_message( $project_id, $message_id ) {
+    return sprintf( '%s?page=cpm_projects&action=message_single&pid=%d&mid=%d', admin_url( 'admin.php' ), $project_id, $message_id );
 }
 
 function cpm_url_new_message( $project_id ) {
@@ -156,7 +156,7 @@ function wedevs_date2mysql( $date, $gmt = 0 ) {
  * @param string $type MESSAGE, TASK, TASK_LIST
  * @param type $privacy
  */
-function cpm_comment_form( $project_id, $object_id, $type, $privacy = true ) {
+function cpm_comment_form( $project_id, $object_id, $privacy = true ) {
     ?>
     <form class="cpm-comment-form">
 
@@ -189,9 +189,7 @@ function cpm_comment_form( $project_id, $object_id, $type, $privacy = true ) {
 
             <p>
                 <input type="hidden" name="action" value="cpm_new_comment" />
-                <input type="hidden" name="object_id" value="<?php echo $object_id; ?>" />
-                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
-                <input type="hidden" name="type" value="<?php echo $type; ?>" />
+                <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add Comment', 'cpm' ); ?>" id="" />
             </p>
 
@@ -221,7 +219,11 @@ function cpm_user_checkboxes( $project_id ) {
             printf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
             printf( '<label for="cpm_notify_%d"> %s</label> ', $user['id'], $user['name'] );
         }
+    } else {
+        echo 'No users attached';
     }
+
+    return $users;
 }
 
 function cpm_upload_field() {
@@ -235,21 +237,20 @@ function cpm_upload_field() {
 }
 
 function cpm_show_comment( $comment ) {
-    $user = get_user_by( 'id', $comment->user_id );
-    //var_dump($comment);
+    $files = get_comment_meta( $comment->comment_ID, 'files' );
     ?>
     <div class="cpm-comment">
         <div class="cpm-comment-meta">
-            <span class="author">author: <?php echo $user->display_name; ?></span> |
-            <span class="date">posted: <?php echo cpm_show_date( $comment->created, true ); ?></span> |
-            <a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->id; ?>">Edit</a>
+            <span class="author">author: <?php echo $comment->comment_author; ?></span> |
+            <span class="date">posted: <?php echo cpm_show_date( $comment->comment_date, true ); ?></span> |
+            <a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->comment_ID; ?>">Edit</a>
         </div>
         <div class="cpm-comment-container">
             <div class="cpm-comment-content">
-                <?php echo $comment->text; ?>
+                <?php echo $comment->comment_content; ?>
             </div>
 
-            <?php if ( count( $comment->files ) > 0 ) { ?>
+            <?php if ( count( $files ) > 0 ) { ?>
                 <div class="cpm-attachments">
                     <?php foreach ($comment->files as $file) { ?>
                         <div class="cpm-attachment">

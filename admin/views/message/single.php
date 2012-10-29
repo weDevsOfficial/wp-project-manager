@@ -8,7 +8,6 @@ if ( !$message ) {
     return;
 }
 
-$project_id = $message->project_id;
 $project = $pro_obj->get( $project_id );
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
@@ -51,14 +50,14 @@ if ( is_wp_error( $error ) ) {
 
 <h3 class="cpm-nav-title">Messages</h3>
 
-<h3><?php echo $message->title; ?></h3>
+<h3><?php echo get_the_title( $message_id ); ?></h3>
 
-Date: <?php echo $message->created; ?> | Created By: <?php echo get_author_name( $message->author ); ?> | Comment: <?php echo $message->reply_count; ?>
-| Privacy: <?php echo cpm_get_privacy( $message->privacy ); ?> |
+Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_author_name( $message->post_author ); ?> | Comment: <?php echo $message->comment_count; ?>
+| Privacy: <?php echo cpm_get_privacy( $message->comment_count ); ?> |
 <a href="<?php echo cpm_msg_edit_url( $message_id ) ?>"><?php _e( 'Edit', 'cpm' ) ?></a>
 
 <p><strong><?php _e( 'Details', 'cpm' ) ?></strong></p>
-<p><?php echo $message->message; ?></p>
+<p><?php echo $message->post_content; ?></p>
 
 <div class="cpm-comment-wrap">
     <?php
@@ -73,4 +72,4 @@ Date: <?php echo $message->created; ?> | Created By: <?php echo get_author_name(
 
 </div>
 
-<?php cpm_comment_form( $project_id, $message_id, 'MESSAGE' ); ?>
+<?php cpm_comment_form( $project_id, $message_id ); ?>

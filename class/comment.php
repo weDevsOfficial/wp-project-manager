@@ -24,28 +24,29 @@ class CPM_Comment {
         return self::$_instance;
     }
 
-    function create( $values, $object_id = 0, $project_id = 0, $type = '', $files = array() ) {
-        $data = array(
-            'object_id' => $object_id,
-            'text' => $values['text'],
-            'privacy' => $values['privacy'],
-            'user_id' => get_current_user_id(),
-            'created' => current_time( 'mysql' ),
-            'type' => $type
-        );
+    function create( $commentdata, $privacy, $files = array() ) {
+        $user = wp_get_current_user();
 
-        $this->_db->insert( CPM_COMMENT_TABLE, $data );
+        $commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
+        $commentdata['comment_agent'] = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
+        $commentdata['comment_author'] = $user->display_name;
+        $commentdata['comment_author_email'] = $user->user_email;
+        $commentdata['comment_type'] = 'project';
 
-        $comment_id = $this->_db->insert_id;
+        $comment_id = wp_insert_comment( $commentdata );
 
-        //if there is any file, update the object reference
-        if ( count( $files ) > 0 ) {
-            foreach ($files as $file_id) {
-                $this->associate_file( $file_id, $comment_id, $project_id, 'COMMENT' );
+        if ( $comment_id ) {
+            add_comment_meta( $comment_id, 'privacy', $privacy );
+
+            //if there is any file, update the object reference
+            if ( count( $files ) > 0 ) {
+                foreach ($files as $file_id) {
+                    $this->associate_file( $file_id, $comment_id, $project_id, 'COMMENT' );
+                }
             }
         }
 
-        do_action( 'cpm_new_comment', $comment_id, $data );
+        do_action( 'cpm_new_comment', $comment_id, $commentdata );
 
         return $comment_id;
     }
@@ -59,26 +60,13 @@ class CPM_Comment {
     }
 
     function get( $comment_id ) {
-        $sql = 'SELECT c.*, f.url, f.name, f.id as file_id FROM ' . CPM_COMMENT_TABLE . ' c
-                LEFT JOIN ' . CPM_FILES_TABLE . ' f ON f.object_id = c.id WHERE c.id = %d AND c.status = 1';
-
-        $sql = $this->_db->prepare( $sql, $comment_id );
-
-        $comments = $this->_db->get_results( $sql );
-
-        return $this->prepare_comments( $comments );
+        return get_comment( $comment_id );
     }
 
-    function get_comments( $object_id, $type, $sort = 'ASC' ) {
-        //$sub = 'SELECT f.url, f.name FROM ' . CPM_FILES_TABLE . ' f WHERE f.id IN (c.file)';
-        $sql = 'SELECT c.*, f.url, f.name, f.id as file_id FROM ' . CPM_COMMENT_TABLE . ' c
-            LEFT JOIN ' . CPM_FILES_TABLE . ' f ON f.object_id = c.id
-            WHERE c.object_id = %d AND c.type = "%s" AND c.status = 1
-            ORDER BY c.created ' . $sort;
+    function get_comments( $object_id ) {
+        $comments = get_comments( array('post_id' => $object_id) );
 
-        $comments = $this->_db->get_results( $this->_db->prepare( $sql, $object_id, $type ) );
-
-        return $this->prepare_comments( $comments );
+        return $comments;
     }
 
     /**
@@ -140,31 +128,57 @@ class CPM_Comment {
         $uploaded_file = wp_handle_upload( $upload, array('test_form' => false) );
 
         if ( isset( $uploaded_file['file'] ) ) {
+            $file_loc = $uploaded_file['file'];
             $file_name = basename( $_FILES['cpm_attachment']['name'] );
             $file_type = wp_check_filetype( $file_name );
 
-            $data = array(
-                'object_id' => $object_id,
-                'name' => $file_name,
-                'path' => $uploaded_file['file'],
-                'url' => $uploaded_file['url'],
-                'mime' => $file_type['type'],
-                'type' => $type,
-                'created' => current_time( 'mysql' )
+            $attachment = array(
+                'post_mime_type' => $file_type['type'],
+                'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
+                'post_content' => '',
+                'post_status' => 'inherit'
             );
 
-            $this->_db->insert( CPM_FILES_TABLE, $data );
+            $attach_id = wp_insert_attachment( $attachment, $file_loc );
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
+            wp_update_attachment_metadata( $attach_id, $attach_data );
 
-            return $this->_db->insert_id;
+            return $attach_id;
         }
 
         return false;
     }
 
-    function get_file( $file_id ) {
-        $sql = $this->_db->prepare( "SELECT * FROM " . CPM_FILES_TABLE . " WHERE id=%d AND status = 1", $file_id );
+    /**
+     * Get an attachment file
+     *
+     * @param int $attachment_id
+     * @return array
+     */
+    function get_file( $attachment_id ) {
+        $file = get_attached_file( $attachment_id );
+        $f = wp_get_attachment_image( $attachment_id );
+        $p = wp_get_attachment_metadata( $attachment_id );
 
-        return $this->_db->get_row( $sql );
+        if ( wp_attachment_is_image( $attachment_id ) ) {
+
+            $thumb = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+
+            $response = array(
+                'id' => $attachment_id,
+                'type' => 'image',
+                'url' => wp_get_attachment_url( $attachment_id ),
+                'thumb' => $thumb[0]
+            );
+        } else {
+            $response = array(
+                'id' => $attachment_id,
+                'type' => 'file',
+                'url' => wp_get_attachment_url( $attachment_id )
+            );
+        }
+
+        return $response;
     }
 
     function associate_file( $file_id, $object_id = 0, $project_id = 0, $type ) {

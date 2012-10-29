@@ -123,11 +123,11 @@ class WeDevs_CPM {
 
         add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_hanlder'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_hanlder') );
-        add_submenu_page( 'cpm_projects', __( 'Messages', 'cpm' ), __( 'Messages', 'cpm' ), $capability, 'cpm_messages', array($this, 'admin_page_hanlder') );
-        add_submenu_page( 'cpm_projects', __( 'Task Lists', 'cpm' ), __( 'Task Lists', 'cpm' ), $capability, 'cpm_tasklist', array($this, 'admin_page_hanlder') );
-        add_submenu_page( 'cpm_projects', __( 'Milestones', 'cpm' ), __( 'Milestones', 'cpm' ), $capability, 'cpm_milestones', array($this, 'admin_page_hanlder') );
-        add_submenu_page( 'cpm_projects', __( 'Invoices', 'cpm' ), __( 'Invoices', 'cpm' ), $capability, 'cpm_invoices', array($this, 'admin_page_hanlder') );
-        add_submenu_page( 'cpm_projects', __( 'Files', 'cpm' ), __( 'Files', 'cpm' ), $capability, 'cpm_files', array($this, 'admin_page_hanlder') );
+//        add_submenu_page( 'cpm_projects', __( 'Messages', 'cpm' ), __( 'Messages', 'cpm' ), $capability, 'cpm_messages', array($this, 'admin_page_hanlder') );
+//        add_submenu_page( 'cpm_projects', __( 'Task Lists', 'cpm' ), __( 'Task Lists', 'cpm' ), $capability, 'cpm_tasklist', array($this, 'admin_page_hanlder') );
+//        add_submenu_page( 'cpm_projects', __( 'Milestones', 'cpm' ), __( 'Milestones', 'cpm' ), $capability, 'cpm_milestones', array($this, 'admin_page_hanlder') );
+//        add_submenu_page( 'cpm_projects', __( 'Invoices', 'cpm' ), __( 'Invoices', 'cpm' ), $capability, 'cpm_invoices', array($this, 'admin_page_hanlder') );
+//        add_submenu_page( 'cpm_projects', __( 'Files', 'cpm' ), __( 'Files', 'cpm' ), $capability, 'cpm_files', array($this, 'admin_page_hanlder') );
     }
 
     function admin_page_hanlder() {
@@ -156,6 +156,14 @@ class WeDevs_CPM {
 
                     case 'new':
                         include_once dirname( __FILE__ ) . '/admin/views/project/new.php';
+                        break;
+
+                    case 'message':
+                        include_once dirname( __FILE__ ) . '/admin/views/message/project.php';
+                        break;
+
+                    case 'message_single':
+                        include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
                         break;
 
                     case 'task_list':

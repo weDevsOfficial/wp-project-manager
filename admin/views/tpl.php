@@ -1,7 +1,7 @@
 <script type="text/tmpl" id="cpm-comment-edit">
     <form class="cpm-comment-edit" method="post" action="">
         <p>
-            <textarea name="cpm_message" class="required" cols="55" rows="4" placeholder="<?php esc_attr_e( 'Enter your message', 'cpm' ); ?>"><%= text %></textarea>
+            <textarea name="cpm_message" class="required" cols="55" rows="4" placeholder="<?php esc_attr_e( 'Enter your message', 'cpm' ); ?>"><%= comment_content %></textarea>
         </p>
         <p>
             <label for="privacy"><?php _e( 'Privacy', 'cpm' ); ?>: </label>
@@ -23,7 +23,7 @@
 
         <p>
             <input type="hidden" name="action" value="cpm_update_comment" />
-            <input type="hidden" name="comment_id" value="<%= id %>" />
+            <input type="hidden" name="comment_id" value="<%= comment_ID %>" />
             <input type="submit" class="button-primary update-comment" value="<?php esc_attr_e( 'Update Comment', 'cpm' ); ?>" />
             <a class="button cpm-comment-edit-cancel" href="#">Cancel</a>
         </p>

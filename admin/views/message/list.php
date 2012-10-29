@@ -7,7 +7,7 @@
 
 <form id="movies-filter" method="get">
     <?php
-    $message_list = new CPM_Message_List_Table();
+    $message_list = new CPM_Child_List_Table();
     $message_list->prepare_items();
 
     $message_list->views();
