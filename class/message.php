@@ -81,7 +81,10 @@ class CPM_Message {
     }
 
     function get( $message_id ) {
-        return get_post( $message_id );
+        $message = get_post( $message_id );
+        $message->files = CPM_Comment::getInstance()->get_attachments( $message_id );
+
+        return $message;
     }
 
     function create( $project_id, $files ) {
@@ -106,15 +109,15 @@ class CPM_Message {
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
-//                $comment_obj = CPM_Comment::getInstance();
-//
-//                foreach ($files as $file_id) {
-//                    $comment_obj->associate_file( $file_id, $message_id, $project_id, 'MESSAGE' );
-//                }
-            }
-        }
+                $comment_obj = CPM_Comment::getInstance();
 
-        do_action( 'cpm_new_message', $message_id, $postarr );
+                foreach ($files as $file_id) {
+                    $comment_obj->associate_file( $file_id, $message_id );
+                }
+            }
+
+            do_action( 'cpm_new_message', $message_id, $postarr );
+        }
 
         return $message_id;
     }
@@ -128,43 +131,13 @@ class CPM_Message {
     }
 
     function get_comments( $message_id, $sort = 'ASC' ) {
-        $comments = CPM_Comment::getInstance()->get_comments( $message_id );
+        $comments = CPM_Comment::getInstance()->get_comments( $message_id, $sort );
 
         return $comments;
     }
 
     function get_by_milestone( $milestone_id ) {
-        $sql = $this->_db->prepare( "SELECT * FROM " . CPM_MESSAGE_TABLE . " WHERE milestone_id=%d AND status = 1", $milestone_id );
-
-        return $this->_db->get_results( $sql );
-    }
-
-    function new_comment( $values, $message_id ) {
-
-        $data = array(
-            'object_id' => $message_id,
-            'text' => $values['text'],
-            'privacy' => $values['privacy'],
-            'file' => $values['file']
-        );
-
-        $comment_id = $this->_comment_obj->create( $data, $message_id, 'MESSAGE' );
-
-        if ( $comment_id ) {
-            $this->increase_comment_count( $message_id );
-        }
-
-        return $comment_id;
-    }
-
-    function upload_file( $project_id ) {
-        return $this->_comment_obj->upload_file( $project_id );
-    }
-
-    function increase_comment_count( $message_id ) {
-        //$this->_db->update( CPM_MESSAGE_TABLE, array('reply_count' => +1), array('id' => $message_id) );
-        $sql = "UPDATE " . CPM_MESSAGE_TABLE . " SET `reply_count` = `reply_count`+1 WHERE `id` = %d";
-        $this->_db->query( $this->_db->prepare( $sql, $message_id ) );
+        
     }
 
 }
