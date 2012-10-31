@@ -12,40 +12,6 @@ $project = $pro_obj->get( $project_id );
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
-
-$error = false;
-if ( isset( $_POST['cpm_new_comment'] ) ) {
-    $posted = $_POST;
-    $files = array();
-    $text = trim( $posted['cpm_message'] );
-
-    if ( isset( $posted['cpm_attachment'] ) ) {
-        $files = $posted['cpm_attachment'];
-    }
-
-    if ( empty( $text ) ) {
-        $error = new WP_Error( 'empty_message', __( 'Empty message', 'cpm' ) );
-    } else {
-        $data = array(
-            'text' => $text,
-            'privacy' => (int) $posted['privacy'],
-            'file' => implode( ',', $files )
-        );
-
-        $comment_id = $msg_obj->new_comment( $data, $message_id );
-
-        if ( $comment_id ) {
-            cpm_show_message( __( 'Comment Added.', 'cpm' ) );
-        }
-    }
-}
-?>
-
-<?php
-if ( is_wp_error( $error ) ) {
-    $errors = $error->get_error_messages();
-    cpm_show_errors( $errors );
-}
 ?>
 
 <h3 class="cpm-nav-title">Messages</h3>
@@ -58,12 +24,21 @@ Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_author_nam
 
 <p><strong><?php _e( 'Details', 'cpm' ) ?></strong></p>
 <p><?php echo $message->post_content; ?></p>
+<?php if ( $message->files ) { ?>
+    <h3>Attachments:</h3>
+    <ul>
+        <?php
+        foreach ($message->files as $file) {
+            printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
+        }
+        ?>
+    </ul>
+<?php } ?>
 
 <div class="cpm-comment-wrap">
     <?php
     $comments = $msg_obj->get_comments( $message_id );
     if ( $comments ) {
-        //var_dump( $comments );
         foreach ($comments as $comment) {
             cpm_show_comment( $comment );
         }
