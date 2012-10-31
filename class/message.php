@@ -58,6 +58,7 @@ class CPM_Message {
         $columns = array(
             'cb' => '<input type="checkbox" />',
             'title' => _x( 'Title', 'column name' ),
+            'author' => __( 'Author', 'cpm' ),
             'comments' => '<span class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></span>',
             'date' => __( 'Date' )
         );
@@ -68,7 +69,7 @@ class CPM_Message {
     function get_edit_post_link( $url, $post_id, $context ) {
         global $post;
 
-        if ( $post->post_type == 'message' && $context == 'display' && is_admin() ) {
+        if ( $post->post_type == 'message' && $context == 'display' && is_admin() && isset( $_GET['pid'] ) ) {
             $project_id = $_GET['pid']; //FIXME: set to message parent
             $url = admin_url( sprintf( 'admin.php?page=cpm_projects&action=message_single&pid=%d&mid=%d', $project_id, $post->ID ) );
         }
@@ -137,7 +138,7 @@ class CPM_Message {
     }
 
     function get_by_milestone( $milestone_id ) {
-        
+
     }
 
 }
