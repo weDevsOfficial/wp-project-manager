@@ -212,14 +212,9 @@ class CPM_Ajax {
         if ( $file_id ) {
             $file = $comment_obj->get_file( $file_id );
 
-            $delete = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file->id, __( 'Delete File' ) );
-            $hidden = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file->id );
-
-            if ( cpm_is_file_image( $file->url, $file->mime ) ) {
-                $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%1$s" alt="%2$s" /></a>', $file->url, esc_attr( $file->name ) );
-            } else {
-                $file_url = sprintf( '<a href="%s" target="_blank">%s</a>', $file->url, $file->name );
-            }
+            $delete = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+            $hidden = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
+            $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
             echo '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
         }
@@ -264,10 +259,8 @@ class CPM_Ajax {
 
         if ( $comment_id ) {
 
-            $comments = $comment_obj->get( $comment_id );
-            foreach ($comments as $comment) {
-                cpm_show_comment( $comment );
-            }
+            $comment = $comment_obj->get( $comment_id );
+            cpm_show_comment( $comment );
         }
 
         exit;
@@ -288,8 +281,7 @@ class CPM_Ajax {
         $comment_obj->update( $data, $comment_id );
 
         $comment = $comment_obj->get( $comment_id );
-        $comment = array_slice( $comment, 0, 1, false ); //get the first array
-        echo json_encode( $comment[0] );
+        echo json_encode( $comment );
 
         exit;
     }
@@ -298,13 +290,8 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
         $posted = $_POST;
         $comment_id = isset( $posted['id'] ) ? intval( $posted['id'] ) : 0;
-        $privacy = get_comment_meta( $comment_id, 'privacy', true );
 
         $comment = CPM_Comment::getInstance()->get( $comment_id );
-        $comment->privacy = $privacy;
-        $comment->files = array();
-
-        //$comment = array_slice( $comment, 0, 1, false ); //get the first array
         echo json_encode( $comment );
 
         exit;
@@ -314,17 +301,14 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_message' );
 
         $posted = $_POST;
-        $files = array();
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
-
-        //print_r( $posted );
 
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
         }
 
         $message_obj = CPM_Message::getInstance();
-        $message_id = $message_obj->create( $project_id, $files );
+        $message_id = $message_obj->create( $project_id, $posted['cpm_attachment'] );
 
         if ( $message_id ) {
             echo cpm_url_single_message( $project_id, $message_id );
