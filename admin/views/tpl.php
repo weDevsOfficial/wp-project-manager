@@ -15,7 +15,7 @@
                 <% _.each(files, function(file) { %>
                     <div class="cpm-uploaded-item">
                         <a target="_blank" href="<%= file.url %>"><%= file.name %></a>
-                        <a class="cpm-delete-file button" data-id="<%= file_id %>" href="#">Delete File</a>
+                        <a class="cpm-delete-file button" data-id="<%= file.id %>" href="#">Delete File</a>
                     </div>
                 <% }); %>
             </div>
