@@ -102,8 +102,8 @@ class CPM_Project {
 
         $custom_fields = get_post_custom( $post_id );
 
-        $client = isset( $custom_fields['client'] ) ? $custom_fields['client'][0] : '';
-        $status = isset( $custom_fields['status'] ) ? $custom_fields['status'][0] : '';
+        $client = isset( $custom_fields['client'] ) ? $custom_fields['client'][0] : __( 'None', 'cpm' );
+        $status = isset( $custom_fields['status'] ) ? $custom_fields['status'][0] : __( 'None', 'cpm' );
 
         switch ($column_name) {
             case 'client' :
