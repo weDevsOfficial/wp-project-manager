@@ -18,8 +18,8 @@ jQuery(function($) {
                 $('.cpm-links').on('click', '.cpm-milestone-complete', this.Milestone.markComplete);
                 $('.cpm-links').on('click', '.cpm-milestone-open', this.Milestone.markOpen);
 
-                $('.cpm-comment').on('click', '.cpm-edit-comment-link', this.Comment.get);
-                $('.cpm-comment').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
+                $('.cpm-comment-wrap').on('click', '.cpm-edit-comment-link', this.Comment.get);
+                $('.cpm-comment-wrap').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
                 $('.cpm-comment').on('submit', '.cpm-comment-edit', this.Comment.update);
 
                 // add new comment
@@ -341,7 +341,7 @@ jQuery(function($) {
 
                     $.post(CPM_Vars.ajaxurl, data, function(response) {
                         var json = $.parseJSON(response);
-                        that.parent().find('.cpm-comment-content').text(json.text);
+                        that.parent().find('.cpm-comment-content').text(json.comment_content);
                         that.parent().find('.cpm-comment-container').show();
                         that.remove();
                     });
