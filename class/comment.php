@@ -24,6 +24,14 @@ class CPM_Comment {
         return self::$_instance;
     }
 
+    /**
+     * Insert a new comment
+     * 
+     * @param array $commentdata
+     * @param int $privacy
+     * @param array $files
+     * @return int
+     */
     function create( $commentdata, $privacy, $files = array() ) {
         $user = wp_get_current_user();
 
@@ -36,14 +44,8 @@ class CPM_Comment {
         $comment_id = wp_insert_comment( $commentdata );
 
         if ( $comment_id ) {
-            add_comment_meta( $comment_id, 'privacy', $privacy );
-
-            //if there is any file, update the object reference
-            if ( count( $files ) > 0 ) {
-                foreach ($files as $file_id) {
-                    $this->associate_file( $file_id, $comment_id, $project_id, 'COMMENT' );
-                }
-            }
+            add_comment_meta( $comment_id, '_privacy', $privacy );
+            add_comment_meta( $comment_id, '_files', $files );
         }
 
         do_action( 'cpm_new_comment', $comment_id, $commentdata );
@@ -51,68 +53,105 @@ class CPM_Comment {
         return $comment_id;
     }
 
+    /**
+     * Update a comment
+     *
+     * @param array $data
+     * @param int $comment_id
+     */
     function update( $data, $comment_id ) {
-        $this->_db->update( CPM_COMMENT_TABLE, $data, array('id' => $comment_id) );
-    }
+        wp_update_comment( array(
+            'comment_ID' => $comment_id,
+            'comment_content' => $data['text']
+        ) );
 
-    function delete( $comment_id ) {
-
-    }
-
-    function get( $comment_id ) {
-        return get_comment( $comment_id );
-    }
-
-    function get_comments( $object_id ) {
-        $comments = get_comments( array('post_id' => $object_id) );
-
-        return $comments;
+        update_comment_meta( $comment_id, '_privacy', $data['privacy'] );
     }
 
     /**
-     * Prepare comments for to display attachments correctly
+     * Delete a comment
      *
-     * The main query return duplicate results if the comment has multiple
-     * files linked to them. This function loops through the comments and
-     * make those duplicate comments to single and place those fields under
-     * the comment.
-     *
-     * @param type $comments
-     * @return type
+     * @param int $comment_id
+     * @param bool $force_delete
      */
-    function prepare_comments( $comments ) {
-        if ( $comments ) {
-            //var_dump( $comments );
-            $tmp = array();
-            foreach ($comments as $comment) {
-                //cpm_show_comment( $comment );
-                if ( isset( $tmp[$comment->id] ) ) {
-                    $tmp[$comment->id]->files[] = array(
-                        'url' => $comment->url,
-                        'name' => $comment->name,
-                        'id' => $comment->file_id
-                    );
+    function delete( $comment_id, $force_delete = false ) {
+        wp_delete_comment( $comment_id, $force_delete );
+    }
+
+    /**
+     * Get a single comment
+     *
+     * @param int $comment_id
+     * @return object
+     */
+    function get( $comment_id ) {
+        $files_meta = get_comment_meta( $comment_id, '_files', true );
+        $comment = get_comment( $comment_id );
+        $comment->privacy = get_comment_meta( $comment_id, '_privacy', true );
+
+        $files = array();
+        if ( $files_meta != '' ) {
+            foreach ($files_meta as $index => $attachment_id) {
+                $temp = $this->get_file( $attachment_id );
+
+                if ( $temp ) {
+                    $files[] = $temp;
                 } else {
-                    $tmp[$comment->id] = $comment;
-                    if ( $comment->url != null ) {
-                        $tmp[$comment->id]->files[] = array(
-                            'url' => $comment->url,
-                            'name' => $comment->name,
-                            'id' => $comment->file_id
-                        );
-                    } else {
-                        $tmp[$comment->id]->files = array();
+                    //delete the file from meta. may be it's deleted
+                    unset( $files_meta[$index] );
+                    update_comment_meta( $comment_id, '_files', $files_meta );
+                }
+            }
+        }
+
+        $comment->files = $files;
+
+        return $comment;
+    }
+
+    /**
+     * Get all comments for a post type
+     *
+     * @param int $post_id
+     * @param string $order
+     * @return object
+     */
+    function get_comments( $post_id, $order = 'ASC' ) {
+        $comments = get_comments( array('post_id' => $post_id, 'order' => $order) );
+
+        //prepare comment attachments
+        if ( $comments ) {
+            foreach ($comments as $key => $comment) {
+                $files = get_comment_meta( $comment->comment_ID, '_files', true );
+
+                if ( $files != '' ) {
+                    $file_array = array();
+
+                    foreach ($files as $attachment_id) {
+                        $file = $this->get_file( $attachment_id );
+
+                        if ( $file ) {
+                            $file_array[] = $file;
+                        }
+                    }
+
+                    if ( $file_array ) {
+                        $comments[$key]->files = $file_array;
                     }
                 }
             }
-
-            return $tmp;
         }
 
         return $comments;
     }
 
-    function upload_file( $object_id = 0, $type = 'COMMENT' ) {
+    /**
+     * Upload a file and insert as attachment
+     *
+     * @param int $post_id
+     * @return int|bool
+     */
+    function upload_file( $post_id = 0 ) {
         if ( $_FILES['cpm_attachment']['error'] > 0 ) {
             return false;
         }
@@ -156,69 +195,77 @@ class CPM_Comment {
      * @return array
      */
     function get_file( $attachment_id ) {
-        $file = get_attached_file( $attachment_id );
-        $f = wp_get_attachment_image( $attachment_id );
-        $p = wp_get_attachment_metadata( $attachment_id );
+        $file = get_post( $attachment_id );
 
-        if ( wp_attachment_is_image( $attachment_id ) ) {
-
-            $thumb = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-
+        if ( $file ) {
             $response = array(
                 'id' => $attachment_id,
-                'type' => 'image',
+                'name' => get_the_title( $attachment_id ),
                 'url' => wp_get_attachment_url( $attachment_id ),
-                'thumb' => $thumb[0]
             );
-        } else {
-            $response = array(
-                'id' => $attachment_id,
-                'type' => 'file',
-                'url' => wp_get_attachment_url( $attachment_id )
-            );
+
+            if ( wp_attachment_is_image( $attachment_id ) ) {
+
+                $thumb = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+                $response['thumb'] = $thumb[0];
+            } else {
+                $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
+            }
+
+            return $response;
         }
 
-        return $response;
+        return false;
     }
 
-    function associate_file( $file_id, $object_id = 0, $project_id = 0, $type ) {
-        $data = array(
-            'project_id' => $project_id,
-            'object_id' => $object_id,
-            'type' => $type
+    /**
+     * Get the attachments of a post
+     *
+     * @param int $post_id
+     * @return array attachment list
+     */
+    function get_attachments( $post_id ) {
+        $att_list = array();
+
+        $args = array(
+            'post_type' => 'attachment',
+            'numberposts' => -1,
+            'post_status' => null,
+            'post_parent' => $post_id,
+            'order' => 'ASC',
+            'orderby' => 'menu_order'
         );
 
-        $this->_db->update( CPM_FILES_TABLE, $data, array('id' => $file_id) );
+        $attachments = get_posts( $args );
+
+        foreach ($attachments as $attachment) {
+            $att_list[$attachment->ID] = array(
+                'id' => $attachment->ID,
+                'name' => $attachment->post_title,
+                'url' => wp_get_attachment_url( $attachment->ID ),
+            );
+
+            if ( wp_attachment_is_image( $attachment->ID ) ) {
+
+                $thumb = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
+                $att_list[$attachment->ID]['thumb'] = $thumb[0];
+            } else {
+                $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $file->post_mime_type );
+            }
+        }
+
+        return $att_list;
+    }
+
+    function associate_file( $file_id, $parent_id = 0 ) {
+        $update = wp_update_post( array(
+            'ID' => $file_id,
+            'post_parent' => $parent_id
+                ) );
     }
 
     function delete_file( $file_id, $force = false ) {
-
-        if ( $force == false ) {
-            $data = array(
-                'status' => 0,
-            );
-
-            $this->_db->update( CPM_FILES_TABLE, $data, array('id' => $file_id) );
-        } else {
-
-            $file = $this->get_file( $file_id );
-
-            if ( $file ) {
-                if ( file_exists( $file->path ) ) {
-                    unlink( $file->path );
-                }
-
-                $sql = 'DELETE FROM ' . CPM_FILES_TABLE . ' WHERE id = %d';
-                return $this->_db->query( $this->_db->prepare( $sql, $file_id ) );
-            }
-        }
-    }
-
-    function get_count( $object_id, $type ) {
-        $sql = 'SELECT COUNT(*) FROM ' . CPM_COMMENT_TABLE . ' WHERE object_id = %d AND type = %s AND status = 1';
-        $comment_count = $this->_db->get_var( $this->_db->prepare( $sql, $object_id, $type ) );
-
-        return $comment_count;
+        wp_delete_attachment( $file_id, $force );
     }
 
 }
