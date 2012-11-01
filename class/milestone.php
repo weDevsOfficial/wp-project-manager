@@ -2,22 +2,10 @@
 
 class CPM_Milestone {
 
-    /**
-     * $wpdb comment object
-     *
-     * @var object
-     */
-    private $_db;
-    private $_task_obj;
-    private $_msg_obj;
     private static $_instance;
 
     public function __construct() {
-        global $wpdb;
-
-        $this->_db = $wpdb;
-        $this->_task_obj = CPM_Task::getInstance();
-        $this->_msg_obj = CPM_Message::getInstance();
+        add_filter( 'init', array($this, 'register_post_type') );
     }
 
     public static function getInstance() {
@@ -28,72 +16,75 @@ class CPM_Milestone {
         return self::$_instance;
     }
 
-    function create( $values, $project_id ) {
-        $data = array(
-            'project_id' => $project_id,
-            'author' => get_current_user_id(),
-            'name' => $values['title'],
-            'description' => $values['text'],
-            'due_date' => wedevs_date2mysql( $values['due'] ),
-            'assigned_to' => $values['assigned'],
-            'privacy' => $values['privacy'],
-            'created' => current_time( 'mysql' ),
-        );
-
-        $this->_db->insert( CPM_MILESTONE_TABLE, $data );
-
-        return $this->_db->insert_id;
+    function register_post_type() {
+        register_post_type( 'milestone', array(
+            'label' => __( 'Milestone', 'cpm' ),
+            'description' => __( 'Milestone', 'cpm' ),
+            'public' => true,
+            'show_ui' => false,
+            'show_in_menu' => false,
+            'capability_type' => 'post',
+            'hierarchical' => false,
+            'rewrite' => array('slug' => 'milestone'),
+            'query_var' => true,
+            'supports' => array('title', 'editor'),
+            'labels' => array(
+                'name' => __( 'Milestone', 'cpm' ),
+                'singular_name' => __( 'Milestone', 'cpm' ),
+                'menu_name' => __( 'Milestone', 'cpm' ),
+                'add_new' => __( 'Add Milestone', 'cpm' ),
+                'add_new_item' => __( 'Add New Milestone', 'cpm' ),
+                'edit' => __( 'Edit', 'cpm' ),
+                'edit_item' => __( 'Edit Milestone', 'cpm' ),
+                'new_item' => __( 'New Milestone', 'cpm' ),
+                'view' => __( 'View Milestone', 'cpm' ),
+                'view_item' => __( 'View Milestone', 'cpm' ),
+                'search_items' => __( 'Search Milestone', 'cpm' ),
+                'not_found' => __( 'No Milestone Found', 'cpm' ),
+                'not_found_in_trash' => __( 'No Milestone Found in Trash', 'cpm' ),
+                'parent' => __( 'Parent Milestone', 'cpm' ),
+            ),
+        ) );
     }
 
-    function add( $project_id ) {
+    function create( $project_id, $milestone_id = 0 ) {
         $posted = $_POST;
-
         $data = array(
-            'title' => $posted['milestone_name'],
-            'text' => $posted['milestone_detail'],
-            'due' => $posted['milestone_due'],
-            'assigned' => $posted['milestone_assign'],
-            'privacy' => $posted['milestone_privacy']
+            'post_parent' => $project_id,
+            'post_title' => $posted['milestone_name'],
+            'post_content' => $posted['milestone_detail'],
+            'post_type' => 'milestone',
+            'post_status' => 'publish'
         );
 
-        return $this->create( $data, $project_id );
+        if ( $milestone_id ) {
+            $data['ID'] = $milestone_id;
+            $milestone_id = wp_update_post( $data );
+        } else {
+            $milestone_id = wp_insert_post( $data );
+            $this->mark_open( $milestone_id ); //open initially
+        }
+
+        if ( $milestone_id ) {
+            update_post_meta( $milestone_id, '_privacy', $posted['milestone_privacy'] );
+            update_post_meta( $milestone_id, '_assigned', $posted['milestone_assign'] );
+            update_post_meta( $milestone_id, '_due', wedevs_date2mysql( $posted['milestone_due'] ) );
+        }
+
+        return $milestone_id;
     }
 
-    function update( $milestone_id ) {
-        $posted = $_POST;
-
-        $data = array(
-            'name' => $posted['milestone_name'],
-            'description' => $posted['milestone_detail'],
-            'due_date' => wedevs_date2mysql( $posted['milestone_due'] ),
-            'assigned_to' => $posted['milestone_assign'],
-            'privacy' => $posted['milestone_privacy']
-        );
-
-        $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
+    function update( $project_id, $milestone_id ) {
+        return $this->create( $project_id, $milestone_id );
     }
 
     function delete( $milestone_id, $force = false ) {
-        if ( $force == false ) {
-            $data = array(
-                'status' => 0,
-            );
-
-            $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
-        } else {
-            $sql = 'DELETE FROM ' . CPM_MILESTONE_TABLE . ' WHERE id = %d';
-
-            return $this->_db->query( $this->_db->prepare( $sql, $milestone_id ) );
-        }
+        wp_delete_post( $milestone_id, $force );
     }
 
     function mark_complete( $milestone_id ) {
-        $data = array(
-            'completed' => 1,
-            'completed_on' => current_time( 'mysql' )
-        );
-
-        $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
+        update_post_meta( $milestone_id, '_completed', 1 );
+        update_post_meta( $milestone_id, '_completed_on', current_time( 'mysql' ) );
     }
 
     /**
@@ -102,11 +93,8 @@ class CPM_Milestone {
      * @param int $task_id task id
      */
     function mark_open( $milestone_id ) {
-        $data = array(
-            'completed' => 0,
-        );
-
-        $this->_db->update( CPM_MILESTONE_TABLE, $data, array('id' => $milestone_id) );
+        update_post_meta( $milestone_id, '_completed', 0 );
+        update_post_meta( $milestone_id, '_completed_on', current_time( 'mysql' ) );
     }
 
     function get( $milestone_id ) {

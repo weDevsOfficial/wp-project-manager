@@ -58,6 +58,7 @@ class WeDevs_CPM {
         $project = CPM_Project::getInstance();
         $message = CPM_Message::getInstance();
         $task = CPM_Task::getInstance();
+        $milestone = CPM_Milestone::getInstance();
     }
 
     function constants() {

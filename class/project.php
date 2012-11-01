@@ -215,6 +215,7 @@ class CPM_Project {
             }
         }
 
+        //if any co-workers found, add them
         if ( count( $co_worker ) > 0 ) {
             $user_ids = array_merge( $user_ids, $co_worker );
         }
@@ -223,6 +224,7 @@ class CPM_Project {
         if ( $user_ids ) {
             foreach ($user_ids as $id) {
                 $user = get_user_by( 'id', $id );
+                
                 if ( !is_wp_error( $user ) && $user ) {
                     $mail[$id] = array(
                         'id' => $user->ID,
@@ -265,15 +267,12 @@ class CPM_Project {
         $menu = array();
         foreach ($links as $url => $label) {
             if ( $active == $label ) {
-                //$menu[] = sprintf( '<li class="active"><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
                 $menu[] = sprintf( '<a href="%1$s" class="nav-tab nav-tab-active" title="%2$s">%2$s</a>', $url, $label );
             } else {
-                //$menu[] = sprintf( '<li><a href="%1$s" title="%2$s">%2$s</a></li>', $url, $label );
                 $menu[] = sprintf( '<a href="%1$s" class="nav-tab" title="%2$s">%2$s</a>', $url, $label );
             }
         }
 
-        //return '<ul class="cpm-nav">' . implode( "\n", $menu ) . '</ul>';
         return implode( "\n", $menu );
     }
 

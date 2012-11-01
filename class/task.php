@@ -26,8 +26,8 @@ class CPM_Task {
             'label' => __( 'Task List', 'cpm' ),
             'description' => __( 'Task List', 'cpm' ),
             'public' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
+            'show_ui' => false,
+            'show_in_menu' => false,
             'capability_type' => 'post',
             'hierarchical' => false,
             'rewrite' => array('slug' => 'task-list'),
@@ -55,8 +55,8 @@ class CPM_Task {
             'label' => __( 'Task', 'cpm' ),
             'description' => __( 'Tasks', 'cpm' ),
             'public' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
+            'show_ui' => false,
+            'show_in_menu' => false,
             'capability_type' => 'post',
             'hierarchical' => false,
             'rewrite' => array('slug' => 'task'),
@@ -150,16 +150,14 @@ class CPM_Task {
         if ( $task_id ) {
             $data['ID'] = $task_id;
             $task_id = wp_update_post( $data );
-            $completed = get_post_meta( $task_id, '_completed', true );
         } else {
             $task_id = wp_insert_post( $data );
-            $completed = 0;
+            $this->mark_open( $task_id ); //mark open on new task
         }
 
         if ( $task_id ) {
             update_post_meta( $task_id, '_assigned', $assigned );
             update_post_meta( $task_id, '_due', $due );
-            update_post_meta( $task_id, '_completed', $completed );
 
             do_action( 'cpm_new_task', $list_id, $task_id, $data );
         }
@@ -172,7 +170,7 @@ class CPM_Task {
     }
 
     /**
-     * Get all task list by project with status = 1
+     * Get all task list by project
      *
      * @param int $project_id
      * @return object object array of the result set
@@ -196,6 +194,9 @@ class CPM_Task {
     function get_task_list( $list_id ) {
         $task_list = get_post( $list_id );
         $task_list->due_date = get_post_meta( $list_id, '_due', true );
+        $task_list->milestone = get_post_meta( $list_id, '_milestone', true );
+        $task_list->privacy = get_post_meta( $list_id, '_privacy', true );
+        $task_list->priority = get_post_meta( $list_id, '_priority', true );
 
         return $task_list;
     }
@@ -272,6 +273,7 @@ class CPM_Task {
      */
     function mark_complete( $task_id ) {
         update_post_meta( $task_id, '_completed', 1 );
+        update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
     }
 
     /**
@@ -281,6 +283,7 @@ class CPM_Task {
      */
     function mark_open( $task_id ) {
         update_post_meta( $task_id, '_completed', 0 );
+        update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
     }
 
     function delete_task( $task_id, $force = false ) {

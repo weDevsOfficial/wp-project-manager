@@ -51,7 +51,7 @@ $list = $task_obj->get_task_list( $tasklist_id );
                     <label for="tasklist_name">Name <span class="required">*</span></label>
                 </th>
                 <td>
-                    <input name="tasklist_name" type="text" id="tasklist_name" value="<?php echo esc_attr( $list->name ); ?>" aria-required="true">
+                    <input name="tasklist_name" type="text" id="tasklist_name" value="<?php echo esc_attr( $list->post_title ); ?>" aria-required="true">
                 </td>
             </tr>
             <tr class="form-field form-required">
@@ -64,13 +64,13 @@ $list = $task_obj->get_task_list( $tasklist_id );
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="tasklist_detail">Description</label></th>
-                <td><textarea name="tasklist_detail" id="tasklist_detail" cols="30" rows="10"><?php echo esc_textarea( $list->description ); ?></textarea></td>
+                <td><textarea name="tasklist_detail" id="tasklist_detail" cols="30" rows="10"><?php echo esc_textarea( $list->post_content ); ?></textarea></td>
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="tasklist_milestone">Milestone</label></th>
                 <td>
                     <select name="tasklist_milestone" id="tasklist_milestone">
-                        <option selected="selected" <?php selected( $list->milestone_id, '0' ); ?> value="0">-- None --</option>
+                        <option selected="selected" <?php selected( $list->milestone, '0' ); ?> value="0">-- None --</option>
                     </select>
                 </td>
             </tr>
