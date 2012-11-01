@@ -31,7 +31,7 @@ if ( isset( $_POST['create_task'] ) ) {
         echo '<h3>Errros</h3>';
         cpm_show_errors( $errors );
     } else {
-        $task_obj->update_single_task( $task_id );
+        $task_obj->update_task( $list->ID, $task_id );
 
         echo '<h3>Task Updated</h3>';
     }
@@ -52,14 +52,14 @@ $lists = $task_obj->get_task_lists( $project_id );
                 <td>
                     <select name="task_list" id="task_list">
                         <?php foreach ($lists as $list) { ?>
-                            <option value="<?php echo $list->id; ?>" <?php selected( $task->list_id, $list->id ); ?>><?php echo $list->name; ?></option>
+                            <option value="<?php echo $list->ID; ?>" <?php selected( $task->post_parent, $list->ID ); ?>><?php echo get_the_title( $list->ID ); ?></option>
                         <?php } ?>
                     </select>
                 </td>
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="task_text">Task <span class="required">*</span></label></th>
-                <td><textarea name="task_text" id="task_text" cols="30" rows="10"><?php echo esc_textarea( stripslashes( $task->text ) ); ?></textarea></td>
+                <td><textarea name="task_text" id="task_text" cols="30" rows="10"><?php echo esc_textarea( stripslashes( $task->post_content ) ); ?></textarea></td>
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="task_due">Due Date <span class="required">*</span></label></th>

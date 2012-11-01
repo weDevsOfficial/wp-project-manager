@@ -31,7 +31,7 @@ if ( isset( $_POST['create_task'] ) ) {
         echo '<h3>Errros</h3>';
         cpm_show_errors( $errors );
     } else {
-        $task_obj->add_single_task( $tasklist_id );
+        $task_obj->add_task( $tasklist_id );
 
         echo '<h3>Task added</h3>';
     }

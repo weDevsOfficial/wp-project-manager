@@ -31,7 +31,7 @@ if ( isset( $_POST['create_tasklist'] ) ) {
         echo '<h3>Errros</h3>';
         cpm_show_errors( $errors );
     } else {
-        $list_id = $task_obj->update_list( $tasklist_id );
+        $list_id = $task_obj->update_list( $project_id, $tasklist_id );
 
         echo '<h3>task list updated</h3>';
     }

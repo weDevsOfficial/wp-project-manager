@@ -1,7 +1,5 @@
 <?php
 $cpm_active_menu = __( 'Task List', 'cpm' );
-
-require_once CPM_PLUGIN_PATH . '/class/task.php';
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
 $error = false;
@@ -28,13 +26,13 @@ if ( isset( $_POST['create_tasklist'] ) ) {
 
         cpm_show_errors( $errors );
     } else {
-        $task_obj = new CPM_Task();
+        $task_obj = CPM_Task::getInstance();
         $list_id = $task_obj->add_list( $project_id );
 
         if ( $list_id ) {
             foreach ($post['task_text'] as $key => $task) {
                 if ( !empty( $task ) ) {
-                    $task_obj->add_task( $key, $list_id );
+                    $task_obj->add_task( $list_id, $key );
                 }
             }
         }
