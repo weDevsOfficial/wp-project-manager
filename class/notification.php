@@ -30,14 +30,14 @@ class CPM_Notification {
         $pro_obj = CPM_Project::getInstance();
         $msg_obj = CPM_Message::getInstance();
 
-        $project = $pro_obj->get( $message_info['project_id'] );
+        $project = $pro_obj->get( $message_info['post_parent'] );
         $parent_message = $msg_obj->get( $message_id );
         $author = wp_get_current_user();
 
         $subject = sprintf( __( '[%s] New message on project: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $project->name );
         $message = sprintf( 'New message on %s', $project->name ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $message_id ) ) . "\r\n";
+        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $message_info['post_parent'], $message_id ) ) . "\r\n";
         $message .= sprintf( "Message : \r\n%s", $parent_message->message ) . "\r\n";
 
         $to = apply_filters( 'cpm_new_message_to', $to );
@@ -61,14 +61,14 @@ class CPM_Notification {
         }
 
         $msg_obj = CPM_Message::getInstance();
-        $parent_message = $msg_obj->get( $comment_info['object_id'] );
+        $parent_message = $msg_obj->get( $comment_info['comment_post_ID'] );
         $author = wp_get_current_user();
 
-        $subject = sprintf( __( '[%s] New comment on message: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $parent_message->title );
-        $message = sprintf( 'New comment on %s', $parent_message->title ) . "\r\n\n";
+        $subject = sprintf( __( '[%s] New comment on message: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $parent_message->post_title );
+        $message = sprintf( 'New comment on %s', $parent_message->post_title ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $comment_info['object_id'] ) ) . "\r\n";
-        $message .= sprintf( "Comment : \r\n%s", $comment_info['text'] ) . "\r\n";
+        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $_POST['project_id'], $comment_info['comment_post_ID'] ) ) . "\r\n";
+        $message .= sprintf( "Comment : \r\n%s", $comment_info['comment_content'] ) . "\r\n";
 
         $to = apply_filters( 'cpm_new_comment_to', $to );
         $subject = apply_filters( 'cpm_new_comment_subject', $subject );

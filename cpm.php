@@ -55,8 +55,9 @@ class WeDevs_CPM {
     }
 
     function instantiate() {
-        $project = new CPM_Project();
-        $message = new CPM_Message();
+        $project = CPM_Project::getInstance();
+        $message = CPM_Message::getInstance();
+        $task = CPM_Task::getInstance();
     }
 
     function constants() {

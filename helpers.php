@@ -172,8 +172,8 @@ function cpm_comment_form( $project_id, $object_id, $privacy = true ) {
             <?php if ( $privacy ) { ?>
                 <p>
                     <label for="privacy"><?php _e( 'Privacy', 'cpm' ); ?>: </label>
-                    <input type="radio" name="privacy" value="1" id="" /> Yes
-                    <input type="radio" name="privacy" value="0" id="" checked="checked" /> No
+                    <label><input type="radio" name="privacy" value="1" /> Yes</label>
+                    <label><input type="radio" name="privacy" value="0" checked="checked" /> No</label>
                 </p>
             <?php } ?>
 
@@ -190,6 +190,7 @@ function cpm_comment_form( $project_id, $object_id, $privacy = true ) {
             <p>
                 <input type="hidden" name="action" value="cpm_new_comment" />
                 <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add Comment', 'cpm' ); ?>" id="" />
             </p>
 
@@ -237,7 +238,6 @@ function cpm_upload_field() {
 }
 
 function cpm_show_comment( $comment ) {
-    $files = get_comment_meta( $comment->comment_ID, 'files' );
     ?>
     <div class="cpm-comment">
         <div class="cpm-comment-meta">
@@ -250,11 +250,13 @@ function cpm_show_comment( $comment ) {
                 <?php echo $comment->comment_content; ?>
             </div>
 
-            <?php if ( count( $files ) > 0 ) { ?>
+            <?php if ( count( $comment->files ) > 0 ) { ?>
                 <div class="cpm-attachments">
                     <?php foreach ($comment->files as $file) { ?>
                         <div class="cpm-attachment">
-                            <a href="<?php echo $file['url']; ?>" target="_blank"><?php echo $file['name']; ?></a>
+                            <a href="<?php echo $file['url']; ?>" target="_blank">
+                                <img src="<?php echo $file['thumb'] ?>" alt="<?php echo $file['name']; ?>" />
+                            </a>
                         </div>
                     <?php } ?>
                 </div>
