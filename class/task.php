@@ -7,26 +7,10 @@
  */
 class CPM_Task {
 
-    /**
-     * $wpdb comment object
-     *
-     * @var object
-     */
-    private $_db;
-
-    /**
-     * CPM Comment class
-     *
-     * @var object
-     */
-    private $_comment_obj;
     private static $_instance;
 
     public function __construct() {
-        global $wpdb;
-
-        $this->_db = $wpdb;
-        $this->_comment_obj = new CPM_Comment();
+        add_filter( 'init', array($this, 'register_post_type') );
     }
 
     public static function getInstance() {
@@ -37,100 +21,154 @@ class CPM_Task {
         return self::$_instance;
     }
 
-    function insert_list( $values ) {
+    function register_post_type() {
+        register_post_type( 'task_list', array(
+            'label' => __( 'Task List', 'cpm' ),
+            'description' => __( 'Task List', 'cpm' ),
+            'public' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'capability_type' => 'post',
+            'hierarchical' => false,
+            'rewrite' => array('slug' => 'task-list'),
+            'query_var' => true,
+            'supports' => array('title', 'editor'),
+            'labels' => array(
+                'name' => __( 'Task List', 'cpm' ),
+                'singular_name' => __( 'Task List', 'cpm' ),
+                'menu_name' => __( 'Task List', 'cpm' ),
+                'add_new' => __( 'Add Task List', 'cpm' ),
+                'add_new_item' => __( 'Add New Task List', 'cpm' ),
+                'edit' => __( 'Edit', 'cpm' ),
+                'edit_item' => __( 'Edit Task List', 'cpm' ),
+                'new_item' => __( 'New Task List', 'cpm' ),
+                'view' => __( 'View Task List', 'cpm' ),
+                'view_item' => __( 'View Task List', 'cpm' ),
+                'search_items' => __( 'Search Task List', 'cpm' ),
+                'not_found' => __( 'No Task List Found', 'cpm' ),
+                'not_found_in_trash' => __( 'No Task List Found in Trash', 'cpm' ),
+                'parent' => __( 'Parent Task List', 'cpm' ),
+            ),
+        ) );
+
+        register_post_type( 'task', array(
+            'label' => __( 'Task', 'cpm' ),
+            'description' => __( 'Tasks', 'cpm' ),
+            'public' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'capability_type' => 'post',
+            'hierarchical' => false,
+            'rewrite' => array('slug' => 'task'),
+            'query_var' => true,
+            'supports' => array('title', 'editor'),
+            'labels' => array(
+                'name' => __( 'Tasks', 'cpm' ),
+                'singular_name' => __( 'Task', 'cpm' ),
+                'menu_name' => __( 'Task', 'cpm' ),
+                'add_new' => __( 'Add Task', 'cpm' ),
+                'add_new_item' => __( 'Add New Task', 'cpm' ),
+                'edit' => __( 'Edit', 'cpm' ),
+                'edit_item' => __( 'Edit Task', 'cpm' ),
+                'new_item' => __( 'New Task', 'cpm' ),
+                'view' => __( 'View Task', 'cpm' ),
+                'view_item' => __( 'View Task', 'cpm' ),
+                'search_items' => __( 'Search Task', 'cpm' ),
+                'not_found' => __( 'No Task Found', 'cpm' ),
+                'not_found_in_trash' => __( 'No Task Found in Trash', 'cpm' ),
+                'parent' => __( 'Parent Task', 'cpm' ),
+            ),
+        ) );
+    }
+
+    function add_list( $project_id, $list_id = 0 ) {
+        $postdata = $_POST;
+
         $data = array(
-            'author' => get_current_user_id(),
-            'created' => current_time( 'mysql' ),
+            'post_parent' => $project_id,
+            'post_title' => $postdata['tasklist_name'],
+            'post_content' => $postdata['tasklist_detail'],
+            'post_type' => 'task_list',
+            'post_status' => 'publish'
         );
 
-        $data = wp_parse_args( $data, $values );
+        if ( $list_id ) {
+            $data['ID'] = $list_id;
+            $list_id = wp_update_post( $data );
+        } else {
+            $list_id = wp_insert_post( $data );
+        }
 
-        $this->_db->insert( CPM_TASK_LIST_TABLE, $data );
-        $list_id = $this->_db->insert_id;
+        if ( $list_id ) {
+            update_post_meta( $list_id, '_milestone', (int) $postdata['tasklist_milestone'] );
+            update_post_meta( $list_id, '_due', wedevs_date2mysql( $postdata['tasklist_due'] ) );
+            update_post_meta( $list_id, '_privacy', $postdata['tasklist_privacy'] );
+            update_post_meta( $list_id, '_priority', $postdata['tasklist_priority'] );
 
-        do_action( 'cpm_new_tasklist', $list_id, $data );
+            do_action( 'cpm_new_tasklist', $list_id, $data );
+        }
 
         return $list_id;
     }
 
-    function insert_task( $values ) {
+    function update_list( $list_id ) {
+        return $this->add_list( $project_id, $list_id );
+    }
+
+    /**
+     * Add a single task
+     *
+     * @param int $list_id
+     * @param int $key the index, to add from an array
+     * @return int task id
+     */
+    function add_task( $list_id, $key = null, $task_id = 0 ) {
+        $postdata = $_POST;
+
+        if ( is_null( $key ) ) {
+            //posted when task list creation
+            $content = $postdata['task_text'];
+            $assigned = $postdata['task_assign'];
+            $due = wedevs_date2mysql( $postdata['task_due'] );
+            $key = 0; //for menu order
+        } else {
+            //posted for a single task creation
+            $content = $postdata['task_text'][$key];
+            $assigned = $postdata['task_assign'][$key];
+            $due = wedevs_date2mysql( $postdata['task_due'][$key] );
+        }
+
         $data = array(
-            'author' => get_current_user_id(),
-            'created' => current_time( 'mysql' ),
+            'post_parent' => $list_id,
+            'post_title' => substr( $content, 0, 20 ), //first 20 character
+            'post_content' => $content,
+            'menu_order' => $key,
+            'post_type' => 'task',
+            'post_status' => 'publish'
         );
 
-        $data = wp_parse_args( $data, $values );
+        if ( $task_id ) {
+            $data['ID'] = $task_id;
+            $task_id = wp_update_post( $data );
+            $completed = get_post_meta( $task_id, '_completed', true );
+        } else {
+            $task_id = wp_insert_post( $data );
+            $completed = 0;
+        }
 
-        $this->_db->insert( CPM_TASKS_TABLE, $data );
-        $task_id = $this->_db->insert_id;
+        if ( $task_id ) {
+            update_post_meta( $task_id, '_assigned', $assigned );
+            update_post_meta( $task_id, '_due', $due );
+            update_post_meta( $task_id, '_completed', $completed );
 
-        do_action( 'cpm_new_task', $data['list_id'], $task_id, $data );
+            do_action( 'cpm_new_task', $list_id, $task_id, $data );
+        }
 
         return $task_id;
     }
 
-    function add_list( $project_id ) {
-        $postdata = $_POST;
-
-        $data = array(
-            'milestone_id' => (int) $postdata['tasklist_milestone'],
-            'project_id' => $project_id,
-            'name' => $postdata['tasklist_name'],
-            'description' => $postdata['tasklist_detail'],
-            'due_date' => wedevs_date2mysql( $postdata['tasklist_due'] ),
-            'privacy' => $postdata['tasklist_privacy']
-        );
-
-        return $this->insert_list( $data );
-    }
-
-    function update_list( $list_id ) {
-        $postdata = $_POST;
-
-        $data = array(
-            'milestone_id' => (int) $postdata['tasklist_milestone'],
-            'name' => $postdata['tasklist_name'],
-            'description' => $postdata['tasklist_detail'],
-            'due_date' => wedevs_date2mysql( $postdata['tasklist_due'] ),
-            'privacy' => $postdata['tasklist_privacy'],
-            'priority' => $postdata['tasklist_priority']
-        );
-
-        $this->_db->update( CPM_TASK_LIST_TABLE, $data, array('id' => $list_id) );
-    }
-
-    function add_task( $key, $list_id ) {
-        $data = array(
-            'list_id' => $list_id,
-            'text' => $_POST['task_text'][$key],
-            'assigned_to' => $_POST['task_assign'][$key],
-            'due_date' => wedevs_date2mysql( $_POST['task_due'][$key] ),
-            'order' => $key
-        );
-
-        return $this->insert_task( $data );
-    }
-
-    function add_single_task( $list_id ) {
-        $data = array(
-            'list_id' => $list_id,
-            'text' => $_POST['task_text'],
-            'assigned_to' => $_POST['task_assign'],
-            'due_date' => wedevs_date2mysql( $_POST['task_due'] )
-        );
-
-        return $this->insert_task( $data );
-    }
-
-    function update_single_task( $task_id ) {
-        $data = array(
-            'list_id' => $_POST['task_list'],
-            'text' => $_POST['task_text'],
-            'assigned_to' => $_POST['task_assign'],
-            'due_date' => wedevs_date2mysql( $_POST['task_due'] )
-        );
-
-        $this->_db->update( CPM_TASKS_TABLE, $data, array('id' => $task_id) );
+    function update_task( $list_id, $task_id ) {
+        return $this->add_task( $list_id, null, $task_id );
     }
 
     /**
@@ -140,9 +178,13 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_lists( $project_id ) {
-        $sql = 'SELECT * FROM ' . CPM_TASK_LIST_TABLE . ' WHERE project_id = %d AND status = 1';
+        $args = array(
+            'post_type' => 'task_list',
+            'numberposts' => -1,
+            'order' => 'ASC'
+        );
 
-        return $this->_db->get_results( $this->_db->prepare( $sql, $project_id ) );
+        return get_posts( $args );
     }
 
     /**
@@ -152,9 +194,10 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_list( $list_id ) {
-        $sql = 'SELECT * FROM ' . CPM_TASK_LIST_TABLE . ' WHERE id = %d AND status = 1';
+        $task_list = get_post( $list_id );
+        $task_list->due_date = get_post_meta( $list_id, '_due', true );
 
-        return $this->_db->get_row( $this->_db->prepare( $sql, $list_id ) );
+        return $task_list;
     }
 
     /**
@@ -164,9 +207,15 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_tasks( $list_id ) {
-        $sql = 'SELECT * FROM ' . CPM_TASKS_TABLE . ' WHERE list_id = %d AND status = 1';
+        $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC') );
 
-        return $this->_db->get_results( $this->_db->prepare( $sql, $list_id ) );
+        foreach ($tasks as $key => $task) {
+            $tasks[$key]->complete = get_post_meta( $task->ID, '_completed', true );
+            $tasks[$key]->assigned_to = get_post_meta( $task->ID, '_assigned', true );
+            $tasks[$key]->due_date = get_post_meta( $task->ID, '_due', true );
+        }
+
+        return $tasks;
     }
 
     /**
@@ -188,9 +237,12 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task( $task_id ) {
-        $sql = 'SELECT * FROM ' . CPM_TASKS_TABLE . ' WHERE id = %d AND status = 1';
+        $task = get_post( $task_id );
+        $task->complete = get_post_meta( $task_id, '_completed', true );
+        $task->assigned_to = get_post_meta( $task_id, '_assigned', true );
+        $task->due_date = get_post_meta( $task_id, '_due', true );
 
-        return $this->_db->get_row( $this->_db->prepare( $sql, $task_id ) );
+        return $task;
     }
 
     /**
@@ -200,7 +252,7 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_comments( $list_id ) {
-        return $this->_comment_obj->get_comments( $list_id, 'TASK_LIST' );
+        return CPM_Comment::getInstance()->get_comments( $list_id );
     }
 
     /**
@@ -210,41 +262,7 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_comments( $task_id ) {
-        return $this->_comment_obj->get_comments( $task_id, 'TASK' );
-    }
-
-    function new_comment( $values, $list_id ) {
-
-        $data = array(
-            'text' => $values['text'],
-            'file' => $values['file'],
-            'privacy' => 0
-        );
-
-        $comment_id = $this->_comment_obj->create( $data, $list_id, 'TASK_LIST' );
-
-        return $comment_id;
-    }
-
-    function new_task_comment( $values, $task_id ) {
-
-        $data = array(
-            'text' => $values['text'],
-            'file' => $values['file'],
-            'privacy' => 0
-        );
-
-        $comment_id = $this->_comment_obj->create( $data, $task_id, 'TASK' );
-
-        return $comment_id;
-    }
-
-    function upload_file() {
-        return $this->_comment_obj->upload_file();
-    }
-
-    function get_comment_count( $list_id ) {
-        return $this->_comment_obj->get_count( $list_id, 'TASK_LIST' );
+        return CPM_Comment::getInstance()->get_comments( $task_id );
     }
 
     /**
@@ -253,12 +271,7 @@ class CPM_Task {
      * @param int $task_id task id
      */
     function mark_complete( $task_id ) {
-        $data = array(
-            'complete' => 1,
-            'completed_date' => current_time( 'mysql' )
-        );
-
-        $this->_db->update( CPM_TASKS_TABLE, $data, array('id' => $task_id) );
+        update_post_meta( $task_id, '_completed', 1 );
     }
 
     /**
@@ -267,32 +280,20 @@ class CPM_Task {
      * @param int $task_id task id
      */
     function mark_open( $task_id ) {
-        $data = array(
-            'complete' => 0,
-        );
-
-        $this->_db->update( CPM_TASKS_TABLE, $data, array('id' => $task_id) );
+        update_post_meta( $task_id, '_completed', 0 );
     }
 
     function delete_task( $task_id, $force = false ) {
-        if ( $force == false ) {
-            $data = array(
-                'status' => 0,
-            );
-
-            $this->_db->update( CPM_TASKS_TABLE, $data, array('id' => $task_id) );
-        } else {
-            $sql = 'DELETE FROM ' . CPM_TASKS_TABLE . ' WHERE id = %d';
-
-            return $this->_db->query( $this->_db->prepare( $sql, $task_id ) );
-        }
+        wp_delete_post( $task_id, $force );
     }
 
     function get_completeness( $list_id ) {
-        $sql = "SELECT count(id) as total, SUM(CASE complete WHEN '1' THEN 1 ELSE 0 END) as done FROM " . CPM_TASKS_TABLE .
-                "  WHERE list_id = %d AND status = 1";
+        $tasks = $this->get_tasks( $list_id );
 
-        return $this->_db->get_row( $this->_db->prepare( $sql, $list_id ) );
+        return array(
+            'total' => count( $tasks ),
+            'completed' => array_sum( wp_list_pluck( $tasks, 'complete' ) )
+        );
     }
 
 }
