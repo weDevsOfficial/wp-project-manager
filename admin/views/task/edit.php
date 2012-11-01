@@ -4,7 +4,7 @@ $cpm_active_menu = __( 'Task List', 'cpm' );
 require_once CPM_PLUGIN_PATH . '/class/task.php';
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
-$task_obj = new CPM_Task();
+$task_obj = CPM_Task::getInstance();
 
 $error = false;
 if ( isset( $_POST['create_tasklist'] ) ) {
@@ -71,6 +71,7 @@ $list = $task_obj->get_task_list( $tasklist_id );
                 <td>
                     <select name="tasklist_milestone" id="tasklist_milestone">
                         <option selected="selected" <?php selected( $list->milestone, '0' ); ?> value="0">-- None --</option>
+                        <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $list->milestone ); ?>
                     </select>
                 </td>
             </tr>

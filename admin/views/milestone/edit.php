@@ -28,7 +28,7 @@ if ( isset( $_POST['create_milestone'] ) ) {
 
         cpm_show_errors( $errors );
     } else {
-        $id = $milestone_obj->update( $milestone_id );
+        $id = $milestone_obj->update( $project_id, $milestone_id );
 
         cpm_show_message( __( 'Milestone updated', 'cpm' ) );
     }
@@ -37,7 +37,7 @@ if ( isset( $_POST['create_milestone'] ) ) {
 $milestone = $milestone_obj->get( $milestone_id );
 ?>
 
-<h3 class="cpm-nav-title">Update Milestone: <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone_id ); ?>"><?php echo $milestone->name; ?></a></h3>
+<h3 class="cpm-nav-title">Update Milestone: <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone_id ); ?>"><?php echo $milestone->post_title; ?></a></h3>
 <form class="cpm_new_milestone cpm-form" action="" method="post">
     <?php wp_nonce_field( 'new_milestone' ); ?>
     <table class="form-table">
@@ -47,7 +47,7 @@ $milestone = $milestone_obj->get( $milestone_id );
                     <label for="milestone_name">Name <span class="required">*</span></label>
                 </th>
                 <td>
-                    <input name="milestone_name" type="text" id="milestone_name" value="<?php echo esc_attr( $milestone->name ); ?>" aria-required="true">
+                    <input name="milestone_name" type="text" id="milestone_name" value="<?php echo esc_attr( $milestone->post_title ); ?>" aria-required="true">
                 </td>
             </tr>
             <tr class="form-field form-required">
@@ -56,7 +56,7 @@ $milestone = $milestone_obj->get( $milestone_id );
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="milestone_detail">Description</label></th>
-                <td><textarea name="milestone_detail" id="milestone_detail" cols="30" rows="10"><?php echo esc_textarea( $milestone->description ); ?></textarea></td>
+                <td><textarea name="milestone_detail" id="milestone_detail" cols="30" rows="10"><?php echo esc_textarea( $milestone->post_content ); ?></textarea></td>
             </tr>
             <tr class="form-field">
                 <th scope="row"><label for="milestone_privacy">Private Milestone</label></th>

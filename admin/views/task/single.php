@@ -38,8 +38,8 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
 
         <div class="cpm-right">
             <?php
-//            $complete = $task_obj->get_completeness( $list->id );
-//            cpm_task_completeness( $complete->total, $complete->done );
+            $complete = $task_obj->get_completeness( $list->ID );
+            cpm_task_completeness( $complete['total'], $complete['completed'] );
             ?>
         </div>
     </div>
@@ -65,7 +65,7 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
         if ( $tasks ) {
             foreach ($tasks as $task) {
                 //var_dump( $task );
-                $class = $task->complete == '0' ? 'open' : 'close';
+                $class = $task->completed == '0' ? 'open' : 'close';
                 ?>
                 <div class="cpm-task <?php echo $class; ?>">
                     <div class="task-detail">
@@ -75,7 +75,7 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
                         <li><a href="<?php echo cpm_edit_task_url( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
                         <li><a href="#" class="cpm-mark-task-delete" data-id="<?php echo esc_attr( $task->ID ); ?>">Delete</a></li>
                         <li><a href="<?php echo cpm_single_task_url( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
-                        <?php if ( $task->complete == '0' ) { ?>
+                        <?php if ( $task->completed == '0' ) { ?>
                             <li><a href="#" class="cpm-mark-task-complete" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Completed</a></li>
                         <?php } else { ?>
                             <li><a href="#" class="cpm-mark-task-open" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Open</a></li>

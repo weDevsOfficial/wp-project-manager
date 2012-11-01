@@ -98,33 +98,52 @@ class CPM_Milestone {
     }
 
     function get( $milestone_id ) {
-        $sql = $this->_db->prepare( "SELECT * FROM " . CPM_MILESTONE_TABLE . " WHERE id=%d AND status = 1", $milestone_id );
+        $milestone = get_post( $milestone_id );
+        $this->set_meta( $milestone );
 
-        return $this->_db->get_row( $sql );
+        return $milestone;
+    }
+
+    function set_meta( &$milestone ) {
+        $milestone->privacy = get_post_meta( $milestone->ID, '_privacy', true );
+        $milestone->assigned_to = get_post_meta( $milestone->ID, '_assigned', true );
+        $milestone->due_date = get_post_meta( $milestone->ID, '_due', true );
+        $milestone->completed = get_post_meta( $milestone->ID, '_completed', true );
+        $milestone->completed_on = get_post_meta( $milestone->ID, '_completed_on', true );
     }
 
     function get_by_project( $project_id ) {
-        $sql = 'SELECT * FROM ' . CPM_MILESTONE_TABLE . ' WHERE project_id = %d AND status = 1 ORDER BY due_date ASC';
+        $args = array(
+            'post_type' => 'milestone',
+            'post_parent' => $project_id,
+            'numposts' => -1
+        );
 
-        return $this->_db->get_results( $this->_db->prepare( $sql, $project_id ) );
+        $milestones = get_posts( $args );
+        if ( $milestones ) {
+            foreach ($milestones as $key => $milestone) {
+                $this->set_meta( $milestones[$key] );
+            }
+        }
+
+        return $milestones;
     }
 
     function get_tasklists( $milestone_id ) {
-        return $this->_task_obj->get_tasklist_by_milestone( $milestone_id );
+        return CPM_Task::getInstance()->get_tasklist_by_milestone( $milestone_id );
     }
 
     function get_messages( $milestone_id ) {
-        return $this->_msg_obj->get_by_milestone( $milestone_id );
+        return CPM_Message::getInstance()->get_by_milestone( $milestone_id );
     }
 
     function get_dropdown( $project_id, $selected = 0 ) {
         $milestones = $this->get_by_project( $project_id );
         $string = '';
-        //var_dump($milestones);
 
         if ( $milestones ) {
             foreach ($milestones as $milestone) {
-                $string .= sprintf( "<option value='%d'%s>%s</option>\n", $milestone->id, selected( $selected, $milestone->id, false ), $milestone->name );
+                $string .= sprintf( "<option value='%d'%s>%s</option>\n", $milestone->ID, selected( $selected, $milestone->ID, false ), $milestone->post_title );
             }
         }
 

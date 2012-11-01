@@ -41,7 +41,7 @@ function cpm_url_new_message( $project_id ) {
 }
 
 function cpm_msg_edit_url( $message_id ) {
-    return sprintf( '%s?page=cpm_messages&action=edit&mid=%d', admin_url( 'admin.php' ), $message_id );
+    return sprintf( '%s?page=cpm_projects&action=message_edit&mid=%d', admin_url( 'admin.php' ), $message_id );
 }
 
 function cpm_url_new_milestone( $project_id ) {
@@ -345,17 +345,17 @@ function cpm_show_milestone( $milestone, $project_id ) {
     ?>
     <div class="cpm-milestone <?php echo $class; ?>">
         <h3>
-            <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone->id ); ?>"><?php echo stripslashes( $milestone->name ); ?></a>
+            <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone->ID ); ?>"><?php echo stripslashes( $milestone->post_title ); ?></a>
             <?php if ( !$milestone_completed ) { ?>
                 (<?php echo human_time_diff( time(), $due ) . ' ' . $string; ?>)
             <?php } ?>
         </h3>
         <p>Due Date: <?php echo cpm_show_date( $milestone->due_date ); ?></p>
-        <p><?php echo stripslashes( $milestone->description ); ?></p>
+        <p><?php echo stripslashes( $milestone->post_content ); ?></p>
 
         <?php
-        $tasks = $milestone_obj->get_tasklists( $milestone->id );
-        $messages = $milestone_obj->get_messages( $milestone->id );
+        $tasks = $milestone_obj->get_tasklists( $milestone->ID );
+        $messages = $milestone_obj->get_messages( $milestone->ID );
         if ( $tasks ) {
             //var_dump( $tasks );
             ?>
@@ -363,11 +363,11 @@ function cpm_show_milestone( $milestone, $project_id ) {
             <ul>
                 <?php foreach ($tasks as $task) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->id ); ?>"><?php echo stripslashes( $task->name ); ?></a>
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->ID ); ?>"><?php echo stripslashes( $task->post_title ); ?></a>
                         <div class="cpm-right">
                             <?php
-                            $complete = $task_obj->get_completeness( $task->id );
-                            cpm_task_completeness( $complete->total, $complete->done );
+                            $complete = $task_obj->get_completeness( $task->ID );
+                            cpm_task_completeness( $complete['total'], $complete['completed'] );
                             ?>
                         </div>
                         <div class="cpm-clear"></div>
@@ -385,8 +385,8 @@ function cpm_show_milestone( $milestone, $project_id ) {
             <ul>
                 <?php foreach ($messages as $message) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_message( $message->id ); ?>"><?php echo stripslashes( $message->title ); ?></a>
-                        (<?php echo cpm_show_date( $message->created, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->author ); ?>)
+                        <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
+                        (<?php echo cpm_show_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
                     </li>
                 <?php } ?>
             </ul>
@@ -398,12 +398,12 @@ function cpm_show_milestone( $milestone, $project_id ) {
         <?php } ?>
 
         <ul class="cpm-links">
-            <li><a href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->id ); ?>">Edit</a></li>
-            <li><a class="cpm-milestone-delete" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Delete</a></li>
+            <li><a href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->ID ); ?>">Edit</a></li>
+            <li><a class="cpm-milestone-delete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Delete</a></li>
             <?php if ( $milestone->completed == '0' ) { ?>
-                <li><a class="cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Mark as complete</a></li>
+                <li><a class="cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Mark as complete</a></li>
             <?php } else { ?>
-                <li><a class="cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->id ); ?>" href="#">Reopen</a></li>
+                <li><a class="cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Reopen</a></li>
             <?php } ?>
         </ul>
     </div>

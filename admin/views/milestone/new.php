@@ -28,7 +28,7 @@ if ( isset( $_POST['create_milestone'] ) ) {
         cpm_show_errors( $errors );
     } else {
         $milestone_obj = CPM_Milestone::getInstance();
-        $milestone_id = $milestone_obj->add( $project_id );
+        $milestone_id = $milestone_obj->create( $project_id );
 
         cpm_show_message( __( 'Milestone added', 'cpm' ) );
     }

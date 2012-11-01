@@ -105,7 +105,7 @@ class CPM_Message {
             $milestone_id = (int) $post['milestone'];
             $privacy = (int) $post['message_privacy'];
 
-            update_post_meta( $message_id, '_milestone_id', $milestone_id );
+            update_post_meta( $message_id, '_milestone', $milestone_id );
             update_post_meta( $message_id, '_privacy', $privacy );
 
             //if there is any file, update the object reference
@@ -138,7 +138,15 @@ class CPM_Message {
     }
 
     function get_by_milestone( $milestone_id ) {
+        $args = array(
+            'post_type' => 'message',
+            'meta_key' => '_milestone',
+            'meta_value' => $milestone_id
+        );
 
+        $messages = get_posts( $args );
+
+        return $messages;
     }
 
 }

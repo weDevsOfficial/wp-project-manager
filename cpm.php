@@ -168,6 +168,10 @@ class WeDevs_CPM {
                         include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
                         break;
 
+                    case 'message_edit':
+                        include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
+                        break;
+
                     case 'task_list':
                         include_once dirname( __FILE__ ) . '/admin/views/task/list.php';
                         break;

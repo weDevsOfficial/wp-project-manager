@@ -12,7 +12,6 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 <?php
 $task_obj = CPM_Task::getInstance();
 $lists = $task_obj->get_task_lists( $project_id );
-//var_dump( $lists );
 
 if ( $lists ) {
     foreach ($lists as $list) {
@@ -48,8 +47,8 @@ if ( $lists ) {
                 $tasks = $task_obj->get_tasks( $list->ID );
                 if ( $tasks ) {
                     foreach ($tasks as $task) {
-                        //var_dump( $task );
-                        $class = $task->complete == '0' ? 'open' : 'close';
+//                        var_dump( $task );
+                        $class = $task->completed == '0' ? 'open' : 'close';
                         ?>
                         <div class="cpm-task <?php echo $class; ?>">
                             <div class="task-detail">
@@ -59,7 +58,7 @@ if ( $lists ) {
                                 <li><a href="<?php echo cpm_edit_task_url( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
                                 <li><a href="#" class="cpm-mark-task-delete" data-id="<?php echo esc_attr( $task->ID ); ?>">Delete</a></li>
                                 <li><a href="<?php echo cpm_single_task_url( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
-                                <?php if ( $task->complete == '0' ) { ?>
+                                <?php if ( $task->completed == '0' ) { ?>
                                     <li><a href="#" class="cpm-mark-task-complete" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Completed</a></li>
                                 <?php } else { ?>
                                     <li><a href="#" class="cpm-mark-task-open" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Open</a></li>

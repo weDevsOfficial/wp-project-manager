@@ -100,7 +100,7 @@ class CPM_Task {
         }
 
         if ( $list_id ) {
-            update_post_meta( $list_id, '_milestone', (int) $postdata['tasklist_milestone'] );
+            update_post_meta( $list_id, '_milestone', $postdata['tasklist_milestone'] );
             update_post_meta( $list_id, '_due', wedevs_date2mysql( $postdata['tasklist_due'] ) );
             update_post_meta( $list_id, '_privacy', $postdata['tasklist_privacy'] );
             update_post_meta( $list_id, '_priority', $postdata['tasklist_priority'] );
@@ -111,7 +111,7 @@ class CPM_Task {
         return $list_id;
     }
 
-    function update_list( $list_id ) {
+    function update_list( $project_id, $list_id ) {
         return $this->add_list( $project_id, $list_id );
     }
 
@@ -182,7 +182,12 @@ class CPM_Task {
             'order' => 'ASC'
         );
 
-        return get_posts( $args );
+        $lists = get_posts( $args );
+        foreach ($lists as $list) {
+            $this->set_list_meta( $list );
+        }
+
+        return $lists;
     }
 
     /**
@@ -193,12 +198,16 @@ class CPM_Task {
      */
     function get_task_list( $list_id ) {
         $task_list = get_post( $list_id );
-        $task_list->due_date = get_post_meta( $list_id, '_due', true );
-        $task_list->milestone = get_post_meta( $list_id, '_milestone', true );
-        $task_list->privacy = get_post_meta( $list_id, '_privacy', true );
-        $task_list->priority = get_post_meta( $list_id, '_priority', true );
+        $this->set_list_meta( $task_list );
 
         return $task_list;
+    }
+
+    function set_list_meta( &$task_list ) {
+        $task_list->due_date = get_post_meta( $task_list->ID, '_due', true );
+        $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
+        $task_list->privacy = get_post_meta( $task_list->ID, '_privacy', true );
+        $task_list->priority = get_post_meta( $task_list->ID, '_priority', true );
     }
 
     /**
@@ -211,12 +220,22 @@ class CPM_Task {
         $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC') );
 
         foreach ($tasks as $key => $task) {
-            $tasks[$key]->complete = get_post_meta( $task->ID, '_completed', true );
-            $tasks[$key]->assigned_to = get_post_meta( $task->ID, '_assigned', true );
-            $tasks[$key]->due_date = get_post_meta( $task->ID, '_due', true );
+            $this->set_task_meta( $task );
         }
 
         return $tasks;
+    }
+
+    /**
+     * Set all the meta values to a single task
+     *
+     * @param object $task
+     */
+    function set_task_meta( &$task ) {
+        $task->completed = get_post_meta( $task->ID, '_completed', true );
+        $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
+        $task->assigned_to = get_post_meta( $task->ID, '_assigned', true );
+        $task->due_date = get_post_meta( $task->ID, '_due', true );
     }
 
     /**
@@ -226,9 +245,18 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_tasklist_by_milestone( $milestone_id ) {
-        $sql = 'SELECT * FROM ' . CPM_TASK_LIST_TABLE . ' WHERE milestone_id = %d AND status = 1';
+        $args = array(
+            'post_type' => 'task_list',
+            'meta_key' => '_milestone',
+            'meta_value' => $milestone_id
+        );
 
-        return $this->_db->get_results( $this->_db->prepare( $sql, $milestone_id ) );
+        $tasklists = get_posts( $args );
+        foreach ($tasklists as $list) {
+            $this->set_list_meta( $list );
+        }
+
+        return $tasklists;
     }
 
     /**
@@ -239,9 +267,7 @@ class CPM_Task {
      */
     function get_task( $task_id ) {
         $task = get_post( $task_id );
-        $task->complete = get_post_meta( $task_id, '_completed', true );
-        $task->assigned_to = get_post_meta( $task_id, '_assigned', true );
-        $task->due_date = get_post_meta( $task_id, '_due', true );
+        $this->set_task_meta( $task );
 
         return $task;
     }
@@ -295,7 +321,7 @@ class CPM_Task {
 
         return array(
             'total' => count( $tasks ),
-            'completed' => array_sum( wp_list_pluck( $tasks, 'complete' ) )
+            'completed' => array_sum( wp_list_pluck( $tasks, 'completed' ) )
         );
     }
 
