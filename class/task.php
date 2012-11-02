@@ -124,6 +124,7 @@ class CPM_Task {
      */
     function add_task( $list_id, $key = null, $task_id = 0 ) {
         $postdata = $_POST;
+        $files = isset( $postdata['cpm_attachment'] ) ? $postdata['cpm_attachment'] : array();
 
         if ( is_null( $key ) ) {
             //posted when task list creation
@@ -158,6 +159,15 @@ class CPM_Task {
         if ( $task_id ) {
             update_post_meta( $task_id, '_assigned', $assigned );
             update_post_meta( $task_id, '_due', $due );
+
+            //if there is any file, update the object reference
+            if ( count( $files ) > 0 ) {
+                $comment_obj = CPM_Comment::getInstance();
+
+                foreach ($files as $file_id) {
+                    $comment_obj->associate_file( $file_id, $task_id );
+                }
+            }
 
             do_action( 'cpm_new_task', $list_id, $task_id, $data );
         }
@@ -236,6 +246,7 @@ class CPM_Task {
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
         $task->assigned_to = get_post_meta( $task->ID, '_assigned', true );
         $task->due_date = get_post_meta( $task->ID, '_due', true );
+        $task->files = CPM_Comment::getInstance()->get_attachments( $task->ID );
     }
 
     /**
