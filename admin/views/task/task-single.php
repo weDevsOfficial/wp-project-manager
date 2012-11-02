@@ -11,16 +11,16 @@ $task = $task_obj->get_task( $task_id );
 <h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
 
 <div class="cpm-task-list">
-    <?php $class = $task->complete == '0' ? 'open' : 'close'; ?>
+    <?php $class = $task->completed == '0' ? 'open' : 'close'; ?>
     <div class="cpm-task <?php echo $class; ?>">
         <div class="task-detail">
             <?php echo stripslashes( $task->post_content ); ?>
         </div>
         <ul class="links">
-            <li><a href="<?php echo cpm_edit_task_url( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
+            <li><a href="<?php echo cpm_url_edit_task( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
             <li><a href="#">Delete</a></li>
-            <li><a href="<?php echo cpm_single_task_url( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
-            <?php if ( $task->complete == '0' ) { ?>
+            <li><a href="<?php echo cpm_url_single_task( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
+            <?php if ( $task->completed == '0' ) { ?>
                 <li><a href="#" class="cpm-mark-task-complete" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Completed</a></li>
             <?php } else { ?>
                 <li><a href="#" class="cpm-mark-task-open" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Open</a></li>
@@ -28,13 +28,6 @@ $task = $task_obj->get_task( $task_id );
         </ul>
     </div>
 </div>
-
-<?php
-if ( is_wp_error( $error ) ) {
-    $errors = $error->get_error_messages();
-    cpm_show_errors( $errors );
-}
-?>
 
 <h3>Comments:</h3>
 <div class="cpm-comment-wrap">

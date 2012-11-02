@@ -42,7 +42,7 @@ $list = $task_obj->get_task_list( $tasklist_id );
 
 <h3 class="cpm-nav-title"><?php _e( 'Edit Task List', 'cpm' ) ?></h3>
 
-<form class="cpm_new_tasklist" action="" method="post">
+<form class="cpm_new_tasklist cpm-form" action="" method="post">
     <?php wp_nonce_field( 'new_task_list' ); ?>
     <table class="form-table">
         <tbody>

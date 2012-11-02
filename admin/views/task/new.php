@@ -44,7 +44,7 @@ if ( isset( $_POST['create_tasklist'] ) ) {
 
 <h3 class="cpm-nav-title">Add Tasklist</h3>
 
-<form class="cpm_new_tasklist" action="" method="post">
+<form class="cpm_new_tasklist cpm-form" action="" method="post">
     <?php wp_nonce_field( 'new_task_list' ); ?>
     <table class="form-table">
         <tbody>
