@@ -264,17 +264,7 @@ function cpm_show_comment( $comment ) {
                 <?php echo $comment->comment_content; ?>
             </div>
 
-            <?php if ( isset( $comment->files ) && count( $comment->files ) > 0 ) { ?>
-                <div class="cpm-attachments">
-                    <?php foreach ($comment->files as $file) { ?>
-                        <div class="cpm-attachment">
-                            <a href="<?php echo $file['url']; ?>" target="_blank">
-                                <img src="<?php echo $file['thumb'] ?>" alt="<?php echo $file['name']; ?>" />
-                            </a>
-                        </div>
-                    <?php } ?>
-                </div>
-            <?php } ?>
+            <?php cpm_show_attachments( $comment ); ?>
         </div>
     </div>
     <?php
@@ -472,3 +462,18 @@ function wedevs_mail_log( $mail ) {
 }
 
 add_filter( 'wp_mail', 'wedevs_mail_log', 10 );
+
+function cpm_show_attachments( $object ) {
+    if ( $object->files ) {
+        ?>
+        <h3>Attachments:</h3>
+        <ul>
+            <?php
+            foreach ($object->files as $file) {
+                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
+            }
+            ?>
+        </ul>
+        <?php
+    }
+}
