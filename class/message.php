@@ -71,7 +71,7 @@ class CPM_Message {
 
         if ( $post->post_type == 'message' && $context == 'display' && is_admin() && isset( $_GET['pid'] ) ) {
             $project_id = $_GET['pid']; //FIXME: set to message parent
-            $url = admin_url( sprintf( 'admin.php?page=cpm_projects&action=message_single&pid=%d&mid=%d', $project_id, $post->ID ) );
+            $url = cpm_url_single_message( $project_id, $post->ID );
         }
 
         return $url;

@@ -123,8 +123,8 @@ class WeDevs_CPM {
     function admin_menu() {
         $capability = 'activate_plugins';
 
-        add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_hanlder'), '', 3 );
-        add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_hanlder') );
+        add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
+        add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
 //        add_submenu_page( 'cpm_projects', __( 'Messages', 'cpm' ), __( 'Messages', 'cpm' ), $capability, 'cpm_messages', array($this, 'admin_page_hanlder') );
 //        add_submenu_page( 'cpm_projects', __( 'Task Lists', 'cpm' ), __( 'Task Lists', 'cpm' ), $capability, 'cpm_tasklist', array($this, 'admin_page_hanlder') );
 //        add_submenu_page( 'cpm_projects', __( 'Milestones', 'cpm' ), __( 'Milestones', 'cpm' ), $capability, 'cpm_milestones', array($this, 'admin_page_hanlder') );
@@ -132,7 +132,7 @@ class WeDevs_CPM {
 //        add_submenu_page( 'cpm_projects', __( 'Files', 'cpm' ), __( 'Files', 'cpm' ), $capability, 'cpm_files', array($this, 'admin_page_hanlder') );
     }
 
-    function admin_page_hanlder() {
+    function admin_page_handler() {
 
         if ( !class_exists( 'WP_List_Table' ) ) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -141,7 +141,9 @@ class WeDevs_CPM {
         echo '<div class="wrap">';
 
         $page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
+        $tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
         $action = (isset( $_GET['action'] )) ? $_GET['action'] : '';
+
         $project_id = (isset( $_GET['pid'] )) ? (int) $_GET['pid'] : 0;
         $message_id = (isset( $_GET['mid'] )) ? (int) $_GET['mid'] : 0;
         $tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
@@ -151,162 +153,126 @@ class WeDevs_CPM {
 
         switch ($page) {
             case 'cpm_projects':
-                switch ($action) {
-                    case 'details':
-                        include_once dirname( __FILE__ ) . '/admin/views/project/details.php';
-                        break;
 
-                    case 'new':
-                        include_once dirname( __FILE__ ) . '/admin/views/project/new.php';
+                switch ($tab) {
+                    case 'project':
+
+                        switch ($action) {
+                            case 'index':
+                                include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
+                                break;
+
+                            case 'single':
+                                include_once dirname( __FILE__ ) . '/admin/views/project/single.php';
+                                break;
+
+                            case 'new':
+                                include_once dirname( __FILE__ ) . '/admin/views/project/new.php';
+                                break;
+
+                            case 'edit':
+                                include_once dirname( __FILE__ ) . '/admin/views/project/edit.php';
+                                break;
+
+                            default:
+                                include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
+                                break;
+                        }
+
                         break;
 
                     case 'message':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/project.php';
+                        switch ($action) {
+                            case 'index':
+                                include_once dirname( __FILE__ ) . '/admin/views/message/index.php';
+                                break;
+
+                            case 'single':
+                                include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
+                                break;
+
+                            case 'new':
+                                include_once dirname( __FILE__ ) . '/admin/views/message/new.php';
+                                break;
+
+                            case 'edit':
+                                include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
+                                break;
+
+                            default:
+                                include_once dirname( __FILE__ ) . '/admin/views/message/index.php';
+                                break;
+                        }
+
                         break;
 
-                    case 'message_single':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
-                        break;
+                    case 'task':
+                        switch ($action) {
+                            case 'index':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/index.php';
+                                break;
 
-                    case 'message_edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
-                        break;
+                            case 'single':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/single.php';
+                                break;
 
-                    case 'task_list':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/list.php';
-                        break;
+                            case 'new':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/new.php';
+                                break;
 
-                    case 'task_list_create':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/new.php';
-                        break;
+                            case 'edit':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/edit.php';
+                                break;
 
-                    case 'tasklist_single':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/single.php';
-                        break;
+                            case 'task_new':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/task-new.php';
+                                break;
 
-                    case 'tasklist_edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/edit.php';
-                        break;
+                            case 'task_edit':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/task-edit.php';
+                                break;
 
-                    case 'task_add':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/task-add.php';
-                        break;
+                            case 'task_single':
+                                include_once dirname( __FILE__ ) . '/admin/views/task/task-single.php';
+                                break;
 
-                    case 'task_view':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/task-view.php';
-                        break;
+                            default:
+                                include_once dirname( __FILE__ ) . '/admin/views/task/index.php';
+                                break;
+                        }
 
-                    case 'task_edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/task/task-edit.php';
                         break;
 
                     case 'milestone':
-                        include_once dirname( __FILE__ ) . '/admin/views/milestone/project.php';
+                        switch ($action) {
+                            case 'index':
+                                include_once dirname( __FILE__ ) . '/admin/views/milestone/index.php';
+                                break;
+
+                            case 'single':
+                                include_once dirname( __FILE__ ) . '/admin/views/milestone/single.php';
+                                break;
+
+                            case 'new':
+                                include_once dirname( __FILE__ ) . '/admin/views/milestone/new.php';
+                                break;
+
+                            case 'edit':
+                                include_once dirname( __FILE__ ) . '/admin/views/milestone/edit.php';
+                                break;
+
+                            default:
+                                include_once dirname( __FILE__ ) . '/admin/views/milestone/index.php';
+                                break;
+                        }
+
                         break;
 
-                    case 'milestone_new':
-                        include_once dirname( __FILE__ ) . '/admin/views/milestone/new.php';
-                        break;
-
-                    case 'milestone_detail':
-                        include_once dirname( __FILE__ ) . '/admin/views/milestone/single.php';
-                        break;
-
-                    case 'milestone_edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/milestone/edit.php';
-                        break;
-
-                    case 'invoice':
-                        include_once dirname( __FILE__ ) . '/admin/views/invoice/project.php';
-                        break;
-
-                    case 'invoice_new':
-                        include_once dirname( __FILE__ ) . '/admin/views/invoice/new.php';
-                        break;
-
-                    case 'invoice_detail':
-                        include_once dirname( __FILE__ ) . '/admin/views/invoice/single.php';
-                        break;
-
-                    case 'invoice_edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/invoice/edit.php';
-                        break;
 
                     default:
-                        include_once dirname( __FILE__ ) . '/admin/views/project/list.php';
+                        include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
                         break;
                 }
-                break;
-
-            case 'cpm_messages':
-                switch ($action) {
-                    case 'project':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/project.php';
-                        break;
-
-                    case 'single':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
-                        break;
-
-                    case 'edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
-                        break;
-
-                    case 'new':
-                        include_once dirname( __FILE__ ) . '/admin/views/message/new.php';
-                        break;
-
-                    default:
-                        include_once dirname( __FILE__ ) . '/admin/views/message/list.php';
-                        break;
-                }
-                break;
-
-            case 'cpm_tasklist':
-                switch ($action) {
-                    case 'project':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-project-list.php';
-                        break;
-
-                    case 'single':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-single.php';
-                        break;
-
-                    case 'edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-edit.php';
-                        break;
-
-                    default:
-                        include_once dirname( __FILE__ ) . '/admin/views/task-list.php';
-                        break;
-                }
-                break;
-
-            case 'cpm_milestones':
-                switch ($action) {
-                    case 'project':
-                        include_once dirname( __FILE__ ) . '/admin/views/milestone/project.php';
-                        break;
-
-                    case 'single':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-single.php';
-                        break;
-
-                    case 'edit':
-                        include_once dirname( __FILE__ ) . '/admin/views/message-edit.php';
-                        break;
-
-                    default:
-                        include_once dirname( __FILE__ ) . '/admin/views/task-list.php';
-                        break;
-                }
-                break;
-
-            case 'cpm_invoices':
-                break;
-
-            case 'cpm_files':
-                break;
 
             default:
                 break;

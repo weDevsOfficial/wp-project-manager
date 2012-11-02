@@ -72,9 +72,9 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
                         <?php echo stripslashes( $task->post_content ); ?>
                     </div>
                     <ul class="cpm-links">
-                        <li><a href="<?php echo cpm_edit_task_url( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
+                        <li><a href="<?php echo cpm_url_edit_task( $project_id, $list->ID, $task->ID ); ?>">Edit</a></li>
                         <li><a href="#" class="cpm-mark-task-delete" data-id="<?php echo esc_attr( $task->ID ); ?>">Delete</a></li>
-                        <li><a href="<?php echo cpm_single_task_url( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
+                        <li><a href="<?php echo cpm_url_single_task( $project_id, $list->ID, $task->ID ); ?>">View</a></li>
                         <?php if ( $task->completed == '0' ) { ?>
                             <li><a href="#" class="cpm-mark-task-complete" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Completed</a></li>
                         <?php } else { ?>

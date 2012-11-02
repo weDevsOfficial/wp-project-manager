@@ -1,71 +1,85 @@
 <?php
 
-function cpm_projects_url() {
+function cpm_url_projects() {
     return sprintf( '%s?page=cpm_projects', admin_url( 'admin.php' ) );
 }
 
-function cpm_project_details_url( $project_id ) {
-    return sprintf( '%s?page=cpm_projects&action=details&pid=%d', admin_url( 'admin.php' ), $project_id );
+function cpm_url_project_details( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_project_details', $url );
 }
 
 function cpm_url_new_tasklist( $project_id ) {
-    return sprintf( '%s?page=cpm_projects&action=task_list_create&pid=%d', admin_url( 'admin.php' ), $project_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_new_tasklislt', $url );
 }
 
 function cpm_url_single_tasklist( $project_id, $list_id ) {
-    return sprintf( '%s?page=cpm_projects&action=tasklist_single&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=single&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+
+    return apply_filters( 'cpm_url_single_tasklislt', $url );
 }
 
 function cpm_url_edit_tasklist( $project_id, $list_id ) {
-    return sprintf( '%s?page=cpm_projects&action=tasklist_edit&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=edit&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+
+    return apply_filters( 'cpm_url_edit_tasklislt', $url );
 }
 
 function cpm_url_add_task( $project_id, $list_id ) {
-    return sprintf( '%s?page=cpm_projects&action=task_add&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_new&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+
+    return apply_filters( 'cpm_url_add_task', $url );
 }
 
-function cpm_single_task_url( $project_id, $list_id, $task_id ) {
-    return sprintf( '%s?page=cpm_projects&action=task_view&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
+function cpm_url_single_task( $project_id, $list_id, $task_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_single&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
+
+    return apply_filters( 'cpm_url_single_task', $url );
 }
 
-function cpm_edit_task_url( $project_id, $list_id, $task_id ) {
-    return sprintf( '%s?page=cpm_projects&action=task_edit&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
+function cpm_url_edit_task( $project_id, $list_id, $task_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_edit&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
+
+    return apply_filters( 'cpm_url_edit_task', $url );
 }
 
 function cpm_url_single_message( $project_id, $message_id ) {
-    return sprintf( '%s?page=cpm_projects&action=message_single&pid=%d&mid=%d', admin_url( 'admin.php' ), $project_id, $message_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=message&action=single&pid=%d&mid=%d', admin_url( 'admin.php' ), $project_id, $message_id );
+
+    return apply_filters( 'cpm_url_single_message', $url );
 }
 
 function cpm_url_new_message( $project_id ) {
-    return sprintf( '%s?page=cpm_messages&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
+    $url = sprintf( '%s?page=cpm_messages&tab=message&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_new_message', $url );
 }
 
 function cpm_msg_edit_url( $message_id ) {
-    return sprintf( '%s?page=cpm_projects&action=message_edit&mid=%d', admin_url( 'admin.php' ), $message_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=message&action=edit&mid=%d', admin_url( 'admin.php' ), $message_id );
+
+    return apply_filters( 'cpm_msg_edit_url', $url );
 }
 
 function cpm_url_new_milestone( $project_id ) {
-    return sprintf( '%s?page=cpm_projects&action=milestone_new&pid=%d', admin_url( 'admin.php' ), $project_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_new_milestone', $url );
 }
 
 function cpm_url_single_milestone( $project_id, $milestone_id ) {
-    return sprintf( '%s?page=cpm_projects&action=milestone_detail&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=single&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
+
+    return apply_filters( 'cpm_url_single_milestone', $url );
 }
 
 function cpm_url_edit_milestone( $project_id, $milestone_id ) {
-    return sprintf( '%s?page=cpm_projects&action=milestone_edit&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
-}
+    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=edit&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
 
-function cpm_url_new_invoice( $project_id ) {
-    return sprintf( '%s?page=cpm_projects&action=invoice_new&pid=%d', admin_url( 'admin.php' ), $project_id );
-}
-
-function cpm_url_single_invoice( $project_id, $invoice_id ) {
-    return sprintf( '%s?page=cpm_projects&action=invoice_detail&pid=%d&in_id=%d', admin_url( 'admin.php' ), $project_id, $invoice_id );
-}
-
-function cpm_url_edit_invoice( $project_id, $invoice_id ) {
-    return sprintf( '%s?page=cpm_projects&action=invoice_edit&pid=%d&in_id=%d', admin_url( 'admin.php' ), $project_id, $invoice_id );
+    return apply_filters( 'cpm_url_edit_milestone', $url );
 }
 
 function cpm_get_privacy( $value ) {
@@ -250,7 +264,7 @@ function cpm_show_comment( $comment ) {
                 <?php echo $comment->comment_content; ?>
             </div>
 
-            <?php if ( count( $comment->files ) > 0 ) { ?>
+            <?php if ( isset( $comment->files ) && count( $comment->files ) > 0 ) { ?>
                 <div class="cpm-attachments">
                     <?php foreach ($comment->files as $file) { ?>
                         <div class="cpm-attachment">

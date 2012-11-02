@@ -29,6 +29,8 @@ if ( $milestones ) {
             $late_milestones[] = $milestone;
         }
     }
+} else {
+    echo __( 'No Milestone Found', 'cpm' );
 }
 //var_dump( $completed_milestones, $upcoming_milestones, $late_milestones );
 ?>

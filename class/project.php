@@ -68,7 +68,7 @@ class CPM_Project {
         global $post;
 
         if ( $post->post_type == 'project' && $context == 'display' && is_admin() ) {
-            $url = admin_url( sprintf( 'admin.php?page=cpm_projects&action=details&pid=%d', $post->ID ) );
+            $url = cpm_url_project_details( $post->ID );
         }
 
         return $url;
@@ -224,7 +224,7 @@ class CPM_Project {
         if ( $user_ids ) {
             foreach ($user_ids as $id) {
                 $user = get_user_by( 'id', $id );
-                
+
                 if ( !is_wp_error( $user ) && $user ) {
                     $mail[$id] = array(
                         'id' => $user->ID,
@@ -250,15 +250,14 @@ class CPM_Project {
         $base = admin_url( 'admin.php' );
 
         $links = array(
-            sprintf( '%s?page=cpm_projects&action=details&pid=%d', $base, $project_id ) => __( 'Details', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&action=message&pid=%d', $base, $project_id ) => __( 'Messages', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&action=task_list&pid=%d', $base, $project_id ) => __( 'Task List', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&action=milestone&pid=%d', $base, $project_id ) => __( 'Milestones', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&action=invoice&pid=%d', $base, $project_id ) => __( 'Invoices', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&action=files&pid=%d', $base, $project_id ) => __( 'Files', 'cpm' ),
+            sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', $base, $project_id ) => __( 'Details', 'cpm' ),
+            sprintf( '%s?page=cpm_projects&tab=message&action=index&pid=%d', $base, $project_id ) => __( 'Messages', 'cpm' ),
+            sprintf( '%s?page=cpm_projects&tab=task&action=index&pid=%d', $base, $project_id ) => __( 'Task List', 'cpm' ),
+            sprintf( '%s?page=cpm_projects&tab=milestone&action=index&pid=%d', $base, $project_id ) => __( 'Milestones', 'cpm' ),
+            sprintf( '%s?page=cpm_projects&tab=files&action=index&pid=%d', $base, $project_id ) => __( 'Files', 'cpm' ),
         );
 
-        return $links;
+        return apply_filters( 'cpm_project_nav_links', $links );
     }
 
     function nav_menu( $project_id, $active = '' ) {
