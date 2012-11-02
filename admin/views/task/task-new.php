@@ -53,6 +53,10 @@ if ( isset( $_POST['create_task'] ) ) {
                 <td><input type="text" autocomplete="off" class="datepicker" name="task_due" /></td>
             </tr>
             <tr class="form-field">
+                <th scope="row"><label for="attachments">Attachments</label></th>
+                <td><?php cpm_upload_field(); ?></td>
+            </tr>
+            <tr class="form-field">
                 <th scope="row"><label for="task_assign">Assigned To</label></th>
                 <td><?php wp_dropdown_users( array('name' => 'task_assign', 'show_option_none' => __( '-- None --', 'cpm' )) ); ?></td>
             </tr>
