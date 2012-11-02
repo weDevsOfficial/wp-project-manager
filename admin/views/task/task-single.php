@@ -29,6 +29,8 @@ $task = $task_obj->get_task( $task_id );
     </div>
 </div>
 
+<?php cpm_show_attachments( $task ); ?>
+
 <h3>Comments:</h3>
 <div class="cpm-comment-wrap">
     <?php
