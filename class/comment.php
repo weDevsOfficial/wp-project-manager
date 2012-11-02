@@ -26,7 +26,7 @@ class CPM_Comment {
 
     /**
      * Insert a new comment
-     * 
+     *
      * @param array $commentdata
      * @param int $privacy
      * @param array $files
@@ -118,6 +118,7 @@ class CPM_Comment {
      */
     function get_comments( $post_id, $order = 'ASC' ) {
         $comments = get_comments( array('post_id' => $post_id, 'order' => $order) );
+        $file_array = array();
 
         //prepare comment attachments
         if ( $comments ) {
@@ -125,7 +126,6 @@ class CPM_Comment {
                 $files = get_comment_meta( $comment->comment_ID, '_files', true );
 
                 if ( $files != '' ) {
-                    $file_array = array();
 
                     foreach ($files as $attachment_id) {
                         $file = $this->get_file( $attachment_id );
@@ -134,11 +134,9 @@ class CPM_Comment {
                             $file_array[] = $file;
                         }
                     }
-
-                    if ( $file_array ) {
-                        $comments[$key]->files = $file_array;
-                    }
                 }
+
+                $comments[$key]->files = $file_array;
             }
         }
 
@@ -258,10 +256,10 @@ class CPM_Comment {
     }
 
     function associate_file( $file_id, $parent_id = 0 ) {
-        $update = wp_update_post( array(
+        wp_update_post( array(
             'ID' => $file_id,
             'post_parent' => $parent_id
-                ) );
+        ) );
     }
 
     function delete_file( $file_id, $force = false ) {
