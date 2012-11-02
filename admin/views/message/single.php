@@ -24,16 +24,8 @@ Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_author_nam
 
 <p><strong><?php _e( 'Details', 'cpm' ) ?></strong></p>
 <p><?php echo $message->post_content; ?></p>
-<?php if ( $message->files ) { ?>
-    <h3>Attachments:</h3>
-    <ul>
-        <?php
-        foreach ($message->files as $file) {
-            printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
-        }
-        ?>
-    </ul>
-<?php } ?>
+
+<?php cpm_show_attachments( $message ); ?>
 
 <div class="cpm-comment-wrap">
     <?php
