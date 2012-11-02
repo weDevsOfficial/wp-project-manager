@@ -12,6 +12,7 @@ class CPM_Message {
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
         add_filter( 'manage_toplevel_page_cpm_projects_columns', array($this, 'manage_message_columns') );
+        add_filter( 'cpm_message_table_views', array($this, 'table_views'), 10, 4 );
         add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
     }
 
@@ -64,6 +65,27 @@ class CPM_Message {
         );
 
         return $columns;
+    }
+
+    function table_views( $links, $num_posts, $statuses, $project_id ) {
+        $class = (!isset( $_REQUEST['post_status'] )) ? ' class="current"' : '';
+        $base_url = cpm_url_message_index( $project_id );
+
+        foreach ($links as $key => $link) {
+            if ( $key == 'all' ) {
+                $links['all'] = "<a href='$base_url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $num_posts->total, 'posts' ), number_format_i18n( $num_posts->total ) ) . '</a>';
+            } else {
+                if ( isset( $_REQUEST['post_status'] ) && $key == $_REQUEST['post_status'] ) {
+                    $class = ' class="current"';
+                } else {
+                    $class = '';
+                }
+
+                $links[$key] = "<a href='$base_url&amp;post_status=$key'$class>" . sprintf( translate_nooped_plural( $statuses[$key]->label_count, $num_posts->$key ), number_format_i18n( $num_posts->$key ) ) . '</a>';
+            }
+        }
+
+        return $links;
     }
 
     function get_edit_post_link( $url, $post_id, $context ) {

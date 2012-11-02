@@ -1,87 +1,5 @@
 <?php
 
-function cpm_url_projects() {
-    return sprintf( '%s?page=cpm_projects', admin_url( 'admin.php' ) );
-}
-
-function cpm_url_project_details( $project_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', admin_url( 'admin.php' ), $project_id );
-
-    return apply_filters( 'cpm_url_project_details', $url );
-}
-
-function cpm_url_new_tasklist( $project_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
-
-    return apply_filters( 'cpm_url_new_tasklislt', $url );
-}
-
-function cpm_url_single_tasklist( $project_id, $list_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=single&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
-
-    return apply_filters( 'cpm_url_single_tasklislt', $url );
-}
-
-function cpm_url_edit_tasklist( $project_id, $list_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=edit&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
-
-    return apply_filters( 'cpm_url_edit_tasklislt', $url );
-}
-
-function cpm_url_add_task( $project_id, $list_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_new&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
-
-    return apply_filters( 'cpm_url_add_task', $url );
-}
-
-function cpm_url_single_task( $project_id, $list_id, $task_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_single&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
-
-    return apply_filters( 'cpm_url_single_task', $url );
-}
-
-function cpm_url_edit_task( $project_id, $list_id, $task_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_edit&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
-
-    return apply_filters( 'cpm_url_edit_task', $url );
-}
-
-function cpm_url_single_message( $project_id, $message_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=message&action=single&pid=%d&mid=%d', admin_url( 'admin.php' ), $project_id, $message_id );
-
-    return apply_filters( 'cpm_url_single_message', $url );
-}
-
-function cpm_url_new_message( $project_id ) {
-    $url = sprintf( '%s?page=cpm_messages&tab=message&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
-
-    return apply_filters( 'cpm_url_new_message', $url );
-}
-
-function cpm_msg_edit_url( $message_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=message&action=edit&mid=%d', admin_url( 'admin.php' ), $message_id );
-
-    return apply_filters( 'cpm_msg_edit_url', $url );
-}
-
-function cpm_url_new_milestone( $project_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=new&pid=%d', admin_url( 'admin.php' ), $project_id );
-
-    return apply_filters( 'cpm_url_new_milestone', $url );
-}
-
-function cpm_url_single_milestone( $project_id, $milestone_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=single&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
-
-    return apply_filters( 'cpm_url_single_milestone', $url );
-}
-
-function cpm_url_edit_milestone( $project_id, $milestone_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=edit&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
-
-    return apply_filters( 'cpm_url_edit_milestone', $url );
-}
-
 function cpm_get_privacy( $value ) {
     return ($value == 0) ? __( 'Public', 'cpm' ) : __( 'Private', 'cpm' );
 }
@@ -247,7 +165,7 @@ function cpm_upload_field() {
         <div id="cpm-upload-filelist"></div>
         <a id="cpm-upload-pickfiles" class="button" href="#">Select files</a>
     </div>
-    <script type="text/javascript" src="<?php echo plugins_url( 'js/upload.js', __FILE__ ) ?>"></script>
+    <script type="text/javascript" src="<?php echo CPM_PLUGIN_URI . '/js/upload.js'; ?>"></script>
     <?php
 }
 
@@ -270,8 +188,10 @@ function cpm_show_comment( $comment ) {
     <?php
 }
 
-function cpm_get_currency() {
-    return '$';
+function cpm_get_currency( $amount = 0 ) {
+    $currency = '$';
+
+    return $currency . $amount;
 }
 
 function cpm_show_date( $date, $show_time = false ) {
@@ -412,25 +332,6 @@ function cpm_show_milestone( $milestone, $project_id ) {
         </ul>
     </div>
     <?php
-}
-
-/**
- * Check if the file is a image
- *
- * @param string $file url of the file to check
- * @param string $mime mime type of the file
- * @return bool
- */
-function cpm_is_file_image( $file, $mime ) {
-    $ext = preg_match( '/\.([^.]+)$/', $file, $matches ) ? strtolower( $matches[1] ) : false;
-
-    $image_exts = array('jpg', 'jpeg', 'gif', 'png');
-
-    if ( 'image/' == substr( $mime, 0, 6 ) || $ext && 'import' == $mime && in_array( $ext, $image_exts ) ) {
-        return true;
-    }
-
-    return false;
 }
 
 /**

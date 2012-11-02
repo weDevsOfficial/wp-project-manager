@@ -6,20 +6,14 @@
  * TODO: fix search and bulk actions
  * TODO: fix columns
  */
-require_once CPM_PLUGIN_PATH . '/admin/tables/messages.php';
+require_once CPM_PLUGIN_PATH . '/includes/list-table.php';
 
-global $current_screen, $wp_query;
-
-$post_type = 'message';
-$current_screen->post_type = $post_type;
-$post_type_object = get_post_type_object( $post_type );
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
+$post_type = 'message';
 $milestone_obj = CPM_Milestone::getInstance();
 $message_table = new CPM_Child_List_Table( $post_type, $project_id );
 $message_table->prepare_items();
-//var_dump( $current_screen );
-//var_dump( $wp_query );
 
 include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
@@ -89,7 +83,7 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
 <?php $message_table->views(); ?>
 <form id="posts-filter" action="" method="get">
-    <?php $message_table->search_box( $post_type_object->labels->search_items, 'post' ); ?>
+    <?php $message_table->search_box( get_post_type_object( $post_type )->labels->search_items, 'post' ); ?>
 
     <input type="hidden" name="post_status" class="post_status_page" value="<?php echo!empty( $_REQUEST['post_status'] ) ? esc_attr( $_REQUEST['post_status'] ) : 'all'; ?>" />
     <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />

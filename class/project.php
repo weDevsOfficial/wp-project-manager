@@ -14,12 +14,15 @@ class CPM_Project {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
-        add_filter( 'manage_toplevel_page_cpm_projects_columns', array($this, 'manage_project_columns') );
+        add_filter( 'cpm_project_columns', array($this, 'manage_project_columns') );
+        add_filter( 'cpm_project_table_views', array($this, 'table_views'), 10, 3 );
+        add_filter( 'manage_project_posts_custom_column', array($this, 'manage_edit_columns'), 11, 2 );
         add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
         add_filter( 'post_row_actions', array($this, 'post_row_actions'), 10, 2 );
 
         //create new project
         add_action( 'admin_init', array($this, 'submit_project'), 99 );
+        add_action( 'load-toplevel_page_cpm_projects', array($this, 'set_screen_options') );
 
         //notify users
         add_action( 'cpm_new_project', array($this, 'notify_users') );
@@ -75,10 +78,12 @@ class CPM_Project {
     }
 
     function post_row_actions( $actions, $post ) {
-        //var_dump( $actions, $post );
 
         if ( $post->post_type == 'project' ) {
-            $actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, 'project' ) . '" title="' . esc_attr( __( 'Edit this project' ) ) . '">' . __( 'Edit' ) . '</a>';
+            unset( $actions['inline hide-if-no-js'] );
+
+            $actions['edit'] = '<a href="' . cpm_url_project_edit( $post->ID ) . '" title="' . esc_attr( __( 'Edit this project', 'cpm' ) ) . '">' . __( 'Edit', 'cpm' ) . '</a>';
+            $actions['view'] = '<a href="' . cpm_url_project_details( $post->ID ) . '" title="' . esc_attr( __( 'Edit this project', 'cpm' ) ) . '">' . __( 'View Project', 'cpm' ) . '</a>';
         }
 
         return $actions;
@@ -98,25 +103,66 @@ class CPM_Project {
         return $columns;
     }
 
+    function table_views( $links, $num_posts, $statuses ) {
+        $class = (!isset( $_REQUEST['post_status'] )) ? ' class="current"' : '';
+        $base_url = cpm_url_projects();
+
+        foreach ($links as $key => $link) {
+            if ( $key == 'all' ) {
+                $links['all'] = "<a href='$base_url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $num_posts->total, 'posts' ), number_format_i18n( $num_posts->total ) ) . '</a>';
+            } else {
+                if ( isset( $_REQUEST['post_status'] ) && $key == $_REQUEST['post_status'] ) {
+                    $class = ' class="current"';
+                } else {
+                    $class = '';
+                }
+                
+                $links[$key] = "<a href='$base_url&amp;post_status=$key'$class>" . sprintf( translate_nooped_plural( $statuses[$key]->label_count, $num_posts->$key ), number_format_i18n( $num_posts->$key ) ) . '</a>';
+            }
+        }
+
+        return $links;
+    }
+
     function manage_edit_columns( $column_name, $post_id ) {
 
         $custom_fields = get_post_custom( $post_id );
 
-        $client = isset( $custom_fields['client'] ) ? $custom_fields['client'][0] : __( 'None', 'cpm' );
-        $status = isset( $custom_fields['status'] ) ? $custom_fields['status'][0] : __( 'None', 'cpm' );
+        $client = isset( $custom_fields['_client'] ) ? $custom_fields['_client'][0] : __( 'None', 'cpm' );
+        $status = isset( $custom_fields['_status'] ) ? $custom_fields['_status'][0] : __( 'None', 'cpm' );
+        $starts = isset( $custom_fields['_started'] ) ? $custom_fields['_started'][0] : __( 'None', 'cpm' );
+        $ends = isset( $custom_fields['_ends'] ) ? $custom_fields['_ends'][0] : __( 'None', 'cpm' );
+        $billing = isset( $custom_fields['_budget'] ) ? $custom_fields['_budget'][0] : __( 'None', 'cpm' );
 
         switch ($column_name) {
             case 'client' :
-                echo $client;
-                get_edit_post_link();
+                $user = get_user_by( 'id', $client );
+                $link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user->ID" ) );
+                printf( '<a href="%s">%s</a>', $link, $user->display_name );
                 break;
 
             case 'status' :
                 echo $status;
                 break;
 
-            default:
+            case 'starts':
+                echo cpm_show_date( $starts );
+                break;
+
+            case 'ends':
+                echo cpm_show_date( $ends );
+                break;
+
+            case 'billing':
+                echo cpm_get_currency( $billing );
+                break;
         }
+    }
+
+    function set_screen_options() {
+        $screen = get_current_screen();
+
+        $screen->post_type = 'project';
     }
 
     /**

@@ -101,7 +101,8 @@ class WeDevs_CPM {
     }
 
     function admin_includes() {
-        require_once CPM_PLUGIN_PATH . '/helpers.php';
+        require_once CPM_PLUGIN_PATH . '/includes/functions.php';
+        require_once CPM_PLUGIN_PATH . '/includes/urls.php';
         require_once CPM_PLUGIN_PATH . '/class/ajax.php';
     }
 
@@ -119,8 +120,8 @@ class WeDevs_CPM {
 
     function admin_page_handler() {
 
-        if ( !class_exists( 'WP_List_Table' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+        if ( !class_exists( 'WP_Posts_List_Table' ) ) {
+            require_once ABSPATH . '/wp-admin/includes/class-wp-posts-list-table.php';
         }
 
         echo '<div class="wrap">';
