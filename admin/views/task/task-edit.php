@@ -66,6 +66,10 @@ $lists = $task_obj->get_task_lists( $project_id );
                 <td><input type="text" autocomplete="off" class="datepicker" name="task_due" value="<?php echo esc_attr( date_i18n( 'm/d/Y', strtotime( $task->due_date ) ) ); ?>" /></td>
             </tr>
             <tr class="form-field">
+                <th scope="row"><label for="attachments">Attachments</label></th>
+                <td><?php cpm_upload_field(); ?></td>
+            </tr>
+            <tr class="form-field">
                 <th scope="row"><label for="task_assign">Assigned To</label></th>
                 <td><?php wp_dropdown_users( array('name' => 'task_assign', 'show_option_none' => __( '-- None --', 'cpm' ), 'selected' => $task->assigned_to) ); ?></td>
             </tr>
