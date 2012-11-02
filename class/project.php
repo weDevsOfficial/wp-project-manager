@@ -9,7 +9,7 @@ class CPM_Project {
 
     private static $_instance;
     private $custom_fields = array(
-        'started', 'ends', 'client', 'budget', 'coworker', 'manager'
+        'started', 'ends', 'client', 'budget', 'coworker', 'manager', 'status'
     );
 
     public function __construct() {
@@ -116,7 +116,7 @@ class CPM_Project {
                 } else {
                     $class = '';
                 }
-                
+
                 $links[$key] = "<a href='$base_url&amp;post_status=$key'$class>" . sprintf( translate_nooped_plural( $statuses[$key]->label_count, $num_posts->$key ), number_format_i18n( $num_posts->$key ) ) . '</a>';
             }
         }
@@ -186,7 +186,8 @@ class CPM_Project {
                     'client' => (int) $posted['project_client'],
                     'budget' => (float) $posted['project_budget'],
                     'manager' => (int) $posted['project_manager'],
-                    'coworker' => $posted['project_coworker']
+                    'coworker' => $posted['project_coworker'],
+                    'status' => $posted['project_status']
                 );
 
                 $project_id = $this->create( $data );

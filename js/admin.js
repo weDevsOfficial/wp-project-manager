@@ -398,7 +398,7 @@
             min: 0,
             max: 100,
             slide: function (event, ui) {
-                $("#project-status").val(ui.value);
+                $("input#project-status").attr('value', ui.value);
                 $("#project-status-text").text(ui.value + ' %');
             }
         });
