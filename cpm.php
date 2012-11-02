@@ -37,12 +37,7 @@ spl_autoload_register( 'cpm_autoload' );
  */
 class WeDevs_CPM {
 
-    private $_db;
-
     function __construct() {
-        global $wpdb;
-
-        $this->_db = $wpdb;
 
         $this->constants();
         $this->instantiate();
@@ -62,16 +57,6 @@ class WeDevs_CPM {
     }
 
     function constants() {
-        define( 'CPM_PROJECT_TABLE', $this->_db->prefix . 'cpm_projects' );
-        define( 'CPM_MESSAGE_TABLE', $this->_db->prefix . 'cpm_messages' );
-        define( 'CPM_COMMENT_TABLE', $this->_db->prefix . 'cpm_comments' );
-        define( 'CPM_TASK_LIST_TABLE', $this->_db->prefix . 'cpm_task_list' );
-        define( 'CPM_TASKS_TABLE', $this->_db->prefix . 'cpm_tasks' );
-        define( 'CPM_FILES_TABLE', $this->_db->prefix . 'cpm_files' );
-        define( 'CPM_INVOICE_TABLE', $this->_db->prefix . 'cpm_invoice' );
-        define( 'CPM_INVOICE_ITEM_TABLE', $this->_db->prefix . 'cpm_invoice_item' );
-        define( 'CPM_MILESTONE_TABLE', $this->_db->prefix . 'cpm_milestone' );
-
         define( 'CPM_PLUGIN_PATH', dirname( __FILE__ ) );
         define( 'CPM_PLUGIN_URI', plugins_url( '', __FILE__ ) );
     }
@@ -268,6 +253,10 @@ class WeDevs_CPM {
 
                         break;
 
+                    case 'files':
+                        include_once dirname( __FILE__ ) . '/admin/views/files/index.php';
+                        break;
+
 
                     default:
                         include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
@@ -283,10 +272,3 @@ class WeDevs_CPM {
 }
 
 $cpm = new WeDevs_CPM();
-
-//test function
-function cpm_init() {
-
-}
-
-add_action( 'init', 'cpm_init' );
