@@ -1,6 +1,5 @@
 <?php
-$msg_obj = new CPM_Message();
-$pro_obj = new CPM_Project();
+$msg_obj = CPM_Message::getInstance();
 
 $message = $msg_obj->get( $message_id );
 if ( !$message ) {
@@ -8,10 +7,7 @@ if ( !$message ) {
     return;
 }
 
-$project = $pro_obj->get( $project_id );
-$cpm_active_menu = __( 'Messages', 'cpm' );
-
-require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 ?>
 
 <h3 class="cpm-nav-title"><?php _e( 'Messages', 'cpm' ); ?></h3>
@@ -48,12 +44,14 @@ if ( $comments ) {
 
     <ul class="cpm-comment-wrap">
 
-    <?php foreach ($comments as $comment) {
-        $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
-        cpm_show_comment( $comment, $class );
+        <?php
+        foreach ($comments as $comment) {
+            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+            cpm_show_comment( $comment, $class );
 
-        $count++;
-    } ?>
+            $count++;
+        }
+        ?>
 
     </ul>
     <?php

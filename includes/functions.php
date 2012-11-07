@@ -400,3 +400,9 @@ function cpm_print_content( $content ) {
 
     return $content;
 }
+
+function cpm_get_header( $active_menu, $project_id = 0 ) {
+    $cpm_active_menu = $active_menu;
+
+    require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+}
