@@ -117,7 +117,7 @@ class CPM_Ajax {
             'gateway' => $post['gateway'],
             'note' => $post['invoice-notes'],
             'terms' => $post['invoice-terms'],
-            'due_date' => wedevs_date2mysql( $post['due_date'] ),
+            'due_date' => cpm_date2mysql( $post['due_date'] ),
             'tax' => $post['invoice-tax'],
             'discount' => $post['invoice-discount'],
             'subtotal' => $post['invoice-subtotal'],
@@ -169,7 +169,7 @@ class CPM_Ajax {
             'title' => $post['invoice_title'],
             'project_id' => $project_id,
             'gateway' => $post['gateway'],
-            'due_date' => wedevs_date2mysql( $post['due_date'] ),
+            'due_date' => cpm_date2mysql( $post['due_date'] ),
             'taxable' => $post['taxable'],
             'total' => $post['grand_total']
         );
@@ -301,6 +301,7 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_message' );
 
         $posted = $_POST;
+        $files = array();
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
 
         if ( isset( $posted['cpm_attachment'] ) ) {
@@ -308,7 +309,7 @@ class CPM_Ajax {
         }
 
         $message_obj = CPM_Message::getInstance();
-        $message_id = $message_obj->create( $project_id, $posted['cpm_attachment'] );
+        $message_id = $message_obj->create( $project_id, $files );
 
         if ( $message_id ) {
             echo cpm_url_single_message( $project_id, $message_id );

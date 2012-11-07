@@ -237,6 +237,7 @@ class CPM_Comment {
         $attachments = get_posts( $args );
 
         foreach ($attachments as $attachment) {
+
             $att_list[$attachment->ID] = array(
                 'id' => $attachment->ID,
                 'name' => $attachment->post_title,
@@ -248,7 +249,7 @@ class CPM_Comment {
                 $thumb = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
                 $att_list[$attachment->ID]['thumb'] = $thumb[0];
             } else {
-                $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $file->post_mime_type );
+                $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $attachment->post_mime_type );
             }
         }
 

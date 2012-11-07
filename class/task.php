@@ -101,7 +101,7 @@ class CPM_Task {
 
         if ( $list_id ) {
             update_post_meta( $list_id, '_milestone', $postdata['tasklist_milestone'] );
-            update_post_meta( $list_id, '_due', wedevs_date2mysql( $postdata['tasklist_due'] ) );
+            update_post_meta( $list_id, '_due', cpm_date2mysql( $postdata['tasklist_due'] ) );
             update_post_meta( $list_id, '_privacy', $postdata['tasklist_privacy'] );
             update_post_meta( $list_id, '_priority', $postdata['tasklist_priority'] );
 
@@ -130,13 +130,13 @@ class CPM_Task {
             //posted when task list creation
             $content = $postdata['task_text'];
             $assigned = $postdata['task_assign'];
-            $due = wedevs_date2mysql( $postdata['task_due'] );
+            $due = cpm_date2mysql( $postdata['task_due'] );
             $key = 0; //for menu order
         } else {
             //posted for a single task creation
             $content = $postdata['task_text'][$key];
             $assigned = $postdata['task_assign'][$key];
-            $due = wedevs_date2mysql( $postdata['task_due'][$key] );
+            $due = cpm_date2mysql( $postdata['task_due'][$key] );
         }
 
         $data = array(

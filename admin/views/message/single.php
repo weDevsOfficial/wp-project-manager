@@ -18,7 +18,7 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
 <h3><?php echo get_the_title( $message_id ); ?></h3>
 
-Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_author_name( $message->post_author ); ?> | Comment: <?php echo $message->comment_count; ?>
+Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?> | Comment: <?php echo $message->comment_count; ?>
 | Privacy: <?php echo cpm_get_privacy( $message->comment_count ); ?> |
 <a href="<?php echo cpm_msg_edit_url( $message_id ) ?>"><?php _e( 'Edit', 'cpm' ) ?></a>
 

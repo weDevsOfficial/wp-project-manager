@@ -181,8 +181,8 @@ class CPM_Project {
                 $data = array(
                     'name' => $posted['project_name'],
                     'description' => $posted['project_description'],
-                    'started' => wedevs_date2mysql( $posted['project_started'] ),
-                    'ends' => wedevs_date2mysql( $posted['project_ends'] ),
+                    'started' => cpm_date2mysql( $posted['project_started'] ),
+                    'ends' => cpm_date2mysql( $posted['project_ends'] ),
                     'client' => (int) $posted['project_client'],
                     'budget' => (float) $posted['project_budget'],
                     'manager' => (int) $posted['project_manager'],
@@ -346,7 +346,7 @@ class CPM_Project {
                 $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
                 $subject = sprintf( __( 'New Project invitation on %s', 'cpm' ), $site_name );
                 $body = sprintf( __( 'You are assigned in a new project "%s" on %s', 'cpm' ), trim( $_POST['project_name'] ), $site_name ) . "\r\n";
-                $body .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_project_details_url( $project_id ) ) . "\r\n";
+                        $body .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
 
                 $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
                 $from = "From: \"$blogname\" <$wp_email>";

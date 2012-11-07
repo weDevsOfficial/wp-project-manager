@@ -362,7 +362,8 @@
 
                 that.append('<div class="cpm-loading">Saving...</div>');
                 $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    window.location.href = response;
+//                    window.location.href = response;
+                    console.log(response);
                     $('.cpm-loading').remove();
                 });
             },

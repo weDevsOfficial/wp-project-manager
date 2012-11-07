@@ -63,7 +63,7 @@ extract( $fields );
         <div class="cpm-form-item">
             <label for="project_coworker">Co-worker</label>
             <div class="cpm-form-input">
-                <?php wedevs_dropdown_users( array('id' => 'project_coworker', 'name' => 'project_coworker[]', 'multiple' => true) ); ?>
+                <?php cpm_dropdown_users( array('id' => 'project_coworker', 'name' => 'project_coworker[]', 'multiple' => true) ); ?>
             </div>
         </div>
         <div class="cpm-form-item">

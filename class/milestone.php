@@ -68,7 +68,7 @@ class CPM_Milestone {
         if ( $milestone_id ) {
             update_post_meta( $milestone_id, '_privacy', $posted['milestone_privacy'] );
             update_post_meta( $milestone_id, '_assigned', $posted['milestone_assign'] );
-            update_post_meta( $milestone_id, '_due', wedevs_date2mysql( $posted['milestone_due'] ) );
+            update_post_meta( $milestone_id, '_due', cpm_date2mysql( $posted['milestone_due'] ) );
         }
 
         return $milestone_id;

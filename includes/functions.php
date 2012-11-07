@@ -4,7 +4,7 @@ function cpm_get_privacy( $value ) {
     return ($value == 0) ? __( 'Public', 'cpm' ) : __( 'Private', 'cpm' );
 }
 
-function wedevs_dropdown_users( $args = '' ) {
+function cpm_dropdown_users( $args = '' ) {
     $defaults = array(
         'show_option_all' => '', 'show_option_none' => '', 'hide_if_only_one_author' => '',
         'orderby' => 'display_name', 'order' => 'ASC',
@@ -76,7 +76,7 @@ function wedevs_dropdown_users( $args = '' ) {
     return $output;
 }
 
-function wedevs_date2mysql( $date, $gmt = 0 ) {
+function cpm_date2mysql( $date, $gmt = 0 ) {
     $time = strtotime( $date );
     return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', ( $time + ( get_option( 'gmt_offset' ) * 3600 ) ) );
 }
