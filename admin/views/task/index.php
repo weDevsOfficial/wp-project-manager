@@ -74,4 +74,6 @@ if ( $lists ) {
         </div>
         <?php
     }
+} else {
+    printf( '<h3>%s</h3>', __( 'No tasklist found', 'cpm' ) );
 }

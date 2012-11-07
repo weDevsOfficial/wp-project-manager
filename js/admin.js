@@ -182,7 +182,6 @@
                     };
 
                 //console.log(data);
-                console.log(that, parent);
                 $.post(CPM_Vars.ajaxurl, data, function(response) {
                     if(parent.find('form').length === 0 ) {
 

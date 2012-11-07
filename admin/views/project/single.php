@@ -36,34 +36,23 @@ $cpm_active_menu = __( 'Details', 'cpm' );
         <tr>
             <th><label><?php _e( 'Client', 'cpm' ) ?></label></th>
             <td>
-                <?php
-                $client = get_user_by( 'id', $project_detail->post_author );
-                echo $client->display_name;
-                ?>
+                <?php echo cpm_url_user( $project_detail->post_author ); ?>
             </td>
         </tr>
         <tr>
             <th><label><?php _e( 'Budget', 'cpm' ) ?></label></th>
-            <td><?php echo $project_detail->budget; ?></td>
+            <td><?php echo cpm_get_currency( $project_detail->budget ); ?></td>
         </tr>
         <tr>
             <th><label><?php _e( 'Start Date', 'cpm' ) ?></label></th>
             <td>
-                <?php
-                $date = mysql2date( get_option( 'date_format' ), $project_detail->started );
-                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->started ) );
-                printf( '<abbr title="%s">%s</abbr>', $abbr, $date );
-                ?>
+                <?php echo cpm_get_date( $project_detail->started ); ?>
             </td>
         </tr>
         <tr>
             <th><label><?php _e( 'End Goal', 'cpm' ) ?></label></th>
             <td>
-                <?php
-                $date = mysql2date( get_option( 'date_format' ), $project_detail->ends );
-                $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $project_detail->ends ) );
-                printf( '<abbr title="%s">%s</abbr>', $abbr, $date );
-                ?>
+                <?php echo cpm_get_date( $project_detail->ends ); ?>
             </td>
         </tr>
         <tr>
@@ -79,11 +68,11 @@ $cpm_active_menu = __( 'Details', 'cpm' );
 
 <h3><?php _e( 'Description', 'cpm' ) ?></h3>
 <div class="description">
-    <?php echo stripslashes( $project_detail->post_content ); ?>
+    <?php echo cpm_print_content( $project_detail->post_content ); ?>
 </div>
 
-<h3>Milestones</h3>
+<h3><?php _e( 'Milestones', 'cpm' ); ?></h3>
 <p>Upcoming and late milistones</p>
 
-<h3>Recent Activities</h3>
+<h3><?php _e( 'Recent Activities', 'cpm' ); ?></h3>
 <p>Events for my projects</p>
