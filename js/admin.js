@@ -19,7 +19,7 @@
 
             $('.cpm-comment-wrap').on('click', '.cpm-edit-comment-link', this.Comment.get);
             $('.cpm-comment-wrap').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
-            $('.cpm-comment').on('submit', '.cpm-comment-edit', this.Comment.update);
+            $('.cpm-comment-wrap').on('submit', '.cpm-comment-edit', this.Comment.update);
 
             // add new comment
             $('.cpm-comment-form').validate({
@@ -136,134 +136,6 @@
                 });
             }
         },
-        Invoice: {
-            fieldAdd: function () {
-                var row = $('#cpm-form-invoice-tmpl').html();
-                var tpl = _.template($('#cpm-form-invoice-tmpl').html()),
-                type = 'item';
-
-                if($(this).parents('table').hasClass('hourly')) {
-                    console.log('hourly');
-                    type = 'hour';
-                } else {
-                    console.log('normal');
-                }
-
-                $(tpl({
-                    type:type
-                })).insertAfter($(this).parent().parent());
-
-                return false;
-            },
-            fieldRemove: function () {
-                var that = $(this),
-                count = that.parent().parent().parent().find('tr');
-
-                if(count.length > 1) {
-                    that.parent().parent().remove();
-                    weDevs_CPM.Invoice.calculateTotal();
-                }
-
-                return false;
-            },
-            toggleDescripton: function (){
-                $(this).next('.entry-details').slideToggle('fast');
-
-                return false;
-            },
-            changeQty: function () {
-                weDevs_CPM.Invoice.calculateRow.call(this);
-            },
-            changePrice: function() {
-                weDevs_CPM.Invoice.calculateRow.call(this);
-            },
-            changeTax: function() {
-                weDevs_CPM.Invoice.calculateRow.call(this);
-            },
-            calculateRow: function () {
-                var that = $(this).parent(),
-                parent = that.parent(),
-                qty = parseInt(parent.find('.qty').val()),
-                tax = parseInt(parent.find('.tax').val()),
-                amount = parseFloat(parent.find('.price').val()),
-                total = qty*amount;
-
-                total = isNaN(total) ? 0 : total;
-                tax = isNaN(tax) ? 0 : (tax * total)/100;
-
-                parent.find('.total').text(total.toFixed(2));
-                parent.find('.entry-total').val(total.toFixed(2));
-                parent.find('.entry-tax').val(tax.toFixed(2));
-
-                weDevs_CPM.Invoice.calculateTotal();
-            },
-            calculateTotal: function () {
-                var sub_total = 0,
-                invoice_total = 0,
-                total_tax = 0,
-                totals_table = $('table.cpm-invoice-totals');
-                discount = parseFloat($('#discount').val()),
-                paid = parseFloat($('.total-paid').text()),
-
-                //loop thorough the table row and calculate
-                $('.cpm-invoice-items tr').each(function(){
-                    var that = $(this),
-                    row_total = 0,
-                    row_tax = 0;
-
-                    //console.log(that);
-
-                    row_total = parseFloat(that.find('input.entry-total').val());
-                    row_tax = parseFloat(that.find('input.entry-tax').val());
-
-                    sub_total += isNaN(row_total) ? 0 : row_total;
-                    total_tax += isNaN(row_tax) ? 0 : row_tax;
-                });
-
-                //Now update the values
-                discount = isNaN(discount) ? 0 : discount;
-                paid = isNaN(paid) ? 0 : paid;
-                invoice_total = sub_total + total_tax - discount;
-                total = invoice_total - paid;
-
-                //update subtotal
-                totals_table.find('span.subtotal').text(sub_total.toFixed(2));
-                totals_table.find('input.subtotal').val(sub_total.toFixed(2));
-
-                //update discount
-                totals_table.find('span.discount').text('0.00');
-                totals_table.find('input.invoice-discount').val('0.00');
-
-                //update tax
-                totals_table.find('span.tax').text(total_tax.toFixed(2));
-                totals_table.find('input.tax').val(total_tax.toFixed(2));
-
-                //update discount
-                totals_table.find('span.invoice-discount').text(discount.toFixed(2));
-                totals_table.find('input.invoice-discount').val(discount.toFixed(2));
-
-                //update invoice total
-                totals_table.find('span.invoice-total').text(invoice_total.toFixed(2));
-                totals_table.find('input.invoice-total').val(invoice_total.toFixed(2));
-
-                //update grand total
-                totals_table.find('span.invoice-balance').text(total.toFixed(2));
-                totals_table.find('input.invoice-balance').val(total.toFixed(2));
-            },
-            submit: function () {
-                var that = $(this),
-                data = that.serialize();
-
-                that.append('<div class="cpm-loading">Saving...</div>');
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    $('#ajax-response').html(response);
-                    window.location.href = response;
-                    $('.cpm-loading').remove();
-                });
-
-                return false;
-            }
-        },
         Uploader: {
             init: function() {
 
@@ -302,21 +174,23 @@
                 e.preventDefault();
 
                 var that = $(this),
-                data = {
-                    id: that.data('id'),
-                    action: 'cpm_get_comment',
-                    '_wpnonce': CPM_Vars.nonce
-                };
+                    parent = that.closest('.cpm-comment'),
+                    data = {
+                        id: that.data('id'),
+                        action: 'cpm_get_comment',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
 
                 //console.log(data);
+                console.log(that, parent);
                 $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    if(that.parent().parent().find('form').length == 0 ) {
+                    if(parent.find('form').length === 0 ) {
 
                         var tpl = _.template($('#cpm-comment-edit').html()),
 
                         html = tpl($.parseJSON(response));
-                        that.parent().parent().append(html);
-                        that.parent().parent().find('.cpm-comment-container').hide();
+                        parent.find('.cpm-comment-container').append(html);
+                        parent.find('.cpm-comment-content').hide();
                     }
 
                 //console.log(html);
@@ -327,13 +201,13 @@
                 e.preventDefault();
                 var that = $(this);
 
-                that.parents('.cpm-comment').find('.cpm-comment-container').show();
+                that.parents('.cpm-comment').find('.cpm-comment-content').show();
                 that.closest('form.cpm-comment-edit').remove();
             },
             update: function () {
                 var that = $(this),
                 data = that.serialize(),
-                text = $.trim(that.find('textarea').val())
+                text = $.trim(that.find('textarea').val());
 
                 if( text.length < 1 ) {
                     alert('Please enter some text');
@@ -342,8 +216,8 @@
 
                 $.post(CPM_Vars.ajaxurl, data, function(response) {
                     var json = $.parseJSON(response);
-                    that.parent().find('.cpm-comment-content').text(json.comment_content);
-                    that.parent().find('.cpm-comment-container').show();
+                    that.parent().find('.cpm-comment-content').html(json.comment_content);
+                    that.parent().find('.cpm-comment-content').show();
                     that.remove();
                 });
 
@@ -362,8 +236,7 @@
 
                 that.append('<div class="cpm-loading">Saving...</div>');
                 $.post(CPM_Vars.ajaxurl, data, function(response) {
-//                    window.location.href = response;
-                    console.log(response);
+                    window.location.href = response;
                     $('.cpm-loading').remove();
                 });
             },

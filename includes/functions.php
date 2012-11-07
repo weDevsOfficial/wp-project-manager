@@ -169,22 +169,26 @@ function cpm_upload_field() {
     <?php
 }
 
-function cpm_show_comment( $comment ) {
+function cpm_show_comment( $comment, $class = '' ) {
+    $class = empty( $class ) ? '' : ' ' . $class;
     ?>
-    <div class="cpm-comment">
-        <div class="cpm-comment-meta">
-            <span class="author">author: <?php echo $comment->comment_author; ?></span> |
-            <span class="date">posted: <?php echo cpm_show_date( $comment->comment_date, true ); ?></span> |
-            <a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->comment_ID; ?>">Edit</a>
-        </div>
+    <li class="cpm-comment<?php echo $class; ?>">
+        <div class="cpm-avatar"><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
         <div class="cpm-comment-container">
-            <div class="cpm-comment-content">
-                <?php echo $comment->comment_content; ?>
+            <div class="cpm-comment-meta">
+                <span class="cpm-author"><?php echo cpm_url_user( $comment->user_id ); ?></span>
+                <span class="cpm-separator">|</span>
+                <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
+                <span class="cpm-separator">|</span>
+                <span class="cpm-edit-link"><a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->comment_ID; ?>"><?php _e( 'Edit', 'cpm' ); ?></a></span>
             </div>
+            <div class="cpm-comment-content">
+                <?php echo cpm_print_content( $comment->comment_content ); ?>
 
-            <?php cpm_show_attachments( $comment ); ?>
+                <?php cpm_show_attachments( $comment ); ?>
+            </div>
         </div>
-    </div>
+    </li>
     <?php
 }
 
@@ -194,15 +198,19 @@ function cpm_get_currency( $amount = 0 ) {
     return $currency . $amount;
 }
 
-function cpm_show_date( $date, $show_time = false ) {
-    if ( $show_time ) {
-        $full = mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $date );
-    } else {
-        $full = mysql2date( get_option( 'date_format' ), $date );
-    }
-    $abbr = date_i18n( 'Y/m/d g:i:s A', strtotime( $date ) );
+function cpm_get_date( $date, $show_time = false ) {
+    $date = strtotime( $date );
+    $abbr = date_i18n( 'Y/m/d g:i:s A', $date );
 
-    return sprintf( '<abbr title="%s">%s</abbr>', $abbr, $full );
+    if ( $show_time ) {
+        $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+    } else {
+        $format = get_option( 'date_format' );
+    }
+
+    $date_html = sprintf( '<abbr title="%s">%s</abbr>', $abbr, date_i18n( $format, $date ) );
+
+    return apply_filters( 'cpm_get_date', $date_html, $date );
 }
 
 function cpm_show_errors( $errors ) {
@@ -274,7 +282,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                 (<?php echo human_time_diff( time(), $due ) . ' ' . $string; ?>)
             <?php } ?>
         </h3>
-        <p>Due Date: <?php echo cpm_show_date( $milestone->due_date ); ?></p>
+        <p>Due Date: <?php echo cpm_get_date( $milestone->due_date ); ?></p>
         <p><?php echo stripslashes( $milestone->post_content ); ?></p>
 
         <?php
@@ -310,7 +318,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                 <?php foreach ($messages as $message) { ?>
                     <li>
                         <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
-                        (<?php echo cpm_show_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
+                        (<?php echo cpm_get_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
                     </li>
                 <?php } ?>
             </ul>
@@ -318,7 +326,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
         <?php } ?>
 
         <?php if ( $milestone_completed ) { ?>
-            Completed on: <?php echo cpm_show_date( $milestone->completed_on, true ); ?>
+            Completed on: <?php echo cpm_get_date( $milestone->completed_on, true ); ?>
         <?php } ?>
 
         <ul class="cpm-links">
@@ -367,8 +375,7 @@ add_filter( 'wp_mail', 'wedevs_mail_log', 10 );
 function cpm_show_attachments( $object ) {
     if ( $object->files ) {
         ?>
-        <h3>Attachments:</h3>
-        <ul>
+        <ul class="cpm-attachments">
             <?php
             foreach ($object->files as $file) {
                 printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
@@ -377,4 +384,19 @@ function cpm_show_attachments( $object ) {
         </ul>
         <?php
     }
+}
+
+function cpm_get_number( $number ) {
+    return number_format_i18n( $number );
+}
+
+function cpm_print_url( $link, $text ) {
+    return sprintf( '<a href="%s">%s</a>', $link, $text );
+}
+
+function cpm_print_content( $content ) {
+    $content = apply_filters('the_content', $content);
+    $content = str_replace(']]>', ']]&gt;', $content);
+
+    return $content;
 }

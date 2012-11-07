@@ -46,7 +46,7 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
 
     <div class="cpm-clear"></div>
 
-    <p>Due date: <?php echo cpm_show_date( $list->due_date ); ?></p>
+    <p>Due date: <?php echo cpm_get_date( $list->due_date ); ?></p>
     <p><?php echo stripslashes( $list->post_content ); ?></p>
 
     <ul class="links">

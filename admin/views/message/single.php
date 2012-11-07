@@ -14,29 +14,52 @@ $cpm_active_menu = __( 'Messages', 'cpm' );
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
 
-<h3 class="cpm-nav-title">Messages</h3>
+<h3 class="cpm-nav-title"><?php _e( 'Messages', 'cpm' ); ?></h3>
 
-<h3><?php echo get_the_title( $message_id ); ?></h3>
+<div class="cpm-msg-single">
 
-Date: <?php echo $message->post_date; ?> | Created By: <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?> | Comment: <?php echo $message->comment_count; ?>
-| Privacy: <?php echo cpm_get_privacy( $message->comment_count ); ?> |
-<a href="<?php echo cpm_msg_edit_url( $message_id ) ?>"><?php _e( 'Edit', 'cpm' ) ?></a>
+    <h3 class="cpm-msg-title"><?php echo get_the_title( $message_id ); ?></h3>
 
-<p><strong><?php _e( 'Details', 'cpm' ) ?></strong></p>
-<p><?php echo $message->post_content; ?></p>
+    <div class="cpm-entry-meta">
+        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date ); ?></span>
+        <span class="cpm-separator">|</span>
+        <span class="cpm-date"><?php echo cpm_url_user( $message->post_author ); ?></span>
+        <span class="cpm-separator">|</span>
+        <span class="cpm-comment-num"><?php echo cpm_get_number( $message->comment_count ); ?></span>
+        <span class="cpm-separator">|</span>
+        <span class="cpm-edit-link"><?php echo cpm_print_url( cpm_msg_edit_url( $message_id ), __( 'Edit', 'cpm' ) ); ?></span>
+    </div>
 
-<?php cpm_show_attachments( $message ); ?>
+    <div class="cpm-entry-detail">
+        <?php echo cpm_print_content( $message->post_content ); ?>
+    </div>
 
-<div class="cpm-comment-wrap">
-    <?php
-    $comments = $msg_obj->get_comments( $message_id );
-    if ( $comments ) {
-        foreach ($comments as $comment) {
-            cpm_show_comment( $comment );
-        }
-    }
+    <?php cpm_show_attachments( $message ); ?>
+</div>
+
+<?php
+$comments = $msg_obj->get_comments( $message_id );
+
+if ( $comments ) {
+    $count = 0;
     ?>
 
-</div>
+    <h3><?php printf( _n( 'One Comment', '%s Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
+
+    <ul class="cpm-comment-wrap">
+
+    <?php foreach ($comments as $comment) {
+        $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+        cpm_show_comment( $comment, $class );
+
+        $count++;
+    } ?>
+
+    </ul>
+    <?php
+} else {
+    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+}
+?>
 
 <?php cpm_comment_form( $project_id, $message_id ); ?>

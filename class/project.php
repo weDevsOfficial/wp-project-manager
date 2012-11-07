@@ -136,9 +136,7 @@ class CPM_Project {
 
         switch ($column_name) {
             case 'client' :
-                $user = get_user_by( 'id', $client );
-                $link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user->ID" ) );
-                printf( '<a href="%s">%s</a>', $link, $user->display_name );
+                echo cpm_url_user( $client );
                 break;
 
             case 'status' :
@@ -146,11 +144,11 @@ class CPM_Project {
                 break;
 
             case 'starts':
-                echo cpm_show_date( $starts );
+                echo cpm_get_date( $starts );
                 break;
 
             case 'ends':
-                echo cpm_show_date( $ends );
+                echo cpm_get_date( $ends );
                 break;
 
             case 'billing':
@@ -346,7 +344,7 @@ class CPM_Project {
                 $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
                 $subject = sprintf( __( 'New Project invitation on %s', 'cpm' ), $site_name );
                 $body = sprintf( __( 'You are assigned in a new project "%s" on %s', 'cpm' ), trim( $_POST['project_name'] ), $site_name ) . "\r\n";
-                        $body .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
+                $body .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
 
                 $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
                 $from = "From: \"$blogname\" <$wp_email>";

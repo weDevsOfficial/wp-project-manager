@@ -124,7 +124,7 @@ class WeDevs_CPM {
             require_once ABSPATH . '/wp-admin/includes/class-wp-posts-list-table.php';
         }
 
-        echo '<div class="wrap">';
+        echo '<div class="wrap cpm">';
 
         $page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
         $tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';

@@ -1,77 +1,169 @@
-@import "../../../../theme-framework/assets/css/mixins.less";
+@import "mixins.less";
 
+
+/*--------------------------------------------------
+:: Variables
+-------------------------------------------------- */
+@backgroundColor: #f9f9f9;
+@borderColor: #dfdfdf;
+
+.cpm a {
+    text-decoration: none;
+}
+
+.cpm-left {
+    float: left;
+}
+
+.cpm-right {
+    float: right;
+}
+
+.cpm-clear {
+    clear: both;
+}
+
+span.required {
+    color: #cd0a0a;
+}
+
+.cpm-loading:after {
+    background: url('../images/loading.gif') no-repeat;
+    height: 16px;
+    width: 16px;
+    margin: 0 0 0 10px;
+    display: inline-block;
+    content: "";
+    position: absolute;
+}
+
+/*--------------------------------------------------
+:: Table
+-------------------------------------------------- */
 .cpm-table {
-  width: 100%;
-  margin-bottom: 18px;
-  max-width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+    width: 100%;
+    margin-bottom: 18px;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
 
-  // Cells
-  th,
-  td {
-    padding: 5px;
-    line-height: 18px;
-    text-align: left;
-    border-top: 1px solid #ddd;
-  }
-  th {
-    font-weight: bold;
-    vertical-align: bottom;
-  }
-  td {
-    vertical-align: top;
-  }
-  thead:first-child tr th,
-  thead:first-child tr td {
-    border-top: 0;
-  }
-  tbody + tbody {
-    border-top: 2px solid #ddd;
-  }
+    // Cells
+    th,
+    td {
+        padding: 5px;
+        line-height: 18px;
+        text-align: left;
+        border-top: 1px solid #ddd;
+    }
 
-  .no-border {
-      border: none;
-  }
+    th {
+        font-weight: bold;
+        vertical-align: bottom;
+    }
+
+    td {
+        vertical-align: top;
+    }
+
+    thead:first-child tr th,
+    thead:first-child tr td {
+        border-top: 0;
+    }
+
+    tbody + tbody {
+        border-top: 2px solid #ddd;
+    }
+
+    .no-border {
+        border: none;
+    }
 }
 
 .table-bordered {
-  border: 1px solid #ddd;
-  border-collapse: separate; // Done so we can round those corners!
-  *border-collapse: collapsed; // IE7 can't round corners anyway
-  .border-radius(4px);
-  th + th,
-  td + td,
-  th + td,
-  td + th {
-    border-left: 1px solid #ddd;
-  }
-  // Prevent a double border
-  thead:first-child tr:first-child th,
-  tbody:first-child tr:first-child th,
-  tbody:first-child tr:first-child td {
-    border-top: 0;
-  }
-  // For first th or td in the first row in the first thead or tbody
-  thead:first-child tr:first-child th:first-child,
-  tbody:first-child tr:first-child td:first-child {
-    .border-radius(4px 0 0 0);
-  }
-  thead:first-child tr:first-child th:last-child,
-  tbody:first-child tr:first-child td:last-child {
-    .border-radius(0 4px 0 0);
-  }
-  // For first th or td in the first row in the first thead or tbody
-  thead:last-child tr:last-child th:first-child,
-  tbody:last-child tr:last-child td:first-child {
-    .border-radius(0 0 0 4px);
-  }
-  thead:last-child tr:last-child th:last-child,
-  tbody:last-child tr:last-child td:last-child {
-    .border-radius(0 0 4px 0);
-  }
+    border: 1px solid #ddd;
+    border-collapse: separate; // Done so we can round those corners!
+    *border-collapse: collapsed; // IE7 can't round corners anyway
+    .border-radius(4px);
+
+    th + th,
+    td + td,
+    th + td,
+    td + th {
+        border-left: 1px solid #ddd;
+    }
+
+    // Prevent a double border
+    thead:first-child tr:first-child th,
+    tbody:first-child tr:first-child th,
+    tbody:first-child tr:first-child td {
+        border-top: 0;
+    }
+
+    // For first th or td in the first row in the first thead or tbody
+    thead:first-child tr:first-child th:first-child,
+    tbody:first-child tr:first-child td:first-child {
+        .border-radius(4px 0 0 0);
+    }
+
+    thead:first-child tr:first-child th:last-child,
+    tbody:first-child tr:first-child td:last-child {
+        .border-radius(0 4px 0 0);
+    }
+
+    // For first th or td in the first row in the first thead or tbody
+    thead:last-child tr:last-child th:first-child,
+    tbody:last-child tr:last-child td:first-child {
+        .border-radius(0 0 0 4px);
+    }
+
+    thead:last-child tr:last-child th:last-child,
+    tbody:last-child tr:last-child td:last-child {
+        .border-radius(0 0 4px 0);
+    }
 }
 
+ul.cpm-attachments {
+    margin: 0 10px;
+
+    li {
+        display: inline-block;
+        .vignette-effect(5px);
+        padding: 5px;
+        .border-radius(3px);
+        margin: 0 10px 10px 0;
+        vertical-align: top;
+    }
+}
+
+/*--------------------------------------------------
+:: Form
+-------------------------------------------------- */
+.cpm-form {
+    width: 100%;
+    overflow: hidden;
+
+    .form-table {
+        width: 70%;
+
+        .form-field {
+            max-width: 100%;
+        }
+    }
+
+    .description {
+        display: block;
+    }
+
+    .form-field {
+        input[type=radio], input[type=checkbox] {
+            width: auto;
+        }
+    }
+}
+
+/*--------------------------------------------------
+:: Navigation
+-------------------------------------------------- */
 ul.cpm-nav{
     list-style: none;
     float: right;
@@ -100,6 +192,22 @@ ul.cpm-nav{
     }
 }
 
+.cpm-nav-title {
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    .border-radius(0 0 5px 5px);
+    border-top: none;
+    color: #898989;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 0 0 10px 0;
+}
+
+
+/*--------------------------------------------------
+:: Project
+-------------------------------------------------- */
 form.cpm-project-form {
     .cpm-form-item {
         display: block;
@@ -138,81 +246,115 @@ form.cpm-project-form {
     }
 }
 
-.cpm-left {
-    float: left;
+/*--------------------------------------------------
+:: Message
+-------------------------------------------------- */
+.cpm-msg-single {
+    background-color: @backgroundColor;
+    border: 1px solid @borderColor;
+    // padding: 0 10px 10px 10px;
+    .border-radius(3px);
+
+    h3.cpm-msg-title {
+        #gradient .vertical(@backgroundColor, #ececec);
+        border-bottom: 1px solid @borderColor;
+        padding: 8px 10px;
+        margin: 0;
+        font-size: 13px;
+    }
+
+    .cpm-entry-meta {
+        margin: 10px;
+        color: #888;
+
+        .cpm-separator {
+            color: @borderColor;
+        }
+    }
+
+    .cpm-entry-detail {
+        margin: 0 10px 10px 10px;
+    }
 }
 
-.cpm-right {
-    float: right;
+
+/*--------------------------------------------------
+:: Comment
+-------------------------------------------------- */
+
+.cpm-comment-wrap {
+    background-color: @backgroundColor;
+    border: 1px solid @borderColor;
+    .border-radius(3px);
+
+    li.cpm-comment {
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid @borderColor;
+        border-top: 1px solid #fff;
+
+        &.odd {
+            background-color: #fcfcfc;
+        }
+
+        .cpm-avatar {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .cpm-comment-container {
+            margin-left: 68px;
+
+            .cpm-comment-meta {
+                color: #888;
+                
+                .cpm-separator {
+                    color: @borderColor;
+                }
+            }
+        }
+
+        .cpm-upload-container {
+            background: #fff;
+            padding: 10px;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 }
 
-.cpm-clear {
-    clear: both;
-}
-
-span.required {
-    color: #cd0a0a;
-}
-
-.cpm-loading:after {
-    background: url('../images/loading.gif') no-repeat;
-    height: 16px;
-    width: 16px;
-    margin: 0 0 0 10px;
-    display: inline-block;
-    content: "";
-    position: absolute;
-}
-
-.cpm-comment {
-    margin: 0 0 10px 0;
-    border: 1px solid #DDD;
-    .border-radius(5px);
-    background: #eee;
-    padding: 10px;
+.cpm-comment-form {
     width: 50%;
 
-    .cpm-upload-container {
-        background: #fff;
+    fieldset {
+        border: 1px solid #ddd;
+        .border-radius(5px);
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    legend {
+        font-weight: bold;
+        border: 1px solid #ddd;
+        .border-radius(5px);
+        padding: 5px 10px;
+    }
+
+    input[type=file] {
+        border: 1px solid #ddd;
+        .border-radius(5px);
+    }
+
+    textarea {
         padding: 10px;
     }
 }
 
-.cpm-nav-title {
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    .border-radius(0 0 5px 5px);
-    border-top: none;
-    color: #898989;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px 20px;
-    margin: 0 0 10px 0;
-}
-
-.cpm-form {
-    width: 100%;
-    overflow: hidden;
-
-    .form-table {
-        width: 70%;
-
-        .form-field {
-            max-width: 100%;
-        }
-    }
-
-    .description {
-        display: block;
-    }
-
-    .form-field {
-        input[type=radio], input[type=checkbox] {
-            width: auto;
-        }
-    }
-}
-
+/*--------------------------------------------------
+:: Task List
+-------------------------------------------------- */
 .cpm-task-list {
     background: #eee;
     padding: 10px;
@@ -282,6 +424,9 @@ span.required {
     }
 }
 
+/*--------------------------------------------------
+:: Milestone
+-------------------------------------------------- */
 .cpm-milestones {
 
     .cpm-milestone {
@@ -298,33 +443,6 @@ span.required {
         &.complete {
             background: #E4FFE4;
         }
-    }
-}
-
-.cpm-comment-form {
-    width: 50%;
-
-    fieldset {
-        border: 1px solid #ddd;
-        .border-radius(5px);
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-
-    legend {
-        font-weight: bold;
-        border: 1px solid #ddd;
-        .border-radius(5px);
-        padding: 5px 10px;
-    }
-
-    input[type=file] {
-        border: 1px solid #ddd;
-        .border-radius(5px);
-    }
-
-    textarea {
-        padding: 10px;
     }
 }
 
@@ -385,6 +503,9 @@ input.error {
     border: 1px solid red;
 }
 
+/*--------------------------------------------------
+:: Invoice
+-------------------------------------------------- */
 .cpm-invoice {
     .cpm-invoice-wrap {
         width: 75%;

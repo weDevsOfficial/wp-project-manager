@@ -119,3 +119,20 @@ function cpm_url_edit_milestone( $project_id, $milestone_id ) {
 
     return apply_filters( 'cpm_url_edit_milestone', $url );
 }
+
+/**
+ * ------------------------------------------------
+ * Misc
+ * ------------------------------------------------
+ */
+function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
+    $user = get_user_by( 'id', $user_id );
+    $link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user->ID" ) );
+    $name = $user->display_name;
+
+    if ( $avatar ) {
+        $name = get_avatar( $user_id, $size, $user->display_name );
+    }
+
+    return sprintf( '<a href="%s">%s</a>', $link, $name );
+}

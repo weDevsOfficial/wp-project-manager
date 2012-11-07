@@ -30,7 +30,7 @@ if ( $lists ) {
 
             <div class="cpm-clear"></div>
 
-            <p>Due date: <?php echo cpm_show_date( $list->due_date ); ?></p>
+            <p>Due date: <?php echo cpm_get_date( $list->due_date ); ?></p>
             <p><?php echo stripslashes( $list->post_content ); ?></p>
 
             <ul class="links">
@@ -62,7 +62,7 @@ if ( $lists ) {
                                     <li><a href="#" class="cpm-mark-task-complete" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Completed</a></li>
                                 <?php } else { ?>
                                     <li><a href="#" class="cpm-mark-task-open" data-id="<?php echo esc_attr( $task->ID ); ?>">Mark Task as Open</a></li>
-                                    <li><?php echo cpm_show_date( $task->due_date ); ?></li>
+                                    <li><?php echo cpm_get_date( $task->due_date ); ?></li>
                                 <?php } ?>
                             </ul>
                         </div>
