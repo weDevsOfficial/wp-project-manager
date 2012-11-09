@@ -103,6 +103,7 @@ class WeDevs_CPM {
     function admin_includes() {
         require_once CPM_PLUGIN_PATH . '/includes/functions.php';
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
+        require_once CPM_PLUGIN_PATH . '/includes/html.php';
         require_once CPM_PLUGIN_PATH . '/class/ajax.php';
     }
 

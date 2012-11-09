@@ -34,11 +34,11 @@ class CPM_Notification {
         $parent_message = $msg_obj->get( $message_id );
         $author = wp_get_current_user();
 
-        $subject = sprintf( __( '[%s] New message on project: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $project->name );
-        $message = sprintf( 'New message on %s', $project->name ) . "\r\n\n";
+        $subject = sprintf( __( '[%s] New message on project: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $project->post_title );
+        $message = sprintf( 'New message on %s', $project->post_title ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
         $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $message_info['post_parent'], $message_id ) ) . "\r\n";
-        $message .= sprintf( "Message : \r\n%s", $parent_message->message ) . "\r\n";
+        $message .= sprintf( "Message : \r\n%s", $parent_message->post_content ) . "\r\n";
 
         $to = apply_filters( 'cpm_new_message_to', $to );
         $subject = apply_filters( 'cpm_new_message_subject', $subject );

@@ -27,7 +27,7 @@ $cpm_active_menu = __( 'Details', 'cpm' );
 </h2>
 <h3 class="cpm-nav-title">Project Details</h3>
 
-<table>
+<table class="cpm-table table-bordered">
     <tbody>
         <tr>
             <th><label><?php _e( 'Title', 'cpm' ) ?></label></th>
@@ -66,9 +66,12 @@ $cpm_active_menu = __( 'Details', 'cpm' );
     </tbody>
 </table>
 
-<h3><?php _e( 'Description', 'cpm' ) ?></h3>
-<div class="description">
-    <?php echo cpm_print_content( $project_detail->post_content ); ?>
+<div class="cpm-single">
+    <h3 class="cpm-entry-title"><?php _e( 'Description', 'cpm' ) ?></h3>
+
+    <div class="cpm-entry-detail">
+        <?php echo cpm_print_content( $project_detail->post_content ); ?>
+    </div>
 </div>
 
 <h3><?php _e( 'Milestones', 'cpm' ); ?></h3>

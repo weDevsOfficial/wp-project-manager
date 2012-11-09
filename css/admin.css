@@ -28,6 +28,12 @@
 /*--------------------------------------------------
 :: Variables
 -------------------------------------------------- */
+.cpm {
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  vertical-align: baseline;
+}
 .cpm a {
   text-decoration: none;
 }
@@ -42,6 +48,16 @@
 }
 span.required {
   color: #cd0a0a;
+}
+ul.cpm-inline-ul {
+  margin: 0;
+  padding: 0;
+}
+ul.cpm-inline-ul li {
+  display: inline-block;
+}
+.cpm-hide {
+  display: none;
 }
 .cpm-loading:after {
   background: url('../images/loading.gif') no-repeat;
@@ -131,6 +147,8 @@ span.required {
 }
 ul.cpm-attachments {
   margin: 0 10px;
+  border-top: 1px solid #dfdfdf;
+  padding-top: 10px;
 }
 ul.cpm-attachments li {
   display: inline-block;
@@ -238,14 +256,14 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 /*--------------------------------------------------
 :: Message
 -------------------------------------------------- */
-.cpm-msg-single {
+.cpm-single {
   background-color: #f9f9f9;
   border: 1px solid #dfdfdf;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.cpm-msg-single h3.cpm-msg-title {
+.cpm-single .cpm-entry-title {
   background-color: #f4f4f4;
   background-image: -moz-linear-gradient(top, #f9f9f9, #ececec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#ececec));
@@ -259,15 +277,18 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   margin: 0;
   font-size: 13px;
 }
-.cpm-msg-single .cpm-entry-meta {
-  margin: 10px;
+.cpm-single .cpm-inner {
+  margin: 0 10px;
+}
+.cpm-single .cpm-entry-meta {
+  margin: 10px 0;
   color: #888;
 }
-.cpm-msg-single .cpm-entry-meta .cpm-separator {
+.cpm-single .cpm-entry-meta .cpm-separator {
   color: #dfdfdf;
 }
-.cpm-msg-single .cpm-entry-detail {
-  margin: 0 10px 10px 10px;
+.cpm-single .cpm-entry-detail {
+  margin-bottom: 10px;
 }
 /*--------------------------------------------------
 :: Comment
@@ -339,61 +360,56 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
-.cpm-task-list {
-  background: #eee;
-  padding: 10px;
-  margin: 0 0 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+ul.cpm-todolists article.cpm-todolist header h3 {
+  margin-bottom: 3px;
+  font-size: 17px;
 }
-.cpm-task-list ul.links li {
-  display: inline;
+ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+  font-style: italic;
 }
-.cpm-task-list ul.links li a {
-  text-decoration: none;
-  background: #298CBA;
-  color: #fff;
-  padding: 2px 6px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-.cpm-task-list ul.links li a.cpm-loading {
-  background: #eee;
-}
-.cpm-task-list .cpm-list-title {
-  display: block;
-  overflow: hidden;
-  background: #fff;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  padding: 10px;
-}
-.cpm-task-list .cpm-list-title h3 {
+ul.cpm-todolists article.cpm-todolist p {
   margin: 0;
+  padding-bottom: 10px;
 }
-.cpm-task-list .cpm-tasks {
-  padding: 10px;
+ul.cpm-todolists article.cpm-todolist > ul {
+  margin: 0 0 0 7px;
+  min-height: 6px;
+  position: relative;
+  list-style: none;
 }
-.cpm-task-list .cpm-tasks .cpm-task {
-  padding: 10px 10px 0 10px;
-  background: #fff;
-  margin: 0 0 10px 0;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+ul.cpm-todolists article.cpm-todolist > ul li {
+  clear: both;
+  line-height: 20px;
+  padding-left: 19px;
+  padding-right: 110px;
+  word-wrap: break-word;
 }
-.cpm-task-list .cpm-tasks .cpm-task.close {
-  background: #eee;
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap {
+  margin-left: -19px;
+  padding-left: 20px;
+  position: relative;
 }
-.cpm-task-list .cpm-tasks .cpm-task.close a {
-  background: #ddd;
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap input[type="checkbox"] {
+  margin-left: -20px;
+  margin-right: 2px;
+  margin-top: 3px;
+  vertical-align: baseline;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a {
+  color: #333;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a:hover {
+  text-decoration: underline;
+  color: #21759b;
+}
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
+  font-size: 11px;
+  line-height: 14px;
   color: #999;
 }
-.cpm-form-tasks table thead th {
-  background: #eee;
+ul.cpm-todolists > li {
+  margin: -10px 0 10px;
+  padding: 10px 0;
 }
 /*--------------------------------------------------
 :: Milestone

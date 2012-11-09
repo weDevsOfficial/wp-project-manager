@@ -89,15 +89,15 @@ if ( isset( $_POST['create_tasklist'] ) ) {
     <table class="form-table cpm-form-tasks">
         <thead>
             <tr>
-                <th>Task</th>
-                <th>Due Date</th>
-                <th>Assign To</th>
+                <th><?php _e( 'Task', 'cpm' ); ?></th>
+                <th><?php _e( 'Due Date', 'cpm' ); ?></th>
+                <th><?php _e( 'Assign To', 'wedevs' ); ?></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><textarea name="task_text[]" id="" cols="20" rows="3"></textarea></td>
-                <td><input type="" class="datepicker" name="task_due[]" /></td>
+                <td><textarea name="task_text[]" id="" cols="20" rows="2"></textarea></td>
+                <td><input type="text" class="datepicker" name="task_due[]" /></td>
                 <td>
                     <?php wp_dropdown_users( array('name' => 'task_assign[]', 'show_option_none' => __( '-- None --', 'cpm' )) ); ?>
                     <img style="cursor:pointer; margin:0 3px;" alt="Add a row" title="Add a row" class="cpm-add-task-item" src="<?php echo CPM_PLUGIN_URI . '/images/add.png'; ?>" />
@@ -114,7 +114,7 @@ if ( isset( $_POST['create_tasklist'] ) ) {
 <script type="text/tmpl" id="cpm-form-tasks-new">
     <tr>
         <td><textarea name="task_text[]" id="" cols="20" rows="3"></textarea></td>
-        <td><input type="" class="datepicker" name="task_due[]" /></td>
+        <td><input type="text" class="datepicker" name="task_due[]" /></td>
         <td>
             <?php wp_dropdown_users( array('name' => 'task_assign[]', 'show_option_none' => __( '-- None --', 'cpm' )) ); ?>
             <img style="cursor:pointer; margin:0 3px;" alt="Add a row" title="Add a task" class="cpm-add-task-item" src="<?php echo CPM_PLUGIN_URI . '/images/add.png'; ?>" />

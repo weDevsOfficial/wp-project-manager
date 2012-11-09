@@ -32,9 +32,10 @@ if ( isset( $_POST['cpm_new_comment'] ) ) {
 ?>
 <h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
 
-<div class="cpm-task-list">
+<div class="cpm-single">
+    <h3 class="cpm-entry-title"><?php echo get_the_title( $list->ID ); ?></h3>
+
     <div class="cpm-list-title">
-        <h3 class="list-title cpm-left"><?php echo get_the_title( $list->ID ); ?></h3>
 
         <div class="cpm-right">
             <?php

@@ -17,6 +17,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_complete', array($this, 'mark_task_complete') );
         add_action( 'wp_ajax_cpm_task_open', array($this, 'mark_task_open') );
         add_action( 'wp_ajax_cpm_task_delete', array($this, 'delete_task') );
+        add_action( 'wp_ajax_cpm_task_add', array($this, 'add_new_task') );
+
         add_action( 'wp_ajax_cpm_milestone_complete', array($this, 'milestone_complete') );
         add_action( 'wp_ajax_cpm_milestone_open', array($this, 'milestone_open') );
         add_action( 'wp_ajax_cpm_delete_milestone', array($this, 'milestone_delete') );
@@ -35,25 +37,68 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_message', array($this, 'get_message') );
     }
 
+    function add_new_task() {
+        $posted = $_POST;
+
+        $list_id = $posted['list_id'];
+        $project_id = $posted['project_id'];
+
+        $task_obj = CPM_Task::getInstance();
+        $task_id = $task_obj->add_task( $posted['list_id'] );
+        $task = $task_obj->get_task( $task_id );
+
+        if( $task_id ) {
+            $response = array(
+                'success' => true,
+                'content' => cpm_task_html( $task, $project_id, $list_id )
+            );
+        } else {
+            $response = array( 'success' => false );
+        }
+        
+        echo json_encode( $response );
+        exit;
+    }
+
     function mark_task_complete() {
         check_ajax_referer( 'cpm_nonce' );
 
-        $task_id = (int) $_POST['task_id'];
+        $posted = $_POST;
+        $task_id = (int) $posted['task_id'];
+        $list_id = $posted['list_id'];
+        $project_id = $posted['project_id'];
 
-        $this->_task_obj->mark_complete( $task_id );
-        echo 'success';
+        $task_obj = CPM_Task::getInstance();
+        $task_obj->mark_complete( $task_id );
 
+        $task = $task_obj->get_task( $task_id );
+        $response = array(
+            'success' => true,
+            'content' => cpm_task_html( $task, $project_id, $list_id )
+        );
+
+        echo json_encode( $response );
         exit;
     }
 
     function mark_task_open() {
         check_ajax_referer( 'cpm_nonce' );
 
-        $task_id = (int) $_POST['task_id'];
+        $posted = $_POST;
+        $task_id = (int) $posted['task_id'];
+        $list_id = $posted['list_id'];
+        $project_id = $posted['project_id'];
 
-        $this->_task_obj->mark_open( $task_id );
-        echo 'success';
+        $task_obj = CPM_Task::getInstance();
+        $task_obj->mark_open( $task_id );
+        
+        $task = $task_obj->get_task( $task_id );
+        $response = array(
+            'success' => true,
+            'content' => cpm_task_html( $task, $project_id, $list_id )
+        );
 
+        echo json_encode( $response );
         exit;
     }
 

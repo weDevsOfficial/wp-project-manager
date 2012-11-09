@@ -12,9 +12,9 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 
 <h3 class="cpm-nav-title"><?php _e( 'Messages', 'cpm' ); ?></h3>
 
-<div class="cpm-msg-single">
+<div class="cpm-single">
 
-    <h3 class="cpm-msg-title"><?php echo get_the_title( $message_id ); ?></h3>
+    <h3 class="cpm-entry-title"><?php echo get_the_title( $message_id ); ?></h3>
 
     <div class="cpm-entry-meta">
         <span class="cpm-date"><?php echo cpm_get_date( $message->post_date ); ?></span>
@@ -57,6 +57,7 @@ if ( $comments ) {
     <?php
 } else {
     printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+    echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
 }
 ?>
 

@@ -91,7 +91,7 @@ class CPM_Message {
     function get_edit_post_link( $url, $post_id, $context ) {
         global $post;
 
-        if ( $post->post_type == 'message' && $context == 'display' && is_admin() && isset( $_GET['pid'] ) ) {
+        if ( $post && $post->post_type == 'message' && $context == 'display' && is_admin() && isset( $_GET['pid'] ) ) {
             $project_id = $_GET['pid']; //FIXME: set to message parent
             $url = cpm_url_single_message( $project_id, $post->ID );
         }

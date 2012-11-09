@@ -41,14 +41,6 @@
             $('.cpm-new-message-btn').on('click', this.Message.toggleBtn);
             $('.cpm-get-message').on('click', this.Message.get);
 
-            $('.cpm-invoice-items').on('click', '.cpm-add-invoice-item', this.Invoice.fieldAdd);
-            $('.cpm-invoice-items').on('click', '.cpm-remove-invoice-item', this.Invoice.fieldRemove);
-            $('.cpm-invoice-items').on('click', '.toggle-description', weDevs_CPM.Invoice.toggleDescripton);
-            $('.cpm-invoice-items').on('change', '.qty', weDevs_CPM.Invoice.changeQty);
-            $('.cpm-invoice-items').on('change', '.price', weDevs_CPM.Invoice.changePrice);
-            $('.cpm-invoice-items').on('change', '.tax', weDevs_CPM.Invoice.changePrice);
-            $('#discount').on('change', weDevs_CPM.Invoice.calculateTotal);
-
             $('#cpm-upload-container').on('click', '.cpm-delete-file', weDevs_CPM.Uploader.deleteFile);
             $('.cpm-comment-wrap').on('click', '.cpm-delete-file', weDevs_CPM.Uploader.deleteFile);
 

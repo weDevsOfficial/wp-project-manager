@@ -7,8 +7,15 @@
 @backgroundColor: #f9f9f9;
 @borderColor: #dfdfdf;
 
-.cpm a {
-    text-decoration: none;
+.cpm {
+    font-family: "helvetica neue", helvetica, arial, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    vertical-align: baseline;
+
+    a {
+        text-decoration: none;
+    }
 }
 
 .cpm-left {
@@ -25,6 +32,19 @@
 
 span.required {
     color: #cd0a0a;
+}
+
+ul.cpm-inline-ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: inline-block;
+    }
+}
+
+.cpm-hide {
+    display: none;
 }
 
 .cpm-loading:after {
@@ -124,6 +144,8 @@ span.required {
 
 ul.cpm-attachments {
     margin: 0 10px;
+    border-top: 1px solid @borderColor;
+    padding-top: 10px;
 
     li {
         display: inline-block;
@@ -249,13 +271,13 @@ form.cpm-project-form {
 /*--------------------------------------------------
 :: Message
 -------------------------------------------------- */
-.cpm-msg-single {
+.cpm-single {
     background-color: @backgroundColor;
     border: 1px solid @borderColor;
     // padding: 0 10px 10px 10px;
     .border-radius(3px);
 
-    h3.cpm-msg-title {
+    .cpm-entry-title {
         #gradient .vertical(@backgroundColor, #ececec);
         border-bottom: 1px solid @borderColor;
         padding: 8px 10px;
@@ -263,8 +285,12 @@ form.cpm-project-form {
         font-size: 13px;
     }
 
+    .cpm-inner {
+        margin: 0 10px;
+    }
+
     .cpm-entry-meta {
-        margin: 10px;
+        margin: 10px 0;
         color: #888;
 
         .cpm-separator {
@@ -273,7 +299,7 @@ form.cpm-project-form {
     }
 
     .cpm-entry-detail {
-        margin: 0 10px 10px 10px;
+        margin-bottom: 10px;
     }
 }
 
@@ -355,72 +381,77 @@ form.cpm-project-form {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
-.cpm-task-list {
-    background: #eee;
-    padding: 10px;
-    margin: 0 0 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+ul.cpm-todolists {
+    article.cpm-todolist {
+        header {
+            h3 {
+                margin-bottom: 3px;
+                font-size: 17px;
+            }
 
-    ul.links {
-        li {
-            display: inline;
+            .cpm-entry-detail {
+                font-style: italic;
+            }
+        }
 
-            a {
-                text-decoration: none;
-                background: #298CBA;
-                color: #fff;
-                padding: 2px 6px;
-                .border-radius(5px);
+        p {
+            margin: 0;
+            padding-bottom: 10px;
+        }
 
-                &.cpm-loading {
-                    background: #eee;
+        > ul {
+            margin: 0 0 0 7px;
+            min-height: 6px;
+            position: relative;
+            list-style: none;
+
+            li {
+                clear: both;
+                line-height: 20px;
+                padding-left: 19px;
+                padding-right: 110px;
+                word-wrap: break-word;
+
+                .cpm-todo-wrap {
+                    margin-left: -19px;
+                    padding-left: 20px;
+                    position: relative;
+
+                    input[type="checkbox"] {
+                        margin-left: -20px;
+                        margin-right: 2px;
+                        margin-top: 3px;
+                        vertical-align: baseline;
+                    }
+
+                    .cpm-todo-content a {
+                        color: #333;
+
+                        &:hover {
+                            text-decoration: underline;
+                            color: #21759b;
+                        }
+                    }
                 }
             }
         }
-    }
 
-    .cpm-list-title {
-        display: block;
-        overflow: hidden;
-        background: #fff;
-        .border-radius(5px);
-        padding: 10px;
+        ul.cpm-todo-completed {
 
-        h3 {
-            margin: 0;
-        }
-    }
-
-    .cpm-tasks {
-        padding: 10px;
-
-        .cpm-task {
-            padding: 10px 10px 0 10px;
-            background: #fff;
-            margin: 0 0 10px 0;
-            border: 1px solid #ddd;
-            .border-radius(5px);
-
-            &.close {
-                background: #eee;
-
-                a {
-                    background: #ddd;
+            .cpm-todo-wrap {
+                .cpm-todo-content a {
+                    font-size: 11px;
+                    line-height: 14px;
                     color: #999;
                 }
             }
         }
-    }
-}
 
-.cpm-form-tasks {
-    table {
-        thead {
-            th {
-                background: #eee;
-            }
-        }
+    }
+
+    > li {
+        margin: -10px 0 10px;
+        padding: 10px 0;
     }
 }
 

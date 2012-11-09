@@ -4,6 +4,28 @@ function cpm_get_privacy( $value ) {
     return ($value == 0) ? __( 'Public', 'cpm' ) : __( 'Private', 'cpm' );
 }
 
+function cpm_tasks_filter( $tasks ) {
+    $response = array(
+        'completed' => array(),
+        'pending' => array()
+    );
+
+    if( $tasks ) {
+        $response['pending'] = array_filter( $tasks, 'cpm_tasks_filter_pending' );
+        $response['completed'] = array_filter( $tasks, 'cpm_tasks_filter_done' );
+    }
+
+    return $response;
+}
+
+function cpm_tasks_filter_done( $task ) {
+    return $task->completed == '1';
+}
+
+function cpm_tasks_filter_pending( $task ) {
+    return $task->completed != '1';
+}
+
 function cpm_dropdown_users( $args = '' ) {
     $defaults = array(
         'show_option_all' => '', 'show_option_none' => '', 'hide_if_only_one_author' => '',
@@ -355,22 +377,6 @@ function cpm_log( $type = '', $msg = '' ) {
         error_log( $msg, 3, dirname( __FILE__ ) . '/debug.log' );
     }
 }
-
-/**
- * Log the mail to text file
- *
- * @uses `wp_mail` filter
- * @param array $mail
- */
-function wedevs_mail_log( $mail ) {
-
-    $message = "to: {$mail['to']} \nsub: {$mail['subject']}, \nmsg:{$mail['message']}";
-    cpm_log( 'mail', $message );
-
-    return $mail;
-}
-
-add_filter( 'wp_mail', 'wedevs_mail_log', 10 );
 
 function cpm_show_attachments( $object ) {
     if ( $object->files ) {

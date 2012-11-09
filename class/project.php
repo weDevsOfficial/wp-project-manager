@@ -70,7 +70,7 @@ class CPM_Project {
     function get_edit_post_link( $url, $post_id, $context ) {
         global $post;
 
-        if ( $post->post_type == 'project' && $context == 'display' && is_admin() ) {
+        if ( $post && $post->post_type == 'project' && $context == 'display' && is_admin() ) {
             $url = cpm_url_project_details( $post->ID );
         }
 
