@@ -72,6 +72,7 @@ class WeDevs_CPM {
         wp_enqueue_script( 'plupload-handlers' );
         wp_enqueue_script( 'underscore', plugins_url( 'js/underscore-min.js', __FILE__ ) );
         wp_enqueue_script( 'cpm_admin', plugins_url( 'js/admin.js', __FILE__ ) );
+        wp_enqueue_script( 'cpm_task', plugins_url( 'js/task.js', __FILE__ ) );
 
         $post_params = array();
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
