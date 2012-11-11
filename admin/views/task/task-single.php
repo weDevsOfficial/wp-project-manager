@@ -10,7 +10,7 @@ $task = $task_obj->get_task( $task_id );
 <h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
 
 <div class="cpm-single-task">
-    <?php echo cpm_task_html( $task, $list->ID, $project_id, true ); ?>
+    <?php echo cpm_task_html( $task, $project_id, $list->ID, true ); ?>
 </div>
 
 <h3>Comments:</h3>
