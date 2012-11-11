@@ -28,15 +28,12 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_milestone_open', array($this, 'milestone_open') );
         add_action( 'wp_ajax_cpm_delete_milestone', array($this, 'milestone_delete') );
 
-        add_action( 'wp_ajax_cpm_new_invoice', array($this, 'create_invoice') );
-        add_action( 'wp_ajax_cpm_update_invoice', array($this, 'update_invoice') );
-
         add_action( 'wp_ajax_cpm_ajax_upload', array($this, 'ajax_upload') );
         add_action( 'wp_ajax_cpm_delete_file', array($this, 'delete_file') );
 
-        add_action( 'wp_ajax_cpm_new_comment', array($this, 'new_comment') );
-        add_action( 'wp_ajax_cpm_get_comment', array($this, 'get_comment') );
-        add_action( 'wp_ajax_cpm_update_comment', array($this, 'update_comment') );
+        add_action( 'wp_ajax_cpm_comment_new', array($this, 'new_comment') );
+        add_action( 'wp_ajax_cpm_comment_get', array($this, 'get_comment') );
+        add_action( 'wp_ajax_cpm_comment_update', array($this, 'update_comment') );
 
         add_action( 'wp_ajax_cpm_new_message', array($this, 'new_message') );
         add_action( 'wp_ajax_cpm_get_message', array($this, 'get_message') );
@@ -246,122 +243,33 @@ class CPM_Ajax {
         exit;
     }
 
-    function create_invoice() {
-        check_ajax_referer( 'cpm_new_invoice' );
-
-        $post = $_POST;
-        $invoice_obj = CPM_Invoice::getInstance();
-        $project_id = (int) $post['project_id'];
-        $total = 0;
-
-        $data = array(
-            'title' => $post['invoice_title'],
-            'project_id' => $project_id,
-            'client_id' => $post['client_id'],
-            'gateway' => $post['gateway'],
-            'note' => $post['invoice-notes'],
-            'terms' => $post['invoice-terms'],
-            'due_date' => cpm_date2mysql( $post['due_date'] ),
-            'tax' => $post['invoice-tax'],
-            'discount' => $post['invoice-discount'],
-            'subtotal' => $post['invoice-subtotal'],
-            'total' => $post['invoice-total'] //total = ( subtotal + tax ) - discount
-        );
-
-//        echo '<pre>';
-//        print_r($post);
-//        print_r( $data );
-//        echo '</pre>';
-//        exit;
-
-        $invoice_id = $invoice_obj->create( $data );
-
-        if ( $invoice_id ) {
-            foreach ($post['entry_name'] as $key => $entry) {
-                $entry = sanitize_text_field( $entry );
-
-                $item = array(
-                    'invoice_id' => $invoice_id,
-                    'title' => $entry,
-                    'amount' => $post['entry_amount'][$key],
-                    'text' => $post['entry_details'][$key],
-                    'qty' => $post['entry_qty'][$key],
-                    'tax' => $post['entry_tax'][$key],
-                    'type' => $post['row_type'][$key],
-                );
-
-                if ( !empty( $entry ) ) {
-                    $invoice_obj->create_item( $item );
-                }
-            }
-        }
-
-        echo cpm_url_single_invoice( $project_id, $invoice_id );
-        exit;
-    }
-
-    function update_invoice() {
-        check_ajax_referer( 'cpm_update_invoice' );
-
-        $post = $_POST;
-        $invoice_obj = CPM_Invoice::getInstance();
-        $project_id = (int) $post['project_id'];
-        $invoice_id = (int) $post['invoice_id'];
-        $total = 0;
-
-        $data = array(
-            'title' => $post['invoice_title'],
-            'project_id' => $project_id,
-            'gateway' => $post['gateway'],
-            'due_date' => cpm_date2mysql( $post['due_date'] ),
-            'taxable' => $post['taxable'],
-            'total' => $post['grand_total']
-        );
-
-        $invoice_obj->update( $data, $invoice_id );
-        //echo '<pre>';
-        //delete all previous items
-        $invoice_obj->delete_items( $invoice_id );
-
-        if ( $invoice_id ) {
-            foreach ($post['entry_name'] as $key => $entry) {
-                $item = array(
-                    'invoice_id' => $invoice_id,
-                    'title' => $entry,
-                    'amount' => $post['entry_amount'][$key],
-                    'text' => $post['entry_details'][$key],
-                    'qty' => $post['entry_qty'][$key]
-                );
-
-                $invoice_obj->create_item( $item );
-                //print_r( $item );
-            }
-        }
-
-
-        echo cpm_url_single_invoice( $project_id, $invoice_id );
-        //print_r( $post );
-        //print_r( $data );
-        //echo '</pre>';
-        exit;
-    }
-
     function ajax_upload() {
         check_ajax_referer( 'cpm_ajax_upload', 'nonce' );
 
         $object_id = isset( $_REQUEST['object_id'] ) ? intval( $_REQUEST['object_id'] ) : 0;
         $comment_obj = CPM_Comment::getInstance();
-        $file_id = $comment_obj->upload_file( $object_id );
+        $response = $comment_obj->upload_file( $object_id );
 
-        if ( $file_id ) {
-            $file = $comment_obj->get_file( $file_id );
+        if ( $response['success'] ) {
+            $file = $comment_obj->get_file( $response['file_id'] );
 
             $delete = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
             $hidden = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
             $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
-            echo '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
+            $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
+            echo json_encode( array(
+                'success' => true,
+                'content' => $html
+            ) );
+
+            exit;
         }
+
+        echo json_encode( array(
+            'success' => false,
+            'error' => $response['error']
+        ) );
 
         exit;
     }
@@ -423,7 +331,13 @@ class CPM_Ajax {
         $comment_obj->update( $data, $comment_id );
 
         $comment = $comment_obj->get( $comment_id );
-        echo json_encode( $comment );
+        $content = cpm_comment_text( $comment_id );
+        $content .= cpm_show_attachments( $comment );
+
+        echo json_encode( array(
+            'success' => true,
+            'content' => $content
+        ) );
 
         exit;
     }
@@ -431,10 +345,18 @@ class CPM_Ajax {
     function get_comment() {
         check_ajax_referer( 'cpm_nonce' );
         $posted = $_POST;
-        $comment_id = isset( $posted['id'] ) ? intval( $posted['id'] ) : 0;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $object_id = isset( $posted['object_id'] ) ? intval( $posted['object_id'] ) : 0;
+        $comment_id = isset( $posted['comment_id'] ) ? intval( $posted['comment_id'] ) : 0;
 
         $comment = CPM_Comment::getInstance()->get( $comment_id );
-        echo json_encode( $comment );
+
+        echo json_encode( array(
+            'success' => true,
+            'id' => $comment_id,
+            'form' => cpm_comment_form( $project_id, $object_id, $comment )
+        ) );
 
         exit;
     }
