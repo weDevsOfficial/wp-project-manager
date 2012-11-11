@@ -18,6 +18,11 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_open', array($this, 'mark_task_open') );
         add_action( 'wp_ajax_cpm_task_delete', array($this, 'delete_task') );
         add_action( 'wp_ajax_cpm_task_add', array($this, 'add_new_task') );
+        add_action( 'wp_ajax_cpm_task_update', array($this, 'update_task') );
+
+        add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
+        add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
+        add_action( 'wp_ajax_cpm_tasklist_delete', array($this, 'delete_tasklist') );
 
         add_action( 'wp_ajax_cpm_milestone_complete', array($this, 'milestone_complete') );
         add_action( 'wp_ajax_cpm_milestone_open', array($this, 'milestone_open') );
@@ -47,15 +52,40 @@ class CPM_Ajax {
         $task_id = $task_obj->add_task( $posted['list_id'] );
         $task = $task_obj->get_task( $task_id );
 
-        if( $task_id ) {
+        if ( $task_id ) {
+            $response = array(
+                'success' => true,
+                'id' => $task_id,
+                'content' => cpm_task_html( $task, $project_id, $list_id )
+            );
+        } else {
+            $response = array('success' => false);
+        }
+
+        echo json_encode( $response );
+        exit;
+    }
+
+    function update_task() {
+        $posted = $_POST;
+
+        $list_id = $posted['list_id'];
+        $project_id = $posted['project_id'];
+        $task_id = $posted['task_id'];
+
+        $task_obj = CPM_Task::getInstance();
+        $task_id = $task_obj->update_task( $list_id, $task_id );
+        $task = $task_obj->get_task( $task_id );
+
+        if ( $task_id ) {
             $response = array(
                 'success' => true,
                 'content' => cpm_task_html( $task, $project_id, $list_id )
             );
         } else {
-            $response = array( 'success' => false );
+            $response = array('success' => false);
         }
-        
+
         echo json_encode( $response );
         exit;
     }
@@ -91,7 +121,7 @@ class CPM_Ajax {
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_open( $task_id );
-        
+
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
@@ -108,7 +138,75 @@ class CPM_Ajax {
         $task_id = (int) $_POST['task_id'];
 
         $this->_task_obj->delete_task( $task_id );
-        echo 'success';
+
+        echo json_encode( array(
+            'success' => true
+        ) );
+
+        exit;
+    }
+
+    function add_tasklist() {
+        check_ajax_referer( 'cpm_add_list' );
+
+        $posted = $_POST;
+        $project_id = $posted['project_id'];
+
+        $task_obj = CPM_Task::getInstance();
+        $list_id = $task_obj->add_list( $project_id );
+
+        if ( $list_id ) {
+            $list = $task_obj->get_task_list( $list_id );
+
+            echo json_encode( array(
+                'success' => true,
+                'id' => $list_id,
+                'content' => cpm_task_list_html( $list, $project_id )
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+
+        exit;
+    }
+
+    function update_tasklist() {
+        check_ajax_referer( 'cpm_update_list' );
+
+        $posted = $_POST;
+        $project_id = $posted['project_id'];
+        $list_id = $posted['list_id'];
+
+        $task_obj = CPM_Task::getInstance();
+        $list_id = $task_obj->update_list( $project_id, $list_id );
+
+        if ( $list_id ) {
+            $list = $task_obj->get_task_list( $list_id );
+
+            echo json_encode( array(
+                'success' => true,
+                'id' => $list_id,
+                'content' => cpm_task_list_html( $list, $project_id )
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+
+        exit;
+    }
+
+    function delete_tasklist() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        CPM_Task::getInstance()->delete_list( $_POST['list_id'] );
+
+        echo json_encode( array(
+            'success' => true
+        ) );
 
         exit;
     }
