@@ -16,6 +16,8 @@
             $('.cpm-single-task').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
             $('.cpm-single-task').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
             $('.cpm-single-task').on('submit', '.cpm-task-edit-form form', this.updateTodo);
+            $('.cpm-single-task').on('click', '.cpm-task-uncomplete input[type=checkbox]', this.markDone);
+            $('.cpm-single-task').on('click', '.cpm-task-complete input[type=checkbox]', this.markUnDone);
 
             //task done, undone, delete
             $('ul.cpm-todolists').on('click', '.cpm-todos input[type=checkbox]', this.markDone);
@@ -58,6 +60,7 @@
 
             var self = $(this),
                 list = self.closest('li'),
+                singleWrap = self.closest('.cpm-single-task'),
                 data = {
                     task_id: self.val(),
                     project_id: self.data('project'),
@@ -70,10 +73,15 @@
                 res = JSON.parse(res);
 
                 if(res.success === true ) {
-                    var completeList = list.parent().siblings('.cpm-todo-completed');
-                    completeList.append('<li>' + res.content + '</li>');
 
-                    list.remove();
+                    if(list.length) {
+                        var completeList = list.parent().siblings('.cpm-todo-completed');
+                        completeList.append('<li>' + res.content + '</li>');
+
+                        list.remove();
+                    } else if(singleWrap.length) {
+                        singleWrap.html(res.content);
+                    }
                 }
             });
         },
@@ -82,6 +90,7 @@
 
             var self = $(this),
                 list = self.closest('li'),
+                singleWrap = self.closest('.cpm-single-task'),
                 data = {
                     task_id: self.val(),
                     project_id: self.data('project'),
@@ -95,10 +104,15 @@
                 res = JSON.parse(res);
 
                 if(res.success === true ) {
-                    var currentList = list.parent().siblings('.cpm-todos');
 
-                    currentList.append('<li>' + res.content + '</li>');
-                    list.remove();
+                    if(list.length) {
+                        var currentList = list.parent().siblings('.cpm-todos');
+
+                        currentList.append('<li>' + res.content + '</li>');
+                        list.remove();
+                    } else if(singleWrap.length) {
+                        singleWrap.html(res.content);
+                    }
                 }
             });
         },
@@ -222,7 +236,8 @@
 
                 if(res.success === true) {
                     $('ul.cpm-todolists').append('<li id="cpm-list-' + res.id + '">' + res.content + '</li>');
-
+                    
+                    $('.cpm-new-todolist-form').slideToggle();
                     $('body, html').animate({
                         scrollTop: $('#cpm-list-' + res.id).offset().top
                     });
