@@ -395,6 +395,76 @@ form.cpm-project-form {
     display: none;
 }
 
+.cpm-single-task {
+    margin: 20px 0;
+    overflow: hidden;
+    border-bottom: 1px solid @borderColor;
+    padding-bottom: 20px;
+
+    .cpm-todo-wrap {
+        margin-left: 0;
+        padding-left: 20px;
+        position: relative;
+
+        input[type="checkbox"] {
+            margin-left: -20px;
+            margin-right: 2px;
+            margin-top: 3px;
+            vertical-align: baseline;
+        }
+
+        &:hover {
+            .cpm-todo-action {
+                visibility: visible;
+            }
+        }
+
+        .cpm-todo-action {
+            border: 1px solid #eee;
+            border-right: none;
+            .border-radius(5px 0 0 5px);
+            padding: 1px 5px;
+            background: #fff;
+            float: right;
+
+            a {
+                display: block;
+            }
+        }
+
+        .cpm-todo-content {
+
+            a {
+                color: #333;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: #21759b;
+                }
+            }
+
+            .cpm-assigned-user, .cpm-due-date {
+                .border-radius(3px);
+                background: #ddd;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 1px 7px;
+                color: #999;
+                margin-right: 5px;
+            }
+
+            .cpm-completed-by {
+                font-size: 11px;
+                color: #999;
+            }
+        }
+
+        .cpm-task-edit-form {
+            display: none;
+        }
+    }
+}
+
 ul.cpm-todolists {
 
     .submit {
@@ -638,169 +708,6 @@ label.error {
 
 input.error {
     border: 1px solid red;
-}
-
-/*--------------------------------------------------
-:: Invoice
--------------------------------------------------- */
-.cpm-invoice {
-    .cpm-invoice-wrap {
-        width: 75%;
-
-        .form-table {
-            width: 100%;
-        }
-
-        .fill {
-            background: #257DA6;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: none;
-        }
-
-        .actions {
-            width: 60px;
-        }
-
-        table.cpm-invoice-items {
-            background: #eee;
-            border: 1px solid #ddd;
-            .border-radius(5px);
-
-            a {
-                text-decoration: none;
-                font-size: 11px;
-            }
-
-            textarea.entry-details {
-                width: 100%;
-            }
-        }
-
-        .cpm-invoice-total-box {
-            width: 230px;
-            float: right;
-
-            table.cpm-invoice-totals {
-                background: #eee;
-                border: 1px solid #E0E0E0;
-                display: block;
-                margin: 7px 0;
-                overflow: hidden;
-                width: 100%;
-                border-collapse: collapse;
-
-                th {
-                    text-align: left;
-                    width: 130px;
-                    padding: 5px 5px 10px 25px;
-                    font-weight: normal;
-                }
-
-                td {
-                    padding: 5px;
-                    text-align: right;
-                    width: 45%;
-                }
-
-                .divider {
-                    td, th {
-                        border-top: 1px solid #e1e1e1;
-                        border-bottom: 1px solid #fff;
-                        padding: 0;
-                        margin: 0;
-                    }
-                }
-            }
-        }
-    }
-
-    &.invoice-display {
-        width: 670px;
-        overflow: hidden;
-        border-collapse: collapse;
-        border-spacing: 0;
-        position: relative;
-        margin: 30px 0 30px 0;
-
-        .inv-items-container {
-            margin: 0;
-            padding: 0;
-        }
-
-        .col-task {
-            width: 110px;
-        }
-
-        .col-space {
-            width: 430px;
-            border: none !important;
-        }
-
-        .col-unit {
-            width: 70px;
-            text-align: center;
-        }
-
-        .col-qty {
-            width: 50px;
-            text-align: center;
-        }
-
-        .col-total {
-            width: 73px;
-            text-align: right;
-        }
-
-        .border-left {
-            border-left: 1px solid #ddd;
-        }
-
-        .fill {
-            background: #ddd;
-        }
-
-        th {
-            text-align: center;
-        }
-
-        .invoice-title {
-            color: #eee;
-            position: absolute;
-            line-height: 26px;
-            font-weight: bold;
-            text-align: center;
-            width: 100%;
-            text-transform: uppercase;
-            margin: 0;
-            padding: 0;
-        }
-
-        .invoice-top {
-            overflow: hidden;
-            margin: 0 0 15px 0;
-
-            .invoice-address {
-                float: left;
-                width: 50%;
-            }
-
-            .invoice-from {
-                min-height: 120px;
-            }
-
-            .invoice-logo {
-                float: right;
-                width: 50%;
-            }
-        }
-
-        .invoice-totals {
-            th {
-                text-align: right;
-            }
-        }
-    }
 }
 
 .cpm-uploaded-item {
