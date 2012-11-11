@@ -104,56 +104,6 @@ function cpm_date2mysql( $date, $gmt = 0 ) {
 }
 
 /**
- * Comment form
- *
- * @param int $object_id object id of the comment parent
- * @param string $type MESSAGE, TASK, TASK_LIST
- * @param type $privacy
- */
-function cpm_comment_form( $project_id, $object_id, $privacy = true ) {
-    ?>
-    <form class="cpm-comment-form">
-
-        <?php wp_nonce_field( 'cpm_new_message' ); ?>
-
-        <fieldset>
-            <legend><?php _e( 'Post Comment', 'cpm' ); ?></legend>
-
-            <p>
-                <textarea name="cpm_message" class="required" cols="55" rows="8" placeholder="<?php esc_attr_e( 'Enter your message', 'cpm' ); ?>"></textarea>
-            </p>
-
-            <?php if ( $privacy ) { ?>
-                <p>
-                    <label for="privacy"><?php _e( 'Privacy', 'cpm' ); ?>: </label>
-                    <label><input type="radio" name="privacy" value="1" /> Yes</label>
-                    <label><input type="radio" name="privacy" value="0" checked="checked" /> No</label>
-                </p>
-            <?php } ?>
-
-            <fieldset>
-                <legend>Attach Files</legend>
-                <?php cpm_upload_field(); ?>
-            </fieldset>
-
-            <fieldset>
-                <legend>Email Notification</legend>
-                <?php cpm_user_checkboxes( $project_id ); ?>
-            </fieldset>
-
-            <p>
-                <input type="hidden" name="action" value="cpm_new_comment" />
-                <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
-                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
-                <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add Comment', 'cpm' ); ?>" id="" />
-            </p>
-
-        </fieldset>
-    </form>
-    <?php
-}
-
-/**
  * Displays users as checkboxes from a project
  *
  * @param int $project_id
@@ -185,7 +135,7 @@ function cpm_upload_field() {
     ?>
     <div id="cpm-upload-container">
         <div id="cpm-upload-filelist"></div>
-        <a id="cpm-upload-pickfiles" class="button" href="#">Select files</a>
+        <?php printf( __('To attach, <a id="cpm-upload-pickfiles" href="#">select files</a> from your computer.', 'cpm' ) ); ?>
     </div>
     <script type="text/javascript" src="<?php echo CPM_PLUGIN_URI . '/js/upload.js'; ?>"></script>
     <?php
