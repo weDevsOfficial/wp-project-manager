@@ -37,8 +37,23 @@
 .cpm a {
   text-decoration: none;
 }
+.cpm input[type=text]:-moz-placeholder,
+.cpm textarea:-moz-placeholder {
+  color: #999999;
+}
+.cpm input[type=text]:-ms-input-placeholder,
+.cpm textarea:-ms-input-placeholder {
+  color: #999999;
+}
+.cpm input[type=text]::-webkit-input-placeholder,
+.cpm textarea::-webkit-input-placeholder {
+  color: #999999;
+}
 .cpm-left {
   float: left;
+}
+.cpm-spacer {
+  width: 10px;
 }
 .cpm-right {
   float: right;
@@ -360,12 +375,43 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
+.cpm-new-todolist-form {
+  display: none;
+}
+ul.cpm-todolists .submit {
+  margin: 10px 0;
+  padding: 0 0 15px 0;
+}
+ul.cpm-todolists article.cpm-todolist {
+  position: relative;
+}
 ul.cpm-todolists article.cpm-todolist header h3 {
   margin-bottom: 3px;
   font-size: 17px;
 }
 ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
   font-style: italic;
+}
+ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+  font-size: 11px;
+  border: 1px solid #eee;
+  border-right: none;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  padding: 1px 5px;
+  background: #fff;
+  visibility: hidden;
+  position: absolute;
+  left: -63px;
+  top: 0;
+  z-index: 99;
+}
+ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+  visibility: visible;
+}
+ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
+  display: none;
 }
 ul.cpm-todolists article.cpm-todolist p {
   margin: 0;
@@ -395,12 +441,65 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap input[type="checkbo
   margin-top: 3px;
   vertical-align: baseline;
 }
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap:hover .cpm-todo-action {
+  visibility: visible;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action {
+  font-size: 11px;
+  border: 1px solid #eee;
+  border-right: none;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  padding: 1px 5px;
+  background: #fff;
+  visibility: hidden;
+  position: absolute;
+  left: -63px;
+  top: 0;
+  z-index: 99;
+}
 ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a {
   color: #333;
 }
 ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a:hover {
   text-decoration: underline;
   color: #21759b;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #E2E9F8;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  margin-right: 5px;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
+  color: #999;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #999;
+  margin-right: 5px;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
+  font-size: 11px;
+  color: #999;
+}
+ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form {
+  display: none;
+}
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+  left: -43px;
 }
 ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   font-size: 11px;

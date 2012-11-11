@@ -6,6 +6,7 @@
 -------------------------------------------------- */
 @backgroundColor: #f9f9f9;
 @borderColor: #dfdfdf;
+@linkColor: #21759b;
 
 .cpm {
     font-family: "helvetica neue", helvetica, arial, sans-serif;
@@ -16,10 +17,18 @@
     a {
         text-decoration: none;
     }
+
+    input[type=text], textarea {
+        .placeholder(#999);
+    }
 }
 
 .cpm-left {
     float: left;
+}
+
+.cpm-spacer {
+    width: 10px;
 }
 
 .cpm-right {
@@ -381,8 +390,21 @@ form.cpm-project-form {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
+
+.cpm-new-todolist-form {
+    display: none;
+}
+
 ul.cpm-todolists {
+
+    .submit {
+        margin: 10px 0;
+        padding: 0 0 15px 0;
+    }
+
     article.cpm-todolist {
+        position: relative;
+
         header {
             h3 {
                 margin-bottom: 3px;
@@ -392,6 +414,30 @@ ul.cpm-todolists {
             .cpm-entry-detail {
                 font-style: italic;
             }
+
+            .cpm-list-actions{
+                font-size: 11px;
+                border: 1px solid #eee;
+                border-right: none;
+                .border-radius(5px 0 0 5px);
+                padding: 1px 5px;
+                background: #fff;
+                visibility: hidden;
+                position: absolute;
+                left: -63px;
+                top: 0;
+                z-index: 99;
+            }
+
+            &:hover {
+                .cpm-list-actions {
+                    visibility: visible;
+                }
+            }
+        }
+
+        .cpm-list-edit-form {
+            display: none;
         }
 
         p {
@@ -424,13 +470,69 @@ ul.cpm-todolists {
                         vertical-align: baseline;
                     }
 
-                    .cpm-todo-content a {
-                        color: #333;
-
-                        &:hover {
-                            text-decoration: underline;
-                            color: #21759b;
+                    &:hover {
+                        .cpm-todo-action {
+                            visibility: visible;
                         }
+                    }
+
+                    .cpm-todo-action {
+                        font-size: 11px;
+                        border: 1px solid #eee;
+                        border-right: none;
+                        .border-radius(5px 0 0 5px);
+                        padding: 1px 5px;
+                        background: #fff;
+                        visibility: hidden;
+                        position: absolute;
+                        left: -63px;
+                        top: 0;
+                        z-index: 99;
+                    }
+
+                    .cpm-todo-content {
+
+                        a {
+                            color: #333;
+
+                            &:hover {
+                                text-decoration: underline;
+                                color: #21759b;
+                            }
+                        }
+
+                        .cpm-comment-count {
+                            .border-radius(3px);
+                            // background: lighten(@linkColor, 10%);
+                            background: #E2E9F8;
+                            font-size: 12px;
+                            line-height: 12px;
+                            padding: 1px 7px;
+                            margin-right: 5px;
+                            
+                            a {
+                                color: #999;
+                            }
+                        }
+
+                        .cpm-assigned-user, .cpm-due-date {
+                            .border-radius(3px);
+                            background: #ddd;
+                            font-size: 12px;
+                            line-height: 12px;
+                            padding: 1px 7px;
+                            color: #999;
+                            margin-right: 5px;
+                        }
+
+                        .cpm-completed-by {
+                            font-size: 11px;
+                            color: #999;
+                        }
+                    }
+
+                    .cpm-task-edit-form {
+                        display: none;
                     }
                 }
             }
@@ -439,6 +541,10 @@ ul.cpm-todolists {
         ul.cpm-todo-completed {
 
             .cpm-todo-wrap {
+                .cpm-todo-action {
+                    left: -43px;
+                }
+
                 .cpm-todo-content a {
                     font-size: 11px;
                     line-height: 14px;
