@@ -3,7 +3,7 @@ $cpm_active_menu = __( 'Task List', 'cpm' );
 
 require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
-$task_obj = new CPM_Task();
+$task_obj = CPM_Task::getInstance();
 $list = $task_obj->get_task_list( $tasklist_id );
 ?>
 <h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
@@ -14,16 +14,21 @@ $list = $task_obj->get_task_list( $tasklist_id );
     <?php } ?>
 </ul>
 
-<h3><?php _e( 'Comments:', 'cpm' ); ?></h3>
+<h3 class="cpm-comment-title"><?php _e( 'Discuss this to-do list', 'cpm' ); ?></h3>
 
 <ul class="cpm-comment-wrap">
     <?php
     $comments = $task_obj->get_comments( $tasklist_id );
     if ( $comments ) {
+
+        $count = 0;
         foreach ($comments as $comment) {
-            cpm_show_comment( $comment );
+            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+            echo cpm_show_comment( $comment );
+
+            $count++;
         }
     }
     ?>
 </ul>
-<?php cpm_comment_form( $project_id, $tasklist_id ); ?>
+<?php echo cpm_comment_form( $project_id, $tasklist_id ); ?>
