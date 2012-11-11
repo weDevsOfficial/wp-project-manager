@@ -28,11 +28,10 @@ class CPM_Comment {
      * Insert a new comment
      *
      * @param array $commentdata
-     * @param int $privacy
      * @param array $files
      * @return int
      */
-    function create( $commentdata, $privacy, $files = array() ) {
+    function create( $commentdata, $files = array() ) {
         $user = wp_get_current_user();
 
         $commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
@@ -44,7 +43,6 @@ class CPM_Comment {
         $comment_id = wp_insert_comment( $commentdata );
 
         if ( $comment_id ) {
-            add_comment_meta( $comment_id, '_privacy', $privacy );
             add_comment_meta( $comment_id, '_files', $files );
         }
 
@@ -64,8 +62,6 @@ class CPM_Comment {
             'comment_ID' => $comment_id,
             'comment_content' => $data['text']
         ) );
-
-        update_comment_meta( $comment_id, '_privacy', $data['privacy'] );
     }
 
     /**
@@ -87,7 +83,6 @@ class CPM_Comment {
     function get( $comment_id ) {
         $files_meta = get_comment_meta( $comment_id, '_files', true );
         $comment = get_comment( $comment_id );
-        $comment->privacy = get_comment_meta( $comment_id, '_privacy', true );
 
         $files = array();
         if ( $files_meta != '' ) {
