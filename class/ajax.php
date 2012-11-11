@@ -72,6 +72,7 @@ class CPM_Ajax {
         $list_id = $posted['list_id'];
         $project_id = $posted['project_id'];
         $task_id = $posted['task_id'];
+        $single = (int) $posted['single'];
 
         $task_obj = CPM_Task::getInstance();
         $task_id = $task_obj->update_task( $list_id, $task_id );
@@ -80,7 +81,7 @@ class CPM_Ajax {
         if ( $task_id ) {
             $response = array(
                 'success' => true,
-                'content' => cpm_task_html( $task, $project_id, $list_id )
+                'content' => cpm_task_html( $task, $project_id, $list_id, $single )
             );
         } else {
             $response = array('success' => false);
@@ -385,7 +386,6 @@ class CPM_Ajax {
 
         $text = trim( $posted['cpm_message'] );
         $parent_id = isset( $posted['parent_id'] ) ? intval( $posted['parent_id'] ) : 0;
-        $privacy = (int) $posted['privacy'];
 
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
@@ -398,7 +398,7 @@ class CPM_Ajax {
         );
 
         $comment_obj = CPM_Comment::getInstance();
-        $comment_id = $comment_obj->create( $data, $privacy, $files );
+        $comment_id = $comment_obj->create( $data, $files );
 
         if ( $comment_id ) {
 
@@ -416,8 +416,7 @@ class CPM_Ajax {
         $comment_id = isset( $posted['comment_id'] ) ? intval( $posted['comment_id'] ) : 0;
 
         $data = array(
-            'text' => $posted['cpm_message'],
-            'privacy' => (int) $posted['privacy']
+            'text' => $posted['cpm_message']
         );
 
         $comment_obj = CPM_Comment::getInstance();
