@@ -12,6 +12,11 @@
             $('ul.cpm-todolists').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
             $('ul.cpm-todolists').on('submit', '.cpm-task-edit-form form', this.updateTodo);
 
+            //single todo
+            $('.cpm-single-task').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
+            $('.cpm-single-task').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
+            $('.cpm-single-task').on('submit', '.cpm-task-edit-form form', this.updateTodo);
+
             //task done, undone, delete
             $('ul.cpm-todolists').on('click', '.cpm-todos input[type=checkbox]', this.markDone);
             $('ul.cpm-todolists').on('click', '.cpm-todo-completed input[type=checkbox]', this.markUnDone);
@@ -150,10 +155,10 @@
         toggleEditTodo: function (e) {
             e.preventDefault();
 
-            var list = $(this).closest('li');
+            var wrap = $(this).closest('.cpm-todo-wrap');
 
-            list.find('.cpm-todo-content').toggle();
-            list.find('.cpm-task-edit-form').slideToggle();
+            wrap.find('.cpm-todo-content').toggle();
+            wrap.find('.cpm-task-edit-form').slideToggle();
         },
 
         updateTodo: function (e) {
@@ -162,6 +167,7 @@
             var self = $(this),
                 data = self.serialize(),
                 list = self.closest('li'),
+                singleWrap = self.closest('.cpm-single-task'),
                 content = $.trim(self.find('.todo_content').val());
 
             if(content !== '') {
@@ -169,7 +175,11 @@
                     res = JSON.parse(res);
 
                     if(res.success === true) {
-                        list.html(res.content);
+                        if(list.length) {
+                            list.html(res.content); //update in task list
+                        } else if(singleWrap.length) {
+                            singleWrap.html(res.content); //update in single task
+                        }
 
                     } else {
                         alert('something went wrong!');
