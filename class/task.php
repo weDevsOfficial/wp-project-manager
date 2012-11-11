@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of task
+ * Task list manager class
  *
- * @author tareq
+ * @author Tareq Hasan
  */
 class CPM_Task {
 
@@ -81,8 +81,16 @@ class CPM_Task {
         ) );
     }
 
+    /**
+     * Add a new task list
+     *
+     * @param int $project_id project id
+     * @param int $list_id list id for update purpose
+     * @return int task list id
+     */
     function add_list( $project_id, $list_id = 0 ) {
         $postdata = $_POST;
+        $is_update = $list_id ? true : false;
 
         $data = array(
             'post_parent' => $project_id,
@@ -101,16 +109,24 @@ class CPM_Task {
 
         if ( $list_id ) {
             update_post_meta( $list_id, '_milestone', $postdata['tasklist_milestone'] );
-            update_post_meta( $list_id, '_due', cpm_date2mysql( $postdata['tasklist_due'] ) );
-            update_post_meta( $list_id, '_privacy', $postdata['tasklist_privacy'] );
-            update_post_meta( $list_id, '_priority', $postdata['tasklist_priority'] );
 
-            do_action( 'cpm_new_tasklist', $list_id, $data );
+            if ( $is_update ) {
+                do_action( 'cpm_tasklist_update', $list_id, $project_id, $data );
+            } else {
+                do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
+            }
         }
 
         return $list_id;
     }
 
+    /**
+     * Update a task list
+     *
+     * @param int $project_id
+     * @param int $list_id
+     * @return int list id
+     */
     function update_list( $project_id, $list_id ) {
         return $this->add_list( $project_id, $list_id );
     }
@@ -118,47 +134,43 @@ class CPM_Task {
     /**
      * Add a single task
      *
-     * @param int $list_id
-     * @param int $key the index, to add from an array
-     * @return int task id
+     * @param int $list_id task list id
+     * @return int $task_id task id for update purpose
      */
-    function add_task( $list_id, $key = null, $task_id = 0 ) {
+    function add_task( $list_id, $task_id = 0 ) {
         $postdata = $_POST;
         $files = isset( $postdata['cpm_attachment'] ) ? $postdata['cpm_attachment'] : array();
+        $is_update = $task_id ? true : false;
 
-        if ( is_null( $key ) ) {
-            //posted when task list creation
-            $content = $postdata['task_text'];
-            $assigned = $postdata['task_assign'];
-            $due = cpm_date2mysql( $postdata['task_due'] );
-            $key = 0; //for menu order
-        } else {
-            //posted for a single task creation
-            $content = $postdata['task_text'][$key];
-            $assigned = $postdata['task_assign'][$key];
-            $due = cpm_date2mysql( $postdata['task_due'][$key] );
-        }
+        $content = $postdata['task_text'];
+        $assigned = $postdata['task_assign'];
+        $due = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
 
         $data = array(
             'post_parent' => $list_id,
             'post_title' => substr( $content, 0, 20 ), //first 20 character
             'post_content' => $content,
-            'menu_order' => $key,
             'post_type' => 'task',
             'post_status' => 'publish'
         );
+
+        $data = apply_filters( 'cpm_task_params', $data );
 
         if ( $task_id ) {
             $data['ID'] = $task_id;
             $task_id = wp_update_post( $data );
         } else {
             $task_id = wp_insert_post( $data );
-            $this->mark_open( $task_id ); //mark open on new task
         }
 
         if ( $task_id ) {
             update_post_meta( $task_id, '_assigned', $assigned );
             update_post_meta( $task_id, '_due', $due );
+
+            //initially mark as uncomplete
+            if ( !$is_update ) {
+                update_post_meta( $task_id, '_completed', 0 );
+            }
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
@@ -169,14 +181,25 @@ class CPM_Task {
                 }
             }
 
-            do_action( 'cpm_new_task', $list_id, $task_id, $data );
+            if ( $is_update ) {
+                do_action( 'cpm_update_task', $list_id, $task_id, $data );
+            } else {
+                do_action( 'cpm_new_task', $list_id, $task_id, $data );
+            }
         }
 
         return $task_id;
     }
 
+    /**
+     * Update a single task
+     *
+     * @param int $list_id
+     * @param int $task_id
+     * @return int task id
+     */
     function update_task( $list_id, $task_id ) {
-        return $this->add_task( $list_id, null, $task_id );
+        return $this->add_task( $list_id, $task_id );
     }
 
     /**
@@ -213,6 +236,11 @@ class CPM_Task {
         return $task_list;
     }
 
+    /**
+     * Set meta info for a task list
+     *
+     * @param object $task_list
+     */
     function set_list_meta( &$task_list ) {
         $task_list->due_date = get_post_meta( $task_list->ID, '_due', true );
         $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
@@ -243,6 +271,7 @@ class CPM_Task {
      */
     function set_task_meta( &$task ) {
         $task->completed = get_post_meta( $task->ID, '_completed', true );
+        $task->completed_by = get_post_meta( $task->ID, '_completed_by', true );
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
         $task->assigned_to = get_post_meta( $task->ID, '_assigned', true );
         $task->due_date = get_post_meta( $task->ID, '_due', true );
@@ -310,7 +339,10 @@ class CPM_Task {
      */
     function mark_complete( $task_id ) {
         update_post_meta( $task_id, '_completed', 1 );
+        update_post_meta( $task_id, '_completed_by', get_current_user_id() );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
+
+        do_action( 'cpm_task_complete', $task_id );
     }
 
     /**
@@ -321,12 +353,40 @@ class CPM_Task {
     function mark_open( $task_id ) {
         update_post_meta( $task_id, '_completed', 0 );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
+
+        do_action( 'cpm_task_open', $task_id );
     }
 
+    /**
+     * Delete a single task
+     *
+     * @param int $task_id
+     * @param bool $force
+     */
     function delete_task( $task_id, $force = false ) {
+        do_action( 'cpm_task_delete', $task_id, $force );
+
         wp_delete_post( $task_id, $force );
     }
 
+    /**
+     * Delete a task list
+     *
+     * @param int $list_id
+     * @param bool $force
+     */
+    function delete_list( $list_id, $force = false ) {
+        do_action( 'cpm_tasklist_delete', $list_id, $force );
+
+        wp_delete_post( $list_id, $force );
+    }
+
+    /**
+     * Get the overall completeness for a task list
+     * 
+     * @param int $list_id
+     * @return array
+     */
     function get_completeness( $list_id ) {
         $tasks = $this->get_tasks( $list_id );
 
