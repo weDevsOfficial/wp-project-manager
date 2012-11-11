@@ -54,6 +54,7 @@ class WeDevs_CPM {
         $message = CPM_Message::getInstance();
         $task = CPM_Task::getInstance();
         $milestone = CPM_Milestone::getInstance();
+        $logger = new CPM_Logger();
     }
 
     function constants() {
@@ -76,7 +77,6 @@ class WeDevs_CPM {
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'nonce' => wp_create_nonce( 'cpm_nonce' ),
-            'pay_symbol' => '$',
             'plupload' => array(
                 'runtimes' => 'html5,silverlight,flash,html4',
                 'browse_button' => 'cpm-upload-pickfiles',
