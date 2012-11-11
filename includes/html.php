@@ -16,8 +16,9 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             <a href="#" data-task_id="<?php echo $task->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do?', 'cpm' ); ?>" class="cpm-todo-delete">
                 <?php _e( 'Delete', 'cpm' ); ?>
             </a>
+
             <?php if ( $task->completed != '1' ) { ?>
-                <a href="#" class="cpm-todo-edit">Edit</a>
+                <a href="#" class="cpm-todo-edit"><?php _e( 'Edit', 'cpm' ); ?></a>
             <?php } ?>
         </span>
 
@@ -64,7 +65,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     <span class="cpm-due-date">
                         <?php echo cpm_get_date( $task->due_date ); ?>
                     </span>
-                <?php
+                    <?php
                 }
             }
             ?>
@@ -72,7 +73,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
 
         <?php if ( $task->completed == '0' ) { ?>
             <div class="cpm-task-edit-form">
-                <?php echo cpm_task_new_form( $list_id, $project_id, $task ); ?>
+                <?php echo cpm_task_new_form( $list_id, $project_id, $task, $single ); ?>
             </div>
         <?php } ?>
 
@@ -89,7 +90,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
  * @param int $project_id
  * @param null|object $task
  */
-function cpm_task_new_form( $list_id, $project_id, $task = null ) {
+function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false ) {
     $action = 'cpm_task_add';
     $task_content = $task_due = '';
     $assigned_to = '-1';
@@ -111,11 +112,12 @@ function cpm_task_new_form( $list_id, $project_id, $task = null ) {
         <input type="hidden" name="list_id" value="<?php echo $list_id; ?>">
         <input type="hidden" name="project_id" value="<?php echo $project_id; ?>">
         <input type="hidden" name="action" value="<?php echo $action; ?>">
+        <input type="hidden" name="single" value="<?php echo $single; ?>">
         <?php wp_nonce_field( $action ); ?>
 
         <?php if ( $task ) { ?>
             <input type="hidden" name="task_id" value="<?php echo $task->ID; ?>">
-    <?php } ?>
+        <?php } ?>
 
         <div class="item content">
             <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ) ?>" rows="1"><?php echo esc_textarea( $task_content ); ?></textarea>
@@ -124,14 +126,14 @@ function cpm_task_new_form( $list_id, $project_id, $task = null ) {
             <input type="text" autocomplete="off" class="datepicker" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
         </div>
         <div class="item user">
-    <?php wp_dropdown_users( array('name' => 'task_assign', 'show_option_none' => __( '-- assign to --', 'cpm' )) ); ?>
+            <?php wp_dropdown_users( array('name' => 'task_assign', 'show_option_none' => __( '-- assign to --', 'cpm' )) ); ?>
         </div>
 
-    <?php do_action( 'cpm_task_new_form', $list_id, $project_id, $task ); ?>
+        <?php do_action( 'cpm_task_new_form', $list_id, $project_id, $task ); ?>
 
         <div class="item submit">
             <input type="submit" class="button-primary" name="submit_todo" value="<?php echo esc_attr( $submit_button ); ?>">
-            <a class="todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            <a class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
         </div>
     </form>
     <?php
@@ -169,7 +171,7 @@ function cpm_tasklist_form( $project_id, $list = null ) {
 
         <?php if ( $list ) { ?>
             <input type="hidden" name="list_id" value="<?php echo $list->ID; ?>">
-    <?php } ?>
+        <?php } ?>
 
         <div class="item title">
             <input type="text" name="tasklist_name" value="<?php echo esc_attr( $list_name ); ?>" placeholder="<?php esc_attr_e( 'Tasklist name', 'cpm' ); ?>">
@@ -182,15 +184,15 @@ function cpm_tasklist_form( $project_id, $list = null ) {
         <div class="item milestone">
             <select name="tasklist_milestone" id="tasklist_milestone">
                 <option selected="selected" value="-1"><?php _e( '-- milestone --', 'cpm' ); ?></option>
-    <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+                <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
 
-    <?php do_action( 'cpm_tasklist_form', $project_id, $list ); ?>
+        <?php do_action( 'cpm_tasklist_form', $project_id, $list ); ?>
 
         <div class="item submit">
             <input type="submit" class="button-primary" name="submit_todo" value="<?php echo esc_attr( $submit_button ); ?>">
-            <a class="list-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            <a class="button list-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
         </div>
     </form>
     <?php
@@ -213,7 +215,7 @@ function cpm_task_list_html( $list, $project_id ) {
         <header class="cpm-list-header">
             <div class="cpm-list-actions">
                 <a href="#" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>" class="cpm-list-delete">
-    <?php _e( 'Delete', 'cpm' ); ?>
+                    <?php _e( 'Delete', 'cpm' ); ?>
                 </a>
                 <a href="#" class="cpm-list-edit"><?php _e( 'Edit', 'cpm' ); ?></a>
             </div>
@@ -221,11 +223,11 @@ function cpm_task_list_html( $list, $project_id ) {
             <h3><a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a></h3>
 
             <div class="cpm-entry-detail">
-    <?php echo cpm_print_content( $list->post_content ); ?>
+                <?php echo cpm_print_content( $list->post_content ); ?>
             </div>
         </header>
         <div class="cpm-list-edit-form">
-    <?php echo cpm_tasklist_form( $project_id, $list ); ?>
+            <?php echo cpm_tasklist_form( $project_id, $list ); ?>
         </div>
 
         <ul class="cpm-todos">
@@ -237,7 +239,7 @@ function cpm_task_list_html( $list, $project_id ) {
                 foreach ($tasks['pending'] as $task) {
                     ?>
                     <li>
-                    <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
                     </li>
                     <?php
                 }
@@ -250,7 +252,7 @@ function cpm_task_list_html( $list, $project_id ) {
                 <a href="#" class="cpm-btn add-task"><?php _e( 'Add a to-do', 'cpm' ); ?></a>
             </li>
             <li class="cpm-todo-form cpm-hide">
-    <?php cpm_task_new_form( $list->ID, $project_id ); ?>
+                <?php cpm_task_new_form( $list->ID, $project_id ); ?>
             </li>
         </ul>
 
@@ -260,7 +262,7 @@ function cpm_task_list_html( $list, $project_id ) {
                 foreach ($tasks['completed'] as $task) {
                     ?>
                     <li>
-                    <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
                     </li>
                     <?php
                 }
@@ -270,4 +272,46 @@ function cpm_task_list_html( $list, $project_id ) {
     </article>
     <?php
     return ob_get_clean();
+}
+
+/**
+ * Comment form
+ *
+ * @param int $object_id object id of the comment parent
+ * @param string $type MESSAGE, TASK, TASK_LIST
+ * @param type $privacy
+ */
+function cpm_comment_form( $project_id, $object_id, $privacy = true ) {
+    ?>
+    <div class="cpm-comment-form-wrap">
+        
+        <div class="cpm-avatar"><?php echo cpm_url_user( get_current_user_id(), true ); ?></div>
+
+        <form class="cpm-comment-form">
+
+            <?php wp_nonce_field( 'cpm_new_message' ); ?>
+
+            <div class="item message">
+                <textarea name="cpm_message" class="required" cols="55" rows="8" placeholder="<?php esc_attr_e( 'Add a comment...', 'cpm' ); ?>"></textarea>
+            </div>
+
+            <div class="cpm-attachment-area">
+                <!-- <legend>Attach Files</legend> -->
+                <?php cpm_upload_field(); ?>
+            </div>
+
+            <fieldset>
+                <legend><?php _e( 'Notify users', 'cpm' ); ?></legend>
+                <?php cpm_user_checkboxes( $project_id ); ?>
+            </fieldset>
+
+            <div class="submit">
+                <input type="hidden" name="action" value="cpm_new_comment" />
+                <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
+                <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php esc_attr_e( 'Add this comment', 'cpm' ); ?>" id="" />
+            </div>
+        </form>
+    </div>
+    <?php
 }
