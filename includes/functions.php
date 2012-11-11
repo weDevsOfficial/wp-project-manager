@@ -141,29 +141,6 @@ function cpm_upload_field() {
     <?php
 }
 
-function cpm_show_comment( $comment, $class = '' ) {
-    $class = empty( $class ) ? '' : ' ' . $class;
-    ?>
-    <li class="cpm-comment<?php echo $class; ?>">
-        <div class="cpm-avatar"><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
-        <div class="cpm-comment-container">
-            <div class="cpm-comment-meta">
-                <span class="cpm-author"><?php echo cpm_url_user( $comment->user_id ); ?></span>
-                <span class="cpm-separator">|</span>
-                <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
-                <span class="cpm-separator">|</span>
-                <span class="cpm-edit-link"><a href="#" class="cpm-edit-comment-link" data-id="<?php echo $comment->comment_ID; ?>"><?php _e( 'Edit', 'cpm' ); ?></a></span>
-            </div>
-            <div class="cpm-comment-content">
-                <?php echo cpm_print_content( $comment->comment_content ); ?>
-
-                <?php cpm_show_attachments( $comment ); ?>
-            </div>
-        </div>
-    </li>
-    <?php
-}
-
 function cpm_get_currency( $amount = 0 ) {
     $currency = '$';
 
@@ -327,20 +304,6 @@ function cpm_log( $type = '', $msg = '' ) {
     }
 }
 
-function cpm_show_attachments( $object ) {
-    if ( $object->files ) {
-        ?>
-        <ul class="cpm-attachments">
-            <?php
-            foreach ($object->files as $file) {
-                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
-            }
-            ?>
-        </ul>
-        <?php
-    }
-}
-
 function cpm_get_number( $number ) {
     return number_format_i18n( $number );
 }
@@ -349,7 +312,7 @@ function cpm_print_url( $link, $text ) {
     return sprintf( '<a href="%s">%s</a>', $link, $text );
 }
 
-function cpm_print_content( $content ) {
+function cpm_get_content( $content ) {
     $content = apply_filters( 'the_content', $content );
     $content = str_replace( ']]>', ']]&gt;', $content );
 
@@ -360,4 +323,9 @@ function cpm_get_header( $active_menu, $project_id = 0 ) {
     $cpm_active_menu = $active_menu;
 
     require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+}
+
+function cpm_comment_text( $comment_ID = 0 ) {
+    $comment = get_comment( $comment_ID );
+    return apply_filters( 'comment_text', get_comment_text( $comment_ID ), $comment );
 }
