@@ -39,9 +39,15 @@ jQuery(function($){
     });
 
     uploader.bind('FileUploaded', function(up, file, response) {
-        //$('#' + file.id + " b").html("100%");
+        var res = $.parseJSON(response.response);
+
+        $('#' + file.id + " b").html("100%");
         $('#' + file.id).remove();
-        $('#cpm-upload-filelist').append(response.response);
-    //console.log(response);
+
+        if(res.success) {
+            $('#cpm-upload-filelist').append(res.content);
+        } else {
+            alert(res.error);
+        }
     });
 });
