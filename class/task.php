@@ -182,9 +182,9 @@ class CPM_Task {
             }
 
             if ( $is_update ) {
-                do_action( 'cpm_update_task', $list_id, $task_id, $data );
+                do_action( 'cpm_task_update', $list_id, $task_id, $data );
             } else {
-                do_action( 'cpm_new_task', $list_id, $task_id, $data );
+                do_action( 'cpm_task_new', $list_id, $task_id, $data );
             }
         }
 
