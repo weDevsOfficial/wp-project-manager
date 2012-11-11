@@ -27,10 +27,10 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
     </div>
 
     <div class="cpm-entry-detail">
-        <?php echo cpm_print_content( $message->post_content ); ?>
+        <?php echo cpm_get_content( $message->post_content ); ?>
     </div>
 
-    <?php cpm_show_attachments( $message ); ?>
+    <?php echo cpm_show_attachments( $message ); ?>
 </div>
 
 <?php
@@ -47,7 +47,8 @@ if ( $comments ) {
         <?php
         foreach ($comments as $comment) {
             $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
-            cpm_show_comment( $comment, $class );
+
+            echo cpm_show_comment( $comment, $project_id, $class );
 
             $count++;
         }
@@ -61,4 +62,4 @@ if ( $comments ) {
 }
 ?>
 
-<?php cpm_comment_form( $project_id, $message_id ); ?>
+<?php echo cpm_comment_form( $project_id, $message_id ); ?>
