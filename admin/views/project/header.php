@@ -1,6 +1,5 @@
 <?php
 require_once CPM_PLUGIN_PATH . '/class/project.php';
-include_once CPM_PLUGIN_PATH . '/admin/views/tpl.php';
 
 $project = CPM_Project::getInstance();
 $project_detail = $project->get( $project_id );
