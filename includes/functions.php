@@ -10,7 +10,7 @@ function cpm_tasks_filter( $tasks ) {
         'pending' => array()
     );
 
-    if( $tasks ) {
+    if ( $tasks ) {
         $response['pending'] = array_filter( $tasks, 'cpm_tasks_filter_pending' );
         $response['completed'] = array_filter( $tasks, 'cpm_tasks_filter_done' );
     }
@@ -222,7 +222,6 @@ function cpm_get_currency( $amount = 0 ) {
 
 function cpm_get_date( $date, $show_time = false ) {
     $date = strtotime( $date );
-    $abbr = date_i18n( 'Y/m/d g:i:s A', $date );
 
     if ( $show_time ) {
         $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
@@ -230,7 +229,7 @@ function cpm_get_date( $date, $show_time = false ) {
         $format = get_option( 'date_format' );
     }
 
-    $date_html = sprintf( '<abbr title="%s">%s</abbr>', $abbr, date_i18n( $format, $date ) );
+    $date_html = sprintf( '<time datetime="%1$s" title="%1$s">%2$s</time>', date( 'c', $date ), date_i18n( $format, $date ) );
 
     return apply_filters( 'cpm_get_date', $date_html, $date );
 }
@@ -401,8 +400,8 @@ function cpm_print_url( $link, $text ) {
 }
 
 function cpm_print_content( $content ) {
-    $content = apply_filters('the_content', $content);
-    $content = str_replace(']]>', ']]&gt;', $content);
+    $content = apply_filters( 'the_content', $content );
+    $content = str_replace( ']]>', ']]&gt;', $content );
 
     return $content;
 }
