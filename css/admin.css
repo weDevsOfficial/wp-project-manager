@@ -296,14 +296,16 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   margin: 0 10px;
 }
 .cpm-single .cpm-entry-meta {
-  margin: 10px 0;
+  margin: 10px;
   color: #888;
+  font-size: 12px;
 }
 .cpm-single .cpm-entry-meta .cpm-separator {
   color: #dfdfdf;
 }
 .cpm-single .cpm-entry-detail {
   margin-bottom: 10px;
+  margin-left: 10px;
 }
 /*--------------------------------------------------
 :: Comment
