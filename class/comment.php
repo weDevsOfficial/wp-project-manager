@@ -46,7 +46,7 @@ class CPM_Comment {
             add_comment_meta( $comment_id, '_files', $files );
         }
 
-        do_action( 'cpm_new_comment', $comment_id, $commentdata );
+        do_action( 'cpm_comment_new', $comment_id, $commentdata );
 
         return $comment_id;
     }
@@ -62,6 +62,8 @@ class CPM_Comment {
             'comment_ID' => $comment_id,
             'comment_content' => $data['text']
         ) );
+
+        do_action( 'cpm_comment_update', $comment_id, $data );
     }
 
     /**
@@ -71,6 +73,8 @@ class CPM_Comment {
      * @param bool $force_delete
      */
     function delete( $comment_id, $force_delete = false ) {
+        do_action( 'cpm_comment_delete', $comment_id, $force_delete );
+
         wp_delete_comment( $comment_id, $force_delete );
     }
 
@@ -175,10 +179,10 @@ class CPM_Comment {
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
-            return $attach_id;
+            return array('success' => true, 'file_id' => $attach_id);
         }
 
-        return false;
+        return array('success' => false, 'error' => $uploaded_file['error']);
     }
 
     /**
