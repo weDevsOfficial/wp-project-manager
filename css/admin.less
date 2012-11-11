@@ -327,14 +327,25 @@ form.cpm-project-form {
         padding: 10px;
         border-bottom: 1px solid @borderColor;
         border-top: 1px solid #fff;
+        position: relative;
 
         &.odd {
             background-color: #fcfcfc;
         }
 
         .cpm-avatar {
-            float: left;
-            margin-right: 20px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 48px;
+            height: 48px;
+            padding: 3px;
+            background: #D5D5D5;
+            .border-radius(50%);
+
+            img {
+                .border-radius(50%);
+            }
         }
 
         .cpm-comment-container {
@@ -342,10 +353,15 @@ form.cpm-project-form {
 
             .cpm-comment-meta {
                 color: #888;
+                font-size: 12px;
                 
                 .cpm-separator {
                     color: @borderColor;
                 }
+            }
+
+            p {
+                margin: 5px 0 10px 0;
             }
         }
 
@@ -360,30 +376,65 @@ form.cpm-project-form {
     }
 }
 
-.cpm-comment-form {
-    width: 50%;
+.cpm-comment-form-wrap {
+    position: relative;
+    border: 1px solid #DDD;
+    .border-radius(5px);
+    padding: 10px;
+    margin-left: 75px;
+    width: 500px;
 
-    fieldset {
-        border: 1px solid #ddd;
-        .border-radius(5px);
-        padding: 10px;
-        margin-bottom: 10px;
+    .cpm-avatar {
+        position: absolute;
+        top: 0;
+        left: -65px;
+        height: 48px;
+        width: 48px;
+        padding: 3px;
+        background: #D5D5D5;
+        .border-radius(50%);
+
+        img {
+            .border-radius(50%);
+        }
     }
 
-    legend {
-        font-weight: bold;
-        border: 1px solid #ddd;
-        .border-radius(5px);
-        padding: 5px 10px;
-    }
+    .cpm-comment-form {
+        font-size: 13px;
 
-    input[type=file] {
-        border: 1px solid #ddd;
-        .border-radius(5px);
-    }
+        legend {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            width: 100%;
+        }
 
-    textarea {
-        padding: 10px;
+        input[type=file] {
+            border: 1px solid #ddd;
+            .border-radius(5px);
+        }
+
+        textarea {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #DDD;
+        }
+
+        .cpm-attachment-area {
+            background: url('../images/attachment.png') 5px 10px no-repeat;
+            color: #999;
+            border: 1px dashed #DDD;
+            padding: 10px 10px 10px 30px;
+            margin: 10px 0;
+            font-size: 13px;
+            position: relative;
+            line-height: 17px;
+            .border-radius(5px);
+        }
+
+        .submit {
+            padding: 10px 0 0 0;
+        }
     }
 }
 
@@ -398,8 +449,9 @@ form.cpm-project-form {
 .cpm-single-task {
     margin: 20px 0;
     overflow: hidden;
-    border-bottom: 1px solid @borderColor;
-    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+    padding: 10px 0;
 
     .cpm-todo-wrap {
         margin-left: 0;
@@ -420,15 +472,18 @@ form.cpm-project-form {
         }
 
         .cpm-todo-action {
-            border: 1px solid #eee;
-            border-right: none;
-            .border-radius(5px 0 0 5px);
             padding: 1px 5px;
             background: #fff;
             float: right;
 
             a {
                 display: block;
+                padding: 5px;
+                border-left: 1px solid #eee;
+
+                &.cpm-todo-delete {
+                    border-bottom: 1px solid #eee;
+                }
             }
         }
 

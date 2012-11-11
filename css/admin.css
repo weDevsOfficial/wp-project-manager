@@ -320,22 +320,40 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   padding: 10px;
   border-bottom: 1px solid #dfdfdf;
   border-top: 1px solid #fff;
+  position: relative;
 }
 .cpm-comment-wrap li.cpm-comment.odd {
   background-color: #fcfcfc;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-avatar {
-  float: left;
-  margin-right: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 48px;
+  height: 48px;
+  padding: 3px;
+  background: #D5D5D5;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.cpm-comment-wrap li.cpm-comment .cpm-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container {
   margin-left: 68px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container .cpm-comment-meta {
   color: #888;
+  font-size: 12px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container .cpm-comment-meta .cpm-separator {
   color: #dfdfdf;
+}
+.cpm-comment-wrap li.cpm-comment .cpm-comment-container p {
+  margin: 5px 0 10px 0;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-upload-container {
   background: #fff;
@@ -344,33 +362,68 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 .cpm-comment-wrap li.cpm-comment:last-child {
   border-bottom: none;
 }
-.cpm-comment-form {
-  width: 50%;
-}
-.cpm-comment-form fieldset {
-  border: 1px solid #ddd;
+.cpm-comment-form-wrap {
+  position: relative;
+  border: 1px solid #DDD;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-left: 75px;
+  width: 500px;
 }
-.cpm-comment-form legend {
-  font-weight: bold;
+.cpm-comment-form-wrap .cpm-avatar {
+  position: absolute;
+  top: 0;
+  left: -65px;
+  height: 48px;
+  width: 48px;
+  padding: 3px;
+  background: #D5D5D5;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.cpm-comment-form-wrap .cpm-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.cpm-comment-form-wrap .cpm-comment-form {
+  font-size: 13px;
+}
+.cpm-comment-form-wrap .cpm-comment-form legend {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+.cpm-comment-form-wrap .cpm-comment-form input[type=file] {
   border: 1px solid #ddd;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 5px 10px;
 }
-.cpm-comment-form input[type=file] {
-  border: 1px solid #ddd;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-.cpm-comment-form textarea {
+.cpm-comment-form-wrap .cpm-comment-form textarea {
   padding: 10px;
+  width: 100%;
+  border: 1px solid #DDD;
+}
+.cpm-comment-form-wrap .cpm-comment-form .cpm-attachment-area {
+  background: url('../images/attachment.png') 5px 10px no-repeat;
+  color: #999;
+  border: 1px dashed #DDD;
+  padding: 10px 10px 10px 30px;
+  margin: 10px 0;
+  font-size: 13px;
+  position: relative;
+  line-height: 17px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.cpm-comment-form-wrap .cpm-comment-form .submit {
+  padding: 10px 0 0 0;
 }
 /*--------------------------------------------------
 :: Task List
@@ -381,8 +434,9 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 .cpm-single-task {
   margin: 20px 0;
   overflow: hidden;
-  border-bottom: 1px solid #dfdfdf;
-  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  padding: 10px 0;
 }
 .cpm-single-task .cpm-todo-wrap {
   margin-left: 0;
@@ -399,17 +453,17 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   visibility: visible;
 }
 .cpm-single-task .cpm-todo-wrap .cpm-todo-action {
-  border: 1px solid #eee;
-  border-right: none;
-  -webkit-border-radius: 5px 0 0 5px;
-  -moz-border-radius: 5px 0 0 5px;
-  border-radius: 5px 0 0 5px;
   padding: 1px 5px;
   background: #fff;
   float: right;
 }
 .cpm-single-task .cpm-todo-wrap .cpm-todo-action a {
   display: block;
+  padding: 5px;
+  border-left: 1px solid #eee;
+}
+.cpm-single-task .cpm-todo-wrap .cpm-todo-action a.cpm-todo-delete {
+  border-bottom: 1px solid #eee;
 }
 .cpm-single-task .cpm-todo-wrap .cpm-todo-content a {
   color: #333;
