@@ -70,7 +70,7 @@ $cpm_active_menu = __( 'Details', 'cpm' );
     <h3 class="cpm-entry-title"><?php _e( 'Description', 'cpm' ) ?></h3>
 
     <div class="cpm-entry-detail">
-        <?php echo cpm_print_content( $project_detail->post_content ); ?>
+        <?php echo cpm_get_content( $project_detail->post_content ); ?>
     </div>
 </div>
 
