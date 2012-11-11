@@ -12,7 +12,7 @@
 
             $('.cpm-comment-wrap').on('click', '.cpm-edit-comment-link', this.Comment.get);
             $('.cpm-comment-wrap').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
-            $('.cpm-comment-wrap').on('submit', '.cpm-comment-edit', this.Comment.update);
+            $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
 
             // add new comment
             $('.cpm-comment-form').validate({
@@ -102,53 +102,60 @@
                 e.preventDefault();
 
                 var that = $(this),
-                parent = that.closest('.cpm-comment'),
-                data = {
-                    id: that.data('id'),
-                    action: 'cpm_get_comment',
-                    '_wpnonce': CPM_Vars.nonce
-                };
+                    parent = that.closest('.cpm-comment'),
+                    data = {
+                        comment_id: that.data('comment_id'),
+                        project_id: that.data('project_id'),
+                        object_id: that.data('object_id'),
+                        action: 'cpm_comment_get',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
 
                 //console.log(data);
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    if(parent.find('form').length === 0 ) {
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = $.parseJSON(res);
 
-                        var tpl = _.template($('#cpm-comment-edit').html()),
+                    if(res.success && parent.find('form').length === 0) {
 
-                        html = tpl($.parseJSON(response));
-                        parent.find('.cpm-comment-container').append(html);
                         parent.find('.cpm-comment-content').hide();
+                        parent.find('.cpm-comment-edit-form').html(res.form);
                     }
 
                 //console.log(html);
                 });
 
             },
+
             cancelCommentEdit: function (e) {
                 e.preventDefault();
                 var that = $(this);
 
                 that.parents('.cpm-comment').find('.cpm-comment-content').show();
-                that.closest('form.cpm-comment-edit').remove();
+                that.closest('.cpm-comment-edit-form').html('');
             },
-            update: function () {
-                var that = $(this),
-                data = that.serialize(),
-                text = $.trim(that.find('textarea').val());
+
+            update: function (e) {
+                e.preventDefault();
+
+                var form = $(this),
+                    container = form.closest('.cpm-comment-container'),
+                    data = form.serialize(),
+                    text = $.trim(form.find('textarea').val());
 
                 if( text.length < 1 ) {
                     alert('Please enter some text');
                     return false;
                 }
 
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    var json = $.parseJSON(response);
-                    that.parent().find('.cpm-comment-content').html(json.comment_content);
-                    that.parent().find('.cpm-comment-content').show();
-                    that.remove();
-                });
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = $.parseJSON(res);
 
-                return false;
+                    if(res.success) {
+                        container.find('.cpm-comment-content').html(res.content);
+                        container.find('.cpm-comment-content').show();
+                        form.parent().remove();
+                    }
+                });
             }
         },
         Message: {
