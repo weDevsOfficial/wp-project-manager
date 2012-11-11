@@ -355,6 +355,10 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container p {
   margin: 5px 0 10px 0;
 }
+.cpm-comment-wrap li.cpm-comment .cpm-comment-container .cpm-comment-edit-form .cpm-comment-form-wrap {
+  margin-left: 0;
+  margin-top: 10px;
+}
 .cpm-comment-wrap li.cpm-comment .cpm-upload-container {
   background: #fff;
   padding: 10px;
@@ -408,6 +412,9 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   padding: 10px;
   width: 100%;
   border: 1px solid #DDD;
+  -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 .cpm-comment-form-wrap .cpm-comment-form .cpm-attachment-area {
   background: url('../images/attachment.png') 5px 10px no-repeat;
@@ -442,6 +449,9 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
   margin-left: 0;
   padding-left: 20px;
   position: relative;
+}
+.cpm-single-task .cpm-todo-wrap.cpm-task-complete .cpm-todo-text {
+  text-decoration: line-through;
 }
 .cpm-single-task .cpm-todo-wrap input[type="checkbox"] {
   margin-left: -20px;
