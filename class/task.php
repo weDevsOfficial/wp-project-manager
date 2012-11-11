@@ -142,13 +142,13 @@ class CPM_Task {
         $files = isset( $postdata['cpm_attachment'] ) ? $postdata['cpm_attachment'] : array();
         $is_update = $task_id ? true : false;
 
-        $content = $postdata['task_text'];
+        $content = trim( $postdata['task_text'] );
         $assigned = $postdata['task_assign'];
         $due = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
 
         $data = array(
             'post_parent' => $list_id,
-            'post_title' => substr( $content, 0, 20 ), //first 20 character
+            'post_title' => trim( substr( $content, 0, 20 ) ), //first 20 character
             'post_content' => $content,
             'post_type' => 'task',
             'post_status' => 'publish'
