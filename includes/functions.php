@@ -131,13 +131,24 @@ function cpm_user_checkboxes( $project_id ) {
     return $users;
 }
 
-function cpm_upload_field() {
+function cpm_upload_field( $id, $files = array() ) {
+    $id = $id ? '-' . $id : '';
     ?>
-    <div id="cpm-upload-container">
-        <div id="cpm-upload-filelist"></div>
-        <?php printf( __('To attach, <a id="cpm-upload-pickfiles" href="#">select files</a> from your computer.', 'cpm' ) ); ?>
+    <div id="cpm-upload-container<?php echo $id; ?>">
+        <div class="cpm-upload-filelist">
+            <?php if ( $files ) { ?>
+                <?php foreach ($files as $file) {
+                    $delete = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+                    $hidden = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
+                    $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
+
+                    $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
+                    echo $html;
+                } ?>
+            <?php } ?>
+        </div>
+        <?php printf( __('To attach, <a id="cpm-upload-pickfiles%s" href="#">select files</a> from your computer.', 'cpm' ), $id ); ?>
     </div>
-    <script type="text/javascript" src="<?php echo CPM_PLUGIN_URI . '/js/upload.js'; ?>"></script>
     <?php
 }
 
