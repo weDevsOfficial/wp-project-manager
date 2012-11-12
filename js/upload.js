@@ -1,53 +1,101 @@
-jQuery(function($){
-    var uploader = new plupload.Uploader(CPM_Vars.plupload);
+;(function($) {
 
-    uploader.bind('Init', function(up, params) {
-        //$('#cpm-upload-filelist').html("<div>Current runtime: " + params.runtime + "</div>");
-        });
+    /**
+     * Upload handler helper
+     *
+     * @param string browse_button ID of the pickfile
+     * @param string container ID of the wrapper
+     */
+    window.CPM_Uploader = function (browse_button, container) {
+        this.container = container;
+        this.browse_button = browse_button;
 
-    $('#cpm-upload-uploadfiles').click(function(e) {
-        uploader.start();
-        e.preventDefault();
-    });
-
-    uploader.init();
-
-    uploader.bind('FilesAdded', function(up, files) {
-        $.each(files, function(i, file) {
-            $('#cpm-upload-filelist').append(
-                '<div id="' + file.id + '">' +
-                file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-                '</div>');
-        });
-
-        up.refresh(); // Reposition Flash/Silverlight
-        uploader.start();
-    });
-
-    uploader.bind('UploadProgress', function(up, file) {
-        $('#' + file.id + " b").html(file.percent + "%");
-    });
-
-    uploader.bind('Error', function(up, err) {
-        $('#cpm-upload-filelist').append("<div>Error: " + err.code +
-            ", Message: " + err.message +
-            (err.file ? ", File: " + err.file.name : "") +
-            "</div>"
-            );
-
-        up.refresh(); // Reposition Flash/Silverlight
-    });
-
-    uploader.bind('FileUploaded', function(up, file, response) {
-        var res = $.parseJSON(response.response);
-
-        $('#' + file.id + " b").html("100%");
-        $('#' + file.id).remove();
-
-        if(res.success) {
-            $('#cpm-upload-filelist').append(res.content);
-        } else {
-            alert(res.error);
+        //if no element found on the page, bail out
+        if(!$('#'+browse_button).length) {
+            return;
         }
+
+        //instantiate the uploader
+        this.uploader = new plupload.Uploader({
+            runtimes: 'html5,silverlight,flash,html4',
+            browse_button: browse_button,
+            container: container,
+            multipart: true,
+            multipart_params: [],
+            multiple_queues: false,
+            urlstream_upload: true,
+            file_data_name: 'cpm_attachment',
+            max_file_size: CPM_Vars.plupload.max_file_size,
+            url: CPM_Vars.plupload.url,
+            flash_swf_url: CPM_Vars.plupload.flash_swf_url,
+            silverlight_xap_url: CPM_Vars.plupload.silverlight_xap_url,
+            filters: CPM_Vars.plupload.filters,
+            resize: CPM_Vars.plupload.resize
+        });
+
+        //attach event handlers
+        this.uploader.bind('Init', $.proxy(this, 'init'));
+        this.uploader.bind('FilesAdded', $.proxy(this, 'added'));
+        this.uploader.bind('QueueChanged', $.proxy(this, 'upload'));
+        this.uploader.bind('UploadProgress', $.proxy(this, 'progress'));
+        this.uploader.bind('Error', $.proxy(this, 'error'));
+        this.uploader.bind('FileUploaded', $.proxy(this, 'uploaded'));
+
+        this.uploader.init();
+    };
+
+    CPM_Uploader.prototype = {
+
+        init: function (up, params) {
+            // console.log('uploader init');
+        },
+
+        added: function (up, files) {
+            var $container = $('#' + this.container).find('.cpm-upload-filelist');
+
+            $.each(files, function(i, file) {
+                $container.append(
+                    '<div class="upload-item" id="' + file.id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original">' +
+                    file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                    '</div></div>');
+            });
+
+            up.refresh(); // Reposition Flash/Silverlight
+            // up.start();
+        },
+
+        upload: function (uploader) {
+            this.uploader.start();
+        },
+
+        progress: function (up, file) {
+            var item = $('#' + file.id);
+
+            $('.bar', item).width( (200 * file.loaded) / file.size );
+            $('.percent', item).html( file.percent + '%' );
+        },
+
+        error: function (up, error) {
+            $('#' + this.container).find('#' + error.file.id).remove();
+            alert('Error #' + error.code + ': ' + error.message);
+        },
+
+        uploaded: function (up, file, response) {
+            var res = $.parseJSON(response.response);
+
+            $('#' + file.id + " b").html("100%");
+            $('#' + file.id).remove();
+
+            if(res.success) {
+                var $container = $('#' + this.container).find('.cpm-upload-filelist');
+                $container.append(res.content);
+            } else {
+                alert(res.error);
+            }
+        }
+    };
+
+    $(function () {
+        new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container');
     });
-});
+})(jQuery);
