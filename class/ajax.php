@@ -34,6 +34,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_new', array($this, 'new_comment') );
         add_action( 'wp_ajax_cpm_comment_get', array($this, 'get_comment') );
         add_action( 'wp_ajax_cpm_comment_update', array($this, 'update_comment') );
+        add_action( 'wp_ajax_cpm_comment_delete', array($this, 'delete_comment') );
 
         add_action( 'wp_ajax_cpm_new_message', array($this, 'new_message') );
         add_action( 'wp_ajax_cpm_get_message', array($this, 'get_message') );
@@ -95,6 +96,7 @@ class CPM_Ajax {
         $task_id = (int) $posted['task_id'];
         $list_id = $posted['list_id'];
         $project_id = $posted['project_id'];
+        $single = (int) $posted['single'];
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_complete( $task_id );
@@ -102,7 +104,7 @@ class CPM_Ajax {
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
-            'content' => cpm_task_html( $task, $project_id, $list_id )
+            'content' => cpm_task_html( $task, $project_id, $list_id, $single )
         );
 
         echo json_encode( $response );
@@ -116,6 +118,7 @@ class CPM_Ajax {
         $task_id = (int) $posted['task_id'];
         $list_id = $posted['list_id'];
         $project_id = $posted['project_id'];
+        $single = (int) $posted['single'];
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_open( $task_id );
@@ -123,7 +126,7 @@ class CPM_Ajax {
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
-            'content' => cpm_task_html( $task, $project_id, $list_id )
+            'content' => cpm_task_html( $task, $project_id, $list_id, $single )
         );
 
         echo json_encode( $response );
@@ -134,11 +137,14 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
 
         $task_id = (int) $_POST['task_id'];
+        $list_id = (int) $_POST['list_id'];
+        $project_id = (int) $_POST['project_id'];
 
         $this->_task_obj->delete_task( $task_id );
 
         echo json_encode( array(
-            'success' => true
+            'success' => true,
+            'list_url' => cpm_url_single_tasklist( $project_id, $list_id )
         ) );
 
         exit;
@@ -361,6 +367,19 @@ class CPM_Ajax {
             'success' => true,
             'id' => $comment_id,
             'form' => cpm_comment_form( $project_id, $object_id, $comment )
+        ) );
+
+        exit;
+    }
+
+    function delete_comment() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $comment_id = isset( $_POST['comment_id'] ) ? intval( $_POST['comment_id'] ) : 0;
+        CPM_Comment::getInstance()->delete( $comment_id );
+
+        echo json_encode( array(
+            'success' => true
         ) );
 
         exit;
