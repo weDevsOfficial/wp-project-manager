@@ -131,6 +131,12 @@ function cpm_user_checkboxes( $project_id ) {
     return $users;
 }
 
+/**
+ * Comment form upload field helper
+ * 
+ * @param int $id comment ID. used for unique edit comment form pickfile ID
+ * @param array $files attached files
+ */
 function cpm_upload_field( $id, $files = array() ) {
     $id = $id ? '-' . $id : '';
     ?>
