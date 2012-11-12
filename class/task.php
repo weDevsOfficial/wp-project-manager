@@ -148,7 +148,7 @@ class CPM_Task {
 
         $data = array(
             'post_parent' => $list_id,
-            'post_title' => trim( substr( $content, 0, 20 ) ), //first 20 character
+            'post_title' => trim( substr( $content, 0, 40 ) ), //first 40 character
             'post_content' => $content,
             'post_type' => 'task',
             'post_status' => 'publish'
@@ -377,6 +377,15 @@ class CPM_Task {
      */
     function delete_list( $list_id, $force = false ) {
         do_action( 'cpm_tasklist_delete', $list_id, $force );
+
+        //delete child tasks
+        $tasks = $this->get_tasks( $list_id );
+
+        if ( $tasks ) {
+            foreach ( $tasks as $task ) {
+                $this->delete_task( $task->ID );
+            }
+        }
 
         wp_delete_post( $list_id, $force );
     }
