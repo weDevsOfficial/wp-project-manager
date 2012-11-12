@@ -312,20 +312,29 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 -------------------------------------------------- */
 .cpm-comment-wrap {
   background-color: #f9f9f9;
-  border: 1px solid #dfdfdf;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
 }
 .cpm-comment-wrap li.cpm-comment {
   margin: 0;
   padding: 10px;
   border-bottom: 1px solid #dfdfdf;
+  border-left: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
   border-top: 1px solid #fff;
   position: relative;
 }
 .cpm-comment-wrap li.cpm-comment.odd {
   background-color: #fcfcfc;
+}
+.cpm-comment-wrap li.cpm-comment:first-child {
+  border-top: 1px solid #dfdfdf;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+}
+.cpm-comment-wrap li.cpm-comment:last-child {
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-avatar {
   position: absolute;
@@ -364,9 +373,6 @@ form.cpm-project-form .cpm-form-item select#project_coworker {
 .cpm-comment-wrap li.cpm-comment .cpm-upload-container {
   background: #fff;
   padding: 10px;
-}
-.cpm-comment-wrap li.cpm-comment:last-child {
-  border-bottom: none;
 }
 .cpm-comment-form-wrap {
   position: relative;
@@ -787,4 +793,49 @@ input.error {
   border-radius: 5px;
   background: #fff;
   max-width: 150px;
+}
+/*--------------------------------------------------
+:: Files
+-------------------------------------------------- */
+ul.cpm-files li {
+  position: relative;
+  margin: 0 10px 10px 0;
+  display: inline-block;
+  background: #f9f9f9;
+  border: 1px solid #dfdfdf;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+ul.cpm-files li .cpm-thumb {
+  padding: 10px;
+}
+ul.cpm-files li .cpm-thumb img {
+  margin: 0 auto;
+  display: block;
+  border: 1px solid #DDDDDD;
+  padding: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+ul.cpm-files li .cpm-thumb-detail {
+  padding: 0 10px 10px 10px;
+  font-size: 13px;
+}
+ul.cpm-files li .cpm-file-name {
+  padding: 5px 0;
+  border-bottom: 1px solid #dfdfdf;
+  border-top: 1px solid #dfdfdf;
+  margin: 0 0 10px 0;
+  font-size: 13px;
+}
+ul.cpm-files li .cpm-file-action .comment-number {
+  font-size: 11px;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1px 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }

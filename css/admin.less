@@ -321,18 +321,28 @@ form.cpm-project-form {
 
 .cpm-comment-wrap {
     background-color: @backgroundColor;
-    border: 1px solid @borderColor;
-    .border-radius(3px);
+    // border: 1px solid @borderColor;
 
     li.cpm-comment {
         margin: 0;
         padding: 10px;
         border-bottom: 1px solid @borderColor;
+        border-left: 1px solid @borderColor;
+        border-right: 1px solid @borderColor;
         border-top: 1px solid #fff;
         position: relative;
 
         &.odd {
             background-color: #fcfcfc;
+        }
+
+        &:first-child {
+            border-top: 1px solid @borderColor;
+            .border-radius(3px 3px 0 0);
+        }
+
+        &:last-child {
+            .border-radius(0 0 3px 3px);
         }
 
         .cpm-avatar {
@@ -377,10 +387,6 @@ form.cpm-project-form {
         .cpm-upload-container {
             background: #fff;
             padding: 10px;
-        }
-
-        &:last-child {
-            border-bottom: none;
         }
     }
 }
@@ -839,4 +845,57 @@ input.error {
         max-width: 150px;
     }
 
+}
+
+/*--------------------------------------------------
+:: Files
+-------------------------------------------------- */
+ul.cpm-files {
+    li {
+        position: relative;
+        margin: 0 10px 10px 0;
+        display: inline-block;
+        background: @backgroundColor;
+        border: 1px solid @borderColor;
+        .border-radius(3px);
+
+        .cpm-thumb {
+            padding: 10px;
+
+            img {
+                margin: 0 auto;
+                display: block;
+                border: 1px solid #DDDDDD;
+                padding: 3px;
+                .border-radius(5px);
+            }
+        }
+
+        .cpm-thumb-detail {
+            padding: 0 10px 10px 10px;
+            font-size: 13px;
+        }
+
+        .cpm-file-name {
+            padding: 5px 0;
+            border-bottom: 1px solid @borderColor;
+            border-top: 1px solid @borderColor;
+            margin: 0 0 10px 0;
+            font-size: 13px;
+        }
+
+        .cpm-file-meta {
+
+        }
+
+        .cpm-file-action {
+            .comment-number {
+                font-size: 11px;
+                background: #fff;
+                border: 1px solid #ddd;
+                padding: 1px 4px;
+                .border-radius(5px);
+            }
+        }
+    }
 }
