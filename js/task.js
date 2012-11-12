@@ -1,4 +1,4 @@
-(function($) {
+;(function($) {
 
     var CPM_Task = {
 
@@ -236,7 +236,7 @@
 
                 if(res.success === true) {
                     $('ul.cpm-todolists').append('<li id="cpm-list-' + res.id + '">' + res.content + '</li>');
-                    
+
                     $('.cpm-new-todolist-form').slideToggle();
                     $('body, html').animate({
                         scrollTop: $('#cpm-list-' + res.id).offset().top
