@@ -44,6 +44,7 @@ class CPM_Comment {
 
         if ( $comment_id ) {
             add_comment_meta( $comment_id, '_files', $files );
+            $this->associate_file( $files, $commentdata['comment_post_ID'], $_POST['project_id'] );
         }
 
         do_action( 'cpm_comment_new', $comment_id, $commentdata );
@@ -63,8 +64,9 @@ class CPM_Comment {
             'comment_content' => $data['text']
         ) );
 
-        if( isset( $_POST['cpm_attachment'] ) ) {
+        if ( isset( $_POST['cpm_attachment'] ) ) {
             update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
+            $this->associate_file( $_POST['cpm_attachment'], $_POST['project_id'] );
         }
 
         do_action( 'cpm_comment_update', $comment_id, $data );
@@ -79,6 +81,16 @@ class CPM_Comment {
     function delete( $comment_id, $force_delete = false ) {
         do_action( 'cpm_comment_delete', $comment_id, $force_delete );
 
+        //delete any file attached to it
+        $files = get_comment_meta( $comment_id, '_files', true );
+
+        if ( $files ) {
+            foreach ( $files as $file_id ) {
+                $this->delete_file( $file_id );
+            }
+        }
+
+        //now delete the comment
         wp_delete_comment( $comment_id, $force_delete );
     }
 
@@ -259,14 +271,28 @@ class CPM_Comment {
         return $att_list;
     }
 
-    function associate_file( $file_id, $parent_id = 0 ) {
-        wp_update_post( array(
-            'ID' => $file_id,
-            'post_parent' => $parent_id
-        ) );
+    /**
+     * Associate an attachment with a project
+     *
+     * Will be easier to find attachments by project
+     *
+     * @param array $files attachment file ID's
+     * @param int $parent_id parent post id
+     * @param int $project_id
+     */
+    function associate_file( $files, $parent_id, $project_id ) {
+
+        foreach ($files as $file_id) {
+            wp_update_post( array(
+                'ID' => $file_id,
+                'post_parent' => $parent_id
+            ) );
+
+            update_post_meta( $file_id, '_project', $project_id );
+        }
     }
 
-    function delete_file( $file_id, $force = false ) {
+    function delete_file( $file_id, $force = true ) {
         wp_delete_attachment( $file_id, $force );
     }
 
