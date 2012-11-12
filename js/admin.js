@@ -9,6 +9,7 @@
 
             $('.cpm-comment-wrap').on('click', '.cpm-edit-comment-link', this.Comment.get);
             $('.cpm-comment-wrap').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
+            $('.cpm-comment-wrap').on('click', '.cpm-delete-comment-link', this.Comment.deleteComment);
             $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
 
             // add new comment
@@ -67,11 +68,11 @@
 
                 if(confirm('This file will be deleted permanently')) {
                     var that = $(this),
-                    data = {
-                        file_id: that.data('id'),
-                        action: 'cpm_delete_file',
-                        '_wpnonce': CPM_Vars.nonce
-                    };
+                        data = {
+                            file_id: that.data('id'),
+                            action: 'cpm_delete_file',
+                            '_wpnonce': CPM_Vars.nonce
+                        };
 
                     $.post(CPM_Vars.ajaxurl, data, function() {});
                     that.closest('.cpm-uploaded-item').fadeOut(function(){
@@ -91,7 +92,7 @@
 
                     if(res.success) {
                         $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
-                        $('.cpm-comment-form textarea').val('');
+                        $('.cpm-comment-form textarea, .cpm-comment-form input[type=checkbox]').val('');
                         $('.cpm-comment-form .cpm-upload-filelist').html('');
                     }
 
@@ -152,11 +153,34 @@
                     res = $.parseJSON(res);
 
                     if(res.success) {
-                        container.find('.cpm-comment-content').html(res.content);
-                        container.find('.cpm-comment-content').show();
+                        container.find('.cpm-comment-content').html(res.content).fadeIn();
                         form.parent().remove();
                     }
                 });
+            },
+
+            deleteComment: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    confirmMsg = self.data('confirm'),
+                    data = {
+                        comment_id: self.data('id'),
+                        action: 'cpm_comment_delete',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
+
+                if(confirm(confirmMsg)) {
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            self.closest('li').fadeOut(function() {
+                                $(this).remove();
+                            });
+                        }
+                    });
+                }
             }
         },
         Message: {
