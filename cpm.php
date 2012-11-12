@@ -8,8 +8,6 @@
  * Author URI: http://tareq.weDevs.com
  * Version: 0.1
  */
-//notification module
-require_once dirname( __FILE__ ) . '/class/notification.php';
 
 /**
  * Autoload class files on demand
@@ -31,9 +29,9 @@ function cpm_autoload( $class ) {
 spl_autoload_register( 'cpm_autoload' );
 
 /**
- * WeDevs Client Project Manager
+ * Project Manager bootstrap class
  *
- * @author weDevs
+ * @author Tareq Hasan
  */
 class WeDevs_CPM {
 
@@ -41,8 +39,6 @@ class WeDevs_CPM {
 
         $this->constants();
         $this->instantiate();
-
-        register_activation_hook( __FILE__, array($this, 'install') );
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
@@ -55,6 +51,8 @@ class WeDevs_CPM {
         $task = CPM_Task::getInstance();
         $milestone = CPM_Milestone::getInstance();
         $logger = new CPM_Logger();
+        $ajax = new CPM_Ajax();
+        $notification = new CPM_Notification();
     }
 
     function constants() {
@@ -72,25 +70,19 @@ class WeDevs_CPM {
         wp_enqueue_script( 'plupload-handlers' );
         wp_enqueue_script( 'cpm_admin', plugins_url( 'js/admin.js', __FILE__ ) );
         wp_enqueue_script( 'cpm_task', plugins_url( 'js/task.js', __FILE__ ) );
+        wp_enqueue_script( 'cpm_uploader', plugins_url( 'js/upload.js', __FILE__ ), array('jquery', 'plupload-handlers') );
 
-        $post_params = array();
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'nonce' => wp_create_nonce( 'cpm_nonce' ),
             'plupload' => array(
-                'runtimes' => 'html5,silverlight,flash,html4',
                 'browse_button' => 'cpm-upload-pickfiles',
                 'container' => 'cpm-upload-container',
-                'file_data_name' => 'cpm_attachment',
-                'multiple_queues' => false,
                 'max_file_size' => wp_max_upload_size() . 'b',
                 'url' => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
                 'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
                 'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
                 'filters' => array(array('title' => __( 'Allowed Files' ), 'extensions' => '*')),
-                'multipart' => true,
-                'urlstream_upload' => true,
-                'multipart_params' => $post_params,
                 'resize' => array('width' => (int) get_option( 'large_size_w' ), 'height' => (int) get_option( 'large_size_h' ), 'quality' => 100)
             )
         ) );
@@ -104,7 +96,6 @@ class WeDevs_CPM {
         require_once CPM_PLUGIN_PATH . '/includes/functions.php';
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
         require_once CPM_PLUGIN_PATH . '/includes/html.php';
-        require_once CPM_PLUGIN_PATH . '/class/ajax.php';
     }
 
     function admin_menu() {
@@ -131,7 +122,6 @@ class WeDevs_CPM {
         $tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
-        $invoice_id = (isset( $_GET['in_id'] )) ? (int) $_GET['in_id'] : 0;
 
         switch ($page) {
             case 'cpm_projects':
@@ -196,22 +186,6 @@ class WeDevs_CPM {
 
                             case 'single':
                                 include_once dirname( __FILE__ ) . '/admin/views/task/single.php';
-                                break;
-
-                            case 'new':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/new.php';
-                                break;
-
-                            case 'edit':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/edit.php';
-                                break;
-
-                            case 'task_new':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/task-new.php';
-                                break;
-
-                            case 'task_edit':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/task-edit.php';
                                 break;
 
                             case 'task_single':
