@@ -63,6 +63,10 @@ class CPM_Comment {
             'comment_content' => $data['text']
         ) );
 
+        if( isset( $_POST['cpm_attachment'] ) ) {
+            update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
+        }
+
         do_action( 'cpm_comment_update', $comment_id, $data );
     }
 
