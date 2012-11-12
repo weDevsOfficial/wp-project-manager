@@ -3,7 +3,7 @@
 class CPM_Notification {
 
     function __construct() {
-        add_action( 'cpm_new_comment', array($this, 'new_comment'), 10, 2 );
+        add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 2 );
         add_action( 'cpm_new_message', array($this, 'new_message'), 10, 2 );
         add_action( 'cpm_new_task', array($this, 'new_task'), 10, 3 );
     }
@@ -53,28 +53,34 @@ class CPM_Notification {
      * @param int $comment_id
      * @param array $comment_info the post data
      */
-    function new_comment( $comment_id, $comment_info ) {
-        $to = $this->prepare_contacts();
-
-        if ( empty( $to ) ) {
+    function new_comment( $comment_id, $data ) {
+        if ( !isset( $_POST['notify_user'] ) ) {
             return;
         }
 
+        $users = array();
+        $user_ids = $_POST['notify_user'];
+        foreach ( $user_ids as $user_id ) {
+            $user = get_user_by( 'id', $user_id );
+            $users[] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+        }
+
         $msg_obj = CPM_Message::getInstance();
-        $parent_message = $msg_obj->get( $comment_info['comment_post_ID'] );
+        $parent_post = get_post( $data['comment_post_ID'] );
+        $post_type = get_post_type_object( $parent_post->post_type );
         $author = wp_get_current_user();
 
-        $subject = sprintf( __( '[%s] New comment on message: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $parent_message->post_title );
-        $message = sprintf( 'New comment on %s', $parent_message->post_title ) . "\r\n\n";
+        $subject = sprintf( __( '[%s] New comment on %s: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $post_type->labels->singular_name, $parent_post->post_title );
+        $message = sprintf( 'New comment on %s', $parent_post->post_title ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $_POST['project_id'], $comment_info['comment_post_ID'] ) ) . "\r\n";
-        $message .= sprintf( "Comment : \r\n%s", $comment_info['comment_content'] ) . "\r\n";
+        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $_POST['project_id'], $data['comment_post_ID'] ) ) . "\r\n";
+        $message .= sprintf( "Comment : \r\n%s", $data['comment_content'] ) . "\r\n";
 
-        $to = apply_filters( 'cpm_new_comment_to', $to );
+        $users = apply_filters( 'cpm_new_comment_to', $users );
         $subject = apply_filters( 'cpm_new_comment_subject', $subject );
         $message = apply_filters( 'cpm_new_comment_message', $message );
 
-        wp_mail( implode( ', ', $to ), $subject, $message );
+        wp_mail( implode( ', ', $users ), $subject, $message );
     }
 
     function new_task( $list_id, $task_id, $data ) {
