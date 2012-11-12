@@ -15,7 +15,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     ?>
     <div class="cpm-todo-wrap <?php echo $wrap_class; ?>">
         <span class="cpm-todo-action">
-            <a href="#" data-task_id="<?php echo $task->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do?', 'cpm' ); ?>" class="cpm-todo-delete">
+            <a href="#" data-single="<?php echo $single; ?>" data-list_id="<?php echo $list_id; ?>" data-project_id="<?php echo $project_id; ?>" data-task_id="<?php echo $task->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do?', 'cpm' ); ?>" class="cpm-todo-delete">
                 <?php _e( 'Delete', 'cpm' ); ?>
             </a>
 
@@ -24,7 +24,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             <?php } ?>
         </span>
 
-        <input type="checkbox" data-project="<?php echo $project_id; ?>" data-list="<?php echo $list_id; ?>"
+        <input type="checkbox" data-single="<?php echo $single; ?>" data-project="<?php echo $project_id; ?>" data-list="<?php echo $list_id; ?>"
                value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
 
         <span class="cpm-todo-content">
@@ -360,7 +360,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                     <span class="cpm-edit-link"><a href="#" class="cpm-edit-comment-link" data-comment_id="<?php echo $comment->comment_ID; ?>"
                         data-project_id="<?php echo $project_id; ?>" data-object_id="<?php echo $comment->comment_post_ID; ?>"><?php _e( 'Edit', 'cpm' ); ?></a></span>
                     <span class="cpm-separator">|</span>
-                    <span class="cpm-delete-link"><a href="#" class="cpm-delete-comment-link" data-id="<?php echo $comment->comment_ID; ?>"><?php _e( 'Delete', 'cpm' ); ?></a></span>
+                    <span class="cpm-delete-link"><a href="#" class="cpm-delete-comment-link" data-id="<?php echo $comment->comment_ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this comment?', 'cpm' ); ?>"><?php _e( 'Delete', 'cpm' ); ?></a></span>
                 <?php } ?>
             </div>
             <div class="cpm-comment-content">
