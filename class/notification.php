@@ -94,5 +94,3 @@ class CPM_Notification {
     }
 
 }
-
-$cpm_notification = new CPM_Notification();
