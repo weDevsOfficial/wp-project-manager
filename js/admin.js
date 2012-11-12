@@ -3,9 +3,6 @@
     var weDevs_CPM = {
         init: function () {
 
-            //initialize uploader
-            this.Uploader.init();
-
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
             $('.cpm-links').on('click', '.cpm-milestone-complete', this.Milestone.markComplete);
             $('.cpm-links').on('click', '.cpm-milestone-open', this.Milestone.markOpen);
@@ -65,9 +62,6 @@
             }
         },
         Uploader: {
-            init: function() {
-
-            },
             deleteFile: function (e) {
                 e.preventDefault();
 
@@ -80,7 +74,9 @@
                     };
 
                     $.post(CPM_Vars.ajaxurl, data, function() {});
-                    that.closest('.cpm-uploaded-item').remove();
+                    that.closest('.cpm-uploaded-item').fadeOut(function(){
+                        $(this).remove();
+                    });
                 }
             }
         },
@@ -90,11 +86,15 @@
                 data = that.serialize();
 
                 that.append('<div class="cpm-loading">Saving...</div>');
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    //console.log(response);
-                    $('.cpm-comment-wrap').append(response).fadeIn('slow');
-                    $('.cpm-comment-form textarea').val('');
-                    $('.cpm-comment-form #cpm-upload-filelist').html('');
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = JSON.parse(res);
+
+                    if(res.success) {
+                        $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
+                        $('.cpm-comment-form textarea').val('');
+                        $('.cpm-comment-form .cpm-upload-filelist').html('');
+                    }
+
                     $('.cpm-loading').remove();
                 });
             },
@@ -119,9 +119,10 @@
 
                         parent.find('.cpm-comment-content').hide();
                         parent.find('.cpm-comment-edit-form').html(res.form);
-                    }
 
-                //console.log(html);
+                        //re-initialize the uploader
+                        new CPM_Uploader('cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id);
+                    }
                 });
 
             },
