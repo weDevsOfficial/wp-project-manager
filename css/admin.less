@@ -442,6 +442,47 @@ form.cpm-project-form {
             position: relative;
             line-height: 17px;
             .border-radius(5px);
+
+            .upload-item {
+                display: block;
+                overflow: hidden;
+                clear: both;
+                margin-bottom: 10px;
+            }
+
+            .progress {
+                background: -moz-linear-gradient(center bottom , #FFFFFF 0%, #F7F7F7 100%) repeat scroll 0 0 #FFFFFF;
+                border: 1px solid #D1D1D1;
+                border-radius: 3px 3px 3px 3px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
+                float: right;
+                height: 22px;
+                line-height: 2em;
+                margin: 0;
+                overflow: hidden;
+                padding: 0;
+                width: 200px;
+            }
+
+            .bar {
+                background-color: #83B4D8;
+                background-image: -moz-linear-gradient(center bottom , #72A7CF 0%, #90C5EE 100%);
+                border-radius: 3px 3px 3px 3px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+                height: 100%;
+                margin-top: -26px;
+                width: 0;
+                z-index: 9;
+            }
+
+            .progress .percent {
+                color: rgba(0, 0, 0, 0.6);
+                padding: 0 8px;
+                position: relative;
+                text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+                width: 200px;
+                z-index: 10;
+            }
         }
 
         .submit {
