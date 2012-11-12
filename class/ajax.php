@@ -294,6 +294,7 @@ class CPM_Ajax {
 
         $text = trim( $posted['cpm_message'] );
         $parent_id = isset( $posted['parent_id'] ) ? intval( $posted['parent_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
 
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
@@ -311,7 +312,11 @@ class CPM_Ajax {
         if ( $comment_id ) {
 
             $comment = $comment_obj->get( $comment_id );
-            cpm_show_comment( $comment );
+            
+            echo json_encode( array(
+                'success' => true,
+                'content' => cpm_show_comment( $comment, $project_id )
+            ) );
         }
 
         exit;
@@ -396,5 +401,3 @@ class CPM_Ajax {
     }
 
 }
-
-$cpm_ajax = new CPM_Ajax();
