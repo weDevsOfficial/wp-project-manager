@@ -287,6 +287,8 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     $action = 'cpm_comment_new';
     $text = '';
     $submit_button = __( 'Add this comment', 'cpm' );
+    $comment_id = $comment ? $comment->comment_ID : 0;
+    $files = $comment ? $comment->files : array();
 
     if ( $comment ) {
         $action = 'cpm_comment_update';
@@ -311,7 +313,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             </div>
 
             <div class="cpm-attachment-area">
-                <?php cpm_upload_field(); ?>
+                <?php cpm_upload_field( $comment_id, $files ); ?>
             </div>
 
             <fieldset>
@@ -329,6 +331,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
                     <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
                 <?php } ?>
 
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
             </div>
         </form>
