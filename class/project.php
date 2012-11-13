@@ -219,6 +219,15 @@ class CPM_Project {
         return $project_id;
     }
 
+    function get_projects( $count = -1 ) {
+        $projects = get_posts( array(
+            'numberposts' => $count,
+            'post_type' => 'project'
+        ));
+
+        return $projects;
+    }
+
     /**
      * Get details of the project
      *
