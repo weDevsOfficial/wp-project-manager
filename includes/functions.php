@@ -26,76 +26,14 @@ function cpm_tasks_filter_pending( $task ) {
     return $task->completed != '1';
 }
 
-function cpm_dropdown_users( $args = '' ) {
-    $defaults = array(
-        'show_option_all' => '', 'show_option_none' => '', 'hide_if_only_one_author' => '',
-        'orderby' => 'display_name', 'order' => 'ASC',
-        'include' => '', 'exclude' => '', 'multi' => 0,
-        'show' => 'display_name', 'echo' => 1,
-        'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
-        'blog_id' => $GLOBALS['blog_id'], 'who' => '', 'include_selected' => false,
-        'role' => '', 'multiple' => false, 'disabled' => false
-    );
+function cpm_dropdown_users( $args = array() ) {
+    $args['echo'] = false;
 
-    $defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
-
-    $r = wp_parse_args( $args, $defaults );
-    extract( $r, EXTR_SKIP );
-
-    $query_args = wp_array_slice_assoc( $r, array('blog_id', 'include', 'exclude', 'orderby', 'order', 'who', 'role') );
-    $query_args['fields'] = array('ID', $show);
-    $users = get_users( $query_args );
-
-    $output = '';
-    if ( !empty( $users ) && ( empty( $hide_if_only_one_author ) || count( $users ) > 1 ) ) {
-        $name = esc_attr( $name );
-        if ( $multi && !$id )
-            $id = '';
-        else
-            $id = $id ? " id='" . esc_attr( $id ) . "'" : " id='$name'";
-
-        if ( $multiple ) {
-            $output = "<select name='{$name}'{$id} class='$class' multiple='multiple'>\n";
-        } else if ( $disabled ) {
-            $output = "<select name='{$name}'{$id} class='$class' disabled='disabled'>\n";
-        } else {
-            $output = "<select name='{$name}'{$id} class='$class'>\n";
-        }
-
-        if ( $show_option_all )
-            $output .= "\t<option value='0'>$show_option_all</option>\n";
-
-        if ( $show_option_none ) {
-            $_selected = selected( -1, $selected, false );
-            $output .= "\t<option value='-1'$_selected>$show_option_none</option>\n";
-        }
-
-        $found_selected = false;
-        foreach ((array) $users as $user) {
-            $user->ID = (int) $user->ID;
-            $_selected = selected( $user->ID, $selected, false );
-            if ( $_selected )
-                $found_selected = true;
-            $display = !empty( $user->$show ) ? $user->$show : '(' . $user->user_login . ')';
-            $output .= "\t<option value='$user->ID'$_selected>" . esc_html( $display ) . "</option>\n";
-        }
-
-        if ( $include_selected && !$found_selected && ( $selected > 0 ) ) {
-            $user = get_userdata( $selected );
-            $_selected = selected( $user->ID, $selected, false );
-            $display = !empty( $user->$show ) ? $user->$show : '(' . $user->user_login . ')';
-            $output .= "\t<option value='$user->ID'$_selected>" . esc_html( $display ) . "</option>\n";
-        }
-
-        $output .= "</select>";
-    }
-
-    $output = apply_filters( 'wp_dropdown_users', $output );
-
-    if ( $echo )
-        echo $output;
-
-    return $output;
+    $placeholder = __( 'Select co-workers', 'cpm' );
+    $dropdown = wp_dropdown_users( $args );
+    $dropdown = str_replace( '<select ', '<select data-placeholder="' . $placeholder . '" multiple="multiple" ', $dropdown );
+    
+    echo $dropdown;
 }
 
 function cpm_date2mysql( $date, $gmt = 0 ) {
@@ -345,4 +283,16 @@ function cpm_get_header( $active_menu, $project_id = 0 ) {
 function cpm_comment_text( $comment_ID = 0 ) {
     $comment = get_comment( $comment_ID );
     return apply_filters( 'comment_text', get_comment_text( $comment_ID ), $comment );
+}
+
+function cpm_excerpt( $text, $length, $append = '...' ) {
+    $text = wp_strip_all_tags( $text, true );
+    $count = mb_strlen( $text );
+    $text = mb_substr( $text, 0, $length );
+
+    if( $count > $length ) {
+        $text = $text . $append;
+    }
+
+    return $text;
 }
