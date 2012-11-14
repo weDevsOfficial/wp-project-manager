@@ -6,14 +6,12 @@
  * TODO: fix search and bulk actions
  * TODO: fix columns
  */
-require_once CPM_PLUGIN_PATH . '/includes/list-table.php';
 
 $cpm_active_menu = __( 'Messages', 'cpm' );
 
 $post_type = 'message';
 $milestone_obj = CPM_Milestone::getInstance();
-$message_table = new CPM_Child_List_Table( $post_type, $project_id );
-$message_table->prepare_items();
+$msg_obj = CPM_Message::getInstance();
 
 include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 ?>
@@ -81,24 +79,27 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
     </p>
 </form>
 
-<?php $message_table->views(); ?>
-<form id="posts-filter" action="" method="get">
-    <?php $message_table->search_box( get_post_type_object( $post_type )->labels->search_items, 'post' ); ?>
-
-    <input type="hidden" name="post_status" class="post_status_page" value="<?php echo!empty( $_REQUEST['post_status'] ) ? esc_attr( $_REQUEST['post_status'] ) : 'all'; ?>" />
-    <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
-    <?php if ( !empty( $_REQUEST['show_sticky'] ) ) { ?>
-        <input type="hidden" name="show_sticky" value="1" />
-    <?php } ?>
-
-    <?php $message_table->display(); ?>
-</form>
-
+<table class="cpm-messages-table">
 <?php
-if ( $message_table->has_items() ) {
-    $message_table->inline_edit();
+$messages = $msg_obj->get_all( $project_id );
+foreach ($messages as $message) {
+    ?>
+    <tr>
+        <td class="author">
+            <span class="cpm-avatar"><?php echo cpm_url_user( $message->post_author, true, 32 ); ?></span>
+        </td>
+        <td class="message">
+            <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>">
+                <span class="title"><?php echo cpm_excerpt( $message->post_title, 50 ); ?></span>
+            <?php if ( $message->post_content ) {
+                printf( '<span class="excerpt"> - %s</span>', cpm_excerpt( $message->post_content, 100) );
+            } ?>
+            </a>
+        </td>
+        <td class="date"><span><?php echo date_i18n( 'j M, Y', strtotime( $message->post_date) ); ?></span></td>
+        <td class="comment-count"><span><?php echo cpm_get_number( $message->comment_count ); ?></span></td>
+    </tr>
+    <?php
 }
 ?>
-
-<div id="ajax-response"></div>
-<br class="clear" />
+</table>
