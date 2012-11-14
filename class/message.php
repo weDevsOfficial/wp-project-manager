@@ -69,7 +69,7 @@ class CPM_Message {
         return $message;
     }
 
-    function create( $project_id, $files ) {
+    function create( $project_id, $files = array() ) {
         $post = $_POST;
 
         $postarr = array(
@@ -84,18 +84,15 @@ class CPM_Message {
 
         if ( $message_id ) {
             $milestone_id = (int) $post['milestone'];
-            $privacy = (int) $post['message_privacy'];
 
             update_post_meta( $message_id, '_milestone', $milestone_id );
-            update_post_meta( $message_id, '_privacy', $privacy );
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
+                update_post_meta( $message_id, '_files', $files );
+                
                 $comment_obj = CPM_Comment::getInstance();
-
-                foreach ($files as $file_id) {
-                    $comment_obj->associate_file( $file_id, $message_id );
-                }
+                $comment_obj->associate_file( $files, $message_id, $project_id );
             }
 
             do_action( 'cpm_new_message', $message_id, $postarr );
