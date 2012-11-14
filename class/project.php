@@ -8,21 +8,12 @@
 class CPM_Project {
 
     private static $_instance;
-    private $custom_fields = array(
-        'started', 'ends', 'client', 'budget', 'coworker', 'manager', 'status'
-    );
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
-        add_filter( 'cpm_project_columns', array($this, 'manage_project_columns') );
-        add_filter( 'cpm_project_table_views', array($this, 'table_views'), 10, 3 );
-        add_filter( 'manage_project_posts_custom_column', array($this, 'manage_edit_columns'), 11, 2 );
-        add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
-        add_filter( 'post_row_actions', array($this, 'post_row_actions'), 10, 2 );
 
         //create new project
         add_action( 'admin_init', array($this, 'submit_project'), 99 );
-        add_action( 'load-toplevel_page_cpm_projects', array($this, 'set_screen_options') );
 
         //notify users
         add_action( 'cpm_new_project', array($this, 'notify_users') );
@@ -67,102 +58,6 @@ class CPM_Project {
         ) );
     }
 
-    function get_edit_post_link( $url, $post_id, $context ) {
-        global $post;
-
-        if ( $post && $post->post_type == 'project' && $context == 'display' && is_admin() ) {
-            $url = cpm_url_project_details( $post->ID );
-        }
-
-        return $url;
-    }
-
-    function post_row_actions( $actions, $post ) {
-
-        if ( $post->post_type == 'project' ) {
-            unset( $actions['inline hide-if-no-js'] );
-
-            $actions['edit'] = '<a href="' . cpm_url_project_edit( $post->ID ) . '" title="' . esc_attr( __( 'Edit this project', 'cpm' ) ) . '">' . __( 'Edit', 'cpm' ) . '</a>';
-            $actions['view'] = '<a href="' . cpm_url_project_details( $post->ID ) . '" title="' . esc_attr( __( 'Edit this project', 'cpm' ) ) . '">' . __( 'View Project', 'cpm' ) . '</a>';
-        }
-
-        return $actions;
-    }
-
-    function manage_project_columns( $columns ) {
-        $columns = array(
-            'cb' => '<input type="checkbox" />',
-            'title' => _x( 'Title', 'column name' ),
-            'client' => __( 'Client', 'cpm' ),
-            'status' => __( 'Status', 'cpm' ),
-            'billing' => __( 'Billing', 'cpm' ),
-            'starts' => __( 'Starts', 'cpm' ),
-            'ends' => __( 'Ends', 'cpm' )
-        );
-
-        return $columns;
-    }
-
-    function table_views( $links, $num_posts, $statuses ) {
-        $class = (!isset( $_REQUEST['post_status'] )) ? ' class="current"' : '';
-        $base_url = cpm_url_projects();
-
-        foreach ($links as $key => $link) {
-            if ( $key == 'all' ) {
-                $links['all'] = "<a href='$base_url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $num_posts->total, 'posts' ), number_format_i18n( $num_posts->total ) ) . '</a>';
-            } else {
-                if ( isset( $_REQUEST['post_status'] ) && $key == $_REQUEST['post_status'] ) {
-                    $class = ' class="current"';
-                } else {
-                    $class = '';
-                }
-
-                $links[$key] = "<a href='$base_url&amp;post_status=$key'$class>" . sprintf( translate_nooped_plural( $statuses[$key]->label_count, $num_posts->$key ), number_format_i18n( $num_posts->$key ) ) . '</a>';
-            }
-        }
-
-        return $links;
-    }
-
-    function manage_edit_columns( $column_name, $post_id ) {
-
-        $custom_fields = get_post_custom( $post_id );
-
-        $client = isset( $custom_fields['_client'] ) ? $custom_fields['_client'][0] : __( 'None', 'cpm' );
-        $status = isset( $custom_fields['_status'] ) ? $custom_fields['_status'][0] : __( 'None', 'cpm' );
-        $starts = isset( $custom_fields['_started'] ) ? $custom_fields['_started'][0] : __( 'None', 'cpm' );
-        $ends = isset( $custom_fields['_ends'] ) ? $custom_fields['_ends'][0] : __( 'None', 'cpm' );
-        $billing = isset( $custom_fields['_budget'] ) ? $custom_fields['_budget'][0] : __( 'None', 'cpm' );
-
-        switch ($column_name) {
-            case 'client' :
-                echo cpm_url_user( $client );
-                break;
-
-            case 'status' :
-                echo $status;
-                break;
-
-            case 'starts':
-                echo cpm_get_date( $starts );
-                break;
-
-            case 'ends':
-                echo cpm_get_date( $ends );
-                break;
-
-            case 'billing':
-                echo cpm_get_currency( $billing );
-                break;
-        }
-    }
-
-    function set_screen_options() {
-        $screen = get_current_screen();
-
-        $screen->post_type = 'project';
-    }
-
     /**
      * Handles creating new project request
      */
@@ -173,27 +68,21 @@ class CPM_Project {
             check_admin_referer( 'new_project' );
 
             if ( empty( $_POST['project_name'] ) ) {
-                $error = new WP_Error( 'empty_name', __( 'Empty project name', 'cpm' ) );
-            } else {
-                $posted = $_POST;
-                $data = array(
-                    'name' => $posted['project_name'],
-                    'description' => $posted['project_description'],
-                    'started' => cpm_date2mysql( $posted['project_started'] ),
-                    'ends' => cpm_date2mysql( $posted['project_ends'] ),
-                    'client' => (int) $posted['project_client'],
-                    'budget' => (float) $posted['project_budget'],
-                    'manager' => (int) $posted['project_manager'],
-                    'coworker' => $posted['project_coworker'],
-                    'status' => $posted['project_status']
-                );
+                return;
+            }
 
-                $project_id = $this->create( $data );
+            $posted = $_POST;
+            $data = array(
+                'name' => trim( $posted['project_name'] ),
+                'description' => trim( $posted['project_description'] ),
+                'coworker' => $posted['project_coworker']
+            );
 
-                if ( $project_id ) {
-                    $location = apply_filters( 'cpm_new_project_redirect_url', cpm_project_details_url( $project_id ) );
-                    wp_redirect( $location );
-                }
+            $project_id = $this->create( $data );
+
+            if ( $project_id ) {
+                $location = apply_filters( 'cpm_new_project_redirect_url', cpm_url_project_details( $project_id ) );
+                wp_redirect( $location );
             }
         }
     }
@@ -209,11 +98,7 @@ class CPM_Project {
         $project_id = wp_insert_post( $project );
 
         if ( $project_id ) {
-            foreach ($this->custom_fields as $field) {
-                update_post_meta( $project_id, '_' . $field, $data[$field] );
-            }
-
-            do_action( 'cpm_new_project', $project_id );
+            update_post_meta( $project_id, '_coworker', $data['coworker'] );
         }
 
         return $project_id;
@@ -224,6 +109,10 @@ class CPM_Project {
             'numberposts' => $count,
             'post_type' => 'project'
         ));
+
+        foreach ($projects as &$project) {
+            $project->info = $this->get_info( $project->ID );
+        }
 
         return $projects;
     }
@@ -236,13 +125,40 @@ class CPM_Project {
      */
     function get( $project_id ) {
         $project = get_post( $project_id );
-
-        //add project custom fields on the stdClass object
-        foreach ($this->custom_fields as $field) {
-            $project->$field = get_post_meta( $project_id, '_' . $field, true );
-        }
+        $project->info = $this->get_info( $project_id );
 
         return $project;
+    }
+
+    function get_info( $project_id ) {
+        global $wpdb;
+
+        $ret = wp_cache_get( 'cpm_project_info_' . $project_id );
+
+        if ( false === $ret ) {
+            //get discussions
+            $sql = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
+
+            $discussions = $wpdb->get_results( sprintf( $sql, 'message', $project_id ) );
+            $todolists = $wpdb->get_results( sprintf( $sql, 'task_list', $project_id ) );
+            $todos = $todolists ? $wpdb->get_results( sprintf( $sql, 'task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
+
+            $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
+            $todolist_comment = wp_list_pluck( $todolists, 'comment_count' );
+            $todo_comment = $todolists ? wp_list_pluck( $todos, 'comment_count' ) : array();
+
+            $total_comment = array_sum( $discussion_comment ) + array_sum( $todolist_comment ) + array_sum( $todo_comment );
+
+            $ret = new stdClass();
+            $ret->discussion = count( $discussions );
+            $ret->todolist = count( $todolists );
+            $ret->todos = count( $todos );
+            $ret->comments = $total_comment;
+
+            wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
+        }
+
+        return $ret;
     }
 
     /**
