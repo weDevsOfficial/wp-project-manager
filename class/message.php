@@ -11,9 +11,6 @@ class CPM_Message {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
-        add_filter( 'manage_toplevel_page_cpm_projects_columns', array($this, 'manage_message_columns') );
-        add_filter( 'cpm_message_table_views', array($this, 'table_views'), 10, 4 );
-        add_filter( 'get_edit_post_link', array($this, 'get_edit_post_link'), 10, 3 );
     }
 
     public static function getInstance() {
@@ -55,52 +52,14 @@ class CPM_Message {
         ) );
     }
 
-    function manage_message_columns( $columns ) {
-        $columns = array(
-            'cb' => '<input type="checkbox" />',
-            'title' => _x( 'Title', 'column name' ),
-            'author' => __( 'Author', 'cpm' ),
-            'comments' => '<span class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></span>',
-            'date' => __( 'Date' )
-        );
+    function get_all( $project_id, $count = -1 ) {
+        $messages = get_posts( array(
+            'numberposts' => $count,
+            'post_type' => 'message',
+            'post_parent' => $project_id
+        ));
 
-        return $columns;
-    }
-
-    function table_views( $links, $num_posts, $statuses, $project_id ) {
-        $class = (!isset( $_REQUEST['post_status'] )) ? ' class="current"' : '';
-        $base_url = cpm_url_message_index( $project_id );
-
-        foreach ($links as $key => $link) {
-            if ( $key == 'all' ) {
-                $links['all'] = "<a href='$base_url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $num_posts->total, 'posts' ), number_format_i18n( $num_posts->total ) ) . '</a>';
-            } else {
-                if ( isset( $_REQUEST['post_status'] ) && $key == $_REQUEST['post_status'] ) {
-                    $class = ' class="current"';
-                } else {
-                    $class = '';
-                }
-
-                $links[$key] = "<a href='$base_url&amp;post_status=$key'$class>" . sprintf( translate_nooped_plural( $statuses[$key]->label_count, $num_posts->$key ), number_format_i18n( $num_posts->$key ) ) . '</a>';
-            }
-        }
-
-        return $links;
-    }
-
-    function get_edit_post_link( $url, $post_id, $context ) {
-        global $post;
-
-        if ( $post && $post->post_type == 'message' && $context == 'display' && is_admin() && isset( $_GET['pid'] ) ) {
-            $project_id = $_GET['pid']; //FIXME: set to message parent
-            $url = cpm_url_single_message( $project_id, $post->ID );
-        }
-
-        return $url;
-    }
-
-    function get_all( $project_id ) {
-
+        return $messages;
     }
 
     function get( $message_id ) {
