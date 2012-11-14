@@ -13,6 +13,7 @@
     font-size: 14px;
     line-height: 21px;
     vertical-align: baseline;
+    position: relative;
 
     a {
         text-decoration: none;
@@ -239,40 +240,115 @@ ul.cpm-nav{
 /*--------------------------------------------------
 :: Project
 -------------------------------------------------- */
-form.cpm-project-form {
-    .cpm-form-item {
-        display: block;
-        clear: left;
-        padding: 0 0 10px 0;
-        margin: 0 0 10px 0;
+.cpm-ui-dialog {
+    font-size: 13px;
+    border: none !important;
+    .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+    padding: 10px 15px 10px 15px !important;
 
-        label {
-            float: left;
-            width: 140px;
-            font-size: 13px
+    .ui-widget-header {
+        background: #fff;
+        border: none;
+        font-size: 16px;
+    }
+
+    .ui-resizable-handle {
+        display: none !important;
+    }
+
+    .ui-dialog-content {
+        overflow: hidden !important;
+    }
+
+    .cpm-project-form {
+        font-size: 12px;
+
+        input[type=text], textarea, select {
+            border: 1px solid #F1F1F1;
+            padding: 8px;
+            .placeholder(#999);
         }
 
-        .cpm-form-input{
-            margin-left: 140px;
-            width: 60%;
+        .cpm-form-item {
+            margin-bottom: 15px;
         }
 
-        input[type=text] {
-            padding: 5px 10px;
-            width: 350px;
+        .submit {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.cpm-projects {
+    margin-top: 10px;
+    margin-left: 130px;
+    padding: 5px 0 0 5px;
+    display: block;
+    position: relative;
+
+    nav.cpm-new-project {
+        left: -130px;
+        position: absolute;
+        
+        a {
+            background: url('../images/plus.png') no-repeat 50% 50%;
+            .box-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+            height: 80px;
+            width: 80px;
+            display: block;
+            .border-radius(3px);
+
+            span {
+                bottom: -28px;
+                color: #333333;
+                font-size: 13px;
+                position: absolute;
+                text-align: center;
+                width: 80px;
+            }
+        }
+    }
+
+    .cpm-project {
+        background: #fff;
+        .border-radius(3px);
+        .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+        width: 210px;
+        height: 235px;
+        position: relative;
+        margin: 0 20px 20px 0;
+        padding: 15px;
+        float: left;
+
+        h5 {
+            font-size: 19px;
+            margin: 0 0 3px;
+            word-wrap: break-word;
+            color: #000;
         }
 
-        select {
-            min-width: 200px;
+        .cpm-project-detail, .cpm-project-meta {
+            color: #AA9C84;
+            word-wrap: break-word;
+            font-size: 16px;
+            margin-bottom: 5px;
         }
 
-        #project-status-text {
-            font-weight: bold;
-            color: green;
+        .cpm-project-meta {
+            font-size: 12px;
         }
 
-        select#project_coworker {
-            min-width: 350px;
+        .cpm-project-people {
+            position: absolute;
+            bottom: 15px;
+            left: 16px;
+
+            img.avatar {
+                height: 48px;
+                width: 48px;
+                .border-radius(50%);
+            }
         }
     }
 }
@@ -280,6 +356,67 @@ form.cpm-project-form {
 /*--------------------------------------------------
 :: Message
 -------------------------------------------------- */
+.cpm-messages-table {
+    font-size: 13px;
+
+    td {
+        border-bottom: 1px solid #ECECEC;
+        padding: 5px 0;
+    }
+
+    tr:nth-last-child(1) td{
+        border-bottom: none;
+    }
+
+    .cpm-avatar {
+        width: 32px;
+        height: 32px;
+        .border-radius(50%);
+        padding: 2px;
+        background: #eee;
+        display: block;
+
+        img {
+            .border-radius(50%);
+        }
+    }
+
+    .message {
+        font-size: 13px;
+        padding: 0 5px;
+        max-width: 780px;
+        overflow: hidden;
+    }
+
+    .title {
+        font-weight: bold;
+        color: #000;
+    }
+
+    .excerpt {
+        color: #AA9C84;
+    }
+
+    .date {
+        font-size: 14px;
+        color: #AA9C84;
+    }
+
+    .comment-count span {
+        background: #E2E9F8;
+        line-height: 14px;
+        min-width: 17px;
+        padding: 2px 1px;
+        text-align: center;
+        border: 1px solid transparent;
+        border-radius: 12px 12px 12px 12px;
+        color: #666666;
+        display: inline-block;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+}
+
 .cpm-single {
     background-color: @backgroundColor;
     border: 1px solid @borderColor;

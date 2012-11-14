@@ -33,6 +33,7 @@
   font-size: 14px;
   line-height: 21px;
   vertical-align: baseline;
+  position: relative;
 }
 .cpm a {
   text-decoration: none;
@@ -239,38 +240,188 @@ ul.cpm-nav li a {
 /*--------------------------------------------------
 :: Project
 -------------------------------------------------- */
-form.cpm-project-form .cpm-form-item {
-  display: block;
-  clear: left;
-  padding: 0 0 10px 0;
-  margin: 0 0 10px 0;
-}
-form.cpm-project-form .cpm-form-item label {
-  float: left;
-  width: 140px;
+.cpm-ui-dialog {
   font-size: 13px;
+  border: none !important;
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  padding: 10px 15px 10px 15px !important;
 }
-form.cpm-project-form .cpm-form-item .cpm-form-input {
-  margin-left: 140px;
-  width: 60%;
+.cpm-ui-dialog .ui-widget-header {
+  background: #fff;
+  border: none;
+  font-size: 16px;
 }
-form.cpm-project-form .cpm-form-item input[type=text] {
-  padding: 5px 10px;
-  width: 350px;
+.cpm-ui-dialog .ui-resizable-handle {
+  display: none !important;
 }
-form.cpm-project-form .cpm-form-item select {
-  min-width: 200px;
+.cpm-ui-dialog .ui-dialog-content {
+  overflow: hidden !important;
 }
-form.cpm-project-form .cpm-form-item #project-status-text {
-  font-weight: bold;
-  color: green;
+.cpm-ui-dialog .cpm-project-form {
+  font-size: 12px;
 }
-form.cpm-project-form .cpm-form-item select#project_coworker {
-  min-width: 350px;
+.cpm-ui-dialog .cpm-project-form input[type=text],
+.cpm-ui-dialog .cpm-project-form textarea,
+.cpm-ui-dialog .cpm-project-form select {
+  border: 1px solid #F1F1F1;
+  padding: 8px;
+}
+.cpm-ui-dialog .cpm-project-form input[type=text]:-moz-placeholder,
+.cpm-ui-dialog .cpm-project-form textarea:-moz-placeholder,
+.cpm-ui-dialog .cpm-project-form select:-moz-placeholder {
+  color: #999999;
+}
+.cpm-ui-dialog .cpm-project-form input[type=text]:-ms-input-placeholder,
+.cpm-ui-dialog .cpm-project-form textarea:-ms-input-placeholder,
+.cpm-ui-dialog .cpm-project-form select:-ms-input-placeholder {
+  color: #999999;
+}
+.cpm-ui-dialog .cpm-project-form input[type=text]::-webkit-input-placeholder,
+.cpm-ui-dialog .cpm-project-form textarea::-webkit-input-placeholder,
+.cpm-ui-dialog .cpm-project-form select::-webkit-input-placeholder {
+  color: #999999;
+}
+.cpm-ui-dialog .cpm-project-form .cpm-form-item {
+  margin-bottom: 15px;
+}
+.cpm-ui-dialog .cpm-project-form .submit {
+  margin: 0;
+  padding: 0;
+}
+.cpm-projects {
+  margin-top: 10px;
+  margin-left: 130px;
+  padding: 5px 0 0 5px;
+  display: block;
+  position: relative;
+}
+.cpm-projects nav.cpm-new-project {
+  left: -130px;
+  position: absolute;
+}
+.cpm-projects nav.cpm-new-project a {
+  background: url('../images/plus.png') no-repeat 50% 50%;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  height: 80px;
+  width: 80px;
+  display: block;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.cpm-projects nav.cpm-new-project a span {
+  bottom: -28px;
+  color: #333333;
+  font-size: 13px;
+  position: absolute;
+  text-align: center;
+  width: 80px;
+}
+.cpm-projects .cpm-project {
+  background: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  width: 210px;
+  height: 235px;
+  position: relative;
+  margin: 0 20px 20px 0;
+  padding: 15px;
+  float: left;
+}
+.cpm-projects .cpm-project h5 {
+  font-size: 19px;
+  margin: 0 0 3px;
+  word-wrap: break-word;
+  color: #000;
+}
+.cpm-projects .cpm-project .cpm-project-detail,
+.cpm-projects .cpm-project .cpm-project-meta {
+  color: #AA9C84;
+  word-wrap: break-word;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.cpm-projects .cpm-project .cpm-project-meta {
+  font-size: 12px;
+}
+.cpm-projects .cpm-project .cpm-project-people {
+  position: absolute;
+  bottom: 15px;
+  left: 16px;
+}
+.cpm-projects .cpm-project .cpm-project-people img.avatar {
+  height: 48px;
+  width: 48px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
 /*--------------------------------------------------
 :: Message
 -------------------------------------------------- */
+.cpm-messages-table {
+  font-size: 13px;
+}
+.cpm-messages-table td {
+  border-bottom: 1px solid #ECECEC;
+  padding: 5px 0;
+}
+.cpm-messages-table tr:nth-last-child(1) td {
+  border-bottom: none;
+}
+.cpm-messages-table .cpm-avatar {
+  width: 32px;
+  height: 32px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  padding: 2px;
+  background: #eee;
+  display: block;
+}
+.cpm-messages-table .cpm-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.cpm-messages-table .message {
+  font-size: 13px;
+  padding: 0 5px;
+  max-width: 780px;
+  overflow: hidden;
+}
+.cpm-messages-table .title {
+  font-weight: bold;
+  color: #000;
+}
+.cpm-messages-table .excerpt {
+  color: #AA9C84;
+}
+.cpm-messages-table .date {
+  font-size: 14px;
+  color: #AA9C84;
+}
+.cpm-messages-table .comment-count span {
+  background: #E2E9F8;
+  line-height: 14px;
+  min-width: 17px;
+  padding: 2px 1px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 12px 12px 12px 12px;
+  color: #666666;
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 10px;
+}
 .cpm-single {
   background-color: #f9f9f9;
   border: 1px solid #dfdfdf;
