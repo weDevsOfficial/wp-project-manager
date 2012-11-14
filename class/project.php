@@ -168,25 +168,16 @@ class CPM_Project {
      * @param bool $exclude_client
      * @return array user emails with id as index
      */
-    function get_users( $project_id, $exclude_client = false ) {
+    function get_users( $project_id ) {
 
         $project = $this->get( $project_id );
 
         $mail = array();
-        $user_ids = array($project->post_author);
+        $user_ids = array( $project->post_author );
         $co_worker = get_post_meta( $project_id, '_coworker', true );
 
-        //if has privacy, exclude the client
-        if ( !$exclude_client ) {
-            $client = get_post_meta( $project_id, '_client', true );
-
-            if ( $client && $client != '' ) {
-                array_push( $user_ids, $client );
-            }
-        }
-
         //if any co-workers found, add them
-        if ( count( $co_worker ) > 0 ) {
+        if ( $co_worker != '' ) {
             $user_ids = array_merge( $user_ids, $co_worker );
         }
 
