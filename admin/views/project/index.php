@@ -42,7 +42,12 @@ $projects = $project_obj->get_projects();
                     ?>
                 </div>
                 <footer class="cpm-project-people">
-                    <?php echo get_avatar( $project->post_author, 48 ); ?>
+                    <?php
+                    $users = $project_obj->get_users( $project->ID );
+                    foreach ($users as $user) {
+                        echo get_avatar( $user['id'], 48 );
+                    }
+                    ?>
                 </footer>
             </a>
         </article>
