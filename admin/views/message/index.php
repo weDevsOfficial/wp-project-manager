@@ -26,6 +26,7 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
     <table class="form-table">
         <tbody>
+            
             <tr class="form-field form-required">
                 <th scope="row">
                     <label for="message_title">Title <span class="required">*</span></label>
@@ -34,17 +35,12 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
                     <input name="message_title" type="text" id="message_title" value="" class="required">
                 </td>
             </tr>
+
             <tr class="form-field">
                 <th scope="row"><label for="message_detail">Message <span class="required">*</span></label></th>
                 <td><textarea name="message_detail" class="required" id="message_detail" cols="30" rows="10"></textarea></td>
             </tr>
-            <tr class="form-field">
-                <th scope="row"><label for="message_privacy">Privacy</label></th>
-                <td><input type="radio" name="message_privacy" value="1" /> Yes
-                    <input type="radio" checked="checked" name="message_privacy" value="0" /> No
-                    <span class="description">Private messages are visible only to members. Client will not be able to see them.</span>
-                </td>
-            </tr>
+
             <tr class="form-field">
                 <th scope="row"><label for="milestone">Milestone</label></th>
                 <td>
@@ -55,10 +51,11 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
                 </td>
             </tr>
+
             <tr class="form-field">
                 <th scope="row"><label for="cpm-attachment">Attachment</label></th>
                 <td>
-                    <?php cpm_upload_field(); ?>
+                    <?php cpm_upload_field(0); ?>
                 </td>
             </tr>
 
