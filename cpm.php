@@ -88,7 +88,7 @@ class WeDevs_CPM {
         ) );
 
         wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
-        wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.8.18.custom.css', __FILE__ ) );
+        wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'chosen', plugins_url( 'css/chosen.css', __FILE__ ) );
     }
 
