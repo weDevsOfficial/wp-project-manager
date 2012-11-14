@@ -24,6 +24,8 @@ if ( $attachments ) {
         if ( $parent->post_type == 'task' ) {
             $task_list = get_post( $parent->post_parent );
             $topic_url = cpm_url_single_task( $project_id, $task_list->ID, $parent->ID );
+        } else if( $parent->post_type == 'message' ) {
+            $topic_url = cpm_url_single_message( $project_id, $parent->ID );
         }
         // var_dump( $file, $parent );
         ?>        
