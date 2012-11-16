@@ -215,7 +215,7 @@
                     if( res.success ) {
                         window.location.href= res.url;
                     }
-                    
+
                     $('.cpm-loading').remove();
                 });
             },
@@ -236,7 +236,7 @@
                         console.log(parent);
                         parent.find('.cpm-entry-detail').html(res.content).fadeIn().next('.cpm-msg-edit-form').html('');
                     }
-                    
+
                     $('.cpm-loading').remove();
                 });
             },
@@ -306,17 +306,6 @@
 
         $('#project_manager, #project_coworker, #project_client').chosen();
         $(".datepicker").datepicker();
-
-        $("#project-status-slider").slider({
-            range: "min",
-            value: 0,
-            min: 0,
-            max: 100,
-            slide: function (event, ui) {
-                $("input#project-status").attr('value', ui.value);
-                $("#project-status-text").text(ui.value + ' %');
-            }
-        });
     });
 
 })(jQuery);
