@@ -23,14 +23,21 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
         <span class="cpm-separator">|</span>
         <span class="cpm-comment-num"><?php echo cpm_get_number( $message->comment_count ); ?></span>
         <span class="cpm-separator">|</span>
-        <span class="cpm-edit-link"><?php echo cpm_print_url( cpm_msg_edit_url( $message_id ), __( 'Edit', 'cpm' ) ); ?></span>
+        <span class="cpm-edit-link">
+            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit">
+                <?php _e( 'Edit', 'cpm' ); ?>
+            </a>
+        </span>
     </div>
 
     <div class="cpm-entry-detail">
         <?php echo cpm_get_content( $message->post_content ); ?>
+
+        <?php echo cpm_show_attachments( $message ); ?>
     </div>
 
-    <?php echo cpm_show_attachments( $message ); ?>
+    <span class="cpm-msg-edit-form"></span>
+
 </div>
 
 <?php
