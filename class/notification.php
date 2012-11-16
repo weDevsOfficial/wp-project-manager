@@ -4,8 +4,8 @@ class CPM_Notification {
 
     function __construct() {
         add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 2 );
-        add_action( 'cpm_new_message', array($this, 'new_message'), 10, 2 );
-        add_action( 'cpm_new_task', array($this, 'new_task'), 10, 3 );
+        add_action( 'cpm_message_new', array($this, 'new_message'), 10, 2 );
+        add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
     }
 
     function prepare_contacts() {
@@ -44,7 +44,7 @@ class CPM_Notification {
         $subject = apply_filters( 'cpm_new_message_subject', $subject );
         $message = apply_filters( 'cpm_new_message_message', $message );
 
-        wp_mail( implode( ', ', $to ), $subject, $message );
+        $this->send( implode( ', ', $to ), $subject, $message );
     }
 
     /**
@@ -80,7 +80,7 @@ class CPM_Notification {
         $subject = apply_filters( 'cpm_new_comment_subject', $subject );
         $message = apply_filters( 'cpm_new_comment_message', $message );
 
-        wp_mail( implode( ', ', $users ), $subject, $message );
+        $this->send( implode( ', ', $users ), $subject, $message );
     }
 
     function new_task( $list_id, $task_id, $data ) {
@@ -96,7 +96,16 @@ class CPM_Notification {
         $subject = sprintf( __( '[%s] New task assigned to you', 'cpm' ), __( 'Project Manager', 'cpm' ) );
         $message = sprintf( 'A new task has been assigned to you' ) . "\r\n\n";
 
-        wp_mail( $to, $subject, $message );
+        $this->send( $to, $subject, $message );
+    }
+
+    function send( $to, $subject, $message ) {
+
+        $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
+        $from = "From: \"$blogname\" <$wp_email>";
+        $headers = "$from\nContent-Type: text/html; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
+
+        wp_mail( $to, $subject, $message, $headers);
     }
 
 }
