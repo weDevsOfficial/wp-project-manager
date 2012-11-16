@@ -36,8 +36,10 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_update', array($this, 'update_comment') );
         add_action( 'wp_ajax_cpm_comment_delete', array($this, 'delete_comment') );
 
-        add_action( 'wp_ajax_cpm_new_message', array($this, 'new_message') );
-        add_action( 'wp_ajax_cpm_get_message', array($this, 'get_message') );
+        add_action( 'wp_ajax_cpm_message_new', array($this, 'new_message') );
+        add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
+        add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
+        add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
     }
 
     function add_new_task() {
@@ -387,8 +389,8 @@ class CPM_Ajax {
 
     function new_message() {
         check_ajax_referer( 'cpm_message' );
-
         $posted = $_POST;
+
         $files = array();
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
 
@@ -400,8 +402,69 @@ class CPM_Ajax {
         $message_id = $message_obj->create( $project_id, $files );
 
         if ( $message_id ) {
-            echo cpm_url_single_message( $project_id, $message_id );
+            echo json_encode( array(
+                'success' => true,
+                'id' => $message_id,
+                'url' => cpm_url_single_message( $project_id, $message_id )
+            ) );
+
+            exit;
         }
+
+        echo json_encode( array(
+            'success' => false
+        ) );
+
+        exit;
+    }
+
+    function update_message() {
+        check_ajax_referer( 'cpm_message' );
+        $posted = $_POST;
+
+        $files = array();
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $message_id = isset( $posted['message_id'] ) ? intval( $posted['message_id'] ) : 0;
+
+        if ( isset( $posted['cpm_attachment'] ) ) {
+            $files = $posted['cpm_attachment'];
+        }
+
+        $message_obj = CPM_Message::getInstance();
+        $message_id = $message_obj->update( $project_id, $files, $message_id );
+        $message = $message_obj->get( $message_id );
+
+        if ( $message_id ) {
+            echo json_encode( array(
+                'success' => true,
+                'id' => $message_id,
+                'content' => cpm_get_content( $message->post_content ). cpm_show_attachments( $message )
+            ) );
+
+            exit;
+        }
+
+        echo json_encode( array(
+            'success' => false
+        ) );
+
+        exit;
+    }
+
+    function delete_message() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $message_id = isset( $posted['message_id'] ) ? intval( $posted['message_id'] ) : 0;
+
+        CPM_Message::getInstance()->delete( $message_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'url' => cpm_url_message_index( $project_id )
+        ) );
 
         exit;
     }
@@ -410,11 +473,25 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
         $posted = $_POST;
 
-        $message_id = isset( $posted['id'] ) ? intval( $posted['id'] ) : 0;
+        $message_id = isset( $posted['message_id'] ) ? intval( $posted['message_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+
         $message_obj = CPM_Message::getInstance();
         $message = $message_obj->get( $message_id );
 
-        echo json_encode( $message );
+        if( $message ) {
+            echo json_encode( array(
+                'success' => true,
+                'id' => $message_id,
+                'content' => cpm_message_form( $project_id, $message )
+            ) );
+
+            exit;
+        }
+
+        echo json_encode( array(
+            'success' => false
+        ) );
 
         exit;
     }
