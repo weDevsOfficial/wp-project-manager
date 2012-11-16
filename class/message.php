@@ -64,13 +64,15 @@ class CPM_Message {
 
     function get( $message_id ) {
         $message = get_post( $message_id );
+        $message->milestone = get_post_meta( $message_id, '_milestone', true );
         $message->files = CPM_Comment::getInstance()->get_attachments( $message_id );
 
         return $message;
     }
 
-    function create( $project_id, $files = array() ) {
+    function create( $project_id, $files = array(), $message_id = 0 ) {
         $post = $_POST;
+        $is_update = $message_id ? true : false;
 
         $postarr = array(
             'post_parent' => $project_id,
@@ -80,7 +82,12 @@ class CPM_Message {
             'post_status' => 'publish'
         );
 
-        $message_id = wp_insert_post( $postarr );
+        if( $is_update ) {
+            $postarr['ID'] = $message_id;
+            $message_id = wp_update_post( $postarr );
+        } else {
+            $message_id = wp_insert_post( $postarr );
+        }
 
         if ( $message_id ) {
             $milestone_id = (int) $post['milestone'];
@@ -92,21 +99,25 @@ class CPM_Message {
                 update_post_meta( $message_id, '_files', $files );
                 
                 $comment_obj = CPM_Comment::getInstance();
-                $comment_obj->associate_file( $files, $message_id, $project_id );
+                $comment_obj->associate_file( $files, $message_id, $project_id, 'message' );
             }
 
-            do_action( 'cpm_new_message', $message_id, $postarr );
+            if ( $is_update ) {
+                do_action( 'cpm_message_update', $message_id, $postarr );
+            } else {
+                do_action( 'cpm_message_new', $message_id, $postarr );
+            }
         }
 
         return $message_id;
     }
 
-    function update( $data ) {
-
+    function update( $project_id, $files = array(), $message_id ) {
+        return $this->create( $project_id, $files, $message_id );
     }
 
-    function delete( $message_id ) {
-
+    function delete( $message_id, $force = false ) {
+        wp_delete_post( $message_id, $force );
     }
 
     function get_comments( $message_id, $sort = 'ASC' ) {
