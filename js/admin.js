@@ -22,18 +22,24 @@
             });
 
             // add new message
-            $('.cpm-new-message').validate({
+            $('.cpm-new-message-form form').validate({
                 submitHandler: function (form) {
                     weDevs_CPM.Message.addNew.call(form);
 
                     return false;
                 }
             });
-            $('.cpm-new-message-btn').on('click', this.Message.toggleBtn);
-            $('.cpm-get-message').on('click', this.Message.get);
 
-            $('#cpm-upload-container').on('click', '.cpm-delete-file', weDevs_CPM.Uploader.deleteFile);
-            $('.cpm-comment-wrap').on('click', '.cpm-delete-file', weDevs_CPM.Uploader.deleteFile);
+            $('.cpm-new-message-btn').on('click', this.Message.show);
+            $('.cpm-new-message-form').on('click', 'a.message-cancel', this.Message.hide);
+            $('.cpm-single').on('click', 'a.cpm-msg-edit', this.Message.get);
+            $('.cpm-single').on('click', 'a.message-cancel', this.Message.hideEditForm);
+            $('.cpm-single').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            $('.cpm-single').on('submit', 'form.cpm-message-form', this.Message.update);
+            $('table.cpm-messages-table').on('click', 'a.delete-message', this.Message.remove);
+
+            $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
         },
         Milestone: {
             remove: function (e) {
@@ -119,7 +125,7 @@
                     if(res.success && parent.find('form').length === 0) {
 
                         parent.find('.cpm-comment-content').hide();
-                        parent.find('.cpm-comment-edit-form').html(res.form);
+                        parent.find('.cpm-comment-edit-form').hide().html(res.form).fadeIn();
 
                         //re-initialize the uploader
                         new CPM_Uploader('cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id);
@@ -132,7 +138,7 @@
                 e.preventDefault();
                 var that = $(this);
 
-                that.parents('.cpm-comment').find('.cpm-comment-content').show();
+                that.parents('.cpm-comment').find('.cpm-comment-content').fadeIn();
                 that.closest('.cpm-comment-edit-form').html('');
             },
 
@@ -184,35 +190,112 @@
             }
         },
         Message: {
-            toggleBtn: function (e) {
+            show: function (e) {
                 e.preventDefault();
 
-                $('.cpm-new-message').slideToggle();
+                $('.cpm-new-message-form').slideDown();
             },
-            addNew: function () {
+
+            hide: function (e) {
+                e.preventDefault();
+
+                $('.cpm-new-message-form').slideUp();
+            },
+
+            addNew: function (e) {
+                e.preventDefault();
+
                 var that = $(this),
                 data = that.serialize();
 
                 that.append('<div class="cpm-loading">Saving...</div>');
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    window.location.href = response;
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = $.parseJSON(res);
+
+                    if( res.success ) {
+                        window.location.href= res.url;
+                    }
+                    
                     $('.cpm-loading').remove();
                 });
             },
+
+            update: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    parent = self.closest('.cpm-single'),
+                    data = self.serialize();
+
+                self.append('<div class="cpm-loading">Saving...</div>');
+
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = $.parseJSON(res);
+
+                    if( res.success ) {
+                        console.log(parent);
+                        parent.find('.cpm-entry-detail').html(res.content).fadeIn().next('.cpm-msg-edit-form').html('');
+                    }
+                    
+                    $('.cpm-loading').remove();
+                });
+            },
+
             get: function(e) {
                 e.preventDefault();
 
-                var that = $(this),
-                data = {
-                    id: that.data('id'),
-                    action: 'cpm_get_message',
-                    '_wpnonce': CPM_Vars.nonce
-                };
+                var self = $(this),
+                    parent = self.closest('.cpm-single'),
+                    data = {
+                        message_id: self.data('msg_id'),
+                        project_id: self.data('project_id'),
+                        action: 'cpm_message_get',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
 
-                //console.log(data);
-                $.post(CPM_Vars.ajaxurl, data, function(response) {
-                    //console.log(response);
+                $.post(CPM_Vars.ajaxurl, data, function(res) {
+                    res = $.parseJSON(res);
+
+                    if( res.success ) {
+                        parent.find('.cpm-entry-detail').hide().
+                            next('.cpm-msg-edit-form').hide().html(res.content).fadeIn();
+
+                        //re-initialize the uploader
+                        new CPM_Uploader('cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id);
+                    }
+                });
+            },
+
+            hideEditForm: function (e) {
+                e.preventDefault();
+
+                var parent = $(this).closest('.cpm-single');
+
+                parent.find('.cpm-entry-detail').fadeIn().next('.cpm-msg-edit-form').fadeOut(function() {
+                    $(this).html('');
+                });
+            },
+
+            remove: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    data = {
+                        message_id: self.data('msg_id'),
+                        project_id: self.data('project_id'),
+                        action: 'cpm_message_delete',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
+
+                if( confirm( self.data('confirm') ) ) {
+                    $.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            window.location.href = res.url;
+                        }
                     });
+                }
             }
         }
     };
