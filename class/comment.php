@@ -44,7 +44,7 @@ class CPM_Comment {
 
         if ( $comment_id ) {
             add_comment_meta( $comment_id, '_files', $files );
-            $this->associate_file( $files, $commentdata['comment_post_ID'], $_POST['project_id'] );
+            $this->associate_file( $files, $commentdata['comment_post_ID'], $_POST['project_id'], 'comment' );
         }
 
         do_action( 'cpm_comment_new', $comment_id, $commentdata );
@@ -279,8 +279,9 @@ class CPM_Comment {
      * @param array $files attachment file ID's
      * @param int $parent_id parent post id
      * @param int $project_id
+     * @param string $type the post type this attachment attached to. e.g: comment, message
      */
-    function associate_file( $files, $parent_id, $project_id ) {
+    function associate_file( $files, $parent_id, $project_id, $type ) {
 
         foreach ($files as $file_id) {
             wp_update_post( array(
@@ -289,6 +290,7 @@ class CPM_Comment {
             ) );
 
             update_post_meta( $file_id, '_project', $project_id );
+            update_post_meta( $file_id, '_type', $type );
         }
     }
 
