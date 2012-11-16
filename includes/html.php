@@ -316,10 +316,10 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
                 <?php cpm_upload_field( $comment_id, $files ); ?>
             </div>
 
-            <fieldset>
-                <legend><?php _e( 'Notify users', 'cpm' ); ?></legend>
+            <div class="notify-users">
+                <label class="notify"><?php _e( 'Notify users', 'cpm' ); ?></label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
-            </fieldset>
+            </div>
 
             <div class="submit">
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php echo esc_attr( $submit_button ); ?>" id="" />
@@ -391,6 +391,74 @@ function cpm_show_attachments( $object ) {
         </ul>
         <?php
     }
+
+    return ob_get_clean();
+}
+
+function cpm_message_form( $project_id, $message = null ) {
+    $title = $content = '';
+    $submit = __( 'Add Message', 'cpm' );
+    $files = array();
+    $id = $milestone = 0;
+    $action = 'cpm_message_new';
+
+    if ( !is_null( $message ) ) {
+        $id = $message->ID;
+        $title = $message->post_title;
+        $content = $message->post_content;
+        $files = $message->files;
+        $milestone = $message->milestone;
+        $submit = __( 'Update Message', 'cpm' );
+        $action = 'cpm_message_update';
+    }
+
+    ob_start();
+    ?>
+
+    <div class="cpm-message-form-wrap">
+        <form class="cpm-message-form">
+
+            <?php wp_nonce_field( 'cpm_message' ); ?>
+
+            <div class="item title">
+                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" class="required" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+            </div>
+
+            <div class="item detail">
+                <textarea name="message_detail" id="message_detail" cols="30" rows="4" placeholder="<?php esc_attr_e( 'Message deatils here', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
+            </div>
+
+            <div class="item milestone">
+                <select name="milestone" id="milestone">
+                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+                </select>
+            </div>
+
+            <div class="cpm-attachment-area">
+                <?php cpm_upload_field( $id, $files ); ?>
+            </div>
+
+            <div class="notify-users">
+                <label class="notify"><?php _e( 'Notify users', 'cpm' ); ?></label>
+                <?php cpm_user_checkboxes( $project_id ); ?>
+            </div>
+
+            <div class="submit">
+                <input type="hidden" name="action" value="<?php echo $action; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
+
+                <?php if( $id ) { ?>
+                    <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
+                <?php } ?>
+
+                <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <a class="button message-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            </div>
+
+        </form>
+    </div>
+    <?php
 
     return ob_get_clean();
 }
