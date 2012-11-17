@@ -26,14 +26,24 @@ function cpm_tasks_filter_pending( $task ) {
     return $task->completed != '1';
 }
 
-function cpm_dropdown_users( $args = array() ) {
-    $args['echo'] = false;
+function cpm_dropdown_users( $selected = array() ) {
 
     $placeholder = __( 'Select co-workers', 'cpm' );
-    $dropdown = wp_dropdown_users( $args );
-    $dropdown = str_replace( '<select ', '<select data-placeholder="' . $placeholder . '" multiple="multiple" ', $dropdown );
+    $sel = ' selected="selected"';
 
-    echo $dropdown;
+    $users = get_users();
+    $options = array();
+    if ( $users ) {
+        foreach ($users as $user) {
+            $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, in_array( $user->ID, $selected ) ? $sel : '', $user->display_name );
+        }
+    }
+
+    $dropdown = '<select name="project_coworker[]" id="project_coworker" placeholder="' . $placeholder . '" multiple="multiple">';
+    $dropdown .= implode("\n", $options );
+    $dropdown .= '</select>';
+
+    return $dropdown;
 }
 
 function cpm_date2mysql( $date, $gmt = 0 ) {
