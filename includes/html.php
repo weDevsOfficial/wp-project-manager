@@ -357,10 +357,17 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
 
                 <?php if( $comment->user_id == get_current_user_id() ) { ?>
                     <span class="cpm-separator">|</span>
-                    <span class="cpm-edit-link"><a href="#" class="cpm-edit-comment-link" data-comment_id="<?php echo $comment->comment_ID; ?>"
-                        data-project_id="<?php echo $project_id; ?>" data-object_id="<?php echo $comment->comment_post_ID; ?>"><?php _e( 'Edit', 'cpm' ); ?></a></span>
+                    <span class="cpm-edit-link">
+                        <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>>
+                            <span><?php _e( 'Edit', 'cpm' ); ?></span>
+                        </a>
+                    </span>
                     <span class="cpm-separator">|</span>
-                    <span class="cpm-delete-link"><a href="#" class="cpm-delete-comment-link" data-id="<?php echo $comment->comment_ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this comment?', 'cpm' ); ?>"><?php _e( 'Delete', 'cpm' ); ?></a></span>
+                    <span class="cpm-delete-link">
+                        <a href="#" class="cpm-delete-comment-link" data-id="<?php echo $comment->comment_ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this comment?', 'cpm' ); ?>">
+                            <span><?php _e( 'Delete', 'cpm' ); ?></span>
+                        </a>
+                    </span>
                 <?php } ?>
             </div>
             <div class="cpm-comment-content">
@@ -461,4 +468,157 @@ function cpm_message_form( $project_id, $message = null ) {
     <?php
 
     return ob_get_clean();
+}
+
+function cpm_milestone_form( $project_id, $milestone = null ) {
+    $title = $content = '';
+    $submit = __( 'Add Milestone', 'cpm' );
+    $id = 0;
+    $due = '';
+    $action = 'cpm_milestone_new';
+
+    if ( !is_null( $milestone ) ) {
+        $id = $milestone->ID;
+        $title = $milestone->post_title;
+        $content = $milestone->post_content;
+        $submit = __( 'Update Milestone', 'cpm' );
+        $action = 'cpm_milestone_update';
+
+        if ( $milestone->due_date != '' ) {
+            $due = date( 'm/d/Y', strtotime( $milestone->due_date ) );
+        }
+    }
+
+    ob_start();
+    ?>
+    <div class="cpm-milestone-form-wrap">
+        <form class="cpm-milestone-form">
+
+            <?php wp_nonce_field( 'cpm_milesotne' ); ?>
+
+            <div class="item milestone-title">
+                <input name="milestone_name" class="required" type="text" id="milestone_name" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Milestone name', 'cpm' ); ?>">
+            </div>
+
+            <div class="item due">
+                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" id="milestone_due" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+            </div>
+
+            <div class="item detail">
+                <textarea name="milestone_detail" id="milestone_detail" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Details about milestone (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
+            </div>
+
+            <div class="submit">
+                <input type="hidden" name="action" value="<?php echo $action; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
+
+                <?php if( $id ) { ?>
+                    <input type="hidden" name="milestone_id" value="<?php echo $id; ?>" />
+                <?php } ?>
+
+                <input type="submit" name="create_milestone" id="create_milestone" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <a class="button milestone-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            </div>
+
+        </form>
+    </div>
+
+    <?php
+    return ob_get_clean();
+}
+
+function cpm_show_milestone( $milestone, $project_id ) {
+    $milestone_obj = CPM_Milestone::getInstance();
+    $task_obj = CPM_Task::getInstance();
+
+    $due = strtotime( $milestone->due_date );
+    $is_left = cpm_is_left( time(), $due );
+    $milestone_completed = (int) $milestone->completed;
+
+    if ( $milestone_completed ) {
+        $class = 'complete';
+    } else {
+        $class = ($is_left == true) ? 'left' : 'late';
+    }
+    $string = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
+    ?>
+    <div class="cpm-milestone <?php echo $class; ?>">
+
+        <div class="milestone-detail">
+            <h3>
+                <?php echo $milestone->post_title; ?>
+                <?php if ( !$milestone_completed ) { ?>
+                    <span class="time-left">(<?php printf( '%s %s - %s', human_time_diff( time(), $due ), $string, cpm_get_date( $milestone->due_date ) ); ?>)</span>
+                <?php } ?>
+
+                <ul class="cpm-links cpm-right">
+                    <li>
+                        <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->ID ); ?>" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+                    </li>
+                    <li>
+                        <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
+                    </li>
+                    
+                    <?php if ( $milestone->completed == '0' ) { ?>
+                        <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
+                    <?php } else { ?>
+                        <li><a class="cpm-icon-tick green cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Reopen', 'cpm' ); ?></span></a></li>
+                    <?php } ?>
+                </ul>
+            </h3>
+
+            <div class="detail">
+                <?php echo cpm_get_content( $milestone->post_content ); ?></p>
+            </div>
+        </div>
+
+        <div class="cpm-milestone-edit-form"></div>
+
+        <?php
+        $tasks = $milestone_obj->get_tasklists( $milestone->ID );
+        $messages = $milestone_obj->get_messages( $milestone->ID );
+        if ( $tasks ) {
+            ?>
+            <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
+
+            <ul class="dash">
+                <?php foreach ($tasks as $task) { ?>
+                    <li>
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->ID ); ?>"><?php echo stripslashes( $task->post_title ); ?></a>
+                        <div class="cpm-right">
+                            <?php
+                            $complete = $task_obj->get_completeness( $task->ID );
+                            cpm_task_completeness( $complete['total'], $complete['completed'] );
+                            ?>
+                        </div>
+                        <div class="cpm-clear"></div>
+                    </li>
+                <?php } ?>
+            </ul>
+
+        <?php } ?>
+
+        <?php
+        if ( $messages ) {
+            ?>
+            <h3><?php _e( 'Messages', 'cpm' ); ?></h3>
+
+            <ul class="dash">
+                <?php foreach ($messages as $message) { ?>
+                    <li>
+                        <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
+                        (<?php echo cpm_get_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
+                    </li>
+                <?php } ?>
+            </ul>
+
+        <?php } ?>
+
+        <?php if ( $milestone_completed ) { ?>
+            <span class="cpm-milestone-completed">
+                <?php _e( 'Completed on:', 'cpm' ); ?> <?php echo cpm_get_date( $milestone->completed_on, true ); ?>
+            </span>
+        <?php } ?>
+    </div>
+    <?php
 }
