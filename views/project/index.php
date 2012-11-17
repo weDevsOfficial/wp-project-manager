@@ -74,7 +74,7 @@ $projects = $project_obj->get_projects();
 
         <div class="cpm-form-item">
             <div class="cpm-form-input">
-                <?php cpm_dropdown_users( array('id' => 'project_coworker', 'name' => 'project_coworker[]', 'multiple' => true) ); ?>
+                <?php echo cpm_dropdown_users(); ?>
             </div>
         </div>
 
