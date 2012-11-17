@@ -66,8 +66,6 @@ class CPM_Milestone {
         }
 
         if ( $milestone_id ) {
-            update_post_meta( $milestone_id, '_privacy', $posted['milestone_privacy'] );
-            update_post_meta( $milestone_id, '_assigned', $posted['milestone_assign'] );
             update_post_meta( $milestone_id, '_due', cpm_date2mysql( $posted['milestone_due'] ) );
         }
 
@@ -105,8 +103,6 @@ class CPM_Milestone {
     }
 
     function set_meta( &$milestone ) {
-        $milestone->privacy = get_post_meta( $milestone->ID, '_privacy', true );
-        $milestone->assigned_to = get_post_meta( $milestone->ID, '_assigned', true );
         $milestone->due_date = get_post_meta( $milestone->ID, '_due', true );
         $milestone->completed = get_post_meta( $milestone->ID, '_completed', true );
         $milestone->completed_on = get_post_meta( $milestone->ID, '_completed_on', true );
