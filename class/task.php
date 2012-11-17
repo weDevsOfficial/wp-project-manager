@@ -212,7 +212,8 @@ class CPM_Task {
         $args = array(
             'post_type' => 'task_list',
             'numberposts' => -1,
-            'order' => 'ASC'
+            'order' => 'ASC',
+            'post_parent' => $project_id
         );
 
         $lists = get_posts( $args );
