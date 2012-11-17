@@ -61,6 +61,7 @@
 
             var self = $(this),
                 list = self.closest('li'),
+                taskListEl = self.closest('article.cpm-todolist'),
                 singleWrap = self.closest('.cpm-single-task'),
                 data = {
                     task_id: self.val(),
@@ -81,6 +82,10 @@
                         completeList.append('<li>' + res.content + '</li>');
 
                         list.remove();
+
+                        //update progress
+                        taskListEl.find('h3 .cpm-right').html(res.progress);
+
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
                     }
@@ -92,6 +97,7 @@
 
             var self = $(this),
                 list = self.closest('li'),
+                taskListEl = self.closest('article.cpm-todolist'),
                 singleWrap = self.closest('.cpm-single-task'),
                 data = {
                     task_id: self.val(),
@@ -113,6 +119,10 @@
 
                         currentList.append('<li>' + res.content + '</li>');
                         list.remove();
+
+                        //update progress
+                        taskListEl.find('h3 .cpm-right').html(res.progress);
+
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
                     }
@@ -125,6 +135,7 @@
 
             var self = $(this),
                 data = self.serialize(),
+                taskListEl = self.closest('article.cpm-todolist'),
                 content = $.trim(self.find('.todo_content').val());
 
             if(content !== '') {
@@ -137,6 +148,10 @@
 
                         //clear the form
                         self.find('textarea, input[type=text], select').val('');
+
+                        //update progress
+                        taskListEl.find('h3 .cpm-right').html(res.progress);
+
                     } else {
                         alert('something went wrong!');
                     }
@@ -151,6 +166,7 @@
 
             var self = $(this),
                 list = self.closest('li'),
+                taskListEl = self.closest('article.cpm-todolist'),
                 confirmMsg = self.data('confirm'),
                 single = self.data('single'),
                 data = {
@@ -172,6 +188,9 @@
                             list.fadeOut(function() {
                                 $(this).remove();
                             });
+
+                            //update progress
+                            taskListEl.find('h3 .cpm-right').html(res.progress);
                         }
                     }
                 });
