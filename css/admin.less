@@ -568,7 +568,7 @@ ul.cpm-nav{
     }
 }
 
-.cpm-comment-form, .cpm-message-form {
+.cpm-comment-form, .cpm-message-form, .cpm-milestone-form {
     font-size: 13px;
 
     label.notify {
@@ -847,16 +847,21 @@ ul.cpm-todolists {
 
                     .cpm-todo-action {
                         font-size: 11px;
+                        line-height: 14px;
                         border: 1px solid #eee;
                         border-right: none;
                         .border-radius(5px 0 0 5px);
-                        padding: 1px 5px;
+                        padding: 2px 0 0 0;
                         background: #fff;
                         visibility: hidden;
                         position: absolute;
-                        left: -63px;
+                        left: -43px;
                         top: 0;
                         z-index: 99;
+
+                        a {
+                            display: inline-block;
+                        }
                     }
 
                     .cpm-todo-content {
@@ -911,7 +916,7 @@ ul.cpm-todolists {
 
             .cpm-todo-wrap {
                 .cpm-todo-action {
-                    left: -43px;
+                    left: -21px;
                 }
 
                 .cpm-todo-content a {
@@ -933,14 +938,71 @@ ul.cpm-todolists {
 /*--------------------------------------------------
 :: Milestone
 -------------------------------------------------- */
+.cpm-new-milestone-form {
+    margin: 25px 0 15px 10px;
+    display: none;
+}
+
+.cpm-milestone-form-wrap {
+    position: relative;
+    border: 1px solid #DDD;
+    .border-radius(5px);
+    padding: 10px;
+    margin-left: 0;
+    width: 500px;
+
+    input[name="milestone_due"] {
+        width: 20%;
+    }
+}
+
 .cpm-milestones {
+
+    .title {
+        float: left;
+        width: 200px;
+        margin-top: 0;
+    }
 
     .cpm-milestone {
         background: #FAF9E4;
         padding: 10px;
-        margin: 0 0 10px 0;
+        margin: 0 0 10px 220px;
         border: 1px solid #ddd;
-        .border-radius(5px);
+        .border-radius(3px);
+        font-size: 13px;
+
+        h3 {
+            margin: 0;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+
+            ul {
+                margin: 0;
+            }
+
+            .time-left {
+                font-size: 12px;
+                color: #666;
+            }
+        }
+
+        ul {
+            margin-top: 5px;
+        }
+
+        ul.dash {
+            li {
+                text-indent: 5px;
+
+                &:before {
+                    content: "-";
+                    position: relative;
+                    left: -5px;
+                }
+            }
+        }
 
         &.late {
             background: #F9ECE6;
@@ -984,15 +1046,18 @@ ul.cpm-todolists {
 }
 
 ul.cpm-links {
+
     li {
-        display: inline;
+        display: inline-block;
 
         a {
             text-decoration: none;
-            background: #298CBA;
-            color: #fff;
-            padding: 2px 6px;
-            .border-radius(5px);
+            font-size: 13px;
+            font-weight: normal;
+            // background: #298CBA;
+            // color: #fff;
+            // padding: 2px 6px;
+            // .border-radius(5px);
 
             &.cpm-loading {
                 background: #eee;
@@ -1007,6 +1072,60 @@ label.error {
 
 input.error {
     border: 1px solid red;
+}
+
+a.cpm-icon-edit {
+    span {
+        display: inline-block;
+        text-indent: -9999px;
+    }
+
+    &:before {
+        content: "\270E";
+        font-size: 17px;
+        padding: 1px 2px;
+        border-radius: 4px;
+        color: #8A7402;
+        display: inline-block;
+    }
+}
+
+a.cpm-icon-delete {
+    span {
+        display: inline-block;
+        text-indent: -9999px;
+    }
+
+    &:before {
+        content: "\2716";
+        font-size: 17px;
+        padding: 1px 2px;
+        border-radius: 4px;
+        color: #EB0000;
+        display: inline-block;
+    }
+}
+
+a.cpm-icon-tick {
+    span {
+        display: none;
+    }
+
+    &:before {
+        content: "\2714";
+        display: block;
+        font-size: 17px;
+        padding: 1px 2px;
+        border-radius: 4px;
+    }
+
+    &.green {
+        color: #00D311;
+    }
+
+    &.grey {
+        color: #D8D8D8;
+    }
 }
 
 .cpm-uploaded-item {
