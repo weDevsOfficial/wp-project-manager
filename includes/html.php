@@ -15,17 +15,16 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     ?>
     <div class="cpm-todo-wrap <?php echo $wrap_class; ?>">
         <span class="cpm-todo-action">
-            <a href="#" data-single="<?php echo $single; ?>" data-list_id="<?php echo $list_id; ?>" data-project_id="<?php echo $project_id; ?>" data-task_id="<?php echo $task->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do?', 'cpm' ); ?>" class="cpm-todo-delete">
-                <?php _e( 'Delete', 'cpm' ); ?>
+            <a href="#" class="cpm-todo-delete cpm-icon-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' ) ) ); ?>>
+                <span><?php _e( 'Delete', 'cpm' ); ?></span>
             </a>
 
             <?php if ( $task->completed != '1' ) { ?>
-                <a href="#" class="cpm-todo-edit"><?php _e( 'Edit', 'cpm' ); ?></a>
+                <a href="#" class="cpm-todo-edit cpm-icon-edit"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
             <?php } ?>
         </span>
 
-        <input type="checkbox" data-single="<?php echo $single; ?>" data-project="<?php echo $project_id; ?>" data-list="<?php echo $list_id; ?>"
-               value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
+        <input type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
 
         <span class="cpm-todo-content">
             <?php if ( $single ) { ?>
