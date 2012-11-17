@@ -215,13 +215,21 @@ function cpm_task_list_html( $list, $project_id ) {
     <article class="cpm-todolist">
         <header class="cpm-list-header">
             <div class="cpm-list-actions">
-                <a href="#" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>" class="cpm-list-delete">
-                    <?php _e( 'Delete', 'cpm' ); ?>
+                <a href="#" class="cpm-list-delete cpm-icon-delete" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>">
+                    <span><?php _e( 'Delete', 'cpm' ); ?></span>
                 </a>
-                <a href="#" class="cpm-list-edit"><?php _e( 'Edit', 'cpm' ); ?></a>
+                <a href="#" class="cpm-list-edit cpm-icon-edit"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
             </div>
 
-            <h3><a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a></h3>
+            <h3>
+                <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
+                <div class="cpm-right">
+                    <?php
+                    $complete = $task_obj->get_completeness( $list->ID );
+                    echo cpm_task_completeness( $complete['total'], $complete['completed'] );
+                    ?>
+                </div>
+            </h3>
 
             <div class="cpm-entry-detail">
                 <?php echo cpm_get_content( $list->post_content ); ?>
@@ -574,20 +582,20 @@ function cpm_show_milestone( $milestone, $project_id ) {
         <div class="cpm-milestone-edit-form"></div>
 
         <?php
-        $tasks = $milestone_obj->get_tasklists( $milestone->ID );
+        $tasklists = $milestone_obj->get_tasklists( $milestone->ID );
         $messages = $milestone_obj->get_messages( $milestone->ID );
-        if ( $tasks ) {
+        if ( $tasklists ) {
             ?>
             <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
 
             <ul class="dash">
-                <?php foreach ($tasks as $task) { ?>
+                <?php foreach ($tasklists as $tasklist) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->ID ); ?>"><?php echo stripslashes( $task->post_title ); ?></a>
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
                         <div class="cpm-right">
                             <?php
-                            $complete = $task_obj->get_completeness( $task->ID );
-                            cpm_task_completeness( $complete['total'], $complete['completed'] );
+                            $complete = $task_obj->get_completeness( $tasklist->ID );
+                            echo cpm_task_completeness( $complete['total'], $complete['completed'] );
                             ?>
                         </div>
                         <div class="cpm-clear"></div>
