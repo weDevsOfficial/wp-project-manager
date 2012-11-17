@@ -32,7 +32,7 @@ function cpm_dropdown_users( $args = array() ) {
     $placeholder = __( 'Select co-workers', 'cpm' );
     $dropdown = wp_dropdown_users( $args );
     $dropdown = str_replace( '<select ', '<select data-placeholder="' . $placeholder . '" multiple="multiple" ', $dropdown );
-    
+
     echo $dropdown;
 }
 
@@ -71,7 +71,7 @@ function cpm_user_checkboxes( $project_id ) {
 
 /**
  * Comment form upload field helper
- * 
+ *
  * @param int $id comment ID. used for unique edit comment form pickfile ID
  * @param array $files attached files
  */
@@ -163,88 +163,6 @@ function cpm_is_left( $from, $to ) {
     return false;
 }
 
-function cpm_show_milestone( $milestone, $project_id ) {
-    $milestone_obj = CPM_Milestone::getInstance();
-    $task_obj = CPM_Task::getInstance();
-
-    $due = strtotime( $milestone->due_date );
-    $is_left = cpm_is_left( time(), $due );
-    $milestone_completed = (int) $milestone->completed;
-
-    if ( $milestone_completed ) {
-        $class = 'complete';
-    } else {
-        $class = ($is_left == true) ? 'left' : 'late';
-    }
-    $string = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
-    ?>
-    <div class="cpm-milestone <?php echo $class; ?>">
-        <h3>
-            <a href="<?php echo cpm_url_single_milestone( $project_id, $milestone->ID ); ?>"><?php echo stripslashes( $milestone->post_title ); ?></a>
-            <?php if ( !$milestone_completed ) { ?>
-                (<?php echo human_time_diff( time(), $due ) . ' ' . $string; ?>)
-            <?php } ?>
-        </h3>
-        <p>Due Date: <?php echo cpm_get_date( $milestone->due_date ); ?></p>
-        <p><?php echo stripslashes( $milestone->post_content ); ?></p>
-
-        <?php
-        $tasks = $milestone_obj->get_tasklists( $milestone->ID );
-        $messages = $milestone_obj->get_messages( $milestone->ID );
-        if ( $tasks ) {
-            //var_dump( $tasks );
-            ?>
-            <h3>Task List</h3>
-            <ul>
-                <?php foreach ($tasks as $task) { ?>
-                    <li>
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $task->ID ); ?>"><?php echo stripslashes( $task->post_title ); ?></a>
-                        <div class="cpm-right">
-                            <?php
-                            $complete = $task_obj->get_completeness( $task->ID );
-                            cpm_task_completeness( $complete['total'], $complete['completed'] );
-                            ?>
-                        </div>
-                        <div class="cpm-clear"></div>
-                    </li>
-                <?php } ?>
-            </ul>
-
-        <?php } ?>
-
-        <?php
-        if ( $messages ) {
-            //var_dump( $messages );
-            ?>
-            <h3>Messages</h3>
-            <ul>
-                <?php foreach ($messages as $message) { ?>
-                    <li>
-                        <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
-                        (<?php echo cpm_get_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
-                    </li>
-                <?php } ?>
-            </ul>
-
-        <?php } ?>
-
-        <?php if ( $milestone_completed ) { ?>
-            Completed on: <?php echo cpm_get_date( $milestone->completed_on, true ); ?>
-        <?php } ?>
-
-        <ul class="cpm-links">
-            <li><a href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->ID ); ?>">Edit</a></li>
-            <li><a class="cpm-milestone-delete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Delete</a></li>
-            <?php if ( $milestone->completed == '0' ) { ?>
-                <li><a class="cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Mark as complete</a></li>
-            <?php } else { ?>
-                <li><a class="cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->ID ); ?>" href="#">Reopen</a></li>
-            <?php } ?>
-        </ul>
-    </div>
-    <?php
-}
-
 /**
  * The main logging function
  *
@@ -295,4 +213,14 @@ function cpm_excerpt( $text, $length, $append = '...' ) {
     }
 
     return $text;
+}
+
+function cpm_data_attr( $values ) {
+
+    $data = array();
+    foreach ($values as $key => $val) {
+        $data[] = sprintf( 'data-%s="%s"', $key, esc_attr( $val ) );
+    }
+
+    echo implode( ' ', $data );
 }
