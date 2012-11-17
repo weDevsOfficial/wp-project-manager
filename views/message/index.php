@@ -2,17 +2,11 @@
 /**
  * This page displays all the messages attached with a project
  *
- * TODO: fix views (All, Published, Trash links)
- * TODO: fix search and bulk actions
- * TODO: fix columns
  */
-$cpm_active_menu = __( 'Messages', 'cpm' );
 
-$post_type = 'message';
-$milestone_obj = CPM_Milestone::getInstance();
 $msg_obj = CPM_Message::getInstance();
 
-include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 ?>
 
 <h3 class="cpm-nav-title">

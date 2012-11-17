@@ -2,9 +2,7 @@
 /**
  * Project dashboard page
  *
- * TODO: Needs UI improvement other other short things fixed
  */
-require_once CPM_PLUGIN_PATH . '/class/project.php';
 
 $project = CPM_Project::getInstance();
 $project_detail = $project->get( $project_id );

@@ -1,10 +1,8 @@
 <?php
-$cpm_active_menu = __( 'Task List', 'cpm' );
-
-require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
-
 $task_obj = CPM_Task::getInstance();
 $list = $task_obj->get_task_list( $tasklist_id );
+
+cpm_get_header( __( 'Task List', 'cpm' ), $project_id );
 ?>
 <h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
 

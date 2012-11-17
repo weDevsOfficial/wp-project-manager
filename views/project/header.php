@@ -1,6 +1,4 @@
 <?php
-require_once CPM_PLUGIN_PATH . '/class/project.php';
-
 $project = CPM_Project::getInstance();
 $project_detail = $project->get( $project_id );
 if ( !$project_detail ) {

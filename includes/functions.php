@@ -198,7 +198,7 @@ function cpm_get_content( $content ) {
 function cpm_get_header( $active_menu, $project_id = 0 ) {
     $cpm_active_menu = $active_menu;
 
-    require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+    require_once CPM_PLUGIN_PATH . '/views/project/header.php';
 }
 
 function cpm_comment_text( $comment_ID = 0 ) {

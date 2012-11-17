@@ -1,8 +1,6 @@
 <?php
 
-$cpm_active_menu = __( 'Files', 'cpm' );
-
-require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
+cpm_get_header( __( 'Files', 'cpm' ), $project_id );
 
 $args = array(
     'post_type' => 'attachment',

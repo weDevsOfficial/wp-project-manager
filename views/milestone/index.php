@@ -1,8 +1,4 @@
-<?php
-$cpm_active_menu = __( 'Milestones', 'cpm' );
-
-require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
-?>
+<?php cpm_get_header( __( 'Milestones', 'cpm' ), $project_id ); ?>
 
 <h3 class="cpm-nav-title"><?php _e( 'Milestones', 'cpm' ) ?> <a id="cpm-add-milestone" href="<?php echo cpm_url_new_milestone( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a></h3>
 
