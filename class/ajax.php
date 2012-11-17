@@ -54,12 +54,14 @@ class CPM_Ajax {
         $task_obj = CPM_Task::getInstance();
         $task_id = $task_obj->add_task( $posted['list_id'] );
         $task = $task_obj->get_task( $task_id );
+        $complete = $task_obj->get_completeness( $list_id );
 
         if ( $task_id ) {
             $response = array(
                 'success' => true,
                 'id' => $task_id,
-                'content' => cpm_task_html( $task, $project_id, $list_id )
+                'content' => cpm_task_html( $task, $project_id, $list_id ),
+                'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
             );
         } else {
             $response = array('success' => false);
@@ -105,11 +107,13 @@ class CPM_Ajax {
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_complete( $task_id );
+        $complete = $task_obj->get_completeness( $list_id );
 
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
-            'content' => cpm_task_html( $task, $project_id, $list_id, $single )
+            'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
+            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
         );
 
         echo json_encode( $response );
@@ -127,11 +131,13 @@ class CPM_Ajax {
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_open( $task_id );
+        $complete = $task_obj->get_completeness( $list_id );
 
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
-            'content' => cpm_task_html( $task, $project_id, $list_id, $single )
+            'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
+            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
         );
 
         echo json_encode( $response );
@@ -145,11 +151,14 @@ class CPM_Ajax {
         $list_id = (int) $_POST['list_id'];
         $project_id = (int) $_POST['project_id'];
 
-        $this->_task_obj->delete_task( $task_id );
+        $task_obj = CPM_Task::getInstance();
+        $task_obj->delete_task( $task_id );
+        $complete = $task_obj->get_completeness( $list_id );
 
         echo json_encode( array(
             'success' => true,
-            'list_url' => cpm_url_single_tasklist( $project_id, $list_id )
+            'list_url' => cpm_url_single_tasklist( $project_id, $list_id ),
+            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
         ) );
 
         exit;
