@@ -392,6 +392,9 @@ ul.cpm-nav li a {
 .cpm-messages-table tr:nth-last-child(1) td {
   border-bottom: none;
 }
+.cpm-messages-table tr:hover .cpm-actions {
+  visibility: visible;
+}
 .cpm-messages-table .cpm-avatar {
   width: 32px;
   height: 32px;
@@ -436,6 +439,15 @@ ul.cpm-nav li a {
   display: inline-block;
   font-size: 12px;
   margin-left: 10px;
+}
+.cpm-messages-table td.cpm-actions {
+  padding-left: 20px;
+  font-size: 11px;
+  visibility: hidden;
+  border-bottom: none;
+}
+.cpm-messages-table td.cpm-actions a {
+  color: red;
 }
 .cpm-single {
   background-color: #f9f9f9;
@@ -791,16 +803,17 @@ ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
 }
 ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   font-size: 11px;
+  line-height: 15px;
   border: 1px solid #eee;
   border-right: none;
   -webkit-border-radius: 5px 0 0 5px;
   -moz-border-radius: 5px 0 0 5px;
   border-radius: 5px 0 0 5px;
-  padding: 1px 5px;
+  padding: 3px 0 0 0;
   background: #fff;
   visibility: hidden;
   position: absolute;
-  left: -63px;
+  left: -43px;
   top: 0;
   z-index: 99;
 }
@@ -1018,10 +1031,11 @@ ul.cpm-todolists > li {
   transition: width 0.6s ease;
 }
 .cpm-progress .text {
-  margin-top: -18px;
-  color: #636262;
+  margin-top: -20px;
+  color: #222;
   font-size: 12px;
   padding: 0 25px;
+  text-shadow: 0 1px 1px #FFFFFF;
 }
 .cpm-progress-info .bar {
   background-color: #5eb95e;

@@ -384,6 +384,10 @@ ul.cpm-nav{
         border-bottom: none;
     }
 
+    tr:hover .cpm-actions {
+        visibility: visible;
+    }
+
     .cpm-avatar {
         width: 32px;
         height: 32px;
@@ -430,6 +434,17 @@ ul.cpm-nav{
         display: inline-block;
         font-size: 12px;
         margin-left: 10px;
+    }
+
+    td.cpm-actions {
+        padding-left: 20px;
+        font-size: 11px;
+        visibility: hidden;
+        border-bottom: none;
+
+        a {
+            color: red;
+        }
     }
 }
 
@@ -786,14 +801,15 @@ ul.cpm-todolists {
 
             .cpm-list-actions{
                 font-size: 11px;
+                line-height: 15px;
                 border: 1px solid #eee;
                 border-right: none;
                 .border-radius(5px 0 0 5px);
-                padding: 1px 5px;
+                padding: 3px 0 0 0;
                 background: #fff;
                 visibility: hidden;
                 position: absolute;
-                left: -63px;
+                left: -43px;
                 top: 0;
                 z-index: 99;
             }
@@ -1034,10 +1050,11 @@ ul.cpm-todolists {
     }
 
     .text {
-        margin-top: -18px;
-        color: #636262;
+        margin-top: -20px;
+        color: #222;
         font-size: 12px;
         padding: 0 25px;
+        text-shadow: 0 1px 1px #FFFFFF;
     }
 }
 
