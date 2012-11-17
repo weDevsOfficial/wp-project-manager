@@ -130,23 +130,15 @@ class WeDevs_CPM {
 
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
+                                include_once dirname( __FILE__ ) . '/views/project/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/admin/views/project/single.php';
+                                include_once dirname( __FILE__ ) . '/views/project/single.php';
                                 break;
-
-                            case 'new':
-                                include_once dirname( __FILE__ ) . '/admin/views/project/new.php';
-                                break;
-
-                            case 'edit':
-                                include_once dirname( __FILE__ ) . '/admin/views/project/edit.php';
-                                break;
-
+                                
                             default:
-                                include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
+                                include_once dirname( __FILE__ ) . '/views/project/index.php';
                                 break;
                         }
 
@@ -155,23 +147,15 @@ class WeDevs_CPM {
                     case 'message':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/admin/views/message/index.php';
+                                include_once dirname( __FILE__ ) . '/views/message/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/admin/views/message/single.php';
-                                break;
-
-                            case 'new':
-                                include_once dirname( __FILE__ ) . '/admin/views/message/new.php';
-                                break;
-
-                            case 'edit':
-                                include_once dirname( __FILE__ ) . '/admin/views/message/edit.php';
+                                include_once dirname( __FILE__ ) . '/views/message/single.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/admin/views/message/index.php';
+                                include_once dirname( __FILE__ ) . '/views/message/index.php';
                                 break;
                         }
 
@@ -180,19 +164,19 @@ class WeDevs_CPM {
                     case 'task':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/index.php';
+                                include_once dirname( __FILE__ ) . '/views/task/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/single.php';
+                                include_once dirname( __FILE__ ) . '/views/task/single.php';
                                 break;
 
                             case 'task_single':
-                                include_once dirname( __FILE__ ) . '/admin/views/task/task-single.php';
+                                include_once dirname( __FILE__ ) . '/views/task/task-single.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/admin/views/task/index.php';
+                                include_once dirname( __FILE__ ) . '/views/task/index.php';
                                 break;
                         }
 
@@ -201,35 +185,23 @@ class WeDevs_CPM {
                     case 'milestone':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/admin/views/milestone/index.php';
-                                break;
-
-                            case 'single':
-                                include_once dirname( __FILE__ ) . '/admin/views/milestone/single.php';
-                                break;
-
-                            case 'new':
-                                include_once dirname( __FILE__ ) . '/admin/views/milestone/new.php';
-                                break;
-
-                            case 'edit':
-                                include_once dirname( __FILE__ ) . '/admin/views/milestone/edit.php';
+                                include_once dirname( __FILE__ ) . '/views/milestone/index.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/admin/views/milestone/index.php';
+                                include_once dirname( __FILE__ ) . '/views/milestone/index.php';
                                 break;
                         }
 
                         break;
 
                     case 'files':
-                        include_once dirname( __FILE__ ) . '/admin/views/files/index.php';
+                        include_once dirname( __FILE__ ) . '/views/files/index.php';
                         break;
 
 
                     default:
-                        include_once dirname( __FILE__ ) . '/admin/views/project/index.php';
+                        include_once dirname( __FILE__ ) . '/views/project/index.php';
                         break;
                 }
 
