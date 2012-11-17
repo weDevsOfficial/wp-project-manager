@@ -24,9 +24,12 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
         add_action( 'wp_ajax_cpm_tasklist_delete', array($this, 'delete_tasklist') );
 
+        add_action( 'wp_ajax_cpm_milestone_new', array($this, 'milestone_new') );
         add_action( 'wp_ajax_cpm_milestone_complete', array($this, 'milestone_complete') );
         add_action( 'wp_ajax_cpm_milestone_open', array($this, 'milestone_open') );
+        add_action( 'wp_ajax_cpm_milestone_get', array($this, 'milestone_get') );
         add_action( 'wp_ajax_cpm_delete_milestone', array($this, 'milestone_delete') );
+        add_action( 'wp_ajax_cpm_milestone_update', array($this, 'milestone_update') );
 
         add_action( 'wp_ajax_cpm_ajax_upload', array($this, 'ajax_upload') );
         add_action( 'wp_ajax_cpm_delete_file', array($this, 'delete_file') );
@@ -212,6 +215,51 @@ class CPM_Ajax {
 
         echo json_encode( array(
             'success' => true
+        ) );
+
+        exit;
+    }
+
+    function milestone_new() {
+        check_ajax_referer( 'cpm_milesotne' );
+
+        CPM_Milestone::getInstance()->create( $_POST['project_id'] );
+
+        echo json_encode( array(
+            'success' => true
+        ) );
+
+        exit;
+    }
+
+    function milestone_update() {
+        check_ajax_referer( 'cpm_milesotne' );
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $milestone_id = isset( $posted['milestone_id'] ) ? intval( $posted['milestone_id'] ) : 0;        
+
+        CPM_Milestone::getInstance()->update( $project_id, $milestone_id );
+
+        echo json_encode( array(
+            'success' => true
+        ) );
+
+        exit;
+    }
+
+    function milestone_get() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $milestone_id = isset( $posted['id'] ) ? intval( $posted['id'] ) : 0;
+        $milestone = CPM_Milestone::getInstance()->get( $milestone_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'content' => cpm_milestone_form( $project_id, $milestone )
         ) );
 
         exit;
