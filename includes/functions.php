@@ -69,11 +69,11 @@ function cpm_user_checkboxes( $project_id ) {
     if ( $users ) {
         //var_dump( $users );
         foreach ($users as $user) {
-            printf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
-            printf( '<label for="cpm_notify_%d"> %s</label> ', $user['id'], $user['name'] );
+            $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$d" value="%1$d" />', $user['id'] );
+            printf( '<label for="cpm_notify_%d">%s %s</label> ', $user['id'], $check, $user['name'] );
         }
     } else {
-        echo 'No users attached';
+        echo __( 'No users found', 'cpm' );
     }
 
     return $users;
