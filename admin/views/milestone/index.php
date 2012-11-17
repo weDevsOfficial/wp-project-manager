@@ -29,7 +29,7 @@ if ( $milestones ) {
         }
     }
 } else {
-    echo __( 'No Milestone Found', 'cpm' );
+    cpm_show_message( __( 'No Milestone Found!', 'cpm' ) );
 }
 
 ?>

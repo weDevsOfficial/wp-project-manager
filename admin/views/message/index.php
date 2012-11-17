@@ -56,3 +56,9 @@ include CPM_PLUGIN_PATH . '/admin/views/project/header.php';
     }
     ?>
 </table>
+
+<?php
+
+if ( !$messages ) {
+    cpm_show_message( __( 'No messages found! How about adding one?', 'cpm' ) );
+}

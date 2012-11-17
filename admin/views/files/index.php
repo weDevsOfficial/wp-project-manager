@@ -56,5 +56,5 @@ if ( $attachments ) {
     echo '</ul>';
 
 } else {
-    printf( __( 'No files found', 'cpm' ) );
+    cpm_show_message( __( 'No Files Found!', 'cpm' ) );
 }

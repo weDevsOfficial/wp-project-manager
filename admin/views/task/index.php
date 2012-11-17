@@ -32,6 +32,5 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 
 <?php
 if ( !$lists ) {
-    printf( '<h3>%s</h3>', __( 'No tasklist found', 'cpm' ) );
+    cpm_show_message( __( 'Oh dear, no To-do list found!', 'cpm' ) );
 }
-?>
