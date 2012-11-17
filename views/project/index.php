@@ -81,8 +81,11 @@ $projects = $project_obj->get_projects();
         <div class="cpm-form-item">
             <div class="cpm-form-input">
                 <input type="hidden" name="project_notify" value="no" />
-                <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
-                <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+                <label>
+                    <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
+                    <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+                </label>
+                
             </div>
         </div>
 
