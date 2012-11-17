@@ -9,7 +9,6 @@ require_once CPM_PLUGIN_PATH . '/admin/views/project/header.php';
 <?php
 $milestone_obj = CPM_Milestone::getInstance();
 $milestones = $milestone_obj->get_by_project( $project_id );
-$task_obj = CPM_Task::getInstance();
 
 $completed_milestones = array();
 $late_milestones = array();
@@ -32,13 +31,19 @@ if ( $milestones ) {
 } else {
     echo __( 'No Milestone Found', 'cpm' );
 }
-//var_dump( $completed_milestones, $upcoming_milestones, $late_milestones );
+
 ?>
+
+<div class="cpm-new-milestone-form">
+    <h3><?php _e( 'Add new milestone', 'cpm' ); ?></h3>
+
+    <?php echo cpm_milestone_form( $project_id ); ?>
+</div>
 
 <div class="cpm-milestones">
     <?php if ( $late_milestones ) { ?>
 
-        <h3>Late Milestones</h3>
+        <h3 class="title"><?php _e( 'Late Milestones', 'cpm' ); ?></h3>
         <?php
         foreach ($late_milestones as $milestone) {
             cpm_show_milestone( $milestone, $project_id );
@@ -48,7 +53,7 @@ if ( $milestones ) {
 
     <?php if ( $upcoming_milestones ) { ?>
 
-        <h3>Upcoming Milestones</h3>
+        <h3 class="title"><?php _e( 'Upcoming Milestones', 'cpm' ); ?></h3>
         <?php
         foreach ($upcoming_milestones as $milestone) {
             cpm_show_milestone( $milestone, $project_id );
@@ -58,7 +63,7 @@ if ( $milestones ) {
 
     <?php if ( $completed_milestones ) { ?>
 
-        <h3>Completed Milestones</h3>
+        <h3 class="title"><?php _e( 'Completed Milestones', 'cpm' ); ?></h3>
         <?php
         foreach ($completed_milestones as $milestone) {
             cpm_show_milestone( $milestone, $project_id );
