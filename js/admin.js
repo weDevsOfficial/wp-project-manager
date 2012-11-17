@@ -3,14 +3,23 @@
     var weDevs_CPM = {
         init: function () {
 
+            /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
             $('.cpm-links').on('click', '.cpm-milestone-complete', this.Milestone.markComplete);
             $('.cpm-links').on('click', '.cpm-milestone-open', this.Milestone.markOpen);
+            $('.cpm-links').on('click', 'a.cpm-icon-edit', this.Milestone.get);
+            $('.cpm-new-milestone-form').on('submit', 'form.cpm-milestone-form', this.Milestone.add);
+            $('.cpm-new-milestone-form').on('click', 'a.milestone-cancel', this.Milestone.hide);
+            $('a#cpm-add-milestone').on('click', this.Milestone.show);
+            $('.cpm-milestone').on('click', 'a.milestone-cancel', this.Milestone.cancelUpdate);
+            $('.cpm-milestone').on('submit', 'form.cpm-milestone-form', this.Milestone.update);
 
+            /* =============== Comments ============ */
             $('.cpm-comment-wrap').on('click', '.cpm-edit-comment-link', this.Comment.get);
             $('.cpm-comment-wrap').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
             $('.cpm-comment-wrap').on('click', '.cpm-delete-comment-link', this.Comment.deleteComment);
             $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
+            $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
             // add new comment
             $('.cpm-comment-form').validate({
@@ -20,6 +29,9 @@
                     return false;
                 }
             });
+
+
+            /* =============== Messages ============ */
 
             // add new message
             $('.cpm-new-message-form form').validate({
@@ -38,22 +50,105 @@
             $('.cpm-single').on('submit', 'form.cpm-message-form', this.Message.update);
             $('table.cpm-messages-table').on('click', 'a.delete-message', this.Message.remove);
 
-            $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
-            $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            /* =============== Uploder ============ */
+            // $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            
         },
         Milestone: {
             remove: function (e) {
                 e.preventDefault();
-                weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_delete_milestone');
+
+                if(confirm($(this).data('confirm') ) ) {
+                    weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_delete_milestone');
+                }
             },
+
             markComplete: function (e) {
                 e.preventDefault();
                 weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_milestone_complete');
             },
+
             markOpen: function (e) {
                 e.preventDefault();
                 weDevs_CPM.Milestone.ajaxRequest.call(this, 'cpm_milestone_open');
             },
+
+            show: function (e) {
+                e.preventDefault();
+
+                $('.cpm-new-milestone-form').slideDown();
+            },
+
+            hide: function (e) {
+                e.preventDefault();
+
+                $('.cpm-new-milestone-form').slideUp();
+            },
+
+            get: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    parent = self.closest('.cpm-milestone'),
+                    data = {
+                        id: self.data('id'),
+                        project_id: self.data('project_id'),
+                        action: 'cpm_milestone_get',
+                        '_wpnonce': CPM_Vars.nonce
+                    };
+
+                $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+
+                    if(res.success) {
+                        parent.find('.milestone-detail').hide()
+                            .next('.cpm-milestone-edit-form').html(res.content).fadeIn();
+
+                        $('.datepicker').datepicker();
+                    }
+                });
+            },
+
+            add: function (e) {
+                e.preventDefault();
+
+                var form = $(this),
+                    data = form.serialize();
+
+                form.append('<div class="cpm-loading">Saving...</div>');
+                $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+
+                    if(res.success) {
+                        window.location.reload();
+                    }
+                });
+            },
+
+            update: function (e) {
+                e.preventDefault();
+
+                var form = $(this),
+                    data = form.serialize();
+
+                $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+                    
+                    if(res.success) {
+                        window.location.reload();
+                    }
+                });
+            },
+
+            cancelUpdate: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    parent = self.closest('.cpm-milestone');
+
+                parent.find('.cpm-milestone-edit-form').hide().prev('.milestone-detail').fadeIn();
+            },
+
             ajaxRequest: function (action) {
                 var that = $(this),
                 data = {
