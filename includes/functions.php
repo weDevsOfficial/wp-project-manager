@@ -31,7 +31,7 @@ function cpm_dropdown_users( $selected = array() ) {
     $placeholder = __( 'Select co-workers', 'cpm' );
     $sel = ' selected="selected"';
 
-    $users = get_users();
+    $users = get_users( array('exclude' => get_current_user_id()) );
     $options = array();
     if ( $users ) {
         foreach ($users as $user) {
