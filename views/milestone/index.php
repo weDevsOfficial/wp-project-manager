@@ -1,6 +1,9 @@
 <?php cpm_get_header( __( 'Milestones', 'cpm' ), $project_id ); ?>
 
-<h3 class="cpm-nav-title"><?php _e( 'Milestones', 'cpm' ) ?> <a id="cpm-add-milestone" href="<?php echo cpm_url_new_milestone( $project_id ) ?>" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a></h3>
+<h3 class="cpm-nav-title">
+    <?php _e( 'Milestones', 'cpm' ) ?> 
+    <a id="cpm-add-milestone" href="#" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+</h3>
 
 <?php
 $milestone_obj = CPM_Milestone::getInstance();
