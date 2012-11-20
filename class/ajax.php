@@ -14,6 +14,9 @@ class CPM_Ajax {
         $this->_task_obj = CPM_Task::getInstance();
         $this->_milestone_obj = CPM_Milestone::getInstance();
 
+        add_action( 'wp_ajax_cpm_project_new', array($this, 'project_new') );
+        add_action( 'wp_ajax_cpm_project_update', array($this, 'project_edit') );
+
         add_action( 'wp_ajax_cpm_task_complete', array($this, 'mark_task_complete') );
         add_action( 'wp_ajax_cpm_task_open', array($this, 'mark_task_open') );
         add_action( 'wp_ajax_cpm_task_delete', array($this, 'delete_task') );
@@ -43,6 +46,40 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
         add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
         add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
+    }
+
+    function project_new() {
+        $posted = $_POST;
+
+        $pro_obj = CPM_Project::getInstance();
+        $project_id = $pro_obj->create();
+        $project = $pro_obj->get( $project_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'url' => cpm_url_project_details( $project_id )
+        ) );
+
+        exit;
+    }
+
+    function project_edit() {
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+
+        $pro_obj = CPM_Project::getInstance();
+        $project_id = $pro_obj->update( $project_id );
+        $project = $pro_obj->get( $project_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'title' => $project->post_title,
+            'content' => cpm_get_content( $project->post_content ),
+            'users' => cpm_dropdown_users( $project->users )
+        ) );
+
+        exit;
     }
 
     function add_new_task() {
@@ -246,7 +283,7 @@ class CPM_Ajax {
         $posted = $_POST;
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
-        $milestone_id = isset( $posted['milestone_id'] ) ? intval( $posted['milestone_id'] ) : 0;        
+        $milestone_id = isset( $posted['milestone_id'] ) ? intval( $posted['milestone_id'] ) : 0;
 
         CPM_Milestone::getInstance()->update( $project_id, $milestone_id );
 
@@ -377,7 +414,7 @@ class CPM_Ajax {
         if ( $comment_id ) {
 
             $comment = $comment_obj->get( $comment_id );
-            
+
             echo json_encode( array(
                 'success' => true,
                 'content' => cpm_show_comment( $comment, $project_id )
