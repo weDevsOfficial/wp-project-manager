@@ -3,6 +3,14 @@
     var weDevs_CPM = {
         init: function () {
 
+            $( "a#cpm-create-project" ).on('click', this.Project.openDialog);
+            $( "#cpm-project-dialog" ).on('click', 'a.project-cancel', this.Project.closeDialog);
+            $( "#cpm-project-dialog" ).on('submit', 'form.cpm-project-form', this.Project.create);
+
+            $('.cpm-edit-project').on('submit', 'form.cpm-project-form', this.Project.edit);
+            $('.cpm-project-head').on('click', 'a.cpm-icon-edit', this.Project.toggleEditForm);
+            $('.cpm-project-head').on('click', 'a.project-cancel', this.Project.toggleEditForm);
+
             /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
             $('.cpm-links').on('click', '.cpm-milestone-complete', this.Milestone.markComplete);
@@ -21,7 +29,7 @@
             $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
             $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
-            // add new comment
+            // add new commenttoggleForm
             $('.cpm-comment-form').validate({
                 submitHandler: function (form) {
                     weDevs_CPM.Comment.addNew.call(form);
@@ -54,6 +62,81 @@
             // $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
             
         },
+        Project: {
+            openDialog: function(e) {
+                e.preventDefault();
+
+                $( "#cpm-project-dialog" ).dialog( "open" );
+            },
+
+            closeDialog: function(e) {
+                e.preventDefault();
+
+                $( "#cpm-project-dialog" ).dialog( "close" );
+            },
+
+            create: function (e) {
+                e.preventDefault();
+
+                var name = $.trim( $('#project_name').val() );
+
+                if (name === '') {
+                    alert('Enter a project name');
+
+                    return false;
+                }
+
+                var form = $(this),
+                    data = form.serialize();
+
+                form.append('<div class="cpm-loading">Saving...</div>');
+                $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+
+                    if(res.success) {
+                        window.location.href = res.url;
+                    }
+                });
+                
+            },
+
+            toggleEditForm: function (e) {
+                e.preventDefault();
+
+                var container = $(this).closest('.cpm-project-head');
+
+                container.find('.cpm-edit-project').slideToggle();
+                container.find('.cpm-project-detail').slideToggle();
+            },
+
+            edit: function (e) {
+                e.preventDefault();
+
+                var form = $(this),
+                    container = $(this).closest('.cpm-project-head');
+                    data = form.serialize();
+
+                form.append('<div class="cpm-loading">Saving...</div>');
+                $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+
+                    if(res.success) {
+                        container.find('h2 span').text(res.title);
+                        container.find('.detail').html(res.content);
+                        form.find('.project-users').html(res.users);
+
+                        form.closest('.cpm-edit-project').slideUp();
+                        container.find('.cpm-project-detail').slideToggle();
+
+                        //re-initialize chosen dropdown
+                        $('#project_coworker').chosen();
+                    }
+                });
+
+                $('.cpm-loading').remove();
+            }
+        },
+
         Milestone: {
             remove: function (e) {
                 e.preventDefault();
@@ -399,7 +482,7 @@
     $(function() {
         weDevs_CPM.init();
 
-        $('#project_manager, #project_coworker, #project_client').chosen();
+        $('#project_coworker').chosen();
         $(".datepicker").datepicker();
     });
 
