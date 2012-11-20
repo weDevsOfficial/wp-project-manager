@@ -629,3 +629,57 @@ function cpm_show_milestone( $milestone, $project_id ) {
     </div>
     <?php
 }
+
+
+function cpm_project_form( $project = null ) {
+    $name = $details = '';
+    $users = array();
+    $submit = __( 'Add New Project', 'cpm' );
+    $action = 'cpm_project_new';
+
+    if ( !is_null( $project) ) {
+        $name = $project->post_title;
+        $details = $project->post_content;
+        $users = empty( $project->users ) ? array() : $project->users;
+        $action = 'cpm_project_update';
+        $submit = __( 'Update Project', 'cpm' );
+    }
+
+    ?>
+    <form action="" method="post" class="cpm-project-form">
+
+        <?php wp_nonce_field( 'cpm_project' ); ?>
+
+        <div class="cpm-form-item project-name">
+            <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="<?php echo esc_attr( $name ); ?>" size="45" />
+        </div>
+
+        <div class="cpm-form-item project-detail">
+            <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'wedevs' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
+        </div>
+
+        <div class="cpm-form-item project-users">
+            <?php echo cpm_dropdown_users( $users ); ?>
+        </div>
+
+        <div class="cpm-form-item project-notify">
+            <input type="hidden" name="project_notify" value="no" />
+            <label>
+                <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
+                <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+            </label>
+        </div>
+
+        <div class="submit">
+
+            <?php if ( $project ) { ?>
+                <input type="hidden" name="project_id" value="<?php echo $project->ID; ?>">
+            <?php } ?>
+
+            <input type="hidden" name="action" value="<?php echo $action; ?>">
+            <input type="submit" name="add_project" id="add_project" class="button-primary" value="<?php echo esc_attr( $submit ) ?>">
+            <a class="button project-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+        </div>
+    </form>
+    <?php
+}
