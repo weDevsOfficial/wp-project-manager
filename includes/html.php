@@ -560,7 +560,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
 
                 <ul class="cpm-links cpm-right">
                     <li>
-                        <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="<?php echo cpm_url_edit_milestone( $project_id, $milestone->ID ); ?>" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+                        <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
                     </li>
                     <li>
                         <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
