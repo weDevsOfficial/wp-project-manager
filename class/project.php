@@ -12,9 +12,6 @@ class CPM_Project {
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
 
-        //create new project
-        add_action( 'admin_init', array($this, 'submit_project'), 99 );
-
         //notify users
         add_action( 'cpm_new_project', array($this, 'notify_users') );
     }
@@ -58,50 +55,40 @@ class CPM_Project {
         ) );
     }
 
-    /**
-     * Handles creating new project request
-     */
-    function submit_project() {
+    function create( $project_id = 0 ) {
+        $posted = $_POST;
+        $is_update = ( $project_id ) ? true : false;
+        $co_worker = isset( $posted['project_coworker'] ) ? $posted['project_coworker'] : '';
 
-        if ( isset( $_POST['add_project'] ) ) {
-
-            check_admin_referer( 'new_project' );
-
-            if ( empty( $_POST['project_name'] ) ) {
-                return;
-            }
-
-            $posted = $_POST;
-            $data = array(
-                'name' => trim( $posted['project_name'] ),
-                'description' => trim( $posted['project_description'] ),
-                'coworker' => $posted['project_coworker']
-            );
-
-            $project_id = $this->create( $data );
-
-            if ( $project_id ) {
-                $location = apply_filters( 'cpm_new_project_redirect_url', cpm_url_project_details( $project_id ) );
-                wp_redirect( $location );
-            }
-        }
-    }
-
-    function create( $data ) {
-        $project = array(
-            'post_title' => $data['name'],
-            'post_content' => $data['description'],
+        $data = array(
+            'post_title' => $posted['project_name'],
+            'post_content' => $posted['project_description'],
             'post_type' => 'project',
             'post_status' => 'publish'
         );
 
-        $project_id = wp_insert_post( $project );
+        if ( $is_update ) {
+            $data['ID'] = $project_id;
+            $project_id = wp_update_post( $data );
+        } else {
+            $project_id = wp_insert_post( $data );
+        }
 
         if ( $project_id ) {
-            update_post_meta( $project_id, '_coworker', $data['coworker'] );
+            update_post_meta( $project_id, '_coworker', $co_worker );
+
+            if ( $is_update ) {
+                do_action( 'cpm_project_update', $project_id, $data );
+            } else {
+                do_action( 'cpm_project_new', $project_id, $data );
+            }
         }
 
         return $project_id;
+    }
+
+    function update( $project_id ) {
+        return $this->create( $project_id );
     }
 
     function get_projects( $count = -1 ) {
@@ -126,6 +113,7 @@ class CPM_Project {
     function get( $project_id ) {
         $project = get_post( $project_id );
         $project->info = $this->get_info( $project_id );
+        $project->users = get_post_meta( $project_id, '_coworker', true );
 
         return $project;
     }
