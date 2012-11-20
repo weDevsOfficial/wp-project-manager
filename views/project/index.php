@@ -57,43 +57,7 @@ $projects = $project_obj->get_projects();
 </div>
 
 <div id="cpm-project-dialog" title="<?php _e( 'Start a new project', 'cpm' ); ?>">
-    <form action="" method="post" class="cpm-project-form">
-        <?php wp_nonce_field( 'new_project' ); ?>
-
-        <div class="cpm-form-item">
-            <div class="cpm-form-input">
-                <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="" size="45" />
-            </div>
-        </div>
-
-        <div class="cpm-form-item">
-            <div class="cpm-form-input">
-                <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'wedevs' ); ?>"></textarea>
-            </div>
-        </div>
-
-        <div class="cpm-form-item">
-            <div class="cpm-form-input">
-                <?php echo cpm_dropdown_users(); ?>
-            </div>
-        </div>
-
-        <div class="cpm-form-item">
-            <div class="cpm-form-input">
-                <input type="hidden" name="project_notify" value="no" />
-                <label>
-                    <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
-                    <?php _e( 'Notify Co-workers', 'cpm' ) ?>
-                </label>
-                
-            </div>
-        </div>
-
-        <p class="submit">
-            <input type="submit" name="add_project" id="add_project" class="button-primary" value="<?php esc_attr_e( 'Add New Project', 'cpm' ) ?>">
-        </p>
-    </form>
-
+    <?php cpm_project_form(); ?>
 </div>
 
 <script type="text/javascript">
@@ -106,24 +70,5 @@ $projects = $project_obj->get_projects();
             height: 330,
             position:['middle', 100]
         });
-
-        $( "#cpm-create-project" ).click(function(e) {
-            e.preventDefault();
-
-            $( "#cpm-project-dialog" ).dialog( "open" );
-        });
-
-        $('form.cpm-project-form').submit(function () {
-
-            var name = $.trim( $('#project_name').val() );
-
-            if (name === '') {
-                alert('Enter a project name');
-
-                return false;
-            };
-
-            return true;
-        })
     })
 </script>
