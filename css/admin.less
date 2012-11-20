@@ -22,7 +22,30 @@
     input[type=text], textarea {
         .placeholder(#999);
     }
+
+    h2 .nav-tab {
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    .nav-tab.nav-tab-active {
+        color: #000;
+    }
+
+    textarea, input[type=text] {
+        padding: 5px 10px;
+        border: 1px solid #DDD;
+        margin-bottom: 10px;
+        font-size: 13px;
+        .box-shadow(inset 0 1px 5px rgba(0, 0, 0, 0.05));
+
+        &:focus {
+            .box-shadow(inset 0 1px 5px rgba(0, 0, 0, 0.15));
+            border: 1px solid #DDD;
+        }
+    }
 }
+
 
 .cpm-left {
     float: left;
@@ -230,10 +253,14 @@ ul.cpm-nav{
     .border-radius(0 0 5px 5px);
     border-top: none;
     color: #898989;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 5px 20px;
     margin: 0 0 10px 0;
+
+    .add-new-h2 {
+        top: 0;
+    }
 }
 
 
@@ -280,6 +307,32 @@ ul.cpm-nav{
     }
 }
 
+.cpm-project-head {
+    h2 {
+        font-size: 15px;
+        font-weight: bold;
+
+        a.cpm-project-edit-link {
+            display: inline-block;
+        }
+    }
+
+    .detail {
+        font-size: 13px;
+        width: 80%;
+    }
+
+    p {
+        margin: 0 0 5px 0;
+    }
+
+    .cpm-edit-project {
+        display: none;
+        margin-top: 15px;
+        position: relative;
+    }
+}
+
 .cpm-projects {
     margin-top: 10px;
     margin-left: 130px;
@@ -315,7 +368,7 @@ ul.cpm-nav{
         .border-radius(3px);
         .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
         width: 210px;
-        height: 200px;
+        height: 235px;
         position: relative;
         margin: 0 20px 20px 0;
         padding: 15px;
@@ -608,19 +661,6 @@ ul.cpm-nav{
         position: absolute;
         right: -40px;
         top: 0;
-    }
-
-    textarea, input[type=text] {
-        padding: 10px;
-        width: 100%;
-        border: 1px solid #DDD;
-        margin-bottom: 10px;
-        .box-shadow(inset 0 1px 5px rgba(0, 0, 0, 0.05));
-
-        &:focus {
-            .box-shadow(inset 0 1px 5px rgba(0, 0, 0, 0.15));
-            border: 1px solid #DDD;
-        }
     }
 
     .item {
