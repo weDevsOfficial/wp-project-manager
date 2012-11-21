@@ -5,6 +5,7 @@
 
             $( "a#cpm-create-project" ).on('click', this.Project.openDialog);
             $( "#cpm-project-dialog" ).on('click', 'a.project-cancel', this.Project.closeDialog);
+            $( "a.cpm-project-delete-link" ).on('click', this.Project.remove);
             $( "#cpm-project-dialog" ).on('submit', 'form.cpm-project-form', this.Project.create);
 
             $('.cpm-edit-project').on('submit', 'form.cpm-project-form', this.Project.edit);
@@ -60,7 +61,7 @@
 
             /* =============== Uploder ============ */
             // $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
-            
+
         },
         Project: {
             openDialog: function(e) {
@@ -97,7 +98,7 @@
                         window.location.href = res.url;
                     }
                 });
-                
+
             },
 
             toggleEditForm: function (e) {
@@ -134,6 +135,32 @@
                 });
 
                 $('.cpm-loading').remove();
+            },
+
+            remove: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    message = self.data('confirm'),
+                    data = {
+                        project_id: self.data('project_id'),
+                        action: 'cpm_project_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                if(confirm(message)) {
+
+                    self.addClass('cpm-loading');
+
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            location.href = res.url;
+                        }
+                    });
+                }
+
             }
         },
 
@@ -216,7 +243,7 @@
 
                 $.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = $.parseJSON(res);
-                    
+
                     if(res.success) {
                         window.location.reload();
                     }
@@ -234,11 +261,12 @@
 
             ajaxRequest: function (action) {
                 var that = $(this),
-                data = {
-                    milestone_id: that.data('id'),
-                    action: action,
-                    '_wpnonce': CPM_Vars.nonce
-                };
+                    data = {
+                        milestone_id: that.data('id'),
+                        project_id: that.data('project'),
+                        action: action,
+                        '_wpnonce': CPM_Vars.nonce
+                    };
 
                 that.addClass('cpm-loading');
                 $.post(CPM_Vars.ajaxurl, data, function (response) {
@@ -350,6 +378,7 @@
                     confirmMsg = self.data('confirm'),
                     data = {
                         comment_id: self.data('id'),
+                        project_id: self.data('project_id'),
                         action: 'cpm_comment_delete',
                         '_wpnonce': CPM_Vars.nonce
                     };
@@ -381,7 +410,7 @@
             },
 
             addNew: function (e) {
-                e.preventDefault();
+                // e.preventDefault();
 
                 var that = $(this),
                 data = that.serialize();
@@ -396,6 +425,8 @@
 
                     $('.cpm-loading').remove();
                 });
+
+                return false;
             },
 
             update: function (e) {
