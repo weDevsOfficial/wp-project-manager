@@ -362,7 +362,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                 <span class="cpm-separator">|</span>
                 <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
 
-                <?php if( $comment->user_id == get_current_user_id() ) { ?>
+                <?php if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) { ?>
                     <span class="cpm-separator">|</span>
                     <span class="cpm-edit-link">
                         <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>>
@@ -371,7 +371,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                     </span>
                     <span class="cpm-separator">|</span>
                     <span class="cpm-delete-link">
-                        <a href="#" class="cpm-delete-comment-link" data-id="<?php echo $comment->comment_ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this comment?', 'cpm' ); ?>">
+                        <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>>
                             <span><?php _e( 'Delete', 'cpm' ); ?></span>
                         </a>
                     </span>
@@ -563,13 +563,13 @@ function cpm_show_milestone( $milestone, $project_id ) {
                         <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
                     </li>
                     <li>
-                        <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
+                        <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
                     </li>
                     
                     <?php if ( $milestone->completed == '0' ) { ?>
-                        <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
+                        <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
                     <?php } else { ?>
-                        <li><a class="cpm-icon-tick green cpm-milestone-open" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Reopen', 'cpm' ); ?></span></a></li>
+                        <li><a class="cpm-icon-tick green cpm-milestone-open" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Reopen', 'cpm' ); ?></span></a></li>
                     <?php } ?>
                 </ul>
             </h3>
