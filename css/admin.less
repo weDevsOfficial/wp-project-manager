@@ -63,6 +63,18 @@
     clear: both;
 }
 
+.cpm-strikethrough {
+    text-decoration: line-through;
+}
+
+.cpm-updated {
+    margin: 5px 0 15px;
+    background-color: #FFFFE0;
+    border: 1px solid #E6DB55;
+    .border-radius(3px);
+    padding: 0 10px;
+}
+
 span.required {
     color: #cd0a0a;
 }
@@ -315,6 +327,25 @@ ul.cpm-nav{
         a.cpm-project-edit-link {
             display: inline-block;
         }
+
+        .cpm-project-summary {
+            border-left: 1px dashed #E1E1E1;
+            font-family: "helvetica neue",helvetica,arial,sans-serif;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 15px;
+            padding-left: 10px;
+            margin-left: 10px;
+            width: 300px;
+
+            span {
+                display: block;
+                font-size: 15px;
+                font-weight: bold;
+                line-height: 29px;
+                padding-bottom: 8px;
+            }
+        }
     }
 
     .detail {
@@ -330,6 +361,26 @@ ul.cpm-nav{
         display: none;
         margin-top: 15px;
         position: relative;
+    }
+}
+
+ul.cpm-activity {
+    font-size: 13px;
+
+    .date {
+        font-style: italic;
+        color: #9C9C9C;
+        font-size: 11px;
+    }
+
+    li {
+        text-indent: 5px;
+
+        &:before {
+            content: "-";
+            position: relative;
+            left: -5px;
+        }
     }
 }
 
@@ -661,6 +712,10 @@ ul.cpm-nav{
         position: absolute;
         right: -40px;
         top: 0;
+    }
+
+    textarea {
+        width: 100%;
     }
 
     .item {
@@ -1072,6 +1127,11 @@ ul.cpm-todolists {
         &.complete {
             background: #E4FFE4;
         }
+
+        .cpm-milestone-completed {
+            font-style: italic;
+            color: #7C7C7C;
+        }
     }
 }
 
@@ -1153,6 +1213,8 @@ a.cpm-icon-edit {
 }
 
 a.cpm-icon-delete {
+    display: inline-block;
+    
     span {
         display: inline-block;
         text-indent: -9999px;

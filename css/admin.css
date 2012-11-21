@@ -86,6 +86,18 @@
 .cpm-clear {
   clear: both;
 }
+.cpm-strikethrough {
+  text-decoration: line-through;
+}
+.cpm-updated {
+  margin: 5px 0 15px;
+  background-color: #FFFFE0;
+  border: 1px solid #E6DB55;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 0 10px;
+}
 span.required {
   color: #cd0a0a;
 }
@@ -324,6 +336,23 @@ ul.cpm-nav li a {
 .cpm-project-head h2 a.cpm-project-edit-link {
   display: inline-block;
 }
+.cpm-project-head h2 .cpm-project-summary {
+  border-left: 1px dashed #E1E1E1;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 15px;
+  padding-left: 10px;
+  margin-left: 10px;
+  width: 300px;
+}
+.cpm-project-head h2 .cpm-project-summary span {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 29px;
+  padding-bottom: 8px;
+}
 .cpm-project-head .detail {
   font-size: 13px;
   width: 80%;
@@ -335,6 +364,22 @@ ul.cpm-nav li a {
   display: none;
   margin-top: 15px;
   position: relative;
+}
+ul.cpm-activity {
+  font-size: 13px;
+}
+ul.cpm-activity .date {
+  font-style: italic;
+  color: #9C9C9C;
+  font-size: 11px;
+}
+ul.cpm-activity li {
+  text-indent: 5px;
+}
+ul.cpm-activity li:before {
+  content: "-";
+  position: relative;
+  left: -5px;
 }
 .cpm-projects {
   margin-top: 10px;
@@ -658,6 +703,11 @@ ul.cpm-nav li a {
   position: absolute;
   right: -40px;
   top: 0;
+}
+.cpm-comment-form textarea,
+.cpm-message-form textarea,
+.cpm-milestone-form textarea {
+  width: 100%;
 }
 .cpm-comment-form .item,
 .cpm-message-form .item,
@@ -1014,6 +1064,10 @@ ul.cpm-todolists > li {
 .cpm-milestones .cpm-milestone.complete {
   background: #E4FFE4;
 }
+.cpm-milestones .cpm-milestone .cpm-milestone-completed {
+  font-style: italic;
+  color: #7C7C7C;
+}
 .cpm-progress {
   overflow: hidden;
   height: 18px;
@@ -1099,6 +1153,9 @@ a.cpm-icon-edit:before {
   padding: 1px 2px;
   border-radius: 4px;
   color: #8A7402;
+  display: inline-block;
+}
+a.cpm-icon-delete {
   display: inline-block;
 }
 a.cpm-icon-delete span {
