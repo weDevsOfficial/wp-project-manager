@@ -11,9 +11,6 @@ class CPM_Project {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
-
-        //notify users
-        add_action( 'cpm_new_project', array($this, 'notify_users') );
     }
 
     public static function getInstance() {
@@ -237,41 +234,6 @@ class CPM_Project {
         }
 
         return implode( "\n", $menu );
-    }
-
-    /**
-     * Notify users about the new project creation
-     *
-     * @uses `cpm_new_project` hook
-     * @param int $project_id
-     */
-    function notify_users( $project_id ) {
-
-        if ( isset( $_POST['project_notify'] ) ) {
-            $users = $this->get_users( $project_id );
-            $user_id = get_current_user_id();
-
-            //exclude the current user from array
-            if ( array_key_exists( $user_id, $users ) ) {
-                unset( $users[$user_id] );
-            }
-
-            //if any users left, get their mail addresses and send mail
-            if ( $users ) {
-                $users = wp_list_pluck( $users, 'email' ); //get only the email fields
-
-                $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-                $subject = sprintf( __( 'New Project invitation on %s', 'cpm' ), $site_name );
-                $body = sprintf( __( 'You are assigned in a new project "%s" on %s', 'cpm' ), trim( $_POST['project_name'] ), $site_name ) . "\r\n";
-                $body .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
-
-                $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
-                $from = "From: \"$blogname\" <$wp_email>";
-                $message_headers = "$from\nContent-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
-
-                wp_mail( $users, $subject, $body, $message_headers );
-            }
-        }
     }
 
 }
