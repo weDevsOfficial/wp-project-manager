@@ -38,16 +38,15 @@ class CPM_Comment {
         $commentdata['comment_agent'] = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
         $commentdata['comment_author'] = $user->display_name;
         $commentdata['comment_author_email'] = $user->user_email;
-        $commentdata['comment_type'] = 'project';
 
         $comment_id = wp_insert_comment( $commentdata );
 
         if ( $comment_id ) {
             add_comment_meta( $comment_id, '_files', $files );
-            $this->associate_file( $files, $commentdata['comment_post_ID'], $_POST['project_id'], 'comment' );
+            $this->associate_file( $files, $commentdata['comment_post_ID'], $_POST['project_id'] );
         }
 
-        do_action( 'cpm_comment_new', $comment_id, $commentdata );
+        do_action( 'cpm_comment_new', $comment_id, $_POST['project_id'], $commentdata );
 
         return $comment_id;
     }
@@ -69,7 +68,7 @@ class CPM_Comment {
             $this->associate_file( $_POST['cpm_attachment'], $_POST['project_id'] );
         }
 
-        do_action( 'cpm_comment_update', $comment_id, $data );
+        do_action( 'cpm_comment_update', $comment_id, $_POST['project_id'], $data );
     }
 
     /**
@@ -232,46 +231,6 @@ class CPM_Comment {
     }
 
     /**
-     * Get the attachments of a post
-     *
-     * @param int $post_id
-     * @return array attachment list
-     */
-    function get_attachments( $post_id ) {
-        $att_list = array();
-
-        $args = array(
-            'post_type' => 'attachment',
-            'numberposts' => -1,
-            'post_status' => null,
-            'post_parent' => $post_id,
-            'order' => 'ASC',
-            'orderby' => 'menu_order'
-        );
-
-        $attachments = get_posts( $args );
-
-        foreach ($attachments as $attachment) {
-
-            $att_list[$attachment->ID] = array(
-                'id' => $attachment->ID,
-                'name' => $attachment->post_title,
-                'url' => wp_get_attachment_url( $attachment->ID ),
-            );
-
-            if ( wp_attachment_is_image( $attachment->ID ) ) {
-
-                $thumb = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
-                $att_list[$attachment->ID]['thumb'] = $thumb[0];
-            } else {
-                $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $attachment->post_mime_type );
-            }
-        }
-
-        return $att_list;
-    }
-
-    /**
      * Associate an attachment with a project
      *
      * Will be easier to find attachments by project
@@ -279,9 +238,8 @@ class CPM_Comment {
      * @param array $files attachment file ID's
      * @param int $parent_id parent post id
      * @param int $project_id
-     * @param string $type the post type this attachment attached to. e.g: comment, message
      */
-    function associate_file( $files, $parent_id, $project_id, $type ) {
+    function associate_file( $files, $parent_id, $project_id ) {
 
         foreach ($files as $file_id) {
             wp_update_post( array(
@@ -290,7 +248,6 @@ class CPM_Comment {
             ) );
 
             update_post_meta( $file_id, '_project', $project_id );
-            update_post_meta( $file_id, '_type', $type );
         }
     }
 
