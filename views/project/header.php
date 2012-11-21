@@ -4,7 +4,7 @@ $project = $pro_obj->get( $project_id );
 
 if ( !$project ) {
     echo '<h2>' . __( 'Error: Project not found', 'cpm' ) . '</h2>';
-    return;
+    die();
 }
 ?>
 <div class="cpm-project-head">
@@ -12,6 +12,11 @@ if ( !$project ) {
         <h2>
             <span><?php echo get_the_title( $project_id ); ?></span>
             <a href="#" class="cpm-icon-edit cpm-project-edit-link"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+
+            <div class="cpm-project-summary cpm-right">
+                <span><?php _e( 'Project Info', 'cpm' ); ?></span>
+                <?php echo cpm_project_summary( $project->info ); ?>
+            </div>
         </h2>
 
         <div class="detail">
@@ -22,6 +27,8 @@ if ( !$project ) {
     <div class="cpm-edit-project">
         <?php cpm_project_form( $project ); ?>
     </div>
+
+    <div class="cpm-clear"></div>
 </div>
 
 <h2 class="nav-tab-wrapper">
