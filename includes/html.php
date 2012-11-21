@@ -127,7 +127,7 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
             <input type="text" autocomplete="off" class="datepicker" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
         </div>
         <div class="item user">
-            <?php wp_dropdown_users( array('name' => 'task_assign', 'show_option_none' => __( '-- assign to --', 'cpm' )) ); ?>
+            <?php cpm_task_assign_dropdown( $project_id, $assigned_to ); ?>
         </div>
 
         <?php do_action( 'cpm_task_new_form', $list_id, $project_id, $task ); ?>
