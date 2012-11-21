@@ -49,6 +49,8 @@ class CPM_Milestone {
 
     function create( $project_id, $milestone_id = 0 ) {
         $posted = $_POST;
+        $is_update = $milestone_id ? true : false;
+
         $data = array(
             'post_parent' => $project_id,
             'post_title' => $posted['milestone_name'],
@@ -62,11 +64,17 @@ class CPM_Milestone {
             $milestone_id = wp_update_post( $data );
         } else {
             $milestone_id = wp_insert_post( $data );
-            $this->mark_open( $milestone_id ); //open initially
+            update_post_meta( $milestone_id, '_completed', 0 ); //open initially
         }
 
         if ( $milestone_id ) {
             update_post_meta( $milestone_id, '_due', cpm_date2mysql( $posted['milestone_due'] ) );
+
+            if ( $is_update ) {
+                do_action( 'cpm_milestone_update', $milestone_id, $project_id, $data );
+            } else {
+                do_action( 'cpm_milestone_new', $milestone_id, $project_id, $data );
+            }
         }
 
         return $milestone_id;
@@ -77,12 +85,16 @@ class CPM_Milestone {
     }
 
     function delete( $milestone_id, $force = false ) {
+        do_action( 'cpm_milestone_delete', $milestone_id, $force );
+
         wp_delete_post( $milestone_id, $force );
     }
 
     function mark_complete( $milestone_id ) {
         update_post_meta( $milestone_id, '_completed', 1 );
         update_post_meta( $milestone_id, '_completed_on', current_time( 'mysql' ) );
+
+        do_action( 'cpm_milestone_complete', $milestone_id );
     }
 
     /**
@@ -93,6 +105,8 @@ class CPM_Milestone {
     function mark_open( $milestone_id ) {
         update_post_meta( $milestone_id, '_completed', 0 );
         update_post_meta( $milestone_id, '_completed_on', current_time( 'mysql' ) );
+
+        do_action( 'cpm_milestone_open', $milestone_id );
     }
 
     function get( $milestone_id ) {
