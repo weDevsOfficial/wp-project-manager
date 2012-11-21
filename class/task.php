@@ -276,7 +276,6 @@ class CPM_Task {
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
         $task->assigned_to = get_post_meta( $task->ID, '_assigned', true );
         $task->due_date = get_post_meta( $task->ID, '_due', true );
-        $task->files = CPM_Comment::getInstance()->get_attachments( $task->ID );
     }
 
     /**
@@ -378,15 +377,6 @@ class CPM_Task {
      */
     function delete_list( $list_id, $force = false ) {
         do_action( 'cpm_tasklist_delete', $list_id, $force );
-
-        //delete child tasks
-        $tasks = $this->get_tasks( $list_id );
-
-        if ( $tasks ) {
-            foreach ( $tasks as $task ) {
-                $this->delete_task( $task->ID );
-            }
-        }
 
         wp_delete_post( $list_id, $force );
     }
