@@ -79,6 +79,20 @@ function cpm_user_checkboxes( $project_id ) {
     return $users;
 }
 
+function cpm_task_assign_dropdown( $project_id, $selected = '-1' ) {
+    $users = CPM_Project::getInstance()->get_users( $project_id );
+
+    if ( $users ) {
+        echo '<select name="task_assign" id="task_assign">';
+        echo '<option value="-1">' . __( '-- assign to --', 'cpm' ) . '</option>';
+
+        foreach ($users as $user) {
+            printf( '<option value="%s"%s>%s</opton>', $user['id'], selected( $selected, $user['id'] ), $user['name'] );
+        }
+        echo '</select>';
+    }
+}
+
 /**
  * Comment form upload field helper
  *
