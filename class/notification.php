@@ -3,9 +3,14 @@
 class CPM_Notification {
 
     function __construct() {
-        add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 2 );
+        //notify users
+        add_action( 'cpm_project_new', array($this, 'project_new'), 10, 2 );
+
+        add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 3 );
         add_action( 'cpm_message_new', array($this, 'new_message'), 10, 2 );
+        
         add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
+        add_action( 'cpm_task_update', array($this, 'new_task'), 10, 3 );
     }
 
     function prepare_contacts() {
@@ -20,31 +25,61 @@ class CPM_Notification {
         return $to;
     }
 
-    function new_message( $message_id, $message_info ) {
-        $to = $this->prepare_contacts();
+    /**
+     * Notify users about the new project creation
+     *
+     * @uses `cpm_new_project` hook
+     * @param int $project_id
+     */
+    function project_new( $project_id, $data ) {
 
-        if ( empty( $to ) ) {
+        if ( isset( $_POST['project_notify'] ) && $_POST['project_notify'] == 'yes' ) {
+            $co_workers = $_POST['project_coworker'];
+            $users = array();
+
+            foreach ($co_workers as $user_id) {
+                $user = get_user_by( 'id', $user_id );
+                $users[$user_id] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+            }
+
+            //if any users left, get their mail addresses and send mail
+            if ( $users ) {
+
+                $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+                $subject = sprintf( __( 'New Project invitation on %s', 'cpm' ), $site_name );
+                $message = sprintf( __( 'You are assigned in a new project "%s" on %s', 'cpm' ), trim( $data['post_title'] ), $site_name ) . "\r\n";
+                $message .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
+
+                $this->send( implode(', ', $users), $subject, $message );
+            }
+        }
+    }
+
+    function new_message( $message_id, $project_id ) {
+        $users = $this->prepare_contacts();
+
+        if ( !$users ) {
             return;
         }
 
         $pro_obj = CPM_Project::getInstance();
         $msg_obj = CPM_Message::getInstance();
 
-        $project = $pro_obj->get( $message_info['post_parent'] );
-        $parent_message = $msg_obj->get( $message_id );
+        $project = $pro_obj->get( $project_id );
+        $msg = $msg_obj->get( $message_id );
         $author = wp_get_current_user();
 
         $subject = sprintf( __( '[%s] New message on project: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $project->post_title );
         $message = sprintf( 'New message on %s', $project->post_title ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $message_info['post_parent'], $message_id ) ) . "\r\n";
-        $message .= sprintf( "Message : \r\n%s", $parent_message->post_content ) . "\r\n";
+        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $project_id, $message_id ) ) . "\r\n";
+        $message .= sprintf( "Message : \r\n%s", $msg->post_content ) . "\r\n";
 
-        $to = apply_filters( 'cpm_new_message_to', $to );
+        $users = apply_filters( 'cpm_new_message_to', $users );
         $subject = apply_filters( 'cpm_new_message_subject', $subject );
         $message = apply_filters( 'cpm_new_message_message', $message );
 
-        $this->send( implode( ', ', $to ), $subject, $message );
+        $this->send( implode( ', ', $users ), $subject, $message );
     }
 
     /**
@@ -53,16 +88,11 @@ class CPM_Notification {
      * @param int $comment_id
      * @param array $comment_info the post data
      */
-    function new_comment( $comment_id, $data ) {
-        if ( !isset( $_POST['notify_user'] ) ) {
-            return;
-        }
+    function new_comment( $comment_id, $project_id, $data ) {
+        $users = $this->prepare_contacts();
 
-        $users = array();
-        $user_ids = $_POST['notify_user'];
-        foreach ( $user_ids as $user_id ) {
-            $user = get_user_by( 'id', $user_id );
-            $users[] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+        if ( !$users ) {
+            return;
         }
 
         $msg_obj = CPM_Message::getInstance();
@@ -73,7 +103,7 @@ class CPM_Notification {
         $subject = sprintf( __( '[%s] New comment on %s: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $post_type->labels->singular_name, $parent_post->post_title );
         $message = sprintf( 'New comment on %s', $parent_post->post_title ) . "\r\n\n";
         $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $_POST['project_id'], $data['comment_post_ID'] ) ) . "\r\n";
+        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $project_id, $data['comment_post_ID'] ) ) . "\r\n";
         $message .= sprintf( "Comment : \r\n%s", $data['comment_content'] ) . "\r\n";
 
         $users = apply_filters( 'cpm_new_comment_to', $users );
@@ -86,7 +116,7 @@ class CPM_Notification {
     function new_task( $list_id, $task_id, $data ) {
 
         //notification is not selected or no one is assigned
-        if ( !isset( $_POST['task_notification'] ) || $_POST['task_assign'] == '-1' ) {
+        if ( $_POST['task_assign'] == '-1' ) {
             return;
         }
 
@@ -101,6 +131,7 @@ class CPM_Notification {
 
     function send( $to, $subject, $message ) {
 
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $from = "From: \"$blogname\" <$wp_email>";
         $headers = "$from\nContent-Type: text/html; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
