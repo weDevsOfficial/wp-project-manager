@@ -65,7 +65,7 @@ class CPM_Message {
     function get( $message_id ) {
         $message = get_post( $message_id );
         $message->milestone = get_post_meta( $message_id, '_milestone', true );
-        $message->files = CPM_Comment::getInstance()->get_attachments( $message_id );
+        $message->files = $this->get_attachments( $message_id );
 
         return $message;
     }
@@ -98,14 +98,13 @@ class CPM_Message {
             if ( count( $files ) > 0 ) {
                 update_post_meta( $message_id, '_files', $files );
                 
-                $comment_obj = CPM_Comment::getInstance();
-                $comment_obj->associate_file( $files, $message_id, $project_id, 'message' );
+                $this->associate_file( $files, $message_id, $project_id );
             }
 
             if ( $is_update ) {
-                do_action( 'cpm_message_update', $message_id, $postarr );
+                do_action( 'cpm_message_update', $message_id, $project_id, $postarr );
             } else {
-                do_action( 'cpm_message_new', $message_id, $postarr );
+                do_action( 'cpm_message_new', $message_id, $project_id, $postarr );
             }
         }
 
@@ -117,6 +116,8 @@ class CPM_Message {
     }
 
     function delete( $message_id, $force = false ) {
+        do_action( 'cpm_message_delete', $message_id, $force );
+
         wp_delete_post( $message_id, $force );
     }
 
@@ -136,6 +137,63 @@ class CPM_Message {
         $messages = get_posts( $args );
 
         return $messages;
+    }
+
+    /**
+     * Get the attachments of a post
+     *
+     * @param int $post_id
+     * @return array attachment list
+     */
+    function get_attachments( $post_id ) {
+        $att_list = array();
+
+        $args = array(
+            'post_type' => 'attachment',
+            'numberposts' => -1,
+            'post_status' => null,
+            'meta_name' => '_parent',
+            'meta_value' => $post_id,
+            'order' => 'ASC'
+        );
+
+        $attachments = get_posts( $args );
+
+        foreach ($attachments as $attachment) {
+
+            $att_list[$attachment->ID] = array(
+                'id' => $attachment->ID,
+                'name' => $attachment->post_title,
+                'url' => wp_get_attachment_url( $attachment->ID ),
+            );
+
+            if ( wp_attachment_is_image( $attachment->ID ) ) {
+
+                $thumb = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
+                $att_list[$attachment->ID]['thumb'] = $thumb[0];
+            } else {
+                $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $attachment->post_mime_type );
+            }
+        }
+
+        return $att_list;
+    }
+
+    /**
+     * Associate an attachment with a project
+     *
+     * Will be easier to find attachments by project
+     *
+     * @param array $files attachment file ID's
+     * @param int $parent_id parent post id
+     * @param int $project_id
+     */
+    function associate_file( $files, $parent_id, $project_id ) {
+
+        foreach ($files as $file_id) {
+            update_post_meta( $file_id, '_project', $project_id );
+            update_post_meta( $file_id, '_parent', $parent_id );
+        }
     }
 
 }
