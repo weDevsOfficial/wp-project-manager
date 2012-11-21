@@ -91,6 +91,12 @@ class CPM_Project {
         return $this->create( $project_id );
     }
 
+    function delete( $project_id, $force = false ) {
+        do_action( 'cpm_project_delete', $project_id, $force );
+        
+        wp_delete_post( $project_id, $force );
+    }
+
     function get_projects( $count = -1 ) {
         $projects = get_posts( array(
             'numberposts' => $count,
@@ -112,6 +118,11 @@ class CPM_Project {
      */
     function get( $project_id ) {
         $project = get_post( $project_id );
+
+        if ( !$project ) {
+            return false;
+        }
+
         $project->info = $this->get_info( $project_id );
         $project->users = get_post_meta( $project_id, '_coworker', true );
 
@@ -126,14 +137,18 @@ class CPM_Project {
         if ( false === $ret ) {
             //get discussions
             $sql = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
+            $sql_files = "SELECT COUNT(ID) FROM $wpdb->posts p INNER JOIN $wpdb->postmeta m ON (p.ID = m.post_id) WHERE p.post_type = 'attachment' AND (p.post_status = 'publish' OR p.post_status = 'inherit') AND ( (m.meta_key = '_project' AND CAST(m.meta_value AS CHAR) = '$project_id') )";
 
             $discussions = $wpdb->get_results( sprintf( $sql, 'message', $project_id ) );
             $todolists = $wpdb->get_results( sprintf( $sql, 'task_list', $project_id ) );
+            $milestones = $wpdb->get_results( sprintf( $sql, 'milestone', $project_id ) );
             $todos = $todolists ? $wpdb->get_results( sprintf( $sql, 'task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
+            $files = $wpdb->get_var( $sql_files );
 
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
             $todolist_comment = wp_list_pluck( $todolists, 'comment_count' );
             $todo_comment = $todolists ? wp_list_pluck( $todos, 'comment_count' ) : array();
+            $milestone = wp_list_pluck( $milestones, 'ID' );
 
             $total_comment = array_sum( $discussion_comment ) + array_sum( $todolist_comment ) + array_sum( $todo_comment );
 
@@ -142,6 +157,8 @@ class CPM_Project {
             $ret->todolist = count( $todolists );
             $ret->todos = count( $todos );
             $ret->comments = $total_comment;
+            $ret->files = (int) $files;
+            $ret->milestone = count( $milestone );
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
@@ -196,14 +213,12 @@ class CPM_Project {
     }
 
     function nav_links( $project_id ) {
-        $base = admin_url( 'admin.php' );
-
         $links = array(
-            sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', $base, $project_id ) => __( 'Details', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&tab=message&action=index&pid=%d', $base, $project_id ) => __( 'Messages', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&tab=task&action=index&pid=%d', $base, $project_id ) => __( 'Task List', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&tab=milestone&action=index&pid=%d', $base, $project_id ) => __( 'Milestones', 'cpm' ),
-            sprintf( '%s?page=cpm_projects&tab=files&action=index&pid=%d', $base, $project_id ) => __( 'Files', 'cpm' ),
+            cpm_url_project_details( $project_id ) => __( 'Activity', 'cpm' ),
+            cpm_url_message_index( $project_id ) => __( 'Messages', 'cpm' ),
+            cpm_url_tasklist_index( $project_id ) => __( 'To-do List', 'cpm' ),
+            cpm_url_milestone_index( $project_id ) => __( 'Milestones', 'cpm' ),
+            cpm_url_file_index( $project_id ) => __( 'Files', 'cpm' ),
         );
 
         return apply_filters( 'cpm_project_nav_links', $links );
