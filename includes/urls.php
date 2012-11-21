@@ -21,16 +21,22 @@ function cpm_url_project_details( $project_id ) {
  * ------------------------------------------------
  */
 
+function cpm_url_tasklist_index( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_tasklist_index', $url, $project_id );
+}
+
 function cpm_url_single_tasklist( $project_id, $list_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=task&action=single&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
 
-    return apply_filters( 'cpm_url_single_tasklislt', $url );
+    return apply_filters( 'cpm_url_single_tasklislt', $url, $project_id, $list_id );
 }
 
 function cpm_url_single_task( $project_id, $list_id, $task_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_single&pid=%d&tl_id=%d&task_id=%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
 
-    return apply_filters( 'cpm_url_single_task', $url );
+    return apply_filters( 'cpm_url_single_task', $url, $project_id, $list_id, $task_id );
 }
 
 /**
@@ -56,6 +62,12 @@ function cpm_url_message_index( $project_id ) {
  * ------------------------------------------------
  */
 
+function cpm_url_milestone_index( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_milestone_index', $url );
+}
+
 function cpm_url_single_milestone( $project_id, $milestone_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=single&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
 
@@ -76,5 +88,36 @@ function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
         $name = get_avatar( $user_id, $size, $user->display_name );
     }
 
-    return sprintf( '<a href="%s">%s</a>', $link, $name );
+    $url = sprintf( '<a href="%s">%s</a>', $link, $name );
+
+    return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
+}
+
+function cpm_url_file_index( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=files&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_file_index', $url, $project_id );
+}
+
+function cpm_url_comment( $comment_id, $project_id ) {
+    $comment = get_comment( $comment_id );
+    $post = get_post( $comment->comment_post_ID );
+    $url = '';
+
+    if( !$post ) {
+        return false;
+    }
+
+    if ( $post->post_type == 'message') {
+        $url = cpm_url_single_message( $project_id, $post->ID );
+    } else if( $post->post_type == 'task_list' ) {
+        $url = cpm_url_single_tasklist( $project_id, $post->ID );
+    } else if ( $post->post_type == 'task' ) {
+        $list = get_post( $post->post_parent );
+        $url = cpm_url_single_task( $project_id, $list->ID, $post->ID );
+    }
+
+    $url = "$url#cpm-comment-$comment_id";
+
+    return apply_filters( 'cpm_url_comment', $url, $comment_id, $project_id, $post->ID );
 }
