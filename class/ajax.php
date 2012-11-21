@@ -16,6 +16,7 @@ class CPM_Ajax {
 
         add_action( 'wp_ajax_cpm_project_new', array($this, 'project_new') );
         add_action( 'wp_ajax_cpm_project_update', array($this, 'project_edit') );
+        add_action( 'wp_ajax_cpm_project_delete', array($this, 'project_delete') );
 
         add_action( 'wp_ajax_cpm_task_complete', array($this, 'mark_task_complete') );
         add_action( 'wp_ajax_cpm_task_open', array($this, 'mark_task_open') );
@@ -77,6 +78,20 @@ class CPM_Ajax {
             'title' => $project->post_title,
             'content' => cpm_get_content( $project->post_content ),
             'users' => cpm_dropdown_users( $project->users )
+        ) );
+
+        exit;
+    }
+
+    function project_delete() {
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        CPM_Project::getInstance()->delete( $project_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'url' => cpm_url_projects()
         ) );
 
         exit;
@@ -317,7 +332,9 @@ class CPM_Ajax {
         $milestone_id = (int) $_POST['milestone_id'];
 
         $this->_milestone_obj->delete( $milestone_id );
-        echo 'success';
+        echo json_encode( array(
+            'success' => true
+        ) );
 
         exit;
     }
@@ -329,7 +346,9 @@ class CPM_Ajax {
 
         $this->_milestone_obj->mark_complete( $milestone_id );
         print_r( $_POST );
-        echo 'success';
+        echo json_encode( array(
+            'success' => true
+        ) );
 
         exit;
     }
@@ -340,7 +359,9 @@ class CPM_Ajax {
         $milestone_id = (int) $_POST['milestone_id'];
 
         $this->_milestone_obj->mark_open( $milestone_id );
-        echo 'success';
+        echo json_encode( array(
+            'success' => true
+        ) );
 
         exit;
     }
