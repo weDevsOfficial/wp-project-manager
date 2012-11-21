@@ -19,27 +19,7 @@ $projects = $project_obj->get_projects();
 
                 <div class="cpm-project-detail"><?php echo cpm_excerpt( $project->post_content, 55 ); ?></div>
                 <div class="cpm-project-meta">
-                    <?php
-                    $info_array = array();
-
-                    if( $project->info->discussion ) {
-                        $info_array[] = sprintf( _n( '%d message', '%d messages', $project->info->discussion, 'cpm' ), $project->info->discussion );
-                    }
-
-                    if( $project->info->todolist ) {
-                        $info_array[] = sprintf( _n( '%d todolist', '%d todolists', $project->info->todolist, 'cpm' ), $project->info->todolist );
-                    }
-
-                    if( $project->info->todos ) {
-                        $info_array[] = sprintf( _n( '%d todo', '%d todos', $project->info->todos, 'cpm' ), $project->info->todos );
-                    }
-
-                    if( $project->info->comments ) {
-                        $info_array[] = sprintf( _n( '%d comment', '%d comments', $project->info->comments, 'cpm' ), $project->info->comments );
-                    }
-
-                    echo implode(', ', $info_array );
-                    ?>
+                    <?php echo cpm_project_summary( $project->info ); ?>
                 </div>
                 <footer class="cpm-project-people">
                     <?php
