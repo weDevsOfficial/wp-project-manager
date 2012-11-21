@@ -50,7 +50,7 @@ class WeDevs_CPM {
         $message = CPM_Message::getInstance();
         $task = CPM_Task::getInstance();
         $milestone = CPM_Milestone::getInstance();
-        $logger = new CPM_Logger();
+        $activity = new CPM_Activity();
         $ajax = new CPM_Ajax();
         $notification = new CPM_Notification();
     }
@@ -95,6 +95,7 @@ class WeDevs_CPM {
         require_once CPM_PLUGIN_PATH . '/includes/functions.php';
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
         require_once CPM_PLUGIN_PATH . '/includes/html.php';
+        require_once CPM_PLUGIN_PATH . '/includes/shortcodes.php';
     }
 
     function admin_menu() {
@@ -105,10 +106,6 @@ class WeDevs_CPM {
     }
 
     function admin_page_handler() {
-
-        if ( !class_exists( 'WP_Posts_List_Table' ) ) {
-            require_once ABSPATH . '/wp-admin/includes/class-wp-posts-list-table.php';
-        }
 
         echo '<div class="wrap cpm">';
 
