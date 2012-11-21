@@ -31,7 +31,7 @@ function cpm_dropdown_users( $selected = array() ) {
     $placeholder = __( 'Select co-workers', 'cpm' );
     $sel = ' selected="selected"';
 
-    $users = get_users( array('exclude' => get_current_user_id()) );
+    $users = get_users();
     $options = array();
     if ( $users ) {
         foreach ($users as $user) {
@@ -140,7 +140,7 @@ function cpm_show_errors( $errors ) {
  * @param string $msg message to show
  * @param string $type message type
  */
-function cpm_show_message( $msg, $type = 'updated' ) {
+function cpm_show_message( $msg, $type = 'cpm-updated' ) {
     ?>
     <div class="<?php echo esc_attr( $type ); ?>">
         <p><strong><?php echo $msg; ?></strong></p>
@@ -236,4 +236,34 @@ function cpm_data_attr( $values ) {
     }
 
     echo implode( ' ', $data );
+}
+
+function cpm_project_summary( $info ) {
+    $info_array = array();
+
+    if( $info->discussion ) {
+        $info_array[] = sprintf( _n( '%d message', '%d messages', $info->discussion, 'cpm' ), $info->discussion );
+    }
+
+    if( $info->todolist ) {
+        $info_array[] = sprintf( _n( '%d to-do list', '%d to-do lists', $info->todolist, 'cpm' ), $info->todolist );
+    }
+
+    if( $info->todos ) {
+        $info_array[] = sprintf( _n( '%d to-do', '%d to-dos', $info->todos, 'cpm' ), $info->todos );
+    }
+
+    if( $info->comments ) {
+        $info_array[] = sprintf( _n( '%d comment', '%d comments', $info->comments, 'cpm' ), $info->comments );
+    }
+
+    if( $info->files ) {
+        $info_array[] = sprintf( _n( '%d file', '%d files', $info->files, 'cpm' ), $info->files );
+    }
+
+    if( $info->milestone ) {
+        $info_array[] = sprintf( _n( '%d milestone', '%d milestones', $info->milestone, 'cpm' ), $info->milestone );
+    }
+
+    return implode(', ', $info_array );
 }
