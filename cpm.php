@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Plugin Name: Client Project Manager
+ * Plugin Name: Project Manager
  * Plugin URI: http://weDevs.com
- * Description: Client Project Management was never been easier
+ * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
  * Version: 0.1
