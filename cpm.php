@@ -98,7 +98,7 @@ class WeDevs_CPM {
     }
 
     function admin_menu() {
-        $capability = 'edit_posts'; //minimum level: contributor
+        $capability = 'read'; //minimum level: subscriber
 
         add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
@@ -132,7 +132,7 @@ class WeDevs_CPM {
                             case 'single':
                                 include_once dirname( __FILE__ ) . '/views/project/single.php';
                                 break;
-                                
+
                             default:
                                 include_once dirname( __FILE__ ) . '/views/project/index.php';
                                 break;
