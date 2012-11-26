@@ -6,6 +6,11 @@ if ( !$project ) {
     echo '<h2>' . __( 'Error: Project not found', 'cpm' ) . '</h2>';
     die();
 }
+
+if( !$pro_obj->has_permission( $project ) ) {
+    echo '<h2>' . __( 'Error: Permission denied', 'cpm' ) . '</h2>';
+    die();
+}
 ?>
 <div class="cpm-project-head">
     <div class="cpm-project-detail">
