@@ -51,8 +51,15 @@ class CPM_Ajax {
 
     function project_new() {
         $posted = $_POST;
-
         $pro_obj = CPM_Project::getInstance();
+
+        //fail if current user is not editor or above
+        if ( !$pro_obj->has_admin_rights() ) {
+            echo json_encode( array('success' => false) );
+            exit;
+        }
+
+
         $project_id = $pro_obj->create();
         $project = $pro_obj->get( $project_id );
 
