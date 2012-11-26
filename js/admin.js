@@ -56,6 +56,7 @@
             $('.cpm-single').on('click', 'a.cpm-msg-edit', this.Message.get);
             $('.cpm-single').on('click', 'a.message-cancel', this.Message.hideEditForm);
             $('.cpm-single').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            $('.cpm-new-message-form').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
             $('.cpm-single').on('submit', 'form.cpm-message-form', this.Message.update);
             $('table.cpm-messages-table').on('click', 'a.delete-message', this.Message.remove);
 
