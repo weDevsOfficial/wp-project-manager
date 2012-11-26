@@ -90,7 +90,7 @@ class CPM_Project {
 
     function delete( $project_id, $force = false ) {
         do_action( 'cpm_project_delete', $project_id, $force );
-        
+
         wp_delete_post( $project_id, $force );
     }
 
@@ -102,6 +102,7 @@ class CPM_Project {
 
         foreach ($projects as &$project) {
             $project->info = $this->get_info( $project->ID );
+            $project->users = $this->get_users( $project );
         }
 
         return $projects;
@@ -120,8 +121,8 @@ class CPM_Project {
             return false;
         }
 
+        $project->users = $this->get_users( $project );
         $project->info = $this->get_info( $project_id );
-        $project->users = get_post_meta( $project_id, '_coworker', true );
 
         return $project;
     }
@@ -170,13 +171,11 @@ class CPM_Project {
      * @param bool $exclude_client
      * @return array user emails with id as index
      */
-    function get_users( $project_id ) {
-
-        $project = $this->get( $project_id );
+    function get_users( $project ) {
 
         $mail = array();
         $user_ids = array( $project->post_author );
-        $co_worker = get_post_meta( $project_id, '_coworker', true );
+        $co_worker = get_post_meta( $project->ID, '_coworker', true );
 
         //if any co-workers found, add them
         if ( $co_worker != '' ) {
@@ -234,6 +233,44 @@ class CPM_Project {
         }
 
         return implode( "\n", $menu );
+    }
+
+    /**
+     * Checks against admin rights
+     *
+     * editor and above level has admin rights by default
+     *
+     * @return bool
+     */
+    function has_admin_rights() {
+        $admin_right = apply_filters( 'cpm_admin_right', 'delete_pages' );
+
+        if ( current_user_can( $admin_right ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if a user has permission on a project
+     *
+     * Admins and editors can access all projects.
+     *
+     * @param object $project
+     * @return bool
+     */
+    function has_permission( $project ) {
+        if ( $this->has_admin_rights() ) {
+            return true;
+        }
+
+        //user id found in the users array
+        if ( array_key_exists( get_current_user_id(), $project->users ) ) {
+            return true;
+        }
+
+        return false;
     }
 
 }
