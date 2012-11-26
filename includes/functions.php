@@ -87,7 +87,7 @@ function cpm_task_assign_dropdown( $project_id, $selected = '-1' ) {
         echo '<option value="-1">' . __( '-- assign to --', 'cpm' ) . '</option>';
 
         foreach ($users as $user) {
-            printf( '<option value="%s"%s>%s</opton>', $user['id'], selected( $selected, $user['id'] ), $user['name'] );
+            printf( '<option value="%s"%s>%s</opton>', $user['id'], selected( $selected, $user['id'], false ), $user['name'] );
         }
         echo '</select>';
     }
