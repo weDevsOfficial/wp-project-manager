@@ -7,7 +7,7 @@ if ( !$project ) {
     die();
 }
 
-if( !$pro_obj->has_permission( $project ) ) {
+if ( !$pro_obj->has_permission( $project ) ) {
     echo '<h2>' . __( 'Error: Permission denied', 'cpm' ) . '</h2>';
     die();
 }
@@ -16,7 +16,10 @@ if( !$pro_obj->has_permission( $project ) ) {
     <div class="cpm-project-detail">
         <h2>
             <span><?php echo get_the_title( $project_id ); ?></span>
-            <a href="#" class="cpm-icon-edit cpm-project-edit-link"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+
+            <?php if ( $pro_obj->has_admin_rights() ) { ?>
+                <a href="#" class="cpm-icon-edit cpm-project-edit-link"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+            <?php } ?>
 
             <div class="cpm-project-summary cpm-right">
                 <span><?php _e( 'Project Info', 'cpm' ); ?></span>
@@ -30,7 +33,11 @@ if( !$pro_obj->has_permission( $project ) ) {
     </div>
 
     <div class="cpm-edit-project">
-        <?php cpm_project_form( $project ); ?>
+        <?php
+        if ( $pro_obj->has_admin_rights() ) {
+            cpm_project_form( $project );
+        }
+        ?>
     </div>
 
     <div class="cpm-clear"></div>
