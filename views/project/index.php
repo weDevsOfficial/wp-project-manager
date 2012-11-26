@@ -7,11 +7,20 @@ $projects = $project_obj->get_projects();
 <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
 
 <div class="cpm-projects">
-    <nav class="cpm-new-project">
-        <a href="#" id="cpm-create-project"><span><?php _e( 'New Project', 'cpm' ); ?></span></a>
-    </nav>
 
-    <?php foreach ($projects as $project) { ?>
+    <?php //show only for editor or above ?>
+    <?php if ( $project_obj->has_admin_rights() ) { ?>
+        <nav class="cpm-new-project">
+            <a href="#" id="cpm-create-project"><span><?php _e( 'New Project', 'cpm' ); ?></span></a>
+        </nav>
+    <?php } ?>
+
+    <?php
+    foreach ($projects as $project) {
+        if ( !$project_obj->has_permission( $project ) ) {
+            continue;
+        }
+        ?>
 
         <article class="cpm-project">
             <a href="<?php echo cpm_url_project_details( $project->ID ); ?>">
@@ -23,8 +32,7 @@ $projects = $project_obj->get_projects();
                 </div>
                 <footer class="cpm-project-people">
                     <?php
-                    $users = $project_obj->get_users( $project->ID );
-                    foreach ($users as $user) {
+                    foreach ($project->users as $user) {
                         echo get_avatar( $user['id'], 48 );
                     }
                     ?>
@@ -37,7 +45,9 @@ $projects = $project_obj->get_projects();
 </div>
 
 <div id="cpm-project-dialog" title="<?php _e( 'Start a new project', 'cpm' ); ?>">
-    <?php cpm_project_form(); ?>
+    <?php if ( $project_obj->has_admin_rights() ) { ?>
+        <?php cpm_project_form(); ?>
+    <?php } ?>
 </div>
 
 <script type="text/javascript">
