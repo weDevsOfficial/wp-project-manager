@@ -173,9 +173,15 @@ class CPM_Project {
      */
     function get_users( $project ) {
 
+        if ( is_object( $project ) ) {
+            $project_id = $project->ID;
+        } else {
+            $project_id = $project;
+        }
+
         $mail = array();
-        $user_ids = array( $project->post_author );
-        $co_worker = get_post_meta( $project->ID, '_coworker', true );
+        $user_ids = array(get_post_field( 'post_author', $project_id ));
+        $co_worker = get_post_meta( $project_id, '_coworker', true );
 
         //if any co-workers found, add them
         if ( $co_worker != '' ) {
