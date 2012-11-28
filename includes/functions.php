@@ -35,7 +35,7 @@ function cpm_dropdown_users( $selected = array() ) {
     $options = array();
     if ( $users ) {
         foreach ($users as $user) {
-            $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, in_array( $user->ID, $selected ) ? $sel : '', $user->display_name );
+            $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, array_key_exists( $user->ID, $selected ) ? $sel : '', $user->display_name );
         }
     }
 
