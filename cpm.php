@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Project Manager
- * Plugin URI: http://weDevs.com
+ * Plugin Name: WP Project Manager
+ * Plugin URI: http://wedevs.com/plugin/wp-project-manager/
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
