@@ -36,6 +36,18 @@ A project management plugin built on top of WordPress. It simply mimics the simp
 ### Q. Why doesn't it shows up in frontend
 A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
 
+### Q. Who can create projects?
+A. Only Editors and Admin's can projects and edit them.
+
+### Q. Who can create tasklist, todo, messages or milestone?
+A. Admins and every co-workers from a project can create these.
+
+### Can every member see every project?
+A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
+
+### Q. Can the plugin be extended?
+A. Sure, lots of actions and filters are added by default and will add more of them.
+
 ## Bug Report
 Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
