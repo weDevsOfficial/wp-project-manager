@@ -218,7 +218,7 @@ $cpm = new WeDevs_CPM();
  * from listing on dashboard, comments page and comments widget.
  *
  * @param array $clauses
- * @return string
+ * @return array
  */
 function cpm_hide_comments( $clauses ) {
     global $wpdb;
