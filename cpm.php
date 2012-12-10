@@ -210,3 +210,24 @@ class WeDevs_CPM {
 }
 
 $cpm = new WeDevs_CPM();
+
+/**
+ * Remove comments from listing publicly
+ *
+ * Hides all comments made on project, task_list, task, milestone, message
+ * from listing on dashboard, comments page and comments widget.
+ *
+ * @param array $clauses
+ * @return string
+ */
+function cpm_hide_comments( $clauses ) {
+    global $wpdb;
+
+    $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
+    $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
+    $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
+
+    return $clauses;
+}
+
+add_filter( 'comments_clauses', 'cpm_hide_comments' );
