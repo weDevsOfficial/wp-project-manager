@@ -26,6 +26,10 @@ class CPM_Message {
             'label' => __( 'Messages', 'cpm' ),
             'description' => __( 'message post type', 'cpm' ),
             'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => true,
             'capability_type' => 'post',
@@ -97,7 +101,7 @@ class CPM_Message {
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
                 update_post_meta( $message_id, '_files', $files );
-                
+
                 $this->associate_file( $files, $message_id, $project_id );
             }
 

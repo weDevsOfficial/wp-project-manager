@@ -25,7 +25,11 @@ class CPM_Project {
         register_post_type( 'project', array(
             'label' => __( 'Project', 'cpm' ),
             'description' => __( 'project manager post type', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',

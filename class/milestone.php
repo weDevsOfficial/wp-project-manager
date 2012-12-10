@@ -20,7 +20,11 @@ class CPM_Milestone {
         register_post_type( 'milestone', array(
             'label' => __( 'Milestone', 'cpm' ),
             'description' => __( 'Milestone', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',

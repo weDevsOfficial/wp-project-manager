@@ -25,7 +25,11 @@ class CPM_Task {
         register_post_type( 'task_list', array(
             'label' => __( 'Task List', 'cpm' ),
             'description' => __( 'Task List', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',
@@ -54,7 +58,11 @@ class CPM_Task {
         register_post_type( 'task', array(
             'label' => __( 'Task', 'cpm' ),
             'description' => __( 'Tasks', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',
@@ -383,7 +391,7 @@ class CPM_Task {
 
     /**
      * Get the overall completeness for a task list
-     * 
+     *
      * @param int $list_id
      * @return array
      */
