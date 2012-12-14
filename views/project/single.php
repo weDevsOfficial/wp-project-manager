@@ -26,7 +26,7 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
             <li>
                 <?php echo do_shortcode( $activity->comment_content ); ?> <span class="date">- <?php echo cpm_get_date( $activity->comment_date, true ); ?></span>
             </li>
-            <?
+            <?php
         }
     }
     ?>
