@@ -215,19 +215,21 @@ $cpm = new WeDevs_CPM();
  * Remove comments from listing publicly
  *
  * Hides all comments made on project, task_list, task, milestone, message
- * from listing on dashboard, comments page and comments widget.
+ * from listing on frontend, admin dashboard, and admin comments page.
  *
  * @param array $clauses
  * @return array
  */
 function cpm_hide_comments( $clauses ) {
-    global $wpdb;
+    global $wpdb, $pagenow;
 
-    $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
-    $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
-    $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
+    if ( !is_admin() || $pagenow == 'edit-comments.php' || (is_admin() && $pagenow == 'index.php') ) {
+        $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
+        $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
+        $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
+    }
 
     return $clauses;
 }
 
-add_filter( 'comments_clauses', 'cpm_hide_comments' );
+add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
