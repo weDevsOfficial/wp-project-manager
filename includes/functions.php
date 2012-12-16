@@ -412,3 +412,82 @@ function cpm_project_summary( $info ) {
 
     return implode(', ', $info_array );
 }
+
+/**
+ * Serve project files with proxy
+ *
+ * This function handles project files for privacy. It gets the file ID
+ * and project ID as input. Checks if the current user has access on that
+ * project and serves the attached file with right header type. If the
+ * request is not from a user from this project, s/he will not be able to
+ * see the file.
+ *
+ * @uses `wp_ajax_cpm_file_get` action
+ * @since 0.3
+ */
+function cpm_serve_file() {
+    $file_id = isset( $_GET['file_id'] ) ? intval( $_GET['file_id'] ) : 0;
+    $project_id = isset( $_GET['project_id'] ) ? intval( $_GET['project_id'] ) : 0;
+    $type = isset( $_GET['type'] ) ? $_GET['type'] : 'full';
+
+    //check permission
+    $pro_obj = CPM_Project::getInstance();
+    $project = $pro_obj->get( $project_id );
+    if ( !$pro_obj->has_permission( $project ) ) {
+        die( 'file access denied' );
+    }
+
+    //get file path
+    $file_path = get_attached_file( $file_id );
+    if ( !file_exists( $file_path ) ) {
+        header( "Status: 404 Not Found" );
+        die('file not found');
+    }
+
+    if ( $type == 'thumb' ) {
+        $metadata = wp_get_attachment_metadata( $file_id );
+        $filename = basename( $file_path );
+
+        //if thumbnail is found, replace file name with thumb file name
+        if ( array_key_exists( 'thumbnail', $metadata['sizes'] ) ) {
+            $file_path = str_replace( $filename, $metadata['sizes']['thumbnail']['file'], $file_path );
+        }
+    }
+
+    $extension = strtolower( substr( strrchr( $file_path, '.' ), 1 ) );
+
+    // get the file mime type using the file extension
+    switch ($extension) {
+        case 'jpeg':
+        case 'jpg':
+            $mime = 'image/jpeg';
+            break;
+
+        case 'png':
+            $mime = 'image/png';
+            break;
+
+        case 'gif':
+            $mime = 'image/gif';
+            break;
+
+        case 'bmp':
+            $mime = 'image/bmp';
+            break;
+
+        default:
+            $mime = 'application/force-download';
+    }
+
+    // serve the file with right header
+    if ( is_readable( $file_path ) ) {
+        header( 'Content-Type: ' . $mime );
+        header( 'Content-Transfer-Encoding: binary' );
+        header( 'Content-Disposition: inline; filename=' . basename( $file_path ) );
+        readfile( $file_path );
+    }
+
+    exit;
+}
+
+add_action( 'wp_ajax_cpm_file_get', 'cpm_serve_file' );

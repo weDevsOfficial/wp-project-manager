@@ -396,7 +396,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
             <div class="cpm-comment-content">
                 <?php echo comment_text( $comment->comment_ID ); ?>
 
-                <?php echo cpm_show_attachments( $comment ); ?>
+                <?php echo cpm_show_attachments( $comment, $project_id ); ?>
             </div>
 
             <div class="cpm-comment-edit-form"></div>
@@ -415,15 +415,24 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
  * @param object $object
  * @return string
  */
-function cpm_show_attachments( $object ) {
+function cpm_show_attachments( $object, $project_id ) {
     ob_start();
+
+    $base_url = admin_url('admin-ajax.php?action=cpm_file_get');
 
     if ( $object->files ) {
         ?>
         <ul class="cpm-attachments">
             <?php
             foreach ($object->files as $file) {
-                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
+                if( $file['type'] == 'image' ) {
+                    $thumb_url = sprintf( '%s&file_id=%d&project_id=%d&type=thumb', $base_url, $file['id'], $project_id );
+                } else {
+                    $thumb_url = $file['thumb'];
+                }
+
+                $file_url = sprintf( '%s&file_id=%d&project_id=%d', $base_url, $file['id'], $project_id );
+                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file_url, $thumb_url );
             }
             ?>
         </ul>
