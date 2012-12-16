@@ -1,5 +1,12 @@
 <?php
 /**
+ * This file contains all the helper functions for Project Manager.
+ *
+ * @since 0.1
+ * @package CPM
+ */
+
+/**
  * Filter all the tasks as pending and completed
  *
  * This function gets all the tasks for a tasklist and returns pending and
