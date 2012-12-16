@@ -41,6 +41,7 @@ class WeDevs_CPM {
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
+        add_action( 'plugins_loaded', array($this, 'load_textdomain') );
         add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
     }
 
@@ -52,6 +53,15 @@ class WeDevs_CPM {
         $activity = new CPM_Activity();
         $ajax = new CPM_Ajax();
         $notification = new CPM_Notification();
+    }
+
+    function load_textdomain() {
+        $locale = apply_filters( 'cpm_locale', get_locale() );
+        $mofile = dirname( __FILE__ ) . "/languages/cpm-$locale.mo";
+
+        if ( file_exists( $mofile ) ) {
+            load_textdomain( 'cpm', $mofile );
+        }
     }
 
     function constants() {
