@@ -42,9 +42,13 @@ class WeDevs_CPM {
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
-        add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
     }
 
+    /**
+     * Instantiate all th required classes
+     *
+     * @since 0.1
+     */
     function instantiate() {
         $project = CPM_Project::getInstance();
         $message = CPM_Message::getInstance();
@@ -55,6 +59,11 @@ class WeDevs_CPM {
         $notification = new CPM_Notification();
     }
 
+    /**
+     * Load plugin textdomain
+     *
+     * @since 0.3
+     */
     function load_textdomain() {
         $locale = apply_filters( 'cpm_locale', get_locale() );
         $mofile = dirname( __FILE__ ) . "/languages/cpm-$locale.mo";
@@ -64,11 +73,22 @@ class WeDevs_CPM {
         }
     }
 
+    /**
+     * Define some constants required by the plugin
+     *
+     * @since 0.1
+     */
     function constants() {
         define( 'CPM_PLUGIN_PATH', dirname( __FILE__ ) );
         define( 'CPM_PLUGIN_URI', plugins_url( '', __FILE__ ) );
     }
 
+    /**
+     * Load all the plugin scripts and styles only for the
+     * project area
+     *
+     * @since 0.1
+     */
     function admin_scripts() {
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-dialog' );
@@ -100,6 +120,11 @@ class WeDevs_CPM {
         wp_enqueue_style( 'chosen', plugins_url( 'css/chosen.css', __FILE__ ) );
     }
 
+    /**
+     * Includes some required helper files
+     *
+     * @since 0.1
+     */
     function admin_includes() {
         require_once CPM_PLUGIN_PATH . '/includes/functions.php';
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
@@ -107,13 +132,26 @@ class WeDevs_CPM {
         require_once CPM_PLUGIN_PATH . '/includes/shortcodes.php';
     }
 
+    /**
+     * Register the plugin menu
+     *
+     * @since 0.1
+     */
     function admin_menu() {
         $capability = 'read'; //minimum level: subscriber
 
-        add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
+        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
+
+        add_action( $hook, array($this, 'admin_scripts') );
     }
 
+    /**
+     * Main function that renders the admin area for all the project
+     * related markup.
+     *
+     * @since 0.1
+     */
     function admin_page_handler() {
 
         echo '<div class="wrap cpm">';
