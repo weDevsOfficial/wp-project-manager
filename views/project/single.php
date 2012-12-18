@@ -20,7 +20,6 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
     <?php
     $count = get_comment_count( $project_id );
     $activities = CPM_project::getInstance()->get_activity( $project_id, array() );
-    cpm_activity_html( $activities );
 
     if ( $activities ) {
         echo cpm_activity_html( $activities );

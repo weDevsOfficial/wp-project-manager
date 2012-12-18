@@ -373,10 +373,21 @@ ul.cpm-activity .date {
   color: #9C9C9C;
   font-size: 11px;
 }
-ul.cpm-activity li {
+ul.cpm-activity .cpm-activity-heads {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  padding: 0 0 5px 0;
+  border-bottom: 1px solid #eee;
+}
+ul.cpm-activity ul {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+ul.cpm-activity ul li {
   text-indent: 5px;
 }
-ul.cpm-activity li:before {
+ul.cpm-activity ul li:before {
   content: "-";
   position: relative;
   left: -5px;

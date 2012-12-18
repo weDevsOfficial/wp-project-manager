@@ -373,13 +373,26 @@ ul.cpm-activity {
         font-size: 11px;
     }
 
-    li {
-        text-indent: 5px;
+    .cpm-activity-heads {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 0 5px 0;
+        padding: 0 0 5px 0;
+        border-bottom: 1px solid #eee;
+    }
 
-        &:before {
-            content: "-";
-            position: relative;
-            left: -5px;
+    ul {
+        margin-left: 15px;
+        margin-bottom: 10px;
+
+        li {
+            text-indent: 5px;
+
+            &:before {
+                content: "-";
+                position: relative;
+                left: -5px;
+            }
         }
     }
 }
@@ -394,7 +407,7 @@ ul.cpm-activity {
     nav.cpm-new-project {
         left: -130px;
         position: absolute;
-        
+
         a {
             background: url('../images/plus.png') no-repeat 50% 50%;
             .box-shadow(0 0 3px rgba(0, 0, 0, 0.3));
@@ -639,7 +652,7 @@ ul.cpm-activity {
             .cpm-comment-meta {
                 color: #888;
                 font-size: 12px;
-                
+
                 .cpm-separator {
                     color: @borderColor;
                 }
@@ -999,7 +1012,7 @@ ul.cpm-todolists {
                             line-height: 12px;
                             padding: 1px 7px;
                             margin-right: 5px;
-                            
+
                             a {
                                 color: #999;
                             }
@@ -1214,7 +1227,7 @@ a.cpm-icon-edit {
 
 a.cpm-icon-delete {
     display: inline-block;
-    
+
     span {
         display: inline-block;
         text-indent: -9999px;
