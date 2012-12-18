@@ -210,14 +210,6 @@ class CPM_Project {
         return $mail;
     }
 
-    function get_status( $project_id ) {
-        return 'Not started';
-    }
-
-    function get_bill_status( $project_id ) {
-        return 'Not started';
-    }
-
     function nav_links( $project_id ) {
         $links = array(
             cpm_url_project_details( $project_id ) => __( 'Activity', 'cpm' ),
