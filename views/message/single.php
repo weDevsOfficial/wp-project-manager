@@ -33,7 +33,7 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
     <div class="cpm-entry-detail">
         <?php echo cpm_get_content( $message->post_content ); ?>
 
-        <?php echo cpm_show_attachments( $message ); ?>
+        <?php echo cpm_show_attachments( $message, $project_id ); ?>
     </div>
 
     <span class="cpm-msg-edit-form"></span>
