@@ -64,8 +64,10 @@ class CPM_Comment {
         ) );
 
         if ( isset( $_POST['cpm_attachment'] ) ) {
+            $parent_id = isset( $posted['parent_id'] ) ? intval( $posted['parent_id'] ) : 0;
+
             update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
-            $this->associate_file( $_POST['cpm_attachment'], $_POST['project_id'] );
+            $this->associate_file( $_POST['cpm_attachment'], $parent_id, $_POST['project_id'] );
         }
 
         do_action( 'cpm_comment_update', $comment_id, $_POST['project_id'], $data );
@@ -132,11 +134,11 @@ class CPM_Comment {
      */
     function get_comments( $post_id, $order = 'ASC' ) {
         $comments = get_comments( array('post_id' => $post_id, 'order' => $order) );
-        $file_array = array();
 
         //prepare comment attachments
         if ( $comments ) {
             foreach ($comments as $key => $comment) {
+                $file_array = array();
                 $files = get_comment_meta( $comment->comment_ID, '_files', true );
 
                 if ( $files != '' ) {
