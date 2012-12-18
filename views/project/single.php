@@ -18,16 +18,16 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 
 <ul class="cpm-activity dash">
     <?php
-    $activities = CPM_Comment::getInstance()->get_comments( $project_id, 'DESC' );
+    $count = get_comment_count( $project_id );
+    $activities = CPM_project::getInstance()->get_activity( $project_id, array() );
+    cpm_activity_html( $activities );
 
     if ( $activities ) {
-        foreach ($activities as $activity) {
-            ?>
-            <li>
-                <?php echo do_shortcode( $activity->comment_content ); ?> <span class="date">- <?php echo cpm_get_date( $activity->comment_date, true ); ?></span>
-            </li>
-            <?php
-        }
+        echo cpm_activity_html( $activities );
     }
     ?>
 </ul>
+
+<?php if ( $count['approved'] > count( $activities ) ) { ?>
+    <a href="#" <?php cpm_data_attr( array('project_id' => $project_id, 'start' => count( $activities ) + 1, 'total' => $count['approved']) ); ?> class="button cpm-load-more"><?php _e( 'Load More...', 'cpm' ); ?></a>
+<?php } ?>
