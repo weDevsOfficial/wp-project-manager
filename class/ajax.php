@@ -457,6 +457,7 @@ class CPM_Ajax {
         //print_r( $posted );
 
         $comment_id = isset( $posted['comment_id'] ) ? intval( $posted['comment_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
 
         $data = array(
             'text' => $posted['cpm_message']
@@ -467,7 +468,7 @@ class CPM_Ajax {
 
         $comment = $comment_obj->get( $comment_id );
         $content = cpm_comment_text( $comment_id );
-        $content .= cpm_show_attachments( $comment );
+        $content .= cpm_show_attachments( $comment, $project_id );
 
         echo json_encode( array(
             'success' => true,
