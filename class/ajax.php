@@ -47,6 +47,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
         add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
         add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
+
+        add_action( 'wp_ajax_cpm_get_activity', array($this, 'get_activity') );
     }
 
     function project_new() {
@@ -616,6 +618,30 @@ class CPM_Ajax {
             'success' => false
         ) );
 
+        exit;
+    }
+
+    /**
+     * Get project activity
+     *
+     * @since 0.3.1
+     */
+    function get_activity() {
+        $project_id = isset( $_GET['project_id'] ) ? intval( $_GET['project_id'] ) : 0;
+        $offset = isset( $_GET['offset'] ) ? intval( $_GET['offset'] ) : 0;
+
+        $activities = CPM_project::getInstance()->get_activity( $project_id, array('offset' => $offset) );
+        if ( $activities ) {
+            echo json_encode( array(
+                'success' => true,
+                'content' => cpm_activity_html( $activities ),
+                'count' => count( $activities )
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
         exit;
     }
 
