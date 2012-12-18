@@ -156,6 +156,28 @@ class CPM_Project {
     }
 
     /**
+     * Get project activity
+     *
+     * @since 0.3.1
+     * 
+     * @param int $project_id
+     * @param array $args
+     * @return array
+     */
+    function get_activity( $project_id, $args = array() ) {
+        $defaults = array(
+            'order' => 'DESC',
+            'offset' => 0,
+            'number' => 20
+        );
+
+        $args = wp_parse_args( $args, $defaults );
+        $args['post_id'] = $project_id;
+
+        return get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
+    }
+
+    /**
      * Get project info
      *
      * Gets all the project info such as number of discussion, todolist, todos,
