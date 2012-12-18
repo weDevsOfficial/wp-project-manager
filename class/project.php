@@ -56,6 +56,12 @@ class CPM_Project {
         ) );
     }
 
+    /**
+     * Create or edit a a project
+     *
+     * @param null|int $project_id
+     * @return int
+     */
     function create( $project_id = 0 ) {
         $posted = $_POST;
         $is_update = ( $project_id ) ? true : false;
@@ -88,16 +94,34 @@ class CPM_Project {
         return $project_id;
     }
 
+    /**
+     * Update a project
+     *
+     * @param int $project_id
+     * @return int
+     */
     function update( $project_id ) {
         return $this->create( $project_id );
     }
 
+    /**
+     * Delete a project
+     *
+     * @param int $project_id
+     * @param bool $force
+     */
     function delete( $project_id, $force = false ) {
         do_action( 'cpm_project_delete', $project_id, $force );
 
         wp_delete_post( $project_id, $force );
     }
 
+    /**
+     * Get all the projects
+     *
+     * @param int $count
+     * @return object
+     */
     function get_projects( $count = -1 ) {
         $projects = get_posts( array(
             'numberposts' => $count,
@@ -131,6 +155,17 @@ class CPM_Project {
         return $project;
     }
 
+    /**
+     * Get project info
+     *
+     * Gets all the project info such as number of discussion, todolist, todos,
+     * comments, files and milestones. These info's are cached for performance
+     * improvements.
+     *
+     * @global object $wpdb
+     * @param int $project_id
+     * @return stdClass
+     */
     function get_info( $project_id ) {
         global $wpdb;
 
@@ -210,6 +245,12 @@ class CPM_Project {
         return $mail;
     }
 
+    /**
+     * Generates navigational menu for a project
+     *
+     * @param int $project_id
+     * @return array
+     */
     function nav_links( $project_id ) {
         $links = array(
             cpm_url_project_details( $project_id ) => __( 'Activity', 'cpm' ),
@@ -222,6 +263,13 @@ class CPM_Project {
         return apply_filters( 'cpm_project_nav_links', $links );
     }
 
+    /**
+     * Prints navigation menu for a project
+     *
+     * @param int $project_id
+     * @param string $active
+     * @return string
+     */
     function nav_menu( $project_id, $active = '' ) {
         $links = $this->nav_links( $project_id );
 
