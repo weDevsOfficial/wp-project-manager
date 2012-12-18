@@ -146,6 +146,12 @@ class CPM_Message {
     /**
      * Get the attachments of a post
      *
+     * Getting attachment for a message doesn't query to attachment as
+     * post parent. But it's queried via a meta key `_parent`. This was done
+     * because, every attachments parent_id in messages and comments are set
+     * to as message ID. So that every attachments shows in media listing under
+     * the message ID.
+     *
      * @param int $post_id
      * @return array attachment list
      */
@@ -207,6 +213,7 @@ class CPM_Message {
             // set the _project meta in the file, so that we can find
             // attachments by project id
             update_post_meta( $file_id, '_project', $project_id );
+            update_post_meta( $file_id, '_parent', $parent_id );
         }
     }
 
