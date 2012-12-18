@@ -204,6 +204,19 @@ class CPM_Project {
     }
 
     /**
+     * Flush a project info cache
+     *
+     * Some number of queries runs when creating project information.
+     * Clears the project information cache when a new activity happens.
+     *
+     * @since 0.3.1
+     * @param int $project_id
+     */
+    function flush_cache( $project_id ) {
+        wp_cache_delete( 'cpm_project_info_' . $project_id );
+    }
+
+    /**
      * Get all the users of this project
      *
      * @param int $project_id
