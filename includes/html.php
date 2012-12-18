@@ -742,3 +742,33 @@ function cpm_project_form( $project = null ) {
     </form>
     <?php
 }
+
+/**
+ * Prints project activities
+ *
+ * @since 0.3.1
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_activity_html( $activities ) {
+    $list = array();
+    $html = '';
+
+    foreach ($activities as $activity) {
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+        $html .= sprintf( '<li><div class="cpm-activity-heads">%s</div><ul>', date( 'F j, Y', $key ) );
+
+        foreach ($items as $activity) {
+            $html .= sprintf( '<li>%s <span class="date">- %s</span></li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= '</li></ul>';
+    }
+
+    return $html;
+}
