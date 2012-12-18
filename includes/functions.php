@@ -491,3 +491,14 @@ function cpm_serve_file() {
 }
 
 add_action( 'wp_ajax_cpm_file_get', 'cpm_serve_file' );
+
+/**
+ * Show denied file access for un-authenticated users
+ *
+ * @since 0.3.1
+ */
+function cpm_serve_file_denied() {
+    die( 'file access denied' );
+}
+
+add_action( 'wp_ajax_nopriv_cpm_file_get', 'cpm_serve_file_denied' );
