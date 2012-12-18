@@ -36,12 +36,14 @@ class WeDevs_CPM {
 
     function __construct() {
 
+        $this->version = '0.3.1';
         $this->constants();
         $this->instantiate();
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
+        register_activation_hook( __FILE__, array($this, 'install') );
     }
 
     /**
@@ -57,6 +59,15 @@ class WeDevs_CPM {
         $activity = new CPM_Activity();
         $ajax = new CPM_Ajax();
         $notification = new CPM_Notification();
+    }
+
+    /**
+     * Runs the setup when the plugin is installed
+     *
+     * @since 0.3.1
+     */
+    function install() {
+        update_option( 'cpm_version', $this->version );
     }
 
     /**
