@@ -186,6 +186,11 @@ function cpm_url_file_index( $project_id ) {
  */
 function cpm_url_comment( $comment_id, $project_id ) {
     $comment = get_comment( $comment_id );
+
+    if( !$comment ) {
+        return false;
+    }
+    
     $post = get_post( $comment->comment_post_ID );
     $url = '';
 
