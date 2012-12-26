@@ -56,6 +56,33 @@ Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project
 ## Contribute
 This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
 
+## Changelog
+
+### 0.3.1
+
+* comment update bug fix
+* project activity is now grouped by date
+* "load more" button added on project activity
+* some function documentation added.
+
+### 0.3
+
+* Translation capability added
+* Attachment security added. All files are now served via a proxy script
+  for security with permission checking.
+
+### 0.2.1
+
+* Comments display error fix
+
+### 0.2 
+
+* Remove comments from listing publicly
+* Post types are hidden from search
+
+### 0.1
+Initial version released
+
 
 ## Author
 [Tareq Hasan](http://tareq.wedevs.com)
