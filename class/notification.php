@@ -134,7 +134,7 @@ class CPM_Notification {
         $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $from = "From: \"$blogname\" <$wp_email>";
-        $headers = "$from\nContent-Type: text/html; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
+        $headers = "$from\nContent-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 
         wp_mail( $to, $subject, $message, $headers);
     }
