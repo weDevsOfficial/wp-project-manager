@@ -39,6 +39,12 @@
                     return false;
                 }
             });
+            
+            // toggle all user notification checkbox
+            $('.cpm-toggle-checkbox').on('click', function() {
+                var $checkBoxes = $('.notify-users').find('input[type=checkbox][name="notify_user[]"]')
+                $checkBoxes.prop('checked', !$checkBoxes.prop('checked'));
+            });
 
 
             /* =============== Messages ============ */
