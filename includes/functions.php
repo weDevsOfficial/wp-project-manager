@@ -299,15 +299,20 @@ function cpm_print_url( $link, $text ) {
 }
 
 /**
- * Displays tasks, messages, milestones contents. Mainly used for applying
- * standard WordPress `the_content` filter.
+ * Displays tasks, messages, milestones contents. Removed `the_content` filter
+ * and applied other filters due to conflicts created by other plugins.
  *
  * @since 0.1
  * @param string $content
  * @return string
  */
 function cpm_get_content( $content ) {
-    $content = apply_filters( 'the_content', $content );
+    $content = apply_filters( 'wptexturize', $content );
+    $content = apply_filters( 'wpautop', $content );
+    $content = apply_filters( 'do_shortcode', $content );
+    $content = apply_filters( 'convert_smilies', $content );
+    $content = apply_filters( 'convert_chars', $content );
+    $content = apply_filters( 'cpm_get_content', $content );
     $content = str_replace( ']]>', ']]&gt;', $content );
 
     return $content;
