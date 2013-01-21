@@ -17,7 +17,7 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
     <h3 class="cpm-entry-title"><?php echo get_the_title( $message_id ); ?></h3>
 
     <div class="cpm-entry-meta">
-        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date ); ?></span>
+        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date, true ); ?></span>
         <span class="cpm-separator">|</span>
         <span class="cpm-date"><?php echo cpm_url_user( $message->post_author ); ?></span>
         <span class="cpm-separator">|</span>
