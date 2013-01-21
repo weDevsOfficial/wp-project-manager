@@ -116,8 +116,6 @@ function cpm_user_checkboxes( $project_id ) {
     }
 
     if ( $users ) {
-        //var_dump( $users );
-        printf( '<label><input type="checkbox" class="cpm-toggle-checkbox"> %s</label> ', __( 'All', 'cpm' ) );
         foreach ($users as $user) {
             $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />', $user['id'] );
             printf( '<label for="cpm_notify_%d">%s %s</label> ', $user['id'], $check, $user['name'] );
@@ -308,13 +306,7 @@ function cpm_print_url( $link, $text ) {
  * @return string
  */
 function cpm_get_content( $content ) {
-    $content = apply_filters( 'wptexturize', $content );
-    $content = apply_filters( 'wpautop', $content );
-    $content = apply_filters( 'do_shortcode', $content );
-    $content = apply_filters( 'convert_smilies', $content );
-    $content = apply_filters( 'convert_chars', $content );
     $content = apply_filters( 'cpm_get_content', $content );
-    $content = str_replace( ']]>', ']]&gt;', $content );
 
     return $content;
 }
