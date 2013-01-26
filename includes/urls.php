@@ -26,7 +26,7 @@ function cpm_url_projects() {
 function cpm_url_project_details( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', admin_url( 'admin.php' ), $project_id );
 
-    return apply_filters( 'cpm_url_project_details', $url );
+    return apply_filters( 'cpm_url_project_details', $url, $project_id );
 }
 
 /**
