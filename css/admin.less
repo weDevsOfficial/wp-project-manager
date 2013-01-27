@@ -404,6 +404,12 @@ ul.cpm-activity {
     display: block;
     position: relative;
 
+    &:after, &:before {
+        clear: both;
+        content: "";
+        display: table;
+    }
+
     nav.cpm-new-project {
         left: -130px;
         position: absolute;
