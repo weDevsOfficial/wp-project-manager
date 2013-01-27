@@ -61,7 +61,11 @@ class WeDevs_CPM {
         $activity = new CPM_Activity();
         $ajax = new CPM_Ajax();
         $notification = new CPM_Notification();
-        $cpm_admin = new CPM_Admin();
+        
+        // instantiate admin settings
+        if ( is_admin() ) {
+            $cpm_admin = new CPM_Admin();
+        }
     }
 
     /**
