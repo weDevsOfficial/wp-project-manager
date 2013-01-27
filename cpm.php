@@ -6,6 +6,33 @@
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
  * Version: 0.4
+ * License: GPL2
+ */
+
+/**
+ * Copyright (c) 2013 Tareq Hasan (email: tareq@wedevs.com). All rights reserved.
+ *
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ *
+ * This is an add-on for WordPress
+ * http://wordpress.org/
+ *
+ * **********************************************************************
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * **********************************************************************
  */
 
 /**
@@ -54,17 +81,18 @@ class WeDevs_CPM {
      * @since 0.1
      */
     function instantiate() {
-        $project = CPM_Project::getInstance();
-        $message = CPM_Message::getInstance();
-        $task = CPM_Task::getInstance();
-        $milestone = CPM_Milestone::getInstance();
-        $activity = new CPM_Activity();
-        $ajax = new CPM_Ajax();
-        $notification = new CPM_Notification();
+        CPM_Project::getInstance();
+        CPM_Message::getInstance();
+        CPM_Task::getInstance();
+        CPM_Milestone::getInstance();
         
-        // instantiate admin settings
+        new CPM_Activity();
+        new CPM_Ajax();
+        new CPM_Notification();
+        
+        // instantiate admin settings only on admin page
         if ( is_admin() ) {
-            $cpm_admin = new CPM_Admin();
+            new CPM_Admin();
         }
     }
 
