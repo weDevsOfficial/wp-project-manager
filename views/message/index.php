@@ -5,6 +5,7 @@
  */
 
 $msg_obj = CPM_Message::getInstance();
+$pro_obj = CPM_Project::getInstance();
 
 cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 ?>
@@ -41,9 +42,11 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
             <td class="date"><span><?php echo date_i18n( 'j M, Y', strtotime( $message->post_date ) ); ?></span></td>
             <td class="comment-count"><span><?php echo cpm_get_number( $message->comment_count ); ?></span></td>
             <td class="cpm-actions">
+                <?php if( $message->post_author == get_current_user_id() || $pro_obj->has_admin_rights() ) { ?>
                 <a href="#" class="delete-message cpm-icon-delete" title="<?php esc_attr_e( 'Delete this message', 'cpm' ); ?>" <?php cpm_data_attr(array('msg_id' => $message->ID, 'project_id' => $project_id, 'confirm' => __( 'Are you sure to delete this message?', 'cpm' ) ) ); ?>>
                     <span><?php _e( 'Delete', 'cpm' ); ?></span>
                 </a>
+                <?php } ?>
             </td>
         </tr>
         <?php
