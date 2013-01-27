@@ -333,7 +333,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             <div class="notify-users">
                 <label class="notify">
                     <?php _e( 'Notify users', 'cpm' ); ?>:
-                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</label> ', __( 'Select all', 'cpm' ) ); ?>
+                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
                 </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
@@ -496,7 +496,10 @@ function cpm_message_form( $project_id, $message = null ) {
             </div>
 
             <div class="notify-users">
-                <label class="notify"><?php _e( 'Notify users', 'cpm' ); ?></label>
+                <label class="notify">
+                    <?php _e( 'Notify users', 'cpm' ); ?>:
+                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
+                </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
 
