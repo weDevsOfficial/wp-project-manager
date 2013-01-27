@@ -91,7 +91,7 @@ function cpm_url_single_task( $project_id, $list_id, $task_id ) {
 function cpm_url_single_message( $project_id, $message_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=message&action=single&pid=%d&mid=%d', admin_url( 'admin.php' ), $project_id, $message_id );
 
-    return apply_filters( 'cpm_url_single_message', $url );
+    return apply_filters( 'cpm_url_single_message', $url, $project_id, $message_id );
 }
 
 /**
@@ -103,7 +103,7 @@ function cpm_url_single_message( $project_id, $message_id ) {
 function cpm_url_message_index( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=message&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
 
-    return apply_filters( 'cpm_url_message_index', $url );
+    return apply_filters( 'cpm_url_message_index', $url, $project_id );
 }
 
 /**
@@ -121,7 +121,7 @@ function cpm_url_message_index( $project_id ) {
 function cpm_url_milestone_index( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
 
-    return apply_filters( 'cpm_url_milestone_index', $url );
+    return apply_filters( 'cpm_url_milestone_index', $url, $project_id );
 }
 
 /**
@@ -134,7 +134,7 @@ function cpm_url_milestone_index( $project_id ) {
 function cpm_url_single_milestone( $project_id, $milestone_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=milestone&action=single&pid=%d&ml_id=%d', admin_url( 'admin.php' ), $project_id, $milestone_id );
 
-    return apply_filters( 'cpm_url_single_milestone', $url );
+    return apply_filters( 'cpm_url_single_milestone', $url, $project_id, $milestone_id );
 }
 
 /**
