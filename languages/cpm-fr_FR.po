@@ -17,129 +17,129 @@ msgstr ""
 
 #: ../cpm.php:160
 msgid "Allowed Files"
-msgstr ""
+msgstr "Fichiers autorisés"
 
 #: ../cpm.php:190 ../class/notification.php:72 ../class/notification.php:103
 #: ../class/notification.php:126 ../views/project/index.php:7
 msgid "Project Manager"
-msgstr ""
+msgstr "Chef de projet"
 
 #: ../cpm.php:191
 msgid "Projects"
-msgstr ""
+msgstr "Projets"
 
 #: ../class/activity.php:62
 #, php-format
 msgid "Project created by %s"
-msgstr ""
+msgstr "Project créé par %s"
 
 #: ../class/activity.php:68
 #, php-format
 msgid "Project details updated by %s"
-msgstr ""
+msgstr "Détails du projet ajouté par %s"
 
 #: ../class/activity.php:76
 #, php-format
 msgid "Message %s created by %s"
-msgstr ""
+msgstr "Message %s créé par %s"
 
 #: ../class/activity.php:87
 #, php-format
 msgid "Message %s updated by %s"
-msgstr ""
+msgstr "Message %s mis à jour par %s"
 
 #: ../class/activity.php:97
 #, php-format
 msgid "Message \"%s\" deleted by %s"
-msgstr ""
+msgstr "Message \"%s\" supprimé par %s"
 
 #: ../class/activity.php:105
 #, php-format
 msgid "To-do list %s created by %s"
-msgstr ""
+msgstr "To-do liste %s créée par %s"
 
 #: ../class/activity.php:116
 #, php-format
 msgid "To-do list %s updated by %s"
-msgstr ""
+msgstr "To-do liste %s mise à jour par %s"
 
 #: ../class/activity.php:127
 #, php-format
 msgid "To-do list \"%s\" deleted by %s"
-msgstr ""
+msgstr "To-do list \"%s\" supprimée par %s"
 
 #: ../class/activity.php:140
 #, php-format
 msgid "To-do %s added on to-do list %s by %s"
-msgstr ""
+msgstr "Tâche %s ajoutée à la to-do liste %s par %s"
 
 #: ../class/activity.php:154
 #, php-format
 msgid "To-do %s updated by %s"
-msgstr ""
+msgstr "Tâche %s mise à jour par %s"
 
 #: ../class/activity.php:167
 #, php-format
 msgid "To-do %s completed by %s"
-msgstr ""
+msgstr "Tâche %s réalisée par %s"
 
 #: ../class/activity.php:172
 msgid "Marked to-do as done"
-msgstr ""
+msgstr "Passer cette tâche à résolue"
 
 #: ../class/activity.php:183
 #, php-format
 msgid "To-do %s marked un-done by %s"
-msgstr ""
+msgstr "Tâche %s marquée non-résolue par %s"
 
 #: ../class/activity.php:188
 msgid "Re-opened to-do"
-msgstr ""
+msgstr "Réouvrir la tâche"
 
 #: ../class/activity.php:199
 #, php-format
 msgid "To-do \"%s\" deleted from to-do list %s by %s"
-msgstr ""
+msgstr "Tâcge \"%s\" supprimée de la to-do list %s par %s"
 
 #: ../class/activity.php:209
 #, php-format
 msgid "%s commented on a %s"
-msgstr ""
+msgstr "%s a commenté %s"
 
 #: ../class/activity.php:215
 #, php-format
 msgid "%s updated comment on a %s"
-msgstr ""
+msgstr "%s a mis à jour son commentaire à propos de %s"
 
 #: ../class/activity.php:223
 #, php-format
 msgid "%s deleted a comment"
-msgstr ""
+msgstr "%s a supprimé un commentaire"
 
 #: ../class/activity.php:230
 #, php-format
 msgid "Milestone \"%s\" added by %s "
-msgstr ""
+msgstr "Etape \"%s\" ajoutée par %s "
 
 #: ../class/activity.php:237
 #, php-format
 msgid "Milestone \"%s\" updated by %s "
-msgstr ""
+msgstr "Etape \"%s\" mise à jour par %s "
 
 #: ../class/activity.php:244
 #, php-format
 msgid "Milestone \"%s\" deleted by %s "
-msgstr ""
+msgstr "Etape \"%s\" supprimée par %s "
 
 #: ../class/activity.php:251
 #, php-format
 msgid "Milestone \"%s\" marked as complete by %s "
-msgstr ""
+msgstr "Etape \"%s\" marquée atteinte par %s "
 
 #: ../class/activity.php:258
 #, php-format
 msgid "Milestone \"%s\" marked as incomplete by %s "
-msgstr ""
+msgstr "Etape \"%s\" marquée non atteinte par %s "
 
 #: ../class/admin.php:33
 msgid "Settings"
@@ -162,24 +162,29 @@ msgid "Plain Text"
 msgstr ""
 
 #: ../class/admin.php:68
+#, fuzzy
 msgid "New Project Subject"
-msgstr ""
+msgstr "Nouveau Projet"
 
 #: ../class/admin.php:73
+#, fuzzy
 msgid "New Project Body"
-msgstr ""
+msgstr "Nouveau Projet"
 
 #: ../class/admin.php:83
+#, fuzzy
 msgid "New Message Subject"
-msgstr ""
+msgstr "Nouveau message"
 
 #: ../class/admin.php:88
+#, fuzzy
 msgid "New Message Body"
-msgstr ""
+msgstr "Nouveau message"
 
 #: ../class/admin.php:95
+#, fuzzy
 msgid "New Comment Subject"
-msgstr ""
+msgstr "Nouveau Projet"
 
 #: ../class/admin.php:100 ../class/admin.php:112
 msgid "Body"
@@ -191,14 +196,14 @@ msgstr ""
 
 #: ../class/ajax.php:388 ../includes/functions.php:167
 msgid "Delete File"
-msgstr ""
+msgstr "Supprimer message"
 
 #: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
 #: ../includes/html.php:671 ../views/message/index.php:10
 #: ../views/message/index.php:14 ../views/message/single.php:10
 #: ../views/message/single.php:13
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
 #: ../class/message.php:27
 msgid "message post type"
@@ -206,133 +211,133 @@ msgstr ""
 
 #: ../class/message.php:42 ../class/message.php:43
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #: ../class/message.php:44 ../includes/html.php:456
 msgid "Add Message"
-msgstr ""
+msgstr "Ajouter message"
 
 #: ../class/message.php:45
 msgid "Add New Message"
-msgstr ""
+msgstr "Ajouter nouveau message"
 
 #: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
 #: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
 #: ../includes/html.php:228 ../includes/html.php:387 ../includes/html.php:623
 #: ../views/message/single.php:30 ../views/project/header.php:21
 msgid "Edit"
-msgstr ""
+msgstr "Editer"
 
 #: ../class/message.php:47
 msgid "Edit Message"
-msgstr ""
+msgstr "Editer message"
 
 #: ../class/message.php:48
 msgid "New Message"
-msgstr ""
+msgstr "Nouveau message"
 
 #: ../class/message.php:49 ../class/message.php:50
 msgid "View Message"
-msgstr ""
+msgstr "Lire message"
 
 #: ../class/message.php:51
 msgid "Search Messages"
-msgstr ""
+msgstr "Rechercher messages"
 
 #: ../class/message.php:52
 msgid "No Messages Found"
-msgstr ""
+msgstr "Aucun message trouvé"
 
 #: ../class/message.php:53
 msgid "No Messages Found in Trash"
-msgstr ""
+msgstr "Aucun message dans la corbeille"
 
 #: ../class/message.php:54
 msgid "Parent Message"
-msgstr ""
+msgstr "Message parent"
 
 #: ../class/milestone.php:21 ../class/milestone.php:22
 #: ../class/milestone.php:36 ../class/milestone.php:37
 #: ../class/milestone.php:38
 msgid "Milestone"
-msgstr ""
+msgstr "Etape"
 
 #: ../class/milestone.php:39 ../includes/html.php:535
 #: ../views/milestone/index.php:5
 msgid "Add Milestone"
-msgstr ""
+msgstr "Ajouter étape"
 
 #: ../class/milestone.php:40
 msgid "Add New Milestone"
-msgstr ""
+msgstr "Ajouter nouvelle étape"
 
 #: ../class/milestone.php:42
 msgid "Edit Milestone"
-msgstr ""
+msgstr "Editer étape"
 
 #: ../class/milestone.php:43
 msgid "New Milestone"
-msgstr ""
+msgstr "Nouvelle étape"
 
 #: ../class/milestone.php:44 ../class/milestone.php:45
 msgid "View Milestone"
-msgstr ""
+msgstr "Voir étape"
 
 #: ../class/milestone.php:46
 msgid "Search Milestone"
-msgstr ""
+msgstr "Rechercher étape"
 
 #: ../class/milestone.php:47
 msgid "No Milestone Found"
-msgstr ""
+msgstr "Aucune étape trouvée"
 
 #: ../class/milestone.php:48
 msgid "No Milestone Found in Trash"
-msgstr ""
+msgstr "Aucune étape dans la corbeille"
 
 #: ../class/milestone.php:49
 msgid "Parent Milestone"
-msgstr ""
+msgstr "Etape parente"
 
 #: ../class/notification.php:49
 #, php-format
 msgid "New Project invitation on %s"
-msgstr ""
+msgstr "Invitation au nouveau projet %s"
 
 #: ../class/notification.php:50
 #, php-format
 msgid "You are assigned in a new project \"%s\" on %s"
-msgstr ""
+msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
 
 #: ../class/notification.php:51
 #, php-format
 msgid "You can see the project by going here: %s"
-msgstr ""
+msgstr "Vous pouvez voir le projet en cliquant sur : %s"
 
 #: ../class/notification.php:72
 #, php-format
 msgid "[%s] New message on project: %s"
-msgstr ""
+msgstr "[%s] Nouveau message à propos du projet : %s"
 
 #: ../class/notification.php:75 ../class/notification.php:106
 #, php-format
 msgid "Permalink : %s"
-msgstr ""
+msgstr "Permalien : %s"
 
 #: ../class/notification.php:103
 #, php-format
 msgid "[%s] New comment on %s: %s"
-msgstr ""
+msgstr "[%s] Nouveau commentaire sur %s: %s"
 
 #: ../class/notification.php:126
 #, php-format
 msgid "[%s] New task assigned to you"
-msgstr ""
+msgstr "[%s] Nouvelle tâche vous sont assignée"
 
 #: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
 #: ../class/project.php:43
 msgid "Project"
-msgstr ""
+msgstr "Projet"
 
 #: ../class/project.php:27
 msgid "project manager post type"
@@ -340,155 +345,155 @@ msgstr ""
 
 #: ../class/project.php:44
 msgid "Add Project"
-msgstr ""
+msgstr "Ajouter projet"
 
 #: ../class/project.php:45 ../includes/html.php:702
 msgid "Add New Project"
-msgstr ""
+msgstr "Ajouter nouveau projet"
 
 #: ../class/project.php:47
 msgid "Edit Project"
-msgstr ""
+msgstr "Editer projet"
 
 #: ../class/project.php:48 ../views/project/index.php:14
 msgid "New Project"
-msgstr ""
+msgstr "Nouveau Projet"
 
 #: ../class/project.php:49 ../class/project.php:50
 msgid "View Project"
-msgstr ""
+msgstr "Afficher Projet"
 
 #: ../class/project.php:51
 msgid "Search Project"
-msgstr ""
+msgstr "Rechercher Projet"
 
 #: ../class/project.php:52
 msgid "No Project Found"
-msgstr ""
+msgstr "Pas de Projet"
 
 #: ../class/project.php:53
 msgid "No Project Found in Trash"
-msgstr ""
+msgstr "Pas de projet dans la corbeille"
 
 #: ../class/project.php:54
 msgid "Parent Project"
-msgstr ""
+msgstr "Projet parent"
 
 #: ../class/project.php:291 ../views/project/single.php:5
 msgid "Activity"
-msgstr ""
+msgstr "Activité"
 
 #: ../class/project.php:293 ../includes/html.php:649 ../views/task/index.php:5
 #: ../views/task/single.php:5 ../views/task/task-single.php:2
 msgid "To-do List"
-msgstr ""
+msgstr "To-do Liste"
 
 #: ../class/project.php:294 ../views/milestone/index.php:1
 #: ../views/milestone/index.php:4
 msgid "Milestones"
-msgstr ""
+msgstr "Etapes"
 
 #: ../class/project.php:295 ../views/files/index.php:2
 msgid "Files"
-msgstr ""
+msgstr "Fichiers"
 
 #: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
 #: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:7
 #: ../views/task/task-single.php:9
 msgid "Task List"
-msgstr ""
+msgstr "Liste de tâche"
 
 #: ../class/task.php:44
 msgid "Add Task List"
-msgstr ""
+msgstr "Ajouter liste de tâche"
 
 #: ../class/task.php:45 ../views/task/index.php:9
 msgid "Add New Task List"
-msgstr ""
+msgstr "Ajouter nouvelle liste de tâche"
 
 #: ../class/task.php:47
 msgid "Edit Task List"
-msgstr ""
+msgstr "Editer liste de tâche"
 
 #: ../class/task.php:48
 msgid "New Task List"
-msgstr ""
+msgstr "Nouvelle liste de tâche"
 
 #: ../class/task.php:49 ../class/task.php:50
 msgid "View Task List"
-msgstr ""
+msgstr "Voir liste de tâche"
 
 #: ../class/task.php:51
 msgid "Search Task List"
-msgstr ""
+msgstr "Recherche liste de tâche"
 
 #: ../class/task.php:52
 msgid "No Task List Found"
-msgstr ""
+msgstr "Aucune liste de tâche trouvée"
 
 #: ../class/task.php:53
 msgid "No Task List Found in Trash"
-msgstr ""
+msgstr "Aucune liste de tâche dans la corbeille"
 
 #: ../class/task.php:54
 msgid "Parent Task List"
-msgstr ""
+msgstr "Liste de tâche parente"
 
 #: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
 msgid "Task"
-msgstr ""
+msgstr "Tâche"
 
 #: ../class/task.php:60 ../class/task.php:74
 msgid "Tasks"
-msgstr ""
+msgstr "Tâches"
 
 #: ../class/task.php:77
 msgid "Add Task"
-msgstr ""
+msgstr "Ajouter tâche"
 
 #: ../class/task.php:78
 msgid "Add New Task"
-msgstr ""
+msgstr "Ajouter nouvelle tâche"
 
 #: ../class/task.php:80
 msgid "Edit Task"
-msgstr ""
+msgstr "Editer tâche"
 
 #: ../class/task.php:81
 msgid "New Task"
-msgstr ""
+msgstr "Nouvelle tâche"
 
 #: ../class/task.php:82 ../class/task.php:83
 msgid "View Task"
-msgstr ""
+msgstr "Afficher tâche"
 
 #: ../class/task.php:84
 msgid "Search Task"
-msgstr ""
+msgstr "Recherche tâche"
 
 #: ../class/task.php:85
 msgid "No Task Found"
-msgstr ""
+msgstr "Aucune tâche trouvée"
 
 #: ../class/task.php:86
 msgid "No Task Found in Trash"
-msgstr ""
+msgstr "Aucune tâche dans la corbeille"
 
 #: ../class/task.php:87
 msgid "Parent Task"
-msgstr ""
+msgstr "Tâche parente"
 
 #: ../includes/functions.php:71
 msgid "Select co-workers"
-msgstr ""
+msgstr "Sélectionner un collègue"
 
 #: ../includes/functions.php:124
 msgid "No users found"
-msgstr ""
+msgstr "Aucun utilisateur"
 
 #: ../includes/functions.php:142
 msgid "-- assign to --"
-msgstr ""
+msgstr "-- assigner à --"
 
 #: ../includes/functions.php:176
 #, php-format
@@ -496,75 +501,77 @@ msgid ""
 "To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
 "your computer."
 msgstr ""
+"Pour joindre un fichier, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">Choisir "
+"les fichiers</a> sur votre ordinnateur."
 
 #: ../includes/functions.php:238
 msgid "Completed"
-msgstr ""
+msgstr "Réalisé"
 
 #: ../includes/html.php:25
 msgid "Are you sure to delete this to-do?"
-msgstr ""
+msgstr "Etes-vous sur de supprimer cette tâche ?"
 
 #: ../includes/html.php:26 ../includes/html.php:226 ../includes/html.php:393
 #: ../includes/html.php:626 ../views/message/index.php:47
 #: ../views/project/single.php:13
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: ../includes/html.php:48
 msgid "1 Comment"
-msgstr ""
+msgstr "1 Commentaire"
 
 #: ../includes/html.php:48
 #, php-format
 msgid "%d Comments"
-msgstr ""
+msgstr "%d Commentaires"
 
 #: ../includes/html.php:60
 #, php-format
 msgid "(Completed by %s on %s)"
-msgstr ""
+msgstr "(Réalisé par %s sur %s)"
 
 #: ../includes/html.php:105
 msgid "Add this to-do"
-msgstr ""
+msgstr "Ajouter cette tâche"
 
 #: ../includes/html.php:112
 msgid "Save Changes"
-msgstr ""
+msgstr "Enregistrer"
 
 #: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:346
 #: ../includes/html.php:515 ../includes/html.php:580 ../includes/html.php:746
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ../includes/html.php:162
 msgid "Add List"
-msgstr ""
+msgstr "Ajouter Liste"
 
 #: ../includes/html.php:170
 msgid "Update List"
-msgstr ""
+msgstr "Mettre à jour Liste"
 
 #: ../includes/html.php:194 ../includes/html.php:489
 msgid "-- milestone --"
-msgstr ""
+msgstr "-- étape --"
 
 #: ../includes/html.php:268
 msgid "Add a to-do"
-msgstr ""
+msgstr "Ajouter une tâche"
 
 #: ../includes/html.php:303
 msgid "Add this comment"
-msgstr ""
+msgstr "Ajouter ce commentaire"
 
 #: ../includes/html.php:310
 msgid "Update comment"
-msgstr ""
+msgstr "Mettre à jour commentaire"
 
 #: ../includes/html.php:335 ../includes/html.php:500
 msgid "Notify users"
-msgstr ""
+msgstr "Notifier utilisateur"
 
 #: ../includes/html.php:336 ../includes/html.php:501
 msgid "Select all"
@@ -572,47 +579,47 @@ msgstr ""
 
 #: ../includes/html.php:467
 msgid "Update Message"
-msgstr ""
+msgstr "Mettre à jour commentaire"
 
 #: ../includes/html.php:544
 msgid "Update Milestone"
-msgstr ""
+msgstr "Mettre à jour Etape"
 
 #: ../includes/html.php:610
 msgid "left"
-msgstr ""
+msgstr "restant"
 
 #: ../includes/html.php:610
 msgid "late"
-msgstr ""
+msgstr "Retard"
 
 #: ../includes/html.php:626
 msgid "Are you sure?"
-msgstr ""
+msgstr "Etes-vous sûr ?"
 
 #: ../includes/html.php:630
 msgid "Mark as complete"
-msgstr ""
+msgstr "Marquer comme réalisé"
 
 #: ../includes/html.php:632
 msgid "Reopen"
-msgstr ""
+msgstr "Ré-ouvrir"
 
 #: ../includes/html.php:686
 msgid "Completed on:"
-msgstr ""
+msgstr "Réalisé sur :"
 
 #: ../includes/html.php:710
 msgid "Update Project"
-msgstr ""
+msgstr "Mettre à jour Projet"
 
 #: ../includes/html.php:723
 msgid "Some details about the project (optional)"
-msgstr ""
+msgstr "Quelques détails à propos du projet (optionel)"
 
 #: ../includes/html.php:734
 msgid "Notify Co-workers"
-msgstr ""
+msgstr "Notifier collègues"
 
 #: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
 msgid "thread"
@@ -621,7 +628,7 @@ msgstr ""
 #: ../views/files/index.php:56
 #, php-format
 msgid "Attached to <a href=\"%s\">%s</a> by %s"
-msgstr ""
+msgstr "Joins <a href=\"%s\">%s</a> par %s"
 
 #: ../views/files/index.php:60
 #, php-format
@@ -630,71 +637,71 @@ msgstr ""
 
 #: ../views/files/index.php:74
 msgid "No Files Found!"
-msgstr ""
+msgstr "Aucun fichier"
 
 #: ../views/message/index.php:14
 msgid "Add New"
-msgstr ""
+msgstr "Ajouter nouveau"
 
 #: ../views/message/index.php:18
 msgid "Create a new message"
-msgstr ""
+msgstr "Ecrire un nouveau message"
 
 #: ../views/message/index.php:46
 msgid "Are you sure to delete this message?"
-msgstr ""
+msgstr "Etes vous sûr de supprimer ce message ?"
 
 #: ../views/message/index.php:60
 msgid "No messages found! How about adding one?"
-msgstr ""
+msgstr "Aucun message ! Et si vous en écriviez un ?"
 
 #: ../views/message/single.php:6
 msgid "Error: Message not found"
-msgstr ""
+msgstr "Erreure : Aucun message"
 
 #: ../views/message/single.php:70
 msgid "No comments found"
-msgstr ""
+msgstr "Aucun commentaire"
 
 #: ../views/milestone/index.php:31
 msgid "No Milestone Found!"
-msgstr ""
+msgstr "Aucune Etape"
 
 #: ../views/milestone/index.php:37
 msgid "Add new milestone"
-msgstr ""
+msgstr "Ajouter nouvelle Etape"
 
 #: ../views/milestone/index.php:45
 msgid "Late Milestones"
-msgstr ""
+msgstr "Etapes en retard"
 
 #: ../views/milestone/index.php:55
 msgid "Upcoming Milestones"
-msgstr ""
+msgstr "Prochaines Etapes"
 
 #: ../views/milestone/index.php:65
 msgid "Completed Milestones"
-msgstr ""
+msgstr "Etapes atteintes"
 
 #: ../views/project/header.php:6
 msgid "Error: Project not found"
-msgstr ""
+msgstr "Erreur : Aucun projet"
 
 #: ../views/project/header.php:11
 msgid "Error: Permission denied"
-msgstr ""
+msgstr "Erreur : Vous n'avez pas les droits"
 
 #: ../views/project/header.php:25
 msgid "Project Info"
-msgstr ""
+msgstr "Info du projet"
 
 #: ../views/project/index.php:47
 msgid "Start a new project"
-msgstr ""
+msgstr "Créer un nouveau projet"
 
 #: ../views/project/single.php:8
 msgid "Project Activity"
-msgstr ""
+msgstr "Activité du projet"
 
 #: ../views/project/single.php:31
 msgid "Load More..."
@@ -702,16 +709,22 @@ msgstr ""
 
 #: ../views/task/index.php:9
 msgid "Task Lists"
-msgstr ""
+msgstr "Liste de Tâche"
 
 #: ../views/task/index.php:32
 msgid "Oh dear, no To-do list found!"
-msgstr ""
+msgstr "Aucune To-do liste, très cher !"
 
 #: ../views/task/single.php:15
 msgid "Discuss this to-do list"
-msgstr ""
+msgstr "Discuter de cette to-do liste"
 
 #: ../views/task/task-single.php:17
 msgid "Discuss this to-do"
-msgstr ""
+msgstr "Discuter de cette tâche"
+
+#~ msgid "Public"
+#~ msgstr "Publique"
+
+#~ msgid "Private"
+#~ msgstr "Privé"
