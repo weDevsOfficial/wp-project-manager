@@ -37,6 +37,7 @@ class WeDevs_CPM {
     function __construct() {
 
         $this->version = '0.3.1';
+        $this->db_version = '0.3.1';
         $this->constants();
         $this->instantiate();
 
@@ -68,6 +69,7 @@ class WeDevs_CPM {
      */
     function install() {
         update_option( 'cpm_version', $this->version );
+        update_option( 'cpm_db_version', $this->db_version );
     }
 
     /**
