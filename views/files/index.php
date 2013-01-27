@@ -57,7 +57,7 @@ if ( $attachments ) {
                 </div>
 
                 <div class="cpm-file-action">
-                    <a href="<?php echo $file['url']; ?>">Download</a> or Go to the <a href="<?php echo $topic_url; ?>">discussion</a>
+                    <?php printf( __( '<a href="%s">Download</a> or go to the <a href="%s">discussion</a>.', 'cpm' ), $file_url, $topic_url ); ?>
                     <?php if ( $parent->comment_count ) { ?>
                         <span class="comment-number">
                             <?php printf( _n( '%d comment', '%d comments', get_comments_number( $parent->ID ), 'cpm' ), get_comments_number( $parent->ID ) ); ?>
