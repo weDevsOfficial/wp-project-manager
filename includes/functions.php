@@ -525,3 +525,42 @@ function cpm_hide_comments( $clauses ) {
 }
 
 add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
+
+
+/**
+ * Get the value of a settings field
+ *
+ * @since 0.4
+ * @param string $option option field name
+ * @return mixed
+ */
+function cpm_get_option( $option ) {
+
+    $fields = CPM_Admin::get_settings_fields();
+    $prepared_fields = array();
+
+    //prepare the array with the field as key
+    //and set the section name on each field
+    foreach ($fields as $section => $field) {
+        foreach ($field as $fld) {
+            $prepared_fields[$fld['name']] = $fld;
+            $prepared_fields[$fld['name']]['section'] = $section;
+        }
+    }
+
+    // bail if option not found
+    if ( !isset( $prepared_fields[$option] ) ) {
+        return;
+    }
+    
+    //get the value of the section where the option exists
+    $opt = get_option( $prepared_fields[$option]['section'], array() );
+
+    //return the value if found, otherwise default
+    if ( array_key_exists( $option, $opt ) ) {
+        return $opt[$option];
+    } else {
+        $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
+        return $val;
+    }
+}
