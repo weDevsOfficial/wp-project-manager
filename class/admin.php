@@ -133,5 +133,3 @@ Task: %TASK%',
     }
 
 }
-
-$cpm_admin = new CPM_Admin();
