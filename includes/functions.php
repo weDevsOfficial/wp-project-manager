@@ -525,36 +525,3 @@ function cpm_hide_comments( $clauses ) {
 }
 
 add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
-
-if( !function_exists( 'wp_send_json') ) {
-    function wp_send_json( $response ) {
-        @header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-        echo json_encode( $response );
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-            wp_die();
-        else
-            die;
-    }
-}
-
-if( !function_exists( 'wp_send_json_success') ) {
-    function wp_send_json_success( $data = null ) {
-        $response = array('success' => true);
-
-        if ( isset( $data ) )
-            $response['data'] = $data;
-
-        wp_send_json( $response );
-    }
-}
-
-if( !function_exists( 'wp_send_json_error') ) {
-    function wp_send_json_error( $data = null ) {
-        $response = array('success' => false);
-
-        if ( isset( $data ) )
-            $response['data'] = $data;
-
-        wp_send_json( $response );
-    }
-}
