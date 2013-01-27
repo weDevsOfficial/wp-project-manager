@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
- * Version: 0.3.1
+ * Version: 0.4
  */
 
 /**
@@ -36,10 +36,12 @@ class WeDevs_CPM {
 
     function __construct() {
 
-        $this->version = '0.3.1';
+        $this->version = '0.4';
         $this->db_version = '0.3.1';
+
         $this->constants();
         $this->instantiate();
+        $this->global_includes();
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
@@ -143,6 +145,18 @@ class WeDevs_CPM {
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
         require_once CPM_PLUGIN_PATH . '/includes/html.php';
         require_once CPM_PLUGIN_PATH . '/includes/shortcodes.php';
+    }
+
+    /**
+     * Include admin page handler
+     *
+     * @since 0.4
+     */
+    function global_includes() {
+        // settings page
+        if( is_admin()) {
+            require_once dirname( __FILE__ ) . '/admin.php';
+        }
     }
 
     /**
@@ -270,12 +284,12 @@ class WeDevs_CPM {
 
 }
 
-$GLOBALS['wedevs_cpm'] = new WeDevs_CPM();
+$wedevs_cpm = new WeDevs_CPM();
 
 /**
  * Add filters for text displays on Project Manager texts
- * 
- * @since 0.3.2
+ *
+ * @since 0.4
  */
 function cpm_content_filter() {
     add_filter( 'cpm_get_content', 'wptexturize' );
