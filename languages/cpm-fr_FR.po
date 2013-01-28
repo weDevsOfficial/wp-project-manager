@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 03:24+0600\n"
-"PO-Revision-Date: 2013-01-28 03:24+0600\n"
+"POT-Creation-Date: 2013-01-28 21:45+0600\n"
+"PO-Revision-Date: 2013-01-28 21:45+0600\n"
 "Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: en\n"
@@ -19,8 +19,7 @@ msgstr ""
 msgid "Allowed Files"
 msgstr "Fichiers autorisés"
 
-#: ../cpm.php:190 ../class/notification.php:72 ../class/notification.php:103
-#: ../class/notification.php:126 ../views/project/index.php:7
+#: ../cpm.php:190 ../views/project/index.php:7
 msgid "Project Manager"
 msgstr "Chef de projet"
 
@@ -201,7 +200,6 @@ msgstr "Supprimer message"
 #: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
 #: ../includes/html.php:671 ../views/message/index.php:10
 #: ../views/message/index.php:14 ../views/message/single.php:10
-#: ../views/message/single.php:13
 msgid "Messages"
 msgstr "Messages"
 
@@ -224,7 +222,7 @@ msgstr "Ajouter nouveau message"
 #: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
 #: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
 #: ../includes/html.php:228 ../includes/html.php:387 ../includes/html.php:623
-#: ../views/message/single.php:30 ../views/project/header.php:21
+#: ../views/message/single.php:32 ../views/project/header.php:21
 msgid "Edit"
 msgstr "Editer"
 
@@ -299,41 +297,6 @@ msgstr "Aucune étape dans la corbeille"
 msgid "Parent Milestone"
 msgstr "Etape parente"
 
-#: ../class/notification.php:49
-#, php-format
-msgid "New Project invitation on %s"
-msgstr "Invitation au nouveau projet %s"
-
-#: ../class/notification.php:50
-#, php-format
-msgid "You are assigned in a new project \"%s\" on %s"
-msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
-
-#: ../class/notification.php:51
-#, php-format
-msgid "You can see the project by going here: %s"
-msgstr "Vous pouvez voir le projet en cliquant sur : %s"
-
-#: ../class/notification.php:72
-#, php-format
-msgid "[%s] New message on project: %s"
-msgstr "[%s] Nouveau message à propos du projet : %s"
-
-#: ../class/notification.php:75 ../class/notification.php:106
-#, php-format
-msgid "Permalink : %s"
-msgstr "Permalien : %s"
-
-#: ../class/notification.php:103
-#, php-format
-msgid "[%s] New comment on %s: %s"
-msgstr "[%s] Nouveau commentaire sur %s: %s"
-
-#: ../class/notification.php:126
-#, php-format
-msgid "[%s] New task assigned to you"
-msgstr "[%s] Nouvelle tâche vous sont assignée"
-
 #: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
 #: ../class/project.php:43
 msgid "Project"
@@ -398,7 +361,7 @@ msgid "Files"
 msgstr "Fichiers"
 
 #: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
-#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:7
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
 #: ../views/task/task-single.php:9
 msgid "Task List"
 msgstr "Liste de tâche"
@@ -659,7 +622,11 @@ msgstr "Aucun message ! Et si vous en écriviez un ?"
 msgid "Error: Message not found"
 msgstr "Erreure : Aucun message"
 
-#: ../views/message/single.php:70
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr ""
+
+#: ../views/message/single.php:72
 msgid "No comments found"
 msgstr "Aucun commentaire"
 
@@ -715,13 +682,34 @@ msgstr "Liste de Tâche"
 msgid "Oh dear, no To-do list found!"
 msgstr "Aucune To-do liste, très cher !"
 
-#: ../views/task/single.php:15
+#: ../views/task/single.php:19
 msgid "Discuss this to-do list"
 msgstr "Discuter de cette to-do liste"
 
 #: ../views/task/task-single.php:17
 msgid "Discuss this to-do"
 msgstr "Discuter de cette tâche"
+
+#~ msgid "New Project invitation on %s"
+#~ msgstr "Invitation au nouveau projet %s"
+
+#~ msgid "You are assigned in a new project \"%s\" on %s"
+#~ msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
+
+#~ msgid "You can see the project by going here: %s"
+#~ msgstr "Vous pouvez voir le projet en cliquant sur : %s"
+
+#~ msgid "[%s] New message on project: %s"
+#~ msgstr "[%s] Nouveau message à propos du projet : %s"
+
+#~ msgid "Permalink : %s"
+#~ msgstr "Permalien : %s"
+
+#~ msgid "[%s] New comment on %s: %s"
+#~ msgstr "[%s] Nouveau commentaire sur %s: %s"
+
+#~ msgid "[%s] New task assigned to you"
+#~ msgstr "[%s] Nouvelle tâche vous sont assignée"
 
 #~ msgid "Public"
 #~ msgstr "Publique"
