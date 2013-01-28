@@ -10,7 +10,9 @@ if ( !$message ) {
 cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 ?>
 
-<h3 class="cpm-nav-title"><?php _e( 'Messages', 'cpm' ); ?></h3>
+<h3 class="cpm-nav-title">
+    <a href="<?php echo cpm_url_message_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
+</h3>
 
 <div class="cpm-single">
 

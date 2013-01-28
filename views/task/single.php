@@ -4,7 +4,11 @@ $list = $task_obj->get_task_list( $tasklist_id );
 
 cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 ?>
-<h3 class="cpm-nav-title"><?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?></h3>
+<h3 class="cpm-nav-title">
+    <a href="<?php echo cpm_url_tasklist_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
+    <span class="sep">|</span>
+    <?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?>
+</h3>
 
 <ul class="cpm-todolists">
     <?php if ( $list ) { ?>
