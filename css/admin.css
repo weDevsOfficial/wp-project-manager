@@ -124,7 +124,7 @@ ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-
 ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a{font-size:11px;line-height:14px;color:#999;}
 ul.cpm-todolists>li{margin:-10px 0 10px;padding:10px 0;}
 .cpm-new-milestone-form{margin:25px 0 15px 10px;display:none;}
-.cpm-milestone-form-wrap{position:relative;border:1px solid #DDD;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:10px;margin-left:0;width:500px;}.cpm-milestone-form-wrap input[name="milestone_due"]{width:20%;}
+.cpm-milestone-form-wrap{position:relative;border:1px solid #DDD;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:10px;margin-left:0;width:500px;background:#fff;}.cpm-milestone-form-wrap input[name="milestone_due"]{width:20%;}
 .cpm-milestones .title{float:left;width:200px;margin-top:0;}
 .cpm-milestones .cpm-milestone{background:#FAF9E4;padding:10px;margin:0 0 10px 220px;border:1px solid #ddd;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;font-size:13px;}.cpm-milestones .cpm-milestone h3{margin:0;padding-bottom:5px;margin-bottom:5px;border-bottom:1px solid #ccc;}.cpm-milestones .cpm-milestone h3 ul{margin:0;}
 .cpm-milestones .cpm-milestone h3 .time-left{font-size:12px;color:#666;}
