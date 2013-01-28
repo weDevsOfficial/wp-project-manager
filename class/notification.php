@@ -18,7 +18,10 @@ class CPM_Notification {
         if ( isset( $_POST['notify_user'] ) ) {
             foreach ($_POST['notify_user'] as $user_id) {
                 $user_info = get_user_by( 'id', $user_id );
-                $to[] = sprintf( '%s<%s>', $user_info->display_name, $user_info->user_email );
+                
+                if ( $user_info ) {
+                    $to[] = sprintf( '%s <%s>', $user_info->display_name, $user_info->user_email );
+                }
             }
         }
 
@@ -44,11 +47,26 @@ class CPM_Notification {
 
             //if any users left, get their mail addresses and send mail
             if ( $users ) {
-
-                $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-                $subject = sprintf( __( 'New Project invitation on %s', 'cpm' ), $site_name );
-                $message = sprintf( __( 'You are assigned in a new project "%s" on %s', 'cpm' ), trim( $data['post_title'] ), $site_name ) . "\r\n";
-                $message .= sprintf( __( 'You can see the project by going here: %s', 'cpm' ), cpm_url_project_details( $project_id ) ) . "\r\n";
+                
+                $template_vars = array(
+                    '%SITE%' => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), 
+                    '%PROJECT_NAME%' => $data['post_title'],
+                    '%PROJECT_DETAILS%' => $data['post_content'],
+                    '%PROJECT_URL%' => cpm_url_project_details( $project_id )
+                );
+                
+                $subject = cpm_get_option( 'new_project_sub' );
+                $message = cpm_get_option( 'new_project_body' );
+                
+                // subject
+                foreach ($template_vars as $key => $value) {
+                    $subject = str_replace( $key, $value, $subject );
+                }
+                
+                // message
+                foreach ($template_vars as $key => $value) {
+                    $message = str_replace( $key, $value, $message );
+                }
 
                 $this->send( implode(', ', $users), $subject, $message );
             }
@@ -69,15 +87,29 @@ class CPM_Notification {
         $msg = $msg_obj->get( $message_id );
         $author = wp_get_current_user();
 
-        $subject = sprintf( __( '[%s] New message on project: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $project->post_title );
-        $message = sprintf( 'New message on %s', $project->post_title ) . "\r\n\n";
-        $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $project_id, $message_id ) ) . "\r\n";
-        $message .= sprintf( "Message : \r\n%s", $msg->post_content ) . "\r\n";
+        $template_vars = array(
+            '%SITE%' => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), 
+            '%PROJECT_NAME%' => $project->post_title,
+            '%PROJECT_URL%' => cpm_url_project_details( $project_id ),
+            '%AUTHOR%' => $author->display_name,
+            '%AUTHOR_EMAIL%' => $author->user_email,
+            '%MESSAGE_URL%' => cpm_url_single_message( $project_id, $message_id ),
+            '%MESSAGE%' => $msg->post_content,
+            '%IP%' => get_ipaddress()
+        );
 
-        $users = apply_filters( 'cpm_new_message_to', $users );
-        $subject = apply_filters( 'cpm_new_message_subject', $subject );
-        $message = apply_filters( 'cpm_new_message_message', $message );
+        $subject = cpm_get_option( 'new_message_sub' );
+        $message = cpm_get_option( 'new_message_body' );
+
+        // subject
+        foreach ($template_vars as $key => $value) {
+            $subject = str_replace( $key, $value, $subject );
+        }
+
+        // message
+        foreach ($template_vars as $key => $value) {
+            $message = str_replace( $key, $value, $message );
+        }
 
         $this->send( implode( ', ', $users ), $subject, $message );
     }
@@ -90,25 +122,53 @@ class CPM_Notification {
      */
     function new_comment( $comment_id, $project_id, $data ) {
         $users = $this->prepare_contacts();
-
+        
         if ( !$users ) {
             return;
         }
 
         $msg_obj = CPM_Message::getInstance();
         $parent_post = get_post( $data['comment_post_ID'] );
-        $post_type = get_post_type_object( $parent_post->post_type );
         $author = wp_get_current_user();
+        $comment_url = '';
+        
+        switch ($parent_post->post_type) {
+            case 'message':
+                $comment_url = cpm_url_single_message( $project_id, $data['comment_post_ID'] );
+                break;
+            
+            case 'task_list':
+                $comment_url = cpm_url_single_tasklist( $project_id, $parent_post->ID );
+                break;
+            
+            case 'task':
+                $comment_url = cpm_url_single_task( $project_id, $parent_post->post_parent, $parent_post->ID );
+                break;
+        }
+        
+        $template_vars = array(
+            '%SITE%' => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), 
+            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+            '%PROJECT_URL%' => cpm_url_project_details( $project_id ),
+            '%AUTHOR%' => $author->display_name,
+            '%AUTHOR_EMAIL%' => $author->user_email,
+            '%COMMENT_URL%' => $comment_url,
+            '%COMMENT%' => $data['comment_content'],
+            '%IP%' => get_ipaddress()
+        );
 
-        $subject = sprintf( __( '[%s] New comment on %s: %s', 'cpm' ), __( 'Project Manager', 'cpm' ), $post_type->labels->singular_name, $parent_post->post_title );
-        $message = sprintf( 'New comment on %s', $parent_post->post_title ) . "\r\n\n";
-        $message .= sprintf( 'Author : %s', $author->display_name ) . "\r\n";
-        $message .= sprintf( __( 'Permalink : %s' ), cpm_url_single_message( $project_id, $data['comment_post_ID'] ) ) . "\r\n";
-        $message .= sprintf( "Comment : \r\n%s", $data['comment_content'] ) . "\r\n";
+        $subject = cpm_get_option( 'new_comment_sub' );
+        $message = cpm_get_option( 'new_comment_body' );
 
-        $users = apply_filters( 'cpm_new_comment_to', $users );
-        $subject = apply_filters( 'cpm_new_comment_subject', $subject );
-        $message = apply_filters( 'cpm_new_comment_message', $message );
+        // subject
+        foreach ($template_vars as $key => $value) {
+            $subject = str_replace( $key, $value, $subject );
+        }
+
+        // message
+        foreach ($template_vars as $key => $value) {
+            $message = str_replace( $key, $value, $message );
+        }
 
         $this->send( implode( ', ', $users ), $subject, $message );
     }
@@ -120,21 +180,45 @@ class CPM_Notification {
             return;
         }
 
+        $project_id = intval( $_POST['project_id'] );
         $user = get_user_by( 'id', intval( $_POST['task_assign'] ) );
         $to = sprintf( '%s <%s>', $user->display_name, $user->user_email );
 
-        $subject = sprintf( __( '[%s] New task assigned to you', 'cpm' ), __( 'Project Manager', 'cpm' ) );
-        $message = sprintf( 'A new task has been assigned to you' ) . "\r\n\n";
+        $template_vars = array(
+            '%SITE%' => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), 
+            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+            '%PROJECT_URL%' => cpm_url_project_details( $project_id ),
+            '%AUTHOR%' => $user->display_name,
+            '%AUTHOR_EMAIL%' => $user->user_email,
+            '%TASKLIST_URL%' => cpm_url_single_tasklist($project_id, $list_id),
+            '%TASK_URL%' => cpm_url_single_task( $project_id, $list_id, $task_id ),
+            '%TASK%' => $data['post_content'],
+            '%IP%' => get_ipaddress()
+        );
+
+        $subject = cpm_get_option( 'new_task_sub' );
+        $message = cpm_get_option( 'new_task_body' );
+
+        // subject
+        foreach ($template_vars as $key => $value) {
+            $subject = str_replace( $key, $value, $subject );
+        }
+
+        // message
+        foreach ($template_vars as $key => $value) {
+            $message = str_replace( $key, $value, $message );
+        }
 
         $this->send( $to, $subject, $message );
     }
 
     function send( $to, $subject, $message ) {
 
+        $mail_type = cpm_get_option( 'email_type');
         $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $from = "From: \"$blogname\" <$wp_email>";
-        $headers = "$from\nContent-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
+        $headers = "$from\nContent-Type: $mail_type; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 
         wp_mail( $to, $subject, $message, $headers);
     }
