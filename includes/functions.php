@@ -554,7 +554,8 @@ function cpm_get_option( $option ) {
     }
     
     //get the value of the section where the option exists
-    $opt = get_option( $prepared_fields[$option]['section'], array() );
+    $opt = get_option( $prepared_fields[$option]['section'] );
+    $opt = is_array($opt) ? $opt : array();
 
     //return the value if found, otherwise default
     if ( array_key_exists( $option, $opt ) ) {
@@ -563,4 +564,27 @@ function cpm_get_option( $option ) {
         $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
         return $val;
     }
+}
+
+if ( !function_exists( 'get_ipaddress' ) ) {
+
+    /**
+     * Returns users current IP Address
+     *
+     * @since 0.4
+     * @return string IP Address
+     */
+    function get_ipaddress() {
+        if ( empty( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+            $ip_address = $_SERVER["REMOTE_ADDR"];
+        } else {
+            $ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        }
+        if ( strpos( $ip_address, ',' ) !== false ) {
+            $ip_address = explode( ',', $ip_address );
+            $ip_address = $ip_address[0];
+        }
+        return $ip_address;
+    }
+
 }
