@@ -70,6 +70,7 @@ This is a beta version right now and should have bugs and lack of many features.
 * new: admin settings page added
 * new: email template added
 * new: French translation added
+* new: file upload size settings added
 
 ### 0.3.1
 
