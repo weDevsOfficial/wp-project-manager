@@ -41,7 +41,7 @@
             });
             
             // toggle all user notification checkbox
-            $('.cpm-toggle-checkbox').on('click', function(e) {
+            $('.cpm').on('click', '.cpm-toggle-checkbox', function(e) {
                 e.preventDefault();
                 
                 var $checkBoxes = $('.notify-users').find('input[type=checkbox][name="notify_user[]"]')
