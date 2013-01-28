@@ -44,7 +44,7 @@ A. Only Editors and Admin's can projects and edit them.
 ### Q. Who can create tasklist, todo, messages or milestone?
 A. Admins and every co-workers from a project can create these.
 
-### Can every member see every project?
+### Q. Can every member see every project?
 A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
 
 ### Q. Can the plugin be extended?
@@ -57,6 +57,19 @@ Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project
 This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
 
 ## Changelog
+
+### 0.4
+
+* improved: default email format changed to 'text/plain' from 'text/html'
+* improved: toggle added on user notification selection
+* improved: only date was showing on single message details, time added
+* improved: some filters added on URLs
+* bug fix: actual file url hidden on files tab for privacy
+* bug fix: any user could edit any users message
+* bug fix: any user could delete any users message
+* new: admin settings page added
+* new: email template added
+* new: French translation added
 
 ### 0.3.1
 
