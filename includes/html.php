@@ -337,6 +337,8 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
                 </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
+            
+            <?php do_action( 'cpm_comment_form', $project_id, $object_id, $comment ); ?>
 
             <div class="submit">
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php echo esc_attr( $submit_button ); ?>" id="" />
@@ -502,7 +504,9 @@ function cpm_message_form( $project_id, $message = null ) {
                 </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
-
+            
+            <?php do_action( 'cpm_message_form', $project_id, $message ); ?>
+            
             <div class="submit">
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
                 <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
@@ -567,6 +571,8 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             <div class="item detail">
                 <textarea name="milestone_detail" id="milestone_detail" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Details about milestone (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
             </div>
+            
+            <?php do_action( 'cpm_milestone_form', $project_id, $milestone ); ?>
 
             <div class="submit">
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
@@ -734,6 +740,8 @@ function cpm_project_form( $project = null ) {
                 <?php _e( 'Notify Co-workers', 'cpm' ) ?>
             </label>
         </div>
+        
+        <?php do_action( 'cpm_project_form', $project ); ?>
 
         <div class="submit">
 
