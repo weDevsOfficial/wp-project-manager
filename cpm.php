@@ -76,7 +76,7 @@ class WeDevs_CPM {
     }
 
     /**
-     * Instantiate all th required classes
+     * Instantiate all the required classes
      *
      * @since 0.1
      */
