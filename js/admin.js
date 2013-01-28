@@ -30,6 +30,7 @@
             $('.cpm-comment-wrap').on('click', '.cpm-delete-comment-link', this.Comment.deleteComment);
             $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
             $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            $('.cpm-comment-form-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({

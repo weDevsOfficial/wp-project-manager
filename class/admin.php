@@ -36,6 +36,10 @@ class CPM_Admin {
     function get_settings_sections() {
         $sections = array(
             array(
+                'id' => 'cpm_general',
+                'title' => __( 'General', 'cpm' )
+            ),
+            array(
                 'id' => 'cpm_mails',
                 'title' => __( 'E-Mail Settings', 'cpm' )
             )
@@ -51,6 +55,15 @@ class CPM_Admin {
      */
     static function get_settings_fields() {
         $settings_fields = array();
+        
+        $settings_fields['cpm_general'] = apply_filters( 'cpm_settings_field_general', array(
+            array(
+                'name' => 'upload_limit',
+                'label' => __('File Upload Limit', 'cpm'),
+                'default' => '2',
+                'desc' => __('file size in Megabyte. e.g: 2')
+            )
+        ));
 
         $settings_fields['cpm_mails'] = apply_filters( 'cpm_settings_field_mail', array(
             array(

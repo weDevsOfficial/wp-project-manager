@@ -137,6 +137,8 @@ class WeDevs_CPM {
      * @since 0.1
      */
     function admin_scripts() {
+        $upload_size = intval( cpm_get_option( 'upload_limit') ) * 1024 * 1024;
+        
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -153,7 +155,7 @@ class WeDevs_CPM {
             'plupload' => array(
                 'browse_button' => 'cpm-upload-pickfiles',
                 'container' => 'cpm-upload-container',
-                'max_file_size' => wp_max_upload_size() . 'b',
+                'max_file_size' => $upload_size . 'b',
                 'url' => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
                 'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
                 'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
@@ -202,7 +204,7 @@ class WeDevs_CPM {
     function admin_page_handler() {
 
         echo '<div class="wrap cpm">';
-
+        
         $page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
         $tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
         $action = (isset( $_GET['action'] )) ? $_GET['action'] : '';
