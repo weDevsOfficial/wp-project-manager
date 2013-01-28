@@ -57,10 +57,10 @@ class CPM_Admin {
                 'name' => 'email_type',
                 'label' => __( 'E-Mail Type', 'cpm' ),
                 'type' => 'select',
-                'default' => 'plain',
+                'default' => 'text/plain',
                 'options' => array(
-                    'html' => __( 'HTML Mail', 'cpm'),
-                    'plain' => __( 'Plain Text', 'cpm')
+                    'text/html' => __( 'HTML Mail', 'cpm'),
+                    'text/plain' => __( 'Plain Text', 'cpm')
                 )
             ),
             array(
@@ -75,7 +75,7 @@ class CPM_Admin {
                 'default' => "Hello\n
 You are assigned in a new project \"%PROJECT_NAME%\" on %SITE%
 You can see the project by going here: %PROJECT_URL%",
-                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%'
+                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_DETAILS%, %PROJECT_URL%'
                 
             ),
             array(
@@ -88,7 +88,7 @@ You can see the project by going here: %PROJECT_URL%",
                 'label' => __( 'New Message Body', 'cpm' ),
                 'type' => 'textarea',
                 'default' => "Author : %AUTHOR%\nPermalink : %MESSAGE_URL%\nMessage : %MESSAGE%",
-                'desc' => 'use: %SITE%, %AUTHOR%, %PROJECT_NAME%, %PROJECT_URL%, %MESSAGE_URL%, %MESSAGE%, %IP%'
+                'desc' => 'use: %SITE%, %AUTHOR%, %AUTHOR_EMAIL%, %PROJECT_NAME%, %PROJECT_URL%, %MESSAGE_URL%, %MESSAGE%, %IP%'
             ),
             array(
                 'name' => 'new_comment_sub',
@@ -100,7 +100,7 @@ You can see the project by going here: %PROJECT_URL%",
                 'label' => __( 'Body', 'cpm' ),
                 'type' => 'textarea',
                 'default' => "Author : %AUTHOR%\nPermalink : %COMMENT_URL%\nComment : %COMMENT%",
-                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %COMMENT_URL%, %COMMENT%, %IP%'
+                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %AUTHOR_EMAIL%, %COMMENT_URL%, %COMMENT%, %IP%'
             ),
             array(
                 'name' => 'new_task_sub',
@@ -115,7 +115,7 @@ You can see the project by going here: %PROJECT_URL%",
 Task List URL: %TASKLIST_URL%
 Task URL: %TASK_URL%
 Task: %TASK%',
-                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %TASKLIST_URL%, %TASK_URL%, %TASK%, %IP%'
+                'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %AUTHOR_EMAIL%, %TASKLIST_URL%, %TASK_URL%, %TASK%, %IP%'
             ),
         ) );
 
