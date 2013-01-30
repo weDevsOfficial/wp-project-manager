@@ -34,6 +34,9 @@ A project management plugin built on top of WordPress. It simply mimics the simp
 ## Video Demo
 [![Watch Demo][1]][2]
 
+## Extensions
+* [WP Project Manger Frontend](http://wedevs.com/plugin/wp-project-manager-frontend/) (*premium*) - brings the plugin functionality to your site frontend.
+
 ## FAQ
 ### Q. Why doesn't it shows up in frontend
 A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
