@@ -61,6 +61,11 @@ This is a beta version right now and should have bugs and lack of many features.
 
 ## Changelog
 
+### 0.4.1
+
+* bug fix: attachment association problem on comment update 
+* bug fix: error on message update
+
 ### 0.4
 
 * improved: default email format changed to 'text/plain' from 'text/html'
