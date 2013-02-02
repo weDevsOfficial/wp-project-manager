@@ -563,7 +563,7 @@ class CPM_Ajax {
             echo json_encode( array(
                 'success' => true,
                 'id' => $message_id,
-                'content' => cpm_get_content( $message->post_content ). cpm_show_attachments( $message )
+                'content' => cpm_get_content( $message->post_content ). cpm_show_attachments( $message, $project_id )
             ) );
 
             exit;
