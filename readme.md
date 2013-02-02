@@ -105,4 +105,4 @@ Initial version released
 [Tareq Hasan](http://tareq.wedevs.com)
 
 [1]: http://i.imm.io/MOeu.png
-[2]: http://www.youtube.com/watch?v=lR61ARrGb28
+[2]: https://www.youtube.com/watch?v=tETwpwjSA4Q
