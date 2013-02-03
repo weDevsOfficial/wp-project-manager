@@ -55,7 +55,7 @@ class CPM_Activity {
     }
 
     function task_url( $task_id, $list_id, $project_id, $title ) {
-        return sprintf( '[cpm_task_url id="%d" project="%d" list="%d" title="%s"]', $task_id, $list_id, $project_id, $title );
+        return sprintf( '[cpm_task_url id="%d" project="%d" list="%d" title="%s"]', $task_id, $project_id, $list_id, $title );
     }
 
     function project_new( $project_id ) {
