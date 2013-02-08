@@ -295,7 +295,7 @@ class CPM_Project {
             cpm_url_file_index( $project_id ) => __( 'Files', 'cpm' ),
         );
 
-        return apply_filters( 'cpm_project_nav_links', $links );
+        return apply_filters( 'cpm_project_nav_links', $links, $project_id );
     }
 
     /**
