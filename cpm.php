@@ -214,6 +214,8 @@ class WeDevs_CPM {
         $tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
+        
+        $default_file = dirname( __FILE__ ) . '/views/project/index.php';
 
         switch ($page) {
             case 'cpm_projects':
@@ -223,15 +225,15 @@ class WeDevs_CPM {
 
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/views/project/index.php';
+                                $file = dirname( __FILE__ ) . '/views/project/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/views/project/single.php';
+                                $file = dirname( __FILE__ ) . '/views/project/single.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/views/project/index.php';
+                                $file = dirname( __FILE__ ) . '/views/project/index.php';
                                 break;
                         }
 
@@ -240,15 +242,15 @@ class WeDevs_CPM {
                     case 'message':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/views/message/index.php';
+                                $file = dirname( __FILE__ ) . '/views/message/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/views/message/single.php';
+                                $file = dirname( __FILE__ ) . '/views/message/single.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/views/message/index.php';
+                                $file = dirname( __FILE__ ) . '/views/message/index.php';
                                 break;
                         }
 
@@ -257,19 +259,19 @@ class WeDevs_CPM {
                     case 'task':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/views/task/index.php';
+                                $file = dirname( __FILE__ ) . '/views/task/index.php';
                                 break;
 
                             case 'single':
-                                include_once dirname( __FILE__ ) . '/views/task/single.php';
+                                $file = dirname( __FILE__ ) . '/views/task/single.php';
                                 break;
 
                             case 'task_single':
-                                include_once dirname( __FILE__ ) . '/views/task/task-single.php';
+                                $file = dirname( __FILE__ ) . '/views/task/task-single.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/views/task/index.php';
+                                $file = dirname( __FILE__ ) . '/views/task/index.php';
                                 break;
                         }
 
@@ -278,29 +280,38 @@ class WeDevs_CPM {
                     case 'milestone':
                         switch ($action) {
                             case 'index':
-                                include_once dirname( __FILE__ ) . '/views/milestone/index.php';
+                                $file = dirname( __FILE__ ) . '/views/milestone/index.php';
                                 break;
 
                             default:
-                                include_once dirname( __FILE__ ) . '/views/milestone/index.php';
+                                $file = dirname( __FILE__ ) . '/views/milestone/index.php';
                                 break;
                         }
 
                         break;
 
                     case 'files':
-                        include_once dirname( __FILE__ ) . '/views/files/index.php';
+                        $file = dirname( __FILE__ ) . '/views/files/index.php';
                         break;
 
 
                     default:
-                        include_once dirname( __FILE__ ) . '/views/project/index.php';
+                        $file = dirname( __FILE__ ) . '/views/project/index.php';
                         break;
                 }
 
             default:
                 break;
         }
+        
+        $file = apply_filters( 'cpm_tab_file', $file, $project_id );
+        
+        if ( file_exists( $file )) {
+            require_once $file;
+        } else {
+            require_once $default_file;
+        }
+        
         echo '</div>';
     }
 
