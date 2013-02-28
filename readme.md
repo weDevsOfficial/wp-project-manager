@@ -59,6 +59,9 @@ Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project
 ## Contribute
 This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
 
+## Contribution
+* Dutch translation by eskamedia
+
 ## Changelog
 
 ### 0.4.1
