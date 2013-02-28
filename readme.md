@@ -60,7 +60,9 @@ Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project
 This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
 
 ## Contribution
+* French translation by Corentin allard
 * Dutch translation by eskamedia
+* Brazilian Portuguese translation by andersonblaine
 
 ## Changelog
 
