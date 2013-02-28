@@ -5,7 +5,7 @@
 cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 ?>
 <h3 class="cpm-nav-title">
-    <?php _e( 'Project Activity', 'wedevs' ); ?>
+    <?php _e( 'Project Activity', 'cpm' ); ?>
 
     <?php if ( current_user_can( 'delete_others_posts' ) ) { //editor ?>
         <span class="cpm-right">

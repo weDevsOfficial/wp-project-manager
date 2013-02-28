@@ -2,17 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 00:45+0600\n"
-"PO-Revision-Date: 2013-01-29 00:45+0600\n"
+"POT-Creation-Date: 2013-02-28 18:54+0600\n"
+"PO-Revision-Date: 2013-02-28 18:54+0600\n"
 "Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _e;__;gettext_noop\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../cpm.php:162
@@ -508,6 +508,14 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: ../includes/html.php:131
+msgid "Add a new to-do"
+msgstr ""
+
+#: ../includes/html.php:134 ../includes/html.php:568
+msgid "Due date"
+msgstr ""
+
 #: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:348
 #: ../includes/html.php:519 ../includes/html.php:586 ../includes/html.php:754
 msgid "Cancel"
@@ -521,8 +529,20 @@ msgstr ""
 msgid "Update List"
 msgstr ""
 
+#: ../includes/html.php:185
+msgid "Tasklist name"
+msgstr ""
+
+#: ../includes/html.php:189
+msgid "Tasklist detail"
+msgstr ""
+
 #: ../includes/html.php:194 ../includes/html.php:491
 msgid "-- milestone --"
+msgstr ""
+
+#: ../includes/html.php:225
+msgid "Are you sure to delete this to-do list?"
 msgstr ""
 
 #: ../includes/html.php:268
@@ -537,6 +557,10 @@ msgstr ""
 msgid "Update comment"
 msgstr ""
 
+#: ../includes/html.php:326
+msgid "Add a comment..."
+msgstr ""
+
 #: ../includes/html.php:335 ../includes/html.php:502
 msgid "Notify users"
 msgstr ""
@@ -549,8 +573,24 @@ msgstr ""
 msgid "Update Message"
 msgstr ""
 
+#: ../includes/html.php:482
+msgid "Enter message title"
+msgstr ""
+
+#: ../includes/html.php:486
+msgid "Message deatils here"
+msgstr ""
+
 #: ../includes/html.php:548
 msgid "Update Milestone"
+msgstr ""
+
+#: ../includes/html.php:564
+msgid "Milestone name"
+msgstr ""
+
+#: ../includes/html.php:572
+msgid "Details about milestone (optional)"
 msgstr ""
 
 #: ../includes/html.php:616
@@ -561,12 +601,24 @@ msgstr ""
 msgid "late"
 msgstr ""
 
+#: ../includes/html.php:629
+msgid "Edit milestone"
+msgstr ""
+
 #: ../includes/html.php:632
 msgid "Are you sure?"
 msgstr ""
 
+#: ../includes/html.php:632
+msgid "Delete milestone"
+msgstr ""
+
 #: ../includes/html.php:636
 msgid "Mark as complete"
+msgstr ""
+
+#: ../includes/html.php:638
+msgid "Mark un-complete"
 msgstr ""
 
 #: ../includes/html.php:638
@@ -579,6 +631,10 @@ msgstr ""
 
 #: ../includes/html.php:716
 msgid "Update Project"
+msgstr ""
+
+#: ../includes/html.php:725
+msgid "Name of the project"
 msgstr ""
 
 #: ../includes/html.php:729
@@ -613,6 +669,10 @@ msgstr ""
 
 #: ../views/message/index.php:18
 msgid "Create a new message"
+msgstr ""
+
+#: ../views/message/index.php:46
+msgid "Delete this message"
 msgstr ""
 
 #: ../views/message/index.php:46
@@ -673,6 +733,10 @@ msgstr ""
 
 #: ../views/project/single.php:8
 msgid "Project Activity"
+msgstr ""
+
+#: ../views/project/single.php:12
+msgid "Delete project"
 msgstr ""
 
 #: ../views/project/single.php:31

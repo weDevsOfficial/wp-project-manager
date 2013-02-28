@@ -227,35 +227,35 @@ class CPM_Activity {
 
     function milestone_new( $milestone_id, $project_id ) {
         $milestone = get_post( $milestone_id );
-        $message = sprintf( __( 'Milestone "%s" added by %s ', 'wedevs' ), $milestone->post_title, $this->user_url() );
+        $message = sprintf( __( 'Milestone "%s" added by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
 
     function milestone_update( $milestone_id, $project_id ) {
         $milestone = get_post( $milestone_id );
-        $message = sprintf( __( 'Milestone "%s" updated by %s ', 'wedevs' ), $milestone->post_title, $this->user_url() );
+        $message = sprintf( __( 'Milestone "%s" updated by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
 
     function milestone_delete( $milestone_id ) {
         $milestone = get_post( $milestone_id );
-        $message = sprintf( __( 'Milestone "%s" deleted by %s ', 'wedevs' ), $milestone->post_title, $this->user_url() );
+        $message = sprintf( __( 'Milestone "%s" deleted by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
 
     function milestone_done( $milestone_id ) {
         $milestone = get_post( $milestone_id );
-        $message = sprintf( __( 'Milestone "%s" marked as complete by %s ', 'wedevs' ), $milestone->post_title, $this->user_url() );
+        $message = sprintf( __( 'Milestone "%s" marked as complete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
 
     function milestone_open( $milestone_id ) {
         $milestone = get_post( $milestone_id );
-        $message = sprintf( __( 'Milestone "%s" marked as incomplete by %s ', 'wedevs' ), $milestone->post_title, $this->user_url() );
+        $message = sprintf( __( 'Milestone "%s" marked as incomplete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
