@@ -9,7 +9,7 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 
     <?php if ( current_user_can( 'delete_others_posts' ) ) { //editor ?>
         <span class="cpm-right">
-            <a href="#" class="cpm-icon-delete cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => 'Are you sure to delete this project', 'project_id' => $project_id) ) ?>>
+            <a href="#" class="cpm-icon-delete cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
                 <span><?php _e( 'Delete', 'cpm' ); ?></span>
             </a>
         </span>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 18:54+0600\n"
-"PO-Revision-Date: 2013-02-28 18:54+0600\n"
+"POT-Creation-Date: 2013-02-28 20:37+0600\n"
+"PO-Revision-Date: 2013-02-28 20:37+0600\n"
 "Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: en\n"
@@ -737,6 +737,10 @@ msgstr ""
 
 #: ../views/project/single.php:12
 msgid "Delete project"
+msgstr ""
+
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
 msgstr ""
 
 #: ../views/project/single.php:31
