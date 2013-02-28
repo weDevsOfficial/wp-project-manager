@@ -62,7 +62,7 @@ This is a beta version right now and should have bugs and lack of many features.
 ## Contribution
 * French translation by Corentin allard
 * Dutch translation by eskamedia
-* Brazilian Portuguese translation by andersonblaine
+* Brazilian Portuguese translation by Anderson
 
 ## Changelog
 
