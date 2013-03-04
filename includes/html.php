@@ -775,7 +775,7 @@ function cpm_activity_html( $activities ) {
     }
 
     foreach ($list as $key => $items) {
-        $html .= sprintf( '<li><div class="cpm-activity-heads">%s</div><ul>', date( 'F j, Y', $key ) );
+        $html .= sprintf( '<li><div class="cpm-activity-heads">%s</div><ul>', date_i18n( 'F j, Y', $key ) );
 
         foreach ($items as $activity) {
             $html .= sprintf( '<li>%s <span class="date">- %s</span></li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
