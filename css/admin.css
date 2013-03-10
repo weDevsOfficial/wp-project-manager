@@ -60,6 +60,7 @@ ul.cpm-activity ul{margin-left:15px;margin-bottom:10px;}ul.cpm-activity ul li{te
 .cpm-projects .cpm-project .cpm-project-detail,.cpm-projects .cpm-project .cpm-project-meta{color:#AA9C84;word-wrap:break-word;font-size:16px;margin-bottom:5px;}
 .cpm-projects .cpm-project .cpm-project-meta{font-size:12px;}
 .cpm-projects .cpm-project .cpm-project-people{position:absolute;bottom:15px;left:16px;}.cpm-projects .cpm-project .cpm-project-people img.avatar{height:48px;width:48px;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;margin-right:5px;}
+.cpm-projects .cpm-project .cpm-progress{position:absolute;bottom:0px;height:10px;width:100%;-webkit-border-radius:0 0 3px 3px;-moz-border-radius:0 0 3px 3px;border-radius:0 0 3px 3px;margin:0 15px 0 -15px;}.cpm-projects .cpm-project .cpm-progress .text{font-size:8px;margin-top:-23px;color:#fff;text-shadow:none;}
 .cpm-new-message-form{margin:25px 0 15px 10px;display:none;}
 .cpm-message-form-wrap{position:relative;border:1px solid #DDD;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:10px;margin-left:0;width:500px;}
 .cpm-messages-table{font-size:13px;}.cpm-messages-table td{border-bottom:1px solid #ECECEC;padding:5px 0;}

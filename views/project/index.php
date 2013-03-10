@@ -38,6 +38,10 @@ $projects = $project_obj->get_projects();
                     ?>
                 </footer>
             </a>
+            <?php
+            $progress = $project_obj->get_progress_by_tasks( $project->ID );
+            echo cpm_task_completeness( $progress['total'], $progress['completed'] );
+            ?>
         </article>
 
     <?php } ?>
