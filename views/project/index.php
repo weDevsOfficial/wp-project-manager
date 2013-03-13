@@ -33,7 +33,7 @@ $projects = $project_obj->get_projects();
                 <footer class="cpm-project-people">
                     <?php
                     foreach ($project->users as $user) {
-                        echo get_avatar( $user['id'], 48 );
+                        echo get_avatar( $user['id'], 48, '', $user['name'] );
                     }
                     ?>
                 </footer>
