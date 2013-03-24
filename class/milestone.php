@@ -130,7 +130,7 @@ class CPM_Milestone {
         $args = array(
             'post_type' => 'milestone',
             'post_parent' => $project_id,
-            'numposts' => -1
+            'numberposts' => -1
         );
 
         $milestones = get_posts( $args );
