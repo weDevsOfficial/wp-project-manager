@@ -35,14 +35,6 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
 
     }
 
-    public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new WeDevs_Settings_API();
-        }
-
-        return self::$_instance;
-    }
-
     /**
      * Set settings sections
      *
@@ -50,6 +42,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      */
     function set_sections( $sections ) {
         $this->settings_sections = $sections;
+
+        return $this;
     }
 
     /**
@@ -59,6 +53,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      */
     function add_section( $section ) {
         $this->settings_sections[] = $section;
+
+        return $this;
     }
 
     /**
@@ -68,6 +64,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      */
     function set_fields( $fields ) {
         $this->settings_fields = $fields;
+
+        return $this;
     }
 
     function add_field( $section, $field ) {
@@ -80,6 +78,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
 
         $arg = wp_parse_args( $field, $defaults );
         $this->settings_fields[$section][] = $arg;
+
+        return $this;
     }
 
     /**
@@ -152,7 +152,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
 
         $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 
-        $html = sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on"%4$s />', $args['section'], $args['id'], $value, checked( $value, 'on', false ) );
+        $html = sprintf( '<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id'] );
+        $html .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on"%4$s />', $args['section'], $args['id'], $value, checked( $value, 'on', false ) );
         $html .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label>', $args['section'], $args['id'], $args['desc'] );
 
         echo $html;
@@ -303,15 +304,17 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      * This function displays every sections in a different form
      */
     function show_forms() {
-?>
+        ?>
         <div class="metabox-holder">
             <div class="postbox">
                 <?php foreach ( $this->settings_sections as $form ) { ?>
                     <div id="<?php echo $form['id']; ?>" class="group">
                         <form method="post" action="options.php">
 
+                            <?php do_action( 'wsa_form_top_' . $form['id'], $form ); ?>
                             <?php settings_fields( $form['id'] ); ?>
                             <?php do_settings_sections( $form['id'] ); ?>
+                            <?php do_action( 'wsa_form_bottom_' . $form['id'], $form ); ?>
 
                             <div style="padding-left: 10px">
                                 <?php submit_button(); ?>
@@ -331,7 +334,7 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      * This code uses localstorage for displaying active tabs
      */
     function script() {
-?>
+        ?>
         <script>
             jQuery(document).ready(function($) {
                 // Switches option sections
