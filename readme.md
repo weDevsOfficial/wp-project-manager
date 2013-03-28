@@ -71,7 +71,9 @@ This is a beta version right now and should have bugs and lack of many features.
 
 * bug fix: project activity/comments on frontend widget
 * bug fix: project activity/comments on comment rss
+* improved: plugin textdomain loading
 * new: project task progressbar on project listing
+* new: task sorting
 
 ### 0.4.1
 
