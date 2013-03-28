@@ -230,6 +230,7 @@ function cpm_task_list_html( $list, $project_id ) {
             </div>
 
             <h3>
+                <span class="move"></span>
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
                 <div class="cpm-right">
                     <?php

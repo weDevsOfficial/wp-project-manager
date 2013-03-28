@@ -917,6 +917,10 @@ ul.cpm-todolists {
         padding: 0 0 15px 0;
     }
 
+    > li.ui-state-highlight {
+        min-height: 100px;
+    }
+
     article.cpm-todolist {
         position: relative;
 
@@ -955,6 +959,16 @@ ul.cpm-todolists {
                 }
             }
         }
+
+        .move {
+            background: url('../images/move.png') no-repeat;
+            cursor: move;
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+        }
+
+        .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
 
         .cpm-list-edit-form {
             display: none;
@@ -1059,18 +1073,8 @@ ul.cpm-todolists {
                     .cpm-task-edit-form {
                         display: none;
                     }
-
-                    .move {
-                        background: url('../images/move.png') no-repeat;
-                        cursor: move;
-                        width: 12px;
-                        height: 12px;
-                        display: inline-block;
-                    }
                 }
             }
-
-            .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
         }
 
         ul.cpm-todo-completed {

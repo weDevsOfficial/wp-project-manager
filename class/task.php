@@ -221,6 +221,7 @@ class CPM_Task {
             'post_type' => 'task_list',
             'numberposts' => -1,
             'order' => 'ASC',
+            'orderby' => 'menu_order',
             'post_parent' => $project_id
         );
 

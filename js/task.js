@@ -36,10 +36,32 @@
             $('ul.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
             $('ul.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
             
-            this.makeSortable();
+            this.makeSortableTodoList();
+            this.makeSortableTodo();
         },
         
-        makeSortable: function() {
+        makeSortableTodoList: function() {
+            var todos = $('ul.cpm-todolists');
+
+            if (todos) {
+                todos.sortable({
+                    placeholder: "ui-state-highlight",
+                    handle: '.move',
+                    stop: function(e,ui) {
+                        var items = $(ui.item).parents('ul.cpm-todolists').find('> li');
+                        var ordered = [];
+                        
+                        for (var i = 0; i < items.length; i++) {
+                            ordered.push($(items[i]).data('id'));
+                        }
+                        
+                        CPM_Task.saveOrder(ordered);
+                    }
+                });
+            }
+        },
+        
+        makeSortableTodo: function() {
             var todos = $('ul.cpm-todos');
 
             if (todos) {
@@ -54,15 +76,19 @@
                             ordered.push($(items[i]).val());
                         }
                         
-                        var data = {
-                            items: ordered,
-                            action: 'cpm_task_order'
-                        };
-                        
-                        $.post(CPM_Vars.ajaxurl, data);
+                        CPM_Task.saveOrder(ordered);
                     }
                 });
             }
+        },
+        
+        saveOrder: function(order) {
+            var data = {
+                items: order,
+                action: 'cpm_task_order'
+            };
+
+            $.post(CPM_Vars.ajaxurl, data);
         },
 
         showNewTodoForm: function (e) {
@@ -310,7 +336,8 @@
                     self.find('textarea, input[type=text], select').val('');
                     $('.datepicker').datepicker();
                     
-                    CPM_Task.makeSortable();
+                    CPM_Task.makeSortableTodoList();
+                    CPM_Task.makeSortableTodo();
                 }
             });
         },

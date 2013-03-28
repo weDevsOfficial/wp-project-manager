@@ -19,7 +19,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
         foreach ($lists as $list) {
             ?>
 
-            <li id="cpm-list-<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id ); ?></li>
+            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id ); ?></li>
 
             <?php
         }
