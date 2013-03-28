@@ -526,6 +526,24 @@ function cpm_hide_comments( $clauses ) {
 
 add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
 
+/**
+ * Hide project comments from comment RSS
+ * 
+ * @global object $wpdb
+ * @param string $where
+ * @return string
+ */
+function cpm_hide_comment_rss( $where ) {
+    global $wpdb;
+
+    $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
+    $where .= " AND {$wpdb->posts}.post_type NOT IN('$post_types')";
+    
+    return $where;
+}
+
+add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
+
 
 /**
  * Get the value of a settings field
