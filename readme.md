@@ -66,6 +66,13 @@ This is a beta version right now and should have bugs and lack of many features.
 
 ## Changelog
 
+
+### 0.4.2 
+
+* bug fix: project activity/comments on frontend widget
+* bug fix: project activity/comments on comment rss
+* new: project task progressbar on project listing
+
 ### 0.4.1
 
 * bug fix: attachment association problem on comment update 
