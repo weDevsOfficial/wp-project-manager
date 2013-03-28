@@ -1059,8 +1059,18 @@ ul.cpm-todolists {
                     .cpm-task-edit-form {
                         display: none;
                     }
+
+                    .move {
+                        background: url('../images/sort.png') no-repeat;
+                        cursor: move;
+                        width: 16px;
+                        height: 16px;
+                        display: inline-block;
+                    }
                 }
             }
+
+            .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
         }
 
         ul.cpm-todo-completed {
@@ -1074,6 +1084,10 @@ ul.cpm-todolists {
                     font-size: 11px;
                     line-height: 14px;
                     color: #999;
+                }
+
+                .move {
+                    display: none;
                 }
             }
         }

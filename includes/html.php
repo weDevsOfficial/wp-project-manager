@@ -33,6 +33,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
 
         <input type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
 
+        <span class="move"></span>
         <span class="cpm-todo-content">
             <?php if ( $single ) { ?>
                 <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>

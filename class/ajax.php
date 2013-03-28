@@ -23,6 +23,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_delete', array($this, 'delete_task') );
         add_action( 'wp_ajax_cpm_task_add', array($this, 'add_new_task') );
         add_action( 'wp_ajax_cpm_task_update', array($this, 'update_task') );
+        add_action( 'wp_ajax_cpm_task_order', array($this, 'task_save_order') );
 
         add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
@@ -154,6 +155,17 @@ class CPM_Ajax {
         }
 
         echo json_encode( $response );
+        exit;
+    }
+    
+    function task_save_order() {
+
+        if ( $_POST['items'] ) {
+            foreach ($_POST['items'] as $index => $task_id) {
+                wp_update_post( array('ID' => $task_id, 'menu_order' => $index) );
+            }
+        }
+        
         exit;
     }
 

@@ -35,6 +35,34 @@
             $('ul.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
             $('ul.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
             $('ul.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
+            
+            this.makeSortable();
+        },
+        
+        makeSortable: function() {
+            var todos = $('ul.cpm-todos');
+
+            if (todos) {
+                todos.sortable({
+                    placeholder: "ui-state-highlight",
+                    handle: '.move',
+                    stop: function(e,ui) {
+                        var items = $(ui.item).parents('ul.cpm-todos').find('input[type=checkbox]');
+                        var ordered = [];
+                        
+                        for (var i = 0; i < items.length; i++) {
+                            ordered.push($(items[i]).val());
+                        }
+                        
+                        var data = {
+                            items: ordered,
+                            action: 'cpm_task_order'
+                        };
+                        
+                        $.post(CPM_Vars.ajaxurl, data);
+                    }
+                });
+            }
         },
 
         showNewTodoForm: function (e) {
@@ -281,6 +309,8 @@
 
                     self.find('textarea, input[type=text], select').val('');
                     $('.datepicker').datepicker();
+                    
+                    CPM_Task.makeSortable();
                 }
             });
         },

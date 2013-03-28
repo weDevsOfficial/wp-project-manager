@@ -264,7 +264,7 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_tasks( $list_id ) {
-        $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC') );
+        $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC', 'orderby' => 'menu_order') );
 
         foreach ($tasks as $key => $task) {
             $this->set_task_meta( $task );
