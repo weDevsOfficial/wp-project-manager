@@ -74,6 +74,7 @@ This is a beta version right now and should have bugs and lack of many features.
 * bug fix: number of milestones
 * improved: plugin textdomain loading
 * new: project task progressbar on project listing
+* new: tasklist sorting
 * new: task sorting
 * new: Dutch translation language added
 * new: Brazilian Portuguese language added
