@@ -54,6 +54,8 @@ function cpm_autoload( $class ) {
 
 spl_autoload_register( 'cpm_autoload' );
 
+require_once dirname( __FILE__ ) . '/includes/functions.php';
+
 /**
  * Project Manager bootstrap class
  *
@@ -175,7 +177,6 @@ class WeDevs_CPM {
      * @since 0.1
      */
     function admin_includes() {
-        require_once CPM_PLUGIN_PATH . '/includes/functions.php';
         require_once CPM_PLUGIN_PATH . '/includes/urls.php';
         require_once CPM_PLUGIN_PATH . '/includes/html.php';
         require_once CPM_PLUGIN_PATH . '/includes/shortcodes.php';
