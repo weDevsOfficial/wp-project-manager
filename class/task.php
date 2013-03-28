@@ -386,6 +386,14 @@ class CPM_Task {
     function delete_list( $list_id, $force = false ) {
         do_action( 'cpm_tasklist_delete', $list_id, $force );
 
+        //get child tasks and delete them
+        $tasks = $this->get_tasks( $list_id );
+        if ( $tasks ) {
+            foreach ($tasks as $task) {
+                $this->delete_task( $task->ID, true );
+            }
+        }
+        
         wp_delete_post( $list_id, $force );
     }
 
