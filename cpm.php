@@ -114,12 +114,7 @@ class WeDevs_CPM {
      * @since 0.3
      */
     function load_textdomain() {
-        $locale = apply_filters( 'cpm_locale', get_locale() );
-        $mofile = dirname( __FILE__ ) . "/languages/cpm-$locale.mo";
-
-        if ( file_exists( $mofile ) ) {
-            load_textdomain( 'cpm', $mofile );
-        }
+        load_plugin_textdomain( 'cpm', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     /**
