@@ -580,7 +580,7 @@ msgid "Enter message title"
 msgstr "Vul een titel voor je bericht in"
 
 #: ../includes/html.php:486
-msgid "Message deatils here"
+msgid "Message details here"
 msgstr "Bericht details hier"
 
 #: ../includes/html.php:548

@@ -766,7 +766,7 @@ msgstr "Informe o título da mensagem"
 
 #: includes/html.php:486
 #@ cpm
-msgid "Message deatils here"
+msgid "Message details here"
 msgstr "Escreva sua mensagem aqui"
 
 #: includes/html.php:548
