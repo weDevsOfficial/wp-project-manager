@@ -485,7 +485,7 @@ function cpm_message_form( $project_id, $message = null ) {
             </div>
 
             <div class="item detail">
-                <textarea name="message_detail" id="message_detail" cols="30" rows="4" placeholder="<?php esc_attr_e( 'Message deatils here', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
+                <textarea name="message_detail" id="message_detail" cols="30" rows="4" placeholder="<?php esc_attr_e( 'Message details here', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
             </div>
 
             <div class="item milestone">

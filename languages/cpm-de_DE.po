@@ -761,7 +761,7 @@ msgstr "Nachrichtentitel eingeben"
 
 # @ cpm
 #: includes/html.php:488
-msgid "Message deatils here"
+msgid "Message details here"
 msgstr "Hier Nachrichtendetails eingeben"
 
 # @ cpm
