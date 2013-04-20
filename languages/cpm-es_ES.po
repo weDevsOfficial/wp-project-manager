@@ -140,7 +140,7 @@ msgid "Enter message title"
 msgstr "Introducir Título del Mensaje"
 
 #: ../includes/html.php:488
-msgid "Message deatils here"
+msgid "Message details here"
 msgstr "Detalles de mesaje"
 
 #: ../includes/html.php:541 ../class/milestone.php:39
