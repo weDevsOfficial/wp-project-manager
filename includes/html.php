@@ -560,7 +560,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
     <div class="cpm-milestone-form-wrap">
         <form class="cpm-milestone-form">
 
-            <?php wp_nonce_field( 'cpm_milesotne' ); ?>
+            <?php wp_nonce_field( 'cpm_milestone' ); ?>
 
             <div class="item milestone-title">
                 <input name="milestone_name" class="required" type="text" id="milestone_name" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Milestone name', 'cpm' ); ?>">
