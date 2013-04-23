@@ -301,7 +301,7 @@ class WeDevs_CPM {
                 break;
         }
         
-        $file = apply_filters( 'cpm_tab_file', $file, $project_id );
+        $file = apply_filters( 'cpm_tab_file', $file, $project_id, $page, $tab, $action );
         
         if ( file_exists( $file )) {
             require_once $file;
