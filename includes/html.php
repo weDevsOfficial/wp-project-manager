@@ -232,6 +232,15 @@ function cpm_task_list_html( $list, $project_id ) {
             <h3>
                 <span class="move"></span>
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
+
+                <?php if ( (int) $list->comment_count > 0 && !$single ) { ?>
+                    <span class="cpm-comment-count">
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                        </a>
+                    </span>
+                <?php } ?>
+
                 <div class="cpm-right">
                     <?php
                     $complete = $task_obj->get_completeness( $list->ID );
@@ -560,7 +569,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
     <div class="cpm-milestone-form-wrap">
         <form class="cpm-milestone-form">
 
-            <?php wp_nonce_field( 'cpm_milesotne' ); ?>
+            <?php wp_nonce_field( 'cpm_milestone' ); ?>
 
             <div class="item milestone-title">
                 <input name="milestone_name" class="required" type="text" id="milestone_name" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Milestone name', 'cpm' ); ?>">
