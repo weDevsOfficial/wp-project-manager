@@ -288,11 +288,11 @@ class CPM_Project {
      */
     function nav_links( $project_id ) {
         $links = array(
-            cpm_url_project_details( $project_id ) => __( 'Activity', 'cpm' ),
-            cpm_url_message_index( $project_id ) => __( 'Messages', 'cpm' ),
-            cpm_url_tasklist_index( $project_id ) => __( 'To-do List', 'cpm' ),
-            cpm_url_milestone_index( $project_id ) => __( 'Milestones', 'cpm' ),
-            cpm_url_file_index( $project_id ) => __( 'Files', 'cpm' ),
+            __( 'Activity', 'cpm' ) => cpm_url_project_details( $project_id ),
+            __( 'Messages', 'cpm' ) => cpm_url_message_index( $project_id ),
+            __( 'To-do List', 'cpm' ) => cpm_url_tasklist_index( $project_id ),
+            __( 'Milestones', 'cpm' ) => cpm_url_milestone_index( $project_id ),
+            __( 'Files', 'cpm' ) => cpm_url_file_index( $project_id )
         );
 
         return apply_filters( 'cpm_project_nav_links', $links, $project_id );
@@ -309,7 +309,7 @@ class CPM_Project {
         $links = $this->nav_links( $project_id );
 
         $menu = array();
-        foreach ($links as $url => $label) {
+        foreach ($links as $label => $url) {
             if ( $active == $label ) {
                 $menu[] = sprintf( '<a href="%1$s" class="nav-tab nav-tab-active" title="%2$s">%2$s</a>', $url, $label );
             } else {
