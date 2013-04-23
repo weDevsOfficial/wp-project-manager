@@ -303,7 +303,7 @@ class CPM_Ajax {
     }
 
     function milestone_new() {
-        check_ajax_referer( 'cpm_milesotne' );
+        check_ajax_referer( 'cpm_milestone' );
 
         CPM_Milestone::getInstance()->create( $_POST['project_id'] );
 
@@ -315,7 +315,7 @@ class CPM_Ajax {
     }
 
     function milestone_update() {
-        check_ajax_referer( 'cpm_milesotne' );
+        check_ajax_referer( 'cpm_milestone' );
         $posted = $_POST;
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;

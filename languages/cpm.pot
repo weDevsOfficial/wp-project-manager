@@ -578,7 +578,7 @@ msgid "Enter message title"
 msgstr ""
 
 #: ../includes/html.php:486
-msgid "Message deatils here"
+msgid "Message details here"
 msgstr ""
 
 #: ../includes/html.php:548
