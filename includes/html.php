@@ -233,7 +233,7 @@ function cpm_task_list_html( $list, $project_id ) {
                 <span class="move"></span>
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
 
-                <?php if ( (int) $list->comment_count > 0 && !$single ) { ?>
+                <?php if ( (int) $list->comment_count > 0 ) { ?>
                     <span class="cpm-comment-count">
                         <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
                         <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
@@ -576,7 +576,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" id="milestone_due" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
