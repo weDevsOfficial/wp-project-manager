@@ -1,0 +1,818 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-28 20:37+0600\n"
+"PO-Revision-Date: 2013-04-25 10:22+0700\n"
+"Last-Translator: Rizqy Hidayat <rizqy22@gmail.com>\n"
+"Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../cpm.php:162
+msgid "Allowed Files"
+msgstr "Berkas yang Diperbolehkan"
+
+#: ../cpm.php:192
+#: ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "Manajer Proyek"
+
+#: ../cpm.php:193
+msgid "Projects"
+msgstr "Proyek"
+
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Proyek dibuat oleh %s"
+
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Detail proyek diperbarui oleh %s"
+
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Pesan %s dibuat oleh %s"
+
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Pesan %s diperbarui oleh %s"
+
+#: ../class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Pesan \"%s\" dihapus oleh %s"
+
+#: ../class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Daftar tugas %s dibuat oleh %s"
+
+#: ../class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Daftar tugas %s diperbarui oleh %s"
+
+#: ../class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Daftar tugas \"%s\" dihapus oleh %s"
+
+#: ../class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Tugas %s ditambahkan ke daftar tugas %s oleh %s"
+
+#: ../class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Tugas %s diperbarui oleh %s"
+
+#: ../class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Tugas %s diselesaikan oleh %s"
+
+#: ../class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "Tandai tugas sudah selesai"
+
+#: ../class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Tugas %s ditandai belum selesai oleh %s"
+
+#: ../class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Tugas yang dibuka kembali"
+
+#: ../class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Tugas \"%s\" dihapus dari daftar tugas %s oleh %s"
+
+#: ../class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s berkomentar di %s"
+
+#: ../class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s memperbarui komentar di %s"
+
+#: ../class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s menghapus sebuah komentar"
+
+#: ../class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Target \"%s\" ditambahkan oleh %s "
+
+#: ../class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Target \"%s\" diperbarui oleh %s "
+
+#: ../class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Target \"%s\" dihapus oleh %s "
+
+#: ../class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Target \"%s\" ditandai selesai oleh %s "
+
+#: ../class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Target \"%s\" ditandai belum selesai oleh %s "
+
+#: ../class/admin.php:33
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: ../class/admin.php:40
+msgid "General"
+msgstr "Umum"
+
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "Pengaturan E-Mail"
+
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Batasan Unggah Berkas"
+
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "ukuran berkas dalam <em>Megabyte</em>, misal: 2"
+
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr "Tipe E-Mail"
+
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr "Model HTML"
+
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr "Text Biasa"
+
+#: ../class/admin.php:81
+msgid "New Project Subject"
+msgstr "Subjek Proyek baru"
+
+#: ../class/admin.php:86
+msgid "New Project Body"
+msgstr "Konten Proyek Baru"
+
+#: ../class/admin.php:96
+msgid "New Message Subject"
+msgstr "Subjek Pesan Baru"
+
+#: ../class/admin.php:101
+msgid "New Message Body"
+msgstr "Isi Pesan Baru"
+
+#: ../class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Subjek Komentar Baru"
+
+#: ../class/admin.php:113
+#: ../class/admin.php:125
+msgid "Body"
+msgstr "Isi"
+
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Subjek Tugas yang Ditugaskan  Baru"
+
+#: ../class/ajax.php:388
+#: ../includes/functions.php:167
+msgid "Delete File"
+msgstr "Hapus Berkas"
+
+#: ../class/message.php:26
+#: ../class/message.php:41
+#: ../class/project.php:292
+#: ../includes/html.php:677
+#: ../views/message/index.php:10
+#: ../views/message/index.php:14
+#: ../views/message/single.php:10
+msgid "Messages"
+msgstr "Pesan"
+
+#: ../class/message.php:27
+msgid "message post type"
+msgstr "tipe pos pesan"
+
+#: ../class/message.php:42
+#: ../class/message.php:43
+msgid "Message"
+msgstr "Pesan"
+
+#: ../class/message.php:44
+#: ../includes/html.php:458
+msgid "Add Message"
+msgstr "Tambah Pesan"
+
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "Tambah Pesan Baru"
+
+#: ../class/message.php:46
+#: ../class/milestone.php:41
+#: ../class/project.php:46
+#: ../class/task.php:46
+#: ../class/task.php:79
+#: ../includes/html.php:30
+#: ../includes/html.php:228
+#: ../includes/html.php:389
+#: ../includes/html.php:629
+#: ../views/message/single.php:32
+#: ../views/project/header.php:21
+msgid "Edit"
+msgstr "Sunting"
+
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "Sunting Pesan"
+
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "Pesan Baru"
+
+#: ../class/message.php:49
+#: ../class/message.php:50
+msgid "View Message"
+msgstr "Lihat Pesan"
+
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "Cari Pesan"
+
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "Tidak Ada Pesan Ditemukan"
+
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Tidak Ada Pesan Ditemukan di Sampah"
+
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "Induk Pesan"
+
+#: ../class/milestone.php:21
+#: ../class/milestone.php:22
+#: ../class/milestone.php:36
+#: ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "Target"
+
+#: ../class/milestone.php:39
+#: ../includes/html.php:539
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Tambah Target"
+
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Tambah Target Baru"
+
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Sunting Target"
+
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "Target Baru"
+
+#: ../class/milestone.php:44
+#: ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "Lihat target"
+
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Cari target"
+
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Tidak Ada Taget Ditemukan"
+
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Tidak Ada Target Ditemukan di Sampah"
+
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Target Induk"
+
+#: ../class/project.php:26
+#: ../class/project.php:41
+#: ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "Proyek"
+
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr "tipe pos manajer proyek"
+
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "Tambah Proyek"
+
+#: ../class/project.php:45
+#: ../includes/html.php:708
+msgid "Add New Project"
+msgstr "Tambah Proyek Baru"
+
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "Sunting Proyek"
+
+#: ../class/project.php:48
+#: ../views/project/index.php:14
+msgid "New Project"
+msgstr "Proyek Baru"
+
+#: ../class/project.php:49
+#: ../class/project.php:50
+msgid "View Project"
+msgstr "Lihat Proyek"
+
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "Cari Proyek"
+
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "Tidak Ada Proyek Ditemukan"
+
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Tidak Ada Proyek Ditemukan di Sampah"
+
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "Proyek Induk"
+
+#: ../class/project.php:291
+#: ../views/project/single.php:5
+msgid "Activity"
+msgstr "Aktivitas"
+
+#: ../class/project.php:293
+#: ../includes/html.php:655
+#: ../views/task/index.php:5
+#: ../views/task/single.php:5
+#: ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Daftar Tugas"
+
+#: ../class/project.php:294
+#: ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "target"
+
+#: ../class/project.php:295
+#: ../views/files/index.php:2
+msgid "Files"
+msgstr "Berkas"
+
+#: ../class/task.php:26
+#: ../class/task.php:27
+#: ../class/task.php:41
+#: ../class/task.php:42
+#: ../class/task.php:43
+#: ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "Daftar Tugas"
+
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "Tambah Daftar Tugas"
+
+#: ../class/task.php:45
+#: ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Tambah Daftar Tugas Baru"
+
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "Sunting Daftar Tugas"
+
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "Daftar Tugas Baru"
+
+#: ../class/task.php:49
+#: ../class/task.php:50
+msgid "View Task List"
+msgstr "Lihat Daftar Tugas"
+
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "Cari Daftar Tugas"
+
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "Tidak Ada Daftar Tugas Ditemukan"
+
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Tidak Ada Daftar Tugas Ditemukan di Sampah"
+
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "Daftar Tugas Induk"
+
+#: ../class/task.php:59
+#: ../class/task.php:75
+#: ../class/task.php:76
+msgid "Task"
+msgstr "Tugas"
+
+#: ../class/task.php:60
+#: ../class/task.php:74
+msgid "Tasks"
+msgstr "Tugas"
+
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "Tambah Tugas"
+
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "Tambah Tugas Baru"
+
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "Sunting Tugas"
+
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "Tugas Baru"
+
+#: ../class/task.php:82
+#: ../class/task.php:83
+msgid "View Task"
+msgstr "Lihat Tugas"
+
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "Cari Tugas"
+
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "Tidak Ada Daftar Tugas Ditemukan"
+
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Tidak Ada Daftar Tugas Ditemukan di Sampah"
+
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "Tugas Induk"
+
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Pilih teman kerja"
+
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "Pengguna tidak ditemukan"
+
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- ditugaskan untuk --"
+
+#: ../includes/functions.php:176
+#, php-format
+msgid "To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from your computer."
+msgstr "Untuk melampirkan, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">pilih berkas</a> dari komputer Anda."
+
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "Selesai"
+
+#: ../includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Apakah Anda yakin untuk menghapus tugas ini?"
+
+#: ../includes/html.php:26
+#: ../includes/html.php:226
+#: ../includes/html.php:395
+#: ../includes/html.php:632
+#: ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "Hapus"
+
+#: ../includes/html.php:48
+msgid "1 Comment"
+msgstr "1 Komentar"
+
+#: ../includes/html.php:48
+#, php-format
+msgid "%d Comments"
+msgstr "%d Komentar"
+
+#: ../includes/html.php:60
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Dielesaikan oleh %s pada %s)"
+
+#: ../includes/html.php:105
+msgid "Add this to-do"
+msgstr "Tambahkan tugas ini"
+
+#: ../includes/html.php:112
+msgid "Save Changes"
+msgstr "Simpan Perubahan"
+
+#: ../includes/html.php:131
+msgid "Add a new to-do"
+msgstr "Tambah tugas baru"
+
+#: ../includes/html.php:134
+#: ../includes/html.php:568
+msgid "Due date"
+msgstr "Tanggal penyelesaian"
+
+#: ../includes/html.php:144
+#: ../includes/html.php:203
+#: ../includes/html.php:348
+#: ../includes/html.php:519
+#: ../includes/html.php:586
+#: ../includes/html.php:754
+msgid "Cancel"
+msgstr "Kembali"
+
+#: ../includes/html.php:162
+msgid "Add List"
+msgstr "Tambah Daftar"
+
+#: ../includes/html.php:170
+msgid "Update List"
+msgstr "Perbarui Daftar"
+
+#: ../includes/html.php:185
+msgid "Tasklist name"
+msgstr "Nama daftar tugas"
+
+#: ../includes/html.php:189
+msgid "Tasklist detail"
+msgstr "Detail daftar tugas"
+
+#: ../includes/html.php:194
+#: ../includes/html.php:491
+msgid "-- milestone --"
+msgstr "-- target --"
+
+#: ../includes/html.php:225
+msgid "Are you sure to delete this to-do list?"
+msgstr "Apakah Anda yakin untuk menghapus daftar tugas ini?"
+
+#: ../includes/html.php:268
+msgid "Add a to-do"
+msgstr "Tambah tugas"
+
+#: ../includes/html.php:303
+msgid "Add this comment"
+msgstr "Tambahkan komentar ini"
+
+#: ../includes/html.php:310
+msgid "Update comment"
+msgstr "Perbarui komentar"
+
+#: ../includes/html.php:326
+msgid "Add a comment..."
+msgstr "Tambahkan sebuah komentar..."
+
+#: ../includes/html.php:335
+#: ../includes/html.php:502
+msgid "Notify users"
+msgstr "Informasikan pengguna"
+
+#: ../includes/html.php:336
+#: ../includes/html.php:503
+msgid "Select all"
+msgstr "Pilih semua"
+
+#: ../includes/html.php:469
+msgid "Update Message"
+msgstr "Perbarui Pesan"
+
+#: ../includes/html.php:482
+msgid "Enter message title"
+msgstr "Masukkan judul pesan"
+
+#: ../includes/html.php:486
+msgid "Message details here"
+msgstr "Detail pesan di sini"
+
+#: ../includes/html.php:548
+msgid "Update Milestone"
+msgstr "Perbarui Target"
+
+#: ../includes/html.php:564
+msgid "Milestone name"
+msgstr "Nama target"
+
+#: ../includes/html.php:572
+msgid "Details about milestone (optional)"
+msgstr "Detail target (opsional)"
+
+#: ../includes/html.php:616
+msgid "left"
+msgstr "kiri"
+
+#: ../includes/html.php:616
+msgid "late"
+msgstr "telat"
+
+#: ../includes/html.php:629
+msgid "Edit milestone"
+msgstr "Sunting target"
+
+#: ../includes/html.php:632
+msgid "Are you sure?"
+msgstr "Apakah Anda yakin?"
+
+#: ../includes/html.php:632
+msgid "Delete milestone"
+msgstr "Hapus target"
+
+#: ../includes/html.php:636
+msgid "Mark as complete"
+msgstr "Tandai selesai"
+
+#: ../includes/html.php:638
+msgid "Mark un-complete"
+msgstr "Tandai belum selesai"
+
+#: ../includes/html.php:638
+msgid "Reopen"
+msgstr "Buka kembali"
+
+#: ../includes/html.php:692
+msgid "Completed on:"
+msgstr "Diselesaikan pada:"
+
+#: ../includes/html.php:716
+msgid "Update Project"
+msgstr "Perbarui Proyek"
+
+#: ../includes/html.php:725
+msgid "Name of the project"
+msgstr "Nama proyek"
+
+#: ../includes/html.php:729
+msgid "Some details about the project (optional)"
+msgstr "Detail untuk proyek (opsional)"
+
+#: ../includes/html.php:740
+msgid "Notify Co-workers"
+msgstr "Informasikan teman kerja"
+
+#: ../includes/shortcodes.php:103
+#: ../includes/shortcodes.php:106
+msgid "thread"
+msgstr "tulisan"
+
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Dilampirkan ke <a href=\"%s\">%s</a> oleh %s"
+
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr "<a href=\"%s\">Unduh</a> atau lihat <a href=\"%s\">diskusi</a>."
+
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Berkas Tidak Ditemukan!"
+
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "Tambah baru"
+
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "Buat sebuah pesan baru"
+
+#: ../views/message/index.php:46
+msgid "Delete this message"
+msgstr "Hapus pesan ini"
+
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Apakah Anda yakin untuk menghapus pesan ini?"
+
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Tidak ada pesan ditemukan! Bagaimana jika mebuat satu baru?"
+
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Kesalahan: Pesan tidak ditemukan"
+
+#: ../views/message/single.php:14
+#: ../views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; kembali"
+
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "Tidak ada komentar ditemukan"
+
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Target Tidak Ditemukan!"
+
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Tambah target baru"
+
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Target yang terlambat"
+
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Target yang akan datang"
+
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Target yang selesai"
+
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Kesalahan: Proyek tidak ditemukan"
+
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Kesalahan: Izin ditolak"
+
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "Info Proyek"
+
+#: ../views/project/index.php:47
+msgid "Start a new project"
+msgstr "Mulai proyek baru"
+
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "Aktivitas Proyek"
+
+#: ../views/project/single.php:12
+msgid "Delete project"
+msgstr "Hapus proyek"
+
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Apakah Anda yakin untuk mneghapus proyek ini?"
+
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr "Muat Lebih Banyak..."
+
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "Daftar Tugas"
+
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Tidak ada daftar tugas ditemukan!"
+
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Diskusikan daftar tugas ini"
+
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Diskusikan tugas ini"
+
