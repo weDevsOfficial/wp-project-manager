@@ -63,9 +63,21 @@ This is a beta version right now and should have bugs and lack of many features.
 * French translation by Corentin allard
 * Dutch translation by eskamedia
 * Brazilian Portuguese translation by Anderson
+* German translation by Alexander Pfabe
+* Spanish translation by Luigi Libet
+* Indonesian translation by hirizh
 
 ## Changelog
 
+
+= 0.4.3 = 
+
+* new: Spanish translation
+* new: German translation
+* new: Indonesian translation
+* fix: milestone datepicker issue
+* fix: some typo fixes
+* improved: comment count next to tasklists
 
 ### 0.4.2 
 
