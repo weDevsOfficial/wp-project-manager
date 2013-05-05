@@ -24,13 +24,13 @@ A project management plugin built on top of WordPress. It simply mimics the simp
    - 3 types of milestones are there, a) upcoming, b) completed and c) late milstone
  - Files
    - See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
-   
+
 
 > Currently all the options are in the
 > admin panel. Nothing is in frontend
 > yet.
 
-  
+
 ## Video Demo
 [![Watch Demo][1]][2]
 
@@ -57,20 +57,21 @@ A. Sure, lots of actions and filters are added by default and will add more of t
 Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
 ## Contribute
-This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
+This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome.
 
 ## Contribution
 * French translation by Corentin allard
 * Dutch translation by eskamedia
 * Brazilian Portuguese translation by Anderson
-* German translation by Alexander Pfabe
+* German translation by Alexander Pfabel
 * Spanish translation by Luigi Libet
 * Indonesian translation by hirizh
+* Polish translation by Jacek Synowiec
 
 ## Changelog
 
 
-= 0.4.3 = 
+= 0.4.3 =
 
 * new: Spanish translation
 * new: German translation
@@ -79,7 +80,7 @@ This is a beta version right now and should have bugs and lack of many features.
 * fix: some typo fixes
 * improved: comment count next to tasklists
 
-### 0.4.2 
+### 0.4.2
 
 * bug fix: project activity/comments on frontend widget
 * bug fix: project activity/comments on comment rss
@@ -93,7 +94,7 @@ This is a beta version right now and should have bugs and lack of many features.
 
 ### 0.4.1
 
-* bug fix: attachment association problem on comment update 
+* bug fix: attachment association problem on comment update
 * bug fix: error on message update
 
 ### 0.4
@@ -127,7 +128,7 @@ This is a beta version right now and should have bugs and lack of many features.
 
 * Comments display error fix
 
-### 0.2 
+### 0.2
 
 * Remove comments from listing publicly
 * Post types are hidden from search
