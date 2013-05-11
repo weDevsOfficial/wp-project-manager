@@ -1,0 +1,766 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager Chinese\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-11 14:49+0800\n"
+"PO-Revision-Date: 2013-05-11 15:40+0800\n"
+"Last-Translator: Amos Lee <470266798@qq.com>\n"
+"Language-Team: Amos Lee <tareq@wedevs.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../cpm.php:160
+msgid "Allowed Files"
+msgstr "接受的文件"
+
+#: ../cpm.php:189 ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "项目"
+
+#: ../cpm.php:190
+msgid "Projects"
+msgstr "项目"
+
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "项目发起人：%s"
+
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "项目详细已由%s更新"
+
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "消息%s由%s创建"
+
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "消息%s已被%s更新"
+
+#: ../class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "消息\"%s\"已被%s删除"
+
+#: ../class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "列表%s由%s创建"
+
+#: ../class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "列表%s已被%s更新"
+
+#: ../class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "列表\"%s\"已被%s删除"
+
+#: ../class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "任务%s已被添加人任务列表%s由%s"
+
+#: ../class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "任务列表%s已被%s更新"
+
+#: ../class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "任务列表%s已被%s完成"
+
+#: ../class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "标记任务为已完成"
+
+#: ../class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "任务%s已被%s标记为未完成"
+
+#: ../class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "重新开启任务"
+
+#: ../class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "任务\"%s\" 已从任务列表中删除 %s 由 %s"
+
+#: ../class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s评论了%s"
+
+#: ../class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s更新了%s的评论"
+
+#: ../class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s删除了一条评论"
+
+#: ../class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "里程碑\"%s\"已由%s 添加"
+
+#: ../class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "里程碑\"%s\"已被%s更新 "
+
+#: ../class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "里程碑\"%s\"已被%s 删除"
+
+#: ../class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "里程碑\"%s\"已被%s 标记为已完成"
+
+#: ../class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "里程碑\"%s\"被%s 标记为未完成"
+
+#: ../class/admin.php:33
+msgid "Settings"
+msgstr "设置"
+
+#: ../class/admin.php:40
+msgid "General"
+msgstr "通用"
+
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "邮件设置"
+
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr "文件上传限制"
+
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "文件尺寸（以M为单位），如：2"
+
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr "邮件类型"
+
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML邮件"
+
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr "纯文本"
+
+#: ../class/admin.php:81
+msgid "New Project Subject"
+msgstr "新任务标题"
+
+#: ../class/admin.php:86
+msgid "New Project Body"
+msgstr "新任务内容"
+
+#: ../class/admin.php:96
+msgid "New Message Subject"
+msgstr "新消息标题"
+
+#: ../class/admin.php:101
+msgid "New Message Body"
+msgstr "新消息内容"
+
+#: ../class/admin.php:108
+msgid "New Comment Subject"
+msgstr "新评论标题"
+
+#: ../class/admin.php:113 ../class/admin.php:125
+msgid "Body"
+msgstr "内容"
+
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "新分配的任务标题"
+
+#: ../class/ajax.php:400 ../includes/functions.php:167
+msgid "Delete File"
+msgstr "删除文件"
+
+#: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
+#: ../includes/html.php:688 ../views/message/index.php:10
+#: ../views/message/index.php:14 ../views/message/single.php:10
+msgid "Messages"
+msgstr "消息"
+
+#: ../class/message.php:27
+msgid "message post type"
+msgstr "消息文章类型"
+
+#: ../class/message.php:42 ../class/message.php:43
+msgid "Message"
+msgstr "消息"
+
+#: ../class/message.php:44 ../includes/html.php:469
+msgid "Add Message"
+msgstr "添加消息"
+
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "添加新消息"
+
+#: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
+#: ../includes/html.php:229 ../includes/html.php:400 ../includes/html.php:640
+#: ../views/message/single.php:32 ../views/project/header.php:21
+msgid "Edit"
+msgstr "编辑"
+
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "编辑消息"
+
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "新消息"
+
+#: ../class/message.php:49 ../class/message.php:50
+msgid "View Message"
+msgstr "查看消息"
+
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "搜索消息"
+
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "没有消息"
+
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "回收站中没有消息"
+
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "父级消息"
+
+#: ../class/milestone.php:21 ../class/milestone.php:22
+#: ../class/milestone.php:36 ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "里程碑"
+
+#: ../class/milestone.php:39 ../includes/html.php:550
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "添加里程碑"
+
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "添加新里程碑"
+
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "编辑里程碑"
+
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "新里程碑"
+
+#: ../class/milestone.php:44 ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "查看里程碑"
+
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "选择里程碑"
+
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "没有里程碑"
+
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "回收站中没有里程碑"
+
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "父级里程碑"
+
+#: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "项目"
+
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr "项目管理文章类型"
+
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "添加项目"
+
+#: ../class/project.php:45 ../includes/html.php:719
+msgid "Add New Project"
+msgstr "添加新项目"
+
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "编辑项目"
+
+#: ../class/project.php:48 ../views/project/index.php:14
+msgid "New Project"
+msgstr "新项目"
+
+#: ../class/project.php:49 ../class/project.php:50
+msgid "View Project"
+msgstr "查看项目"
+
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "搜索项目"
+
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "没有项目"
+
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "回收站中没有项目"
+
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "父级项目"
+
+#: ../class/project.php:291 ../views/project/single.php:5
+msgid "Activity"
+msgstr "动态"
+
+#: ../class/project.php:293 ../includes/html.php:666 ../views/task/index.php:5
+#: ../views/task/single.php:5 ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "任务列表"
+
+#: ../class/project.php:294 ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "里程碑"
+
+#: ../class/project.php:295 ../views/files/index.php:2
+msgid "Files"
+msgstr "文件"
+
+#: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "任务列表"
+
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "添加任务列表"
+
+#: ../class/task.php:45 ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "添加新任务列表"
+
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "编辑任务列表"
+
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "新任务列表"
+
+#: ../class/task.php:49 ../class/task.php:50
+msgid "View Task List"
+msgstr "查看任务列表"
+
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "搜索任务列表"
+
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "没有任务列表"
+
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "回收站中没有任务列表"
+
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "父级任务列表"
+
+#: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
+msgid "Task"
+msgstr "任务"
+
+#: ../class/task.php:60 ../class/task.php:74
+msgid "Tasks"
+msgstr "任务"
+
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "添加任务"
+
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "添加新任务"
+
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "编辑任务"
+
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "新任务"
+
+#: ../class/task.php:82 ../class/task.php:83
+msgid "View Task"
+msgstr "查看任务"
+
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "搜索任务"
+
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "没有任务"
+
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "回收站中没有任务"
+
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "父级任务"
+
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "选择同事"
+
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "没有找到用户"
+
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- 分配 --"
+
+#: ../includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"如果需要添加附件，从计算机上<a id=\"cpm-upload-pickfiles%s\" href=\"#\">选择"
+"文件</a>"
+
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "已完成"
+
+#: ../includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "确认删除这个任务？"
+
+#: ../includes/html.php:26 ../includes/html.php:227 ../includes/html.php:406
+#: ../includes/html.php:643 ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "删除"
+
+#: ../includes/html.php:49 ../includes/html.php:239
+msgid "1 Comment"
+msgstr "1条评论"
+
+#: ../includes/html.php:49 ../includes/html.php:239
+#, php-format
+msgid "%d Comments"
+msgstr "%d 条评论"
+
+#: ../includes/html.php:61
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "（完成人：%s，完成时间：%s）"
+
+#: ../includes/html.php:106
+msgid "Add this to-do"
+msgstr "添加此任务"
+
+#: ../includes/html.php:113
+msgid "Save Changes"
+msgstr "保存修改"
+
+#: ../includes/html.php:132
+msgid "Add a new to-do"
+msgstr "添加新任务"
+
+#: ../includes/html.php:135 ../includes/html.php:579
+msgid "Due date"
+msgstr "到期时间"
+
+#: ../includes/html.php:145 ../includes/html.php:204 ../includes/html.php:359
+#: ../includes/html.php:530 ../includes/html.php:597 ../includes/html.php:765
+msgid "Cancel"
+msgstr "取消"
+
+#: ../includes/html.php:163
+msgid "Add List"
+msgstr "添加列表"
+
+#: ../includes/html.php:171
+msgid "Update List"
+msgstr "更新列表"
+
+#: ../includes/html.php:186
+msgid "Tasklist name"
+msgstr "任务列表名称"
+
+#: ../includes/html.php:190
+msgid "Tasklist detail"
+msgstr "任务详情"
+
+#: ../includes/html.php:195 ../includes/html.php:502
+msgid "-- milestone --"
+msgstr "-- 里程碑 --"
+
+#: ../includes/html.php:226
+msgid "Are you sure to delete this to-do list?"
+msgstr "确认删除此任务列表？"
+
+#: ../includes/html.php:279
+msgid "Add a to-do"
+msgstr "添加任务"
+
+#: ../includes/html.php:314
+msgid "Add this comment"
+msgstr "添加评论"
+
+#: ../includes/html.php:321
+msgid "Update comment"
+msgstr "更新评论"
+
+#: ../includes/html.php:337
+msgid "Add a comment..."
+msgstr "添加评论"
+
+#: ../includes/html.php:346 ../includes/html.php:513
+msgid "Notify users"
+msgstr "通知用户"
+
+#: ../includes/html.php:347 ../includes/html.php:514
+msgid "Select all"
+msgstr "选择所有"
+
+#: ../includes/html.php:480
+msgid "Update Message"
+msgstr "更新消息"
+
+#: ../includes/html.php:493
+msgid "Enter message title"
+msgstr "输入消息标题"
+
+#: ../includes/html.php:497
+msgid "Message details here"
+msgstr "消息详情"
+
+#: ../includes/html.php:559
+msgid "Update Milestone"
+msgstr "更新里程碑"
+
+#: ../includes/html.php:575
+msgid "Milestone name"
+msgstr "里程碑名称"
+
+#: ../includes/html.php:583
+msgid "Details about milestone (optional)"
+msgstr "里程碑详情（可选）"
+
+#: ../includes/html.php:627
+msgid "left"
+msgstr "到期"
+
+#: ../includes/html.php:627
+msgid "late"
+msgstr "晚"
+
+#: ../includes/html.php:640
+msgid "Edit milestone"
+msgstr "编辑里程碑"
+
+#: ../includes/html.php:643
+msgid "Are you sure?"
+msgstr "确定？"
+
+#: ../includes/html.php:643
+msgid "Delete milestone"
+msgstr "删除里程碑"
+
+#: ../includes/html.php:647
+msgid "Mark as complete"
+msgstr "标记为已完成"
+
+#: ../includes/html.php:649
+msgid "Mark un-complete"
+msgstr "标记为未完成"
+
+#: ../includes/html.php:649
+msgid "Reopen"
+msgstr "重新开启"
+
+#: ../includes/html.php:703
+msgid "Completed on:"
+msgstr "完成日期："
+
+#: ../includes/html.php:727
+msgid "Update Project"
+msgstr "更新项目"
+
+#: ../includes/html.php:736
+msgid "Name of the project"
+msgstr "项目名称"
+
+#: ../includes/html.php:740
+msgid "Some details about the project (optional)"
+msgstr "项目详情（可选）"
+
+#: ../includes/html.php:751
+msgid "Notify Co-workers"
+msgstr "通知同事"
+
+#: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
+msgid "thread"
+msgstr "线"
+
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "附加到<a href=\"%s\">%s</a>，上传人：%s"
+
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr "<a href=\"%s\">下载</a>或<a href=\"%s\">讨论</a>"
+
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "没有找到文件"
+
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "添加新消息"
+
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "创建新消息"
+
+#: ../views/message/index.php:46
+msgid "Delete this message"
+msgstr "删除此消息"
+
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "确定要删除此消息？"
+
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "没有找到消息，添加一个吧。"
+
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "错误：消息未找到"
+
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; 返回"
+
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "没有找到评论"
+
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "暂时没有里程碑"
+
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "添加里程碑"
+
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "最新里程碑"
+
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "即将到来"
+
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "已完成里程碑"
+
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "错误：项目未找到"
+
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "错误也：权限不足"
+
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "项目信息"
+
+#: ../views/project/index.php:51
+msgid "Start a new project"
+msgstr "开始一个新项目"
+
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "项目动态"
+
+#: ../views/project/single.php:12
+msgid "Delete project"
+msgstr "删除项目"
+
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "确定删除此项目？"
+
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr "加载更多..."
+
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "任务列表"
+
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "没有任务列表"
+
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "讨论此任务列表"
+
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "讨论此任务"
