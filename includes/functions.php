@@ -524,7 +524,7 @@ function cpm_hide_comments( $clauses ) {
     return $clauses;
 }
 
-add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
+add_filter( 'comments_clauses', 'cpm_hide_comments', 99 );
 
 /**
  * Hide project comments from comment RSS
