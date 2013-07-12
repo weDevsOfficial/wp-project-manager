@@ -6,12 +6,13 @@ $projects = $project_obj->get_projects();
 <div class="icon32" id="icon-themes"><br></div>
 <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
 
-<form action="" method="post" class="cpm-project-filters">
-	<div class="tablenav top">
-		<div class="alignleft actions">
-			<?php echo cpm_dropdown_category($_POST['project_category'], false, true); ?>
-			<input type="submit" name="" id="post-query-submit" class="button" value="Filter">
-       </div>
+<form action="" method="get" class="cpm-project-filters">
+    <div class="tablenav top">
+        <div class="alignleft actions">
+		    <?php echo cpm_dropdown_category($_GET['project_category'], true); ?>
+            <input type="hidden" name="page" value="cpm_projects" />
+		    <input type="submit" name="" id="post-query-submit" class="button" value="Filter">
+        </div>
     </div>
 </form>
 
@@ -55,6 +56,10 @@ $projects = $project_obj->get_projects();
         </article>
 
     <?php } ?>
+    
+    <?php if ( !$projects ) {
+        cpm_show_message( __( 'No projects found!', 'cpm' ) );
+    }?>
 
 </div>
 

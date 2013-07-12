@@ -72,7 +72,7 @@ class WeDevs_CPM {
         $this->instantiate();
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
-		 add_action('parent_file', array($this, 'admin_menu_taxonomy') );
+        add_action('parent_file', array($this, 'admin_menu_taxonomy') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
         register_activation_hook( __FILE__, array($this, 'install') );
@@ -189,8 +189,8 @@ class WeDevs_CPM {
 
         $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
-		 add_submenu_page('cpm_projects', __('Categories', 'cpm'), __('Categories', 'cpm'), $capability, 'edit-tags.php?taxonomy=project_category');
-		 
+        add_submenu_page('cpm_projects', __('Categories', 'cpm'), __('Categories', 'cpm'), $capability, 'edit-tags.php?taxonomy=project_category');
+        
         add_action( $hook, array($this, 'admin_scripts') );
     }
 	
@@ -226,11 +226,11 @@ class WeDevs_CPM {
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
         
-		 $file_dir = dirname( __FILE__ );
+        $file_dir = dirname( __FILE__ );
         $file_dir = apply_filters( 'cpm_tab_file_dir', $file_dir );
-
+        
         $default_file = dirname( __FILE__ ) . '/views/project/index.php';
-
+        
         switch ($page) {
             case 'cpm_projects':
 

@@ -54,30 +54,28 @@ class CPM_Project {
                 'parent' => __( 'Parent Project', 'cpm' ),
             ),
         ) );
-		
-		register_taxonomy('project_category', 'project', array(
-			'hierarchical' => true,
-			'labels' => array(
-				'name' => _x( 'Project Categories', 'taxonomy general name' ),
-				'singular_name' => _x( 'Location', 'taxonomy singular name' ),
-				'search_items' =>  __( 'Search Project Categories' ),
-				'all_items' => __( 'All Project Categories' ),
-				'parent_item' => __( 'Parent Project Category' ),
-				'parent_item_colon' => __( 'Parent Project Category:' ),
-				'edit_item' => __( 'Edit Project Category' ),
-				'update_item' => __( 'Update Project Category' ),
-				'add_new_item' => __( 'Add New Project Category' ),
-				'new_item_name' => __( 'New Project Category Name' ),
-				'menu_name' => __( 'Categories' ),
-			),
-			'rewrite' => array(
-				'slug' => 'project-category',
-				'with_front' => false, 
-				'hierarchical' => true
-			),
-		));
-		
-		
+        register_taxonomy('project_category', 'project', array(
+            'hierarchical' => true,
+            'labels' => array(
+                'name' => _x( 'Project Categories', 'taxonomy general name' ),
+                'singular_name' => _x( 'Location', 'taxonomy singular name' ),
+                'search_items' =>  __( 'Search Project Categories' ),
+                'all_items' => __( 'All Project Categories' ),
+                'parent_item' => __( 'Parent Project Category' ),
+                'parent_item_colon' => __( 'Parent Project Category:' ),
+                'edit_item' => __( 'Edit Project Category' ),
+                'update_item' => __( 'Update Project Category' ),
+                'add_new_item' => __( 'Add New Project Category' ),
+                'new_item_name' => __( 'New Project Category Name' ),
+                'menu_name' => __( 'Categories' ),
+            ),
+            'rewrite' => array(
+                'slug' => 'project-category',
+                'with_front' => false,
+                'hierarchical' => true
+            ),
+        ));
+        
     }
 
     /**
@@ -107,8 +105,8 @@ class CPM_Project {
 
         if ( $project_id ) {
             update_post_meta( $project_id, '_coworker', $co_worker );
-			 wp_set_post_terms( $project_id, $posted['project_category'], 'project_category', false);
-
+            wp_set_post_terms( $project_id, $posted['project_category'], 'project_category', false);
+            
             if ( $is_update ) {
                 do_action( 'cpm_project_update', $project_id, $data );
             } else {
@@ -148,33 +146,31 @@ class CPM_Project {
      * @return object
      */
     function get_projects( $count = -1 ) {
-        $posted = $_POST;
-        $project_category = isset( $posted['project_category'] ) ? $posted['project_category'] : '';
-		
-		 $args = array(
+        $filters = $_GET;
+        $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : '';
+        
+        $args = array(
             'numberposts' => $count,
             'post_type' => 'project',
-			 
         );
-		
-		//Add Filtering
-		if($project_category && $project_category != -1){
-			$args['tax_query'] = array(array(
-						'taxonomy' => 'project_category',
-						'field' => 'term_id',
-						'terms' => array($project_category),
-						'operator' => 'IN',
-					));
-		}
-		
+        //Add Filtering
+        if($project_category && $project_category != -1){
+            $args['tax_query'] = array(array(
+                'taxonomy' => 'project_category',
+                'field' => 'term_id',
+                'terms' => array($project_category),
+                'operator' => 'IN',
+            ));
+        }
+        
         $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
-
+        
         foreach ($projects as &$project) {
             $project->info = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );
         }
-		
-		 return $projects;
+        
+        return $projects;
     }
 
     /**
