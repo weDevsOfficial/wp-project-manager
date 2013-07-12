@@ -86,6 +86,37 @@ function cpm_dropdown_users( $selected = array() ) {
     return $dropdown;
 }
 
+
+/**
+ * A category dropdown helper function.
+ *
+ */
+function cpm_dropdown_category($current_category_id, $show_all = true, $show_count = false) {
+	
+	$dropdown = wp_dropdown_categories(array(
+					'child_of' => 0,
+					'class' => 'postform', 
+					'depth' => 0,
+					'echo' => 0,
+					'hide_empty' => !$show_all, 
+					'hide_if_empty' => !$show_all,
+					'hierarchical' => true,
+					'id' => '',
+					'name' => 'project_category', 
+					'order' => 'ASC',
+					'orderby' => 'name', 
+					'selected' => $current_category_id, 
+					'show_count' => $show_count,
+					'show_option_all' => '', 
+					'show_option_none' => __('- Project Category -'),
+					'tab_index' => 0, 
+					'taxonomy' => 'project_category',
+				));
+
+    return $dropdown;
+}
+
+
 /**
  * Helper function for converting a normal date string to unix date/time string
  *

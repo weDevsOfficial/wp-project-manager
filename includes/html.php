@@ -735,7 +735,16 @@ function cpm_project_form( $project = null ) {
         <div class="cpm-form-item project-name">
             <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="<?php echo esc_attr( $name ); ?>" size="45" />
         </div>
-
+        
+        <div class="cpm-form-item project-category">
+        	<?php
+			 $terms = get_the_terms($project->ID, 'project_category');
+			 if ( $terms && ! is_wp_error( $terms ) )
+			 	$project_category = $terms[0]->term_id;
+			 echo cpm_dropdown_category($project_category);
+			?>
+		 </div>
+         
         <div class="cpm-form-item project-detail">
             <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'wedevs' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>

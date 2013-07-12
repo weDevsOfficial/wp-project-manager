@@ -6,6 +6,16 @@ $projects = $project_obj->get_projects();
 <div class="icon32" id="icon-themes"><br></div>
 <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
 
+<form action="" method="post" class="cpm-project-filters">
+	<div class="tablenav top">
+		<div class="alignleft actions">
+			<?php echo cpm_dropdown_category($_POST['project_category'], false, true); ?>
+			<input type="submit" name="" id="post-query-submit" class="button" value="Filter">
+       </div>
+    </div>
+</form>
+
+
 <div class="cpm-projects">
 
     <?php //show only for editor or above ?>
@@ -61,7 +71,7 @@ $projects = $project_obj->get_projects();
             modal: true,
             dialogClass: 'cpm-ui-dialog',
             width: 485,
-            height: 330,
+            height: 350,
             position:['middle', 100]
         });
     })
