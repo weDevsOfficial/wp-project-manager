@@ -297,7 +297,8 @@ class CPM_Task {
         $args = array(
             'post_type' => 'task_list',
             'meta_key' => '_milestone',
-            'meta_value' => $milestone_id
+            'meta_value' => $milestone_id,
+            'numberposts' => -1
         );
 
         $tasklists = get_posts( $args );
