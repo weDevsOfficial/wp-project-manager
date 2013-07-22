@@ -74,10 +74,13 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     <span class="cpm-due-date">
                         <?php echo cpm_get_date( $task->due_date ); ?>
                     </span>
-                    <?php
-                }
-            }
-            ?>
+                <?php } ?>
+					
+                    <span class="cpm-priority">
+                    	<?php cpm_task_priority_display( $task ); ?>
+                    </span>
+                    
+            <?php } ?>
         </span>
 
         <?php if ( $task->completed == '0' ) { ?>
@@ -103,6 +106,7 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
     $action = 'cpm_task_add';
     $task_content = $task_due = '';
     $assigned_to = '-1';
+	$priority = '0';
     $submit_button = __( 'Add this to-do', 'cpm' );
 
     //for update form
@@ -110,6 +114,7 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         $action = 'cpm_task_update';
         $task_content = $task->post_content;
         $assigned_to = $task->assigned_to;
+		$priority = $task->priority;
         $submit_button = __( 'Save Changes', 'cpm' );
 
         if ( $task->due_date != '' ) {
@@ -133,6 +138,13 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         </div>
         <div class="item date">
             <input type="text" autocomplete="off" class="datepicker" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
+        </div>
+        <div class="item priority">
+        	<ul>
+                <li>                    
+                    <?php cpm_task_priority_select( $task ) ?>
+                </li>
+            </ul>
         </div>
         <div class="item user">
             <?php cpm_task_assign_dropdown( $project_id, $assigned_to ); ?>
@@ -737,7 +749,7 @@ function cpm_project_form( $project = null ) {
         </div>
 
         <div class="cpm-form-item project-detail">
-            <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
+            <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'wedevs' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>
 
         <div class="cpm-form-item project-users">
