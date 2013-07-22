@@ -106,6 +106,11 @@ ul.cpm-activity ul{margin-left:15px;margin-bottom:10px;}ul.cpm-activity ul li{te
 .cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-due-date{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;background:#ddd;font-size:12px;line-height:12px;padding:1px 7px;color:#999;margin-right:5px;}
 .cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-completed-by{font-size:11px;color:#999;}
 .cpm-single-task .cpm-todo-wrap .cpm-task-edit-form{display:none;}
+.priority .hide {display:none;}
+ .priority input[type="radio"] {position:absolute; filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity:0;opacity:0;cursor:pointer;width:17px;} 
+.priority span, .cpm-priority span {width:24px;height:16px;line-height:16px;padding:1px 22px 1px 0;background:url(../images/stars.png) no-repeat -22px 0;} 
+.priority input[type="radio"]:checked + span {background-position:-22px 0;}
+.priority input[type="radio"]:checked + span ~ span {background-position:0 0;}
 ul.cpm-todolists .submit{margin:10px 0;padding:0 0 15px 0;}
 ul.cpm-todolists>li.ui-state-highlight{min-height:100px;}
 ul.cpm-todolists article.cpm-todolist{position:relative;}ul.cpm-todolists article.cpm-todolist header h3{margin-bottom:3px;font-size:17px;}

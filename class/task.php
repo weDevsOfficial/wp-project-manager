@@ -153,6 +153,7 @@ class CPM_Task {
         $content = trim( $postdata['task_text'] );
         $assigned = $postdata['task_assign'];
         $due = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
+		$priority = $postdata['task_priority'];
 
         $data = array(
             'post_parent' => $list_id,
@@ -174,6 +175,7 @@ class CPM_Task {
         if ( $task_id ) {
             update_post_meta( $task_id, '_assigned', $assigned );
             update_post_meta( $task_id, '_due', $due );
+			update_post_meta( $task_id, '_priority', $priority );
 
             //initially mark as uncomplete
             if ( !$is_update ) {
@@ -255,7 +257,6 @@ class CPM_Task {
         $task_list->due_date = get_post_meta( $task_list->ID, '_due', true );
         $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
         $task_list->privacy = get_post_meta( $task_list->ID, '_privacy', true );
-        $task_list->priority = get_post_meta( $task_list->ID, '_priority', true );
     }
 
     /**
@@ -285,6 +286,7 @@ class CPM_Task {
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
         $task->assigned_to = get_post_meta( $task->ID, '_assigned', true );
         $task->due_date = get_post_meta( $task->ID, '_due', true );
+		$task->priority = get_post_meta( $task->ID, '_priority', true );
     }
 
     /**

@@ -219,8 +219,6 @@ class CPM_Notification {
         $wp_email = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $from = "From: \"$blogname\" <$wp_email>";
         $headers = "$from\nContent-Type: $mail_type; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
-        
-        //TODO: add every users to BCC
 
         wp_mail( $to, $subject, $message, $headers);
     }

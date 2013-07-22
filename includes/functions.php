@@ -149,6 +149,49 @@ function cpm_task_assign_dropdown( $project_id, $selected = '-1' ) {
 }
 
 /**
+ * Priority selector for task
+ *
+ * @BF beta
+ * @param int $task
+ */
+function cpm_task_priority_select( $task ) {
+	$priority = get_post_meta( $task->ID, '_priority', true );
+							
+	for ($value = 0; $value <= 5; $value++) {
+		$checked = '';
+		$hide = '';
+	  
+		if ($priority == $value)
+		$checked = 'checked';
+	  
+		if ($value == 0)
+		$hide = 'class="hide"';
+	  
+		echo '<input type="radio" name="task_priority" value="' . $value . '" ' . $checked . ' /><span ' . $hide . '></span>';
+	}
+	
+	unset($priority);
+}
+
+/**
+ * Task priority display helper
+ *
+ * @BF beta
+ * @param int $task
+ */
+function cpm_task_priority_display( $task ) {
+	$priority = get_post_meta( $task->ID, '_priority', true );
+	$value = 0;
+	
+	while ($value < $priority) {
+		echo '<span></span>';
+		$value++;
+	}
+	
+	unset($priority);
+}
+
+/**
  * Comment form upload field helper
  *
  * Generates markup for ajax file upload list and prints attached files.
@@ -524,7 +567,7 @@ function cpm_hide_comments( $clauses ) {
     return $clauses;
 }
 
-add_filter( 'comments_clauses', 'cpm_hide_comments', 99 );
+add_filter( 'comments_clauses', 'cpm_hide_comments', 10 );
 
 /**
  * Hide project comments from comment RSS
