@@ -68,6 +68,12 @@ class CPM_Message {
 
     function get( $message_id ) {
         $message = get_post( $message_id );
+
+	// return null if no message is found
+	if( empty( $message )) {
+		return null;
+	}
+
         $message->milestone = get_post_meta( $message_id, '_milestone', true );
         $message->files = $this->get_attachments( $message_id );
 
