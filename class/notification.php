@@ -15,7 +15,7 @@ class CPM_Notification {
 
     function prepare_contacts() {
         $to = array();
-        if ( isset( $_POST['notify_user'] ) ) {
+        if ( isset( $_POST['notify_user'] ) && is_array( $_POST['notify_user'] ) ) {
             foreach ($_POST['notify_user'] as $user_id) {
                 $user_info = get_user_by( 'id', $user_id );
                 
