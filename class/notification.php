@@ -15,7 +15,7 @@ class CPM_Notification {
 
     function prepare_contacts() {
         $to = array();
-        if ( isset( $_POST['notify_user'] ) ) {
+        if ( isset( $_POST['notify_user'] ) && is_array( $_POST['notify_user'] ) ) {
             foreach ($_POST['notify_user'] as $user_id) {
                 $user_info = get_user_by( 'id', $user_id );
                 
@@ -42,7 +42,9 @@ class CPM_Notification {
 
             foreach ($co_workers as $user_id) {
                 $user = get_user_by( 'id', $user_id );
-                $users[$user_id] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+		if( $user ) {
+                	$users[$user_id] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+		}
             }
 
             //if any users left, get their mail addresses and send mail
@@ -180,7 +182,11 @@ class CPM_Notification {
             return;
         }
 
-        $project_id = intval( $_POST['project_id'] );
+        $project_id = 0;
+	
+	if( isset( $_POST['project_id'] ) {
+		$project_id = intval( $_POST['project_id'] );
+	}
         $user = get_user_by( 'id', intval( $_POST['task_assign'] ) );
         $to = sprintf( '%s <%s>', $user->display_name, $user->user_email );
 

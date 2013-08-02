@@ -85,7 +85,7 @@ class CPM_Comment {
         //delete any file attached to it
         $files = get_comment_meta( $comment_id, '_files', true );
 
-        if ( $files ) {
+        if ( ! empty( $files ) && is_array( $files ) ) {
             foreach ( $files as $file_id ) {
                 $this->delete_file( $file_id );
             }
