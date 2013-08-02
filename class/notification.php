@@ -182,7 +182,11 @@ class CPM_Notification {
             return;
         }
 
-        $project_id = intval( $_POST['project_id'] );
+        $project_id = 0;
+	
+	if( isset( $_POST['project_id'] ) {
+		$project_id = intval( $_POST['project_id'] );
+	}
         $user = get_user_by( 'id', intval( $_POST['task_assign'] ) );
         $to = sprintf( '%s <%s>', $user->display_name, $user->user_email );
 
