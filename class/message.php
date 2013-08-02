@@ -70,7 +70,7 @@ class CPM_Message {
         $message = get_post( $message_id );
 
 	// return null if no message is found
-	if( empty( $message ) {
+	if( empty( $message )) {
 		return null;
 	}
 
