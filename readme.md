@@ -1,4 +1,4 @@
-# WordPress Project Manager Plugin (beta)
+# WP Project Manager
 A project management plugin built on top of WordPress. It simply mimics the simpleness of basecamp.
 
 [Download Now](http://wordpress.org/extend/plugins/wedevs-project-manager/)
