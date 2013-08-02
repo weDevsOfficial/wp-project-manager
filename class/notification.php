@@ -42,7 +42,9 @@ class CPM_Notification {
 
             foreach ($co_workers as $user_id) {
                 $user = get_user_by( 'id', $user_id );
-                $users[$user_id] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+		if( $user ) {
+                	$users[$user_id] = sprintf( '%s <%s>', $user->display_name, $user->user_email );
+		}
             }
 
             //if any users left, get their mail addresses and send mail
