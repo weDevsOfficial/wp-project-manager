@@ -94,6 +94,15 @@ class CPM_Activity {
 
     function message_delete( $message_id ) {
         $msg = get_post( $message_id );
+
+	if( empty( $msg ) ) {
+		$message_id = intval( $message_id );
+		$message = sprintf( __( 'Message with ID %d was not found in the database', 'cpm' ), $message_id );
+		
+		$this->log( $message_id, $message) ;
+		return;
+	} 
+
         $message = sprintf( __( 'Message "%s" deleted by %s', 'cpm' ), $msg->post_title, $this->user_url() );
 
         $this->log( $msg->post_parent, $message );

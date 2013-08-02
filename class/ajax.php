@@ -571,7 +571,7 @@ class CPM_Ajax {
         $message_id = $message_obj->update( $project_id, $files, $message_id );
         $message = $message_obj->get( $message_id );
 
-        if ( $message_id ) {
+        if ( $message_id && ! empty( $message ) ) {
             echo json_encode( array(
                 'success' => true,
                 'id' => $message_id,
