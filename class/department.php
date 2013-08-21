@@ -211,33 +211,39 @@ class CPM_Department {
      function edit_user_department_section( $user ) {
      
           $tax = get_taxonomy( 'department' );
-     
-          /* Make sure the user can assign terms of the department taxonomy before proceeding. */
-          if ( !current_user_can( $tax->cap->assign_terms ) ) return;
           ?>
      
-          <h3><?php _e( 'Department' ); ?></h3>
-     
-          <table class="form-table">
+          <h3><?php _e( 'Team Settings' ); ?></h3>
+            <table class="form-table">
                <tr>
-                    <th><label for="department"><?php _e( 'Select Department' ); ?></label></th>
+                    <th><label for="department"><?php _e( 'Department' ); ?></label></th>
                     <td>
                          <ul id="departments">
                          <?php
-                         wp_terms_checklist( 0, array(
-                              'descendants_and_self'  => 0,
-                              'selected_cats'         => $this->get_user_departments($user->ID),
-                              'popular_cats'          => false,
-                              'walker'                => null,
-                              'taxonomy'              => 'department',
-                              'checked_ontop'         => false
-                              )
-                         );
+                         $user_departments = $this->get_user_departments($user->ID);
+                         if ( current_user_can( $tax->cap->assign_terms )):
+                             wp_terms_checklist( 0, array(
+                                  'descendants_and_self'  => 0,
+                                  'selected_cats'         => $user_departments,
+                                  'popular_cats'          => false,
+                                  'walker'                => null,
+                                  'taxonomy'              => 'department',
+                                  'checked_ontop'         => false
+                                  )
+                             );
+                         else:
+                            $departments = get_terms( 'department', array( 'include' => $user_departments, 'hide_empty' => 0));
+                            if($departments) {
+                                foreach ( $departments as $department ) { echo "<li>" . $department->name . "</li>";}
+                            }else{
+                                echo '<span class="description">'.__('No Department Assigned').'</span>';   
+                            }
+                         endif;
                          ?>
                          </ul>
                     </td>
                </tr>
-          </table>
+            </table>
 <?php }
 
      /**

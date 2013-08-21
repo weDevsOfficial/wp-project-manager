@@ -11,6 +11,8 @@ class CPM_Activity {
         //project
         add_action( 'cpm_project_new', array($this, 'project_new') );
         add_action( 'cpm_project_update', array($this, 'project_update') );
+        add_action( 'cpm_project_complete', array($this, 'project_complete') );
+        add_action( 'cpm_project_revive', array($this, 'project_revive') );
 
         //message
         add_action( 'cpm_message_new', array($this, 'message_new'), 10, 2 );
@@ -66,6 +68,18 @@ class CPM_Activity {
 
     function project_update( $project_id ) {
         $message = sprintf( __( 'Project details updated by %s', 'cpm' ), $this->user_url() );
+
+        $this->log( $project_id, $message );
+    }
+    
+    function project_complete( $project_id ) {
+        $message = sprintf( __( 'Project marked complete by %s', 'cpm' ), $this->user_url() );
+
+        $this->log( $project_id, $message );
+    }
+    
+    function project_revive( $project_id ) {
+        $message = sprintf( __( 'Project revived by %s', 'cpm' ), $this->user_url() );
 
         $this->log( $project_id, $message );
     }

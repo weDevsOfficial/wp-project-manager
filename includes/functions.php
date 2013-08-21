@@ -181,12 +181,22 @@ function cpm_dropdown_department($selected, $multiple = true, $label = true, $sh
 }
 
 function cpm_filter_category($current_category_id) {
-    return cpm_dropdown_category($current_category_id, true, true);
+    return cpm_dropdown_category($current_category_id, false, true);
 }
 
 function cpm_filter_department($current_department_id) {
     $selected = array($current_department_id);
     return cpm_dropdown_department($selected, false, false, true);
+}
+
+function cpm_filter_status($current_status) {
+    ?>
+    <select name="project_status" id="project_status" class="chosen-select" >
+        <option value="0"<?php echo $current_status=="0" ? ' selected':''?>><?php _e('Open Projects');?></option>
+        <option value="1"<?php echo $current_status=="1" ? ' selected':''?>><?php _e('Completed Projects');?></option>
+        <option value="-1"<?php echo $current_status=="-1" ? ' selected':''?>><?php _e('All Projects');?></option>
+    </select>
+    <?php
 }
 
 function cpm_project_filters(){
@@ -196,6 +206,7 @@ function cpm_project_filters(){
             <div class="alignleft">
                 <?php echo cpm_filter_category($_GET['project_category']); ?>
                 <?php echo cpm_filter_department($_GET['project_department']); ?>
+                <?php echo cpm_filter_status($_GET['project_status']); ?>
                 <input type="hidden" name="page" value="cpm_projects" />
                 <input type="submit" name="" id="post-query-submit" class="button" value="Filter">
             </div>

@@ -6,6 +6,8 @@
             $( "a#cpm-create-project" ).on('click', this.Project.openDialog);
             $( "#cpm-project-dialog" ).on('click', 'a.project-cancel', this.Project.closeDialog);
             $( "a.cpm-project-delete-link" ).on('click', this.Project.remove);
+            $( "a.cpm-project-complete-link" ).on('click', this.Project.complete);
+            $( "a.cpm-project-revive-link" ).on('click', this.Project.revive);
             $( "#cpm-project-dialog" ).on('submit', 'form.cpm-project-form', this.Project.create);
 
             $('.cpm-edit-project').on('submit', 'form.cpm-project-form', this.Project.edit);
@@ -158,6 +160,57 @@
                     data = {
                         project_id: self.data('project_id'),
                         action: 'cpm_project_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                if(confirm(message)) {
+
+                    self.addClass('cpm-loading');
+
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            location.href = res.url;
+                        }
+                    });
+                }
+
+            },
+            
+            complete: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    message = self.data('confirm'),
+                    data = {
+                        project_id: self.data('project_id'),
+                        action: 'cpm_project_complete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                if(confirm(message)) {
+
+                    self.addClass('cpm-loading');
+
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            location.href = res.url;
+                        }
+                    });
+                }
+
+            },
+            revive: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    message = self.data('confirm'),
+                    data = {
+                        project_id: self.data('project_id'),
+                        action: 'cpm_project_revive',
                         _wpnonce: CPM_Vars.nonce
                     };
 

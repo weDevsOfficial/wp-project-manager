@@ -141,6 +141,22 @@ class CPM_Project {
 
         wp_delete_post( $project_id, $force );
     }
+    
+    function complete( $project_id = 0) {
+        $posted = $_POST;
+        if ( $project_id ){
+            update_post_meta( $project_id, '_completed', 1);
+            do_action( 'cpm_project_complete', $project_id);
+        }
+    }
+    
+    function revive( $project_id = 0) {
+        $posted = $_POST;
+        if ( $project_id ){
+            delete_post_meta( $project_id, '_completed');
+            do_action( 'cpm_project_revive', $project_id);
+        }
+    }
 
     /**
      * Get all the projects
@@ -152,6 +168,7 @@ class CPM_Project {
         $filters = $_GET;
         $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : '';
         $project_department = isset( $filters['project_department'] ) ? $filters['project_department'] : '';
+        $project_status = isset( $filters['project_status'] ) ? $filters['project_status'] : '';
         
         $args = array(
             'numberposts' => $count,
@@ -173,14 +190,16 @@ class CPM_Project {
                 'compare' => 'LIKE'
             ));
         }
-
-        $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
         
-        foreach ($projects as &$project) {
+        $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
+       
+        foreach ($projects as $key=>&$project) {
             $project->info = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );
+            if($project_status == 1 && $project->info->completed != 1) unset($projects[$key]); //only completed projects
+            if($project_status == 0 && $project->info->completed == 1) unset($projects[$key]); //only open projects
         }
-        
+
         return $projects;
     }
 
@@ -225,6 +244,12 @@ class CPM_Project {
 
         return get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
     }
+    
+    function get_status( $project_id) {
+        $status = get_post_meta($project_id, '_completed', true);
+        if(!$status) $status = 0;
+        return $status;
+    }
 
     /**
      * Get project info
@@ -252,6 +277,7 @@ class CPM_Project {
             $milestones = $wpdb->get_results( sprintf( $sql, 'milestone', $project_id ) );
             $todos = $todolists ? $wpdb->get_results( sprintf( $sql, 'task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
             $files = $wpdb->get_var( $sql_files );
+            $status = $this->get_status($project_id);
 
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
             $todolist_comment = wp_list_pluck( $todolists, 'comment_count' );
@@ -267,6 +293,7 @@ class CPM_Project {
             $ret->comments = $total_comment;
             $ret->files = (int) $files;
             $ret->milestone = count( $milestone );
+            $ret->completed = $status;
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
