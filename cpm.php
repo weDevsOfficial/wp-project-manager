@@ -72,6 +72,7 @@ class WeDevs_CPM {
         $this->instantiate();
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
+        add_action( 'admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
         add_action('parent_file', array($this, 'admin_menu_taxonomy') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
@@ -84,6 +85,7 @@ class WeDevs_CPM {
      * @since 0.1
      */
     function instantiate() {
+        CPM_Department::getInstance();
         CPM_Project::getInstance();
         CPM_Message::getInstance();
         CPM_Task::getInstance();
@@ -167,9 +169,19 @@ class WeDevs_CPM {
         wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'chosen', plugins_url( 'css/chosen.css', __FILE__ ) );
     }
+	
+	/**
+     * Load the plugin scripts and styles outside the
+     * project area
+     *
+     * @since 0.1
+     */
+    function admin_enqueue_scripts($hook) {
+        wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
+	}
 
     /**
-     * Includes some required helper files
+     * Includes some required helper files	
      *
      * @since 0.1
      */

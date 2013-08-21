@@ -29,7 +29,6 @@ function cpm_tasks_filter( $tasks ) {
         $response['pending'] = array_filter( $tasks, 'cpm_tasks_filter_pending' );
         $response['completed'] = array_filter( $tasks, 'cpm_tasks_filter_done' );
     }
-
     return $response;
 }
 
@@ -66,20 +65,57 @@ function cpm_tasks_filter_pending( $task ) {
  * @param type $selected
  * @return string
  */
-function cpm_dropdown_users( $selected = array() ) {
+function cpm_dropdown_users( $selected = array()) {
 
-    $placeholder = __( 'Select co-workers', 'cpm' );
+    $placeholder = __( 'Select Co-Workers', 'cpm' );
     $sel = ' selected="selected"';
 
-    $users = get_users();
     $options = array();
-    if ( $users ) {
-        foreach ($users as $user) {
-            $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, array_key_exists( $user->ID, $selected ) ? $sel : '', $user->display_name );
+    $marked = array();
+    
+    //Department Based
+    $departments = get_terms('department', array(
+          'orderby'          => 'name', 
+          'hide_empty'     => 0,
+     ));
+    if($departments){
+        foreach($departments as $department){
+            $users = get_users(array(
+                'meta_key'     => 'cd_department',
+                'meta_value'   => $department->term_id,
+                'meta_compare'     => 'IN',
+            ));    
+            if($users){
+                $options[] = sprintf('<optgroup label="%s">', $department->name);
+                foreach($users as $user){
+                    if(array_key_exists( $user->ID, $selected ) && !in_array($user->ID,$marked)){ //mark as selected
+                        $marked[] = $user->ID;
+                        $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, $sel, $user->display_name );
+                    }else{
+                        $options[] = sprintf( '<option value="%s">%s</option>', $user->ID, $user->display_name );
+                    }
+                }
+                $options[] = '</optgroup>';
+            }
         }
     }
-
-    $dropdown = '<select name="project_coworker[]" id="project_coworker" placeholder="' . $placeholder . '" multiple="multiple">';
+    //All Users
+    $users = get_users();
+    if ( $users ) {
+        $options[] = sprintf('<optgroup label="%s">', __('Team', 'cpm'));
+            foreach($users as $user){
+                if(array_key_exists( $user->ID, $selected ) && !in_array($user->ID,$marked)){ //mark as selected
+                    $marked[] = $user->ID;
+                    $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, $sel, $user->display_name );
+                }else{
+                    $options[] = sprintf( '<option value="%s">%s</option>', $user->ID, $user->display_name );
+                }
+            }
+        $options[] = '</optgroup>';
+    }
+    
+    $dropdown .= '<label for="project_coworker" class="small">'.__( 'Team', 'cpm' ).'</label>';
+    $dropdown .= '<select name="project_coworker[]" id="project_coworker" class="chosen-select" data-placeholder="' . $placeholder . '" multiple="multiple">';
     $dropdown .= implode("\n", $options );
     $dropdown .= '</select>';
 
@@ -91,10 +127,10 @@ function cpm_dropdown_users( $selected = array() ) {
  * A category dropdown helper function.
  *
  */
-function cpm_dropdown_category($current_category_id, $show_count = false) {
+function cpm_dropdown_category($current_category_id, $show_count = false, $show_all = false) {
     $dropdown = wp_dropdown_categories(array(
         'child_of' => 0,
-        'class' => 'postform',
+        'class' => 'chosen-select',
         'depth' => 0,
         'echo' => 0,
         'hide_empty' => 0,
@@ -105,12 +141,67 @@ function cpm_dropdown_category($current_category_id, $show_count = false) {
         'orderby' => 'name',
         'selected' => $current_category_id,
         'show_count' => $show_count,
-        'show_option_all' => '',
-        'show_option_none' => __('- Project Category -'),
+        'show_option_all' => $show_all ? __('All Categories') : '',
+        'show_option_none' => !$show_all ? __('- Project Category -') : '',
         'tab_index' => 0,
         'taxonomy' => 'project_category',
     ));
     return $dropdown;
+}
+
+/**
+ * A department dropdown helper function.
+ *
+ */
+function cpm_dropdown_department($selected, $multiple = true, $label = true, $show_all = false) {
+    $placeholder = __( 'Select Department', 'cpm' );
+    $sel = ' selected="selected"';
+    
+    $departments = get_terms('department', array(
+          'orderby'          => 'name', 
+          'hide_empty'     => 0,
+     ));
+     
+    $options = array();
+    if($show_all)
+        $options[] = sprintf( '<option value="-1">%s</option>', __( 'All Departments', 'cpm' ));
+    
+    if($departments){
+        foreach($departments as $department){
+            $options[] = sprintf( '<option value="%s"%s>%s</option>', $department->term_id, in_array( $department->term_id, $selected ) ? $sel : '', $department->name );
+        }
+    }
+    if($label)
+        $dropdown .= sprintf('<label for="project_department" class="small">%s - <a href="%s">%s</a></label>',__( 'Department', 'cpm' ), admin_url( 'edit-tags.php?taxonomy=department'), __( 'Add New', 'cpm' ));
+    $dropdown .= sprintf('<select name="%s" id="project_department" class="chosen-select" data-placeholder="%s"%s>', $multiple ? 'project_department[]' : 'project_department', $placeholder, $multiple ? ' multiple="multiple"': '');
+    $dropdown .= implode("\n", $options );
+    $dropdown .= '</select>';
+     
+    return $dropdown;
+}
+
+function cpm_filter_category($current_category_id) {
+    return cpm_dropdown_category($current_category_id, true, true);
+}
+
+function cpm_filter_department($current_department_id) {
+    $selected = array($current_department_id);
+    return cpm_dropdown_department($selected, false, false, true);
+}
+
+function cpm_project_filters(){
+    ?>
+    <form action="" method="get" class="cpm-project-filters">
+        <div class="tablenav top">
+            <div class="alignleft">
+                <?php echo cpm_filter_category($_GET['project_category']); ?>
+                <?php echo cpm_filter_department($_GET['project_department']); ?>
+                <input type="hidden" name="page" value="cpm_projects" />
+                <input type="submit" name="" id="post-query-submit" class="button" value="Filter">
+            </div>
+        </div>
+    </form>
+    <?php  
 }
 
 

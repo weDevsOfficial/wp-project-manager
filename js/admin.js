@@ -12,6 +12,8 @@
             $('.cpm-project-head').on('click', 'a.cpm-icon-edit', this.Project.toggleEditForm);
             $('.cpm-project-head').on('click', 'a.project-cancel', this.Project.toggleEditForm);
             $('.cpm-load-more').on('click', this.Project.loadActivity);
+            
+            $('#project_department').on('change', this.Project.changeDepartment);
 
             /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
@@ -141,7 +143,7 @@
                         container.find('.cpm-project-detail').slideToggle();
 
                         //re-initialize chosen dropdown
-                        $('#project_coworker').chosen();
+                        $('.chosen-select').chosen();
                     }
                 });
 
@@ -552,9 +554,17 @@
     //dom ready
     $(function() {
         weDevs_CPM.init();
-
-        $('#project_coworker').chosen();
+        $('.chosen-select').chosen();
+        $('.cpm-edit-project').addClass('cpm-edit-project-loaded');//fix chosen display issue
         $(".datepicker").datepicker();
+        $( "#cpm-project-dialog" ).dialog({
+            autoOpen: false,
+            modal: true,
+            dialogClass: 'cpm-ui-dialog',
+            width: 485,
+            height: 400,
+            position:['middle', 100]
+        });
     });
 
 })(jQuery);

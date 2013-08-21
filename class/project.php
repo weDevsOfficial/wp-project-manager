@@ -11,6 +11,7 @@ class CPM_Project {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'manage_edit-project_category_columns',     array($this, 'manage_edit_project_category_columns') );
     }
 
     public static function getInstance() {
@@ -88,6 +89,7 @@ class CPM_Project {
         $posted = $_POST;
         $is_update = ( $project_id ) ? true : false;
         $co_worker = isset( $posted['project_coworker'] ) ? $posted['project_coworker'] : '';
+        $project_department = isset( $posted['project_department'] ) ? $posted['project_department'] : '';
 
         $data = array(
             'post_title' => $posted['project_name'],
@@ -105,6 +107,7 @@ class CPM_Project {
 
         if ( $project_id ) {
             update_post_meta( $project_id, '_coworker', $co_worker );
+            update_post_meta( $project_id, '_department', $project_department );
             wp_set_post_terms( $project_id, $posted['project_category'], 'project_category', false);
             
             if ( $is_update ) {
@@ -148,6 +151,7 @@ class CPM_Project {
     function get_projects( $count = -1 ) {
         $filters = $_GET;
         $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : '';
+        $project_department = isset( $filters['project_department'] ) ? $filters['project_department'] : '';
         
         $args = array(
             'numberposts' => $count,
@@ -162,7 +166,14 @@ class CPM_Project {
                 'operator' => 'IN',
             ));
         }
-        
+        if($project_department && $project_department != -1){
+            $args['meta_query'] = array(array(
+                'key' => '_department',
+                'value' => serialize(strval($project_department)),
+                'compare' => 'LIKE'
+            ));
+        }
+
         $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
         
         foreach ($projects as &$project) {
@@ -187,6 +198,7 @@ class CPM_Project {
         }
 
         $project->users = $this->get_users( $project );
+        $project->departments = $this->get_departments( $project );
         $project->info = $this->get_info( $project_id );
 
         return $project;
@@ -316,7 +328,25 @@ class CPM_Project {
 
         return $mail;
     }
+    
+    /**
+     * Get all the departments of this project
+     *
+     * @param int $project_id
+     */
+    function get_departments( $project ) {
 
+        if ( is_object( $project ) ) {
+            $project_id = $project->ID;
+        } else {
+            $project_id = $project;
+        }
+
+        $departments = get_post_meta( $project_id, '_department', true );
+        
+        return $departments;
+    }
+    
     /**
      * Generates navigational menu for a project
      *
@@ -414,5 +444,13 @@ class CPM_Project {
         
         return $response;
     }
+    
+    /**
+      * Modifies columns in project category table.
+      */
+     function manage_edit_project_category_columns( $columns ) {
+          unset( $columns['posts'] );
+          return $columns;
+     }
 
 }
