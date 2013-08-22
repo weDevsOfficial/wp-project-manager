@@ -52,6 +52,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
 
         add_action( 'wp_ajax_cpm_get_activity', array($this, 'get_activity') );
+        
+        add_action( 'wp_ajax_cpm_get_events', array($this, 'get_events') );
     }
 
     function project_new() {
@@ -679,6 +681,18 @@ class CPM_Ajax {
                 'content' => cpm_activity_html( $activities ),
                 'count' => count( $activities )
             ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+        exit;
+    }
+    
+    function get_events() {
+        $events = CPM_Calendar::getInstance()->get_events();
+        if ( $events ) {
+            echo json_encode( $events );
         } else {
             echo json_encode( array(
                 'success' => false

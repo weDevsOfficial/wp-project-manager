@@ -192,9 +192,9 @@ function cpm_filter_department($current_department_id) {
 function cpm_filter_status($current_status) {
     ?>
     <select name="project_status" id="project_status" class="chosen-select" >
+        <option value="-1"<?php echo $current_status=="-1" ? ' selected':''?>><?php _e('All Projects');?></option>
         <option value="0"<?php echo $current_status=="0" ? ' selected':''?>><?php _e('Open Projects');?></option>
         <option value="1"<?php echo $current_status=="1" ? ' selected':''?>><?php _e('Completed Projects');?></option>
-        <option value="-1"<?php echo $current_status=="-1" ? ' selected':''?>><?php _e('All Projects');?></option>
     </select>
     <?php
 }
@@ -209,6 +209,7 @@ function cpm_project_filters(){
                 <?php echo cpm_filter_status($_GET['project_status']); ?>
                 <input type="hidden" name="page" value="cpm_projects" />
                 <input type="submit" name="" id="post-query-submit" class="button" value="Filter">
+                <input type="button" name="" id="post-query-clear" class="button" value="Clear" onClick="parent.location='<?php echo cpm_url_projects(); ?>'">
             </div>
         </div>
     </form>

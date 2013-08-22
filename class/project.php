@@ -157,6 +157,7 @@ class CPM_Project {
             do_action( 'cpm_project_revive', $project_id);
         }
     }
+    
 
     /**
      * Get all the projects
@@ -166,16 +167,16 @@ class CPM_Project {
      */
     function get_projects( $count = -1 ) {
         $filters = $_GET;
-        $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : '';
-        $project_department = isset( $filters['project_department'] ) ? $filters['project_department'] : '';
-        $project_status = isset( $filters['project_status'] ) ? $filters['project_status'] : '';
+        $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : 0;
+        $project_department = isset( $filters['project_department'] ) ? $filters['project_department'] : -1;
+        $project_status = isset( $filters['project_status'] ) ? $filters['project_status'] : -1;
         
         $args = array(
             'numberposts' => $count,
             'post_type' => 'project',
         );
         //Add Filtering
-        if($project_category && $project_category != -1){
+        if($project_category != 0){
             $args['tax_query'] = array(array(
                 'taxonomy' => 'project_category',
                 'field' => 'term_id',
@@ -183,7 +184,7 @@ class CPM_Project {
                 'operator' => 'IN',
             ));
         }
-        if($project_department && $project_department != -1){
+        if($project_department != -1){
             $args['meta_query'] = array(array(
                 'key' => '_department',
                 'value' => serialize(strval($project_department)),
@@ -192,7 +193,7 @@ class CPM_Project {
         }
         
         $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
-       
+
         foreach ($projects as $key=>&$project) {
             $project->info = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );

@@ -171,3 +171,5 @@ ul.cpm-files li .cpm-file-action .comment-number{font-size:11px;background:#fff;
 ul#departments{list-style:none; margin:0;}
 ul#departments > li{font-weight:bold;}
 ul#departments ul.children > li{font-weight:normal; margin-left:20px;}
+/*Calendar*/
+.cpm-calendar .competed{text-decoration:line-through; opacity:.5}
