@@ -201,17 +201,18 @@ function cpm_filter_status($current_status) {
 
 function cpm_project_filters(){
     ?>
-    <form action="" method="get" class="cpm-project-filters">
+    <form action="" method="get" class="cpm-project-filters" id="cpm-project-filters">
         <div class="tablenav top">
             <div class="alignleft">
                 <?php echo cpm_filter_category($_GET['project_category']); ?>
                 <?php echo cpm_filter_department($_GET['project_department']); ?>
                 <?php echo cpm_filter_status($_GET['project_status']); ?>
                 <input type="hidden" name="page" value="cpm_projects" />
-                <input type="submit" name="" id="post-query-submit" class="button" value="Filter">
-                <input type="button" name="" id="post-query-clear" class="button" value="Clear" onClick="parent.location='<?php echo cpm_url_projects(); ?>'">
+                <input type="submit" name="" id="project-filter-submit" class="button" value="Filter">
+                <input type="button" name="" id="project-filter-clear" class="button" value="Clear">
             </div>
         </div>
+        <div class="clear"></div>
     </form>
     <?php  
 }

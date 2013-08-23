@@ -1,5 +1,7 @@
+<?php if(is_admin()): ?>
 <div class="icon32" id="icon-themes"><br></div>
-<h2>Calendar</h2>
+<h2><?php _e( 'Calendar', 'cpm' ); ?></h2>
+<?php endif; ?>
 
 <?php
 CPM_Calendar::getInstance()->get_events();

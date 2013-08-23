@@ -14,11 +14,11 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
             </a>
             <?php $status = CPM_project::getInstance()->get_status( $project_id); ?>
             <?php if(!$status){ ?>
-                <a href="#" class="cpm-icon-tick green cpm-project-complete-link" title="<?php esc_attr_e( 'Complete Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to complete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                <a href="#" class="cpm-icon-tick grey cpm-project-complete-link" title="<?php esc_attr_e( 'Complete Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to complete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
                     <span><?php _e( 'Complete', 'cpm' ); ?></span>
                 </a>
             <?php }else{ ?>
-                <a href="#" class="cpm-icon-tick grey cpm-project-revive-link" title="<?php esc_attr_e( 'Revive Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to revive this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                <a href="#" class="cpm-icon-tick green cpm-project-revive-link" title="<?php esc_attr_e( 'Revive Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to revive this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
                     <span><?php _e( 'Revive', 'cpm' ); ?></span>
                 </a>
             <?php } ?>

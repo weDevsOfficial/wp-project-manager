@@ -2,9 +2,10 @@
 $project_obj = CPM_Project::getInstance();
 $projects = $project_obj->get_projects();
 ?>
-
+<?php if(is_admin()): ?>
 <div class="icon32" id="icon-themes"><br></div>
 <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
+<?php endif; ?>
 
 <?php cpm_project_filters(); ?>
 

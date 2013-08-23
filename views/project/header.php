@@ -23,6 +23,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
 
             <div class="cpm-project-summary cpm-right">
                 <span><?php _e( 'Project Info', 'cpm' ); ?></span>
+                <?php if($project->info->completed) echo '<div class="cpm-completed-tag"></div>'; ?>
                 <?php echo cpm_project_summary( $project->info ); ?>
             </div>
         </h2>

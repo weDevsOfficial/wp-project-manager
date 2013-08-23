@@ -16,6 +16,7 @@
             $('.cpm-load-more').on('click', this.Project.loadActivity);
             
             $('#project_department').on('change', this.Project.changeDepartment);
+            $('#project-filter-clear').on('click', this.Project.clearFilters);
 
             /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
@@ -227,6 +228,14 @@
                     });
                 }
 
+            },
+            
+            clearFilters: function(e) {
+                e.preventDefault();
+                $( "#cpm-project-filters select" ).each( function(){
+                    $(this).val(null);   
+                });
+                $( "#cpm-project-filters").submit();
             },
 
             loadActivity: function(e) {
