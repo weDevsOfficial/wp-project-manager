@@ -24,13 +24,13 @@ A project management plugin built on top of WordPress. It simply mimics the simp
    - 3 types of milestones are there, a) upcoming, b) completed and c) late milstone
  - Files
    - See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
-   
+
 
 > Currently all the options are in the
 > admin panel. Nothing is in frontend
 > yet.
 
-  
+
 ## Video Demo
 [![Watch Demo][1]][2]
 
@@ -54,7 +54,10 @@ A. Sure, lots of actions and filters are added by default and will add more of t
 Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
 ## Contribute
-This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. 
+This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome.
+
+## Translation
+Translation in Spanish [David Web](http://www.closemarketing.es)
 
 
 ## Author

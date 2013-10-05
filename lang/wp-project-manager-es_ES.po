@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "POT-Creation-Date: 2012-11-28 22:01+0100\n"
-"PO-Revision-Date: 2012-11-28 22:02+0100\n"
+"PO-Revision-Date: 2013-10-05 11:36+0100\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: Closemarketing <info@closemarketing.es>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-KeywordsList: _e;__;_;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -50,13 +50,13 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/activity.php:76
 #, php-format
 msgid "Message %s created by %s"
-msgstr ""
+msgstr "Mensaje %s creado por %s"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/activity.php:87
 #, php-format
 msgid "Message %s updated by %s"
-msgstr ""
+msgstr "Mensaje %s actualizado por %s"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/activity.php:97
@@ -174,7 +174,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/ajax.php:386
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:109
 msgid "Delete File"
-msgstr ""
+msgstr "Borrar Archivo"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:26
@@ -186,7 +186,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/single.php:10
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/single.php:13
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:27
@@ -197,18 +197,18 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:38
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:39
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:40
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:414
 msgid "Add Message"
-msgstr ""
+msgstr "Añadir Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:41
 msgid "Add New Message"
-msgstr ""
+msgstr "Añadir Nuevo Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:42
@@ -223,28 +223,28 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/single.php:28
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/header.php:21
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:43
 msgid "Edit Message"
-msgstr ""
+msgstr "Editar Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:44
 msgid "New Message"
-msgstr ""
+msgstr "Nuevo Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:45
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:46
 msgid "View Message"
-msgstr ""
+msgstr "Ver Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:47
 msgid "Search Messages"
-msgstr ""
+msgstr "Buscar Mensajes"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/message.php:48
@@ -268,61 +268,61 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:33
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:34
 msgid "Milestone"
-msgstr ""
+msgstr "Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:35
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:482
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/milestone/index.php:5
 msgid "Add Milestone"
-msgstr ""
+msgstr "Añadir Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:36
 msgid "Add New Milestone"
-msgstr ""
+msgstr "Añadir Nuevo Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:38
 msgid "Edit Milestone"
-msgstr ""
+msgstr "Editar Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:39
 msgid "New Milestone"
-msgstr ""
+msgstr "Nuevo Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:40
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:41
 msgid "View Milestone"
-msgstr ""
+msgstr "Ver Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:42
 msgid "Search Milestone"
-msgstr ""
+msgstr "Buscar Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:43
 msgid "No Milestone Found"
-msgstr ""
+msgstr "No se encontró Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:44
 msgid "No Milestone Found in Trash"
-msgstr ""
+msgstr "No se encontró Hito en la Papelera"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/milestone.php:45
 msgid "Parent Milestone"
-msgstr ""
+msgstr "Hito Padre"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/notification.php:49
 #, php-format
 msgid "New Project invitation on %s"
-msgstr ""
+msgstr "Nueva invitación al Proyecto en %s"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/notification.php:50
@@ -347,7 +347,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/notification.php:106
 #, php-format
 msgid "Permalink : %s"
-msgstr ""
+msgstr "Permalink : %s"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/notification.php:103
@@ -367,7 +367,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:38
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:39
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:27
@@ -388,13 +388,13 @@ msgstr "Añadir Nuevo Proyecto"
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:43
 msgid "Edit Project"
-msgstr ""
+msgstr "Editar Proyecto"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:44
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/index.php:14
 msgid "New Project"
-msgstr ""
+msgstr "Nuevo Proyecto"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:45
@@ -426,7 +426,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:219
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/single.php:5
 msgid "Activity"
-msgstr ""
+msgstr "Actividad"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:221
@@ -448,7 +448,7 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/project.php:223
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/files/index.php:2
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:26
@@ -459,138 +459,138 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/task/single.php:7
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/task/task-single.php:9
 msgid "Task List"
-msgstr ""
+msgstr "Listado Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:40
 msgid "Add Task List"
-msgstr ""
+msgstr "Añadir Lista Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:41
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/task/index.php:9
 msgid "Add New Task List"
-msgstr ""
+msgstr "Añadir Nueva Lista Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:43
 msgid "Edit Task List"
-msgstr ""
+msgstr "Editar Lista Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:44
 msgid "New Task List"
-msgstr ""
+msgstr "Nueva Lista Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:45
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:46
 msgid "View Task List"
-msgstr ""
+msgstr "Ver Lista de Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:47
 msgid "Search Task List"
-msgstr ""
+msgstr "Buscar Lista de Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:48
 msgid "No Task List Found"
-msgstr ""
+msgstr "No se encontró Lista de Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:49
 msgid "No Task List Found in Trash"
-msgstr ""
+msgstr "No se encontró Lista de Tareas en la Papelera"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:50
 msgid "Parent Task List"
-msgstr ""
+msgstr "Lista de Tareas Padre"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:55
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:67
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:68
 msgid "Task"
-msgstr ""
+msgstr "Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:56
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:66
 msgid "Tasks"
-msgstr ""
+msgstr "Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:69
 msgid "Add Task"
-msgstr ""
+msgstr "Añadir Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:70
 msgid "Add New Task"
-msgstr ""
+msgstr "Añadir Nueva Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:72
 msgid "Edit Task"
-msgstr ""
+msgstr "Editar Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:73
 msgid "New Task"
-msgstr ""
+msgstr "Nueva Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:74
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:75
 msgid "View Task"
-msgstr ""
+msgstr "Ver Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:76
 msgid "Search Task"
-msgstr ""
+msgstr "Buscar Tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:77
 msgid "No Task Found"
-msgstr ""
+msgstr "No se encontró la tarea"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:78
 msgid "No Task Found in Trash"
-msgstr ""
+msgstr "No se encontró la tarea en la Papelera"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/class/task.php:79
 msgid "Parent Task"
-msgstr ""
+msgstr "Tarea Padre"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:4
 msgid "Public"
-msgstr ""
+msgstr "Público"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:4
 msgid "Private"
-msgstr ""
+msgstr "Privado"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:31
 msgid "Select co-workers"
-msgstr ""
+msgstr "Seleccionar Colaboradores"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:76
 msgid "No users found"
-msgstr ""
+msgstr "No se encontraron usuarios"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:87
 msgid "-- assign to --"
-msgstr ""
+msgstr "-- asignar a --"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:118
@@ -603,7 +603,7 @@ msgstr ""
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/functions.php:177
 msgid "Completed"
-msgstr ""
+msgstr "Completada"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:18
@@ -618,18 +618,18 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/index.php:45
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/single.php:13
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:41
 msgid "1 Comment"
-msgstr ""
+msgstr "1 Comentario"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:41
 #, php-format
 msgid "%d Comments"
-msgstr ""
+msgstr "%d Comentarios"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:53
@@ -645,7 +645,7 @@ msgstr ""
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:105
 msgid "Save Changes"
-msgstr ""
+msgstr "Guardar Cambios"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:137
@@ -655,23 +655,23 @@ msgstr ""
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:527
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:681
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:155
 msgid "Add List"
-msgstr ""
+msgstr "Añadir Lista"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:163
 msgid "Update List"
-msgstr ""
+msgstr "Actualizar Lista"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:187
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:447
 msgid "-- milestone --"
-msgstr ""
+msgstr "-- hito --"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:261
@@ -681,58 +681,58 @@ msgstr ""
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:296
 msgid "Add this comment"
-msgstr ""
+msgstr "Añadir este comentario"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:303
 msgid "Update comment"
-msgstr ""
+msgstr "Actualizar comentario"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:327
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:457
 msgid "Notify users"
-msgstr ""
+msgstr "Notificar Usuarios"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:425
 msgid "Update Message"
-msgstr ""
+msgstr "Actualizar Mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:491
 msgid "Update Milestone"
-msgstr ""
+msgstr "Actualizar Hito"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:550
 msgid "left"
-msgstr ""
+msgstr "quitado"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:550
 msgid "late"
-msgstr ""
+msgstr "tarde"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:566
 msgid "Are you sure?"
-msgstr ""
+msgstr "¿Estás seguro?"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:570
 msgid "Mark as complete"
-msgstr ""
+msgstr "Marcar como completada"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:572
 msgid "Reopen"
-msgstr ""
+msgstr "Reabrir"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:626
 msgid "Completed on:"
-msgstr ""
+msgstr "Completada el:"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/includes/html.php:645
@@ -769,12 +769,12 @@ msgstr ""
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/index.php:13
 msgid "Add New"
-msgstr ""
+msgstr "Añadir Nuevo"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/index.php:17
 msgid "Create a new message"
-msgstr ""
+msgstr "Crear nuevo mensaje"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/message/index.php:44
@@ -839,17 +839,17 @@ msgstr ""
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/index.php:47
 msgid "Start a new project"
-msgstr ""
+msgstr "Empezar un nuevo Proyecto"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/project/single.php:8
 msgid "Project Activity"
-msgstr ""
+msgstr "Actividad de Proyectos"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/task/index.php:9
 msgid "Task Lists"
-msgstr ""
+msgstr "Listas de Tareas"
 
 #: /Volumes/Macintosh
 #: HD/Users/davidperezgar/Web/wp-project-manager/views/task/index.php:32
