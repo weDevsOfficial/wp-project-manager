@@ -11,6 +11,7 @@
             $('.cpm-edit-project').on('submit', 'form.cpm-project-form', this.Project.edit);
             $('.cpm-project-head').on('click', 'a.cpm-icon-edit', this.Project.toggleEditForm);
             $('.cpm-project-head').on('click', 'a.project-cancel', this.Project.toggleEditForm);
+            $('.cpm-load-more').on('click', this.Project.loadActivity);
 
             /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
@@ -29,6 +30,7 @@
             $('.cpm-comment-wrap').on('click', '.cpm-delete-comment-link', this.Comment.deleteComment);
             $('.cpm-comment-wrap').on('submit', '.cpm-comment-form', this.Comment.update);
             $('.cpm-comment-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+            $('.cpm-comment-form-wrap').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({
@@ -37,6 +39,14 @@
 
                     return false;
                 }
+            });
+            
+            // toggle all user notification checkbox
+            $('.cpm').on('click', '.cpm-toggle-checkbox', function(e) {
+                e.preventDefault();
+                
+                var $checkBoxes = $('.notify-users').find('input[type=checkbox][name="notify_user[]"]')
+                $checkBoxes.prop('checked', !$checkBoxes.prop('checked'));
             });
 
 
@@ -162,6 +172,35 @@
                     });
                 }
 
+            },
+
+            loadActivity: function(e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    total = self.data('total'),
+                    start = parseInt(self.data('start')),
+                    data = {
+                        project_id: self.data('project_id'),
+                        offset: start,
+                        action: 'cpm_get_activity',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                self.append('<div class="cpm-loading">Loading...</div>');
+                $.get(CPM_Vars.ajaxurl, data, function (res) {
+                    res = $.parseJSON(res);
+
+                    if(res.success) {
+                        start = res.count + start;
+                        self.prev('ul.cpm-activity').append(res.content);
+                        self.data('start', start);
+                    } else {
+                        self.remove();
+                    }
+
+                    $('.cpm-loading').remove();
+                });
             }
         },
 

@@ -9,6 +9,7 @@ $args = array(
 );
 
 $attachments = get_posts( $args );
+$base_image_url = admin_url('admin-ajax.php?action=cpm_file_get');
 
 if ( $attachments ) {
 
@@ -35,10 +36,18 @@ if ( $attachments ) {
         } else if ( $parent->post_type == 'message' ) {
             $topic_url = cpm_url_single_message( $project_id, $parent->ID );
         }
+
+        $file_url = sprintf( '%s&file_id=%d&project_id=%d', $base_image_url, $file['id'], $project_id );
+
+        if ( $file['type'] == 'image' ) {
+            $thumb_url = sprintf( '%s&file_id=%d&project_id=%d&type=thumb', $base_image_url, $file['id'], $project_id );
+        } else {
+            $thumb_url = $file['thumb'];
+        }
         ?>
         <li>
             <div class="cpm-thumb">
-                <a href="<?php echo $file['url']; ?>"><img src="<?php echo $file['thumb']; ?>" alt="<?php echo esc_attr( $file['name'] ); ?>" /></a>
+                <a href="<?php echo $file_url; ?>"><img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr( $file['name'] ); ?>" /></a>
             </div>
             <div class="cpm-thumb-detail">
                 <h3 class="cpm-file-name"><?php echo $file['name']; ?></h3>
@@ -48,7 +57,7 @@ if ( $attachments ) {
                 </div>
 
                 <div class="cpm-file-action">
-                    <a href="<?php echo $file['url']; ?>">Download</a> or Go to the <a href="<?php echo $topic_url; ?>">discussion</a>
+                    <?php printf( __( '<a href="%s">Download</a> or go to the <a href="%s">discussion</a>.', 'cpm' ), $file_url, $topic_url ); ?>
                     <?php if ( $parent->comment_count ) { ?>
                         <span class="comment-number">
                             <?php printf( _n( '%d comment', '%d comments', get_comments_number( $parent->ID ), 'cpm' ), get_comments_number( $parent->ID ) ); ?>

@@ -23,6 +23,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_delete', array($this, 'delete_task') );
         add_action( 'wp_ajax_cpm_task_add', array($this, 'add_new_task') );
         add_action( 'wp_ajax_cpm_task_update', array($this, 'update_task') );
+        add_action( 'wp_ajax_cpm_task_order', array($this, 'task_save_order') );
 
         add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
@@ -47,6 +48,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
         add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
         add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
+
+        add_action( 'wp_ajax_cpm_get_activity', array($this, 'get_activity') );
     }
 
     function project_new() {
@@ -94,7 +97,7 @@ class CPM_Ajax {
         $posted = $_POST;
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
-        CPM_Project::getInstance()->delete( $project_id );
+        CPM_Project::getInstance()->delete( $project_id, true );
 
         echo json_encode( array(
             'success' => true,
@@ -154,6 +157,17 @@ class CPM_Ajax {
         echo json_encode( $response );
         exit;
     }
+    
+    function task_save_order() {
+
+        if ( $_POST['items'] ) {
+            foreach ($_POST['items'] as $index => $task_id) {
+                wp_update_post( array('ID' => $task_id, 'menu_order' => $index) );
+            }
+        }
+        
+        exit;
+    }
 
     function mark_task_complete() {
         check_ajax_referer( 'cpm_nonce' );
@@ -211,7 +225,7 @@ class CPM_Ajax {
         $project_id = (int) $_POST['project_id'];
 
         $task_obj = CPM_Task::getInstance();
-        $task_obj->delete_task( $task_id );
+        $task_obj->delete_task( $task_id, true );
         $complete = $task_obj->get_completeness( $list_id );
 
         echo json_encode( array(
@@ -279,7 +293,7 @@ class CPM_Ajax {
     function delete_tasklist() {
         check_ajax_referer( 'cpm_nonce' );
 
-        CPM_Task::getInstance()->delete_list( $_POST['list_id'] );
+        CPM_Task::getInstance()->delete_list( $_POST['list_id'], true );
 
         echo json_encode( array(
             'success' => true
@@ -289,7 +303,7 @@ class CPM_Ajax {
     }
 
     function milestone_new() {
-        check_ajax_referer( 'cpm_milesotne' );
+        check_ajax_referer( 'cpm_milestone' );
 
         CPM_Milestone::getInstance()->create( $_POST['project_id'] );
 
@@ -301,7 +315,7 @@ class CPM_Ajax {
     }
 
     function milestone_update() {
-        check_ajax_referer( 'cpm_milesotne' );
+        check_ajax_referer( 'cpm_milestone' );
         $posted = $_POST;
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
@@ -338,7 +352,7 @@ class CPM_Ajax {
 
         $milestone_id = (int) $_POST['milestone_id'];
 
-        $this->_milestone_obj->delete( $milestone_id );
+        $this->_milestone_obj->delete( $milestone_id, true );
         echo json_encode( array(
             'success' => true
         ) );
@@ -457,6 +471,7 @@ class CPM_Ajax {
         //print_r( $posted );
 
         $comment_id = isset( $posted['comment_id'] ) ? intval( $posted['comment_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
 
         $data = array(
             'text' => $posted['cpm_message']
@@ -467,7 +482,7 @@ class CPM_Ajax {
 
         $comment = $comment_obj->get( $comment_id );
         $content = cpm_comment_text( $comment_id );
-        $content .= cpm_show_attachments( $comment );
+        $content .= cpm_show_attachments( $comment, $project_id );
 
         echo json_encode( array(
             'success' => true,
@@ -500,7 +515,7 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
 
         $comment_id = isset( $_POST['comment_id'] ) ? intval( $_POST['comment_id'] ) : 0;
-        CPM_Comment::getInstance()->delete( $comment_id );
+        CPM_Comment::getInstance()->delete( $comment_id, true );
 
         echo json_encode( array(
             'success' => true
@@ -556,11 +571,11 @@ class CPM_Ajax {
         $message_id = $message_obj->update( $project_id, $files, $message_id );
         $message = $message_obj->get( $message_id );
 
-        if ( $message_id ) {
+        if ( $message_id && ! empty( $message ) ) {
             echo json_encode( array(
                 'success' => true,
                 'id' => $message_id,
-                'content' => cpm_get_content( $message->post_content ). cpm_show_attachments( $message )
+                'content' => cpm_get_content( $message->post_content ). cpm_show_attachments( $message, $project_id )
             ) );
 
             exit;
@@ -581,7 +596,7 @@ class CPM_Ajax {
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
         $message_id = isset( $posted['message_id'] ) ? intval( $posted['message_id'] ) : 0;
 
-        CPM_Message::getInstance()->delete( $message_id );
+        CPM_Message::getInstance()->delete( $message_id, true );
 
         echo json_encode( array(
             'success' => true,
@@ -615,6 +630,30 @@ class CPM_Ajax {
             'success' => false
         ) );
 
+        exit;
+    }
+
+    /**
+     * Get project activity
+     *
+     * @since 0.3.1
+     */
+    function get_activity() {
+        $project_id = isset( $_GET['project_id'] ) ? intval( $_GET['project_id'] ) : 0;
+        $offset = isset( $_GET['offset'] ) ? intval( $_GET['offset'] ) : 0;
+
+        $activities = CPM_project::getInstance()->get_activity( $project_id, array('offset' => $offset) );
+        if ( $activities ) {
+            echo json_encode( array(
+                'success' => true,
+                'content' => cpm_activity_html( $activities ),
+                'count' => count( $activities )
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
         exit;
     }
 

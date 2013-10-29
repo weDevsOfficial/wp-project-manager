@@ -10,30 +10,35 @@ if ( !$message ) {
 cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
 ?>
 
-<h3 class="cpm-nav-title"><?php _e( 'Messages', 'cpm' ); ?></h3>
+<h3 class="cpm-nav-title">
+    <a href="<?php echo cpm_url_message_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
+</h3>
 
 <div class="cpm-single">
 
     <h3 class="cpm-entry-title"><?php echo get_the_title( $message_id ); ?></h3>
 
     <div class="cpm-entry-meta">
-        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date ); ?></span>
+        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date, true ); ?></span>
         <span class="cpm-separator">|</span>
         <span class="cpm-date"><?php echo cpm_url_user( $message->post_author ); ?></span>
         <span class="cpm-separator">|</span>
         <span class="cpm-comment-num"><?php echo cpm_get_number( $message->comment_count ); ?></span>
-        <span class="cpm-separator">|</span>
-        <span class="cpm-edit-link">
-            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit">
-                <?php _e( 'Edit', 'cpm' ); ?>
-            </a>
-        </span>
+        
+        <?php if( $message->post_author == get_current_user_id() ) { ?>
+            <span class="cpm-separator">|</span>
+            <span class="cpm-edit-link">
+                <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit">
+                    <?php _e( 'Edit', 'cpm' ); ?>
+                </a>
+            </span>
+        <?php } ?>
     </div>
 
     <div class="cpm-entry-detail">
         <?php echo cpm_get_content( $message->post_content ); ?>
 
-        <?php echo cpm_show_attachments( $message ); ?>
+        <?php echo cpm_show_attachments( $message, $project_id ); ?>
     </div>
 
     <span class="cpm-msg-edit-form"></span>

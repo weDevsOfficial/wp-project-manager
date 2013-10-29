@@ -64,8 +64,10 @@ class CPM_Comment {
         ) );
 
         if ( isset( $_POST['cpm_attachment'] ) ) {
+            $parent_id = isset( $_POST['parent_id'] ) ? intval( $_POST['parent_id'] ) : 0;
+
             update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
-            $this->associate_file( $_POST['cpm_attachment'], $_POST['project_id'] );
+            $this->associate_file( $_POST['cpm_attachment'], $parent_id, $_POST['project_id'] );
         }
 
         do_action( 'cpm_comment_update', $comment_id, $_POST['project_id'], $data );
@@ -83,7 +85,7 @@ class CPM_Comment {
         //delete any file attached to it
         $files = get_comment_meta( $comment_id, '_files', true );
 
-        if ( $files ) {
+        if ( ! empty( $files ) && is_array( $files ) ) {
             foreach ( $files as $file_id ) {
                 $this->delete_file( $file_id );
             }
@@ -132,11 +134,11 @@ class CPM_Comment {
      */
     function get_comments( $post_id, $order = 'ASC' ) {
         $comments = get_comments( array('post_id' => $post_id, 'order' => $order) );
-        $file_array = array();
 
         //prepare comment attachments
         if ( $comments ) {
             foreach ($comments as $key => $comment) {
+                $file_array = array();
                 $files = get_comment_meta( $comment->comment_ID, '_files', true );
 
                 if ( $files != '' ) {
@@ -220,8 +222,10 @@ class CPM_Comment {
 
                 $thumb = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
                 $response['thumb'] = $thumb[0];
+                $response['type'] = 'image';
             } else {
                 $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
+                $response['type'] = 'file';
             }
 
             return $response;

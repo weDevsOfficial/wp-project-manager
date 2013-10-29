@@ -1,0 +1,1001 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager v0.4.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-04-03 22:32+0100\n"
+"Last-Translator: Alexander Pfabel <homepage@pfabel.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"Language: de_DE\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ cpm
+#: class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Projekt erstellt von %s"
+
+# @ cpm
+#: class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Projektdetails aktualisiert von %s"
+
+# @ cpm
+#: class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Nachricht %s erstellt von %s"
+
+# @ cpm
+#: class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Meldung %s aktualisiert von %s"
+
+# @ cpm
+#: class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Meldung \"%s\" von %s gelöscht"
+
+# @ cpm
+#: class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Aufgabenliste %s erstellt von %s"
+
+# @ cpm
+#: class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Aufgabenliste %s aktualisiert von %s"
+
+# @ cpm
+#: class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Aufgabenliste \"%s\" von %s gelöscht"
+
+# @ cpm
+#: class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Aufgabe %s hinzugefügt zu Aufgabenliste %s von %s"
+
+# @ cpm
+#: class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Aufgabe %s von %s aktualisiert"
+
+# @ cpm
+#: class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Aufgabe %s von %s abgeschlossen"
+
+# @ cpm
+#: class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "Aufgabe als erledigt markiert"
+
+# @ cpm
+#: class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Aufgabe %s von %s als noch nicht fertig markiert"
+
+# @ cpm
+#: class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Aufgabe wieder geöffnet"
+
+# @ cpm
+#: class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Aufgabe \"%s\" aus Aufgabenliste %s von %s gelöscht"
+
+# @ cpm
+#: class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s kommentierte bei %s"
+
+# @ cpm
+#: class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s aktualsierte Kommentirung von %s"
+
+# @ cpm
+#: class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s hat einen Kommentar gelöscht"
+
+# @ cpm
+#: class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Meilenstein \"%s\" hinzugefügt von %s"
+
+# @ cpm
+#: class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Meilenstein \"%s\" geändert von %s"
+
+# @ cpm
+#: class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Meilenstein \"%s\" von %s gelöscht"
+
+# @ cpm
+#: class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Meilenstein \"%s\" von %s als erledigt markiert"
+
+# @ cpm
+#: class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Meilenstein \"%s\" als unvollständig markiert von %s"
+
+# @ cpm
+#: class/admin.php:33
+msgid "Settings"
+msgstr "Einstellungen"
+
+# @ cpm
+#: class/admin.php:40
+msgid "General"
+msgstr "Allgemein"
+
+# @ cpm
+#: class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "E-Mail-Einstellungen"
+
+# @ cpm
+#: class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Datei-Upload-Limit"
+
+# @ default
+#: class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "Größe in Megabyte, z. B. 2"
+
+# @ cpm
+#: class/admin.php:71
+msgid "E-Mail Type"
+msgstr "E-Mail-Typ"
+
+# @ cpm
+#: class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML-E-Mail"
+
+# @ cpm
+#: class/admin.php:76
+msgid "Plain Text"
+msgstr "Text-E-Mail"
+
+# @ cpm
+#: class/admin.php:81
+msgid "New Project Subject"
+msgstr "Neues Projekt-Thema"
+
+# @ cpm
+#: class/admin.php:86
+msgid "New Project Body"
+msgstr "Neuer Projekttext"
+
+# @ cpm
+#: class/admin.php:96
+msgid "New Message Subject"
+msgstr "Neuer Nachrichtenbetreff"
+
+# @ cpm
+#: class/admin.php:101
+msgid "New Message Body"
+msgstr "Neue Nachrichtentext"
+
+# @ cpm
+#: class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Neues Kommentar-Thema"
+
+# @ cpm
+#: class/admin.php:113 class/admin.php:125
+msgid "Body"
+msgstr "Text"
+
+# @ cpm
+#: class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Neues Aufgabe-Thema"
+
+# @ default
+#: class/ajax.php:400 includes/functions.php:167
+msgid "Delete File"
+msgstr "Datei Löschen"
+
+# @ cpm
+#: class/message.php:26 class/message.php:41 class/project.php:292
+#: includes/html.php:679 views/message/index.php:10 views/message/index.php:14
+#: views/message/single.php:10
+msgid "Messages"
+msgstr "Nachrichten"
+
+# @ cpm
+#: class/message.php:27
+msgid "message post type"
+msgstr "Nachrichtenposttyp"
+
+# @ cpm
+#: class/message.php:42 class/message.php:43
+msgid "Message"
+msgstr "Nachricht"
+
+# @ cpm
+#: class/message.php:44 includes/html.php:460
+msgid "Add Message"
+msgstr "Nachricht hinzufügen"
+
+# @ cpm
+#: class/message.php:45
+msgid "Add New Message"
+msgstr "Neue Nachricht hinzufügen"
+
+# @ cpm
+#: class/message.php:46 class/milestone.php:41 class/project.php:46
+#: class/task.php:46 class/task.php:79 includes/html.php:30
+#: includes/html.php:229 includes/html.php:391 includes/html.php:631
+#: views/message/single.php:32 views/project/header.php:21
+msgid "Edit"
+msgstr "Bearbeiten"
+
+# @ cpm
+#: class/message.php:47
+msgid "Edit Message"
+msgstr "Nachricht bearbeiten"
+
+# @ cpm
+#: class/message.php:48
+msgid "New Message"
+msgstr "Neue Nachricht"
+
+# @ cpm
+#: class/message.php:49 class/message.php:50
+msgid "View Message"
+msgstr "Nachricht anzeigen"
+
+# @ cpm
+#: class/message.php:51
+msgid "Search Messages"
+msgstr "Nachrichten suchen"
+
+# @ cpm
+#: class/message.php:52
+msgid "No Messages Found"
+msgstr "Keine Nachrichten gefunden"
+
+# @ cpm
+#: class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Keine Nachrichten im Papierkorb gefunden"
+
+# @ cpm
+#: class/message.php:54
+msgid "Parent Message"
+msgstr "Übergeordnete Nachricht"
+
+# @ cpm
+#: class/milestone.php:21 class/milestone.php:22 class/milestone.php:36
+#: class/milestone.php:37 class/milestone.php:38
+msgid "Milestone"
+msgstr "Meilenstein"
+
+# @ cpm
+#: class/milestone.php:39 includes/html.php:541 views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Meilenstein hinzufügen"
+
+# @ cpm
+#: class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Neuen Meilenstein hinzufügen"
+
+# @ cpm
+#: class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Meilenstein bearbeiten"
+
+# @ cpm
+#: class/milestone.php:43
+msgid "New Milestone"
+msgstr "Neuer Meilenstein"
+
+# @ cpm
+#: class/milestone.php:44 class/milestone.php:45
+msgid "View Milestone"
+msgstr "Meilenstein anzeigen"
+
+# @ cpm
+#: class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Meilenstein suchen"
+
+# @ cpm
+#: class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Kein Meilenstein gefunden"
+
+# @ cpm
+#: class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Kein Meilenstein im Papierkorb gefunden"
+
+# @ cpm
+#: class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Übergeordneter Meilenstein"
+
+# @ cpm
+#: class/project.php:26 class/project.php:41 class/project.php:42
+#: class/project.php:43
+msgid "Project"
+msgstr "Projekt"
+
+# @ cpm
+#: class/project.php:27
+msgid "project manager post type"
+msgstr "Projekt-Manager-Post-Typ"
+
+# @ cpm
+#: class/project.php:44
+msgid "Add Project"
+msgstr "Projekt hinzufügen"
+
+# @ cpm
+#: class/project.php:45 includes/html.php:710
+msgid "Add New Project"
+msgstr "Neues Projekt hinzufügen"
+
+# @ cpm
+#: class/project.php:47
+msgid "Edit Project"
+msgstr "Projekt bearbeiten"
+
+# @ cpm
+#: class/project.php:48 views/project/index.php:14
+msgid "New Project"
+msgstr "Neues Projekt"
+
+# @ cpm
+#: class/project.php:49 class/project.php:50
+msgid "View Project"
+msgstr "Projekt anzeigen"
+
+# @ cpm
+#: class/project.php:51
+msgid "Search Project"
+msgstr "Projekt suchen"
+
+# @ cpm
+#: class/project.php:52
+msgid "No Project Found"
+msgstr "Kein Projekt gefunden"
+
+# @ cpm
+#: class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Kein Projekt im Papierkorb gefunden"
+
+# @ cpm
+#: class/project.php:54
+msgid "Parent Project"
+msgstr "Übergeordnetes Projekt"
+
+# @ cpm
+#: class/project.php:291 views/project/single.php:5
+msgid "Activity"
+msgstr "Aktivität"
+
+# @ cpm
+#: class/project.php:293 includes/html.php:657 views/task/index.php:5
+#: views/task/single.php:5 views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Aufgabenliste"
+
+# @ cpm
+#: class/project.php:294 views/milestone/index.php:1
+#: views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Meilensteine"
+
+# @ cpm
+#: class/project.php:295 views/files/index.php:2
+msgid "Files"
+msgstr "Dateien"
+
+# @ cpm
+#: class/task.php:26 class/task.php:27 class/task.php:41 class/task.php:42
+#: class/task.php:43 views/task/single.php:10 views/task/task-single.php:9
+msgid "Task List"
+msgstr "Aufgabenliste"
+
+# @ cpm
+#: class/task.php:44
+msgid "Add Task List"
+msgstr "Aufgabenliste hinzufügen"
+
+# @ cpm
+#: class/task.php:45 views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Neue Aufgabenliste hinzufügen"
+
+# @ cpm
+#: class/task.php:47
+msgid "Edit Task List"
+msgstr "Aufgabenliste bearbeiten"
+
+# @ cpm
+#: class/task.php:48
+msgid "New Task List"
+msgstr "Neue Aufgabenliste"
+
+# @ cpm
+#: class/task.php:49 class/task.php:50
+msgid "View Task List"
+msgstr "Aufgabenliste anzeigen"
+
+# @ cpm
+#: class/task.php:51
+msgid "Search Task List"
+msgstr "Aufgabenliste suchen"
+
+# @ cpm
+#: class/task.php:52
+msgid "No Task List Found"
+msgstr "Keine Aufgabenliste gefunden"
+
+# @ cpm
+#: class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Keine Aufgabenliste im Papierkorb gefunden"
+
+# @ cpm
+#: class/task.php:54
+msgid "Parent Task List"
+msgstr "Übergeordnete Aufgabenliste"
+
+# @ cpm
+#: class/task.php:59 class/task.php:75 class/task.php:76
+msgid "Task"
+msgstr "Aufgabe"
+
+# @ cpm
+#: class/task.php:60 class/task.php:74
+msgid "Tasks"
+msgstr "Aufgaben"
+
+# @ cpm
+#: class/task.php:77
+msgid "Add Task"
+msgstr "Neue Aufgabe"
+
+# @ cpm
+#: class/task.php:78
+msgid "Add New Task"
+msgstr "Neue Aufgabe hinzufügen"
+
+# @ cpm
+#: class/task.php:80
+msgid "Edit Task"
+msgstr "Aufgabe bearbeiten"
+
+# @ cpm
+#: class/task.php:81
+msgid "New Task"
+msgstr "Neue Aufgabe"
+
+# @ cpm
+#: class/task.php:82 class/task.php:83
+msgid "View Task"
+msgstr "Aufgabe anzeigen"
+
+# @ cpm
+#: class/task.php:84
+msgid "Search Task"
+msgstr "Aufgabe suchen"
+
+# @ cpm
+#: class/task.php:85
+msgid "No Task Found"
+msgstr "Keine Aufgabe gefunden"
+
+# @ cpm
+#: class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Keine Aufgabe im Papierkorb gefunden"
+
+# @ cpm
+#: class/task.php:87
+msgid "Parent Task"
+msgstr "Übergeordnete Aufgabe"
+
+# @ default
+#: cpm.php:160
+msgid "Allowed Files"
+msgstr "Erlaubte Dateien"
+
+# @ cpm
+#: cpm.php:189 views/project/index.php:7
+msgid "Project Manager"
+msgstr "Projektmanager"
+
+# @ cpm
+#: cpm.php:190
+msgid "Projects"
+msgstr "Projekte"
+
+# @ cpm
+#: includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Mitarbeiter wählen"
+
+# @ cpm
+#: includes/functions.php:124
+msgid "No users found"
+msgstr "Keine Benutzer gefunden"
+
+# @ cpm
+#: includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- zugewiesen zu --"
+
+# @ cpm
+#: includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"Für Anhänge <a id=\"cpm-upload-pickfiles%s\" href=\"#\"> wählen Sie Dateien</"
+"a> von Ihrem Computer."
+
+# @ cpm
+#: includes/functions.php:238
+msgid "Completed"
+msgstr "Abgeschlossen"
+
+# @ cpm
+#: includes/functions.php:388
+#, php-format
+msgid "%d message"
+msgid_plural "%d messages"
+msgstr[0] "%d Nachricht"
+msgstr[1] "%d Nachrichten"
+
+# @ cpm
+#: includes/functions.php:392
+#, php-format
+msgid "%d to-do list"
+msgid_plural "%d to-do lists"
+msgstr[0] "%d Aufgabenliste"
+msgstr[1] "%d Aufgabenlisten"
+
+# @ cpm
+#: includes/functions.php:396
+#, php-format
+msgid "%d to-do"
+msgid_plural "%d to-dos"
+msgstr[0] "%d Aufgabe"
+msgstr[1] "%d Aufgaben"
+
+# @ cpm
+#: includes/functions.php:400 views/files/index.php:63
+#, php-format
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] "%d Kommentar"
+msgstr[1] "%d Kommentare"
+
+# @ cpm
+#: includes/functions.php:404
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d Datei"
+msgstr[1] "%d Dateien"
+
+# @ cpm
+#: includes/functions.php:408
+#, php-format
+msgid "%d milestone"
+msgid_plural "%d milestones"
+msgstr[0] "%d Meilenstein"
+msgstr[1] "%d Meilensteine"
+
+# @ cpm
+#: includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Wollen Sie diese Aufgabe wirklich löschen?"
+
+# @ cpm
+#: includes/html.php:26 includes/html.php:227 includes/html.php:397
+#: includes/html.php:634 views/message/index.php:47
+#: views/project/single.php:13
+msgid "Delete"
+msgstr "Löschen"
+
+# @ cpm
+#: includes/html.php:49
+msgid "1 Comment"
+msgstr "1 Kommentar"
+
+# @ cpm
+#: includes/html.php:49
+#, php-format
+msgid "%d Comments"
+msgstr "%d Kommentare"
+
+# @ cpm
+#: includes/html.php:61
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Vervollständigt von %s auf % s)"
+
+# @ cpm
+#: includes/html.php:106
+msgid "Add this to-do"
+msgstr "Diese Aufgabe hinzufügen"
+
+# @ cpm
+#: includes/html.php:113
+msgid "Save Changes"
+msgstr "Änderungen speichern"
+
+# @ cpm
+#: includes/html.php:132
+msgid "Add a new to-do"
+msgstr "Neue Aufgabe hinzufügen"
+
+# @ cpm
+#: includes/html.php:135 includes/html.php:570
+msgid "Due date"
+msgstr "Fälligkeitsdatum"
+
+# @ cpm
+# @ wedevs
+#: includes/html.php:145 includes/html.php:204 includes/html.php:350
+#: includes/html.php:521 includes/html.php:588 includes/html.php:756
+msgid "Cancel"
+msgstr "Abbrechen"
+
+# @ cpm
+#: includes/html.php:163
+msgid "Add List"
+msgstr "Liste hinzufügen"
+
+# @ cpm
+#: includes/html.php:171
+msgid "Update List"
+msgstr "Liste aktualisieren"
+
+# @ cpm
+#: includes/html.php:186
+msgid "Tasklist name"
+msgstr "Aufgabenlistenname"
+
+# @ cpm
+#: includes/html.php:190
+msgid "Tasklist detail"
+msgstr "Aufgabenlistendetail"
+
+# @ cpm
+#: includes/html.php:195 includes/html.php:493
+msgid "-- milestone --"
+msgstr "-- Meilenstein --"
+
+# @ cpm
+#: includes/html.php:226
+msgid "Are you sure to delete this to-do list?"
+msgstr "Wollen Sie diese Aufgabenliste wirklich löschen?"
+
+# @ cpm
+#: includes/html.php:270
+msgid "Add a to-do"
+msgstr "Neue Aufgabe hinzufügen"
+
+# @ cpm
+#: includes/html.php:305
+msgid "Add this comment"
+msgstr "Diesen Kommentar hinzufügen"
+
+# @ cpm
+#: includes/html.php:312
+msgid "Update comment"
+msgstr "Kommentar aktualisieren"
+
+# @ cpm
+#: includes/html.php:328
+msgid "Add a comment..."
+msgstr "Kommentar hinzufügen..."
+
+# @ cpm
+#: includes/html.php:337 includes/html.php:504
+msgid "Notify users"
+msgstr "Benutzer benachrichtigen"
+
+# @ cpm
+#: includes/html.php:338 includes/html.php:505
+msgid "Select all"
+msgstr "Alle wählen"
+
+# @ cpm
+#: includes/html.php:471
+msgid "Update Message"
+msgstr "Nachricht aktualisieren"
+
+# @ cpm
+#: includes/html.php:484
+msgid "Enter message title"
+msgstr "Nachrichtentitel eingeben"
+
+# @ cpm
+#: includes/html.php:488
+msgid "Message details here"
+msgstr "Hier Nachrichtendetails eingeben"
+
+# @ cpm
+#: includes/html.php:550
+msgid "Update Milestone"
+msgstr "Meilenstein aktualisieren"
+
+# @ cpm
+#: includes/html.php:566
+msgid "Milestone name"
+msgstr "Meilensteinname"
+
+# @ cpm
+#: includes/html.php:574
+msgid "Details about milestone (optional)"
+msgstr "Details zu Meilenstein (optional)"
+
+# @ cpm
+#: includes/html.php:618
+msgid "left"
+msgstr "links"
+
+# @ cpm
+#: includes/html.php:618
+msgid "late"
+msgstr "spät"
+
+# @ cpm
+#: includes/html.php:631
+msgid "Edit milestone"
+msgstr "Meilenstein bearbeiten"
+
+# @ cpm
+#: includes/html.php:634
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+# @ cpm
+#: includes/html.php:634
+msgid "Delete milestone"
+msgstr "Meilenstein löschen"
+
+# @ cpm
+#: includes/html.php:638
+msgid "Mark as complete"
+msgstr "Als erledigt markieren"
+
+# @ cpm
+#: includes/html.php:640
+msgid "Mark un-complete"
+msgstr "Als unvollständig markieren"
+
+# @ cpm
+#: includes/html.php:640
+msgid "Reopen"
+msgstr "Erneut öffnen"
+
+# @ cpm
+#: includes/html.php:694
+msgid "Completed on:"
+msgstr "Abgeschlossen am:"
+
+# @ cpm
+#: includes/html.php:718
+msgid "Update Project"
+msgstr "Projekt aktualisieren"
+
+# @ cpm
+#: includes/html.php:727
+msgid "Name of the project"
+msgstr "Projektname"
+
+# @ wedevs
+#: includes/html.php:731
+msgid "Some details about the project (optional)"
+msgstr "Einige Details über das Projekt (optional)"
+
+# @ cpm
+#: includes/html.php:742
+msgid "Notify Co-workers"
+msgstr "Mitarbeiter benachrichtigen"
+
+# @ cpm
+#: includes/shortcodes.php:103 includes/shortcodes.php:106
+msgid "thread"
+msgstr "Thread"
+
+# @ cpm
+#: views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Angehängt an <a href=\"%s\">%s</a> von %s"
+
+# @ cpm
+#: views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+"<a href=\"%s\"> Downloaden</a> oder weiter zur <a href=\"%s\">Diskussion</a>."
+
+# @ cpm
+#: views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Keine Dateien gefunden!"
+
+# @ cpm
+#: views/message/index.php:14
+msgid "Add New"
+msgstr "Neu hinzufügen"
+
+# @ cpm
+#: views/message/index.php:18
+msgid "Create a new message"
+msgstr "Neue Nachricht erstellen"
+
+# @ cpm
+#: views/message/index.php:46
+msgid "Delete this message"
+msgstr "Diese Nachricht löschen"
+
+# @ cpm
+#: views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Möchten Sie diese Nachricht wirklich löschen?"
+
+# @ cpm
+#: views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Keine Nachrichten gefunden! Fügen Sie doch eine hinzu?"
+
+# @ cpm
+#: views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Fehler: Nachricht nicht gefunden"
+
+# @ cpm
+#: views/message/single.php:14 views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; zurück"
+
+# @ cpm
+#: views/message/single.php:55
+#, php-format
+msgid "One Comment"
+msgid_plural "%s Comments"
+msgstr[0] "Ein Kommentar"
+msgstr[1] "%s Kommentare"
+
+# @ cpm
+#: views/message/single.php:72
+msgid "No comments found"
+msgstr "Keine Kommentare gefunden"
+
+# @ cpm
+#: views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Keine Meilensteine gefunden!"
+
+# @ cpm
+#: views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Neuen Meilenstein hinzufügen"
+
+# @ cpm
+#: views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Letzte Meilensteine"
+
+# @ cpm
+#: views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Zukünftige Meilensteine"
+
+# @ cpm
+#: views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Abgeschlossene Meilensteine"
+
+# @ cpm
+#: views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Fehler: Projekt nicht gefunden"
+
+# @ cpm
+#: views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Fehler: Erlaubnis verweigert"
+
+# @ cpm
+#: views/project/header.php:25
+msgid "Project Info"
+msgstr "Projektinfo"
+
+# @ cpm
+#: views/project/index.php:51
+msgid "Start a new project"
+msgstr "Ein neues Projekt beginnen"
+
+# @ cpm
+#: views/project/single.php:8
+msgid "Project Activity"
+msgstr "Projekttätigkeit"
+
+# @ cpm
+#: views/project/single.php:12
+msgid "Delete project"
+msgstr "Projekt löschen"
+
+# @ cpm
+#: views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Wollen Sie diesen Projekt wirklich löschen?"
+
+# @ cpm
+#: views/project/single.php:31
+msgid "Load More..."
+msgstr "Mehr laden..."
+
+# @ cpm
+#: views/task/index.php:9
+msgid "Task Lists"
+msgstr "Aufgabenlisten"
+
+# @ cpm
+#: views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Schade, leider keine Aufgabenliste gefunden!"
+
+# @ cpm
+#: views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Diese Aufgabenliste diskutieren"
+
+# @ cpm
+#: views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Diese Aufgabe diskutieren"

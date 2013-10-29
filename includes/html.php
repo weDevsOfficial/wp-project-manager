@@ -1,4 +1,11 @@
 <?php
+/**
+ * This file contains all the functions that are responsible for
+ * generating repeated HTML markups.
+ *
+ * @since 0.1
+ * @package CPM
+ */
 
 /**
  * HTML generator for single task
@@ -26,6 +33,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
 
         <input type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
 
+        <span class="move"></span>
         <span class="cpm-todo-content">
             <?php if ( $single ) { ?>
                 <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
@@ -222,7 +230,17 @@ function cpm_task_list_html( $list, $project_id ) {
             </div>
 
             <h3>
+                <span class="move"></span>
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
+
+                <?php if ( (int) $list->comment_count > 0 ) { ?>
+                    <span class="cpm-comment-count">
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                        </a>
+                    </span>
+                <?php } ?>
+
                 <div class="cpm-right">
                     <?php
                     $complete = $task_obj->get_completeness( $list->ID );
@@ -324,9 +342,14 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             </div>
 
             <div class="notify-users">
-                <label class="notify"><?php _e( 'Notify users', 'cpm' ); ?></label>
+                <label class="notify">
+                    <?php _e( 'Notify users', 'cpm' ); ?>:
+                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
+                </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
+            
+            <?php do_action( 'cpm_comment_form', $project_id, $object_id, $comment ); ?>
 
             <div class="submit">
                 <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php echo esc_attr( $submit_button ); ?>" id="" />
@@ -334,10 +357,9 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
                 <?php if( $comment ) { ?>
                     <input type="hidden" name="comment_id" value="<?php echo $comment->comment_ID; ?>" />
                     <a href="#" class="cpm-comment-edit-cancel button"><?php _e( 'Cancel', 'wedevs' ); ?></a>
-                <?php } else { ?>
-                    <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
                 <?php } ?>
 
+                <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
                 <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
             </div>
@@ -348,6 +370,15 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     return ob_get_clean();
 }
 
+/**
+ * Generates markup for displaying a single comment
+ *
+ * @since 0.1
+ * @param object $comment
+ * @param int $project_id
+ * @param string $class
+ * @return string
+ */
 function cpm_show_comment( $comment, $project_id, $class = '' ) {
 
     $class = empty( $class ) ? '' : ' ' . $class;
@@ -380,7 +411,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
             <div class="cpm-comment-content">
                 <?php echo comment_text( $comment->comment_ID ); ?>
 
-                <?php echo cpm_show_attachments( $comment ); ?>
+                <?php echo cpm_show_attachments( $comment, $project_id ); ?>
             </div>
 
             <div class="cpm-comment-edit-form"></div>
@@ -391,15 +422,32 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
     return ob_get_clean();
 }
 
-function cpm_show_attachments( $object ) {
+/**
+ * Helper function for displaying all the attachments for a single comment,
+ * messages, and etc.
+ *
+ * @since 0.1
+ * @param object $object
+ * @return string
+ */
+function cpm_show_attachments( $object, $project_id ) {
     ob_start();
+
+    $base_url = admin_url('admin-ajax.php?action=cpm_file_get');
 
     if ( $object->files ) {
         ?>
         <ul class="cpm-attachments">
             <?php
             foreach ($object->files as $file) {
-                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file['url'], $file['thumb'] );
+                if( $file['type'] == 'image' ) {
+                    $thumb_url = sprintf( '%s&file_id=%d&project_id=%d&type=thumb', $base_url, $file['id'], $project_id );
+                } else {
+                    $thumb_url = $file['thumb'];
+                }
+
+                $file_url = sprintf( '%s&file_id=%d&project_id=%d', $base_url, $file['id'], $project_id );
+                printf( '<li><a href="%s" target="_blank"><img src="%s" /></a></li>', $file_url, $thumb_url );
             }
             ?>
         </ul>
@@ -409,6 +457,13 @@ function cpm_show_attachments( $object ) {
     return ob_get_clean();
 }
 
+/**
+ * Generates message new/edit form
+ *
+ * @param int $project_id
+ * @param object|null $message
+ * @return string
+ */
 function cpm_message_form( $project_id, $message = null ) {
     $title = $content = '';
     $submit = __( 'Add Message', 'cpm' );
@@ -439,7 +494,7 @@ function cpm_message_form( $project_id, $message = null ) {
             </div>
 
             <div class="item detail">
-                <textarea name="message_detail" id="message_detail" cols="30" rows="4" placeholder="<?php esc_attr_e( 'Message deatils here', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
+                <textarea name="message_detail" id="message_detail" cols="30" rows="4" placeholder="<?php esc_attr_e( 'Message details here', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
             </div>
 
             <div class="item milestone">
@@ -454,10 +509,15 @@ function cpm_message_form( $project_id, $message = null ) {
             </div>
 
             <div class="notify-users">
-                <label class="notify"><?php _e( 'Notify users', 'cpm' ); ?></label>
+                <label class="notify">
+                    <?php _e( 'Notify users', 'cpm' ); ?>:
+                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
+                </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
-
+            
+            <?php do_action( 'cpm_message_form', $project_id, $message ); ?>
+            
             <div class="submit">
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
                 <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
@@ -477,6 +537,14 @@ function cpm_message_form( $project_id, $message = null ) {
     return ob_get_clean();
 }
 
+/**
+ * Generates milestone new/edit form
+ *
+ * @since 0.1
+ * @param int $project_id
+ * @param object|null $milestone
+ * @return string
+ */
 function cpm_milestone_form( $project_id, $milestone = null ) {
     $title = $content = '';
     $submit = __( 'Add Milestone', 'cpm' );
@@ -501,19 +569,21 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
     <div class="cpm-milestone-form-wrap">
         <form class="cpm-milestone-form">
 
-            <?php wp_nonce_field( 'cpm_milesotne' ); ?>
+            <?php wp_nonce_field( 'cpm_milestone' ); ?>
 
             <div class="item milestone-title">
                 <input name="milestone_name" class="required" type="text" id="milestone_name" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Milestone name', 'cpm' ); ?>">
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" id="milestone_due" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
                 <textarea name="milestone_detail" id="milestone_detail" cols="30" rows="10" placeholder="<?php esc_attr_e( 'Details about milestone (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $content ); ?></textarea>
             </div>
+            
+            <?php do_action( 'cpm_milestone_form', $project_id, $milestone ); ?>
 
             <div class="submit">
                 <input type="hidden" name="action" value="<?php echo $action; ?>" />
@@ -534,6 +604,13 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
     return ob_get_clean();
 }
 
+/**
+ * Generates markup for a single milestone
+ *
+ * @since 0.1
+ * @param object $milestone
+ * @param int $project_id
+ */
 function cpm_show_milestone( $milestone, $project_id ) {
     $milestone_obj = CPM_Milestone::getInstance();
     $task_obj = CPM_Task::getInstance();
@@ -565,7 +642,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                     <li>
                         <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
                     </li>
-                    
+
                     <?php if ( $milestone->completed == '0' ) { ?>
                         <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
                     <?php } else { ?>
@@ -630,7 +707,12 @@ function cpm_show_milestone( $milestone, $project_id ) {
     <?php
 }
 
-
+/**
+ * Generates markup for add/edit project form
+ *
+ * @since 0.1
+ * @param object|null $project
+ */
 function cpm_project_form( $project = null ) {
     $name = $details = '';
     $users = array();
@@ -655,7 +737,7 @@ function cpm_project_form( $project = null ) {
         </div>
 
         <div class="cpm-form-item project-detail">
-            <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'wedevs' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
+            <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>
 
         <div class="cpm-form-item project-users">
@@ -669,6 +751,8 @@ function cpm_project_form( $project = null ) {
                 <?php _e( 'Notify Co-workers', 'cpm' ) ?>
             </label>
         </div>
+        
+        <?php do_action( 'cpm_project_form', $project ); ?>
 
         <div class="submit">
 
@@ -682,4 +766,34 @@ function cpm_project_form( $project = null ) {
         </div>
     </form>
     <?php
+}
+
+/**
+ * Prints project activities
+ *
+ * @since 0.3.1
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_activity_html( $activities ) {
+    $list = array();
+    $html = '';
+
+    foreach ($activities as $activity) {
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+        $html .= sprintf( '<li><div class="cpm-activity-heads">%s</div><ul>', date_i18n( 'F j, Y', $key ) );
+
+        foreach ($items as $activity) {
+            $html .= sprintf( '<li>%s <span class="date">- %s</span></li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= '</li></ul>';
+    }
+
+    return $html;
 }

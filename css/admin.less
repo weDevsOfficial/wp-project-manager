@@ -373,13 +373,26 @@ ul.cpm-activity {
         font-size: 11px;
     }
 
-    li {
-        text-indent: 5px;
+    .cpm-activity-heads {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 0 5px 0;
+        padding: 0 0 5px 0;
+        border-bottom: 1px solid #eee;
+    }
 
-        &:before {
-            content: "-";
-            position: relative;
-            left: -5px;
+    ul {
+        margin-left: 15px;
+        margin-bottom: 10px;
+
+        li {
+            text-indent: 5px;
+
+            &:before {
+                content: "-";
+                position: relative;
+                left: -5px;
+            }
         }
     }
 }
@@ -391,10 +404,16 @@ ul.cpm-activity {
     display: block;
     position: relative;
 
+    &:after, &:before {
+        clear: both;
+        content: "";
+        display: table;
+    }
+
     nav.cpm-new-project {
         left: -130px;
         position: absolute;
-        
+
         a {
             background: url('../images/plus.png') no-repeat 50% 50%;
             .box-shadow(0 0 3px rgba(0, 0, 0, 0.3));
@@ -453,6 +472,22 @@ ul.cpm-activity {
                 width: 48px;
                 .border-radius(50%);
                 margin-right: 5px;
+            }
+        }
+
+        .cpm-progress {
+            position: absolute;
+            bottom: 0px;
+            height: 10px;
+            width: 100%;
+            .border-radius(0 0 3px 3px);
+            margin: 0 15px 0 -15px;
+
+            .text {
+                font-size: 8px;
+                margin-top: -23px;
+                color: #222;
+                text-shadow: none;
             }
         }
     }
@@ -639,7 +674,7 @@ ul.cpm-activity {
             .cpm-comment-meta {
                 color: #888;
                 font-size: 12px;
-                
+
                 .cpm-separator {
                     color: @borderColor;
                 }
@@ -882,6 +917,10 @@ ul.cpm-todolists {
         padding: 0 0 15px 0;
     }
 
+    > li.ui-state-highlight {
+        min-height: 100px;
+    }
+
     article.cpm-todolist {
         position: relative;
 
@@ -893,6 +932,20 @@ ul.cpm-todolists {
 
             .cpm-entry-detail {
                 font-style: italic;
+            }
+
+            .cpm-comment-count {
+                .border-radius(3px);
+                // background: lighten(@linkColor, 10%);
+                background: #E2E9F8;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 1px 7px;
+                margin-right: 5px;
+
+                a {
+                    color: #999;
+                }
             }
 
             .cpm-list-actions{
@@ -920,6 +973,16 @@ ul.cpm-todolists {
                 }
             }
         }
+
+        .move {
+            background: url('../images/move.png') no-repeat;
+            cursor: move;
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+        }
+
+        .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
 
         .cpm-list-edit-form {
             display: none;
@@ -999,7 +1062,7 @@ ul.cpm-todolists {
                             line-height: 12px;
                             padding: 1px 7px;
                             margin-right: 5px;
-                            
+
                             a {
                                 color: #999;
                             }
@@ -1040,6 +1103,10 @@ ul.cpm-todolists {
                     line-height: 14px;
                     color: #999;
                 }
+
+                .move {
+                    display: none;
+                }
             }
         }
 
@@ -1066,6 +1133,7 @@ ul.cpm-todolists {
     padding: 10px;
     margin-left: 0;
     width: 500px;
+    background: #fff;
 
     input[name="milestone_due"] {
         width: 20%;
@@ -1214,7 +1282,7 @@ a.cpm-icon-edit {
 
 a.cpm-icon-delete {
     display: inline-block;
-    
+
     span {
         display: inline-block;
         text-indent: -9999px;

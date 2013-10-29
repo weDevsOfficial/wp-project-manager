@@ -1,0 +1,730 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-29 00:45+0600\n"
+"PO-Revision-Date: 2013-01-29 00:45+0600\n"
+"Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
+"Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../cpm.php:162
+msgid "Allowed Files"
+msgstr "Fichiers autorisés"
+
+#: ../cpm.php:192 ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "Chef de projet"
+
+#: ../cpm.php:193
+msgid "Projects"
+msgstr "Projets"
+
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Project créé par %s"
+
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Détails du projet ajouté par %s"
+
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Message %s créé par %s"
+
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Message %s mis à jour par %s"
+
+#: ../class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Message \"%s\" supprimé par %s"
+
+#: ../class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "To-do liste %s créée par %s"
+
+#: ../class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "To-do liste %s mise à jour par %s"
+
+#: ../class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "To-do list \"%s\" supprimée par %s"
+
+#: ../class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Tâche %s ajoutée à la to-do liste %s par %s"
+
+#: ../class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Tâche %s mise à jour par %s"
+
+#: ../class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Tâche %s réalisée par %s"
+
+#: ../class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "Passer cette tâche à résolue"
+
+#: ../class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Tâche %s marquée non-résolue par %s"
+
+#: ../class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Réouvrir la tâche"
+
+#: ../class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Tâcge \"%s\" supprimée de la to-do list %s par %s"
+
+#: ../class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s a commenté %s"
+
+#: ../class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s a mis à jour son commentaire à propos de %s"
+
+#: ../class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s a supprimé un commentaire"
+
+#: ../class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Etape \"%s\" ajoutée par %s "
+
+#: ../class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Etape \"%s\" mise à jour par %s "
+
+#: ../class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Etape \"%s\" supprimée par %s "
+
+#: ../class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Etape \"%s\" marquée atteinte par %s "
+
+#: ../class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Etape \"%s\" marquée non atteinte par %s "
+
+#: ../class/admin.php:33
+msgid "Settings"
+msgstr ""
+
+#: ../class/admin.php:40
+msgid "General"
+msgstr ""
+
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr ""
+
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr ""
+
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr ""
+
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr ""
+
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr ""
+
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr ""
+
+#: ../class/admin.php:81
+#, fuzzy
+msgid "New Project Subject"
+msgstr "Nouveau Projet"
+
+#: ../class/admin.php:86
+#, fuzzy
+msgid "New Project Body"
+msgstr "Nouveau Projet"
+
+#: ../class/admin.php:96
+#, fuzzy
+msgid "New Message Subject"
+msgstr "Nouveau message"
+
+#: ../class/admin.php:101
+#, fuzzy
+msgid "New Message Body"
+msgstr "Nouveau message"
+
+#: ../class/admin.php:108
+#, fuzzy
+msgid "New Comment Subject"
+msgstr "Nouveau Projet"
+
+#: ../class/admin.php:113 ../class/admin.php:125
+msgid "Body"
+msgstr ""
+
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr ""
+
+#: ../class/ajax.php:388 ../includes/functions.php:167
+msgid "Delete File"
+msgstr "Supprimer message"
+
+#: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
+#: ../includes/html.php:677 ../views/message/index.php:10
+#: ../views/message/index.php:14 ../views/message/single.php:10
+msgid "Messages"
+msgstr "Messages"
+
+#: ../class/message.php:27
+msgid "message post type"
+msgstr ""
+
+#: ../class/message.php:42 ../class/message.php:43
+msgid "Message"
+msgstr "Message"
+
+#: ../class/message.php:44 ../includes/html.php:458
+msgid "Add Message"
+msgstr "Ajouter message"
+
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "Ajouter nouveau message"
+
+#: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
+#: ../includes/html.php:228 ../includes/html.php:389 ../includes/html.php:629
+#: ../views/message/single.php:32 ../views/project/header.php:21
+msgid "Edit"
+msgstr "Editer"
+
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "Editer message"
+
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "Nouveau message"
+
+#: ../class/message.php:49 ../class/message.php:50
+msgid "View Message"
+msgstr "Lire message"
+
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "Rechercher messages"
+
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "Aucun message trouvé"
+
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Aucun message dans la corbeille"
+
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "Message parent"
+
+#: ../class/milestone.php:21 ../class/milestone.php:22
+#: ../class/milestone.php:36 ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "Etape"
+
+#: ../class/milestone.php:39 ../includes/html.php:539
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Ajouter étape"
+
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Ajouter nouvelle étape"
+
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Editer étape"
+
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "Nouvelle étape"
+
+#: ../class/milestone.php:44 ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "Voir étape"
+
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Rechercher étape"
+
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Aucune étape trouvée"
+
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Aucune étape dans la corbeille"
+
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Etape parente"
+
+#: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "Projet"
+
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr ""
+
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "Ajouter projet"
+
+#: ../class/project.php:45 ../includes/html.php:708
+msgid "Add New Project"
+msgstr "Ajouter nouveau projet"
+
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "Editer projet"
+
+#: ../class/project.php:48 ../views/project/index.php:14
+msgid "New Project"
+msgstr "Nouveau Projet"
+
+#: ../class/project.php:49 ../class/project.php:50
+msgid "View Project"
+msgstr "Afficher Projet"
+
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "Rechercher Projet"
+
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "Pas de Projet"
+
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Pas de projet dans la corbeille"
+
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "Projet parent"
+
+#: ../class/project.php:291 ../views/project/single.php:5
+msgid "Activity"
+msgstr "Activité"
+
+#: ../class/project.php:293 ../includes/html.php:655 ../views/task/index.php:5
+#: ../views/task/single.php:5 ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "To-do Liste"
+
+#: ../class/project.php:294 ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Etapes"
+
+#: ../class/project.php:295 ../views/files/index.php:2
+msgid "Files"
+msgstr "Fichiers"
+
+#: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "Liste de tâche"
+
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "Ajouter liste de tâche"
+
+#: ../class/task.php:45 ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Ajouter nouvelle liste de tâche"
+
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "Editer liste de tâche"
+
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "Nouvelle liste de tâche"
+
+#: ../class/task.php:49 ../class/task.php:50
+msgid "View Task List"
+msgstr "Voir liste de tâche"
+
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "Recherche liste de tâche"
+
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "Aucune liste de tâche trouvée"
+
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Aucune liste de tâche dans la corbeille"
+
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "Liste de tâche parente"
+
+#: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
+msgid "Task"
+msgstr "Tâche"
+
+#: ../class/task.php:60 ../class/task.php:74
+msgid "Tasks"
+msgstr "Tâches"
+
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "Ajouter tâche"
+
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "Ajouter nouvelle tâche"
+
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "Editer tâche"
+
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "Nouvelle tâche"
+
+#: ../class/task.php:82 ../class/task.php:83
+msgid "View Task"
+msgstr "Afficher tâche"
+
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "Recherche tâche"
+
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "Aucune tâche trouvée"
+
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Aucune tâche dans la corbeille"
+
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "Tâche parente"
+
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Sélectionner un collègue"
+
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "Aucun utilisateur"
+
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- assigner à --"
+
+#: ../includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"Pour joindre un fichier, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">Choisir "
+"les fichiers</a> sur votre ordinnateur."
+
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "Réalisé"
+
+#: ../includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Etes-vous sur de supprimer cette tâche ?"
+
+#: ../includes/html.php:26 ../includes/html.php:226 ../includes/html.php:395
+#: ../includes/html.php:632 ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../includes/html.php:48
+msgid "1 Comment"
+msgstr "1 Commentaire"
+
+#: ../includes/html.php:48
+#, php-format
+msgid "%d Comments"
+msgstr "%d Commentaires"
+
+#: ../includes/html.php:60
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Réalisé par %s sur %s)"
+
+#: ../includes/html.php:105
+msgid "Add this to-do"
+msgstr "Ajouter cette tâche"
+
+#: ../includes/html.php:112
+msgid "Save Changes"
+msgstr "Enregistrer"
+
+#: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:348
+#: ../includes/html.php:519 ../includes/html.php:586 ../includes/html.php:754
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../includes/html.php:162
+msgid "Add List"
+msgstr "Ajouter Liste"
+
+#: ../includes/html.php:170
+msgid "Update List"
+msgstr "Mettre à jour Liste"
+
+#: ../includes/html.php:194 ../includes/html.php:491
+msgid "-- milestone --"
+msgstr "-- étape --"
+
+#: ../includes/html.php:268
+msgid "Add a to-do"
+msgstr "Ajouter une tâche"
+
+#: ../includes/html.php:303
+msgid "Add this comment"
+msgstr "Ajouter ce commentaire"
+
+#: ../includes/html.php:310
+msgid "Update comment"
+msgstr "Mettre à jour commentaire"
+
+#: ../includes/html.php:335 ../includes/html.php:502
+msgid "Notify users"
+msgstr "Notifier utilisateur"
+
+#: ../includes/html.php:336 ../includes/html.php:503
+msgid "Select all"
+msgstr ""
+
+#: ../includes/html.php:469
+msgid "Update Message"
+msgstr "Mettre à jour commentaire"
+
+#: ../includes/html.php:548
+msgid "Update Milestone"
+msgstr "Mettre à jour Etape"
+
+#: ../includes/html.php:616
+msgid "left"
+msgstr "restant"
+
+#: ../includes/html.php:616
+msgid "late"
+msgstr "Retard"
+
+#: ../includes/html.php:632
+msgid "Are you sure?"
+msgstr "Etes-vous sûr ?"
+
+#: ../includes/html.php:636
+msgid "Mark as complete"
+msgstr "Marquer comme réalisé"
+
+#: ../includes/html.php:638
+msgid "Reopen"
+msgstr "Ré-ouvrir"
+
+#: ../includes/html.php:692
+msgid "Completed on:"
+msgstr "Réalisé sur :"
+
+#: ../includes/html.php:716
+msgid "Update Project"
+msgstr "Mettre à jour Projet"
+
+#: ../includes/html.php:729
+msgid "Some details about the project (optional)"
+msgstr "Quelques détails à propos du projet (optionel)"
+
+#: ../includes/html.php:740
+msgid "Notify Co-workers"
+msgstr "Notifier collègues"
+
+#: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
+msgid "thread"
+msgstr ""
+
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Joins <a href=\"%s\">%s</a> par %s"
+
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Aucun fichier"
+
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "Ajouter nouveau"
+
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "Ecrire un nouveau message"
+
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Etes vous sûr de supprimer ce message ?"
+
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Aucun message ! Et si vous en écriviez un ?"
+
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Erreure : Aucun message"
+
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr ""
+
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "Aucun commentaire"
+
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Aucune Etape"
+
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Ajouter nouvelle Etape"
+
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Etapes en retard"
+
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Prochaines Etapes"
+
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Etapes atteintes"
+
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Erreur : Aucun projet"
+
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Erreur : Vous n'avez pas les droits"
+
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "Info du projet"
+
+#: ../views/project/index.php:47
+msgid "Start a new project"
+msgstr "Créer un nouveau projet"
+
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "Activité du projet"
+
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr ""
+
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "Liste de Tâche"
+
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Aucune To-do liste, très cher !"
+
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Discuter de cette to-do liste"
+
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Discuter de cette tâche"
+
+#~ msgid "New Project invitation on %s"
+#~ msgstr "Invitation au nouveau projet %s"
+
+#~ msgid "You are assigned in a new project \"%s\" on %s"
+#~ msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
+
+#~ msgid "You can see the project by going here: %s"
+#~ msgstr "Vous pouvez voir le projet en cliquant sur : %s"
+
+#~ msgid "[%s] New message on project: %s"
+#~ msgstr "[%s] Nouveau message à propos du projet : %s"
+
+#~ msgid "Permalink : %s"
+#~ msgstr "Permalien : %s"
+
+#~ msgid "[%s] New comment on %s: %s"
+#~ msgstr "[%s] Nouveau commentaire sur %s: %s"
+
+#~ msgid "[%s] New task assigned to you"
+#~ msgstr "[%s] Nouvelle tâche vous sont assignée"
+
+#~ msgid "Public"
+#~ msgstr "Publique"
+
+#~ msgid "Private"
+#~ msgstr "Privé"

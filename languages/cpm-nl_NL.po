@@ -1,0 +1,767 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-28 20:37+0600\n"
+"PO-Revision-Date: 2013-02-28 15:59+0100\n"
+"Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
+"Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../cpm.php:162
+msgid "Allowed Files"
+msgstr "Toegestane bestanden"
+
+#: ../cpm.php:192 ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "Project Manager"
+
+#: ../cpm.php:193
+msgid "Projects"
+msgstr "Projecten"
+
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Project gemaakt door %s"
+
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Project details geupdate door %s"
+
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Bericht %s geplaatst door %s"
+
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Bericht %s geupdate door %s"
+
+#: ../class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Bericht \"%s\" verwijderd door %s"
+
+#: ../class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Checklist %s gemaakt door %s"
+
+#: ../class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Takenlijst %s geupdate door %s"
+
+#: ../class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Takenlijst \"%s\" verwijderd door %s"
+
+#: ../class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Taak %s toegevoegd op takenlijst %s door %s"
+
+#: ../class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Taak %s geupdate door %s"
+
+#: ../class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Taak %s voltooid door %s"
+
+#: ../class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "Taak gemarkeerd als voltooid"
+
+#: ../class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Taak %s gemarkeerd als nog niet voltooid door %s"
+
+#: ../class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Taak heropend"
+
+#: ../class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Taak \"%s\" verwijderd van takenlijst %s door %s"
+
+#: ../class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s heeft een reactie gegeven op een %s"
+
+#: ../class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s een geupdate reactie op een %s"
+
+#: ../class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s verwijderd een reactie"
+
+#: ../class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Mijlpaal \"%s\" toegevoegd door %s "
+
+#: ../class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Mijlpaal \"%s\" geupdate door %s "
+
+#: ../class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Mijlpaal \"%s\" verwijderd door %s "
+
+#: ../class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Mijlpaal \"%s\" gemarkeerd als voltooid door %s "
+
+#: ../class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Mijlpaal \"%s\" gemarkeerd als in-compleet door %s "
+
+#: ../class/admin.php:33
+msgid "Settings"
+msgstr "Instellingen"
+
+#: ../class/admin.php:40
+msgid "General"
+msgstr "Algemeen"
+
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "E-mail instellingen"
+
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Bestand upload limiet"
+
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "bestand grootte in Megabyte. bijv. 2"
+
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr "E-mail type"
+
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML e-mail"
+
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr "Platte tekst"
+
+#: ../class/admin.php:81
+msgid "New Project Subject"
+msgstr "Nieuw project onderwerp"
+
+#: ../class/admin.php:86
+msgid "New Project Body"
+msgstr "Nieuw project inhoud"
+
+#: ../class/admin.php:96
+msgid "New Message Subject"
+msgstr "Nieuw bericht onderwerp"
+
+#: ../class/admin.php:101
+msgid "New Message Body"
+msgstr "Nieuw bericht inhoud"
+
+#: ../class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Nieuw reactie onderwerp"
+
+#: ../class/admin.php:113 ../class/admin.php:125
+msgid "Body"
+msgstr "Inhoud"
+
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Nieuw toegewezen Taak onderwerp"
+
+#: ../class/ajax.php:388 ../includes/functions.php:167
+msgid "Delete File"
+msgstr "Verwijder bestand"
+
+#: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
+#: ../includes/html.php:677 ../views/message/index.php:10
+#: ../views/message/index.php:14 ../views/message/single.php:10
+msgid "Messages"
+msgstr "Berichten"
+
+#: ../class/message.php:27
+msgid "message post type"
+msgstr "Bericht plaatsings type"
+
+#: ../class/message.php:42 ../class/message.php:43
+msgid "Message"
+msgstr "Bericht"
+
+#: ../class/message.php:44 ../includes/html.php:458
+msgid "Add Message"
+msgstr "Voeg bericht toe"
+
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "Voeg nieuw bericht toe"
+
+#: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
+#: ../includes/html.php:228 ../includes/html.php:389 ../includes/html.php:629
+#: ../views/message/single.php:32 ../views/project/header.php:21
+msgid "Edit"
+msgstr "Bewerk"
+
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "Bewerk Bericht"
+
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "Nieuw Bericht"
+
+#: ../class/message.php:49 ../class/message.php:50
+msgid "View Message"
+msgstr "Bekijk Bericht"
+
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "Zoek Berichten"
+
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "Geen berichten gevonden"
+
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Geen berichten gevonden in de prullenbak"
+
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "Huidig Bericht"
+
+#: ../class/milestone.php:21 ../class/milestone.php:22
+#: ../class/milestone.php:36 ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "Mijlpaal"
+
+#: ../class/milestone.php:39 ../includes/html.php:539
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Voeg Mijlpaal toe"
+
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Voeg nieuwe mijlpaal toe"
+
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Bewerk Mijlpaal"
+
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "Nieuwe Mijlpaal"
+
+#: ../class/milestone.php:44 ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "Bekijk Mijlpaal"
+
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Zoek Mijlpaal"
+
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Geen Mijlpaal gevonden"
+
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Geen Mijlpaal gevonden in de prullenbak"
+
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Huidige Mijlpaal"
+
+#: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "Project"
+
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr "project manager bericht type"
+
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "Voeg project toe"
+
+#: ../class/project.php:45 ../includes/html.php:708
+msgid "Add New Project"
+msgstr "Voeg nieuw project toe"
+
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "Bewerk Project"
+
+#: ../class/project.php:48 ../views/project/index.php:14
+msgid "New Project"
+msgstr "Nieuw Project"
+
+#: ../class/project.php:49 ../class/project.php:50
+msgid "View Project"
+msgstr "Bekijk Project"
+
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "Zoek Project"
+
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "Geen Project gevonden"
+
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Geen Project gevonden in de prullenbak"
+
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "Huidige Project"
+
+#: ../class/project.php:291 ../views/project/single.php:5
+msgid "Activity"
+msgstr "Project Activiteit"
+
+#: ../class/project.php:293 ../includes/html.php:655 ../views/task/index.php:5
+#: ../views/task/single.php:5 ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Takenlijst"
+
+#: ../class/project.php:294 ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Mijlpalen"
+
+#: ../class/project.php:295 ../views/files/index.php:2
+msgid "Files"
+msgstr "Bestanden"
+
+#: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "Takenlijst"
+
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "Voeg takenlijst toe"
+
+#: ../class/task.php:45 ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Voeg nieuwe takenlijst toe"
+
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "Bewerk Takenlijst"
+
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "Nieuwe Takenlijst"
+
+#: ../class/task.php:49 ../class/task.php:50
+msgid "View Task List"
+msgstr "Bekijk Takenlijst"
+
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "Zoek Takenlijst"
+
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "Geen takenlijst gevonden"
+
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Geen takenlijkst gevonden in de prullenbak"
+
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "Huidige Takenlijst"
+
+#: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
+msgid "Task"
+msgstr "Taak"
+
+#: ../class/task.php:60 ../class/task.php:74
+msgid "Tasks"
+msgstr "Taken"
+
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "Voeg taak toe"
+
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "Voeg nieuwe taak toe"
+
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "Bewerk Taak"
+
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "Nieuwe Taak"
+
+#: ../class/task.php:82 ../class/task.php:83
+msgid "View Task"
+msgstr "Bekijk Taak"
+
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "Zoek Taak"
+
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "Geen taak gevonden"
+
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Geen taak gevonden in de prullenbak"
+
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "Huidige Taak"
+
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Selecteer klante(n)"
+
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "Geen gebruikers gevonden"
+
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- wijs toe aan --"
+
+#: ../includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"Om bij te voegen, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">selecteer "
+"bestanden</a> van je computer."
+
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "Voltooid"
+
+#: ../includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Weet je zeker dat je deze taak wilt verwijderen?"
+
+#: ../includes/html.php:26 ../includes/html.php:226 ../includes/html.php:395
+#: ../includes/html.php:632 ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: ../includes/html.php:48
+msgid "1 Comment"
+msgstr "1 Reactie"
+
+#: ../includes/html.php:48
+#, php-format
+msgid "%d Comments"
+msgstr "%d Reacties"
+
+#: ../includes/html.php:60
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Voltooid door %s op %s)"
+
+#: ../includes/html.php:105
+msgid "Add this to-do"
+msgstr "Voeg deze taak toe"
+
+#: ../includes/html.php:112
+msgid "Save Changes"
+msgstr "Sla veranderingen op"
+
+#: ../includes/html.php:131
+msgid "Add a new to-do"
+msgstr "Voeg een nieuwe taak toe"
+
+#: ../includes/html.php:134 ../includes/html.php:568
+msgid "Due date"
+msgstr "Eind datum"
+
+#: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:348
+#: ../includes/html.php:519 ../includes/html.php:586 ../includes/html.php:754
+msgid "Cancel"
+msgstr "Annuleer"
+
+#: ../includes/html.php:162
+msgid "Add List"
+msgstr "Voeg een lijst toe"
+
+#: ../includes/html.php:170
+msgid "Update List"
+msgstr "Update Lijst"
+
+#: ../includes/html.php:185
+msgid "Tasklist name"
+msgstr "Naam voor de takenlijst"
+
+#: ../includes/html.php:189
+msgid "Tasklist detail"
+msgstr "Takenlijst detail"
+
+#: ../includes/html.php:194 ../includes/html.php:491
+msgid "-- milestone --"
+msgstr "-- mijlpaal --"
+
+#: ../includes/html.php:225
+msgid "Are you sure to delete this to-do list?"
+msgstr "Weet je zeker dat je deze takenlijst wilt verwijderen?"
+
+#: ../includes/html.php:268
+msgid "Add a to-do"
+msgstr "Voeg een taak toe"
+
+#: ../includes/html.php:303
+msgid "Add this comment"
+msgstr "Voeg deze reactie toe"
+
+#: ../includes/html.php:310
+msgid "Update comment"
+msgstr "Update je reactie"
+
+#: ../includes/html.php:326
+msgid "Add a comment..."
+msgstr "Voeg een reactie toe..."
+
+#: ../includes/html.php:335 ../includes/html.php:502
+msgid "Notify users"
+msgstr "Breng klanten op de hoogte"
+
+#: ../includes/html.php:336 ../includes/html.php:503
+msgid "Select all"
+msgstr "Selecteer alles"
+
+#: ../includes/html.php:469
+msgid "Update Message"
+msgstr "Update Bericht"
+
+#: ../includes/html.php:482
+msgid "Enter message title"
+msgstr "Vul een titel voor je bericht in"
+
+#: ../includes/html.php:486
+msgid "Message details here"
+msgstr "Bericht details hier"
+
+#: ../includes/html.php:548
+msgid "Update Milestone"
+msgstr "Update Mijlpaal"
+
+#: ../includes/html.php:564
+msgid "Milestone name"
+msgstr "Naam voor de mijlpaal"
+
+#: ../includes/html.php:572
+msgid "Details about milestone (optional)"
+msgstr "Enkele details over het project (optioneel)"
+
+#: ../includes/html.php:616
+msgid "left"
+msgstr "over"
+
+#: ../includes/html.php:616
+msgid "late"
+msgstr "laat"
+
+#: ../includes/html.php:629
+msgid "Edit milestone"
+msgstr "Bewerk mijlpaal"
+
+#: ../includes/html.php:632
+msgid "Are you sure?"
+msgstr "Weet je het zeker?"
+
+#: ../includes/html.php:632
+msgid "Delete milestone"
+msgstr "Verwijder mijlpaal"
+
+#: ../includes/html.php:636
+msgid "Mark as complete"
+msgstr "Markeer als voltooid"
+
+#: ../includes/html.php:638
+msgid "Mark un-complete"
+msgstr "Markeer als niet voltooid"
+
+#: ../includes/html.php:638
+msgid "Reopen"
+msgstr "Heropen"
+
+#: ../includes/html.php:692
+msgid "Completed on:"
+msgstr "Voltooid op:"
+
+#: ../includes/html.php:716
+msgid "Update Project"
+msgstr "Update Project"
+
+#: ../includes/html.php:725
+msgid "Name of the project"
+msgstr "Naam van het project"
+
+#: ../includes/html.php:729
+msgid "Some details about the project (optional)"
+msgstr "Enkele details over het project (optioneel)"
+
+#: ../includes/html.php:740
+msgid "Notify Co-workers"
+msgstr "Stuur bericht aan klanten"
+
+#: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
+msgid "thread"
+msgstr "berichtoverzicht"
+
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Bijgevoegd aan <a href=\"%s\">%s</a> door %s"
+
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+"<a href=\"%s\">Download</a> of ga naar de <a href=\"%s\">discussie</a>."
+
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Geen bestanden gevonden!"
+
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "Voeg nieuwe toe"
+
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "Maak een nieuw bericht aan"
+
+#: ../views/message/index.php:46
+msgid "Delete this message"
+msgstr "Weet je zeker dat je dit bericht wilt verwijderen?"
+
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Weet je zeker dat je dit bericht wilt verwijderen?"
+
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Geen berichten gevonden! Misschien een idee om er een te plaatsen?"
+
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Fout: Bericht niet gevonden"
+
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; terug"
+
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "Geen reacties gevonden"
+
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Geen Mijlpaal gevonden!"
+
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Voeg nieuwe mijlpaal toe"
+
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Late Mijlpalen"
+
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Onvoltooide Mijlpalen"
+
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Voltooide Mijlpalen"
+
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Fout: Project niet gevonden"
+
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Fout: Toegang geweigerd"
+
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "Project Informatie"
+
+#: ../views/project/index.php:47
+msgid "Start a new project"
+msgstr "Start een nieuw project"
+
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "Project Activiteit"
+
+#: ../views/project/single.php:12
+msgid "Delete project"
+msgstr "Verwijder project"
+
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Weet je zeker dat je dit project wilt verwijderen?"
+
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr "Laad Meer..."
+
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "Takenlijst"
+
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Oh nee, geen Takenlijst gevonden!"
+
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Discussieer over deze takenlijst"
+
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Discussieer over deze taak"

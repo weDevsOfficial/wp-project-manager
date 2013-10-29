@@ -33,11 +33,15 @@ $projects = $project_obj->get_projects();
                 <footer class="cpm-project-people">
                     <?php
                     foreach ($project->users as $user) {
-                        echo get_avatar( $user['id'], 48 );
+                        echo get_avatar( $user['id'], 48, '', $user['name'] );
                     }
                     ?>
                 </footer>
             </a>
+            <?php
+            $progress = $project_obj->get_progress_by_tasks( $project->ID );
+            echo cpm_task_completeness( $progress['total'], $progress['completed'] );
+            ?>
         </article>
 
     <?php } ?>

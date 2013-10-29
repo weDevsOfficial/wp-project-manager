@@ -25,7 +25,11 @@ class CPM_Task {
         register_post_type( 'task_list', array(
             'label' => __( 'Task List', 'cpm' ),
             'description' => __( 'Task List', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',
@@ -54,7 +58,11 @@ class CPM_Task {
         register_post_type( 'task', array(
             'label' => __( 'Task', 'cpm' ),
             'description' => __( 'Tasks', 'cpm' ),
-            'public' => true,
+            'public' => false,
+            'show_in_admin_bar' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_in_admin_bar' => false,
             'show_ui' => false,
             'show_in_menu' => false,
             'capability_type' => 'post',
@@ -213,6 +221,7 @@ class CPM_Task {
             'post_type' => 'task_list',
             'numberposts' => -1,
             'order' => 'ASC',
+            'orderby' => 'menu_order',
             'post_parent' => $project_id
         );
 
@@ -256,7 +265,7 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_tasks( $list_id ) {
-        $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC') );
+        $tasks = get_children( array('post_parent' => $list_id, 'post_type' => 'task', 'order' => 'ASC', 'orderby' => 'menu_order') );
 
         foreach ($tasks as $key => $task) {
             $this->set_task_meta( $task );
@@ -288,7 +297,8 @@ class CPM_Task {
         $args = array(
             'post_type' => 'task_list',
             'meta_key' => '_milestone',
-            'meta_value' => $milestone_id
+            'meta_value' => $milestone_id,
+            'numberposts' => -1
         );
 
         $tasklists = get_posts( $args );
@@ -378,12 +388,20 @@ class CPM_Task {
     function delete_list( $list_id, $force = false ) {
         do_action( 'cpm_tasklist_delete', $list_id, $force );
 
+        //get child tasks and delete them
+        $tasks = $this->get_tasks( $list_id );
+        if ( $tasks ) {
+            foreach ($tasks as $task) {
+                $this->delete_task( $task->ID, true );
+            }
+        }
+        
         wp_delete_post( $list_id, $force );
     }
 
     /**
      * Get the overall completeness for a task list
-     * 
+     *
      * @param int $list_id
      * @return array
      */

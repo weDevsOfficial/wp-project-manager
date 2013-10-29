@@ -1,5 +1,20 @@
 <?php
+/**
+ * This file contains all the shortcodes used by this plugin. Instead of using
+ * static urls and other stuffs, shortcode was used for having a flexible way
+ * for displaying these parts on frontend and admin panel as well.
+ *
+ * @since 0.1
+ * @package CPM
+ */
 
+/**
+ * Displays a users profile url
+ *
+ * @since 0.1
+ * @param array $atts
+ * @return string
+ */
 function cpm_sc_user_url( $atts ) {
     $atts = extract( shortcode_atts( array('id' => 0), $atts ) );
 
@@ -8,6 +23,13 @@ function cpm_sc_user_url( $atts ) {
 
 add_shortcode( 'cpm_user_url', 'cpm_sc_user_url' );
 
+/**
+ * Displays a single message url
+ *
+ * @since 0.1
+ * @param array $atts
+ * @return string
+ */
 function cpm_sc_message_url( $atts ) {
     $atts = extract( shortcode_atts( array(
         'id' => 0,
@@ -21,6 +43,13 @@ function cpm_sc_message_url( $atts ) {
 
 add_shortcode( 'cpm_msg_url', 'cpm_sc_message_url' );
 
+/**
+ * Displays a task list url
+ *
+ * @since 0.1
+ * @param array $atts
+ * @return string
+ */
 function cpm_sc_tasklist_url( $atts ) {
     $atts = extract( shortcode_atts( array(
         'id' => 0,
@@ -34,6 +63,13 @@ function cpm_sc_tasklist_url( $atts ) {
 
 add_shortcode( 'cpm_tasklist_url', 'cpm_sc_tasklist_url' );
 
+/**
+ * Displays a single task url
+ *
+ * @since 0.1
+ * @param array $atts
+ * @return string
+ */
 function cpm_sc_task_url( $atts ) {
     $atts = extract( shortcode_atts( array(
         'id' => 0,
@@ -48,6 +84,13 @@ function cpm_sc_task_url( $atts ) {
 
 add_shortcode( 'cpm_task_url', 'cpm_sc_task_url' );
 
+/**
+ * Displays a single comment url
+ *
+ * @since 0.1
+ * @param array $atts
+ * @return string
+ */
 function cpm_sc_comment_url( $atts ) {
     $atts = extract( shortcode_atts( array(
         'id' => 0,
