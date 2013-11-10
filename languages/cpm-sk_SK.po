@@ -1,0 +1,766 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-28 20:37+0600\n"
+"PO-Revision-Date: 2013-03-26 17:44+0100\n"
+"Last-Translator: \n"
+"Language-Team:  <marchfeldm@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../cpm.php:162
+msgid "Allowed Files"
+msgstr "Povolené súbory"
+
+#: ../cpm.php:192 ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "Projekt manažér"
+
+#: ../cpm.php:193
+msgid "Projects"
+msgstr "Projekty"
+
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Projekt vytvoril %s"
+
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Detail projektu aktualizoval %s"
+
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Odkaz %s vytvoril %s"
+
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Odkaz %s aktualizoval %s"
+
+#: ../class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Odkaz \"%s\" vymazal %s"
+
+#: ../class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Zoznam to-do úloh %s vytvoril %s"
+
+#: ../class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Zoznam to-do úloh %s aktualizoval %s"
+
+#: ../class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Zoznam to-do úloh %s vymazal %s"
+
+#: ../class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "To-do úloha %s pridaná na zoznam to-do úloh %s od %s"
+
+#: ../class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "To-do úlohu %s aktualizoval %s"
+
+#: ../class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "To-do  úlohu %s dokončil %s"
+
+#: ../class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "To-do úloha označená hotová"
+
+#: ../class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "To-do úloha %s označil %s ako nesplnenú"
+
+#: ../class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Znova otvorená to-do úloha"
+
+#: ../class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "To-do úloha \"%s\" vymazaná z listu to-do úloh %s užívateľom %s"
+
+#: ../class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s pridal komentár k %s"
+
+#: ../class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s aktualizoval komentár k %s"
+
+#: ../class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s vymazal komentár"
+
+#: ../class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Medzník \"%s\" pridal %s "
+
+#: ../class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Medzník \"%s\" aktualizoval %s "
+
+#: ../class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Medzník \"%s\" vymazal %s "
+
+#: ../class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Medzník \"%s\" označený ako dokončený užívateľom %s"
+
+#: ../class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Medzník \"%s\" označený ako nedokončený užívateľom %s"
+
+#: ../class/admin.php:33
+msgid "Settings"
+msgstr "Nadstavenia"
+
+#: ../class/admin.php:40
+msgid "General"
+msgstr "Všeobecné"
+
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "Nadstavenia emailu"
+
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Limit pre upload súborov"
+
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "veľkosť súboru v Megabyte. napr: 2"
+
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr "Typ emailu"
+
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML email"
+
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr "Texotový"
+
+#: ../class/admin.php:81
+msgid "New Project Subject"
+msgstr "Predmet nového projektu"
+
+#: ../class/admin.php:86
+msgid "New Project Body"
+msgstr "Popis nového projektu"
+
+#: ../class/admin.php:96
+msgid "New Message Subject"
+msgstr "Predmet nového odkazu"
+
+#: ../class/admin.php:101
+msgid "New Message Body"
+msgstr "Správa nového odkazu"
+
+#: ../class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Predmet nového komentára"
+
+#: ../class/admin.php:113 ../class/admin.php:125
+msgid "Body"
+msgstr "Správa"
+
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Predmet novo-zadanej úlohy"
+
+#: ../class/ajax.php:388 ../includes/functions.php:167
+msgid "Delete File"
+msgstr "Vymaž súbor"
+
+#: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
+#: ../includes/html.php:677 ../views/message/index.php:10
+#: ../views/message/index.php:14 ../views/message/single.php:10
+msgid "Messages"
+msgstr "Správy"
+
+#: ../class/message.php:27
+msgid "message post type"
+msgstr "typ spávy"
+
+#: ../class/message.php:42 ../class/message.php:43
+msgid "Message"
+msgstr "Správa"
+
+#: ../class/message.php:44 ../includes/html.php:458
+msgid "Add Message"
+msgstr "Nová správa"
+
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "Vytvor novú správu"
+
+#: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
+#: ../includes/html.php:228 ../includes/html.php:389 ../includes/html.php:629
+#: ../views/message/single.php:32 ../views/project/header.php:21
+msgid "Edit"
+msgstr "Uprav"
+
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "Uprav správu"
+
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "Nová správa"
+
+#: ../class/message.php:49 ../class/message.php:50
+msgid "View Message"
+msgstr "Zobraz správu"
+
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "Prehladaj správy"
+
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "Neboli nájdené žiadne správy"
+
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Neboli nájdené žiadne správy v odpodovom koši"
+
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "Nadradená správa"
+
+#: ../class/milestone.php:21 ../class/milestone.php:22
+#: ../class/milestone.php:36 ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "Medzník"
+
+#: ../class/milestone.php:39 ../includes/html.php:539
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Pridaj medzník"
+
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Pridaj nový medzník"
+
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Uprav medzník"
+
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "Nový medzník"
+
+#: ../class/milestone.php:44 ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "Zpbraz medzník"
+
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Hladaj medzník"
+
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Žiadny medzník nebol nájdený"
+
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Žiadny medzník nebol nájdený v odpadovom koši"
+
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Nadradený medzník"
+
+#: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "Projekt"
+
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr ""
+
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "Pridaj projekt"
+
+#: ../class/project.php:45 ../includes/html.php:708
+msgid "Add New Project"
+msgstr "Pridaj nový projekt"
+
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "Uprav projekt"
+
+#: ../class/project.php:48 ../views/project/index.php:14
+msgid "New Project"
+msgstr "Nový projekt"
+
+#: ../class/project.php:49 ../class/project.php:50
+msgid "View Project"
+msgstr "Zobraz projekt"
+
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "Hladaj projekt"
+
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "Žiadny projekt nebol nájdený"
+
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Žiadny projekt nebol nájdený v odpadovam koši"
+
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "Nadradený projekt"
+
+#: ../class/project.php:291 ../views/project/single.php:5
+msgid "Activity"
+msgstr "Aktivity"
+
+#: ../class/project.php:293 ../includes/html.php:655 ../views/task/index.php:5
+#: ../views/task/single.php:5 ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Zoznam úloh"
+
+#: ../class/project.php:294 ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Medzníky"
+
+#: ../class/project.php:295 ../views/files/index.php:2
+msgid "Files"
+msgstr "Súbory"
+
+#: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "Zoznam úloh"
+
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "Pridaj zoznam úloh"
+
+#: ../class/task.php:45 ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Pridaj nový zoznam úloh"
+
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "Uprav zoznam úloh"
+
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "Nový zoznam úloh"
+
+#: ../class/task.php:49 ../class/task.php:50
+msgid "View Task List"
+msgstr "Zobraz zoznam úloh"
+
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "Prehladaj zoznam úloh"
+
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "Žiadny zoznam úloh nebol nájdený"
+
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Žiadny zoznam úloh nebol nájdený v odpadovom koši"
+
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "Nadradený zoznam úloh"
+
+#: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
+msgid "Task"
+msgstr "Úloha"
+
+#: ../class/task.php:60 ../class/task.php:74
+msgid "Tasks"
+msgstr "Úlohy"
+
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "Pridaj úlohu"
+
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "Pridaj novú úlohu"
+
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "Uprav úlohu"
+
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "Nová úloha"
+
+#: ../class/task.php:82 ../class/task.php:83
+msgid "View Task"
+msgstr "Zobraz úlohu"
+
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "Hladaj úlohu"
+
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "Žiadny úloha nebola nájdená"
+
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Žiadny úloha nebola nájdená v odpadovom koši"
+
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "Nadradená úloha"
+
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Vyberte spolupracovníkov"
+
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "Noboli nájdený žiadný užívatelia"
+
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- priraď k --"
+
+#: ../includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"Pripojiť, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">vybrné súbory</a> z "
+"vášho počítača."
+
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "Dokončené"
+
+#: ../includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Naozaj chcete odstrániť túto to-do úlohu?"
+
+#: ../includes/html.php:26 ../includes/html.php:226 ../includes/html.php:395
+#: ../includes/html.php:632 ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "Odstráň"
+
+#: ../includes/html.php:48
+msgid "1 Comment"
+msgstr "1 komenár"
+
+#: ../includes/html.php:48
+#, php-format
+msgid "%d Comments"
+msgstr "%d komentárov"
+
+#: ../includes/html.php:60
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Dokončil %s dňa %s)"
+
+#: ../includes/html.php:105
+msgid "Add this to-do"
+msgstr "Pridaj toto do to-do úloh"
+
+#: ../includes/html.php:112
+msgid "Save Changes"
+msgstr "Uložiť zmeny"
+
+#: ../includes/html.php:131
+msgid "Add a new to-do"
+msgstr "Pridaj novú to-do úlohu"
+
+#: ../includes/html.php:134 ../includes/html.php:568
+msgid "Due date"
+msgstr "Termín na dokončenie"
+
+#: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:348
+#: ../includes/html.php:519 ../includes/html.php:586 ../includes/html.php:754
+msgid "Cancel"
+msgstr "Zruš"
+
+#: ../includes/html.php:162
+msgid "Add List"
+msgstr "Pridaj zoznam"
+
+#: ../includes/html.php:170
+msgid "Update List"
+msgstr "Aktualizovať zoznam"
+
+#: ../includes/html.php:185
+msgid "Tasklist name"
+msgstr "Názon zoznamu úloh"
+
+#: ../includes/html.php:189
+msgid "Tasklist detail"
+msgstr "podrobnosti zoznamu úloh"
+
+#: ../includes/html.php:194 ../includes/html.php:491
+msgid "-- milestone --"
+msgstr "-- medzník --"
+
+#: ../includes/html.php:225
+msgid "Are you sure to delete this to-do list?"
+msgstr "Naozaj chcete zmazať tento zoznam to-do úloh?"
+
+#: ../includes/html.php:268
+msgid "Add a to-do"
+msgstr "Pridaj to-do úlohu"
+
+#: ../includes/html.php:303
+msgid "Add this comment"
+msgstr "Pridaj tento komentár"
+
+#: ../includes/html.php:310
+msgid "Update comment"
+msgstr "Aktualizuj komentár"
+
+#: ../includes/html.php:326
+msgid "Add a comment..."
+msgstr "Pridaj komentár..."
+
+#: ../includes/html.php:335 ../includes/html.php:502
+msgid "Notify users"
+msgstr "Informujte užívateľov"
+
+#: ../includes/html.php:336 ../includes/html.php:503
+msgid "Select all"
+msgstr "Vybrať všetko"
+
+#: ../includes/html.php:469
+msgid "Update Message"
+msgstr "Aktualizuj správu"
+
+#: ../includes/html.php:482
+msgid "Enter message title"
+msgstr "Zadajte názov správy"
+
+#: ../includes/html.php:486
+msgid "Message deatils here"
+msgstr "Podrobnosti správy tu"
+
+#: ../includes/html.php:548
+msgid "Update Milestone"
+msgstr "Aktualizuj medzník"
+
+#: ../includes/html.php:564
+msgid "Milestone name"
+msgstr "Názov medzníka"
+
+#: ../includes/html.php:572
+msgid "Details about milestone (optional)"
+msgstr "Podrobnosti medzníka (nepovinné)"
+
+#: ../includes/html.php:616
+msgid "left"
+msgstr "vľavo"
+
+#: ../includes/html.php:616
+msgid "late"
+msgstr "oneskoro"
+
+#: ../includes/html.php:629
+msgid "Edit milestone"
+msgstr "Uprav medzník"
+
+#: ../includes/html.php:632
+msgid "Are you sure?"
+msgstr "Ste si istí?"
+
+#: ../includes/html.php:632
+msgid "Delete milestone"
+msgstr "Odstrániť medzníka"
+
+#: ../includes/html.php:636
+msgid "Mark as complete"
+msgstr "Označiť dokončené"
+
+#: ../includes/html.php:638
+msgid "Mark un-complete"
+msgstr "Označiť nedokončené"
+
+#: ../includes/html.php:638
+msgid "Reopen"
+msgstr "Znova otvor"
+
+#: ../includes/html.php:692
+msgid "Completed on:"
+msgstr "Dokončené:"
+
+#: ../includes/html.php:716
+msgid "Update Project"
+msgstr "Aktualizácia projektu"
+
+#: ../includes/html.php:725
+msgid "Name of the project"
+msgstr "Názov projektu"
+
+#: ../includes/html.php:729
+msgid "Some details about the project (optional)"
+msgstr "Ďalšie informácie o projekte (nepovinné)"
+
+#: ../includes/html.php:740
+msgid "Notify Co-workers"
+msgstr "Informujte spolupracovníkov"
+
+#: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
+msgid "thread"
+msgstr "thread"
+
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Pripojený k <a href=\"%s\">%s</a> užívateľom %s"
+
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+"<a href=\"%s\">Download</a> alebo prejdi k <a href=\"%s\">diskusii</a>."
+
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Žiadne súbory neboli nájdené"
+
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "Pridaj nový"
+
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "Vytvorte novú správu"
+
+#: ../views/message/index.php:46
+msgid "Delete this message"
+msgstr "Odstrániť túto správu"
+
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Naozaj chcete zmazať túto správu?"
+
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Neboli nájdené žiadne správy! Chcete pridať novú správu?"
+
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Chyba: Správa nenájdená"
+
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; späť"
+
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "Neboli nájdené žiadne komentáre"
+
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Neboli nájdené žiadne medzníky"
+
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Pridaj nový medzník"
+
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Neskoré medzníky"
+
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Nadchádzajúce medzníky"
+
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Dokončené medzníky"
+
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Chyba: Projekt nie je nájdený"
+
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Chyba: Oprávnenie bola odopreté"
+
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "Informácie o projekte"
+
+#: ../views/project/index.php:47
+msgid "Start a new project"
+msgstr "Začni nový projekt"
+
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "Aktivity v projekte"
+
+#: ../views/project/single.php:12
+msgid "Delete project"
+msgstr "Odstrániť projekt"
+
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Naozaj chcete zmazať tento projekt?"
+
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr "Načítať ďalšie ..."
+
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "Zoznam úloh"
+
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Ach bože, zoznam to-do úloh nebol nájdený!"
+
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Diskutovať o tomto zozname to-do úloh"
+
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Diskutovať o tejto to-do úlohe"
