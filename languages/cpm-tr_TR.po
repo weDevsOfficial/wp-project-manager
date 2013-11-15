@@ -1,0 +1,1001 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager v0.4.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-11-15 03:26+0200\n"
+"Last-Translator: Fatih KURU <fatihkuru@univercogroup.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"Language: de_DE\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ cpm
+#: class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Projeyi Oluşturan%s"
+
+# @ cpm
+#: class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Proje detaylarını enson güncelleyen %s"
+
+# @ cpm
+#: class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Mesaj %s yazan %s"
+
+# @ cpm
+#: class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Mesaj %s düzenleyen %s"
+
+# @ cpm
+#: class/activity.php:97
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Mesaj  \"%s\" , \"%s\"Tarafından silindi"
+
+# @ cpm
+#: class/activity.php:105
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Yapılacaklar listesi %s oluşturan %s"
+
+# @ cpm
+#: class/activity.php:116
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Yapılacaklar listesi %s düzenleyen %s"
+
+# @ cpm
+#: class/activity.php:127
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Yapılacaklar listesi \"%s\" , \"%s\"Tarafından silindi"
+
+# @ cpm
+#: class/activity.php:140
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Yapılacaklar listesi %s yeni bir öğe eklendi %s ekleyen kişi %s"
+
+# @ cpm
+#: class/activity.php:154
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Yapılacak iş %s düzenleyen %s"
+
+# @ cpm
+#: class/activity.php:167
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Yapılacaklar iş %s tamamlandı %s"
+
+# @ cpm
+#: class/activity.php:172
+msgid "Marked to-do as done"
+msgstr "Yapıldı olarak işaretlendi"
+
+# @ cpm
+#: class/activity.php:183
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Yapılacak iş %s yapılmamış olarak işaretlendi %s"
+
+# @ cpm
+#: class/activity.php:188
+msgid "Re-opened to-do"
+msgstr "Yeniden yapılacak"
+
+# @ cpm
+#: class/activity.php:199
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Yapılacak iş \"%s\" yapılacaklar listesinden silindi %s , %s"
+
+# @ cpm
+#: class/activity.php:209
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s kommentierte bei %s"
+
+# @ cpm
+#: class/activity.php:215
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s aktualsierte Kommentirung von %s"
+
+# @ cpm
+#: class/activity.php:223
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s hat einen Kommentar gelöscht"
+
+# @ cpm
+#: class/activity.php:230
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Kilometre taşı \"%s\" ekleyen %s"
+
+# @ cpm
+#: class/activity.php:237
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Kilometre taşı \"%s\" düzenlendi %s"
+
+# @ cpm
+#: class/activity.php:244
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Kilometre taşı  \"%s\" silindi %s "
+
+# @ cpm
+#: class/activity.php:251
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Kilometre taşı \"%s\" tamamlandı olarak işaretlendi %s "
+
+# @ cpm
+#: class/activity.php:258
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Kilometre taşı \"%s\" tamamlanmadı olarak işaretlendi %s"
+
+# @ cpm
+#: class/admin.php:33
+msgid "Settings"
+msgstr "Ayarlar"
+
+# @ cpm
+#: class/admin.php:40
+msgid "General"
+msgstr "Genel"
+
+# @ cpm
+#: class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "E-Mail Ayarları"
+
+# @ cpm
+#: class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Dosya Yükleme Limiti"
+
+# @ default
+#: class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "Dosya boyutu (MB) Örn: 2"
+
+# @ cpm
+#: class/admin.php:71
+msgid "E-Mail Type"
+msgstr "E-mail Tipi"
+
+# @ cpm
+#: class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML Mail"
+
+# @ cpm
+#: class/admin.php:76
+msgid "Plain Text"
+msgstr "Zengin Metin"
+
+# @ cpm
+#: class/admin.php:81
+msgid "New Project Subject"
+msgstr "Yeni Proje Konusu"
+
+# @ cpm
+#: class/admin.php:86
+msgid "New Project Body"
+msgstr "Yeni proje açıklaması"
+
+# @ cpm
+#: class/admin.php:96
+msgid "New Message Subject"
+msgstr "Yeni mesaj konusu"
+
+# @ cpm
+#: class/admin.php:101
+msgid "New Message Body"
+msgstr "Mesaj"
+
+# @ cpm
+#: class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Yeni yorum konusu"
+
+# @ cpm
+#: class/admin.php:113 class/admin.php:125
+msgid "Body"
+msgstr "yazı"
+
+# @ cpm
+#: class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Yeni Atanan Görev Konusu"
+
+# @ default
+#: class/ajax.php:400 includes/functions.php:167
+msgid "Delete File"
+msgstr "Dosyayı Sil"
+
+# @ cpm
+#: class/message.php:26 class/message.php:41 class/project.php:292
+#: includes/html.php:679 views/message/index.php:10 views/message/index.php:14
+#: views/message/single.php:10
+msgid "Messages"
+msgstr "Mesajlar"
+
+# @ cpm
+#: class/message.php:27
+msgid "message post type"
+msgstr "mesaj gönderim tipi"
+
+# @ cpm
+#: class/message.php:42 class/message.php:43
+msgid "Message"
+msgstr "Mesaj"
+
+# @ cpm
+#: class/message.php:44 includes/html.php:460
+msgid "Add Message"
+msgstr "Mesaj Yaz"
+
+# @ cpm
+#: class/message.php:45
+msgid "Add New Message"
+msgstr "Yeni Mesaj Yaz"
+
+# @ cpm
+#: class/message.php:46 class/milestone.php:41 class/project.php:46
+#: class/task.php:46 class/task.php:79 includes/html.php:30
+#: includes/html.php:229 includes/html.php:391 includes/html.php:631
+#: views/message/single.php:32 views/project/header.php:21
+msgid "Edit"
+msgstr "Düzenle"
+
+# @ cpm
+#: class/message.php:47
+msgid "Edit Message"
+msgstr "Mesajı Düzenle"
+
+# @ cpm
+#: class/message.php:48
+msgid "New Message"
+msgstr "Yeni Mesaj"
+
+# @ cpm
+#: class/message.php:49 class/message.php:50
+msgid "View Message"
+msgstr "Mesajı Görüntüle"
+
+# @ cpm
+#: class/message.php:51
+msgid "Search Messages"
+msgstr "Mesajlarda Ara"
+
+# @ cpm
+#: class/message.php:52
+msgid "No Messages Found"
+msgstr "Mesaj bulunamadı "
+
+# @ cpm
+#: class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "Çöpte Mesaj Yok"
+
+# @ cpm
+#: class/message.php:54
+msgid "Parent Message"
+msgstr "Ana Mesaj"
+
+# @ cpm
+#: class/milestone.php:21 class/milestone.php:22 class/milestone.php:36
+#: class/milestone.php:37 class/milestone.php:38
+msgid "Milestone"
+msgstr "Kilometre Taşı"
+
+# @ cpm
+#: class/milestone.php:39 includes/html.php:541 views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Kilometre Taşı Ekle"
+
+# @ cpm
+#: class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Yeni Kilometre Taşı Ekle"
+
+# @ cpm
+#: class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Kilometre Taşı Düzenle"
+
+# @ cpm
+#: class/milestone.php:43
+msgid "New Milestone"
+msgstr "Yeni Kilometre Taşı"
+
+# @ cpm
+#: class/milestone.php:44 class/milestone.php:45
+msgid "View Milestone"
+msgstr "Kilometre Taşı Görüntüle"
+
+# @ cpm
+#: class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Kilometre Taşı Ara"
+
+# @ cpm
+#: class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Kilometre Taşı Bulunamadı"
+
+# @ cpm
+#: class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "Çöpte Kilometre Taşı Bulunamadı"
+
+# @ cpm
+#: class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Ana Kilometre Taşı"
+
+# @ cpm
+#: class/project.php:26 class/project.php:41 class/project.php:42
+#: class/project.php:43
+msgid "Project"
+msgstr "Proje"
+
+# @ cpm
+#: class/project.php:27
+msgid "project manager post type"
+msgstr "proje yönetimi gönderi tipi"
+
+# @ cpm
+#: class/project.php:44
+msgid "Add Project"
+msgstr "Proje Ekle"
+
+# @ cpm
+#: class/project.php:45 includes/html.php:710
+msgid "Add New Project"
+msgstr "Yeni Proje Ekle"
+
+# @ cpm
+#: class/project.php:47
+msgid "Edit Project"
+msgstr "Proje Düzenle"
+
+# @ cpm
+#: class/project.php:48 views/project/index.php:14
+msgid "New Project"
+msgstr "Yeni Proje"
+
+# @ cpm
+#: class/project.php:49 class/project.php:50
+msgid "View Project"
+msgstr "Proje Görüntüle"
+
+# @ cpm
+#: class/project.php:51
+msgid "Search Project"
+msgstr "Proje Ara"
+
+# @ cpm
+#: class/project.php:52
+msgid "No Project Found"
+msgstr "Proje Bulunamadı"
+
+# @ cpm
+#: class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "Çöpte Proje Bulunamadı"
+
+# @ cpm
+#: class/project.php:54
+msgid "Parent Project"
+msgstr "Ana Proje"
+
+# @ cpm
+#: class/project.php:291 views/project/single.php:5
+msgid "Activity"
+msgstr "Aktivite"
+
+# @ cpm
+#: class/project.php:293 includes/html.php:657 views/task/index.php:5
+#: views/task/single.php:5 views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Yapılacaklar Listesi"
+
+# @ cpm
+#: class/project.php:294 views/milestone/index.php:1
+#: views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Kilometre Taşı"
+
+# @ cpm
+#: class/project.php:295 views/files/index.php:2
+msgid "Files"
+msgstr "Dosyalar"
+
+# @ cpm
+#: class/task.php:26 class/task.php:27 class/task.php:41 class/task.php:42
+#: class/task.php:43 views/task/single.php:10 views/task/task-single.php:9
+msgid "Task List"
+msgstr "Görev Listesi"
+
+# @ cpm
+#: class/task.php:44
+msgid "Add Task List"
+msgstr "Görev Listesi Ekle"
+
+# @ cpm
+#: class/task.php:45 views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Yeni Görev Listesi Ekle"
+
+# @ cpm
+#: class/task.php:47
+msgid "Edit Task List"
+msgstr "Görevl Listesini Düzenle"
+
+# @ cpm
+#: class/task.php:48
+msgid "New Task List"
+msgstr "Yeni Görev Listesi"
+
+# @ cpm
+#: class/task.php:49 class/task.php:50
+msgid "View Task List"
+msgstr "Görev Listesini Görüntüle"
+
+# @ cpm
+#: class/task.php:51
+msgid "Search Task List"
+msgstr "Görev Listesinde Ara"
+
+# @ cpm
+#: class/task.php:52
+msgid "No Task List Found"
+msgstr "Görev Listesi Bulunamadı"
+
+# @ cpm
+#: class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "Çöpte Görev Listesi Bulunamadı"
+
+# @ cpm
+#: class/task.php:54
+msgid "Parent Task List"
+msgstr "Ana Görev Listesi"
+
+# @ cpm
+#: class/task.php:59 class/task.php:75 class/task.php:76
+msgid "Task"
+msgstr "Görev"
+
+# @ cpm
+#: class/task.php:60 class/task.php:74
+msgid "Tasks"
+msgstr "Görevler"
+
+# @ cpm
+#: class/task.php:77
+msgid "Add Task"
+msgstr "Görev Ekle"
+
+# @ cpm
+#: class/task.php:78
+msgid "Add New Task"
+msgstr "Yeni Görev Ekle"
+
+# @ cpm
+#: class/task.php:80
+msgid "Edit Task"
+msgstr "Görev Düzenle"
+
+# @ cpm
+#: class/task.php:81
+msgid "New Task"
+msgstr "Yeni Görev"
+
+# @ cpm
+#: class/task.php:82 class/task.php:83
+msgid "View Task"
+msgstr "Görevi Görüntül"
+
+# @ cpm
+#: class/task.php:84
+msgid "Search Task"
+msgstr "Görev Ara"
+
+# @ cpm
+#: class/task.php:85
+msgid "No Task Found"
+msgstr "Görev Bulunamadı"
+
+# @ cpm
+#: class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "Çöpte Görev Bulunamadı"
+
+# @ cpm
+#: class/task.php:87
+msgid "Parent Task"
+msgstr "Ana görev"
+
+# @ default
+#: cpm.php:160
+msgid "Allowed Files"
+msgstr "Kabul Edilen Dosya"
+
+# @ cpm
+#: cpm.php:189 views/project/index.php:7
+msgid "Project Manager"
+msgstr "UNV-Proje"
+
+# @ cpm
+#: cpm.php:190
+msgid "Projects"
+msgstr "Projeler"
+
+# @ cpm
+#: includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Proje Çalışanı Seçin"
+
+# @ cpm
+#: includes/functions.php:124
+msgid "No users found"
+msgstr "Kullanıcı Bulunamadı"
+
+# @ cpm
+#: includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- ata --"
+
+# @ cpm
+#: includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"Dosyaa Eklemek için, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">Dosya "
+"Seçin</a>."
+
+# @ cpm
+#: includes/functions.php:238
+msgid "Completed"
+msgstr "Tamamlandı"
+
+# @ cpm
+#: includes/functions.php:388
+#, php-format
+msgid "%d message"
+msgid_plural "%d messages"
+msgstr[0] "%d mesaj"
+msgstr[1] "%d mesaj"
+
+# @ cpm
+#: includes/functions.php:392
+#, php-format
+msgid "%d to-do list"
+msgid_plural "%d to-do lists"
+msgstr[0] "%d yapılacak listesi"
+msgstr[1] "%d yapılacak listeleri"
+
+# @ cpm
+#: includes/functions.php:396
+#, php-format
+msgid "%d to-do"
+msgid_plural "%d to-dos"
+msgstr[0] "%d yapılacak"
+msgstr[1] "%d yapılacaklar"
+
+# @ cpm
+#: includes/functions.php:400 views/files/index.php:63
+#, php-format
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] "%d yorum"
+msgstr[1] "%d yorumlar"
+
+# @ cpm
+#: includes/functions.php:404
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d dosya"
+msgstr[1] "%d dosyalar"
+
+# @ cpm
+#: includes/functions.php:408
+#, php-format
+msgid "%d milestone"
+msgid_plural "%d milestones"
+msgstr[0] "%d kilometre taşı"
+msgstr[1] "%d kilometre taşları"
+
+# @ cpm
+#: includes/html.php:25
+msgid "Are you sure to delete this to-do?"
+msgstr "Bu yapılacak öğeyi silmek istediğinize emin misiniz?"
+
+# @ cpm
+#: includes/html.php:26 includes/html.php:227 includes/html.php:397
+#: includes/html.php:634 views/message/index.php:47
+#: views/project/single.php:13
+msgid "Delete"
+msgstr "Sil"
+
+# @ cpm
+#: includes/html.php:49
+msgid "1 Comment"
+msgstr "1 Yorum"
+
+# @ cpm
+#: includes/html.php:49
+#, php-format
+msgid "%d Comments"
+msgstr "%d Yorum"
+
+# @ cpm
+#: includes/html.php:61
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Tamamlandı %s , % s)"
+
+# @ cpm
+#: includes/html.php:106
+msgid "Add this to-do"
+msgstr "Bu öğeyi ekle"
+
+# @ cpm
+#: includes/html.php:113
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+# @ cpm
+#: includes/html.php:132
+msgid "Add a new to-do"
+msgstr "Yeni Öğe Ekle"
+
+# @ cpm
+#: includes/html.php:135 includes/html.php:570
+msgid "Due date"
+msgstr "Bitiş Tarihi"
+
+# @ cpm
+# @ wedevs
+#: includes/html.php:145 includes/html.php:204 includes/html.php:350
+#: includes/html.php:521 includes/html.php:588 includes/html.php:756
+msgid "Cancel"
+msgstr "İptal"
+
+# @ cpm
+#: includes/html.php:163
+msgid "Add List"
+msgstr "Liste Ekle"
+
+# @ cpm
+#: includes/html.php:171
+msgid "Update List"
+msgstr "Liste Güncelle"
+
+# @ cpm
+#: includes/html.php:186
+msgid "Tasklist name"
+msgstr "Görev Listesi Adı"
+
+# @ cpm
+#: includes/html.php:190
+msgid "Tasklist detail"
+msgstr "Görev Listesi Detay"
+
+# @ cpm
+#: includes/html.php:195 includes/html.php:493
+msgid "-- milestone --"
+msgstr "-- Kilometre Taşı --"
+
+# @ cpm
+#: includes/html.php:226
+msgid "Are you sure to delete this to-do list?"
+msgstr "Yapılacaklar listesini silmek istediğinizden emin misiniz?"
+
+# @ cpm
+#: includes/html.php:270
+msgid "Add a to-do"
+msgstr "Yapılacak Öğe Ekle"
+
+# @ cpm
+#: includes/html.php:305
+msgid "Add this comment"
+msgstr "Bu yorumu ekle"
+
+# @ cpm
+#: includes/html.php:312
+msgid "Update comment"
+msgstr "Yorumu güncelle"
+
+# @ cpm
+#: includes/html.php:328
+msgid "Add a comment..."
+msgstr "Yorum ekle..."
+
+# @ cpm
+#: includes/html.php:337 includes/html.php:504
+msgid "Notify users"
+msgstr "Kullanıcılara Bildir"
+
+# @ cpm
+#: includes/html.php:338 includes/html.php:505
+msgid "Select all"
+msgstr "Hepsini seç"
+
+# @ cpm
+#: includes/html.php:471
+msgid "Update Message"
+msgstr "Mesajı Güncelle"
+
+# @ cpm
+#: includes/html.php:484
+msgid "Enter message title"
+msgstr "Mesaj başlığı girin"
+
+# @ cpm
+#: includes/html.php:488
+msgid "Message details here"
+msgstr "Mesajınızı buraya yazın."
+
+# @ cpm
+#: includes/html.php:550
+msgid "Update Milestone"
+msgstr "Kilometre Taşını Güncelle"
+
+# @ cpm
+#: includes/html.php:566
+msgid "Milestone name"
+msgstr "Kilometre Taşı Adı"
+
+# @ cpm
+#: includes/html.php:574
+msgid "Details about milestone (optional)"
+msgstr "Kilometre taşı hakkında ayrıntılar (isteğe bağlı)"
+
+# @ cpm
+#: includes/html.php:618
+msgid "left"
+msgstr "sol"
+
+# @ cpm
+#: includes/html.php:618
+msgid "late"
+msgstr "geç"
+
+# @ cpm
+#: includes/html.php:631
+msgid "Edit milestone"
+msgstr "Kilometre Taşı Düzenle"
+
+# @ cpm
+#: includes/html.php:634
+msgid "Are you sure?"
+msgstr "Emin misiniz?"
+
+# @ cpm
+#: includes/html.php:634
+msgid "Delete milestone"
+msgstr "Kilometre Taşını Sil"
+
+# @ cpm
+#: includes/html.php:638
+msgid "Mark as complete"
+msgstr "Tamamlandı İşaretle"
+
+# @ cpm
+#: includes/html.php:640
+msgid "Mark un-complete"
+msgstr "Tamamlanmadı İşaretle"
+
+# @ cpm
+#: includes/html.php:640
+msgid "Reopen"
+msgstr "Tekrar Aç"
+
+# @ cpm
+#: includes/html.php:694
+msgid "Completed on:"
+msgstr "Tamamlanma Zamanı:"
+
+# @ cpm
+#: includes/html.php:718
+msgid "Update Project"
+msgstr "Projeyi Güncelle"
+
+# @ cpm
+#: includes/html.php:727
+msgid "Name of the project"
+msgstr "Projenin adı"
+
+# @ wedevs
+#: includes/html.php:731
+msgid "Some details about the project (optional)"
+msgstr "Proje ile ilgili ayrıntılar (isteğe bağlı)"
+
+# @ cpm
+#: includes/html.php:742
+msgid "Notify Co-workers"
+msgstr "Proje Sorumlularını Haberdar Et"
+
+# @ cpm
+#: includes/shortcodes.php:103 includes/shortcodes.php:106
+msgid "thread"
+msgstr "iş"
+
+# @ cpm
+#: views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "Bağlı dosya <a href=\"%s\">%s</a> - %s"
+
+# @ cpm
+#: views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+"<a href=\"%s\"> İndir</a>yada şuraya gidin <a href=\"%s\">Tartışma</a>."
+
+# @ cpm
+#: views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Dosya Bulunamadı!"
+
+# @ cpm
+#: views/message/index.php:14
+msgid "Add New"
+msgstr "Yeni Ekle"
+
+# @ cpm
+#: views/message/index.php:18
+msgid "Create a new message"
+msgstr "Yeni mesaj oluştur."
+
+# @ cpm
+#: views/message/index.php:46
+msgid "Delete this message"
+msgstr "Bu mesajı sil."
+
+# @ cpm
+#: views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Mesajı silmek istediğinize emin misiniz?"
+
+# @ cpm
+#: views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Hiç mesaj bulunamadı! Ne hakkında mesaj yazıyordunuz?"
+
+# @ cpm
+#: views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Hata: Mesaj bulunamadı"
+
+# @ cpm
+#: views/message/single.php:14 views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; geri"
+
+# @ cpm
+#: views/message/single.php:55
+#, php-format
+msgid "One Comment"
+msgid_plural "%s Comments"
+msgstr[0] "Bir Yorum"
+msgstr[1] "%s Yorum"
+
+# @ cpm
+#: views/message/single.php:72
+msgid "No comments found"
+msgstr "Bir yorum bulundu"
+
+# @ cpm
+#: views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Kilometre Taşı Bulundu!"
+
+# @ cpm
+#: views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Yeni Kilometre Taşı Ekle"
+
+# @ cpm
+#: views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Geçmiş Kilometre Taşı"
+
+# @ cpm
+#: views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Gelecek Kilometre Taşı"
+
+# @ cpm
+#: views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Tamamlanan Kilometre Taşı"
+
+# @ cpm
+#: views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Hata: Proje bulunamadı"
+
+# @ cpm
+#: views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Hata: izin verilmedi"
+
+# @ cpm
+#: views/project/header.php:25
+msgid "Project Info"
+msgstr "Proje Hakkında"
+
+# @ cpm
+#: views/project/index.php:51
+msgid "Start a new project"
+msgstr "Yeni proje başlat"
+
+# @ cpm
+#: views/project/single.php:8
+msgid "Project Activity"
+msgstr "Proje Aktivitesi"
+
+# @ cpm
+#: views/project/single.php:12
+msgid "Delete project"
+msgstr "Projeyi Sil"
+
+# @ cpm
+#: views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Bu projeyi silmek istediğinize emin misiniz?"
+
+# @ cpm
+#: views/project/single.php:31
+msgid "Load More..."
+msgstr "Daha fazla yükle ..."
+
+# @ cpm
+#: views/task/index.php:9
+msgid "Task Lists"
+msgstr "Görev Listesi"
+
+# @ cpm
+#: views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Yapılacaklar listesi bulunamadı!"
+
+# @ cpm
+#: views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Yapılacak listesini tartışın"
+
+# @ cpm
+#: views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Bu listeyi tartışın"
