@@ -59,6 +59,10 @@ Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project
 ## Contribute
 This is a beta version right now and should have bugs and lack of many features. If you want to contribute on this project, you are more than welcome.
 
+<<<<<<< HEAD
+## Translation
+Translation in Spanish [David Web](http://www.closemarketing.es)
+=======
 ## Contribution
 * French translation by Corentin allard
 * Dutch translation by eskamedia
@@ -135,6 +139,7 @@ This is a beta version right now and should have bugs and lack of many features.
 
 ### 0.1
 Initial version released
+>>>>>>> a4c93628878e558eb30c63ecf4e2cad32b38730b
 
 
 ## Author
