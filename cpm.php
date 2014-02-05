@@ -72,6 +72,8 @@ class WeDevs_CPM {
         $this->instantiate();
 
         add_action( 'admin_menu', array($this, 'admin_menu') );
+        add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
+        add_action('parent_file', array($this, 'admin_menu_taxonomy') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
         register_activation_hook( __FILE__, array($this, 'install') );
@@ -83,10 +85,12 @@ class WeDevs_CPM {
      * @since 0.1
      */
     function instantiate() {
+        CPM_Department::getInstance();
         CPM_Project::getInstance();
         CPM_Message::getInstance();
         CPM_Task::getInstance();
         CPM_Milestone::getInstance();
+        CPM_Calendar::getInstance();
         
         new CPM_Activity();
         new CPM_Ajax();
@@ -141,6 +145,7 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'chosen', plugins_url( 'js/chosen.jquery.min.js', __FILE__ ) );
+        wp_enqueue_script( 'fullcalendar', plugins_url( 'js/fullcalendar.min.js', __FILE__ ) );
         wp_enqueue_script( 'validate', plugins_url( 'js/jquery.validate.min.js', __FILE__ ) );
         wp_enqueue_script( 'plupload-handlers' );
         wp_enqueue_script( 'cpm_admin', plugins_url( 'js/admin.js', __FILE__ ) );
@@ -165,10 +170,22 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'chosen', plugins_url( 'css/chosen.css', __FILE__ ) );
+        wp_enqueue_style( 'fullcalendar', plugins_url( 'css/fullcalendar.css', __FILE__ ) );
+        
     }
+	
+	/**
+     * Load the plugin scripts and styles outside the
+     * project area
+     *
+     * @since 0.1
+     */
+    function admin_enqueue_scripts($hook) {
+        wp_enqueue_style( 'cpm_admin', plugins_url( 'css/admin.css', __FILE__ ) );
+	}
 
     /**
-     * Includes some required helper files
+     * Includes some required helper files	
      *
      * @since 0.1
      */
@@ -186,11 +203,23 @@ class WeDevs_CPM {
     function admin_menu() {
         $capability = 'read'; //minimum level: subscriber
 
-        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
+        add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
-
-        add_action( $hook, array($this, 'admin_scripts') );
+        add_submenu_page('cpm_projects', __('Categories', 'cpm'), __('Categories', 'cpm'), $capability, 'edit-tags.php?taxonomy=project_category');
+        add_submenu_page( 'cpm_projects', __( 'Calendar', 'cpm' ), __( 'Calendar', 'cpm' ), $capability, 'cpm_calendar', array($this, 'admin_page_handler') );
     }
+	
+	/**
+     * Highlights taxonomy under plugin menu block
+     *
+     */
+	function admin_menu_taxonomy($parent_file) {
+		global $current_screen;
+		$taxonomy = $current_screen->taxonomy;
+		if ($taxonomy == 'project_category')
+			$parent_file = 'cpm_projects';
+		return $parent_file;
+	}
 
     /**
      * Main function that renders the admin area for all the project
@@ -212,8 +241,11 @@ class WeDevs_CPM {
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
         
+        $file_dir = dirname( __FILE__ );
+        $file_dir = apply_filters( 'cpm_tab_file_dir', $file_dir );
+        
         $default_file = dirname( __FILE__ ) . '/views/project/index.php';
-
+        
         switch ($page) {
             case 'cpm_projects':
 
@@ -222,15 +254,15 @@ class WeDevs_CPM {
 
                         switch ($action) {
                             case 'index':
-                                $file = dirname( __FILE__ ) . '/views/project/index.php';
+                                $file = $file_dir . '/views/project/index.php';
                                 break;
 
                             case 'single':
-                                $file = dirname( __FILE__ ) . '/views/project/single.php';
+                                $file = $file_dir . '/views/project/single.php';
                                 break;
 
                             default:
-                                $file = dirname( __FILE__ ) . '/views/project/index.php';
+                                $file = $file_dir . '/views/project/index.php';
                                 break;
                         }
 
@@ -239,15 +271,15 @@ class WeDevs_CPM {
                     case 'message':
                         switch ($action) {
                             case 'index':
-                                $file = dirname( __FILE__ ) . '/views/message/index.php';
+                                $file = $file_dir . '/views/message/index.php';
                                 break;
 
                             case 'single':
-                                $file = dirname( __FILE__ ) . '/views/message/single.php';
+                                $file = $file_dir . '/views/message/single.php';
                                 break;
 
                             default:
-                                $file = dirname( __FILE__ ) . '/views/message/index.php';
+                                $file = $file_dir . '/views/message/index.php';
                                 break;
                         }
 
@@ -256,19 +288,19 @@ class WeDevs_CPM {
                     case 'task':
                         switch ($action) {
                             case 'index':
-                                $file = dirname( __FILE__ ) . '/views/task/index.php';
+                                $file = $file_dir . '/views/task/index.php';
                                 break;
 
                             case 'single':
-                                $file = dirname( __FILE__ ) . '/views/task/single.php';
+                                $file = $file_dir . '/views/task/single.php';
                                 break;
 
                             case 'task_single':
-                                $file = dirname( __FILE__ ) . '/views/task/task-single.php';
+                                $file = $file_dir . '/views/task/task-single.php';
                                 break;
 
                             default:
-                                $file = dirname( __FILE__ ) . '/views/task/index.php';
+                                $file = $file_dir . '/views/task/index.php';
                                 break;
                         }
 
@@ -277,26 +309,31 @@ class WeDevs_CPM {
                     case 'milestone':
                         switch ($action) {
                             case 'index':
-                                $file = dirname( __FILE__ ) . '/views/milestone/index.php';
+                                $file = $file_dir . '/views/milestone/index.php';
                                 break;
 
                             default:
-                                $file = dirname( __FILE__ ) . '/views/milestone/index.php';
+                                $file = $file_dir . '/views/milestone/index.php';
                                 break;
                         }
 
                         break;
 
                     case 'files':
-                        $file = dirname( __FILE__ ) . '/views/files/index.php';
+                        $file = $file_dir . '/views/files/index.php';
                         break;
 
 
                     default:
-                        $file = dirname( __FILE__ ) . '/views/project/index.php';
+                        $file = $file_dir . '/views/project/index.php';
                         break;
                 }
-
+                break;
+                
+            case 'cpm_calendar':
+                $file = $file_dir . '/views/calendar/index.php';
+                break;
+                
             default:
                 break;
         }

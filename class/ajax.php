@@ -17,6 +17,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_project_new', array($this, 'project_new') );
         add_action( 'wp_ajax_cpm_project_update', array($this, 'project_edit') );
         add_action( 'wp_ajax_cpm_project_delete', array($this, 'project_delete') );
+        add_action( 'wp_ajax_cpm_project_complete', array($this, 'project_complete') );
+        add_action( 'wp_ajax_cpm_project_revive', array($this, 'project_revive') );
 
         add_action( 'wp_ajax_cpm_task_complete', array($this, 'mark_task_complete') );
         add_action( 'wp_ajax_cpm_task_open', array($this, 'mark_task_open') );
@@ -50,6 +52,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_message_get', array($this, 'get_message') );
 
         add_action( 'wp_ajax_cpm_get_activity', array($this, 'get_activity') );
+        
+        add_action( 'wp_ajax_cpm_get_events', array($this, 'get_events') );
     }
 
     function project_new() {
@@ -98,6 +102,34 @@ class CPM_Ajax {
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
         CPM_Project::getInstance()->delete( $project_id, true );
+
+        echo json_encode( array(
+            'success' => true,
+            'url' => cpm_url_projects()
+        ) );
+
+        exit;
+    }
+    
+    function project_complete() {
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        CPM_Project::getInstance()->complete( $project_id);
+
+        echo json_encode( array(
+            'success' => true,
+            'url' => cpm_url_projects()
+        ) );
+
+        exit;
+    }
+    
+    function project_revive() {
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        CPM_Project::getInstance()->revive( $project_id);
 
         echo json_encode( array(
             'success' => true,
@@ -649,6 +681,18 @@ class CPM_Ajax {
                 'content' => cpm_activity_html( $activities ),
                 'count' => count( $activities )
             ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+        exit;
+    }
+    
+    function get_events() {
+        $events = CPM_Calendar::getInstance()->get_events();
+        if ( $events ) {
+            echo json_encode( $events );
         } else {
             echo json_encode( array(
                 'success' => false

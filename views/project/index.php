@@ -2,9 +2,12 @@
 $project_obj = CPM_Project::getInstance();
 $projects = $project_obj->get_projects();
 ?>
-
+<?php if(is_admin()): ?>
 <div class="icon32" id="icon-themes"><br></div>
 <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
+<?php endif; ?>
+
+<?php cpm_project_filters(); ?>
 
 <div class="cpm-projects">
 
@@ -16,13 +19,16 @@ $projects = $project_obj->get_projects();
     <?php } ?>
 
     <?php
+    $i = 0;
     foreach ($projects as $project) {
         if ( !$project_obj->has_permission( $project ) ) {
             continue;
         }
+        $i++;
+        $completed = $project->info->completed;
         ?>
 
-        <article class="cpm-project">
+        <article class="cpm-project<?php echo $completed?' completed':''?>">
             <a href="<?php echo cpm_url_project_details( $project->ID ); ?>">
                 <h5><?php echo get_the_title( $project->ID ); ?></h5>
 
@@ -41,10 +47,15 @@ $projects = $project_obj->get_projects();
             <?php
             $progress = $project_obj->get_progress_by_tasks( $project->ID );
             echo cpm_task_completeness( $progress['total'], $progress['completed'] );
+            if($completed) echo '<div class="cpm-completed-tag"></div>';
             ?>
         </article>
 
     <?php } ?>
+    
+    <?php if ( !$projects || $i==0) {
+        cpm_show_message( __( 'No projects found!', 'cpm' ) );
+    }?>
 
 </div>
 
@@ -53,16 +64,3 @@ $projects = $project_obj->get_projects();
         <?php cpm_project_form(); ?>
     <?php } ?>
 </div>
-
-<script type="text/javascript">
-    jQuery(function($) {
-        $( "#cpm-project-dialog" ).dialog({
-            autoOpen: false,
-            modal: true,
-            dialogClass: 'cpm-ui-dialog',
-            width: 485,
-            height: 330,
-            position:['middle', 100]
-        });
-    })
-</script>

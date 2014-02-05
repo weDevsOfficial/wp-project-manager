@@ -723,6 +723,7 @@ function cpm_project_form( $project = null ) {
         $name = $project->post_title;
         $details = $project->post_content;
         $users = empty( $project->users ) ? array() : $project->users;
+        $departments = empty( $project->departments ) ? array() : $project->departments;
         $action = 'cpm_project_update';
         $submit = __( 'Update Project', 'cpm' );
     }
@@ -735,11 +736,24 @@ function cpm_project_form( $project = null ) {
         <div class="cpm-form-item project-name">
             <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="<?php echo esc_attr( $name ); ?>" size="45" />
         </div>
-
+        
+        <div class="cpm-form-item project-category">
+            <?php
+             $terms = get_the_terms($project->ID, 'project_category');
+             if ( $terms && ! is_wp_error( $terms ) )
+                 $project_category = $terms[0]->term_id;
+             echo cpm_dropdown_category($project_category);
+            ?>
+         </div>
+         
         <div class="cpm-form-item project-detail">
             <textarea name="project_description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>
-
+        
+        <div class="cpm-form-item project-department">
+            <?php echo cpm_dropdown_department( $departments ); ?>
+        </div>
+        
         <div class="cpm-form-item project-users">
             <?php echo cpm_dropdown_users( $users ); ?>
         </div>
@@ -748,7 +762,7 @@ function cpm_project_form( $project = null ) {
             <input type="hidden" name="project_notify" value="no" />
             <label>
                 <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
-                <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+                <?php _e( 'Notify Co-Workers', 'cpm' ) ?>
             </label>
         </div>
         

@@ -8,10 +8,20 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
     <?php _e( 'Project Activity', 'cpm' ); ?>
 
     <?php if ( current_user_can( 'delete_others_posts' ) ) { //editor ?>
-        <span class="cpm-right">
-            <a href="#" class="cpm-icon-delete cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+        <span class="cpm-right cpm-project-actions">
+            <a href="#" class="cpm-icon-delete cpm-project-delete-link" title="<?php esc_attr_e( 'Delete Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
                 <span><?php _e( 'Delete', 'cpm' ); ?></span>
             </a>
+            <?php $status = CPM_project::getInstance()->get_status( $project_id); ?>
+            <?php if(!$status){ ?>
+                <a href="#" class="cpm-icon-tick grey cpm-project-complete-link" title="<?php esc_attr_e( 'Complete Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to complete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                    <span><?php _e( 'Complete', 'cpm' ); ?></span>
+                </a>
+            <?php }else{ ?>
+                <a href="#" class="cpm-icon-tick green cpm-project-revive-link" title="<?php esc_attr_e( 'Revive Project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to revive this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                    <span><?php _e( 'Revive', 'cpm' ); ?></span>
+                </a>
+            <?php } ?>
         </span>
     <?php } ?>
 </h3>

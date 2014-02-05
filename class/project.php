@@ -11,6 +11,7 @@ class CPM_Project {
 
     public function __construct() {
         add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'manage_edit-project_category_columns',     array($this, 'manage_edit_project_category_columns') );
     }
 
     public static function getInstance() {
@@ -54,6 +55,28 @@ class CPM_Project {
                 'parent' => __( 'Parent Project', 'cpm' ),
             ),
         ) );
+        register_taxonomy('project_category', 'project', array(
+            'hierarchical' => true,
+            'labels' => array(
+                'name' => _x( 'Project Categories', 'taxonomy general name' ),
+                'singular_name' => _x( 'Location', 'taxonomy singular name' ),
+                'search_items' =>  __( 'Search Project Categories' ),
+                'all_items' => __( 'All Project Categories' ),
+                'parent_item' => __( 'Parent Project Category' ),
+                'parent_item_colon' => __( 'Parent Project Category:' ),
+                'edit_item' => __( 'Edit Project Category' ),
+                'update_item' => __( 'Update Project Category' ),
+                'add_new_item' => __( 'Add New Project Category' ),
+                'new_item_name' => __( 'New Project Category Name' ),
+                'menu_name' => __( 'Categories' ),
+            ),
+            'rewrite' => array(
+                'slug' => 'project-category',
+                'with_front' => false,
+                'hierarchical' => true
+            ),
+        ));
+        
     }
 
     /**
@@ -66,6 +89,7 @@ class CPM_Project {
         $posted = $_POST;
         $is_update = ( $project_id ) ? true : false;
         $co_worker = isset( $posted['project_coworker'] ) ? $posted['project_coworker'] : '';
+        $project_department = isset( $posted['project_department'] ) ? $posted['project_department'] : '';
 
         $data = array(
             'post_title' => $posted['project_name'],
@@ -83,7 +107,9 @@ class CPM_Project {
 
         if ( $project_id ) {
             update_post_meta( $project_id, '_coworker', $co_worker );
-
+            update_post_meta( $project_id, '_department', $project_department );
+            wp_set_post_terms( $project_id, $posted['project_category'], 'project_category', false);
+            
             if ( $is_update ) {
                 do_action( 'cpm_project_update', $project_id, $data );
             } else {
@@ -115,6 +141,23 @@ class CPM_Project {
 
         wp_delete_post( $project_id, $force );
     }
+    
+    function complete( $project_id = 0) {
+        $posted = $_POST;
+        if ( $project_id ){
+            update_post_meta( $project_id, '_completed', 1);
+            do_action( 'cpm_project_complete', $project_id);
+        }
+    }
+    
+    function revive( $project_id = 0) {
+        $posted = $_POST;
+        if ( $project_id ){
+            delete_post_meta( $project_id, '_completed');
+            do_action( 'cpm_project_revive', $project_id);
+        }
+    }
+    
 
     /**
      * Get all the projects
@@ -123,14 +166,39 @@ class CPM_Project {
      * @return object
      */
     function get_projects( $count = -1 ) {
-        $projects = get_posts( array(
+        $filters = $_GET;
+        $project_category = isset( $filters['project_category'] ) ? $filters['project_category'] : 0;
+        $project_department = isset( $filters['project_department'] ) ? $filters['project_department'] : -1;
+        $project_status = isset( $filters['project_status'] ) ? $filters['project_status'] : -1;
+        
+        $args = array(
             'numberposts' => $count,
-            'post_type' => 'project'
-        ));
+            'post_type' => 'project',
+        );
+        //Add Filtering
+        if($project_category != 0){
+            $args['tax_query'] = array(array(
+                'taxonomy' => 'project_category',
+                'field' => 'term_id',
+                'terms' => array($project_category),
+                'operator' => 'IN',
+            ));
+        }
+        if($project_department != -1){
+            $args['meta_query'] = array(array(
+                'key' => '_department',
+                'value' => serialize(strval($project_department)),
+                'compare' => 'LIKE'
+            ));
+        }
+        
+        $projects = get_posts(apply_filters( 'cpm_get_projects_args', $args ));
 
-        foreach ($projects as &$project) {
+        foreach ($projects as $key=>&$project) {
             $project->info = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );
+            if($project_status == 1 && $project->info->completed != 1) unset($projects[$key]); //only completed projects
+            if($project_status == 0 && $project->info->completed == 1) unset($projects[$key]); //only open projects
         }
 
         return $projects;
@@ -150,6 +218,7 @@ class CPM_Project {
         }
 
         $project->users = $this->get_users( $project );
+        $project->departments = $this->get_departments( $project );
         $project->info = $this->get_info( $project_id );
 
         return $project;
@@ -175,6 +244,12 @@ class CPM_Project {
         $args['post_id'] = $project_id;
 
         return get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
+    }
+    
+    function get_status( $project_id) {
+        $status = get_post_meta($project_id, '_completed', true);
+        if(!$status) $status = 0;
+        return $status;
     }
 
     /**
@@ -203,6 +278,7 @@ class CPM_Project {
             $milestones = $wpdb->get_results( sprintf( $sql, 'milestone', $project_id ) );
             $todos = $todolists ? $wpdb->get_results( sprintf( $sql, 'task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
             $files = $wpdb->get_var( $sql_files );
+            $status = $this->get_status($project_id);
 
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
             $todolist_comment = wp_list_pluck( $todolists, 'comment_count' );
@@ -218,6 +294,7 @@ class CPM_Project {
             $ret->comments = $total_comment;
             $ret->files = (int) $files;
             $ret->milestone = count( $milestone );
+            $ret->completed = $status;
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
@@ -279,7 +356,25 @@ class CPM_Project {
 
         return $mail;
     }
+    
+    /**
+     * Get all the departments of this project
+     *
+     * @param int $project_id
+     */
+    function get_departments( $project ) {
 
+        if ( is_object( $project ) ) {
+            $project_id = $project->ID;
+        } else {
+            $project_id = $project;
+        }
+
+        $departments = get_post_meta( $project_id, '_department', true );
+        
+        return $departments;
+    }
+    
     /**
      * Generates navigational menu for a project
      *
@@ -377,5 +472,13 @@ class CPM_Project {
         
         return $response;
     }
+    
+    /**
+      * Modifies columns in project category table.
+      */
+     function manage_edit_project_category_columns( $columns ) {
+          unset( $columns['posts'] );
+          return $columns;
+     }
 
 }

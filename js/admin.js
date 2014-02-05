@@ -6,12 +6,17 @@
             $( "a#cpm-create-project" ).on('click', this.Project.openDialog);
             $( "#cpm-project-dialog" ).on('click', 'a.project-cancel', this.Project.closeDialog);
             $( "a.cpm-project-delete-link" ).on('click', this.Project.remove);
+            $( "a.cpm-project-complete-link" ).on('click', this.Project.complete);
+            $( "a.cpm-project-revive-link" ).on('click', this.Project.revive);
             $( "#cpm-project-dialog" ).on('submit', 'form.cpm-project-form', this.Project.create);
 
             $('.cpm-edit-project').on('submit', 'form.cpm-project-form', this.Project.edit);
             $('.cpm-project-head').on('click', 'a.cpm-icon-edit', this.Project.toggleEditForm);
             $('.cpm-project-head').on('click', 'a.project-cancel', this.Project.toggleEditForm);
             $('.cpm-load-more').on('click', this.Project.loadActivity);
+            
+            $('#project_department').on('change', this.Project.changeDepartment);
+            $('#project-filter-clear').on('click', this.Project.clearFilters);
 
             /* =============== Milestones ============ */
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
@@ -141,7 +146,7 @@
                         container.find('.cpm-project-detail').slideToggle();
 
                         //re-initialize chosen dropdown
-                        $('#project_coworker').chosen();
+                        $('.chosen-select').chosen();
                     }
                 });
 
@@ -172,6 +177,65 @@
                     });
                 }
 
+            },
+            
+            complete: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    message = self.data('confirm'),
+                    data = {
+                        project_id: self.data('project_id'),
+                        action: 'cpm_project_complete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                if(confirm(message)) {
+
+                    self.addClass('cpm-loading');
+
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            location.href = res.url;
+                        }
+                    });
+                }
+
+            },
+            revive: function (e) {
+                e.preventDefault();
+
+                var self = $(this),
+                    message = self.data('confirm'),
+                    data = {
+                        project_id: self.data('project_id'),
+                        action: 'cpm_project_revive',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                if(confirm(message)) {
+
+                    self.addClass('cpm-loading');
+
+                    $.post(CPM_Vars.ajaxurl, data, function(res) {
+                        res = $.parseJSON(res);
+
+                        if(res.success) {
+                            location.href = res.url;
+                        }
+                    });
+                }
+
+            },
+            
+            clearFilters: function(e) {
+                e.preventDefault();
+                $( "#cpm-project-filters select" ).each( function(){
+                    $(this).val(null);   
+                });
+                $( "#cpm-project-filters").submit();
             },
 
             loadActivity: function(e) {
@@ -552,9 +616,17 @@
     //dom ready
     $(function() {
         weDevs_CPM.init();
-
-        $('#project_coworker').chosen();
+        $('.chosen-select').chosen();
+        $('.cpm-edit-project').addClass('cpm-edit-project-loaded');//fix chosen display issue
         $(".datepicker").datepicker();
+        $( "#cpm-project-dialog" ).dialog({
+            autoOpen: false,
+            modal: true,
+            dialogClass: 'cpm-ui-dialog',
+            width: 485,
+            height: 400,
+            position:['middle', 100]
+        });
     });
 
 })(jQuery);
