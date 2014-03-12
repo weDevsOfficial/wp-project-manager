@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
- * Version: 0.4.3
+ * Version: 0.4.4
  * License: GPL2
  */
 
@@ -133,7 +133,7 @@ class WeDevs_CPM {
      *
      * @since 0.1
      */
-    function admin_scripts() {
+    static function admin_scripts() {
         $upload_size = intval( cpm_get_option( 'upload_limit') ) * 1024 * 1024;
         
         wp_enqueue_script( 'jquery-ui-core' );
@@ -188,6 +188,7 @@ class WeDevs_CPM {
 
         $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
+        add_submenu_page( 'cpm_projects', __( 'Add-ons', 'cpm' ), __( 'Add-ons', 'cpm' ), $capability, 'cpm_addons', array($this, 'admin_page_addons') );
 
         add_action( $hook, array($this, 'admin_scripts') );
     }
