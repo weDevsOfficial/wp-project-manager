@@ -186,7 +186,7 @@ class WeDevs_CPM {
     function admin_menu() {
         $capability = 'read'; //minimum level: subscriber
 
-        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
+        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), 'dashicons-networking', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
         add_submenu_page( 'cpm_projects', __( 'Add-ons', 'cpm' ), __( 'Add-ons', 'cpm' ), $capability, 'cpm_addons', array($this, 'admin_page_addons') );
 
@@ -311,6 +311,15 @@ class WeDevs_CPM {
         }
         
         echo '</div>';
+    }
+    
+    /**
+     * Add-ons page for admin panel
+     * 
+     * @since 0.4.4
+     */
+    function admin_page_addons() {
+        include dirname( __FILE__ ) . '/includes/add-ons.php';
     }
 
 }
