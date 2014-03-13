@@ -606,3 +606,81 @@ if ( !function_exists( 'get_ipaddress' ) ) {
     }
 
 }
+
+/**
+ * Check if a user can access a project
+ * 
+ * @since 0.4.4
+ * 
+ * @param int $project_id
+ * @return boolean
+ */
+function cpm_user_can_access( $project_id ) {
+    $user_id = get_current_user_id();
+    $project_author = get_post_field( 'post_author', $project_id );
+    
+    if ( $user_id == $project_author ) {
+        return true;
+    }
+    
+    $co_worker = get_post_meta( $project_id, '_coworker', true );
+    $co_worker = is_array( $co_worker ) ? $co_worker : array();
+    
+    if ( in_array( $user_id, $co_worker ) ) {
+        return true;
+    }
+    
+    return false;
+}
+
+
+/**
+ * Check if current user can manage projects
+ * 
+ * @since 0.4.4
+ * @return boolean
+ */
+function cpm_manage_capability() {
+    $admin_right = apply_filters( 'cpm_admin_right', 'delete_pages' );
+
+    if ( current_user_can( $admin_right ) ) {
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * Substitute function to support pro version and frontend
+ * 
+ * @since 0.4.4
+ * @param int $project_id
+ * @return boolean
+ */
+function cpm_is_project_archived( $project_id ) {
+    return false;
+}
+
+/**
+ * Check if the current user has certain project manage capability
+ * 
+ * Substitute function of pro version
+ * 
+ * @since 0.4.4
+ * @param type $project_id
+ * @return boolean
+ */
+function cpm_user_can_delete_edit( $project_id ) {
+    $user_id = get_current_user_id();
+    $project_author = get_post_field( 'post_author', $project_id );
+    
+    if ( $user_id == $project_author ) {
+        return true;
+    }
+    
+    return false;
+}
+
+function cpm_project_actions() {}
+function cpm_user_create_form() {}
