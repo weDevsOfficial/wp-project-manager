@@ -85,6 +85,8 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <?php echo cpm_task_new_form( $list_id, $project_id, $task, $single ); ?>
             </div>
         <?php } ?>
+        
+        <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
 
     </div>
 
