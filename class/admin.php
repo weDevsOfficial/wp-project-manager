@@ -134,6 +134,19 @@ Task: %TASK%',
 
         return apply_filters( 'cpm_settings_fields', $settings_fields );
     }
+    
+    static function get_post_type( $post_type ) {
+        $pages_array = array( '-1' => __( '- select -', 'dokan' ) );
+        $pages = get_posts( array('post_type' => $post_type, 'numberposts' => -1) );
+
+        if ( $pages ) {
+            foreach ($pages as $page) {
+                $pages_array[$page->ID] = $page->post_title;
+            }
+        }
+
+        return $pages_array;
+    }
 
     function settings_page() {
         echo '<div class="wrap">';
