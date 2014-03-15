@@ -17,6 +17,7 @@
  */
 function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     $wrap_class = ( $task->completed == '1' ) ? 'cpm-task-complete' : 'cpm-task-uncomplete';
+    $status_class = ( $task->completed == '1' ) ? 'cpm-complete' : 'cpm-uncomplete';
 
     ob_start();
     ?>
@@ -31,7 +32,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             <?php } ?>
         </span>
 
-        <input type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
+        <input type="checkbox" class="<?php echo $status_class; ?>" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?>>
 
         <span class="move"></span>
         <span class="cpm-todo-content">

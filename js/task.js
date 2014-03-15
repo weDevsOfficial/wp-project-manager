@@ -16,8 +16,8 @@
             $('.cpm-single-task').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
             $('.cpm-single-task').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
             $('.cpm-single-task').on('submit', '.cpm-task-edit-form form', this.updateTodo);
-            $('.cpm-single-task').on('click', '.cpm-task-uncomplete input[type=checkbox]', this.markDone);
-            $('.cpm-single-task').on('click', '.cpm-task-complete input[type=checkbox]', this.markUnDone);
+            $('.cpm-single-task').on('click', 'input[type=checkbox].cpm-uncomplete', this.markDone);
+            $('.cpm-single-task').on('click', 'input[type=checkbox].cpm-complete', this.markUnDone);
             $('.cpm-single-task').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //task done, undone, delete
@@ -125,10 +125,12 @@
                     action: 'cpm_task_complete',
                     '_wpnonce': CPM_Vars.nonce
                 };
-
+                
+            $(document).trigger('cpm.markDone.before', [self]);
+            
             $.post(CPM_Vars.ajaxurl, data, function (res) {
                 res = JSON.parse(res);
-
+                $(document).trigger('cpm.markDone.after', [res,self]);
                 if(res.success === true ) {
 
                     if(list.length) {
@@ -162,7 +164,8 @@
                     '_wpnonce': CPM_Vars.nonce
                 };
 
-
+            $(document).trigger('cpm.markUnDone.before', [self]);
+            
             $.post(CPM_Vars.ajaxurl, data, function (res) {
                 res = JSON.parse(res);
 
@@ -181,6 +184,8 @@
                         singleWrap.html(res.content);
                     }
                 }
+                
+                $(document).trigger('cpm.markUnDone.after', [res,self]);
             });
         },
 
@@ -209,6 +214,8 @@
                     } else {
                         alert('something went wrong!');
                     }
+
+                    $(document).trigger('cpm.submitNewTodo.after',[res,self]);
                 });
             } else {
                 alert('type something');
@@ -234,7 +241,9 @@
             if( confirm(confirmMsg) ) {
                 $.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
-
+                    
+                    $(document).trigger('cpm.deleteTodo.after',[res,self]);
+                    
                     if(res.success) {
                         if(single !== '') {
                             location.href = res.list_url;
@@ -283,6 +292,8 @@
                     } else {
                         alert('something went wrong!');
                     }
+                    
+                    $(document).trigger('cpm.updateTodo.after',[res,self]);
                 });
             } else {
                 alert('type something');
@@ -355,6 +366,8 @@
                     self.closest('li').html(res.content);
                     $('.datepicker').datepicker();
                 }
+                
+                $(document).trigger('cpm.updateList.after',[res,self]);
             });
         },
 
