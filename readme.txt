@@ -14,8 +14,7 @@ A WordPress Project Management plugin. Project Management with WordPress has nev
 
 A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
-**[Pro Version](http://wedevs.com/plugin/wp-project-manager/)**
-**[Add-ons](http://wedevs.com/wp-project-manager-add-ons/)**
+[Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/)
 
 = Features =
  * **Projects**
