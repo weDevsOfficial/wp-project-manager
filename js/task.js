@@ -125,10 +125,10 @@
                     action: 'cpm_task_complete',
                     '_wpnonce': CPM_Vars.nonce
                 };
-
+            $(document).trigger('cpm.markDone.before', [self]);
             $.post(CPM_Vars.ajaxurl, data, function (res) {
                 res = JSON.parse(res);
-
+                $(document).trigger('cpm.markDone.after', [res,self]);
                 if(res.success === true ) {
 
                     if(list.length) {
@@ -162,7 +162,7 @@
                     '_wpnonce': CPM_Vars.nonce
                 };
 
-
+            $(document).trigger('cpm.markUnDone.before', [self]);
             $.post(CPM_Vars.ajaxurl, data, function (res) {
                 res = JSON.parse(res);
 
@@ -181,6 +181,7 @@
                         singleWrap.html(res.content);
                     }
                 }
+                $(document).trigger('cpm.markUnDone.after', [res,self]);
             });
         },
 

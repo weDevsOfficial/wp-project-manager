@@ -98,7 +98,7 @@ ul.cpm-activity ul{margin-left:15px;margin-bottom:10px;}ul.cpm-activity ul li{te
 .cpm-comment-form .cpm-attachment-area .progress .percent,.cpm-message-form .cpm-attachment-area .progress .percent,.cpm-milestone-form .cpm-attachment-area .progress .percent{color:rgba(0, 0, 0, 0.6);padding:0 8px;position:relative;text-shadow:0 1px 0 rgba(255, 255, 255, 0.4);width:200px;z-index:10;}
 .cpm-comment-form .submit,.cpm-message-form .submit,.cpm-milestone-form .submit{padding:10px 0 0 0;}
 .cpm-new-todolist-form{display:none;}
-.cpm-single-task{margin:20px 0;overflow:hidden;border-bottom:1px solid #eee;border-top:1px solid #eee;padding:10px 0;}.cpm-single-task .cpm-todo-wrap{margin-left:0;padding-left:20px;position:relative;}.cpm-single-task .cpm-todo-wrap.cpm-task-complete .cpm-todo-text{text-decoration:line-through;}
+.cpm-single-task{margin:20px 0;border-bottom:1px solid #eee;border-top:1px solid #eee;padding:10px 0;}.cpm-single-task .cpm-todo-wrap{margin-left:0;padding-left:20px;position:relative;}.cpm-single-task .cpm-todo-wrap.cpm-task-complete .cpm-todo-text{text-decoration:line-through;}
 .cpm-single-task .cpm-todo-wrap input[type="checkbox"]{margin-left:-20px;margin-right:2px;margin-top:3px;vertical-align:baseline;}
 .cpm-single-task .cpm-todo-wrap:hover .cpm-todo-action{visibility:visible;}
 .cpm-single-task .cpm-todo-wrap .cpm-todo-action{padding:1px 5px;background:#fff;float:right;}.cpm-single-task .cpm-todo-wrap .cpm-todo-action a{display:block;padding:5px;border-left:1px solid #eee;}.cpm-single-task .cpm-todo-wrap .cpm-todo-action a.cpm-todo-delete{border-bottom:1px solid #eee;}

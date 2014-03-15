@@ -606,3 +606,19 @@ if ( !function_exists( 'get_ipaddress' ) ) {
     }
 
 }
+
+/**
+ * In the case of create use  is_cpm_user_can_access( $project_id, $section ) 
+ * 
+ * In the case of view user  ! is_cpm_user_can_access( $project_id, $section )      
+ */
+if ( !function_exists( 'cpm_user_can_access' ) ) {
+    function cpm_user_can_access() {
+        return true;
+    }
+}
+if ( !function_exists( 'cpm_user_can_delete_edit' ) ) {
+    function cpm_user_can_delete_edit() {
+        return true;
+    }
+}
