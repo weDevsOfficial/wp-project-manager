@@ -74,6 +74,8 @@ class WeDevs_CPM {
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
+        add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
+        
         register_activation_hook( __FILE__, array($this, 'install') );
     }
 
@@ -320,6 +322,31 @@ class WeDevs_CPM {
      */
     function admin_page_addons() {
         include dirname( __FILE__ ) . '/includes/add-ons.php';
+    }
+    
+    
+    /**
+     * Add shortcut links to the plugin action menu
+     * 
+     * @since 0.4.4
+     * 
+     * @param array $links
+     * @param string $file
+     * @return array
+     */
+    function plugin_action_links( $links, $file ) {
+
+        if ( $file == plugin_basename( __FILE__ ) ) {
+            $new_links = array(
+                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/plugin/wp-project-manager/', __( 'Pro Version', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/wp-project-manager-add-ons/', __( 'Add-ons', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=cpm_settings' ), __( 'Settings', 'cpm' ) )
+            );
+
+            return array_merge( $new_links, $links );
+        }
+
+        return $links;
     }
 
 }
