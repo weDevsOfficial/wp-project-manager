@@ -51,6 +51,12 @@
         echo '<div class="error"><p>' . __( 'Error fetching add-ons. Please try again later!', 'cpm' ) . '</p></div>';
     }
     ?>
+    
+    
+    <div class="clear"></div>
+    <a href="http://wedevs.com/plugin/wp-project-manager/" target="_blank">
+        <img src="<?php echo plugins_url( '', dirname( __FILE__ ) ); ?>/images/banner.png" alt="Get PRO version" title="Get the PRO version">
+    </a>
 
     <style type="text/css">
         .wpuf-addon {

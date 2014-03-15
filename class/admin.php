@@ -149,11 +149,15 @@ Task: %TASK%',
     }
 
     function settings_page() {
-        echo '<div class="wrap">';
+        echo '<div class="wrap">';        
         settings_errors();
 
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
+        
+        echo '<a href="http://wedevs.com/plugin/wp-project-manager/" target="_blank">';
+        echo '<img src="'. plugins_url( '', dirname( __FILE__ ) ) . '/images/banner.png" alt="Get PRO version" title="Get the PRO version">';
+        echo '</a>';
 
         echo '</div>';
     }
