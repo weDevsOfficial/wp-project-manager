@@ -105,6 +105,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 0.4.4 =
+
+* Language files updated
+* New action hooks and JS triggers added
+* Settings API updated
+
 = 0.4.3 =
 
 * new: Spanish translation
