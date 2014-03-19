@@ -1,0 +1,1046 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager v0.4.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-16 00:38+0600\n"
+"PO-Revision-Date: 2014-03-18 14:01+0100\n"
+"Last-Translator: Jaroslav Ondra <ondrajaroslav@gmail.com>\n"
+"Language-Team: dudlajda <ondrajaroslav@gmail.com>\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ default
+#: ../cpm.php:162
+msgid "Allowed Files"
+msgstr "Povolené soubory"
+
+# @ cpm
+#: ../cpm.php:191 ../views/project/index.php:7
+msgid "Project Manager"
+msgstr "Manažer projektu"
+
+# @ cpm
+#: ../cpm.php:192
+msgid "Projects"
+msgstr "Projekty"
+
+#: ../cpm.php:193 ../cpm.php:342
+msgid "Add-ons"
+msgstr "Doplňky"
+
+#: ../cpm.php:341
+msgid "Pro Version"
+msgstr "PRO verze"
+
+# @ cpm
+#: ../cpm.php:343 ../class/admin.php:33
+msgid "Settings"
+msgstr "Možnosti"
+
+# @ cpm
+#: ../class/activity.php:62
+#, php-format
+msgid "Project created by %s"
+msgstr "Projekt vytvořil %s"
+
+# @ cpm
+#: ../class/activity.php:68
+#, php-format
+msgid "Project details updated by %s"
+msgstr "Detaily projektu upravil %s"
+
+# @ cpm
+#: ../class/activity.php:76
+#, php-format
+msgid "Message %s created by %s"
+msgstr "Zprávu %s vytvořil %s"
+
+# @ cpm
+#: ../class/activity.php:87
+#, php-format
+msgid "Message %s updated by %s"
+msgstr "Zprávu %s aktualizoval %s"
+
+#: ../class/activity.php:100
+#, php-format
+msgid "Message with ID %d was not found in the database"
+msgstr "Zpráva s ID %d nebyla v databázi nalezena"
+
+# @ cpm
+#: ../class/activity.php:106
+#, php-format
+msgid "Message \"%s\" deleted by %s"
+msgstr "Zprávu \"%s\" ostranil %s"
+
+# @ cpm
+#: ../class/activity.php:114
+#, php-format
+msgid "To-do list %s created by %s"
+msgstr "Seznam nedodělků %s vytvořil %s"
+
+# @ cpm
+#: ../class/activity.php:125
+#, php-format
+msgid "To-do list %s updated by %s"
+msgstr "Seznam nedodělků %s aktualizoval %s"
+
+# @ cpm
+#: ../class/activity.php:136
+#, php-format
+msgid "To-do list \"%s\" deleted by %s"
+msgstr "Seznam nedodělků \"%s\" odstranil %s"
+
+# @ cpm
+#: ../class/activity.php:149
+#, php-format
+msgid "To-do %s added on to-do list %s by %s"
+msgstr "Nedodělek %s přidal %s do seznamu nedodělků %s"
+
+# @ cpm
+#: ../class/activity.php:163
+#, php-format
+msgid "To-do %s updated by %s"
+msgstr "Nedodělek %s aktualizoval %s"
+
+# @ cpm
+#: ../class/activity.php:176
+#, php-format
+msgid "To-do %s completed by %s"
+msgstr "Nedodělek %s dokončil %s"
+
+# @ cpm
+#: ../class/activity.php:181
+msgid "Marked to-do as done"
+msgstr "Označit nedodělak za splněný"
+
+# @ cpm
+#: ../class/activity.php:192
+#, php-format
+msgid "To-do %s marked un-done by %s"
+msgstr "Nedodělek %s označil %s jako nesplněný"
+
+# @ cpm
+#: ../class/activity.php:197
+msgid "Re-opened to-do"
+msgstr "Znovuotevřené nedodělky"
+
+# @ cpm
+#: ../class/activity.php:208
+#, php-format
+msgid "To-do \"%s\" deleted from to-do list %s by %s"
+msgstr "Nedodělek \"%s\" smazal %s ze seznamu nedodělků %s"
+
+# @ cpm
+#: ../class/activity.php:218
+#, php-format
+msgid "%s commented on a %s"
+msgstr "%s komentoval %s"
+
+# @ cpm
+#: ../class/activity.php:224
+#, php-format
+msgid "%s updated comment on a %s"
+msgstr "%s aktualizoval komentář k %s"
+
+# @ cpm
+#: ../class/activity.php:232
+#, php-format
+msgid "%s deleted a comment"
+msgstr "%s smazal komentář"
+
+# @ cpm
+#: ../class/activity.php:239
+#, php-format
+msgid "Milestone \"%s\" added by %s "
+msgstr "Cíl \"%s\" vytvořil %s "
+
+# @ cpm
+#: ../class/activity.php:246
+#, php-format
+msgid "Milestone \"%s\" updated by %s "
+msgstr "Cíl \"%s\" aktualizoval %s "
+
+# @ cpm
+#: ../class/activity.php:253
+#, php-format
+msgid "Milestone \"%s\" deleted by %s "
+msgstr "Cíl \"%s\" smazal %s "
+
+# @ cpm
+#: ../class/activity.php:260
+#, php-format
+msgid "Milestone \"%s\" marked as complete by %s "
+msgstr "Cíl \"%s\" označil %s za splněný"
+
+# @ cpm
+#: ../class/activity.php:267
+#, php-format
+msgid "Milestone \"%s\" marked as incomplete by %s "
+msgstr "Cíl \"%s\" označil %s za nesplněný"
+
+# @ cpm
+#: ../class/admin.php:40
+msgid "General"
+msgstr "Obecné"
+
+# @ cpm
+#: ../class/admin.php:44
+msgid "E-Mail Settings"
+msgstr "Nastavení emailů"
+
+# @ cpm
+#: ../class/admin.php:62
+msgid "File Upload Limit"
+msgstr "Limit velikosti pro nahrávané soubory"
+
+# @ default
+#: ../class/admin.php:64
+msgid "file size in Megabyte. e.g: 2"
+msgstr "velikost souboru v MB. např. 2"
+
+# @ cpm
+#: ../class/admin.php:71
+msgid "E-Mail Type"
+msgstr "Typ emailu"
+
+# @ cpm
+#: ../class/admin.php:75
+msgid "HTML Mail"
+msgstr "HTML email"
+
+# @ cpm
+#: ../class/admin.php:76
+msgid "Plain Text"
+msgstr "Neformátovaný text"
+
+# @ cpm
+#: ../class/admin.php:81
+msgid "New Project Subject"
+msgstr "Předmět nového projektu"
+
+# @ cpm
+#: ../class/admin.php:86
+msgid "New Project Body"
+msgstr "Tělo nového projektu"
+
+# @ cpm
+#: ../class/admin.php:96
+msgid "New Message Subject"
+msgstr "Předmět nové zprávy"
+
+# @ cpm
+#: ../class/admin.php:101
+msgid "New Message Body"
+msgstr "Tělo nové zprávy"
+
+# @ cpm
+#: ../class/admin.php:108
+msgid "New Comment Subject"
+msgstr "Předmět nového komentáře"
+
+# @ cpm
+#: ../class/admin.php:113 ../class/admin.php:125
+msgid "Body"
+msgstr "Tělo"
+
+# @ cpm
+#: ../class/admin.php:120
+msgid "New Assigned Task Subject"
+msgstr "Předmět nově přiřazeného úkolu"
+
+#: ../class/admin.php:139
+msgid "- select -"
+msgstr "- vyberte -"
+
+# @ default
+#: ../class/ajax.php:417 ../includes/functions.php:167
+msgid "Delete File"
+msgstr "Odstranit soubor"
+
+# @ cpm
+#: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
+#: ../includes/html.php:691 ../views/message/index.php:10
+#: ../views/message/index.php:14 ../views/message/single.php:10
+msgid "Messages"
+msgstr "Zprávy"
+
+# @ cpm
+#: ../class/message.php:27
+msgid "message post type"
+msgstr "druh příspěvky zpráva"
+
+# @ cpm
+#: ../class/message.php:42 ../class/message.php:43
+msgid "Message"
+msgstr "Zpráva"
+
+# @ cpm
+#: ../class/message.php:44 ../includes/html.php:472
+msgid "Add Message"
+msgstr "Přidat zprávu"
+
+# @ cpm
+#: ../class/message.php:45
+msgid "Add New Message"
+msgstr "Vytvořit zprávu"
+
+# @ cpm
+#: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:31
+#: ../includes/html.php:232 ../includes/html.php:403 ../includes/html.php:643
+#: ../views/message/single.php:32 ../views/project/header.php:21
+msgid "Edit"
+msgstr "Upravit"
+
+# @ cpm
+#: ../class/message.php:47
+msgid "Edit Message"
+msgstr "Upravit zprávu"
+
+# @ cpm
+#: ../class/message.php:48
+msgid "New Message"
+msgstr "Nová zpráva"
+
+# @ cpm
+#: ../class/message.php:49 ../class/message.php:50
+msgid "View Message"
+msgstr "Zobrazit zprávu"
+
+# @ cpm
+#: ../class/message.php:51
+msgid "Search Messages"
+msgstr "Hledat zprávu"
+
+# @ cpm
+#: ../class/message.php:52
+msgid "No Messages Found"
+msgstr "Žádná zpráva nebyla nalezena"
+
+# @ cpm
+#: ../class/message.php:53
+msgid "No Messages Found in Trash"
+msgstr "V koši nebyla nalezena žádná zpráva"
+
+# @ cpm
+#: ../class/message.php:54
+msgid "Parent Message"
+msgstr "Nadřazená zpráva"
+
+# @ cpm
+#: ../class/milestone.php:21 ../class/milestone.php:22
+#: ../class/milestone.php:36 ../class/milestone.php:37
+#: ../class/milestone.php:38
+msgid "Milestone"
+msgstr "Cíl"
+
+# @ cpm
+#: ../class/milestone.php:39 ../includes/html.php:553
+#: ../views/milestone/index.php:5
+msgid "Add Milestone"
+msgstr "Přidat cíl"
+
+# @ cpm
+#: ../class/milestone.php:40
+msgid "Add New Milestone"
+msgstr "Vytvořit cíl"
+
+# @ cpm
+#: ../class/milestone.php:42
+msgid "Edit Milestone"
+msgstr "Upravit cíl"
+
+# @ cpm
+#: ../class/milestone.php:43
+msgid "New Milestone"
+msgstr "Nový cíl"
+
+# @ cpm
+#: ../class/milestone.php:44 ../class/milestone.php:45
+msgid "View Milestone"
+msgstr "Zobrazit cíl"
+
+# @ cpm
+#: ../class/milestone.php:46
+msgid "Search Milestone"
+msgstr "Hledat cíl"
+
+# @ cpm
+#: ../class/milestone.php:47
+msgid "No Milestone Found"
+msgstr "Žádný cíl nebyl nalezen"
+
+# @ cpm
+#: ../class/milestone.php:48
+msgid "No Milestone Found in Trash"
+msgstr "V koši nebyl nalezen žádný cíl"
+
+# @ cpm
+#: ../class/milestone.php:49
+msgid "Parent Milestone"
+msgstr "Nadřazený cíl"
+
+# @ cpm
+#: ../class/project.php:26 ../class/project.php:41 ../class/project.php:42
+#: ../class/project.php:43
+msgid "Project"
+msgstr "Projekt"
+
+# @ cpm
+#: ../class/project.php:27
+msgid "project manager post type"
+msgstr "příspěvky projektového manažera"
+
+# @ cpm
+#: ../class/project.php:44
+msgid "Add Project"
+msgstr "Přidat projekt"
+
+# @ cpm
+#: ../class/project.php:45 ../includes/html.php:722
+msgid "Add New Project"
+msgstr "Vytvořit projekt"
+
+# @ cpm
+#: ../class/project.php:47
+msgid "Edit Project"
+msgstr "Upravit projekt"
+
+# @ cpm
+#: ../class/project.php:48 ../views/project/index.php:14
+msgid "New Project"
+msgstr "Nový projekt"
+
+# @ cpm
+#: ../class/project.php:49 ../class/project.php:50
+msgid "View Project"
+msgstr "Zobrazit projekt"
+
+# @ cpm
+#: ../class/project.php:51
+msgid "Search Project"
+msgstr "Hledat projekt"
+
+# @ cpm
+#: ../class/project.php:52
+msgid "No Project Found"
+msgstr "Žádný projekt nebyl nalezen"
+
+# @ cpm
+#: ../class/project.php:53
+msgid "No Project Found in Trash"
+msgstr "V koši nebyl nalezen žádný projekt"
+
+# @ cpm
+#: ../class/project.php:54
+msgid "Parent Project"
+msgstr "Nadřazený projekt"
+
+# @ cpm
+#: ../class/project.php:291 ../views/project/single.php:5
+msgid "Activity"
+msgstr "Aktivita"
+
+# @ cpm
+#: ../class/project.php:293 ../includes/html.php:669 ../views/task/index.php:5
+#: ../views/task/single.php:5 ../views/task/task-single.php:2
+msgid "To-do List"
+msgstr "Seznam nedodělků"
+
+# @ cpm
+#: ../class/project.php:294 ../views/milestone/index.php:1
+#: ../views/milestone/index.php:4
+msgid "Milestones"
+msgstr "Cíle"
+
+# @ cpm
+#: ../class/project.php:295 ../views/files/index.php:2
+msgid "Files"
+msgstr "Soubory"
+
+# @ cpm
+#: ../class/task.php:26 ../class/task.php:27 ../class/task.php:41
+#: ../class/task.php:42 ../class/task.php:43 ../views/task/single.php:10
+#: ../views/task/task-single.php:9
+msgid "Task List"
+msgstr "Seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:44
+msgid "Add Task List"
+msgstr "Přidat seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:45 ../views/task/index.php:9
+msgid "Add New Task List"
+msgstr "Vytvořit seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:47
+msgid "Edit Task List"
+msgstr "Upravit seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:48
+msgid "New Task List"
+msgstr "Nový seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:49 ../class/task.php:50
+msgid "View Task List"
+msgstr "Zobrazit seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:51
+msgid "Search Task List"
+msgstr "Hledat seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:52
+msgid "No Task List Found"
+msgstr "Žádný seznam úkolů nebyl nalezen"
+
+# @ cpm
+#: ../class/task.php:53
+msgid "No Task List Found in Trash"
+msgstr "V koši nebyl nalezen žádný seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:54
+msgid "Parent Task List"
+msgstr "Nadřazený seznam úkolů"
+
+# @ cpm
+#: ../class/task.php:59 ../class/task.php:75 ../class/task.php:76
+msgid "Task"
+msgstr "Úkol"
+
+# @ cpm
+#: ../class/task.php:60 ../class/task.php:74
+msgid "Tasks"
+msgstr "Úkoly"
+
+# @ cpm
+#: ../class/task.php:77
+msgid "Add Task"
+msgstr "Přidat úkoly"
+
+# @ cpm
+#: ../class/task.php:78
+msgid "Add New Task"
+msgstr "Vytvořit úkol"
+
+# @ cpm
+#: ../class/task.php:80
+msgid "Edit Task"
+msgstr "Upravit úkol"
+
+# @ cpm
+#: ../class/task.php:81
+msgid "New Task"
+msgstr "Nový úkol"
+
+# @ cpm
+#: ../class/task.php:82 ../class/task.php:83
+msgid "View Task"
+msgstr "Zobrazit úkol"
+
+# @ cpm
+#: ../class/task.php:84
+msgid "Search Task"
+msgstr "Hledat úkol"
+
+# @ cpm
+#: ../class/task.php:85
+msgid "No Task Found"
+msgstr "Žádný úkol nebyl nalezen"
+
+# @ cpm
+#: ../class/task.php:86
+msgid "No Task Found in Trash"
+msgstr "V koši nebyl nalezen žádný úkol"
+
+# @ cpm
+#: ../class/task.php:87
+msgid "Parent Task"
+msgstr "Nadřazený úkol"
+
+# @ cpm
+#: ../includes/add-ons.php:2
+msgid "WP Project Manager - add-ons"
+msgstr "Manažer projektu - doplňky"
+
+#: ../includes/add-ons.php:41
+msgid "Installed"
+msgstr "Nainstalováno"
+
+# @ cpm
+#: ../includes/add-ons.php:43
+msgid "View Details"
+msgstr "Zobrazit podrobnosti"
+
+#: ../includes/add-ons.php:51
+msgid "Error fetching add-ons. Please try again later!"
+msgstr "Chyba při načítání doplňků. Prosím zkuste to později!"
+
+# @ cpm
+#: ../includes/functions.php:71
+msgid "Select co-workers"
+msgstr "Vybrat spolupracovníky"
+
+# @ cpm
+#: ../includes/functions.php:124
+msgid "No users found"
+msgstr "Žádní uživatelé nebyli nalezeni"
+
+# @ cpm
+#: ../includes/functions.php:142
+msgid "-- assign to --"
+msgstr "-- přiřadit (komu) --"
+
+# @ cpm
+#: ../includes/functions.php:176
+#, php-format
+msgid ""
+"To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from "
+"your computer."
+msgstr ""
+"<a id=\"cpm-upload-pickfiles%s\" href=\"#\">Vyberte soubory</a>, které "
+"chcete přiložit z vašeho počítače. "
+
+# @ cpm
+#: ../includes/functions.php:238
+msgid "Completed"
+msgstr "Dokončeno"
+
+# @ cpm
+#: ../includes/functions.php:388
+#, php-format
+msgid "%d message"
+msgid_plural "%d messages"
+msgstr[0] "%d zpráva"
+msgstr[1] "%d zprávy"
+msgstr[2] "%d zpráv"
+
+# @ cpm
+#: ../includes/functions.php:392
+#, php-format
+msgid "%d to-do list"
+msgid_plural "%d to-do lists"
+msgstr[0] "%d seznam nedodělků"
+msgstr[1] "%d seznamy nedodělků"
+msgstr[2] "%d seznamů nedodělků"
+
+# @ cpm
+#: ../includes/functions.php:396
+#, php-format
+msgid "%d to-do"
+msgid_plural "%d to-dos"
+msgstr[0] "%d nedodělek"
+msgstr[1] "%d nedodělky"
+msgstr[2] "%d nedodělků"
+
+# @ cpm
+#: ../includes/functions.php:400 ../views/files/index.php:63
+#, php-format
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] "%d komentář"
+msgstr[1] "%d komentáře"
+msgstr[2] "%d komentářů"
+
+# @ cpm
+#: ../includes/functions.php:404
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d soubor"
+msgstr[1] "%d soubory"
+msgstr[2] "%d souborů"
+
+# @ cpm
+#: ../includes/functions.php:408
+#, php-format
+msgid "%d milestone"
+msgid_plural "%d milestones"
+msgstr[0] "%d cíl"
+msgstr[1] "%d cíle"
+msgstr[2] "%d cílů"
+
+# @ cpm
+#: ../includes/html.php:26
+msgid "Are you sure to delete this to-do?"
+msgstr "Jste si jist(a), že chcete odstranit tento nedodělek."
+
+# @ cpm
+#: ../includes/html.php:27 ../includes/html.php:230 ../includes/html.php:409
+#: ../includes/html.php:646 ../views/message/index.php:47
+#: ../views/project/single.php:13
+msgid "Delete"
+msgstr "Odstranit"
+
+# @ cpm
+#: ../includes/html.php:50 ../includes/html.php:242
+msgid "1 Comment"
+msgstr "1 komentář"
+
+# @ cpm
+#: ../includes/html.php:50 ../includes/html.php:242
+#, php-format
+msgid "%d Comments"
+msgstr "%d komentářů"
+
+# @ cpm
+#: ../includes/html.php:62
+#, php-format
+msgid "(Completed by %s on %s)"
+msgstr "(Dokončil %s, %s."
+
+# @ cpm
+#: ../includes/html.php:109
+msgid "Add this to-do"
+msgstr "Vytvořit tento nedodělek"
+
+# @ cpm
+#: ../includes/html.php:116
+msgid "Save Changes"
+msgstr "Uložit změny"
+
+# @ cpm
+#: ../includes/html.php:135
+msgid "Add a new to-do"
+msgstr "Vytvořit nový nedodělek"
+
+# @ cpm
+#: ../includes/html.php:138 ../includes/html.php:582
+msgid "Due date"
+msgstr "Datum splnění"
+
+# @ cpm
+# @ wedevs
+#: ../includes/html.php:148 ../includes/html.php:207 ../includes/html.php:362
+#: ../includes/html.php:533 ../includes/html.php:600 ../includes/html.php:768
+msgid "Cancel"
+msgstr "Zrušit"
+
+# @ cpm
+#: ../includes/html.php:166
+msgid "Add List"
+msgstr "Vytvořit seznam"
+
+# @ cpm
+#: ../includes/html.php:174
+msgid "Update List"
+msgstr "Aktualizovat seznam"
+
+# @ cpm
+#: ../includes/html.php:189
+msgid "Tasklist name"
+msgstr "Jméno seznamu úkolů"
+
+# @ cpm
+#: ../includes/html.php:193
+msgid "Tasklist detail"
+msgstr "Podrobosti seznamu úkolů"
+
+# @ cpm
+#: ../includes/html.php:198 ../includes/html.php:505
+msgid "-- milestone --"
+msgstr "-- cíl --"
+
+# @ cpm
+#: ../includes/html.php:229
+msgid "Are you sure to delete this to-do list?"
+msgstr "Jste si jist(a), že chcete odstranit tento seznam nedodělků?"
+
+# @ cpm
+#: ../includes/html.php:282
+msgid "Add a to-do"
+msgstr "Vytvořit nedodělek"
+
+# @ cpm
+#: ../includes/html.php:317
+msgid "Add this comment"
+msgstr "Přidat tento komentář"
+
+# @ cpm
+#: ../includes/html.php:324
+msgid "Update comment"
+msgstr "Aktualizovat komentář"
+
+# @ cpm
+#: ../includes/html.php:340
+msgid "Add a comment..."
+msgstr "Přidat komentář..."
+
+# @ cpm
+#: ../includes/html.php:349 ../includes/html.php:516
+msgid "Notify users"
+msgstr "Upozornit uživatele"
+
+# @ cpm
+#: ../includes/html.php:350 ../includes/html.php:517
+msgid "Select all"
+msgstr "Vybrat všechny"
+
+# @ cpm
+#: ../includes/html.php:483
+msgid "Update Message"
+msgstr "Aktualizovat zprávu"
+
+# @ cpm
+#: ../includes/html.php:496
+msgid "Enter message title"
+msgstr "Vložte název zprávy"
+
+# @ cpm
+#: ../includes/html.php:500
+msgid "Message details here"
+msgstr "Zobrazit podrobnosti zprávy"
+
+# @ cpm
+#: ../includes/html.php:562
+msgid "Update Milestone"
+msgstr "Aktualizivat cíl"
+
+# @ cpm
+#: ../includes/html.php:578
+msgid "Milestone name"
+msgstr "Název cíle"
+
+# @ cpm
+#: ../includes/html.php:586
+msgid "Details about milestone (optional)"
+msgstr "Podrobnosti o cíli (nepovinné)"
+
+# @ cpm
+#: ../includes/html.php:630
+msgid "left"
+msgstr "vlevo"
+
+# @ cpm
+#: ../includes/html.php:630
+msgid "late"
+msgstr "pozdě"
+
+# @ cpm
+#: ../includes/html.php:643
+msgid "Edit milestone"
+msgstr "Upravit cíl"
+
+# @ cpm
+#: ../includes/html.php:646
+msgid "Are you sure?"
+msgstr "Jste si jist(a)?"
+
+# @ cpm
+#: ../includes/html.php:646
+msgid "Delete milestone"
+msgstr "Odstranit cíl"
+
+# @ cpm
+#: ../includes/html.php:650
+msgid "Mark as complete"
+msgstr "Označit jako splněný"
+
+# @ cpm
+#: ../includes/html.php:652
+msgid "Mark un-complete"
+msgstr "Označit jako nesplněný"
+
+# @ cpm
+#: ../includes/html.php:652
+msgid "Reopen"
+msgstr "Znovuotevřít"
+
+# @ cpm
+#: ../includes/html.php:706
+msgid "Completed on:"
+msgstr "Dokončeno:"
+
+# @ cpm
+#: ../includes/html.php:730
+msgid "Update Project"
+msgstr "Aktualizovat projekt"
+
+# @ cpm
+#: ../includes/html.php:739
+msgid "Name of the project"
+msgstr "Název projektu"
+
+# @ wedevs
+#: ../includes/html.php:743
+msgid "Some details about the project (optional)"
+msgstr "Podrobnosti o projektu (nepovinné)"
+
+# @ cpm
+#: ../includes/html.php:754
+msgid "Notify Co-workers"
+msgstr "Upozornit spolupracovníky"
+
+# @ cpm
+#: ../includes/shortcodes.php:103 ../includes/shortcodes.php:106
+msgid "thread"
+msgstr "vlákno"
+
+# @ cpm
+#: ../views/files/index.php:56
+#, php-format
+msgid "Attached to <a href=\"%s\">%s</a> by %s"
+msgstr "<a href=\"%s\">%s</a> přiložil %s"
+
+# @ cpm
+#: ../views/files/index.php:60
+#, php-format
+msgid "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
+msgstr ""
+"<a href=\"%s\">Stáhněte</a> soubor nebo zobrazte <a href=\"%s\">diskuzi</a>."
+
+# @ cpm
+#: ../views/files/index.php:74
+msgid "No Files Found!"
+msgstr "Nebyly nalezeny žádné soubory!"
+
+# @ cpm
+#: ../views/message/index.php:14
+msgid "Add New"
+msgstr "Přidat nový"
+
+# @ cpm
+#: ../views/message/index.php:18
+msgid "Create a new message"
+msgstr "Vytvořit novou zprávu"
+
+# @ cpm
+#: ../views/message/index.php:46
+msgid "Delete this message"
+msgstr "Odstranit tuto zprávu"
+
+# @ cpm
+#: ../views/message/index.php:46
+msgid "Are you sure to delete this message?"
+msgstr "Jste si jist(a), že chcete odstranit tuto zprávu?"
+
+# @ cpm
+#: ../views/message/index.php:60
+msgid "No messages found! How about adding one?"
+msgstr "Žádné zprávy! Chcete nějakou přidat?"
+
+# @ cpm
+#: ../views/message/single.php:6
+msgid "Error: Message not found"
+msgstr "Chyba: Zpráva nenalezena"
+
+# @ cpm
+#: ../views/message/single.php:14 ../views/task/single.php:8
+msgid "&larr; back"
+msgstr "&larr; zpět"
+
+# @ cpm
+#: ../views/message/single.php:55
+#, php-format
+msgid "One Comment"
+msgid_plural "%s Comments"
+msgstr[0] "%s komentář"
+msgstr[1] "%s komentáře"
+msgstr[2] "%s komentářů"
+
+# @ cpm
+#: ../views/message/single.php:72
+msgid "No comments found"
+msgstr "Nebyly nalezeny žádné komentáře"
+
+# @ cpm
+#: ../views/milestone/index.php:31
+msgid "No Milestone Found!"
+msgstr "Nebyl nalezen žádný cíl!"
+
+# @ cpm
+#: ../views/milestone/index.php:37
+msgid "Add new milestone"
+msgstr "Přidat nový cíl"
+
+# @ cpm
+#: ../views/milestone/index.php:45
+msgid "Late Milestones"
+msgstr "Poslední cíle"
+
+# @ cpm
+#: ../views/milestone/index.php:55
+msgid "Upcoming Milestones"
+msgstr "Aktuální cíle"
+
+# @ cpm
+#: ../views/milestone/index.php:65
+msgid "Completed Milestones"
+msgstr "Splněné cíle"
+
+# @ cpm
+#: ../views/project/header.php:6
+msgid "Error: Project not found"
+msgstr "Chyba: Projekt nenalezen"
+
+# @ cpm
+#: ../views/project/header.php:11
+msgid "Error: Permission denied"
+msgstr "Chyba: Přístup zamítnut"
+
+# @ cpm
+#: ../views/project/header.php:25
+msgid "Project Info"
+msgstr "Informace o projektu"
+
+# @ cpm
+#: ../views/project/index.php:51
+msgid "Start a new project"
+msgstr "Vytvořit nový projekt"
+
+# @ cpm
+#: ../views/project/single.php:8
+msgid "Project Activity"
+msgstr "Aktivita projektu"
+
+# @ cpm
+#: ../views/project/single.php:12
+msgid "Delete project"
+msgstr "Odstranit projekt"
+
+# @ cpm
+#: ../views/project/single.php:12
+msgid "Are you sure to delete this project?"
+msgstr "Jste si jist(a), že chcete odstranit tento projekt?"
+
+# @ cpm
+#: ../views/project/single.php:31
+msgid "Load More..."
+msgstr "Načíst další"
+
+# @ cpm
+#: ../views/task/index.php:9
+msgid "Task Lists"
+msgstr "Seznam úkolů"
+
+# @ cpm
+#: ../views/task/index.php:32
+msgid "Oh dear, no To-do list found!"
+msgstr "Chyba, žádný seznam nedodělků nebyl nalezen."
+
+# @ cpm
+#: ../views/task/single.php:19
+msgid "Discuss this to-do list"
+msgstr "Komentovat tento seznam nedodělků"
+
+# @ cpm
+#: ../views/task/task-single.php:17
+msgid "Discuss this to-do"
+msgstr "Diskuze o nedodělku"
