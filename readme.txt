@@ -1,7 +1,7 @@
 === WP Project Manager ===
 Contributors: tareq1988
 Donate Link: http://tareq.wedevs.com/donate/
-Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management, wordpress project manager, wordpress project manager plugin, wp project management, wp project manager
+Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 3.5
 Tested up to: 3.9
 Stable tag: trunk
@@ -12,12 +12,19 @@ A WordPress Project Management plugin. Project Management with WordPress has nev
 
 == Description ==
 
+[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+
 A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
 [Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/) | [Demo](http://cpmdemo.wedevs.com/wp-admin/)
 
-= Quick Demo Video =
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+= Add-ons =
+* [Time Tracker](http://wedevs.com/plugin/wp-project-manager/time-tracker/)
+* [Sub Task](http://wedevs.com/plugin/wp-project-manager/sub-task/)
+* [Invoice](http://wedevs.com/plugin/wp-project-manager/invoice/)
+* [Invoice - Stripe gateway](http://wedevs.com/plugin/wp-project-manager/invoice-stripe-gateway/)
+* [Project Manager Frontend](http://wedevs.com/plugin/wp-project-manager/wp-project-manager-frontend/) (**free with pro**)
+
 
 = Features =
  * **Projects**
@@ -44,8 +51,6 @@ A WordPress Project Management plugin. Manage your project simply with the \*rig
 = Detailed Walkthrough =
 [youtube http://www.youtube.com/watch?v=lR61ARrGb28]
 
-= Extensions =
-* [WP Project Manger Frontend](http://wedevs.com/plugin/wp-project-manager-frontend/) (*premium*) - brings the plugin functionality to your site frontend.
 
 = Contribute =
 This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
