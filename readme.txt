@@ -1,9 +1,9 @@
 === WP Project Manager ===
 Contributors: tareq1988
 Donate Link: http://tareq.wedevs.com/donate/
-Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting
+Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management, wordpress project manager, wordpress project manager plugin, wp project management, wp project manager
 Requires at least: 3.5
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,7 +14,10 @@ A WordPress Project Management plugin. Project Management with WordPress has nev
 
 A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
-[Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/)
+[Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/) | [Demo](http://cpmdemo.wedevs.com/wp-admin/)
+
+= Quick Demo Video =
+[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
 
 = Features =
  * **Projects**
@@ -37,9 +40,6 @@ A WordPress Project Management plugin. Manage your project simply with the \*rig
    * 3 types of milestones are there, a) upcoming, b) completed and c) late milstone
  * **Files**
    * See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
-
-= Quick Demo Video =
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
 
 = Detailed Walkthrough =
 [youtube http://www.youtube.com/watch?v=lR61ARrGb28]
