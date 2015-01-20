@@ -682,5 +682,22 @@ function cpm_user_can_delete_edit( $project_id ) {
     return false;
 }
 
+function cpm_pagination( $total, $limit, $pagenum ) {
+    $num_of_pages = ceil( $total / $limit );
+    $page_links = paginate_links( array(
+        'base'      => add_query_arg( 'pagenum', '%#%' ),
+        'format'    => '',
+        'prev_text' => __( '&laquo;', 'aag' ),
+        'next_text' => __( '&raquo;', 'aag' ),
+        'add_args'  => false,
+        'total'     => $num_of_pages,
+        'current'   => $pagenum
+    ) );
+
+    if ( $page_links ) {
+        echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
+    }
+}
+
 function cpm_project_actions() {}
 function cpm_user_create_form() {}

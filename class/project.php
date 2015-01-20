@@ -123,15 +123,28 @@ class CPM_Project {
      * @return object
      */
     function get_projects( $count = -1 ) {
-        $projects = get_posts( array(
-            'numberposts' => $count,
-            'post_type' => 'project'
-        ));
+        
+        $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+        $limit            = 10;
+        $offset           = ( $pagenum - 1 ) * $limit;
+  
+        $args = array(
+            //'numberposts'    => $count,
+            'post_type'      => 'project',
+            'posts_per_page' => $limit,
+            'offset'         => $offset
+        );
 
+        $query          = new WP_Query( $args );
+        $total_projects = $query->found_posts;
+        $projects       = $query->posts;
+      
         foreach ($projects as &$project) {
             $project->info = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );
         }
+
+        $projects['total_projects'] = $total_projects;
 
         return $projects;
     }
