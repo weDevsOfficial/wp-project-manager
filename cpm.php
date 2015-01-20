@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
- * Version: 0.4.3
+ * Version: 0.4.4
  * License: GPL2
  */
 
@@ -74,6 +74,8 @@ class WeDevs_CPM {
         add_action( 'admin_menu', array($this, 'admin_menu') );
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
+        add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
+        
         register_activation_hook( __FILE__, array($this, 'install') );
     }
 
@@ -133,7 +135,7 @@ class WeDevs_CPM {
      *
      * @since 0.1
      */
-    function admin_scripts() {
+    static function admin_scripts() {
         $upload_size = intval( cpm_get_option( 'upload_limit') ) * 1024 * 1024;
         
         wp_enqueue_script( 'jquery-ui-core' );
@@ -186,8 +188,9 @@ class WeDevs_CPM {
     function admin_menu() {
         $capability = 'read'; //minimum level: subscriber
 
-        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), '', 3 );
+        $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), 'dashicons-networking', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
+        add_submenu_page( 'cpm_projects', __( 'Add-ons', 'cpm' ), __( 'Add-ons', 'cpm' ), $capability, 'cpm_addons', array($this, 'admin_page_addons') );
 
         add_action( $hook, array($this, 'admin_scripts') );
     }
@@ -310,6 +313,40 @@ class WeDevs_CPM {
         }
         
         echo '</div>';
+    }
+    
+    /**
+     * Add-ons page for admin panel
+     * 
+     * @since 0.4.4
+     */
+    function admin_page_addons() {
+        include dirname( __FILE__ ) . '/includes/add-ons.php';
+    }
+    
+    
+    /**
+     * Add shortcut links to the plugin action menu
+     * 
+     * @since 0.4.4
+     * 
+     * @param array $links
+     * @param string $file
+     * @return array
+     */
+    function plugin_action_links( $links, $file ) {
+
+        if ( $file == plugin_basename( __FILE__ ) ) {
+            $new_links = array(
+                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/plugin/wp-project-manager/', __( 'Pro Version', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/wp-project-manager-add-ons/', __( 'Add-ons', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=cpm_settings' ), __( 'Settings', 'cpm' ) )
+            );
+
+            return array_merge( $new_links, $links );
+        }
+
+        return $links;
     }
 
 }

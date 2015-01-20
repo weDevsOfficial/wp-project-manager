@@ -24,11 +24,15 @@ if ( !$pro_obj->has_permission( $project ) ) {
             <div class="cpm-project-summary cpm-right">
                 <span><?php _e( 'Project Info', 'cpm' ); ?></span>
                 <?php echo cpm_project_summary( $project->info ); ?>
+                
+                <?php do_action( 'cpm_project_header', $project ); ?>
             </div>
         </h2>
 
         <div class="detail">
             <?php echo cpm_get_content( $project->post_content ); ?>
+            
+            <?php do_action( 'cpm_project_after_description', $project ); ?>
         </div>
     </div>
 

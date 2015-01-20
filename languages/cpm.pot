@@ -2,29 +2,42 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 20:37+0600\n"
-"PO-Revision-Date: 2013-02-28 20:37+0600\n"
+"POT-Creation-Date: 2014-03-16 00:38+0600\n"
+"PO-Revision-Date: 2014-03-16 00:39+0600\n"
 "Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
+"X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e;_n:1,2;_n\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../cpm.php:162
 msgid "Allowed Files"
 msgstr ""
 
-#: ../cpm.php:192 ../views/project/index.php:7
+#: ../cpm.php:191 ../views/project/index.php:7
 msgid "Project Manager"
 msgstr ""
 
-#: ../cpm.php:193
+#: ../cpm.php:192
 msgid "Projects"
+msgstr ""
+
+#: ../cpm.php:193 ../cpm.php:342
+msgid "Add-ons"
+msgstr ""
+
+#: ../cpm.php:341
+msgid "Pro Version"
+msgstr ""
+
+#: ../cpm.php:343 ../class/admin.php:33
+msgid "Settings"
 msgstr ""
 
 #: ../class/activity.php:62
@@ -47,101 +60,102 @@ msgstr ""
 msgid "Message %s updated by %s"
 msgstr ""
 
-#: ../class/activity.php:97
+#: ../class/activity.php:100
+#, php-format
+msgid "Message with ID %d was not found in the database"
+msgstr ""
+
+#: ../class/activity.php:106
 #, php-format
 msgid "Message \"%s\" deleted by %s"
 msgstr ""
 
-#: ../class/activity.php:105
+#: ../class/activity.php:114
 #, php-format
 msgid "To-do list %s created by %s"
 msgstr ""
 
-#: ../class/activity.php:116
+#: ../class/activity.php:125
 #, php-format
 msgid "To-do list %s updated by %s"
 msgstr ""
 
-#: ../class/activity.php:127
+#: ../class/activity.php:136
 #, php-format
 msgid "To-do list \"%s\" deleted by %s"
 msgstr ""
 
-#: ../class/activity.php:140
+#: ../class/activity.php:149
 #, php-format
 msgid "To-do %s added on to-do list %s by %s"
 msgstr ""
 
-#: ../class/activity.php:154
+#: ../class/activity.php:163
 #, php-format
 msgid "To-do %s updated by %s"
 msgstr ""
 
-#: ../class/activity.php:167
+#: ../class/activity.php:176
 #, php-format
 msgid "To-do %s completed by %s"
 msgstr ""
 
-#: ../class/activity.php:172
+#: ../class/activity.php:181
 msgid "Marked to-do as done"
 msgstr ""
 
-#: ../class/activity.php:183
+#: ../class/activity.php:192
 #, php-format
 msgid "To-do %s marked un-done by %s"
 msgstr ""
 
-#: ../class/activity.php:188
+#: ../class/activity.php:197
 msgid "Re-opened to-do"
 msgstr ""
 
-#: ../class/activity.php:199
+#: ../class/activity.php:208
 #, php-format
 msgid "To-do \"%s\" deleted from to-do list %s by %s"
 msgstr ""
 
-#: ../class/activity.php:209
+#: ../class/activity.php:218
 #, php-format
 msgid "%s commented on a %s"
 msgstr ""
 
-#: ../class/activity.php:215
+#: ../class/activity.php:224
 #, php-format
 msgid "%s updated comment on a %s"
 msgstr ""
 
-#: ../class/activity.php:223
+#: ../class/activity.php:232
 #, php-format
 msgid "%s deleted a comment"
 msgstr ""
 
-#: ../class/activity.php:230
+#: ../class/activity.php:239
 #, php-format
 msgid "Milestone \"%s\" added by %s "
 msgstr ""
 
-#: ../class/activity.php:237
+#: ../class/activity.php:246
 #, php-format
 msgid "Milestone \"%s\" updated by %s "
 msgstr ""
 
-#: ../class/activity.php:244
+#: ../class/activity.php:253
 #, php-format
 msgid "Milestone \"%s\" deleted by %s "
 msgstr ""
 
-#: ../class/activity.php:251
+#: ../class/activity.php:260
 #, php-format
 msgid "Milestone \"%s\" marked as complete by %s "
 msgstr ""
 
-#: ../class/activity.php:258
+#: ../class/activity.php:267
 #, php-format
 msgid "Milestone \"%s\" marked as incomplete by %s "
-msgstr ""
-
-#: ../class/admin.php:33
-msgid "Settings"
 msgstr ""
 
 #: ../class/admin.php:40
@@ -200,12 +214,16 @@ msgstr ""
 msgid "New Assigned Task Subject"
 msgstr ""
 
-#: ../class/ajax.php:388 ../includes/functions.php:167
+#: ../class/admin.php:139
+msgid "- select -"
+msgstr ""
+
+#: ../class/ajax.php:417 ../includes/functions.php:167
 msgid "Delete File"
 msgstr ""
 
 #: ../class/message.php:26 ../class/message.php:41 ../class/project.php:292
-#: ../includes/html.php:677 ../views/message/index.php:10
+#: ../includes/html.php:691 ../views/message/index.php:10
 #: ../views/message/index.php:14 ../views/message/single.php:10
 msgid "Messages"
 msgstr ""
@@ -218,7 +236,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: ../class/message.php:44 ../includes/html.php:458
+#: ../class/message.php:44 ../includes/html.php:472
 msgid "Add Message"
 msgstr ""
 
@@ -227,8 +245,8 @@ msgid "Add New Message"
 msgstr ""
 
 #: ../class/message.php:46 ../class/milestone.php:41 ../class/project.php:46
-#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:30
-#: ../includes/html.php:228 ../includes/html.php:389 ../includes/html.php:629
+#: ../class/task.php:46 ../class/task.php:79 ../includes/html.php:31
+#: ../includes/html.php:232 ../includes/html.php:403 ../includes/html.php:643
 #: ../views/message/single.php:32 ../views/project/header.php:21
 msgid "Edit"
 msgstr ""
@@ -267,7 +285,7 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: ../class/milestone.php:39 ../includes/html.php:539
+#: ../class/milestone.php:39 ../includes/html.php:553
 #: ../views/milestone/index.php:5
 msgid "Add Milestone"
 msgstr ""
@@ -317,7 +335,7 @@ msgstr ""
 msgid "Add Project"
 msgstr ""
 
-#: ../class/project.php:45 ../includes/html.php:708
+#: ../class/project.php:45 ../includes/html.php:722
 msgid "Add New Project"
 msgstr ""
 
@@ -353,7 +371,7 @@ msgstr ""
 msgid "Activity"
 msgstr ""
 
-#: ../class/project.php:293 ../includes/html.php:655 ../views/task/index.php:5
+#: ../class/project.php:293 ../includes/html.php:669 ../views/task/index.php:5
 #: ../views/task/single.php:5 ../views/task/task-single.php:2
 msgid "To-do List"
 msgstr ""
@@ -453,6 +471,22 @@ msgstr ""
 msgid "Parent Task"
 msgstr ""
 
+#: ../includes/add-ons.php:2
+msgid "WP Project Manager - add-ons"
+msgstr ""
+
+#: ../includes/add-ons.php:41
+msgid "Installed"
+msgstr ""
+
+#: ../includes/add-ons.php:43
+msgid "View Details"
+msgstr ""
+
+#: ../includes/add-ons.php:51
+msgid "Error fetching add-ons. Please try again later!"
+msgstr ""
+
 #: ../includes/functions.php:71
 msgid "Select co-workers"
 msgstr ""
@@ -476,172 +510,214 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: ../includes/html.php:25
+#: ../includes/functions.php:388
+#, php-format
+msgid "%d message"
+msgid_plural "%d messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/functions.php:392
+#, php-format
+msgid "%d to-do list"
+msgid_plural "%d to-do lists"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/functions.php:396
+#, php-format
+msgid "%d to-do"
+msgid_plural "%d to-dos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/functions.php:400 ../views/files/index.php:63
+#, php-format
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/functions.php:404
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/functions.php:408
+#, php-format
+msgid "%d milestone"
+msgid_plural "%d milestones"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/html.php:26
 msgid "Are you sure to delete this to-do?"
 msgstr ""
 
-#: ../includes/html.php:26 ../includes/html.php:226 ../includes/html.php:395
-#: ../includes/html.php:632 ../views/message/index.php:47
+#: ../includes/html.php:27 ../includes/html.php:230 ../includes/html.php:409
+#: ../includes/html.php:646 ../views/message/index.php:47
 #: ../views/project/single.php:13
 msgid "Delete"
 msgstr ""
 
-#: ../includes/html.php:48
+#: ../includes/html.php:50 ../includes/html.php:242
 msgid "1 Comment"
 msgstr ""
 
-#: ../includes/html.php:48
+#: ../includes/html.php:50 ../includes/html.php:242
 #, php-format
 msgid "%d Comments"
 msgstr ""
 
-#: ../includes/html.php:60
+#: ../includes/html.php:62
 #, php-format
 msgid "(Completed by %s on %s)"
 msgstr ""
 
-#: ../includes/html.php:105
+#: ../includes/html.php:109
 msgid "Add this to-do"
 msgstr ""
 
-#: ../includes/html.php:112
+#: ../includes/html.php:116
 msgid "Save Changes"
 msgstr ""
 
-#: ../includes/html.php:131
+#: ../includes/html.php:135
 msgid "Add a new to-do"
 msgstr ""
 
-#: ../includes/html.php:134 ../includes/html.php:568
+#: ../includes/html.php:138 ../includes/html.php:582
 msgid "Due date"
 msgstr ""
 
-#: ../includes/html.php:144 ../includes/html.php:203 ../includes/html.php:348
-#: ../includes/html.php:519 ../includes/html.php:586 ../includes/html.php:754
+#: ../includes/html.php:148 ../includes/html.php:207 ../includes/html.php:362
+#: ../includes/html.php:533 ../includes/html.php:600 ../includes/html.php:768
 msgid "Cancel"
 msgstr ""
 
-#: ../includes/html.php:162
+#: ../includes/html.php:166
 msgid "Add List"
 msgstr ""
 
-#: ../includes/html.php:170
+#: ../includes/html.php:174
 msgid "Update List"
 msgstr ""
 
-#: ../includes/html.php:185
+#: ../includes/html.php:189
 msgid "Tasklist name"
 msgstr ""
 
-#: ../includes/html.php:189
+#: ../includes/html.php:193
 msgid "Tasklist detail"
 msgstr ""
 
-#: ../includes/html.php:194 ../includes/html.php:491
+#: ../includes/html.php:198 ../includes/html.php:505
 msgid "-- milestone --"
 msgstr ""
 
-#: ../includes/html.php:225
+#: ../includes/html.php:229
 msgid "Are you sure to delete this to-do list?"
 msgstr ""
 
-#: ../includes/html.php:268
+#: ../includes/html.php:282
 msgid "Add a to-do"
 msgstr ""
 
-#: ../includes/html.php:303
+#: ../includes/html.php:317
 msgid "Add this comment"
 msgstr ""
 
-#: ../includes/html.php:310
+#: ../includes/html.php:324
 msgid "Update comment"
 msgstr ""
 
-#: ../includes/html.php:326
+#: ../includes/html.php:340
 msgid "Add a comment..."
 msgstr ""
 
-#: ../includes/html.php:335 ../includes/html.php:502
+#: ../includes/html.php:349 ../includes/html.php:516
 msgid "Notify users"
 msgstr ""
 
-#: ../includes/html.php:336 ../includes/html.php:503
+#: ../includes/html.php:350 ../includes/html.php:517
 msgid "Select all"
 msgstr ""
 
-#: ../includes/html.php:469
+#: ../includes/html.php:483
 msgid "Update Message"
 msgstr ""
 
-#: ../includes/html.php:482
+#: ../includes/html.php:496
 msgid "Enter message title"
 msgstr ""
 
-#: ../includes/html.php:486
+#: ../includes/html.php:500
 msgid "Message details here"
 msgstr ""
 
-#: ../includes/html.php:548
+#: ../includes/html.php:562
 msgid "Update Milestone"
 msgstr ""
 
-#: ../includes/html.php:564
+#: ../includes/html.php:578
 msgid "Milestone name"
 msgstr ""
 
-#: ../includes/html.php:572
+#: ../includes/html.php:586
 msgid "Details about milestone (optional)"
 msgstr ""
 
-#: ../includes/html.php:616
+#: ../includes/html.php:630
 msgid "left"
 msgstr ""
 
-#: ../includes/html.php:616
+#: ../includes/html.php:630
 msgid "late"
 msgstr ""
 
-#: ../includes/html.php:629
+#: ../includes/html.php:643
 msgid "Edit milestone"
 msgstr ""
 
-#: ../includes/html.php:632
+#: ../includes/html.php:646
 msgid "Are you sure?"
 msgstr ""
 
-#: ../includes/html.php:632
+#: ../includes/html.php:646
 msgid "Delete milestone"
 msgstr ""
 
-#: ../includes/html.php:636
+#: ../includes/html.php:650
 msgid "Mark as complete"
 msgstr ""
 
-#: ../includes/html.php:638
+#: ../includes/html.php:652
 msgid "Mark un-complete"
 msgstr ""
 
-#: ../includes/html.php:638
+#: ../includes/html.php:652
 msgid "Reopen"
 msgstr ""
 
-#: ../includes/html.php:692
+#: ../includes/html.php:706
 msgid "Completed on:"
 msgstr ""
 
-#: ../includes/html.php:716
+#: ../includes/html.php:730
 msgid "Update Project"
 msgstr ""
 
-#: ../includes/html.php:725
+#: ../includes/html.php:739
 msgid "Name of the project"
 msgstr ""
 
-#: ../includes/html.php:729
+#: ../includes/html.php:743
 msgid "Some details about the project (optional)"
 msgstr ""
 
-#: ../includes/html.php:740
+#: ../includes/html.php:754
 msgid "Notify Co-workers"
 msgstr ""
 
@@ -691,6 +767,13 @@ msgstr ""
 msgid "&larr; back"
 msgstr ""
 
+#: ../views/message/single.php:55
+#, php-format
+msgid "One Comment"
+msgid_plural "%s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
 #: ../views/message/single.php:72
 msgid "No comments found"
 msgstr ""
@@ -727,7 +810,7 @@ msgstr ""
 msgid "Project Info"
 msgstr ""
 
-#: ../views/project/index.php:47
+#: ../views/project/index.php:51
 msgid "Start a new project"
 msgstr ""
 

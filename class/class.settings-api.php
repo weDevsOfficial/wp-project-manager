@@ -8,7 +8,7 @@
  * @example settings-api.php How to use the class
  */
 if ( !class_exists( 'WeDevs_Settings_API' ) ):
-    class WeDevs_Settings_API {
+class WeDevs_Settings_API {
 
     /**
      * settings sections array
@@ -32,7 +32,19 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
     private static $_instance;
 
     public function __construct() {
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+    }
 
+    /**
+     * Enqueue scripts and styles
+     */
+    function admin_enqueue_scripts() {
+        wp_enqueue_style( 'wp-color-picker' );
+
+        wp_enqueue_script( 'wp-color-picker' );
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'media-upload' );
+        wp_enqueue_script( 'thickbox' );
     }
 
     /**
@@ -91,14 +103,20 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
      * registers them to WordPress and ready for use.
      */
     function admin_init() {
-
         //register settings sections
         foreach ( $this->settings_sections as $section ) {
             if ( false == get_option( $section['id'] ) ) {
                 add_option( $section['id'] );
             }
 
-            add_settings_section( $section['id'], $section['title'], '__return_false', $section['id'] );
+            if ( isset($section['desc']) && !empty($section['desc']) ) {
+                $section['desc'] = '<div class="inside">'.$section['desc'].'</div>';
+                $callback = create_function('', 'echo "'.str_replace('"', '\"', $section['desc']).'";');
+            } else {
+                $callback = '__return_false';
+            }
+
+            add_settings_section( $section['id'], $section['title'], $callback, $section['id'] );
         }
 
         //register settings fields
@@ -114,16 +132,16 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
                     'section' => $section,
                     'size' => isset( $option['size'] ) ? $option['size'] : null,
                     'options' => isset( $option['options'] ) ? $option['options'] : '',
-                    'std' => isset( $option['default'] ) ? $option['default'] : ''
+                    'std' => isset( $option['default'] ) ? $option['default'] : '',
+                    'sanitize_callback' => isset( $option['sanitize_callback'] ) ? $option['sanitize_callback'] : '',
                 );
-                //var_dump($args);
                 add_settings_field( $section . '[' . $option['name'] . ']', $option['label'], array( $this, 'callback_' . $type ), $section, $section, $args );
             }
         }
 
         // creates our settings in the options table
         foreach ( $this->settings_sections as $section ) {
-            register_setting( $section['id'], $section['id'] );
+            register_setting( $section['id'], $section['id'], array( $this, 'sanitize_options' ) );
         }
     }
 
@@ -263,6 +281,113 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
     }
 
     /**
+     * Displays a file upload field for a settings field
+     *
+     * @param array   $args settings field args
+     */
+    function callback_file( $args ) {
+
+        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+        $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+        $id = $args['section']  . '[' . $args['id'] . ']';
+        $js_id = $args['section']  . '\\\\[' . $args['id'] . '\\\\]';
+        $html = sprintf( '<input type="text" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
+        $html .= '<input type="button" class="button wpsf-browse" id="'. $id .'_button" value="Browse" />
+        <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $("#'. $js_id .'_button").click(function() {
+                tb_show("", "media-upload.php?post_id=0&amp;type=image&amp;TB_iframe=true");
+                window.original_send_to_editor = window.send_to_editor;
+                window.send_to_editor = function(html) {
+                    var url = $(html).attr(\'href\');
+                    if ( !url ) {
+                        url = $(html).attr(\'src\');
+                    };
+                    $("#'. $js_id .'").val(url);
+                    tb_remove();
+                    window.send_to_editor = window.original_send_to_editor;
+                };
+                return false;
+            });
+        });
+        </script>';
+        $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
+
+        echo $html;
+    }
+
+    /**
+     * Displays a password field for a settings field
+     *
+     * @param array   $args settings field args
+     */
+    function callback_password( $args ) {
+
+        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+        $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+
+        $html = sprintf( '<input type="password" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
+        $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
+
+        echo $html;
+    }
+
+    /**
+     * Displays a color picker field for a settings field
+     *
+     * @param array   $args settings field args
+     */
+    function callback_color( $args ) {
+
+        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+        $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+
+        $html = sprintf( '<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std'] );
+        $html .= sprintf( '<span class="description" style="display:block;"> %s</span>', $args['desc'] );
+
+        echo $html;
+    }
+
+    /**
+     * Sanitize callback for Settings API
+     */
+    function sanitize_options( $options ) {
+        foreach( $options as $option_slug => $option_value ) {
+            $sanitize_callback = $this->get_sanitize_callback( $option_slug );
+
+            // If callback is set, call it
+            if ( $sanitize_callback ) {
+                $options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
+                continue;
+            }
+        }
+        
+        return $options;
+    }
+
+    /**
+     * Get sanitization callback for given option slug
+     *
+     * @param string $slug option slug
+     *
+     * @return mixed string or bool false
+     */
+    function get_sanitize_callback( $slug = '' ) {
+        if ( empty( $slug ) )
+            return false;
+        // Iterate over registered fields and see if we can find proper callback
+        foreach( $this->settings_fields as $section => $options ) {
+            foreach ( $options as $option ) {
+                if ( $option['name'] != $slug )
+                    continue;
+                // Return the callback name
+                return isset( $option['sanitize_callback'] ) && is_callable( $option['sanitize_callback'] ) ? $option['sanitize_callback'] : false;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the value of a settings field
      *
      * @param string  $option  settings field name
@@ -329,7 +454,7 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
     }
 
     /**
-     * Tabbable JavaScript codes
+     * Tabbable JavaScript codes & Initiate Color Picker
      *
      * This code uses localstorage for displaying active tabs
      */
@@ -337,6 +462,8 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
         ?>
         <script>
             jQuery(document).ready(function($) {
+                //Initiate Color Picker
+                $('.wp-color-picker-field').wpColorPicker();
                 // Switches option sections
                 $('.group').hide();
                 var activetab = '';
@@ -378,6 +505,12 @@ if ( !class_exists( 'WeDevs_Settings_API' ) ):
                 });
             });
         </script>
+
+        <style type="text/css">
+            /** WordPress 3.8 Fix **/
+            .form-table th { padding: 20px 10px; }
+            #wpbody-content .metabox-holder { padding-top: 5px; }
+        </style>
         <?php
     }
 

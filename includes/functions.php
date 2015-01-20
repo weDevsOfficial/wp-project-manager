@@ -608,17 +608,96 @@ if ( !function_exists( 'get_ipaddress' ) ) {
 }
 
 /**
- * In the case of create use  is_cpm_user_can_access( $project_id, $section ) 
+ * Check if a user can access a project
  * 
- * In the case of view user  ! is_cpm_user_can_access( $project_id, $section )      
+ * @since 0.4.4
+ * 
+ * @param int $project_id
+ * @return boolean
  */
-if ( !function_exists( 'cpm_user_can_access' ) ) {
-    function cpm_user_can_access() {
+function cpm_user_can_access( $project_id ) {
+    $user_id = get_current_user_id();
+    $project_author = get_post_field( 'post_author', $project_id );
+    
+    if ( $user_id == $project_author ) {
         return true;
     }
-}
-if ( !function_exists( 'cpm_user_can_delete_edit' ) ) {
-    function cpm_user_can_delete_edit() {
+    
+    $co_worker = get_post_meta( $project_id, '_coworker', true );
+    $co_worker = is_array( $co_worker ) ? $co_worker : array();
+    
+    if ( in_array( $user_id, $co_worker ) ) {
         return true;
     }
+    
+    return false;
 }
+
+
+/**
+ * Check if current user can manage projects
+ * 
+ * @since 0.4.4
+ * @return boolean
+ */
+function cpm_manage_capability() {
+    $admin_right = apply_filters( 'cpm_admin_right', 'delete_pages' );
+
+    if ( current_user_can( $admin_right ) ) {
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * Substitute function to support pro version and frontend
+ * 
+ * @since 0.4.4
+ * @param int $project_id
+ * @return boolean
+ */
+function cpm_is_project_archived( $project_id ) {
+    return false;
+}
+
+/**
+ * Check if the current user has certain project manage capability
+ * 
+ * Substitute function of pro version
+ * 
+ * @since 0.4.4
+ * @param type $project_id
+ * @return boolean
+ */
+function cpm_user_can_delete_edit( $project_id ) {
+    $user_id = get_current_user_id();
+    $project_author = get_post_field( 'post_author', $project_id );
+    
+    if ( $user_id == $project_author ) {
+        return true;
+    }
+    
+    return false;
+}
+
+function cpm_pagination( $total, $limit, $pagenum ) {
+    $num_of_pages = ceil( $total / $limit );
+    $page_links = paginate_links( array(
+        'base'      => add_query_arg( 'pagenum', '%#%' ),
+        'format'    => '',
+        'prev_text' => __( '&laquo;', 'aag' ),
+        'next_text' => __( '&raquo;', 'aag' ),
+        'add_args'  => false,
+        'total'     => $num_of_pages,
+        'current'   => $pagenum
+    ) );
+
+    if ( $page_links ) {
+        echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
+    }
+}
+
+function cpm_project_actions() {}
+function cpm_user_create_form() {}

@@ -97,7 +97,12 @@ class CPM_Ajax {
         $posted = $_POST;
 
         $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        
+        do_action( 'cpm_delete_project_prev',  $project_id );
+        
         CPM_Project::getInstance()->delete( $project_id, true );
+        
+        do_action( 'cpm_delete_project_after',  $project_id );
 
         echo json_encode( array(
             'success' => true,
@@ -128,6 +133,8 @@ class CPM_Ajax {
         } else {
             $response = array('success' => false);
         }
+        
+        do_action( 'cpm_after_new_task', $task_id, $list_id, $project_id );
 
         echo json_encode( $response );
         exit;
@@ -153,6 +160,8 @@ class CPM_Ajax {
         } else {
             $response = array('success' => false);
         }
+        
+        do_action( 'cpm_after_update_task', $task_id, $list_id, $project_id );
 
         echo json_encode( $response );
         exit;
@@ -223,10 +232,14 @@ class CPM_Ajax {
         $task_id = (int) $_POST['task_id'];
         $list_id = (int) $_POST['list_id'];
         $project_id = (int) $_POST['project_id'];
+        
+        do_action( 'cpm_delete_task_prev', $task_id, $list_id, $project_id, $task_obj );
 
         $task_obj = CPM_Task::getInstance();
         $task_obj->delete_task( $task_id, true );
         $complete = $task_obj->get_completeness( $list_id );
+        
+        do_action( 'cpm_delete_task_after', $task_id, $list_id, $project_id, $task_obj );
 
         echo json_encode( array(
             'success' => true,
@@ -292,8 +305,12 @@ class CPM_Ajax {
 
     function delete_tasklist() {
         check_ajax_referer( 'cpm_nonce' );
+        
+        do_action( 'cpm_delete_tasklist_prev', $_POST['list_id'] );
 
         CPM_Task::getInstance()->delete_list( $_POST['list_id'], true );
+        
+        do_action( 'cpm_delete_tasklist_after', $_POST['list_id'] );
 
         echo json_encode( array(
             'success' => true
