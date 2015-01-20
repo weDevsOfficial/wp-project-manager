@@ -1,6 +1,10 @@
 <?php
 $project_obj = CPM_Project::getInstance();
 $projects = $project_obj->get_projects();
+$total_projects     = $projects['total_projects'];
+unset($projects['total_projects']);
+$pagenum            = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+$limit              = 10;
 ?>
 
 <div class="icon32" id="icon-themes"><br></div>
@@ -47,6 +51,11 @@ $projects = $project_obj->get_projects();
     <?php } ?>
 
 </div>
+
+<?php
+cpm_pagination( $total_projects, $limit, $pagenum );
+
+?>
 
 <div id="cpm-project-dialog" title="<?php _e( 'Start a new project', 'cpm' ); ?>">
     <?php if ( $project_obj->has_admin_rights() ) { ?>
