@@ -4,7 +4,7 @@ $projects = $project_obj->get_projects();
 $total_projects     = $projects['total_projects'];
 unset($projects['total_projects']);
 $pagenum            = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
-$limit              = 2;
+$limit              = 10;
 ?>
 
 <div class="icon32" id="icon-themes"><br></div>

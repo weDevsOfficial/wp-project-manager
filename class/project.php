@@ -125,7 +125,7 @@ class CPM_Project {
     function get_projects( $count = -1 ) {
         
         $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
-        $limit            = 2;
+        $limit            = 10;
         $offset           = ( $pagenum - 1 ) * $limit;
   
         $args = array(
