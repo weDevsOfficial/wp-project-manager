@@ -109,6 +109,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 0.4.5 =
+
+* Fix: new project popup
+* New: Pagination support on projects
+
 = 0.4.4 =
 
 * Language files updated

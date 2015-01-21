@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
- * Version: 0.4.4
+ * Version: 0.4.5
  * License: GPL2
  */
 
@@ -75,7 +75,7 @@ class WeDevs_CPM {
         add_action( 'admin_init', array($this, 'admin_includes') );
         add_action( 'plugins_loaded', array($this, 'load_textdomain') );
         add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
-        
+
         register_activation_hook( __FILE__, array($this, 'install') );
     }
 
@@ -89,11 +89,11 @@ class WeDevs_CPM {
         CPM_Message::getInstance();
         CPM_Task::getInstance();
         CPM_Milestone::getInstance();
-        
+
         new CPM_Activity();
         new CPM_Ajax();
         new CPM_Notification();
-        
+
         // instantiate admin settings only on admin page
         if ( is_admin() ) {
             new CPM_Admin();
@@ -137,7 +137,7 @@ class WeDevs_CPM {
      */
     static function admin_scripts() {
         $upload_size = intval( cpm_get_option( 'upload_limit') ) * 1024 * 1024;
-        
+
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -204,7 +204,7 @@ class WeDevs_CPM {
     function admin_page_handler() {
 
         echo '<div class="wrap cpm">';
-        
+
         $page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
         $tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
         $action = (isset( $_GET['action'] )) ? $_GET['action'] : '';
@@ -214,7 +214,7 @@ class WeDevs_CPM {
         $tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
         $task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
         $milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
-        
+
         $default_file = dirname( __FILE__ ) . '/views/project/index.php';
 
         switch ($page) {
@@ -303,33 +303,33 @@ class WeDevs_CPM {
             default:
                 break;
         }
-        
+
         $file = apply_filters( 'cpm_tab_file', $file, $project_id, $page, $tab, $action );
-        
+
         if ( file_exists( $file )) {
             require_once $file;
         } else {
             require_once $default_file;
         }
-        
+
         echo '</div>';
     }
-    
+
     /**
      * Add-ons page for admin panel
-     * 
+     *
      * @since 0.4.4
      */
     function admin_page_addons() {
         include dirname( __FILE__ ) . '/includes/add-ons.php';
     }
-    
-    
+
+
     /**
      * Add shortcut links to the plugin action menu
-     * 
+     *
      * @since 0.4.4
-     * 
+     *
      * @param array $links
      * @param string $file
      * @return array
