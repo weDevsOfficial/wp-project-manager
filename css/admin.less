@@ -279,10 +279,28 @@ ul.cpm-nav{
 :: Project
 -------------------------------------------------- */
 .cpm-ui-dialog {
+    .cpm-project-form-field-width {
+        width: 88% !important;
+    }
     font-size: 13px;
     border: none !important;
     .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
     padding: 10px 15px 10px 15px !important;
+    margin-left: 30%;
+    margin-top: 14%;
+
+    .ui-dialog-titlebar {
+        border: none !important;
+    }
+
+    #project_coworker_chosen {
+        .cpm-project-form-field-width();
+        .search-field {
+            input {
+                height: 30px !important;
+            }
+        }
+    }
 
     .ui-widget-header {
         background: #fff;
@@ -300,7 +318,12 @@ ul.cpm-nav{
 
     .cpm-project-form {
         font-size: 12px;
-
+        #project_name {
+            .cpm-project-form-field-width();
+        }
+        textarea[name="project_description"] {
+            .cpm-project-form-field-width();
+        }
         input[type=text], textarea, select {
             border: 1px solid #F1F1F1;
             padding: 8px;

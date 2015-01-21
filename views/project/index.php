@@ -4,7 +4,7 @@ $projects = $project_obj->get_projects();
 $total_projects     = $projects['total_projects'];
 unset($projects['total_projects']);
 $pagenum            = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
-$limit              = 10;
+$limit              = 2;
 ?>
 
 <div class="icon32" id="icon-themes"><br></div>
@@ -69,8 +69,8 @@ cpm_pagination( $total_projects, $limit, $pagenum );
             autoOpen: false,
             modal: true,
             dialogClass: 'cpm-ui-dialog',
-            width: 485,
-            height: 330,
+            width: 450,
+            height: 400,
             position:['middle', 100]
         });
     })

@@ -285,6 +285,20 @@ ul.cpm-nav li a {
   -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   padding: 10px 15px 10px 15px !important;
+  margin-left: 30%;
+  margin-top: 14%;
+}
+.cpm-ui-dialog .cpm-project-form-field-width {
+  width: 88% !important;
+}
+.cpm-ui-dialog .ui-dialog-titlebar {
+  border: none !important;
+}
+.cpm-ui-dialog #project_coworker_chosen {
+  width: 88% !important;
+}
+.cpm-ui-dialog #project_coworker_chosen .search-field input {
+  height: 30px !important;
 }
 .cpm-ui-dialog .ui-widget-header {
   background: #fff;
@@ -299,6 +313,12 @@ ul.cpm-nav li a {
 }
 .cpm-ui-dialog .cpm-project-form {
   font-size: 12px;
+}
+.cpm-ui-dialog .cpm-project-form #project_name {
+  width: 88% !important;
+}
+.cpm-ui-dialog .cpm-project-form textarea[name="project_description"] {
+  width: 88% !important;
 }
 .cpm-ui-dialog .cpm-project-form input[type=text],
 .cpm-ui-dialog .cpm-project-form textarea,
