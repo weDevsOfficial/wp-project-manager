@@ -320,6 +320,9 @@ ul.cpm-nav li a {
 .cpm-ui-dialog .cpm-project-form textarea[name="project_description"] {
   width: 88% !important;
 }
+.cpm-ui-dialog .cpm-project-form input[type=text] {
+  width: 88% !important;
+}
 .cpm-ui-dialog .cpm-project-form input[type=text],
 .cpm-ui-dialog .cpm-project-form textarea,
 .cpm-ui-dialog .cpm-project-form select {
