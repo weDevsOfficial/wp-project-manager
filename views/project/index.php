@@ -69,8 +69,8 @@ cpm_pagination( $total_projects, $limit, $pagenum );
             autoOpen: false,
             modal: true,
             dialogClass: 'cpm-ui-dialog',
-            width: 485,
-            height: 330,
+            width: 450,
+            height: 400,
             position:['middle', 100]
         });
     })
