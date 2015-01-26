@@ -109,6 +109,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 0.4.6 =
+
+* Fix: new project popup, some bug was still in the 0.4.5 version.
+
 = 0.4.5 =
 
 * Fix: new project popup
