@@ -281,12 +281,14 @@ ul.cpm-nav li a {
 .cpm-ui-dialog {
   font-size: 13px;
   border: none !important;
+  padding: 10px 15px 10px 15px !important;
+  margin-left: 30%;
+  margin-top: 5%;
+  top: 0;
+  z-index: 999999;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  padding: 10px 15px 10px 15px !important;
-  margin-left: 30%;
-  margin-top: 14%;
 }
 .cpm-ui-dialog .cpm-project-form-field-width {
   width: 88% !important;
