@@ -1,12 +1,23 @@
 <?php
 $task_obj = CPM_Task::getInstance();
-$lists = $task_obj->get_task_lists( $project_id );
+
+if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
+    $lists = $task_obj->get_task_lists( $project_id, true );
+} else {
+    $lists = $task_obj->get_task_lists( $project_id );
+}
 
 cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 ?>
 
 <h3 class="cpm-nav-title">
-    <?php _e( 'Task Lists', 'cpm' ) ?> <a id="cpm-add-tasklist" href="#" class="add-new-h2"><?php _e( 'Add New Task List', 'cpm' ) ?></a>
+    <?php
+    _e( 'To-do Lists', 'cpm' );
+    
+    if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
+        ?> 
+        <a id="cpm-add-tasklist" href="#" class="add-new-h2"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
+    <?php } ?>
 </h2>
 
 <div class="cpm-new-todolist-form">
@@ -16,10 +27,13 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 <ul class="cpm-todolists">
     <?php
     if ( $lists ) {
+
         foreach ($lists as $list) {
             ?>
 
-            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id ); ?></li>
+            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>">
+                <?php echo cpm_task_list_html( $list, $project_id ); ?>
+            </li>
 
             <?php
         }

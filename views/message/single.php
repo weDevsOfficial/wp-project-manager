@@ -2,12 +2,19 @@
 $msg_obj = CPM_Message::getInstance();
 
 $message = $msg_obj->get( $message_id );
+
 if ( !$message ) {
     echo '<h2>' . __( 'Error: Message not found', 'cpm' ) . '</h2>';
     return;
 }
 
+if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
+    echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+    return;   
+}
+
 cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
+$private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 ?>
 
 <h3 class="cpm-nav-title">
@@ -33,6 +40,7 @@ cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
                 </a>
             </span>
         <?php } ?>
+        <span class="<?php echo $private_class; ?>"></span>
     </div>
 
     <div class="cpm-entry-detail">

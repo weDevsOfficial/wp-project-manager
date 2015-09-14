@@ -1,18 +1,18 @@
 <div class="wrap">
-    <h2><?php _e( 'WP Project Manager - add-ons', 'cpm' ); ?></h2>
+    <h2><?php _e( 'WP Project Manager Pro - add-ons', 'cpm' ); ?></h2>
 
     <?php
     $add_ons = get_transient( 'cpm_addons' );
 
     if ( false === $add_ons ) {
         $response = wp_remote_get( 'http://wedevs.com/api/cpm/addons.php', array('timeout' => 15) );
-        $update = wp_remote_retrieve_body( $response );
+        $add_ons = wp_remote_retrieve_body( $response );
 
         if ( is_wp_error( $response ) || $response['response']['code'] != 200 ) {
             return false;
         }
 
-        set_transient( 'cpm_addons', $update, 12 * HOUR_IN_SECONDS );
+        set_transient( 'cpm_addons', $add_ons, 12 * HOUR_IN_SECONDS );
     }
 
     $add_ons = json_decode( $add_ons );
@@ -51,12 +51,6 @@
         echo '<div class="error"><p>' . __( 'Error fetching add-ons. Please try again later!', 'cpm' ) . '</p></div>';
     }
     ?>
-    
-    
-    <div class="clear"></div>
-    <a href="http://wedevs.com/plugin/wp-project-manager/" target="_blank">
-        <img src="<?php echo plugins_url( '', dirname( __FILE__ ) ); ?>/images/banner.png" alt="Get PRO version" title="Get the PRO version">
-    </a>
 
     <style type="text/css">
         .wpuf-addon {

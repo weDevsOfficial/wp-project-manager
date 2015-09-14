@@ -1,13 +1,23 @@
 <?php cpm_get_header( __( 'Milestones', 'cpm' ), $project_id ); ?>
 
 <h3 class="cpm-nav-title">
-    <?php _e( 'Milestones', 'cpm' ) ?> 
-    <a id="cpm-add-milestone" href="#" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+    <?php
+    _e( 'Milestones', 'cpm' );
+    
+    if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
+        ?> 
+        <a id="cpm-add-milestone" href="#" class="add-new-h2"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+    <?php } ?>
 </h3>
 
 <?php
 $milestone_obj = CPM_Milestone::getInstance();
-$milestones = $milestone_obj->get_by_project( $project_id );
+
+if ( cpm_user_can_access( $project_id, 'milestone_view_private' ) ) {
+    $milestones = $milestone_obj->get_by_project( $project_id, true );
+} else {
+    $milestones = $milestone_obj->get_by_project( $project_id );
+}
 
 $completed_milestones = array();
 $late_milestones = array();
@@ -30,13 +40,16 @@ if ( $milestones ) {
 } else {
     cpm_show_message( __( 'No Milestone Found!', 'cpm' ) );
 }
-
 ?>
 
 <div class="cpm-new-milestone-form">
     <h3><?php _e( 'Add new milestone', 'cpm' ); ?></h3>
 
-    <?php echo cpm_milestone_form( $project_id ); ?>
+    <?php
+    if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
+        echo cpm_milestone_form( $project_id );
+    }
+    ?>
 </div>
 
 <div class="cpm-milestones">

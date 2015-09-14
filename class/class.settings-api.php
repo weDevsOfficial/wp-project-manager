@@ -3,6 +3,8 @@
 /**
  * weDevs Settings API wrapper class
  *
+ * @version 1.0
+ *
  * @author Tareq Hasan <tareq@weDevs.com>
  * @link http://tareq.weDevs.com Tareq's Planet
  * @example settings-api.php How to use the class
@@ -41,10 +43,9 @@ class WeDevs_Settings_API {
     function admin_enqueue_scripts() {
         wp_enqueue_style( 'wp-color-picker' );
 
+        wp_enqueue_media();
         wp_enqueue_script( 'wp-color-picker' );
         wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'media-upload' );
-        wp_enqueue_script( 'thickbox' );
     }
 
     /**
@@ -171,8 +172,8 @@ class WeDevs_Settings_API {
         $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 
         $html = sprintf( '<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id'] );
-        $html .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on"%4$s />', $args['section'], $args['id'], $value, checked( $value, 'on', false ) );
-        $html .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label>', $args['section'], $args['id'], $args['desc'] );
+        $html .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="on"%4$s />', $args['section'], $args['id'], $value, checked( $value, 'on', false ) );
+        $html .= sprintf( '<label for="wpuf-%1$s[%2$s]"> %3$s</label>', $args['section'], $args['id'], $args['desc'] );
 
         echo $html;
     }
@@ -189,8 +190,8 @@ class WeDevs_Settings_API {
         $html = '';
         foreach ( $args['options'] as $key => $label ) {
             $checked = isset( $value[$key] ) ? $value[$key] : '0';
-            $html .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
-            $html .= sprintf( '<label for="%1$s[%2$s][%4$s]"> %3$s</label><br>', $args['section'], $args['id'], $label, $key );
+            $html .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
+            $html .= sprintf( '<label for="wpuf-%1$s[%2$s][%4$s]"> %3$s</label><br>', $args['section'], $args['id'], $label, $key );
         }
         $html .= sprintf( '<span class="description"> %s</label>', $args['desc'] );
 
@@ -208,8 +209,8 @@ class WeDevs_Settings_API {
 
         $html = '';
         foreach ( $args['options'] as $key => $label ) {
-            $html .= sprintf( '<input type="radio" class="radio" id="%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $value, $key, false ) );
-            $html .= sprintf( '<label for="%1$s[%2$s][%4$s]"> %3$s</label><br>', $args['section'], $args['id'], $label, $key );
+            $html .= sprintf( '<input type="radio" class="radio" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $value, $key, false ) );
+            $html .= sprintf( '<label for="wpuf-%1$s[%2$s][%4$s]"> %3$s</label><br>', $args['section'], $args['id'], $label, $key );
         }
         $html .= sprintf( '<span class="description"> %s</label>', $args['desc'] );
 
@@ -268,12 +269,12 @@ class WeDevs_Settings_API {
      */
     function callback_wysiwyg( $args ) {
 
-        $value = wpautop( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+        $value = $this->get_option( $args['id'], $args['section'], $args['std'] );
         $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : '500px';
 
         echo '<div style="width: ' . $size . ';">';
 
-        wp_editor( $value, $args['section'] . '[' . $args['id'] . ']', array( 'teeny' => true, 'textarea_rows' => 10 ) );
+        wp_editor( $value, $args['section'] . '-' . $args['id'] . '', array( 'teeny' => true, 'textarea_name' => $args['section'] . '[' . $args['id'] . ']', 'textarea_rows' => 10 ) );
 
         echo '</div>';
 
@@ -290,27 +291,10 @@ class WeDevs_Settings_API {
         $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
         $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
         $id = $args['section']  . '[' . $args['id'] . ']';
-        $js_id = $args['section']  . '\\\\[' . $args['id'] . '\\\\]';
-        $html = sprintf( '<input type="text" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
-        $html .= '<input type="button" class="button wpsf-browse" id="'. $id .'_button" value="Browse" />
-        <script type="text/javascript">
-        jQuery(document).ready(function($){
-            $("#'. $js_id .'_button").click(function() {
-                tb_show("", "media-upload.php?post_id=0&amp;type=image&amp;TB_iframe=true");
-                window.original_send_to_editor = window.send_to_editor;
-                window.send_to_editor = function(html) {
-                    var url = $(html).attr(\'href\');
-                    if ( !url ) {
-                        url = $(html).attr(\'src\');
-                    };
-                    $("#'. $js_id .'").val(url);
-                    tb_remove();
-                    window.send_to_editor = window.original_send_to_editor;
-                };
-                return false;
-            });
-        });
-        </script>';
+
+        $html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
+        $html .= '<input type="button" class="button wpsa-browse" value="'.__( 'Browse' ).'" />';
+
         $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
 
         echo $html;
@@ -361,7 +345,7 @@ class WeDevs_Settings_API {
                 continue;
             }
         }
-        
+
         return $options;
     }
 
@@ -373,17 +357,22 @@ class WeDevs_Settings_API {
      * @return mixed string or bool false
      */
     function get_sanitize_callback( $slug = '' ) {
-        if ( empty( $slug ) )
+        if ( empty( $slug ) ) {
             return false;
+        }
+
         // Iterate over registered fields and see if we can find proper callback
         foreach( $this->settings_fields as $section => $options ) {
             foreach ( $options as $option ) {
-                if ( $option['name'] != $slug )
+                if ( $option['name'] != $slug ) {
                     continue;
+                }
+
                 // Return the callback name
                 return isset( $option['sanitize_callback'] ) && is_callable( $option['sanitize_callback'] ) ? $option['sanitize_callback'] : false;
             }
         }
+
         return false;
     }
 
@@ -464,6 +453,7 @@ class WeDevs_Settings_API {
             jQuery(document).ready(function($) {
                 //Initiate Color Picker
                 $('.wp-color-picker-field').wpColorPicker();
+
                 // Switches option sections
                 $('.group').hide();
                 var activetab = '';
@@ -503,7 +493,38 @@ class WeDevs_Settings_API {
                     $(clicked_group).fadeIn();
                     evt.preventDefault();
                 });
-            });
+
+                var file_frame = null;
+                $('.wpsa-browse').on('click', function (event) {
+                    event.preventDefault();
+
+                    var self = $(this);
+
+                    // If the media frame already exists, reopen it.
+                    if ( file_frame ) {
+                        file_frame.open();
+                        return false;
+                    }
+
+                    // Create the media frame.
+                    file_frame = wp.media.frames.file_frame = wp.media({
+                        title: self.data('uploader_title'),
+                        button: {
+                            text: self.data('uploader_button_text'),
+                        },
+                        multiple: false
+                    });
+
+                    file_frame.on('select', function () {
+                        attachment = file_frame.state().get('selection').first().toJSON();
+
+                        self.prev('.wpsa-url').val(attachment.url);
+                    });
+
+                    // Finally, open the modal
+                    file_frame.open();
+                });
+        });
         </script>
 
         <style type="text/css">

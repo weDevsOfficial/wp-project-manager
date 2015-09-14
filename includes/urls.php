@@ -13,7 +13,81 @@
  * @return string
  */
 function cpm_url_projects() {
-    return sprintf( '%s?page=cpm_projects', admin_url( 'admin.php' ) );
+    $project_home_url = sprintf( '%s?page=cpm_projects', admin_url( 'admin.php' ) );
+    return apply_filters( 'cpm_project_list_url', $project_home_url );
+}
+
+function cpm_url_my_task() {
+    if( isset($_GET['user_id']) && ! empty( $_GET['user_id'] ) ) {
+        $url_arg = '&user_id=' . $_GET['user_id']; 
+    } else {
+        $url_arg = '';
+    }
+    $url = sprintf( "%s?page=cpm_task&tab=my_task%s", admin_url( 'admin.php' ), $url_arg );
+    return apply_filters( 'cpm_url_my_task', $url );
+}
+
+function cpm_url_outstanding_task() {
+    $url = add_query_arg( array( 'tab' => 'my_task', 'subtab' => 'outstanding' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_outstanding_task', $url );
+
+}
+function cpm_url_complete_task() {
+    $url = add_query_arg( array( 'tab' => 'my_task', 'subtab' => 'complete' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_complete_task', $url );
+}
+
+/*function cpm_url_my_task() {
+    if( isset($_GET['user_id']) && ! empty( $_GET['user_id'] ) ) {
+        $url_arg = '&user_id=' . $_GET['user_id'];
+    } else {
+        $url_arg = '';
+    }
+    $url = sprintf( "%s?page=cpm_task%s", admin_url( 'admin.php' ), $url_arg );
+    return apply_filters( 'cpm_url_my_task', $url );
+}
+
+function cpm_url_outstanding_task() {
+    $url = add_query_arg( array( 'tab' => 'outstanding' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_outstanding_task', $url );
+
+}
+function cpm_url_complete_task() {
+    $url = add_query_arg( array( 'tab' => 'complete' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_complete_task', $url );
+}*/
+/**
+ * Displays root URL for projects all
+ *
+ * @since 0.1
+ * @return string
+ */
+function cpm_url_all() {
+    $url = add_query_arg( array( 'status' => 'all' ), cpm_url_projects() );
+    return apply_filters( 'cpm_url_all', $url );
+}
+
+/**
+ * Displays root URL for projects archive
+ *
+ * @since 0.1
+ * @return string
+ */
+function cpm_url_archive() {
+    $url = add_query_arg( array( 'status' => 'archive' ), cpm_url_projects() );
+    return apply_filters( 'cpm_url_archive', $url );
+
+}
+
+/**
+ * Displays root URL for projects active
+ *
+ * @since 0.1
+ * @return string
+ */
+function cpm_url_active() {
+    $url = add_query_arg( array( 'status' => 'active' ), cpm_url_projects() );
+    return apply_filters( 'cpm_url_active', $url );
 }
 
 /**
@@ -25,7 +99,6 @@ function cpm_url_projects() {
  */
 function cpm_url_project_details( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', admin_url( 'admin.php' ), $project_id );
-
     return apply_filters( 'cpm_url_project_details', $url, $project_id );
 }
 
@@ -153,17 +226,19 @@ function cpm_url_single_milestone( $project_id, $milestone_id ) {
  */
 function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
     $user = get_user_by( 'id', $user_id );
-    $link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user->ID" ) );
+    $user_id = $user->ID;
+    $link = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );
     $name = $user->display_name;
 
     if ( $avatar ) {
-        $name = get_avatar( $user_id, $size, $user->display_name );
+        $name = get_avatar( $user_id, $size );
     }
 
     $url = sprintf( '<a href="%s">%s</a>', $link, $name );
 
     return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
 }
+
 
 /**
  * Files index url for a project
@@ -175,6 +250,18 @@ function cpm_url_file_index( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=files&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
 
     return apply_filters( 'cpm_url_file_index', $url, $project_id );
+}
+
+/**
+ * Settings index url for a project
+ *
+ * @param int $project_id
+ * @return string
+ */
+function cpm_url_settings_index( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=settings&action=index&pid=%d', admin_url( 'admin.php' ), $project_id );
+
+    return apply_filters( 'cpm_url_settings_index', $url, $project_id );
 }
 
 /**
@@ -190,7 +277,7 @@ function cpm_url_comment( $comment_id, $project_id ) {
     if( !$comment ) {
         return false;
     }
-    
+
     $post = get_post( $comment->comment_post_ID );
     $url = '';
 
@@ -210,4 +297,16 @@ function cpm_url_comment( $comment_id, $project_id ) {
     $url = "$url#cpm-comment-$comment_id";
 
     return apply_filters( 'cpm_url_comment', $url, $comment_id, $project_id, $post->ID );
+}
+
+/**
+ * Report page URL
+ *
+ * @since 1.2
+ * @return string
+ */
+function cpm_report_page_url() {
+    $url = sprintf( '%s?page=cpm_reports', admin_url( 'admin.php' ) );
+
+    return apply_filters( 'cpm_report_page_url', $url );
 }

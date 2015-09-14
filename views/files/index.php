@@ -1,6 +1,10 @@
-<?php
-cpm_get_header( __( 'Files', 'cpm' ), $project_id );
+<?php cpm_get_header( __( 'Files', 'cpm' ), $project_id ); ?>
 
+<h3 class="cpm-nav-title">
+    <?php _e( 'All files in project', 'cpm' ); ?>
+</h3>
+
+<?php
 $args = array(
     'post_type' => 'attachment',
     'meta_key' => '_project',
@@ -11,6 +15,10 @@ $args = array(
 $attachments = get_posts( $args );
 $base_image_url = admin_url('admin-ajax.php?action=cpm_file_get');
 
+//todo_view_private
+//tdolist_view_private
+//msg_view_private
+//milestone_view_private
 if ( $attachments ) {
 
     echo '<ul class="cpm-files">';
@@ -18,6 +26,7 @@ if ( $attachments ) {
 
         $file = CPM_Comment::getInstance()->get_file( $attachment->ID );
         $topic_url = '#';
+        
 
         if ( !$attachment->post_parent ) {
             $parent_id = get_post_meta( $attachment->ID, '_parent', true );
@@ -29,11 +38,25 @@ if ( $attachments ) {
         $post_type_object = get_post_type_object( $parent->post_type );
 
         if ( $parent->post_type == 'task' ) {
+            
+            $is_private = get_post_meta( $attachment->post_parent, '_task_privacy', true );
+            if( ! cpm_user_can_access( $project_id, 'todo_view_private', $is_private ) ) {
+                continue;
+            }
             $task_list = get_post( $parent->post_parent );
             $topic_url = cpm_url_single_task( $project_id, $task_list->ID, $parent->ID );
+        
         } else if ( $parent->post_type == 'task_list' ) {
+            $is_private = get_post_meta( $attachment->post_parent, '_tasklist_privacy', true );
+            if( ! cpm_user_can_access( $project_id, 'tdolist_view_private', $is_private ) ) {
+                continue;
+            }
             $topic_url = cpm_url_single_tasklist( $project_id, $parent->ID );
         } else if ( $parent->post_type == 'message' ) {
+            $is_private = get_post_meta( $attachment->post_parent, '_message_privacy', true );
+            if( ! cpm_user_can_access_file( $project_id, 'msg_view_private', $is_private ) ) {
+                continue;
+            }
             $topic_url = cpm_url_single_message( $project_id, $parent->ID );
         }
 
@@ -41,13 +64,15 @@ if ( $attachments ) {
 
         if ( $file['type'] == 'image' ) {
             $thumb_url = sprintf( '%s&file_id=%d&project_id=%d&type=thumb', $base_image_url, $file['id'], $project_id );
+            $class = 'cpm-colorbox-img';
         } else {
             $thumb_url = $file['thumb'];
+            $class = '';
         }
         ?>
         <li>
             <div class="cpm-thumb">
-                <a href="<?php echo $file_url; ?>"><img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr( $file['name'] ); ?>" /></a>
+                <a class="<?php echo $class; ?>" title="<?php echo esc_attr( $file['name'] ); ?>" href="<?php echo $file_url; ?>"><img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr( $file['name'] ); ?>" /></a>
             </div>
             <div class="cpm-thumb-detail">
                 <h3 class="cpm-file-name"><?php echo $file['name']; ?></h3>

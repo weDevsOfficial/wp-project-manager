@@ -11,8 +11,8 @@ DEST_DIR=~/svn/wp-plugins/$DIR_NAME/$BRANCH
 
 # make sure we're deploying from the right dir
 if [ ! -d "$SRC_DIR/.git" ]; then
-	echo "$SRC_DIR doesn't seem to be a git repository"
-	exit
+    echo "$SRC_DIR doesn't seem to be a git repository"
+    exit
 fi
 
 # make sure the destination dir exists
@@ -22,7 +22,7 @@ svn add $DEST_DIR 2> /dev/null
 # delete everything except .svn dirs
 for file in $(find $DEST_DIR/* -not -path "*.svn*")
 do
-	rm $file 2>/dev/null
+    rm $file 2>/dev/null
     #echo $file
 done
 
@@ -42,7 +42,7 @@ cd $DEST_DIR
 # check .svnignore
 for file in $(cat "$SRC_DIR/.svnignore" 2>/dev/null)
 do
-	rm $file -rf
+    rm -rf $file
 done
 
 # Transform the readme

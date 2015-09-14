@@ -1,1 +1,10 @@
+includes/pro
+nbproject
+Gruntfile.js
 package.json
+docs.md
+changelog.txt
+export.sh
+plugin-deploy.sh
+readme.md
+composer.json

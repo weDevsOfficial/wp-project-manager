@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs
 Donate Link: http://tareq.wedevs.com/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 3.5
-Tested up to: 4.4.2
+Tested up to: 4.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,21 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 10. All attached files from message, comment, to-do can be found here.
 
 == Changelog ==
+
+= 1.3.2 - September 14, 2015 =
+
+ * [fix] Project Duplication error
+ * [fix] New task assignmed email subject was missing
+
+= 1.3.1 - September 11, 2015 =
+
+ * [fix] File missing problem for front-end
+ * [fix] Plugin path in updater
+
+= 1.3 - September 3, 2015 =
+
+ * [improved] Free/Pro separation. Massive code change
+ * [improved] Email notification templates updated. Removed the settings from admin.
 
 = 0.4.6 =
 

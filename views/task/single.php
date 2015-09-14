@@ -2,12 +2,19 @@
 $task_obj = CPM_Task::getInstance();
 $list = $task_obj->get_task_list( $tasklist_id );
 
+if( $list->private == 'yes' && ! cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
+    echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+    return;
+}
+
 cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
+
+
 ?>
 <h3 class="cpm-nav-title">
     <a href="<?php echo cpm_url_tasklist_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
     <span class="sep">|</span>
-    <?php _e( 'Task List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?>
+    <?php _e( 'To-do List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?>
 </h3>
 
 <ul class="cpm-todolists">
@@ -20,6 +27,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 
 <ul class="cpm-comment-wrap">
     <?php
+    
     $comments = $task_obj->get_comments( $tasklist_id );
     if ( $comments ) {
 

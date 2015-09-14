@@ -32,7 +32,7 @@ class CPM_Comment {
      * @return int
      */
     function create( $commentdata, $files = array() ) {
-        $user = wp_get_current_user();
+        $user = apply_filters( 'cpm_comment_user', wp_get_current_user() );
 
         $commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
         $commentdata['comment_agent'] = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
@@ -171,31 +171,32 @@ class CPM_Comment {
         }
 
         $upload = array(
-            'name' => $_FILES['cpm_attachment']['name'],
-            'type' => $_FILES['cpm_attachment']['type'],
+            'name'     => $_FILES['cpm_attachment']['name'],
+            'type'     => $_FILES['cpm_attachment']['type'],
             'tmp_name' => $_FILES['cpm_attachment']['tmp_name'],
-            'error' => $_FILES['cpm_attachment']['error'],
-            'size' => $_FILES['cpm_attachment']['size']
+            'error'    => $_FILES['cpm_attachment']['error'],
+            'size'     => $_FILES['cpm_attachment']['size']
         );
 
         $uploaded_file = wp_handle_upload( $upload, array('test_form' => false) );
 
         if ( isset( $uploaded_file['file'] ) ) {
-            $file_loc = $uploaded_file['file'];
+            $file_loc  = $uploaded_file['file'];
             $file_name = basename( $_FILES['cpm_attachment']['name'] );
             $file_type = wp_check_filetype( $file_name );
 
             $attachment = array(
                 'post_mime_type' => $file_type['type'],
-                'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
-                'post_content' => '',
-                'post_status' => 'inherit'
+                'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
             );
 
             $attach_id = wp_insert_attachment( $attachment, $file_loc );
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
+            do_action( 'cpm_after_upload_file', $attach_id, $attach_data, $post_id );
             return array('success' => true, 'file_id' => $attach_id);
         }
 
@@ -257,6 +258,7 @@ class CPM_Comment {
 
     function delete_file( $file_id, $force = true ) {
         wp_delete_attachment( $file_id, $force );
+        do_action( 'cpm_delete_attachment', $file_id, $force );
     }
 
 }

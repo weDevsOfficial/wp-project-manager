@@ -23,76 +23,104 @@ class CPM_Message {
 
     function register_post_type() {
         register_post_type( 'message', array(
-            'label' => __( 'Messages', 'cpm' ),
-            'description' => __( 'message post type', 'cpm' ),
-            'public' => false,
-            'show_in_admin_bar' => false,
+            'label'               => __( 'Messages', 'cpm' ),
+            'description'         => __( 'message post type', 'cpm' ),
+            'public'              => false,
+            'show_in_admin_bar'   => false,
             'exclude_from_search' => true,
-            'publicly_queryable' => false,
-            'show_in_admin_bar' => false,
-            'show_ui' => false,
-            'show_in_menu' => true,
-            'capability_type' => 'post',
-            'hierarchical' => false,
-            'rewrite' => array('slug' => ''),
-            'query_var' => true,
-            'supports' => array('title', 'editor', 'comments'),
+            'publicly_queryable'  => false,
+            'show_in_admin_bar'   => false,
+            'show_ui'             => false,
+            'show_in_menu'        => true,
+            'capability_type'     => 'post',
+            'hierarchical'        => false,
+            'rewrite'             => array('slug' => ''),
+            'query_var'           => true,
+            'supports'            => array('title', 'editor', 'comments'),
+            'show_in_json'        => true,
             'labels' => array(
-                'name' => __( 'Messages', 'cpm' ),
-                'singular_name' => __( 'Message', 'cpm' ),
-                'menu_name' => __( 'Message', 'cpm' ),
-                'add_new' => __( 'Add Message', 'cpm' ),
-                'add_new_item' => __( 'Add New Message', 'cpm' ),
-                'edit' => __( 'Edit', 'cpm' ),
-                'edit_item' => __( 'Edit Message', 'cpm' ),
-                'new_item' => __( 'New Message', 'cpm' ),
-                'view' => __( 'View Message', 'cpm' ),
-                'view_item' => __( 'View Message', 'cpm' ),
-                'search_items' => __( 'Search Messages', 'cpm' ),
-                'not_found' => __( 'No Messages Found', 'cpm' ),
+                'name'               => __( 'Messages', 'cpm' ),
+                'singular_name'      => __( 'Message', 'cpm' ),
+                'menu_name'          => __( 'Message', 'cpm' ),
+                'add_new'            => __( 'Add Message', 'cpm' ),
+                'add_new_item'       => __( 'Add New Message', 'cpm' ),
+                'edit'               => __( 'Edit', 'cpm' ),
+                'edit_item'          => __( 'Edit Message', 'cpm' ),
+                'new_item'           => __( 'New Message', 'cpm' ),
+                'view'               => __( 'View Message', 'cpm' ),
+                'view_item'          => __( 'View Message', 'cpm' ),
+                'search_items'       => __( 'Search Messages', 'cpm' ),
+                'not_found'          => __( 'No Messages Found', 'cpm' ),
                 'not_found_in_trash' => __( 'No Messages Found in Trash', 'cpm' ),
-                'parent' => __( 'Parent Message', 'cpm' ),
+                'parent'             => __( 'Parent Message', 'cpm' ),
             ),
         ) );
     }
 
-    function get_all( $project_id, $count = -1 ) {
-        $messages = get_posts( array(
-            'numberposts' => $count,
+    function get_all( $project_id, $privacy = false ) {
+
+        $args = array(
+            'numberposts' => -1,
             'post_type' => 'message',
-            'post_parent' => $project_id
-        ));
+            'post_parent' => $project_id,
+            'order' => 'DESC',
+            'orderby' => 'ID'
+        );
+
+        if ( $privacy === false ) {
+            $args['meta_query'] =  array(
+                array(
+                    'key' => '_message_privacy',
+                    'value' => 'yes',
+                    'compare' => '!='
+                ),
+            );
+        }
+        $args = apply_filters( 'cpm_get_messages', $args );
+
+        $messages = get_posts( $args );
+
+        foreach ($messages as $message) {
+            $this->set_message_meta( $message );
+        }
 
         return $messages;
+    }
+
+    function set_message_meta( &$message ) {
+        $message->private = get_post_meta( $message->ID, '_message_privacy', true );
     }
 
     function get( $message_id ) {
         $message = get_post( $message_id );
 
-	// return null if no message is found
-	if( empty( $message )) {
-		return null;
-	}
+    	// return null if no message is found
+    	if( empty( $message )) {
+    		return null;
+    	}
 
         $message->milestone = get_post_meta( $message_id, '_milestone', true );
+        $message->private = get_post_meta( $message_id, '_message_privacy', true );
         $message->files = $this->get_attachments( $message_id );
 
         return $message;
     }
 
-    function create( $project_id, $files = array(), $message_id = 0 ) {
-        $post = $_POST;
+    function create( $project_id, $post, $files = array(), $message_id = 0 ) {
+
         $is_update = $message_id ? true : false;
 
+        $message_privacy = isset( $post['message_privacy'] ) ? $post['message_privacy'] : 'no';
+
         $postarr = array(
-            'post_parent' => $project_id,
-            'post_title' => $post['message_title'],
+            'post_parent'  => $project_id,
+            'post_title'   => $post['message_title'],
             'post_content' => $post['message_detail'],
-            'post_type' => 'message',
-            'post_status' => 'publish'
+            'post_type'    => 'message',
+            'post_status'  => 'publish'
         );
 
-        if( $is_update ) {
+        if ( $is_update ) {
             $postarr['ID'] = $message_id;
             $message_id = wp_update_post( $postarr );
         } else {
@@ -100,9 +128,10 @@ class CPM_Message {
         }
 
         if ( $message_id ) {
-            $milestone_id = (int) $post['milestone'];
+            $milestone_id = isset( $post['milestone'] ) ? (int) $post['milestone'] : 0;
 
             update_post_meta( $message_id, '_milestone', $milestone_id );
+            update_post_meta( $message_id, '_message_privacy', $message_privacy );
 
             //if there is any file, update the object reference
             if ( count( $files ) > 0 ) {
@@ -112,8 +141,12 @@ class CPM_Message {
             }
 
             if ( $is_update ) {
+                CPM_Project::getInstance()->new_project_item( $project_id, $message_id, $message_privacy, 'message', true );
+
                 do_action( 'cpm_message_update', $message_id, $project_id, $postarr );
             } else {
+                CPM_Project::getInstance()->new_project_item( $project_id, $message_id, $message_privacy, 'message', false );
+
                 do_action( 'cpm_message_new', $message_id, $project_id, $postarr );
             }
         }
@@ -121,12 +154,14 @@ class CPM_Message {
         return $message_id;
     }
 
-    function update( $project_id, $files = array(), $message_id ) {
-        return $this->create( $project_id, $files, $message_id );
+    function update( $project_id, $post, $files = array(), $message_id ) {
+        return $this->create( $project_id, $post, $files, $message_id );
     }
 
     function delete( $message_id, $force = false ) {
         do_action( 'cpm_message_delete', $message_id, $force );
+
+        CPM_Project::getInstance()->delete_project_item( $message_id );
 
         wp_delete_post( $message_id, $force );
     }
@@ -137,12 +172,26 @@ class CPM_Message {
         return $comments;
     }
 
-    function get_by_milestone( $milestone_id ) {
+    function get_by_milestone( $milestone_id, $privacy = false ) {
         $args = array(
             'post_type' => 'message',
-            'meta_key' => '_milestone',
-            'meta_value' => $milestone_id
+            'numberposts' => -1
         );
+
+        $args['meta_query'][] = array(
+            'key' => '_milestone',
+            'value' => $milestone_id,
+        );
+
+        if( $privacy == false ) {
+
+            $args['meta_query'][] = array(
+                'key' => '_message_privacy',
+                'value' => 'yes',
+                'compare' => '!='
+            );
+
+        }
 
         $messages = get_posts( $args );
 

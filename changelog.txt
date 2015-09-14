@@ -1,0 +1,150 @@
+= 1.3.2 - September 14, 2015 =
+
+ * [fix] Project Duplication error
+ * [fix] New task assignmed email subject was missing
+
+= 1.3.1 - September 11, 2015 =
+
+ * [fix] File missing problem for front-end
+ * [fix] Plugin path in updater
+
+= 1.3 - September 3, 2015 =
+
+ * [improved] Free/Pro separation. Massive code change
+ * [improved] Email notification templates updated. Removed the settings from admin.
+
+= 1.2.2 - June 9, 2015 =
+
+* [fix] Fatal error on frontend
+
+= 1.2.1 - June 7, 2015 =
+
+* [fix] Project report datepicker wasn't showing
+* [fix] URL management for admin/frontend
+* [improved] Plugin updater
+
+= 1.2 - June 4, 2015 =
+
+* [new] Project Reporting
+* [new] Progress accross all the projects
+* [new] JSON REST API integration added
+
+= 1.1 - April 19, 2015 =
+
+* [new] Daily digest feature added
+* [improved] Plugin upgrade routine updated
+
+
+= 1.0 - March 1, 2015 =
+
+* [fix] Project delete time shoud be deleted all child post
+* [fix] Active Tabs not working for To-do Lists & Settings
+* [fix] Comment link problem for Subtask
+* [improved] Duplicate project - To-do lists order lost
+* [new] assign a task to more than one user
+* [new] Search feature
+* [new] Filter projects by clients
+* [new] Pagination in project home page
+* [fix] Files Tab Doesn't show any attachement to Client
+* [fix] Long Project Title Problem
+* [new] witch for disabling certain E-mail notification
+* [fix] Project manager date format is fixed
+* [fix] E-mail URL Problem
+* [new] Email Notification ON/OFF feature
+* [fix] Link in message body not working
+* [new] Rich text editor
+
+
+= 0.5.3 - April 19, 2014 =
+
+* [fix] 1 day decrease due to gmt_offset when updating todo
+* [fix] Added checking on single message/todo/milestone for unauthorized access
+* [new] BCC on/off settings for notification
+* [improved] Scrolling project people when more peoples are added on listing
+
+= 0.5.2 - Mar 25, 2014 =
+
+* [fix] privacy bug in milestone
+* [fix] project_category removed from project filter
+* [fix] milestone duplicate assignment
+* [fix] milestone lock icon
+* [fix] addons menu removed for other users
+
+= 0.5.1 =
+
+* default from email field added
+* separate calender and my task script function
+* avatar bug fix
+* stopwatch function removed
+* task trigger position changed
+* remove font family
+* number of projects bug fix in listing
+
+= 0.5 =
+
+* Pro version released
+
+= 0.4.3 =
+
+* new: Spanish translation
+* new: German translation
+* new: Indonesian translation
+* fix: milestone datepicker issue
+* fix: some typo fixes
+* improved: comment count next to tasklists
+
+### 0.4.2
+
+* bug fix: project activity/comments on frontend widget
+* bug fix: project activity/comments on comment rss
+* bug fix: number of milestones
+* improved: plugin textdomain loading
+* new: project task progressbar on project listing
+* new: tasklist sorting
+* new: task sorting
+* new: Dutch translation language added
+* new: Brazilian Portuguese language added
+
+### 0.4.1
+
+* bug fix: attachment association problem on comment update
+* bug fix: error on message update
+
+### 0.4
+
+* improved: default email format changed to 'text/plain' from 'text/html'
+* improved: toggle added on user notification selection
+* improved: only date was showing on single message details, time added
+* improved: some filters added on URLs
+* bug fix: actual file url hidden on files tab for privacy
+* bug fix: any user could edit any users message
+* bug fix: any user could delete any users message
+* new: admin settings page added
+* new: email template added
+* new: French translation added
+* new: file upload size settings added
+
+### 0.3.1
+
+* comment update bug fix
+* project activity is now grouped by date
+* "load more" button added on project activity
+* some function documentation added.
+
+### 0.3
+
+* Translation capability added
+* Attachment security added. All files are now served via a proxy script
+  for security with permission checking.
+
+### 0.2.1
+
+* Comments display error fix
+
+### 0.2
+
+* Remove comments from listing publicly
+* Post types are hidden from search
+
+### 0.1
+Initial version released
