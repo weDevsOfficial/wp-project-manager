@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 1.3.2\n"
+"Project-Id-Version: WP Project Manager 1.3.3\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2015-09-14 18:04:05+00:00\n"
+"POT-Creation-Date: 2015-09-15 11:26:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -124,39 +124,47 @@ msgstr ""
 msgid "E-Mail Settings"
 msgstr ""
 
-#: class/admin.php:62
+#: class/admin.php:68
 msgid "File Upload Limit"
 msgstr ""
 
-#: class/admin.php:64
+#: class/admin.php:70
 msgid "file size in Megabyte. e.g: 2"
 msgstr ""
 
-#: class/admin.php:72
+#: class/admin.php:76 includes/pro/loader.php:81
+msgid "Project Manage Capability"
+msgstr ""
+
+#: class/admin.php:78 includes/pro/loader.php:83
+msgid "Select the user role who can see and manage all projects"
+msgstr ""
+
+#: class/admin.php:87
 msgid "From Email"
 msgstr ""
 
-#: class/admin.php:79
+#: class/admin.php:94
 msgid "E-Mail Type"
 msgstr ""
 
-#: class/admin.php:83
+#: class/admin.php:98
 msgid "HTML Mail"
 msgstr ""
 
-#: class/admin.php:84
+#: class/admin.php:99
 msgid "Plain Text"
 msgstr ""
 
-#: class/admin.php:181
+#: class/admin.php:196
 msgid "Send email via Bcc"
 msgstr ""
 
-#: class/admin.php:184
+#: class/admin.php:199
 msgid "Enable Bcc"
 msgstr ""
 
-#: class/admin.php:192
+#: class/admin.php:207
 msgid "- select -"
 msgstr ""
 
@@ -1519,14 +1527,6 @@ msgstr ""
 
 #: includes/pro/loader.php:63
 msgid "Search..."
-msgstr ""
-
-#: includes/pro/loader.php:81
-msgid "Project Manage Capability"
-msgstr ""
-
-#: includes/pro/loader.php:83
-msgid "Select the user role who can see and manage all projects"
 msgstr ""
 
 #: includes/pro/loader.php:89
