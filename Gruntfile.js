@@ -1,16 +1,5 @@
 module.exports = function(grunt) {
-    //require('jit-grunt')(grunt);
-    var version = '1.0.0';
-    var file = './cpm.php';
-
-    if ( grunt.file.exists( file ) ) {
-        pattern = new RegExp( 'Version' + ':(.*)$', 'mi' );
-        matches = grunt.file.read( file ).match( pattern );
-
-        if ( matches ) {
-            version = matches.pop().trim();
-        }
-    }
+    var pkg = grunt.file.readJSON('package.json');
 
     grunt.initConfig({
         // setting folder templates
@@ -93,7 +82,7 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     mode: 'zip',
-                    archive: './build/wedevs-project-manager-pro-v' + version + '.zip'
+                    archive: './build/wedevs-project-manager-pro-v' + pkg.version + '.zip'
                 },
                 expand: true,
                 cwd: 'build/',
@@ -134,6 +123,45 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        secret: grunt.file.readJSON('secret.json'),
+        sshconfig: {
+            "myhost": {
+                host: '<%= secret.host %>',
+                username: '<%= secret.username %>',
+                password : "vagrant",
+                agent: process.env.SSH_AUTH_SOCK,
+                agentForward: true
+            }
+        },
+        sftp: {
+            upload: {
+                files: {
+                    "./": 'build/wedevs-project-manager-pro-v' + pkg.version + '.zip'
+                },
+                options: {
+                    path: '<%= secret.path %>',
+                    config: 'myhost',
+                    showProgress: true,
+                    srcBasePath: "build/"
+                }
+            }
+        },
+        sshexec: {
+            updateVersion: {
+                command: '<%= secret.updateFiles %> ' + pkg.version,
+                options: {
+                    config: 'myhost'
+                }
+            },
+
+            uptime: {
+                command: 'uptime',
+                options: {
+                    config: 'myhost'
+                }
+            },
+        }
     });
 
     grunt.loadNpmTasks( 'grunt-contrib-less' );
@@ -146,6 +174,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
     grunt.loadNpmTasks( 'grunt-text-replace' );
+    grunt.loadNpmTasks( 'grunt-ssh' );
 
     grunt.registerTask('default', ['less', 'watch']);
 
@@ -153,10 +182,20 @@ module.exports = function(grunt) {
         'makepot',
         'less',
         'concat',
+        // 'clean',
+        // 'copy',
+        // 'compress'
+        // 'uglify'
+    ]);
+
+    grunt.registerTask( 'zip', [
         'clean',
         'copy',
         'replace',
         'compress'
-        // 'uglify'
+    ])
+
+    grunt.registerTask( 'deploy', [
+        'sftp:upload', 'sshexec:updateVersion'
     ]);
 };
