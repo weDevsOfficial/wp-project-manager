@@ -149,7 +149,7 @@ module.exports = function(grunt) {
         },
         sshexec: {
             updateVersion: {
-                command: '<%= secret.updateFiles %> ' + pkg.version,
+                command: '<%= secret.updateFiles %> ' + pkg.version + ' --allow-root',
                 options: {
                     config: 'myhost'
                 }
