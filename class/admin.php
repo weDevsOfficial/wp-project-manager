@@ -55,6 +55,12 @@ class CPM_Admin {
      */
     static function get_settings_fields() {
         $settings_fields = array();
+        global $wp_roles;
+
+        if ( !$wp_roles ) {
+            $wp_roles = new WP_Roles();
+        }
+        $role_names = $wp_roles->get_names();
         
         $settings_fields['cpm_general'] = apply_filters( 'cpm_settings_field_general', array(
             array(
@@ -64,6 +70,15 @@ class CPM_Admin {
                 'desc'    => __('file size in Megabyte. e.g: 2')
             )
         ));
+
+        $settings_fields[][] =   array(
+            'name'    => 'project_manage_role',
+            'label'   => __( 'Project Manage Capability', 'cpm' ),
+            'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
+            'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
+            'type'    => 'multicheck',
+            'options' => $role_names,
+        );
 
         $settings_fields['cpm_mails'] = apply_filters( 'cpm_settings_field_mail', array(
 

@@ -109,6 +109,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.3.3 - September 15, 2015 =
+
+ * [fix] Single project permission issue
+
 = 1.3.2 - September 14, 2015 =
 
  * [fix] Project Duplication error
