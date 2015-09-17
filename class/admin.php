@@ -71,7 +71,7 @@ class CPM_Admin {
             )
         ));
 
-        $settings_fields[][] =   array(
+        $settings_fields['cpm_general'][] =   array(
             'name'    => 'project_manage_role',
             'label'   => __( 'Project Manage Capability', 'cpm' ),
             'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),

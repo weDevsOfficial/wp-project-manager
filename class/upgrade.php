@@ -88,7 +88,14 @@ class CPM_Upgrade {
 
         foreach ( $db_updates as $version => $path ) {
             if ( version_compare( $current_db_version, $version, '<' ) ) {
-                require_once CPM_PATH . '/includes/pro/upgrades/' . $path;
+                $file = CPM_PATH . '/includes/pro/upgrades/' . $path;
+                
+                if ( file_exists( $file ) ) {
+                    require_once $file;
+                } else {
+                   require_once CPM_PATH . '/includes/upgrades/' . $path; 
+                }
+                
                 update_option( 'cpm_db_version', $version );
                 update_option( 'cpm_version', $version );
             }

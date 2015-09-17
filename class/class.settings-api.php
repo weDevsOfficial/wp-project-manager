@@ -136,10 +136,11 @@ class WeDevs_Settings_API {
                     'std' => isset( $option['default'] ) ? $option['default'] : '',
                     'sanitize_callback' => isset( $option['sanitize_callback'] ) ? $option['sanitize_callback'] : '',
                 );
+               
                 add_settings_field( $section . '[' . $option['name'] . ']', $option['label'], array( $this, 'callback_' . $type ), $section, $section, $args );
             }
         }
-
+      
         // creates our settings in the options table
         foreach ( $this->settings_sections as $section ) {
             register_setting( $section['id'], $section['id'], array( $this, 'sanitize_options' ) );
