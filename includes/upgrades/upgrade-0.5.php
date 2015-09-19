@@ -11,7 +11,7 @@ function cpm_upgrade_to_0_5() {
     $table = $wpdb->prefix . 'cpm_user_role';
 
     $project_query = new WP_Query( array(
-        'post_type' => 'project',
+        'post_type'   => 'project',
         'numberposts' => -1,
     ) );
 
@@ -28,8 +28,8 @@ function cpm_upgrade_to_0_5() {
         // add post author to manager
         $data = array(
             'project_id' => $project->ID,
-            'user_id' => $project->post_author,
-            'role' => 'manager',
+            'user_id'    => $project->post_author,
+            'role'       => 'manager',
         );
 
         $format = array('%d', '%d', '%s');
@@ -46,8 +46,8 @@ function cpm_upgrade_to_0_5() {
 
                 $data = array(
                     'project_id' => $project->ID,
-                    'user_id' => $user_id,
-                    'role' => 'co_worker',
+                    'user_id'    => $user_id,
+                    'role'       => 'co_worker',
                 );
                 $format = array('%d', '%d', '%s');
 
@@ -66,7 +66,7 @@ function cpm_upgrade_to_0_5() {
     }
 
     $tasks = get_posts( array(
-        'post_type' => 'task',
+        'post_type'   => 'task',
         'numberposts' => -1,
     ) );
 
@@ -79,7 +79,7 @@ function cpm_upgrade_to_0_5() {
 
 
     $task_lists = get_posts( array(
-        'post_type' => 'task_list',
+        'post_type'   => 'task_list',
         'numberposts' => -1,
     ) );
 
@@ -90,7 +90,7 @@ function cpm_upgrade_to_0_5() {
     }
 
     $messages = get_posts( array(
-        'post_type' => 'message',
+        'post_type'   => 'message',
         'numberposts' => -1,
     ) );
 
