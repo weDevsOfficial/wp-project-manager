@@ -54,31 +54,46 @@ class CPM_Admin {
      * @return array settings fields
      */
     static function get_settings_fields() {
-        $settings_fields = array();
         global $wp_roles;
+
+        $settings_fields = array();
 
         if ( !$wp_roles ) {
             $wp_roles = new WP_Roles();
         }
         $role_names = $wp_roles->get_names();
-        
+
         $settings_fields['cpm_general'] = apply_filters( 'cpm_settings_field_general', array(
             array(
                 'name'    => 'upload_limit',
                 'label'   => __('File Upload Limit', 'cpm'),
                 'default' => '2',
                 'desc'    => __('file size in Megabyte. e.g: 2')
-            )
-        ));
-
-        $settings_fields[][] =   array(
-            'name'    => 'project_manage_role',
-            'label'   => __( 'Project Manage Capability', 'cpm' ),
-            'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
-            'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
-            'type'    => 'multicheck',
-            'options' => $role_names,
-        );
+            ),
+            array(
+                'name'    => 'pagination',
+                'label'   => __('Number of project per page', 'cpm'),
+                'type'    => 'text',
+                'default' => '10',
+                'desc'    => __('-1 for unlimited', 'cpm')
+            ),
+            array(
+                'name'    => 'project_manage_role',
+                'label'   => __( 'Project Manage Capability', 'cpm' ),
+                'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
+                'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
+                'type'    => 'multicheck',
+                'options' => $role_names,
+            ),
+            array(
+                'name'    => 'project_create_role',
+                'label'   => __( 'Project Create Capability', 'cpm' ),
+                'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
+                'desc'    => __( 'Select the user role who can create projects', 'cpm' ),
+                'type'    => 'multicheck',
+                'options' => $role_names,
+            ),
+        ) );
 
         $settings_fields['cpm_mails'] = apply_filters( 'cpm_settings_field_mail', array(
 
@@ -203,7 +218,7 @@ Task: %TASK%',
         return apply_filters( 'cpm_settings_fields', $settings_fields );
     }
 
-    static function get_post_type( $post_type ) {
+    public static function get_post_type( $post_type ) {
         $pages_array = array( '-1' => __( '- select -', 'dokan' ) );
         $pages = get_posts( array('post_type' => $post_type, 'numberposts' => -1) );
 

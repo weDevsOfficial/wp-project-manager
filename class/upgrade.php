@@ -43,7 +43,7 @@ class CPM_Upgrade {
         }
         ?>
         <div class="notice notice-warning">
-            <p><?php _e( '<strong>Project manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'cpm' ) ?></p>
+            <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'cpm' ) ?></p>
 
             <form action="" method="post" style="padding-bottom: 10px;">
                 <?php wp_nonce_field( '_nonce', 'cpm_nonce' ); ?>
@@ -78,21 +78,32 @@ class CPM_Upgrade {
      * @return void
      */
     function plugin_upgrades() {
-        $current_db_version = get_option( 'cpm_db_version' );
-        $this->create_user_role_table();
-        $db_updates = array(
+        $current_version = get_option( 'cpm_version' );
+        $db_updates         = array(
             '0.5' => 'upgrade-0.5.php',
             '1.0' => 'upgrade-1.0.php',
             '1.1' => 'upgrade-1.1.php',
         );
 
+        $this->create_user_role_table();
+
         foreach ( $db_updates as $version => $path ) {
-            if ( version_compare( $current_db_version, $version, '<' ) ) {
-                require_once CPM_PATH . '/includes/pro/upgrades/' . $path;
+            if ( version_compare( $current_version, $version, '<' ) ) {
+                $file = CPM_PATH . '/includes/pro/upgrades/' . $path;
+
+                if ( file_exists( $file ) ) {
+                    require_once $file;
+                } else {
+                   require_once CPM_PATH . '/includes/upgrades/' . $path;
+                }
+
                 update_option( 'cpm_db_version', $version );
                 update_option( 'cpm_version', $version );
             }
         }
+
+        update_option( 'cpm_db_version', CPM_DB_VERSION );
+        update_option( 'cpm_version', CPM_VERSION );
     }
 
     function create_user_role_table() {

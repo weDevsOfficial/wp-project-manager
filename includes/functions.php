@@ -696,22 +696,22 @@ function cpm_settings_label() {
     $labels = array(
 
         'Message' => array(
-            'create_message' => __( 'Create', 'cpm' ),
+            'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
 
         'Todo List' => array(
-            'create_todolist' => __( 'Create', 'cpm' ),
+            'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
 
         'Todo' => array(
-            'create_todo' => __( 'Create', 'cpm' ),
+            'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
 
         'Milestone' => array(
-            'create_milestone' => __( 'Create', 'cpm' ),
+            'create_milestone'       => __( 'Create', 'cpm' ),
             'milestone_view_private' => __( 'View Private', 'cpm' ),
         )
     );

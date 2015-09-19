@@ -29,13 +29,15 @@ unset( $projects['total_projects'] );
                 <a class="cpm-archive-head" href="<?php echo cpm_url_archive(); ?>"><?php printf( __( 'Completed (%d)', 'cpm' ), $count['archive'] ); ?></a>
             </li>
         </ul>
-        <?php     
-            $category = isset( $_GET['project_cat'] ) ? $_GET['project_cat'] : '';
-            $status = isset( $_GET['project_status'] ) ? $_GET['project_status'] : '';
-            $action = isset( $_GET['status'] ) ? $_GET['status'] : '';
+
+        <?php
+            $category   = isset( $_GET['project_cat'] ) ? $_GET['project_cat'] : '';
+            $status     = isset( $_GET['project_status'] ) ? $_GET['project_status'] : '';
+            $action     = isset( $_GET['status'] ) ? $_GET['status'] : '';
             $searchitem = isset( $_GET['searchitem'] ) ? $_GET['searchitem'] : '';
-            $page_id = ( !is_admin() ) ? get_the_ID() : '';
+            $page_id    = ( !is_admin() ) ? get_the_ID() : '';
         ?>
+
         <form action="" method="get" class="cpm-project-filters" id="cpm-project-filters">
             <?php echo cpm_filter_category( $category ); ?>
             <input type="hidden" name="p" value="<?php echo $page_id; ?>" />

@@ -276,8 +276,8 @@ class CPM_Project {
             );
         }
 
-        if( isset( $_GET['page'] ) && $_GET['page'] == 'cpm_projects' && isset( $_GET['status'] ) ) {
-            if( $_GET['status'] == 'archive' ) {
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'cpm_projects' && isset( $_GET['status'] ) ) {
+            if ( $_GET['status'] == 'archive' ) {
 
                 $args['meta_query'] = array(
                     array(
