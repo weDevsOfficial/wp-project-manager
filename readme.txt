@@ -109,6 +109,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.3.4 - September 19, 2015 =
+
+ * [fix] Pagination error fix in free version
+ * [fix] Project manage/create cap option brought back to free
+ * [fix] Version upgrader issue fixed
+
 = 1.3.3 - September 15, 2015 =
 
  * [fix] Single project permission issue
