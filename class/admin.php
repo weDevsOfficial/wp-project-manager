@@ -71,13 +71,21 @@ class CPM_Admin {
                 'desc'    => __('file size in Megabyte. e.g: 2')
             ),
             array(
-                'name'    => 'project_manage_cap',
+                'name'    => 'project_manage_role',
                 'label'   => __( 'Project Manage Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
                 'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
                 'type'    => 'multicheck',
                 'options' => $role_names,
-            )
+            ),
+            array(
+                'name'    => 'project_create_role',
+                'label'   => __( 'Project Create Capability', 'cpm' ),
+                'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
+                'desc'    => __( 'Select the user role who can create projects', 'cpm' ),
+                'type'    => 'multicheck',
+                'options' => $role_names,
+            ),
         ) );
 
         $settings_fields['cpm_mails'] = apply_filters( 'cpm_settings_field_mail', array(

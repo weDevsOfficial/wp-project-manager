@@ -768,7 +768,7 @@ function cpm_is_single_project_manager( $project_id ) {
     }
 }
 
-function cpm_manage_capability( $option_name = 'project_manage_cap' ) {
+function cpm_manage_capability( $option_name = 'project_manage_role' ) {
 
     if ( ! cpm_is_pro() ) {
         return true;
@@ -800,7 +800,7 @@ function cpm_user_can_delete_edit( $project_id, $list ) {
 
     $project_user_role  = cpm_project_user_role( $project_id );
     $loggedin_user_role = reset( $current_user->roles );
-    $manage_capability  = cpm_get_option( 'project_manage_cap' );
+    $manage_capability  = cpm_get_option( 'project_manage_role' );
     //var_dump( $current_user->ID, $list->post_author, $project_user_role, $loggedin_user_role, $manage_capability ); die();
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
@@ -828,7 +828,7 @@ function cpm_user_can_access( $project_id, $section='' ) {
     $login_user = apply_filters( 'cpm_current_user_access', $current_user, $project_id, $section );
     $project_user_role  = cpm_project_user_role( $project_id );
     $loggedin_user_role = reset( $login_user->roles );
-    $manage_capability  = cpm_get_option( 'project_manage_cap' );
+    $manage_capability  = cpm_get_option( 'project_manage_role' );
 
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him

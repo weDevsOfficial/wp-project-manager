@@ -46,13 +46,6 @@ class CPM_Free_Loader {
 		}
 
 		foreach ( $settings_fields['cpm_general'] as $key => $field ) {
-			if ( isset( $field['name'] ) && $field['name'] == 'project_manage_cap' ) {
-				unset( $settings_fields['cpm_general'][$key] );
-			}
-
-			if ( isset( $field['name'] ) && $field['name'] == 'project_create_role' ) {
-				unset( $settings_fields['cpm_general'][$key] );
-			}
 
 			if ( isset( $field['name'] ) && $field['name'] == 'daily_digest' ) {
 				unset( $settings_fields['cpm_general'][$key] );
