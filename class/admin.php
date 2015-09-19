@@ -71,6 +71,13 @@ class CPM_Admin {
                 'desc'    => __('file size in Megabyte. e.g: 2')
             ),
             array(
+                'name'    => 'pagination',
+                'label'   => __('Number of project per page', 'cpm'),
+                'type'    => 'text',
+                'default' => '10',
+                'desc'    => __('-1 for unlimited', 'cpm')
+            ),
+            array(
                 'name'    => 'project_manage_role',
                 'label'   => __( 'Project Manage Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
