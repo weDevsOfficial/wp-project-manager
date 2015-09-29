@@ -20,7 +20,8 @@ A WordPress Project Management plugin. Project Management with WordPress has nev
 
 ## Description ##
 
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+
+[![Project Manager Demo](https://j.gifs.com/mLBNQz.gif)](https://www.youtube.com/watch?v=tETwpwjSA4Q)
 
 A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
@@ -57,7 +58,8 @@ A WordPress Project Management plugin. Manage your project simply with the \*rig
    * See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
 
 ### Detailed Walkthrough ###
-[youtube http://www.youtube.com/watch?v=lR61ARrGb28]
+
+[![Project Manager Demo](https://j.gifs.com/v1e1Eo.gif)](https://www.youtube.com/watch?v=lR61ARrGb28)
 
 
 ### Contribute ###
