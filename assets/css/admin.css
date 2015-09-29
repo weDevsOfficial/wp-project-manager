@@ -500,6 +500,11 @@ ul.cpm-nav li a {
   left: 39% !important;
   top: 29% !important;
 }
+.cpm-project-head {
+  overflow: hidden;
+  display: block;
+  margin-bottom: 15px;
+}
 .cpm-project-head h2 {
   font-size: 15px;
   font-weight: bold;
