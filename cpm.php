@@ -279,10 +279,9 @@ class WeDevs_CPM {
      * @since 0.3.1
      */
     function install() {
-        CPM_Upgrade::getInstance();
-        update_option( 'cpm_version', $this->version );
-        update_option( 'cpm_db_version', $this->db_version );
+        $update = CPM_Upgrade::getInstance();
 
+        $update->plugin_upgrades();
     }
 
     /**
