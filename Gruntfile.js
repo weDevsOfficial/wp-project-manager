@@ -161,6 +161,13 @@ module.exports = function(grunt) {
                     config: 'myhost'
                 }
             },
+
+            updateLounge: {
+                command: '<%= secret.updateLounge %>',
+                options: {
+                    config: 'myhost'
+                }
+            }
         }
     });
 

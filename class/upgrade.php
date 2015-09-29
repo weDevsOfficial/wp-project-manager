@@ -36,7 +36,7 @@ class CPM_Upgrade {
      * @since 1.1
      */
     function notice() {
-        $version = get_option( 'cpm_version' );
+        $version = get_option( 'cpm_version', '0.4.6' );
 
         if ( version_compare( CPM_VERSION, $version, '<=' ) ) {
             return;
@@ -78,8 +78,8 @@ class CPM_Upgrade {
      * @return void
      */
     function plugin_upgrades() {
-        $current_version = get_option( 'cpm_version' );
-        $db_updates         = array(
+        $current_version = get_option( 'cpm_version', '0.4.6' );
+        $db_updates      = array(
             '0.5' => 'upgrade-0.5.php',
             '1.0' => 'upgrade-1.0.php',
             '1.1' => 'upgrade-1.1.php',
