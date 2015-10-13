@@ -58,6 +58,8 @@
     foreach ($template_vars as $key => $value) {
         $message = str_replace( $key, $value, $message );
     }
+
+    $subject       = apply_filters( 'cpm_mail_new_comment_subject', __( 'New Comment', 'cpm' ) );
 ?>
 
 <div style="width:600px;  background: #fff;">

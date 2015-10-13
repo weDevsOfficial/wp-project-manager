@@ -2,8 +2,9 @@
 
 if ( isset( $_POST['project_notify'] ) && $_POST['project_notify'] == 'yes' ) {
     $project_users = CPM_Project::getInstance()->get_users( $project_id );
-    $users = array();
-    $author   = wp_get_current_user();
+    $users         = array();
+    $author        = wp_get_current_user();
+    $subject       = apply_filters( 'cpm_mail_new_project_subject', __( 'New Project', 'cpm' ) );
     if( is_array( $project_users ) && count($project_users) ) {
         foreach ($project_users as $user_id => $role_array ) {
             if( $this->filter_email( $user_id ) ) {
