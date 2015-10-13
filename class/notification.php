@@ -77,7 +77,6 @@ class CPM_Notification {
             ob_start();
             include $content_path;
             $message = ob_get_clean();
-            echo $message; echo 'aldshads'; die();
             if ( $message ) {
                $this->send( implode( ', ', $users ), $subject, $message );
             }
