@@ -21,11 +21,10 @@ if( is_array( $project_users ) && count($project_users) ) {
         }
     }
 }
+
 if ( ! $users ) {
 	return;
 }
-
-$subject       = apply_filters( 'cpm_mail_completed_task_subject', __( 'Completed Task', 'cpm' ) );
 
 cpm_get_email_header();
 

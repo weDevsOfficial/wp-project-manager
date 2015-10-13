@@ -70,7 +70,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         if ( file_exists( $content_path ) ) {
@@ -108,7 +108,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         if ( file_exists( $content_path ) ) {
@@ -129,7 +129,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         if ( file_exists( $content_path ) ) {
@@ -150,7 +150,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         if ( file_exists( $content_path ) ) {
@@ -179,7 +179,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         if ( file_exists( $content_path ) ) {
@@ -217,7 +217,7 @@ class CPM_Notification {
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '&hellip;';
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         foreach ( $_POST['task_assign'] as $key => $user_id) {

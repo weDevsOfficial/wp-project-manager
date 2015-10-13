@@ -15,7 +15,6 @@
 	$project  = $pro_obj->get( $project_id );
 	$msg      = $msg_obj->get( $message_id );
 	$author   = wp_get_current_user();
-     $subject = apply_filters( 'cpm_mail_new_message_subject', __( 'New Message', 'cpm' ) );
     // $template_vars = array(
     //     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
     //     '%PROJECT_NAME%' => $project->post_title,

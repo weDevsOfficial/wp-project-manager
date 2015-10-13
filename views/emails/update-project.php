@@ -17,7 +17,7 @@ if ( isset( $_POST['project_notify'] ) && $_POST['project_notify'] == 'yes' ) {
     if ( ! $users ) {
     	return;
     }
-    $subject       = apply_filters( 'cpm_mail_update_project_subject', __( 'Update Project', 'cpm' ) );
+
 	cpm_get_email_header();
 
     $tpbk   = CPM_URL . '/assets/images/tpbk.png';
