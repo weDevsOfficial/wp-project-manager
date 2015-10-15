@@ -108,8 +108,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 10. All attached files from message, comment, to-do can be found here.
 
 == Changelog ==
-==new==
- * [fix] E-mail no subject problem for all project activity
+
+= 1.3.6 - October 15, 2015 =
+
+ * [fix][pro] Add category for front-end
+ * [fix] Email notification subject issue fixed
 
 = 1.3.5 - September 29, 2015 =
 
