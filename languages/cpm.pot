@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 1.3.4\n"
+"Project-Id-Version: WP Project Manager 1.3.6\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2015-09-19 09:55:02+00:00\n"
+"POT-Creation-Date: 2015-10-15 06:49:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -111,7 +111,7 @@ msgid "Milestone \"%s\" marked as incomplete by %s "
 msgstr ""
 
 #: class/admin.php:33 class/project.php:543 cpm.php:124
-#: includes/free/loader.php:59 includes/pro/frontend/frontend.php:353
+#: includes/free/loader.php:59 includes/pro/frontend/frontend.php:366
 #: includes/pro/views/project/settings.php:13
 msgid "Settings"
 msgstr ""
@@ -132,23 +132,23 @@ msgstr ""
 msgid "file size in Megabyte. e.g: 2"
 msgstr ""
 
-#: class/admin.php:75 includes/pro/loader.php:104
+#: class/admin.php:75
 msgid "Number of project per page"
 msgstr ""
 
-#: class/admin.php:78 includes/pro/loader.php:107
+#: class/admin.php:78
 msgid "-1 for unlimited"
 msgstr ""
 
-#: class/admin.php:82 includes/pro/loader.php:81
+#: class/admin.php:82
 msgid "Project Manage Capability"
 msgstr ""
 
-#: class/admin.php:84 includes/pro/loader.php:83
+#: class/admin.php:84
 msgid "Select the user role who can see and manage all projects"
 msgstr ""
 
-#: class/admin.php:90 includes/pro/loader.php:89
+#: class/admin.php:90
 msgid "Project Create Capability"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "New Message"
 msgstr ""
 
-#: class/message.php:50 class/message.php:51 views/emails/new-message.php:87
+#: class/message.php:50 class/message.php:51 views/emails/new-message.php:86
 msgid "View Message"
 msgstr ""
 
@@ -455,12 +455,12 @@ msgstr ""
 msgid "Edit Project"
 msgstr ""
 
-#: class/project.php:54 includes/pro/frontend/frontend.php:233
+#: class/project.php:54 includes/pro/frontend/frontend.php:246
 #: views/project/index.php:54
 msgid "New Project"
 msgstr ""
 
-#: class/project.php:55 class/project.php:56 views/emails/new-project.php:56
+#: class/project.php:55 class/project.php:56 views/emails/new-project.php:57
 #: views/emails/update-project.php:59
 msgid "View Project"
 msgstr ""
@@ -513,16 +513,16 @@ msgstr ""
 msgid "New Project Category Name"
 msgstr ""
 
-#: class/project.php:77 cpm.php:358
+#: class/project.php:77 cpm.php:357
 msgid "Categories"
 msgstr ""
 
-#: class/project.php:535 includes/pro/frontend/frontend.php:347
+#: class/project.php:535 includes/pro/frontend/frontend.php:360
 #: views/project/single.php:5
 msgid "Activity"
 msgstr ""
 
-#: class/project.php:537 includes/pro/frontend/frontend.php:391
+#: class/project.php:537 includes/pro/frontend/frontend.php:404
 #: views/task/index.php:15
 msgid "To-do Lists"
 msgstr ""
@@ -604,7 +604,7 @@ msgstr ""
 msgid "New Task"
 msgstr ""
 
-#: class/task.php:289 class/task.php:290 views/emails/complete-task.php:74
+#: class/task.php:289 class/task.php:290 views/emails/complete-task.php:75
 #: views/emails/new-task.php:72
 msgid "View Task"
 msgstr ""
@@ -651,20 +651,20 @@ msgstr ""
 msgid "Pro Version"
 msgstr ""
 
-#: cpm.php:123 cpm.php:360
+#: cpm.php:123 cpm.php:359
 msgid "Add-ons"
 msgstr ""
 
-#: cpm.php:332
+#: cpm.php:331
 msgid "Allowed Files"
 msgstr ""
 
-#: cpm.php:355 includes/pro/frontend/frontend.php:207
+#: cpm.php:354 includes/pro/frontend/frontend.php:207
 #: views/project/index.php:16
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:356 includes/html.php:1201
+#: cpm.php:355 includes/html.php:1201
 msgid "Projects"
 msgstr ""
 
@@ -936,21 +936,21 @@ msgstr ""
 msgid "Sorry! you do not have permission to edit this task"
 msgstr ""
 
-#: includes/free/loader.php:16 includes/pro/loader.php:404
-#: includes/pro/loader.php:412 includes/pro/views/task/my-task.php:17
+#: includes/free/loader.php:16 includes/pro/loader.php:374
+#: includes/pro/loader.php:382 includes/pro/views/task/my-task.php:17
 msgid "My Tasks"
 msgstr ""
 
 #: includes/free/loader.php:17 includes/pro/frontend/frontend.php:63
-#: includes/pro/loader.php:413 includes/pro/views/calendar/index.php:2
+#: includes/pro/loader.php:383 includes/pro/views/calendar/index.php:2
 msgid "Calendar"
 msgstr ""
 
-#: includes/free/loader.php:18 includes/pro/loader.php:417
+#: includes/free/loader.php:18 includes/pro/loader.php:387
 msgid "Reports"
 msgstr ""
 
-#: includes/free/loader.php:19 includes/pro/loader.php:420
+#: includes/free/loader.php:19 includes/pro/loader.php:390
 #: includes/pro/views/progress/progress.php:8
 msgid "Progress"
 msgstr ""
@@ -999,7 +999,7 @@ msgstr ""
 
 #: includes/functions.php:317 includes/functions.php:962
 #: includes/pro/class/report.php:235 includes/pro/class/report.php:289
-#: includes/pro/frontend/frontend.php:246
+#: includes/pro/frontend/frontend.php:259
 #: includes/pro/views/report/table.php:172
 #: includes/pro/views/report/table.php:255 views/project/index.php:63
 msgid "Completed"
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: includes/html.php:1292 includes/pro/frontend/frontend.php:220
+#: includes/html.php:1292 includes/pro/frontend/frontend.php:233
 #: views/project/index.php:23
 msgid "All"
 msgstr ""
@@ -1507,37 +1507,42 @@ msgstr ""
 msgid "Sorry, main plugin is not installed"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:223 views/project/index.php:26
+#: includes/pro/frontend/frontend.php:219
+#: includes/pro/views/calendar/index.php:50 views/project/index.php:46
+msgid "Filter"
+msgstr ""
+
+#: includes/pro/frontend/frontend.php:236 views/project/index.php:26
 msgid "Active (%d)"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:226 views/project/index.php:29
+#: includes/pro/frontend/frontend.php:239 views/project/index.php:29
 msgid "Completed (%d)"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:292 views/project/index.php:112
+#: includes/pro/frontend/frontend.php:305 views/project/index.php:112
 msgid "Start a new project"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:296 views/project/header.php:48
+#: includes/pro/frontend/frontend.php:309 views/project/header.php:48
 #: views/project/index.php:116
 msgid "Create a new user"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:436 views/project/single.php:9
+#: includes/pro/frontend/frontend.php:449 views/project/single.php:9
 msgid "Project Activity"
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:456
+#: includes/pro/frontend/frontend.php:469
 #: includes/pro/views/progress/progress.php:31 views/project/single.php:29
 msgid "Load More..."
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:597
+#: includes/pro/frontend/frontend.php:610
 msgid "<strong>%s</strong> version %s is now available! %s."
 msgstr ""
 
-#: includes/pro/frontend/frontend.php:599
+#: includes/pro/frontend/frontend.php:612
 msgid "%s version %s is now available! Please notify the site administrator."
 msgstr ""
 
@@ -1545,41 +1550,37 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
-#: includes/pro/loader.php:91
-msgid "Select minimum user role who can create projects."
-msgstr ""
-
-#: includes/pro/loader.php:97
+#: includes/pro/loader.php:74
 msgid "Task start date"
 msgstr ""
 
-#: includes/pro/loader.php:100
+#: includes/pro/loader.php:77
 msgid "Enable task start date field"
 msgstr ""
 
-#: includes/pro/loader.php:112
+#: includes/pro/loader.php:82
 msgid "Logo"
 msgstr ""
 
-#: includes/pro/loader.php:117 includes/pro/views/admin/user-profile.php:8
+#: includes/pro/loader.php:87 includes/pro/views/admin/user-profile.php:8
 msgid "Daily Digest"
 msgstr ""
 
-#: includes/pro/loader.php:120
+#: includes/pro/loader.php:90
 msgid "Enable Daily Digest"
 msgstr ""
 
-#: includes/pro/loader.php:315 includes/pro/loader.php:333
-#: includes/pro/loader.php:349 includes/pro/loader.php:368
+#: includes/pro/loader.php:285 includes/pro/loader.php:303
+#: includes/pro/loader.php:319 includes/pro/loader.php:338
 msgid "Private"
 msgstr ""
 
-#: includes/pro/loader.php:378 includes/pro/loader.php:388
+#: includes/pro/loader.php:348 includes/pro/loader.php:358
 #: includes/pro/views/project/settings.php:34
 msgid "Client"
 msgstr ""
 
-#: includes/pro/loader.php:407
+#: includes/pro/loader.php:377
 msgid "My Tasks %s"
 msgstr ""
 
@@ -1597,10 +1598,6 @@ msgstr ""
 
 #: includes/pro/views/calendar/index.php:40
 msgid "-Select Project"
-msgstr ""
-
-#: includes/pro/views/calendar/index.php:50 views/project/index.php:46
-msgid "Filter"
 msgstr ""
 
 #: includes/pro/views/progress/progress.php:21
@@ -1649,83 +1646,79 @@ msgstr ""
 msgid "Date "
 msgstr ""
 
-#: views/emails/complete-task.php:49
+#: views/emails/complete-task.php:50
 msgid "New task has been completed"
 msgstr ""
 
-#: views/emails/complete-task.php:56
+#: views/emails/complete-task.php:57
 msgid "Completed By"
 msgstr ""
 
-#: views/emails/new-comment.php:44
-msgid "comment link"
-msgstr ""
-
-#: views/emails/new-comment.php:68
+#: views/emails/new-comment.php:63
 msgid "NEW COMMENT"
 msgstr ""
 
-#: views/emails/new-comment.php:75
+#: views/emails/new-comment.php:70
 msgid "Commented By"
 msgstr ""
 
-#: views/emails/new-comment.php:79
+#: views/emails/new-comment.php:74
 msgid "On"
 msgstr ""
 
-#: views/emails/new-comment.php:86
+#: views/emails/new-comment.php:81
 msgid "Author : "
 msgstr ""
 
-#: views/emails/new-comment.php:88
+#: views/emails/new-comment.php:83
 msgid "Permalink : "
 msgstr ""
 
-#: views/emails/new-comment.php:89
+#: views/emails/new-comment.php:84
 msgid "Comment link"
 msgstr ""
 
-#: views/emails/new-comment.php:90
+#: views/emails/new-comment.php:85
 msgid "Comment : "
 msgstr ""
 
-#: views/emails/new-comment.php:99
+#: views/emails/new-comment.php:94
 msgid "View Comment"
 msgstr ""
 
-#: views/emails/new-message.php:50
+#: views/emails/new-message.php:49
 msgid "NEW MESSAGE45"
 msgstr ""
 
-#: views/emails/new-message.php:57
+#: views/emails/new-message.php:56
 msgid "Message Created By"
 msgstr ""
 
-#: views/emails/new-message.php:66
+#: views/emails/new-message.php:65
 msgid "Title "
 msgstr ""
 
-#: views/emails/new-message.php:77
+#: views/emails/new-message.php:76
 msgid "Message "
 msgstr ""
 
-#: views/emails/new-project.php:30
+#: views/emails/new-project.php:31
 msgid "NEW PROJECT"
 msgstr ""
 
-#: views/emails/new-project.php:37
+#: views/emails/new-project.php:38
 msgid "Project Created By"
 msgstr ""
 
-#: views/emails/new-project.php:44 views/emails/update-project.php:46
+#: views/emails/new-project.php:45 views/emails/update-project.php:46
 msgid "Hello"
 msgstr ""
 
-#: views/emails/new-project.php:46
+#: views/emails/new-project.php:47
 msgid "You are assigned in a new project “"
 msgstr ""
 
-#: views/emails/new-project.php:47 views/emails/update-project.php:49
+#: views/emails/new-project.php:48 views/emails/update-project.php:49
 msgid "You can see the project by going here:"
 msgstr ""
 
