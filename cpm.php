@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: http://tareq.weDevs.com
- * Version: 1.3.6
+ * Version: 1.3.7
  * License: GPL2
  */
 
@@ -169,7 +169,7 @@ class WeDevs_CPM {
      */
     function init() {
         $this->define_constants();
-        spl_autoload_register( array( __CLASS__, 'autoload' ) );
+        spl_autoload_register( array( $this, 'autoload' ) );
         $this->page()->cpm_function();
 
         $this->version    = CPM_VERSION;
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      */
     public function define_constants() {
 
-        $this->define( 'CPM_VERSION', '1.3.6' );
+        $this->define( 'CPM_VERSION', '1.3.7' );
         $this->define( 'CPM_DB_VERSION', '1.1' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );

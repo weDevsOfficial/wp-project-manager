@@ -57,6 +57,7 @@ module.exports = function(grunt) {
                     '!plugin-deploy.sh',
                     '!readme.md',
                     '!composer.json',
+                    '!secret.json',
                     '!assets/less/**',
                     '!tests/**',
                     '!**/Gruntfile.js',
