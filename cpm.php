@@ -169,7 +169,7 @@ class WeDevs_CPM {
      */
     function init() {
         $this->define_constants();
-        spl_autoload_register( array( __CLASS__, 'autoload' ) );
+        spl_autoload_register( array( $this, 'autoload' ) );
         $this->page()->cpm_function();
 
         $this->version    = CPM_VERSION;
