@@ -159,6 +159,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+### 1.3.7 - October 15, 2015 ###
+
+ * [fix] Fix LogicException on autoloader
+
 ### 1.3.6 - October 15, 2015 ###
 
  * [fix][pro] Add category for front-end
