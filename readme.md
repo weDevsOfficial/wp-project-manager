@@ -20,7 +20,8 @@ A WordPress Project Management plugin. Project Management with WordPress has nev
 
 ## Description ##
 
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+
+[![Project Manager Demo](https://j.gifs.com/mLBNQz.gif)](https://www.youtube.com/watch?v=tETwpwjSA4Q)
 
 A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
@@ -57,7 +58,8 @@ A WordPress Project Management plugin. Manage your project simply with the \*rig
    * See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
 
 ### Detailed Walkthrough ###
-[youtube http://www.youtube.com/watch?v=lR61ARrGb28]
+
+[![Project Manager Demo](https://j.gifs.com/v1e1Eo.gif)](https://www.youtube.com/watch?v=lR61ARrGb28)
 
 
 ### Contribute ###
@@ -156,6 +158,21 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 ## Changelog ##
+
+### 1.3.6 - October 15, 2015 ###
+
+ * [fix][pro] Add category for front-end
+ * [fix] Email notification subject issue fixed
+
+### 1.3.5 - September 29, 2015 ###
+
+ * [fix] User role and items table weren't being created during install
+
+### 1.3.4 - September 19, 2015 ###
+
+ * [fix] Pagination error fix in free version
+ * [fix] Project manage/create cap option brought back to free
+ * [fix] Version upgrader issue fixed
 
 ### 1.3.3 - September 15, 2015 ###
 

@@ -109,6 +109,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.3.6 - October 15, 2015 =
+
+ * [fix][pro] Add category for front-end
+ * [fix] Email notification subject issue fixed
+
 = 1.3.5 - September 29, 2015 =
 
  * [fix] User role and items table weren't being created during install

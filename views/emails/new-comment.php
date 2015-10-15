@@ -35,29 +35,24 @@
             break;
     }
 
-    $template_vars = array(
-        '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-        '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-        '%PROJECT_URL%'  => '<a style="text-decoration: none;" href="'.cpm_url_project_details( $project_id ).'">'.get_post_field( 'post_title', $project_id ).'</a>',
-        '%AUTHOR%'       => $author->display_name,
-        '%AUTHOR_EMAIL%' => $author->user_email,
-        '%COMMENT_URL%'  => '<a style="text-decoration: none;" href="'.$comment_url .'/#cpm-comment-'.$comment_id.'">'.__( 'comment link', 'cpm' ).'</a>',
-        '%COMMENT%'      => $data['comment_content'],
-        '%IP%'           => get_ipaddress()
-    );
+    // $template_vars = array(
+    //     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+    //     '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+    //     '%PROJECT_URL%'  => '<a style="text-decoration: none;" href="'.cpm_url_project_details( $project_id ).'">'.get_post_field( 'post_title', $project_id ).'</a>',
+    //     '%AUTHOR%'       => $author->display_name,
+    //     '%AUTHOR_EMAIL%' => $author->user_email,
+    //     '%COMMENT_URL%'  => '<a style="text-decoration: none;" href="'.$comment_url .'/#cpm-comment-'.$comment_id.'">'.__( 'comment link', 'cpm' ).'</a>',
+    //     '%COMMENT%'      => $data['comment_content'],
+    //     '%IP%'           => get_ipaddress()
+    // );
 
-    $subject = cpm_get_option( 'new_comment_sub' );
-    $message = cpm_get_content( cpm_get_option( 'new_comment_body' ) );
+    // $message = cpm_get_content( cpm_get_option( 'new_comment_body' ) );
 
-    // subject
-    foreach ($template_vars as $key => $value) {
-        $subject = str_replace( $key, $value, $subject );
-    }
+    // // message
+    // foreach ($template_vars as $key => $value) {
+    //     $message = str_replace( $key, $value, $message );
+    // }
 
-    // message
-    foreach ($template_vars as $key => $value) {
-        $message = str_replace( $key, $value, $message );
-    }
 ?>
 
 <div style="width:600px;  background: #fff;">
@@ -101,5 +96,5 @@
 
             </div>
         </center>
-</div>               
+</div>
 <?php cpm_get_email_footer(); ?>

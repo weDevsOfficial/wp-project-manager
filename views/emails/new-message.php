@@ -15,7 +15,6 @@
 	$project  = $pro_obj->get( $project_id );
 	$msg      = $msg_obj->get( $message_id );
 	$author   = wp_get_current_user();
-
     // $template_vars = array(
     //     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
     //     '%PROJECT_NAME%' => $project->post_title,
