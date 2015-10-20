@@ -109,6 +109,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.3.8 - October 20, 2015 =
+
+ * [fix] Front-end current task, outstanding task and completed task url problem fix
+ * [fix] Without login can access front-end problem fix
+ * [fix] Current task, outstanding task and completed task live update problem fix.
+ * [fix] Fetch outstanding and completed task problem fix
+
 = 1.3.7 - October 15, 2015 =
 
  * [fix] Fix LogicException on autoloader
