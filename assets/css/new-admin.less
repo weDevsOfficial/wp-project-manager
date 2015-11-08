@@ -1,0 +1,525 @@
+/**
+* Stylesheet for WP Projetc Manager 
+* 
+*
+**/
+
+@bodyColor: #f1f1f1 ;
+@blueColor : #019dd6 ; 
+@gray  : #cccccc;
+@round : 10px;
+@defaultRadius:30px;
+@defaultFontSize : 14px;
+@defaultFontColor : #000000;
+ 
+@cercle:180px ; 
+@defaultPadding : 10px;
+@defaultWidth : 100% ;  
+@defaultMargin : 10px;
+@defaultColumnSpaceLeft : 10px;
+@defaultColumnSpaceRight : 10px;
+@defaultColumnSpaceTop : 10px;
+@defaultColumnSpaceBottom :10px; 
+@defaultGridPadding :25px; 
+
+ 
+
+.cpm {
+    background: @bodyColor;     
+    color: @defaultFontColor ;
+    margin-top: 0px;
+
+
+    /**
+    * CPM default css classes 
+    */
+    .clearfix{
+        clear: both;
+        height: 0px;
+        font-size: 0px;
+         
+    }
+
+    a {
+        outline: 0;
+        font-weight: bold;
+        text-decoration: none;
+        
+    }
+
+    a:hover, 
+    a:active, 
+    a:focus {
+        text-decoration: none;
+        border: 0;    
+        
+    }
+
+    hr {
+
+    }
+
+    input {
+        border: 0px;
+        padding: 5px;
+
+    }
+
+    .cpm-no-margin {
+        margin : 0px;
+    }
+
+    .cpm-no-padding 
+    {
+        padding: 0px;
+    }
+
+    .cpm-no-padding-bottom 
+    {
+        padding-bottom: 0px;
+    }
+
+    .cpm-no-margin-bottom 
+    {
+       margin-bottom: 0px;
+
+    }
+
+    .cpm-column-gap-left
+    {
+
+    }
+
+    .rounded-corners(@radius:@defaultRadius) {
+        -webkit-border-radius: @radius;
+        -moz-border-radius: @radius;
+        border-radius: @radius;
+
+    }
+
+    .cercale-corners {
+        -webkit-border-radius: @cercle;
+        -moz-border-radius: @cercle;
+        border-radius: @cercle;
+   }   
+
+    .cpm-text-left {
+        text-align: left;
+    }
+
+    .cpm-text-center {
+        text-align: center;
+    }
+
+    .cpm-text-right {
+        text-align: right;
+    }
+
+    /**
+    * Input syte
+    **/
+    .cpm form select {
+        
+    }
+
+    /**
+    * Button Styes
+    **/
+    .cpm-btn {
+    padding: 6px 10px;
+    margin: 3px;
+    }
+
+     
+    .cpm-btn-gray {
+        .cpm-btn; 
+        background: @gray;
+         
+    }
+ 
+    .cpm-btn-white {
+        .cpm-btn; 
+        background: #ffffff;
+        a:hover
+        {
+            background: red;
+        }
+    } 
+
+    .cpm-btn-submit {
+        border: 0px;
+        padding: 5px; 
+        font-weight: bold;
+    }
+
+    .cpm-btn-blue {
+        background: @blueColor; 
+        color : #ffffff;
+        a:hover
+        {
+            color: red;
+        }
+    }
+
+    /**
+    * Responsive Grid Column
+    *
+    **/
+    .cpm-container {
+        width: @defaultWidth; 
+        margin: @defaultMargin;
+        
+    }
+
+    .cpm-row-fluid {
+
+    }
+
+    .cpm-row {
+        padding-left: @defaultPadding;
+        padding-right: @defaultPadding;
+        padding-bottom: @defaultPadding;
+
+    }
+
+    .cpm-col-1 {
+         width: 7.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+         
+    }
+
+    .cpm-col-2 {
+       width: 14.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight/2; 
+        margin-bottom: @defaultColumnSpaceBottom/2; 
+        
+    }
+
+    .cpm-col-3 {
+        width: 23.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+         
+    }
+
+    .cpm-col-4 {
+        width: 32.333333333%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+        
+         
+    }
+
+    .cpm-col-5 {
+        width: 38.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+         
+    }
+
+    .cpm-col-6 {
+        width: 48.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+    }
+
+    .cpm-col-7 {
+        width: 56.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+        
+    }
+
+    .cpm-col-8 {
+        width: 64.666666667%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+          
+
+    }
+
+    .cpm-col-9 {
+        width: 73.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+       
+    }
+
+    .cpm-col-10 {
+        width: 81.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+        
+    }
+
+    .cpm-col-11 {
+        width: 89.788285225%;
+        float: left;
+        margin-right: @defaultColumnSpaceRight; 
+        margin-bottom: @defaultColumnSpaceBottom; 
+        
+    }
+
+    .cpm-col-12 {
+        width:100%; 
+    }
+
+    .cpm-last-col
+    {
+        float: right;
+        margin-right: 0px;
+        padding-right: 0px;
+        color: #000;
+        margin-bottom: @defaultColumnSpaceBottom; 
+    }
+
+    .show_desktop_only {
+        display: block; 
+    }
+
+    .show_small_only {
+         display: none; 
+    }
+
+    .hide_desktop_only {
+         display: none; 
+    }
+
+    .hide_small_only {
+         display: bloc; 
+    }
+
+    /**
+    * Media Query for responsive 
+    *
+    **/
+    @media only screen and (max-width: 780px) {
+
+        .cpm-sm-col-1 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-2 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-3 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-4 {
+           
+        }
+
+         .cpm-sm-col-5 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-6 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-7 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-8 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-9 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-10 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-11 {
+            width: 100% ; 
+        }
+
+         .cpm-sm-col-12 {
+            width: 100% ; 
+        }
+
+        .show_desktop_only {
+            display: none; 
+        }
+
+        .show_small_only {
+             display: block; 
+        }
+
+        .hide_desktop_only {
+             display: block; 
+        }
+
+        .hide_small_only {
+             display: none; 
+        }
+
+
+
+    }
+
+
+
+    .cpm-top-bar {
+        background: #ffffff;
+        margin-bottom: 25px;
+        padding-top : 10px;
+        .cpm-top-right-btn {
+            margin-top:12px; 
+
+            .cpm-btn-blue {
+                .cercale-corners;
+                padding: 6px 2px 3px 2px;
+                
+                .dashicons 
+                {
+                     vertical-align: bottom;
+                     font-size: @defaultFontSize;
+
+                      
+                     a{
+                        color: #ffffff;
+                     }
+                }
+            }
+
+            .cpm-btn-white {
+                .cpm-btn-white; 
+                .rounded-corners;
+                border: 1px solid @gray;
+
+                a{
+                    color: @gray ; 
+                }
+            }
+             
+            a {
+                font-size:@defaultFontSize;
+                margin-right: 5px;
+                :hover {
+                    color: #000000;
+                }
+            }  
+        }
+
+        .cpm-btn-submit {
+            padding: 5px 25px;  
+        }
+        
+        .cpm-project-search input{
+            float: left;
+            width: 45%; 
+            margin-right: 10px;
+        }
+        .cpm-project-group   {
+            padding: 0px;
+            margin: 0px;
+             box-shadow: 0 2px 2px -2px gray;
+
+            ul {
+                margin-bottom: 0px;
+                margin-left: 15px;
+                padding-bottom: 0px;
+                li {
+                    border: none;
+                    float: left;
+                    margin-bottom: 0px;
+                    margin-right: 15px;
+                    a {
+                        padding: 12px 20px;
+                        min-width: 30px;
+                        display: block;
+                        text-align: center; 
+                        text-decoration: none;
+                        border-bottom: solid 2px #ffffff; 
+                        color: #aaa;
+                        
+                        span.count {
+                            padding: 0px 6px;
+                            position:relative;
+                            background:  @gray; 
+                            margin-top: -15px;
+                            margin-left: 5px;
+                            border-radius: 15px;
+                            top : 0; 
+                        }
+                        
+                    }
+                    a:hover {
+                        border-bottom: solid 2px  @blueColor ;
+                        color: #000000;
+                        font-weight: bold;
+                        span {
+                            border-bottom: none;
+                        }
+
+                         span.count { 
+                             background:  @blueColor; 
+                             color: #ffffff ;
+                         }
+                    }
+                    
+                }
+            }
+        }
+   }
+
+
+/**
+* Home Project Grid 
+*
+**/
+    .cpm-project-grid {
+        margin: 0px ;
+        padding: 0px;
+
+    }
+
+    .cpm-project {
+         margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+         margin-left: 0px;
+         padding: 0px;
+         width: 30.8255526% ;
+         float: left; 
+         box-shadow: none;
+
+        .project_head {
+            background: #ffffff ; 
+            padding: 12px 20px;
+            border-bottom: #ccc solid 1px;
+            min-height: 55px;
+            color: #000 ; 
+        }
+
+        .project_head:hover {
+              background: @blueColor ; 
+              text-decoration: none;
+              color: #fff;
+
+              a 
+              {
+                color: #fff;
+              } 
+        }
+
+
+    }
+
+
+}

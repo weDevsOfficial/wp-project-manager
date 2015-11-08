@@ -1,0 +1,374 @@
+/**
+* Stylesheet for WP Projetc Manager 
+* 
+*
+**/
+.cpm {
+  background: #f1f1f1;
+  color: #000000;
+  margin-top: 0px;
+  /**
+    * CPM default css classes 
+    */
+  /**
+    * Input syte
+    **/
+  /**
+    * Button Styes
+    **/
+  /**
+    * Responsive Grid Column
+    *
+    **/
+  /**
+    * Media Query for responsive 
+    *
+    **/
+  /**
+* Home Project Grid 
+*
+**/
+}
+.cpm .clearfix {
+  clear: both;
+  height: 0px;
+  font-size: 0px;
+}
+.cpm a {
+  outline: 0;
+  font-weight: bold;
+  text-decoration: none;
+}
+.cpm a:hover,
+.cpm a:active,
+.cpm a:focus {
+  text-decoration: none;
+  border: 0;
+}
+.cpm input {
+  border: 0px;
+  padding: 5px;
+}
+.cpm .cpm-no-margin {
+  margin: 0px;
+}
+.cpm .cpm-no-padding {
+  padding: 0px;
+}
+.cpm .cpm-no-padding-bottom {
+  padding-bottom: 0px;
+}
+.cpm .cpm-no-margin-bottom {
+  margin-bottom: 0px;
+}
+.cpm .cercale-corners {
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+}
+.cpm .cpm-text-left {
+  text-align: left;
+}
+.cpm .cpm-text-center {
+  text-align: center;
+}
+.cpm .cpm-text-right {
+  text-align: right;
+}
+.cpm .cpm-btn {
+  padding: 6px 10px;
+  margin: 3px;
+}
+.cpm .cpm-btn-gray {
+  padding: 6px 10px;
+  margin: 3px;
+  background: #cccccc;
+}
+.cpm .cpm-btn-white {
+  padding: 6px 10px;
+  margin: 3px;
+  background: #ffffff;
+}
+.cpm .cpm-btn-white a:hover {
+  background: red;
+}
+.cpm .cpm-btn-submit {
+  border: 0px;
+  padding: 5px;
+  font-weight: bold;
+}
+.cpm .cpm-btn-blue {
+  background: #019dd6;
+  color: #ffffff;
+}
+.cpm .cpm-btn-blue a:hover {
+  color: red;
+}
+.cpm .cpm-container {
+  width: 100%;
+  margin: 10px;
+}
+.cpm .cpm-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+.cpm .cpm-col-1 {
+  width: 7.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-2 {
+  width: 14.788285225%;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.cpm .cpm-col-3 {
+  width: 23.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-4 {
+  width: 32.333333333%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-5 {
+  width: 38.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-6 {
+  width: 48.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-7 {
+  width: 56.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-8 {
+  width: 64.666666667%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-9 {
+  width: 73.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-10 {
+  width: 81.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-11 {
+  width: 89.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-12 {
+  width: 100%;
+}
+.cpm .cpm-last-col {
+  float: right;
+  margin-right: 0px;
+  padding-right: 0px;
+  color: #000;
+  margin-bottom: 10px;
+}
+.cpm .show_desktop_only {
+  display: block;
+}
+.cpm .show_small_only {
+  display: none;
+}
+.cpm .hide_desktop_only {
+  display: none;
+}
+.cpm .hide_small_only {
+  display: bloc;
+}
+@media only screen and (max-width: 780px) {
+  .cpm .cpm-sm-col-1 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-2 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-3 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-5 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-6 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-7 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-8 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-9 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-10 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-11 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-12 {
+    width: 100% ;
+  }
+  .cpm .show_desktop_only {
+    display: none;
+  }
+  .cpm .show_small_only {
+    display: block;
+  }
+  .cpm .hide_desktop_only {
+    display: block;
+  }
+  .cpm .hide_small_only {
+    display: none;
+  }
+}
+.cpm .cpm-top-bar {
+  background: #ffffff;
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn {
+  margin-top: 12px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue {
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+  padding: 6px 2px 3px 2px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons {
+  vertical-align: bottom;
+  font-size: 14px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons a {
+  color: #ffffff;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white {
+  padding: 6px 10px;
+  margin: 3px;
+  background: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  border: 1px solid #cccccc;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
+  background: red;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
+  color: #cccccc;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn a {
+  font-size: 14px;
+  margin-right: 5px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn a :hover {
+  color: #000000;
+}
+.cpm .cpm-top-bar .cpm-btn-submit {
+  padding: 5px 25px;
+}
+.cpm .cpm-top-bar .cpm-project-search input {
+  float: left;
+  width: 45%;
+  margin-right: 10px;
+}
+.cpm .cpm-top-bar .cpm-project-group {
+  padding: 0px;
+  margin: 0px;
+  box-shadow: 0 2px 2px -2px #808080;
+}
+.cpm .cpm-top-bar .cpm-project-group ul {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li {
+  border: none;
+  float: left;
+  margin-bottom: 0px;
+  margin-right: 15px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li a {
+  padding: 12px 20px;
+  min-width: 30px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  border-bottom: solid 2px #ffffff;
+  color: #aaa;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li a span.count {
+  padding: 0px 6px;
+  position: relative;
+  background: #cccccc;
+  margin-top: -15px;
+  margin-left: 5px;
+  border-radius: 15px;
+  top: 0;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li a:hover {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li a:hover span {
+  border-bottom: none;
+}
+.cpm .cpm-top-bar .cpm-project-group ul li a:hover span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .cpm-project-grid {
+  margin: 0px ;
+  padding: 0px;
+}
+.cpm .cpm-project {
+  margin: 12.5px 25px 16.66666667px 0px;
+  margin-left: 0px;
+  padding: 0px;
+  width: 30.8255526% ;
+  float: left;
+  box-shadow: none;
+}
+.cpm .cpm-project .project_head {
+  background: #ffffff ;
+  padding: 12px 20px;
+  border-bottom: #ccc solid 1px;
+  min-height: 55px;
+  color: #000 ;
+}
+.cpm .cpm-project .project_head:hover {
+  background: #019dd6;
+  text-decoration: none;
+  color: #fff;
+}
+.cpm .cpm-project .project_head:hover a {
+  color: #fff;
+}

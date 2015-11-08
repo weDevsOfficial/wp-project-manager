@@ -337,7 +337,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
-
+        wp_enqueue_style( 'cpm_admin_new', plugins_url( 'assets/css/new-admin.css', __FILE__ ) );
         do_action( 'cpm_admin_scripts' );
 
     }

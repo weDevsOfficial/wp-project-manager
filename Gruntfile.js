@@ -17,7 +17,8 @@ module.exports = function(grunt) {
                     optimization: 2
                 },
                 files: {
-                    "assets/css/admin.css": "assets/css/admin.less" // destination file and source file
+                    "assets/css/admin.css": "assets/css/admin.less", // destination file and source file
+                    "assets/css/new-admin.css": "assets/css/new-admin.less", // destination file and source file
                 }
             }
         },
@@ -125,7 +126,7 @@ module.exports = function(grunt) {
             }
         },
 
-        secret: grunt.file.readJSON('secret.json'),
+        // secret: grunt.file.readJSON('secret.json'),
         sshconfig: {
             "myhost": {
                 host: '<%= secret.host %>',
