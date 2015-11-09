@@ -1085,8 +1085,11 @@ function cpm_get_all_manager_from_project( $project_id ) {
  */
 
 function cpm_get_email_header() {
-    $file_path   = CPM_PATH . '/views/emails/header.php';
-    $header_path = apply_filters( 'cpm_email_header', $file_path );
+
+    $file_path       = CPM_PATH . '/views/emails/header.php';
+    $locate_template = locate_template( 'project-manager/emails/header.php' );
+    $file_path       = $locate_template ? $locate_template : $file_path;
+    $header_path     = apply_filters( 'cpm_email_header', $file_path );
 
     if ( file_exists( $header_path ) ) {
         require_once $header_path;
@@ -1104,8 +1107,11 @@ function cpm_get_email_header() {
  */
 
 function cpm_get_email_footer() {
-    $file_path   = CPM_PATH . '/views/emails/footer.php';
-    $footer_path = apply_filters( 'cpm_email_footer', $file_path );
+    
+    $file_path       = CPM_PATH . '/views/emails/footer.php';
+    $locate_template = locate_template( 'project-manager/emails/footer.php' );
+    $file_path       = $locate_template ? $locate_template : $file_path;
+    $footer_path     = apply_filters( 'cpm_email_footer', $file_path );
 
     if ( file_exists( $footer_path ) ) {
         require_once $footer_path;

@@ -64,9 +64,11 @@ class CPM_Notification {
      */
     function project_new( $project_id, $data ) {
 
-        $file_path    = dirname (__FILE__) . '/../views/emails/new-project.php';
-        $content_path = apply_filters( 'cpm_new_project_email_content', $file_path );
-        $subject      = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
+        $file_path       = dirname (__FILE__) . '/../views/emails/new-project.php';
+        $locate_template = locate_template( 'project-manager/emails/new-project.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $content_path    = apply_filters( 'cpm_new_project_email_content', $file_path );
+        $subject         = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
@@ -102,9 +104,11 @@ class CPM_Notification {
      */
     function project_update( $project_id, $data ) {
 
-        $file_path   = dirname (__FILE__) . '/../views/emails/update-project.php';
-        $content_path = apply_filters( 'cpm_update_project_email_content', $file_path );
-        $subject      = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
+        $file_path       = dirname (__FILE__) . '/../views/emails/update-project.php';
+        $content_path    = apply_filters( 'cpm_update_project_email_content', $file_path );
+        $locate_template = locate_template( 'project-manager/emails/update-project.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $subject         = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
@@ -123,9 +127,11 @@ class CPM_Notification {
 
     function complete_task( $list_id, $task_id, $data, $project_id ) {
 
-        $file_path    = CPM_PATH . '/views/emails/complete-task.php';
-        $content_path = apply_filters( 'cpm_complete_task_email_content', $file_path );
-        $subject      = sprintf( __( '[%s][%s] Task Completed: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $task_id ) );
+        $file_path       = CPM_PATH . '/views/emails/complete-task.php';
+        $locate_template = locate_template( 'project-manager/emails/complete-task.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $content_path    = apply_filters( 'cpm_complete_task_email_content', $file_path );
+        $subject         = sprintf( __( '[%s][%s] Task Completed: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $task_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
@@ -144,9 +150,12 @@ class CPM_Notification {
     }
 
     function new_message( $message_id, $project_id ) {
-        $file_path    = CPM_PATH . '/views/emails/new-message.php';
-        $content_path = apply_filters( 'cpm_new_message_email_content', $file_path );
-        $subject      = sprintf( __( '[%s][%s] New Message: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $message_id ) );
+        
+        $file_path       = CPM_PATH . '/views/emails/new-message.php';
+        $locate_template = locate_template( 'project-manager/emails/new-message.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $content_path    = apply_filters( 'cpm_new_message_email_content', $file_path );
+        $subject         = sprintf( __( '[%s][%s] New Message: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $message_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
@@ -172,10 +181,13 @@ class CPM_Notification {
      * @param array $comment_info the post data
      */
     function new_comment( $comment_id, $project_id, $data ) {
-        $file_path    = CPM_PATH . '/views/emails/new-comment.php';
-        $content_path = apply_filters( 'cpm_new_comment_email_content', $file_path );
-        $parent_post  =  get_comment( $comment_id );
-        $subject      = sprintf( __( '[%s][%s] New Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
+        
+        $file_path       = CPM_PATH . '/views/emails/new-comment.php';
+        $locate_template = locate_template( 'project-manager/emails/new-comment.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $content_path    = apply_filters( 'cpm_new_comment_email_content', $file_path );
+        $parent_post     =  get_comment( $comment_id );
+        $subject         = sprintf( __( '[%s][%s] New Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
@@ -199,8 +211,10 @@ class CPM_Notification {
             return;
         }
 
-        $file_path    = CPM_PATH . '/views/emails/new-task.php';
-        $content_path = apply_filters( 'cpm_new_task_email_content', $file_path );
+        $file_path       = CPM_PATH . '/views/emails/new-task.php';
+        $locate_template = locate_template( 'project-manager/emails/new-task.php' );
+        $file_path       = $locate_template ? $locate_template : $file_path;
+        $content_path    = apply_filters( 'cpm_new_task_email_content', $file_path );
 
         $_POST['task_assign'] = isset( $_POST['task_assign'] ) ? $_POST['task_assign'] : array();
         if ( $_POST['task_assign'] == '-1' ) {
@@ -230,9 +244,11 @@ class CPM_Notification {
             $to = sprintf( '%s', $user->user_email );
 
             if ( file_exists( $content_path ) ) {
+                
                 ob_start();
                 include_once $content_path;
                 $message = ob_get_clean();
+                echo $message; die();
                 if ( $message ) {
                    $this->send( $to, $subject, $message );
                 }
