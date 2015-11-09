@@ -314,7 +314,7 @@ function cpm_task_completeness( $total, $completed ) {
     ?>
     <div class="cpm-progress cpm-progress-info">
         <div style="width:<?php echo $percentage; ?>%" class="bar completed"></div>
-        <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div>
+        <!-- <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div> -->
     </div>
     <?php
     return ob_get_clean();
@@ -469,30 +469,30 @@ function cpm_project_summary( $info ) {
     $info_array = array();
 
     if( $info->discussion ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Message', '<strong>%d </strong> Messages', $info->discussion, 'cpm' ), $info->discussion );
+        $info_array[] = sprintf( _n( '<li class="message"> <strong>%d </strong> Message </li> ', '<li class="message"> <strong>%d </strong> Messages </li> ', $info->discussion, 'cpm' ), $info->discussion );
     }
 
     if( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> To-do list', '<strong>%d </strong> To-do lists', $info->todolist, 'cpm' ), $info->todolist );
+        $info_array[] = sprintf( _n( '<li class="todo"> <strong>%d </strong> To-do list </li> ', '<li> <strong>%d </strong> To-do lists </li> ', $info->todolist, 'cpm' ), $info->todolist );
     }
 
     if( $info->todos ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> To-do', '<strong>%d </strong> To-dos', $info->todos, 'cpm' ), $info->todos );
+        $info_array[] = sprintf( _n( '<li class="todos"> <strong>%d </strong> To-do </li> ', '<li> <strong>%d </strong> To-dos </li> ', $info->todos, 'cpm' ), $info->todos );
     }
 
     if( $info->comments ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Comment', '<strong>%d </strong> Comments', $info->comments, 'cpm' ), $info->comments );
+        $info_array[] = sprintf( _n( '<li calss="comment"> <strong>%d </strong> Comment </li> ', '<li> <strong>%d </strong> Comments </li> ', $info->comments, 'cpm' ), $info->comments );
     }
 
     if( $info->files ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> File', '<strong>%d </strong> Files', $info->files, 'cpm' ), $info->files );
+        $info_array[] = sprintf( _n( '<li class="file"> <strong>%d </strong> File </li> ' , '<li> <strong>%d </strong> Files </li> ', $info->files, 'cpm' ), $info->files );
     }
 
     if( $info->milestone ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Milestone', '<strong>%d </strong> Milestones', $info->milestone, 'cpm' ), $info->milestone );
+        $info_array[] = sprintf( _n( '<li calss="milestone"> <strong>%d </strong> Milestone </li> ', '<li> <strong>%d </strong> Milestones </li> ', $info->milestone, 'cpm' ), $info->milestone );
     }
 
-    return implode(' <br/>', $info_array );
+    return implode(' ', $info_array );
 }
 
 /**

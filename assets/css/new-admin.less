@@ -27,7 +27,7 @@
 .cpm {
     background: @bodyColor;     
     color: @defaultFontColor ;
-    margin-top: 0px;
+    margin-top: 20px;
 
 
     /**
@@ -128,6 +128,13 @@
     .cpm-btn {
     padding: 6px 10px;
     margin: 3px;
+    border-radius: 3px;
+    }
+
+    .cpm-btn-xs
+    {
+        padding:   3px;
+        font-size: small ; 
     }
 
      
@@ -135,6 +142,11 @@
         .cpm-btn; 
         background: @gray;
          
+    }
+
+    .cpm-btn-red {
+        background: RED; 
+        color: #ffffff ; 
     }
  
     .cpm-btn-white {
@@ -300,7 +312,366 @@
          display: bloc; 
     }
 
-    /**
+   
+
+
+
+    .cpm-top-bar {
+        background: #ffffff;
+        margin-bottom: 25px;
+        padding-top : 10px;
+        .cpm-top-right-btn {
+            margin-top:12px; 
+
+            .cpm-btn-blue {
+                .cercale-corners;
+                padding: 6px 2px 3px 2px;
+                
+                .dashicons 
+                {
+                     vertical-align: bottom;
+                     font-size: @defaultFontSize;
+
+                      
+                     a{
+                        color: #ffffff;
+                     }
+                }
+            }
+
+            .cpm-btn-white {
+                .cpm-btn-white; 
+                .rounded-corners;
+                border: 1px solid @gray;
+
+                a{
+                    color: @gray ; 
+                }
+            }
+             
+            a {
+                font-size:@defaultFontSize;
+                margin-right: 5px;
+                :hover {
+                    color: #000000;
+                }
+            }  
+        }
+
+        .cpm-btn-submit {
+            padding: 5px 25px;  
+        }
+        
+        .cpm-project-search input{
+            float: left;
+            width: 45%; 
+            margin-right: 10px;
+        }
+        .cpm-project-group   {
+            padding: 0px;
+            margin: 0px;
+             box-shadow: 0 2px 2px -2px gray;
+
+            ul.cpm-project-group-ul {
+                margin-bottom: 0px;
+                margin-left: 15px;
+                padding-bottom: 0px;
+                li {
+                    border: none;
+                    float: left;
+                    margin-bottom: 0px;
+                    margin-right: 15px;
+                    a {
+                        padding: 12px 20px;
+                        min-width: 30px;
+                        display: block;
+                        text-align: center; 
+                        text-decoration: none;
+                        border-bottom: solid 2px #ffffff; 
+                        color: #aaa;
+                        
+                        span.count {
+                            padding: 0px 6px;
+                            position:relative;
+                            background:  @gray; 
+                            margin-top: -15px;
+                            margin-left: 5px;
+                            border-radius: 15px;
+                            top : 0; 
+                        }
+                        
+                    }
+                    a:hover {
+                        border-bottom: solid 2px  @blueColor ;
+                        color: #000000;
+                        font-weight: bold;
+                        span {
+                            border-bottom: none;
+                        }
+
+                         span.count { 
+                             background:  @blueColor; 
+                             color: #ffffff ;
+                         }
+                    }
+                    
+                }
+            }
+
+            ul.cpm-project-view {
+
+                li {
+                    float: right;
+                    margin-right: 15px;
+
+                    a {
+                        color: @gray;
+
+                        :hover, 
+                        .active
+                        {
+                            color: @blueColor; 
+                        }
+                    }
+                }
+            }
+        }
+   }
+
+
+/**
+* Home Project Grid 
+*
+**/
+
+    .cpm-project-grid { 
+        margin: 0px ;
+        padding: 0px;
+
+        .cpm-project {
+             margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+             margin-left: 0px;
+             padding: 0px;
+             width: 30.8255526% ;
+             float: left; 
+             box-shadow: none;
+             height: 300px; 
+
+            .project_head {
+                background: #ffffff ; 
+                padding: 12px 20px;
+                border-bottom: #ccc solid 1px;
+                min-height: 55px;
+                color: #000 ; 
+            }
+
+            .project_head:hover {
+                  background: @blueColor ; 
+                  text-decoration: none;
+                h5, 
+                .cpm-settings-icon-cog span,  
+                .cpm-project-detail {
+                    color: #ffffff;
+                }
+
+            }
+
+            .cpm-project-detail {
+                font-size: @defaultFontSize; 
+            }
+
+            .cpm-project-meta {
+                padding: @defaultPadding;
+                 
+
+                ul {
+                    padding: 0px;  
+                    margin: 0px;
+                    margin-left: 5px;
+                    margin-bottom: 50px;
+
+                    li {
+                        float: left;
+                        width: 41% ;
+                        list-style: none;  
+                        background: url('../images/bullet_green.png') no-repeat  0% 55%  ;
+                        padding-left:  25px;
+                        font-size: @defaultFontSize;
+                        color: #888888;
+                        line-height: 35px;
+                    }
+
+                    
+
+
+                }
+            }
+
+            .cpm-progress {
+                position: absolute;
+                bottom: 75px;
+                height: 6px;
+                width: 100%;
+                border-radius: 0px;
+                margin: 0px 0px 0px 0px;
+                background-color:red;
+                background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+                background-repeat: repeat-x;
+                box-shadow: 0px ;
+                border-radius: 0px;
+
+                .completed { 
+                    ackground-color:@blueColor;
+                    background-image: linear-gradient(to bottom, @blueColor, @blueColor);
+                }
+            }
+
+            .cpm-project-people {
+                text-align: center;
+            }
+
+            .cpm-progress-percentage, 
+            .cpm-project-action-list-view {
+                display: none;
+            }
+
+            
+        }
+    }
+
+                     .message {
+                      background: url('../images/bullet_green.png')   ;  
+                    }
+
+                     .todo {
+                      background: url('../images/to-do-list.png')   ;  
+                    }
+
+                     .todos {
+                      background: url('../images/to-do-list.png')   ;  
+                    }
+
+                     .comment {
+                      background: url('../images/comment.png')   ;  
+                    }
+
+                     .file {
+                      background: url('../images/docs.png')   ;  
+                    }
+
+                     .milestone {
+                      background: url('../images/milestones.png')   ;  
+                    }
+
+    .cpm-project-list
+    {
+        margin: 0px ;
+        padding: 0px;
+
+        .cpm-project {
+             margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+             margin-left: 0px;
+             padding: 0px;
+             width: 100% ;
+             float: left; 
+             box-shadow: none;
+             height: 120px; 
+
+            .project_head {
+                background: #ffffff ; 
+                padding: 12px 20px;
+                min-height: 55px;
+                color: #000 ; 
+                height: 96px; 
+                width : 20%; 
+                float: left;
+                margin-right: 10px;
+            }
+
+            .project_head:hover {
+                  background: @blueColor ; 
+                  text-decoration: none;
+                h5, 
+                .cpm-settings-icon-cog span,  
+                .cpm-project-detail {
+                    color: #ffffff;
+                }
+
+            }
+
+            .cpm-project-detail {
+                font-size: @defaultFontSize; 
+            }
+
+            .cpm-project-meta {
+                padding: 0px;
+                width: 28%; 
+                float: left;
+               
+                ul {
+                    padding: 0px;  
+                    margin: 0px;
+                    margin-left: 0px;
+                    margin-bottom: 5px;
+
+                    li {
+                        float: left;
+                        width: 40% ;
+                        list-style: none;  
+                        background: url('../images/bullet_green.png') no-repeat  0% 55%  ;
+                        padding-left:  20px;
+                        font-size: @defaultFontSize;
+                        color: #888888;
+                        line-height: 35px;
+                    }
+                }
+            }
+
+            .cpm-progress {
+                position:relative ;
+                float: left; 
+                top: 55px;
+                height: 6px;
+                width: 15%;
+                border-radius: 0px;
+                margin: 0px 0px 0px 0px;
+                background-color:red;
+                background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+                background-repeat: repeat-x;
+                box-shadow: 0px ;
+                border-radius: 0px;
+
+
+                .completed { 
+                    ackground-color:@blueColor;
+                    background-image: linear-gradient(to bottom, @blueColor, @blueColor);
+                }
+            }
+
+            .cpm-progress-percentage {
+                position:relative ;
+                float: left; 
+                top: 48px;
+                margin-left: 5px;
+                width: 3%;
+            }
+
+            .cpm-project-people {
+                position: relative; 
+                float: left;
+                width: 20%; 
+                text-align: center;
+                top : 15px;
+               
+            }
+ 
+
+
+             
+        }
+    }
+
+ /**
     * Media Query for responsive 
     *
     **/
@@ -371,153 +742,92 @@
         }
 
 
+        .cpm-project-grid,
+        .cpm-project-list {
 
-    }
-
-
-
-    .cpm-top-bar {
-        background: #ffffff;
-        margin-bottom: 25px;
-        padding-top : 10px;
-        .cpm-top-right-btn {
-            margin-top:12px; 
-
-            .cpm-btn-blue {
-                .cercale-corners;
-                padding: 6px 2px 3px 2px;
+            .cpm-project { 
+                width: 100% ; 
                 
-                .dashicons 
-                {
-                     vertical-align: bottom;
-                     font-size: @defaultFontSize;
+                 margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+                 margin-left: 0px;
+                 padding: 0px;
+                 box-shadow: none;
+                 height: 300px; 
 
-                      
-                     a{
+                .project_head {
+                    background: #ffffff ; 
+                    padding: 12px 20px;
+                    border-bottom: #ccc solid 1px;
+                    min-height: 55px;
+                    color: #000 ; 
+                    width: 100%; 
+                }
+
+                .project_head:hover {
+                      background: @blueColor ; 
+                      text-decoration: none;
+                    h5, 
+                    .cpm-settings-icon-cog span,  
+                    .cpm-project-detail {
                         color: #ffffff;
-                     }
-                }
-            }
-
-            .cpm-btn-white {
-                .cpm-btn-white; 
-                .rounded-corners;
-                border: 1px solid @gray;
-
-                a{
-                    color: @gray ; 
-                }
-            }
-             
-            a {
-                font-size:@defaultFontSize;
-                margin-right: 5px;
-                :hover {
-                    color: #000000;
-                }
-            }  
-        }
-
-        .cpm-btn-submit {
-            padding: 5px 25px;  
-        }
-        
-        .cpm-project-search input{
-            float: left;
-            width: 45%; 
-            margin-right: 10px;
-        }
-        .cpm-project-group   {
-            padding: 0px;
-            margin: 0px;
-             box-shadow: 0 2px 2px -2px gray;
-
-            ul {
-                margin-bottom: 0px;
-                margin-left: 15px;
-                padding-bottom: 0px;
-                li {
-                    border: none;
-                    float: left;
-                    margin-bottom: 0px;
-                    margin-right: 15px;
-                    a {
-                        padding: 12px 20px;
-                        min-width: 30px;
-                        display: block;
-                        text-align: center; 
-                        text-decoration: none;
-                        border-bottom: solid 2px #ffffff; 
-                        color: #aaa;
-                        
-                        span.count {
-                            padding: 0px 6px;
-                            position:relative;
-                            background:  @gray; 
-                            margin-top: -15px;
-                            margin-left: 5px;
-                            border-radius: 15px;
-                            top : 0; 
-                        }
-                        
                     }
-                    a:hover {
-                        border-bottom: solid 2px  @blueColor ;
-                        color: #000000;
-                        font-weight: bold;
-                        span {
-                            border-bottom: none;
-                        }
 
-                         span.count { 
-                             background:  @blueColor; 
-                             color: #ffffff ;
-                         }
-                    }
-                    
                 }
+
+                .cpm-project-detail {
+                    font-size: @defaultFontSize; 
+                }
+
+                .cpm-project-meta {
+                    padding: @defaultPadding;
+                     
+
+                    ul {
+                        padding: 0px;  
+                        margin: 0px;
+                        margin-left: 5px;
+                        margin-bottom: 50px;
+
+                        li {
+                            float: left;
+                            width: 41% ;
+                            list-style: none;  
+                            background: url('../images/bullet_green.png') no-repeat  0% 55%  ;
+                            padding-left:  25px;
+                            font-size: @defaultFontSize;
+                            color: #888888;
+                            line-height: 35px;
+                        }
+                    }
+                }
+
+                .cpm-progress {
+                    position: absolute;
+                    bottom: 75px;
+                    height: 6px;
+                    width: 100%;
+                    border-radius: 0px;
+                    margin: 0px 0px 0px 0px;
+                    background-color:red;
+                    background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+                    background-repeat: repeat-x;
+                    box-shadow: 0px ;
+                    border-radius: 0px;
+
+                    .completed { 
+                        ackground-color:@blueColor;
+                        background-image: linear-gradient(to bottom, @blueColor, @blueColor);
+                    }
+                }
+
+                .cpm-project-people {
+                    text-align: center;
+                }
+
+
             }
+            
         }
-   }
-
-
-/**
-* Home Project Grid 
-*
-**/
-    .cpm-project-grid {
-        margin: 0px ;
-        padding: 0px;
-
-    }
-
-    .cpm-project {
-         margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
-         margin-left: 0px;
-         padding: 0px;
-         width: 30.8255526% ;
-         float: left; 
-         box-shadow: none;
-
-        .project_head {
-            background: #ffffff ; 
-            padding: 12px 20px;
-            border-bottom: #ccc solid 1px;
-            min-height: 55px;
-            color: #000 ; 
-        }
-
-        .project_head:hover {
-              background: @blueColor ; 
-              text-decoration: none;
-              color: #fff;
-
-              a 
-              {
-                color: #fff;
-              } 
-        }
-
 
     }
 
