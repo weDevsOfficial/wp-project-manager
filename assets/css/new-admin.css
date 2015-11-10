@@ -28,6 +28,12 @@
     * Media Query for responsive 
     *
     **/
+  /**
+* Project Header part 
+**/
+  /**
+    * Project Overview Page 
+    ***/
 }
 .cpm .clearfix {
   clear: both;
@@ -39,15 +45,20 @@
   font-weight: bold;
   text-decoration: none;
 }
-.cpm a:hover,
 .cpm a:active,
+.cpm a:hover,
 .cpm a:focus {
-  text-decoration: none;
-  border: 0;
+  text-decoration: none  ;
+  border: 0 ;
+  outline: 0  ;
+  -moz-outline-style: none;
 }
 .cpm input {
   border: 0px;
   padding: 5px;
+}
+.cpm .small-text {
+  font-size: small;
 }
 .cpm .cpm-no-margin {
   margin: 0px;
@@ -216,6 +227,16 @@
   background: #ffffff;
   margin-bottom: 25px;
   padding-top: 10px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-priject-search-bar {
+  border-bottom: solid 1px #cccccc;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-priject-search-bar .cpm-col-9 {
+  padding: 0px;
+  margin: 0px;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn {
   margin-top: 12px;
@@ -310,6 +331,10 @@
   background: #019dd6;
   color: #ffffff ;
 }
+.cpm .cpm-top-bar .cpm-project-group .cpm-col-5 {
+  padding: 0px;
+  margin: 0px;
+}
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li {
   float: right;
   margin-right: 15px;
@@ -324,9 +349,10 @@
 .cpm .cpm-project-grid {
   margin: 0px ;
   padding: 0px;
+  margin-right: -25px;
 }
 .cpm .cpm-project-grid .cpm-project {
-  margin: 12.5px 25px 16.66666667px 0px;
+  margin: 12.5px 25px 15.625px 0px;
   margin-left: 0px;
   padding: 0px;
   width: 30.8255526% ;
@@ -366,7 +392,6 @@
   float: left;
   width: 41% ;
   list-style: none;
-  background: url('../images/bullet_green.png') no-repeat 0% 55%;
   padding-left: 25px;
   font-size: 14px;
   color: #888888;
@@ -394,6 +419,24 @@
 .cpm .cpm-project-grid .cpm-project .cpm-progress-percentage,
 .cpm .cpm-project-grid .cpm-project .cpm-project-action-list-view {
   display: none;
+}
+.cpm li.message {
+  background: url('../images/bullet_green.png') no-repeat 0% 55%;
+}
+.cpm li.todo {
+  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+}
+.cpm li.todos {
+  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+}
+.cpm li.comment_li {
+  background: url('../images/comment.png') no-repeat 0% 55%;
+}
+.cpm li.file {
+  background: url('../images/docs.png') no-repeat 0% 55%;
+}
+.cpm li.milestone_li {
+  background: url('../images/milestones.png') no-repeat 0% 55%;
 }
 .cpm .cpm-project-list {
   margin: 0px ;
@@ -445,7 +488,6 @@
   float: left;
   width: 40% ;
   list-style: none;
-  background: url('../images/bullet_green.png') no-repeat 0% 55%;
   padding-left: 20px;
   font-size: 14px;
   color: #888888;
@@ -607,4 +649,63 @@
   .cpm .cpm-project-list .cpm-project .cpm-project-people {
     text-align: center;
   }
+}
+.cpm .cpm-border-bottom {
+  border-bottom: solid 1px #cccccc;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul li {
+  border: none;
+  float: left;
+  margin-bottom: 0px;
+  margin-right: 5px;
+}
+.cpm .cpm-project-header ul li a {
+  padding: 12px 20px;
+  min-width: 30px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  border-bottom: solid 2px #ffffff;
+  color: #aaa;
+}
+.cpm .cpm-project-header ul li a span.count {
+  padding: 0px 6px;
+  position: relative;
+  background: #cccccc;
+  margin-top: -15px;
+  margin-left: 5px;
+  border-radius: 15px;
+  top: 0;
+}
+.cpm .cpm-project-header ul li a:hover,
+.cpm .cpm-project-header ul li .active {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-project-header ul li a:hover span,
+.cpm .cpm-project-header ul li .active span {
+  border-bottom: none;
+}
+.cpm .cpm-project-header ul li a:hover span.count,
+.cpm .cpm-project-header ul li .active span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .project-overview .overview-menu li {
+  float: left;
+  background: none;
+  list-style: none;
+  margin: 10px 5px;
+  border: solid 1px #cccccc;
+  padding: 10px 5px ;
+  text-align: center;
+  background: #ffffff;
+  width: 100px;
 }

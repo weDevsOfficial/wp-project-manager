@@ -47,12 +47,13 @@
         
     }
 
-    a:hover, 
     a:active, 
+    a:hover, 
     a:focus {
-        text-decoration: none;
-        border: 0;    
-        
+        text-decoration: none  ;
+        border: 0 ;    
+        outline: 0  ;
+        -moz-outline-style: none; 
     }
 
     hr {
@@ -63,6 +64,11 @@
         border: 0px;
         padding: 5px;
 
+    }
+
+    .small-text
+    {
+        font-size: small;
     }
 
     .cpm-no-margin {
@@ -320,8 +326,24 @@
         background: #ffffff;
         margin-bottom: 25px;
         padding-top : 10px;
+        padding-bottom: 0px;
+
+        .cpm-priject-search-bar {
+            border-bottom: solid 1px @gray ;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+
+            .cpm-col-9 {
+                padding : 0px;
+                margin : 0px;
+            }
+        }
+
+
+
         .cpm-top-right-btn {
             margin-top:12px; 
+
 
             .cpm-btn-blue {
                 .cercale-corners;
@@ -370,7 +392,7 @@
         .cpm-project-group   {
             padding: 0px;
             margin: 0px;
-             box-shadow: 0 2px 2px -2px gray;
+            box-shadow: 0 2px 2px -2px gray;
 
             ul.cpm-project-group-ul {
                 margin-bottom: 0px;
@@ -417,7 +439,10 @@
                     
                 }
             }
-
+            .cpm-col-5 {
+                padding : 0px;
+                margin:  0px;
+            }
             ul.cpm-project-view {
 
                 li {
@@ -447,9 +472,10 @@
     .cpm-project-grid { 
         margin: 0px ;
         padding: 0px;
+        margin-right: -25px;
 
         .cpm-project {
-             margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+             margin: @defaultGridPadding/2  @defaultGridPadding    @defaultGridPadding/1.6   0px ;
              margin-left: 0px;
              padding: 0px;
              width: 30.8255526% ;
@@ -494,14 +520,14 @@
                         float: left;
                         width: 41% ;
                         list-style: none;  
-                        background: url('../images/bullet_green.png') no-repeat  0% 55%  ;
+                        
                         padding-left:  25px;
                         font-size: @defaultFontSize;
                         color: #888888;
                         line-height: 35px;
                     }
 
-                    
+
 
 
                 }
@@ -539,29 +565,34 @@
         }
     }
 
-                     .message {
-                      background: url('../images/bullet_green.png')   ;  
+                    li.message {
+                      background: url('../images/bullet_green.png') no-repeat  0% 55%   ;  
+
                     }
 
-                     .todo {
-                      background: url('../images/to-do-list.png')   ;  
+                    li.todo {
+                      background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+
                     }
 
-                     .todos {
-                      background: url('../images/to-do-list.png')   ;  
+                    li.todos {
+                      background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+                     
                     }
 
-                     .comment {
-                      background: url('../images/comment.png')   ;  
+                    li.comment_li {
+                      background: url('../images/comment.png') no-repeat  0% 55%   ;  
+                      
                     }
 
-                     .file {
-                      background: url('../images/docs.png')   ;  
+                    li.file {
+                      background: url('../images/docs.png') no-repeat  0% 55%   ;  
                     }
 
-                     .milestone {
-                      background: url('../images/milestones.png')   ;  
-                    }
+                    li.milestone_li {
+                      background: url('../images/milestones.png') no-repeat  0% 55%   ; 
+                       
+                    }               
 
     .cpm-project-list
     {
@@ -618,7 +649,6 @@
                         float: left;
                         width: 40% ;
                         list-style: none;  
-                        background: url('../images/bullet_green.png') no-repeat  0% 55%  ;
                         padding-left:  20px;
                         font-size: @defaultFontSize;
                         color: #888888;
@@ -831,5 +861,89 @@
 
     }
 
+
+/**
+* Project Header part 
+**/
+
+    .cpm-border-bottom { 
+        border-bottom: solid 1px @gray;
+        padding-bottom: 0px; 
+    }
+
+    .cpm-project-header {
+     
+        ul {
+            margin-bottom: 0px;
+            margin-left: 15px;
+            padding-bottom: 0px;
+            li {
+                border: none;
+                float: left;
+                margin-bottom: 0px;
+                margin-right: 5px;
+                a {
+                    padding: 12px 20px;
+                    min-width: 30px;
+                    display: block;
+                    text-align: center; 
+                    text-decoration: none;
+                    border-bottom: solid 2px #ffffff; 
+                    color: #aaa;
+                        
+                        span.count {
+                            padding: 0px 6px;
+                            position:relative;
+                            background:  @gray; 
+                            margin-top: -15px;
+                            margin-left: 5px;
+                            border-radius: 15px;
+                            top : 0; 
+                        }
+                        
+                }
+                a:hover, 
+                .active {
+                    border-bottom: solid 2px  @blueColor ;
+                    color: #000000;
+                    font-weight: bold;
+                    span {
+                        border-bottom: none;
+                    }
+
+                    span.count { 
+                        background:  @blueColor; 
+                        color: #ffffff ;
+                    }
+                }
+                    
+            }
+        }
+    }
+
+    /**
+    * Project Overview Page 
+    ***/
+    .project-overview
+    {
+        
+
+        .overview-menu 
+        {
+            li 
+            {
+                float: left; 
+                background: none; 
+                list-style: none;
+                margin: 10px 5px; 
+                border : solid 1px @gray ;
+                padding: 10px 5px ;
+                text-align: center; ; 
+                background: #ffffff;
+                width: 100px;
+            }
+
+        }
+    }
 
 }

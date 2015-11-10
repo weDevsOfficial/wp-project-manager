@@ -12,56 +12,68 @@ if ( !$pro_obj->has_permission( $project ) ) {
     die();
 }
 ?>
-<div class="cpm-project-head">
-    <div class="cpm-project-detail">
-        <h2>
-            <span class="cpm-project-title"><?php echo get_the_title( $project_id ); ?></span>
 
+<div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head" >
+    <div class="cpm-row    cpm-no-padding cpm-border-bottom "  > 
+        <div class="cpm-col-6 cpm-project-detail">
+            <h2><?php echo get_the_title( $project_id ); ?>  
             <?php if ( cpm_user_can_access( $project_id ) ) { ?>
-                <a href="#" class="cpm-icon-edit cpm-project-edit-link"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
-            <?php } ?>
+                <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
+            <?php } ?> 
 
-            <div class="cpm-project-summary cpm-right">
-                <span><?php _e( 'Project Info', 'cpm' ); ?></span>
-                <div class="cpm-project-summary-content">
-                    <?php echo cpm_project_summary( $project->info ); ?>
-                </div>               
-
-                <?php do_action( 'cpm_project_header', $project ); ?>
-            </div>
-        </h2>
-
-        <div class="detail">
+            </h2>
             <?php echo cpm_get_content( $project->post_content ); ?>
-            <?php do_action( 'cpm_project_after_description', $project ); ?>
+
+           
+            <div class="detail">
+                <?php echo cpm_get_content( $project->post_content ); ?>
+                <?php do_action( 'cpm_project_after_description', $project ); ?>
+            </div>
         </div>
+
+        <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">
+              <?php do_action( 'cpm_inside_project_filter', $project ); ?>
+        </div>
+        <div class="clearfix"></div>
+
+
     </div>
 
-    <div class="cpm-edit-project" style="display:none;">
-        <?php
-         if ( cpm_user_can_access( $project_id ) ) {
-            cpm_project_form( $project );
-        }
-        ?>
-    </div>
+     <div class="cpm-edit-project" style="display:none;">
+                <?php
+                 if ( cpm_user_can_access( $project_id ) ) {
+                    cpm_project_form( $project );
+                }
+                ?>
+            </div>
 
-    <div id="cpm-create-user-wrap" title="<?php _e( 'Create a new user', 'cpm' ); ?>">
-        <?php
+            <div id="cpm-create-user-wrap" title="<?php _e( 'Create a new user', 'cpm' ); ?>">
+                <?php
 
-        if ( cpm_user_can_access( $project_id ) ) {
-            cpm_user_create_form();
-        }
-        ?>
-    </div>
+                if ( cpm_user_can_access( $project_id ) ) {
+                    cpm_user_create_form();
+                }
+                ?>
+            </div>
+            <?php  do_action( 'cpm_project_header', $project ); ?>
 
-   <!-- <div class="cpm-clear"></div> -->
-    <?php do_action( 'cpm_inside_project_filter', $project ); ?>
-   
+ 
+ 
+
+    <div class="cpm-row cpm-project-group  "    > 
+        <ul class="list-inline   "  >
+
+            <?php  echo $pro_obj->nav_menu( $project_id, $cpm_active_menu ); ?>
+
+            <div class="clearfix"></div>
+        </ul>
+        
+    </div> 
+
+
+ <div class="clearfix"> </div>
 </div>
 
-<h2 class="nav-tab-wrapper">
-    <?php echo $pro_obj->nav_menu( $project_id, $cpm_active_menu ); ?>
-</h2>
 
 <?php if ( cpm_user_can_access( $project_id ) ) {  ?>
     <script type="text/javascript">

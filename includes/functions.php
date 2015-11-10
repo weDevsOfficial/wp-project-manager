@@ -473,23 +473,23 @@ function cpm_project_summary( $info ) {
     }
 
     if( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<li class="todo"> <strong>%d </strong> To-do list </li> ', '<li> <strong>%d </strong> To-do lists </li> ', $info->todolist, 'cpm' ), $info->todolist );
+        $info_array[] = sprintf( _n( '<li class="todo"> <strong>%d </strong> To-do list </li> ', '<li <li class="todo"> <strong>%d </strong> To-do lists </li> ', $info->todolist, 'cpm' ), $info->todolist );
     }
 
     if( $info->todos ) {
-        $info_array[] = sprintf( _n( '<li class="todos"> <strong>%d </strong> To-do </li> ', '<li> <strong>%d </strong> To-dos </li> ', $info->todos, 'cpm' ), $info->todos );
+        $info_array[] = sprintf( _n( '<li class="todos"> <strong>%d </strong> To-do </li> ', '<li class="todos"> <strong>%d </strong> To-dos </li> ', $info->todos, 'cpm' ), $info->todos );
     }
 
     if( $info->comments ) {
-        $info_array[] = sprintf( _n( '<li calss="comment"> <strong>%d </strong> Comment </li> ', '<li> <strong>%d </strong> Comments </li> ', $info->comments, 'cpm' ), $info->comments );
+        $info_array[] = sprintf( _n( '<li class="comment_li"> <strong>%d </strong> Comment </li> ', '<li class="comment_li"> <strong>%d </strong> Comments </li> ', $info->comments, 'cpm' ), $info->comments );
     }
 
     if( $info->files ) {
-        $info_array[] = sprintf( _n( '<li class="file"> <strong>%d </strong> File </li> ' , '<li> <strong>%d </strong> Files </li> ', $info->files, 'cpm' ), $info->files );
+        $info_array[] = sprintf( _n( '<li class="file"> <strong>%d </strong> File </li> ' , '<li class="file"> <strong>%d </strong> Files </li> ', $info->files, 'cpm' ), $info->files );
     }
 
     if( $info->milestone ) {
-        $info_array[] = sprintf( _n( '<li calss="milestone"> <strong>%d </strong> Milestone </li> ', '<li> <strong>%d </strong> Milestones </li> ', $info->milestone, 'cpm' ), $info->milestone );
+        $info_array[] = sprintf( _n( '<li class="milestone_li"> <strong>%d </strong> Milestone </li> ', '<li class="milestone_li"> <strong>%d </strong> Milestones </li> ', $info->milestone, 'cpm' ), $info->milestone );
     }
 
     return implode(' ', $info_array );

@@ -83,6 +83,21 @@ function cpm_url_project_details( $project_id ) {
     return apply_filters( 'cpm_url_project_details', $url, $project_id );
 }
 
+
+/**
+ * Displays a single project Overview
+ *
+ * @since 1.3.8 
+ * @param int $project_id
+ * @return string
+ */
+function cpm_url_project_overview( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=project&action=overview&pid=%d', admin_url( 'admin.php' ), $project_id );
+    return apply_filters( 'cpm_url_project_overview', $url, $project_id );
+}
+
+
+
 /**
  * ------------------------------------------------
  * Task/Tasklist URL Helpers

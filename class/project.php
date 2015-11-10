@@ -532,6 +532,7 @@ class CPM_Project {
      */
     function nav_links( $project_id ) {
         $links = array(
+            __( 'Overview', 'cpm' )    => cpm_url_project_overview( $project_id ),
             __( 'Activity', 'cpm' )    => cpm_url_project_details( $project_id ),
             __( 'Messages', 'cpm' )    => cpm_url_message_index( $project_id ),
             __( 'To-do Lists', 'cpm' ) => cpm_url_tasklist_index( $project_id ),
@@ -560,13 +561,13 @@ class CPM_Project {
         $menu = array();
         foreach ($links as $label => $url) {
             if ( $active == $label ) {
-                $menu[] = sprintf( '<a href="%1$s" class="nav-tab nav-tab-active" title="%2$s">%2$s</a>', $url, $label );
+                $menu[] = sprintf( '<li> <a href="%1$s" class=" active" title="%2$s">%2$s</a> </li>', $url, $label );
             } else {
-                $menu[] = sprintf( '<a href="%1$s" class="nav-tab" title="%2$s">%2$s</a>', $url, $label );
+                $menu[] = sprintf( '<li> <a href="%1$s" class="" title="%2$s">%2$s</a></li>', $url, $label );
             }
         }
 
-        return implode( "\n", $menu );
+        return implode( "", $menu );
     }
 
     /**

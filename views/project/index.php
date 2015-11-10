@@ -13,7 +13,7 @@ $class              = $can_create_project ? '' : ' cpm-no-nav';
 unset( $projects['total_projects'] );
 ?>
 <div class="cpm-top-bar cpm-no-padding " >
-    <div class="cpm-row    cpm-no-padding " > 
+    <div class="cpm-row    cpm-no-padding "  > 
         <div class="cpm-col-6">
             <h2><?php _e( 'Project Manager', 'cpm' ); ?> </h2>
         </div>
@@ -31,8 +31,8 @@ unset( $projects['total_projects'] );
     </div>
 
 
-    <div class="cpm-row   "   >
-        <div class="cpm-col-3 cpm-sm-col-12">
+    <div class="cpm-row cpm-no-padding  cpm-priject-search-bar "   >
+        <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"  >
              <?php if ( $can_create_project ) { ?>
         
                     <a href="#" id="cpm-create-project" class="cpm-btn cpm-btn-blue"> <span class="dashicons dashicons-plus"> </span> <?php _e( 'New Project', 'cpm' ); ?> </a>
@@ -63,10 +63,10 @@ unset( $projects['total_projects'] );
             </div>
         </div>
         <div class="clearfix"> </div>
-        </div>
- <hr />
+    </div>
+ 
 
-    <div class="cpm-row cpm-project-group  "  > 
+    <div class="cpm-row cpm-project-group  "    > 
         <ul class="list-inline  cpm-col-6 cpm-project-group-ul "  >
             <li class=" cpm-sm-col-4 <?php echo $status_class == 'all' ? '  active ' : ''; ?> " >
                 <a href="<?php echo cpm_url_all(); ?>">
@@ -84,7 +84,7 @@ unset( $projects['total_projects'] );
             </li>
             <div class="clearfix"></div>
         </ul>
-        <div class="cpm-col-5 cpm-last-col cpm-text-right ">
+        <div class="cpm-col-5 cpm-last-col cpm-text-right " >
             <ul class="cpm-project-view " >
                 <li> <a href="JavaScript:void(0)" id='cpm-list-view' class="">  <span class=" dashicons dashicons-menu"></span> </a> </li>
                 <li> <a href="JavaScript:void(0)" id='cpm-grid-view' class=""> <span class="active dashicons dashicons-screenoptions"></span> </a> </li>
@@ -98,7 +98,7 @@ unset( $projects['total_projects'] );
 </div>
 
  
-<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-list " style="">
+<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-grid cpm-no-padding cpm-no-margin"  >
 
     
 
@@ -108,12 +108,12 @@ unset( $projects['total_projects'] );
             if( $slp%3 == 0 )  $last_cal =  ' cpm-last-col'; else $last_cal = '' ; 
             ?>
         
-              <article class="cpm-project  cpm-column-gap-left cpm-sm-col-12 <?php echo $last_cal ; ?> ">
+              <article class="cpm-project  cpm-column-gap-left cpm-sm-col-12 <?php echo $last_cal ; ?> "  >
                 <?php if ( cpm_is_project_archived( $project->ID ) ) { ?>
                     <div class="cpm-completed-wrap"><div class="ribbon-green"><?php _e( 'Completed', 'cpm' ); ?></div></div>
                 <?php } ?>
 
-                <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_details( $project->ID ); ?>">
+                <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_overview( $project->ID ); ?>">
                     <div class="project_head"> 
                     <h5><?php echo cpm_excerpt( get_the_title( $project->ID ), 30 ); ?></h5>
 
@@ -144,11 +144,13 @@ unset( $projects['total_projects'] );
                 echo cpm_task_completeness( $progress['total'], $progress['completed'] );
                 ?>
                 <div class="cpm-progress-percentage"> <?php if($progress['total'] != 0) {  echo floor(((100 * $progress['completed']) /  $progress['total'])) ."%" ; } ?>  </div>
-                <?php
-                if ( cpm_user_can_access( $project->ID ) ) {
-                     cpm_project_actions( $project->ID ) ;
-                }
-                ?>
+                <div class="cpm-project-action-icon"> 
+                    <?php
+                    if ( cpm_user_can_access( $project->ID ) ) {
+                         cpm_project_actions( $project->ID ) ;
+                    }
+                    ?>
+                </div>
                <!--  <div class="cpm-project_action">
                     <a href="" class=""> <span class="dashicons dashicons-share-alt2"></span> </a>
                     <a href=""> <span class="dashicons dashicons-yes"></span> </a>
@@ -218,6 +220,16 @@ unset( $projects['total_projects'] );
                 $( "#cpm-list-view span" ).removeClass( 'active' ) ; 
                 $( "#cpm-grid-view span" ).addClass( 'active' ) ; 
             });
+
+             if ( document.body.clientWidth < 780 ) {
+                 
+                $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ; 
+                $( ".cpm-projects" ).addClass( "cpm-project-grid" ); 
+                $( "#cpm-list-view span" ).removeClass( 'active' ) ; 
+                $( "#cpm-grid-view span" ).addClass( 'active' ) ; 
+
+               }
+
 
         });
     </script>
