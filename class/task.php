@@ -211,10 +211,10 @@ class CPM_Task {
 
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
-                do_action( 'cpm_task_update', $list_id, $task_id, $data );
+                do_action( 'cpm_task_update', $list_id, $task_id, $data, $postdata );
             } else {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
-                do_action( 'cpm_task_new', $list_id, $task_id, $data );
+                do_action( 'cpm_task_new', $list_id, $task_id, $data, $postdata );
             }
         }
 
@@ -574,12 +574,12 @@ class CPM_Task {
      *
      * @param int $task_id task id
      */
-    function mark_complete( $task_id ) {
+    function mark_complete( $task_id, $list_id = false, $project_id = false, $postdata = array() ) {
         update_post_meta( $task_id, '_completed', 1 );
         update_post_meta( $task_id, '_completed_by', get_current_user_id() );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
         CPM_Project::getInstance()->new_project_item_complete_date( $task_id, current_time( 'mysql' ) );
-        do_action( 'cpm_task_complete', $task_id );
+        do_action( 'cpm_task_complete', $task_id, $list_id, $project_id, $postdata );
     }
 
     /**

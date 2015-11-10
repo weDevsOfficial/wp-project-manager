@@ -548,13 +548,13 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
-        $task_id = (int) $posted['task_id'];
-        $list_id = $posted['list_id'];
+        $task_id    = (int) $posted['task_id'];
+        $list_id    = $posted['list_id'];
         $project_id = $posted['project_id'];
-        $single = (int) $posted['single'];
+        $single     = (int) $posted['single'];
 
         $task_obj = CPM_Task::getInstance();
-        $task_obj->mark_complete( $task_id );
+        $task_obj->mark_complete( $task_id, $list_id, $project_id, $posted );
         $complete = $task_obj->get_completeness( $list_id,  $project_id );
 
         $task = $task_obj->get_task( $task_id );

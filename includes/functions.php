@@ -1086,10 +1086,7 @@ function cpm_get_all_manager_from_project( $project_id ) {
 
 function cpm_get_email_header() {
 
-    $file_path       = CPM_PATH . '/views/emails/header.php';
-    $locate_template = locate_template( 'project-manager/emails/header.php' );
-    $file_path       = $locate_template ? $locate_template : $file_path;
-    $header_path     = apply_filters( 'cpm_email_header', $file_path );
+    $header_path = cpm_get_template( 'emails/header' );
 
     if ( file_exists( $header_path ) ) {
         require_once $header_path;
@@ -1107,11 +1104,8 @@ function cpm_get_email_header() {
  */
 
 function cpm_get_email_footer() {
-    
-    $file_path       = CPM_PATH . '/views/emails/footer.php';
-    $locate_template = locate_template( 'project-manager/emails/footer.php' );
-    $file_path       = $locate_template ? $locate_template : $file_path;
-    $footer_path     = apply_filters( 'cpm_email_footer', $file_path );
+
+    $footer_path = cpm_get_template( 'emails/footer' );
 
     if ( file_exists( $footer_path ) ) {
         require_once $footer_path;
@@ -1208,4 +1202,68 @@ function cpm_strlen( $string ) {
     } else {
         return strlen( $string );
     }
+}
+
+/**
+ * Get the template path.
+ *
+ * @return string
+ */
+function cpm_template_path() {
+    return apply_filters( 'cpm_template_path', 'project-manager/' );
+}
+
+/**
+ * Get other templates (e.g. product attributes) passing attributes and including the file.
+ *
+ * @access public
+ * 
+ * @param mixed $file_name
+ * @param array $args (default: array())
+ * @param string $template_path (default: '')
+ * @param string $default_path (default: '')
+ * 
+ * @return void
+ */
+function cpm_get_template( $file_name, $default_path = '', $args = array()  ) {
+
+    $defaults = array(
+        'pro' => false
+    );
+
+    $args = wp_parse_args( $args, $defaults );
+
+    if ( $args && is_array( $args ) ) {
+        extract( $args );
+    }
+
+    $theme_template_path = cpm_template_path();
+    
+    if ( ! $default_path ) {
+
+        // search for Pro templates only
+        $default_path = $pro ? CPM_PATH . '/includes/pro/views/' : CPM_PATH . '/views/';
+    }
+
+    // Look within passed path within the theme - this is priority
+    $template = locate_template( array( trailingslashit( $theme_template_path ) . $file_name . '.php' ) );
+
+    // Get default template
+    if ( ! $template ) {
+        $template = $default_path . $file_name . '.php';
+    }
+
+    // Return what we found
+    $located = apply_filters( 'cpm_locate_template', $template, $file_name, $default_path );
+
+    if ( ! file_exists( $located ) ) {
+        _doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '2.1' );
+        return;
+    }
+
+    do_action( 'cpm_before_template_part', $file_name, $located, $args );
+
+    include_once $located;
+
+    do_action( 'cpm_after_template_part', $file_name, $located, $args );
 }

@@ -1,10 +1,4 @@
 <?php
-	$users = $this->prepare_contacts();
-
-    if ( !$users ) {
-        return;
-    }
-
 	cpm_get_email_header();
 
     $tpbk = CPM_URL . '/assets/images/tpbk.png';
