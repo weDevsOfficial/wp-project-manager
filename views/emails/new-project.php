@@ -12,7 +12,7 @@
             <div style="width: 600px;">
                 <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
                     <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-                        <?php _e( 'NEW PROJECT', 'cpm'  ); ?>
+                        <?php echo cpm_get_option( 'email_new_project_header', 'cpm_mails' ); ?>
                     </div>
                 </div>
 

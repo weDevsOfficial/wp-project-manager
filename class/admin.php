@@ -104,16 +104,16 @@ class CPM_Admin {
                 'desc'    => '',
                 'default' => get_option( 'admin_email' )
             ),
-            array(
-                'name'    => 'email_type',
-                'label'   => __( 'E-Mail Type', 'cpm' ),
-                'type'    => 'select',
-                'default' => 'text/plain',
-                'options' => array(
-                    'text/html' => __( 'HTML Mail', 'cpm'),
-                    'text/plain' => __( 'Plain Text', 'cpm')
-                )
-            ),
+            // array(
+            //     'name'    => 'email_type',
+            //     'label'   => __( 'E-Mail Type', 'cpm' ),
+            //     'type'    => 'select',
+            //     'default' => 'text/plain',
+            //     'options' => array(
+            //         'text/html' => __( 'HTML Mail', 'cpm'),
+            //         'text/plain' => __( 'Plain Text', 'cpm')
+            //     )
+            // ),
 
             array(
                 'name'    => 'email_new_project_sub',
@@ -169,6 +169,65 @@ class CPM_Admin {
                 'type'    => 'text',
                 'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for discussion %MESSAGE_TITLE%', 'cpm' ),
                 'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Message: ', 'cpm' ) . ' %MESSAGE_TITLE%'
+            ),
+
+            
+
+
+            array(
+                'name'    => 'email_new_project_header',
+                'label'   => __( 'New Project Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for new project', 'cpm' ),
+                'default' => __( 'NEW PROJECT', 'cpm' )
+            ),
+
+            array(
+                'name'    => 'email_update_project_header',
+                'label'   => __( 'Update Project Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for update project', 'cpm' ),
+                'default' => __( 'UPDATE PROJECT', 'cpm' ) 
+            ),
+
+            array(
+                'name'    => 'email_new_task_header',
+                'label'   => __( 'New Task Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for new task', 'cpm' ),
+                'default' => __( 'New task has been assigned to you', 'cpm' ) 
+            ),
+
+            array(
+                'name'    => 'email_updated_task_header',
+                'label'   => __( 'Updated Task Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for updated task', 'cpm' ),
+                'default' => __( 'New task has been updated', 'cpm' ) 
+            ),
+
+            array(
+                'name'    => 'email_complete_task_header',
+                'label'   => __( 'Completed Task Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for completed task', 'cpm' ),
+                'default' => __( 'New task has been completed', 'cpm' ) 
+            ),
+
+            array(
+                'name'    => 'email_comment_header',
+                'label'   => __( 'Comment Header', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for new commenet', 'cpm' ),
+                'default' => __( 'NEW COMMENT', 'cpm' ) 
+            ),
+
+            array(
+                'name'    => 'email_discuss_header',
+                'label'   => __( 'Discussion', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( 'Mailing header title for new meassage', 'cpm' ),
+                'default' => __( 'NEW MESSAGE', 'cpm' ) 
             ),
             /**
              * ************************

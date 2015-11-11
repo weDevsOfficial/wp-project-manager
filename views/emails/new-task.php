@@ -23,9 +23,9 @@
                     <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
                         <?php 
                             if ( $is_updated ) {
-                                _e( 'New task has been updated', 'cpm'  ); 
+                                echo cpm_get_option( 'email_updated_task_header', 'cpm_mails' ); 
                             } else {
-                                _e( 'New task has been assigned to you', 'cpm'  ); 
+                                echo cpm_get_option( 'email_new_task_header', 'cpm_mails' ); 
                             }
                         ?>
                     </div>
