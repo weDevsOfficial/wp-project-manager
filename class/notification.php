@@ -101,6 +101,11 @@ class CPM_Notification {
             $subject = str_replace( $key, $value, $subject );
         }
 
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
+        }
+
         ob_start();
         cpm_get_template( 'emails/new-project', '', 
             array( 
@@ -167,6 +172,11 @@ class CPM_Notification {
             $subject = str_replace( $key, $value, $subject );
         }
 
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
+        }
+
         ob_start();
         cpm_get_template( 'emails/update-project', '', 
             array( 
@@ -218,6 +228,11 @@ class CPM_Notification {
         foreach ( $template_vars as $key => $value ) {
             $subject = str_replace( $key, $value, $subject );
         }
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
+        }
         
         ob_start();
         cpm_get_template( 'emails/complete-task', '', 
@@ -255,6 +270,11 @@ class CPM_Notification {
         // message
         foreach ( $template_vars as $key => $value ) {
             $subject = str_replace( $key, $value, $subject );
+        }
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         ob_start();
@@ -297,6 +317,11 @@ class CPM_Notification {
         // message
         foreach ( $template_vars as $key => $value ) {
             $subject = str_replace( $key, $value, $subject );
+        }
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
 
         ob_start();
@@ -348,6 +373,11 @@ class CPM_Notification {
         // message
         foreach ( $tpm_sub as $key => $value ) {
             $subject = str_replace( $key, $value, $subject );
+        }
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
         }
         
         foreach ( $postdata['task_assign'] as $key => $user_id) {
