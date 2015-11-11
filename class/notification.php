@@ -89,13 +89,18 @@ class CPM_Notification {
             return;
         }
 
-        $subject  = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
+        $template_vars = array(
+            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $subject = cpm_get_option( 'email_new_project_sub', 'cpm_mails' );
+        
+        // message
+        foreach ( $template_vars as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
         }
-    
+
         ob_start();
         cpm_get_template( 'emails/new-project', '', 
             array( 
@@ -150,11 +155,16 @@ class CPM_Notification {
             return;
         }
 
-        $subject         = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
+        $template_vars = array(
+            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $subject = cpm_get_option( 'email_update_project_sub', 'cpm_mails' );
+        
+        // message
+        foreach ( $template_vars as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
         }
 
         ob_start();
@@ -196,13 +206,19 @@ class CPM_Notification {
             return;
         }
 
-        $subject = sprintf( __( '[%s][%s] Task Completed: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $task_id ) );
+        $template_vars = array(
+            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+            '%TASK_TITLE%'   => get_post_field( 'post_title', $task_id ),
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $subject = cpm_get_option( 'email_task_complete_sub', 'cpm_mails' );
+        
+        // message
+        foreach ( $template_vars as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
         }
-
+        
         ob_start();
         cpm_get_template( 'emails/complete-task', '', 
             array( 
@@ -228,11 +244,17 @@ class CPM_Notification {
             return;
         }
 
-        $subject = sprintf( __( '[%s][%s] New Message: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $message_id ) );
+        $template_vars = array(
+            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
+            '%MESSAGE_TITLE%' => get_post_field( 'post_title', $message_id )
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $subject = cpm_get_option( 'email_discuss_sub', 'cpm_mails' );
+        
+        // message
+        foreach ( $template_vars as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
         }
 
         ob_start();
@@ -263,11 +285,18 @@ class CPM_Notification {
             return;
         }
         $parent_post     =  get_comment( $comment_id );
-        $subject         = sprintf( __( '[%s][%s] New Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
+        
+        $template_vars = array(
+            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+            '%COMMENT_TITLE%' => get_post_field( 'post_title', $parent_post->comment_post_ID ),
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $subject = cpm_get_option( 'email_comment_sub', 'cpm_mails' );
+        
+        // message
+        foreach ( $template_vars as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
         }
 
         ob_start();
@@ -302,13 +331,25 @@ class CPM_Notification {
             return;
         }
 
-        $subject = sprintf( __( '[%s][%s] New Task Assigned: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $list_id ) );
+        $tpm_sub = array(
+            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+            '%LIST_TITLE%'   => get_post_field( 'post_title', $list_id ),
+        );
 
-        // cutoff at 78th character
-        if ( cpm_strlen( $subject ) > 78 ) {
-            $subject = substr( $subject, 0, 78 ) . '...';
+        $is_updated = isset( $postdata['task_id'] ) ? $postdata['task_id'] : false;
+
+        if ( $is_updated ) {
+            $subject = cpm_get_option( 'email_updated_task_sub', 'cpm_mails' );
+        } else {
+            $subject = cpm_get_option( 'email_new_task_sub', 'cpm_mails' );
         }
 
+        // message
+        foreach ( $tpm_sub as $key => $value ) {
+            $subject = str_replace( $key, $value, $subject );
+        }
+        
         foreach ( $postdata['task_assign'] as $key => $user_id) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
@@ -325,11 +366,11 @@ class CPM_Notification {
                     'task_id'    => $task_id, 
                     'data'       => $data,
                     'project_id' => $project_id,
-                    'is_updated' => isset( $postdata['task_id'] ) ? $postdata['task_id'] : false
+                    'is_updated' => $is_updated
                 )
             ); 
             $message = ob_get_clean();
-            echo $message; die();
+
             if ( $message ) {
                $this->send( $to, $subject, $message );
             }

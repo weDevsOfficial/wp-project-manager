@@ -114,6 +114,62 @@ class CPM_Admin {
                     'text/plain' => __( 'Plain Text', 'cpm')
                 )
             ),
+
+            array(
+                'name'    => 'email_new_project_sub',
+                'label'   => __( 'New Project Invitation', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% Mailing subject for new project invitation %PROJECT_NAME%', 'cpm' ),
+                'default' => '[%SITE%] ' . __( 'New Project Invitation:', 'cpm' ) . ' %PROJECT_NAME%'
+            ),
+
+            array(
+                'name'    => 'email_update_project_sub',
+                'label'   => __( 'Update Project Invitation', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% Mailing subject for update project invitation %PROJECT_NAME%', 'cpm' ),
+                'default' => '[%SITE%] ' . __( 'Updated Project Invitation: ', 'cpm' ) . ' %PROJECT_NAME%'
+            ),
+
+            array(
+                'name'    => 'email_new_task_sub',
+                'label'   => __( 'New Task', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for new task %LIST_TITLE%', 'cpm' ),
+                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Task Assigned:', 'cpm' ) . ' %LIST_TITLE%'
+            ),
+
+            array(
+                'name'    => 'email_updated_task_sub',
+                'label'   => __( 'Updated Task', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for updated task %LIST_TITLE%', 'cpm' ),
+                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'Updated Task Assigned:', 'cpm' ) . ' %LIST_TITLE%'
+            ),
+
+            array(
+                'name'    => 'email_task_complete_sub',
+                'label'   => __( 'Completed Task', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for completed task %TASK_TITLE%', 'cpm' ),
+                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'Task Completed:', 'cpm' ) . ' %TASK_TITLE%'
+            ),
+
+            array(
+                'name'    => 'email_comment_sub',
+                'label'   => __( 'Comment', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for comment %COMMENT_TITLE%', 'cpm' ),
+                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Comment on: ', 'cpm' ) . ' %COMMENT_TITLE%'
+            ),
+
+            array(
+                'name'    => 'email_discuss_sub',
+                'label'   => __( 'Discussion', 'cpm' ),
+                'type'    => 'text',
+                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for discussion %MESSAGE_TITLE%', 'cpm' ),
+                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Message: ', 'cpm' ) . ' %MESSAGE_TITLE%'
+            ),
             /**
              * ************************
              */
