@@ -10,7 +10,7 @@ cpm_get_header( __( 'Overview', 'cpm' ), $project_id );
 	<div class="cpm-col-9"> 
 	    <div class="overview-menu"> 
 	        <ul> 
-	         	<?php echo cpm_project_summary( $project->info ); ?>
+	         	<?php echo cpm_project_overview_summary( $project->info ); ?>
 	         	<div class="clearfix"></div>
 	         </ul>
 	     </div>

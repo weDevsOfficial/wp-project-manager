@@ -41,7 +41,13 @@
             /* =============== Project archive ============ */
             $('.cpm-archive').on('click', this.Project.ProjectArchive );
 
+            /* =============== Project setting  ============ */
             $('.cpm-settings-bind').on('click', this.Project.Settings);
+
+            /* =============== Project view  ============ */
+            $('.cpm-project-view').on('click', 'a.change-view', this.Project.View);
+
+
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({
@@ -136,6 +142,25 @@
                     status.hide();
                 }
             },
+
+            View : function(e) {
+                var uaction = $(this).attr('dir')  ; 
+                $( ".change-view span" ).removeClass( 'active' ) ; 
+                
+                if(uaction == 'list') {
+                    $( ".cpm-projects" ).removeClass( "cpm-project-grid" ); 
+                    $( ".cpm-projects" ).addClass( "cpm-project-list" ); 
+                    $( this ).find("span").addClass( 'active' ) ; 
+                }
+
+                if(uaction == 'grid') {
+                    $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ; 
+                    $( ".cpm-projects").addClass( "cpm-project-grid" ); 
+                    $( this ).find("span").addClass( 'active' ) ;
+                }
+
+
+            } , 
 
             ProjectArchive: function(e) {
                 e.preventDefault();

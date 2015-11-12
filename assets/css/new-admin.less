@@ -10,7 +10,7 @@
 @round : 10px;
 @defaultRadius:30px;
 @defaultFontSize : 14px;
-@defaultFontColor : #000000;
+@defaultFontColor : #848484;
  
 @cercle:180px ; 
 @defaultPadding : 10px;
@@ -924,26 +924,80 @@
     /**
     * Project Overview Page 
     ***/
-    .project-overview
-    {
-        
+    .project-overview {
 
-        .overview-menu 
-        {
-            li 
-            {
+        .overview-menu {
+
+        ul {
+            padding: 0px;
+            margin: 0px;
+           
+            li {
+
                 float: left; 
                 background: none; 
                 list-style: none;
-                margin: 10px 5px; 
-                border : solid 1px @gray ;
-                padding: 10px 5px ;
-                text-align: center; ; 
+                margin: 0px;
+                margin-right: 25px; 
+                border : solid 1px #E5E5E5;
+                padding: 25px 15px;
+                text-align: center;  
                 background: #ffffff;
-                width: 100px;
+                width : 15%; 
+                clear: right; 
+                div {
+                    float : left; 
+                   
+                }
+                 
+                .icon {
+                    padding: 15px 5px;
+                    width: 22%; 
+                    border-radius: 180px;
+                    color: #ffffff;
+                    margin-right: 20px;
+                } 
+
+                .count {
+                    text-align: left; 
+                    span {
+                        color: @blueColor; 
+                        font-size: 145%; 
+                        font-weight: bold;
+                    }
+                }
+
+            }
+
+                .message .icon {
+                     background : #9DBC5E; 
+                }
+
+                .todo .icon {
+                    background: #1FA185 ; 
+                }
+
+                .todos .icon {
+                    background: #0090DB ; 
+                }
+
+                .comment_li .icon {
+                    background: #1FA185 ; 
+                }
+
+                .file .icon {
+                    background: #BE3C2F ; 
+                }
+
+                .milestone_li .icon {
+                    background: #F29B27 ; 
+                }
+
+               
+
+
             }
 
         }
     }
-
 }

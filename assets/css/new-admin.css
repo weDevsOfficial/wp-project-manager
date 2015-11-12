@@ -5,7 +5,7 @@
 **/
 .cpm {
   background: #f1f1f1;
-  color: #000000;
+  color: #848484;
   margin-top: 20px;
   /**
     * CPM default css classes 
@@ -698,14 +698,56 @@
   background: #019dd6;
   color: #ffffff ;
 }
-.cpm .project-overview .overview-menu li {
+.cpm .project-overview .overview-menu ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .project-overview .overview-menu ul li {
   float: left;
   background: none;
   list-style: none;
-  margin: 10px 5px;
-  border: solid 1px #cccccc;
-  padding: 10px 5px ;
+  margin: 0px;
+  margin-right: 25px;
+  border: solid 1px #E5E5E5;
+  padding: 25px 15px;
   text-align: center;
   background: #ffffff;
-  width: 100px;
+  width: 15%;
+  clear: right;
+}
+.cpm .project-overview .overview-menu ul li div {
+  float: left;
+}
+.cpm .project-overview .overview-menu ul li .icon {
+  padding: 15px 5px;
+  width: 22%;
+  border-radius: 180px;
+  color: #ffffff;
+  margin-right: 20px;
+}
+.cpm .project-overview .overview-menu ul li .count {
+  text-align: left;
+}
+.cpm .project-overview .overview-menu ul li .count span {
+  color: #019dd6;
+  font-size: 145%;
+  font-weight: bold;
+}
+.cpm .project-overview .overview-menu ul .message .icon {
+  background: #9DBC5E;
+}
+.cpm .project-overview .overview-menu ul .todo .icon {
+  background: #1FA185 ;
+}
+.cpm .project-overview .overview-menu ul .todos .icon {
+  background: #0090DB ;
+}
+.cpm .project-overview .overview-menu ul .comment_li .icon {
+  background: #1FA185 ;
+}
+.cpm .project-overview .overview-menu ul .file .icon {
+  background: #BE3C2F ;
+}
+.cpm .project-overview .overview-menu ul .milestone_li .icon {
+  background: #F29B27 ;
 }

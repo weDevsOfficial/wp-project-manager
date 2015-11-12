@@ -495,6 +495,47 @@ function cpm_project_summary( $info ) {
     return implode(' ', $info_array );
 }
 
+
+/**
+ * Helper function for displaying project summary in project overview page
+ *
+ * @since 3.8
+ * @param object $info
+ * @return string
+ */
+function cpm_project_overview_summary( $info ) {
+    $info_array = array();
+
+    if ( $info->discussion ) {
+        $info_array[] = sprintf( _n( '<li class="message"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br />  Message </div> </li> ', '<li class="message"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Messages </div> </li> ', $info->discussion, 'cpm' ), $info->discussion );
+    }
+
+    if ( $info->todolist ) {
+        $info_array[] = sprintf( _n( '<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do list </div></li>  ', '<<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do lists </div> </li> ', $info->todolist, 'cpm' ), $info->todolist );
+    }
+
+    if ( $info->todos ) {
+        $info_array[] = sprintf( _n( '<li class="todos"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do </div></li> ', '<li class="todos"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-dos </div></li> ', $info->todos, 'cpm' ), $info->todos );
+    }
+
+    if ( $info->comments ) {
+        $info_array[] = sprintf( _n( '<li class="comment_li"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Comment </div> </li>  ', '<li class="comment_li"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Comments </div></li> ', $info->comments, 'cpm' ), $info->comments );
+    }
+
+    if ( $info->files ) {
+        $info_array[] = sprintf( _n( '<li class="file"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> File </div></li>  ' , '<li class="file"><div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Files </div></li> ', $info->files, 'cpm' ), $info->files );
+    }
+
+    if ( $info->milestone ) {
+        $info_array[] = sprintf( _n( '<li class="milestone_li"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Milestone </div> </li>', '<li class="milestone_li"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> Milestones </div></li> ', $info->milestone, 'cpm' ), $info->milestone );
+    }
+
+    return implode(' ', $info_array );
+}
+
+
+
+
 /**
  * Serve project files with proxy
  *

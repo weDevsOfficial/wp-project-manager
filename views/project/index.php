@@ -12,8 +12,8 @@ $class              = $can_create_project ? '' : ' cpm-no-nav';
 
 unset( $projects['total_projects'] );
 ?>
-<div class="cpm-top-bar cpm-no-padding " >
-    <div class="cpm-row    cpm-no-padding "  > 
+<div class="cpm-top-bar cpm-no-padding" >
+    <div class="cpm-row cpm-no-padding"  > 
         <div class="cpm-col-6">
             <h2><?php _e( 'Project Manager', 'cpm' ); ?> </h2>
         </div>
@@ -86,8 +86,8 @@ unset( $projects['total_projects'] );
         </ul>
         <div class="cpm-col-5 cpm-last-col cpm-text-right " >
             <ul class="cpm-project-view " >
-                <li> <a href="JavaScript:void(0)" id='cpm-list-view' class="">  <span class=" dashicons dashicons-menu"></span> </a> </li>
-                <li> <a href="JavaScript:void(0)" id='cpm-grid-view' class=""> <span class="active dashicons dashicons-screenoptions"></span> </a> </li>
+                <li> <a href="JavaScript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="dashicons dashicons-menu"></span> </a> </li>
+                <li> <a href="JavaScript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="active dashicons dashicons-screenoptions"></span> </a> </li>
                 <div class="clearfix"></div>
             </ul>
         </div>
@@ -207,30 +207,21 @@ unset( $projects['total_projects'] );
                 position:['middle', 100],
             });
 
-            $( ".cpm-project-view" ).on( "click", "#cpm-list-view", function() {
-                $( ".cpm-projects" ).removeClass( "cpm-project-grid" ); 
-                $( ".cpm-projects" ).addClass( "cpm-project-list" ); 
-                $( "#cpm-list-view span" ).addClass( 'active' ) ; 
-                $( "#cpm-grid-view span" ).removeClass( 'active' ) ; 
-            });
+        });
+        
+    </script>
+<?php } ?>
 
-            $(".cpm-project-view").on( "click", "#cpm-grid-view", function() {
-                $(".cpm-projects").removeClass( "cpm-project-list" ) ; 
-                $(".cpm-projects").addClass( "cpm-project-grid" ); 
-                $( "#cpm-list-view span" ).removeClass( 'active' ) ; 
-                $( "#cpm-grid-view span" ).addClass( 'active' ) ; 
-            });
 
-             if ( document.body.clientWidth < 780 ) {
-                 
+<script type="text/javascript">
+        jQuery(function($) { 
+
+            if ( document.body.clientWidth < 780 ) {
                 $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ; 
                 $( ".cpm-projects" ).addClass( "cpm-project-grid" ); 
                 $( "#cpm-list-view span" ).removeClass( 'active' ) ; 
                 $( "#cpm-grid-view span" ).addClass( 'active' ) ; 
+             }
 
-               }
-
-
-        });
-    </script>
-<?php } ?>
+        }); 
+</script> 

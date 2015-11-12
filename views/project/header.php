@@ -36,29 +36,25 @@ if ( !$pro_obj->has_permission( $project ) ) {
         </div>
         <div class="clearfix"></div>
 
+        <div class="cpm-edit-project" style="display:none;">
+                    <?php
+                     if ( cpm_user_can_access( $project_id ) ) {
+                        cpm_project_form( $project );
+                    }
+                    ?>
+        </div>
 
-    </div>
-
-     <div class="cpm-edit-project" style="display:none;">
-                <?php
-                 if ( cpm_user_can_access( $project_id ) ) {
-                    cpm_project_form( $project );
-                }
-                ?>
-            </div>
-
-            <div id="cpm-create-user-wrap" title="<?php _e( 'Create a new user', 'cpm' ); ?>">
-                <?php
-
+        <div id="cpm-create-user-wrap" title="<?php _e( 'Create a new user', 'cpm' ); ?>">
+            <?php
                 if ( cpm_user_can_access( $project_id ) ) {
                     cpm_user_create_form();
                 }
-                ?>
-            </div>
-            <?php  do_action( 'cpm_project_header', $project ); ?>
+            ?>
+        </div>
+        <?php  do_action( 'cpm_project_header', $project ); ?>
+        
 
- 
- 
+    </div>
 
     <div class="cpm-row cpm-project-group  "    > 
         <ul class="list-inline   "  >
