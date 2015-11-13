@@ -25,15 +25,16 @@
 *
 **/
   /**
-    * Media Query for responsive 
-    *
-    **/
-  /**
 * Project Header part 
 **/
   /**
     * Project Overview Page 
     ***/
+  /*****/
+  /**
+    * Media Query for responsive 
+    *
+    **/
 }
 .cpm .clearfix {
   clear: both;
@@ -524,6 +525,151 @@
   text-align: center;
   top: 15px;
 }
+.cpm .cpm-border-bottom {
+  border-bottom: solid 1px #cccccc;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul li {
+  border: none;
+  float: left;
+  margin-bottom: 0px;
+  margin-right: 5px;
+}
+.cpm .cpm-project-header ul li a {
+  padding: 12px 20px;
+  min-width: 30px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  border-bottom: solid 2px #ffffff;
+  color: #aaa;
+}
+.cpm .cpm-project-header ul li a span.count {
+  padding: 0px 6px;
+  position: relative;
+  background: #cccccc;
+  margin-top: -15px;
+  margin-left: 5px;
+  border-radius: 15px;
+  top: 0;
+}
+.cpm .cpm-project-header ul li a:hover,
+.cpm .cpm-project-header ul li .active {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-project-header ul li a:hover span,
+.cpm .cpm-project-header ul li .active span {
+  border-bottom: none;
+}
+.cpm .cpm-project-header ul li a:hover span.count,
+.cpm .cpm-project-header ul li .active span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .project-overview .overview-menu ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .project-overview .overview-menu ul li {
+  float: left;
+  background: none;
+  list-style: none;
+  margin: 0px;
+  margin-right: 20px;
+  border: solid 1px #E5E5E5;
+  padding: 25px 10px;
+  text-align: center;
+  background: #ffffff;
+  width: 13.5955%;
+  clear: right;
+}
+.cpm .project-overview .overview-menu ul li div {
+  float: left;
+}
+.cpm .project-overview .overview-menu ul li .icon {
+  padding: 12px 3px;
+  width: 22%;
+  border-radius: 50px;
+  color: #ffffff;
+  margin-right: 20px;
+}
+.cpm .project-overview .overview-menu ul li .count {
+  text-align: left;
+}
+.cpm .project-overview .overview-menu ul li .count span {
+  color: #019dd6;
+  font-size: 145%;
+  font-weight: bold;
+}
+.cpm .project-overview .overview-menu ul .message .icon {
+  background: #9DBC5E;
+}
+.cpm .project-overview .overview-menu ul .todo .icon {
+  background: #1FA185 ;
+}
+.cpm .project-overview .overview-menu ul .todos .icon {
+  background: #0090DB ;
+}
+.cpm .project-overview .overview-menu ul .comment_li .icon {
+  background: #1FA185 ;
+}
+.cpm .project-overview .overview-menu ul .file .icon {
+  background: #BE3C2F ;
+}
+.cpm .project-overview .overview-menu ul .milestone_li .icon {
+  background: #F29B27 ;
+}
+.cpm .project-overview .cpm-chart {
+  background: #ffffff ;
+  padding: 10px 30px 40px;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right .to-do {
+  background: #79C7DE ;
+  padding: 0px 10px;
+  margin: 0px 5px 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right .activity {
+  background: #B972B6 ;
+  padding: 0px 10px;
+  margin: 0px 5px 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right select {
+  margin: 5px 25px;
+}
+.cpm .project-overview .cpm-right-part {
+  background: #ffffff !important ;
+}
+.cpm .project-overview .cpm-right-part h2 {
+  padding: 5px 12px 20px;
+  margin-bottom: 15px;
+  color: #848484;
+}
+.cpm .project-overview .cpm-right-part .user_list {
+  margin-left: 20px;
+  font-size: 150%;
+}
+.cpm .project-overview .cpm-right-part .user_list li {
+  margin-bottom: 30px;
+  clear: left;
+}
+.cpm .project-overview .cpm-right-part .user_list li img {
+  border-radius: 50px;
+  float: left;
+  margin-right: 10px;
+}
+.cpm .project-overview .cpm-right-part .user_list li span {
+  font-size: small;
+  color: #cccccc;
+}
 @media only screen and (max-width: 780px) {
   .cpm .cpm-sm-col-1 {
     width: 100% ;
@@ -649,105 +795,16 @@
   .cpm .cpm-project-list .cpm-project .cpm-project-people {
     text-align: center;
   }
-}
-.cpm .cpm-border-bottom {
-  border-bottom: solid 1px #cccccc;
-  padding-bottom: 0px;
-}
-.cpm .cpm-project-header ul {
-  margin-bottom: 0px;
-  margin-left: 15px;
-  padding-bottom: 0px;
-}
-.cpm .cpm-project-header ul li {
-  border: none;
-  float: left;
-  margin-bottom: 0px;
-  margin-right: 5px;
-}
-.cpm .cpm-project-header ul li a {
-  padding: 12px 20px;
-  min-width: 30px;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  border-bottom: solid 2px #ffffff;
-  color: #aaa;
-}
-.cpm .cpm-project-header ul li a span.count {
-  padding: 0px 6px;
-  position: relative;
-  background: #cccccc;
-  margin-top: -15px;
-  margin-left: 5px;
-  border-radius: 15px;
-  top: 0;
-}
-.cpm .cpm-project-header ul li a:hover,
-.cpm .cpm-project-header ul li .active {
-  border-bottom: solid 2px #019dd6;
-  color: #000000;
-  font-weight: bold;
-}
-.cpm .cpm-project-header ul li a:hover span,
-.cpm .cpm-project-header ul li .active span {
-  border-bottom: none;
-}
-.cpm .cpm-project-header ul li a:hover span.count,
-.cpm .cpm-project-header ul li .active span.count {
-  background: #019dd6;
-  color: #ffffff ;
-}
-.cpm .project-overview .overview-menu ul {
-  padding: 0px;
-  margin: 0px;
-}
-.cpm .project-overview .overview-menu ul li {
-  float: left;
-  background: none;
-  list-style: none;
-  margin: 0px;
-  margin-right: 25px;
-  border: solid 1px #E5E5E5;
-  padding: 25px 15px;
-  text-align: center;
-  background: #ffffff;
-  width: 15%;
-  clear: right;
-}
-.cpm .project-overview .overview-menu ul li div {
-  float: left;
-}
-.cpm .project-overview .overview-menu ul li .icon {
-  padding: 15px 5px;
-  width: 22%;
-  border-radius: 180px;
-  color: #ffffff;
-  margin-right: 20px;
-}
-.cpm .project-overview .overview-menu ul li .count {
-  text-align: left;
-}
-.cpm .project-overview .overview-menu ul li .count span {
-  color: #019dd6;
-  font-size: 145%;
-  font-weight: bold;
-}
-.cpm .project-overview .overview-menu ul .message .icon {
-  background: #9DBC5E;
-}
-.cpm .project-overview .overview-menu ul .todo .icon {
-  background: #1FA185 ;
-}
-.cpm .project-overview .overview-menu ul .todos .icon {
-  background: #0090DB ;
-}
-.cpm .project-overview .overview-menu ul .comment_li .icon {
-  background: #1FA185 ;
-}
-.cpm .project-overview .overview-menu ul .file .icon {
-  background: #BE3C2F ;
-}
-.cpm .project-overview .overview-menu ul .milestone_li .icon {
-  background: #F29B27 ;
+  .cpm .project-overview .overview-menu ul li {
+    width: 44.21582255%;
+    margin-bottom: 20px;
+  }
+  .cpm .project-overview .overview-menu ul li .icon {
+    padding: 25px 0px;
+    width: 25%;
+    font-size: 150%;
+    border-radius: 50px;
+    color: #ffffff;
+    margin-right: 20px;
+  }
 }

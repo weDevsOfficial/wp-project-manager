@@ -20,7 +20,8 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
     $activities = CPM_project::getInstance()->get_activity( $project_id, array() );
 
     if ( $activities ) {
-        echo cpm_activity_html( $activities );
+ 
+       echo cpm_activity_html( $activities );
     }
     ?>
 </ul>

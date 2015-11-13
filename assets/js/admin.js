@@ -195,7 +195,6 @@
 
                     };
                 });
-
             },
 
             ProjectDuplicate: function(e) {

@@ -762,4 +762,24 @@ class CPM_Project {
         return $delete;
     }
 
+
+    function get_chart_data( $project_id, $start_date='' , $end_date='' ) {
+        $start = '2015-11-1';
+        $end = '2015-11-15';
+        $args = array(
+            'post_type' => 'task',
+            'posts_per_page' => -1,
+            'order' => 'ASC',
+            'meta_query' => array(
+                array(
+                    
+                )
+            )
+        );
+        // Make the query
+        $events_query = new WP_query();
+        $events_query->query($args);
+
+    }
+
 }

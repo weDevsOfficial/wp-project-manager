@@ -511,7 +511,7 @@ function cpm_project_overview_summary( $info ) {
     }
 
     if ( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do list </div></li>  ', '<<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do lists </div> </li> ', $info->todolist, 'cpm' ), $info->todolist );
+        $info_array[] = sprintf( _n( '<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do list </div></li>  ', '<li class="todo"> <div class="icon"> <span class="dashicons dashicons-admin-comments"></span> </div>  <div class="count"> <span> %d  </span> <br /> To-do lists </div> </li> ', $info->todolist, 'cpm' ), $info->todolist );
     }
 
     if ( $info->todos ) {

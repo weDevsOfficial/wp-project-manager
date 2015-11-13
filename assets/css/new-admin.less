@@ -701,7 +701,209 @@
         }
     }
 
- /**
+
+
+/**
+* Project Header part 
+**/
+
+    .cpm-border-bottom { 
+        border-bottom: solid 1px @gray;
+        padding-bottom: 0px; 
+    }
+
+    .cpm-project-header {
+     
+        ul {
+            margin-bottom: 0px;
+            margin-left: 15px;
+            padding-bottom: 0px;
+            li {
+                border: none;
+                float: left;
+                margin-bottom: 0px;
+                margin-right: 5px;
+                a {
+                    padding: 12px 20px;
+                    min-width: 30px;
+                    display: block;
+                    text-align: center; 
+                    text-decoration: none;
+                    border-bottom: solid 2px #ffffff; 
+                    color: #aaa;
+                        
+                        span.count {
+                            padding: 0px 6px;
+                            position:relative;
+                            background:  @gray; 
+                            margin-top: -15px;
+                            margin-left: 5px;
+                            border-radius: 15px;
+                            top : 0; 
+                        }
+                        
+                }
+                a:hover, 
+                .active {
+                    border-bottom: solid 2px  @blueColor ;
+                    color: #000000;
+                    font-weight: bold;
+                    span {
+                        border-bottom: none;
+                    }
+
+                    span.count { 
+                        background:  @blueColor; 
+                        color: #ffffff ;
+                    }
+                }
+                    
+            }
+        }
+    }
+
+    /**
+    * Project Overview Page 
+    ***/
+    .project-overview {
+
+        .overview-menu {
+
+        ul {
+            padding: 0px;
+            margin: 0px;
+           
+            li {
+
+                float: left; 
+                background: none; 
+                list-style: none;
+                margin: 0px;
+                margin-right: 20px; 
+                border : solid 1px #E5E5E5;
+                padding: 25px 10px;
+                text-align: center;  
+                background: #ffffff;
+                width : 13.5955%; 
+                clear: right; 
+                div {
+                    float : left; 
+                   
+                }
+                 
+                .icon {
+                    padding: 12px 3px;
+                    width: 22%; 
+                    border-radius: 50px;
+                    color: #ffffff;
+                    margin-right: 20px;
+                } 
+
+                .count {
+                    text-align: left; 
+                    span {
+                        color: @blueColor; 
+                        font-size: 145%; 
+                        font-weight: bold;
+                    }
+                }
+
+            }
+
+                .message .icon {
+                     background : #9DBC5E; 
+                }
+
+                .todo .icon {
+                    background: #1FA185 ; 
+                }
+
+                .todos .icon {
+                    background: #0090DB ; 
+                }
+
+                .comment_li .icon {
+                    background: #1FA185 ; 
+                }
+
+                .file .icon {
+                    background: #BE3C2F ; 
+                }
+
+                .milestone_li .icon {
+                    background: #F29B27 ; 
+                }
+
+               
+
+
+            }
+
+        }
+
+        .cpm-chart {
+            background: #ffffff ;
+            padding: 10px 30px 40px;
+            margin-top: 20px;
+            margin-right: 20px;
+
+            .cpm-text-right {
+                .to-do {
+                    background: #79C7DE ;
+                    padding: 0px 10px;
+                    margin: 0px 5px 15px;
+                }
+
+                .activity {              
+                    background: #B972B6 ;
+                    padding: 0px 10px;
+                    margin: 0px 5px 15px;
+                }
+
+                select {
+                    margin: 5px 25px;
+                }
+                 
+
+                canvas {
+                     
+                }
+            }
+        }
+        .cpm-right-part {
+
+            background: #ffffff !important ; 
+
+            h2 {
+                padding: 5px 12px 20px; 
+                margin-bottom: 15px;
+                color: @defaultFontColor;
+            }
+
+            .user_list {
+                margin-left: 20px;
+                font-size: 150%;
+
+                li {
+                    margin-bottom: 30px;
+                    clear: left;
+                    img {
+                        border-radius: 50px;
+                        float: left;
+                        margin-right: 10px;
+                    }
+                    span {
+                        font-size: small;
+                        color:@gray ;
+                    }
+                }
+            }
+        }
+    
+}
+
+    /*****/
+    /**
     * Media Query for responsive 
     *
     **/
@@ -859,145 +1061,32 @@
             
         }
 
-    }
+       .project-overview {
 
+            .overview-menu {
 
-/**
-* Project Header part 
-**/
+            ul {
+                    li {
+                        width: 44.21582255%;
+                        margin-bottom: 20px;
 
-    .cpm-border-bottom { 
-        border-bottom: solid 1px @gray;
-        padding-bottom: 0px; 
-    }
+                        .icon {
+                            padding: 25px 0px;
+                            width: 25%; 
+                            font-size: 150%;
+                            border-radius: 50px;
+                            color: #ffffff;
+                            margin-right: 20px;
+                        } 
 
-    .cpm-project-header {
-     
-        ul {
-            margin-bottom: 0px;
-            margin-left: 15px;
-            padding-bottom: 0px;
-            li {
-                border: none;
-                float: left;
-                margin-bottom: 0px;
-                margin-right: 5px;
-                a {
-                    padding: 12px 20px;
-                    min-width: 30px;
-                    display: block;
-                    text-align: center; 
-                    text-decoration: none;
-                    border-bottom: solid 2px #ffffff; 
-                    color: #aaa;
-                        
-                        span.count {
-                            padding: 0px 6px;
-                            position:relative;
-                            background:  @gray; 
-                            margin-top: -15px;
-                            margin-left: 5px;
-                            border-radius: 15px;
-                            top : 0; 
-                        }
-                        
-                }
-                a:hover, 
-                .active {
-                    border-bottom: solid 2px  @blueColor ;
-                    color: #000000;
-                    font-weight: bold;
-                    span {
-                        border-bottom: none;
                     }
-
-                    span.count { 
-                        background:  @blueColor; 
-                        color: #ffffff ;
-                    }
-                }
-                    
-            }
-        }
-    }
-
-    /**
-    * Project Overview Page 
-    ***/
-    .project-overview {
-
-        .overview-menu {
-
-        ul {
-            padding: 0px;
-            margin: 0px;
-           
-            li {
-
-                float: left; 
-                background: none; 
-                list-style: none;
-                margin: 0px;
-                margin-right: 25px; 
-                border : solid 1px #E5E5E5;
-                padding: 25px 15px;
-                text-align: center;  
-                background: #ffffff;
-                width : 15%; 
-                clear: right; 
-                div {
-                    float : left; 
                    
                 }
-                 
-                .icon {
-                    padding: 15px 5px;
-                    width: 22%; 
-                    border-radius: 180px;
-                    color: #ffffff;
-                    margin-right: 20px;
-                } 
-
-                .count {
-                    text-align: left; 
-                    span {
-                        color: @blueColor; 
-                        font-size: 145%; 
-                        font-weight: bold;
-                    }
-                }
-
             }
-
-                .message .icon {
-                     background : #9DBC5E; 
-                }
-
-                .todo .icon {
-                    background: #1FA185 ; 
-                }
-
-                .todos .icon {
-                    background: #0090DB ; 
-                }
-
-                .comment_li .icon {
-                    background: #1FA185 ; 
-                }
-
-                .file .icon {
-                    background: #BE3C2F ; 
-                }
-
-                .milestone_li .icon {
-                    background: #F29B27 ; 
-                }
-
-               
-
-
-            }
-
         }
+
     }
+
+
+
 }
