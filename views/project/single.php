@@ -17,6 +17,7 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 <ul class="cpm-activity dash">
     <?php
     $count = get_comment_count( $project_id );
+     
     $activities = CPM_project::getInstance()->get_activity( $project_id, array() );
 
     if ( $activities ) {

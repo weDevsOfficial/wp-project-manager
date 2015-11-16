@@ -701,6 +701,7 @@ class CPM_Project {
      */
     function new_project_item_complete_date( $object_id, $complete ) {
         global $wpdb;
+
         $table = $wpdb->prefix . 'cpm_project_items';
 
         $where = array(
@@ -726,13 +727,15 @@ class CPM_Project {
      */
     function new_project_item_complete_open( $object_id ) {
         global $wpdb;
+
         $table = $wpdb->prefix . 'cpm_project_items';
 
         $where = array(
             'object_id'  => $object_id
         );
+
         $data = array(
-            'complete_date'        => '0000-00-00 00:00:00',
+            'complete_date'   => '0000-00-00 00:00:00',
             'complete_status' => 0
         );
 
@@ -750,6 +753,7 @@ class CPM_Project {
      */
     function delete_project_item( $object_id ) {
         global $wpdb;
+
         $table = $wpdb->prefix . 'cpm_project_items';
 
         $object_id = apply_filters( 'cpm_delete_project_item_data', $object_id );
@@ -759,27 +763,58 @@ class CPM_Project {
         $delete = $wpdb->delete( $table, array( 'object_id' => $object_id ), array( '%d' ) );
 
         do_action( 'cpm_before_delete_new_project_item', $object_id );
+
         return $delete;
     }
 
 
-    function get_chart_data( $project_id, $start_date='' , $end_date='' ) {
-        $start = '2015-11-1';
-        $end = '2015-11-15';
-        $args = array(
-            'post_type' => 'task',
-            'posts_per_page' => -1,
-            'order' => 'ASC',
-            'meta_query' => array(
-                array(
-                    
-                )
-            )
-        );
-        // Make the query
-        $events_query = new WP_query();
-        $events_query->query($args);
+    function get_chart_data( $project_id,  $end_date, $start_date ) {
+        global $wpdb;
 
+
+        $where = $wpdb->prepare( "WHERE comment_post_ID = '%s' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
+        $sql = "SELECT  *   FROM {$wpdb->comments} $where  "  ;
+        $total_activity = $wpdb->get_results($sql);
+       // var_dump($total_activity) ;
+        // Get All To-do list of the project with in date range.
+
+        $where = $wpdb->prepare( "WHERE post_parent = '%s' AND DATE(post_date) >= '%s' AND DATE(post_date) <= '%s'", $project_id, $start_date, $end_date );
+        $sql = "SELECT  ID   FROM {$wpdb->posts} $where  "  ;
+        $to_do = $wpdb->get_col($sql);
+
+        $to_do = implode($to_do , ',');
+
+        $where = $wpdb->prepare( "WHERE post_parent IN({$to_do}) AND DATE(post_date) >= '%s' AND DATE(post_date) <= '%s'",   $start_date, $end_date );
+        $sql = "SELECT  *   FROM {$wpdb->posts} $where  "  ;
+        $todos = $wpdb->get_results($sql);
+
+        $response['date_list'] = '';
+
+        $response['todos'] = '';
+
+
+        foreach ( $total_activity as $activity) {
+           $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
+
+            if ( !isset( $response['date_list'][$date] ) ) {
+                $response['date_list'][$date] = 1 ;
+            } else {
+
+                $response['date_list'][$date] += 1 ;
+            }
+        }
+
+        foreach ($todos as $to_do) {
+           $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
+
+           if ( !isset( $response['todos'][$tdate] ) ) {
+                $response['todos'][$tdate] = 1 ;
+            } else {
+                $response['todos'][$tdate] += 1 ;
+            }
+        }
+
+        return $response;
     }
 
 }
