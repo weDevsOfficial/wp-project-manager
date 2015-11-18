@@ -415,6 +415,9 @@ class CPM_Ajax {
     }
 
     function user_role_table_generator( $project ) {
+        
+        $project = apply_filters( 'cpm_user_list', $project );
+        
         ob_start();
         if ( !is_null( $project ) ) {
             $users_role = $project->users;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Task list manager class
  *

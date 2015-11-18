@@ -596,11 +596,11 @@ class CPM_Project {
      * @return bool
      */
     function has_permission( $project ) {
+        
         global $current_user;
 
         $loggedin_user_role = reset( $current_user->roles );
-
-        $manage_capability = cpm_get_option( 'project_manage_role' );
+        $manage_capability  = cpm_get_option( 'project_manage_role' );
         $project_users_role = $this->get_users( $project->ID );
 
         if ( array_key_exists( $current_user->ID, $project_users_role ) || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
