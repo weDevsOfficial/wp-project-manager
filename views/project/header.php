@@ -14,17 +14,17 @@ if ( !$pro_obj->has_permission( $project ) ) {
 ?>
 
 <div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head" >
-    <div class="cpm-row    cpm-no-padding cpm-border-bottom "  > 
+    <div class="cpm-row    cpm-no-padding cpm-border-bottom "  >
         <div class="cpm-col-6 cpm-project-detail">
-            <h2><?php echo get_the_title( $project_id ); ?>  
+            <h2><?php echo get_the_title( $project_id ); ?>
             <?php if ( cpm_user_can_access( $project_id ) ) { ?>
                 <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
-            <?php } ?> 
+            <?php } ?>
 
             </h2>
             <?php echo cpm_get_content( $project->post_content ); ?>
 
-           
+
             <div class="detail">
                 <?php echo cpm_get_content( $project->post_content ); ?>
                 <?php do_action( 'cpm_project_after_description', $project ); ?>
@@ -52,19 +52,19 @@ if ( !$pro_obj->has_permission( $project ) ) {
             ?>
         </div>
         <?php  do_action( 'cpm_project_header', $project ); ?>
-        
+
 
     </div>
 
-    <div class="cpm-row cpm-project-group  "    > 
+    <div class="cpm-row cpm-project-group  "    >
         <ul class="list-inline   "  >
 
             <?php  echo $pro_obj->nav_menu( $project_id, $cpm_active_menu ); ?>
 
             <div class="clearfix"></div>
         </ul>
-        
-    </div> 
+
+    </div>
 
 
  <div class="clearfix"> </div>

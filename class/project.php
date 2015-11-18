@@ -396,7 +396,9 @@ class CPM_Project {
         $args = wp_parse_args( $args, $defaults );
         $args['post_id'] = $project_id;
 
-        return get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
+        $response =  get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
+
+        return $response ;
     }
 
     /**
@@ -531,6 +533,7 @@ class CPM_Project {
      * @return array
      */
     function nav_links( $project_id ) {
+
         $links = array(
             __( 'Overview', 'cpm' )    => cpm_url_project_overview( $project_id ),
             __( 'Activity', 'cpm' )    => cpm_url_project_details( $project_id ),
@@ -550,20 +553,72 @@ class CPM_Project {
     }
 
     /**
-     * Prints navigation menu for a project
-     *
-     * @param int $project_id
-     * @param string $active
-     * @return string
-     */
+    * Prints navigation menu for a project
+    *
+    * @param int $project_id
+    * @param string $active
+    * @return string
+    */
+
     function nav_menu( $project_id, $active = '' ) {
-        $links = $this->nav_links( $project_id );
-        $menu = array();
-        foreach ($links as $label => $url) {
+
+        $links          = $this->nav_links( $project_id );
+        $project_info   =  $this->get_info( $project_id );
+        $count_comments = get_comment_count( $project_id );
+        $total_activity =  $count_comments['total_comments'];
+        $menu           = array();
+
+        foreach ( $links as $label => $url ) {
+
+            switch ( $label ) {
+
+                case __( 'Messages', 'cpm' ):
+                    $count = $project_info->discussion;
+                    $class = "message";
+                    break;
+
+                case __( 'To-do Lists', 'cpm' ):
+                    $count = $project_info->todos;
+                    $class = "to-do-list";
+                    break;
+
+                case __( 'Files', 'cpm' ):
+                    $count = $project_info->files;
+                    $class = "files";
+                    break;
+
+                case __( 'Activity', 'cpm' ):
+                    $count = $total_activity;
+                    $class = "activity";
+                    break;
+
+                case __( 'Milestones', 'cpm' ):
+                    $count = $project_info->milestone;
+                    $class = "milestone";
+                    break;
+
+                case  __( 'Overview', 'cpm' ) :
+                    $count = "";
+                    $class = "overview";
+                    break;
+
+                case __( 'Settings', 'cpm' ):
+                    $count = "";
+                    $class = "settings";
+                    break;
+
+                default:
+                    $count = "";
+                    $class = "";
+                    break;
+            }
+
             if ( $active == $label ) {
-                $menu[] = sprintf( '<li> <a href="%1$s" class=" active" title="%2$s">%2$s</a> </li>', $url, $label );
+
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $url, $label, $count, $class );
             } else {
-                $menu[] = sprintf( '<li> <a href="%1$s" class="" title="%2$s">%2$s</a></li>', $url, $label );
+
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $url, $label, $count, $class);
             }
         }
 
@@ -616,9 +671,8 @@ class CPM_Project {
 
         $sql = "SELECT m.meta_value as completed FROM $wpdb->posts p
             LEFT JOIN $wpdb->postmeta m ON p.ID = m.post_id
-            WHERE post_parent IN(
-                    SELECT ID FROM $wpdb->posts WHERE post_parent = $project_id AND post_status = 'publish' AND post_type = 'task_list'
-            ) AND p.post_status = 'publish' AND p.post_type = 'task' AND m.meta_key = '_completed'
+            WHERE post_parent IN (SELECT ID FROM $wpdb->posts WHERE post_parent = $project_id AND post_status = 'publish' AND post_type = 'task_list')
+            AND p.post_status = 'publish' AND p.post_type = 'task' AND m.meta_key = '_completed'
             ORDER BY m.meta_value";
 
         $result = $wpdb->get_results($sql);
@@ -771,30 +825,25 @@ class CPM_Project {
     function get_chart_data( $project_id,  $end_date, $start_date ) {
         global $wpdb;
 
+        delete_transient( 'chart_data1' );
+        delete_transient( 'chart_data2' );
+        if ( false === ( $value = get_transient( 'chart_data1' ) ) ) {
+            $where = $wpdb->prepare( "WHERE comment_post_ID = '%d' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
+            $sql = "SELECT  *   FROM {$wpdb->comments} $where  "  ;
+            $total_activity = $wpdb->get_results($sql);
+            set_transient( 'chart_data1',$total_activity, 1 * HOUR_IN_SECONDS  );
 
-        $where = $wpdb->prepare( "WHERE comment_post_ID = '%s' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
-        $sql = "SELECT  *   FROM {$wpdb->comments} $where  "  ;
-        $total_activity = $wpdb->get_results($sql);
-       // var_dump($total_activity) ;
-        // Get All To-do list of the project with in date range.
-
-        $where = $wpdb->prepare( "WHERE post_parent = '%s' AND DATE(post_date) >= '%s' AND DATE(post_date) <= '%s'", $project_id, $start_date, $end_date );
-        $sql = "SELECT  ID   FROM {$wpdb->posts} $where  "  ;
-        $to_do = $wpdb->get_col($sql);
-
-        $to_do = implode($to_do , ',');
-
-        $where = $wpdb->prepare( "WHERE post_parent IN({$to_do}) AND DATE(post_date) >= '%s' AND DATE(post_date) <= '%s'",   $start_date, $end_date );
-        $sql = "SELECT  *   FROM {$wpdb->posts} $where  "  ;
-        $todos = $wpdb->get_results($sql);
-
+            $csql = "SELECT  * FROM {$wpdb->posts}
+                    WHERE DATE(post_date) >= '{$start_date}'
+                    AND DATE(post_date) <= '{$end_date}'
+                    AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_parent = '{$project_id}' ) ";
+            $todos = $wpdb->get_results($csql);
+            set_transient( 'chart_data2', $todos, 1 * HOUR_IN_SECONDS  );
+        }
         $response['date_list'] = '';
-
         $response['todos'] = '';
-
-
-        foreach ( $total_activity as $activity) {
-           $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
+        foreach ( $total_activity as $activity ) {
+            $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
 
             if ( !isset( $response['date_list'][$date] ) ) {
                 $response['date_list'][$date] = 1 ;
@@ -804,10 +853,10 @@ class CPM_Project {
             }
         }
 
-        foreach ($todos as $to_do) {
-           $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
+        foreach ( $todos as $to_do ) {
+            $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
 
-           if ( !isset( $response['todos'][$tdate] ) ) {
+            if ( !isset( $response['todos'][$tdate] ) ) {
                 $response['todos'][$tdate] = 1 ;
             } else {
                 $response['todos'][$tdate] += 1 ;

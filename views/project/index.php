@@ -13,7 +13,7 @@ $class              = $can_create_project ? '' : ' cpm-no-nav';
 unset( $projects['total_projects'] );
 ?>
 <div class="cpm-top-bar cpm-no-padding" >
-    <div class="cpm-row cpm-no-padding"  > 
+    <div class="cpm-row cpm-no-padding"  >
         <div class="cpm-col-6">
             <h2><?php _e( 'Project Manager', 'cpm' ); ?> </h2>
         </div>
@@ -25,7 +25,7 @@ unset( $projects['total_projects'] );
                 <a href="#" class="cpm-btn-white">
                 Dashbord
                 </a>
-            
+
         </div>
         <div class="clearfix"></div>
     </div>
@@ -34,14 +34,14 @@ unset( $projects['total_projects'] );
     <div class="cpm-row cpm-no-padding  cpm-priject-search-bar "   >
         <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"  >
              <?php if ( $can_create_project ) { ?>
-        
+
                     <a href="#" id="cpm-create-project" class="cpm-btn cpm-btn-blue"> <span class="dashicons dashicons-plus"> </span> <?php _e( 'New Project', 'cpm' ); ?> </a>
-         
+
             <?php } ?>
         </div>
 
-        <div class="cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  " > 
-            <div class="cpm-col-5 cpm-sm-col-12"> 
+        <div class="cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  " >
+            <div class="cpm-col-5 cpm-sm-col-12">
             <?php
             $category   = isset( $_GET['project_cat'] ) ? $_GET['project_cat'] : '';
             $status     = isset( $_GET['project_status'] ) ? $_GET['project_status'] : '';
@@ -64,16 +64,18 @@ unset( $projects['total_projects'] );
         </div>
         <div class="clearfix"> </div>
     </div>
- 
 
-    <div class="cpm-row cpm-project-group  "    > 
+
+    <div class="cpm-row cpm-project-group  "    >
         <ul class="list-inline  cpm-col-6 cpm-project-group-ul "  >
             <li class=" cpm-sm-col-4 <?php echo $status_class == 'all' ? '  active ' : ''; ?> " >
                 <a href="<?php echo cpm_url_all(); ?>">
-                <span class="dashicons dashicons-share-alt"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="18" viewBox="0 0 48 48">
+                        <image xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACYVBMVEUAAADT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09MAAAB3Qvl4AAAAynRSTlMAFkt8o8DS3NPDqIRUHgldreryuGoNeumLHWTe7HgYsMQtPePuz7ensspXUdWJSBkTQH7JcE/CVQJGsXE262XZWA6/HwylKofYWYUGyCm8czKDTGimHHaB8c13ogPm4EVmjTnRgn0+adbvpCezkAUIwSxHEiQLbFBteyu6mWBTriOf7eUgOi/a5CJcnecBEZUEiMe5cjM4xhpeO0SYdSEP6HnUf0HwnG501yXOtTS0YjCeik0oB9uOj5rLjApJlyZWtpKWNS7M37036ImdOQAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAANfSURBVEjHhVX5I1RRFD6kjKnQQRjtoaHdMphEKqmEZCit0yJLQiVZSipJpUVpp9JeilYq7Zv6r7qr98Z7j/PDvHO+831zzzv3nvsAhpqb+yiP0WM8PU1e5rHjxsMI5u3jOwHV5ufvNgw9YKInaiwwKNiIbwlBXZs0WZc+ZSoa2rTpWv6MmUo+NCzcPMsaEaiSRA7lzx5MzZk7bz7HFiyMih6EY1z5sRK3xcW7JBLsMrNIDScKcHGSttbYZJFcomApotqly/S6sTxVKFYMQuEcSDXqdxrPr5TxKh6bjXd0NWeM5VE6L2gNjzL8MrMA1lqzib/OmiMUDq7IZUEeD8SZWY+4gXYtn/gb0UOuwc/MJupu3sJ8i8gkbw3HRNiGduI7cbsU7OD/Sncojnk75QFBfzfcBQlDBcAPTgHx+M7MFrgP2oNIObvRlwSFmDYoyGC0ItLlYupslXgJw2EPlqZ7xztxb1n5ZpGpYJl9sJ895dIHECsPRmBcMAWrDtHfLJFyMmI11LDnfoHW1h0mLbIeme9rt3nV1x4ttXnFiVQDIx4DD/rYMNwcSivC4uNogzAqOCHBRoul8CRAfY4lyZ3G7knOJpk71Xw6twL5uzgkeIYEZwFaKBjM/hWzRepcPd2Eejh/gXT3ohTQ12wFuMTLBbiM2KYUdeUqe0QmKBAdJNL7a+wFrzOBMjg3EGvK4CZ1b6XrCdoB/FSCDjYysMUBt6NRu0JEM+IdqFMJllLBXXIywhZj8R2NIK+Tvo1acI/NPNxnqz/QCKLKER/GP1IEuYxYIu6LbI1gE5gRH7cqAh9GfEJPD7GnGkEqPCNnsksRPGfEFwCZ6poUAZm1bvV9xCsKIV4P87x0BC/VglcseE0871DmvtEKeCO54C0f0QbqtzK35R3bdeJdAOhF7JaDXMAE+YxkZX4KF5eyLTeNMXUA+JpMfTScRcIe6vRxTgYv7zGP3huPQhVnfJDxRx73j8DnVVMLFret45MuP0ikZyjQGwEVfdbSE216H4gc+dkw33Sl7/siM0GuCX+JY2Z1k7yKvvYoH8rXQ1f+hoqt/P6ov7/dblJBbaCxpjVoaL3bdLsRZcT/EWDQ78qfenTHL+MdhcbOS67snWm/YQT77Txc9+fpwEBy199jMf806f9hgdNqhz06mQAAAABJRU5ErkJggg==" width="48" height="48"/>
+                    </svg>
                 <?php _e( 'All', 'cpm' ); ?></a>
             </li>
-            <li class="cpm-sm-col-4 <?php echo $status_class == 'active' ? ' ' : ''; ?> " > 
+            <li class="cpm-sm-col-4 <?php echo $status_class == 'active' ? ' ' : ''; ?> " >
                 <a class="cpm-active" href="<?php echo cpm_url_active(); ?>">
                 <span class="dashicons dashicons-clock"></span> <?php printf( __( 'Active <span class="count">%d</span>', 'cpm' ), $count['active'] ); ?></a>
             </li>
@@ -91,43 +93,43 @@ unset( $projects['total_projects'] );
                 <div class="clearfix"></div>
             </ul>
         </div>
-    </div> 
+    </div>
 
 
  <div class="clearfix"> </div>
 </div>
 
- 
+
 <div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-grid cpm-no-padding cpm-no-margin"  >
 
-    
 
-    <?php if ( $projects ) { 
+
+    <?php if ( $projects ) {
       $slp = 1 ;
-     foreach ($projects as $project) { 
-            if( $slp%3 == 0 )  $last_cal =  ' cpm-last-col'; else $last_cal = '' ; 
+     foreach ($projects as $project) {
+            if( $slp%3 == 0 )  $last_cal =  ' cpm-last-col'; else $last_cal = '' ;
             ?>
-        
+
               <article class="cpm-project  cpm-column-gap-left cpm-sm-col-12 <?php echo $last_cal ; ?> "  >
                 <?php if ( cpm_is_project_archived( $project->ID ) ) { ?>
                     <div class="cpm-completed-wrap"><div class="ribbon-green"><?php _e( 'Completed', 'cpm' ); ?></div></div>
                 <?php } ?>
 
                 <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_overview( $project->ID ); ?>">
-                    <div class="project_head"> 
+                    <div class="project_head">
                     <h5><?php echo cpm_excerpt( get_the_title( $project->ID ), 30 ); ?></h5>
 
                     <div class="cpm-project-detail"><?php echo cpm_excerpt( $project->post_content, 55 ); ?></div>
                     </div>
                     <div class="cpm-project-meta">
-                        <ul> 
+                        <ul>
                         <?php   echo cpm_project_summary( $project->info ); ?>
                         <div class="clearfix"></div>
                         </ul>
                     </div>
 
                     <footer class="cpm-project-people">
-                        <div class="cpm-scroll"> 
+                        <div class="cpm-scroll">
                             <?php
                             if ( count( $project->users ) ) {
                                 foreach ($project->users as $id => $user_meta) {
@@ -144,7 +146,7 @@ unset( $projects['total_projects'] );
                 echo cpm_task_completeness( $progress['total'], $progress['completed'] );
                 ?>
                 <div class="cpm-progress-percentage"> <?php if($progress['total'] != 0) {  echo floor(((100 * $progress['completed']) /  $progress['total'])) ."%" ; } ?>  </div>
-                <div class="cpm-project-action-icon"> 
+                <div class="cpm-project-action-icon">
                     <?php
                     if ( cpm_user_can_access( $project->ID ) ) {
                          cpm_project_actions( $project->ID ) ;
@@ -159,8 +161,8 @@ unset( $projects['total_projects'] );
                 </div> -->
             </article>
 
-        <?php 
-        $slp++; 
+        <?php
+        $slp++;
          } ?>
 
         <?php cpm_pagination( $total_projects, $limit, $pagenum ); ?>
@@ -208,20 +210,20 @@ unset( $projects['total_projects'] );
             });
 
         });
-        
+
     </script>
 <?php } ?>
 
 
 <script type="text/javascript">
-        jQuery(function($) { 
+        jQuery(function($) {
 
             if ( document.body.clientWidth < 780 ) {
-                $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ; 
-                $( ".cpm-projects" ).addClass( "cpm-project-grid" ); 
-                $( "#cpm-list-view span" ).removeClass( 'active' ) ; 
-                $( "#cpm-grid-view span" ).addClass( 'active' ) ; 
+                $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ;
+                $( ".cpm-projects" ).addClass( "cpm-project-grid" );
+                $( "#cpm-list-view span" ).removeClass( 'active' ) ;
+                $( "#cpm-grid-view span" ).addClass( 'active' ) ;
              }
 
-        }); 
-</script> 
+        });
+</script>

@@ -398,6 +398,126 @@ function cpm_task_list_html( $list, $project_id ) {
 }
 
 /**
+ * New HTML generator for a single tasklist
+ *
+ * @param object $list
+ * @param int $project_id
+ * @return string
+ */
+function cpm_task_list_html_formated( $list, $project_id ) {
+
+    $task_obj           = CPM_Task::getInstance();
+    $tasks['pending']   = array();
+    $tasks['completed'] = array();
+    $private            = ( $list->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+    ob_start();
+    ?>
+    <article class="cpm-todolist">
+        <header class="cpm-list-header">
+
+            <h3>
+                <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
+                <span class="<?php echo $private; ?>"></span>
+
+
+                <div class="cpm-right">
+                    <?php
+                if( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
+
+                    <a href="#" class="cpm-btn cpm-btn-xs move"></a>
+                    <a href="#" class="cpm-list-edit cpm-icon-edit cpm-btn cpm-btn-xs"></a>
+                    <a href="#" class="cpm-list-delete cpm-icon-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"></a>
+                <?php } else { ?>
+                    <a href="#" class="cpm-btn cpm-btn-xs"> <span class="move"></span> </a>
+                <?php } ?>
+                </div>
+
+
+            </h3>
+
+            <div class="cpm-entry-detail">
+                <?php echo cpm_get_content( $list->post_content ); ?>
+            </div>
+        </header>
+        <div class="cpm-list-edit-form">
+            <?php echo cpm_tasklist_form( $project_id, $list ); ?>
+        </div>
+
+        <ul class="cpm-todos">
+            <?php
+
+            $tasks = $task_obj->get_tasks_by_access_role( $list->ID , $project_id );
+            $tasks = cpm_tasks_filter( $tasks );
+
+            if ( count( $tasks['pending'] ) ) {
+                foreach ($tasks['pending'] as $task) {
+                    ?>
+                    <li>
+
+                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
+        </ul>
+
+        <ul class="cpm-todos-new">
+            <?php
+            if( cpm_user_can_access( $project_id, 'create_todo' ) ) {
+            ?>
+                <li class="cpm-new-btn">
+                    <a href="#" class="cpm-btn add-task"><?php _e( 'Add a to-do', 'cpm' ); ?></a>
+                </li>
+            <?php  } ?>
+            <li class="cpm-todo-form cpm-hide">
+                <?php cpm_task_new_form( $list->ID, $project_id ); ?>
+            </li>
+        </ul>
+
+        <ul class="cpm-todo-completed">
+            <?php
+
+            if ( count( $tasks['completed'] ) ) {
+                foreach ($tasks['completed'] as $task) {
+                    ?>
+                    <li>
+                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
+        </ul>
+
+        <footer>
+            <div class="cpm-col-6">
+                <div class="cpm-col-4"> TO Complete</div>
+                <div class="cpm-col-4">
+                     <?php if ( (int) $list->comment_count > 0 ) { ?>
+                    <span class="cpm-comment-count">
+                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                        </a>
+                    </span>
+                <?php } ?>
+
+                </div>
+            </div>
+            <div class="cpm-col-6">
+                 <?php
+                     $complete = $task_obj->get_completeness( $list->ID, $project_id );
+                    echo cpm_task_completeness( $complete['total'], $complete['completed'] );
+                    ?>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+    </article>
+    <?php
+    return ob_get_clean();
+}
+
+/**
  * Comment form
  *
  * @param int $object_id object id of the comment parent
@@ -876,7 +996,7 @@ function cpm_project_form( $project = null ) {
         <div class="cpm-form-item project-name">
             <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="<?php echo esc_attr( $name ); ?>" size="45" />
         </div>
-        
+
         <div class="cpm-form-item project-category">
             <?php
             if ( $project ) {
@@ -1026,6 +1146,73 @@ function cpm_activity_html( $activities ) {
 
     return $html;
 }
+
+
+/**
+ * render view of all project activities
+ *
+ * @since 1.3.8
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_activity_html_render( $activities ) {
+    global $_get_shorcode_attr;
+
+    $list = array();
+    $html = '<ul class="cpm-activity-list">';
+
+    foreach ($activities as $activity) {
+
+        cpm_custom_do_shortcode($activity->comment_content);
+
+        $task_privacy       = cpm_check_task_privicy( $_get_shorcode_attr, $activity );
+        $tasklist_privacy   = cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity );
+        $milestone_privacy  = cpm_check_milestone_privicy( $_get_shorcode_attr, $activity );
+        $message_privacy    = cpm_check_message_privicy( $_get_shorcode_attr, $activity );
+        $_get_shorcode_attr = '';
+
+        if ( !$task_privacy || !$tasklist_privacy || !$milestone_privacy || !$message_privacy ) {
+            continue;
+        }
+
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+
+        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
+
+        foreach ($items as $activity) {
+
+
+            cpm_custom_do_shortcode($activity->comment_content);
+
+            $task_privacy       = cpm_check_task_privicy( $_get_shorcode_attr, $activity );
+            $tasklist_privacy   = cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity );
+            $milestone_privacy  = cpm_check_milestone_privicy( $_get_shorcode_attr, $activity );
+            $message_privacy    = cpm_check_message_privicy( $_get_shorcode_attr, $activity );
+            $_get_shorcode_attr = '';
+
+            if ( !$task_privacy || !$tasklist_privacy || !$milestone_privacy || !$message_privacy ) {
+                continue;
+            }
+
+            $html .= sprintf( '<li> %s <span class="date">- %s</span></li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= "</ul> </li>";
+    }
+
+    $html .= " <div class='clearfix'></div> </ul>";
+    return $html;
+}
+
+
+
+
+
 
 /**
  * Prints project activities

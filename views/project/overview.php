@@ -44,7 +44,7 @@ $str_todo = implode( $str_todo, ',' );
 	</div>
 
 	<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part">
-		<h2 class="cpm-border-bottom"> User </h2>
+		<h2 class="cpm-border-bottom"> <?php _e('Users', 'cpm') ; ?> </h2>
 		<ul class="user_list">
 			<?php
 	         	if ( count( $project->users ) ) {
@@ -67,7 +67,7 @@ $str_todo = implode( $str_todo, ',' );
 		    labels: [<?php echo $str_date ?>],
 		    datasets: [
 		        {
-		            label: "Activity",
+		            label: "<?php _e('Activity', 'cpm') ; ?>",
 		            fillColor: "rgba(120,200, 223, 0.4)",
 		            strokeColor: "#79C7DF",
 		            pointColor: "#79C7DF",
@@ -78,7 +78,7 @@ $str_todo = implode( $str_todo, ',' );
 		            data: [<?php echo $str_activity ?>]
 		        },
 		        {
-		            label: "To-do",
+		            label: "<?php _e('To-do', 'cpm') ?>",
 		            fillColor: "rgba(185, 114, 182,0.5)",
 		            strokeColor: "#B972B6",
 		            pointColor: "#B972B6",
