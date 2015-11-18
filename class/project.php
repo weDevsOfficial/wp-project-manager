@@ -350,7 +350,7 @@ class CPM_Project {
         $user_id = get_current_user_id();
         $where .= " AND $table.user_id = $user_id";
 
-        return $where;
+        return apply_filters( 'cpm_projects_where', $where );
     }
 
     /**
@@ -522,7 +522,7 @@ class CPM_Project {
             }
         }
 
-        return $user_list;
+        return apply_filters( 'cpm_project_users', $user_list, $project );
     }
 
     /**

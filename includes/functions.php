@@ -750,7 +750,7 @@ function cpm_project_user_role( $project_id ) {
         wp_cache_set( $cache_key, $project_user_role );
     }
 
-    return $project_user_role;
+    return apply_filters( 'cpm_user_role', $project_user_role, $project_id );
 }
 
 function cpm_is_single_project_manager( $project_id ) {
@@ -843,7 +843,7 @@ function cpm_user_can_access( $project_id, $section='' ) {
     if( $can_access == 'yes' ) {
         return true;
     } else {
-        return false;
+        return false;    
     }
 }
 

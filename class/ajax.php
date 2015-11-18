@@ -1080,9 +1080,16 @@ class CPM_Ajax {
         $users = get_users( array(
             'search' => '*' . $_POST['term'] . '*',
             'search_columns' => array( 'user_login', 'user_email', 'nicename' ),
-        ) );
+        ));
+
+        $current_user_id = get_current_user_id();
 
         foreach( $users as $user) {
+            
+            if ( $current_user_id == $user->ID ) {
+                continue;
+            }
+
             $data[] = array(
 
                 'label' => $user->display_name,
