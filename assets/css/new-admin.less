@@ -1063,21 +1063,106 @@
 
             header {
                 border-bottom: solid 1px @gray;
-                padding: 10px;
+                padding: 25px 25px 3px 25px;
+                margin-bottom: 20px;
 
                 .cpm-right {
-                    .move {
-                        background :  url('../images/move.png') no-repeat 50% 50% ;
-                        padding: 5px;
+                    a {
+
+                        float: none;
+                        padding: 0px;
                     }
-                    .cpm-icon-edit{
-                        background :  url('../images/edit.svg') no-repeat 50% 50% ;
-                        padding: 5px;
-                        background-size: 25px;
+                    .move {
+                        background :  url('../images/move.svg') no-repeat 50% 0% ;
+                        padding: 10px;
+                        background-size: 20px;
+
+                    }
+                    .cpm-icon-edit {
+                        background :  url('../images/edit.svg') no-repeat 50% 0% ;
+                        padding: 10px;
+                        background-size: 18px;
                     }
                     .cpm-icon-delete {
-                         background : red;
+                        background :  url('../images/close.svg') no-repeat 50% 0% ;
+                        padding: 10px;
+                        background-size: 15px;
+                        &:before {
+                             content: "";
+                        }
                     }
+                }
+            }
+
+            .cpm-todos {
+                padding: 0px;
+                margin: 0px;
+
+                li {
+                    border-bottom: solid 1px @gray;
+                    padding: 5px 8px 0px 30px;
+                    div {
+                        margin-bottom: 0px;
+                        padding-bottom: 3px;
+                        padding-top: 3px;
+                    }
+                    .cpm-todo-content {
+                        .cpm-comment-count {
+                            background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;
+                            background-size: 20px;
+                            padding: 10px;
+                            padding-left: 25px;
+                            font-weight: bold;
+                        }
+
+
+
+                    }
+                    .completed_by {
+                        .cpm-assigned-user,
+                        time {
+                            background: none;
+                        }
+                        .avatar {
+                            border-radius: 50px;
+                            vertical-align: middle;
+                            margin-right: 8px;
+                        }
+                    }
+
+                    .cpmtt-icon-clock {
+
+                        background :  none url('../images/time.svg') no-repeat 0% 50% ;
+                        background-size: 20px;
+
+                    }
+
+                    .cpm-todo-delete {
+                        background :  url('../images/close.svg') no-repeat 50% 0% ;
+                        padding: 10px;
+                        background-size: 10px;
+                        &:before {
+                             content: "";
+                        }
+                    }
+
+                    .cpm-todo-edit {
+                        background :  url('../images/edit.svg') no-repeat 50% 0% ;
+                        padding: 10px;
+                        background-size: 10px;
+                    }
+
+                    .move {
+                        background :  url('../images/move.svg') no-repeat 50% 30% ;
+                        padding: 10px;
+                        background-size: 13px;
+
+                    }
+
+
+                }
+                li:nth-child(even) {
+                    background: #F8F9FB;
                 }
             }
         }

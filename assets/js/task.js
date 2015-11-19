@@ -12,7 +12,7 @@
             $('.cpm-todolists').on('submit', '.cpm-todo-form form.cpm-task-form', this.submitNewTodo);
 
             //edit todo
-            $('.cpm-todolists').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
+            $('.cpm-todolists').on('click', 'a.cpm-todo-edit', this.toggleEditTodo);
             $('.cpm-todolists').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
             $('.cpm-todolists').on('submit', '.cpm-task-edit-form form', this.updateTodo);
 
@@ -268,6 +268,7 @@
         },
 
         toggleEditTodo: function (e) {
+
             e.preventDefault();
 
             var wrap = $(this).closest('.cpm-todo-wrap');
