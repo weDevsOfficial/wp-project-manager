@@ -28,7 +28,7 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
             ?>
 
             <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>">
-                <?php echo cpm_task_list_html_formated( $list, $project_id ); ?>
+                <?php echo cpm_task_list_html( $list, $project_id ); ?>
             </li>
 
             <?php

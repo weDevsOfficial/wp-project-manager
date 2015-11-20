@@ -1014,6 +1014,7 @@
 
         li.cpm-row {
             display: flex;
+            vertical-align: middle;
             margin-bottom: 15px;
 
             padding: 0px;
@@ -1059,12 +1060,12 @@
         .cpm-todolist {
             margin: 0px;
             padding: 0px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             header {
                 border-bottom: solid 1px @gray;
                 padding: 25px 25px 3px 25px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
 
                 .cpm-right {
                     a {
@@ -1100,11 +1101,14 @@
 
                 li {
                     border-bottom: solid 1px @gray;
-                    padding: 5px 8px 0px 30px;
+                    padding: 0px 8px 0px 30px;
+                    a {
+                        color: @blueColor ;
+                    }
                     div {
                         margin-bottom: 0px;
-                        padding-bottom: 3px;
-                        padding-top: 3px;
+                        padding-bottom: 0px;
+                        padding-top: 2px;
                     }
                     .cpm-todo-content {
                         .cpm-comment-count {
@@ -1114,10 +1118,8 @@
                             padding-left: 25px;
                             font-weight: bold;
                         }
-
-
-
                     }
+
                     .completed_by {
                         .cpm-assigned-user,
                         time {
@@ -1160,10 +1162,70 @@
                     }
 
 
+
                 }
+
                 li:nth-child(even) {
                     background: #F8F9FB;
                 }
+            }
+            .cpm-todos-new{
+                margin: 0px;
+                padding: 0px;
+                .cpm-new-btn {
+                    margin-bottom: 15px;
+                    border-bottom: solid 1px @gray;
+                    padding: 0px 8px 20px 30px;
+                    margin-left: 0px;
+                    a {
+                        background :  url('../images/plus_blue.svg') no-repeat 0% 50% ;
+                        padding: 10px;
+                        background-size: 20px;
+                        padding-left: 25px;
+                        color : @blueColor ;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            footer.cpm-list-footer {
+                    padding: 0px;
+                    margin:0px;
+                    padding-left: 20px;
+                    .cpm-col-6 {
+                        border-right: solid 1px @gray ;
+                        margin-right: 4%;
+
+                        span {
+                            font-size: 130%;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .cpm-todo-complete {
+                        background :  url('../images/todo_completed.svg') no-repeat 0% 50% ;
+                        padding-left: 6%;
+                        background-size: 40px;
+                    }
+                    .cpm-todo-incomplete {
+                        background :  url('../images/todo-incomplete.svg') no-repeat 0% 50% ;
+                        padding-left: 6%;
+                        background-size: 40px;
+                    }
+
+                    .cpm-todo-comment {
+                        background :  url('../images/comment.svg') no-repeat 0% 50% ;
+                        padding-left: 6%;
+                        background-size: 40px;
+                        a {
+                            font-size: @defaultFontSize;
+                            font-weight: normal;
+                        }
+                    }
+                    .cpm-todo-prgress-bar
+                    {
+                        margin-top: 15px;
+                    }
             }
         }
     }

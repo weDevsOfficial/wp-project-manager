@@ -563,6 +563,8 @@ class CPM_Ajax {
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+            'task_complete' =>  $complete['completed'] ,
+            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
 
         $response = apply_filters( 'cpm_task_complete_response', $response, $task_id, $list_id, $project_id );
@@ -590,7 +592,9 @@ class CPM_Ajax {
         $response = array(
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
-            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
+            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+            'task_complete' =>  $complete['completed'] ,
+            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
         $response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id );
 

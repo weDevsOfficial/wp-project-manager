@@ -133,7 +133,7 @@
             e.preventDefault();
 
             var self = $(this),
-                list = self.closest('li');
+                list = self.closest('.cpm-todo-form');
 
             list.addClass('cpm-hide');
             list.prev().removeClass('cpm-hide');
@@ -174,7 +174,9 @@
                         list.remove();
 
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
 
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
@@ -217,7 +219,9 @@
                         list.remove();
 
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
                     }
@@ -272,7 +276,6 @@
             e.preventDefault();
 
             var wrap = $(this).closest('.cpm-todo-wrap');
-
             wrap.find('.cpm-todo-content').toggle();
             wrap.find('.cpm-task-edit-form').slideToggle();
             $(".chosen-select").chosen({ width: '300px' });
@@ -365,7 +368,7 @@
 
                     res = JSON.parse(res);
                     if(res.success === true) {
-                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos');
+                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos-new');
                         currentList.append( '<li>' + res.content + '</li>' );
 
                         //clear the form
