@@ -5,7 +5,7 @@
 cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 ?>
 
-<ul class="">
+<ul class="cpm_activity_list">
     <?php
     $count = get_comment_count( $project_id );
 
@@ -14,7 +14,7 @@ cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
 
     if ( $activities ) {
 
-       echo cpm_activity_html_render( $activities );
+       echo cpm_activity_html( $activities );
     }
     ?>
 </ul>

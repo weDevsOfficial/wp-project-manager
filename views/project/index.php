@@ -11,6 +11,17 @@ $can_create_project = cpm_manage_capability( 'project_create_role' );
 $class              = $can_create_project ? '' : ' cpm-no-nav';
 
 unset( $projects['total_projects'] );
+
+$dpv = get_option( 'default_project_view' ) ;
+if ( $dpv !== false ) {
+
+     $default_project_view = $dpv ;
+
+}else  {
+    $default_project_view = "grid";
+}
+
+
 ?>
 <div class="cpm-top-bar cpm-no-padding" >
     <div class="cpm-row cpm-no-padding"  >
@@ -35,7 +46,7 @@ unset( $projects['total_projects'] );
         <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"  >
              <?php if ( $can_create_project ) { ?>
 
-                    <a href="#" id="cpm-create-project" class="cpm-btn cpm-btn-blue"> <span class="dashicons dashicons-plus"> </span> <?php _e( 'New Project', 'cpm' ); ?> </a>
+                    <a href="#" id="cpm-create-project" class="cpm-btn cpm-plus-white">  <?php _e( 'NEW PROJECT', 'cpm' ); ?> </a>
 
             <?php } ?>
         </div>
@@ -68,28 +79,24 @@ unset( $projects['total_projects'] );
 
     <div class="cpm-row cpm-project-group  "    >
         <ul class="list-inline  cpm-col-6 cpm-project-group-ul "  >
-            <li class=" cpm-sm-col-4 <?php echo $status_class == 'all' ? '  active ' : ''; ?> " >
-                <a href="<?php echo cpm_url_all(); ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="18" viewBox="0 0 48 48">
-                        <image xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACYVBMVEUAAADT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09MAAAB3Qvl4AAAAynRSTlMAFkt8o8DS3NPDqIRUHgldreryuGoNeumLHWTe7HgYsMQtPePuz7ensspXUdWJSBkTQH7JcE/CVQJGsXE262XZWA6/HwylKofYWYUGyCm8czKDTGimHHaB8c13ogPm4EVmjTnRgn0+adbvpCezkAUIwSxHEiQLbFBteyu6mWBTriOf7eUgOi/a5CJcnecBEZUEiMe5cjM4xhpeO0SYdSEP6HnUf0HwnG501yXOtTS0YjCeik0oB9uOj5rLjApJlyZWtpKWNS7M37036ImdOQAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAANfSURBVEjHhVX5I1RRFD6kjKnQQRjtoaHdMphEKqmEZCit0yJLQiVZSipJpUVpp9JeilYq7Zv6r7qr98Z7j/PDvHO+831zzzv3nvsAhpqb+yiP0WM8PU1e5rHjxsMI5u3jOwHV5ufvNgw9YKInaiwwKNiIbwlBXZs0WZc+ZSoa2rTpWv6MmUo+NCzcPMsaEaiSRA7lzx5MzZk7bz7HFiyMih6EY1z5sRK3xcW7JBLsMrNIDScKcHGSttbYZJFcomApotqly/S6sTxVKFYMQuEcSDXqdxrPr5TxKh6bjXd0NWeM5VE6L2gNjzL8MrMA1lqzib/OmiMUDq7IZUEeD8SZWY+4gXYtn/gb0UOuwc/MJupu3sJ8i8gkbw3HRNiGduI7cbsU7OD/Sncojnk75QFBfzfcBQlDBcAPTgHx+M7MFrgP2oNIObvRlwSFmDYoyGC0ItLlYupslXgJw2EPlqZ7xztxb1n5ZpGpYJl9sJ895dIHECsPRmBcMAWrDtHfLJFyMmI11LDnfoHW1h0mLbIeme9rt3nV1x4ttXnFiVQDIx4DD/rYMNwcSivC4uNogzAqOCHBRoul8CRAfY4lyZ3G7knOJpk71Xw6twL5uzgkeIYEZwFaKBjM/hWzRepcPd2Eejh/gXT3ohTQ12wFuMTLBbiM2KYUdeUqe0QmKBAdJNL7a+wFrzOBMjg3EGvK4CZ1b6XrCdoB/FSCDjYysMUBt6NRu0JEM+IdqFMJllLBXXIywhZj8R2NIK+Tvo1acI/NPNxnqz/QCKLKER/GP1IEuYxYIu6LbI1gE5gRH7cqAh9GfEJPD7GnGkEqPCNnsksRPGfEFwCZ6poUAZm1bvV9xCsKIV4P87x0BC/VglcseE0871DmvtEKeCO54C0f0QbqtzK35R3bdeJdAOhF7JaDXMAE+YxkZX4KF5eyLTeNMXUA+JpMfTScRcIe6vRxTgYv7zGP3huPQhVnfJDxRx73j8DnVVMLFret45MuP0ikZyjQGwEVfdbSE216H4gc+dkw33Sl7/siM0GuCX+JY2Z1k7yKvvYoH8rXQ1f+hoqt/P6ov7/dblJBbaCxpjVoaL3bdLsRZcT/EWDQ78qfenTHL+MdhcbOS67snWm/YQT77Txc9+fpwEBy199jMf806f9hgdNqhz06mQAAAABJRU5ErkJggg==" width="48" height="48"/>
-                    </svg>
+            <li class=" cpm-sm-col-4  <?php echo $status_class == 'all' ? '  active ' : ''; ?> " >
+                <a href="<?php echo cpm_url_all(); ?>" class="cpm-all-project">
                 <?php _e( 'All', 'cpm' ); ?></a>
             </li>
-            <li class="cpm-sm-col-4 <?php echo $status_class == 'active' ? ' ' : ''; ?> " >
-                <a class="cpm-active" href="<?php echo cpm_url_active(); ?>">
-                <span class="dashicons dashicons-clock"></span> <?php printf( __( 'Active <span class="count">%d</span>', 'cpm' ), $count['active'] ); ?></a>
+            <li class="cpm-sm-col-4 <?php echo $status_class == 'active' ? ' active ' : ''; ?> " >
+                <a class="cpm-active-project " href="<?php echo cpm_url_active(); ?>">
+                 <?php printf( __( 'Active <span class="count">%d</span>', 'cpm' ), $count['active'] ); ?></a>
             </li>
             <li class="cpm-sm-col-4 <?php echo $status_class == 'archive' ? ' active ' : ''; ?> " >
-                <a class="cpm-archive-head" href="<?php echo cpm_url_archive(); ?>">
-                 <span class="dashicons dashicons-yes"></span>
+                <a class="cpm-archive-project " href="<?php echo cpm_url_archive(); ?>">
                   <?php printf( __( 'Completed <span class="count">%d</span>', 'cpm' ), $count['archive'] ); ?>  </a>
             </li>
             <div class="clearfix"></div>
         </ul>
-        <div class="cpm-col-5 cpm-last-col cpm-text-right " >
+        <div class="cpm-col-5 cpm-last-col cpm-text-right show_desktop_only" >
             <ul class="cpm-project-view " >
-                <li> <a href="JavaScript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="dashicons dashicons-menu"></span> </a> </li>
-                <li> <a href="JavaScript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="active dashicons dashicons-screenoptions"></span> </a> </li>
+                <li> <a href="JavaScript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="<?php if( $default_project_view == 'list' ) echo 'active' ; ?> dashicons dashicons-menu"></span> </a> </li>
+                <li> <a href="JavaScript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="<?php if( $default_project_view == 'grid' ) echo 'active' ; ?> dashicons dashicons-screenoptions"></span> </a> </li>
                 <div class="clearfix"></div>
             </ul>
         </div>
@@ -100,7 +107,7 @@ unset( $projects['total_projects'] );
 </div>
 
 
-<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-grid cpm-no-padding cpm-no-margin"  >
+<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-<?php echo $default_project_view ; ?> cpm-no-padding cpm-no-margin"  >
 
 
 

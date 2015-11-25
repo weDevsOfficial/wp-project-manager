@@ -10,10 +10,10 @@ if ( !$message ) {
 
 if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
     echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
-    return;   
+    return;
 }
 
-cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
+cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
 $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 ?>
 
@@ -31,7 +31,7 @@ $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
         <span class="cpm-date"><?php echo cpm_url_user( $message->post_author ); ?></span>
         <span class="cpm-separator">|</span>
         <span class="cpm-comment-num"><?php echo cpm_get_number( $message->comment_count ); ?></span>
-        
+
         <?php if( $message->post_author == get_current_user_id() ) { ?>
             <span class="cpm-separator">|</span>
             <span class="cpm-edit-link">
@@ -44,7 +44,7 @@ $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
     </div>
 
     <div class="cpm-entry-detail">
-        <?php echo cpm_get_content( $message->post_content ); ?>
+        <?php  echo cpm_get_content( $message->post_content ); ?>
 
         <?php echo cpm_show_attachments( $message, $project_id ); ?>
     </div>

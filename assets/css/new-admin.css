@@ -3,6 +3,7 @@
 *
 *
 **/
+/**SVG background image **/
 .cpm {
   background: #f1f1f1;
   color: #848484;
@@ -147,6 +148,7 @@
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  width: 100%;
 }
 .cpm .cpm-col-1 {
   width: 7.788285225%;
@@ -315,10 +317,10 @@
   margin-right: 15px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a {
-  padding: 12px 20px;
-  min-width: 30px;
+  padding: 12px 20px 12px 40px;
+  min-width: 50px;
   display: block;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   border-bottom: solid 2px #ffffff;
   color: #aaa;
@@ -344,6 +346,44 @@
   background: #019dd6;
   color: #ffffff ;
 }
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active a,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active a span.count,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project {
+  background: url('../images/all.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-all-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project:hover {
+  background: url('../images/all_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project {
+  background: url('../images/active_projects.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-active-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project:hover {
+  background: url('../images/active_projects_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project {
+  background: url('../images/completed.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-archive-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project:hover {
+  background: url('../images/completed_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
 .cpm .cpm-top-bar .cpm-project-group .cpm-col-5 {
   padding: 0px;
   margin: 0px;
@@ -357,18 +397,21 @@
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
-  color: #019dd6;
+  color: #000;
 }
 .cpm .cpm-project-grid {
   margin: 0px ;
   padding: 0px;
-  margin-right: -25px;
+  margin-right: 0px;
+  padding-right: 0px;
 }
 .cpm .cpm-project-grid .cpm-project {
-  margin: 12.5px 25px 15.625px 0px;
+  width: 32.333333333%;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin: 0 1.5% 1.75% 0 ;
   margin-left: 0px;
   padding: 0px;
-  width: 30.8255526% ;
   float: left;
   box-shadow: none;
   height: 300px;
@@ -433,6 +476,11 @@
 .cpm .cpm-project-grid .cpm-project .cpm-project-action-list-view {
   display: none;
 }
+.cpm .cpm-project-grid .cpm-last-col {
+  margin-right: 0px;
+  float: right;
+  margin-left: 0px;
+}
 .cpm li.message {
   background: url('../images/bullet_green.png') no-repeat 0% 55%;
 }
@@ -442,13 +490,13 @@
 .cpm li.todos {
   background: url('../images/to-do-list.png') no-repeat 0% 55%;
 }
-.cpm li.comment_li {
+.cpm li.comments {
   background: url('../images/comment.png') no-repeat 0% 55%;
 }
-.cpm li.file {
+.cpm li.files {
   background: url('../images/docs.png') no-repeat 0% 55%;
 }
-.cpm li.milestone_li {
+.cpm li.milestone {
   background: url('../images/milestones.png') no-repeat 0% 55%;
 }
 .cpm .cpm-project-list {
@@ -587,12 +635,12 @@
   background-size: 24px 24px;
 }
 .cpm .cpm-project-header ul li .message {
-  background: url('../images/messege.svg') no-repeat 20% 30%;
+  background: url('../images/discussion.svg') no-repeat 20% 30%;
   background-size: 24px 24px;
 }
 .cpm .cpm-project-header ul li .message:hover,
 .cpm .cpm-project-header ul li a.message.active {
-  background: url('../images/messege_hover.svg') no-repeat 20% 30%;
+  background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
   background-size: 24px 24px;
 }
 .cpm .cpm-project-header ul li .activity {
@@ -613,7 +661,7 @@
   background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
   background-size: 24px 24px;
 }
-.cpm .cpm-project-header ul li .to-do-list {
+.cpm .cpm-project-header ul li .todo {
   background: url('../images/todo.svg') no-repeat 20% 30%;
   background-size: 24px 24px;
 }
@@ -707,15 +755,15 @@
   background: #0090db url('../images/todo_white.svg') no-repeat center center;
   background-size: 25px;
 }
-.cpm .project-overview .overview-menu ul .comment_li .icon {
+.cpm .project-overview .overview-menu ul .comments .icon {
   background: #1fa185 url('../images/comments_white.svg') no-repeat center center;
   background-size: 25px;
 }
-.cpm .project-overview .overview-menu ul .file .icon {
+.cpm .project-overview .overview-menu ul .files .icon {
   background: #be3c2f url('../images/files_white.svg') no-repeat center center;
   background-size: 25px;
 }
-.cpm .project-overview .overview-menu ul .milestone_li .icon {
+.cpm .project-overview .overview-menu ul .milestone .icon {
   background: #f29b27 url('../images/milestones_white.svg') no-repeat center center;
   background-size: 25px;
 }
@@ -797,7 +845,12 @@
   padding: 0px;
   margin: 0px;
   background: #ffffff;
-  padding: 15px;
+  padding: 8px 15px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul li .date {
+  background: url('../images/time.svg') no-repeat 0 50%;
+  background-size: 20px;
+  padding: 3px 2px 2px 30px;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul li:nth-child(even) {
   background: #F8F9FB;
@@ -815,6 +868,9 @@
   border-bottom: solid 1px #cccccc;
   padding: 25px 25px 3px 25px;
   margin-bottom: 10px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right {
+  text-align: right ;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right a {
   float: none;
@@ -845,6 +901,7 @@
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
   border-bottom: solid 1px #cccccc;
   padding: 0px 8px 0px 30px;
+  background: #ffffff;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li a {
   color: #019dd6;
@@ -874,26 +931,34 @@
   background: none url('../images/time.svg') no-repeat 0% 50%;
   background-size: 20px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-delete {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right {
+  float: right;
+  text-align: right ;
+  visibility: hidden ;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a {
+  padding: 0px;
+  margin: 0px;
+  padding-left: 18px;
+  valign: middle;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-delete {
   background: url('../images/close.svg') no-repeat 50% 0%;
-  padding: 10px;
   background-size: 10px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-delete:before {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-delete:before {
   content: "";
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-edit {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-edit {
   background: url('../images/edit.svg') no-repeat 50% 0%;
-  padding: 10px;
   background-size: 10px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .move {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .move {
   background: url('../images/move.svg') no-repeat 50% 30%;
-  padding: 10px;
   background-size: 13px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li:nth-child(even) {
-  background: #F8F9FB;
+.cpm .cpm-todolists .cpm-todolist .cpm-todos :hover .cpm-todo-action-right {
+  visibility: visible ;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new {
   margin: 0px;
@@ -951,7 +1016,78 @@
 .cpm .cpm-new-todolist-form {
   margin-top: 10px;
 }
+.cpm .cpm-message-page {
+  display: flex;
+  width: 100% ;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list,
+.cpm .cpm-message-page .cpm-message-body {
+  background: #ffffff;
+  padding: 10px 20px;
+}
+.cpm .cpm-message-page .cpm-message-list {
+  padding: 0px;
+  margin-right: 25px;
+  padding-top: 25px;
+  padding-left: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list .cpm-add-message {
+  margin-left: 40px;
+}
+.cpm .cpm-message-page .cpm-message-list ul {
+  margin: 0px;
+  padding: 0px;
+  margin-top: 40px;
+  border-top: #cccccc solid 1px;
+  height: 800px;
+}
+.cpm .cpm-message-page .cpm-message-list li {
+  margin: 0px;
+  border-left: #cccccc solid 3px;
+  border-bottom: #cccccc solid 1px;
+  padding: 15px ;
+}
+.cpm .cpm-message-page .cpm-message-list li img {
+  border-radius: 45px;
+  height: 55px;
+  width: 55px;
+}
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 {
+  margin-right: 0px;
+  padding-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 .cpm-message-action {
+  float: right ;
+}
+.cpm .cpm-message-page .cpm-message-list li .comment-count {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  background: #cccccc;
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+  float: right ;
+  padding: 1px 8px;
+}
+.cpm .cpm-message-page .cpm-message-list li:hover {
+  background: #f9f9f9;
+  border-left: #019dd6 solid 3px;
+}
+.cpm .cpm-message-page .cpm-message-list li:hover .comment-count {
+  background: #019dd6;
+  color: #fff;
+}
+.cpm .cpm-message-page .cpm-message-body {
+  margin-right: 0px;
+}
 @media only screen and (max-width: 780px) {
+  .cpm {
+    /*** For activity page ***/
+  }
   .cpm .cpm-sm-col-1 {
     width: 100%;
   }
@@ -984,6 +1120,7 @@
   }
   .cpm .cpm-sm-col-12 {
     width: 100%;
+    float: none;
   }
   .cpm .show_desktop_only {
     display: none;
@@ -997,10 +1134,13 @@
   .cpm .hide_small_only {
     display: none;
   }
+  .cpm .cpm-project-grid,
+  .cpm .cpm-project-list {
+    width: 100%;
+  }
   .cpm .cpm-project-grid .cpm-project,
   .cpm .cpm-project-list .cpm-project {
     width: 100%;
-    margin: 12.5px 25px 16.66666667px 0px;
     margin-left: 0px;
     padding: 0px;
     box-shadow: none;
@@ -1013,7 +1153,6 @@
     border-bottom: #ccc solid 1px;
     min-height: 55px;
     color: #000 ;
-    width: 100%;
   }
   .cpm .cpm-project-grid .cpm-project .project_head:hover,
   .cpm .cpm-project-list .cpm-project .project_head:hover {
@@ -1087,5 +1226,12 @@
     border-radius: 50px;
     color: #ffffff;
     margin-right: 20px;
+  }
+  .cpm .cpm-activity-list li.cpm-row {
+    display: block ;
+  }
+  .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
+    margin-bottom: 10px;
+    margin-top: 25px;
   }
 }

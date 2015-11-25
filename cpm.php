@@ -189,7 +189,7 @@ class WeDevs_CPM {
         if ( isset( $name[1] ) ) {
             $class_name = strtolower( $name[1] );
             $filename = dirname( __FILE__ ) . '/class/' . $class_name . '.php';
-
+            
             if ( file_exists( $filename ) ) {
                 require_once $filename;
             }
@@ -240,6 +240,7 @@ class WeDevs_CPM {
         $this->activity     = CPM_Activity::getInstance();
         $this->ajax         = CPM_Ajax::getInstance();
         $this->notification = CPM_Notification::getInstance();
+        $this->managetransient   = CPM_Managetransient::getInstance();
 
         if ( function_exists( 'json_api_init' ) ) {
             $this->api   = CPM_API::instance();

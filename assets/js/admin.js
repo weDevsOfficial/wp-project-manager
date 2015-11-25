@@ -46,7 +46,8 @@
 
             /* =============== Project view  ============ */
             $('.cpm-project-view').on('click', 'a.change-view', this.Project.View);
-
+            
+            /* ================= */    
 
 
             // add new commenttoggleForm
@@ -144,23 +145,34 @@
             },
 
             View : function(e) {
-                var uaction = $(this).attr('dir')  ; 
-                $( ".change-view span" ).removeClass( 'active' ) ; 
-                
-                if(uaction == 'list') {
-                    $( ".cpm-projects" ).removeClass( "cpm-project-grid" ); 
-                    $( ".cpm-projects" ).addClass( "cpm-project-list" ); 
-                    $( this ).find("span").addClass( 'active' ) ; 
-                }
+                var uaction = $(this).attr('dir')  ;
+                $( ".change-view span" ).removeClass( 'active' ) ;
 
-                if(uaction == 'grid') {
-                    $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ; 
-                    $( ".cpm-projects").addClass( "cpm-project-grid" ); 
+                if(uaction == 'list') {
+                    $( ".cpm-projects" ).removeClass( "cpm-project-grid" );
+                    $( ".cpm-projects" ).addClass( "cpm-project-list" );
                     $( this ).find("span").addClass( 'active' ) ;
                 }
 
+                if(uaction == 'grid') {
+                    $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ;
+                    $( ".cpm-projects").addClass( "cpm-project-grid" );
+                    $( this ).find("span").addClass( 'active' ) ;
+                }
+                var data = {
+                        action: 'cpm_project_view',
+                        _nonce: CPM_Vars.nonce,
+                        change_view: uaction,
+                    };
 
-            } , 
+                $.post( CPM_Vars.ajaxurl, data, function( resp ) {
+                    if( resp.success ) {};
+                });
+
+
+
+
+            } ,
 
             ProjectArchive: function(e) {
                 e.preventDefault();
@@ -358,7 +370,7 @@
 
                     if(res.success) {
                         start = res.count + start;
-                        self.prev('ul.cpm-activity').append(res.content);
+                        self.prev('.cpm_activity_list').append(res.content);
                         self.data('start', start);
                     } else {
                         self.remove();

@@ -125,16 +125,12 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <div class="cpm-col-3">
                 <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
                 </div>
-                <div class="cpm-col-1" >
-                     <a class="move"></a>
-
+            <div class="cpm-col-1 cpm-todo-action-right"  ><a class="move"></a>
                     <?php if ( $can_manage ) { ?>
                         <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>></a>
-
                         <?php if ( $task->completed != '1' ) { ?>
                         <a href="#" class="cpm-todo-edit"></a>
                         <?php } ?>
-
                     <?php } ?>
 
                 </div>
@@ -398,12 +394,16 @@ function cpm_task_list_html( $list, $project_id ) {
         <footer class="cpm-row cpm-list-footer">
             <div class="cpm-col-6">
                 <div class="cpm-col-3 cpm-todo-complete">
-                    <span> <?php echo $complete['completed'] ; ?> </span> <br/>
-                    <?php _e( 'To-do Completed', 'cpm' ) ?>
+                    <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <span> <?php echo $complete['completed'] ; ?> </span> <br/>
+                        <?php _e( 'To-do Completed', 'cpm' ) ?>
+                    </a>
                 </div>
                 <div class="cpm-col-3 cpm-todo-incomplete">
-                <?php echo "<span>". ($complete['total']-$complete['completed']) ."</span>" ;?><br/>
-                    <?php _e( 'To-do Incomplete', 'cpm' ) ?>
+                      <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                             <?php echo "<span>". ($complete['total']-$complete['completed']) ."</span>" ;?><br/>
+                             <?php _e( 'To-do Incomplete', 'cpm' ) ?>
+                      </a>
                 </div>
                 <div class="cpm-col-3 cpm-todo-comment">
                      <?php if ( (int) $list->comment_count > 0 ) { ?>
@@ -550,7 +550,9 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                 <?php } ?>
             </div>
             <div class="cpm-comment-content">
-                <?php echo comment_text( $comment->comment_ID ); ?>
+                <?php
+                echo do_shortcode( $comment->comment_content ) ; 
+                ?>
 
                 <?php echo cpm_show_attachments( $comment, $project_id ); ?>
             </div>
@@ -1008,7 +1010,7 @@ function cpm_user_create_form() {
  * @param array $activities
  * @return string
  */
-function cpm_activity_html( $activities ) {
+function cpm_activity_html_old( $activities ) {
     global $_get_shorcode_attr;
 
     $list = array();
@@ -1068,7 +1070,7 @@ function cpm_activity_html( $activities ) {
  * @param array $activities
  * @return string
  */
-function cpm_activity_html_render( $activities ) {
+function cpm_activity_html( $activities ) {
     global $_get_shorcode_attr;
 
     $list = array();
@@ -1111,7 +1113,7 @@ function cpm_activity_html_render( $activities ) {
                 continue;
             }
 
-            $html .= sprintf( '<li> %s <span class="date">- %s</span></li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+            $html .= sprintf( '<li> <div class="cpm-col-8">  %s  </div> <div class="date cpm-col-2">  %s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
         }
 
         $html .= "</ul> </li>";

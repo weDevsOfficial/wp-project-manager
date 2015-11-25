@@ -133,6 +133,7 @@ class CPM_Task {
                 do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
             }
         }
+       
 
         return $list_id;
     }
@@ -179,9 +180,9 @@ class CPM_Task {
             $data['ID'] = $task_id;
             $task_id = wp_update_post( $data );
         } else {
-            
+
             $task_id = wp_insert_post( $data );
-         
+
         }
 
         if ( $task_id ) {
@@ -217,7 +218,7 @@ class CPM_Task {
                 do_action( 'cpm_task_new', $list_id, $task_id, $data );
             }
         }
-
+       
         return $task_id;
     }
 
@@ -286,6 +287,8 @@ class CPM_Task {
                 }
             }
 
+
+
         }
     }
 
@@ -310,6 +313,7 @@ class CPM_Task {
 
         do_action( 'cpm_before_delete_new_project_task_item', $item_id );
 
+
         return   $delete;
     }
 
@@ -332,6 +336,8 @@ class CPM_Task {
                 $this->delete_task_item( $item_id );
                 CPM_Project::getInstance()->delete_project_item( $task->ID );
             }
+
+
         }
     }
 
@@ -414,8 +420,8 @@ class CPM_Task {
     }
 
 
-    
-     
+
+
 
 
     /**
@@ -584,6 +590,7 @@ class CPM_Task {
         update_post_meta( $task_id, '_completed_by', get_current_user_id() );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
         CPM_Project::getInstance()->new_project_item_complete_date( $task_id, current_time( 'mysql' ) );
+
         do_action( 'cpm_task_complete', $task_id );
     }
 
@@ -596,6 +603,7 @@ class CPM_Task {
         update_post_meta( $task_id, '_completed', 0 );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
         CPM_Project::getInstance()->new_project_item_complete_open( $task_id );
+
         do_action( 'cpm_task_open', $task_id );
     }
 
@@ -611,6 +619,8 @@ class CPM_Task {
         $this->delete_task_item( $item_id );
 
         CPM_Project::getInstance()->delete_project_item( $task_id );
+
+
         wp_delete_post( $task_id, $force );
     }
 
@@ -633,6 +643,9 @@ class CPM_Task {
 
         $this->delete_task_list_item( $list_id );
         wp_delete_post( $list_id, $force );
+
+
+
     }
 
     /**
@@ -652,22 +665,22 @@ class CPM_Task {
     /****************************************************************
      *
      * Time Log
-     * 
+     *
      ****************************************************************/
     function my_task_header_tab( $active_tab = false ) {
         $menus = $this->my_task_nav();
-        
+
         echo '<h2 class="nav-tab-wrapper">';
-       
+
         foreach ( $menus as $key => $value ) {
             $active = ( $key == $active_tab ) ? 'nav-tab-active' : '';
-            ?> 
+            ?>
                 <a id="cpm_general-tab" class="nav-tab <?php echo $active; ?>" href="<?php echo esc_attr($value); ?>">
                 <?php echo $key; ?>
                 </a>
             <?php
         }
-        
+
         echo '</h2>';
     }
 
@@ -687,20 +700,20 @@ class CPM_Task {
 
                 foreach ( $sub_menus as $sub_key => $sub_menu ) {
                     $active = ( strtolower($sub_key) == strtolower($active_sub_tab) ) ? 'active' : '';
-                    ?> 
-                        <li class="<?php echo $active; ?>"> 
-                       
+                    ?>
+                        <li class="<?php echo $active; ?>">
+
                             <a href="<?php echo $sub_menu; ?>">
-                                <?php 
-                                    echo $sub_key; 
+                                <?php
+                                    echo $sub_key;
                                     do_action('cmp_my_task_subtab_content', $sub_menu, $sub_key, $active_sub_tab, $attr );
-                                ?> 
+                                ?>
                             </a>
 
                         </li>
-                    <?php 
+                    <?php
                 }
-                
+
             ?>
         </ul>
         <?php

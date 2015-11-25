@@ -12,9 +12,11 @@ $from_day   = date('Y-m-d', strtotime( '-30 days', strtotime($today) ));
 $chart_data = $pro_obj->get_chart_data ( $project_id, $today, $from_day );
 
 foreach ( $chart_data['date_list'] as $key => $value ) {
+	if( isset($chart_data['todos'][$key]) ) $ctd = $chart_data['todos'][$key] ;
+	else $ctd = 0 ;
 	$str_date[]     =  '"'.$key.'"';
 	$str_activity[] =  '"'.$value.'"';
-	$str_todo[]     = '"'.$chart_data['todos'][$key].'"';
+	$str_todo[]     = '"'.$ctd.'"';
 }
 
 $str_date = implode( $str_date, ',' );

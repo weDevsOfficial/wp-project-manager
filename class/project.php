@@ -537,7 +537,7 @@ class CPM_Project {
         $links = array(
             __( 'Overview', 'cpm' )    => cpm_url_project_overview( $project_id ),
             __( 'Activity', 'cpm' )    => cpm_url_project_details( $project_id ),
-            __( 'Messages', 'cpm' )    => cpm_url_message_index( $project_id ),
+            __( 'Discussion', 'cpm' )    => cpm_url_message_index( $project_id ),
             __( 'To-do Lists', 'cpm' ) => cpm_url_tasklist_index( $project_id ),
             __( 'Milestones', 'cpm' )  => cpm_url_milestone_index( $project_id ),
             __( 'Files', 'cpm' )       => cpm_url_file_index( $project_id ),
@@ -572,7 +572,7 @@ class CPM_Project {
 
             switch ( $label ) {
 
-                case __( 'Messages', 'cpm' ):
+                case __( 'Discussion', 'cpm' ):
                     $count = $project_info->discussion;
                     $class = "message";
                     break;
@@ -742,6 +742,8 @@ class CPM_Project {
         }
 
         do_action( 'cpm_after_update_new_project_item', $project_id, $object_id, $private, $type, $update );
+
+                
     }
 
     /**
@@ -794,6 +796,8 @@ class CPM_Project {
         );
 
         $wpdb->update( $table, $data, $where, array( '%s', '%d' ) );
+
+
     }
 
     /**
@@ -818,52 +822,67 @@ class CPM_Project {
 
         do_action( 'cpm_before_delete_new_project_item', $object_id );
 
+
+
         return $delete;
     }
 
-
+    /**
+     * Generate date for chart
+     * @global object $wpdb
+     * @param int $project_id
+     * @param date $end_date
+     * @param date $start_date
+     * @return array 
+     */
     function get_chart_data( $project_id,  $end_date, $start_date ) {
         global $wpdb;
+        
+        $chart_transient = 'cpm_chart_data_'.$project_id ; 
+        $chart_date = get_transient( $chart_transient );
 
-        delete_transient( 'chart_data1' );
-        delete_transient( 'chart_data2' );
-        if ( false === ( $value = get_transient( 'chart_data1' ) ) ) {
+        if ( false === $chart_date ) {
             $where = $wpdb->prepare( "WHERE comment_post_ID = '%d' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
-            $sql = "SELECT  *   FROM {$wpdb->comments} $where  "  ;
+            $sql = "SELECT * FROM {$wpdb->comments} $where  "  ;
             $total_activity = $wpdb->get_results($sql);
-            set_transient( 'chart_data1',$total_activity, 1 * HOUR_IN_SECONDS  );
 
             $csql = "SELECT  * FROM {$wpdb->posts}
                     WHERE DATE(post_date) >= '{$start_date}'
                     AND DATE(post_date) <= '{$end_date}'
                     AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_parent = '{$project_id}' ) ";
             $todos = $wpdb->get_results($csql);
-            set_transient( 'chart_data2', $todos, 1 * HOUR_IN_SECONDS  );
-        }
-        $response['date_list'] = '';
-        $response['todos'] = '';
-        foreach ( $total_activity as $activity ) {
-            $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
+            
+            $response['date_list'] = '';
+            $response['todos'] = '';
+            foreach ( $total_activity as $activity ) {
+                $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
 
-            if ( !isset( $response['date_list'][$date] ) ) {
-                $response['date_list'][$date] = 1 ;
-            } else {
+                if ( !isset( $response['date_list'][$date] ) ) {
+                    $response['date_list'][$date] = 1 ;
+                } else {
 
-                $response['date_list'][$date] += 1 ;
+                    $response['date_list'][$date] += 1 ;
+                }
             }
-        }
 
-        foreach ( $todos as $to_do ) {
-            $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
+            foreach ( $todos as $to_do ) {
+                $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
 
-            if ( !isset( $response['todos'][$tdate] ) ) {
-                $response['todos'][$tdate] = 1 ;
-            } else {
-                $response['todos'][$tdate] += 1 ;
+                if ( !isset( $response['todos'][$tdate] ) ) {
+                    $response['todos'][$tdate] = 1 ;
+                } else {
+                    $response['todos'][$tdate] += 1 ;
+                }
             }
+        
+            $data_transient =  $response ; 
+            set_transient( $chart_transient, $data_transient, DAY_IN_SECONDS  );
+            
+        } else {
+            $response = $chart_date ;
         }
 
         return $response;
     }
-
+    
 }

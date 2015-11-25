@@ -22,6 +22,9 @@
 @defaultColumnSpaceBottom :10px;
 @defaultGridPadding :25px;
 
+/**SVG background image **/
+
+
 
 
 .cpm {
@@ -84,6 +87,7 @@
 
     .cpm-no-margin-bottom {
        margin-bottom: 0px;
+
 
     }
 
@@ -204,6 +208,7 @@
         padding-left: @defaultPadding;
         padding-right: @defaultPadding;
         padding-bottom: @defaultPadding;
+        width : 100%; 
 
     }
 
@@ -411,10 +416,10 @@
                     margin-bottom: 0px;
                     margin-right: 15px;
                     a {
-                        padding: 12px 20px;
-                        min-width: 30px;
+                        padding: 12px 20px 12px 40px;
+                        min-width: 50px;
                         display: block;
-                        text-align: center;
+                        text-align: left;
                         text-decoration: none;
                         border-bottom: solid 2px #ffffff;
                         color: #aaa;
@@ -443,8 +448,52 @@
                              color: #ffffff ;
                          }
                     }
-
                 }
+                .active a ,
+                a:hover {
+                        border-bottom: solid 2px  @blueColor ;
+                        color: #000000;
+                        font-weight: bold;
+
+                         span.count {
+                             background:  @blueColor;
+                             color: #ffffff ;
+                         }
+                    }
+
+
+                a.cpm-all-project {
+                    background: url('../images/all.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+                .active .cpm-all-project,
+                a.cpm-all-project:hover {
+                    background: url('../images/all_hover.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+
+
+                a.cpm-active-project {
+                    background: url('../images/active_projects.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+                .active .cpm-active-project,
+                a.cpm-active-project:hover {
+                    background: url('../images/active_projects_hover.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+                a.cpm-archive-project {
+                    background: url('../images/completed.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+                .active .cpm-archive-project,
+                a.cpm-archive-project:hover {
+                    background: url('../images/completed_hover.svg') no-repeat 10% 50%;
+                    background-size: 20px;
+                }
+
+
+
             }
             .cpm-col-5 {
                 padding : 0px;
@@ -462,7 +511,7 @@
                         :hover,
                         .active
                         {
-                            color: @blueColor;
+                            color: #000;
                         }
                     }
                 }
@@ -479,13 +528,15 @@
     .cpm-project-grid {
         margin: 0px ;
         padding: 0px;
-        margin-right: -25px;
 
+        margin-right: 0px;
+        padding-right: 0px;
         .cpm-project {
-             margin: @defaultGridPadding/2  @defaultGridPadding    @defaultGridPadding/1.6   0px ;
+            .cpm-col-4 ;
+             margin: 0 1.5% 1.75% 0 ;
              margin-left: 0px;
              padding: 0px;
-             width: 30.8255526% ;
+
              float: left;
              box-shadow: none;
              height: 300px;
@@ -570,6 +621,14 @@
 
 
         }
+
+        .cpm-last-col
+        {
+            margin-right: 0px;
+            float: right;
+            margin-left: 0px;
+        }
+
     }
 
     li.message {
@@ -587,16 +646,16 @@
 
     }
 
-    li.comment_li {
+    li.comments {
       background: url('../images/comment.png') no-repeat  0% 55%   ;
 
     }
 
-    li.file {
+    li.files {
       background: url('../images/docs.png') no-repeat  0% 55%   ;
     }
 
-    li.milestone_li {
+    li.milestone {
       background: url('../images/milestones.png') no-repeat  0% 55%   ;
 
     }
@@ -772,13 +831,13 @@
                 }
 
                 .message {
-                    background: url('../images/messege.svg') no-repeat 20% 30%;
+                    background: url('../images/discussion.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
 
                 }
                 .message:hover,
                 a.message.active {
-                    background: url('../images/messege_hover.svg') no-repeat 20% 30%;
+                    background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
 
@@ -804,7 +863,7 @@
                     background-size: 24px 24px;
                 }
 
-                .to-do-list {
+                .todo {
                     background: url('../images/todo.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
 
@@ -836,9 +895,6 @@
                     background: url('../images/settings_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
-
-
-
 
 
                 a:hover,
@@ -927,17 +983,17 @@
                     background-size: 25px;
                 }
 
-                .comment_li .icon {
+                .comments .icon {
                     background: #1FA185 url('../images/comments_white.svg') no-repeat center center;
                     background-size: 25px;
                 }
 
-                .file .icon {
+                .files .icon {
                     background: #BE3C2F url('../images/files_white.svg') no-repeat center center;
                     background-size: 25px;
                 }
 
-                .milestone_li .icon {
+                .milestone .icon {
                     background: #F29B27 url('../images/milestones_white.svg') no-repeat center center;
                     background-size: 25px;
                 }
@@ -1043,7 +1099,14 @@
                         padding: 0px;
                         margin: 0px;
                         background: #ffffff;
-                        padding: 15px;
+                        padding: 8px 15px;
+
+                        .date {
+                            background: url('../images/time.svg') no-repeat 0 50%;
+                            background-size: 20px;
+                            padding:3px 2px 2px 30px;
+                        }
+
                     }
                     li:nth-child(even) {
                         background: #F8F9FB;
@@ -1068,6 +1131,7 @@
                 margin-bottom: 10px;
 
                 .cpm-right {
+                text-align : right ;
                     a {
 
                         float: none;
@@ -1102,6 +1166,7 @@
                 li {
                     border-bottom: solid 1px @gray;
                     padding: 0px 8px 0px 30px;
+                    background: #ffffff;
                     a {
                         color: @blueColor ;
                     }
@@ -1139,36 +1204,53 @@
 
                     }
 
-                    .cpm-todo-delete {
-                        background :  url('../images/close.svg') no-repeat 50% 0% ;
-                        padding: 10px;
-                        background-size: 10px;
-                        &:before {
-                             content: "";
+                    .cpm-todo-action-right {
+                        float : right;
+                        text-align : right ;
+                        visibility : hidden ;
+
+                        a {
+                            padding : 0px;
+                            margin : 0px;
+
+                            padding-left : 18px;
+                            valign: middle;
                         }
-                    }
+                        .cpm-todo-delete {
+                            background :  url('../images/close.svg') no-repeat 50% 0% ;
+                            background-size: 10px;
+                            &:before {
+                                 content: "";
+                            }
+                        }
 
-                    .cpm-todo-edit {
-                        background :  url('../images/edit.svg') no-repeat 50% 0% ;
-                        padding: 10px;
-                        background-size: 10px;
-                    }
+                        .cpm-todo-edit {
+                            background :  url('../images/edit.svg') no-repeat 50% 0% ;
+                            background-size: 10px;
+                        }
 
-                    .move {
-                        background :  url('../images/move.svg') no-repeat 50% 30% ;
-                        padding: 10px;
-                        background-size: 13px;
+                        .move {
+                            background :  url('../images/move.svg') no-repeat 50% 30% ;
+                            background-size: 13px;
 
-                    }
+
+                        }
+
+                   }
 
 
 
                 }
 
-                li:nth-child(even) {
-                    background: #F8F9FB;
+
+
+                :hover {
+                    .cpm-todo-action-right {
+                         visibility : visible ;
+                    }
                 }
             }
+
             .cpm-todos-new{
                 margin: 0px;
                 padding: 0px;
@@ -1192,6 +1274,7 @@
                     padding: 0px;
                     margin:0px;
                     padding-left: 20px;
+
                     .cpm-col-6 {
                         border-right: solid 1px @gray ;
                         margin-right: 4%;
@@ -1232,8 +1315,83 @@
 
     .cpm-new-todolist-form {
         margin-top: 10px;
+       
     }
 
+    .cpm-message-page {
+        display : flex; 
+        width : 100% ; 
+        padding-left : 0px;
+        padding-right : 0px;
+        margin-right : 0px; 
+        .cpm-message-list,
+        .cpm-message-body {
+            background : #ffffff; 
+            padding : 10px 20px;
+        }
+
+        .cpm-message-list {
+            padding :0px; 
+            margin-right : 25px;
+            padding-top : 25px;
+            padding-left : 0px;
+            .cpm-add-message { 
+                 
+                margin-left : 40px; 
+            }
+            ul {
+                margin : 0px;
+                padding : 0px;
+                margin-top : 40px;
+                border-top : @gray solid 1px;
+                height : 800px;
+                //overflow: auto ; 
+            }
+            li {
+                
+                margin : 0px; 
+                border-left : @gray solid 3px; 
+                border-bottom : @gray solid 1px;
+                padding: 15px ;
+                img{ 
+                    border-radius : 45px;
+                    height : 55px;
+                    width : 55px;
+                }
+                .cpm-col-10 
+                {
+                    margin-right : 0px;
+                    padding-right : 0px;
+                    .cpm-message-action {
+                        float : right ; 
+                        
+                    }
+                }
+                .comment-count {
+                    .cpm-btn-gray ;
+                    .cercale-corners;
+                    float : right ;
+                    padding : 1px 8px;
+                } 
+            }
+
+            li:hover {
+                background: #f9f9f9;
+                border-left: @blueColor solid 3px ;
+                .comment-count {
+                    background: @blueColor;
+                    color : #fff;
+                }
+            }
+
+        }
+        
+        .cpm-message-body{ 
+            margin-right : 0px;
+        }
+        
+    
+    }
 
     /*****/
     /**
@@ -1288,6 +1446,7 @@
 
          .cpm-sm-col-12 {
             width: 100%;
+            float: none;
         }
 
         .show_desktop_only {
@@ -1309,15 +1468,13 @@
 
         .cpm-project-grid,
         .cpm-project-list {
-
+            width: 100%;
             .cpm-project {
                 width: 100%;
-
-                 margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px;
-                 margin-left: 0px;
-                 padding: 0px;
-                 box-shadow: none;
-                 height: 300px;
+                margin-left: 0px;
+                padding: 0px;
+                box-shadow: none;
+                height: 300px;
 
                 .project_head {
                     background: #ffffff ;
@@ -1325,7 +1482,7 @@
                     border-bottom: #ccc solid 1px;
                     min-height: 55px;
                     color: #000 ;
-                    width: 100%;
+
                 }
 
                 .project_head:hover {
@@ -1417,6 +1574,21 @@
                 }
             }
         }
+
+        /*** For activity page ***/
+        .cpm-activity-list {
+
+            li.cpm-row {
+                display: block ;
+
+                .cpm-activity-date {
+                    margin-bottom: 10px;
+                    margin-top: 25px;
+                }
+
+            }
+        }
+
 
     }
 

@@ -458,6 +458,55 @@ function cpm_data_attr( $values ) {
     echo implode( ' ', $data );
 }
 
+
+function cpm_project_summary_info( $info ) {
+     $summary = array(); 
+     
+     if( $info->discussion ) {
+         $summary['message'] = array(
+             'label' => _n('Discussion', 'Discussions', $info->discussion, 'cpm'), 
+             'count' => $info->discussion
+         );
+     }
+     
+     if( $info->todolist ) {
+         $summary['todo'] = array(
+             'label' => _n('To-do list', 'To-do lists', $info->todolist, 'cpm'), 
+             'count' => $info->todolist
+         );
+     }
+     
+     if( $info->todos ) {
+         $summary['todos'] = array(
+             'label' => _n('To-do', 'To-dos', $info->todos, 'cpm'), 
+             'count' => $info->todos
+         );
+     }
+     
+     if( $info->comments ) {
+         $summary['comments'] = array(
+             'label' => _n('Comment', 'Comments', $info-comments, 'cpm'), 
+             'count' => $info->comments
+         );
+     }
+     
+     if( $info->files ) {
+         $summary['files'] = array(
+             'label' => _n('File', 'Files', $info->files, 'cpm'), 
+             'count' => $info->files
+         );
+     }
+     
+     if( $info->milestone ) {
+         $summary['milestone'] = array(
+             'label' => _n('Milestone', 'Milestones', $info->milestone, 'cpm'), 
+             'count' => $info->milestone
+         );
+     }
+     return $summary ;
+}
+
+
 /**
  * Helper function for displaying project summary
  *
@@ -467,35 +516,13 @@ function cpm_data_attr( $values ) {
  */
 function cpm_project_summary( $info ) {
     $info_array = array();
-
-    if( $info->discussion ) {
-        $info_array[] = sprintf( _n( '<li class="message"> <strong>%d </strong> Message </li> ', '<li class="message"> <strong>%d </strong> Messages </li> ', $info->discussion, 'cpm' ), $info->discussion );
+    $summary = cpm_project_summary_info( $info );
+    foreach ( $summary as $key =>$val ) {
+        $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );  
     }
-
-    if( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<li class="todo"> <strong>%d </strong> To-do list </li> ', '<li <li class="todo"> <strong>%d </strong> To-do lists </li> ', $info->todolist, 'cpm' ), $info->todolist );
-    }
-
-    if( $info->todos ) {
-        $info_array[] = sprintf( _n( '<li class="todos"> <strong>%d </strong> To-do </li> ', '<li class="todos"> <strong>%d </strong> To-dos </li> ', $info->todos, 'cpm' ), $info->todos );
-    }
-
-    if( $info->comments ) {
-        $info_array[] = sprintf( _n( '<li class="comment_li"> <strong>%d </strong> Comment </li> ', '<li class="comment_li"> <strong>%d </strong> Comments </li> ', $info->comments, 'cpm' ), $info->comments );
-    }
-
-    if( $info->files ) {
-        $info_array[] = sprintf( _n( '<li class="file"> <strong>%d </strong> File </li> ' , '<li class="file"> <strong>%d </strong> Files </li> ', $info->files, 'cpm' ), $info->files );
-    }
-
-    if( $info->milestone ) {
-        $info_array[] = sprintf( _n( '<li class="milestone_li"> <strong>%d </strong> Milestone </li> ', '<li class="milestone_li"> <strong>%d </strong> Milestones </li> ', $info->milestone, 'cpm' ), $info->milestone );
-    }
-
-    return implode(' ', $info_array );
+    return implode('', $info_array );
 }
-
-
+        
 /**
  * Helper function for displaying project summary in project overview page
  *
@@ -505,36 +532,12 @@ function cpm_project_summary( $info ) {
  */
 function cpm_project_overview_summary( $info ) {
     $info_array = array();
-
-    if ( $info->discussion ) {
-        $info_array[] = sprintf( _n( '<li class="message"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br />  Message </div> </li> ', '<li class="message"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Messages </div> </li> ', $info->discussion, 'cpm' ), $info->discussion );
+    $summary = cpm_project_summary_info( $info );
+    foreach ( $summary as $key =>$val ) {
+        $info_array[] = sprintf( "<li class='%s'><div class='icon'></div>  <div class='count'> <span> %d  </span> <br />%s</div> </li>", $key, $val['count'], $val['label'] );  
     }
-
-    if ( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<li class="todo"> <div class="icon"></div> <div class="count"> <span> %d  </span> <br /> To-do list </div></li>  ', '<li class="todo"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> To-do lists </div> </li> ', $info->todolist, 'cpm' ), $info->todolist );
-    }
-
-    if ( $info->todos ) {
-        $info_array[] = sprintf( _n( '<li class="todos"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> To-do </div></li> ', '<li class="todos"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> To-dos </div></li> ', $info->todos, 'cpm' ), $info->todos );
-    }
-
-    if ( $info->comments ) {
-        $info_array[] = sprintf( _n( '<li class="comment_li"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Comment </div> </li>  ', '<li class="comment_li"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Comments </div></li> ', $info->comments, 'cpm' ), $info->comments );
-    }
-
-    if ( $info->files ) {
-        $info_array[] = sprintf( _n( '<li class="file"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> File </div></li>  ' , '<li class="file"><div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Files </div></li> ', $info->files, 'cpm' ), $info->files );
-    }
-
-    if ( $info->milestone ) {
-        $info_array[] = sprintf( _n( '<li class="milestone_li"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Milestone </div> </li>', '<li class="milestone_li"> <div class="icon"></div>  <div class="count"> <span> %d  </span> <br /> Milestones </div></li> ', $info->milestone, 'cpm' ), $info->milestone );
-    }
-
-    return implode(' ', $info_array );
+    return implode('', $info_array );
 }
-
-
-
 
 /**
  * Serve project files with proxy

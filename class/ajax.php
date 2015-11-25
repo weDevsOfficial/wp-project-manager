@@ -77,6 +77,9 @@ class CPM_Ajax {
         // Mension
         add_action( 'wp_ajax_cpmm_user_mension', array( $this, 'mension_user' ) );
 
+        // Set Project View
+         add_action( 'wp_ajax_cpm_project_view', array( $this, 'set_project_view' ) );
+
     }
 
     /**
@@ -369,6 +372,28 @@ class CPM_Ajax {
             'count'=> cpm_project_count(),
         ));
     }
+
+
+    /**
+    * Set Priject View setting
+    * @since 1.3.8
+    *
+    **/
+    function set_project_view() {
+
+        if( ! wp_verify_nonce( $_POST['_nonce'], 'cpm_nonce' ) ) {
+            wp_send_json_error( __( 'Are you cheating?', 'cpm' ) );
+        }
+
+        $view = $_POST['change_view'] ;
+        update_option( 'default_project_view', $view );
+
+        wp_send_json_success() ;
+    }
+
+
+
+
 
     function project_new() {
         $posted = $_POST;
