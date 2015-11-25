@@ -518,7 +518,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                 <?php } ?>
             </div>
             <div class="cpm-comment-content">
-                <?php echo comment_text( $comment->comment_ID ); ?>
+                <?php echo do_shortcode( $comment->comment_content ); ?>
 
                 <?php echo cpm_show_attachments( $comment, $project_id ); ?>
             </div>
