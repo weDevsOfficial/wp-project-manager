@@ -706,7 +706,7 @@ class CPM_Task {
             __( 'Outstanding Task', 'cpm' ) => cpm_url_outstanding_task(),
             __( 'Completed Task', 'cpm' )   => cpm_url_complete_task(),
         );
-
+        
         return apply_filters( 'cpm_my_task_sub_tab_nav', $nav );
     }
 }

@@ -494,7 +494,7 @@ class CPM_Project {
      * @param bool $exclude_client
      * @return array user emails with id as index
      */
-    function get_users( $project ) {
+    function get_users( $project, $exclude_others = false ) {
         global $wpdb;
 
         if ( is_object( $project ) ) {
@@ -503,12 +503,14 @@ class CPM_Project {
             $project_id = $project;
         }
 
-        $user_list = array();
-        $table = $wpdb->prefix . 'cpm_user_role';
-        $project_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, role FROM {$table} WHERE project_id = %d", $project_id ) );
-
+        $user_list     = array();
+        $table         = $wpdb->prefix . 'cpm_user_role';
+        $project_users = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id = %d", $project_id ) );
+        $project_users = apply_filters( 'cpm_db_project_users', $project_users, $project, $exclude_others );
+        
         if ( $project_users ) {
-            foreach ($project_users as $row ) {
+            foreach ( $project_users as $row ) {
+
                 $user = get_user_by( 'id', $row->user_id );
 
                 if ( !is_wp_error( $user ) && $user ) {
@@ -522,7 +524,7 @@ class CPM_Project {
             }
         }
 
-        return apply_filters( 'cpm_project_users', $user_list, $project );
+        return apply_filters( 'cpm_project_users', $user_list, $project, $project_users, $exclude_others );
     }
 
     /**
@@ -539,7 +541,6 @@ class CPM_Project {
             __( 'Milestones', 'cpm' )  => cpm_url_milestone_index( $project_id ),
             __( 'Files', 'cpm' )       => cpm_url_file_index( $project_id ),
         );
-
         if( cpm_user_can_access( $project_id ) ) {
             $links[__( 'Settings', 'cpm' )] = cpm_url_settings_index( $project_id );
         }
@@ -558,6 +559,7 @@ class CPM_Project {
      */
     function nav_menu( $project_id, $active = '' ) {
         $links = $this->nav_links( $project_id );
+        
         $menu = array();
         foreach ($links as $label => $url) {
             if ( $active == $label ) {

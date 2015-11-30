@@ -416,16 +416,19 @@ class CPM_Ajax {
 
     function user_role_table_generator( $project ) {
         
-        $project = apply_filters( 'cpm_user_list', $project );
+        if ( ! $project  ) {
+            return; 
+        }
+
+        $users = apply_filters( 'cpm_project_edit_user_list', $project->users, $project );
         
         ob_start();
         if ( !is_null( $project ) ) {
-            $users_role = $project->users;
 
-            foreach( $users_role as $array ) {
+            foreach( $users as $array ) {
                 $user_data  = get_userdata( $array['id'] );
 
-                if( $user_data === false ) {
+                if ( $user_data === false ) {
                     continue;
                 }
 
@@ -434,29 +437,26 @@ class CPM_Ajax {
                 }
 
                 $name = str_replace(' ', '_', $user_data->display_name );
-
-
                 ?>
-                        <tr>
-                            <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
-                            <td>
-                                <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
-                                <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
-                            </td>
-                            <td>
-                                <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
-                                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
-                            </td>
-                            <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
+                    <tr>
+                        <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
+                        <td>
+                            <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
+                            <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
+                        </td>
+                        <td>
+                            <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
+                            <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
+                        </td>
+                        <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
 
-                            <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
-                        </tr>
+                        <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
+                    </tr>
 
                 <?php
             }
-
-
         }
+
         return ob_get_clean();
     }
 
@@ -479,16 +479,15 @@ class CPM_Ajax {
     }
 
     function add_new_task() {
-        $posted = $_POST;
-
-        $list_id = $posted['list_id'];
+        
+        $posted     = $_POST;
+        $list_id    = $posted['list_id'];
         $project_id = $posted['project_id'];
-
-        $task_obj = CPM_Task::getInstance();
-        $task_id = $task_obj->add_task( $posted['list_id'], $posted );
-        $task = $task_obj->get_task( $task_id );
-        $complete = $task_obj->get_completeness( $list_id, $project_id );
-        $single = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
+        $task_obj   = CPM_Task::getInstance();
+        $task_id    = $task_obj->add_task( $posted['list_id'], $posted );
+        $task       = $task_obj->get_task( $task_id );
+        $complete   = $task_obj->get_completeness( $list_id, $project_id );
+        $single     = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
 
         if ( $task_id ) {
             $response = array(
