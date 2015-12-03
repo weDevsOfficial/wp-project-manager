@@ -429,7 +429,7 @@
                         parent.find('.milestone-detail').hide()
                             .next('.cpm-milestone-edit-form').html(res.content).fadeIn();
 
-                        $('.datepicker').datepicker();
+                        $('.cpm-datepicker').datepicker();
                         //console.log($('#cpm-milestone-editor-'+res.id) );
                         weDevs_CPM.tinymceInit('cpm-milestone-editor-'+res.id);
                     }
@@ -815,7 +815,7 @@
             $(this).runner('start');
         });
 
-        $(".datepicker").datepicker({
+        $(".cpm-datepicker").datepicker({
             dateFormat: 'yy-mm-dd',
         });
 

@@ -161,7 +161,7 @@
             $(document).trigger('cpm.markDone.before', [self]);
 
             $.post(CPM_Vars.ajaxurl, data, function (res) {
-                
+
                 res = JSON.parse(res);
 
                 $(document).trigger('cpm.markDone.after', [res,self]);

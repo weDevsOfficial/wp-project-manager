@@ -696,7 +696,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="cpm-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
@@ -876,7 +876,7 @@ function cpm_project_form( $project = null ) {
         <div class="cpm-form-item project-name">
             <input type="text" name="project_name" id="project_name" placeholder="<?php esc_attr_e( 'Name of the project', 'cpm' ) ?>" value="<?php echo esc_attr( $name ); ?>" size="45" />
         </div>
-        
+
         <div class="cpm-form-item project-category">
             <?php
             if ( $project ) {
@@ -1322,5 +1322,3 @@ function cpm_report_action_button() {
     <input type="submit" name="cpm_report_csv_generat" class="cpm-report-submit-button button button-secondary" value="<?php esc_attr_e( 'Export to CSV', 'cpm' ); ?>">
     <?php
 }
-
-
