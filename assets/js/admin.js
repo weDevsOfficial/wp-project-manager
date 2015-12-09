@@ -675,18 +675,17 @@
             },
 
             addNew: function (e) {
-                // e.preventDefault();
+                //e.preventDefault();
                 tinyMCE.triggerSave();
                 var form = $(this),
                 data = form.serialize(),
                 btn = form.find('input[name=create_message]'),
                 spnier = form.find('.cpm-loading');
-
                 btn.attr( 'disabled', true );
                 spnier.show();
-
+               
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
-
+                    
                     btn.attr( 'disabled', false );
                     spnier.hide();
 
