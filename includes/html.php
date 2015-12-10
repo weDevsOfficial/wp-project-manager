@@ -747,7 +747,7 @@ function cpm_message_form( $project_id, $message = null ) {
                         <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
                     </select>
                 </div>
-                <div class="cpm-col-6>
+                <div class="cpm-col-6">
                 <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
                 </div>
 
@@ -764,7 +764,14 @@ function cpm_message_form( $project_id, $message = null ) {
                 </div>
 
                 <div class="cpm-attachment-area cpm-col-6">
-                    <?php cpm_upload_field( $id, $files ); ?>
+                    <?php
+                        $upload_field_id = $id;
+
+                        if ( empty( $upload_field_id ) ) {
+                            $upload_field_id = 99999;
+                        }
+                        cpm_upload_field( $upload_field_id, $files );
+                    ?>
                 </div>
                 <div class="clear"></div>
             </div>

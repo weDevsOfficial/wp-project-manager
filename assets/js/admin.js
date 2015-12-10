@@ -91,6 +91,10 @@
             /* =============== Uploder ============ */
              $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
+
+             if (window.hasOwnProperty('CPM_Uploader') && $('#cpm-upload-pickfiles-99999').length) {
+                new CPM_Uploader('cpm-upload-pickfiles-99999', 'cpm-upload-container-99999');
+             }
         },
 
 
