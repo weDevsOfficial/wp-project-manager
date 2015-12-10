@@ -317,7 +317,13 @@ class WeDevs_CPM {
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto' ), false, true );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array('jquery', 'plupload-handlers'), false, true );
-        wp_register_script( 'cpm_vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), false, true  );
+
+        if ( SCRIPT_DEBUG ) {
+            wp_register_script( 'cpm_vuejs', plugins_url( 'assets/js/vue.js', __FILE__ ), false, true  );
+        } else {
+            wp_register_script( 'cpm_vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), false, true  );
+        }
+
         wp_enqueue_script( 'cpm_discussion', plugins_url( 'assets/js/discussion.js', __FILE__ ), array('cpm_vuejs'), false, true  );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(

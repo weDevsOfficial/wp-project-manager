@@ -23,7 +23,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
     <div class="cpm-col-3 cpm-message-list">
         <?php if ( $can_create ) { ?>
         <div>
-            <a class="cpm-btn cpm-plus-white cpm-add-message " href="#" @click="toggelForm()"> <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
+            <a class="cpm-btn cpm-plus-white cpm-add-message " href="#" v-on:click="toggelForm"> <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
         </div>
 
 
@@ -57,7 +57,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
 
     <div class="cpm-col-9 cpm-message-body">
         <div class="cpm-message-content" id="single_discussion">
-            <div v-if="showsigle">
+            <div v-show="showsigle">
             <h3>{{{message.post_title}}}</h3>
             <p>{{{message.post_content}}}</p>
             <div>
@@ -65,7 +65,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                     <ul >
                         <li v-for="file in message.files" v-if="file.name != '' " >
                             <div v-if="file.type == 'image'" >
-                                <a href="{{{file.url}}}" > <img src="{{{file.thumb}}}" /> {{{file.name}}} </a>
+                                <a href="{{{file.url}}}" > {{{file.thumb}}} {{{file.name}}} </a>
                             </div>
                             <div v-else>
                                 <a href="{{{file.url}}}" >  {{{file.name}}} </a>
@@ -114,7 +114,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                 </div>
             </div>
             </div>
-            <div v-if="showform">
+            <div v-show="showform">
                  <?php if ( $can_create ) { ?>
 
                 <div class="cpm-new-message-form">

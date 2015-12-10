@@ -46,9 +46,9 @@
 
             /* =============== Project view  ============ */
             $('.cpm-project-view').on('click', 'a.change-view', this.Project.View);
-            
-            /* =========== Discussion  ========= */    
-             $('.cpm-message-list').on('click', 'li', this.Project.showMessage);
+
+            /* =========== Discussion  ========= */
+             // $('.cpm-message-list').on('click', 'li', this.Project.showMessage);
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({
