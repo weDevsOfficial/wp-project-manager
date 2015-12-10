@@ -107,7 +107,7 @@
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #cccccc;
+  background: #e6e6e6;
 }
 .cpm .cpm-btn-red {
   background: RED;
@@ -245,7 +245,7 @@
   padding-bottom: 0px;
 }
 .cpm .cpm-top-bar .cpm-priject-search-bar {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #e6e6e6;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
@@ -277,13 +277,13 @@
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  border: 1px solid #cccccc;
+  border: 1px solid #e6e6e6;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
   background: red;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
-  color: #cccccc;
+  color: #e6e6e6;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn a {
   font-size: 14px;
@@ -328,7 +328,7 @@
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #cccccc;
+  background: #e6e6e6;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -393,7 +393,7 @@
   margin-right: 15px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
-  color: #cccccc;
+  color: #e6e6e6;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
@@ -586,7 +586,7 @@
   top: 15px;
 }
 .cpm .cpm-border-bottom {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #e6e6e6;
   padding-bottom: 0px;
 }
 .cpm .cpm-project-header ul {
@@ -619,7 +619,7 @@
 .cpm .cpm-project-header ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #cccccc;
+  background: #e6e6e6;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -809,7 +809,7 @@
 }
 .cpm .project-overview .cpm-right-part .user_list li span {
   font-size: small;
-  color: #cccccc;
+  color: #e6e6e6;
 }
 .cpm .cpm-activity-list {
   padding: 0px;
@@ -865,7 +865,7 @@
   margin-bottom: 10px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #e6e6e6;
   padding: 25px 25px 3px 25px;
   margin-bottom: 10px;
 }
@@ -899,7 +899,7 @@
   margin: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #e6e6e6;
   padding: 0px 8px 0px 30px;
   background: #ffffff;
 }
@@ -966,7 +966,7 @@
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
   margin-bottom: 15px;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #e6e6e6;
   padding: 0px 8px 20px 30px;
   margin-left: 0px;
 }
@@ -984,7 +984,7 @@
   padding-left: 20px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
-  border-right: solid 1px #cccccc;
+  border-right: solid 1px #e6e6e6;
   margin-right: 4%;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
@@ -1041,13 +1041,13 @@
   margin: 0px;
   padding: 0px;
   margin-top: 40px;
-  border-top: #cccccc solid 1px;
+  border-top: #e6e6e6 solid 1px;
   height: 800px;
 }
 .cpm .cpm-message-page .cpm-message-list li {
   margin: 0px;
-  border-left: #cccccc solid 3px;
-  border-bottom: #cccccc solid 1px;
+  border-left: #e6e6e6 solid 3px;
+  border-bottom: #e6e6e6 solid 1px;
   padding: 15px ;
 }
 .cpm .cpm-message-page .cpm-message-list li img {
@@ -1066,7 +1066,7 @@
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #cccccc;
+  background: #e6e6e6;
   -webkit-border-radius: 180px;
   -moz-border-radius: 180px;
   border-radius: 180px;
@@ -1083,6 +1083,60 @@
 }
 .cpm .cpm-message-page .cpm-message-body {
   margin-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-new-message-form {
+  display: block;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content {
+  padding: 0px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content h3 {
+  margin: 0px;
+  color: #019dd6;
+  border-bottom: solid 1px #e6e6e6;
+  padding: 10px;
+  padding-left: 0px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show ul li {
+  list-style: none ;
+  border: solid 1px #e6e6e6;
+  padding: 15px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form {
+  margin: 25px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .wp-editor-container {
+  border: none;
+  margin-bottom: 10px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .messege_editor,
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form #message_title {
+  width: 80% ;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .notify-users .show-notify-user {
+  padding-top: 20px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-1 {
+  width: 5%;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-1 .photo {
+  border-radius: 45px;
+  height: 55px;
+  width: 55px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 {
+  width: 93%;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 .edit {
+  background: url('../images/edit.svg') no-repeat 0% 0%;
+  background-size: 12px;
+  padding: 8px;
+  margin-right: 5px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 .del {
+  background: url('../images/close.svg') no-repeat 0% 0%;
+  background-size: 12px;
+  padding: 8px;
 }
 @media only screen and (max-width: 780px) {
   .cpm {

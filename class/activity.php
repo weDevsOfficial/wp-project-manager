@@ -55,7 +55,7 @@ class CPM_Activity {
     function user_url() {
         return sprintf( '[cpm_user_url id="%d"]', get_current_user_id() );
     }
-
+    
     function message_url( $message_id, $project_id, $title ) {
         return sprintf( '[cpm_msg_url id="%d" project="%d" title="%s"]', $message_id, $project_id, $title );
     }

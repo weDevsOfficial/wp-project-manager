@@ -52,7 +52,7 @@
 
         added: function (up, files) {
             var $container = $('#' + this.container).find('.cpm-upload-filelist');
-
+            
             $.each(files, function(i, file) {
                 $container.append(
                     '<div class="upload-item" id="' + file.id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original">' +

@@ -47,8 +47,8 @@
             /* =============== Project view  ============ */
             $('.cpm-project-view').on('click', 'a.change-view', this.Project.View);
             
-            /* ================= */    
-
+            /* =========== Discussion  ========= */    
+             $('.cpm-message-list').on('click', 'li', this.Project.showMessage);
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({
@@ -89,7 +89,7 @@
             $('table.cpm-messages-table').on('click', 'a.delete-message', this.Message.remove);
 
             /* =============== Uploder ============ */
-            // $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+             $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
         },
 

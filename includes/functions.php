@@ -460,46 +460,46 @@ function cpm_data_attr( $values ) {
 
 
 function cpm_project_summary_info( $info ) {
-     $summary = array(); 
-     
+     $summary = array();
+
      if( $info->discussion ) {
          $summary['message'] = array(
-             'label' => _n('Discussion', 'Discussions', $info->discussion, 'cpm'), 
+             'label' => _n('Discussion', 'Discussions', $info->discussion, 'cpm'),
              'count' => $info->discussion
          );
      }
-     
+
      if( $info->todolist ) {
          $summary['todo'] = array(
-             'label' => _n('To-do list', 'To-do lists', $info->todolist, 'cpm'), 
+             'label' => _n('To-do list', 'To-do lists', $info->todolist, 'cpm'),
              'count' => $info->todolist
          );
      }
-     
+
      if( $info->todos ) {
          $summary['todos'] = array(
-             'label' => _n('To-do', 'To-dos', $info->todos, 'cpm'), 
+             'label' => _n('To-do', 'To-dos', $info->todos, 'cpm'),
              'count' => $info->todos
          );
      }
-     
+
      if( $info->comments ) {
          $summary['comments'] = array(
-             'label' => _n('Comment', 'Comments', $info-comments, 'cpm'), 
+             'label' => _n('Comment', 'Comments', $info-comments, 'cpm'),
              'count' => $info->comments
          );
      }
-     
+
      if( $info->files ) {
          $summary['files'] = array(
-             'label' => _n('File', 'Files', $info->files, 'cpm'), 
+             'label' => _n('File', 'Files', $info->files, 'cpm'),
              'count' => $info->files
          );
      }
-     
+
      if( $info->milestone ) {
          $summary['milestone'] = array(
-             'label' => _n('Milestone', 'Milestones', $info->milestone, 'cpm'), 
+             'label' => _n('Milestone', 'Milestones', $info->milestone, 'cpm'),
              'count' => $info->milestone
          );
      }
@@ -518,11 +518,11 @@ function cpm_project_summary( $info ) {
     $info_array = array();
     $summary = cpm_project_summary_info( $info );
     foreach ( $summary as $key =>$val ) {
-        $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );  
+        $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );
     }
     return implode('', $info_array );
 }
-        
+
 /**
  * Helper function for displaying project summary in project overview page
  *
@@ -534,7 +534,7 @@ function cpm_project_overview_summary( $info ) {
     $info_array = array();
     $summary = cpm_project_summary_info( $info );
     foreach ( $summary as $key =>$val ) {
-        $info_array[] = sprintf( "<li class='%s'><div class='icon'></div>  <div class='count'> <span> %d  </span> <br />%s</div> </li>", $key, $val['count'], $val['label'] );  
+        $info_array[] = sprintf( "<li class='%s'><div class='icon'></div>  <div class='count'> <span> %d  </span> <br />%s</div> </li>", $key, $val['count'], $val['label'] );
     }
     return implode('', $info_array );
 }
@@ -1218,6 +1218,7 @@ function cpm_message() {
     $message = array(
         'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
         'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
+        'delete_confirm' => __( 'Are you want sure to delete this?', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );

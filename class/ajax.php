@@ -56,7 +56,10 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_get', array($this, 'get_comment') );
         add_action( 'wp_ajax_cpm_comment_update', array($this, 'update_comment') );
         add_action( 'wp_ajax_cpm_comment_delete', array($this, 'delete_comment') );
+        add_action( 'wp_ajax_cpm_comment_edit_form', array($this, 'edit_comment_form') );
 
+        add_action( 'wp_ajax_cpm_get_all_discussion', array($this, 'cpm_get_all_discussion') );
+        add_action( 'wp_ajax_cpm_get_discussion', array($this, 'cpm_get_discussion') );
         add_action( 'wp_ajax_cpm_message_new', array($this, 'new_message') );
         add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
         add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
@@ -79,6 +82,7 @@ class CPM_Ajax {
 
         // Set Project View
          add_action( 'wp_ajax_cpm_project_view', array( $this, 'set_project_view' ) );
+         add_action( 'wp_ajax_cpm_show_avatar', array( $this, 'show_avatar' ) );
 
     }
 
@@ -932,6 +936,28 @@ class CPM_Ajax {
         exit;
     }
 
+
+    function edit_comment_form() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $object_id  = isset( $posted['object_id'] ) ? intval( $posted['object_id'] ) : 0;
+        $comment_id = isset( $posted['comment_id'] ) ? intval( $posted['comment_id'] ) : 0;
+
+        $comment = CPM_Comment::getInstance()->get( $comment_id );
+
+        echo json_encode( array(
+            'success' => true,
+            'id'      => $comment_id,
+            'form'    => cpm_discussion_comment_form( $project_id, $object_id, $comment )
+        ) );
+
+        exit;
+    }
+
+
+
     function delete_comment() {
         check_ajax_referer( 'cpm_nonce' );
 
@@ -1051,6 +1077,68 @@ class CPM_Ajax {
         ) );
 
         exit;
+    }
+
+    function cpm_get_all_discussion() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+
+        $message_obj = CPM_Message::getInstance();
+        $messages = $message_obj->get_all($project_id );
+
+        if( $messages ) {
+            $return['success'] = TRUE ;
+            $data['data'] = array() ;
+
+            foreach ($messages as $msg)
+            {
+                if($msg->post_author == get_current_user_id() || cpm_user_can_access( $project_id )) {
+                    $del = true;
+                } else {
+                    $del = fale;
+                }
+                $message = array (
+                    'ID' => $msg->ID ,
+                    'post_title' => $msg->post_title ,
+                    'avatar' => get_avatar( $msg->post_author,  32 ),
+                    'post_content' => cpm_excerpt( $msg->post_content, 20 ) ,
+                    'post_date' => date_i18n( 'j M, Y', strtotime( $msg->post_date ) ) ,
+                    'comment_count' => $msg->comment_count,
+                    'delete_power' =>  $del ,
+                ) ;
+
+         array_push($data['data'], $message) ;
+            }
+            echo json_encode($data);
+            exit;
+        }
+
+        echo json_encode( array(
+            'success' => false
+        ) );
+
+        exit;
+    }
+
+    function cpm_get_discussion() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+        $discussion_id = isset( $posted['discussion_id'] ) ? intval( $posted['discussion_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $message_obj = CPM_Message::getInstance();
+        $message = $message_obj->get( $discussion_id );
+
+        if( $message ) {
+             $return['success'] = TRUE ;
+             echo json_encode( $message );
+             exit;
+        }else
+        {
+            $return['success'] = FALSE ;
+        }
+
     }
 
     /**
@@ -1181,4 +1269,9 @@ class CPM_Ajax {
         return ob_get_clean();
     }
 
+    function show_avatar($author){
+        echo  get_avatar( $author,  32 ) ;
+        exit() ;
+    }
 }
+

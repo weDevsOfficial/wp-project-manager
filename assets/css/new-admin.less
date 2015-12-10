@@ -6,7 +6,7 @@
 
 @bodyColor: #f1f1f1 ;
 @blueColor : #019dd6 ;
-@gray  : #cccccc;
+@gray  : #E6E6E6;
 @round : 10px;
 @defaultRadius:30px;
 @defaultFontSize : 14px;
@@ -1383,14 +1383,93 @@
                     color : #fff;
                 }
             }
+        }
+        
+        
+        .cpm-message-body {
+             margin-right : 0px;
+            .cpm-new-message-form {
+                display : block;
+            }
+            .cpm-message-content {
+                padding : 0px;
 
-        }
-        
-        .cpm-message-body{ 
-            margin-right : 0px;
-        }
-        
-    
+                h3 {
+                    margin : 0px;
+                    color : @blueColor; 
+                    border-bottom : solid 1px @gray;
+                    padding : 10px;
+                    padding-left : 0px;
+                }
+
+                .comment_show ul li  {
+                    list-style : none ;
+                    border : solid 1px @gray ; 
+                    padding : 15px; 
+                }
+                
+                .cpm-message-send-form {
+                    margin : 25px;
+                    
+                    .wp-editor-container {
+                        border : none;
+                        margin-bottom : 10px;
+                    }
+
+                    .messege_editor, 
+                    #message_title {
+                        width : 80% ; 
+                    }
+                    .milestone {
+                        
+                    }
+                    .notify-users{
+                        span.cpm-btn{
+                            
+                        }
+                        .show-notify-user 
+                        {
+                            padding-top : 20px;
+                        }
+                    } 
+                }
+                
+                .comment_show{
+                    .cpm-col-1 
+                    { 
+                        width : 5%; 
+                        .photo{ 
+                           border-radius : 45px;
+                           height : 55px;
+                           width : 55px;
+                        } 
+                    }
+                    
+                    .cpm-col-11 
+                    { 
+                        width : 93%;
+                        .edit {
+                            background :  url('../images/edit.svg') no-repeat  0% 0% ;
+                            background-size: 12px;
+                            padding : 8px;
+                            margin-right : 5px;
+                        }
+                        .del {
+                            background :  url('../images/close.svg') no-repeat  0% 0% ;
+                            background-size: 12px;
+                            padding : 8px;
+                        }
+                         
+                    }
+                    .cpm-comment-form {
+                    
+                    
+                    
+
+                    }
+                }
+            }
+        } 
     }
 
     /*****/

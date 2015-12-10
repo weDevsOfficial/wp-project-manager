@@ -59,6 +59,11 @@ class CPM_Message {
 
     function get_all( $project_id, $privacy = false ) {
 
+        wp_localize_script( 'cpm_admin', 'CPM_CP', array(
+            'current_project'  => $project_id
+            )
+        );
+
         $args = array(
             'numberposts' => -1,
             'post_type' => 'message',
@@ -102,7 +107,7 @@ class CPM_Message {
         $message->milestone = get_post_meta( $message_id, '_milestone', true );
         $message->private = get_post_meta( $message_id, '_message_privacy', true );
         $message->files = $this->get_attachments( $message_id );
-
+        $message->comments_list  = $this->get_comments( $message_id );
         return $message;
     }
 
