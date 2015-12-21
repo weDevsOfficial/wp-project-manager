@@ -843,7 +843,7 @@ function cpm_user_can_access( $project_id, $section='' ) {
     if( $can_access == 'yes' ) {
         return true;
     } else {
-        return false;    
+        return false;
     }
 }
 
@@ -964,10 +964,12 @@ function cpm_project_actions( $project_id ) {
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#"><span><?php _e( 'Restore', 'cpm' ); ?></span></a>
                 <?php } ?>
             </li>
+            <?php  if(cpm_is_pro()) { ?>
             <li>
                 <span class="cpm-icons-docs"></span>
                 <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>"><span><?php _e( 'Duplicate', 'cpm' ); ?></span></a>
             </li>
+            <?php } ?>
         </ul>
     </div>
     <?php
@@ -1217,12 +1219,12 @@ function cpm_template_path() {
  * Get other templates (e.g. product attributes) passing attributes and including the file.
  *
  * @access public
- * 
+ *
  * @param mixed $file_name
  * @param array $args (default: array())
  * @param string $template_path (default: '')
  * @param string $default_path (default: '')
- * 
+ *
  * @return void
  */
 function cpm_get_template( $file_name, $default_path = '', $args = array()  ) {
@@ -1238,7 +1240,7 @@ function cpm_get_template( $file_name, $default_path = '', $args = array()  ) {
     }
 
     $theme_template_path = cpm_template_path();
-    
+
     if ( ! $default_path ) {
 
         // search for Pro templates only
