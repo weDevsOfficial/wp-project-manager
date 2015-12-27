@@ -438,6 +438,7 @@ function cpm_task_list_html( $list, $project_id ) {
  */
 function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
 
+
     $action        = 'cpm_comment_new';
     $text          = '';
     $submit_button = __( 'Add this comment', 'cpm' );
@@ -458,13 +459,13 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             <div class="cpm-avatar"><?php echo cpm_url_user( get_current_user_id(), true ); ?></div>
         <?php } ?>
 
-            <form class="cpm-comment-form"   >
+        <form class="cpm-comment-form">
 
             <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
             <div class="item message">
                 <?php
-                $args = apply_filters( 'cpm_comment_editor_args', array(
+               /* $args = apply_filters( 'cpm_comment_editor_args', array(
                     'media_buttons' => false,
                     'textarea_name' => 'cpm_message',
                     'textarea_rows' => 10,
@@ -473,8 +474,12 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
                     'teeny'         => true
                 ) );
 
-                wp_editor( $text, 'cpm-comment-editor-' . $comment_id, $args );
+                wp_editor( $text, , $args );*/
                 ?>
+
+                <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo $text?>">
+                <trix-editor input="<?php echo 'cpm-comment-editor-' . $comment_id ?>"></trix-editor>
+
             </div>
 
             <div class="cpm-attachment-area">
@@ -482,10 +487,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             </div>
 
             <div class="notify-users">
-                <label class="notify">
-                    <?php _e( 'Notify users', 'cpm' ); ?>:
-                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
-                </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
 
@@ -511,92 +512,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     return ob_get_clean();
 }
 
-function cpm_discussion_comment_form( $project_id, $object_id = 0, $comment = null ) {
-
-    $action        = 'cpm_comment_new';
-    $text          = '';
-    $submit_button = __( 'Add this comment', 'cpm' );
-    $comment_id    = $comment ? $comment->comment_ID : 0;
-    $files         = $comment ? $comment->files : array();
-
-    if ( $comment ) {
-        $action        = 'cpm_comment_update';
-        $text          =  cpm_get_content( $comment->comment_content );
-        $submit_button = __( 'Update comment', 'cpm' );
-    }
-
-    ob_start();
-
-    ?>
-
-
-        <?php if ( !$comment ) { ?>
-            <div class="cpm-avatar"><?php echo cpm_url_user( get_current_user_id(), true ); ?></div>
-        <?php } ?>
-
-            <form class="cpm-discussion-comment-form" @submit.prevent="createComments()"   >
-
-            <?php wp_nonce_field( 'cpm_new_message' ); ?>
-
-            <div class="item message">
-                <?php
-                $argss = apply_filters( 'cpm_comment_editor_args', array(
-                    'media_buttons' => false,
-                    'textarea_name' => 'cpm_message',
-                    'textarea_rows' => 10,
-                    'textare_cols' => 10,
-                    'quicktags'     => false,
-                    'teeny'         => false
-                ) );
-
-                wp_editor($text, "cc_".$comment_id, $argss );
-                ?>
-            </div>
-                <div class="cpm-row">
-                    <div class="cpm-col-4 notify-users">
-                        <label   >
-                            <?php _e( 'Notify users', 'cpm' ); ?>:
-
-                        </label>
-                        <div v-show='notifyUser'>
-                        <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
-                        <?php cpm_user_checkboxes( $project_id ); ?>
-                        </div>
-                    </div>
-                    <div class="cpm-col-6">  <?php cpm_upload_field( $comment_id, $files ); ?></div>
-                    <div class="clear"></div>
-                </div>
-
-
-
-            <div class="">
-
-            </div>
-
-            <?php do_action( 'cpm_comment_form', $project_id, $object_id, $comment ); ?>
-
-            <div class="submit">
-                <input type="submit" class="button-primary" name="cpm_new_comment" value="<?php echo esc_attr( $submit_button ); ?>" id="" />
-
-                <?php if ( $comment ) { ?>
-                    <input type="hidden" name="comment_id" value="<?php echo $comment->comment_ID; ?>" />
-                    <a href="#" class="cpm-comment-edit-cancel button" data-comment_id="<?php echo $comment_id; ?>"><?php _e( 'Cancel', 'cpm' ); ?></a>
-                <?php } ?>
-
-                <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
-                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
-                <input type="hidden" name="action" value="<?php echo $action; ?>" />
-            </div>
-            <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm' ); ?></div>
-        </form>
-
-    <?php
-
-    return ob_get_clean();
-}
-
-
-
 /**
  * Generates markup for displaying a single comment
  *
@@ -616,22 +531,19 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
         <div class="cpm-comment-container">
             <div class="cpm-comment-meta">
                 <span class="cpm-author"><?php echo cpm_url_user( $comment->user_id ); ?></span>
-                <span class="cpm-separator">|</span>
+                <?php _e( 'On', 'cpm' ); ?>
                 <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
 
                 <?php if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) { ?>
-                    <span class="cpm-separator">|</span>
+                <div class="cpm-comment-action">
                     <span class="cpm-edit-link">
-                        <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>>
-                            <span><?php _e( 'Edit', 'cpm' ); ?></span>
-                        </a>
+                        <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>></a>
                     </span>
-                    <span class="cpm-separator">|</span>
+
                     <span class="cpm-delete-link">
-                        <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>>
-                            <span><?php _e( 'Delete', 'cpm' ); ?></span>
-                        </a>
+                        <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
                     </span>
+                </div>
                 <?php } ?>
             </div>
             <div class="cpm-comment-content">
@@ -644,6 +556,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
 
             <div class="cpm-comment-edit-form"></div>
         </div>
+
     </li>
     <?php
 
@@ -718,63 +631,43 @@ function cpm_message_form( $project_id, $message = null ) {
     ob_start();
     ?>
 
-    <div class=" ">
-        <form class="cpm-message-send-form"  method="post" @submit.prevent="createDiscussion">
+    <div class="cpm-message-form-wrap">
+        <form class="cpm-message-form">
 
             <?php wp_nonce_field( 'cpm_message' ); ?>
 
-            <div class="">
-                <input name="message_title" type="text" id="message_title" required value="<?php echo esc_attr( $title ); ?>" class="required" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+            <div class="item title">
+                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" class="required" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
             </div>
 
+            <div class="item detail">
 
-                <?php
-                $esettings = array(
-                'editor_class' => 'messege_editor' ,
-                'textarea_name' => 'message_detail',
-                'textarea_rows' => 10,
-                'media_buttons' => false,
-                'quicktags' => false,
-                'teeny' => true
-            ) ;
+                <input id="<?php echo 'cpm-message-editor-' . $id ?>" type="hidden" name="message_detail" value="<?php echo $content?>">
+                <trix-editor input="<?php echo 'cpm-message-editor-' . $id ?>"></trix-editor>
 
-            wp_editor( $content, 'cpm-message-editor-' . $id , $esettings );
-                ?>
-            <div class="cpm-row">
-                <div class="item milestone cpm-col-6">
-                    <select name="milestone" id="milestone">
-                        <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
-                        <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
-                    </select>
-                </div>
-                <div class="cpm-col-6">
-                <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
-                </div>
-
-
-                <div class="notify-users cpm-col-6">
-                <span class="cpm-btn cpm-btn-blue">  <?php _e( 'Notify users', 'cpm' ); ?>: </span>
-                    <div class="show-notify-user">
-                        <label class="notify">
-
-                            <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
-                        </label>
-                        <?php cpm_user_checkboxes( $project_id ); ?>
-                    </div>
-                </div>
-
-                <div class="cpm-attachment-area cpm-col-6">
-                    <?php
-                        $upload_field_id = $id;
-
-                        if ( empty( $upload_field_id ) ) {
-                            $upload_field_id = 99999;
-                        }
-                        cpm_upload_field( $upload_field_id, $files );
-                    ?>
-                </div>
-                <div class="clear"></div>
             </div>
+
+            <div class="item milestone">
+                <select name="milestone" id="milestone">
+                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+                </select>
+            </div>
+            <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
+
+            <div class="cpm-attachment-area">
+                <?php cpm_upload_field( $id, $files ); ?>
+            </div>
+
+            <div class="notify-users">
+                <label class="notify">
+                    <?php _e( 'Notify users', 'cpm' ); ?>:
+                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
+                </label>
+
+                <?php cpm_user_checkboxes( $project_id ); ?>
+            </div>
+
             <?php do_action( 'cpm_message_form', $project_id, $message ); ?>
 
             <div class="submit">
@@ -785,7 +678,7 @@ function cpm_message_form( $project_id, $message = null ) {
                     <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
                 <?php } ?>
 
-                    <input type="submit" name="create_message" id=""    class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
                 <a class="button message-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             </div>
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
@@ -795,6 +688,169 @@ function cpm_message_form( $project_id, $message = null ) {
 
     return ob_get_clean();
 }
+
+/**
+ * Generates message new/edit form
+ *
+ * @param int $project_id
+ * @param object|null $message
+ * @return string
+ */
+function cpm_discussion_form( $project_id, $message = null ) {
+
+    $title = '';
+    $content = '';
+    $submit = __( 'Add Message', 'cpm' );
+    $files  = array();
+    $id     = $milestone = 0;
+    $action = 'cpm_message_new';
+
+    if ( !is_null( $message ) ) {
+        $id        = $message->ID;
+        $title     = $message->post_title;
+        $content   = cpm_get_content( $message->post_content );
+        $files     = $message->files;
+        $milestone = $message->milestone;
+        $submit    = __( 'Update Message', 'cpm' );
+        $action    = 'cpm_message_update';
+    }
+
+    ob_start();
+    ?>
+
+
+        <form class="cpm-message-form">
+
+            <?php wp_nonce_field( 'cpm_message' ); ?>
+
+            <div class="item title">
+                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" class="required" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+            </div>
+
+            <div class="item detail">
+                <input id="message_detail" type="hidden" name="message_detail">
+                <trix-editor input="message_detail"></trix-editor>
+
+            </div>
+
+            <div class="item milestone">
+                <select name="milestone" id="milestone">
+                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+                </select>
+            </div>
+            <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
+
+            <div>
+                <div class="cpm-col-5">
+                    <?php cpm_user_checkboxes( $project_id ); ?>
+
+                </div>
+
+                 <div class="cpm-attachment-area cpm-col-6">
+                    <?php cpm_upload_field($id, $files ); ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <?php do_action( 'cpm_message_form', $project_id, $message ); ?>
+
+            <div class="submit">
+                <input type="hidden" name="action" value="<?php echo $action; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
+
+                <?php if( $id ) { ?>
+                    <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
+                <?php } ?>
+
+                <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+
+            </div>
+            <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
+        </form>
+
+    <?php
+
+    return ob_get_clean();
+}
+
+function cpm_discussion_single( $message_id, $project_id ) {
+
+    $msg_obj = CPM_Message::getInstance();
+    $message = $msg_obj->get( $message_id );
+
+    ob_start();
+
+    if ( !$message ) {
+    echo '<h2>' . __( 'Error: Message not found', 'cpm' ) . '</h2>';
+    return;
+    }
+
+    if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
+        echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+        return;
+    }
+
+   // cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
+    $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+
+?>
+
+   <a name="<?php echo $message_id ?>" style="margin-top: -50px;"></a>
+    <div class=" ">
+
+        <h3 class="cpm-discuss-title"><?php echo get_the_title( $message_id ); ?>
+            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit cpm-edit-discussion"></a>
+
+        </h3>
+
+        <div id="cpm-entry-detail">
+            <?php  echo cpm_get_content( $message->post_content ); ?>
+
+            <?php echo cpm_show_attachments( $message, $project_id ); ?>
+        </div>
+
+        <div id="cpm-msg-edit-form"></div>
+
+    </div>
+
+    <?php
+$comments = $msg_obj->get_comments( $message_id );
+
+if ( $comments ) {
+    $count = 0;
+    ?>
+
+    <h3><?php printf( _n( 'One Comment', '%s Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
+
+    <ul class="cpm-comment-wrap">
+
+        <?php
+        foreach ($comments as $comment) {
+            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+
+            echo cpm_show_comment( $comment, $project_id, $class );
+
+            $count++;
+        }
+        ?>
+
+    </ul>
+    <?php
+} else {
+    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+    echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
+}
+?>
+
+
+
+    <?php
+    echo cpm_comment_form( $project_id, $message_id );
+     return ob_get_clean();
+    }
+
+
 /**
  * Generates milestone new/edit form
  *
@@ -839,8 +895,10 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
 
             <div class="item detail">
                  <?php
-                    wp_editor( $content, 'cpm-milestone-editor-' . $id , array( 'media_buttons' => false, 'textarea_name' => 'milestone_detail', 'textarea_rows' => 10, 'media_buttons' => false, 'quicktags' => false, 'teeny' => true  ) );
+                    // wp_editor( $content, 'cpm-milestone-editor-' . $id , array( 'media_buttons' => false, 'textarea_name' => 'milestone_detail', 'textarea_rows' => 10, 'media_buttons' => false, 'quicktags' => false, 'teeny' => true  ) );
                 ?>
+                <input id="<?php echo 'cpm-milestone-editor-' . $id?>" type="hidden" name="milestone_detail" value="<?php echo $content?>">
+                <trix-editor input="<?php echo 'cpm-milestone-editor-' . $id?>"></trix-editor>
             </div>
 
             <?php do_action( 'cpm_milestone_form', $project_id, $milestone ); ?>
@@ -889,26 +947,25 @@ function cpm_show_milestone( $milestone, $project_id ) {
     $milestone_private = ( $milestone->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
     ?>
     <div class="cpm-milestone <?php echo $class; ?>">
-
-        <div class="milestone-detail">
-            <h3>
-                <?php echo $milestone->post_title; ?>
+        <div class="milestone-detail ">
+            <h3 class="milestone-head">
+                <?php echo $milestone->post_title; ?> <br/>
                 <?php if ( !$milestone_completed ) { ?>
                     <span class="time-left">(<?php printf( '%s %s - %s', human_time_diff( time(), $due ), $string, cpm_get_date( $milestone->due_date ) ); ?>)</span>
                 <?php } ?>
                 <?php if( cpm_user_can_delete_edit( $project_id, $milestone ) ) { ?>
                         <ul class="cpm-links cpm-right">
                             <li>
-                                <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+                                <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
                             </li>
                             <li>
-                                <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
+                                <a class="cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
                             </li>
 
                             <?php if ( $milestone->completed == '0' ) { ?>
-                                <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
+                                <li><a class="cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } else { ?>
-                                <li><a class="cpm-icon-tick green cpm-milestone-open" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Reopen', 'cpm' ); ?></span></a></li>
+                                <li><a class=" cpm-milestone-open" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } ?>
                             <li>
                                 <span class="<?php echo $milestone_private; ?>"></span>
@@ -923,7 +980,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
         </div>
 
         <div class="cpm-milestone-edit-form"></div>
-
+        <div class="cpm-milestone-items-details">
         <?php
         if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 
@@ -939,47 +996,69 @@ function cpm_show_milestone( $milestone, $project_id ) {
         }
 
 
+
         if ( $tasklists ) {
             ?>
+        <div class="cpm-col-6 cpm-milestone-todo">
             <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
 
-            <ul class="dash">
+            <ul>
                 <?php foreach ($tasklists as $tasklist) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
-                        <div class="cpm-right">
+                        <div class="cpm-col-7">
+                            <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
+                        </div>
+                        <div class=" cpm-col-4">
                             <?php
                             $complete = $task_obj->get_completeness( $tasklist->ID, $project_id );
                             echo cpm_task_completeness( $complete['total'], $complete['completed'] );
                             ?>
                         </div>
-                        <div class="cpm-clear"></div>
+                        <div class="cpm-col-1 cpm-right cpm-last-col">
+                            <?php echo(100 * $complete['completed'] ) / $complete['total']; ?>%
+                        </div>
+                        <div class="clearfix"></div>
                     </li>
                 <?php } ?>
             </ul>
-
-        <?php } ?>
-
-        <?php
-        if ( $messages ) {
+        </div>
+        <?php }
+         if ( $messages ) {
             ?>
-            <h3><?php _e( 'Messages', 'cpm' ); ?></h3>
+        <div class="cpm-col-6 cpm-milestone-discussion cpm-last-col">
+            <h3><?php _e( 'Discussion', 'cpm' ); ?></h3>
 
-            <ul class="dash">
+            <ul  >
                 <?php foreach ($messages as $message) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
-                        (<?php echo cpm_get_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
+                        <div class="cpm-col-5">
+                            <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
+                        </div>
+
+                        <div class="cpm-col-4 ">
+                            <span class="time">
+                            <?php echo cpm_get_date( $message->post_date, true ); ?>
+                            </span>
+                        </div>
+                        <div class="cpm-col-3">
+                            <?php
+                                echo cpm_url_user( $message->post_author, true, 28 ) ;
+                                echo get_the_author_meta( 'display_name', $message->post_author );
+                            ?>
+                        </div>
+                        <div class="clearfix"></div>
                     </li>
                 <?php } ?>
             </ul>
-
+        </div>
         <?php } ?>
+            <div class="clearfix"></div>
+        </div>
 
         <?php if ( $milestone_completed ) { ?>
-            <span class="cpm-milestone-completed">
+            <div class="cpm-milestone-completed">
                 <?php _e( 'Completed on:', 'cpm' ); ?> <?php echo cpm_get_date( $milestone->completed_on, true ); ?>
-            </span>
+            </div>
         <?php } ?>
     </div>
     <?php

@@ -165,12 +165,32 @@ function cpm_user_checkboxes( $project_id ) {
     }
 
     if ( $users ) {
+        ?>
+        <div class="notify-users ">
+            <label class="cpm-btn cpm-btn-blue cpm-show-user-list">
+                <?php _e( 'Notify users', 'cpm' ); ?>
+            </label>
+            <div class="cpm-user-list" style="display: none">
+                <div class="cpm-user-select-bar">
+                    <label class="cpm-col-6"> <input type="checkbox" name="select-all" class="cpm-toggle-checkbox"  /> <?php _e( 'Select all', 'cpm' )   ?> </label>
+                    <span class="cpm-col-1  cpm-last-col cpm-text-right close"></span>
+                    <div class="clearfix"></div>
+                </div>
+            <ul class='cpm-project-user-list' >
+        <?php
         array_multisort( $sort, SORT_ASC, $users );
 
         foreach ($users as $user) {
-            $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />', $user['id'] );
-            printf( '<label for="cpm_notify_%d">%s %s</label> ', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
+            $check = sprintf( '  <input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />  ', $user['id'] );
+            printf( '<li> <label for="cpm_notify_%d">%s %s</label> </li> ', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
         }
+         ?>
+
+                <div class='clearfix'></div>
+            </ul>
+        </div>
+        </div>
+                <?php
     } else {
         echo __( 'No users found', 'cpm' );
     }
@@ -483,9 +503,9 @@ function cpm_project_summary_info( $info ) {
          );
      }
 
-     if( $info->comments ) {
+     if( isset($info->comments) ) {
          $summary['comments'] = array(
-             'label' => _n('Comment', 'Comments', $info-comments, 'cpm'),
+             'label' => _n('Comment', 'Comments', $info->comments, 'cpm'),
              'count' => $info->comments
          );
      }
@@ -1008,10 +1028,12 @@ function cpm_project_actions( $project_id ) {
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#"><span><?php _e( 'Restore', 'cpm' ); ?></span></a>
                 <?php } ?>
             </li>
+               <?php  if(cpm_is_pro()) { ?>
             <li>
                 <span class="cpm-icons-docs"></span>
                 <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>"><span><?php _e( 'Duplicate', 'cpm' ); ?></span></a>
             </li>
+               <?php } ?>
         </ul>
     </div>
     <?php
@@ -1218,7 +1240,6 @@ function cpm_message() {
     $message = array(
         'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
         'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
-        'delete_confirm' => __( 'Are you want sure to delete this?', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );

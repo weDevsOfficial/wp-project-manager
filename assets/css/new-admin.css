@@ -22,18 +22,22 @@
     *
     **/
   /**
-* Home Project Grid
-*
-**/
+    * Home Project Grid
+    *
+    **/
   /**
-* Project Header part
-**/
+    * Project Header part
+    **/
   /**
     * Project Overview Page
     ***/
   /**
     * Activity Page
     */
+  /** CSS for Milestone Page **/
+  /** End MileStone Page **/
+  /*** Files ***/
+  /**End Files **/
   /*****/
   /**
     * Media Query for responsive
@@ -107,7 +111,7 @@
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #e6e6e6;
+  background: #cccccc;
 }
 .cpm .cpm-btn-red {
   background: RED;
@@ -238,6 +242,37 @@
 .cpm .hide_small_only {
   display: bloc;
 }
+.cpm .notify-users .cpm-user-select-bar {
+  background: ghostwhite;
+  padding: 5px 10px;
+  border-bottom: solid 1px #cccccc;
+}
+.cpm .notify-users .cpm-user-select-bar .close {
+  background: url('../images/done.svg') no-repeat 0% 0%;
+  background-size: 10px;
+  padding: 5px;
+  cursor: pointer;
+  padding-right: 0px;
+  margin-right: -20px;
+  margin-top: 5px;
+}
+.cpm .notify-users .cpm-user-list {
+  display: none;
+  border: solid 1px #019dd6;
+  margin-top: -3px;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list {
+  padding: 8px;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list li {
+  float: left ;
+  width: 50% ;
+  display: inline;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list li label {
+  padding: 0px;
+  margin: 0px;
+}
 .cpm .cpm-top-bar {
   background: #ffffff;
   margin-bottom: 25px;
@@ -245,7 +280,7 @@
   padding-bottom: 0px;
 }
 .cpm .cpm-top-bar .cpm-priject-search-bar {
-  border-bottom: solid 1px #e6e6e6;
+  border-bottom: solid 1px #cccccc;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
@@ -277,13 +312,13 @@
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #cccccc;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
   background: red;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
-  color: #e6e6e6;
+  color: #cccccc;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn a {
   font-size: 14px;
@@ -328,7 +363,7 @@
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #e6e6e6;
+  background: #cccccc;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -393,7 +428,7 @@
   margin-right: 15px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
-  color: #e6e6e6;
+  color: #cccccc;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
@@ -586,7 +621,7 @@
   top: 15px;
 }
 .cpm .cpm-border-bottom {
-  border-bottom: solid 1px #e6e6e6;
+  border-bottom: solid 1px #cccccc;
   padding-bottom: 0px;
 }
 .cpm .cpm-project-header ul {
@@ -619,7 +654,7 @@
 .cpm .cpm-project-header ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #e6e6e6;
+  background: #cccccc;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -809,7 +844,7 @@
 }
 .cpm .project-overview .cpm-right-part .user_list li span {
   font-size: small;
-  color: #e6e6e6;
+  color: #cccccc;
 }
 .cpm .cpm-activity-list {
   padding: 0px;
@@ -865,7 +900,7 @@
   margin-bottom: 10px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  border-bottom: solid 1px #e6e6e6;
+  border-bottom: solid 1px #cccccc;
   padding: 25px 25px 3px 25px;
   margin-bottom: 10px;
 }
@@ -899,7 +934,7 @@
   margin: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
-  border-bottom: solid 1px #e6e6e6;
+  border-bottom: solid 1px #cccccc;
   padding: 0px 8px 0px 30px;
   background: #ffffff;
 }
@@ -966,7 +1001,7 @@
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
   margin-bottom: 15px;
-  border-bottom: solid 1px #e6e6e6;
+  border-bottom: solid 1px #cccccc;
   padding: 0px 8px 20px 30px;
   margin-left: 0px;
 }
@@ -984,7 +1019,7 @@
   padding-left: 20px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
-  border-right: solid 1px #e6e6e6;
+  border-right: solid 1px #cccccc;
   margin-right: 4%;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
@@ -1041,13 +1076,13 @@
   margin: 0px;
   padding: 0px;
   margin-top: 40px;
-  border-top: #e6e6e6 solid 1px;
+  border-top: #cccccc solid 1px;
   height: 800px;
 }
 .cpm .cpm-message-page .cpm-message-list li {
   margin: 0px;
-  border-left: #e6e6e6 solid 3px;
-  border-bottom: #e6e6e6 solid 1px;
+  border-left: #cccccc solid 3px;
+  border-bottom: #cccccc solid 1px;
   padding: 15px ;
 }
 .cpm .cpm-message-page .cpm-message-list li img {
@@ -1059,14 +1094,14 @@
   margin-right: 0px;
   padding-right: 0px;
 }
-.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 .cpm-message-action {
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 .delete-message {
   float: right ;
 }
 .cpm .cpm-message-page .cpm-message-list li .comment-count {
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #e6e6e6;
+  background: #cccccc;
   -webkit-border-radius: 180px;
   -moz-border-radius: 180px;
   border-radius: 180px;
@@ -1084,59 +1119,244 @@
 .cpm .cpm-message-page .cpm-message-body {
   margin-right: 0px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-new-message-form {
-  display: block;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content {
-  padding: 0px;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content h3 {
-  margin: 0px;
+.cpm .cpm-message-page .cpm-message-body .cpm-discuss-title {
   color: #019dd6;
-  border-bottom: solid 1px #e6e6e6;
-  padding: 10px;
-  padding-left: 0px;
+  border-bottom: solid 1px #cccccc;
+  padding-bottom: 10px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show ul li {
-  list-style: none ;
-  border: solid 1px #e6e6e6;
+.cpm .cpm-message-page .cpm-message-body .cpm-discuss-title .cpm-edit-discussion {
+  position: absolute;
+  right: 10px;
+  background: url('../images/edit.svg') no-repeat 0% 0%;
+  background-size: 20px;
+  padding: 10px;
+  width: 30px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment {
+  background: #fff;
+  margin-bottom: 10px;
+  display: block;
+  border: #cccccc solid 1px;
+  padding: 10px;
+  min-height: 50px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action {
+  position: absolute;
+  text-align: right;
+  right: 10px;
+  top: 10px ;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-edit-comment-link {
+  background: url('../images/edit.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-delete-comment-link {
+  background: url('../images/close.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
+}
+.cpm .cpm-message-page .cpm-message-form-wrap,
+.cpm .cpm-message-page .cpm-milestone-form-wrap,
+.cpm .cpm-message-page .cpm-comment-form-wrap,
+.cpm .cpm-message-page .cpm-milestone-form {
+  width: auto;
+}
+.cpm #cpm-milestone-page .cpm-milestone-form-wrap {
+  width: auto;
+  margin-left: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 30px;
+  list-style: none;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li {
+  margin-right: 5px;
+  float: left;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li a {
+  padding: 15px 25px;
+  border-bottom: #fff solid 2px ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-late-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-upcomming-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-complete-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-plus-white {
+  float: right;
+  position: absolute;
+  right: 0px;
+  border: none;
+  padding-left: 50px;
+  margin-top: -10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-plus-white:hover {
+  border: none;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li a:hover,
+.cpm #cpm-milestone-page .cpm-milestone-link li.active a {
+  border-bottom: #F46720 solid 2px ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
+  background: #fff;
+  border: #cccccc solid 1px;
+  margin-bottom: 20px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
+  padding: 15px;
+  border-bottom: solid 1px #cccccc;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .time-left {
+  font-size: small;
+  font-weight: normal;
+  color: #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links {
+  margin: 0px;
+  margin-top: -15px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-icon-edit {
+  background: url('../images/edit.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-delete {
+  background: url('../images/close.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-open {
+  background: url('../images/check-mark.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-open {
+  background: url('../images/done.svg') no-repeat 50% 50%;
+  background-size: 20px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-complete {
+  background: url('../images/check-mark.svg') no-repeat 50% 50%;
+  background-size: 40px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
+  background: #FCFCFC;
+  padding: 15px;
+  border-bottom: solid 1px #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details {
   padding: 15px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form {
-  margin: 25px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-todo h3 {
+  background: #F3F8FC ;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .wp-editor-container {
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-todo li {
+  background: url('../images/milestone-todo.svg') no-repeat 12px 30%;
+  background-size: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion h3 {
+  background: #F8F8EE ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion li {
+  background: url('../images/discussion.svg') no-repeat 12px 30%;
+  background-size: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion .time {
+  background: url('../images/time.svg') no-repeat 0% 30%;
+  background-size: 20px;
+  padding-left: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 {
+  border: solid 1px #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 h3 {
+  margin: 0px;
+  padding: 15px 15px;
+  margin-bottom: 5px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li {
+  border-bottom: solid 1px #cccccc;
+  padding: 6px 15px;
+  padding-left: 45px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li:last-child {
   border: none;
-  margin-bottom: 10px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .messege_editor,
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form #message_title {
-  width: 80% ;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .cpm-message-send-form .notify-users .show-notify-user {
-  padding-top: 20px;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-1 {
-  width: 5%;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-1 .photo {
-  border-radius: 45px;
-  height: 55px;
-  width: 55px;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 {
-  width: 93%;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 .edit {
-  background: url('../images/edit.svg') no-repeat 0% 0%;
-  background-size: 12px;
-  padding: 8px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details img.avatar {
+  border-radius: 15px;
+  border: solid 1px #cccccc;
+  vertical-align: top;
   margin-right: 5px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-message-content .comment_show .cpm-col-11 .del {
-  background: url('../images/close.svg') no-repeat 0% 0%;
-  background-size: 12px;
-  padding: 8px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-completed {
+  padding: 15px;
+  color: #124b04;
+  background: #d0e6cb;
+}
+.cpm .cpm-files-page .cpm-files ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-files-page .cpm-files li {
+  background: #fff;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  border: none;
+}
+.cpm .cpm-files-page .cpm-files li img {
+  min-width: 222px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-name,
+.cpm .cpm-files-page .cpm-files li .cpm-file-meta {
+  padding-left: 20px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action {
+  margin-top: 5px;
+  border-top: #F4F4F4 solid 1px;
+  background: #FCFCFC;
+  padding: 20px 20px 0px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul {
+  text-align: center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul li {
+  background: none;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul a {
+  padding: 15px;
+  background-size: 30px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comment-count {
+  font-size: small;
+  padding: 1px 4px;
+  margin-top: -15px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0px;
+  margin-left: 30px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-go-discussion a {
+  background: url('../images/attach.svg') no-repeat center center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comments-count a {
+  background: url('../images/discussion.svg') no-repeat center center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
+  background: url('../images/download.svg') no-repeat center center;
 }
 @media only screen and (max-width: 780px) {
   .cpm {

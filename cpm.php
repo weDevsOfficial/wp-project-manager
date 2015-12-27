@@ -311,25 +311,18 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array('jquery'), false, true );
+        wp_enqueue_script( 'trix_editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'plupload-handlers' );
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto' ), false, true );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array('jquery', 'plupload-handlers'), false, true );
-
-        if ( SCRIPT_DEBUG ) {
-            wp_register_script( 'cpm_vuejs', plugins_url( 'assets/js/vue.js', __FILE__ ), false, true  );
-        } else {
-            wp_register_script( 'cpm_vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), false, true  );
-        }
-
-        wp_enqueue_script( 'cpm_discussion', plugins_url( 'assets/js/discussion.js', __FILE__ ), array('cpm_vuejs'), false, true  );
+        wp_enqueue_script( 'cpm_discussion', plugins_url( 'assets/js/discussion.js', __FILE__ ), '', false, false );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'  => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'cpm_nonce' ),
-            'current_login_user' => get_current_user_id(),
             'is_admin' => is_admin() ? 'yes' : 'no',
             'message'  => cpm_message(),
             'plupload' => array(
@@ -348,6 +341,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
+        wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin_new', plugins_url( 'assets/css/new-admin.css', __FILE__ ) );
         do_action( 'cpm_admin_scripts' );
 

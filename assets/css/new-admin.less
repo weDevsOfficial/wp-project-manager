@@ -6,7 +6,7 @@
 
 @bodyColor: #f1f1f1 ;
 @blueColor : #019dd6 ;
-@gray  : #E6E6E6;
+@gray  : #cccccc;
 @round : 10px;
 @defaultRadius:30px;
 @defaultFontSize : 14px;
@@ -32,7 +32,6 @@
     color: @defaultFontColor ;
     margin-top: 20px;
 
-
     /**
     * CPM default css classes
     */
@@ -51,8 +50,8 @@
     }
 
     a:active,
-    a:hover,
-    a:focus {
+        a:hover,
+        a:focus {
         text-decoration: none  ;
         border: 0 ;
         outline: 0  ;
@@ -86,7 +85,7 @@
     }
 
     .cpm-no-margin-bottom {
-       margin-bottom: 0px;
+        margin-bottom: 0px;
 
 
     }
@@ -110,7 +109,7 @@
         -webkit-border-radius: @cercle;
         -moz-border-radius: @cercle;
         border-radius: @cercle;
-   }
+    }
 
     .cpm-text-left {
         text-align: left;
@@ -135,9 +134,9 @@
     * Button Styes
     **/
     .cpm-btn {
-    padding: 6px 10px;
-    margin: 3px;
-    border-radius: 3px;
+        padding: 6px 10px;
+        margin: 3px;
+        border-radius: 3px;
     }
 
     .cpm-btn-xs
@@ -162,7 +161,7 @@
         .cpm-btn;
         background: #ffffff;
         a:hover
-        {
+            {
             background: red;
         }
     }
@@ -177,7 +176,7 @@
         background: @blueColor;
         color : #ffffff;
         a:hover
-        {
+            {
             color: red;
         }
     }
@@ -188,7 +187,6 @@
         padding: 10px 10px 10px 50px;
         color : #ffffff;
     }
-
 
     /**
     * Responsive Grid Column
@@ -208,12 +206,12 @@
         padding-left: @defaultPadding;
         padding-right: @defaultPadding;
         padding-bottom: @defaultPadding;
-        width : 100%; 
+        width : 100%;
 
     }
 
     .cpm-col-1 {
-         width: 7.788285225%;
+        width: 7.788285225%;
         float: left;
         margin-right: @defaultColumnSpaceRight;
         margin-bottom: @defaultColumnSpaceBottom;
@@ -221,7 +219,7 @@
     }
 
     .cpm-col-2 {
-       width: 14.788285225%;
+        width: 14.788285225%;
         float: left;
         margin-right: @defaultColumnSpaceRight/2;
         margin-bottom: @defaultColumnSpaceBottom/2;
@@ -319,18 +317,53 @@
     }
 
     .show_small_only {
-         display: none;
+        display: none;
     }
 
     .hide_desktop_only {
-         display: none;
+        display: none;
     }
 
     .hide_small_only {
-         display: bloc;
+        display: bloc;
     }
 
 
+    .notify-users {
+                .cpm-user-select-bar{
+                   background: ghostwhite;
+                   padding: 5px 10px;
+                   border-bottom: solid 1px @gray;
+
+                   .close{
+                        background :  url('../images/done.svg') no-repeat 0% 0% ;
+                        background-size: 10px;
+                        padding: 5px;
+                        cursor: pointer;
+                        padding-right: 0px;
+                        margin-right: -20px;
+                        margin-top: 5px;
+                   }
+                }
+                .cpm-user-list{
+                    display: none;
+                    border: solid 1px @blueColor;
+                    margin-top: -3px;
+                    .cpm-project-user-list{
+                        padding: 8px;
+                        li{
+                            float: left ;
+                            width:50% ;
+                            display: inline;
+                            //margin-right: 1% ;
+                            label{
+                                padding: 0px;
+                                margin: 0px;
+                            }
+                        }
+                    }
+                }
+            }
 
 
 
@@ -363,13 +396,13 @@
 
                 .dashicons
                 {
-                     vertical-align: bottom;
-                     font-size: @defaultFontSize;
+                    vertical-align: bottom;
+                    font-size: @defaultFontSize;
 
 
-                     a{
+                    a{
                         color: #ffffff;
-                     }
+                    }
                 }
             }
 
@@ -443,23 +476,23 @@
                             border-bottom: none;
                         }
 
-                         span.count {
-                             background:  @blueColor;
-                             color: #ffffff ;
-                         }
+                        span.count {
+                            background:  @blueColor;
+                            color: #ffffff ;
+                        }
                     }
                 }
                 .active a ,
                 a:hover {
-                        border-bottom: solid 2px  @blueColor ;
-                        color: #000000;
-                        font-weight: bold;
+                    border-bottom: solid 2px  @blueColor ;
+                    color: #000000;
+                    font-weight: bold;
 
-                         span.count {
-                             background:  @blueColor;
-                             color: #ffffff ;
-                         }
+                    span.count {
+                        background:  @blueColor;
+                        color: #ffffff ;
                     }
+                }
 
 
                 a.cpm-all-project {
@@ -509,21 +542,21 @@
                         color: @gray;
 
                         :hover,
-                        .active
-                        {
+                            .active
+                            {
                             color: #000;
                         }
                     }
                 }
             }
         }
-   }
+    }
 
 
-/**
-* Home Project Grid
-*
-**/
+    /**
+    * Home Project Grid
+    *
+    **/
 
     .cpm-project-grid {
         margin: 0px ;
@@ -533,13 +566,13 @@
         padding-right: 0px;
         .cpm-project {
             .cpm-col-4 ;
-             margin: 0 1.5% 1.75% 0 ;
-             margin-left: 0px;
-             padding: 0px;
+            margin: 0 1.5% 1.75% 0 ;
+            margin-left: 0px;
+            padding: 0px;
 
-             float: left;
-             box-shadow: none;
-             height: 300px;
+            float: left;
+            box-shadow: none;
+            height: 300px;
 
             .project_head {
                 background: #ffffff ;
@@ -550,8 +583,8 @@
             }
 
             .project_head:hover {
-                  background: @blueColor ;
-                  text-decoration: none;
+                background: @blueColor ;
+                text-decoration: none;
                 h5,
                 .cpm-settings-icon-cog span,
                 .cpm-project-detail {
@@ -632,31 +665,31 @@
     }
 
     li.message {
-      background: url('../images/bullet_green.png') no-repeat  0% 55%   ;
+        background: url('../images/bullet_green.png') no-repeat  0% 55%   ;
 
     }
 
     li.todo {
-      background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+        background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
 
     }
 
     li.todos {
-      background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+        background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
 
     }
 
     li.comments {
-      background: url('../images/comment.png') no-repeat  0% 55%   ;
+        background: url('../images/comment.png') no-repeat  0% 55%   ;
 
     }
 
     li.files {
-      background: url('../images/docs.png') no-repeat  0% 55%   ;
+        background: url('../images/docs.png') no-repeat  0% 55%   ;
     }
 
     li.milestone {
-      background: url('../images/milestones.png') no-repeat  0% 55%   ;
+        background: url('../images/milestones.png') no-repeat  0% 55%   ;
 
     }
 
@@ -666,13 +699,13 @@
         padding: 0px;
 
         .cpm-project {
-             margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
-             margin-left: 0px;
-             padding: 0px;
-             width: 100% ;
-             float: left;
-             box-shadow: none;
-             height: 120px;
+            margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
+            margin-left: 0px;
+            padding: 0px;
+            width: 100% ;
+            float: left;
+            box-shadow: none;
+            height: 120px;
 
             .project_head {
                 background: #ffffff ;
@@ -686,8 +719,8 @@
             }
 
             .project_head:hover {
-                  background: @blueColor ;
-                  text-decoration: none;
+                background: @blueColor ;
+                text-decoration: none;
                 h5,
                 .cpm-settings-icon-cog span,
                 .cpm-project-detail {
@@ -769,9 +802,9 @@
 
 
 
-/**
-* Project Header part
-**/
+    /**
+    * Project Header part
+    **/
 
     .cpm-border-bottom {
         border-bottom: solid 1px @gray;
@@ -825,7 +858,7 @@
 
                 }
                 .overview:hover,
-                a.overview.active {
+                    a.overview.active {
                     background: url('../images/overview_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
@@ -836,7 +869,7 @@
 
                 }
                 .message:hover,
-                a.message.active {
+                    a.message.active {
                     background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
@@ -847,7 +880,7 @@
 
                 }
                 .activity:hover,
-                a.activity.active {
+                    a.activity.active {
                     background: url('../images/activity_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
@@ -858,7 +891,7 @@
 
                 }
                 .milestone:hover,
-                a.milestone.active {
+                    a.milestone.active {
                     background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
@@ -869,7 +902,7 @@
 
                 }
                 .to-do-list:hover,
-                a.to-do-list.active {
+                    a.to-do-list.active {
                     background: url('../images/todo_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
@@ -880,7 +913,7 @@
 
                 }
                 .files:hover,
-                a.files.active {
+                    a.files.active {
                     background: url('../images/file_hover.svg') no-repeat  20% 30%;
                     background-size: 24px 24px;
                 }
@@ -891,14 +924,14 @@
 
                 }
                 .settings:hover,
-                a.settings.active {
+                    a.settings.active {
                     background: url('../images/settings_hover.svg') no-repeat 20% 30%;
                     background-size: 24px 24px;
                 }
 
 
                 a:hover,
-                .active {
+                    .active {
                     border-bottom: solid 2px  @blueColor ;
                     color: #000000;
                     font-weight: bold;
@@ -911,7 +944,7 @@
                         color: #ffffff ;
                     }
 
-                   div
+                    div
                     {
                         color:  @blueColor; ;
                     }
@@ -1131,7 +1164,7 @@
                 margin-bottom: 10px;
 
                 .cpm-right {
-                text-align : right ;
+                    text-align : right ;
                     a {
 
                         float: none;
@@ -1152,8 +1185,9 @@
                         background :  url('../images/close.svg') no-repeat 50% 0% ;
                         padding: 10px;
                         background-size: 15px;
+
                         &:before {
-                             content: "";
+                            content: "";
                         }
                     }
                 }
@@ -1220,7 +1254,7 @@
                             background :  url('../images/close.svg') no-repeat 50% 0% ;
                             background-size: 10px;
                             &:before {
-                                 content: "";
+                                content: "";
                             }
                         }
 
@@ -1236,7 +1270,7 @@
 
                         }
 
-                   }
+                    }
 
 
 
@@ -1246,7 +1280,7 @@
 
                 :hover {
                     .cpm-todo-action-right {
-                         visibility : visible ;
+                        visibility : visible ;
                     }
                 }
             }
@@ -1271,73 +1305,73 @@
             }
 
             footer.cpm-list-footer {
-                    padding: 0px;
-                    margin:0px;
-                    padding-left: 20px;
+                padding: 0px;
+                margin:0px;
+                padding-left: 20px;
 
-                    .cpm-col-6 {
-                        border-right: solid 1px @gray ;
-                        margin-right: 4%;
+                .cpm-col-6 {
+                    border-right: solid 1px @gray ;
+                    margin-right: 4%;
 
-                        span {
-                            font-size: 130%;
-                            font-weight: bold;
-                        }
+                    span {
+                        font-size: 130%;
+                        font-weight: bold;
                     }
+                }
 
-                    .cpm-todo-complete {
-                        background :  url('../images/todo_completed.svg') no-repeat 0% 50% ;
-                        padding-left: 6%;
-                        background-size: 40px;
-                    }
-                    .cpm-todo-incomplete {
-                        background :  url('../images/todo-incomplete.svg') no-repeat 0% 50% ;
-                        padding-left: 6%;
-                        background-size: 40px;
-                    }
+                .cpm-todo-complete {
+                    background :  url('../images/todo_completed.svg') no-repeat 0% 50% ;
+                    padding-left: 6%;
+                    background-size: 40px;
+                }
+                .cpm-todo-incomplete {
+                    background :  url('../images/todo-incomplete.svg') no-repeat 0% 50% ;
+                    padding-left: 6%;
+                    background-size: 40px;
+                }
 
-                    .cpm-todo-comment {
-                        background :  url('../images/comment.svg') no-repeat 0% 50% ;
-                        padding-left: 6%;
-                        background-size: 40px;
-                        a {
-                            font-size: @defaultFontSize;
-                            font-weight: normal;
-                        }
+                .cpm-todo-comment {
+                    background :  url('../images/comment.svg') no-repeat 0% 50% ;
+                    padding-left: 6%;
+                    background-size: 40px;
+                    a {
+                        font-size: @defaultFontSize;
+                        font-weight: normal;
                     }
-                    .cpm-todo-prgress-bar
-                    {
-                        margin-top: 15px;
-                    }
+                }
+                .cpm-todo-prgress-bar
+                {
+                    margin-top: 15px;
+                }
             }
         }
     }
 
     .cpm-new-todolist-form {
         margin-top: 10px;
-       
+
     }
 
     .cpm-message-page {
-        display : flex; 
-        width : 100% ; 
+        display : flex;
+        width : 100% ;
         padding-left : 0px;
         padding-right : 0px;
-        margin-right : 0px; 
+        margin-right : 0px;
         .cpm-message-list,
         .cpm-message-body {
-            background : #ffffff; 
+            background : #ffffff;
             padding : 10px 20px;
         }
 
         .cpm-message-list {
-            padding :0px; 
+            padding :0px;
             margin-right : 25px;
             padding-top : 25px;
             padding-left : 0px;
-            .cpm-add-message { 
-                 
-                margin-left : 40px; 
+            .cpm-add-message {
+
+                margin-left : 40px;
             }
             ul {
                 margin : 0px;
@@ -1345,26 +1379,26 @@
                 margin-top : 40px;
                 border-top : @gray solid 1px;
                 height : 800px;
-                //overflow: auto ; 
+                //overflow: auto ;
             }
             li {
-                
-                margin : 0px; 
-                border-left : @gray solid 3px; 
+
+                margin : 0px;
+                border-left : @gray solid 3px;
                 border-bottom : @gray solid 1px;
                 padding: 15px ;
-                img{ 
+                img{
                     border-radius : 45px;
                     height : 55px;
                     width : 55px;
                 }
-                .cpm-col-10 
+                .cpm-col-10
                 {
                     margin-right : 0px;
                     padding-right : 0px;
-                    .cpm-message-action {
-                        float : right ; 
-                        
+                    .delete-message {
+                        float : right ;
+
                     }
                 }
                 .comment-count {
@@ -1372,7 +1406,7 @@
                     .cercale-corners;
                     float : right ;
                     padding : 1px 8px;
-                } 
+                }
             }
 
             li:hover {
@@ -1383,94 +1417,314 @@
                     color : #fff;
                 }
             }
+
         }
-        
-        
-        .cpm-message-body {
-             margin-right : 0px;
-            .cpm-new-message-form {
-                display : block;
+
+        .cpm-message-body{
+            margin-right : 0px;
+
+            .cpm-discuss-title{
+                color: @blueColor;
+                border-bottom: solid 1px @gray;
+                padding-bottom: 10px;
+
+                .cpm-edit-discussion{
+                    position: absolute;
+                    right: 10px;
+                    background :  url('../images/edit.svg') no-repeat 0% 0% ;
+                    background-size: 20px;
+                    padding: 10px;
+
+                    width : 30px;
+
+                }
             }
-            .cpm-message-content {
-                padding : 0px;
 
-                h3 {
-                    margin : 0px;
-                    color : @blueColor; 
-                    border-bottom : solid 1px @gray;
-                    padding : 10px;
-                    padding-left : 0px;
-                }
+            .cpm-comment{
+                background: #fff;
+                margin-bottom: 10px;
+                display: block;
+                border: @gray solid 1px;
+                padding: 10px;
+                min-height: 50px;
 
-                .comment_show ul li  {
-                    list-style : none ;
-                    border : solid 1px @gray ; 
-                    padding : 15px; 
-                }
-                
-                .cpm-message-send-form {
-                    margin : 25px;
-                    
-                    .wp-editor-container {
-                        border : none;
-                        margin-bottom : 10px;
+                .cpm-comment-action {
+                    position: absolute;
+                    text-align: right;
+                    right: 10px;
+                    top : 10px ;
+
+                    .cpm-edit-comment-link {
+                        background :  url('../images/edit.svg') no-repeat 50% 50% ;
+                        background-size: 10px;
+                        padding: 10px;
                     }
 
-                    .messege_editor, 
-                    #message_title {
-                        width : 80% ; 
-                    }
-                    .milestone {
-                        
-                    }
-                    .notify-users{
-                        span.cpm-btn{
-                            
-                        }
-                        .show-notify-user 
-                        {
-                            padding-top : 20px;
-                        }
-                    } 
-                }
-                
-                .comment_show{
-                    .cpm-col-1 
-                    { 
-                        width : 5%; 
-                        .photo{ 
-                           border-radius : 45px;
-                           height : 55px;
-                           width : 55px;
-                        } 
-                    }
-                    
-                    .cpm-col-11 
-                    { 
-                        width : 93%;
-                        .edit {
-                            background :  url('../images/edit.svg') no-repeat  0% 0% ;
-                            background-size: 12px;
-                            padding : 8px;
-                            margin-right : 5px;
-                        }
-                        .del {
-                            background :  url('../images/close.svg') no-repeat  0% 0% ;
-                            background-size: 12px;
-                            padding : 8px;
-                        }
-                         
-                    }
-                    .cpm-comment-form {
-                    
-                    
-                    
+                    .cpm-delete-comment-link {
+                        background :  url('../images/close.svg') no-repeat 50% 50% ;
+                        background-size: 10px;
+                        padding: 10px;
 
                     }
                 }
             }
-        } 
+        }
+        .cpm-message-form-wrap,
+        .cpm-milestone-form-wrap,
+        .cpm-comment-form-wrap,
+        .cpm-milestone-form{
+            width: auto;
+        }
+
     }
+
+
+    /** CSS for Milestone Page **/
+    #cpm-milestone-page{
+
+        .cpm-milestone-form-wrap{
+         width: auto;
+         margin-left: 0px;
+
+        }
+        .cpm-milestone-link{
+            margin: 0px;
+            padding: 0px;
+            margin-bottom: 30px;
+            list-style: none;
+
+            li {
+                margin-right: 5px;
+                float: left;
+
+                a{
+                    padding: 15px 25px;
+                    border-bottom: #fff solid 2px ;
+                }
+                .cpm-late-milestone-link{
+                    background: #fff;
+                }
+
+                .cpm-upcomming-milestone-link{
+                    background: #fff;
+                }
+
+                .cpm-complete-milestone-link{
+                    background: #fff;
+                }
+                .cpm-plus-white {
+                    float: right;
+                    position: absolute;
+                    right: 0px;
+                    border: none;
+                    padding-left: 50px;
+                    margin-top: -10px;
+                }
+                .cpm-plus-white:hover
+                {
+                    border: none;
+
+                }
+
+            }
+            li a:hover,
+            li.active a{
+                border-bottom: #F46720 solid 2px ;
+            }
+        }
+        .cpm-milestone-details {
+            .cpm-milestone-data{
+
+            }
+            .cpm-milestone{
+                background: #fff;
+                border: @gray solid 1px;
+                margin-bottom: 20px;
+                .milestone-head {
+                    padding: 15px;
+                    border-bottom: solid 1px @gray;
+                    margin-bottom : 0px;
+                    margin-top: 0px;
+                    .time-left{
+                        font-size: small;
+                        font-weight: normal;
+                        color: @gray;
+                    }
+                    .cpm-links{
+                        margin: 0px;
+                        margin-top:-15px;
+                        .cpm-icon-edit{
+                            background :  url('../images/edit.svg') no-repeat 50% 50% ;
+                            background-size: 15px;
+                            padding: 10px;
+                        }
+                        .cpm-milestone-delete{
+
+                            background :  url('../images/close.svg') no-repeat 50% 50%;
+                            background-size: 15px;
+                            padding: 10px;
+                        }
+                        .cpm-milestone-open{
+
+                            background :  url('../images/check-mark.svg') no-repeat 50% 50%;
+                            background-size: 15px;
+                            padding: 10px;
+                        }
+                        .cpm-milestone-open{
+
+                            background :  url('../images/done.svg') no-repeat 50% 50%;
+                            background-size: 20px;
+                            padding: 10px;
+                        }
+                        .cpm-milestone-complete{
+                            background :  url('../images/check-mark.svg') no-repeat 50% 50%;
+                            background-size: 40px;
+                            padding: 10px;
+                        }
+
+
+                    }
+                }
+                .detail{
+                    background: #FCFCFC;
+                    padding: 15px;
+                    border-bottom: solid 1px @gray;
+                }
+                .cpm-milestone-items-details{
+                    padding: 15px;
+                    .cpm-milestone-todo{
+                        h3{
+                            background: #F3F8FC ;
+                        }
+                        li{
+                            background :  url('../images/milestone-todo.svg') no-repeat 12px 30% ;
+                            background-size: 25px;
+                        }
+                    }
+                    .cpm-milestone-discussion{
+                        h3{
+                            background: #F8F8EE ;
+                        }
+                        li{
+                            background :  url('../images/discussion.svg') no-repeat 12px 30% ;
+                            background-size: 25px;
+
+                        }
+                        .time{
+                            background :  url('../images/time.svg') no-repeat 0% 30% ;
+                            background-size: 20px;
+                            padding-left: 25px;
+
+                        }
+
+                    }
+
+                    .cpm-col-6{
+                        border: solid 1px @gray;
+
+                        h3{
+                          margin: 0px;
+                          padding: 15px 15px;
+                          margin-bottom: 5px;
+                        }
+
+                        ul{
+                           padding :0px;
+                           margin :0px;
+
+                            li{
+                                border-bottom: solid 1px @gray;
+                                padding: 6px 15px;
+                                padding-left: 45px;
+                            }
+                            li:last-child{
+                                border: none;
+                            }
+                        }
+                    }
+                    img.avatar{
+                            border-radius: 15px;
+                            border: solid 1px @gray;
+                            vertical-align: top;
+                            margin-right: 5px;
+
+                        }
+                }
+            }
+            .cpm-milestone-completed{
+                padding: 15px;
+                color: #124b04;
+                background: #d0e6cb;
+            }
+        }
+    }
+    /** End MileStone Page **/
+    /*** Files ***/
+    .cpm-files-page{
+        .cpm-files{
+            ul{
+                padding : 0px;
+                margin : 0px;
+            }
+                li{
+                    background: #fff;
+                    margin-right: 30px;
+                    margin-bottom: 30px;
+                    border: none;
+                    img{
+                        min-width: 222px;
+
+                    }
+                    .cpm-file-name,
+                    .cpm-file-meta{
+                        padding-left: 20px;
+                    }
+                    .cpm-file-action{
+                        margin-top: 5px;
+                        border-top: #F4F4F4 solid 1px;
+                        background: #FCFCFC;
+                        padding: 20px 20px 0px;
+
+                        ul{
+                            text-align:center;
+                            li{
+                                background: none
+                            }
+                            a{
+                                padding: 15px;
+                                background-size: 30px;
+
+                            }
+                            .cpm-comment-count{
+                                    font-size: small;
+                                    padding: 1px 4px;
+                                    margin-top: -15px;
+                                    border-radius: 10px;
+                                    position: absolute;
+                                    top : 0px;
+                                    margin-left: 30px;
+
+                                }
+                            .cpm-go-discussion a{
+                                background :  url('../images/attach.svg') no-repeat  center center ;
+                            }
+                            .cpm-comments-count a{
+                                background :  url('../images/discussion.svg') no-repeat center center ;
+                            }
+                            .cpm-download-file a{
+                                background :  url('../images/download.svg') no-repeat  center center ;
+
+                            }
+                        }
+                    }
+                }
+
+
+
+        }
+    }
+
+    /**End Files **/
 
     /*****/
     /**
@@ -1483,47 +1737,47 @@
             width: 100%;
         }
 
-         .cpm-sm-col-2 {
+        .cpm-sm-col-2 {
             width: 100%;
         }
 
-         .cpm-sm-col-3 {
+        .cpm-sm-col-3 {
             width: 100%;
         }
 
-         .cpm-sm-col-4 {
+        .cpm-sm-col-4 {
 
         }
 
-         .cpm-sm-col-5 {
+        .cpm-sm-col-5 {
             width: 100%;
         }
 
-         .cpm-sm-col-6 {
+        .cpm-sm-col-6 {
             width: 100%;
         }
 
-         .cpm-sm-col-7 {
+        .cpm-sm-col-7 {
             width: 100%;
         }
 
-         .cpm-sm-col-8 {
+        .cpm-sm-col-8 {
             width: 100%;
         }
 
-         .cpm-sm-col-9 {
+        .cpm-sm-col-9 {
             width: 100%;
         }
 
-         .cpm-sm-col-10 {
+        .cpm-sm-col-10 {
             width: 100% ;
         }
 
-         .cpm-sm-col-11 {
+        .cpm-sm-col-11 {
             width: 100%;
         }
 
-         .cpm-sm-col-12 {
+        .cpm-sm-col-12 {
             width: 100%;
             float: none;
         }
@@ -1533,15 +1787,15 @@
         }
 
         .show_small_only {
-             display: block;
+            display: block;
         }
 
         .hide_desktop_only {
-             display: block;
+            display: block;
         }
 
         .hide_small_only {
-             display: none;
+            display: none;
         }
 
 
@@ -1565,8 +1819,8 @@
                 }
 
                 .project_head:hover {
-                      background: @blueColor ;
-                      text-decoration: none;
+                    background: @blueColor ;
+                    text-decoration: none;
                     h5,
                     .cpm-settings-icon-cog span,
                     .cpm-project-detail {
@@ -1630,11 +1884,11 @@
 
         }
 
-       .project-overview {
+        .project-overview {
 
             .overview-menu {
 
-            ul {
+                ul {
                     li {
                         width: 44.21582255%;
                         margin-bottom: 20px;

@@ -1883,9 +1883,7 @@ ul.cpm-files li .cpm-thumb-detail {
 }
 ul.cpm-files li .cpm-file-name {
   padding: 5px 0;
-  border-bottom: 1px solid #dfdfdf;
-  border-top: 1px solid #dfdfdf;
-  margin: 0 0 10px 0;
+  margin: 0 0 0px 0;
   font-size: 13px;
 }
 ul.cpm-files li .cpm-file-action .comment-number {

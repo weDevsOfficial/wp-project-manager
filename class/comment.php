@@ -104,7 +104,6 @@ class CPM_Comment {
     function get( $comment_id ) {
         $files_meta = get_comment_meta( $comment_id, '_files', true );
         $comment = get_comment( $comment_id );
-       
 
         $files = array();
         if ( $files_meta != '' ) {
@@ -154,10 +153,6 @@ class CPM_Comment {
                 }
 
                 $comments[$key]->files = $file_array;
-                $comments[$key]->avatar = get_avatar($comment->user_id) ;
-
-
-
             }
         }
 
