@@ -897,13 +897,12 @@
 .cpm .cpm-todolists .cpm-todolist {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
   border-bottom: solid 1px #cccccc;
   padding: 25px 25px 3px 25px;
   margin-bottom: 10px;
-  background: #eff8fd ;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right {
   text-align: right ;
@@ -1052,22 +1051,6 @@
 .cpm .cpm-new-todolist-form {
   margin-top: 10px;
 }
-.cpm .comment-form-section {
-  background: #fff;
-  padding: 10px;
-}
-.cpm .cpm-comment-wrap {
-  background: #fff;
-  padding: 10px;
-}
-.cpm .cpm-comment-wrap .cpm-comment {
-  background: #fff;
-  margin-bottom: 10px;
-  display: block;
-  border: #cccccc solid 1px;
-  padding: 10px;
-  min-height: 50px;
-}
 .cpm .cpm-message-page {
   display: flex;
   width: 100% ;
@@ -1176,11 +1159,8 @@
 .cpm .cpm-message-page .cpm-message-form-wrap,
 .cpm .cpm-message-page .cpm-milestone-form-wrap,
 .cpm .cpm-message-page .cpm-comment-form-wrap,
-.cpm .cpm-message-page .cpm-comment-form,
 .cpm .cpm-message-page .cpm-milestone-form {
-  width: auto !important;
-  background: #ffffff;
-  padding: 10px;
+  width: auto;
 }
 .cpm #cpm-milestone-page .cpm-milestone-form-wrap {
   width: auto;

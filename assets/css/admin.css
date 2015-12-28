@@ -1088,6 +1088,7 @@ ul.cpm-activity ul li:before {
   border-radius: 5px;
   padding: 10px;
   margin-left: 75px;
+  width: 500px;
 }
 .cpm-comment-form-wrap .cpm-avatar {
   position: absolute;

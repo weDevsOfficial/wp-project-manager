@@ -66,12 +66,8 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
 
         <div id="cpm-signle-message" >
             <?php
-                if($messages){
                 $single_id = $messages[0]->ID ;
                 echo cpm_discussion_single($single_id, $project_id);
-                } else {
-                    echo "<h2 class='cpm-error'>"._e( 'Your Message Box is empty', 'cpm' )."</h2>";
-                }
             ?>
         </div>
          <?php if ( $can_create ) { ?>

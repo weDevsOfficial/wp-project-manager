@@ -964,7 +964,6 @@ class CPM_Ajax {
             echo json_encode( array(
                 'success' => true,
                 'id'      => $message_id,
-                'project_id' => $project_id,
                 'url'     => cpm_url_single_message( $project_id, $message_id )
             ) );
 

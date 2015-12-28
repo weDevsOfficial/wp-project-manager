@@ -359,7 +359,21 @@ function cpm_task_list_html( $list, $project_id ) {
             }
             ?>
             </ul>
+            <ul class="cpm-todos cpm-todo-completed">
 
+            <?php
+
+            if ( count( $tasks['completed'] ) ) {
+                foreach ($tasks['completed'] as $task) {
+                    ?>
+                    <li>
+                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
+        </ul>
 
         <ul class="cpm-todos-new">
             <?php
@@ -428,7 +442,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     $action        = 'cpm_comment_new';
     $text          = '';
     $submit_button = __( 'Add this comment', 'cpm' );
-    $comment_id    = $comment ? $comment->comment_ID : 'cm';
+    $comment_id    = $comment ? $comment->comment_ID : 0;
     $files         = $comment ? $comment->files : array();
 
     if ( $comment ) {
@@ -688,7 +702,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
     $content = '';
     $submit = __( 'Add Message', 'cpm' );
     $files  = array();
-    $id     = $milestone = 'nd';
+    $id     = $milestone = 0;
     $action = 'cpm_message_new';
 
     if ( !is_null( $message ) ) {
@@ -793,8 +807,7 @@ function cpm_discussion_single( $message_id, $project_id ) {
         <div id="cpm-entry-detail">
             <?php  echo cpm_get_content( $message->post_content ); ?>
 
-            <?php
-            echo cpm_show_attachments( $message, $project_id ); ?>
+            <?php echo cpm_show_attachments( $message, $project_id ); ?>
         </div>
 
         <div id="cpm-msg-edit-form"></div>
@@ -825,7 +838,7 @@ if ( $comments ) {
     </ul>
     <?php
 } else {
-    printf( '<h3>%s</h3>', __( 'No comments found', 'cpm' ) );
+    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
     echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
 }
 ?>
