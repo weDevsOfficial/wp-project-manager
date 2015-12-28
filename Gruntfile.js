@@ -17,14 +17,16 @@ module.exports = function(grunt) {
                     optimization: 2
                 },
                 files: {
-                    "assets/css/admin.css": "assets/css/admin.less" // destination file and source file
+                    "assets/css/admin.css": "assets/css/admin.less", // destination file and source file
+                    "assets/css/new-admin.css": "assets/css/new-admin.less", // destination file and source file
+                    "includes/pro/assets/css/pro-style.css": "includes/pro/assets/css/pro-style.less", // for my Task stylesheet
                 }
             }
         },
 
         watch: {
             styles: {
-                files: ['assets/css/*.less'], // which files to watch
+                files: ['assets/css/*.less', 'includes/pro/assets/css/*less'], // which files to watch
                 tasks: ['less'],
                 options: {
                     nospawn: true
@@ -125,7 +127,7 @@ module.exports = function(grunt) {
             }
         },
 
-        secret: grunt.file.readJSON('secret.json'),
+        // secret: grunt.file.readJSON('secret.json'),
         sshconfig: {
             "myhost": {
                 host: '<%= secret.host %>',

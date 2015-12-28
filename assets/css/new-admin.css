@@ -1,0 +1,1511 @@
+/**
+* Stylesheet for WP Projetc Manager
+*
+*
+**/
+/**SVG background image **/
+.cpm {
+  background: #f1f1f1;
+  color: #848484;
+  margin-top: 20px;
+  /**
+    * CPM default css classes
+    */
+  /**
+    * Input syte
+    **/
+  /**
+    * Button Styes
+    **/
+  /**
+    * Responsive Grid Column
+    *
+    **/
+  /**
+    * Home Project Grid
+    *
+    **/
+  /**
+    * Project Header part
+    **/
+  /**
+    * Project Overview Page
+    ***/
+  /**
+    * Activity Page
+    */
+  /** CSS for Milestone Page **/
+  /** End MileStone Page **/
+  /*** Files ***/
+  /**End Files **/
+  /*****/
+  /**
+    * Media Query for responsive
+    *
+    **/
+}
+.cpm .clearfix {
+  clear: both;
+  height: 0px;
+  font-size: 0px;
+}
+.cpm a {
+  outline: 0;
+  font-weight: bold;
+  text-decoration: none;
+}
+.cpm a:active,
+.cpm a:hover,
+.cpm a:focus {
+  text-decoration: none  ;
+  border: 0 ;
+  outline: 0  ;
+  -moz-outline-style: none;
+}
+.cpm input {
+  border: 0px;
+  padding: 5px;
+}
+.cpm .small-text {
+  font-size: small;
+}
+.cpm .cpm-no-margin {
+  margin: 0px;
+}
+.cpm .cpm-no-padding {
+  padding: 0px;
+}
+.cpm .cpm-no-padding-bottom {
+  padding-bottom: 0px;
+}
+.cpm .cpm-no-margin-bottom {
+  margin-bottom: 0px;
+}
+.cpm .cpm-margin-bottom {
+  margin-bottom: 25px;
+}
+.cpm .cercale-corners {
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+}
+.cpm .cpm-text-left {
+  text-align: left;
+}
+.cpm .cpm-text-center {
+  text-align: center;
+}
+.cpm .cpm-text-right {
+  text-align: right;
+}
+.cpm .cpm-btn {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+}
+.cpm .cpm-btn-xs {
+  padding: 3px;
+  font-size: small ;
+}
+.cpm .cpm-btn-gray {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  background: #cccccc;
+}
+.cpm .cpm-btn-red {
+  background: RED;
+  color: #ffffff ;
+}
+.cpm .cpm-btn-white {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  background: #ffffff;
+}
+.cpm .cpm-btn-white a:hover {
+  background: red;
+}
+.cpm .cpm-btn-submit {
+  border: 0px;
+  padding: 5px;
+  font-weight: bold;
+}
+.cpm .cpm-btn-blue {
+  background: #019dd6;
+  color: #ffffff;
+}
+.cpm .cpm-btn-blue a:hover {
+  color: red;
+}
+.cpm .cpm-plus-white {
+  background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
+  background-size: 25px;
+  padding: 10px 10px 10px 50px;
+  color: #ffffff;
+}
+.cpm .cpm-container {
+  width: 100%;
+  margin: 10px;
+}
+.cpm .cpm-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+.cpm .cpm-col-1 {
+  width: 7.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-2 {
+  width: 14.788285225%;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.cpm .cpm-col-3 {
+  width: 23.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-4 {
+  width: 32.333333333%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-5 {
+  width: 38.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-6 {
+  width: 48.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-7 {
+  width: 56.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-8 {
+  width: 64.666666667%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-9 {
+  width: 73.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-10 {
+  width: 81.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-11 {
+  width: 89.788285225%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-col-12 {
+  width: 100%;
+}
+.cpm .cpm-last-col {
+  float: right;
+  margin-right: 0px;
+  padding-right: 0px;
+  color: #000;
+  margin-bottom: 10px;
+}
+.cpm .show_desktop_only {
+  display: block;
+}
+.cpm .show_small_only {
+  display: none;
+}
+.cpm .hide_desktop_only {
+  display: none;
+}
+.cpm .hide_small_only {
+  display: bloc;
+}
+.cpm .notify-users .cpm-user-select-bar {
+  background: ghostwhite;
+  padding: 5px 10px;
+  border-bottom: solid 1px #cccccc;
+}
+.cpm .notify-users .cpm-user-select-bar .close {
+  background: url('../images/done.svg') no-repeat 0% 0%;
+  background-size: 10px;
+  padding: 5px;
+  cursor: pointer;
+  padding-right: 0px;
+  margin-right: -20px;
+  margin-top: 5px;
+}
+.cpm .notify-users .cpm-user-list {
+  display: none;
+  border: solid 1px #019dd6;
+  margin-top: -3px;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list {
+  padding: 8px;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list li {
+  float: left ;
+  width: 50% ;
+  display: inline;
+}
+.cpm .notify-users .cpm-user-list .cpm-project-user-list li label {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-top-bar {
+  background: #ffffff;
+  margin-bottom: 25px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-priject-search-bar {
+  border-bottom: solid 1px #cccccc;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-priject-search-bar .cpm-col-9 {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn {
+  margin-top: 12px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue {
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+  padding: 6px 2px 3px 2px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons {
+  vertical-align: bottom;
+  font-size: 14px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons a {
+  color: #ffffff;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  background: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  border: 1px solid #cccccc;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
+  background: red;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
+  color: #cccccc;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn a {
+  font-size: 14px;
+  margin-right: 5px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn a :hover {
+  color: #000000;
+}
+.cpm .cpm-top-bar .cpm-btn-submit {
+  padding: 5px 25px;
+}
+.cpm .cpm-top-bar .cpm-project-search input {
+  float: left;
+  width: 45%;
+  margin-right: 10px;
+}
+.cpm .cpm-top-bar .cpm-project-group {
+  padding: 0px;
+  margin: 0px;
+  box-shadow: 0 2px 2px -2px #808080;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li {
+  border: none;
+  float: left;
+  margin-bottom: 0px;
+  margin-right: 15px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a {
+  padding: 12px 20px 12px 40px;
+  min-width: 50px;
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  border-bottom: solid 2px #ffffff;
+  color: #aaa;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
+  padding: 0px 6px;
+  position: relative;
+  background: #cccccc;
+  margin-top: -15px;
+  margin-left: 5px;
+  border-radius: 15px;
+  top: 0;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a:hover {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a:hover span {
+  border-bottom: none;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a:hover span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active a,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active a span.count,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project {
+  background: url('../images/all.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-all-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project:hover {
+  background: url('../images/all_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project {
+  background: url('../images/active_projects.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-active-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project:hover {
+  background: url('../images/active_projects_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project {
+  background: url('../images/completed.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-archive-project,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project:hover {
+  background: url('../images/completed_hover.svg') no-repeat 10% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-top-bar .cpm-project-group .cpm-col-5 {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li {
+  float: right;
+  margin-right: 15px;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
+  color: #cccccc;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
+  color: #000;
+}
+.cpm .cpm-project-grid {
+  margin: 0px ;
+  padding: 0px;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+.cpm .cpm-project-grid .cpm-project {
+  width: 32.333333333%;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin: 0 1.5% 1.75% 0 ;
+  margin-left: 0px;
+  padding: 0px;
+  float: left;
+  box-shadow: none;
+  height: 300px;
+}
+.cpm .cpm-project-grid .cpm-project .project_head {
+  background: #ffffff ;
+  padding: 12px 20px;
+  border-bottom: #ccc solid 1px;
+  min-height: 55px;
+  color: #000 ;
+}
+.cpm .cpm-project-grid .cpm-project .project_head:hover {
+  background: #019dd6;
+  text-decoration: none;
+}
+.cpm .cpm-project-grid .cpm-project .project_head:hover h5,
+.cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-settings-icon-cog span,
+.cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-project-detail {
+  color: #ffffff;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-detail {
+  font-size: 14px;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta {
+  padding: 10px;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta ul {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 5px;
+  margin-bottom: 50px;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta ul li {
+  float: left;
+  width: 41% ;
+  list-style: none;
+  padding-left: 25px;
+  font-size: 14px;
+  color: #888888;
+  line-height: 35px;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-progress {
+  position: absolute;
+  bottom: 75px;
+  height: 6px;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
+  background-color: red;
+  background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+  background-repeat: repeat-x;
+  box-shadow: 0px ;
+  border-radius: 0px;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-progress .completed {
+  ackground-color: #019dd6;
+  background-image: linear-gradient(to bottom, #019dd6, #019dd6);
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-people {
+  text-align: center;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-progress-percentage,
+.cpm .cpm-project-grid .cpm-project .cpm-project-action-list-view {
+  display: none;
+}
+.cpm .cpm-project-grid .cpm-last-col {
+  margin-right: 0px;
+  float: right;
+  margin-left: 0px;
+}
+.cpm li.message {
+  background: url('../images/bullet_green.png') no-repeat 0% 55%;
+}
+.cpm li.todo {
+  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+}
+.cpm li.todos {
+  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+}
+.cpm li.comments {
+  background: url('../images/comment.png') no-repeat 0% 55%;
+}
+.cpm li.files {
+  background: url('../images/docs.png') no-repeat 0% 55%;
+}
+.cpm li.milestone {
+  background: url('../images/milestones.png') no-repeat 0% 55%;
+}
+.cpm .cpm-project-list {
+  margin: 0px ;
+  padding: 0px;
+}
+.cpm .cpm-project-list .cpm-project {
+  margin: 12.5px 25px 16.66666667px 0px;
+  margin-left: 0px;
+  padding: 0px;
+  width: 100% ;
+  float: left;
+  box-shadow: none;
+  height: 120px;
+}
+.cpm .cpm-project-list .cpm-project .project_head {
+  background: #ffffff ;
+  padding: 12px 20px;
+  min-height: 55px;
+  color: #000 ;
+  height: 96px;
+  width: 20%;
+  float: left;
+  margin-right: 10px;
+}
+.cpm .cpm-project-list .cpm-project .project_head:hover {
+  background: #019dd6;
+  text-decoration: none;
+}
+.cpm .cpm-project-list .cpm-project .project_head:hover h5,
+.cpm .cpm-project-list .cpm-project .project_head:hover .cpm-settings-icon-cog span,
+.cpm .cpm-project-list .cpm-project .project_head:hover .cpm-project-detail {
+  color: #ffffff;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-detail {
+  font-size: 14px;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-meta {
+  padding: 0px;
+  width: 28%;
+  float: left;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-meta ul {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 0px;
+  margin-bottom: 5px;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-meta ul li {
+  float: left;
+  width: 40% ;
+  list-style: none;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #888888;
+  line-height: 35px;
+}
+.cpm .cpm-project-list .cpm-project .cpm-progress {
+  position: relative ;
+  float: left;
+  top: 55px;
+  height: 6px;
+  width: 15%;
+  margin: 0px 0px 0px 0px;
+  background-color: red;
+  background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+  background-repeat: repeat-x;
+  box-shadow: 0px ;
+  border-radius: 0px;
+}
+.cpm .cpm-project-list .cpm-project .cpm-progress .completed {
+  ackground-color: #019dd6;
+  background-image: linear-gradient(to bottom, #019dd6, #019dd6);
+}
+.cpm .cpm-project-list .cpm-project .cpm-progress-percentage {
+  position: relative ;
+  float: left;
+  top: 48px;
+  margin-left: 5px;
+  width: 3%;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-people {
+  position: relative;
+  float: left;
+  width: 20%;
+  text-align: center;
+  top: 15px;
+}
+.cpm .cpm-border-bottom {
+  border-bottom: solid 1px #cccccc;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  padding-bottom: 0px;
+}
+.cpm .cpm-project-header ul li {
+  border: none;
+  float: left;
+  margin-bottom: 0px;
+  margin-right: 5px;
+}
+.cpm .cpm-project-header ul li a {
+  padding: 6px 30px 6px 55px;
+  min-width: 30px;
+  display: block;
+  text-decoration: none;
+  border-bottom: solid 2px #ffffff;
+  color: #aaa;
+  min-height: 42px;
+  background-size: 24px 20px;
+  margin-right: 30px;
+}
+.cpm .cpm-project-header ul li a div {
+  text-align: left;
+  font-weight: normal;
+  font-size: 80%;
+}
+.cpm .cpm-project-header ul li a span.count {
+  padding: 0px 6px;
+  position: relative;
+  background: #cccccc;
+  margin-top: -15px;
+  margin-left: 5px;
+  border-radius: 15px;
+  top: 0;
+}
+.cpm .cpm-project-header ul li .overview {
+  background: url('../images/overview.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .overview:hover,
+.cpm .cpm-project-header ul li a.overview.active {
+  background: url('../images/overview_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .message {
+  background: url('../images/discussion.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .message:hover,
+.cpm .cpm-project-header ul li a.message.active {
+  background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .activity {
+  background: url('../images/activity.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .activity:hover,
+.cpm .cpm-project-header ul li a.activity.active {
+  background: url('../images/activity_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .milestone {
+  background: url('../images/milestone.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .milestone:hover,
+.cpm .cpm-project-header ul li a.milestone.active {
+  background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .todo {
+  background: url('../images/todo.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .to-do-list:hover,
+.cpm .cpm-project-header ul li a.to-do-list.active {
+  background: url('../images/todo_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .files {
+  background: url('../images/file.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .files:hover,
+.cpm .cpm-project-header ul li a.files.active {
+  background: url('../images/file_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .settings {
+  background: url('../images/settings.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li .settings:hover,
+.cpm .cpm-project-header ul li a.settings.active {
+  background: url('../images/settings_hover.svg') no-repeat 20% 30%;
+  background-size: 24px 24px;
+}
+.cpm .cpm-project-header ul li a:hover,
+.cpm .cpm-project-header ul li .active {
+  border-bottom: solid 2px #019dd6;
+  color: #000000;
+  font-weight: bold;
+}
+.cpm .cpm-project-header ul li a:hover span,
+.cpm .cpm-project-header ul li .active span {
+  border-bottom: none;
+}
+.cpm .cpm-project-header ul li a:hover span.count,
+.cpm .cpm-project-header ul li .active span.count {
+  background: #019dd6;
+  color: #ffffff ;
+}
+.cpm .cpm-project-header ul li a:hover div,
+.cpm .cpm-project-header ul li .active div {
+  color: #019dd6;
+}
+.cpm .project-overview .overview-menu ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .project-overview .overview-menu ul li {
+  float: left;
+  background: none;
+  list-style: none;
+  margin: 0px;
+  margin-right: 20px;
+  border: solid 1px #E5E5E5;
+  padding: 25px 10px;
+  text-align: center;
+  background: #ffffff;
+  width: 13.5955%;
+  clear: right;
+}
+.cpm .project-overview .overview-menu ul li div {
+  float: left;
+}
+.cpm .project-overview .overview-menu ul li .icon {
+  padding: 12px 3px;
+  width: 22%;
+  border-radius: 50px;
+  color: #ffffff;
+  margin-right: 20px;
+  height: 22px;
+}
+.cpm .project-overview .overview-menu ul li .count {
+  text-align: left;
+}
+.cpm .project-overview .overview-menu ul li .count span {
+  color: #019dd6;
+  font-size: 145%;
+  font-weight: bold;
+}
+.cpm .project-overview .overview-menu ul .message .icon {
+  background: #9dbc5e url('../images/discussion_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .overview-menu ul .todo .icon {
+  background: #1fa185 url('../images/todolist_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .overview-menu ul .todos .icon {
+  background: #0090db url('../images/todo_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .overview-menu ul .comments .icon {
+  background: #1fa185 url('../images/comments_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .overview-menu ul .files .icon {
+  background: #be3c2f url('../images/files_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .overview-menu ul .milestone .icon {
+  background: #f29b27 url('../images/milestones_white.svg') no-repeat center center;
+  background-size: 25px;
+}
+.cpm .project-overview .cpm-chart {
+  background: #ffffff;
+  padding: 10px 30px 40px;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right .to-do {
+  background: #79C7DE;
+  padding: 0px 10px;
+  margin: 0px 5px 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right .activity {
+  background: #B972B6;
+  padding: 0px 10px;
+  margin: 0px 5px 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-text-right select {
+  margin: 5px 25px;
+}
+.cpm .project-overview .cpm-right-part {
+  background: #ffffff !important;
+}
+.cpm .project-overview .cpm-right-part h2 {
+  padding: 20px 12px 20px 20px;
+  margin-bottom: 15px;
+  color: #848484;
+}
+.cpm .project-overview .cpm-right-part .user_list {
+  margin-left: 20px;
+  font-size: 150%;
+}
+.cpm .project-overview .cpm-right-part .user_list li {
+  margin-bottom: 30px;
+  clear: left;
+}
+.cpm .project-overview .cpm-right-part .user_list li img {
+  border-radius: 50px;
+  float: left;
+  margin-right: 10px;
+}
+.cpm .project-overview .cpm-right-part .user_list li span {
+  font-size: small;
+  color: #cccccc;
+}
+.cpm .cpm-activity-list {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-activity-list li.cpm-row {
+  display: flex;
+  vertical-align: middle;
+  margin-bottom: 15px;
+  padding: 0px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
+  margin-bottom: 0px;
+  background: #ffffff;
+  text-align: center;
+  margin-right: 1.6%;
+  padding: 30px 0px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-date span {
+  color: #000;
+  font-size: 150%;
+  font-weight: bold;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body {
+  margin-bottom: 0px;
+  margin-right: 0px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul li {
+  padding: 0px;
+  margin: 0px;
+  background: #ffffff;
+  padding: 8px 15px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul li .date {
+  background: url('../images/time.svg') no-repeat 0 50%;
+  background-size: 20px;
+  padding: 3px 2px 2px 30px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul li:nth-child(even) {
+  background: #F8F9FB;
+}
+.cpm .cpm-todolists {
+  margin-top: 25px;
+  padding: 0px;
+}
+.cpm .cpm-todolists .cpm-todolist {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-todolists .cpm-todolist header {
+  border-bottom: solid 1px #cccccc;
+  padding: 25px 25px 3px 25px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right {
+  text-align: right ;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right a {
+  float: none;
+  padding: 0px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right .move {
+  background: url('../images/move.svg') no-repeat 50% 0%;
+  padding: 10px;
+  background-size: 20px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-edit {
+  background: url('../images/edit.svg') no-repeat 50% 0%;
+  padding: 10px;
+  background-size: 18px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-delete {
+  background: url('../images/close.svg') no-repeat 50% 0%;
+  padding: 10px;
+  background-size: 15px;
+}
+.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-delete:before {
+  content: "";
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li {
+  border-bottom: solid 1px #cccccc;
+  padding: 0px 8px 0px 30px;
+  background: #ffffff;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li a {
+  color: #019dd6;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li div {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  padding-top: 2px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-content .cpm-comment-count {
+  background: url('../images/comment_gray.svg') no-repeat 0% 50%;
+  background-size: 20px;
+  padding: 10px;
+  padding-left: 25px;
+  font-weight: bold;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by .cpm-assigned-user,
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by time {
+  background: none;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by .avatar {
+  border-radius: 50px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpmtt-icon-clock {
+  background: none url('../images/time.svg') no-repeat 0% 50%;
+  background-size: 20px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right {
+  float: right;
+  text-align: right ;
+  visibility: hidden ;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a {
+  padding: 0px;
+  margin: 0px;
+  padding-left: 18px;
+  valign: middle;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-delete {
+  background: url('../images/close.svg') no-repeat 50% 0%;
+  background-size: 10px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-delete:before {
+  content: "";
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-edit {
+  background: url('../images/edit.svg') no-repeat 50% 0%;
+  background-size: 10px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .move {
+  background: url('../images/move.svg') no-repeat 50% 30%;
+  background-size: 13px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos :hover .cpm-todo-action-right {
+  visibility: visible ;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos-new {
+  margin: 0px;
+  padding: 0px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
+  margin-bottom: 15px;
+  border-bottom: solid 1px #cccccc;
+  padding: 0px 8px 20px 30px;
+  margin-left: 0px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn a {
+  background: url('../images/plus_blue.svg') no-repeat 0% 50%;
+  padding: 10px;
+  background-size: 20px;
+  padding-left: 25px;
+  color: #019dd6;
+  font-weight: bold;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer {
+  padding: 0px;
+  margin: 0px;
+  padding-left: 20px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
+  border-right: solid 1px #cccccc;
+  margin-right: 4%;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
+  font-size: 130%;
+  font-weight: bold;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-complete {
+  background: url('../images/todo_completed.svg') no-repeat 0% 50%;
+  padding-left: 6%;
+  background-size: 40px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-incomplete {
+  background: url('../images/todo-incomplete.svg') no-repeat 0% 50%;
+  padding-left: 6%;
+  background-size: 40px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment {
+  background: url('../images/comment.svg') no-repeat 0% 50%;
+  padding-left: 6%;
+  background-size: 40px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment a {
+  font-size: 14px;
+  font-weight: normal;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-prgress-bar {
+  margin-top: 15px;
+}
+.cpm .cpm-new-todolist-form {
+  margin-top: 10px;
+}
+.cpm .cpm-message-page {
+  display: flex;
+  width: 100% ;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list,
+.cpm .cpm-message-page .cpm-message-body {
+  background: #ffffff;
+  padding: 10px 20px;
+}
+.cpm .cpm-message-page .cpm-message-list {
+  padding: 0px;
+  margin-right: 25px;
+  padding-top: 25px;
+  padding-left: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list .cpm-add-message {
+  margin-left: 40px;
+}
+.cpm .cpm-message-page .cpm-message-list ul {
+  margin: 0px;
+  padding: 0px;
+  margin-top: 40px;
+  border-top: #cccccc solid 1px;
+  height: 800px;
+}
+.cpm .cpm-message-page .cpm-message-list li {
+  margin: 0px;
+  border-left: #cccccc solid 3px;
+  border-bottom: #cccccc solid 1px;
+  padding: 15px ;
+}
+.cpm .cpm-message-page .cpm-message-list li img {
+  border-radius: 45px;
+  height: 55px;
+  width: 55px;
+}
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 {
+  margin-right: 0px;
+  padding-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 .delete-message {
+  float: right ;
+}
+.cpm .cpm-message-page .cpm-message-list li .comment-count {
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  background: #cccccc;
+  -webkit-border-radius: 180px;
+  -moz-border-radius: 180px;
+  border-radius: 180px;
+  float: right ;
+  padding: 1px 8px;
+}
+.cpm .cpm-message-page .cpm-message-list li:hover {
+  background: #f9f9f9;
+  border-left: #019dd6 solid 3px;
+}
+.cpm .cpm-message-page .cpm-message-list li:hover .comment-count {
+  background: #019dd6;
+  color: #fff;
+}
+.cpm .cpm-message-page .cpm-message-body {
+  margin-right: 0px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-discuss-title {
+  color: #019dd6;
+  border-bottom: solid 1px #cccccc;
+  padding-bottom: 10px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-discuss-title .cpm-edit-discussion {
+  position: absolute;
+  right: 10px;
+  background: url('../images/edit.svg') no-repeat 0% 0%;
+  background-size: 20px;
+  padding: 10px;
+  width: 30px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment {
+  background: #fff;
+  margin-bottom: 10px;
+  display: block;
+  border: #cccccc solid 1px;
+  padding: 10px;
+  min-height: 50px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action {
+  position: absolute;
+  text-align: right;
+  right: 10px;
+  top: 10px ;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-edit-comment-link {
+  background: url('../images/edit.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
+}
+.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-delete-comment-link {
+  background: url('../images/close.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
+}
+.cpm .cpm-message-page .cpm-message-form-wrap,
+.cpm .cpm-message-page .cpm-milestone-form-wrap,
+.cpm .cpm-message-page .cpm-comment-form-wrap,
+.cpm .cpm-message-page .cpm-milestone-form {
+  width: auto;
+}
+.cpm #cpm-milestone-page .cpm-milestone-form-wrap {
+  width: auto;
+  margin-left: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 30px;
+  list-style: none;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li {
+  margin-right: 5px;
+  float: left;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li a {
+  padding: 15px 25px;
+  border-bottom: #fff solid 2px ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-late-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-upcomming-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-complete-milestone-link {
+  background: #fff;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-plus-white {
+  float: right;
+  position: absolute;
+  right: 0px;
+  border: none;
+  padding-left: 50px;
+  margin-top: -10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-plus-white:hover {
+  border: none;
+}
+.cpm #cpm-milestone-page .cpm-milestone-link li a:hover,
+.cpm #cpm-milestone-page .cpm-milestone-link li.active a {
+  border-bottom: #F46720 solid 2px ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
+  background: #fff;
+  border: #cccccc solid 1px;
+  margin-bottom: 20px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
+  padding: 15px;
+  border-bottom: solid 1px #cccccc;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .time-left {
+  font-size: small;
+  font-weight: normal;
+  color: #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links {
+  margin: 0px;
+  margin-top: -15px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-icon-edit {
+  background: url('../images/edit.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-delete {
+  background: url('../images/close.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-open {
+  background: url('../images/check-mark.svg') no-repeat 50% 50%;
+  background-size: 15px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-open {
+  background: url('../images/done.svg') no-repeat 50% 50%;
+  background-size: 20px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links .cpm-milestone-complete {
+  background: url('../images/check-mark.svg') no-repeat 50% 50%;
+  background-size: 40px;
+  padding: 10px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
+  background: #FCFCFC;
+  padding: 15px;
+  border-bottom: solid 1px #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details {
+  padding: 15px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-todo h3 {
+  background: #F3F8FC ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-todo li {
+  background: url('../images/milestone-todo.svg') no-repeat 12px 30%;
+  background-size: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion h3 {
+  background: #F8F8EE ;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion li {
+  background: url('../images/discussion.svg') no-repeat 12px 30%;
+  background-size: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-milestone-discussion .time {
+  background: url('../images/time.svg') no-repeat 0% 30%;
+  background-size: 20px;
+  padding-left: 25px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 {
+  border: solid 1px #cccccc;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 h3 {
+  margin: 0px;
+  padding: 15px 15px;
+  margin-bottom: 5px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li {
+  border-bottom: solid 1px #cccccc;
+  padding: 6px 15px;
+  padding-left: 45px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li:last-child {
+  border: none;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details img.avatar {
+  border-radius: 15px;
+  border: solid 1px #cccccc;
+  vertical-align: top;
+  margin-right: 5px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-completed {
+  padding: 15px;
+  color: #124b04;
+  background: #d0e6cb;
+}
+.cpm .cpm-files-page .cpm-files ul {
+  padding: 0px;
+  margin: 0px;
+}
+.cpm .cpm-files-page .cpm-files li {
+  background: #fff;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  border: none;
+}
+.cpm .cpm-files-page .cpm-files li img {
+  min-width: 222px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-name,
+.cpm .cpm-files-page .cpm-files li .cpm-file-meta {
+  padding-left: 20px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action {
+  margin-top: 5px;
+  border-top: #F4F4F4 solid 1px;
+  background: #FCFCFC;
+  padding: 20px 20px 0px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul {
+  text-align: center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul li {
+  background: none;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul a {
+  padding: 15px;
+  background-size: 30px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comment-count {
+  font-size: small;
+  padding: 1px 4px;
+  margin-top: -15px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0px;
+  margin-left: 30px;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-go-discussion a {
+  background: url('../images/attach.svg') no-repeat center center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comments-count a {
+  background: url('../images/discussion.svg') no-repeat center center;
+}
+.cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
+  background: url('../images/download.svg') no-repeat center center;
+}
+@media only screen and (max-width: 780px) {
+  .cpm {
+    /*** For activity page ***/
+  }
+  .cpm .cpm-sm-col-1 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-2 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-3 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-5 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-6 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-7 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-8 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-9 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-10 {
+    width: 100% ;
+  }
+  .cpm .cpm-sm-col-11 {
+    width: 100%;
+  }
+  .cpm .cpm-sm-col-12 {
+    width: 100%;
+    float: none;
+  }
+  .cpm .show_desktop_only {
+    display: none;
+  }
+  .cpm .show_small_only {
+    display: block;
+  }
+  .cpm .hide_desktop_only {
+    display: block;
+  }
+  .cpm .hide_small_only {
+    display: none;
+  }
+  .cpm .cpm-project-grid,
+  .cpm .cpm-project-list {
+    width: 100%;
+  }
+  .cpm .cpm-project-grid .cpm-project,
+  .cpm .cpm-project-list .cpm-project {
+    width: 100%;
+    margin-left: 0px;
+    padding: 0px;
+    box-shadow: none;
+    height: 300px;
+  }
+  .cpm .cpm-project-grid .cpm-project .project_head,
+  .cpm .cpm-project-list .cpm-project .project_head {
+    background: #ffffff ;
+    padding: 12px 20px;
+    border-bottom: #ccc solid 1px;
+    min-height: 55px;
+    color: #000 ;
+  }
+  .cpm .cpm-project-grid .cpm-project .project_head:hover,
+  .cpm .cpm-project-list .cpm-project .project_head:hover {
+    background: #019dd6;
+    text-decoration: none;
+  }
+  .cpm .cpm-project-grid .cpm-project .project_head:hover h5,
+  .cpm .cpm-project-list .cpm-project .project_head:hover h5,
+  .cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-settings-icon-cog span,
+  .cpm .cpm-project-list .cpm-project .project_head:hover .cpm-settings-icon-cog span,
+  .cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-project-detail,
+  .cpm .cpm-project-list .cpm-project .project_head:hover .cpm-project-detail {
+    color: #ffffff;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-project-detail,
+  .cpm .cpm-project-list .cpm-project .cpm-project-detail {
+    font-size: 14px;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-project-meta,
+  .cpm .cpm-project-list .cpm-project .cpm-project-meta {
+    padding: 10px;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-project-meta ul,
+  .cpm .cpm-project-list .cpm-project .cpm-project-meta ul {
+    padding: 0px;
+    margin: 0px;
+    margin-left: 5px;
+    margin-bottom: 50px;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-project-meta ul li,
+  .cpm .cpm-project-list .cpm-project .cpm-project-meta ul li {
+    float: left;
+    width: 41% ;
+    list-style: none;
+    background: url('../images/bullet_green.png') no-repeat 0% 55%;
+    padding-left: 25px;
+    font-size: 14px;
+    color: #888888;
+    line-height: 35px;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-progress,
+  .cpm .cpm-project-list .cpm-project .cpm-progress {
+    position: absolute;
+    bottom: 75px;
+    height: 6px;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    background-color: red;
+    background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
+    background-repeat: repeat-x;
+    box-shadow: 0px ;
+    border-radius: 0px;
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-progress .completed,
+  .cpm .cpm-project-list .cpm-project .cpm-progress .completed {
+    ackground-color: #019dd6;
+    background-image: linear-gradient(to bottom, #019dd6, #019dd6);
+  }
+  .cpm .cpm-project-grid .cpm-project .cpm-project-people,
+  .cpm .cpm-project-list .cpm-project .cpm-project-people {
+    text-align: center;
+  }
+  .cpm .project-overview .overview-menu ul li {
+    width: 44.21582255%;
+    margin-bottom: 20px;
+  }
+  .cpm .project-overview .overview-menu ul li .icon {
+    padding: 25px 0px;
+    width: 25%;
+    font-size: 150%;
+    border-radius: 50px;
+    color: #ffffff;
+    margin-right: 20px;
+  }
+  .cpm .cpm-activity-list li.cpm-row {
+    display: block ;
+  }
+  .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
+    margin-bottom: 10px;
+    margin-top: 25px;
+  }
+}

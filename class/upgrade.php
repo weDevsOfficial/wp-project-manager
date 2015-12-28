@@ -115,7 +115,6 @@ class CPM_Upgrade {
           `project_id` bigint(20) NOT NULL,
           `user_id` bigint(20) NOT NULL,
           `role` varchar(20) CHARACTER SET utf8 NOT NULL,
-          `component` VARCHAR(50) NOT NULL,
           PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 

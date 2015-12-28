@@ -127,11 +127,15 @@ class CPM_Router {
 								$file = CPM_PATH . '/views/project/single.php';
 								break;
 
+							case 'overview':
+								$file = CPM_PATH . '/views/project/overview.php';
+								break;
+
 							default:
 
 								$file = CPM_PATH . '/views/project/index.php';
 								break;
-						}
+						} 
 
 						break;
 
@@ -143,7 +147,7 @@ class CPM_Router {
 
 							case 'single':
 								$file = CPM_PATH . '/views/message/single.php';
-								break;
+								break; 
 
 							default:
 								$file = CPM_PATH . '/views/message/index.php';

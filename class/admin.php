@@ -104,130 +104,15 @@ class CPM_Admin {
                 'desc'    => '',
                 'default' => get_option( 'admin_email' )
             ),
-            // array(
-            //     'name'    => 'email_type',
-            //     'label'   => __( 'E-Mail Type', 'cpm' ),
-            //     'type'    => 'select',
-            //     'default' => 'text/plain',
-            //     'options' => array(
-            //         'text/html' => __( 'HTML Mail', 'cpm'),
-            //         'text/plain' => __( 'Plain Text', 'cpm')
-            //     )
-            // ),
-
             array(
-                'name'    => 'email_new_project_sub',
-                'label'   => __( 'New Project Invitation', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% Mailing subject for new project invitation %PROJECT_NAME%', 'cpm' ),
-                'default' => '[%SITE%] ' . __( 'New Project Invitation:', 'cpm' ) . ' %PROJECT_NAME%'
-            ),
-
-            array(
-                'name'    => 'email_update_project_sub',
-                'label'   => __( 'Update Project Invitation', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% Mailing subject for update project invitation %PROJECT_NAME%', 'cpm' ),
-                'default' => '[%SITE%] ' . __( 'Updated Project Invitation: ', 'cpm' ) . ' %PROJECT_NAME%'
-            ),
-
-            array(
-                'name'    => 'email_new_task_sub',
-                'label'   => __( 'New Task', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for new task %LIST_TITLE%', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Task Assigned:', 'cpm' ) . ' %LIST_TITLE%'
-            ),
-
-            array(
-                'name'    => 'email_updated_task_sub',
-                'label'   => __( 'Updated Task', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for updated task %LIST_TITLE%', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'Updated Task Assigned:', 'cpm' ) . ' %LIST_TITLE%'
-            ),
-
-            array(
-                'name'    => 'email_task_complete_sub',
-                'label'   => __( 'Completed Task', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for completed task %TASK_TITLE%', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'Task Completed:', 'cpm' ) . ' %TASK_TITLE%'
-            ),
-
-            array(
-                'name'    => 'email_comment_sub',
-                'label'   => __( 'Comment', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for comment %COMMENT_TITLE%', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Comment on: ', 'cpm' ) . ' %COMMENT_TITLE%'
-            ),
-
-            array(
-                'name'    => 'email_discuss_sub',
-                'label'   => __( 'Discussion', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( '%SITE% %PROJECT_NAME% Mailing subject for discussion %MESSAGE_TITLE%', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] ' . __( 'New Message: ', 'cpm' ) . ' %MESSAGE_TITLE%'
-            ),
-
-            
-
-
-            array(
-                'name'    => 'email_new_project_header',
-                'label'   => __( 'New Project Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for new project', 'cpm' ),
-                'default' => __( 'NEW PROJECT', 'cpm' )
-            ),
-
-            array(
-                'name'    => 'email_update_project_header',
-                'label'   => __( 'Update Project Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for update project', 'cpm' ),
-                'default' => __( 'UPDATE PROJECT', 'cpm' ) 
-            ),
-
-            array(
-                'name'    => 'email_new_task_header',
-                'label'   => __( 'New Task Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for new task', 'cpm' ),
-                'default' => __( 'New task has been assigned to you', 'cpm' ) 
-            ),
-
-            array(
-                'name'    => 'email_updated_task_header',
-                'label'   => __( 'Updated Task Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for updated task', 'cpm' ),
-                'default' => __( 'New task has been updated', 'cpm' ) 
-            ),
-
-            array(
-                'name'    => 'email_complete_task_header',
-                'label'   => __( 'Completed Task Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for completed task', 'cpm' ),
-                'default' => __( 'New task has been completed', 'cpm' ) 
-            ),
-
-            array(
-                'name'    => 'email_comment_header',
-                'label'   => __( 'Comment Header', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for new commenet', 'cpm' ),
-                'default' => __( 'NEW COMMENT', 'cpm' ) 
-            ),
-
-            array(
-                'name'    => 'email_discuss_header',
-                'label'   => __( 'Discussion', 'cpm' ),
-                'type'    => 'text',
-                'desc'    => __( 'Mailing header title for new meassage', 'cpm' ),
-                'default' => __( 'NEW MESSAGE', 'cpm' ) 
+                'name'    => 'email_type',
+                'label'   => __( 'E-Mail Type', 'cpm' ),
+                'type'    => 'select',
+                'default' => 'text/plain',
+                'options' => array(
+                    'text/html' => __( 'HTML Mail', 'cpm'),
+                    'text/plain' => __( 'Plain Text', 'cpm')
+                )
             ),
             /**
              * ************************

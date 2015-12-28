@@ -165,12 +165,32 @@ function cpm_user_checkboxes( $project_id ) {
     }
 
     if ( $users ) {
+        ?>
+        <div class="notify-users ">
+            <label class="cpm-btn cpm-btn-blue cpm-show-user-list">
+                <?php _e( 'Notify users', 'cpm' ); ?>
+            </label>
+            <div class="cpm-user-list" style="display: none">
+                <div class="cpm-user-select-bar">
+                    <label class="cpm-col-6"> <input type="checkbox" name="select-all" class="cpm-toggle-checkbox"  /> <?php _e( 'Select all', 'cpm' )   ?> </label>
+                    <span class="cpm-col-1  cpm-last-col cpm-text-right close"></span>
+                    <div class="clearfix"></div>
+                </div>
+            <ul class='cpm-project-user-list' >
+        <?php
         array_multisort( $sort, SORT_ASC, $users );
 
         foreach ($users as $user) {
-            $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />', $user['id'] );
-            printf( '<label for="cpm_notify_%d">%s %s</label> ', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
+            $check = sprintf( '  <input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />  ', $user['id'] );
+            printf( '<li> <label for="cpm_notify_%d">%s %s</label> </li> ', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
         }
+         ?>
+
+                <div class='clearfix'></div>
+            </ul>
+        </div>
+        </div>
+                <?php
     } else {
         echo __( 'No users found', 'cpm' );
     }
@@ -314,7 +334,7 @@ function cpm_task_completeness( $total, $completed ) {
     ?>
     <div class="cpm-progress cpm-progress-info">
         <div style="width:<?php echo $percentage; ?>%" class="bar completed"></div>
-        <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div>
+        <!-- <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div> -->
     </div>
     <?php
     return ob_get_clean();
@@ -458,6 +478,55 @@ function cpm_data_attr( $values ) {
     echo implode( ' ', $data );
 }
 
+
+function cpm_project_summary_info( $info ) {
+     $summary = array();
+
+     if( $info->discussion ) {
+         $summary['message'] = array(
+             'label' => _n('Discussion', 'Discussions', $info->discussion, 'cpm'),
+             'count' => $info->discussion
+         );
+     }
+
+     if( $info->todolist ) {
+         $summary['todo'] = array(
+             'label' => _n('To-do list', 'To-do lists', $info->todolist, 'cpm'),
+             'count' => $info->todolist
+         );
+     }
+
+     if( $info->todos ) {
+         $summary['todos'] = array(
+             'label' => _n('To-do', 'To-dos', $info->todos, 'cpm'),
+             'count' => $info->todos
+         );
+     }
+
+     if( isset($info->comments) ) {
+         $summary['comments'] = array(
+             'label' => _n('Comment', 'Comments', $info->comments, 'cpm'),
+             'count' => $info->comments
+         );
+     }
+
+     if( $info->files ) {
+         $summary['files'] = array(
+             'label' => _n('File', 'Files', $info->files, 'cpm'),
+             'count' => $info->files
+         );
+     }
+
+     if( $info->milestone ) {
+         $summary['milestone'] = array(
+             'label' => _n('Milestone', 'Milestones', $info->milestone, 'cpm'),
+             'count' => $info->milestone
+         );
+     }
+     return $summary ;
+}
+
+
 /**
  * Helper function for displaying project summary
  *
@@ -467,32 +536,27 @@ function cpm_data_attr( $values ) {
  */
 function cpm_project_summary( $info ) {
     $info_array = array();
-
-    if( $info->discussion ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Message', '<strong>%d </strong> Messages', $info->discussion, 'cpm' ), $info->discussion );
+    $summary = cpm_project_summary_info( $info );
+    foreach ( $summary as $key =>$val ) {
+        $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );
     }
+    return implode('', $info_array );
+}
 
-    if( $info->todolist ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> To-do list', '<strong>%d </strong> To-do lists', $info->todolist, 'cpm' ), $info->todolist );
+/**
+ * Helper function for displaying project summary in project overview page
+ *
+ * @since 3.8
+ * @param object $info
+ * @return string
+ */
+function cpm_project_overview_summary( $info ) {
+    $info_array = array();
+    $summary = cpm_project_summary_info( $info );
+    foreach ( $summary as $key =>$val ) {
+        $info_array[] = sprintf( "<li class='%s'><div class='icon'></div>  <div class='count'> <span> %d  </span> <br />%s</div> </li>", $key, $val['count'], $val['label'] );
     }
-
-    if( $info->todos ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> To-do', '<strong>%d </strong> To-dos', $info->todos, 'cpm' ), $info->todos );
-    }
-
-    if( $info->comments ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Comment', '<strong>%d </strong> Comments', $info->comments, 'cpm' ), $info->comments );
-    }
-
-    if( $info->files ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> File', '<strong>%d </strong> Files', $info->files, 'cpm' ), $info->files );
-    }
-
-    if( $info->milestone ) {
-        $info_array[] = sprintf( _n( '<strong>%d </strong> Milestone', '<strong>%d </strong> Milestones', $info->milestone, 'cpm' ), $info->milestone );
-    }
-
-    return implode(' <br/>', $info_array );
+    return implode('', $info_array );
 }
 
 /**
@@ -750,7 +814,7 @@ function cpm_project_user_role( $project_id ) {
         wp_cache_set( $cache_key, $project_user_role );
     }
 
-    return apply_filters( 'cpm_user_role', $project_user_role, $project_id );
+    return $project_user_role;
 }
 
 function cpm_is_single_project_manager( $project_id ) {
@@ -964,12 +1028,12 @@ function cpm_project_actions( $project_id ) {
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#"><span><?php _e( 'Restore', 'cpm' ); ?></span></a>
                 <?php } ?>
             </li>
-            <?php  if(cpm_is_pro()) { ?>
+               <?php  if(cpm_is_pro()) { ?>
             <li>
                 <span class="cpm-icons-docs"></span>
                 <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>"><span><?php _e( 'Duplicate', 'cpm' ); ?></span></a>
             </li>
-            <?php } ?>
+               <?php } ?>
         </ul>
     </div>
     <?php
@@ -1087,8 +1151,8 @@ function cpm_get_all_manager_from_project( $project_id ) {
  */
 
 function cpm_get_email_header() {
-
-    $header_path = cpm_get_template( 'emails/header' );
+    $file_path   = CPM_PATH . '/views/emails/header.php';
+    $header_path = apply_filters( 'cpm_email_header', $file_path );
 
     if ( file_exists( $header_path ) ) {
         require_once $header_path;
@@ -1106,8 +1170,8 @@ function cpm_get_email_header() {
  */
 
 function cpm_get_email_footer() {
-
-    $footer_path = cpm_get_template( 'emails/footer' );
+    $file_path   = CPM_PATH . '/views/emails/footer.php';
+    $footer_path = apply_filters( 'cpm_email_footer', $file_path );
 
     if ( file_exists( $footer_path ) ) {
         require_once $footer_path;
@@ -1204,68 +1268,4 @@ function cpm_strlen( $string ) {
     } else {
         return strlen( $string );
     }
-}
-
-/**
- * Get the template path.
- *
- * @return string
- */
-function cpm_template_path() {
-    return apply_filters( 'cpm_template_path', 'project-manager/' );
-}
-
-/**
- * Get other templates (e.g. product attributes) passing attributes and including the file.
- *
- * @access public
- *
- * @param mixed $file_name
- * @param array $args (default: array())
- * @param string $template_path (default: '')
- * @param string $default_path (default: '')
- *
- * @return void
- */
-function cpm_get_template( $file_name, $default_path = '', $args = array()  ) {
-
-    $defaults = array(
-        'pro' => false
-    );
-
-    $args = wp_parse_args( $args, $defaults );
-
-    if ( $args && is_array( $args ) ) {
-        extract( $args );
-    }
-
-    $theme_template_path = cpm_template_path();
-
-    if ( ! $default_path ) {
-
-        // search for Pro templates only
-        $default_path = $pro ? CPM_PATH . '/includes/pro/views/' : CPM_PATH . '/views/';
-    }
-
-    // Look within passed path within the theme - this is priority
-    $template = locate_template( array( trailingslashit( $theme_template_path ) . $file_name . '.php' ) );
-
-    // Get default template
-    if ( ! $template ) {
-        $template = $default_path . $file_name . '.php';
-    }
-
-    // Return what we found
-    $located = apply_filters( 'cpm_locate_template', $template, $file_name, $default_path );
-
-    if ( ! file_exists( $located ) ) {
-        _doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '2.1' );
-        return;
-    }
-
-    do_action( 'cpm_before_template_part', $file_name, $located, $args );
-
-    include_once $located;
-
-    do_action( 'cpm_after_template_part', $file_name, $located, $args );
 }

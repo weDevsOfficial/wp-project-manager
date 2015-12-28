@@ -57,6 +57,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_update', array($this, 'update_comment') );
         add_action( 'wp_ajax_cpm_comment_delete', array($this, 'delete_comment') );
 
+        add_action( 'wp_ajax_cpm_show_discussion', array($this, 'get_discussion') );
         add_action( 'wp_ajax_cpm_message_new', array($this, 'new_message') );
         add_action( 'wp_ajax_cpm_message_update', array($this, 'update_message') );
         add_action( 'wp_ajax_cpm_message_delete', array($this, 'delete_message') );
@@ -76,6 +77,9 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_projects_activity', array( $this, 'get_projects_activity' ) );
         // Mension
         add_action( 'wp_ajax_cpmm_user_mension', array( $this, 'mension_user' ) );
+
+        // Set Project View
+         add_action( 'wp_ajax_cpm_project_view', array( $this, 'set_project_view' ) );
 
     }
 
@@ -370,6 +374,28 @@ class CPM_Ajax {
         ));
     }
 
+
+    /**
+    * Set Priject View setting
+    * @since 1.3.8
+    *
+    **/
+    function set_project_view() {
+
+        if( ! wp_verify_nonce( $_POST['_nonce'], 'cpm_nonce' ) ) {
+            wp_send_json_error( __( 'Are you cheating?', 'cpm' ) );
+        }
+
+        $view = $_POST['change_view'] ;
+        update_option( 'default_project_view', $view );
+
+        wp_send_json_success() ;
+    }
+
+
+
+
+
     function project_new() {
         $posted = $_POST;
         $pro_obj = CPM_Project::getInstance();
@@ -415,20 +441,14 @@ class CPM_Ajax {
     }
 
     function user_role_table_generator( $project ) {
-        
-        if ( ! $project  ) {
-            return; 
-        }
-
-        $users = apply_filters( 'cpm_project_edit_user_list', $project->users, $project );
-        
         ob_start();
         if ( !is_null( $project ) ) {
+            $users_role = $project->users;
 
-            foreach( $users as $array ) {
+            foreach( $users_role as $array ) {
                 $user_data  = get_userdata( $array['id'] );
 
-                if ( $user_data === false ) {
+                if( $user_data === false ) {
                     continue;
                 }
 
@@ -437,26 +457,29 @@ class CPM_Ajax {
                 }
 
                 $name = str_replace(' ', '_', $user_data->display_name );
-                ?>
-                    <tr>
-                        <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
-                        <td>
-                            <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
-                            <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
-                        </td>
-                        <td>
-                            <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
-                            <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
-                        </td>
-                        <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
 
-                        <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
-                    </tr>
+
+                ?>
+                        <tr>
+                            <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
+                            <td>
+                                <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
+                                <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
+                            </td>
+                            <td>
+                                <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
+                                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
+                            </td>
+                            <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
+
+                            <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
+                        </tr>
 
                 <?php
             }
-        }
 
+
+        }
         return ob_get_clean();
     }
 
@@ -479,15 +502,16 @@ class CPM_Ajax {
     }
 
     function add_new_task() {
-        
-        $posted     = $_POST;
-        $list_id    = $posted['list_id'];
+        $posted = $_POST;
+
+        $list_id = $posted['list_id'];
         $project_id = $posted['project_id'];
-        $task_obj   = CPM_Task::getInstance();
-        $task_id    = $task_obj->add_task( $posted['list_id'], $posted );
-        $task       = $task_obj->get_task( $task_id );
-        $complete   = $task_obj->get_completeness( $list_id, $project_id );
-        $single     = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
+
+        $task_obj = CPM_Task::getInstance();
+        $task_id = $task_obj->add_task( $posted['list_id'], $posted );
+        $task = $task_obj->get_task( $task_id );
+        $complete = $task_obj->get_completeness( $list_id, $project_id );
+        $single = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
 
         if ( $task_id ) {
             $response = array(
@@ -550,13 +574,13 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
-        $task_id    = (int) $posted['task_id'];
-        $list_id    = $posted['list_id'];
+        $task_id = (int) $posted['task_id'];
+        $list_id = $posted['list_id'];
         $project_id = $posted['project_id'];
-        $single     = (int) $posted['single'];
+        $single = (int) $posted['single'];
 
         $task_obj = CPM_Task::getInstance();
-        $task_obj->mark_complete( $task_id, $list_id, $project_id, $posted );
+        $task_obj->mark_complete( $task_id );
         $complete = $task_obj->get_completeness( $list_id,  $project_id );
 
         $task = $task_obj->get_task( $task_id );
@@ -565,6 +589,8 @@ class CPM_Ajax {
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+            'task_complete' =>  $complete['completed'] ,
+            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
 
         $response = apply_filters( 'cpm_task_complete_response', $response, $task_id, $list_id, $project_id );
@@ -592,7 +618,9 @@ class CPM_Ajax {
         $response = array(
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
-            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
+            'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+            'task_complete' =>  $complete['completed'] ,
+            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
         $response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id );
 
@@ -1013,6 +1041,7 @@ class CPM_Ajax {
             echo json_encode( array(
                 'success' => true,
                 'id' => $message_id,
+                'project_id' => $project_id,
                 'content' => cpm_message_form( $project_id, $message )
             ) );
 
@@ -1025,6 +1054,35 @@ class CPM_Ajax {
 
         exit;
     }
+    function get_discussion() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $message_id = isset( $posted['message_id'] ) ? intval( $posted['message_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+
+       // $message_obj = CPM_Message::getInstance();
+       // $message = $message_obj->get( $message_id );
+        $content = cpm_discussion_single($message_id, $project_id) ;
+       // var_dump($content) ;
+        if( $message_id ) {
+            echo json_encode( array(
+                'success' => true,
+                'id' => $message_id,
+                'project_id' => $project_id ,
+                'content' => $content
+            ) );
+
+            exit;
+        }
+
+        echo json_encode( array(
+            'success' => false
+        ) );
+
+        exit;
+    }
+
 
     /**
      * Get project activity
@@ -1079,16 +1137,9 @@ class CPM_Ajax {
         $users = get_users( array(
             'search' => '*' . $_POST['term'] . '*',
             'search_columns' => array( 'user_login', 'user_email', 'nicename' ),
-        ));
-
-        $current_user_id = get_current_user_id();
+        ) );
 
         foreach( $users as $user) {
-            
-            if ( $current_user_id == $user->ID ) {
-                continue;
-            }
-
             $data[] = array(
 
                 'label' => $user->display_name,

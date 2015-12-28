@@ -1,6 +1,22 @@
 <?php
 
-    $author = wp_get_current_user();
+if ( isset( $_POST['project_notify'] ) && $_POST['project_notify'] == 'yes' ) {
+    $project_users = CPM_Project::getInstance()->get_users( $project_id );
+    $users         = array();
+    $author        = wp_get_current_user();
+    // $subject       = apply_filters( 'cpm_mail_new_project_subject', __( 'New Project', 'cpm' ) );
+    if ( is_array( $project_users ) && count($project_users) ) {
+        foreach ($project_users as $user_id => $role_array ) {
+            if ( $this->filter_email( $user_id ) ) {
+               $users[$user_id] = sprintf( '%s', $role_array['email'] );
+               // $users[$user_id] = sprintf( '%s (%s)', $role_array['name'], $role_array['email'] );
+            }
+        }
+    }
+    //if any users left, get their mail addresses and send mail
+    if ( ! $users ) {
+        return;
+    }
 
 	cpm_get_email_header();
 
@@ -12,7 +28,7 @@
             <div style="width: 600px;">
                 <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
                     <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-                        <?php echo cpm_get_option( 'email_new_project_header', 'cpm_mails' ); ?>
+                        <?php _e( 'NEW PROJECT', 'cpm'  ); ?>
                     </div>
                 </div>
 
@@ -49,3 +65,4 @@
     <?php
     cpm_get_email_footer();
 
+}

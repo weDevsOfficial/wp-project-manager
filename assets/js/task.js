@@ -7,14 +7,14 @@
             $('.cpm-task-complete .cpm-complete').attr('checked', 'checked').attr('disabled', false);
             $('.cpm-task-uncomplete .cpm-uncomplete').removeAttr('checked').attr('disabled', false);
 
-            $('ul.cpm-todolists').on('click', 'a.add-task', this.showNewTodoForm);
-            $('ul.cpm-todolists').on('click', '.cpm-todos-new a.todo-cancel', this.hideNewTodoForm);
-            $('ul.cpm-todolists').on('submit', '.cpm-todo-form form.cpm-task-form', this.submitNewTodo);
+            $('.cpm-todolists').on('click', 'a.add-task', this.showNewTodoForm);
+            $('.cpm-todolists').on('click', '.cpm-todos-new a.todo-cancel', this.hideNewTodoForm);
+            $('.cpm-todolists').on('submit', '.cpm-todo-form form.cpm-task-form', this.submitNewTodo);
 
             //edit todo
-            $('ul.cpm-todolists').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
-            $('ul.cpm-todolists').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
-            $('ul.cpm-todolists').on('submit', '.cpm-task-edit-form form', this.updateTodo);
+            $('.cpm-todolists').on('click', 'a.cpm-todo-edit', this.toggleEditTodo);
+            $('.cpm-todolists').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
+            $('.cpm-todolists').on('submit', '.cpm-task-edit-form form', this.updateTodo);
 
             //single todo
             $('.cpm-single-task').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
@@ -25,20 +25,20 @@
             $('.cpm-single-task').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //task done, undone, delete
-            $('ul.cpm-todolists').on('click', '.cpm-uncomplete', this.markDone);
-            $('ul.cpm-todolists').on('click', '.cpm-todo-completed input[type=checkbox]', this.markUnDone);
-            $('ul.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
+            $('.cpm-todolists').on('click', '.cpm-uncomplete', this.markDone);
+            $('.cpm-todolists').on('click', '.cpm-todo-completed input[type=checkbox]', this.markUnDone);
+            $('.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //todolist
             $('.cpm-new-todolist-form').on('submit', 'form', this.addList);
-            $('ul.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
+            $('.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
             $('.cpm-new-todolist-form').on('click', 'a.list-cancel', this.toggleNewTaskListForm);
             $('a#cpm-add-tasklist').on('click', this.toggleNewTaskListFormLink);
 
             //tasklist edit, delete links toggle
-            $('ul.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
-            $('ul.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
-            $('ul.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
+            $('.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
+            $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
+            $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
 
             this.makeSortableTodoList();
             this.makeSortableTodo();
@@ -133,7 +133,7 @@
             e.preventDefault();
 
             var self = $(this),
-                list = self.closest('li');
+                list = self.closest('.cpm-todo-form');
 
             list.addClass('cpm-hide');
             list.prev().removeClass('cpm-hide');
@@ -174,7 +174,9 @@
                         list.remove();
 
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
 
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
@@ -217,7 +219,9 @@
                         list.remove();
 
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
                     } else if(singleWrap.length) {
                         singleWrap.html(res.content);
                     }
@@ -268,10 +272,10 @@
         },
 
         toggleEditTodo: function (e) {
+
             e.preventDefault();
 
             var wrap = $(this).closest('.cpm-todo-wrap');
-
             wrap.find('.cpm-todo-content').toggle();
             wrap.find('.cpm-task-edit-form').slideToggle();
             $(".chosen-select").chosen({ width: '300px' });
@@ -364,7 +368,7 @@
 
                     res = JSON.parse(res);
                     if(res.success === true) {
-                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos');
+                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos-new');
                         currentList.append( '<li>' + res.content + '</li>' );
 
                         //clear the form

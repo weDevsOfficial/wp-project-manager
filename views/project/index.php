@@ -11,64 +11,128 @@ $can_create_project = cpm_manage_capability( 'project_create_role' );
 $class              = $can_create_project ? '' : ' cpm-no-nav';
 
 unset( $projects['total_projects'] );
+
+$dpv = get_option( 'default_project_view' ) ;
+if ( $dpv !== false ) {
+
+     $default_project_view = $dpv ;
+
+}else  {
+    $default_project_view = "grid";
+}
+
+
 ?>
+<div class="cpm-top-bar cpm-no-padding" >
+    <div class="cpm-row cpm-no-padding"  >
+        <div class="cpm-col-6">
+            <h2><?php _e( 'Project Manager', 'cpm' ); ?> </h2>
+        </div>
 
-<h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
+        <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">
+                <a href="#" class="cpm-btn-blue">
+                    <span class="dashicons dashicons-image-rotate"></span>
+                </a>
+                <a href="#" class="cpm-btn-white">
+                Dashbord
+                </a>
 
-<div class="cpm-projects<?php echo $class; ?>">
+        </div>
+        <div class="clearfix"></div>
+    </div>
 
-    <div class="cpm-project-filter">
-        <ul class="list-inline order-statuses-filter">
-            <li<?php echo $status_class == 'all' ? ' class="active"' : ''; ?>>
-                <a href="<?php echo cpm_url_all(); ?>"><?php _e( 'All', 'cpm' ); ?></a>
-            </li>
-            <li<?php echo $status_class == 'active' ? ' class="active"' : ''; ?>>
-                <a class="cpm-active" href="<?php echo cpm_url_active(); ?>"><?php printf( __( 'Active (%d)', 'cpm' ), $count['active'] ); ?></a>
-            </li>
-            <li<?php echo $status_class == 'archive' ? ' class="active"' : ''; ?>>
-                <a class="cpm-archive-head" href="<?php echo cpm_url_archive(); ?>"><?php printf( __( 'Completed (%d)', 'cpm' ), $count['archive'] ); ?></a>
-            </li>
-        </ul>
 
-        <?php
+    <div class="cpm-row cpm-no-padding  cpm-priject-search-bar "   >
+        <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"  >
+             <?php if ( $can_create_project ) { ?>
+
+                    <a href="#" id="cpm-create-project" class="cpm-btn cpm-plus-white">  <?php _e( 'NEW PROJECT', 'cpm' ); ?> </a>
+
+            <?php } ?>
+        </div>
+
+        <div class="cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  " >
+            <div class="cpm-col-5 cpm-sm-col-12">
+            <?php
             $category   = isset( $_GET['project_cat'] ) ? $_GET['project_cat'] : '';
             $status     = isset( $_GET['project_status'] ) ? $_GET['project_status'] : '';
             $action     = isset( $_GET['status'] ) ? $_GET['status'] : '';
             $searchitem = isset( $_GET['searchitem'] ) ? $_GET['searchitem'] : '';
             $page_id    = ( !is_admin() ) ? get_the_ID() : '';
-        ?>
+            ?>
 
-        <form action="" method="get" class="cpm-project-filters" id="cpm-project-filters">
-            <?php echo cpm_filter_category( $category ); ?>
-            <input type="hidden" name="p" value="<?php echo $page_id; ?>" />
-            <input type="hidden" name="status" value="<?php echo $action; ?>" />
-            <input type="hidden" name="page" value="cpm_projects" />
-            <input type="submit" name="submit" id="project-filter-submit" class="button" value="<?php esc_attr_e( 'Filter', 'cpm' ); ?>">
-        </form>
-
-        <?php do_action( 'cpm_filter_project', $projects );  ?>
+            <form action="" method="get" class="cpm-project-filters" id="cpm-project-filters">
+                <?php echo cpm_filter_category( $category ); ?>
+                <input type="hidden" name="p" value="<?php echo $page_id; ?>" />
+                <input type="hidden" name="status" value="<?php echo $action; ?>" />
+                <input type="hidden" name="page" value="cpm_projects" />
+                <input type="submit" name="submit" id="project-filter-submit" class=" cpm-btn-submit cpm-btn-blue" value="<?php esc_attr_e( 'Filter', 'cpm' ); ?>">
+            </form>
+            </div>
+            <div class="cpm-col-7 cpm-sm-col-12 cpm-project-search">
+            <?php do_action( 'cpm_filter_project', $projects );  ?>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
     </div>
 
-    <?php if ( $can_create_project ) { ?>
-        <nav class="cpm-new-project">
-            <a href="#" id="cpm-create-project"><span><?php _e( 'New Project', 'cpm' ); ?></span></a>
-        </nav>
-    <?php } ?>
 
-    <?php if ( $projects ) { ?>
+    <div class="cpm-row cpm-project-group  "    >
+        <ul class="list-inline  cpm-col-6 cpm-project-group-ul "  >
+            <li class=" cpm-sm-col-4  <?php echo $status_class == 'all' ? '  active ' : ''; ?> " >
+                <a href="<?php echo cpm_url_all(); ?>" class="cpm-all-project">
+                <?php _e( 'All', 'cpm' ); ?></a>
+            </li>
+            <li class="cpm-sm-col-4 <?php echo $status_class == 'active' ? ' active ' : ''; ?> " >
+                <a class="cpm-active-project " href="<?php echo cpm_url_active(); ?>">
+                 <?php printf( __( 'Active <span class="count">%d</span>', 'cpm' ), $count['active'] ); ?></a>
+            </li>
+            <li class="cpm-sm-col-4 <?php echo $status_class == 'archive' ? ' active ' : ''; ?> " >
+                <a class="cpm-archive-project " href="<?php echo cpm_url_archive(); ?>">
+                  <?php printf( __( 'Completed <span class="count">%d</span>', 'cpm' ), $count['archive'] ); ?>  </a>
+            </li>
+            <div class="clearfix"></div>
+        </ul>
+        <div class="cpm-col-5 cpm-last-col cpm-text-right show_desktop_only" >
+            <ul class="cpm-project-view " >
+                <li> <a href="JavaScript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="<?php if( $default_project_view == 'list' ) echo 'active' ; ?> dashicons dashicons-menu"></span> </a> </li>
+                <li> <a href="JavaScript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="<?php if( $default_project_view == 'grid' ) echo 'active' ; ?> dashicons dashicons-screenoptions"></span> </a> </li>
+                <div class="clearfix"></div>
+            </ul>
+        </div>
+    </div>
 
-        <?php foreach ($projects as $project) { ?>
-            <article class="cpm-project">
+
+ <div class="clearfix"> </div>
+</div>
+
+
+<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-<?php echo $default_project_view ; ?> cpm-no-padding cpm-no-margin"  >
+
+
+
+    <?php if ( $projects ) {
+      $slp = 1 ;
+     foreach ($projects as $project) {
+            if( $slp%3 == 0 )  $last_cal =  ' cpm-last-col'; else $last_cal = '' ;
+            ?>
+
+              <article class="cpm-project  cpm-column-gap-left cpm-sm-col-12 <?php echo $last_cal ; ?> "  >
                 <?php if ( cpm_is_project_archived( $project->ID ) ) { ?>
                     <div class="cpm-completed-wrap"><div class="ribbon-green"><?php _e( 'Completed', 'cpm' ); ?></div></div>
                 <?php } ?>
 
-                <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_details( $project->ID ); ?>">
+                <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_overview( $project->ID ); ?>">
+                    <div class="project_head">
                     <h5><?php echo cpm_excerpt( get_the_title( $project->ID ), 30 ); ?></h5>
 
                     <div class="cpm-project-detail"><?php echo cpm_excerpt( $project->post_content, 55 ); ?></div>
+                    </div>
                     <div class="cpm-project-meta">
-                        <?php echo cpm_project_summary( $project->info ); ?>
+                        <ul>
+                        <?php   echo cpm_project_summary( $project->info ); ?>
+                        <div class="clearfix"></div>
+                        </ul>
                     </div>
 
                     <footer class="cpm-project-people">
@@ -76,7 +140,6 @@ unset( $projects['total_projects'] );
                             <?php
                             if ( count( $project->users ) ) {
                                 foreach ($project->users as $id => $user_meta) {
-
                                     echo get_avatar( $id, 48, '', $user_meta['name'] );
                                 }
                             }
@@ -88,14 +151,26 @@ unset( $projects['total_projects'] );
                 <?php
                 $progress = $project_obj->get_progress_by_tasks( $project->ID );
                 echo cpm_task_completeness( $progress['total'], $progress['completed'] );
-
-                if ( cpm_user_can_access( $project->ID ) ) {
-                    cpm_project_actions( $project->ID );
-                }
                 ?>
+                <div class="cpm-progress-percentage"> <?php if($progress['total'] != 0) {  echo floor(((100 * $progress['completed']) /  $progress['total'])) ."%" ; } ?>  </div>
+                <div class="cpm-project-action-icon">
+                    <?php
+                    if ( cpm_user_can_access( $project->ID ) ) {
+                         cpm_project_actions( $project->ID ) ;
+                    }
+                    ?>
+                </div>
+               <!--  <div class="cpm-project_action">
+                    <a href="" class=""> <span class="dashicons dashicons-share-alt2"></span> </a>
+                    <a href=""> <span class="dashicons dashicons-yes"></span> </a>
+                    <a href=""> <span class="dashicons dashicons-no-alt"></span> </a>
+                    <div class="clearfix"></div>
+                </div> -->
             </article>
 
-        <?php } ?>
+        <?php
+        $slp++;
+         } ?>
 
         <?php cpm_pagination( $total_projects, $limit, $pagenum ); ?>
 
@@ -140,6 +215,22 @@ unset( $projects['total_projects'] );
                 height: 'auto',
                 position:['middle', 100],
             });
+
         });
+
     </script>
 <?php } ?>
+
+
+<script type="text/javascript">
+        jQuery(function($) {
+
+            if ( document.body.clientWidth < 780 ) {
+                $( ".cpm-projects" ).removeClass( "cpm-project-list" ) ;
+                $( ".cpm-projects" ).addClass( "cpm-project-grid" );
+                $( "#cpm-list-view span" ).removeClass( 'active' ) ;
+                $( "#cpm-grid-view span" ).addClass( 'active' ) ;
+             }
+
+        });
+</script>

@@ -1339,70 +1339,70 @@ ul.cpm-activity ul li:before {
 .cpm-single-task .cpm-todo-wrap .cpm-task-edit-form .date label {
   display: block;
 }
-ul.cpm-todolists .submit {
+.cpm-todolists .submit {
   margin: 10px 0;
   padding: 0 0 15px 0;
 }
-ul.cpm-todolists > li.ui-state-highlight {
+.cpm-todolists > li.ui-state-highlight {
   min-height: 100px;
 }
-ul.cpm-todolists article.cpm-todolist {
+.cpm-todolists article.cpm-todolist {
   position: relative;
   background: #fff;
   box-shadow: -1px 1px 1px -1px #bcbcbc;
   padding: 6px 3px 5px 5px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
+.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
   border: 1px dashed #CCCCCC;
   margin: 13px 13px 20px 28px;
   padding: 15px 15px 0;
   width: 40%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form {
+.cpm-todolists article.cpm-todolist .cpm-new-btn,
+.cpm-todolists article.cpm-todolist .cpm-todo-form {
   margin-top: 15px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
   margin: 15px 0 10px 15px;
   border: 1px dashed #ccc;
   padding: 15px 15px 0 15px;
   width: 40%;
   background: #F8F8F8;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
   width: 98% !important;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
   height: 30px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
   display: block;
   font-size: 13px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
+.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
   margin-top: 8px;
 }
-ul.cpm-todolists article.cpm-todolist header h3 {
+.cpm-todolists article.cpm-todolist header h3 {
   margin: 0 0 10px 0;
   font-size: 17px;
   padding-left: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
   font-style: italic;
   padding: 0 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
+.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1412,10 +1412,10 @@ ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   padding: 1px 7px;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
+.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   font-size: 11px;
   line-height: 15px;
   border: 1px solid #eee;
@@ -1431,41 +1431,41 @@ ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   top: 4px;
   z-index: 9999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
+.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-move-trak {
+.cpm-todolists article.cpm-todolist header .cpm-move-trak {
   left: -12px;
   padding: 3px 3px 0 3px;
 }
-ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-ul.cpm-todolists article.cpm-todolist .move {
+.cpm-todolists article.cpm-todolist .move {
   background: url('../images/move.png') no-repeat;
   cursor: move;
   width: 12px;
   height: 12px;
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist .ui-state-highlight {
+.cpm-todolists article.cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
+.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
   display: none;
 }
-ul.cpm-todolists article.cpm-todolist p {
+.cpm-todolists article.cpm-todolist p {
   margin: 0;
   padding-bottom: 10px;
 }
-ul.cpm-todolists article.cpm-todolist > ul {
+.cpm-todolists article.cpm-todolist > ul {
   margin: 0 0 0 15px;
   min-height: 6px;
   position: relative;
   list-style: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li {
+.cpm-todolists article.cpm-todolist > ul li {
   clear: both;
   line-height: 20px;
   padding-left: 19px;
@@ -1473,20 +1473,20 @@ ul.cpm-todolists article.cpm-todolist > ul li {
   word-wrap: break-word;
   margin: 2px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap {
   margin-left: -19px;
   padding-left: 20px;
   position: relative;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap input[type="checkbox"] {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap input[type="checkbox"] {
   margin-left: -11px;
   margin-right: 2px;
   margin-top: -3px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap:hover .cpm-todo-action {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap:hover .cpm-todo-action {
   visibility: visible;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action {
   font-size: 11px;
   line-height: 14px;
   border: 1px solid #eee;
@@ -1502,17 +1502,17 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action {
   top: 0;
   z-index: 99;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action a {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action a {
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a {
   color: #333;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a:hover {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a:hover {
   text-decoration: underline;
   color: #21759b;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1522,10 +1522,10 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .
   padding: 1px 7px;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1536,8 +1536,8 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .
   color: #fff;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1548,18 +1548,18 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .
   color: #999;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
   color: #999;
   text-decoration: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
   font-size: 11px;
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
   text-decoration: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form {
   border: 1px dashed #CCCCCC;
   display: none;
   margin-bottom: 25px;
@@ -1569,43 +1569,43 @@ ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form
   width: 40%;
   background: #f8f8f8;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form textarea {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form input[type="text"],
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form textarea {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen {
   width: 98% !important;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen input[type="text"] {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen input[type="text"] {
   height: 30px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy {
   margin-top: 8px;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
   margin-left: 0;
 }
-ul.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .date label {
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .date label {
   display: block;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
   padding-top: 5px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   font-size: 11px;
   line-height: 14px;
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
   display: none;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0 0 10px 0;
 }
-ul.cpm-todolists .cpm-spinner {
+.cpm-todolists .cpm-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   height: 16px;
   display: none;
@@ -1616,7 +1616,7 @@ ul.cpm-todolists .cpm-spinner {
   top: 2px;
   left: 9px;
 }
-ul.cpm-todolists .cpm-new-task-spinner {
+.cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
@@ -1883,9 +1883,7 @@ ul.cpm-files li .cpm-thumb-detail {
 }
 ul.cpm-files li .cpm-file-name {
   padding: 5px 0;
-  border-bottom: 1px solid #dfdfdf;
-  border-top: 1px solid #dfdfdf;
-  margin: 0 0 10px 0;
+  margin: 0 0 0px 0;
   font-size: 13px;
 }
 ul.cpm-files li .cpm-file-action .comment-number {
