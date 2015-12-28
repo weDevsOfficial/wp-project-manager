@@ -11,12 +11,6 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 
 
 ?>
-<h3 class="cpm-nav-title">
-    <a href="<?php echo cpm_url_tasklist_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
-    <span class="sep">|</span>
-    <?php _e( 'To-do List', 'cpm' ) ?> : <?php echo get_the_title( $list->ID ); ?>
-</h3>
-
 <ul class="cpm-todolists">
     <?php if ( $list ) { ?>
         <li id="cpm-list-<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id ); ?></li>
@@ -27,7 +21,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 
 <ul class="cpm-comment-wrap">
     <?php
-    
+
     $comments = $task_obj->get_comments( $tasklist_id );
     if ( $comments ) {
 
@@ -41,4 +35,6 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
     }
     ?>
 </ul>
-<?php echo cpm_comment_form( $project_id, $tasklist_id ); ?>
+<div class="comment-form-section"  >
+    <?php echo cpm_comment_form( $project_id, $tasklist_id ); ?>
+</div>
