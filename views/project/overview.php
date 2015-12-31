@@ -45,13 +45,13 @@ $str_todo = implode( $str_todo, ',' );
 	    </div>
 	</div>
 
-	<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part">
-		<h2 class="cpm-border-bottom"> <?php _e('Users', 'cpm') ; ?> </h2>
+	<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part cpm-last-col">
+		<h3 class="cpm-border-bottom"> <?php _e('Users', 'cpm') ; ?> </h3>
 		<ul class="user_list">
 			<?php
 	         	if ( count( $project->users ) ) {
 	              	foreach ($project->users as $id => $user_meta) {
-	         			echo "<li> ". get_avatar( $id, 48, '', $user_meta['name'] ) .$user_meta['name'] . "<br /><span>" . $user_meta['role'] ." </span> </li>";
+	         			echo "<li> ". get_avatar( $id, 34, '', $user_meta['name'] ) .$user_meta['name'] . "<br /><span>" . $user_meta['role'] ." </span> </li>";
 	           		}
 	           }
 	        ?>

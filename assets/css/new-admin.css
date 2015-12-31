@@ -34,6 +34,7 @@
   /**
     * Activity Page
     */
+  /** Discussion Page **/
   /** CSS for Milestone Page **/
   /** End MileStone Page **/
   /*** Files ***/
@@ -111,7 +112,7 @@
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #cccccc;
+  background: #eeeeee;
 }
 .cpm .cpm-btn-red {
   background: RED;
@@ -245,7 +246,7 @@
 .cpm .notify-users .cpm-user-select-bar {
   background: ghostwhite;
   padding: 5px 10px;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
 }
 .cpm .notify-users .cpm-user-select-bar .close {
   background: url('../images/done.svg') no-repeat 0% 0%;
@@ -276,11 +277,10 @@
 .cpm .cpm-top-bar {
   background: #ffffff;
   margin-bottom: 25px;
-  padding-top: 10px;
   padding-bottom: 0px;
 }
 .cpm .cpm-top-bar .cpm-priject-search-bar {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
@@ -290,6 +290,13 @@
 }
 .cpm .cpm-top-bar .cpm-top-right-btn {
   margin-top: 12px;
+  padding-left: 10px;
+}
+.cpm .cpm-top-bar .cpm-top-right-btn input {
+  /*  _m1992
+              10777
+                585*/
+  margin-right: 20px;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue {
   -webkit-border-radius: 180px;
@@ -299,7 +306,7 @@
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons {
   vertical-align: bottom;
-  font-size: 14px;
+  font-size: 13px;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue .dashicons a {
   color: #ffffff;
@@ -312,16 +319,16 @@
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  border: 1px solid #cccccc;
+  border: 1px solid #eeeeee;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
   background: red;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
-  color: #cccccc;
+  color: #eeeeee;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn a {
-  font-size: 14px;
+  font-size: 13px;
   margin-right: 5px;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn a :hover {
@@ -333,7 +340,6 @@
 .cpm .cpm-top-bar .cpm-project-search input {
   float: left;
   width: 45%;
-  margin-right: 10px;
 }
 .cpm .cpm-top-bar .cpm-project-group {
   padding: 0px;
@@ -342,14 +348,13 @@
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul {
   margin-bottom: 0px;
-  margin-left: 15px;
+  margin-left: 0px;
   padding-bottom: 0px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li {
-  border: none;
   float: left;
   margin-bottom: 0px;
-  margin-right: 15px;
+  margin-right: 0px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a {
   padding: 12px 20px 12px 40px;
@@ -363,7 +368,7 @@
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #cccccc;
+  background: #eeeeee;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -428,7 +433,7 @@
   margin-right: 15px;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
-  color: #cccccc;
+  color: #eeeeee;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
@@ -468,7 +473,7 @@
   color: #ffffff;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-project-detail {
-  font-size: 14px;
+  font-size: 13px;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-project-meta {
   padding: 10px;
@@ -484,7 +489,7 @@
   width: 41% ;
   list-style: none;
   padding-left: 25px;
-  font-size: 14px;
+  font-size: 13px;
   color: #888888;
   line-height: 35px;
 }
@@ -567,7 +572,7 @@
   color: #ffffff;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-detail {
-  font-size: 14px;
+  font-size: 13px;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-meta {
   padding: 0px;
@@ -585,7 +590,7 @@
   width: 40% ;
   list-style: none;
   padding-left: 20px;
-  font-size: 14px;
+  font-size: 13px;
   color: #888888;
   line-height: 35px;
 }
@@ -621,30 +626,35 @@
   top: 15px;
 }
 .cpm .cpm-border-bottom {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   padding-bottom: 0px;
 }
+.cpm .cpm-project-header {
+  padding: 0px;
+}
 .cpm .cpm-project-header ul {
-  margin-bottom: 0px;
-  margin-left: 15px;
+  margin: 0px;
+  margin-left: 0px;
   padding-bottom: 0px;
 }
 .cpm .cpm-project-header ul li {
   border: none;
   float: left;
+  padding: 0px;
+  margin-top: 10px;
   margin-bottom: 0px;
   margin-right: 5px;
 }
 .cpm .cpm-project-header ul li a {
-  padding: 6px 30px 6px 55px;
-  min-width: 30px;
+  padding: 6px 5px 6px 40px;
+  margin-top: 0px;
   display: block;
   text-decoration: none;
   border-bottom: solid 2px #ffffff;
   color: #aaa;
   min-height: 42px;
-  background-size: 24px 20px;
-  margin-right: 30px;
+  background-size: 16px 12px;
+  margin-right: 5px;
 }
 .cpm .cpm-project-header ul li a div {
   text-align: left;
@@ -654,7 +664,7 @@
 .cpm .cpm-project-header ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #cccccc;
+  background: #eeeeee;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -662,66 +672,66 @@
 }
 .cpm .cpm-project-header ul li .overview {
   background: url('../images/overview.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .overview:hover,
 .cpm .cpm-project-header ul li a.overview.active {
   background: url('../images/overview_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .message {
   background: url('../images/discussion.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .message:hover,
 .cpm .cpm-project-header ul li a.message.active {
   background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .activity {
   background: url('../images/activity.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .activity:hover,
 .cpm .cpm-project-header ul li a.activity.active {
   background: url('../images/activity_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .milestone {
   background: url('../images/milestone.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .milestone:hover,
 .cpm .cpm-project-header ul li a.milestone.active {
   background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
-.cpm .cpm-project-header ul li .todo {
+.cpm .cpm-project-header ul li .to-do-list {
   background: url('../images/todo.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .to-do-list:hover,
 .cpm .cpm-project-header ul li a.to-do-list.active {
   background: url('../images/todo_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .files {
   background: url('../images/file.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .files:hover,
 .cpm .cpm-project-header ul li a.files.active {
   background: url('../images/file_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .settings {
   background: url('../images/settings.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li .settings:hover,
 .cpm .cpm-project-header ul li a.settings.active {
   background: url('../images/settings_hover.svg') no-repeat 20% 30%;
-  background-size: 24px 24px;
+  background-size: 20px 16px;
 }
 .cpm .cpm-project-header ul li a:hover,
 .cpm .cpm-project-header ul li .active {
@@ -751,56 +761,57 @@
   background: none;
   list-style: none;
   margin: 0px;
-  margin-right: 20px;
+  margin-right: 10px;
   border: solid 1px #E5E5E5;
-  padding: 25px 10px;
+  padding: 25px 5px;
   text-align: center;
   background: #ffffff;
-  width: 13.5955%;
+  width: 13.9999%;
+  margin-bottom: 15px;
   clear: right;
 }
 .cpm .project-overview .overview-menu ul li div {
   float: left;
 }
 .cpm .project-overview .overview-menu ul li .icon {
-  padding: 12px 3px;
-  width: 22%;
-  border-radius: 50px;
+  padding: 8px 3px;
+  width: 20%;
+  border-radius: 50%;
   color: #ffffff;
-  margin-right: 20px;
-  height: 22px;
+  margin-right: 5%;
+  height: 18px;
 }
 .cpm .project-overview .overview-menu ul li .count {
   text-align: left;
 }
 .cpm .project-overview .overview-menu ul li .count span {
   color: #019dd6;
-  font-size: 145%;
+  font-size: 180%;
   font-weight: bold;
 }
 .cpm .project-overview .overview-menu ul .message .icon {
   background: #9dbc5e url('../images/discussion_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .overview-menu ul .todo .icon {
   background: #1fa185 url('../images/todolist_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .overview-menu ul .todos .icon {
   background: #0090db url('../images/todo_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .overview-menu ul .comments .icon {
   background: #1fa185 url('../images/comments_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .overview-menu ul .files .icon {
   background: #be3c2f url('../images/files_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .overview-menu ul .milestone .icon {
   background: #f29b27 url('../images/milestones_white.svg') no-repeat center center;
-  background-size: 25px;
+  background-size: 18px;
 }
 .cpm .project-overview .cpm-chart {
   background: #ffffff;
@@ -822,16 +833,17 @@
   margin: 5px 25px;
 }
 .cpm .project-overview .cpm-right-part {
-  background: #ffffff !important;
+  background: #ffffff  ;
+  width: 17.1745852858%;
 }
-.cpm .project-overview .cpm-right-part h2 {
-  padding: 20px 12px 20px 20px;
+.cpm .project-overview .cpm-right-part h3 {
+  margin: 0px;
+  padding: 5px 10px;
   margin-bottom: 15px;
-  color: #848484;
+  font-size: 17px;
 }
 .cpm .project-overview .cpm-right-part .user_list {
-  margin-left: 20px;
-  font-size: 150%;
+  margin-left: 10px;
 }
 .cpm .project-overview .cpm-right-part .user_list li {
   margin-bottom: 30px;
@@ -844,7 +856,7 @@
 }
 .cpm .project-overview .cpm-right-part .user_list li span {
   font-size: small;
-  color: #cccccc;
+  color: #eeeeee;
 }
 .cpm .cpm-activity-list {
   padding: 0px;
@@ -897,12 +909,13 @@
 .cpm .cpm-todolists .cpm-todolist {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  border-bottom: solid 1px #cccccc;
+  border: solid 1px #eeeeee;
   padding: 25px 25px 3px 25px;
   margin-bottom: 10px;
+  background: #f8f9f0 ;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right {
   text-align: right ;
@@ -934,7 +947,7 @@
   margin: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   padding: 0px 8px 0px 30px;
   background: #ffffff;
 }
@@ -989,8 +1002,8 @@
   background-size: 10px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .move {
-  background: url('../images/move.svg') no-repeat 50% 30%;
-  background-size: 13px;
+  background: url('../images/move.svg') no-repeat 50% 1%;
+  background-size: 12px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos :hover .cpm-todo-action-right {
   visibility: visible ;
@@ -1001,7 +1014,7 @@
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
   margin-bottom: 15px;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   padding: 0px 8px 20px 30px;
   margin-left: 0px;
 }
@@ -1016,11 +1029,11 @@
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer {
   padding: 0px;
   margin: 0px;
-  padding-left: 20px;
+  padding-left: 15px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
-  border-right: solid 1px #cccccc;
-  margin-right: 4%;
+  border-right: solid 1px #eeeeee;
+  margin-right: 1%;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
   font-size: 130%;
@@ -1028,25 +1041,28 @@
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-complete {
   background: url('../images/todo_completed.svg') no-repeat 0% 50%;
-  padding-left: 6%;
-  background-size: 40px;
+  padding-left: 7%;
+  background-size: 30px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-incomplete {
   background: url('../images/todo-incomplete.svg') no-repeat 0% 50%;
-  padding-left: 6%;
-  background-size: 40px;
+  padding-left: 7%;
+  background-size: 30px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment {
   background: url('../images/comment.svg') no-repeat 0% 50%;
-  padding-left: 6%;
-  background-size: 40px;
+  padding-left: 7%;
+  background-size: 30px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment a {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-prgress-bar {
   margin-top: 15px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
+  padding-top: 1.19595%;
 }
 .cpm .cpm-new-todolist-form {
   margin-top: 10px;
@@ -1058,6 +1074,9 @@
   padding-right: 0px;
   margin-right: 0px;
 }
+.cpm .cpm-message-page .cpm-new-message-btn {
+  margin-left: 10%;
+}
 .cpm .cpm-message-page .cpm-message-list,
 .cpm .cpm-message-page .cpm-message-body {
   background: #ffffff;
@@ -1068,6 +1087,7 @@
   margin-right: 25px;
   padding-top: 25px;
   padding-left: 0px;
+  width: 30%;
 }
 .cpm .cpm-message-page .cpm-message-list .cpm-add-message {
   margin-left: 40px;
@@ -1076,19 +1096,20 @@
   margin: 0px;
   padding: 0px;
   margin-top: 40px;
-  border-top: #cccccc solid 1px;
-  height: 800px;
+  border-top: #eeeeee solid 1px;
+  height: 600px;
+  overflow: auto ;
 }
 .cpm .cpm-message-page .cpm-message-list li {
   margin: 0px;
-  border-left: #cccccc solid 3px;
-  border-bottom: #cccccc solid 1px;
+  border-left: #eeeeee solid 3px;
+  border-bottom: #eeeeee solid 1px;
   padding: 15px ;
 }
 .cpm .cpm-message-page .cpm-message-list li img {
   border-radius: 45px;
-  height: 55px;
-  width: 55px;
+  height: auto;
+  width: 100%;
 }
 .cpm .cpm-message-page .cpm-message-list li .cpm-col-10 {
   margin-right: 0px;
@@ -1101,7 +1122,7 @@
   padding: 6px 10px;
   margin: 3px;
   border-radius: 3px;
-  background: #cccccc;
+  background: #eeeeee;
   -webkit-border-radius: 180px;
   -moz-border-radius: 180px;
   border-radius: 180px;
@@ -1118,10 +1139,13 @@
 }
 .cpm .cpm-message-page .cpm-message-body {
   margin-right: 0px;
+  width: 70%;
+  height: 600px;
+  overflow: auto ;
 }
 .cpm .cpm-message-page .cpm-message-body .cpm-discuss-title {
   color: #019dd6;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   padding-bottom: 10px;
 }
 .cpm .cpm-message-page .cpm-message-body .cpm-discuss-title .cpm-edit-discussion {
@@ -1136,7 +1160,7 @@
   background: #fff;
   margin-bottom: 10px;
   display: block;
-  border: #cccccc solid 1px;
+  border: #eeeeee solid 1px;
   padding: 10px;
   min-height: 50px;
 }
@@ -1206,19 +1230,19 @@
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
   background: #fff;
-  border: #cccccc solid 1px;
+  border: #eeeeee solid 1px;
   margin-bottom: 20px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
   padding: 15px;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   margin-bottom: 0px;
   margin-top: 0px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .time-left {
   font-size: small;
   font-weight: normal;
-  color: #cccccc;
+  color: #eeeeee;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links {
   margin: 0px;
@@ -1252,7 +1276,7 @@
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
   background: #FCFCFC;
   padding: 15px;
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details {
   padding: 15px;
@@ -1277,7 +1301,7 @@
   padding-left: 25px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 {
-  border: solid 1px #cccccc;
+  border: solid 1px #eeeeee;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 h3 {
   margin: 0px;
@@ -1289,7 +1313,7 @@
   margin: 0px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li {
-  border-bottom: solid 1px #cccccc;
+  border-bottom: solid 1px #eeeeee;
   padding: 6px 15px;
   padding-left: 45px;
 }
@@ -1298,7 +1322,7 @@
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details img.avatar {
   border-radius: 15px;
-  border: solid 1px #cccccc;
+  border: solid 1px #eeeeee;
   vertical-align: top;
   margin-right: 5px;
 }
@@ -1358,7 +1382,7 @@
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
 }
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 1166px) and (min-width: 360px) {
   .cpm {
     /*** For activity page ***/
   }
@@ -1370,6 +1394,10 @@
   }
   .cpm .cpm-sm-col-3 {
     width: 100%;
+  }
+  .cpm .cpm-sm-col-4 {
+    width: 30.19999%;
+    float: left;
   }
   .cpm .cpm-sm-col-5 {
     width: 100%;
@@ -1443,7 +1471,7 @@
   }
   .cpm .cpm-project-grid .cpm-project .cpm-project-detail,
   .cpm .cpm-project-list .cpm-project .cpm-project-detail {
-    font-size: 14px;
+    font-size: 13px;
   }
   .cpm .cpm-project-grid .cpm-project .cpm-project-meta,
   .cpm .cpm-project-list .cpm-project .cpm-project-meta {
@@ -1463,7 +1491,7 @@
     list-style: none;
     background: url('../images/bullet_green.png') no-repeat 0% 55%;
     padding-left: 25px;
-    font-size: 14px;
+    font-size: 13px;
     color: #888888;
     line-height: 35px;
   }
@@ -1490,16 +1518,24 @@
     text-align: center;
   }
   .cpm .project-overview .overview-menu ul li {
-    width: 44.21582255%;
+    width: 30.19999%;
+    float: left;
     margin-bottom: 20px;
   }
   .cpm .project-overview .overview-menu ul li .icon {
     padding: 25px 0px;
-    width: 25%;
+    width: 70px;
     font-size: 150%;
     border-radius: 50px;
     color: #ffffff;
     margin-right: 20px;
+  }
+  .cpm .project-overview .cpm-chart {
+    padding-right: 50px;
+    width: 89.7825598228%;
+  }
+  .cpm .project-overview .cpm-right-part {
+    width: 100%;
   }
   .cpm .cpm-activity-list li.cpm-row {
     display: block ;
