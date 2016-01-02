@@ -477,50 +477,39 @@ function cpm_data_attr( $values ) {
 
 
 function cpm_project_summary_info( $info ) {
-     $summary = array();
+    $summary = array();
 
-     if( $info->discussion ) {
-         $summary['message'] = array(
-             'label' => _n('Discussion', 'Discussions', $info->discussion, 'cpm'),
-             'count' => $info->discussion
-         );
-     }
+    $summary['message'] = array(
+        'label' => _n( 'Discussion', 'Discussions', $info->discussion, 'cpm' ),
+        'count' => $info->discussion
+    );
 
-     if( $info->todolist ) {
-         $summary['todo'] = array(
-             'label' => _n('To-do list', 'To-do lists', $info->todolist, 'cpm'),
-             'count' => $info->todolist
-         );
-     }
+    $summary['todo'] = array(
+        'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
+        'count' => $info->todolist
+    );
 
-     if( $info->todos ) {
-         $summary['todos'] = array(
-             'label' => _n('To-do', 'To-dos', $info->todos, 'cpm'),
-             'count' => $info->todos
-         );
-     }
+    $summary['todos'] = array(
+       'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
+       'count' => $info->todos
+    );
 
-     if( isset($info->comments) ) {
-         $summary['comments'] = array(
-             'label' => _n('Comment', 'Comments', $info->comments, 'cpm'),
-             'count' => $info->comments
-         );
-     }
+    $summary['comments'] = array(
+        'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
+        'count' => $info->comments
+    );
 
-     if( $info->files ) {
-         $summary['files'] = array(
-             'label' => _n('File', 'Files', $info->files, 'cpm'),
-             'count' => $info->files
-         );
-     }
+    $summary['files'] = array(
+        'label' => _n( 'File', 'Files', $info->files, 'cpm' ),
+        'count' => $info->files
+    );
 
-     if( $info->milestone ) {
-         $summary['milestone'] = array(
-             'label' => _n('Milestone', 'Milestones', $info->milestone, 'cpm'),
-             'count' => $info->milestone
-         );
-     }
-     return $summary ;
+    $summary['milestone'] = array(
+        'label' => _n( 'Milestone', 'Milestones', $info->milestone, 'cpm' ),
+        'count' => $info->milestone
+    );
+
+    return $summary ;
 }
 
 

@@ -772,7 +772,7 @@
   padding: 20px 10px;
   text-align: center;
   background: #ffffff;
-  width: 15.3%;
+  width: 15.5%;
   margin-bottom: 20px;
   clear: right;
 }
@@ -829,7 +829,7 @@
   background: #ffffff;
   padding: 0;
   margin-top: 0;
-  margin-right: 20px;
+  margin-right: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
 }
@@ -916,6 +916,11 @@
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body {
   margin-bottom: 0px;
   margin-right: 0px;
+  font-size: 13px;
+}
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body .cpm-col-8,
+.cpm .cpm-activity-list li.cpm-row .cpm-activity-body .cpm-col-4 {
+  margin-bottom: 0;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body ul {
   padding: 0px;

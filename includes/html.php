@@ -1299,7 +1299,7 @@ function cpm_activity_html( $activities ) {
                 continue;
             }
 
-            $html .= sprintf( '<li> <div class="cpm-col-8">  %s  </div> <div class="date cpm-col-2">  %s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+            $html .= sprintf( '<li><div class="cpm-col-8">%s</div><div class="date cpm-col-4">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
         }
 
         $html .= "</ul> </li>";
