@@ -578,7 +578,7 @@
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-meta {
   padding: 0px;
-  width: 28%;
+  width: 25%;
   float: left;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-meta ul {
@@ -624,9 +624,9 @@
   position: relative;
   float: left;
   width: 20.5%;
-  text-align: center;
+  text-align: left;
   top: 28px;
-  margin-right: 20px;
+  margin-right: 30px;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-people img.avatar {
   height: 32px;
