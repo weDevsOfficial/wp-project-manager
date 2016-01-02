@@ -33,7 +33,7 @@ $str_todo     = implode( $str_todo, ',' );
 	     </div>
 	    <div id="cpm-chart" class="cpm-chart">
 
-	    	<h3><?php _e( 'Statistics', 'cpm' ); ?></h3>
+	    	<h3><?php _e( 'Last 30 days', 'cpm' ); ?></h3>
 
 	    	<div class="inside">
 				<div class="cpm-chart-legend cpm-text-right">
@@ -52,7 +52,7 @@ $str_todo     = implode( $str_todo, ',' );
 			<?php
 	         	if ( count( $project->users ) ) {
 	              	foreach ($project->users as $id => $user_meta) {
-	         			echo "<li>". get_avatar( $id, 34, '', $user_meta['name'] ) .$user_meta['name'] . "<span>" . ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) . "</span></li>";
+	              		printf( '<li>%s %s<span>%s</span></li>', get_avatar( $id, 34, '', $user_meta['name'] ), cpm_url_user( $id ), ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) );
 	           		}
 	           }
 	        ?>

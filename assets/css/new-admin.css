@@ -26,11 +26,11 @@
     *
     **/
   /**
-    * Project Header part
-    **/
+     * Project Header part
+     */
   /**
-    * Project Overview Page
-    ***/
+     * Project Overview Page
+     */
   /**
     * Activity Page
     */
@@ -662,6 +662,7 @@
   min-height: 42px;
   background-size: 16px 12px;
   margin-right: 5px;
+  height: 52px;
 }
 .cpm .cpm-project-header ul li a div {
   text-align: left;
@@ -744,7 +745,6 @@
 .cpm .cpm-project-header ul li .active {
   border-bottom: solid 2px #019dd6;
   color: #000000;
-  font-weight: bold;
 }
 .cpm .cpm-project-header ul li a:hover span,
 .cpm .cpm-project-header ul li .active span {
@@ -772,7 +772,7 @@
   padding: 20px 10px;
   text-align: center;
   background: #ffffff;
-  width: 13.9999%;
+  width: 15.3%;
   margin-bottom: 20px;
   clear: right;
 }
@@ -780,44 +780,50 @@
   float: left;
 }
 .cpm .project-overview .overview-menu ul li .icon {
-  padding: 8px 3px;
-  width: 20%;
+  padding: 7px;
   border-radius: 50%;
   color: #ffffff;
   margin-right: 8%;
-  height: 18px;
+  height: 24px;
+  width: 24px;
+  background-size: 14px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 .cpm .project-overview .overview-menu ul li .count {
   text-align: left;
+  font-size: 12px;
 }
 .cpm .project-overview .overview-menu ul li .count span {
   color: #019dd6;
-  font-size: 180%;
+  font-size: 150%;
   font-weight: bold;
+  display: block;
+  padding-bottom: 3px;
 }
 .cpm .project-overview .overview-menu ul .message .icon {
-  background: #9dbc5e url('../images/discussion_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #9DBC5E;
+  background-image: url('../images/discussion_white.svg');
 }
 .cpm .project-overview .overview-menu ul .todo .icon {
-  background: #1fa185 url('../images/todolist_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #1FA185;
+  background-image: url('../images/todolist_white.svg');
 }
 .cpm .project-overview .overview-menu ul .todos .icon {
-  background: #0090db url('../images/todo_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #0090DB;
+  background-image: url('../images/todo_white.svg');
 }
 .cpm .project-overview .overview-menu ul .comments .icon {
-  background: #1fa185 url('../images/comments_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #1FA185;
+  background-image: url('../images/comments_white.svg');
 }
 .cpm .project-overview .overview-menu ul .files .icon {
-  background: #be3c2f url('../images/files_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #BE3C2F;
+  background-image: url('../images/files_white.svg');
 }
 .cpm .project-overview .overview-menu ul .milestone .icon {
-  background: #f29b27 url('../images/milestones_white.svg') no-repeat center center;
-  background-size: 18px;
+  background-color: #F29B27;
+  background-image: url('../images/milestones_white.svg');
 }
 .cpm .project-overview .cpm-chart {
   background: #ffffff;

@@ -544,16 +544,20 @@ function cpm_project_summary( $info ) {
  * Helper function for displaying project summary in project overview page
  *
  * @since 3.8
+ *
  * @param object $info
+ *
  * @return string
  */
 function cpm_project_overview_summary( $info ) {
     $info_array = array();
-    $summary = cpm_project_summary_info( $info );
-    foreach ( $summary as $key =>$val ) {
-        $info_array[] = sprintf( "<li class='%s'><div class='icon'></div>  <div class='count'> <span> %d  </span> <br />%s</div> </li>", $key, $val['count'], $val['label'] );
+    $summary    = cpm_project_summary_info( $info );
+
+    foreach ( $summary as $key => $val ) {
+        $info_array[] = sprintf( '<li class="%s"><div class="icon"></div> <div class="count"><span>%d</span> %s</div></li>', $key, $val['count'], $val['label'] );
     }
-    return implode('', $info_array );
+
+    return implode( '', $info_array );
 }
 
 /**
