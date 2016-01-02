@@ -678,12 +678,8 @@ ul.cpm-activity ul li:before {
 }
 .cpm-projects .cpm-project {
   background: #fff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
   width: 210px;
   height: 235px;
   position: relative;
@@ -695,8 +691,8 @@ ul.cpm-activity ul li:before {
   z-index: 0 !important;
 }
 .cpm-projects .cpm-project h5 {
-  font-size: 19px;
-  margin: 0 0 3px;
+  font-size: 16px;
+  margin: 0;
   word-wrap: break-word;
   color: #000;
 }
@@ -747,21 +743,21 @@ ul.cpm-activity ul li:before {
 }
 .cpm-projects .cpm-project .cpm-project-detail,
 .cpm-projects .cpm-project .cpm-project-meta {
-  color: #AA9C84;
+  color: #aaa;
   word-wrap: break-word;
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: normal;
 }
 .cpm-projects .cpm-project .cpm-project-meta {
   font-size: 12px;
 }
 .cpm-projects .cpm-project .cpm-project-people {
-  height: 68px;
-  width: 99%;
-  left: 2px;
+  height: 50px;
+  width: 95%;
+  left: 10px;
   overflow: hidden;
   position: absolute;
-  top: 77%;
+  top: 79%;
 }
 .cpm-projects .cpm-project .cpm-project-people .cpm-scroll {
   white-space: nowrap;
@@ -817,8 +813,8 @@ ul.cpm-activity ul li:before {
 }
 .cpm-projects .cpm-project .cpm-action {
   position: absolute;
-  right: 1px;
-  top: 0;
+  right: 5px;
+  top: 5px;
 }
 .cpm-projects .cpm-project [class*="cpm-icons-"] {
   display: inline-block;

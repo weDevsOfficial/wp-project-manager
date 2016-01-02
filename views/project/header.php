@@ -17,13 +17,10 @@ if ( !$pro_obj->has_permission( $project ) ) {
     <div class="cpm-row    cpm-no-padding cpm-border-bottom "  >
         <div class="cpm-col-6 cpm-project-detail">
             <h2><?php echo get_the_title( $project_id ); ?>
-            <?php if ( cpm_user_can_access( $project_id ) ) { ?>
-                <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
-            <?php } ?>
-
+                <?php if ( cpm_user_can_access( $project_id ) ) { ?>
+                    <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
+                <?php } ?>
             </h2>
-            <?php echo cpm_get_content( $project->post_content ); ?>
-
 
             <div class="detail">
                 <?php echo cpm_get_content( $project->post_content ); ?>

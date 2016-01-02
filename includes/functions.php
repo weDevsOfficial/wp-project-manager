@@ -318,17 +318,14 @@ function cpm_show_message( $msg, $type = 'cpm-updated' ) {
  * Helper function to generate task list completeness progressbar
  *
  * @since 0.1
+ *
  * @param int $total
  * @param int $completed
+ *
  * @return string
  */
 function cpm_task_completeness( $total, $completed ) {
-    //skipping vision by zero problem
-    if ( $total < 1 ) {
-        return;
-    }
-
-    $percentage = (100 * $completed) / $total;
+    $percentage = ( $total > 0 ) ? (100 * $completed) / $total : 0;
 
     ob_start();
     ?>

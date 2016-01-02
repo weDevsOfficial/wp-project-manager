@@ -25,17 +25,19 @@
 /**SVG background image **/
 
 
-
-
 .cpm {
     background: @bodyColor;
     color: @defaultFontColor ;
     margin-top: 20px;
 
+    * {
+        box-sizing: border-box;
+    }
+
     /**
     * CPM default css classes
     */
-    .clearfix{
+    .clearfix {
         clear: both;
         height: 0px;
         font-size: 0px;
@@ -44,9 +46,7 @@
 
     a {
         outline: 0;
-        font-weight: bold;
         text-decoration: none;
-
     }
 
     a:active,
@@ -63,9 +63,7 @@
     }
 
     input {
-        border: 0px;
         padding: 5px;
-
     }
 
     .small-text {
@@ -73,7 +71,7 @@
     }
 
     .cpm-no-margin {
-        margin : 0px;
+        margin: 0px;
     }
 
     .cpm-no-padding {
@@ -330,47 +328,51 @@
 
 
     .notify-users {
-                .cpm-user-select-bar{
-                   background: ghostwhite;
-                   padding: 5px 10px;
-                   border-bottom: solid 1px @gray;
+        .cpm-user-select-bar {
+           background: ghostwhite;
+           padding: 5px 10px;
+           border-bottom: solid 1px @gray;
 
-                   .close{
-                        background :  url('../images/done.svg') no-repeat 0% 0% ;
-                        background-size: 10px;
-                        padding: 5px;
-                        cursor: pointer;
-                        padding-right: 0px;
-                        margin-right: -20px;
-                        margin-top: 5px;
-                   }
-                }
-                .cpm-user-list{
-                    display: none;
-                    border: solid 1px @blueColor;
-                    margin-top: -3px;
-                    .cpm-project-user-list{
-                        padding: 8px;
-                        li{
-                            float: left ;
-                            width:50% ;
-                            display: inline;
-                            //margin-right: 1% ;
-                            label{
-                                padding: 0px;
-                                margin: 0px;
-                            }
-                        }
+           .close{
+                background :  url('../images/done.svg') no-repeat 0% 0% ;
+                background-size: 10px;
+                padding: 5px;
+                cursor: pointer;
+                padding-right: 0px;
+                margin-right: -20px;
+                margin-top: 5px;
+           }
+        }
+
+        .cpm-user-list{
+            display: none;
+            border: solid 1px @blueColor;
+            margin-top: -3px;
+
+            .cpm-project-user-list{
+                padding: 8px;
+                li{
+                    float: left ;
+                    width:50% ;
+                    display: inline;
+                    //margin-right: 1% ;
+                    label{
+                        padding: 0px;
+                        margin: 0px;
                     }
                 }
             }
+        }
+    }
 
 
 
     .cpm-top-bar {
         background: #ffffff;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         padding-bottom: 0px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        border: 1px solid #e5e5e5;
 
         .cpm-priject-search-bar {
             border-bottom: solid 1px @gray ;
@@ -441,17 +443,23 @@
         .cpm-project-group   {
             padding: 0px;
             margin: 0px;
-            box-shadow: 0 2px 2px -2px gray;
+
+            ul.cpm-project-view {
+                margin-bottom: 0;
+            }
 
             ul.cpm-project-group-ul {
-                margin-bottom: 0px;
-                margin-left: 0px;
-                padding-bottom: 0px;
-                li {
+                margin: 0;
+                padding: 0;
 
+                li {
                     float: left;
                     margin-bottom: 0px;
                     margin-right: 0px;
+
+                    // &:first-child {
+                    //     padding-left: 20px;
+                    // }
 
                     a {
                         padding: 12px 20px 12px 40px;
@@ -461,11 +469,15 @@
                         text-decoration: none;
                         border-bottom: solid 2px #ffffff;
                         color: #aaa;
+                        background-size: 20px;
+                        background-position: 10% 50%;
+                        background-repeat: no-repeat;
+                        font-weight: normal;
 
                         span.count {
                             padding: 0px 6px;
                             position:relative;
-                            background:  @gray;
+                            background: @gray;
                             margin-top: -15px;
                             margin-left: 5px;
                             border-radius: 15px;
@@ -473,10 +485,11 @@
                         }
 
                     }
+
                     a:hover {
                         border-bottom: solid 2px  @blueColor ;
                         color: #000000;
-                        font-weight: bold;
+
                         span {
                             border-bottom: none;
                         }
@@ -487,56 +500,53 @@
                         }
                     }
                 }
-                .active a ,
+
+                .active a,
                 a:hover {
-                    border-bottom: solid 2px  @blueColor ;
+                    border-bottom: solid 2px @blueColor ;
                     color: #000000;
-                    font-weight: bold;
 
                     span.count {
-                        background:  @blueColor;
+                        background: @blueColor;
                         color: #ffffff ;
                     }
                 }
 
-
                 a.cpm-all-project {
-                    background: url('../images/all.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/all.svg');
+                    padding-left: 55px;
+                    background-position: 35% 50%;
                 }
+
                 .active .cpm-all-project,
                 a.cpm-all-project:hover {
-                    background: url('../images/all_hover.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/all_hover.svg');
                 }
-
 
                 a.cpm-active-project {
-                    background: url('../images/active_projects.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/active_projects.svg');
                 }
+
                 .active .cpm-active-project,
                 a.cpm-active-project:hover {
-                    background: url('../images/active_projects_hover.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/active_projects_hover.svg');
                 }
+
                 a.cpm-archive-project {
-                    background: url('../images/completed.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/completed.svg');
                 }
+
                 .active .cpm-archive-project,
                 a.cpm-archive-project:hover {
-                    background: url('../images/completed_hover.svg') no-repeat 10% 50%;
-                    background-size: 20px;
+                    background-image: url('../images/completed_hover.svg');
                 }
-
-
-
             }
+
             .cpm-col-5 {
                 padding : 0px;
                 margin:  0px;
             }
+
             ul.cpm-project-view {
 
                 li {
@@ -566,22 +576,21 @@
     .cpm-project-grid {
         margin: 0px ;
         padding: 0px;
-
         margin-right: 0px;
         padding-right: 0px;
+
         .cpm-project {
-            .cpm-col-4 ;
+            .cpm-col-4;
             margin: 0 1.5% 1.75% 0 ;
             margin-left: 0px;
             padding: 0px;
             float: left;
-            box-shadow: none;
             height: 300px;
 
             .project_head {
                 background: #ffffff ;
-                padding: 12px 20px;
-                border-bottom: #ccc solid 1px;
+                padding: 15px;
+                border-bottom: 1px #eee solid;
                 min-height: 55px;
                 color: #000 ;
             }
@@ -589,16 +598,13 @@
             .project_head:hover {
                 background: @blueColor ;
                 text-decoration: none;
+
                 h5,
                 .cpm-settings-icon-cog span,
                 .cpm-project-detail {
                     color: #ffffff;
                 }
 
-            }
-
-            .cpm-project-detail {
-                font-size: @defaultFontSize;
             }
 
             .cpm-project-meta {
@@ -620,10 +626,6 @@
                         color: #888888;
                         line-height: 35px;
                     }
-
-
-
-
                 }
             }
 
@@ -641,7 +643,7 @@
                 border-radius: 0px;
 
                 .completed {
-                    ackground-color:@blueColor;
+                    background-color:@blueColor;
                     background-image: linear-gradient(to bottom, @blueColor, @blueColor);
                 }
             }
@@ -654,12 +656,9 @@
             .cpm-project-action-list-view {
                 display: none;
             }
-
-
         }
 
-        .cpm-last-col
-        {
+        .cpm-last-col{
             margin-right: 0px;
             float: right;
             margin-left: 0px;
@@ -696,27 +695,33 @@
 
     }
 
-    .cpm-project-list
-    {
+    .cpm-project-list {
         margin: 0px ;
         padding: 0px;
 
         .cpm-project {
-            margin: @defaultGridPadding/2  @defaultGridPadding   @defaultGridPadding/1.5   0px ;
-            margin-left: 0px;
+            // margin: @defaultGridPadding/2 @defaultGridPadding 0 0px ;
+            margin: 0;
             padding: 0px;
             width: 100% ;
             float: left;
             box-shadow: none;
-            height: 120px;
+            height: 89px;
+
+            &:not(:first-child) {
+                border-top: none;
+            }
+
+            &:first-child {
+                margin-top: 0;
+            }
 
             .project_head {
                 background: #ffffff ;
                 padding: 12px 20px;
-                min-height: 55px;
+                min-height: 87px;
                 color: #000 ;
-                height: 96px;
-                width : 20%;
+                width : 30%;
                 float: left;
                 margin-right: 10px;
             }
@@ -724,12 +729,12 @@
             .project_head:hover {
                 background: @blueColor ;
                 text-decoration: none;
+
                 h5,
                 .cpm-settings-icon-cog span,
                 .cpm-project-detail {
                     color: #ffffff;
                 }
-
             }
 
             .cpm-project-detail {
@@ -742,19 +747,17 @@
                 float: left;
 
                 ul {
-                    padding: 0px;
+                    padding: 10px 0 0 0;
                     margin: 0px;
-                    margin-left: 0px;
-                    margin-bottom: 5px;
 
                     li {
                         float: left;
                         width: 40% ;
                         list-style: none;
-                        padding-left:  20px;
-                        font-size: @defaultFontSize;
+                        padding-left: 20px;
+                        font-size: 12px;
                         color: #888888;
-                        line-height: 35px;
+                        line-height: 150%;
                     }
                 }
             }
@@ -762,11 +765,11 @@
             .cpm-progress {
                 position:relative ;
                 float: left;
-                top: 55px;
+                top: 40px;
                 height: 6px;
-                width: 15%;
+                width: 12%;
                 border-radius: 0px;
-                margin: 0px 0px 0px 0px;
+                margin: 0;
                 background-color:red;
                 background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
                 background-repeat: repeat-x;
@@ -783,27 +786,28 @@
             .cpm-progress-percentage {
                 position:relative ;
                 float: left;
-                top: 48px;
+                top: 32px;
                 margin-left: 5px;
                 width: 3%;
+                color: #aaa;
+                font-size: 11px;
             }
 
             .cpm-project-people {
                 position: relative;
                 float: left;
-                width: 20%;
+                width: 20.5%;
                 text-align: center;
-                top : 15px;
+                top : 28px;
+                margin-right: 20px;
 
+                img.avatar {
+                    height: 32px;
+                    width: 32px;
+                }
             }
-
-
-
-
         }
     }
-
-
 
     /**
     * Project Header part
@@ -970,18 +974,17 @@
 
                 li {
                     float: left;
-                    background: none;
                     list-style: none;
                     margin: 0px;
                     margin-right: 10px;
-                    border : solid 1px #E5E5E5;
-                    padding: 25px 5px;
+                    border: solid 1px #E5E5E5;
+                    padding: 20px 10px;
                     text-align: center;
                     background: #ffffff;
-                    width : 13.9999%;
-                    margin-bottom: 15px;
-
+                    width: 13.9999%;
+                    margin-bottom: 20px;
                     clear: right;
+
                     div {
                         float : left;
                     }
@@ -991,7 +994,7 @@
                         width: 20%;
                         border-radius: 50%;
                         color: #ffffff;
-                        margin-right: 5%;
+                        margin-right: 8%;
                         height: 18px;
                     }
 
@@ -1039,44 +1042,59 @@
 
         .cpm-chart {
             background: #ffffff;
-            padding: 10px 30px 40px;
-            margin-top: 20px;
+            padding: 0;
+            margin-top: 0;
             margin-right: 20px;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+            border: 1px solid #e5e5e5;
 
-            .cpm-text-right {
-                .to-do {
+            h3 {
+                font-size: 14px;
+                line-height: 1.4;
+                border-bottom: 1px solid #eee;
+                padding: 8px 12px;
+                margin: 0;
+            }
+
+            .inside {
+                padding: 15px;
+            }
+
+            .cpm-chart-legend {
+                font-size: 12px;
+                margin-bottom: 10px;
+
+                span::before {
+                    content: '';
+                    padding: 0px 10px;
+                    margin: 0px 5px 15px;
+                }
+
+                .to-do::before {
                     background: #79C7DE;
-                    padding: 0px 10px;
-                    margin: 0px 5px 15px;
                 }
 
-                .activity {
+                .activity::before {
                     background: #B972B6;
-                    padding: 0px 10px;
-                    margin: 0px 5px 15px;
                 }
+            }
 
-                select {
-                    margin: 5px 25px;
-                }
-
-
-                canvas {
-
-                }
+            canvas {
+                max-width: 100%;
             }
         }
         .cpm-right-part {
-
             background: #ffffff  ;
             width : 17.1745852858%;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+            border: 1px solid #e5e5e5;
 
             h3 {
-
                 margin: 0px;
-                padding : 5px 10px;
+                padding: 8px 12px;
                 margin-bottom: 15px;
-                font-size: @defaultFontSize+4px;
+                font-size: @defaultFontSize + 1px;
+                line-height: 1.4;
             }
 
             .user_list {
@@ -1084,16 +1102,19 @@
 
 
                 li {
-                    margin-bottom: 30px;
+                    margin-bottom: 15px;
                     clear: left;
+
                     img {
                         border-radius: 50px;
                         float: left;
                         margin-right: 10px;
                     }
+
                     span {
+                        display: block;
                         font-size: small;
-                        color:@gray;
+                        color: #bbb;
                     }
                 }
             }
@@ -1168,15 +1189,14 @@
 
             header {
                 border: solid 1px @gray;
-                padding: 25px 25px 3px 25px;
+                padding: 8px 12px;
                 margin-bottom: 10px;
-                background : #f8f9f0 ;
+                background : #fff;
 
                 .cpm-right {
                     text-align : right ;
 
                     a {
-
                         float: none;
                         padding: 0px;
                     }
@@ -1185,7 +1205,6 @@
                         background :  url('../images/move.svg') no-repeat 50% 0% ;
                         padding: 10px;
                         background-size: 20px;
-
                     }
 
                     .cpm-icon-edit {
@@ -1214,14 +1233,17 @@
                     border-bottom: solid 1px @gray;
                     padding: 0px 8px 0px 30px;
                     background: #ffffff;
+
                     a {
                         color: @blueColor ;
                     }
+
                     div {
                         margin-bottom: 0px;
                         padding-bottom: 0px;
                         padding-top: 2px;
                     }
+
                     .cpm-todo-content {
                         .cpm-comment-count {
                             background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;

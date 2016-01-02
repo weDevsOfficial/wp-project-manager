@@ -45,6 +45,9 @@
     *
     **/
 }
+.cpm * {
+  box-sizing: border-box;
+}
 .cpm .clearfix {
   clear: both;
   height: 0px;
@@ -52,7 +55,6 @@
 }
 .cpm a {
   outline: 0;
-  font-weight: bold;
   text-decoration: none;
 }
 .cpm a:active,
@@ -64,7 +66,6 @@
   -moz-outline-style: none;
 }
 .cpm input {
-  border: 0px;
   padding: 5px;
 }
 .cpm .small-text {
@@ -276,8 +277,10 @@
 }
 .cpm .cpm-top-bar {
   background: #ffffff;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   padding-bottom: 0px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
 }
 .cpm .cpm-top-bar .cpm-priject-search-bar {
   border-bottom: solid 1px #eeeeee;
@@ -344,12 +347,13 @@
 .cpm .cpm-top-bar .cpm-project-group {
   padding: 0px;
   margin: 0px;
-  box-shadow: 0 2px 2px -2px #808080;
+}
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view {
+  margin-bottom: 0;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul {
-  margin-bottom: 0px;
-  margin-left: 0px;
-  padding-bottom: 0px;
+  margin: 0;
+  padding: 0;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li {
   float: left;
@@ -364,6 +368,10 @@
   text-decoration: none;
   border-bottom: solid 2px #ffffff;
   color: #aaa;
+  background-size: 20px;
+  background-position: 10% 50%;
+  background-repeat: no-repeat;
+  font-weight: normal;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
   padding: 0px 6px;
@@ -377,7 +385,6 @@
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a:hover {
   border-bottom: solid 2px #019dd6;
   color: #000000;
-  font-weight: bold;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a:hover span {
   border-bottom: none;
@@ -390,7 +397,6 @@
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover {
   border-bottom: solid 2px #019dd6;
   color: #000000;
-  font-weight: bold;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active a span.count,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a:hover span.count {
@@ -398,31 +404,27 @@
   color: #ffffff ;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project {
-  background: url('../images/all.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/all.svg');
+  padding-left: 55px;
+  background-position: 35% 50%;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-all-project,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-all-project:hover {
-  background: url('../images/all_hover.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/all_hover.svg');
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project {
-  background: url('../images/active_projects.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/active_projects.svg');
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-active-project,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-active-project:hover {
-  background: url('../images/active_projects_hover.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/active_projects_hover.svg');
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project {
-  background: url('../images/completed.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/completed.svg');
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul .active .cpm-archive-project,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul a.cpm-archive-project:hover {
-  background: url('../images/completed_hover.svg') no-repeat 10% 50%;
-  background-size: 20px;
+  background-image: url('../images/completed_hover.svg');
 }
 .cpm .cpm-top-bar .cpm-project-group .cpm-col-5 {
   padding: 0px;
@@ -453,13 +455,12 @@
   margin-left: 0px;
   padding: 0px;
   float: left;
-  box-shadow: none;
   height: 300px;
 }
 .cpm .cpm-project-grid .cpm-project .project_head {
   background: #ffffff ;
-  padding: 12px 20px;
-  border-bottom: #ccc solid 1px;
+  padding: 15px;
+  border-bottom: 1px #eee solid;
   min-height: 55px;
   color: #000 ;
 }
@@ -471,9 +472,6 @@
 .cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-settings-icon-cog span,
 .cpm .cpm-project-grid .cpm-project .project_head:hover .cpm-project-detail {
   color: #ffffff;
-}
-.cpm .cpm-project-grid .cpm-project .cpm-project-detail {
-  font-size: 13px;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-project-meta {
   padding: 10px;
@@ -506,7 +504,7 @@
   border-radius: 0px;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-progress .completed {
-  ackground-color: #019dd6;
+  background-color: #019dd6;
   background-image: linear-gradient(to bottom, #019dd6, #019dd6);
 }
 .cpm .cpm-project-grid .cpm-project .cpm-project-people {
@@ -544,21 +542,25 @@
   padding: 0px;
 }
 .cpm .cpm-project-list .cpm-project {
-  margin: 12.5px 25px 16.66666667px 0px;
-  margin-left: 0px;
+  margin: 0;
   padding: 0px;
   width: 100% ;
   float: left;
   box-shadow: none;
-  height: 120px;
+  height: 89px;
+}
+.cpm .cpm-project-list .cpm-project:not(:first-child) {
+  border-top: none;
+}
+.cpm .cpm-project-list .cpm-project:first-child {
+  margin-top: 0;
 }
 .cpm .cpm-project-list .cpm-project .project_head {
   background: #ffffff ;
   padding: 12px 20px;
-  min-height: 55px;
+  min-height: 87px;
   color: #000 ;
-  height: 96px;
-  width: 20%;
+  width: 30%;
   float: left;
   margin-right: 10px;
 }
@@ -580,27 +582,25 @@
   float: left;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-meta ul {
-  padding: 0px;
+  padding: 10px 0 0 0;
   margin: 0px;
-  margin-left: 0px;
-  margin-bottom: 5px;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-meta ul li {
   float: left;
   width: 40% ;
   list-style: none;
   padding-left: 20px;
-  font-size: 13px;
+  font-size: 12px;
   color: #888888;
-  line-height: 35px;
+  line-height: 150%;
 }
 .cpm .cpm-project-list .cpm-project .cpm-progress {
   position: relative ;
   float: left;
-  top: 55px;
+  top: 40px;
   height: 6px;
-  width: 15%;
-  margin: 0px 0px 0px 0px;
+  width: 12%;
+  margin: 0;
   background-color: red;
   background-image: linear-gradient(to bottom, #dae5e8, #dae5e8);
   background-repeat: repeat-x;
@@ -614,16 +614,23 @@
 .cpm .cpm-project-list .cpm-project .cpm-progress-percentage {
   position: relative ;
   float: left;
-  top: 48px;
+  top: 32px;
   margin-left: 5px;
   width: 3%;
+  color: #aaa;
+  font-size: 11px;
 }
 .cpm .cpm-project-list .cpm-project .cpm-project-people {
   position: relative;
   float: left;
-  width: 20%;
+  width: 20.5%;
   text-align: center;
-  top: 15px;
+  top: 28px;
+  margin-right: 20px;
+}
+.cpm .cpm-project-list .cpm-project .cpm-project-people img.avatar {
+  height: 32px;
+  width: 32px;
 }
 .cpm .cpm-border-bottom {
   border-bottom: solid 1px #eeeeee;
@@ -758,16 +765,15 @@
 }
 .cpm .project-overview .overview-menu ul li {
   float: left;
-  background: none;
   list-style: none;
   margin: 0px;
   margin-right: 10px;
   border: solid 1px #E5E5E5;
-  padding: 25px 5px;
+  padding: 20px 10px;
   text-align: center;
   background: #ffffff;
   width: 13.9999%;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   clear: right;
 }
 .cpm .project-overview .overview-menu ul li div {
@@ -778,7 +784,7 @@
   width: 20%;
   border-radius: 50%;
   color: #ffffff;
-  margin-right: 5%;
+  margin-right: 8%;
   height: 18px;
 }
 .cpm .project-overview .overview-menu ul li .count {
@@ -815,38 +821,58 @@
 }
 .cpm .project-overview .cpm-chart {
   background: #ffffff;
-  padding: 10px 30px 40px;
-  margin-top: 20px;
+  padding: 0;
+  margin-top: 0;
   margin-right: 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
 }
-.cpm .project-overview .cpm-chart .cpm-text-right .to-do {
+.cpm .project-overview .cpm-chart h3 {
+  font-size: 14px;
+  line-height: 1.4;
+  border-bottom: 1px solid #eee;
+  padding: 8px 12px;
+  margin: 0;
+}
+.cpm .project-overview .cpm-chart .inside {
+  padding: 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-chart-legend {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.cpm .project-overview .cpm-chart .cpm-chart-legend span::before {
+  content: '';
+  padding: 0px 10px;
+  margin: 0px 5px 15px;
+}
+.cpm .project-overview .cpm-chart .cpm-chart-legend .to-do::before {
   background: #79C7DE;
-  padding: 0px 10px;
-  margin: 0px 5px 15px;
 }
-.cpm .project-overview .cpm-chart .cpm-text-right .activity {
+.cpm .project-overview .cpm-chart .cpm-chart-legend .activity::before {
   background: #B972B6;
-  padding: 0px 10px;
-  margin: 0px 5px 15px;
 }
-.cpm .project-overview .cpm-chart .cpm-text-right select {
-  margin: 5px 25px;
+.cpm .project-overview .cpm-chart canvas {
+  max-width: 100%;
 }
 .cpm .project-overview .cpm-right-part {
   background: #ffffff  ;
   width: 17.1745852858%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
 }
 .cpm .project-overview .cpm-right-part h3 {
   margin: 0px;
-  padding: 5px 10px;
+  padding: 8px 12px;
   margin-bottom: 15px;
-  font-size: 17px;
+  font-size: 14px;
+  line-height: 1.4;
 }
 .cpm .project-overview .cpm-right-part .user_list {
   margin-left: 10px;
 }
 .cpm .project-overview .cpm-right-part .user_list li {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   clear: left;
 }
 .cpm .project-overview .cpm-right-part .user_list li img {
@@ -855,8 +881,9 @@
   margin-right: 10px;
 }
 .cpm .project-overview .cpm-right-part .user_list li span {
+  display: block;
   font-size: small;
-  color: #eeeeee;
+  color: #bbb;
 }
 .cpm .cpm-activity-list {
   padding: 0px;
@@ -913,9 +940,9 @@
 }
 .cpm .cpm-todolists .cpm-todolist header {
   border: solid 1px #eeeeee;
-  padding: 25px 25px 3px 25px;
+  padding: 8px 12px;
   margin-bottom: 10px;
-  background: #f8f9f0 ;
+  background: #fff;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right {
   text-align: right ;

@@ -12,16 +12,16 @@ $from_day   = date('Y-m-d', strtotime( '-30 days', strtotime($today) ));
 $chart_data = $pro_obj->get_chart_data ( $project_id, $today, $from_day );
 
 foreach ( $chart_data['date_list'] as $key => $value ) {
-	if( isset($chart_data['todos'][$key]) ) $ctd = $chart_data['todos'][$key] ;
-	else $ctd = 0 ;
+	$ctd = isset($chart_data['todos'][$key]) ? $chart_data['todos'][$key] : 0;
+
 	$str_date[]     =  '"'.$key.'"';
 	$str_activity[] =  '"'.$value.'"';
 	$str_todo[]     = '"'.$ctd.'"';
 }
 
-$str_date = implode( $str_date, ',' );
+$str_date     = implode( $str_date, ',' );
 $str_activity = implode( $str_activity, ',' );
-$str_todo = implode( $str_todo, ',' );
+$str_todo     = implode( $str_todo, ',' );
 ?>
 <div class="project-overview">
 	<div class="cpm-col-10 cpm-sm-col-12">
@@ -33,15 +33,16 @@ $str_todo = implode( $str_todo, ',' );
 	     </div>
 	    <div id="cpm-chart" class="cpm-chart">
 
-	    	<h3 class="cpm-col-6 cpm-sm-col-12"><?php _e( 'Statistics', 'cpm' ); ?></h3>
+	    	<h3><?php _e( 'Statistics', 'cpm' ); ?></h3>
 
-			<div class="cpm-col-6 cpm-sm-col-6 cpm-text-right">
-			<scpan class="to-do"></scpan> To-Do <span class="activity"></span> <?php  _e( 'Activity', 'cpm' ) ;   ?>
+	    	<div class="inside">
+				<div class="cpm-chart-legend cpm-text-right">
+					<span class="to-do"><?php _e( 'To-do', 'cpm' ); ?></span> <span class="activity"><?php _e( 'Activity', 'cpm' ); ?></span>
+				</div>
 
-			</div>
-			<div class="clearfix"></div>
-	    	<div class="cpm-row"> <canvas width="1000" height="400" ></canvas> </div>
-
+				<div class="clearfix"></div>
+		    	<canvas width="1000" height="400"></canvas>
+			</div><!-- .inside -->
 	    </div>
 	</div>
 
@@ -51,7 +52,7 @@ $str_todo = implode( $str_todo, ',' );
 			<?php
 	         	if ( count( $project->users ) ) {
 	              	foreach ($project->users as $id => $user_meta) {
-	         			echo "<li> ". get_avatar( $id, 34, '', $user_meta['name'] ) .$user_meta['name'] . "<br /><span>" . $user_meta['role'] ." </span> </li>";
+	         			echo "<li>". get_avatar( $id, 34, '', $user_meta['name'] ) .$user_meta['name'] . "<span>" . ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) . "</span></li>";
 	           		}
 	           }
 	        ?>

@@ -736,8 +736,8 @@ ul.cpm-activity {
 
     .cpm-project {
         background: #fff;
-        .border-radius(3px);
-        .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+        box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        border: 1px solid #e5e5e5;
         width: 210px;
         height: 235px;
         position: relative;
@@ -750,8 +750,8 @@ ul.cpm-activity {
         }
 
         h5 {
-            font-size: 19px;
-            margin: 0 0 3px;
+            font-size: 16px;
+            margin: 0;
             word-wrap: break-word;
             color: #000;
         }
@@ -792,10 +792,10 @@ ul.cpm-activity {
         }
 
         .cpm-project-detail, .cpm-project-meta {
-            color: #AA9C84;
+            color: #aaa;
             word-wrap: break-word;
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: normal;
         }
 
         .cpm-project-meta {
@@ -803,12 +803,12 @@ ul.cpm-activity {
         }
 
         .cpm-project-people {
-            height: 68px;
-            width: 99%;
-            left: 2px;
+            height: 50px;
+            width: 95%;
+            left: 10px;
             overflow: hidden;
             position: absolute;
-            top: 77%;
+            top: 79%;
 
             .cpm-scroll {
                 white-space: nowrap;
@@ -869,9 +869,10 @@ ul.cpm-activity {
         }
         .cpm-action {
             position: absolute;
-            right: 1px;
-            top: 0;
+            right: 5px;
+            top: 5px;
         }
+
         [class*="cpm-icons-"] {
             display: inline-block;
             width: 16px;
