@@ -133,7 +133,7 @@ class CPM_Task {
                 do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
             }
         }
-       
+
 
         return $list_id;
     }
@@ -161,6 +161,7 @@ class CPM_Task {
         $task_privacy = isset( $postdata['task_privacy'] ) ? $postdata['task_privacy'] : 'no';
         $is_update    = $task_id ? true : false;
 
+        $task_title   = trim( $postdata['task_title'] );
         $content      = trim( $postdata['task_text'] );
         $assigned     = isset( $postdata['task_assign'] ) ? $postdata['task_assign'] : array( '-1' );
         $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
@@ -168,7 +169,7 @@ class CPM_Task {
 
         $data = array(
             'post_parent'  => $list_id,
-            'post_title'   => trim( substr( $content, 0, 40 ) ), //first 40 character
+            'post_title'   => $task_title,
             'post_content' => $content,
             'post_type'    => 'task',
             'post_status'  => 'publish'
@@ -218,7 +219,7 @@ class CPM_Task {
                 do_action( 'cpm_task_new', $list_id, $task_id, $data );
             }
         }
-       
+
         return $task_id;
     }
 

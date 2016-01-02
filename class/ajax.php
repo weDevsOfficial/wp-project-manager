@@ -502,22 +502,22 @@ class CPM_Ajax {
     }
 
     function add_new_task() {
-        $posted = $_POST;
+        $posted     = $_POST;
 
-        $list_id = $posted['list_id'];
+        $list_id    = $posted['list_id'];
         $project_id = $posted['project_id'];
 
-        $task_obj = CPM_Task::getInstance();
-        $task_id = $task_obj->add_task( $posted['list_id'], $posted );
-        $task = $task_obj->get_task( $task_id );
-        $complete = $task_obj->get_completeness( $list_id, $project_id );
-        $single = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
+        $task_obj   = CPM_Task::getInstance();
+        $task_id    = $task_obj->add_task( $posted['list_id'], $posted );
+        $task       = $task_obj->get_task( $task_id );
+        $complete   = $task_obj->get_completeness( $list_id, $project_id );
+        $single     = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
 
         if ( $task_id ) {
             $response = array(
-                'success' => true,
-                'id' => $task_id,
-                'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
+                'success'  => true,
+                'id'       => $task_id,
+                'content'  => cpm_task_html( $task, $project_id, $list_id, $single ),
                 'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
             );
         } else {

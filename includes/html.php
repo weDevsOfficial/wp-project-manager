@@ -52,18 +52,19 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <div class="cpm-col-4">
                         <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
                         <?php if ( $single ) { ?>
-                            <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
+                            <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
                             <span class="<?php echo $private_class; ?>"></span>
+                            <div class="cpm-todo-details"><?php echo $task->post_content; ?></div>
                         <?php } else {
                             if ( $title_link_status ) {
                                 ?>
                                 <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                                    <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
+                                    <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
                                     <span class="<?php echo $private_class; ?>"></span>
                                 </a>
                                 <?php
                             } else {?>
-                                <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
+                                <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
                                 <span class="<?php echo $private_class; ?>"></span>
                         <?php } } ?>
 
@@ -72,9 +73,9 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <div class="cpm-col-1 cpm-comment-count">
                     <?php if ( !$single ) { ?>
 
-                            <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                                <?php  echo $task->comment_count  ; ?>
-                            </a>
+                        <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
+                            <?php  echo $task->comment_count  ; ?>
+                        </a>
 
                     <?php } ?>
                 </div>
@@ -95,9 +96,8 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     if ( $task->completed != '1' ) {
 
                         if ( reset( $task->assigned_to ) != '-1' ) {
-                             echo get_avatar( $task->assigned_to, 32, '', '' ) ;
-                             $u = cpm_assigned_user( $task->assigned_to );
-
+                            echo get_avatar( $task->assigned_to, 32, '', '' ) ;
+                            $u = cpm_assigned_user( $task->assigned_to );
                         }
 
                         if( $start_date != '' || $task->due_date != '' ) {
@@ -125,7 +125,8 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <div class="cpm-col-3">
                 <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
                 </div>
-            <div class="cpm-col-1 cpm-todo-action-right"  ><a class="move"></a>
+
+                <div class="cpm-col-1 cpm-todo-action-right"><a class="move"></a>
                     <?php if ( $can_manage ) { ?>
                         <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>></a>
                         <?php if ( $task->completed != '1' ) { ?>
@@ -166,13 +167,14 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
  */
 function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false ) {
     $action        = 'cpm_task_add';
-    $task_content  = $task_due = $task_start = '';
+    $task_title    = $task_content  = $task_due = $task_start = '';
     $assigned_to   = '-1';
     $submit_button = __( 'Add this to-do', 'cpm' );
 
     //for update form
     if ( !is_null( $task ) ) {
         $action        = 'cpm_task_update';
+        $task_title    = $task->post_title;
         $task_content  = $task->post_content;
         $assigned_to   = $task->assigned_to;
         $submit_button = __( 'Save Changes', 'cpm' );
@@ -181,12 +183,10 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
             $task_due = date( 'm/d/Y', strtotime( $task->due_date ) );
         }
 
-        if( $task->start_date != '' ) {
+        if ( $task->start_date != '' ) {
             $task_start = date( 'm/d/Y', strtotime( $task->start_date ) );
         }
-
     }
-
     ?>
 
     <form action="" method="post" class="cpm-task-form">
@@ -200,12 +200,16 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
             <input type="hidden" name="task_id" value="<?php echo $task->ID; ?>">
         <?php } ?>
 
+        <div class="item task-title">
+            <input type="text" name="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
+        </div>
+
         <div class="item content">
-            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ) ?>" rows="1"><?php echo esc_textarea( $task_content ); ?></textarea>
+            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"><?php echo esc_textarea( $task_content ); ?></textarea>
         </div>
 
         <div class="item date">
-            <?php if(cpm_get_option( 'task_start_field' ) == 'on') { ?>
+            <?php if (cpm_get_option( 'task_start_field' ) == 'on') { ?>
                 <div class="cpm-task-start-field">
                     <label><?php _e('Start date', 'cpm'); ?></label>
                     <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
