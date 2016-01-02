@@ -19,7 +19,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 
 <ul class="cpm-todolists">
     <?php if ( $list ) { ?>
-        <li id="cpm-list-<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id ); ?></li>
+        <li id="cpm-list-<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id, true ); ?></li>
     <?php } ?>
 </ul>
 
@@ -27,7 +27,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
 
 <ul class="cpm-comment-wrap">
     <?php
-    
+
     $comments = $task_obj->get_comments( $tasklist_id );
     if ( $comments ) {
 

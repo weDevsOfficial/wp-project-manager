@@ -85,7 +85,7 @@
             $('body').on('click', 'a.delete-message', this.Message.remove);
 
             /* =============== Uploder ============ */
-            //  $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+           $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
 
         },
         tinymceInit: function(id) {
@@ -391,7 +391,7 @@
                             .next('.cpm-milestone-edit-form').html(res.content).fadeIn();
                         $('.datepicker').datepicker();
                         //console.log($('#cpm-milestone-editor-'+res.id) );
-                        weDevs_CPM.tinymceInit('cpm-milestone-editor-' + res.id);
+
                     }
                 });
             },
@@ -479,16 +479,18 @@
                 btn.attr('disabled', true);
                 spnier.show();
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
-
                     btn.attr('disabled', false);
                     spnier.hide();
                     res = JSON.parse(res);
                     if (res.success) {
                         $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
-                        $('.cpm-comment-form textarea, .cpm-comment-form input[type=checkbox]').val('');
-                        $('.cpm-comment-form .cpm-upload-filelist').html('');
+                        $('.cpm-comment-form-wrap textarea').val('');
+                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
+                        $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
+                        $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
                     $('.cpm-colorbox-img').prettyPhoto();
+
                 });
             },
             get: function(e) {
@@ -511,7 +513,7 @@
                         parent.find('.cpm-comment-edit-form').hide().html(res.form).fadeIn();
                         //re-initialize the uploader
                         new CPM_Uploader('cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id);
-                        
+
                     }
                 });
             },
@@ -545,8 +547,11 @@
                     spnier.hide();
                     res = $.parseJSON(res);
                     if (res.success) {
-                        container.find('.cpm-comment-content').html(res.content).fadeIn();
-                        form.parent().remove();
+                        $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
+                        $('.cpm-comment-form-wrap textarea').val('');
+                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
+                        $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
+                        $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
                     $('.cpm-colorbox-img').prettyPhoto();
                 });
@@ -616,10 +621,17 @@
                             res = $.parseJSON(res);
                             if (res.success) {
                                 var did = res.id;
-
+                                 window.location.reload();
+                                 /*
                                 $("#cpm-signle-message").html(res.content);
                                 $('#cpm-signle-message').show();
                                 location.hash = "#" + res.id;
+
+                                $('.cpm-new-message-form').fadeOut('slow');
+                                $('.cpm-new-message-form input[type=text], .cpm-new-message-form input[type=checkbox]').val('');
+                                $('.cpm-new-message-form .cpm-upload-filelist').html('');
+                                $('trix-editor div').html('');
+                                */
                             }
                             $('.cpm-colorbox-img').prettyPhoto();
                             spnier.hide();
@@ -686,14 +698,15 @@
                     res = $.parseJSON(res);
                     if (res.success) {
                         var did = res.id;
-
                         $("#cpm-signle-message").html(res.content);
                         $('#cpm-signle-message').show();
                         location.hash = "#" + res.id;
                     }
                     $('.cpm-colorbox-img').prettyPhoto();
                     $('.cpm-loading').remove();
+                     new CPM_Uploader('cpm-upload-pickfiles-cm', 'cpm-upload-container-cm');
                 });
+
             },
             get: function(e) {
                 e.preventDefault();
@@ -931,4 +944,6 @@
             $(this).closest('tr').remove();
         });
     });
+     new CPM_Uploader('cpm-upload-pickfiles-nd', 'cpm-upload-container-nd');
+     new CPM_Uploader('cpm-upload-pickfiles-cm', 'cpm-upload-container-cm');
 })(jQuery);

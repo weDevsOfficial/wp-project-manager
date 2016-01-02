@@ -31,7 +31,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
             </div>
         </div>
 
-        <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">
+        <div class="cpm-col-6 cpm-last-col  cpm-top-right-btn cpm-text-right  show_desktop_only">
               <?php do_action( 'cpm_inside_project_filter', $project ); ?>
         </div>
         <div class="clearfix"></div>
@@ -57,7 +57,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
     </div>
 
     <div class="cpm-row cpm-project-group  "    >
-        <ul class="list-inline   "  >
+        <ul class="list-inline"  >
 
             <?php  echo $pro_obj->nav_menu( $project_id, $cpm_active_menu ); ?>
 

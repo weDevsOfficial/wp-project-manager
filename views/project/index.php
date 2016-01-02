@@ -30,12 +30,6 @@ if ( $dpv !== false ) {
         </div>
 
         <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">
-                <a href="#" class="cpm-btn-blue">
-                    <span class="dashicons dashicons-image-rotate"></span>
-                </a>
-                <a href="#" class="cpm-btn-white">
-                Dashbord
-                </a>
 
         </div>
         <div class="clearfix"></div>

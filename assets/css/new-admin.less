@@ -6,10 +6,10 @@
 
 @bodyColor: #f1f1f1 ;
 @blueColor : #019dd6 ;
-@gray  : #cccccc;
+@gray  : #eee;
 @round : 10px;
 @defaultRadius:30px;
-@defaultFontSize : 14px;
+@defaultFontSize : 13px;
 @defaultFontColor : #848484;
 
 @cercle:180px ;
@@ -370,7 +370,6 @@
     .cpm-top-bar {
         background: #ffffff;
         margin-bottom: 25px;
-        padding-top : 10px;
         padding-bottom: 0px;
 
         .cpm-priject-search-bar {
@@ -386,10 +385,16 @@
 
 
 
+
         .cpm-top-right-btn {
             margin-top:12px;
-
-
+            padding-left: 10px;
+            input{
+              /*  _m1992
+              10777
+                585*/
+              margin-right: 20px;
+            }
             .cpm-btn-blue {
                 .cercale-corners;
                 padding: 6px 2px 3px 2px;
@@ -432,7 +437,6 @@
         .cpm-project-search input{
             float: left;
             width: 45%;
-            margin-right: 10px;
         }
         .cpm-project-group   {
             padding: 0px;
@@ -441,13 +445,14 @@
 
             ul.cpm-project-group-ul {
                 margin-bottom: 0px;
-                margin-left: 15px;
+                margin-left: 0px;
                 padding-bottom: 0px;
                 li {
-                    border: none;
+
                     float: left;
                     margin-bottom: 0px;
-                    margin-right: 15px;
+                    margin-right: 0px;
+
                     a {
                         padding: 12px 20px 12px 40px;
                         min-width: 50px;
@@ -569,7 +574,6 @@
             margin: 0 1.5% 1.75% 0 ;
             margin-left: 0px;
             padding: 0px;
-
             float: left;
             box-shadow: none;
             height: 300px;
@@ -611,7 +615,6 @@
                         float: left;
                         width: 41% ;
                         list-style: none;
-
                         padding-left:  25px;
                         font-size: @defaultFontSize;
                         color: #888888;
@@ -812,28 +815,29 @@
     }
 
     .cpm-project-header {
-
+        padding : 0px;
         ul {
-            margin-bottom: 0px;
-            margin-left: 15px;
+            margin: 0px;
+            margin-left: 0px;
             padding-bottom: 0px;
+
             li {
                 border: none;
                 float: left;
+                padding : 0px;
+                margin-top: 10px;
                 margin-bottom: 0px;
                 margin-right: 5px;
                 a {
-                    padding: 6px 30px 6px 55px;
-                    min-width: 30px;
+                    padding: 6px 5px 6px 40px;
+                    margin-top: 0px;
                     display: block;
                     text-decoration: none;
                     border-bottom: solid 2px #ffffff;
                     color: #aaa;
                     min-height: 42px;
-                    background-size: 24px 20px;
-
-
-                    margin-right: 30px;
+                    background-size: 16px 12px;
+                    margin-right: 5px;
 
                     div
                     {
@@ -854,79 +858,78 @@
                 }
                 .overview {
                     background: url('../images/overview.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
 
                 }
                 .overview:hover,
                     a.overview.active {
                     background: url('../images/overview_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
                 .message {
                     background: url('../images/discussion.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
 
                 }
                 .message:hover,
                     a.message.active {
                     background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
                 .activity {
                     background: url('../images/activity.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
 
                 }
                 .activity:hover,
                     a.activity.active {
                     background: url('../images/activity_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
                 .milestone {
                     background: url('../images/milestone.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
 
                 }
                 .milestone:hover,
                     a.milestone.active {
                     background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
-                .todo {
-                    background: url('../images/todo.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
-
+                .to-do-list{
+                   background: url('../images/todo.svg') no-repeat 20% 30%;
+                   background-size: 20px 16px;
                 }
                 .to-do-list:hover,
                     a.to-do-list.active {
                     background: url('../images/todo_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
                 .files {
                     background: url('../images/file.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
-
+                    background-size: 20px 16px;
                 }
+
                 .files:hover,
                     a.files.active {
                     background: url('../images/file_hover.svg') no-repeat  20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
                 .settings {
                     background: url('../images/settings.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
 
                 }
                 .settings:hover,
                     a.settings.active {
                     background: url('../images/settings_hover.svg') no-repeat 20% 30%;
-                    background-size: 24px 24px;
+                    background-size: 20px 16px;
                 }
 
 
@@ -966,36 +969,37 @@
                 margin: 0px;
 
                 li {
-
                     float: left;
                     background: none;
                     list-style: none;
                     margin: 0px;
-                    margin-right: 20px;
+                    margin-right: 10px;
                     border : solid 1px #E5E5E5;
-                    padding: 25px 10px;
+                    padding: 25px 5px;
                     text-align: center;
                     background: #ffffff;
-                    width : 13.5955%;
+                    width : 13.9999%;
+                    margin-bottom: 15px;
+
                     clear: right;
                     div {
                         float : left;
                     }
 
                     .icon {
-                        padding: 12px 3px;
-                        width: 22%;
-                        border-radius: 50px;
+                        padding: 8px 3px;
+                        width: 20%;
+                        border-radius: 50%;
                         color: #ffffff;
-                        margin-right: 20px;
-                        height: 22px;
+                        margin-right: 5%;
+                        height: 18px;
                     }
 
                     .count {
                         text-align: left;
                         span {
                             color: @blueColor;
-                            font-size: 145%;
+                            font-size: 180%;
                             font-weight: bold;
                         }
                     }
@@ -1003,32 +1007,32 @@
 
                 .message .icon {
                     background : #9DBC5E url('../images/discussion_white.svg') no-repeat center center;
-                    background-size: 25px;
+                    background-size: 18px;
                 }
 
                 .todo .icon {
                     background: #1FA185 url('../images/todolist_white.svg') no-repeat center center;
-                    background-size: 25px;
+                    background-size: 18px;
                 }
 
                 .todos .icon {
                     background: #0090DB url('../images/todo_white.svg') no-repeat center center;
-                    background-size: 25px;
+                    background-size: 18px;
                 }
 
                 .comments .icon {
                     background: #1FA185 url('../images/comments_white.svg') no-repeat center center;
-                    background-size: 25px;
+                    background-size: 18px;
                 }
 
                 .files .icon {
                     background: #BE3C2F url('../images/files_white.svg') no-repeat center center;
-                    background-size: 25px;
+                    background-size: 18px;
                 }
 
                 .milestone .icon {
                     background: #F29B27 url('../images/milestones_white.svg') no-repeat center center;
-                    background-size: 25px;
+                     background-size: 18px;
                 }
             }
         }
@@ -1064,17 +1068,20 @@
         }
         .cpm-right-part {
 
-            background: #ffffff !important;
+            background: #ffffff  ;
+            width : 17.1745852858%;
 
-            h2 {
-                padding: 20px 12px 20px 20px;
+            h3 {
+
+                margin: 0px;
+                padding : 5px 10px;
                 margin-bottom: 15px;
-                color: @defaultFontColor;
+                font-size: @defaultFontSize+4px;
             }
 
             .user_list {
-                margin-left: 20px;
-                font-size: 150%;
+                margin-left: 10px;
+
 
                 li {
                     margin-bottom: 30px;
@@ -1153,34 +1160,40 @@
     .cpm-todolists{
         margin-top: 25px;
         padding: 0px;
+
         .cpm-todolist {
             margin: 0px;
             padding: 0px;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
 
             header {
-                border-bottom: solid 1px @gray;
+                border: solid 1px @gray;
                 padding: 25px 25px 3px 25px;
                 margin-bottom: 10px;
+                background : #f8f9f0 ;
 
                 .cpm-right {
                     text-align : right ;
+
                     a {
 
                         float: none;
                         padding: 0px;
                     }
+
                     .move {
                         background :  url('../images/move.svg') no-repeat 50% 0% ;
                         padding: 10px;
                         background-size: 20px;
 
                     }
+
                     .cpm-icon-edit {
                         background :  url('../images/edit.svg') no-repeat 50% 0% ;
                         padding: 10px;
                         background-size: 18px;
                     }
+
                     .cpm-icon-delete {
                         background :  url('../images/close.svg') no-repeat 50% 0% ;
                         padding: 10px;
@@ -1246,7 +1259,6 @@
                         a {
                             padding : 0px;
                             margin : 0px;
-
                             padding-left : 18px;
                             valign: middle;
                         }
@@ -1264,8 +1276,8 @@
                         }
 
                         .move {
-                            background :  url('../images/move.svg') no-repeat 50% 30% ;
-                            background-size: 13px;
+                            background :  url('../images/move.svg') no-repeat 50% 1% ;
+                            background-size: 12px;
 
 
                         }
@@ -1307,11 +1319,11 @@
             footer.cpm-list-footer {
                 padding: 0px;
                 margin:0px;
-                padding-left: 20px;
+                padding-left: 15px;
 
                 .cpm-col-6 {
                     border-right: solid 1px @gray ;
-                    margin-right: 4%;
+                    margin-right: 1%;
 
                     span {
                         font-size: 130%;
@@ -1321,19 +1333,19 @@
 
                 .cpm-todo-complete {
                     background :  url('../images/todo_completed.svg') no-repeat 0% 50% ;
-                    padding-left: 6%;
-                    background-size: 40px;
+                    padding-left: 7%;
+                    background-size: 30px;
                 }
                 .cpm-todo-incomplete {
                     background :  url('../images/todo-incomplete.svg') no-repeat 0% 50% ;
-                    padding-left: 6%;
-                    background-size: 40px;
+                     padding-left: 7%;
+                    background-size: 30px;
                 }
 
                 .cpm-todo-comment {
                     background :  url('../images/comment.svg') no-repeat 0% 50% ;
-                    padding-left: 6%;
-                    background-size: 40px;
+                     padding-left: 7%;
+                    background-size: 30px;
                     a {
                         font-size: @defaultFontSize;
                         font-weight: normal;
@@ -1343,6 +1355,9 @@
                 {
                     margin-top: 15px;
                 }
+                .no-percent{
+                    padding-top: 1.19595%;
+                }
             }
         }
     }
@@ -1351,13 +1366,16 @@
         margin-top: 10px;
 
     }
-
+/** Discussion Page **/
     .cpm-message-page {
         display : flex;
         width : 100% ;
         padding-left : 0px;
         padding-right : 0px;
         margin-right : 0px;
+        .cpm-new-message-btn {
+            margin-left: 10%;
+        }
         .cpm-message-list,
         .cpm-message-body {
             background : #ffffff;
@@ -1369,6 +1387,7 @@
             margin-right : 25px;
             padding-top : 25px;
             padding-left : 0px;
+            width : 30%;
             .cpm-add-message {
 
                 margin-left : 40px;
@@ -1378,8 +1397,8 @@
                 padding : 0px;
                 margin-top : 40px;
                 border-top : @gray solid 1px;
-                height : 800px;
-                //overflow: auto ;
+                height : 600px;
+                overflow: auto ;
             }
             li {
 
@@ -1389,8 +1408,8 @@
                 padding: 15px ;
                 img{
                     border-radius : 45px;
-                    height : 55px;
-                    width : 55px;
+                    height : auto;
+                    width : 100%;
                 }
                 .cpm-col-10
                 {
@@ -1422,7 +1441,9 @@
 
         .cpm-message-body{
             margin-right : 0px;
-
+            width : 70%;
+            height : 600px;
+            overflow: auto ;
             .cpm-discuss-title{
                 color: @blueColor;
                 border-bottom: solid 1px @gray;
@@ -1731,7 +1752,7 @@
     * Media Query for responsive
     *
     **/
-    @media only screen and (max-width: 780px) {
+    @media only screen and (max-width: 1166px) and (min-width: 360px) {
 
         .cpm-sm-col-1 {
             width: 100%;
@@ -1746,7 +1767,8 @@
         }
 
         .cpm-sm-col-4 {
-
+           width: 30.19999%;
+           float: left;
         }
 
         .cpm-sm-col-5 {
@@ -1890,12 +1912,12 @@
 
                 ul {
                     li {
-                        width: 44.21582255%;
+                        .cpm-sm-col-4;
                         margin-bottom: 20px;
 
                         .icon {
                             padding: 25px 0px;
-                            width: 25%;
+                            width: 70px;
                             font-size: 150%;
                             border-radius: 50px;
                             color: #ffffff;
@@ -1905,6 +1927,14 @@
                     }
 
                 }
+            }
+            .cpm-chart{
+                padding-right: 50px;
+                width: 89.7825598228%;
+            }
+            .cpm-right-part{
+             .cpm-col-12;
+
             }
         }
 

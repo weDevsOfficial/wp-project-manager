@@ -11,7 +11,7 @@ cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
 $can_create = cpm_user_can_access( $project_id, 'create_message' );
 ?>
 <div class="cpm-row cpm-message-page">
-    <div class="cpm-col-3 cpm-message-list">
+    <div class="cpm-message-list">
         <?php if ( $can_create ) { ?>
         <div>
             <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
@@ -62,12 +62,16 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
     ?>
     </div>
 
-    <div class="cpm-col-9 cpm-message-body" >
+    <div class="cpm-message-body" >
 
         <div id="cpm-signle-message" >
             <?php
+                if($messages){
                 $single_id = $messages[0]->ID ;
                 echo cpm_discussion_single($single_id, $project_id);
+                } else {
+                    echo "<h2 class='cpm-error'>"._e( 'Your Message Box is empty', 'cpm' )."</h2>";
+                }
             ?>
         </div>
          <?php if ( $can_create ) { ?>

@@ -49,7 +49,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     <div class="cpm-todo-wrap cpm-row" >
         <div class="cpm-todo-content">
 
-                <div class="cpm-col-5">
+                <div class="cpm-col-4">
                         <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
                         <?php if ( $single ) { ?>
                             <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
@@ -79,7 +79,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     <?php } ?>
                 </div>
 
-                <div class="cpm-col-2 completed_by">
+                <div class="cpm-col-3 completed_by">
                     <?php
                     //if the task is completed, show completed by
 
@@ -303,7 +303,7 @@ function cpm_tasklist_form( $project_id, $list = null ) {
  * @param int $project_id
  * @return string
  */
-function cpm_task_list_html( $list, $project_id ) {
+function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
     $task_obj           = CPM_Task::getInstance();
     $tasks['pending']   = array();
@@ -362,14 +362,15 @@ function cpm_task_list_html( $list, $project_id ) {
             <ul class="cpm-todos cpm-todo-completed">
 
             <?php
-
-            if ( count( $tasks['completed'] ) ) {
-                foreach ($tasks['completed'] as $task) {
-                    ?>
-                    <li>
-                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
-                    </li>
-                    <?php
+            if($singlePage) {
+                if ( count( $tasks['completed'] ) ) {
+                    foreach ($tasks['completed'] as $task) {
+                        ?>
+                        <li>
+                            <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                        </li>
+                        <?php
+                    }
                 }
             }
             ?>
@@ -422,6 +423,7 @@ function cpm_task_list_html( $list, $project_id ) {
                     echo cpm_task_completeness( $complete['total'], $complete['completed'] );
                     ?>
             </div>
+            <div class=" cpm-col-1 no-percent"> <?php if( $complete['total'] != 0 ) echo ( 100 * $complete['completed'] ) / $complete['total'] . " %";  ?>  </div>
             <div class="clearfix"></div>
         </footer>
     </article>
@@ -442,7 +444,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     $action        = 'cpm_comment_new';
     $text          = '';
     $submit_button = __( 'Add this comment', 'cpm' );
-    $comment_id    = $comment ? $comment->comment_ID : 0;
+    $comment_id    = $comment ? $comment->comment_ID : 'cm';
     $files         = $comment ? $comment->files : array();
 
     if ( $comment ) {
@@ -702,7 +704,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
     $content = '';
     $submit = __( 'Add Message', 'cpm' );
     $files  = array();
-    $id     = $milestone = 0;
+    $id     = $milestone = 'nd';
     $action = 'cpm_message_new';
 
     if ( !is_null( $message ) ) {
@@ -807,7 +809,8 @@ function cpm_discussion_single( $message_id, $project_id ) {
         <div id="cpm-entry-detail">
             <?php  echo cpm_get_content( $message->post_content ); ?>
 
-            <?php echo cpm_show_attachments( $message, $project_id ); ?>
+            <?php
+            echo cpm_show_attachments( $message, $project_id ); ?>
         </div>
 
         <div id="cpm-msg-edit-form"></div>
@@ -838,7 +841,7 @@ if ( $comments ) {
     </ul>
     <?php
 } else {
-    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+    printf( '<h3>%s</h3>', __( 'No comments found', 'cpm' ) );
     echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
 }
 ?>
@@ -1003,19 +1006,19 @@ function cpm_show_milestone( $milestone, $project_id ) {
             <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
 
             <ul>
-                <?php foreach ($tasklists as $tasklist) { ?>
+                <?php foreach ( $tasklists as $tasklist ) { ?>
                     <li>
                         <div class="cpm-col-7">
                             <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
                         </div>
-                        <div class=" cpm-col-4">
+                        <div class=" cpm-col-3">
                             <?php
                             $complete = $task_obj->get_completeness( $tasklist->ID, $project_id );
                             echo cpm_task_completeness( $complete['total'], $complete['completed'] );
                             ?>
                         </div>
                         <div class="cpm-col-1 cpm-right cpm-last-col">
-                            <?php echo(100 * $complete['completed'] ) / $complete['total']; ?>%
+                            <?php if( $complete['total'] != 0 ) echo ( 100 * $complete['completed'] ) / $complete['total'] . '%'; ?>
                         </div>
                         <div class="clearfix"></div>
                     </li>
@@ -1040,7 +1043,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                             <?php echo cpm_get_date( $message->post_date, true ); ?>
                             </span>
                         </div>
-                        <div class="cpm-col-3">
+                        <div class="cpm-col-2">
                             <?php
                                 echo cpm_url_user( $message->post_author, true, 28 ) ;
                                 echo get_the_author_meta( 'display_name', $message->post_author );
