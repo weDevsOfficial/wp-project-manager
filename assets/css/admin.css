@@ -1309,7 +1309,6 @@ ul.cpm-activity ul li:before {
   text-decoration: underline;
   color: #21759b;
 }
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,
 .cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -1321,7 +1320,7 @@ ul.cpm-activity ul li:before {
   color: #999;
   margin-right: 5px;
 }
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
+.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user {
   color: #999;
   text-decoration: none;
 }
@@ -1348,7 +1347,8 @@ ul.cpm-activity ul li:before {
 .cpm-todolists article.cpm-todolist {
   position: relative;
   background: #fff;
-  box-shadow: -1px 1px 1px -1px #bcbcbc;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
 .cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
@@ -1470,7 +1470,7 @@ ul.cpm-activity ul li:before {
   padding-left: 19px;
   padding-right: 110px;
   word-wrap: break-word;
-  margin: 2px;
+  margin: 0;
 }
 .cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap {
   margin-left: -19px;
@@ -1535,7 +1535,6 @@ ul.cpm-activity ul li:before {
   color: #fff;
   margin-right: 5px;
 }
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user,
 .cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -1547,6 +1546,14 @@ ul.cpm-activity ul li:before {
   color: #999;
   margin-right: 5px;
 }
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
+  width: 24px;
+  height: auto;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin-left: 10px;
+}
 .cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
   color: #999;
   text-decoration: none;
@@ -1557,6 +1564,13 @@ ul.cpm-activity ul li:before {
 }
 .cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
   text-decoration: none;
+}
+.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by img {
+  width: 22px;
+  height: auto;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ccc;
 }
 .cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form {
   border: 1px solid #eee;
@@ -1602,7 +1616,7 @@ ul.cpm-activity ul li:before {
   display: none;
 }
 .cpm-todolists > li {
-  margin: 0 0 10px 0;
+  margin: 0;
 }
 .cpm-todolists .cpm-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);

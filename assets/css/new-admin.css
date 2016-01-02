@@ -947,11 +947,10 @@
 .cpm .cpm-todolists .cpm-todolist {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  border: solid 1px #eeeeee;
-  padding: 8px 12px;
+  padding: 15px 15px 0 15px;
   margin-bottom: 10px;
   background: #fff;
 }
@@ -1051,7 +1050,7 @@
   padding: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border-bottom: solid 1px #eeeeee;
   padding: 0px 8px 20px 30px;
   margin-left: 0px;
@@ -1071,11 +1070,13 @@
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
   border-right: solid 1px #eeeeee;
-  margin-right: 1%;
+  margin-right: 8%;
+  margin-bottom: 0;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
   font-size: 130%;
   font-weight: bold;
+  display: block;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-complete {
   background: url('../images/todo_completed.svg') no-repeat 0% 50%;

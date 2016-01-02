@@ -1051,12 +1051,12 @@ function cpm_assigned_user( $users ) {
     if ( is_array( $users ) ) {
         foreach ($users as $user_id ) {
             echo '<span class="cpm-assigned-user">';
-            echo cpm_url_user( $user_id );
+            echo cpm_url_user( $user_id, true );
             echo '</span>';
         }
     } else {
         echo '<span class="cpm-assigned-user">';
-        echo cpm_url_user( $users );
+        echo cpm_url_user( $users, true );
         echo '</span>';
     }
 

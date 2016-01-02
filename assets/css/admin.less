@@ -1394,7 +1394,7 @@ ul.cpm-activity {
                 }
             }
 
-            .cpm-assigned-user, .cpm-due-date {
+            .cpm-due-date {
                 .border-radius(3px);
                 background: #ddd;
                 font-size: 12px;
@@ -1404,7 +1404,7 @@ ul.cpm-activity {
                 margin-right: 5px;
             }
 
-            .cpm-assigned-user a {
+            .cpm-assigned-user {
                 color: #999;
                 text-decoration: none;
             }
@@ -1412,6 +1412,7 @@ ul.cpm-activity {
             .cpm-completed-by {
                 font-size: 11px;
                 color: #999;
+
                 a {
                     text-decoration: none;
                 }
@@ -1441,7 +1442,8 @@ ul.cpm-activity {
     article.cpm-todolist {
         position: relative;
         background: #fff;
-        box-shadow: -1px 1px 1px -1px #BCBCBC;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e5e5e5;
         padding: 6px 3px 5px 5px;
 
         .cpm-list-edit-form {
@@ -1573,7 +1575,7 @@ ul.cpm-activity {
                 padding-left: 19px;
                 padding-right: 110px;
                 word-wrap: break-word;
-                margin: 2px;
+                margin: 0;
 
                 .cpm-todo-wrap {
                     margin-left: -19px;
@@ -1646,7 +1648,7 @@ ul.cpm-activity {
                             margin-right: 5px;
                         }
 
-                        .cpm-assigned-user, .cpm-current-date {
+                        .cpm-current-date {
                             .border-radius(3px);
                             background: #ddd;
                             font-size: 12px;
@@ -1656,16 +1658,36 @@ ul.cpm-activity {
                             margin-right: 5px;
                         }
 
-                        .cpm-assigned-user a {
-                            color: #999;
-                            text-decoration: none;
+                        .cpm-assigned-user {
+                            img {
+                                width: 24px;
+                                height: auto;
+                                vertical-align: middle;
+                                border: 1px solid #ccc;
+                                border-radius: 50%;
+                                margin-left: 10px;
+                            }
+
+                            a {
+                                color: #999;
+                                text-decoration: none;
+                            }
                         }
 
                         .cpm-completed-by {
                             font-size: 11px;
                             color: #999;
+
                             a {
                                 text-decoration: none;
+                            }
+
+                            img {
+                                width: 22px;
+                                height: auto;
+                                border-radius: 50%;
+                                vertical-align: middle;
+                                border: 1px solid #ccc;
                             }
                         }
                     }
@@ -1728,7 +1750,7 @@ ul.cpm-activity {
     }
 
     > li {
-        margin: 0 0 10px 0;
+        margin: 0;
     }
 
     .cpm-spinner {

@@ -11,8 +11,8 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
 
 if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-        ?>
-        <a id="cpm-add-tasklist" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
+    ?>
+    <a id="cpm-add-tasklist" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
 <?php } ?>
 
 
@@ -28,11 +28,10 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
             ?>
 
             <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>">
-                        <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
+                <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
             </li>
 
             <?php
-
         }
     }
     ?>
@@ -40,5 +39,5 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
 <?php
 if ( !$lists ) {
-    cpm_show_message( __( 'Oh dear, no To-do list found!', 'cpm' ) );
+    cpm_show_message( __( 'No To-do list found!', 'cpm' ) );
 }
