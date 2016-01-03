@@ -112,7 +112,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             <div class="cpm-col-1 cpm-comment-count">
                 <?php if ( !$single ) { ?>
 
-                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
+                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>"> 
                         <?php  echo $task->comment_count  ; ?>
                     </a>
 
@@ -368,7 +368,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             ?>
         </ul>
 
-        <ul class="cpm-todos-new">
+        <ul class="cpm-todos-new" >
             <?php
             if( cpm_user_can_access( $project_id, 'create_todo' ) ) {
             ?>
@@ -415,7 +415,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             <div class="cpm-col-4 cpm-todo-prgress-bar">
                 <?php echo cpm_task_completeness( $complete['total'], $complete['completed'] ); ?>
             </div>
-            <div class=" cpm-col-1 no-percent"> <?php if ( $complete['total'] != 0 ) echo ( 100 * $complete['completed'] ) / $complete['total'] . " %";  ?>  </div>
+            <div class=" cpm-col-1 no-percent"> <?php if ( $complete['total'] != 0 ) echo round(( 100 * $complete['completed'] ) / $complete['total']) . " %";  ?>  </div>
             <div class="clearfix"></div>
         </footer>
     </article>
@@ -1010,7 +1010,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                             ?>
                         </div>
                         <div class="cpm-col-1 cpm-right cpm-last-col">
-                            <?php if( $complete['total'] != 0 ) echo ( 100 * $complete['completed'] ) / $complete['total'] . '%'; ?>
+                            <?php if( $complete['total'] != 0 ) echo round(( 100 * $complete['completed'] ) / $complete['total']) . '%'; ?>
                         </div>
                         <div class="clearfix"></div>
                     </li>

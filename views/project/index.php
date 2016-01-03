@@ -119,7 +119,7 @@ if ( $dpv !== false ) {
                     </div>
                     <div class="cpm-project-meta">
                         <ul>
-                            <?php echo cpm_project_summary( $project->info ); ?>
+                            <?php echo cpm_project_summary( $project->info, $project->ID ); ?>
                         <div class="clearfix"></div>
                         </ul>
                     </div>

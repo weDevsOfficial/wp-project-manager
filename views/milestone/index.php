@@ -35,7 +35,9 @@ if ( $milestones ) {
         <li class="active"> <a href="#" class="cpm-late-milestone-link milestone-link" data-class="cpm-late-milestone"> <?php _e( 'Late Milestones', 'cpm' ); ?> </a> </li>
         <li class=""> <a href="#" class="cpm-upcomming-milestone-link milestone-link" data-class="cpm-upcomming-milestone"> <?php _e( 'Upcoming Milestones', 'cpm' ); ?>  </a> </li>
         <li class=""> <a href="#" class="cpm-complete-milestone-link milestone-link" data-class="cpm-complete-milestone"> <?php _e( 'Completed Milestones', 'cpm' ); ?>  </a> </li>
+        <?php  if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
         <li class=""> <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white "><?php _e( 'Add Milestone', 'cpm' ) ?></a> </li>
+        <?php } ?>
         <div class="clearfix"></div>
     </ul>
 

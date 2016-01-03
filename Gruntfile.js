@@ -17,8 +17,8 @@ module.exports = function(grunt) {
                     optimization: 2
                 },
                 files: {
-                    "assets/css/admin.css": "assets/css/admin.less", // destination file and source file
-                    "assets/css/new-admin.css": "assets/css/new-admin.less", // destination file and source file
+                    //"assets/css/admin.css": "assets/css/admin.less", // destination file and source file
+                    "assets/css/admin.css": "assets/css/new-admin.less", // destination file and source file
                     "includes/pro/assets/css/pro-style.css": "includes/pro/assets/css/pro-style.less", // for my Task stylesheet
                 }
             }

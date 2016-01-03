@@ -476,37 +476,42 @@ function cpm_data_attr( $values ) {
 }
 
 
-function cpm_project_summary_info( $info ) {
+function cpm_project_summary_info( $info,  $project_id ) {
     $summary = array();
-
     $summary['message'] = array(
         'label' => _n( 'Discussion', 'Discussions', $info->discussion, 'cpm' ),
-        'count' => $info->discussion
+        'count' => $info->discussion,
+        'url' =>  cpm_url_message_index($project_id)
     );
 
     $summary['todo'] = array(
         'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
-        'count' => $info->todolist
+        'count' => $info->todolist,
+        'url' =>  cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
        'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
-       'count' => $info->todos
+       'count' => $info->todos,
+        'url' =>  cpm_url_tasklist_index( $project_id )
     );
 
     $summary['comments'] = array(
         'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
-        'count' => $info->comments
+        'count' => $info->comments,
+        'url' =>  'JavaScript:void(0)'
     );
 
     $summary['files'] = array(
         'label' => _n( 'File', 'Files', $info->files, 'cpm' ),
-        'count' => $info->files
+        'count' => $info->files,
+        'url' =>  cpm_url_file_index( $project_id )
     );
 
     $summary['milestone'] = array(
         'label' => _n( 'Milestone', 'Milestones', $info->milestone, 'cpm' ),
-        'count' => $info->milestone
+        'count' => $info->milestone,
+        'url' =>  cpm_url_milestone_index( $project_id )
     );
 
     return $summary ;
@@ -520,11 +525,11 @@ function cpm_project_summary_info( $info ) {
  * @param object $info
  * @return string
  */
-function cpm_project_summary( $info ) {
+function cpm_project_summary( $info, $project_id ) {
     $info_array = array();
-    $summary = cpm_project_summary_info( $info );
+    $summary = cpm_project_summary_info( $info,  $project_id );
     foreach ( $summary as $key =>$val ) {
-        $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );
+        $info_array[] = sprintf( "<li class='%s'><a href='%s'><strong>%d</strong> %s</a></li>", $key, $val['url'], $val['count'],  $val['label'] );
     }
     return implode('', $info_array );
 }
@@ -538,12 +543,12 @@ function cpm_project_summary( $info ) {
  *
  * @return string
  */
-function cpm_project_overview_summary( $info ) {
+function cpm_project_overview_summary( $info, $project_id ) {
     $info_array = array();
-    $summary    = cpm_project_summary_info( $info );
+    $summary    = cpm_project_summary_info( $info, $project_id );
 
     foreach ( $summary as $key => $val ) {
-        $info_array[] = sprintf( '<li class="%s"><div class="icon"></div> <div class="count"><span>%d</span> %s</div></li>', $key, $val['count'], $val['label'] );
+        $info_array[] = sprintf( '<li class="%s"><a href="%s"> <div class="icon"></div> <div class="count"><span>%d</span> %s</div> </a></li>', $key, $val['url'], $val['count'], $val['label'] );
     }
 
     return implode( '', $info_array );

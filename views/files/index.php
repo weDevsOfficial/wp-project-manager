@@ -20,7 +20,6 @@ if ( $attachments ) {
 
     echo '<ul class="cpm-files">';
     foreach ($attachments as $attachment) {
-
         $file = CPM_Comment::getInstance()->get_file( $attachment->ID );
         $topic_url = '#';
 

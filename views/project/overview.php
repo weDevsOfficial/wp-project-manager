@@ -27,7 +27,7 @@ $str_todo     = implode( $str_todo, ',' );
 	<div class="cpm-col-10 cpm-sm-col-12">
 	    <div class="overview-menu">
 	        <ul>
-	         	<?php echo cpm_project_overview_summary( $project->info ); ?>
+	         	<?php echo cpm_project_overview_summary( $project->info, $project_id ); ?>
 	         	<div class="clearfix"></div>
 	         </ul>
 	     </div>
