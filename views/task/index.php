@@ -17,7 +17,7 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
 
 <div class="cpm-new-todolist-form">
-    <?php echo cpm_tasklist_form( $project_id ); ?>
+    <?php  echo cpm_tasklist_form( $project_id ); ?>
 </div>
 
 <ul class="cpm-todolists">

@@ -46,7 +46,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     ob_start();
     ?>
 
-    <div class="cpm-todo-wrap cpm-row" >
+    <div class="cpm-todo-wrap " >
         <div class="cpm-todo-content">
 
             <div class="cpm-col-7">
@@ -112,7 +112,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             <div class="cpm-col-1 cpm-comment-count">
                 <?php if ( !$single ) { ?>
 
-                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>"> 
+                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
                         <?php  echo $task->comment_count  ; ?>
                     </a>
 
@@ -120,16 +120,20 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
             </div>
 
             <div class="cpm-col-3">
-                <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
+
             </div>
 
-            <div class="cpm-col-1 cpm-todo-action-right"><a class="move"></a>
+            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col"><a class="move"></a>
                 <?php if ( $can_manage ) { ?>
                     <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>></a>
                     <?php if ( $task->completed != '1' ) { ?>
                     <a href="#" class="cpm-todo-edit"></a>
                     <?php } ?>
                 <?php } ?>
+            </div>
+            <div class="clearfix"></div>
+            <div class="cpm-col-12">
+             <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -189,7 +193,7 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         <?php } ?>
 
         <div class="item task-title">
-            <input type="text" name="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
+            <input type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
         </div>
 
         <div class="item content">
@@ -453,24 +457,11 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             <div class="cpm-avatar"><?php echo cpm_url_user( get_current_user_id(), true ); ?></div>
         <?php } ?>
 
-        <form class="cpm-comment-form">
+        <form class="cpm-comment-form ">
 
             <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
-            <div class="item message">
-                <?php
-               /* $args = apply_filters( 'cpm_comment_editor_args', array(
-                    'media_buttons' => false,
-                    'textarea_name' => 'cpm_message',
-                    'textarea_rows' => 10,
-                    'media_buttons' => false,
-                    'quicktags'     => false,
-                    'teeny'         => true
-                ) );
-
-                wp_editor( $text, , $args );*/
-                ?>
-
+            <div class="item message cpm-sm-col-12 ">
                 <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo $text?>">
                 <trix-editor input="<?php echo 'cpm-comment-editor-' . $comment_id ?>"></trix-editor>
 
@@ -521,14 +512,17 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
     ob_start();
     ?>
     <li class="cpm-comment<?php echo $class; ?>" id="cpm-comment-<?php echo $comment->comment_ID; ?>">
-        <div class="cpm-avatar"><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
+        <div class="cpm-avatar "><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
         <div class="cpm-comment-container">
             <div class="cpm-comment-meta">
                 <span class="cpm-author"><?php echo cpm_url_user( $comment->user_id ); ?></span>
                 <?php _e( 'On', 'cpm' ); ?>
                 <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
 
-                <?php if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) { ?>
+                <?php
+
+                if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) {
+                    ?>
                 <div class="cpm-comment-action">
                     <span class="cpm-edit-link">
                         <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>></a>
@@ -538,7 +532,9 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                         <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
                     </span>
                 </div>
-                <?php } ?>
+                <?php }else{
+                    echo 'No Way';
+                    }  ?>
             </div>
             <div class="cpm-comment-content">
                 <?php
@@ -889,9 +885,6 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item detail">
-                 <?php
-                    // wp_editor( $content, 'cpm-milestone-editor-' . $id , array( 'media_buttons' => false, 'textarea_name' => 'milestone_detail', 'textarea_rows' => 10, 'media_buttons' => false, 'quicktags' => false, 'teeny' => true  ) );
-                ?>
                 <input id="<?php echo 'cpm-milestone-editor-' . $id?>" type="hidden" name="milestone_detail" value="<?php echo $content?>">
                 <trix-editor input="<?php echo 'cpm-milestone-editor-' . $id?>"></trix-editor>
             </div>
@@ -927,7 +920,6 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
 function cpm_show_milestone( $milestone, $project_id ) {
     $milestone_obj       = CPM_Milestone::getInstance();
     $task_obj            = CPM_Task::getInstance();
-
     $due                 = strtotime( $milestone->due_date );
     $is_left             = cpm_is_left( time(), $due );
     $milestone_completed = (int) $milestone->completed;
@@ -937,7 +929,6 @@ function cpm_show_milestone( $milestone, $project_id ) {
     } else {
         $class = ($is_left == true) ? 'left' : 'late';
     }
-
     $string            = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
     $milestone_private = ( $milestone->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
     ?>
@@ -1291,7 +1282,7 @@ function cpm_activity_html( $activities ) {
                 continue;
             }
 
-            $html .= sprintf( '<li><div class="cpm-col-8">%s</div><div class="date cpm-col-4">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+            $html .= sprintf( '<li><div class="cpm-col-8 cpm-sm-col-12">%s</div><div class="date cpm-col-4 cpm-sm-col-12">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
         }
 
         $html .= "</ul> </li>";

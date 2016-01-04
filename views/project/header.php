@@ -54,7 +54,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
     </div>
 
     <div class="cpm-row cpm-project-group  "    >
-        <ul class="list-inline"  >
+        <ul class=""  >
 
             <?php  echo $pro_obj->nav_menu( $project_id, $cpm_active_menu ); ?>
 

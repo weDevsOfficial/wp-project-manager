@@ -292,7 +292,7 @@
             var data = self.serialize(),
                 list = self.closest('li'),
                 singleWrap = self.closest('.cpm-single-task'),
-                content = $.trim(self.find('.todo_content').val());
+                content = $.trim(self.find('.task_title').val());
 
             $(document).trigger('cpm.updateTodo.before',[self]);
 
@@ -353,7 +353,7 @@
                 spinner = self.find('.cpm-new-task-spinner');
             var data = self.serialize(),
                 taskListEl = self.closest('article.cpm-todolist'),
-                content = $.trim(self.find('.todo_content').val());
+                content = $.trim(self.find('.task_title').val());
 
             $(document).trigger( 'cpm.submitNewTodo.before', [self] );
 

@@ -574,37 +574,37 @@ class CPM_Project {
 
                 case __( 'Discussion', 'cpm' ):
                     $count = $project_info->discussion;
-                    $class = "message";
+                    $class = "message cpm-sm-col-12";
                     break;
 
                 case __( 'To-do Lists', 'cpm' ):
                     $count = $project_info->todos;
-                    $class = "to-do-list";
+                    $class = "to-do-list cpm-sm-col-12";
                     break;
 
                 case __( 'Files', 'cpm' ):
                     $count = $project_info->files;
-                    $class = "files";
+                    $class = "files cpm-sm-col-12";
                     break;
 
                 case __( 'Activity', 'cpm' ):
                     $count = $total_activity;
-                    $class = "activity";
+                    $class = "activity cpm-sm-col-12";
                     break;
 
                 case __( 'Milestones', 'cpm' ):
                     $count = $project_info->milestone;
-                    $class = "milestone";
+                    $class = "milestone cpm-sm-col-12";
                     break;
 
                 case  __( 'Overview', 'cpm' ) :
                     $count = "";
-                    $class = "overview";
+                    $class = "overview cpm-sm-col-12";
                     break;
 
                 case __( 'Settings', 'cpm' ):
                     $count = "";
-                    $class = "settings";
+                    $class = "settings cpm-sm-col-12";
                     break;
 
                 default:
@@ -743,7 +743,7 @@ class CPM_Project {
 
         do_action( 'cpm_after_update_new_project_item', $project_id, $object_id, $private, $type, $update );
 
-                
+
     }
 
     /**
@@ -833,12 +833,12 @@ class CPM_Project {
      * @param int $project_id
      * @param date $end_date
      * @param date $start_date
-     * @return array 
+     * @return array
      */
     function get_chart_data( $project_id,  $end_date, $start_date ) {
         global $wpdb;
-        
-        $chart_transient = 'cpm_chart_data_'.$project_id ; 
+
+        $chart_transient = 'cpm_chart_data_'.$project_id ;
         $chart_date = get_transient( $chart_transient );
 
         if ( false === $chart_date ) {
@@ -851,7 +851,7 @@ class CPM_Project {
                     AND DATE(post_date) <= '{$end_date}'
                     AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_parent = '{$project_id}' ) ";
             $todos = $wpdb->get_results($csql);
-            
+
             $response['date_list'] = '';
             $response['todos'] = '';
             foreach ( $total_activity as $activity ) {
@@ -874,15 +874,15 @@ class CPM_Project {
                     $response['todos'][$tdate] += 1 ;
                 }
             }
-        
-            $data_transient =  $response ; 
+
+            $data_transient =  $response ;
             set_transient( $chart_transient, $data_transient, DAY_IN_SECONDS  );
-            
+
         } else {
             $response = $chart_date ;
         }
 
         return $response;
     }
-    
+
 }

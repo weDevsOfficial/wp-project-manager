@@ -28,7 +28,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
         $count = 0;
         foreach ($comments as $comment) {
-            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+           $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
             echo cpm_show_comment( $comment, $project_id, $class );
 
             $count++;

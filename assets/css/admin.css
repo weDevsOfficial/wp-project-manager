@@ -1,9 +1,3 @@
-/**
-* Stylesheet for WP Projetc Manager
-*
-*
-**/
-/** Old Admin stylesheet **/
 .clearfix {
   *zoom: 1;
 }
@@ -31,6 +25,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+/**
+* Stylesheet for WP Projetc Manager
+*
+*
+**/
+/** Old Admin stylesheet **/
 /*--------------------------------------------------
 :: Variables
 -------------------------------------------------- */
@@ -1082,6 +1082,9 @@ ul.cpm-activity ul li:before {
   background: #fff;
   padding: 10px;
 }
+.cpm-comment-wrap .cpm-comment :hover .cpm-comment-action {
+  visibility: visible;
+}
 .cpm-comment-form-wrap {
   position: relative;
   border: 1px solid #DDD;
@@ -1430,7 +1433,7 @@ ul.cpm-activity ul li:before {
   border-radius: 5px 0 0 5px;
   padding: 3px 8px 0 0;
   background: #fff;
-  visibility: hidden;
+  visibility: show;
   position: absolute;
   left: -59px;
   top: 4px;
@@ -3226,12 +3229,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
   float: right;
   text-align: right ;
   visibility: hidden ;
+  padding-right: 0px;
+  margin-right: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a {
-  padding: 0px;
+  float: left;
+  padding: 10px 10px;
   margin: 0px;
-  padding-left: 18px;
-  margin-right: 10px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right .cpm-todo-delete {
   background: url('../images/close.svg') no-repeat 50% 0%;
@@ -3406,30 +3410,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 10px;
   width: 30px;
 }
-.cpm .cpm-message-page .cpm-message-body .cpm-comment {
-  background: #fff;
-  margin-bottom: 10px;
-  display: block;
-  border: #eeeeee solid 1px;
-  padding: 10px;
-  min-height: 50px;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action {
-  position: absolute;
-  text-align: right;
-  right: 10px;
-  top: 10px ;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-edit-comment-link {
-  background: url('../images/edit.svg') no-repeat 50% 50%;
-  background-size: 10px;
-  padding: 10px;
-}
-.cpm .cpm-message-page .cpm-message-body .cpm-comment .cpm-comment-action .cpm-delete-comment-link {
-  background: url('../images/close.svg') no-repeat 50% 50%;
-  background-size: 10px;
-  padding: 10px;
-}
 .cpm .cpm-message-page .cpm-message-form-wrap,
 .cpm .cpm-message-page .cpm-milestone-form-wrap,
 .cpm .cpm-message-page .cpm-comment-form-wrap,
@@ -3440,6 +3420,31 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background: #ffffff !important;
   padding: 10px;
   width: auto !important ;
+}
+.cpm .cpm-comment {
+  background: #fff;
+  margin-bottom: 10px;
+  display: block;
+  border: #eeeeee solid 1px;
+  padding: 10px;
+  min-height: 50px;
+}
+.cpm .cpm-comment .cpm-comment-action {
+  position: absolute;
+  visibility: hidden;
+  text-align: right;
+  right: 10px;
+  top: 10px ;
+}
+.cpm .cpm-comment .cpm-comment-action .cpm-edit-comment-link {
+  background: url('../images/edit.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
+}
+.cpm .cpm-comment .cpm-comment-action .cpm-delete-comment-link {
+  background: url('../images/close.svg') no-repeat 50% 50%;
+  background-size: 10px;
+  padding: 10px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-form-wrap {
   width: auto;
@@ -3637,9 +3642,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
 }
-@media only screen and (max-width: 1166px) and (min-width: 360px) {
+@media only screen and (max-width: 1166px) {
   .cpm {
     /*** For activity page ***/
+    /** Discussion Page Start**/
+    /** Discussion Page End **/
   }
   .cpm .cpm-sm-col-1 {
     width: 100%;
@@ -3676,7 +3683,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
     width: 100%;
   }
   .cpm .cpm-sm-col-12 {
-    width: 100%;
+    width: 100% ;
     float: none;
   }
   .cpm .show_desktop_only {
@@ -3690,6 +3697,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
   }
   .cpm .hide_small_only {
     display: none;
+  }
+  .cpm .cpm-project-group ul li {
+    width: 100% ;
+    float: none;
+  }
+  .cpm .cpm-project-group ul li a {
+    background-position: 2% 50% !important;
+    border-bottom: solid 2px #eeeeee;
   }
   .cpm .cpm-project-grid,
   .cpm .cpm-project-list {
@@ -3775,7 +3790,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   .cpm .project-overview .overview-menu ul li {
     width: 30.19999%;
     float: left;
+    display: flex;
     margin-bottom: 20px;
+    text-align: center !important;
   }
   .cpm .project-overview .overview-menu ul li .icon {
     padding: 25px 0px;
@@ -3798,5 +3815,16 @@ ul.cpm-files li .cpm-file-action .comment-number {
   .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
     margin-bottom: 10px;
     margin-top: 25px;
+  }
+  .cpm .cpm-message-page {
+    display: inline  ;
+  }
+  .cpm .cpm-message-page .cpm-message-list {
+    width: 100% ;
+  }
+  .cpm .cpm-message-page .cpm-message-body {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
   }
 }

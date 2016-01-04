@@ -11,7 +11,7 @@ cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
 $can_create = cpm_user_can_access( $project_id, 'create_message' );
 ?>
 <div class="cpm-row cpm-message-page">
-    <div class="cpm-message-list">
+    <div class="cpm-message-list cpm-sm-col-12">
         <?php if ( $can_create ) { ?>
         <div>
             <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
@@ -29,7 +29,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
         foreach ($messages as $message) {
             $private_class = ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
         ?>
-        <li itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>" >
+        <li itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>" class="" >
                 <div class="cpm-col-2">
                     <?php echo cpm_url_user( $message->post_author, true ); ?>
                 </div>
