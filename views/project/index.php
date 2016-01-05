@@ -9,17 +9,10 @@ $status_class       = isset( $_GET['status'] ) ? $_GET['status'] : 'active';
 $count              = cpm_project_count();
 $can_create_project = cpm_manage_capability( 'project_create_role' );
 $class              = $can_create_project ? '' : ' cpm-no-nav';
+$dpv                = get_user_meta( get_current_user_id(), '_cpm_project_view', true );
+$project_view       = in_array( $dpv, array( 'grid', 'list' ) ) ? $dpv : 'grid';
 
 unset( $projects['total_projects'] );
-
-$dpv = get_option( 'default_project_view' ) ;
-
-if ( $dpv !== false ) {
-    $default_project_view = $dpv ;
-}else  {
-    $default_project_view = "grid";
-}
-
 
 ?>
 <div class="cpm-top-bar cpm-no-padding">
@@ -86,8 +79,8 @@ if ( $dpv !== false ) {
         </ul>
         <div class="cpm-col-5 cpm-last-col cpm-text-right show_desktop_only" >
             <ul class="cpm-project-view " >
-                <li><a href="javascript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="<?php if( $default_project_view == 'list' ) echo 'active' ; ?> dashicons dashicons-menu"></span></a></li>
-                <li><a href="javascript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="<?php if( $default_project_view == 'grid' ) echo 'active' ; ?> dashicons dashicons-screenoptions"></span></a></li>
+                <li><a href="javascript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="<?php if ( $project_view == 'list' ) echo 'active' ; ?> dashicons dashicons-menu"></span></a></li>
+                <li><a href="javascript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="<?php if ( $project_view == 'grid' ) echo 'active' ; ?> dashicons dashicons-screenoptions"></span></a></li>
                 <div class="clearfix"></div>
             </ul>
         </div>
@@ -98,7 +91,7 @@ if ( $dpv !== false ) {
 </div>
 
 
-<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-<?php echo $default_project_view ; ?> cpm-no-padding cpm-no-margin"  >
+<div class="cpm-projects<?php echo $class; ?> cpm-row cpm-project-<?php echo $project_view ; ?> cpm-no-padding cpm-no-margin"  >
 
     <?php if ( $projects ) {
         $slp = 1 ;

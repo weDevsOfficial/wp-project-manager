@@ -2667,6 +2667,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: #888888;
   line-height: 35px;
 }
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta a {
+  color: #999;
+}
 .cpm .cpm-project-grid .cpm-project .cpm-progress {
   position: absolute;
   bottom: 75px;
