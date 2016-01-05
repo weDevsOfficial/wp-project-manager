@@ -316,12 +316,11 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
 
                 <div class="cpm-right">
-                    <?php
-                if( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
-
-                    <a href="#" class="move">&nbsp;</a>
-                    <a href="#" class="cpm-list-edit cpm-icon-edit ">&nbsp;</a>
-                    <a href="#" class="cpm-list-delete cpm-icon-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>">&nbsp;</a>
+                <?php
+                if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
+                    <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>
+                    <a href="#" class="cpm-list-edit cpm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
+                    <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                 <?php } else { ?>
                     <a href="#" class="move">&nbsp;</a>
                 <?php } ?>
@@ -403,16 +402,14 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                       </a>
                 </div>
                 <div class="cpm-col-3 cpm-todo-comment">
-                    <span class="cpm-comment-count ">
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
-                            <?php if ( (int) $list->comment_count > 0 ) { ?>
-                                <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
-                            <?php } else {
-                                _e( '<span>0</span> Comment', 'cpm' );
-                            }
-                            ?>
-                        </a>
-                    </span>
+                    <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php if ( (int) $list->comment_count > 0 ) { ?>
+                            <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                        <?php } else {
+                            _e( '<span>0</span> Comment', 'cpm' );
+                        }
+                        ?>
+                    </a>
                 </div>
             </div>
 

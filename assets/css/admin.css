@@ -1449,13 +1449,6 @@ ul.cpm-activity ul li:before {
 .cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-.cpm-todolists article.cpm-todolist .move {
-  background: url('../images/move.png') no-repeat;
-  cursor: move;
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-}
 .cpm-todolists article.cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
@@ -1748,19 +1741,12 @@ ul.cpm-activity ul li:before {
   overflow: hidden;
   height: 18px;
   background-color: #f7f7f7;
-  background-image: -moz-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f5), to(#f9f9f9));
-  background-image: -webkit-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: -o-linear-gradient(top, #f5f5f5, #f9f9f9);
-  background-image: linear-gradient(to bottom, #f5f5f5, #f9f9f9);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 .cpm-progress .bar {
   width: 0%;
@@ -1769,17 +1755,7 @@ ul.cpm-activity ul li:before {
   font-size: 12px;
   text-align: center;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #0e90d2;
-  background-image: -moz-linear-gradient(top, #149bdf, #0480be);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#149bdf), to(#0480be));
-  background-image: -webkit-linear-gradient(top, #149bdf, #0480be);
-  background-image: -o-linear-gradient(top, #149bdf, #0480be);
-  background-image: linear-gradient(to bottom, #149bdf, #0480be);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #149bdf;
   -webkit-transition: width 0.6s ease;
   -moz-transition: width 0.6s ease;
   -o-transition: width 0.6s ease;
@@ -1793,14 +1769,7 @@ ul.cpm-activity ul li:before {
   text-shadow: 0 1px 1px #FFFFFF;
 }
 .cpm-progress-info .bar {
-  background-color: #5eb95e;
-  background-image: -moz-linear-gradient(top, #62c462, #57a957);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#57a957));
-  background-image: -webkit-linear-gradient(top, #62c462, #57a957);
-  background-image: -o-linear-gradient(top, #62c462, #57a957);
-  background-image: linear-gradient(to bottom, #62c462, #57a957);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff57a957', GradientType=0);
+  background-color: #62c462;
 }
 ul.cpm-links li {
   display: inline-block;
@@ -3158,34 +3127,28 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-bottom: 20px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  padding: 15px 15px 0 15px;
+  padding: 10px 10px 3px 10px;
   margin-bottom: 10px;
-  background: #f9fafa  ;
+  background: #f9fafa;
+  border-bottom: 1px solid #e5e5e5;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right {
-  text-align: right ;
+  text-align: right;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right a {
   float: none;
   padding: 0px;
+  color: #ccc;
+  visibility: hidden;
 }
-.cpm .cpm-todolists .cpm-todolist header .cpm-right .move {
-  background: url('../images/move.svg') no-repeat 50% 0%;
-  padding: 10px;
-  background-size: 20px;
+.cpm .cpm-todolists .cpm-todolist header .cpm-right a:hover {
+  color: #444;
 }
-.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-edit {
-  background: url('../images/edit.svg') no-repeat 50% 0%;
-  padding: 10px;
-  background-size: 18px;
+.cpm .cpm-todolists .cpm-todolist header .cpm-right a.move {
+  cursor: move;
 }
-.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-delete {
-  background: url('../images/close.svg') no-repeat 50% 0%;
-  padding: 10px;
-  background-size: 15px;
-}
-.cpm .cpm-todolists .cpm-todolist header .cpm-right .cpm-icon-delete:before {
-  content: "";
+.cpm .cpm-todolists .cpm-todolist:hover header .cpm-right a {
+  visibility: visible;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos {
   padding: 0px;
@@ -3193,7 +3156,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
   border-bottom: solid 1px #eeeeee;
-  padding: 0px 8px 0px 30px;
+  padding: 0px 8px 0px 25px;
   background: #ffffff;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li a {
@@ -3289,31 +3252,31 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-bottom: 0;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 span {
-  font-size: 120%;
   font-weight: bold;
-  display: block;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-3 {
+  padding-left: 28px;
+  background-size: 22px;
+  background-repeat: no-repeat;
+  margin: 5px 0;
+  padding-bottom: 5px;
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-3 a {
+  line-height: 150%;
+  font-size: 12px;
+  display: inline-block;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-complete {
-  background: url('../images/todo_completed.svg') no-repeat 0% 50%;
-  padding-left: 5%;
-  background-size: 25px;
+  background-image: url('../images/todo_completed.svg');
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-incomplete {
-  background: url('../images/todo-incomplete.svg') no-repeat 0% 50%;
-  padding-left: 5%;
-  background-size: 25px;
+  background-image: url('../images/todo-incomplete.svg');
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment {
-  background: url('../images/comment.svg') no-repeat 0% 50%;
-  padding-left: 5%;
-  background-size: 25px;
-}
-.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment a {
-  font-size: 13px;
-  font-weight: normal;
+  background-image: url('../images/comment.svg');
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-prgress-bar {
-  margin-top: 15px;
+  margin-top: 12px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
