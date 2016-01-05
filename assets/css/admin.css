@@ -787,6 +787,7 @@ ul.cpm-activity ul li:before {
   -moz-border-radius: 50%;
   border-radius: 50%;
   margin-right: 5px;
+  background-color: #ccc;
 }
 .cpm-projects .cpm-project .cpm-progress {
   position: absolute;
@@ -1045,21 +1046,15 @@ ul.cpm-activity ul li:before {
   border-radius: 0 0 3px 3px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-avatar {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  float: left;
   width: 48px;
-  height: 48px;
-  padding: 3px;
-  background: #D5D5D5;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-avatar img {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  background: #D5D5D5;
+  max-width: 100%;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container {
   margin-left: 68px;
@@ -1086,6 +1081,7 @@ ul.cpm-activity ul li:before {
   visibility: visible;
 }
 .cpm-comment-form-wrap {
+  background-color: #fff;
   position: relative;
   border: 1px solid #DDD;
   -webkit-border-radius: 5px;
@@ -1095,22 +1091,23 @@ ul.cpm-activity ul li:before {
   margin-left: 75px;
   width: 500px;
 }
+.cpm-comment-form-wrap .cpm-comment-form {
+  padding: 5px 10px 10px 10px;
+}
 .cpm-comment-form-wrap .cpm-avatar {
   position: absolute;
   top: 0;
   left: -65px;
   height: 48px;
   width: 48px;
-  padding: 3px;
-  background: #D5D5D5;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
 }
 .cpm-comment-form-wrap .cpm-avatar img {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  background: #fff;
+  padding: 2px;
+  border: 1px solid #ccc;
 }
 .cpm-comment-form,
 .cpm-message-form,
@@ -1249,7 +1246,7 @@ ul.cpm-activity ul li:before {
 .cpm-new-todolist-form {
   display: none;
   border: 1px solid #e5e5e5;
-  padding: 15px;
+  padding: 25px;
   width: 40%;
   background: #fff;
   margin-top: 20px;
@@ -1259,94 +1256,27 @@ ul.cpm-activity ul li:before {
   margin: 20px 0;
   border-bottom: 1px solid #eee;
   border-top: 1px solid #eee;
-  padding: 10px 0 10px 10px;
+  padding: 20px 30px 15px 25px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
-.cpm-single-task .cpm-todo-text {
-  font-weight: bold;
-}
-.cpm-single-task .cpm-new-task-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+.cpm-single-task a.move {
   display: none;
-  height: 16px;
-  left: 0;
-  margin-top: 5px;
-  position: absolute;
-  width: 16px;
 }
-.cpm-single-task .cpm-todo-wrap {
-  margin-left: 0;
-  padding-left: 20px;
-  position: relative;
+.cpm-single-task .cpm-todo-action-right {
+  text-align: right;
 }
-.cpm-single-task .cpm-todo-wrap .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-  height: 16px;
-  display: none;
-  float: left;
-  opacity: 0.62;
-  width: 16px;
-  position: absolute;
-  top: 2px;
-  left: 0;
+.cpm-single-task .cpm-todo-action-right a {
+  color: #aaa;
 }
-.cpm-single-task .cpm-todo-wrap.cpm-task-complete .cpm-todo-text {
-  text-decoration: line-through;
+.cpm-single-task .cpm-todo-action-right a:hover {
+  color: #666;
 }
-.cpm-single-task .cpm-todo-wrap input[type="checkbox"] {
-  margin-left: -20px;
-  margin-right: 2px;
-  margin-top: 0;
-}
-.cpm-single-task .cpm-todo-wrap:hover .cpm-todo-action {
-  visibility: visible;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-action {
-  padding: 1px 5px;
-  background: #fff;
-  float: right;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-action a {
-  display: block;
-  padding: 5px;
-  border-left: 1px solid #eee;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-action a.cpm-todo-delete {
+.cpm-single-task .cpm-todo-details {
   border-bottom: 1px solid #eee;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content a {
-  color: #333;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content a:hover {
-  text-decoration: underline;
-  color: #21759b;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #ddd;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #999;
-  margin-right: 5px;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user {
-  color: #999;
-  text-decoration: none;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
-  font-size: 11px;
-  color: #999;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
-  text-decoration: none;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-task-edit-form {
-  display: none;
-}
-.cpm-single-task .cpm-todo-wrap .cpm-task-edit-form .date label {
-  display: block;
+  border-top: 1px solid #eee;
+  padding: 20px 0;
 }
 .cpm-todolists .submit {
   margin: 10px 0;
@@ -1474,136 +1404,6 @@ ul.cpm-activity ul li:before {
   word-wrap: break-word;
   margin: 0;
 }
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap {
-  margin-left: -19px;
-  padding-left: 20px;
-  position: relative;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap input[type="checkbox"] {
-  margin-left: -11px;
-  margin-right: 2px;
-  margin-top: -3px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap:hover .cpm-todo-action {
-  visibility: visible;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action {
-  font-size: 11px;
-  line-height: 14px;
-  border: 1px solid #eee;
-  border-right: none;
-  -webkit-border-radius: 5px 0 0 5px;
-  -moz-border-radius: 5px 0 0 5px;
-  border-radius: 5px 0 0 5px;
-  padding: 2px 0 0 0;
-  background: #fff;
-  visibility: hidden;
-  position: absolute;
-  left: -36px;
-  top: 0;
-  z-index: 99;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-action a {
-  display: inline-block;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a {
-  color: #333;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content a:hover {
-  text-decoration: underline;
-  color: #21759b;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #E2E9F8;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  margin-right: 5px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
-  color: #999;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #CD7A7A;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #fff;
-  margin-right: 5px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #ddd;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #999;
-  margin-right: 5px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
-  width: 24px;
-  height: auto;
-  vertical-align: middle;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  margin-left: 10px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
-  color: #999;
-  text-decoration: none;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
-  font-size: 11px;
-  color: #999;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
-  text-decoration: none;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-todo-content .cpm-completed-by img {
-  width: 22px;
-  height: auto;
-  border-radius: 50%;
-  vertical-align: middle;
-  border: 1px solid #ccc;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form {
-  border: 1px solid #e5e5e5;
-  display: none;
-  margin-bottom: 25px;
-  margin-left: 0;
-  margin-top: 20px;
-  padding: 20px;
-  width: 40%;
-  background: #f8f8f8;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form input[type="text"],
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form textarea {
-  width: 98%;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen {
-  width: 98% !important;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen input[type="text"] {
-  height: 30px;
-  color: #9B9B9B;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy {
-  margin-top: 8px;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
-  margin-left: 0;
-}
-.cpm-todolists article.cpm-todolist > ul li .cpm-todo-wrap .cpm-task-edit-form .date label {
-  display: block;
-}
 .cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
   padding-top: 5px;
 }
@@ -1640,6 +1440,135 @@ ul.cpm-activity ul li:before {
   margin-top: 5px;
   position: absolute;
   width: 16px;
+}
+.cpm-todo .cpm-todo-wrap {
+  margin-left: -19px;
+  padding-left: 20px;
+  position: relative;
+}
+.cpm-todo .cpm-todo-wrap input[type="checkbox"] {
+  margin-right: 5px;
+}
+.cpm-todo .cpm-todo-wrap:hover .cpm-todo-action {
+  visibility: visible;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-action {
+  font-size: 11px;
+  line-height: 14px;
+  border: 1px solid #eee;
+  border-right: none;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  padding: 2px 0 0 0;
+  background: #fff;
+  visibility: hidden;
+  position: absolute;
+  left: -36px;
+  top: 0;
+  z-index: 99;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-action a {
+  display: inline-block;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content a.task-title {
+  color: #333;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content a.task-title:hover {
+  text-decoration: underline;
+  color: #21759b;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #E2E9F8;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  margin-right: 5px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
+  color: #999;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #CD7A7A;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #fff;
+  margin-right: 5px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #999;
+  margin-right: 5px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
+  width: 24px;
+  height: auto;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin-left: 10px;
+  background-color: #ccc;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user a {
+  color: #999;
+  text-decoration: none;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-completed-by {
+  font-size: 11px;
+  color: #999;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-completed-by a {
+  text-decoration: none;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-completed-by img {
+  width: 22px;
+  height: auto;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form {
+  border: 1px solid #e5e5e5;
+  display: none;
+  margin-bottom: 25px;
+  margin-left: 0;
+  margin-top: 20px;
+  padding: 20px;
+  width: 40%;
+  background: #f8f8f8;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form input[type="text"],
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form textarea {
+  width: 98%;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen {
+  width: 98% !important;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen input[type="text"] {
+  height: 30px;
+  color: #9B9B9B;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy {
+  margin-top: 8px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
+  margin-left: 0;
+}
+.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .date label {
+  display: block;
 }
 .cpm-new-todolist-form input[type="text"],
 .cpm-list-edit-form input[type="text"],
@@ -2617,6 +2546,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
   color: #000;
 }
+.cpm .cpm-project-meta a {
+  color: #999;
+}
 .cpm .cpm-project-grid {
   margin: 0px ;
   padding: 0px;
@@ -2666,9 +2598,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-size: 13px;
   color: #888888;
   line-height: 35px;
-}
-.cpm .cpm-project-grid .cpm-project .cpm-project-meta a {
-  color: #999;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-progress {
   position: absolute;
@@ -3158,11 +3087,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
   border-bottom: solid 1px #eeeeee;
-  padding: 0px 8px 0px 25px;
+  padding: 0px 8px 5px 15px;
   background: #ffffff;
-}
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li a {
-  color: #019dd6;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li div {
   margin-bottom: 0px;

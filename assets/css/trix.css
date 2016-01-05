@@ -6,9 +6,9 @@ http://trix-editor.org/
 */
 trix-editor {
   color: #111;
-  border: 1px solid #bbb;
+  border: 1px solid #ddd;
   border-radius: 3px;
-  margin: 0;
+  margin: 0 0 15px 0;
   padding: 4px 8px;
   min-height: 200px;
   outline: none; }
@@ -17,11 +17,7 @@ trix-toolbar * {
 trix-toolbar .button_group {
   display: inline-block;
   font-size: 0;
-  margin: 0 8px 4px 0;
-  border: 1px solid #bbb;
-  border-top-color: #ccc;
-  border-bottom-color: #888;
-  border-radius: 5px;
+  margin: 0 0 5px 0;
   overflow: hidden; }
   trix-toolbar .button_group:last-of-type {
     margin-right: 0; }
@@ -30,10 +26,9 @@ trix-toolbar .button_group {
     font-size: 0;
     margin: 0;
     height: 28px;
-    width: 40px;
+    width: 35px;
     background: #fff;
-    border: none;
-    border-bottom: 1px solid #ddd; }
+    border: none;}
     trix-toolbar .button_group button::before, trix-toolbar .button_group input[type=button]::before {
       display: inline-block;
       position: absolute;

@@ -859,6 +859,7 @@ ul.cpm-activity {
                 width: 48px;
                 .border-radius(50%);
                 margin-right: 5px;
+                background-color: #ccc;
             }
         }
 
@@ -1145,17 +1146,13 @@ ul.cpm-activity {
         }
 
         .cpm-avatar {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+            float: left;
             width: 48px;
-            height: 48px;
-            padding: 3px;
-            background: #D5D5D5;
-            .border-radius(50%);
 
             img {
                 .border-radius(50%);
+                background: #D5D5D5;
+                max-width: 100%;
             }
         }
 
@@ -1196,6 +1193,7 @@ ul.cpm-activity {
 }
 
 .cpm-comment-form-wrap {
+    background-color: #fff;
     position: relative;
     border: 1px solid #DDD;
     .border-radius(5px);
@@ -1203,18 +1201,22 @@ ul.cpm-activity {
     margin-left: 75px;
     width: 500px;
 
+    .cpm-comment-form {
+        padding: 5px 10px 10px 10px;
+    }
+
     .cpm-avatar {
         position: absolute;
         top: 0;
         left: -65px;
         height: 48px;
         width: 48px;
-        padding: 3px;
-        background: #D5D5D5;
-        .border-radius(50%);
 
         img {
             .border-radius(50%);
+            background: #fff;
+            padding: 2px;
+            border: 1px solid #ccc;
         }
     }
 }
@@ -1339,7 +1341,7 @@ ul.cpm-activity {
 .cpm-new-todolist-form {
     display: none;
     border: 1px solid #e5e5e5;
-    padding: 15px;
+    padding: 25px;
     width: 40%;
     background: #fff;
     margin-top: 20px;
@@ -1350,113 +1352,31 @@ ul.cpm-activity {
     margin: 20px 0;
     border-bottom: 1px solid #eee;
     border-top: 1px solid #eee;
-    padding: 10px 0 10px 10px;
+    padding: 20px 30px 15px 25px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 
-    .cpm-todo-text {
-        font-weight: bold;
-    }
-
-    .cpm-new-task-spinner {
-        background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    a.move {
         display: none;
-        height: 16px;
-        left: 0;
-        margin-top: 5px;
-        position: absolute;
-        width: 16px;
     }
 
-    .cpm-todo-wrap {
-        margin-left: 0;
-        padding-left: 20px;
-        position: relative;
+    .cpm-todo-action-right {
+        text-align: right;
 
-        .cpm-spinner {
-            background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-            height: 16px;
-            display: none;
-            float: left;
-            opacity: 0.62;
-            width: 16px;
-            position: absolute;
-            top: 2px;
-            left: 0;
-        }
+        a {
+            color: #aaa;
 
-        &.cpm-task-complete .cpm-todo-text {
-            text-decoration: line-through;
-        }
-
-        input[type="checkbox"] {
-            margin-left: -20px;
-            margin-right: 2px;
-            margin-top: 0;
-        }
-
-        &:hover {
-            .cpm-todo-action {
-                visibility: visible;
+            &:hover {
+                color: #666;
             }
         }
+    }
 
-        .cpm-todo-action {
-            padding: 1px 5px;
-            background: #fff;
-            float: right;
-
-            a {
-                display: block;
-                padding: 5px;
-                border-left: 1px solid #eee;
-
-                &.cpm-todo-delete {
-                    border-bottom: 1px solid #eee;
-                }
-            }
-        }
-
-        .cpm-todo-content {
-
-            a {
-                color: #333;
-
-                &:hover {
-                    text-decoration: underline;
-                    color: #21759b;
-                }
-            }
-
-            .cpm-due-date {
-                .border-radius(3px);
-                background: #ddd;
-                font-size: 12px;
-                line-height: 12px;
-                padding: 1px 7px;
-                color: #999;
-                margin-right: 5px;
-            }
-
-            .cpm-assigned-user {
-                color: #999;
-                text-decoration: none;
-            }
-
-            .cpm-completed-by {
-                font-size: 11px;
-                color: #999;
-
-                a {
-                    text-decoration: none;
-                }
-            }
-        }
-
-        .cpm-task-edit-form {
-            display: none;
-            .date label {
-                display: block;
-            }
-        }
+    .cpm-todo-details {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+        padding: 20px 0;
     }
 }
 
@@ -1605,158 +1525,6 @@ ul.cpm-activity {
                 padding-right: 110px;
                 word-wrap: break-word;
                 margin: 0;
-
-                .cpm-todo-wrap {
-                    margin-left: -19px;
-                    padding-left: 20px;
-                    position: relative;
-
-                    input[type="checkbox"] {
-                        margin-left: -11px;
-                        margin-right: 2px;
-                        margin-top: -3px;
-                    }
-
-                    &:hover {
-                        .cpm-todo-action {
-                            visibility: visible;
-                        }
-                    }
-
-                    .cpm-todo-action {
-                        font-size: 11px;
-                        line-height: 14px;
-                        border: 1px solid #eee;
-                        border-right: none;
-                        .border-radius(5px 0 0 5px);
-                        padding: 2px 0 0 0;
-                        background: #fff;
-                        visibility: hidden;
-                        position: absolute;
-                        left: -36px;
-                        top: 0;
-                        z-index: 99;
-
-                        a {
-                            display: inline-block;
-                        }
-                    }
-
-                    .cpm-todo-content {
-
-                        a {
-                            color: #333;
-
-                            &:hover {
-                                text-decoration: underline;
-                                color: #21759b;
-                            }
-                        }
-
-                        .cpm-comment-count {
-                            .border-radius(3px);
-                            // background: lighten(@linkColor, 10%);
-                            background: #E2E9F8;
-                            font-size: 12px;
-                            line-height: 12px;
-                            padding: 1px 7px;
-                            margin-right: 5px;
-
-                            a {
-                                color: #999;
-                            }
-                        }
-
-                        .cpm-due-date {
-                            .border-radius(3px);
-                            background: #CD7A7A;
-                            font-size: 12px;
-                            line-height: 12px;
-                            padding: 1px 7px;
-                            color: #fff;
-                            margin-right: 5px;
-                        }
-
-                        .cpm-current-date {
-                            .border-radius(3px);
-                            background: #ddd;
-                            font-size: 12px;
-                            line-height: 12px;
-                            padding: 1px 7px;
-                            color: #999;
-                            margin-right: 5px;
-                        }
-
-                        .cpm-assigned-user {
-                            img {
-                                width: 24px;
-                                height: auto;
-                                vertical-align: middle;
-                                border: 1px solid #ccc;
-                                border-radius: 50%;
-                                margin-left: 10px;
-                            }
-
-                            a {
-                                color: #999;
-                                text-decoration: none;
-                            }
-                        }
-
-                        .cpm-completed-by {
-                            font-size: 11px;
-                            color: #999;
-
-                            a {
-                                text-decoration: none;
-                            }
-
-                            img {
-                                width: 22px;
-                                height: auto;
-                                border-radius: 50%;
-                                vertical-align: middle;
-                                border: 1px solid #ccc;
-                            }
-                        }
-                    }
-
-                    .cpm-task-edit-form {
-                        border: 1px solid #e5e5e5;
-                        display: none;
-                        margin-bottom: 25px;
-                        margin-left: 0;
-                        margin-top: 20px;
-                        padding: 20px;
-                        width: 40%;
-                        background: #f8f8f8;
-
-                        input[type="text"], textarea {
-                            width: 98%;
-                        }
-
-                        #task_assign_chosen {
-                            width: 98% !important;
-
-                            input[type="text"] {
-                                height: 30px;
-                                color: #9B9B9B;
-                            }
-                        }
-
-                        .cpm-make-privacy {
-                            margin-top: 8px;
-
-                            input[type="checkbox"] {
-                                margin-left: 0;
-                            }
-                        }
-
-                        .date label {
-                            display: block;
-                        }
-                    }
-                }
             }
         }
 
@@ -1805,6 +1573,159 @@ ul.cpm-activity {
         margin-top: 5px;
         position: absolute;
         width: 16px;
+    }
+}
+
+.cpm-todo {
+    .cpm-todo-wrap {
+        margin-left: -19px;
+        padding-left: 20px;
+        position: relative;
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        &:hover {
+            .cpm-todo-action {
+                visibility: visible;
+            }
+        }
+
+        .cpm-todo-action {
+            font-size: 11px;
+            line-height: 14px;
+            border: 1px solid #eee;
+            border-right: none;
+            .border-radius(5px 0 0 5px);
+            padding: 2px 0 0 0;
+            background: #fff;
+            visibility: hidden;
+            position: absolute;
+            left: -36px;
+            top: 0;
+            z-index: 99;
+
+            a {
+                display: inline-block;
+            }
+        }
+
+        .cpm-todo-content {
+
+            a.task-title {
+                color: #333;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: #21759b;
+                }
+            }
+
+            .cpm-comment-count {
+                .border-radius(3px);
+                // background: lighten(@linkColor, 10%);
+                background: #E2E9F8;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 1px 7px;
+                margin-right: 5px;
+
+                a {
+                    color: #999;
+                }
+            }
+
+            .cpm-due-date {
+                .border-radius(3px);
+                background: #CD7A7A;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 1px 7px;
+                color: #fff;
+                margin-right: 5px;
+            }
+
+            .cpm-current-date {
+                .border-radius(3px);
+                background: #ddd;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 1px 7px;
+                color: #999;
+                margin-right: 5px;
+            }
+
+            .cpm-assigned-user {
+                img {
+                    width: 24px;
+                    height: auto;
+                    vertical-align: middle;
+                    border: 1px solid #ccc;
+                    border-radius: 50%;
+                    margin-left: 10px;
+                    background-color: #ccc;
+                }
+
+                a {
+                    color: #999;
+                    text-decoration: none;
+                }
+            }
+
+            .cpm-completed-by {
+                font-size: 11px;
+                color: #999;
+
+                a {
+                    text-decoration: none;
+                }
+
+                img {
+                    width: 22px;
+                    height: auto;
+                    border-radius: 50%;
+                    vertical-align: middle;
+                    border: 1px solid #ccc;
+                }
+            }
+        }
+
+        .cpm-task-edit-form {
+            border: 1px solid #e5e5e5;
+            display: none;
+            margin-bottom: 25px;
+            margin-left: 0;
+            margin-top: 20px;
+            padding: 20px;
+            width: 40%;
+            background: #f8f8f8;
+
+            input[type="text"], textarea {
+                width: 98%;
+            }
+
+            #task_assign_chosen {
+                width: 98% !important;
+
+                input[type="text"] {
+                    height: 30px;
+                    color: #9B9B9B;
+                }
+            }
+
+            .cpm-make-privacy {
+                margin-top: 8px;
+
+                input[type="checkbox"] {
+                    margin-left: 0;
+                }
+            }
+
+            .date label {
+                display: block;
+            }
+        }
     }
 }
 
@@ -2965,12 +2886,15 @@ ul.cpm-files {
         }
     }
 
+    .cpm-project-meta a {
+        color: #999;
+    }
+
 
     /**
     * Home Project Grid
     *
     **/
-
     .cpm-project-grid {
         margin: 0px ;
         padding: 0px;
@@ -3023,10 +2947,6 @@ ul.cpm-files {
                         color: #888888;
                         line-height: 35px;
                     }
-                }
-
-                a {
-                    color: #999;
                 }
             }
 
@@ -3642,12 +3562,8 @@ ul.cpm-files {
 
                 li {
                     border-bottom: solid 1px @gray;
-                    padding: 0px 8px 0px 25px;
+                    padding: 0px 8px 5px 15px;
                     background: #ffffff;
-
-                    a {
-                        color: @blueColor ;
-                    }
 
                     div {
                         margin-bottom: 0px;

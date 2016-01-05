@@ -17,7 +17,7 @@
             $('.cpm-todolists').on('submit', '.cpm-task-edit-form form', this.updateTodo);
 
             //single todo
-            $('.cpm-single-task').on('click', '.cpm-todo-action a.cpm-todo-edit', this.toggleEditTodo);
+            $('.cpm-single-task').on('click', '.cpm-todo-action-right a.cpm-todo-edit', this.toggleEditTodo);
             $('.cpm-single-task').on('click', '.cpm-task-edit-form a.todo-cancel', this.toggleEditTodo);
             $('.cpm-single-task').on('submit', '.cpm-task-edit-form form', this.updateTodo);
             $('.cpm-single-task').on('click', 'input[type=checkbox].cpm-uncomplete', this.markDone);
@@ -369,7 +369,7 @@
                     res = JSON.parse(res);
                     if(res.success === true) {
                         var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos-new');
-                        currentList.append( '<li>' + res.content + '</li>' );
+                        currentList.append( '<li class="cpm-todo">' + res.content + '</li>' );
 
                         //clear the form
                         self.find('textarea, input[type=text]').val('');

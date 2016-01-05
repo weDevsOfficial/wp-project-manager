@@ -47,27 +47,27 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     ob_start();
     ?>
 
-    <div class="cpm-todo-wrap " >
+    <div class="cpm-todo-wrap clearfix">
         <div class="cpm-todo-content">
 
             <div class="cpm-col-7">
-                    <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
-                    <?php if ( $single ) { ?>
-                        <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
-                        <span class="<?php echo $private_class; ?>"></span>
-                        <div class="cpm-todo-details"><?php echo $task->post_content; ?></div>
-                    <?php } else {
-                        if ( $title_link_status ) {
-                            ?>
-                            <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                                <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
-                                <span class="<?php echo $private_class; ?>"></span>
-                            </a>
-                            <?php
-                        } else {?>
+                <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
+
+                <?php if ( $single ) { ?>
+                    <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
+                    <span class="<?php echo $private_class; ?>"></span>
+                <?php } else {
+                    if ( $title_link_status ) {
+                        ?>
+                        <a class="task-title" href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
                             <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
                             <span class="<?php echo $private_class; ?>"></span>
-                    <?php } } ?>
+                        </a>
+                        <?php
+                    } else {?>
+                        <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
+                        <span class="<?php echo $private_class; ?>"></span>
+                <?php } } ?>
 
                 <?php
                 // if the task is completed, show completed by
@@ -112,18 +112,18 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 ?>
             </div>
 
-            <div class="cpm-col-1 cpm-comment-count">
+            <div class="cpm-col-4">
                 <?php if ( !$single ) { ?>
 
-                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                        <?php  echo $task->comment_count  ; ?>
-                    </a>
+                    <span class="cpm-comment-count">
+                        <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
+                            <?php  echo $task->comment_count  ; ?>
+                        </a>
+                    </span>
 
                 <?php } ?>
-            </div>
 
-            <div class="cpm-col-3">
-
+                <?php do_action( 'cpm_task_column', $task, $project_id, $list_id, $single, $task->completed ); ?>
             </div>
 
             <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
@@ -136,11 +136,18 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     <?php } ?>
                 <?php } ?>
             </div>
-            <div class="clearfix"></div>
+
+            <div class="clear"></div>
             <div class="cpm-col-12">
-             <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
+
+                <?php if ( $single ) { ?>
+                    <div class="cpm-todo-details">
+                        <?php echo wp_kses_post( $task->post_content ); ?>
+                    </div>
+                <?php } ?>
+
+                <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
             </div>
-            <div class="clearfix"></div>
         </div>
 
         <?php if ( $task->completed != 1 ) { ?>
@@ -351,7 +358,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             if ( count( $tasks['pending'] ) ) {
                 foreach ($tasks['pending'] as $task) {
                     ?>
-                    <li>
+                    <li class="cpm-todo">
                         <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
                     </li>
                     <?php
@@ -366,7 +373,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 if ( count( $tasks['completed'] ) ) {
                     foreach ($tasks['completed'] as $task) {
                         ?>
-                        <li>
+                        <li class="cpm-todo">
                             <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
                         </li>
                         <?php
@@ -378,8 +385,8 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
         <ul class="cpm-todos-new" >
             <?php
-            if( cpm_user_can_access( $project_id, 'create_todo' ) ) {
-            ?>
+            if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
+                ?>
                 <li class="cpm-new-btn" >
                     <a href="#" class="cpm-btn add-task"><?php _e( 'Add a to-do', 'cpm' ); ?></a>
                 </li>
@@ -513,7 +520,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
     $class = empty( $class ) ? '' : ' ' . $class;
     ob_start();
     ?>
-    <li class="cpm-comment<?php echo $class; ?>" id="cpm-comment-<?php echo $comment->comment_ID; ?>">
+    <li class="cpm-comment clearfix<?php echo $class; ?>" id="cpm-comment-<?php echo $comment->comment_ID; ?>">
         <div class="cpm-avatar "><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
         <div class="cpm-comment-container">
             <div class="cpm-comment-meta">

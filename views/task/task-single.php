@@ -15,7 +15,7 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
 </span>
 
-<div class="cpm-single-task">
+<div class="cpm-single-task cpm-todo">
     <?php echo cpm_task_html( $task, $project_id, $list->ID, true ); ?>
 </div>
 
