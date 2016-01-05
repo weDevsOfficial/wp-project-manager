@@ -15,6 +15,7 @@
  * @param object $task
  * @param int $project_id
  * @param int $list_id
+ *
  * @return string
  */
 function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
@@ -95,9 +96,11 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                                 if ( ( cpm_get_option( 'task_start_field' ) == 'on' ) && $start_date != '' ) {
                                     echo cpm_get_date( $start_date );
                                 }
+
                                 if( $start_date != '' & $task->due_date != '' ) {
                                     echo ' - ';
                                 }
+
                                 if ( $task->due_date != '') {
                                     echo cpm_get_date( $task->due_date );
                                 }
@@ -123,11 +126,13 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
 
             </div>
 
-            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col"><a class="move"></a>
+            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                 <?php if ( $can_manage ) { ?>
-                    <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>></a>
+                    <a class="move"><span class="dashicons dashicons-menu"></span></a>
+                    <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>><span class="dashicons dashicons-trash"></span></a>
+
                     <?php if ( $task->completed != '1' ) { ?>
-                    <a href="#" class="cpm-todo-edit"></a>
+                        <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
                     <?php } ?>
                 <?php } ?>
             </div>
@@ -346,16 +351,16 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             if ( count( $tasks['pending'] ) ) {
                 foreach ($tasks['pending'] as $task) {
                     ?>
-                    <li  >
+                    <li>
                         <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
                     </li>
                     <?php
                 }
             }
             ?>
-            </ul>
-            <ul class="cpm-todos cpm-todo-completed">
+        </ul>
 
+        <ul class="cpm-todos cpm-todo-completed">
             <?php
             if ( $singlePage ) {
                 if ( count( $tasks['completed'] ) ) {
