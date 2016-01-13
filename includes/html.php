@@ -94,15 +94,15 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                         <span class="<?php echo $task_status_wrap; ?>">
                             <?php
                                 if ( ( cpm_get_option( 'task_start_field' ) == 'on' ) && $start_date != '' ) {
-                                    echo cpm_get_date( $start_date );
+                                    echo cpm_get_date( $start_date, false, 'M d' );
                                 }
 
-                                if( $start_date != '' & $task->due_date != '' ) {
+                                if ( $start_date != '' & $task->due_date != '' ) {
                                     echo ' - ';
                                 }
 
                                 if ( $task->due_date != '') {
-                                    echo cpm_get_date( $task->due_date );
+                                    echo cpm_get_date( $task->due_date, false, 'M d' );
                                 }
                             ?>
                         </span>

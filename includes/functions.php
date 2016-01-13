@@ -257,21 +257,16 @@ function cpm_upload_field( $id, $files = array() ) {
  * Helper function for formatting date field
  *
  * @since 0.1
+ *
  * @param string $date
  * @param bool $show_time
+ *
  * @return string
  */
-function cpm_get_date( $date, $show_time = false ) {
+function cpm_get_date( $date, $show_time = false, $format = null ) {
 
-    $date = strtotime( $date );
-
-    if ( $show_time ) {
-        $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-    } else {
-        $format = get_option( 'date_format' );
-    }
-    //$format = 'M j, Y';
-    $date_html = sprintf( '<time datetime="%1$s" title="%1$s">%2$s</time>', date( 'c', $date ), date_i18n( $format, $date ) );
+    $formatted = cpm_get_date_without_html( $date, $show_time, $format );
+    $date_html = sprintf( '<time datetime="%1$s" title="%1$s">%2$s</time>', date( 'c', strtotime( $date ) ), $formatted );
 
     return apply_filters( 'cpm_get_date', $date_html, $date );
 }
@@ -280,20 +275,24 @@ function cpm_get_date( $date, $show_time = false ) {
  * Helper function for formatting date field without html
  *
  * @since 1.2
+ *
  * @param string $date
  * @param bool $show_time
+ *
  * @return string
  */
-function cpm_get_date_without_html( $date, $show_time = false ) {
+function cpm_get_date_without_html( $date, $show_time = false, $format = null ) {
 
     $date = strtotime( $date );
 
-    if ( $show_time ) {
-        $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-    } else {
-        $format = get_option( 'date_format' );
+    if ( null === $format ) {
+        if ( $show_time ) {
+            $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+        } else {
+            $format = get_option( 'date_format' );
+        }
     }
-    //$format = 'M j, Y';
+
     $date_html = sprintf( '%s', date_i18n( $format, $date ) );
 
     return apply_filters( 'cpm_get_date_without_html', $date_html, $date );
