@@ -2143,12 +2143,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
   /** CSS for Milestone Page **/
   /** End MileStone Page **/
   /*** Files ***/
-  /**End Files **/
+  /** End Files **/
   /*****/
   /**
-    * Media Query for responsive
-    *
-    **/
+* Media Query for responsive
+*
+**/
+  /* Smartphones (portrait and landscape) ----------- */
 }
 .cpm * {
   box-sizing: border-box;
@@ -3527,6 +3528,64 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
 }
+@media only screen and (max-width: 640px) {
+  .cpm .cpm-top-bar ul.cpm-project-group-ul {
+    width: 100%;
+  }
+  .cpm .cpm-top-bar ul.cpm-project-group-ul li a {
+    padding-left: 50px !important;
+    background-position: 5% 50% !important;
+  }
+  .cpm .project-overview .overview-menu ul li a {
+    display: block;
+    width: 100%;
+  }
+  .cpm .project-overview .overview-menu ul li a .icon,
+  .cpm .project-overview .overview-menu ul li a .count {
+    float: none;
+    text-align: center;
+    display: block;
+  }
+  .cpm .project-overview .overview-menu ul li a .icon {
+    margin: 0 auto 15px auto;
+  }
+  .cpm .project-overview .cpm-chart {
+    width: 100%;
+  }
+  .cpm .cpm-todo-content .cpm-col-7 {
+    width: 100%;
+  }
+  .cpm .cpm-todo-content .cpm-todo-action-right,
+  .cpm .cpm-todo-content .cpm-col-4 {
+    width: 48%;
+    visibility: visible;
+  }
+  .cpm .cpm-new-todolist-form {
+    width: 100%;
+  }
+  .cpm article.cpm-todolist .cpm-list-edit-form form,
+  .cpm article.cpm-todolist .cpm-task-edit-form {
+    width: 95%;
+  }
+  .cpm article.cpm-todolist .cpm-todo-form {
+    padding: 0;
+  }
+  .cpm article.cpm-todolist .cpm-todo-form .cpm-task-form {
+    width: 92%;
+    margin: 10px 15px;
+  }
+  .cpm .cpm-list-footer .cpm-col-6 {
+    width: 100%;
+  }
+  .cpm .cpm-list-footer .cpm-col-4 {
+    width: 60%;
+  }
+  .cpm .cpm-list-footer .no-percent {
+    width: 20%;
+    margin: 0;
+    padding-top: 10px;
+  }
+}
 @media only screen and (max-width: 1166px) {
   .cpm {
     /*** For activity page ***/
@@ -3686,10 +3745,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
     border-radius: 50px;
     color: #ffffff;
     margin-right: 20px;
-  }
-  .cpm .project-overview .cpm-chart {
-    padding-right: 50px;
-    width: 89.7825598228%;
   }
   .cpm .project-overview .cpm-right-part {
     width: 100%;
