@@ -164,30 +164,14 @@
 
                 res = JSON.parse(res);
 
-                $(document).trigger('cpm.markDone.after', [res,self]);
-
                 if(res.success === true ) {
-                    if(list.length) {
-                        var completeList = list.parent().siblings('.cpm-todo-completed');
-                        completeList.append('<li>' + res.content + '</li>');
-
-                        list.remove();
-
-                        //update progress
-                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
-                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
-                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
-
-                    } else if(singleWrap.length) {
-                        singleWrap.html(res.content);
-                    }
-
+                    $(document).trigger('cpm.markDone.after', [res,self]);
+                    location.reload();
                 }
             });
         },
 
         markUnDone: function () {
-
             var self = $(this);
             self.attr( 'disabled', true );
             self.siblings('.cpm-spinner').show();
@@ -211,23 +195,10 @@
                 res = JSON.parse(res);
 
                 if(res.success === true ) {
-
-                    if(list.length) {
-                        var currentList = list.parent().siblings('.cpm-todos');
-
-                        currentList.append('<li>' + res.content + '</li>');
-                        list.remove();
-
-                        //update progress
-                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
-                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
-                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
-                    } else if(singleWrap.length) {
-                        singleWrap.html(res.content);
-                    }
-                    CPM_Task.datePicker();
+                    $(document).trigger('cpm.markUnDone.after', [res,self]);
+                    location.reload();
                 }
-                $(document).trigger('cpm.markUnDone.after', [res,self]);
+
             });
         },
 

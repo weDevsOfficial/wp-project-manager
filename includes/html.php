@@ -994,7 +994,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
 
         if ( $tasklists ) {
             ?>
-        <div class="cpm-col-6 cpm-milestone-todo">
+        <div class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
             <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
 
             <ul>
@@ -1020,7 +1020,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
         <?php }
          if ( $messages ) {
             ?>
-        <div class="cpm-col-6 cpm-milestone-discussion cpm-last-col">
+        <div class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
             <h3><?php _e( 'Discussion', 'cpm' ); ?></h3>
 
             <ul  >
@@ -1302,6 +1302,53 @@ function cpm_activity_html( $activities ) {
 }
 
 
+/**
+ * render view of all activity for a user in all project
+ *
+ * @since 1.3.8
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_user_activity_html( $activities, $user_id = 0 ) {
+    global $_get_shorcode_attr;
+
+      if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
+    $list = array();
+    $html = '<ul class="cpm-activity-list">';
+
+    foreach ($activities as $activity) {
+
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+
+        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
+
+        foreach ($items as $activity) {
+
+
+            $html .= sprintf( '<li><div class="cpm-col-8 cpm-sm-col-12">%s</div><div class="date cpm-col-4 cpm-sm-col-12">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= "</ul> </li>";
+    }
+
+    $html .= " <div class='clearfix'></div> </ul>";
+    return $html;
+}
+
+
+
+
 
 
 
@@ -1401,14 +1448,21 @@ function cpm_custom_do_shortcode_tag( $m ) {
     $_get_shorcode_attr[$m[2]] = shortcode_parse_atts( $m[3] );
 }
 
-function cpm_check_task_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_task_privicy( $_get_shorcode_attr, $activity, $user_id = 0  ) {
     $task = true;
+      if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
         if ( isset( $post->post_type ) && $post->post_type == 'task' ) {
             $task_privacy = get_post_meta( $post->ID, '_task_privacy', true );
-            if ( $task_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'todo_view_private' ) ) {
+            if ( $task_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'todo_view_private', $user->ID ) ) {
                 $task = false;
             }
         }
@@ -1417,14 +1471,22 @@ function cpm_check_task_privicy( $_get_shorcode_attr, $activity ) {
     return $task;
 }
 
-function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $tasklist = true;
+
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
         if ( isset( $post->post_type ) && $post->post_type == 'task_list' ) {
             $tasklist_privacy = get_post_meta( $post->ID, '_tasklist_privacy', true );
-            if ( $tasklist_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'tdolist_view_private' ) ) {
+            if ( $tasklist_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'tdolist_view_private', $user->ID ) ) {
                 $tasklist = false;
             }
         }
@@ -1433,14 +1495,21 @@ function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity ) {
     return $tasklist;
 }
 
-function cpm_check_message_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_message_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $message = true;
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
         if ( isset( $post->post_type ) && $post->post_type == 'message' ) {
             $message_privacy = get_post_meta( $post->ID, '_message_privacy', true );
-            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'msg_view_private' ) ) {
+            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'msg_view_private', $user->ID ) ) {
                 $message = false;
             }
         }
@@ -1449,14 +1518,21 @@ function cpm_check_message_privicy( $_get_shorcode_attr, $activity ) {
     return $message;
 }
 
-function cpm_check_milestone_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_milestone_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $message = true;
+
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
         if ( isset( $post->post_type ) && $post->post_type == 'milestone' ) {
             $message_privacy = get_post_meta( $post->ID, '_milestone_privacy', true );
-            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'milestone_view_private' ) ) {
+            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'milestone_view_private', $user->ID ) ) {
                 $message = false;
             }
         }

@@ -3349,15 +3349,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 15px 25px;
   border-bottom: #fff solid 2px ;
 }
-.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-late-milestone-link {
-  background: #fff;
-}
-.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-upcomming-milestone-link {
-  background: #fff;
-}
-.cpm #cpm-milestone-page .cpm-milestone-link li .cpm-complete-milestone-link {
-  background: #fff;
-}
 .cpm #cpm-milestone-page .cpm-milestone-link li .cpm-plus-white {
   float: right;
   position: absolute;
@@ -3373,14 +3364,50 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm #cpm-milestone-page .cpm-milestone-link li.active a {
   border-bottom: #F46720 solid 2px ;
 }
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-late-milestone {
+  padding: 0px;
+  background-image: url('../images/late_milestone.svg');
+  background-color: #FDF9F6;
+  background-repeat: no-repeat;
+  background-position: 1% 2%;
+  background-size: 40px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-late-milestone h2 {
+  padding-left: 65px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-upcomming-milestone {
+  padding: 0px;
+  background-image: url('../images/running_milestone.svg');
+  background-color: #F6FEFF;
+  background-repeat: no-repeat;
+  background-position: 1% 2%;
+  background-size: 40px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-upcomming-milestone h2 {
+  padding-left: 65px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-complete-milestone {
+  padding: 0px;
+  background-image: url('../images/todo_completed.svg');
+  background-color: #d0e6cb ;
+  background-repeat: no-repeat;
+  background-position: 1% 2%;
+  background-size: 40px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-complete-milestone h2 {
+  padding-left: 65px;
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-data {
+  border: solid 1px #eeeeee;
+  margin-top: 40px;
+}
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
   background: #fff;
-  border: #eeeeee solid 1px;
-  margin-bottom: 20px;
+  border-bottom: #eeeeee solid 1px;
+  padding-bottom: 10px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
-  padding: 15px;
-  border-bottom: solid 1px #eeeeee;
+  padding: 15px 15px 0px;
   margin-bottom: 0px;
   margin-top: 0px;
 }
@@ -3419,9 +3446,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 10px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
-  background: #FCFCFC;
-  padding: 15px;
-  border-bottom: solid 1px #eeeeee;
+  padding: 5px 15px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details {
   padding: 15px;
@@ -3474,7 +3499,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-completed {
   padding: 15px;
   color: #124b04;
-  background: #d0e6cb;
+  background: #f3ffee;
 }
 .cpm .cpm-files-page .cpm-files ul {
   padding: 0px;

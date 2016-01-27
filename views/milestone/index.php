@@ -32,9 +32,6 @@ if ( $milestones ) {
 
 <div class="" id="cpm-milestone-page">
     <ul class="cpm-milestone-link">
-        <li class="active"> <a href="#" class="cpm-late-milestone-link milestone-link" data-class="cpm-late-milestone"> <?php _e( 'Late Milestones', 'cpm' ); ?> </a> </li>
-        <li class=""> <a href="#" class="cpm-upcomming-milestone-link milestone-link" data-class="cpm-upcomming-milestone"> <?php _e( 'Upcoming Milestones', 'cpm' ); ?>  </a> </li>
-        <li class=""> <a href="#" class="cpm-complete-milestone-link milestone-link" data-class="cpm-complete-milestone"> <?php _e( 'Completed Milestones', 'cpm' ); ?>  </a> </li>
         <?php  if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
         <li class=""> <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white "><?php _e( 'Add Milestone', 'cpm' ) ?></a> </li>
         <?php } ?>
@@ -53,7 +50,8 @@ if ( $milestones ) {
     </div>
 
 
-    <div class="cpm-late-milestone cpm-milestone-data" style="display: blcok">
+    <div class="cpm-late-milestone cpm-milestone-data" >
+        <h2><?php _e( 'Late Milestones', 'cpm' ); ?></h2>
         <?php if ( $late_milestones ) { ?>
             <?php
             foreach ($late_milestones as $milestone) {
@@ -64,11 +62,10 @@ if ( $milestones ) {
         } ?>
     </div>
 
-    <div class="cpm-upcomming-milestone cpm-milestone-data" style="display: none">
-         <?php if ( $upcoming_milestones ) { ?>
+    <div class="cpm-upcomming-milestone cpm-milestone-data" >
+        <h2> <?php _e( 'Upcoming Milestones', 'cpm' ); ?> </h2>
+         <?php if ( $upcoming_milestones ) {
 
-
-        <?php
         foreach ($upcoming_milestones as $milestone) {
             cpm_show_milestone( $milestone, $project_id );
         }
@@ -77,11 +74,9 @@ if ( $milestones ) {
         } ?>
     </div>
 
-    <div class="cpm-complete-milestone cpm-milestone-data" style="display: none">
-        <?php if ( $completed_milestones ) { ?>
-
-
-        <?php
+    <div class="cpm-complete-milestone cpm-milestone-data" >
+        <h2> <?php _e( 'Completed Milestones', 'cpm' ); ?> </h2>
+        <?php if ( $completed_milestones ) {
         foreach ($completed_milestones as $milestone) {
             cpm_show_milestone( $milestone, $project_id );
         }

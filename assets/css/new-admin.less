@@ -3889,17 +3889,7 @@ ul.cpm-files {
                     padding: 15px 25px;
                     border-bottom: #fff solid 2px ;
                 }
-                .cpm-late-milestone-link{
-                    background: #fff;
-                }
 
-                .cpm-upcomming-milestone-link{
-                    background: #fff;
-                }
-
-                .cpm-complete-milestone-link{
-                    background: #fff;
-                }
                 .cpm-plus-white {
                     float: right;
                     position: absolute;
@@ -3921,16 +3911,55 @@ ul.cpm-files {
             }
         }
         .cpm-milestone-details {
-            .cpm-milestone-data{
+            .cpm-late-milestone{
+                padding: 0px;
+                background-image :  url('../images/late_milestone.svg');
+                background-color: #FDF9F6;
+                background-repeat: no-repeat;
+                background-position: 1% 2%;
+                background-size:  40px;
 
+                h2{
+                   padding-left: 65px;
+                }
+            }
+
+            .cpm-upcomming-milestone{
+                padding: 0px;
+                background-image :  url('../images/running_milestone.svg');
+                background-color: #F6FEFF;
+                background-repeat: no-repeat;
+                background-position: 1% 2%;
+                background-size:  40px;
+
+                h2{
+                   padding-left: 65px;
+                }
+            }
+
+            .cpm-complete-milestone{
+                padding: 0px;
+                background-image :  url('../images/todo_completed.svg');
+                background-color:#d0e6cb ;
+                background-repeat: no-repeat;
+                background-position: 1% 2%;
+                background-size:  40px;
+
+                h2{
+                   padding-left: 65px;
+                }
+            }
+
+            .cpm-milestone-data{
+                border: solid 1px  @gray;
+                margin-top: 40px;
             }
             .cpm-milestone{
                 background: #fff;
-                border: @gray solid 1px;
-                margin-bottom: 20px;
+                border-bottom: @gray solid 1px;
+                padding-bottom : 10px;
                 .milestone-head {
-                    padding: 15px;
-                    border-bottom: solid 1px @gray;
+                    padding: 15px 15px 0px;
                     margin-bottom : 0px;
                     margin-top: 0px;
                     .time-left{
@@ -3974,10 +4003,7 @@ ul.cpm-files {
                     }
                 }
                 .detail{
-                    background: #FCFCFC;
-                    padding: 15px;
-                    border-bottom: solid 1px @gray;
-
+                    padding: 5px 15px;
                 }
                 .cpm-milestone-items-details{
                     padding: 15px;
@@ -4043,7 +4069,7 @@ ul.cpm-files {
             .cpm-milestone-completed{
                 padding: 15px;
                 color: #124b04;
-                background: #d0e6cb;
+                background: #f3ffee;
             }
         }
     }

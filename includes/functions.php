@@ -257,21 +257,16 @@ function cpm_upload_field( $id, $files = array() ) {
  * Helper function for formatting date field
  *
  * @since 0.1
+ *
  * @param string $date
  * @param bool $show_time
+ *
  * @return string
  */
-function cpm_get_date( $date, $show_time = false ) {
+function cpm_get_date( $date, $show_time = false, $format = null ) {
 
-    $date = strtotime( $date );
-
-    if ( $show_time ) {
-        $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-    } else {
-        $format = get_option( 'date_format' );
-    }
-    //$format = 'M j, Y';
-    $date_html = sprintf( '<time datetime="%1$s" title="%1$s">%2$s</time>', date( 'c', $date ), date_i18n( $format, $date ) );
+    $formatted = cpm_get_date_without_html( $date, $show_time, $format );
+    $date_html = sprintf( '<time datetime="%1$s" title="%1$s">%2$s</time>', date( 'c', strtotime( $date ) ), $formatted );
 
     return apply_filters( 'cpm_get_date', $date_html, $date );
 }
@@ -280,20 +275,24 @@ function cpm_get_date( $date, $show_time = false ) {
  * Helper function for formatting date field without html
  *
  * @since 1.2
+ *
  * @param string $date
  * @param bool $show_time
+ *
  * @return string
  */
-function cpm_get_date_without_html( $date, $show_time = false ) {
+function cpm_get_date_without_html( $date, $show_time = false, $format = null ) {
 
     $date = strtotime( $date );
 
-    if ( $show_time ) {
-        $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-    } else {
-        $format = get_option( 'date_format' );
+    if ( null === $format ) {
+        if ( $show_time ) {
+            $format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+        } else {
+            $format = get_option( 'date_format' );
+        }
     }
-    //$format = 'M j, Y';
+
     $date_html = sprintf( '%s', date_i18n( $format, $date ) );
 
     return apply_filters( 'cpm_get_date_without_html', $date_html, $date );
@@ -796,11 +795,19 @@ function cpm_project_user_role_pre_chache( $project_id ) {
  * Get a project user role by project id
  *
  * @param int $project_id
+ * @parm int $user_id //
  * @return string
  */
-function cpm_project_user_role( $project_id ) {
+function cpm_project_user_role( $project_id, $user_id = 0  ) {
 
-    $user_id = get_current_user_id();
+    if( absint($user_id) ){
+        $user = get_user_by( 'ID', $user_id );
+
+    } else {
+       $user = wp_get_current_user();
+    }
+
+
     $cache_key = 'cpm_project_user_role_' . $project_id . $user_id;
     $project_user_role = wp_cache_get( $cache_key );
 
@@ -827,19 +834,22 @@ function cpm_is_single_project_manager( $project_id ) {
     }
 }
 
-function cpm_manage_capability( $option_name = 'project_manage_role' ) {
-
+function cpm_manage_capability( $option_name = 'project_manage_role', $user_id = 0 ) {
     if ( ! cpm_is_pro() ) {
         return true;
     }
 
-    global $current_user;
+    if( absint($user_id) ){
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
 
-    if ( ! $current_user ) {
+    if ( ! $user ) {
         return false;
     }
 
-    $loggedin_user_role = reset( $current_user->roles );
+    $loggedin_user_role = reset( $user->roles );
     $manage_capability = cpm_get_option( $option_name );
 
     if ( array_key_exists( $loggedin_user_role, $manage_capability ) ) {
@@ -849,7 +859,11 @@ function cpm_manage_capability( $option_name = 'project_manage_role' ) {
     return false;
 }
 
-function cpm_user_can_delete_edit( $project_id, $list ) {
+function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
+    if( $id_only ){
+        $task_obj = CPM_Task::getInstance();
+        $list = $task_obj->get_task_list( $list );
+    }
 
     if ( ! cpm_is_pro() ) {
         return true;
@@ -876,16 +890,21 @@ function cpm_user_can_delete_edit( $project_id, $list ) {
  * In the case of view user  ! is_cpm_user_can_access( $project_id, $section )
  */
 
-function cpm_user_can_access( $project_id, $section='' ) {
-
+function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
     if ( ! cpm_is_pro() ) {
         return true;
     }
 
-    global $current_user;
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
 
-    $login_user = apply_filters( 'cpm_current_user_access', $current_user, $project_id, $section );
-    $project_user_role  = cpm_project_user_role( $project_id );
+
+
+    $login_user = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
+    $project_user_role  = cpm_project_user_role( $project_id , $user_id);
     $loggedin_user_role = reset( $login_user->roles );
     $manage_capability  = cpm_get_option( 'project_manage_role' );
 

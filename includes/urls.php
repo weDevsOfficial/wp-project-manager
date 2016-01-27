@@ -27,11 +27,23 @@ function cpm_url_my_task() {
     return apply_filters( 'cpm_url_my_task', $url );
 }
 
+function cpm_url_user_activity() {
+    $url = add_query_arg( array( 'tab' => 'useractivity' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_user_activity', $url );
+
+}
+function cpm_url_current_task() {
+    $url = add_query_arg( array( 'tab' => 'current' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_current_task', $url );
+
+}
+
 function cpm_url_outstanding_task() {
     $url = add_query_arg( array( 'tab' => 'outstanding' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_outstanding_task', $url );
 
 }
+
 function cpm_url_complete_task() {
     $url = add_query_arg( array( 'tab' => 'complete' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_complete_task', $url );
@@ -87,7 +99,7 @@ function cpm_url_project_details( $project_id ) {
 /**
  * Displays a single project Overview
  *
- * @since 1.3.8 
+ * @since 1.3.8
  * @param int $project_id
  * @return string
  */

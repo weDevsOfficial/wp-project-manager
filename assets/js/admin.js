@@ -80,7 +80,6 @@
             $('body').on('click', 'a.cpm-msg-edit', this.Message.get);
             $('body').on('click', 'a.message-cancel', this.Message.hideEditForm);
             $('body').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
-            $('body').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
             $('body').on('submit', 'form.cpm-message-form', this.Message.update);
             $('body').on('click', 'a.delete-message', this.Message.remove);
 
@@ -436,7 +435,6 @@
                     spinner = parent.find('.cpm-milestones-spinner'),
                     id = self.data('milestone_id');
                 spinner.removeClass('cpm-milestones-spinner');
-                tinymce.execCommand('mceRemoveEditor', true, 'cpm-milestone-editor-' + id);
                 parent.find('.cpm-milestone-edit-form').hide().prev('.milestone-detail').fadeIn();
             },
             ajaxRequest: function(action) {

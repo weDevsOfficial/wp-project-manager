@@ -66,8 +66,8 @@ $completed_user = get_user_by( 'id', $data->completed_by );
                     <span style="float: left; width: 459px;"><?php echo $data->post_content; ?></span>
                     <div style="clear: both;"></div>
 				</div>
-
 		</div>
+            
 		<center>
 			<div style="padding: 18px; margin: 30px 0 45px; border-radius: 30px; background: #00b1e7; width: 171px;">
 

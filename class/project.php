@@ -311,7 +311,7 @@ class CPM_Project {
 
         if ( cpm_manage_capability() == false ) {
             add_filter( 'posts_join', array($this, 'jonin_user_role_table') );
-            add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 2 );
+            add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 3 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -333,6 +333,33 @@ class CPM_Project {
         return $projects;
     }
 
+
+    function get_user_projects( $user_id ) {
+
+        $args = array(
+            'post_type'      => 'project'
+        );
+
+        $projects       = new WP_Query( $args );
+        $total_projects = $projects->found_posts;
+        $projects       = $projects->posts;
+        $rp = array() ;
+
+        foreach ($projects as &$project) {
+
+            if( cpm_user_can_access ( $project->ID, '', $user_id ) ) {
+               // $project->info = $this->get_info( $project->ID );
+               // $project->users = $this->get_users( $project );
+                $rp[$project->ID] = $project ;
+            }
+        }
+
+
+        return $rp;
+    }
+
+
+
     function jonin_user_role_table( $join ) {
         global $wp_query, $wpdb;
 
@@ -342,11 +369,13 @@ class CPM_Project {
         return $join;
     }
 
-    function get_project_where_user_role($where, &$wp_query) {
+    function get_project_where_user_role($where, &$wp_query, $user_id = 0) {
         global $wp_query, $wpdb;
 
         $table = $wpdb->prefix . 'cpm_user_role';
-        $user_id = get_current_user_id();
+
+        if( absint ( $user_id) ) $user_id = $user_id;
+        else $user_id = get_current_user_id();
         $where .= " AND $table.user_id = $user_id";
 
         return $where;

@@ -282,14 +282,28 @@ class CPM_Ajax {
     function update_task_time() {
 
         check_ajax_referer( 'cpm_nonce' );
+        $respne['success'] = false;
 
-        if(cpm_get_option( 'task_start_field' ) == 'on') {
-            $start_date = !empty($_POST['start_date']) ? date( 'Y-m-d H:i:s', strtotime($_POST['start_date']) ) : '';
+        // cpm_user_can_delete_edit( $project_id, $list )
+
+        $start_date = !empty(sanitize_text_field($_POST['start_date'])) ? date( 'Y-m-d H:i:s', strtotime(sanitize_text_field($_POST['start_date'])) ) : '';
+        $end_date = !empty(sanitize_text_field($_POST['end_date'])) ? date( 'Y-m-d H:i:s', strtotime(sanitize_text_field($_POST['end_date'])) ) : '';
+        $project_id = sanitize_text_field($_POST['project_id']);
+        $task_id = sanitize_text_field($_POST['task_id']);
+
+        if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
+
+            if(cpm_get_option( 'task_start_field' ) == 'on') {
             update_post_meta( $_POST['task_id'], '_start', $start_date );
+            }
+            update_post_meta( $_POST['task_id'], '_due', $end_date );
+            $respne['success'] = true;
         }
 
-        $end_date = !empty($_POST['end_date']) ? date( 'Y-m-d H:i:s', strtotime($_POST['end_date']) ) : date( 'Y-m-d H:i:s', strtotime($_POST['start_date']) );
-        update_post_meta( $_POST['task_id'], '_due', $end_date );
+
+
+         echo json_encode($respne);
+         exit() ;
     }
 
     function create_user() {
@@ -579,7 +593,7 @@ class CPM_Ajax {
         $complete = $task_obj->get_completeness( $list_id,  $project_id );
 
         $task = $task_obj->get_task( $task_id );
-
+        $user_id = wp_get_current_user()->ID ;
         $response = array(
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
@@ -588,7 +602,7 @@ class CPM_Ajax {
             'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
 
-        $response = apply_filters( 'cpm_task_complete_response', $response, $task_id, $list_id, $project_id );
+        $response = apply_filters( 'cpm_task_complete_response', $user_id, $response, $task_id, $list_id, $project_id );
         CPM_Notification::getInstance()->complete_task( $list_id, $task_id, $task, $project_id );
 
         echo json_encode( $response );
@@ -608,7 +622,7 @@ class CPM_Ajax {
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_open( $task_id );
         $complete = $task_obj->get_completeness( $list_id, $project_id );
-
+        $user_id = wp_get_current_user()->ID ;
         $task = $task_obj->get_task( $task_id );
         $response = array(
             'success' => true,
@@ -617,7 +631,7 @@ class CPM_Ajax {
             'task_complete' =>  $complete['completed'] ,
             'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
-        $response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id );
+        $response = apply_filters( 'cpm_task_open_response', $user_id, $response, $task_id, $list_id, $project_id );
 
         echo json_encode( $response );
         exit;
