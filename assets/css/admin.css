@@ -889,8 +889,11 @@ ul.cpm-activity ul li:before {
 :: Message
 -------------------------------------------------- */
 .cpm-new-message-form {
-  margin: 25px 0 15px 10px;
+  margin: 0px;
   display: none;
+  background: #fff;
+  padding: 15px 25px;
+  margin-bottom: 25px;
 }
 .cpm-message-form-wrap {
   position: relative;
@@ -3206,80 +3209,62 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
 }
+.cpm .cpm-new-message-btn {
+  margin: 0px 0px 20px;
+}
 .cpm .cpm-message-page {
-  display: flex;
-  width: 100% ;
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-right: 0px;
-}
-.cpm .cpm-message-page .cpm-new-message-btn {
-  margin-left: 10%;
-}
-.cpm .cpm-message-page .cpm-message-list,
-.cpm .cpm-message-page .cpm-message-body {
+  width: auto ;
+  padding: 0px;
   background: #ffffff;
+}
+.cpm .cpm-message-page .cpm-message-list {
   padding: 10px 20px;
 }
 .cpm .cpm-message-page .cpm-message-list {
   padding: 0px;
   margin-right: 25px;
-  padding-top: 25px;
   padding-left: 0px;
-  width: 30%;
-}
-.cpm .cpm-message-page .cpm-message-list .cpm-add-message {
-  margin-left: 40px;
 }
 .cpm .cpm-message-page .cpm-message-list ul {
   margin: 0px;
   padding: 0px;
-  margin-top: 40px;
   border-top: #eeeeee solid 1px;
-  height: 600px;
-  overflow: auto ;
 }
 .cpm .cpm-message-page .cpm-message-list li {
   margin: 0px;
-  border-left: #eeeeee solid 3px;
+  border-left: #fff solid 3px;
   border-bottom: #eeeeee solid 1px;
-  padding: 15px ;
+  cursor: pointer;
+  padding: 15px 1px 0px;
 }
 .cpm .cpm-message-page .cpm-message-list li img {
   border-radius: 45px;
   height: auto;
-  width: 100%;
+  float: left;
+  margin-right: 10px;
 }
-.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 {
-  margin-right: 0px;
-  padding-right: 0px;
-}
-.cpm .cpm-message-page .cpm-message-list li .cpm-col-10 .delete-message {
-  float: right ;
+.cpm .cpm-message-page .cpm-message-list li .cpm-message-action {
+  visibility: hidden;
+  margin-top: 7px;
 }
 .cpm .cpm-message-page .cpm-message-list li .comment-count {
-  padding: 6px 10px;
-  margin: 0;
-  border-radius: 3px;
-  display: inline-block;
-  background: #eeeeee;
-  -webkit-border-radius: 180px;
-  -moz-border-radius: 180px;
-  border-radius: 180px;
-  float: right ;
-  padding: 1px 8px;
+  background-image: url('../images/comment_gray.svg');
+  background-repeat: no-repeat;
+  background-position: 0% 5%;
+  background-size: 30px;
+  min-height: 30px;
+  padding-left: 35px;
+  padding-top: 5px;
 }
 .cpm .cpm-message-page .cpm-message-list li:hover {
   background: #f9f9f9;
   border-left: #019dd6 solid 3px;
 }
-.cpm .cpm-message-page .cpm-message-list li:hover .comment-count {
-  background: #019dd6;
-  color: #fff;
+.cpm .cpm-message-page .cpm-message-list li:hover .cpm-message-action {
+  visibility: visible;
 }
 .cpm .cpm-message-page .cpm-message-body {
   margin-right: 0px;
-  width: 70%;
   height: 600px;
   overflow: auto ;
 }

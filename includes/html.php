@@ -326,7 +326,6 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
                 <span class="<?php echo $private; ?>"></span>
 
-
                 <div class="cpm-right">
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
@@ -337,7 +336,6 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                     <a href="#" class="move">&nbsp;</a>
                 <?php } ?>
                 </div>
-
 
             </h3>
 
@@ -761,9 +759,8 @@ function cpm_discussion_form( $project_id, $message = null ) {
                 <?php if( $id ) { ?>
                     <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
                 <?php } ?>
-
                 <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
-
+                <a href="javaScript:void(0)" class="message-cancel cpm-btn cpm-btn-gray"><?php _e( 'Cancel', 'cpm'); ?></a>
             </div>
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
         </form>

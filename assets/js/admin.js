@@ -593,9 +593,9 @@
                 $('.cpm-new-message-form').slideDown();
             },
             hide: function(e) {
-                e.preventDefault();
+               e.preventDefault();
                 new CPM_Uploader('cpm-upload-pickfiles-0', 'cpm-upload-container-0');
-                $('.cpm-signle-message').slideUp();
+                $('.cpm-new-message-form').slideUp();
             },
             addNew: function(e) {
                 // e.preventDefault();
@@ -682,29 +682,10 @@
             showDiscussion: function(e) {
                 e.preventDefault();
                 var did = $(this).attr('itemid'),
-                    self = $(this),
-                    pid = $(this).attr('data-pid');
-
-                $('.cpm-new-message-form').hide();
-                var data = {
-                    message_id: did,
-                    project_id: pid,
-                    action: 'cpm_show_discussion',
-                    '_wpnonce': CPM_Vars.nonce
-                };
-                $.post(CPM_Vars.ajaxurl, data, function(res) {
-                    res = $.parseJSON(res);
-                    if (res.success) {
-                        var did = res.id;
-                        $("#cpm-signle-message").html(res.content);
-                        $('#cpm-signle-message').show();
-                        location.hash = "#" + res.id;
-                    }
-                    $('.cpm-colorbox-img').prettyPhoto();
-                    $('.cpm-loading').remove();
-                     new CPM_Uploader('cpm-upload-pickfiles-cm', 'cpm-upload-container-cm');
-                });
-
+                self = $(this),
+                pid = $(this).attr('data-pid');
+                var url = window.location.pathname+"?page=cpm_projects&tab=message&action=single&pid="+pid+"&mid="+did ;
+                window.open(url,"_self")
             },
             get: function(e) {
                 e.preventDefault();
