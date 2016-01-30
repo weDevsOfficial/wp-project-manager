@@ -2905,6 +2905,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .project-overview .overview-menu ul li .count {
   text-align: left;
   font-size: 12px;
+  color: #848484;
 }
 .cpm .project-overview .overview-menu ul li .count span {
   color: #019dd6;

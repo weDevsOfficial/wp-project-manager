@@ -84,8 +84,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 if ( $task->completed != '1' ) {
 
                     if ( reset( $task->assigned_to ) != '-1' ) {
-                        // echo get_avatar( $task->assigned_to, 32, '', '' ) ;
-                        $u = cpm_assigned_user( $task->assigned_to );
+                        cpm_assigned_user( $task->assigned_to );
                     }
 
                     if ( $start_date != '' || $task->due_date != '' ) {
