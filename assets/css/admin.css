@@ -2772,9 +2772,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border-bottom: solid 2px #ffffff;
   color: #aaa;
   min-height: 42px;
-  background-size: 16px 12px;
   margin-right: 5px;
   height: 52px;
+  background-size: 20px 16px;
+  background-position: 15px 30%;
+  background-repeat: no-repeat;
 }
 .cpm .cpm-project-header ul li a div {
   text-align: left;
@@ -2791,67 +2793,53 @@ ul.cpm-files li .cpm-file-action .comment-number {
   top: 0;
 }
 .cpm .cpm-project-header ul li .overview {
-  background: url('../images/overview.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/overview.svg');
 }
 .cpm .cpm-project-header ul li .overview:hover,
 .cpm .cpm-project-header ul li a.overview.active {
-  background: url('../images/overview_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/overview_hover.svg');
 }
 .cpm .cpm-project-header ul li .message {
-  background: url('../images/discussion.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/discussion.svg');
 }
 .cpm .cpm-project-header ul li .message:hover,
 .cpm .cpm-project-header ul li a.message.active {
-  background: url('../images/discussion_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/discussion_hover.svg');
 }
 .cpm .cpm-project-header ul li .activity {
-  background: url('../images/activity.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/activity.svg');
 }
 .cpm .cpm-project-header ul li .activity:hover,
 .cpm .cpm-project-header ul li a.activity.active {
-  background: url('../images/activity_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/activity_hover.svg');
 }
 .cpm .cpm-project-header ul li .milestone {
-  background: url('../images/milestone.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/milestone.svg');
 }
 .cpm .cpm-project-header ul li .milestone:hover,
 .cpm .cpm-project-header ul li a.milestone.active {
-  background: url('../images/milestone_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/milestone_hover.svg');
 }
 .cpm .cpm-project-header ul li .to-do-list {
-  background: url('../images/todo.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/todo.svg');
 }
 .cpm .cpm-project-header ul li .to-do-list:hover,
 .cpm .cpm-project-header ul li a.to-do-list.active {
-  background: url('../images/todo_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/todo_hover.svg');
 }
 .cpm .cpm-project-header ul li .files {
-  background: url('../images/file.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/file.svg');
 }
 .cpm .cpm-project-header ul li .files:hover,
 .cpm .cpm-project-header ul li a.files.active {
-  background: url('../images/file_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/file_hover.svg');
 }
 .cpm .cpm-project-header ul li .settings {
-  background: url('../images/settings.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/settings.svg');
 }
 .cpm .cpm-project-header ul li .settings:hover,
 .cpm .cpm-project-header ul li a.settings.active {
-  background: url('../images/settings_hover.svg') no-repeat 20% 30%;
-  background-size: 20px 16px;
+  background-image: url('../images/settings_hover.svg');
 }
 .cpm .cpm-project-header ul li a:hover,
 .cpm .cpm-project-header ul li .active {
