@@ -44,7 +44,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                        <?php echo cpm_excerpt( $message->post_title, 50 ); ?>
                     </div>
                     <div>
-                        <?php printf( __( 'by %s on %s', 'cmp' ), $message_sender->display_name, date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
+                        <?php printf( __( 'by %s on %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
                     </div>
                 </div>
 

@@ -41,6 +41,20 @@
     position: relative;
 
 
+    .cpm-box-title{
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        padding: 8px 12px;
+        border-bottom: 1px solid #eee;
+        .cpm-small-title{
+            font-size: @defaultFontSize ;
+            font-weight: normal;
+            color: #999999;
+        }
+    }
+
+
     .cpm-lock {
         background: url('../images/lock.png') no-repeat scroll rgba(0, 0, 0, 0);
         height: 16px;
@@ -290,7 +304,7 @@ ul.cpm-inline-ul {
 
 ul.cpm-attachments {
     margin: 0 10px;
-    border-top: 1px solid @borderColor;
+
     padding-top: 10px;
 
     li {
@@ -987,11 +1001,9 @@ ul.cpm-activity {
 
 .cpm-message-form-wrap {
     position: relative;
-    border: 1px solid #DDD;
-    .border-radius(5px);
     padding: 10px;
     margin-left: 0;
-    width: 500px;
+    background: #fff;
 }
 
 .cpm-messages-table {
@@ -1109,9 +1121,9 @@ ul.cpm-activity {
     }
 
     .cpm-entry-detail {
-        margin-bottom: 10px;
-        margin-left: 10px;
-        padding: 0 5px;
+        padding: 10px 15px;
+        background: #fff;
+        color: #000;
     }
 }
 
@@ -1119,10 +1131,14 @@ ul.cpm-activity {
 /*--------------------------------------------------
 :: Comment
 -------------------------------------------------- */
-
+ .cpm-comment-area {
+    background: #fff;
+    margin-top: 20px;
+     padding: 1px 15px 15px 15px;
+    }
 .cpm-comment-wrap {
-    background-color: @backgroundColor;
-    // border: 1px solid @borderColor;
+
+    border: none;
     .cpm-comment-spinner {
         background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
     }
@@ -1202,7 +1218,7 @@ ul.cpm-activity {
     .border-radius(5px);
     padding: 10px;
     margin-left: 75px;
-    width: 500px;
+
 
     .cpm-comment-form {
         padding: 5px 10px 10px 10px;
@@ -1885,7 +1901,6 @@ ul.cpm-links {
 
         a {
             text-decoration: none;
-            font-size: 13px;
             font-weight: normal;
             // background: #298CBA;
             // color: #fff;
@@ -3273,6 +3288,112 @@ ul.cpm-files {
 
             }
         }
+
+         .cpm-single-project-action{
+            position: absolute;
+            right: 0px;
+            top: 0px;
+
+                [class*="cpm-settings-icon-"] {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-image: url("images/sprites.svg");
+                background-repeat: no-repeat;
+                margin: 4px 2px 0px 0px;
+                }
+                .cpm-settings-icon-cog {
+                    cursor: pointer;
+                    background-position: 0 0;
+                    width: 16px;
+
+                }
+                .cpm-action {
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                }
+
+                [class*="cpm-icons-"] {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-image: url('images/sprites3.svg');
+                    background-repeat: no-repeat;
+                    bottom: 0;
+                    right: 0;
+                    border: none;
+
+                }
+
+                .cpm-icons-cross {
+                    background-position: 0 0;
+                    width: 16px;
+                }
+                .cpm-icons-checkmark {
+                    background-position: -24px 0;
+                    width: 16px;
+                }
+                .cpm-icons-docs {
+                    background-position: -48px 0;
+                    width: 16px;
+
+                }
+
+                ul.cpm-settings {
+                    background: none repeat scroll 0 0 #000000;
+                    box-shadow: 0 0 3px 1px #9A9A9A;
+                    display: none;
+                    position: absolute;
+                    right: -1px;
+                    top: 112%;
+                    width: 92px;
+                    margin: 0;
+
+                }
+
+                ul.cpm-settings li:not(:last-child) {
+                    border-bottom: 1px solid #262626;
+                    display: block;
+
+                }
+                ul.cpm-settings li {
+                    padding: 1px 1px 1px 5px;
+                    margin: 0;
+
+                }
+
+                ul.cpm-settings a {
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 0px;
+                    margin: 0px;
+                    border: none;
+                    display: inline ;
+                }
+                ul.cpm-settings:after {
+                    bottom: 100%;
+                    left: 50%;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                    border-color: rgba(0, 0, 0, 0);
+                    border-bottom-color: #000000;
+                    border-width: 8px;
+                    margin-left: 27px;
+                }
+
+                .cpm-single-action {
+                    position: absolute;
+                    top: 119px;
+                    right: 55px;
+                    z-index: 9999;
+                }
+        }
+
     }
 
     /**
@@ -3754,10 +3875,10 @@ ul.cpm-files {
                 .comment-count {
                   background-image:  url('../images/comment_gray.svg');
                   background-repeat: no-repeat;
-                  background-position: 0% 5%;
-                  background-size: 30px;
+                  background-position: 0% 50%;
+                  background-size: 20px;
                   min-height: 30px;
-                  padding-left: 35px;
+                  padding-left: 25px;
                   padding-top: 5px;
                 }
             }
@@ -3834,15 +3955,10 @@ ul.cpm-files {
 
 
                     .cpm-edit-comment-link {
-                        background :  url('../images/edit.svg') no-repeat 50% 50% ;
-                        background-size: 10px;
-                        padding: 10px;
                     }
 
                     .cpm-delete-comment-link {
-                        background :  url('../images/close.svg') no-repeat 50% 50% ;
-                        background-size: 10px;
-                        padding: 10px;
+
 
                     }
                 }
@@ -3952,33 +4068,26 @@ ul.cpm-files {
                     .cpm-links{
                         margin: 0px;
                         margin-top:-15px;
+                        span{
+
+                        }
+
                         .cpm-icon-edit{
-                            background :  url('../images/edit.svg') no-repeat 50% 50% ;
-                            background-size: 15px;
-                            padding: 10px;
+
                         }
                         .cpm-milestone-delete{
 
-                            background :  url('../images/close.svg') no-repeat 50% 50%;
-                            background-size: 15px;
-                            padding: 10px;
+
                         }
                         .cpm-milestone-open{
 
-                            background :  url('../images/check-mark.svg') no-repeat 50% 50%;
-                            background-size: 15px;
-                            padding: 10px;
                         }
                         .cpm-milestone-open{
 
-                            background :  url('../images/done.svg') no-repeat 50% 50%;
-                            background-size: 20px;
-                            padding: 10px;
+
                         }
                         .cpm-milestone-complete{
-                            background :  url('../images/check-mark.svg') no-repeat 50% 50%;
-                            background-size: 40px;
-                            padding: 10px;
+
                         }
 
 

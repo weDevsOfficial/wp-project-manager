@@ -248,7 +248,7 @@ function cpm_upload_field( $id, $files = array() ) {
                 } ?>
             <?php } ?>
         </div>
-        <?php printf( __('To attach, <a id="cpm-upload-pickfiles%s" href="#">select files</a> from your computer.', 'cpm' ), $id ); ?>
+        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __('To attach', 'cpm') , $id, __('select files', 'cpm'), __('from your computer', 'cpm') ); ?>
     </div>
     <?php
 }
@@ -574,14 +574,14 @@ function cpm_serve_file() {
     $pro_obj = CPM_Project::getInstance();
     $project = $pro_obj->get( $project_id );
     if ( !$pro_obj->has_permission( $project ) ) {
-        die( 'file access denied' );
+        die( __('file access denied', 'cpm') );
     }
 
     //get file path
     $file_path = get_attached_file( $file_id );
     if ( !file_exists( $file_path ) ) {
         header( "Status: 404 Not Found" );
-        die('file not found');
+        die(__('file not found', 'cpm'));
     }
 
     if ( $type == 'thumb' ) {

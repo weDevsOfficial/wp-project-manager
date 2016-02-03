@@ -415,7 +415,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                         <?php if ( (int) $list->comment_count > 0 ) { ?>
                             <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
                         <?php } else {
-                            _e( '<span>0</span> Comment', 'cpm' );
+                                        printf("<span>0 %s</span>", __('Comment', 'cpm'));
                         }
                         ?>
                     </a>
@@ -531,11 +531,11 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                     ?>
                 <div class="cpm-comment-action">
                     <span class="cpm-edit-link">
-                        <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>></a>
+                        <a href="#" class="cpm-edit-comment-link dashicons dashicons-edit " <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>></a>
                     </span>
 
                     <span class="cpm-delete-link">
-                        <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
+                        <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
                     </span>
                 </div>
                 <?php }else{
@@ -658,7 +658,6 @@ function cpm_message_form( $project_id, $message = null ) {
             <div class="notify-users">
                 <label class="notify">
                     <?php _e( 'Notify users', 'cpm' ); ?>:
-                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
                 </label>
 
                 <?php cpm_user_checkboxes( $project_id ); ?>
@@ -795,7 +794,7 @@ function cpm_discussion_single( $message_id, $project_id ) {
     <div class=" ">
 
         <h3 class="cpm-discuss-title"><?php echo get_the_title( $message_id ); ?>
-            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit cpm-edit-discussion"></a>
+            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit cpm-edit-discussion " ></a>
 
         </h3>
 
@@ -947,16 +946,16 @@ function cpm_show_milestone( $milestone, $project_id ) {
                 <?php if( cpm_user_can_delete_edit( $project_id, $milestone ) ) { ?>
                         <ul class="cpm-links cpm-right">
                             <li>
-                                <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
+                                <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
                             </li>
                             <li>
-                                <a class="cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
+                                <a class="cpm-milestone-delete dashicons dashicons-trash" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
                             </li>
 
                             <?php if ( $milestone->completed == '0' ) { ?>
-                                <li><a class="cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
+                                <li><a class="cpm-milestone-complete dashicons dashicons-yes" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } else { ?>
-                                <li><a class=" cpm-milestone-open" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
+                                <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } ?>
                             <li>
                                 <span class="<?php echo $milestone_private; ?>"></span>

@@ -474,6 +474,13 @@
                     btn = that.find('input[name=cpm_new_comment]'),
                     spnier = that.find('.cpm-loading'),
                     data = that.serialize();
+              var form = $(this),
+                text = $.trim(form.find('input[name=cpm_message]').val());
+                if (text.length < 1) {
+                    alert('Please enter some text');
+                    return false;
+                }
+
                 btn.attr('disabled', true);
                 spnier.show();
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
@@ -545,8 +552,8 @@
                     spnier.hide();
                     res = $.parseJSON(res);
                     if (res.success) {
-                        $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
-                        $('.cpm-comment-form-wrap textarea').val('');
+                         container.find('.cpm-comment-content').html(res.content).fadeIn();
+                        form.parent().remove();
                         $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
                         $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
                         $('.cpm-comment-form-wrap trix-editor div').html('');
@@ -708,8 +715,8 @@
                     self.attr('disabled', false);
                     res = $.parseJSON(res);
                     if (res.success) {
-                        $('#cpm-entry-detail').hide();
-                        $('#cpm-msg-edit-form').hide().html(res.content).fadeIn();
+
+                        parent.find('.cpm-entry-detail').hide().next('.cpm-msg-edit-form').hide().html(res.content).fadeIn();
                         //re-initialize the uploader
                         new CPM_Uploader('cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id);
 
@@ -718,9 +725,9 @@
             },
             hideEditForm: function(e) {
                 e.preventDefault();
+
                 var parent = $(this).closest('.cpm-single');
-                $('#cpm-entry-detail').fadeIn();
-                $('#cpm-msg-edit-form').fadeOut(function() {
+                parent.find('.cpm-entry-detail').fadeIn().next('.cpm-msg-edit-form').fadeOut(function() {
                     $(this).html('');
                 });
             },

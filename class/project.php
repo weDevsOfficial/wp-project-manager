@@ -601,53 +601,66 @@ class CPM_Project {
 
             switch ( $label ) {
 
-                case __( 'Discussion', 'cpm' ):
+                case __( 'Discussion', 'cpm' ) :
+                case __( 'Discussions', 'cpm' ) :
                     $count = $project_info->discussion;
+                    $text =  _n( 'Discussion', 'Discussions',  $count, 'cpm') ;
                     $class = "message cpm-sm-col-12";
                     break;
 
-                case __( 'To-do Lists', 'cpm' ):
+                case __( 'To-do Lists', 'cpm' ) :
+                case __( 'To-do List', 'cpm' ):
                     $count = $project_info->todos;
+                    $text =  _n( 'To-do List', 'To-do Lists',  $count, 'cpm') ;
                     $class = "to-do-list cpm-sm-col-12";
                     break;
 
-                case __( 'Files', 'cpm' ):
+                case __( 'Files', 'cpm' ) :
+                case __( 'File', 'cpm' ) :
                     $count = $project_info->files;
+                    $text =  _n( 'File', 'Files',  $count, 'cpm') ;
                     $class = "files cpm-sm-col-12";
                     break;
 
                 case __( 'Activity', 'cpm' ):
+                case __( 'Activities', 'cpm' ):
                     $count = $total_activity;
+                    $text =  _n( 'Activity', 'Activities',  $count, 'cpm') ;
                     $class = "activity cpm-sm-col-12";
                     break;
 
-                case __( 'Milestones', 'cpm' ):
+                case __( 'Milestones', 'cpm' ) :
+                case __( 'Milestone', 'cpm' ):
                     $count = $project_info->milestone;
+                    $text =  _n( 'Milestone', 'Milestones',  $count, 'cpm') ;
                     $class = "milestone cpm-sm-col-12";
                     break;
 
                 case  __( 'Overview', 'cpm' ) :
                     $count = "";
+                    $text = 'Overview';
                     $class = "overview cpm-sm-col-12";
                     break;
 
                 case __( 'Settings', 'cpm' ):
                     $count = "";
+                    $text = "Settings";
                     $class = "settings cpm-sm-col-12";
                     break;
 
                 default:
                     $count = "";
                     $class = "";
+                    $text = "";
                     break;
             }
 
             if ( $active == $label ) {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $url, $label, $count, $class );
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $url, $text, $count, $class );
             } else {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $url, $label, $count, $class);
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $url, $text, $count, $class);
             }
         }
 
@@ -884,7 +897,7 @@ class CPM_Project {
             $response['date_list'] = '';
             $response['todos'] = '';
             foreach ( $total_activity as $activity ) {
-                $date = date('Y-m-d', strtotime( $activity->comment_date))   ;
+                $date = date('M d', strtotime( $activity->comment_date))   ;
 
                 if ( !isset( $response['date_list'][$date] ) ) {
                     $response['date_list'][$date] = 1 ;
@@ -895,7 +908,7 @@ class CPM_Project {
             }
 
             foreach ( $todos as $to_do ) {
-                $tdate = date('Y-m-d', strtotime( $to_do->post_date))   ;
+                $tdate = date('M d', strtotime( $to_do->post_date))   ;
 
                 if ( !isset( $response['todos'][$tdate] ) ) {
                     $response['todos'][$tdate] = 1 ;

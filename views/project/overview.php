@@ -77,7 +77,6 @@ $str_todo     = implode( $str_todo, ',' );
 		            pointStrokeColor: "#79C7DF",
 		            pointHighlightFill: "#79C7DF",
 		            pointHighlightStroke: "#79C7DF",
-		            scaleLabel: "Test <%=value%>",
 		            data: [<?php echo $str_activity ?>]
 		        },
 		        {
@@ -100,9 +99,7 @@ $str_todo     = implode( $str_todo, ',' );
 		var cpmChart = new Chart(ctx).Line(data, {
 			pointDotRadius : 8,
 			animationSteps: 60,
-			tooltipTemplate: "<%=label%>:<%= value %>",
-			animationEasing: "easeOutQuart",
-
+			animationEasing: "easeOutQuart"
 		});
 
     });
