@@ -58,7 +58,7 @@ class CPM_JSON_Lists {
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry, you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 			$condition = true;
@@ -71,7 +71,7 @@ class CPM_JSON_Lists {
 
 			if ( isset( $posts_list->private ) && $posts_list->private == 'yes' ) {
 				if ( !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-					return new WP_Error( 'permission', __( 'Sorry! you do not have persmission to view this to-do list', 'cpm' ), array( 'status' => 404 ) );
+					return new WP_Error( 'permission', __( 'Sorry, you do not have persmission to view this to-do list', 'cpm' ), array( 'status' => 404 ) );
 				}
 			}
 		}
@@ -104,7 +104,7 @@ class CPM_JSON_Lists {
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry, you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 			$condition = true;
@@ -153,11 +153,11 @@ class CPM_JSON_Lists {
 		if ( ! $manage_capability && ! cpm_is_single_project_manager( $project_id ) ) {
 
 			if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry, you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 			}
 
 			if ( !cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you do not have permission to create to-do list', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry, you do not have permission to create to-do list', 'cpm' ), array( 'status' => 404 ) );
 			}
 		}
 
