@@ -68,7 +68,7 @@ class CPM_Admin {
                 'name'    => 'upload_limit',
                 'label'   => __('File Upload Limit', 'cpm'),
                 'default' => '2',
-                'desc'    => __('file size in Megabyte. e.g: 2')
+                'desc'    => __('File size in Megabyte. e.g: 2')
             ),
             array(
                 'name'    => 'pagination',
@@ -179,7 +179,7 @@ class CPM_Admin {
                 'label'   => __( 'New Project Header', 'cpm' ),
                 'type'    => 'text',
                 'desc'    => __( 'Mailing header title for new project', 'cpm' ),
-                'default' => __( 'NEW PROJECT', 'cpm' )
+                'default' => __( 'New Project', 'cpm' )
             ),
 
             array(
@@ -187,7 +187,7 @@ class CPM_Admin {
                 'label'   => __( 'Update Project Header', 'cpm' ),
                 'type'    => 'text',
                 'desc'    => __( 'Mailing header title for update project', 'cpm' ),
-                'default' => __( 'UPDATE PROJECT', 'cpm' ) 
+                'default' => __( 'Update Project', 'cpm' ) 
             ),
 
             array(
@@ -211,7 +211,7 @@ class CPM_Admin {
                 'label'   => __( 'Completed Task Header', 'cpm' ),
                 'type'    => 'text',
                 'desc'    => __( 'Mailing header title for completed task', 'cpm' ),
-                'default' => __( 'New task has been completed', 'cpm' ) 
+                'default' => __( 'New task completed', 'cpm' ) 
             ),
 
             array(
@@ -219,7 +219,7 @@ class CPM_Admin {
                 'label'   => __( 'Comment Header', 'cpm' ),
                 'type'    => 'text',
                 'desc'    => __( 'Mailing header title for new commenet', 'cpm' ),
-                'default' => __( 'NEW COMMENT', 'cpm' ) 
+                'default' => __( 'New Comment', 'cpm' ) 
             ),
 
             array(
@@ -227,7 +227,7 @@ class CPM_Admin {
                 'label'   => __( 'Discussion', 'cpm' ),
                 'type'    => 'text',
                 'desc'    => __( 'Mailing header title for new meassage', 'cpm' ),
-                'default' => __( 'NEW MESSAGE', 'cpm' ) 
+                'default' => __( 'New Message', 'cpm' ) 
             ),
             /**
              * ************************
@@ -244,7 +244,7 @@ class CPM_Admin {
                 'type'    => 'textarea',
                 'default' => "Hello\n
 You are assigned in a new project \"%PROJECT_NAME%\" on %SITE%
-You can see the project by going here: %PROJECT_URL%",
+You can see the project by clicking here: %PROJECT_URL%",
                 'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_DETAILS%, %PROJECT_URL%'
 
             ),
@@ -260,7 +260,7 @@ You can see the project by going here: %PROJECT_URL%",
                 'type' => 'textarea',
                 'default' => "Hello\n
 You are assigned in a project update \"%PROJECT_NAME%\" on %SITE%
-You can see the project by going here: %PROJECT_URL%",
+You can see the project by clicking here: %PROJECT_URL%",
                 'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_DETAILS%, %PROJECT_URL%'
 
             ),
@@ -291,7 +291,7 @@ You can see the project by going here: %PROJECT_URL%",
             array(
                 'name'    => 'new_task_sub',
                 'label'   => __( 'New Assigned Task Subject', 'cpm' ),
-                'default' => '[%SITE%][%PROJECT_NAME%] New task assigned to you'
+                'default' => '[%SITE%][%PROJECT_NAME%] A new task assigned to you'
             ),
             array(
                 'name'  => 'new_task_body',
@@ -323,10 +323,10 @@ Task: %TASK%',
             */
             array(
                 'name'    => 'email_bcc_enable',
-                'label'   => __('Send email via Bcc', 'cpm'),
+                'label'   => __('Send email via BCC', 'cpm'),
                 'type'    => 'checkbox',
                 'default' => 'off',
-                'desc'    => __('Enable Bcc')
+                'desc'    => __('Enable BCC')
             ),
         ) );
 

@@ -891,7 +891,7 @@ function cpm_project_form( $project = null ) {
          </div>
 
         <div class="cpm-form-item project-detail">
-            <textarea name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
+            <textarea name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="<?php _e( 'Add some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>
         <div class="cpm-form-item cpm-project-role">
             <table><?php echo CPM_Ajax::getInstance()->user_role_table_generator( $project ); ?></table>

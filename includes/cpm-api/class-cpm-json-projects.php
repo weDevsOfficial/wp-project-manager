@@ -111,7 +111,7 @@ class CPM_JSON_Projects {
 		$project_id   = cpm()->project->create( 0, $data );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_create_capability', __( 'Can not create project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'Unable to create project. Something went wrong!', 'cpm' ) );
 		}
 
 		$get_project = cpm()->project->get( $project_id );
@@ -163,7 +163,7 @@ class CPM_JSON_Projects {
 		$project_id  = cpm()->project->update( $id, $data );
 
 		if( ! $project_id ) {
-			return new WP_Error( 'project_edit_capability', __( 'Can not edit project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'Unable to edit project, something went wrong!', 'cpm' ) );
 		}
 		$get_project = cpm()->project->get( $project_id );
 
@@ -212,7 +212,7 @@ class CPM_JSON_Projects {
 		cpm()->project->delete( $id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Post Permanently Deleted' ) );
 		} else {
 			return array( 'message' => __( 'Deleted post' ) );
 		}

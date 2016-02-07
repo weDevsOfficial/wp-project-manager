@@ -60,7 +60,7 @@ class CPM_JSON_Milestones {
 		if ( ! $manage_capability && ! cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! permission deny', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! Permission denied', 'cpm' ), array( 'status' => 404 ) );
 
 		}
 
@@ -160,7 +160,7 @@ class CPM_JSON_Milestones {
 			}
 
 			if ( !cpm_user_can_access( $project_id, 'create_milestone' ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you do not have permission to create milestone', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You do not have permission to create a milestone', 'cpm' ), array( 'status' => 404 ) );
 			}
 		}
 
@@ -209,25 +209,25 @@ class CPM_JSON_Milestones {
 		$milestone_id = intval( $milestone_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid project id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid project ID', 'cpm' ) );
 		}
 
 		if ( ! $milestone_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid milestoe id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid milestoe ID', 'cpm' ) );
 		}
 
 		if ( ! isset( $data['milestone_name'] ) ) {
-			return new WP_Error( 'milestone_name', __( 'Milestone Name Required', 'cpm' ) );
+			return new WP_Error( 'milestone_name', __( 'Milestone name required', 'cpm' ) );
 		}
 
 		if ( empty( $data['milestone_name'] ) ) {
-			return new WP_Error( 'milestone_name', __( 'Milestone Name Required', 'cpm' ) );
+			return new WP_Error( 'milestone_name', __( 'Milestone name required', 'cpm' ) );
 		}
 
 		$milestone = get_post( $milestone_id );
 
 		if ( ! cpm_user_can_delete_edit( $project_id, $milestone ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you do not have permission to edit this milestone', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You do not have permission to edit this milestone', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$milestone_id  = cpm()->milestone->update( $project_id, $milestone_id );
@@ -276,7 +276,7 @@ class CPM_JSON_Milestones {
 		cpm()->milestone->delete( $milestone_id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Post Permanently Deleted' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
 			return array( 'message' => __( 'Deleted post' ) );

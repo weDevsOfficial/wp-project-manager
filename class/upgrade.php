@@ -43,7 +43,7 @@ class CPM_Upgrade {
         }
         ?>
         <div class="notice notice-warning">
-            <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'cpm' ) ?></p>
+            <p><?php _e( '<strong>WP Project Manager data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'cpm' ) ?></p>
 
             <form action="" method="post" style="padding-bottom: 10px;">
                 <?php wp_nonce_field( '_nonce', 'cpm_nonce' ); ?>

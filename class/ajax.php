@@ -337,11 +337,11 @@ class CPM_Ajax {
         }
 
         if( username_exists( $postdata['user_name'] ) ) {
-            return new WP_Error( 'error', __('Username already exist', 'cpm' ) );
+            return new WP_Error( 'error', __('Username already exists', 'cpm' ) );
         }
 
         if( email_exists( $postdata['user_email']) ) {
-            return new WP_Error( 'error', __('Email already exist', 'cpm' ) );
+            return new WP_Error( 'error', __('Email already exists', 'cpm' ) );
         }
 
         return true;

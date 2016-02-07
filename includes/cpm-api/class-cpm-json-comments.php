@@ -108,7 +108,7 @@ class CPM_JSON_Comments {
 
 					if ( isset( $message->message_privacy ) && $task->task_privacy == 'yes' ) {
 						if ( !cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comments', 'cpm' ) );
+							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ) );
 						}
 					}
 				}
@@ -302,7 +302,7 @@ class CPM_JSON_Comments {
 					return array( 'key' => 'permission', 'message' => __( 'Sorry! you are not assigned in this project', 'cpm' ) );
 
 				} else if ( !cpm_user_can_access( $project_id, 'create_message' ) ) {
-					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comments', 'cpm' ) );
+					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ) );
 				}
 				break;
 

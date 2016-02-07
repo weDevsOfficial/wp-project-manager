@@ -35,7 +35,7 @@ function cpm_tasks_filter( $tasks ) {
 
 function cpm_project_filters(){
     ?>
-    <input type="text" id="cpm-search-client" name="searchitem" placeholder="<?php _e( 'Search by Client...', 'cpm' ); ?>" value="" />
+    <input type="text" id="cpm-search-client" name="searchitem" placeholder="<?php _e( 'Search by client...', 'cpm' ); ?>" value="" />
     <input type="text" id="cpm-all-search" name="searchitem" placeholder="<?php _e( 'Search All...', 'cpm' ); ?>" value="" />
     <?php
 }
@@ -1174,8 +1174,8 @@ function cpm_ordinal( $number ) {
  */
 function cpm_message() {
     $message = array(
-        'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
-        'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
+        'report_frm_field_limit'       => __( 'This field cannot be used more than once!', 'cpm' ),
+        'report_total_frm_field_limit' => __( 'More than 4 actions can not be created', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );

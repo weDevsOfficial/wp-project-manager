@@ -160,7 +160,7 @@ class CPM_JSON_Messages {
 			}
 
 			if ( !cpm_user_can_access( $project_id, 'create_message' ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you do not have permission to create message', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You do not have permission to create a message', 'cpm' ), array( 'status' => 404 ) );
 			}
 		}
 
