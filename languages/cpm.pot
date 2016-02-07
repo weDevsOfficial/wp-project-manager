@@ -735,19 +735,19 @@ msgstr ""
 #: includes/cpm-api/class-cpm-json-tasks.php:63
 #: includes/cpm-api/class-cpm-json-tasks.php:118
 #: includes/cpm-api/class-cpm-json-tasks.php:179
-msgid "Sorry! you are not assigned in this project"
+msgid "Sorry, you are not assigned in this project"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-comments.php:111
 #: includes/cpm-api/class-cpm-json-comments.php:305
-msgid "Sorry! you do not have permission to view this comments"
+msgid "Sorry, you do not have permission to view this comments"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-comments.php:123
 #: includes/cpm-api/class-cpm-json-comments.php:145
 #: includes/cpm-api/class-cpm-json-comments.php:315
 #: includes/cpm-api/class-cpm-json-comments.php:330
-msgid "Sorry! you are not assinged in this project"
+msgid "Sorry, you are not assinged in this project"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-comments.php:126
@@ -756,11 +756,11 @@ msgstr ""
 #: includes/cpm-api/class-cpm-json-comments.php:318
 #: includes/cpm-api/class-cpm-json-comments.php:321
 #: includes/cpm-api/class-cpm-json-comments.php:333
-msgid "Sorry! you do no have permission to view this comment"
+msgid "Sorry, you do no have permission to view this comment"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-comments.php:214
-msgid "Sorry! you do not have permission to edit this comment"
+msgid "Sorry, you do not have permission to edit this comment"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-lists.php:53
@@ -771,12 +771,12 @@ msgid "Invalid todo list ID."
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-lists.php:74
-msgid "Sorry! you do not have persmission to view this todo list"
+msgid "Sorry, you do not have persmission to view this todo list"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-lists.php:160
 #: includes/cpm-api/class-cpm-json-tasks.php:183
-msgid "Sorry! you do not have permission to create todo list"
+msgid "Sorry, you do not have permission to create todo list"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-lists.php:165
@@ -820,7 +820,7 @@ msgid "Deleted post"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-messages.php:74
-msgid "Sorry! you do not have permission to view this message"
+msgid "Sorry, you do not have permission to view this message"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-messages.php:151
@@ -829,7 +829,7 @@ msgid "Message Name Required"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-messages.php:163
-msgid "Sorry! you do not have permission to create message"
+msgid "Sorry, you do not have permission to create message"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-messages.php:214
@@ -839,7 +839,7 @@ msgstr ""
 
 #: includes/cpm-api/class-cpm-json-messages.php:224
 #: includes/cpm-api/class-cpm-json-messages.php:263
-msgid "Sorry! you do not have permission to edit this message"
+msgid "Sorry, you do not have permission to edit this message"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:63
@@ -847,7 +847,7 @@ msgid "Sorry! permission deny"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:73
-msgid "Sorry! you do not have permission to view this milestone"
+msgid "Sorry, you do not have permission to view this milestone"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:151
@@ -857,7 +857,7 @@ msgid "Milestone Name Required"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:163
-msgid "Sorry! you do not have permission to create milestone"
+msgid "Sorry, you do not have permission to create milestone"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:212
@@ -871,15 +871,15 @@ msgid "Invalid milestoe id"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:230
-msgid "Sorry! you do not have permission to edit this milestone"
+msgid "Sorry, you do not have permission to edit this milestone"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-milestones.php:271
-msgid "Sorry! you do not have permission to delete this milestone"
+msgid "Sorry, you do not have permission to delete this milestone"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-projects.php:64
-msgid "Sorry! You are not assigned in this project"
+msgid "Sorry, you are not assigned in this project"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-projects.php:99
@@ -910,11 +910,11 @@ msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:66
 #: includes/cpm-api/class-cpm-json-tasks.php:121
-msgid "Sorry! you do no have permission to view this todo list"
+msgid "Sorry, you do no have permission to view this todo list"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:77
-msgid "Sorry! you do no have permission to view this task"
+msgid "Sorry, you do no have permission to view this task"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:171
@@ -923,7 +923,7 @@ msgid "Task Name Required"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:187
-msgid "Sorry! you do not have permission to create todo"
+msgid "Sorry, you do not have permission to create todo"
 msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:249
@@ -933,7 +933,7 @@ msgstr ""
 
 #: includes/cpm-api/class-cpm-json-tasks.php:259
 #: includes/cpm-api/class-cpm-json-tasks.php:302
-msgid "Sorry! you do not have permission to edit this task"
+msgid "Sorry, you do not have permission to edit this task"
 msgstr ""
 
 #: includes/free/loader.php:16 includes/pro/loader.php:374

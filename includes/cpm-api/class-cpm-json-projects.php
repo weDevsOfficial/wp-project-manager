@@ -61,7 +61,7 @@ class CPM_JSON_Projects {
 		$manage_capability = cpm_manage_capability();
 
 		if( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned in this project' ), array( 'status' => 404 ) );
+			return new WP_Error( 'assigned_user', __( 'Sorry, you are not assigned in this project' ), array( 'status' => 404 ) );
 		}
 
 		$post = get_post( $id, ARRAY_A );
@@ -111,7 +111,7 @@ class CPM_JSON_Projects {
 		$project_id   = cpm()->project->create( 0, $data );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_create_capability', __( 'Can not create project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'Unable to create project. Something went wrong!', 'cpm' ) );
 		}
 
 		$get_project = cpm()->project->get( $project_id );
@@ -148,7 +148,7 @@ class CPM_JSON_Projects {
 		$manage_capability = cpm_manage_capability();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry, you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
@@ -163,7 +163,7 @@ class CPM_JSON_Projects {
 		$project_id  = cpm()->project->update( $id, $data );
 
 		if( ! $project_id ) {
-			return new WP_Error( 'project_edit_capability', __( 'Can not edit project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'Unable to edit project, something went wrong!', 'cpm' ) );
 		}
 		$get_project = cpm()->project->get( $project_id );
 
@@ -196,7 +196,7 @@ class CPM_JSON_Projects {
 		$manage_capability = cpm_manage_capability();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry, you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
@@ -212,7 +212,7 @@ class CPM_JSON_Projects {
 		cpm()->project->delete( $id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Post Permanently Deleted' ) );
 		} else {
 			return array( 'message' => __( 'Deleted post' ) );
 		}
