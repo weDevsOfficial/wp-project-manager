@@ -588,7 +588,8 @@ ul.cpm-nav li a {
 }
 .cpm-project-head .cpm-edit-project {
   display: none;
-  margin-top: 15px;
+  margin-top: -50px;
+  padding: 10px;
   position: relative;
 }
 ul.cpm-activity {
