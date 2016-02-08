@@ -14,12 +14,14 @@ if ( !$pro_obj->has_permission( $project ) ) {
 ?>
 
 <div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head" >
-    <div class="cpm-row    cpm-no-padding cpm-border-bottom "  >
-        <div class="cpm-single-project-action">
+    <div class="cpm-single-project-action" >
         <?php if ( cpm_user_can_access( $project_id ) ) {
             cpm_project_actions( $project_id );
         }?>
         </div>
+
+    <div class="cpm-row    cpm-no-padding cpm-border-bottom "  >
+
         <div class="cpm-col-6 cpm-project-detail">
             <h2><?php echo get_the_title( $project_id ); ?>
                 <?php if ( cpm_user_can_access( $project_id ) ) { ?>

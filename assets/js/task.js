@@ -46,7 +46,7 @@
 
         datePicker: function() {
             $( ".date_picker_from" ).datepicker({
-                dateFormat: 'yy-mm-dd',
+                dateFormat: 'mm-dd-yyyyy',
                 changeYear: true,
                 changeMonth: true,
                 numberOfMonths: 1,
@@ -56,7 +56,7 @@
                 }
             });
             $( ".date_picker_to" ).datepicker({
-                dateFormat: 'yy-mm-dd',
+                dateFormat: 'mm-dd-yyyyy',
                 changeMonth: true,
                 changeYear: true,
                 numberOfMonths: 1,
@@ -166,7 +166,19 @@
 
                 if(res.success === true ) {
                     $(document).trigger('cpm.markDone.after', [res,self]);
-                    location.reload();
+                     if(list.length) {
+                        var completeList = list.parent().siblings('.cpm-todo-completed');
+                        completeList.append('<li class="cpm-todo">' + res.content + '</li>');
+                    // location.reload();
+                    list.remove();
+                    taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                    taskListEl.find('.no-percent').html(res.percent);
+                    taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                    taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
+
+                     }else if(singleWrap.length) {
+                        singleWrap.html(res.content);
+                    }
                 }
             });
         },
@@ -196,11 +208,26 @@
 
                 if(res.success === true ) {
                     $(document).trigger('cpm.markUnDone.after', [res,self]);
-                    location.reload();
+                  //  location.reload();
+
+                    if(list.length) {
+                        var currentList = list.parent().siblings('.cpm-todos');
+
+                        currentList.append('<li class="cpm-todo">' + res.content + '</li>');
+                        list.remove();
+
+                        //update progress
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
+                        taskListEl.find('.no-percent').html(res.percent);
+                    } else if(singleWrap.length) {
+                        singleWrap.html(res.content);
                 }
 
-            });
-        },
+            };
+        })
+    },
 
         deleteTodo: function (e) {
             e.preventDefault();

@@ -331,7 +331,9 @@ function cpm_task_completeness( $total, $completed ) {
     <div class="cpm-progress cpm-progress-info">
         <div style="width:<?php echo $percentage; ?>%" class="bar completed"></div>
         <!-- <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div> -->
+
     </div>
+
     <?php
     return ob_get_clean();
 }
@@ -1025,7 +1027,7 @@ function cpm_project_actions( $project_id ) {
     ?>
     <div class="<?php echo $class; ?>">
 
-    <div class="cpm-settings-bind cpm-settings-icon-cog"><span><?php echo $action; ?></span></div>
+    <div class="cpm-settings-bind cpm-settings-icon-cog"><span><?php // echo $action; ?></span></div>
 
         <ul class="cpm-right cpm-settings" >
             <li>

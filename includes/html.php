@@ -48,9 +48,10 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     ?>
 
     <div class="cpm-todo-wrap clearfix">
-        <div class="cpm-todo-content">
-
+        <div class="cpm-todo-content" >
+            <div>
             <div class="cpm-col-7">
+                <span class="cpm-spinner"></span>
                 <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
 
                 <?php if ( $single ) { ?>
@@ -73,7 +74,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 // if the task is completed, show completed by
 
                 if ( $task->completed == '1' && $task->completed_by ) {
-                    $completion_time = cpm_get_date( $task->completed_on, true );
+                    $completion_time = cpm_get_date( $task->completed_on, false, 'M d' );
                     ?>
                     <span class="cpm-completed-by">
                         <?php printf( __( 'Completed by %s on %s', 'cpm' ), cpm_url_user( $task->completed_by, true ), $completion_time ) ?>
@@ -135,8 +136,9 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                     <?php } ?>
                 <?php } ?>
             </div>
+            <div class="clearfix"></div>
+            </div>
 
-            <div class="clear"></div>
             <div class="cpm-col-12">
 
                 <?php if ( $single ) { ?>
@@ -338,7 +340,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
             </h3>
 
-            <div class="cpm-entry-detail">
+            <div class="cpm-entry-detail" >
                 <?php echo cpm_get_content( $list->post_content ); ?>
             </div>
         </header>
@@ -364,7 +366,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             ?>
         </ul>
 
-        <ul class="cpm-todos cpm-todo-completed">
+        <ul class="cpm-todos cpm-todo-completed" style="<?php if(!$singlePage) echo 'display:none'; ?>">
             <?php
             if ( $singlePage ) {
                 if ( count( $tasks['completed'] ) ) {

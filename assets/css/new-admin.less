@@ -33,6 +33,7 @@
 @backgroundColor: #f9f9f9;
 @borderColor: #dfdfdf;
 @linkColor: #21759b;
+@box-shadow: 0 1px 1px rgba(0,0,0,.04);
 
 .cpm {
     font-size: 14px;
@@ -45,7 +46,7 @@
         margin: 0;
         font-size: 14px;
         line-height: 1.4;
-        padding: 8px 12px;
+        padding: 10px 15px;
         border-bottom: 1px solid #eee;
         .cpm-small-title{
             font-size: @defaultFontSize ;
@@ -304,16 +305,16 @@ ul.cpm-inline-ul {
 
 ul.cpm-attachments {
     margin: 0 10px;
-
     padding-top: 10px;
 
     li {
         display: inline-block;
-        .vignette-effect(5px);
+        border: solid 1px @gray;
+      //  .vignette-effect(5px);
         padding: 5px;
-        .border-radius(3px);
-        margin: 0 10px 10px 0;
-        vertical-align: top;
+      //  .border-radius(3px);
+        margin: 0 15px 15px 0;
+
     }
 }
 
@@ -1092,6 +1093,7 @@ ul.cpm-activity {
 .cpm-single {
     background-color: @backgroundColor;
     border: 1px solid @borderColor;
+    box-shadow: @box-shadow;
     .cpm-single-spinner {
         background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
     }
@@ -1484,6 +1486,7 @@ ul.cpm-activity {
                 padding: 1px 7px;
                 margin-right: 5px;
 
+
                 a {
                     color: #999;
                 }
@@ -1549,18 +1552,16 @@ ul.cpm-activity {
 
         ul.cpm-todo-completed {
             padding-top: 5px;
-
             .cpm-todo-wrap {
+                width : 100%;
                 .cpm-todo-action {
                     left: -16px;
                 }
-
                 .cpm-todo-content a {
                     font-size: 11px;
                     line-height: 14px;
                     color: #999;
                 }
-
                 .move {
                     display: none;
                 }
@@ -1597,7 +1598,7 @@ ul.cpm-activity {
 
 .cpm-todo {
     .cpm-todo-wrap {
-        margin-left: -19px;
+
         padding-left: 20px;
         position: relative;
 
@@ -1710,7 +1711,10 @@ ul.cpm-activity {
             }
         }
 
-        .cpm-task-edit-form {
+
+    }
+
+      .cpm-task-edit-form {
             border: 1px solid #e5e5e5;
             display: none;
             margin-bottom: 25px;
@@ -1731,6 +1735,35 @@ ul.cpm-activity {
                     height: 30px;
                     color: #9B9B9B;
                 }
+                .chosen-choices .search-choice {
+                    position: relative;
+                    margin: 3px 0 3px 5px;
+                    padding: 3px 20px 3px 5px;
+                    border: 1px solid #aaa;
+                    border-radius: 3px;
+                    background-color: #e4e4e4;
+                    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
+                    background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                    background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                    background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                    background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                    background-clip: padding-box;
+                    box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+                    color: #333;
+                    line-height: 13px;
+                    cursor: default;
+                }
+
+                .chosen-results li.highlighted {
+                    background-color: #3875d7;
+                    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
+                    background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                    background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                    background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                    background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
+                    color: #fff;
+                  }
+
             }
 
             .cpm-make-privacy {
@@ -1745,7 +1778,7 @@ ul.cpm-activity {
                 display: block;
             }
         }
-    }
+
 }
 
 .cpm-new-todolist-form, .cpm-list-edit-form {
@@ -3289,110 +3322,7 @@ ul.cpm-files {
             }
         }
 
-         .cpm-single-project-action{
-            position: absolute;
-            right: 0px;
-            top: 0px;
 
-                [class*="cpm-settings-icon-"] {
-                display: inline-block;
-                width: 16px;
-                height: 16px;
-                background-image: url("images/sprites.svg");
-                background-repeat: no-repeat;
-                margin: 4px 2px 0px 0px;
-                }
-                .cpm-settings-icon-cog {
-                    cursor: pointer;
-                    background-position: 0 0;
-                    width: 16px;
-
-                }
-                .cpm-action {
-                    position: absolute;
-                    right: 5px;
-                    top: 5px;
-                }
-
-                [class*="cpm-icons-"] {
-                    display: inline-block;
-                    width: 16px;
-                    height: 16px;
-                    background-image: url('images/sprites3.svg');
-                    background-repeat: no-repeat;
-                    bottom: 0;
-                    right: 0;
-                    border: none;
-
-                }
-
-                .cpm-icons-cross {
-                    background-position: 0 0;
-                    width: 16px;
-                }
-                .cpm-icons-checkmark {
-                    background-position: -24px 0;
-                    width: 16px;
-                }
-                .cpm-icons-docs {
-                    background-position: -48px 0;
-                    width: 16px;
-
-                }
-
-                ul.cpm-settings {
-                    background: none repeat scroll 0 0 #000000;
-                    box-shadow: 0 0 3px 1px #9A9A9A;
-                    display: none;
-                    position: absolute;
-                    right: -1px;
-                    top: 112%;
-                    width: 92px;
-                    margin: 0;
-
-                }
-
-                ul.cpm-settings li:not(:last-child) {
-                    border-bottom: 1px solid #262626;
-                    display: block;
-
-                }
-                ul.cpm-settings li {
-                    padding: 1px 1px 1px 5px;
-                    margin: 0;
-
-                }
-
-                ul.cpm-settings a {
-                    color: #fff;
-                    font-size: 12px;
-                    padding: 0px;
-                    margin: 0px;
-                    border: none;
-                    display: inline ;
-                }
-                ul.cpm-settings:after {
-                    bottom: 100%;
-                    left: 50%;
-                    border: solid transparent;
-                    content: " ";
-                    height: 0;
-                    width: 0;
-                    position: absolute;
-                    pointer-events: none;
-                    border-color: rgba(0, 0, 0, 0);
-                    border-bottom-color: #000000;
-                    border-width: 8px;
-                    margin-left: 27px;
-                }
-
-                .cpm-single-action {
-                    position: absolute;
-                    top: 119px;
-                    right: 55px;
-                    z-index: 9999;
-                }
-        }
 
     }
 
@@ -3692,6 +3622,7 @@ ul.cpm-files {
                             padding-left: 25px;
                             font-weight: bold;
                             width : 50px;
+
                         }
                     }
 
@@ -3849,6 +3780,12 @@ ul.cpm-files {
             padding :0px;
             margin-right : 25px;
             padding-left : 0px;
+            box-shadow: @box-shadow;
+            .cpm-box-title{
+                color: #0072A8;
+                font-weight: bold;
+                background: #FAFAFA;
+            }
             ul {
                 margin : 0px;
                 padding : 0px;
@@ -3861,11 +3798,20 @@ ul.cpm-files {
                 border-bottom : @gray solid 1px;
                 cursor: pointer;
                 padding: 15px 1px 0px;
+                .cpm-col-9{
+                    font-weight: bold;
+                    color: #000;
+                }
+                .dicussion-meta{
+                    font-weight: normal;
+                    font-size: 97%;
+                    color: #a0a0a0;
+                }
                 img{
                     border-radius : 45px;
                     height : auto;
                     float: left;
-                    margin-right: 10px;
+                    margin: 0px 10px;
                 }
                 .cpm-message-action {
                     visibility: hidden;
@@ -3873,13 +3819,15 @@ ul.cpm-files {
                 }
 
                 .comment-count {
-                  background-image:  url('../images/comment_gray.svg');
+                  background-image:  url('../images/comment_blue.svg');
                   background-repeat: no-repeat;
-                  background-position: 0% 50%;
+                  background-position: 0% 65%;
                   background-size: 20px;
                   min-height: 30px;
-                  padding-left: 25px;
+                  padding-left: 28px;
                   padding-top: 5px;
+
+                  color: @blueColor;
                 }
             }
 
@@ -3952,7 +3900,9 @@ ul.cpm-files {
                     text-align: right;
                     right: 10px;
                     top : 10px ;
-
+                    span{
+                        margin:  0 4px;
+                    }
 
                     .cpm-edit-comment-link {
                     }
@@ -3976,7 +3926,7 @@ ul.cpm-files {
         .cpm-milestone-link{
             margin: 0px;
             padding: 0px;
-            margin-bottom: 30px;
+            margin-bottom:10px;
             list-style: none;
 
             li {
@@ -4009,53 +3959,39 @@ ul.cpm-files {
             }
         }
         .cpm-milestone-details {
-            .cpm-late-milestone{
-                padding: 0px;
+
+            .cpm-late-milestone .group-title{
                 background-image :  url('../images/late_milestone.svg');
                 background-color: #FDF9F6;
-                background-repeat: no-repeat;
-                background-position: 1% 2%;
-                background-size:  40px;
-
-                h2{
-                   padding-left: 65px;
-                }
             }
 
-            .cpm-upcomming-milestone{
-                padding: 0px;
+            .cpm-upcomming-milestone .group-title{
                 background-image :  url('../images/running_milestone.svg');
                 background-color: #F6FEFF;
-                background-repeat: no-repeat;
-                background-position: 1% 2%;
-                background-size:  40px;
-
-                h2{
-                   padding-left: 65px;
-                }
             }
 
-            .cpm-complete-milestone{
-                padding: 0px;
+            .cpm-complete-milestone .group-title{
                 background-image :  url('../images/todo_completed.svg');
                 background-color:#d0e6cb ;
-                background-repeat: no-repeat;
-                background-position: 1% 2%;
-                background-size:  40px;
-
-                h2{
-                   padding-left: 65px;
-                }
             }
 
             .cpm-milestone-data{
-                border: solid 1px  @gray;
-                margin-top: 40px;
+                box-shadow: @box-shadow;
+
+                .group-title{
+                    padding: 0px;
+                    background-repeat: no-repeat;
+                    background-position: 12px 50%;
+                    background-size: 28px;
+                    padding:10px 10px 10px 50px;
+                    margin-bottom: 0px;
+                    border-bottom: @gray solid 1px ;
+                }
             }
             .cpm-milestone{
                 background: #fff;
                 border-bottom: @gray solid 1px;
-                padding-bottom : 10px;
+
                 .milestone-head {
                     padding: 15px 15px 0px;
                     margin-bottom : 0px;
@@ -4163,6 +4099,12 @@ ul.cpm-files {
                 background: #f3ffee;
             }
         }
+
+        .cmp-empty-milestone{
+            background: #fff;
+            padding: 40px;
+            min-height: 50px;
+        }
     }
     /** End MileStone Page **/
     /*** Files ***/
@@ -4210,6 +4152,7 @@ ul.cpm-files {
                                     top : 0px;
                                     margin-left: 30px;
 
+
                                 }
                             .cpm-go-discussion a{
                                 background :  url('../images/attach.svg') no-repeat  center center ;
@@ -4229,6 +4172,111 @@ ul.cpm-files {
 
         }
     }
+
+    .cpm-single-project-action{
+            position: absolute;
+            right: 3px;
+            top: 0px;
+
+                [class*="cpm-settings-icon-"] {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-image: url("images/sprites.svg");
+                background-repeat: no-repeat;
+                margin: 4px 2px 0px 0px;
+                }
+
+                .cpm-settings-icon-cog {
+                    cursor: pointer;
+                    background-position: 0 0;
+                    width: 16px;
+
+                }
+                .cpm-action {
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                }
+
+                [class*="cpm-icons-"] {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-image: url('images/sprites3.svg');
+                    background-repeat: no-repeat;
+                    bottom: 0;
+                    right: 0;
+                    border: none;
+
+                }
+
+                .cpm-icons-cross {
+                    background-position: 0 0;
+                    width: 16px;
+                }
+                .cpm-icons-checkmark {
+                    background-position: -24px 0;
+                    width: 16px;
+                }
+                .cpm-icons-docs {
+                    background-position: -48px 0;
+                    width: 16px;
+
+                }
+
+                ul.cpm-settings {
+                    background: none repeat scroll 0 0 #000000;
+                    box-shadow: 0 0 3px 1px #9A9A9A;
+                    display: none;
+                    position: absolute;
+                    right: -1px;
+                    top: 112%;
+                    width: 92px;
+                    margin: 0;
+
+                }
+
+                ul.cpm-settings li:not(:last-child) {
+                    border-bottom: 1px solid #262626;
+                    display: block;
+
+                }
+                ul.cpm-settings li {
+                    padding: 1px 1px 1px 5px;
+                    margin: 0;
+
+                }
+
+                ul.cpm-settings a {
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 0px;
+                    margin: 0px;
+                    border: none;
+                    display: inline ;
+                }
+                ul.cpm-settings a:hover {
+                    color: #fff;
+                    border: none;
+                }
+                ul.cpm-settings:after {
+                    bottom: 100%;
+                    left: 50%;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                    border-color: rgba(0, 0, 0, 0);
+                    border-bottom-color: #000000;
+                    border-width: 8px;
+                    margin-left: 27px;
+                }
+
+
+        }
 
     /** End Files **/
     @import "responsive.less";

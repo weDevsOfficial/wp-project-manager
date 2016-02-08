@@ -44,7 +44,7 @@
   margin: 0;
   font-size: 14px;
   line-height: 1.4;
-  padding: 8px 12px;
+  padding: 10px 15px;
   border-bottom: 1px solid #eee;
 }
 .cpm .cpm-box-title .cpm-small-title {
@@ -277,15 +277,9 @@ ul.cpm-attachments {
 }
 ul.cpm-attachments li {
   display: inline-block;
-  -webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
-  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+  border: solid 1px #eeeeee;
   padding: 5px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin: 0 10px 10px 0;
-  vertical-align: top;
+  margin: 0 15px 15px 0;
 }
 /*--------------------------------------------------
 :: Form
@@ -986,6 +980,7 @@ ul.cpm-activity ul li:before {
 .cpm-single {
   background-color: #f9f9f9;
   border: 1px solid #dfdfdf;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1421,6 +1416,9 @@ ul.cpm-activity ul li:before {
 .cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
   padding-top: 5px;
 }
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
+  width: 100%;
+}
 .cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
@@ -1456,7 +1454,6 @@ ul.cpm-activity ul li:before {
   width: 16px;
 }
 .cpm-todo .cpm-todo-wrap {
-  margin-left: -19px;
   padding-left: 20px;
   position: relative;
 }
@@ -1554,7 +1551,7 @@ ul.cpm-activity ul li:before {
   vertical-align: middle;
   border: 1px solid #ccc;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form {
+.cpm-todo .cpm-task-edit-form {
   border: 1px solid #e5e5e5;
   display: none;
   margin-bottom: 25px;
@@ -1564,24 +1561,51 @@ ul.cpm-activity ul li:before {
   width: 40%;
   background: #f8f8f8;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form input[type="text"],
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form textarea {
+.cpm-todo .cpm-task-edit-form input[type="text"],
+.cpm-todo .cpm-task-edit-form textarea {
   width: 98%;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen {
+.cpm-todo .cpm-task-edit-form #task_assign_chosen {
   width: 98% !important;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form #task_assign_chosen input[type="text"] {
+.cpm-todo .cpm-task-edit-form #task_assign_chosen input[type="text"] {
   height: 30px;
   color: #9B9B9B;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy {
+.cpm-todo .cpm-task-edit-form #task_assign_chosen .chosen-choices .search-choice {
+  position: relative;
+  margin: 3px 0 3px 5px;
+  padding: 3px 20px 3px 5px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background-color: #e4e4e4;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
+  background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-clip: padding-box;
+  box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+  color: #333;
+  line-height: 13px;
+  cursor: default;
+}
+.cpm-todo .cpm-task-edit-form #task_assign_chosen .chosen-results li.highlighted {
+  background-color: #3875d7;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
+  background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
+  background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
+  background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
+  background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
+  color: #fff;
+}
+.cpm-todo .cpm-task-edit-form .cpm-make-privacy {
   margin-top: 8px;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
+.cpm-todo .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
   margin-left: 0;
 }
-.cpm-todo .cpm-todo-wrap .cpm-task-edit-form .date label {
+.cpm-todo .cpm-task-edit-form .date label {
   display: block;
 }
 .cpm-new-todolist-form input[type="text"],
@@ -2869,97 +2893,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-project-header ul li .active div {
   color: #019dd6;
 }
-.cpm .cpm-project-header .cpm-single-project-action {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-}
-.cpm .cpm-project-header .cpm-single-project-action [class*="cpm-settings-icon-"] {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-image: url("images/sprites.svg");
-  background-repeat: no-repeat;
-  margin: 4px 2px 0px 0px;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-settings-icon-cog {
-  cursor: pointer;
-  background-position: 0 0;
-  width: 16px;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-action {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
-.cpm .cpm-project-header .cpm-single-project-action [class*="cpm-icons-"] {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-image: url('images/sprites3.svg');
-  background-repeat: no-repeat;
-  bottom: 0;
-  right: 0;
-  border: none;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-icons-cross {
-  background-position: 0 0;
-  width: 16px;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-icons-checkmark {
-  background-position: -24px 0;
-  width: 16px;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-icons-docs {
-  background-position: -48px 0;
-  width: 16px;
-}
-.cpm .cpm-project-header .cpm-single-project-action ul.cpm-settings {
-  background: none repeat scroll 0 0 #000000;
-  box-shadow: 0 0 3px 1px #9A9A9A;
-  display: none;
-  position: absolute;
-  right: -1px;
-  top: 112%;
-  width: 92px;
-  margin: 0;
-}
-.cpm .cpm-project-header .cpm-single-project-action ul.cpm-settings li:not(:last-child) {
-  border-bottom: 1px solid #262626;
-  display: block;
-}
-.cpm .cpm-project-header .cpm-single-project-action ul.cpm-settings li {
-  padding: 1px 1px 1px 5px;
-  margin: 0;
-}
-.cpm .cpm-project-header .cpm-single-project-action ul.cpm-settings a {
-  color: #fff;
-  font-size: 12px;
-  padding: 0px;
-  margin: 0px;
-  border: none;
-  display: inline ;
-}
-.cpm .cpm-project-header .cpm-single-project-action ul.cpm-settings:after {
-  bottom: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(0, 0, 0, 0);
-  border-bottom-color: #000000;
-  border-width: 8px;
-  margin-left: 27px;
-}
-.cpm .cpm-project-header .cpm-single-project-action .cpm-single-action {
-  position: absolute;
-  top: 119px;
-  right: 55px;
-  z-index: 9999;
-}
 .cpm .project-overview .overview-menu ul {
   padding: 0px;
   margin: 0px;
@@ -3314,6 +3247,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 0px;
   margin-right: 25px;
   padding-left: 0px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.cpm .cpm-message-page .cpm-message-list .cpm-box-title {
+  color: #0072A8;
+  font-weight: bold;
+  background: #FAFAFA;
 }
 .cpm .cpm-message-page .cpm-message-list ul {
   margin: 0px;
@@ -3327,24 +3266,34 @@ ul.cpm-files li .cpm-file-action .comment-number {
   cursor: pointer;
   padding: 15px 1px 0px;
 }
+.cpm .cpm-message-page .cpm-message-list li .cpm-col-9 {
+  font-weight: bold;
+  color: #000;
+}
+.cpm .cpm-message-page .cpm-message-list li .dicussion-meta {
+  font-weight: normal;
+  font-size: 97%;
+  color: #a0a0a0;
+}
 .cpm .cpm-message-page .cpm-message-list li img {
   border-radius: 45px;
   height: auto;
   float: left;
-  margin-right: 10px;
+  margin: 0px 10px;
 }
 .cpm .cpm-message-page .cpm-message-list li .cpm-message-action {
   visibility: hidden;
   margin-top: 7px;
 }
 .cpm .cpm-message-page .cpm-message-list li .comment-count {
-  background-image: url('../images/comment_gray.svg');
+  background-image: url('../images/comment_blue.svg');
   background-repeat: no-repeat;
-  background-position: 0% 50%;
+  background-position: 0% 65%;
   background-size: 20px;
   min-height: 30px;
-  padding-left: 25px;
+  padding-left: 28px;
   padding-top: 5px;
+  color: #019dd6;
 }
 .cpm .cpm-message-page .cpm-message-list li:hover {
   background: #f9f9f9;
@@ -3397,6 +3346,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   right: 10px;
   top: 10px ;
 }
+.cpm .cpm-comment .cpm-comment-action span {
+  margin: 0 4px;
+}
 .cpm #cpm-milestone-page .cpm-milestone-form-wrap {
   width: auto;
   margin-left: 0px;
@@ -3404,7 +3356,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm #cpm-milestone-page .cpm-milestone-link {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   list-style: none;
 }
 .cpm #cpm-milestone-page .cpm-milestone-link li {
@@ -3430,47 +3382,33 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm #cpm-milestone-page .cpm-milestone-link li.active a {
   border-bottom: #F46720 solid 2px ;
 }
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-late-milestone {
-  padding: 0px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-late-milestone .group-title {
   background-image: url('../images/late_milestone.svg');
   background-color: #FDF9F6;
-  background-repeat: no-repeat;
-  background-position: 1% 2%;
-  background-size: 40px;
 }
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-late-milestone h2 {
-  padding-left: 65px;
-}
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-upcomming-milestone {
-  padding: 0px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-upcomming-milestone .group-title {
   background-image: url('../images/running_milestone.svg');
   background-color: #F6FEFF;
-  background-repeat: no-repeat;
-  background-position: 1% 2%;
-  background-size: 40px;
 }
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-upcomming-milestone h2 {
-  padding-left: 65px;
-}
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-complete-milestone {
-  padding: 0px;
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-complete-milestone .group-title {
   background-image: url('../images/todo_completed.svg');
   background-color: #d0e6cb ;
-  background-repeat: no-repeat;
-  background-position: 1% 2%;
-  background-size: 40px;
-}
-.cpm #cpm-milestone-page .cpm-milestone-details .cpm-complete-milestone h2 {
-  padding-left: 65px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-data {
-  border: solid 1px #eeeeee;
-  margin-top: 40px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone-data .group-title {
+  padding: 0px;
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 28px;
+  padding: 10px 10px 10px 50px;
+  margin-bottom: 0px;
+  border-bottom: #eeeeee solid 1px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
   background: #fff;
   border-bottom: #eeeeee solid 1px;
-  padding-bottom: 10px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
   padding: 15px 15px 0px;
@@ -3542,6 +3480,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: #124b04;
   background: #f3ffee;
 }
+.cpm #cpm-milestone-page .cmp-empty-milestone {
+  background: #fff;
+  padding: 40px;
+  min-height: 50px;
+}
 .cpm .cpm-files-page .cpm-files ul {
   padding: 0px;
   margin: 0px;
@@ -3592,6 +3535,95 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
+}
+.cpm .cpm-single-project-action {
+  position: absolute;
+  right: 3px;
+  top: 0px;
+}
+.cpm .cpm-single-project-action [class*="cpm-settings-icon-"] {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("images/sprites.svg");
+  background-repeat: no-repeat;
+  margin: 4px 2px 0px 0px;
+}
+.cpm .cpm-single-project-action .cpm-settings-icon-cog {
+  cursor: pointer;
+  background-position: 0 0;
+  width: 16px;
+}
+.cpm .cpm-single-project-action .cpm-action {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.cpm .cpm-single-project-action [class*="cpm-icons-"] {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('images/sprites3.svg');
+  background-repeat: no-repeat;
+  bottom: 0;
+  right: 0;
+  border: none;
+}
+.cpm .cpm-single-project-action .cpm-icons-cross {
+  background-position: 0 0;
+  width: 16px;
+}
+.cpm .cpm-single-project-action .cpm-icons-checkmark {
+  background-position: -24px 0;
+  width: 16px;
+}
+.cpm .cpm-single-project-action .cpm-icons-docs {
+  background-position: -48px 0;
+  width: 16px;
+}
+.cpm .cpm-single-project-action ul.cpm-settings {
+  background: none repeat scroll 0 0 #000000;
+  box-shadow: 0 0 3px 1px #9A9A9A;
+  display: none;
+  position: absolute;
+  right: -1px;
+  top: 112%;
+  width: 92px;
+  margin: 0;
+}
+.cpm .cpm-single-project-action ul.cpm-settings li:not(:last-child) {
+  border-bottom: 1px solid #262626;
+  display: block;
+}
+.cpm .cpm-single-project-action ul.cpm-settings li {
+  padding: 1px 1px 1px 5px;
+  margin: 0;
+}
+.cpm .cpm-single-project-action ul.cpm-settings a {
+  color: #fff;
+  font-size: 12px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  display: inline ;
+}
+.cpm .cpm-single-project-action ul.cpm-settings a:hover {
+  color: #fff;
+  border: none;
+}
+.cpm .cpm-single-project-action ul.cpm-settings:after {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(0, 0, 0, 0);
+  border-bottom-color: #000000;
+  border-width: 8px;
+  margin-left: 27px;
 }
 @media only screen and (max-width: 640px) {
   .cpm .cpm-top-bar ul.cpm-project-group-ul {

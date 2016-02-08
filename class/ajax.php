@@ -594,11 +594,13 @@ class CPM_Ajax {
 
         $task = $task_obj->get_task( $task_id );
         $user_id = wp_get_current_user()->ID ;
+
         $response = array(
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
             'task_complete' =>  $complete['completed'] ,
+            'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
             'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );
 
@@ -628,6 +630,7 @@ class CPM_Ajax {
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+            'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
             'task_complete' =>  $complete['completed'] ,
             'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
         );

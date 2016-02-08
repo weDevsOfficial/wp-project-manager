@@ -24,7 +24,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
 
 <div class="cpm-row cpm-message-page" >
     <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
-
+        <div class="cpm-box-title"> Discussion List </div>
          <?php
     if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
         $messages = $msg_obj->get_all( $project_id, true );
@@ -37,15 +37,17 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
             $message_sender =  get_userdata($message->post_author) ;
             $private_class = ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
         ?>
-        <li itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>" class="cpm-col-12"  >
-                <div class="cpm-col-10"  >
+        <li class="cpm-col-12"  >
+
+                <div class="cpm-col-9" itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>"  >
                       <?php echo cpm_url_user( $message->post_author, true ); ?>
-                    <div>
+                    <div >
                        <?php echo cpm_excerpt( $message->post_title, 50 ); ?>
                     </div>
-                    <div>
+                    <div class="dicussion-meta">
                         <?php printf( __( 'by %s on %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
                     </div>
+
                 </div>
 
             <div class="cpm-col-1" >
@@ -59,10 +61,12 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                 </span>
             </div>
 
-            <div class="cpm-col-1 cpm-last-col cpm-right comment-count">
-                 <?php echo cpm_get_number( $message->comment_count ); ?>
+            <div class="cpm-col-2 cpm-last-col cpm-right comment-count" itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>">
+                 <?php echo cpm_get_number( $message->comment_count ); echo _n( ' Comment', ' Comments', $message->comment_count, 'cpm' ) ?>
             </div>
+
                 <div class="clear"></div>
+
             </li>
         <?php }
         echo "</ul>";
