@@ -31,68 +31,66 @@ if ( $milestones ) {
 ?>
 
 <div class="" id="cpm-milestone-page">
-    <ul class="cpm-milestone-link">
-        <?php  if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
-        <li class=""> <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white "><?php _e( 'Add Milestone', 'cpm' ) ?></a> </li>
-        <?php } ?>
-        <div class="clearfix"></div>
-    </ul>
-<br/>
 
-<div class="cpm-milestone-details">
-
-    <div class="cpm-new-milestone-form ">
-        <?php
-        if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
-            echo cpm_milestone_form( $project_id );
-        }
-        ?>
-    </div>
+    <?php  if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
+        <div class="cpm-milestone-link clearfix">
+            <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+        </div>
+    <?php } ?>
 
 
-    <div class="cpm-late-milestone cpm-milestone-data" >
-        <h2 class="group-title"><?php _e( 'Late Milestones', 'cpm' ); ?></h2>
-        <?php if ( $late_milestones ) { ?>
+    <div class="cpm-milestone-details">
+
+        <div class="cpm-new-milestone-form ">
             <?php
-            foreach ($late_milestones as $milestone) {
-                cpm_show_milestone( $milestone, $project_id );
+            if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
+                echo cpm_milestone_form( $project_id );
             }
-        } else {
-            echo "<div class='cmp-empty-milestone'> ";
-            cpm_show_message( __( 'No Late Milestone Found!', 'cpm' ) );
-            echo "</div>";
-        } ?>
+            ?>
+        </div>
+
+
+        <div class="cpm-late-milestone cpm-milestone-data" >
+            <h2 class="group-title"><?php _e( 'Late Milestones', 'cpm' ); ?></h2>
+            <?php if ( $late_milestones ) { ?>
+                <?php
+                foreach ($late_milestones as $milestone) {
+                    cpm_show_milestone( $milestone, $project_id );
+                }
+            } else {
+                echo "<div class='cmp-empty-milestone'> ";
+                cpm_show_message( __( 'No Late Milestone Found!', 'cpm' ) );
+                echo "</div>";
+            } ?>
+        </div>
+
+        <div class="cpm-upcomming-milestone cpm-milestone-data" >
+            <h2 class="group-title"> <?php _e( 'Upcoming Milestones', 'cpm' ); ?> </h2>
+             <?php if ( $upcoming_milestones ) {
+
+                foreach ($upcoming_milestones as $milestone) {
+                    cpm_show_milestone( $milestone, $project_id );
+                }
+            } else {
+                echo "<div class='cmp-empty-milestone'> ";
+                cpm_show_message( __( 'No Upcomming Milestone Found!', 'cpm' ) );
+                echo "</div>";
+            } ?>
+        </div>
+
+        <div class="cpm-complete-milestone cpm-milestone-data" >
+            <h2 class="group-title"> <?php _e( 'Completed Milestones', 'cpm' ); ?> </h2>
+            <?php if ( $completed_milestones ) {
+                foreach ($completed_milestones as $milestone) {
+                    cpm_show_milestone( $milestone, $project_id );
+                }
+            } else {
+                echo "<div class='cmp-empty-milestone'> ";
+                cpm_show_message( __( 'No Complete Milestone Found!', 'cpm' ) );
+                echo "</div>";
+            } ?>
+
+        </div>
+
     </div>
-
-    <div class="cpm-upcomming-milestone cpm-milestone-data" >
-        <h2 class="group-title"> <?php _e( 'Upcoming Milestones', 'cpm' ); ?> </h2>
-         <?php if ( $upcoming_milestones ) {
-
-        foreach ($upcoming_milestones as $milestone) {
-            cpm_show_milestone( $milestone, $project_id );
-        }
-        } else {
-            echo "<div class='cmp-empty-milestone'> ";
-             cpm_show_message( __( 'No Upcomming Milestone Found!', 'cpm' ) );
-             echo "</div>";
-        } ?>
-    </div>
-
-    <div class="cpm-complete-milestone cpm-milestone-data" >
-        <h2 class="group-title"> <?php _e( 'Completed Milestones', 'cpm' ); ?> </h2>
-        <?php if ( $completed_milestones ) {
-        foreach ($completed_milestones as $milestone) {
-            cpm_show_milestone( $milestone, $project_id );
-        }
-        }else {
-            echo "<div class='cmp-empty-milestone'> ";
-            cpm_show_message( __( 'No Complete Milestone Found!', 'cpm' ) );
-            echo "</div>";
-        } ?>
-
-
-    </div>
-
-
-</div>
 </div>

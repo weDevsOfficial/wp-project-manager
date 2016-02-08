@@ -695,12 +695,12 @@ function cpm_message_form( $project_id, $message = null ) {
  */
 function cpm_discussion_form( $project_id, $message = null ) {
 
-    $title = '';
+    $title   = '';
     $content = '';
-    $submit = __( 'Add Message', 'cpm' );
-    $files  = array();
-    $id     = $milestone = 'nd';
-    $action = 'cpm_message_new';
+    $submit  = __( 'Add Message', 'cpm' );
+    $files   = array();
+    $id      = $milestone = 'nd';
+    $action  = 'cpm_message_new';
 
     if ( !is_null( $message ) ) {
         $id        = $message->ID;
@@ -714,8 +714,6 @@ function cpm_discussion_form( $project_id, $message = null ) {
 
     ob_start();
     ?>
-
-
         <form class="cpm-message-form">
 
             <?php wp_nonce_field( 'cpm_message' ); ?>
@@ -760,7 +758,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
                     <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
                 <?php } ?>
                 <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
-                <a href="javaScript:void(0)" class="message-cancel cpm-btn cpm-btn-gray"><?php _e( 'Cancel', 'cpm'); ?></a>
+                <a href="javaScript:void(0)" class="message-cancel button-secondary"><?php _e( 'Cancel', 'cpm'); ?></a>
             </div>
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
         </form>
