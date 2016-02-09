@@ -10,13 +10,16 @@ cpm_get_header( __( 'Overview', 'cpm' ), $project_id );
 $today      = date("Y-m-d");
 $from_day   = date('Y-m-d', strtotime( '-30 days', strtotime($today) ));
 $chart_data = $pro_obj->get_chart_data ( $project_id, $today, $from_day );
+$str_date   = $str_activity = $str_todo = array();
 
-foreach ( $chart_data['date_list'] as $key => $value ) {
-	$ctd = isset($chart_data['todos'][$key]) ? $chart_data['todos'][$key] : 0;
+if ( $chart_data['date_list'] ) {
+	foreach ( $chart_data['date_list'] as $key => $value ) {
+		$ctd = isset($chart_data['todos'][$key]) ? $chart_data['todos'][$key] : 0;
 
-	$str_date[]     =  '"'.$key.'"';
-	$str_activity[] =  '"'.$value.'"';
-	$str_todo[]     = '"'.$ctd.'"';
+		$str_date[]     =  '"'.$key.'"';
+		$str_activity[] =  '"'.$value.'"';
+		$str_todo[]     = '"'.$ctd.'"';
+	}
 }
 
 $str_date     = implode( $str_date, ',' );

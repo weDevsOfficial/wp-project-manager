@@ -1011,44 +1011,42 @@ function cpm_project_count() {
 
 
 function cpm_project_actions( $project_id ) {
-
-    if( isset( $_GET['action'] ) && $_GET['action'] == 'single' ) {
-        $action = __( 'Action', 'cpm' );
-        $class = 'cpm-single-action';
-    } else {
-        $action = '';
-        $class = 'cpm-action';
-    }
     ?>
-    <div class="<?php echo $class; ?>">
+    <div class="cpm-project-action">
+        <span class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
-    <div class="cpm-settings-bind cpm-settings-icon-cog"><span><?php // echo $action; ?></span></div>
-
-        <ul class="cpm-right cpm-settings" >
+        <ul class="cpm-settings" >
             <li>
-                <span class="cpm-icons-cross"></span>
                 <a href="<?php echo cpm_url_projects() ?>" class="cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                    <span class="dashicons dashicons-trash"></span>
                     <span><?php _e( 'Delete', 'cpm' ); ?></span>
                 </a>
             </li>
             <li>
-                <span class="cpm-icons-checkmark"></span>
                 <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
-                    <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#"><span><?php _e( 'Completed', 'cpm' ); ?></span></a>
+                    <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
+                        <span class="dashicons dashicons-yes"></span>
+                        <span><?php _e( 'Completed', 'cpm' ); ?></span>
+                    </a>
                 <?php } else { ?>
-                    <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#"><span><?php _e( 'Restore', 'cpm' ); ?></span></a>
+                    <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#">
+                        <span class="dashicons dashicons-undo"></span>
+                        <span><?php _e( 'Restore', 'cpm' ); ?></span>
+                    </a>
                 <?php } ?>
             </li>
-               <?php  if(cpm_is_pro()) { ?>
-            <li>
-                <span class="cpm-icons-docs"></span>
-                <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>"><span><?php _e( 'Duplicate', 'cpm' ); ?></span></a>
-            </li>
-               <?php } ?>
+
+            <?php if ( cpm_is_pro() ) { ?>
+                <li>
+                    <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
+                        <span class="dashicons dashicons-admin-page"></span>
+                        <span><?php _e( 'Duplicate', 'cpm' ); ?></span>
+                    </a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
     <?php
-
 }
 
 /**
