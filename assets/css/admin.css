@@ -1243,11 +1243,11 @@ ul.cpm-activity ul li:before {
 .cpm-milestone-form .submit {
   padding: 10px 0 0 0;
 }
-.cpm-comment-form .notify-users label,
-.cpm-message-form .notify-users label,
-.cpm-milestone-form .notify-users label {
-  display: inline-block;
-  width: 31%;
+.cpm-comment-form .notify-users,
+.cpm-message-form .notify-users,
+.cpm-milestone-form .notify-users {
+  border: #dfdfdf solid  1px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 /*--------------------------------------------------
 :: Task List
@@ -2384,24 +2384,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .hide_small_only {
   display: bloc;
 }
-.cpm .notify-users .cpm-user-select-bar {
-  background: ghostwhite;
-  padding: 5px 10px;
-  border-bottom: solid 1px #eeeeee;
-}
-.cpm .notify-users .cpm-user-select-bar .close {
-  background: url('../images/close.svg') no-repeat 0% 0%;
-  background-size: 10px;
-  padding: 5px;
-  cursor: pointer;
-  padding-right: 0px;
-  margin-right: -20px;
-  margin-top: 5px;
+.cpm .notify-users .cpm-small-title {
+  margin-left: 50px;
 }
 .cpm .notify-users .cpm-user-list {
-  display: none;
-  border: solid 1px #019dd6;
-  margin-top: -3px;
+  display: block;
+  padding: 15px;
+  margin: 0px;
 }
 .cpm .notify-users .cpm-user-list .cpm-project-user-list {
   padding: 8px;

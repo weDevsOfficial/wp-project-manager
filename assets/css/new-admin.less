@@ -1348,10 +1348,8 @@ ul.cpm-activity {
     }
 
     .notify-users{
-        label{
-            display: inline-block;
-            width: 31%;
-        }
+        border : #dfdfdf solid  1px;
+        box-shadow: @box-shadow;
     }
 }
 
@@ -2696,26 +2694,15 @@ ul.cpm-files {
 
 
     .notify-users {
-        .cpm-user-select-bar {
-           background: ghostwhite;
-           padding: 5px 10px;
-           border-bottom: solid 1px @gray;
-
-           .close{
-                background :  url('../images/close.svg') no-repeat 0% 0% ;
-                background-size: 10px;
-                padding: 5px;
-                cursor: pointer;
-                padding-right: 0px;
-                margin-right: -20px;
-                margin-top: 5px;
-           }
+        .cpm-small-title {
+          margin-left: 50px;
         }
 
         .cpm-user-list{
-            display: none;
-            border: solid 1px @blueColor;
-            margin-top: -3px;
+            display: block;
+            padding : 15px;
+            margin : 0px;
+
 
             .cpm-project-user-list{
                 padding: 8px;

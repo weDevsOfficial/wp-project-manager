@@ -45,13 +45,6 @@
 
             // User List on message and comments
 
-            $("body").on('click', '.cpm-show-user-list', function() {
-                $(this).next('.cpm-user-list').show(1000);
-            });
-            $("body").on('click', '.close', function() {
-                $(this).closest('.cpm-user-list').hide(800);
-            });
-
 
             // add new commenttoggleForm
             $('.cpm-comment-form').validate({
@@ -62,7 +55,7 @@
             });
             // toggle all user notification checkbox
             $('.cpm').on('change', '.cpm-toggle-checkbox', function(e) {
-                var $checkBoxes = $(this).closest('.cpm-user-list').find('input[type=checkbox][name="notify_user[]"]');
+                var $checkBoxes = $(this).closest('.notify-users').find('input[type=checkbox][name="notify_user[]"]');
                 $checkBoxes.prop('checked', $(this).prop("checked"));
             });
             /* =============== Messages ============ */
@@ -933,4 +926,11 @@
     });
      new CPM_Uploader('cpm-upload-pickfiles-nd', 'cpm-upload-container-nd');
      new CPM_Uploader('cpm-upload-pickfiles-cm', 'cpm-upload-container-cm');
+
+     // for atwho
+     $('#message_detail').atwho({
+        at: "@",
+        data:['Peter', 'Tom', 'Anne']
+    })
+     // end atwho
 })(jQuery);
