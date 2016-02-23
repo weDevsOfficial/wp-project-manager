@@ -94,7 +94,7 @@ class CPM_JSON_Comments {
 		$post_type = $post->post_type;
 
 		switch ( $post_type ) {
-			case 'message':
+			case 'cpm_message':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
@@ -114,7 +114,7 @@ class CPM_JSON_Comments {
 				}
 				break;
 
-			case 'task':
+			case 'cpm_task':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
@@ -136,7 +136,7 @@ class CPM_JSON_Comments {
 
 				}
 				break;
-			case 'task_list':
+			case 'cpm_task_list':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
@@ -292,7 +292,7 @@ class CPM_JSON_Comments {
 		$post_type = $post->post_type;
 
 		switch ( $post_type ) {
-			case 'message':
+			case 'cpm_message':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
@@ -306,7 +306,7 @@ class CPM_JSON_Comments {
 				}
 				break;
 
-			case 'task':
+			case 'cpm_task':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
@@ -321,7 +321,7 @@ class CPM_JSON_Comments {
 					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 				}
 				break;
-			case 'task_list':
+			case 'cpm_task_list':
 				$manage_capability = cpm_manage_capability();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {

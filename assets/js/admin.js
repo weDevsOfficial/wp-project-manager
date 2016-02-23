@@ -68,8 +68,8 @@
                 }
             });
             $('body').on('click', '#cpm-add-message', this.Message.show);
-            $('body').on('click', '.dicussion_list li .cpm-col-9', this.Message.showDiscussion);
-            $('body').on('click', '.dicussion_list li .comment-count', this.Message.showDiscussion);
+            $('body').on('click', '.dicussion-list .cpm-col-9', this.Message.showDiscussion);
+            $('body').on('click', '.dicussion-list .comment-count', this.Message.showDiscussion);
             $('body').on('click', 'a.message-cancel', this.Message.hide);
             $('body').on('click', 'a.cpm-msg-edit', this.Message.get);
             $('body').on('click', 'a.message-cancel', this.Message.hideEditForm);
@@ -685,6 +685,7 @@
                var did = $(this).attr('itemid'),
                self = $(this),
                pid = $(this).attr('data-pid');
+
                var url = window.location.pathname+"?page=cpm_projects&tab=message&action=single&pid="+pid+"&mid="+did ;
                window.open(url,"_self");
             },

@@ -27,7 +27,7 @@ class CPM_Project {
 
     function register_post_type() {
 
-        register_post_type( 'project', array(
+        register_post_type( 'cpm_project', array(
             'label'               => __( 'Project', 'cpm' ),
             'description'         => __( 'project manager post type', 'cpm' ),
             'public'              => false,
@@ -61,7 +61,7 @@ class CPM_Project {
             ),
         ) );
 
-        register_taxonomy('project_category', 'project', array(
+        register_taxonomy('cpm_project_category', 'cpm_project', array(
             'hierarchical' => true,
             'labels' => array(
                 'name'              => _x( 'Project Categories', 'taxonomy general name' ),
@@ -77,7 +77,7 @@ class CPM_Project {
                 'menu_name'         => __( 'Categories', 'cpm' ),
             ),
             'rewrite' => array(
-                'slug'         => 'project-category',
+                'slug'         => 'cpm-project-category',
                 'with_front'   => false,
                 'hierarchical' => true
             ),
@@ -96,7 +96,7 @@ class CPM_Project {
     function fix_category_menu( $parent_file ) {
         global $current_screen;
 
-        if ( $current_screen->taxonomy == 'project_category' )
+        if ( $current_screen->taxonomy == 'cpm_project_category' )
             $parent_file = 'cpm_projects';
 
         return $parent_file;
@@ -115,7 +115,7 @@ class CPM_Project {
         $data = array(
             'post_title'   => $posted['project_name'],
             'post_content' => isset( $posted['project_description'] ) ? $posted['project_description'] : '',
-            'post_type'    => 'project',
+            'post_type'    => 'cpm_project',
             'post_status'  => 'publish'
         );
 
@@ -129,7 +129,7 @@ class CPM_Project {
         if ( $project_id ) {
             $this->insert_project_user_role( $posted, $project_id  );
             $project_cat = isset( $posted['project_cat'] ) ? $posted['project_cat'] : '';
-            wp_set_post_terms( $project_id, $project_cat, 'project_category', false);
+            wp_set_post_terms( $project_id, $project_cat, 'cpm_project_category', false);
 
             if ( $is_update ) {
                 do_action( 'cpm_project_update', $project_id, $data );
@@ -261,7 +261,7 @@ class CPM_Project {
         $project_category = isset( $filters['project_cat'] ) ? $filters['project_cat'] : 0;
 
         $args = array(
-            'post_type'      => 'project',
+            'post_type'      => 'cpm_project',
             'posts_per_page' => $limit,
             'offset'         => $offset
         );
@@ -269,7 +269,7 @@ class CPM_Project {
         //Add Filtering
         if ( $project_category != 0 &&  $project_category != '-1') {
             $args['tax_query'][] = array(
-                'taxonomy' => 'project_category',
+                'taxonomy' => 'cpm_project_category',
                 'field'    => 'term_id',
                 'terms'    => array( $project_category ),
                 'operator' => 'IN',
@@ -337,7 +337,7 @@ class CPM_Project {
     function get_user_projects( $user_id ) {
 
         $args = array(
-            'post_type'      => 'project'
+            'post_type'      => 'cpm_project'
         );
 
         $projects       = new WP_Query( $args );
@@ -477,10 +477,10 @@ class CPM_Project {
             $sql = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
             $sql_files = "SELECT COUNT(ID) FROM $wpdb->posts p INNER JOIN $wpdb->postmeta m ON (p.ID = m.post_id) WHERE p.post_type = 'attachment' AND (p.post_status = 'publish' OR p.post_status = 'inherit') AND ( (m.meta_key = '_project' AND CAST(m.meta_value AS CHAR) = '$project_id') )";
 
-            $discussions = $wpdb->get_results( sprintf( $sql, 'message', $project_id ) );
-            $todolists   = $wpdb->get_results( sprintf( $sql, 'task_list', $project_id ) );
-            $milestones  = $wpdb->get_results( sprintf( $sql, 'milestone', $project_id ) );
-            $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
+            $discussions = $wpdb->get_results( sprintf( $sql, 'cpm_message', $project_id ) );
+            $todolists   = $wpdb->get_results( sprintf( $sql, 'cpm_task_list', $project_id ) );
+            $milestones  = $wpdb->get_results( sprintf( $sql, 'cpm_milestone', $project_id ) );
+            $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'cpm_task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
             $files       = $wpdb->get_var( $sql_files );
 
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
@@ -562,18 +562,45 @@ class CPM_Project {
      * @return array
      */
     function nav_links( $project_id ) {
+        $project_info   =  $this->get_info( $project_id );
+        $count_comments = get_comment_count( $project_id );
+        $total_activity =  $count_comments['total_comments'];
 
         $links = array(
-            __( 'Overview', 'cpm' )    => cpm_url_project_overview( $project_id ),
-            __( 'Activity', 'cpm' )    => cpm_url_project_details( $project_id ),
-            __( 'Discussion', 'cpm' )    => cpm_url_message_index( $project_id ),
-            __( 'To-do Lists', 'cpm' ) => cpm_url_tasklist_index( $project_id ),
-            __( 'Milestones', 'cpm' )  => cpm_url_milestone_index( $project_id ),
-            __( 'Files', 'cpm' )       => cpm_url_file_index( $project_id ),
+            __( 'Overview', 'cpm' )    => array(
+                'url' => cpm_url_project_overview( $project_id ),
+                'count' => '',
+                'class' => 'overview cpm-sm-col-12'
+                ) ,
+            __( 'Activities', 'cpm' )  => array(
+                'url' => cpm_url_project_details( $project_id ),
+                'count' => $total_activity,
+                'class' => 'activity cpm-sm-col-12'
+                ),
+            __( 'Discussions', 'cpm' ) => array(
+                'url' => cpm_url_message_index( $project_id ),
+                'count' => $project_info->discussion,
+                'class' => 'message cpm-sm-col-12'
+                ),
+            __( 'To-do Lists', 'cpm' ) => array(
+                'url' => cpm_url_tasklist_index( $project_id ),
+                'count' => $project_info->todos,
+                'class' => 'to-do-list cpm-sm-col-12'
+                ) ,
+            __( 'Milestones', 'cpm' )  => array(
+                'url' => cpm_url_milestone_index( $project_id ),
+                'count' => $project_info->milestone,
+                'class' => 'milestone cpm-sm-col-12'
+                ) ,
+            __( 'Files', 'cpm' )        => array(
+                'url' => cpm_url_file_index( $project_id ),
+                'count' => $project_info->files,
+                'class' => 'files cpm-sm-col-12'
+                )
         );
 
         if( cpm_user_can_access( $project_id ) ) {
-            $links[__( 'Settings', 'cpm' )] = cpm_url_settings_index( $project_id );
+            $links[__( 'Settings', 'cpm' )] = array('url' => cpm_url_settings_index( $project_id ), 'count' => '', 'class' => 'settings cpm-sm-col-12') ;
         }
 
         $links =  apply_filters( 'cpm_project_nav_links', $links, $project_id );
@@ -592,75 +619,24 @@ class CPM_Project {
     function nav_menu( $project_id, $active = '' ) {
 
         $links          = $this->nav_links( $project_id );
-        $project_info   =  $this->get_info( $project_id );
-        $count_comments = get_comment_count( $project_id );
-        $total_activity =  $count_comments['total_comments'];
         $menu           = array();
 
         foreach ( $links as $label => $url ) {
-
-            switch ( $label ) {
-
-                case __( 'Discussion', 'cpm' ) :
-                case __( 'Discussions', 'cpm' ) :
-                    $count = $project_info->discussion;
-                    $text =  _n( 'Discussion', 'Discussions',  $count, 'cpm') ;
-                    $class = "message cpm-sm-col-12";
-                    break;
-
-                case __( 'To-do Lists', 'cpm' ) :
-                case __( 'To-do List', 'cpm' ):
-                    $count = $project_info->todos;
-                    $text =  _n( 'To-do List', 'To-do Lists',  $count, 'cpm') ;
-                    $class = "to-do-list cpm-sm-col-12";
-                    break;
-
-                case __( 'Files', 'cpm' ) :
-                case __( 'File', 'cpm' ) :
-                    $count = $project_info->files;
-                    $text =  _n( 'File', 'Files',  $count, 'cpm') ;
-                    $class = "files cpm-sm-col-12";
-                    break;
-
-                case __( 'Activity', 'cpm' ):
-                case __( 'Activities', 'cpm' ):
-                    $count = $total_activity;
-                    $text =  _n( 'Activity', 'Activities',  $count, 'cpm') ;
-                    $class = "activity cpm-sm-col-12";
-                    break;
-
-                case __( 'Milestones', 'cpm' ) :
-                case __( 'Milestone', 'cpm' ):
-                    $count = $project_info->milestone;
-                    $text =  _n( 'Milestone', 'Milestones',  $count, 'cpm') ;
-                    $class = "milestone cpm-sm-col-12";
-                    break;
-
-                case  __( 'Overview', 'cpm' ) :
-                    $count = "";
-                    $text = 'Overview';
-                    $class = "overview cpm-sm-col-12";
-                    break;
-
-                case __( 'Settings', 'cpm' ):
-                    $count = "";
-                    $text = "Settings";
-                    $class = "settings cpm-sm-col-12";
-                    break;
-
-                default:
-                    $count = "";
-                    $class = "";
-                    $text = "";
-                    break;
+            if(is_array($url)){
+                $link =  $url['url'] ;
+                $count = $url['count'];
+                $class =  $url['class'] ;
+            }else{
+                $link =  $url ;
+                $count = '';
+                $class =  'others' ;
             }
-
             if ( $active == $label ) {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $url, $text, $count, $class );
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $link, $label, $count , $class );
             } else {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $url, $text, $count, $class);
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $link, $label, $count , $class);
             }
         }
 
@@ -713,8 +689,8 @@ class CPM_Project {
 
         $sql = "SELECT m.meta_value as completed FROM $wpdb->posts p
             LEFT JOIN $wpdb->postmeta m ON p.ID = m.post_id
-            WHERE post_parent IN (SELECT ID FROM $wpdb->posts WHERE post_parent = $project_id AND post_status = 'publish' AND post_type = 'task_list')
-            AND p.post_status = 'publish' AND p.post_type = 'task' AND m.meta_key = '_completed'
+            WHERE post_parent IN (SELECT ID FROM $wpdb->posts WHERE post_parent = $project_id AND post_status = 'publish' AND post_type = 'cpm_task_list')
+            AND p.post_status = 'publish' AND p.post_type = 'cpm_task' AND m.meta_key = '_completed'
             ORDER BY m.meta_value";
 
         $result = $wpdb->get_results($sql);

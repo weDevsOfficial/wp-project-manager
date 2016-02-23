@@ -66,7 +66,7 @@ function cpm_dropdown_category( $current_category_id = -1, $show_count = false, 
         'show_option_all' => $show_all ? __( '- All Categories -', 'cpm' ) : '',
         'show_option_none' => !$show_all ? __( '- Project Category -', 'cpm' ) : '',
         'tab_index' => 0,
-        'taxonomy' => 'project_category',
+        'taxonomy' => 'cpm_project_category',
     );
 
     $args = apply_filters( 'cpm_category_dropdown', $args, $current_category_id );
@@ -655,7 +655,7 @@ function cpm_hide_comments( $clauses ) {
     global $wpdb, $pagenow;
 
     if ( !is_admin() || $pagenow == 'edit-comments.php' || (is_admin() && $pagenow == 'index.php') ) {
-        $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
+        $post_types = implode( "', '", array('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message') );
         $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
         $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
     }
@@ -675,7 +675,7 @@ add_filter( 'comments_clauses', 'cpm_hide_comments', 99 );
 function cpm_hide_comment_rss( $where ) {
     global $wpdb;
 
-    $post_types = implode( "', '", array('project', 'task_list', 'task', 'milestone', 'message') );
+    $post_types = implode( "', '", array('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message') );
     $where .= " AND {$wpdb->posts}.post_type NOT IN('$post_types')";
 
     return $where;
@@ -866,15 +866,15 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
         return true;
     }
 
-    global $current_user;
+    $user = wp_get_current_user();
 
     $project_user_role  = cpm_project_user_role( $project_id );
-    $loggedin_user_role = reset( $current_user->roles );
+    $loggedin_user_role = reset( $user->roles );
     $manage_capability  = cpm_get_option( 'project_manage_role' );
     //var_dump( $current_user->ID, $list->post_author, $project_user_role, $loggedin_user_role, $manage_capability ); die();
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
-    if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) || $current_user->ID == $list->post_author ) {
+    if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) || $user->ID == $list->post_author ) {
         return true;
     }
 
@@ -980,7 +980,7 @@ function cpm_project_count() {
             $project_category_join
             $role_join
             WHERE
-                post.post_type ='project'
+                post.post_type ='cpm_project'
                 AND post.post_status = 'publish'
                 $project_category
                 $role_where
@@ -1114,17 +1114,17 @@ add_action( 'cpm_delete_project_prev', 'cpm_delete_project_child' );
  */
 function cpm_delete_project_child( $project_id ) {
 
-    $childrens = get_posts( array( 'post_type' => array( 'task_list', 'message', 'milestone' ), 'post_pre_page' => '-1', 'post_parent' => $project_id ) );
+    $childrens = get_posts( array( 'post_type' => array( 'cpm_task_list', 'cpm_message', 'cpm_milestone' ), 'post_pre_page' => '-1', 'post_parent' => $project_id ) );
 
     foreach ( $childrens as $key => $children ) {
         switch ( $children->post_type ) {
-            case 'task_list':
+            case 'cpm_task_list':
                 CPM_Task::getInstance()->delete_list( $children->ID, true );
                 break;
-            case 'message':
+            case 'cpm_message':
                 CPM_Message::getInstance()->delete( $children->ID, true );
                 break;
-            case 'milestone':
+            case 'cpm_milestone':
                 CPM_Milestone::getInstance()->delete( $children->ID, true );
                 break;
         }

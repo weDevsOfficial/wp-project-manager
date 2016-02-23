@@ -46,7 +46,7 @@
 
         datePicker: function() {
             $( ".date_picker_from" ).datepicker({
-                dateFormat: 'mm-dd-yyyyy',
+                dateFormat: 'yy-mm-dd',
                 changeYear: true,
                 changeMonth: true,
                 numberOfMonths: 1,
@@ -56,12 +56,12 @@
                 }
             });
             $( ".date_picker_to" ).datepicker({
-                dateFormat: 'mm-dd-yyyyy',
+                dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true,
                 numberOfMonths: 1,
                 onClose: function( selectedDate ) {
-                    $( ".date_picker_from" ).datepicker( "option", "maxDate", selectedDate );
+                   $( ".date_picker_from" ).datepicker( "option", "maxDate", selectedDate );
                 }
             });
 

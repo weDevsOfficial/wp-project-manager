@@ -185,11 +185,11 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         $submit_button = __( 'Save Changes', 'cpm' );
 
         if ( $task->due_date != '' ) {
-            $task_due = date( 'm/d/Y', strtotime( $task->due_date ) );
+            $task_due = date( 'm-d-Y', strtotime( $task->due_date ) );
         }
 
         if ( $task->start_date != '' ) {
-            $task_start = date( 'm/d/Y', strtotime( $task->start_date ) );
+            $task_start = date( 'm-d-Y', strtotime( $task->start_date ) );
         }
     }
     ?>
@@ -402,13 +402,13 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             <div class="cpm-col-6">
                 <div class="cpm-col-3 cpm-todo-complete">
                     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
-                        <span> <?php echo $complete['completed'] ; ?> </span>
+                        <span> <?php echo intval($complete['completed']) ; ?> </span>
                         <?php _e( 'Completed', 'cpm' ) ?>
                     </a>
                 </div>
                 <div class="cpm-col-3 cpm-todo-incomplete">
                       <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
-                        <?php echo "<span>". ($complete['total']-$complete['completed']) ."</span>" ;?>
+                        <?php echo "<span>". ceil($complete['total']-$complete['completed']) ."</span>" ;?>
                         <?php _e( 'Incomplete', 'cpm' ) ?>
                       </a>
                 </div>
@@ -1455,7 +1455,7 @@ function cpm_check_task_privicy( $_get_shorcode_attr, $activity, $user_id = 0  )
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'task' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_task' ) {
             $task_privacy = get_post_meta( $post->ID, '_task_privacy', true );
             if ( $task_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'todo_view_private', $user->ID ) ) {
                 $task = false;
@@ -1479,7 +1479,7 @@ function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity, $user_id = 
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'task_list' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_task_list' ) {
             $tasklist_privacy = get_post_meta( $post->ID, '_tasklist_privacy', true );
             if ( $tasklist_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'tdolist_view_private', $user->ID ) ) {
                 $tasklist = false;
@@ -1502,7 +1502,7 @@ function cpm_check_message_privicy( $_get_shorcode_attr, $activity, $user_id = 0
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'message' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_message' ) {
             $message_privacy = get_post_meta( $post->ID, '_message_privacy', true );
             if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'msg_view_private', $user->ID ) ) {
                 $message = false;
@@ -1525,7 +1525,7 @@ function cpm_check_milestone_privicy( $_get_shorcode_attr, $activity, $user_id =
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'milestone' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_milestone' ) {
             $message_privacy = get_post_meta( $post->ID, '_milestone_privacy', true );
             if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'milestone_view_private', $user->ID ) ) {
                 $message = false;

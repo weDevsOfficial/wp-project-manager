@@ -33,7 +33,7 @@ if ( $attachments ) {
 
         $post_type_object = get_post_type_object( $parent->post_type );
 
-        if ( $parent->post_type == 'task' ) {
+        if ( $parent->post_type == 'cpm_task' ) {
 
             $is_private = get_post_meta( $attachment->post_parent, '_task_privacy', true );
             if( ! cpm_user_can_access( $project_id, 'todo_view_private', $is_private ) ) {
@@ -42,13 +42,13 @@ if ( $attachments ) {
             $task_list = get_post( $parent->post_parent );
             $topic_url = cpm_url_single_task( $project_id, $task_list->ID, $parent->ID );
 
-        } else if ( $parent->post_type == 'task_list' ) {
+        } else if ( $parent->post_type == 'cpm_task_list' ) {
             $is_private = get_post_meta( $attachment->post_parent, '_tasklist_privacy', true );
             if( ! cpm_user_can_access( $project_id, 'tdolist_view_private', $is_private ) ) {
                 continue;
             }
             $topic_url = cpm_url_single_tasklist( $project_id, $parent->ID );
-        } else if ( $parent->post_type == 'message' ) {
+        } else if ( $parent->post_type == 'cpm_message' ) {
             $is_private = get_post_meta( $attachment->post_parent, '_message_privacy', true );
             if( ! cpm_user_can_access_file( $project_id, 'msg_view_private', $is_private ) ) {
                 continue;

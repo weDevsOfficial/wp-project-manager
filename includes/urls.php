@@ -293,11 +293,11 @@ function cpm_url_comment( $comment_id, $project_id ) {
         return false;
     }
 
-    if ( $post->post_type == 'message' ) {
+    if ( $post->post_type == 'cpm_message' ) {
         $url = cpm_url_single_message( $project_id, $post->ID );
-    } else if ( $post->post_type == 'task_list' ) {
+    } else if ( $post->post_type == 'cpm_task_list' ) {
         $url = cpm_url_single_tasklist( $project_id, $post->ID );
-    } else if ( $post->post_type == 'task' ) {
+    } else if ( $post->post_type == 'cpm_task' ) {
         $list = get_post( $post->post_parent );
         $url = cpm_url_single_task( $project_id, $list->ID, $post->ID );
     }

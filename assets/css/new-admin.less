@@ -2943,33 +2943,36 @@ ul.cpm-files {
         }
 
     }
-
+    li {
+        background-position:  0% 55% ;
+        background-repeat: no-repeat ;
+    }
     li.message {
-        background: url('../images/bullet_green.png') no-repeat  0% 55%   ;
+        background-image: url('../images/bullet_green.png')    ;
 
     }
 
     li.todo {
-        background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+        background-image:  url('../images/to-do-list.png')   ;
 
     }
 
     li.todos {
-        background: url('../images/to-do-list.png') no-repeat  0% 55%   ;
+        background-image:  url('../images/to-do-list.png')  ;
 
     }
 
     li.comments {
-        background: url('../images/comment.png') no-repeat  0% 55%   ;
+        background-image:  url('../images/comment.png')  ;
 
     }
 
     li.files {
-        background: url('../images/docs.png') no-repeat  0% 55%   ;
+       background-image:  url('../images/docs.png')    ;
     }
 
     li.milestone {
-        background: url('../images/milestones.png') no-repeat  0% 55%   ;
+        background-image:  url('../images/milestones.png')    ;
 
     }
 
@@ -3084,6 +3087,32 @@ ul.cpm-files {
                     width: 32px;
                 }
             }
+        }
+    }
+
+    .cpm-frontend {
+        .cpm-project {
+            height: auto ;
+        }
+        .cpm-project-meta {
+                padding: @defaultPadding;
+
+                ul {
+                    padding: 0px;
+                    margin: 0px;
+                    margin-left: 5px;
+                    margin-bottom: 50px;
+
+                    li {
+                        float: none !important;
+                        width: 100%  !important;
+                        list-style: none;
+                        padding-left:  25px;
+                        font-size: @defaultFontSize;
+                        color: #888888;
+                        line-height: auto !important;
+                    }
+                }
         }
     }
 

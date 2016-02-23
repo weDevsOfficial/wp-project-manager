@@ -37,6 +37,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_add', array($this, 'add_new_task') );
         add_action( 'wp_ajax_cpm_task_update', array($this, 'update_task') );
         add_action( 'wp_ajax_cpm_task_order', array($this, 'task_save_order') );
+        add_action( 'wp_ajax_cpm_check_task_access', array($this, 'check_task_access') );
 
         add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
@@ -129,7 +130,7 @@ class CPM_Ajax {
         }
 
         $post_query = new WP_Query( array(
-            'post_type'      => 'project',
+            'post_type'      => 'cpm_project',
             'post_status'    => 'publish',
             'post__in'       => $projects_id,
             'posts_per_page' => -1
@@ -165,7 +166,7 @@ class CPM_Ajax {
 
         if ( !$project_id ) {
             $args = array(
-                'post_type'      => array( 'project', 'task_list', 'task', 'message', 'milestone' ),
+                'post_type'      => array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_message', 'cpm_milestone' ),
                 'post_status'    => 'publish',
                 'posts_per_page' => '-1',
                 's'              => $item,
@@ -177,7 +178,7 @@ class CPM_Ajax {
 
         if ( $project_id ) {
             $args = array(
-                'post_type'      => array( 'task_list', 'message', 'milestone' ),
+                'post_type'      => array( 'cpm_task_list', 'cpm_message', 'cpm_milestone' ),
                 'post_status'    => 'publish',
                 'post_parent'    => $project_id,
                 'posts_per_page' => '-1',
@@ -190,8 +191,8 @@ class CPM_Ajax {
                 LEFT JOIN $wpdb->posts AS tl ON p.ID=tl.post_parent
                 LEFT JOIN $wpdb->posts AS tk ON tl.ID=tk.post_parent
                 WHERE
-                p.post_type='project' AND p.post_status='publish' AND p.ID=$project_id
-                AND  tl.post_type='task_list' AND tk.post_type='task'
+                p.post_type='cpm_project' AND p.post_status='publish' AND p.ID=$project_id
+                AND  tl.post_type='cpm_task_list' AND tk.post_type='cpm_task'
                 AND  tl.post_status='publish' AND tk.post_status='publish'
                 AND ( tk.post_title like '%$item%' OR tk.post_content like '%$item%' )";
 
@@ -204,7 +205,7 @@ class CPM_Ajax {
         $items = array();
         foreach ( $posts as $key => $post ) {
             switch ($post->post_type) {
-                case 'project':
+                case 'cpm_project':
                     $url = cpm_url_project_details( $post->ID );
                     $category = __( 'Project: ', 'cpm' );
                     $items[] = array(
@@ -212,7 +213,7 @@ class CPM_Ajax {
                     );
                     break;
 
-                case 'task_list':
+                case 'cpm_task_list':
                     $url = cpm_url_single_tasklist( $post->post_parent, $post->ID );
                     $category = __( 'Task List: ', 'cpm' );
                     $items[] = array(
@@ -220,7 +221,7 @@ class CPM_Ajax {
                     );
                     break;
 
-                case 'task':
+                case 'cpm_task':
                     $task_list = get_post( $post->post_parent );
                     $url = cpm_url_single_task( $task_list->post_parent, $post->post_parent, $post->ID );
                     $category = __( 'Task: ', 'cpm' );
@@ -229,7 +230,7 @@ class CPM_Ajax {
                     );
                     break;
 
-                case 'message':
+                case 'cpm_message':
                     $url = cpm_url_single_message( $post->post_parent, $post->ID );
                     $category = __( 'Message: ', 'cpm' );
                     $items[] = array(
@@ -237,7 +238,7 @@ class CPM_Ajax {
                     );
                     break;
 
-                case 'milestone':
+                case 'cpm_milestone':
                     $url = cpm_url_milestone_index( $post->post_parent );
                     $category = __( 'Milestone: ', 'cpm' );
                     $items[] = array(
@@ -567,7 +568,25 @@ class CPM_Ajax {
         exit;
     }
 
-    function task_save_order() {
+    function check_task_access(){
+
+        $project_id = $_POST['project_id'] ;
+        $task_id = $_POST['task_id'] ;
+
+        if( cpm_user_can_delete_edit($project_id, $task_id, true ) )
+        {
+             $response = true;
+        }else {
+             $response = false;
+        }
+
+         echo  json_encode( $response );
+
+         exit;
+
+    }
+
+   function task_save_order() {
 
         if ( $_POST['items'] ) {
             foreach ($_POST['items'] as $index => $task_id) {
@@ -599,9 +618,9 @@ class CPM_Ajax {
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
-            'task_complete' =>  $complete['completed'] ,
+            'task_complete' => intval($complete['completed']),
             'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
-            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
+            'task_uncomplete' => ceil( $complete['total'] - $complete['completed'])
         );
 
         $response = apply_filters( 'cpm_task_complete_response', $user_id, $response, $task_id, $list_id, $project_id );
@@ -631,8 +650,8 @@ class CPM_Ajax {
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
             'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
-            'task_complete' =>  $complete['completed'] ,
-            'task_uncomplete' =>  ( $complete['total'] - $complete['completed'])
+            'task_complete' => intval( $complete['completed'] ),
+            'task_uncomplete' => ceil( $complete['total'] - $complete['completed'])
         );
         $response = apply_filters( 'cpm_task_open_response', $user_id, $response, $task_id, $list_id, $project_id );
 

@@ -2586,23 +2586,27 @@ ul.cpm-files li .cpm-file-action .comment-number {
   float: right;
   margin-left: 0px;
 }
+.cpm li {
+  background-position: 0% 55% ;
+  background-repeat: no-repeat;
+}
 .cpm li.message {
-  background: url('../images/bullet_green.png') no-repeat 0% 55%;
+  background-image: url('../images/bullet_green.png');
 }
 .cpm li.todo {
-  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+  background-image: url('../images/to-do-list.png');
 }
 .cpm li.todos {
-  background: url('../images/to-do-list.png') no-repeat 0% 55%;
+  background-image: url('../images/to-do-list.png');
 }
 .cpm li.comments {
-  background: url('../images/comment.png') no-repeat 0% 55%;
+  background-image: url('../images/comment.png');
 }
 .cpm li.files {
-  background: url('../images/docs.png') no-repeat 0% 55%;
+  background-image: url('../images/docs.png');
 }
 .cpm li.milestone {
-  background: url('../images/milestones.png') no-repeat 0% 55%;
+  background-image: url('../images/milestones.png');
 }
 .cpm .cpm-project-list {
   margin: 0px ;
@@ -2698,6 +2702,27 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-project-list .cpm-project .cpm-project-people img.avatar {
   height: 32px;
   width: 32px;
+}
+.cpm .cpm-frontend .cpm-project {
+  height: auto ;
+}
+.cpm .cpm-frontend .cpm-project-meta {
+  padding: 10px;
+}
+.cpm .cpm-frontend .cpm-project-meta ul {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 5px;
+  margin-bottom: 50px;
+}
+.cpm .cpm-frontend .cpm-project-meta ul li {
+  float: none !important;
+  width: 100%  !important;
+  list-style: none;
+  padding-left: 25px;
+  font-size: 13px;
+  color: #888888;
+  line-height: auto !important;
 }
 .cpm .cpm-border-bottom {
   border-bottom: solid 1px #eeeeee;

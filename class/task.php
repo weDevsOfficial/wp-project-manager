@@ -22,7 +22,7 @@ class CPM_Task {
     }
 
     function register_post_type() {
-        register_post_type( 'task_list', array(
+        register_post_type( 'cpm_task_list', array(
             'label' => __( 'Task List', 'cpm' ),
             'description' => __( 'Task List', 'cpm' ),
             'public' => false,
@@ -56,7 +56,7 @@ class CPM_Task {
             ),
         ) );
 
-        register_post_type( 'task', array(
+        register_post_type( 'cpm_task', array(
             'label' => __( 'Task', 'cpm' ),
             'description' => __( 'Tasks', 'cpm' ),
             'public' => false,
@@ -107,7 +107,7 @@ class CPM_Task {
             'post_parent'  => $project_id,
             'post_title'   => $postdata['tasklist_name'],
             'post_content' => $postdata['tasklist_detail'],
-            'post_type'    => 'task_list',
+            'post_type'    => 'cpm_task_list',
             'post_status'  => 'publish'
         );
 
@@ -124,11 +124,11 @@ class CPM_Task {
             update_post_meta( $list_id, '_tasklist_privacy', $tasklist_privacy );
 
             if ( $is_update ) {
-                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'task_list', true );
+                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'cpm_task_list', true );
 
                 do_action( 'cpm_tasklist_update', $list_id, $project_id, $data );
             } else {
-                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'task_list', false );
+                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'cpm_task_list', false );
 
                 do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
             }
@@ -164,14 +164,15 @@ class CPM_Task {
         $task_title   = trim( $postdata['task_title'] );
         $content      = trim( $postdata['task_text'] );
         $assigned     = isset( $postdata['task_assign'] ) ? $postdata['task_assign'] : array( '-1' );
-        $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
-        $start        = empty( $postdata['task_start'] ) ? '' : cpm_date2mysql( $postdata['task_start'] );
+     //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
+        $due  = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql($postdata['task_due']);
+        $start        = empty( $postdata['task_start'] ) ? '' : cpm_date2mysql( $postdata['task_start']);
 
         $data = array(
             'post_parent'  => $list_id,
             'post_title'   => $task_title,
             'post_content' => $content,
-            'post_type'    => 'task',
+            'post_type'    => 'cpm_task',
             'post_status'  => 'publish'
         );
 
@@ -250,10 +251,10 @@ class CPM_Task {
         if ( $update ) {
             $delete = $this->delete_task_item( $item_id );
             $completed = $task->completed ? $task->completed_on : '0000-00-00 00:00:00';
-            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'task', true, $completed, $task->completed, $list_id );
+            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'cpm_task', true, $completed, $task->completed, $list_id );
             $new_insert_id = $this->get_item_id( $task_id );
         } else {
-            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'task', false, $completed, 0, $list_id );
+            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'cpm_task', false, $completed, 0, $list_id );
 
             $new_insert_id = isset( $wpdb->insert_id ) ? $wpdb->insert_id : 0;
 
@@ -393,7 +394,7 @@ class CPM_Task {
     function get_task_lists( $project_id, $privacy = false ) {
 
         $args = array(
-            'post_type'   => 'task_list',
+            'post_type'   => 'cpm_task_list',
             'numberposts' => -1,
             'order'       => 'ASC',
             'orderby'     => 'menu_order',
@@ -475,7 +476,7 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null ) {
 
-        $args = array('post_parent' => $list_id, 'posts_per_page' => -1, 'post_type' => 'task', 'order' => 'ASC', 'orderby' => 'menu_order');
+        $args = array('post_parent' => $list_id, 'posts_per_page' => -1, 'post_type' => 'cpm_task', 'order' => 'ASC', 'orderby' => 'menu_order');
 
         if ( $privacy === false ) {
             $args['meta_query'] =  array(
@@ -521,7 +522,7 @@ class CPM_Task {
     function get_tasklist_by_milestone( $milestone_id, $privacy = false ) {
 
         $args = array(
-            'post_type' => 'task_list',
+            'post_type' => 'cpm_task_list',
             'numberposts' => -1,
             'order' => 'ASC',
             'orderby' => 'menu_order',

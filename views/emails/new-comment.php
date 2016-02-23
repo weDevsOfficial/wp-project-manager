@@ -16,19 +16,19 @@
 	$comment_url = '';
 
     switch ($parent_post->post_type) {
-        case 'message':
+        case 'cpm_message':
             $type = __( 'Message', 'cpm' );
             $title = $parent_post->post_title;
             $comment_url = cpm_url_single_message( $project_id, $data['comment_post_ID'] );
             break;
 
-        case 'task_list':
+        case 'cpm_task_list':
             $title = $parent_post->post_title;
             $type = __( 'Task List', 'cpm' );
             $comment_url = cpm_url_single_tasklist( $project_id, $parent_post->ID );
             break;
 
-        case 'task':
+        case 'cpm_task':
             $type = __( 'Task', 'cpm' );
             $title = $parent_post->post_title;
             $comment_url = cpm_url_single_task( $project_id, $parent_post->post_parent, $parent_post->ID );
