@@ -407,7 +407,9 @@
                     res = JSON.parse(res);
 
                     if(res.success === true) {
-
+                        if(! $("ul.cpm-todolists").length){
+                             location.reload();
+                        }
                         $('ul.cpm-todolists').append('<li id="cpm-list-' + res.id + '">' + res.content + '</li>');
 
                         var list = $('#cpm-list-' + res.id);
@@ -500,6 +502,10 @@
                     res = JSON.parse(res);
                     $(document).trigger('cpm.deleteList.after',[res,self]);
                     if(res.success) {
+                         if(! $("ul.cpm-todos li").length){
+                             location.reload();
+                        }
+
                         list.fadeOut(function() {
                             $(this).remove();
                         });

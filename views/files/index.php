@@ -1,6 +1,6 @@
 <?php cpm_get_header( __( 'Files', 'cpm' ), $project_id ); ?>
 
-<div class="cpm-files-page">
+
 <?php
 $args = array(
     'post_type' => 'attachment',
@@ -17,7 +17,7 @@ $base_image_url = admin_url('admin-ajax.php?action=cpm_file_get');
 //msg_view_private
 //milestone_view_private
 if ( $attachments ) {
-
+    echo '<div class="cpm-files-page">';
     echo '<ul class="cpm-files">';
     foreach ($attachments as $attachment) {
         $file = CPM_Comment::getInstance()->get_file( $attachment->ID );
@@ -89,9 +89,9 @@ if ( $attachments ) {
 
         <?php
     }
-    echo '</ul>';
+    echo '</ul> </div>';
 } else {
-    cpm_show_message( __( 'No Files Found!', 'cpm' ) );
+     cpm_blank_template('files', $project_id) ;
 }
 ?>
-</div>
+ 

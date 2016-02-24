@@ -1674,3 +1674,28 @@ function cpm_report_action_button() {
 }
 
 
+function  cpm_blank_template($page='default', $project_id=null) {
+
+
+        switch ($page) {
+
+            case "discussion":
+                include CPM_PATH . '/views/blanktemplate/discussion.php';
+                break;
+
+            case "todolist":
+                include CPM_PATH . '/views/blanktemplate/todolist.php';
+                break;
+
+            case "milestone":
+                include CPM_PATH . '/views/blanktemplate/milestone.php';
+                break;
+
+            case "files":
+                include CPM_PATH . '/views/blanktemplate/files.php';
+                break;
+
+            default:
+                include CPM_PATH . '/views/blanktemplate/default.php';
+        }
+}

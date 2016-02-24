@@ -9,16 +9,22 @@ $pro_obj = CPM_Project::getInstance();
 
 cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
 $can_create = cpm_user_can_access( $project_id, 'create_message' );
+ if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
+            $messages = $msg_obj->get_all( $project_id, true );
+        } else {
+            $messages = $msg_obj->get_all( $project_id );
+        }
+ if ( $messages ) {
 ?>
   <?php if ( $can_create ) { ?>
         <div>
             <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
         </div>
-            <div class="cpm-new-message-form">
-                <h3><?php _e( 'Create a new message', 'cpm' ); ?></h3>
+        <div class="cpm-new-message-form">
+            <h3><?php _e( 'Create a new message', 'cpm' ); ?></h3>
 
-                <?php echo cpm_discussion_form( $project_id ); ?>
-            </div>
+            <?php echo cpm_discussion_form( $project_id ); ?>
+        </div>
 
     <?php } ?>
 
@@ -26,13 +32,9 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
     <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
         <div class="cpm-box-title"><?php _e( 'Discussion List', 'cpm' ); ?></div>
         <?php
-        if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-            $messages = $msg_obj->get_all( $project_id, true );
-        } else {
-            $messages = $msg_obj->get_all( $project_id );
-        }
 
-    if ( $messages ) {
+
+
         echo '<ul class="dicussion-list">';
 
         foreach ($messages as $message) {
@@ -75,10 +77,13 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
             </li>
         <?php }
         echo "</ul>";
-    }
+
     ?>
     </div>
 
     <div class="clear"></div>
 </div>
+<?php } else {
+    cpm_blank_template('discussion', $project_id) ;
+}  ?>
 

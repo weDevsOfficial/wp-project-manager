@@ -1191,7 +1191,7 @@ ul.cpm-activity ul li:before {
   display: none;
   border: 1px solid #e5e5e5;
   padding: 25px;
-  width: 40%;
+  max-width: 600px;
   background: #fff;
   margin-top: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -3562,6 +3562,42 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border-bottom-color: #ccc;
   border-width: 8px;
   margin-left: 27px;
+}
+.cpm .cpm-blank-template {
+  vertical-align: central;
+  background: #ffffff;
+  padding: 25px;
+  padding-bottom: 35px;
+}
+.cpm .cpm-blank-template .cpm-content {
+  margin: auto;
+  max-width: 700px;
+  text-align: center;
+}
+.cpm .cpm-blank-template .cpm-content p {
+  font-size: 14px;
+}
+.cpm .cpm-blank-template .cpm-content img {
+  max-width: 340px;
+  margin-bottom: 10px;
+}
+.cpm .cpm-blank-template .cpm-content form {
+  text-align: left;
+}
+.cpm .cpm-blank-template .cpm-content h2 {
+  margin: 0px;
+  padding: 0px 10px 8px;
+  font-weight: bold;
+  color: #000;
+  font-size: 16px;
+}
+.cpm .cpm-blank-template .cpm-content .cpm-list {
+  color: #545353;
+  max-width: 300px;
+  margin: auto;
+  text-align: left;
+  list-style: disc;
+  margin-bottom: 35px;
 }
 @media only screen and (max-width: 640px) {
   .cpm .cpm-top-bar ul.cpm-project-group-ul {

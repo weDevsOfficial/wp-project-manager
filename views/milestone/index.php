@@ -26,7 +26,7 @@ if ( $milestones ) {
             $late_milestones[] = $milestone;
         }
     }
-}
+
 
 ?>
 
@@ -93,3 +93,7 @@ if ( $milestones ) {
     ?>
     </div>
 </div>
+<?php } else {
+    cpm_blank_template('milestone', $project_id) ;
+}
+?>

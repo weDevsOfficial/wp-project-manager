@@ -9,6 +9,9 @@ if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 
 cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
+if ( !$lists ) {
+    cpm_blank_template('todolist', $project_id) ;
+}else {
 
 if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     ?>
@@ -36,8 +39,4 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     }
     ?>
 </ul>
-
-<?php
-if ( !$lists ) {
-    cpm_show_message( __( 'No To-do list found!', 'cpm' ) );
-}
+<?php }?>
