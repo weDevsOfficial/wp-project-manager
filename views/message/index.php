@@ -41,18 +41,17 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
             $message_sender =  get_userdata($message->post_author) ;
             $private_class = ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
         ?>
-        <li class="cpm-col-12"  >
+        <li class="cpm-col-12"   >
 
-            <div class="cpm-col-9" itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>"  >
+            <div class="cpm-col-9" itemref="<?php echo cpm_url_single_message($project_id, $message->ID) ?>"  >
                 <?php echo cpm_url_user( $message->post_author, true ); ?>
 
-                <div>
-                   <?php echo cpm_excerpt( $message->post_title, 50 ); ?>
-                </div>
-
-                <div class="dicussion-meta">
-                    <?php printf( __( 'by %s on %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
-                </div>
+                    <div>
+                       <?php echo cpm_excerpt( $message->post_title, 50 ); ?>
+                    </div>
+                    <div class="dicussion-meta">
+                        <?php printf( __( 'by %s on %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
+                    </div>
 
             </div>
 
@@ -68,7 +67,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                 </span>
             </div>
 
-            <div class="cpm-col-2 cpm-last-col cpm-right comment-count" itemid="<?php echo $message->ID ; ?>" data-pid="<?php echo $project_id ?>">
+            <div class="cpm-col-2 cpm-last-col cpm-right comment-count" itemref="<?php echo cpm_url_single_message($project_id, $message->ID) ?>">
                  <?php echo cpm_get_number( $message->comment_count ); echo _n( ' Comment', ' Comments', $message->comment_count, 'cpm' ) ?>
             </div>
 

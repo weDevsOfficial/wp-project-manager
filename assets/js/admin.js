@@ -682,11 +682,7 @@
             },
             showDiscussion: function(e) {
               // e.preventDefault();
-               var did = $(this).attr('itemid'),
-               self = $(this),
-               pid = $(this).attr('data-pid');
-
-               var url = window.location.pathname+"?page=cpm_projects&tab=message&action=single&pid="+pid+"&mid="+did ;
+             var url = $(this).attr('itemref');
                window.open(url,"_self");
             },
             get: function(e) {
