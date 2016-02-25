@@ -904,8 +904,14 @@ ul.cpm-activity {
     margin: 0px;
     display: none;
     background: #fff;
-    padding: 15px 25px;
+    padding: 15px 20px;
     margin-bottom: 25px;
+    box-shadow: @box-shadow;
+    border: 1px solid #e5e5e5;
+
+    h3 {
+        margin-top: 0;
+    }
 }
 
 .cpm-message-form-wrap {
@@ -1300,6 +1306,10 @@ ul.cpm-activity {
         display: none;
     }
 
+    &.cpm-todo .cpm-todo-wrap {
+        padding-left: 0;
+    }
+
     .cpm-todo-action-right {
         text-align: right;
 
@@ -1515,8 +1525,8 @@ ul.cpm-activity {
 }
 
 .cpm-todo {
-    .cpm-todo-wrap {
 
+    .cpm-todo-wrap {
         padding-left: 20px;
         position: relative;
 
@@ -2614,7 +2624,7 @@ ul.cpm-files {
 
     .notify-users {
         .cpm-small-title {
-          margin-left: 50px;
+          margin-left: 10px;
         }
 
         .cpm-user-list{
