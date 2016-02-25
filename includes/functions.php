@@ -167,25 +167,23 @@ function cpm_user_checkboxes( $project_id ) {
     if ( $users ) {
         ?>
 
-            <h2 class="cpm-box-title"> <?php _e( 'Notify users', 'cpm' ); ?>
-                <lavel class="cpm-small-title" for="select-all"> <input type="checkbox" name="select-all" class="cpm-toggle-checkbox"  /> <?php _e( 'Select all', 'cpm' )   ?> </lavel>
-            </h2>
+        <h2 class="cpm-box-title"> <?php _e( 'Notify users', 'cpm' ); ?>
+            <label class="cpm-small-title" for="select-all"> <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox" /> <?php _e( 'Select all', 'cpm' ); ?></label>
+        </h2>
 
-            <ul class='cpm-user-list' >
-        <?php
-        array_multisort( $sort, SORT_ASC, $users );
+        <ul class='cpm-user-list' >
+            <?php
+            array_multisort( $sort, SORT_ASC, $users );
 
-        foreach ($users as $user) {
-            $check = sprintf( '  <input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />  ', $user['id'] );
-            printf( '<li class="" > <label for="cpm_notify_%d">%s %s</label> </li> ', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
-        }
-         ?>
+            foreach ($users as $user) {
+                $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />', $user['id'] );
+                printf( '<li><label for="cpm_notify_%d">%s %s</label></li>', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
+            }
+            ?>
 
-                <div class='clearfix'></div>
-            </ul>
-
-
-                <?php
+            <div class='clearfix'></div>
+        </ul>
+    <?php
     } else {
         echo __( 'No users found', 'cpm' );
     }

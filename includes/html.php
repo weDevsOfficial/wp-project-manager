@@ -734,18 +734,15 @@ function cpm_discussion_form( $project_id, $message = null ) {
                     <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
                 </select>
             </div>
+
             <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
 
-            <div>
-                <div class="cpm-col-5">
-                    <?php cpm_user_checkboxes( $project_id ); ?>
+            <div class="cpm-attachment-area">
+                <?php cpm_upload_field($id, $files ); ?>
+            </div>
 
-                </div>
-
-                 <div class="cpm-attachment-area cpm-col-6">
-                    <?php cpm_upload_field($id, $files ); ?>
-                </div>
-                <div class="clearfix"></div>
+            <div class="notify-users">
+                <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
 
             <?php do_action( 'cpm_message_form', $project_id, $message ); ?>

@@ -818,8 +818,13 @@ ul.cpm-activity ul li:before {
   margin: 0px;
   display: none;
   background: #fff;
-  padding: 15px 25px;
+  padding: 15px 20px;
   margin-bottom: 25px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
+}
+.cpm-new-message-form h3 {
+  margin-top: 0;
 }
 .cpm-message-form-wrap {
   position: relative;
@@ -1207,6 +1212,9 @@ ul.cpm-activity ul li:before {
 }
 .cpm-single-task a.move {
   display: none;
+}
+.cpm-single-task.cpm-todo .cpm-todo-wrap {
+  padding-left: 0;
 }
 .cpm-single-task .cpm-todo-action-right {
   text-align: right;
@@ -2317,7 +2325,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   display: bloc;
 }
 .cpm .notify-users .cpm-small-title {
-  margin-left: 50px;
+  margin-left: 10px;
 }
 .cpm .notify-users .cpm-user-list {
   display: block;
