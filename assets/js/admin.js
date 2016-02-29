@@ -600,6 +600,13 @@
             },
             addNew: function(e) {
                 // e.preventDefault();
+
+                text = $("#message_title").val();
+                if (text.length < 1) {
+                    alert('Please enter some text');
+                    return false;
+                }
+
                 var form = $(this),
                     data = form.serialize(),
                     btn = form.find('input[name=create_message]'),
@@ -610,6 +617,9 @@
                     btn.attr('disabled', false);
                     res = $.parseJSON(res);
                     if (res.success) {
+                         var url = res.url;
+                         // history.pushState(null, null, url ) ;
+                         window.location.href = url ;
                         var data = {
                             message_id: res.id,
                             project_id: res.project_id,
@@ -619,9 +629,9 @@
                         $.post(CPM_Vars.ajaxurl, data, function(res) {
                             res = $.parseJSON(res);
                             if (res.success) {
-                                var did = res.id;
-                                 window.location.reload();
-                                 /*
+
+                                //window.location.reload();
+                                /*
                                 $("#cpm-signle-message").html(res.content);
                                 $('#cpm-signle-message').show();
                                 location.hash = "#" + res.id;
@@ -631,6 +641,8 @@
                                 $('.cpm-new-message-form .cpm-upload-filelist').html('');
                                 $('trix-editor div').html('');
                                 */
+                                  showderror() ;
+
                             }
                             $('.cpm-colorbox-img').prettyPhoto();
                             spnier.hide();
@@ -738,7 +750,17 @@
 
                         res = $.parseJSON(res);
                         if (res.success) {
-                            window.location.href = res.url;
+                          //  window.location.href = res.url;
+
+                          var  li = $(".dicussion-list li").length;
+                          if(li == 1)
+                           {
+                               window.location.reload();
+                           }else {
+                                self.closest("li").remove() ;
+                                showderror() ;
+                           }
+
                         }
                     });
                 }
@@ -749,6 +771,8 @@
     $(function() {
         var cpm_abort;
         weDevs_CPM.init();
+        showderror() ;
+
         $('.cpm-colorbox-img').prettyPhoto();
         $(".chosen-select").chosen({
             width: '300px'
@@ -923,6 +947,20 @@
     });
      new CPM_Uploader('cpm-upload-pickfiles-nd', 'cpm-upload-container-nd');
      new CPM_Uploader('cpm-upload-pickfiles-cm', 'cpm-upload-container-cm');
+
+      function  showderror(){
+
+            var  li = $(".dicussion-list li").length;
+             if(li == 0)
+            {
+                $(".cpm-blank-template.discussion").show('500') ;
+                $(".3discussion-page").hide() ;
+            }else {
+                $(".discussion-page").show() ;
+                $(".3cpm-blank-template.discussion").hide() ;
+            }
+        }
+
 
      // for atwho
      $('#message_detail').atwho({

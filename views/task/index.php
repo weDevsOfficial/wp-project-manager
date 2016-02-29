@@ -9,10 +9,10 @@ if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 
 cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
-if ( !$lists ) {
-    cpm_blank_template('todolist', $project_id) ;
-}else {
 
+    cpm_blank_template('todolist', $project_id) ;
+
+echo "<div class='cpm-todo-formcontent'>";
 if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     ?>
     <a id="cpm-add-tasklist" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
@@ -30,13 +30,14 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
         foreach ($lists as $list) {
             ?>
 
-    <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" >
+            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" >
                 <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
+
             </li>
 
             <?php
         }
-    }
+
     ?>
 </ul>
 <?php }?>

@@ -13,7 +13,7 @@ if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_
     return;
 }
 
-cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
+cpm_get_header( __( 'Discussions', 'cpm' ), $project_id );
 $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 ?>
 

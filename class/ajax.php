@@ -610,7 +610,6 @@ class CPM_Ajax {
         $task_obj = CPM_Task::getInstance();
         $task_obj->mark_complete( $task_id );
         $complete = $task_obj->get_completeness( $list_id,  $project_id );
-
         $task = $task_obj->get_task( $task_id );
         $user_id = wp_get_current_user()->ID ;
 
@@ -619,7 +618,7 @@ class CPM_Ajax {
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
             'task_complete' => intval($complete['completed']),
-            'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
+            'percent' => $complete['total'] == 0 ? 100 : round((100 * $complete['completed']) / $complete['total'])." %" ,
             'task_uncomplete' => ceil( $complete['total'] - $complete['completed'])
         );
 
@@ -649,7 +648,7 @@ class CPM_Ajax {
             'success' => true,
             'content' => cpm_task_html( $task, $project_id, $list_id, $single ),
             'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
-            'percent' => round((100 * $complete['completed']) / $complete['total'])." %" ,
+            'percent' => $complete['total'] == 0 ? 0 : round((100 * $complete['completed']) / $complete['total'])." %" ,
             'task_complete' => intval( $complete['completed'] ),
             'task_uncomplete' => ceil( $complete['total'] - $complete['completed'])
         );

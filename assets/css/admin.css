@@ -2087,7 +2087,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
 /****/
 /**SVG background image **/
 .cpm {
-  background: #f1f1f1;
   color: #848484;
   margin-top: 20px;
   /**
@@ -3598,6 +3597,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-weight: bold;
   color: #000;
   font-size: 16px;
+}
+.cpm .cpm-blank-template .cpm-content .cpm-why-for {
+  margin-top: 25px;
 }
 .cpm .cpm-blank-template .cpm-content .cpm-list {
   color: #545353;

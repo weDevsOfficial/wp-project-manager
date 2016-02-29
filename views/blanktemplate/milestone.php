@@ -1,4 +1,4 @@
-<div class="cpm-blank-template">
+<div class="cpm-blank-template milestone" style="display: none">
     <div class="cpm-content" >
         <h2>  <?php _e('Milestones', 'cpm') ?> </h2>
 

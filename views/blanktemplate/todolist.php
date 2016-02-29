@@ -1,4 +1,4 @@
-<div class="cpm-blank-template">
+<div class="cpm-blank-template todolist" style="display: none">
     <div class="cpm-content" >
         <h2>  <?php _e('To-Do Lists', 'cpm') ?> </h2>
 

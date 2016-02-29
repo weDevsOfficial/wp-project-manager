@@ -1,4 +1,4 @@
-<div class="cpm-blank-template">
+<div class="cpm-blank-template discussion" style="display: none">
     <div class="cpm-content" >
         <h2>  <?php _e('Discussion', 'cpm') ?> </h2>
 
@@ -10,7 +10,22 @@
         <p>
             <img src="<?php echo plugins_url('../assets/images/blank_discussion.svg', dirname(__FILE__)) ?> " />
         </p>
-        <h2> <?php _e('When to use Discussions?', 'cpm') ?> </h2>
+
+  <?php
+          $can_create = cpm_user_can_access( $project_id, 'create_message' );
+          if ( $can_create ) { ?>
+        <div>
+            <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
+        </div>
+        <div class="cpm-new-message-form">
+            <h3 ><?php _e( 'Create a new message', 'cpm' ); ?></h3>
+
+            <?php echo cpm_discussion_form( $project_id ); ?>
+        </div>
+
+    <?php } ?>
+
+        <h2 class="cpm-why-for"> <?php _e('When to use Discussions?', 'cpm') ?> </h2>
 
         <ul class="cpm-list">
             <li> <?php _e('To discuss a work matter privately.', 'cpm') ?> </li>
@@ -19,20 +34,6 @@
             <li> <?php _e('To create an open discussion visible to all.', 'cpm') ?>  </li>
 
         </ul>
-
-          <?php
-          $can_create = cpm_user_can_access( $project_id, 'create_message' );
-          if ( $can_create ) { ?>
-        <div>
-            <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
-        </div>
-        <div class="cpm-new-message-form">
-            <h3><?php _e( 'Create a new message', 'cpm' ); ?></h3>
-
-            <?php echo cpm_discussion_form( $project_id ); ?>
-        </div>
-
-    <?php } ?>
 
     </div>
 </div>

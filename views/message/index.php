@@ -7,7 +7,7 @@
 $msg_obj = CPM_Message::getInstance();
 $pro_obj = CPM_Project::getInstance();
 
-cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
+cpm_get_header( __( 'Discussions', 'cpm' ), $project_id );
 $can_create = cpm_user_can_access( $project_id, 'create_message' );
  if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
             $messages = $msg_obj->get_all( $project_id, true );
@@ -82,7 +82,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
 
     <div class="clear"></div>
 </div>
-<?php } else {
+<?php }
     cpm_blank_template('discussion', $project_id) ;
-}  ?>
+   ?>
 

@@ -26,7 +26,7 @@
 
             //task done, undone, delete
             $('.cpm-todolists').on('click', '.cpm-uncomplete', this.markDone);
-            $('.cpm-todolists').on('click', '.cpm-todo-completed input[type=checkbox]', this.markUnDone);
+            $('.cpm-todolists').on('click', '.cpm-todo-completed', this.markUnDone);
             $('.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //todolist
@@ -314,7 +314,6 @@
                     } else {
                         alert('something went wrong!');
                     }
-
                     $(document).trigger('cpm.updateTodo.after',[res,self]);
                 });
             } else {
@@ -379,6 +378,7 @@
                         alert('something went wrong!');
                     }
                     $(document).trigger('cpm.submitNewTodo.after',[res,self]);
+                    showterror()
                 });
             } else {
                 alert('type something');
@@ -431,6 +431,7 @@
                         CPM_Task.makeSortableTodo();
                         $(".chosen-select").chosen({ width: '300px' });
                         $(document).trigger('cpm.addList.after',[res,self]);
+                       showterror()
                     }
                 });
             } else {
@@ -502,21 +503,50 @@
                     res = JSON.parse(res);
                     $(document).trigger('cpm.deleteList.after',[res,self]);
                     if(res.success) {
-                         if(! $("ul.cpm-todos li").length){
-                             location.reload();
-                        }
-
                         list.fadeOut(function() {
-                            $(this).remove();
+                           list.remove();
+                          showterror()
                         });
                     }
+
                 });
+
             }
         }
     };
 
     $(function() {
         CPM_Task.init();
+        showterror();
+        showmerror() ;
+
     });
+
+ function  showterror(){
+
+    var  li = $(".cpm-todolists li").length;
+     if(li == 0)
+    {
+        $(".cpm-blank-template.todolist").show('500') ;
+        $(".cpm-todo-formcontent").hide() ;
+    }else {
+        $(".cpm-blank-template.todolist").hide('500') ;
+         $(".cpm-todo-formcontent").show() ;
+    }
+}
+
+
+ function  showmerror(){
+
+    var  li = $(".cpm-milestone-data").length;
+     if(li == 0)
+    {
+        $(".cpm-blank-template.milestone").show('500') ;
+    }else {
+        $(".cpm-blank-template.milestone").hide() ;
+    }
+}
+
+
 
 })(jQuery);

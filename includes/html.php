@@ -719,7 +719,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
             <?php wp_nonce_field( 'cpm_message' ); ?>
 
             <div class="item title">
-                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" class="required" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">

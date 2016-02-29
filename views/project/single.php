@@ -2,7 +2,7 @@
 /**
  * Project dashboard page
  */
-cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
+cpm_get_header( __( 'Activities', 'cpm' ), $project_id );
 ?>
 
 <ul class="cpm_activity_list">

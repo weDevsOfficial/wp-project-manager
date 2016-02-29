@@ -26,21 +26,20 @@ if ( $milestones ) {
             $late_milestones[] = $milestone;
         }
     }
-
+}
 
 ?>
 
 <div class="" id="cpm-milestone-page">
 
-    <?php  if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
+      <div class="cpm-milestone-details">
+            <?php
+    if ( $milestones ) {
+    if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {?>
         <div class="cpm-milestone-link clearfix">
             <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
         </div>
-    <?php } ?>
-
-
-    <div class="cpm-milestone-details">
-
+    <?php }   ?>
         <div class="cpm-new-milestone-form ">
             <?php
             if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
@@ -50,7 +49,7 @@ if ( $milestones ) {
         </div>
 
 
-        <?php if ( $late_milestones ) { ?>
+    <?php } if ( $late_milestones ) { ?>
             <div class="cpm-late-milestone cpm-milestone-data" >
                 <h2 class="group-title"><?php _e( 'Late Milestones', 'cpm' ); ?></h2>
 
@@ -85,15 +84,9 @@ if ( $milestones ) {
                 ?>
             </div>
         <?php } ?>
-
-    <?php
-    if ( ! $late_milestones && ! $upcoming_milestones && ! $completed_milestones ) {
-        cpm_show_message( __( 'No milestone found!', 'cpm' ) );
-    }
-    ?>
     </div>
 </div>
-<?php } else {
+<?php
     cpm_blank_template('milestone', $project_id) ;
-}
+
 ?>
