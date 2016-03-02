@@ -102,6 +102,7 @@ $str_todo     = implode( $str_todo, ',' );
 		var cpmChart = new Chart(ctx).Line(data, {
 			pointDotRadius : 8,
 			animationSteps: 60,
+                        tooltipTemplate: "<%= labels + sss %>%" ,
 			animationEasing: "easeOutQuart"
 		});
 

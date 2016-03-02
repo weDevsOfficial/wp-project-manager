@@ -106,7 +106,7 @@ unset( $projects['total_projects'] );
 
                 <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_overview( $project->ID ); ?>">
                     <div class="project_head">
-                        <h5><?php  echo cpm_excerpt( get_the_title( $project->ID ), 30 ); ?></h5>
+                        <h5><?php  echo cpm_excerpt( get_the_title( $project->ID ), 60 ); ?></h5>
 
                         <div class="cpm-project-detail"><?php echo cpm_excerpt( $project->post_content, 55 ); ?></div>
                     </div>

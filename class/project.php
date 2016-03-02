@@ -565,7 +565,6 @@ class CPM_Project {
         $project_info   =  $this->get_info( $project_id );
         $count_comments = get_comment_count( $project_id );
         $total_activity =  $count_comments['total_comments'];
-
         $links = array(
             __( 'Overview', 'cpm' )    => array(
                 'url' => cpm_url_project_overview( $project_id ),
@@ -584,7 +583,7 @@ class CPM_Project {
                 ),
             __( 'To-do Lists', 'cpm' ) => array(
                 'url' => cpm_url_tasklist_index( $project_id ),
-                'count' => $project_info->todos,
+                'count' => $project_info->todolist,
                 'class' => 'to-do-list cpm-sm-col-12'
                 ) ,
             __( 'Milestones', 'cpm' )  => array(

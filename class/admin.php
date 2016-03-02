@@ -78,6 +78,13 @@ class CPM_Admin {
                 'desc'    => __('-1 for unlimited', 'cpm')
             ),
             array(
+                'name'    => 'show_todo',
+                'label'   => __('Number of todo show ', 'cpm'),
+                'type'    => 'text',
+                'default' => '5',
+                'desc'    => 'Show todo list in single screen.'
+            ),
+            array(
                 'name'    => 'project_manage_role',
                 'label'   => __( 'Project Manage Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),

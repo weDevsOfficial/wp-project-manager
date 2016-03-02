@@ -134,6 +134,15 @@
   font-size: 13px;
   border: 1px solid #E4E4E4;
 }
+.loadanimation {
+  background: url('../images/more-loading.gif') no-repeat center center;
+  min-height: 70px;
+  width: 100%;
+  text-align: center;
+}
+.loadmoreanimation {
+  display: none;
+}
 .cpm-left {
   float: left;
 }
@@ -1397,7 +1406,6 @@ ul.cpm-activity ul li:before {
   width: 16px;
 }
 .cpm-todo .cpm-todo-wrap {
-  padding-left: 20px;
   position: relative;
 }
 .cpm-todo .cpm-todo-wrap input[type="checkbox"] {
@@ -2119,6 +2127,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   /** CSS for Milestone Page **/
   /** End MileStone Page **/
   /*** Files ***/
+  /*for lazy loding align-content: */
+  /* Every thing below this is just positioning */
+  /**End Loading **/
   /** End Files **/
   /*****/
   /**
@@ -3571,6 +3582,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-left: 27px;
 }
 .cpm .cpm-blank-template {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
   vertical-align: central;
   background: #ffffff;
   padding: 25px;
@@ -3586,12 +3599,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-blank-template .cpm-content img {
   max-width: 340px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .cpm .cpm-blank-template .cpm-content form {
   text-align: left;
 }
-.cpm .cpm-blank-template .cpm-content h2 {
+.cpm .cpm-blank-template .cpm-content .cpm-page-title {
   margin: 0px;
   padding: 0px 10px 8px;
   font-weight: bold;
@@ -3599,7 +3612,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-size: 16px;
 }
 .cpm .cpm-blank-template .cpm-content .cpm-why-for {
-  margin-top: 25px;
+  margin-top: 35px;
 }
 .cpm .cpm-blank-template .cpm-content .cpm-list {
   color: #545353;
@@ -3608,6 +3621,40 @@ ul.cpm-files li .cpm-file-action .comment-number {
   text-align: left;
   list-style: disc;
   margin-bottom: 35px;
+}
+.cpm .cpm-blank-template .cpm-content .cpm-new-message-btn {
+  margin-bottom: 0px;
+}
+.cpm .cpm-blank-loading .timeline-item {
+  background: #fff;
+  padding: 12px;
+  margin: 0 auto;
+}
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+.cpm .cpm-blank-loading .animated-background {
+  background: #fff ;
+}
+.cpm .cpm-blank-loading .animated-background .background-masker {
+  min-height: 25px;
+  padding: 8px;
+  background: linear-gradient(to right, #ffffff 8%, #eeeeee 18%, #ffffff 33%);
+  margin-bottom: 5px;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+}
+.cpm .cpm-blank-loading .animated-background .background-masker .comment_image {
+  background: url('../images/comment_gray.svg') no-repeat left;
+  padding-left: 15px;
 }
 @media only screen and (max-width: 640px) {
   .cpm .cpm-top-bar ul.cpm-project-group-ul {

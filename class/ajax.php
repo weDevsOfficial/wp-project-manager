@@ -43,6 +43,9 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
         add_action( 'wp_ajax_cpm_tasklist_delete', array($this, 'delete_tasklist') );
 
+        add_action( 'wp_ajax_cpm_get_task_list', array($this, 'get_task_list') );
+        add_action( 'wp_ajax_cpm_get_todo_list', array($this, 'get_todo_list') );
+
         add_action( 'wp_ajax_cpm_milestone_new', array($this, 'milestone_new') );
         add_action( 'wp_ajax_cpm_milestone_complete', array($this, 'milestone_complete') );
         add_action( 'wp_ajax_cpm_milestone_open', array($this, 'milestone_open') );
@@ -1240,6 +1243,69 @@ class CPM_Ajax {
 
         <?php
         return ob_get_clean();
+    }
+
+    function  get_task_list(){
+        $project_id = $_POST['project_id'] ;
+        $offset = $_POST['offset'] ;
+        $privacy = $_POST['privacy'] == 'yes' ? true : false ;
+        $task_obj = CPM_Task::getInstance();
+        $lists = $task_obj->get_task_lists( $project_id, $offset,  $privacy) ;
+        $data = '';
+         //var_dump($list) ;
+        if(empty($lists)){
+             echo json_encode( array(
+                'success' => false,
+                'response' => '',
+                'offset' => intval($offset)
+            ) );
+        }else {
+         foreach ($lists  as $list){
+             $data .= cpm_task_list_html( $list, $project_id ) ;
+         }
+
+
+        echo json_encode( array(
+                'success' => true,
+                'response' => $data,
+                'offset' => intval($offset+cpm_get_option( 'show_todo' ))
+            ) );
+        }
+        exit() ;
+
+    }
+
+    function  get_todo_list(){
+         $task_obj  = CPM_Task::getInstance();
+         $list_id = $_POST['list_id'];
+         $project_id = $_POST['project_id'];
+         $single = $_POST['single'];
+         $tasks = $task_obj->get_tasks_by_access_role( $list_id , $project_id );
+
+         $tasks = cpm_tasks_filter( $tasks );
+            if ( count( $tasks['pending'] ) ) {
+                foreach ($tasks['pending'] as $task) {
+
+                    ?>
+                    <li class="cpm-todo cpm-todo-openlist">
+                        <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
+                    </li>
+                    <?php
+                }
+            }
+
+            if ( $single && count( $tasks['completed'] ) ) {
+                foreach ($tasks['completed'] as $task) {
+                    ?>
+                    <li class="cpm-todo cpm-todo-closelist">
+                        <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
+                    </li>
+                    <?php
+                }
+            }
+
+
+            exit() ;
     }
 
 }

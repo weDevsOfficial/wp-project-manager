@@ -14,7 +14,9 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
 <ul class="cpm-todolists">
     <?php if ( $list ) { ?>
-        <li id="cpm-list-<?php echo $list->ID; ?>"><?php echo cpm_task_list_html( $list, $project_id, true ); ?></li>
+        <li id="cpm-list-<?php echo $list->ID; ?>">
+            <?php echo cpm_task_list_html( $list, $project_id, true ); ?>
+        </li>
     <?php } ?>
 </ul>
 

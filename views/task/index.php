@@ -3,8 +3,10 @@ $task_obj = CPM_Task::getInstance();
 
 if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
     $lists = $task_obj->get_task_lists( $project_id, true );
+    $privacy =  'yes';
 } else {
     $lists = $task_obj->get_task_lists( $project_id );
+     $privacy =  'no';
 }
 
 cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
@@ -37,7 +39,11 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
             <?php
         }
-
+    }
     ?>
 </ul>
-<?php }?>
+    <div class="loadmoreanimation">
+        <?php echo cmp_loading_template() ;?>
+    </div>
+
+    <a style="display: none" class="cpm-btn cpm-btn-blue" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo' )?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" >Load More .. </a>

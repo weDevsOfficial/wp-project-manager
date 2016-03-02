@@ -15,6 +15,7 @@ class CPM_Task {
 
     public static function getInstance() {
         if ( !self::$_instance ) {
+
             self::$_instance = new CPM_Task();
         }
 
@@ -391,11 +392,11 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $privacy = false ) {
-
+    function get_task_lists( $project_id, $offset = 0,  $privacy = false ) {
         $args = array(
             'post_type'   => 'cpm_task_list',
-            'numberposts' => -1,
+            'numberposts' => cpm_get_option( 'show_todo' ),
+            'offset' => $offset,
             'order'       => 'ASC',
             'orderby'     => 'menu_order',
             'post_parent' => $project_id

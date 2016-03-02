@@ -143,7 +143,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
 
                 <?php if ( $single ) { ?>
                     <div class="cpm-todo-details">
-                        <?php echo wp_kses_post( $task->post_content ); ?>
+                        <?php echo cpm_get_content( $task->post_content ); ?>
                     </div>
                 <?php } ?>
 
@@ -185,11 +185,11 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         $submit_button = __( 'Save Changes', 'cpm' );
 
         if ( $task->due_date != '' ) {
-            $task_due = date( 'm-d-Y', strtotime( $task->due_date ) );
+            $task_due = date( 'Y-m-d', strtotime( $task->due_date ) );
         }
 
         if ( $task->start_date != '' ) {
-            $task_start = date( 'm-d-Y', strtotime( $task->start_date ) );
+            $task_start = date( 'Y-m-d', strtotime( $task->start_date ) );
         }
     }
     ?>
@@ -348,22 +348,11 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             <?php echo cpm_tasklist_form( $project_id, $list ); ?>
         </div>
 
-        <ul class="cpm-todos cpm-todos-new">
+        <ul class="cpm-todos cpm-todos-new cpm-todolist-content" data-listid="<?php echo  $list->ID ?>" data-project-id="<?php echo $project_id;?>" data-status="<?php echo $singlePage?>">
             <?php
-
-            $tasks = $task_obj->get_tasks_by_access_role( $list->ID , $project_id );
-            $tasks = cpm_tasks_filter( $tasks );
-
-            if ( count( $tasks['pending'] ) ) {
-                foreach ($tasks['pending'] as $task) {
-                    ?>
-                    <li class="cpm-todo">
-                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
-                    </li>
-                    <?php
-                }
-            }
+            echo cmp_loading_template() ;
             ?>
+
         </ul>
 
         <ul class="cpm-todos cpm-todo-completed" style="<?php if(!$singlePage) echo 'display:none'; ?>">
@@ -381,6 +370,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             }
             ?>
         </ul>
+
 
         <ul class="cpm-todos-new" >
             <?php
@@ -433,6 +423,20 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
     </article>
     <?php
     return ob_get_clean();
+}
+
+/**
+ * Loading blank content
+ * return html
+ */
+function  cmp_loading_template() {
+    ob_start();
+?>
+    <div class="loadanimation">
+
+    </div>
+<?php
+ return ob_get_clean();
 }
 
 /**
