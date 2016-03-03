@@ -432,9 +432,17 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 function  cmp_loading_template() {
     ob_start();
 ?>
-    <div class="loadanimation">
+   <div class="cpm-blank-loading">
+            <div class="timeline-item">
+                <div class="animated-background">
+                    <div class="background-masker ">  </div>
 
+                    <div class="background-masker  ">   </div>
+
+                </div>
+            </div>
     </div>
+
 <?php
  return ob_get_clean();
 }
@@ -1270,7 +1278,7 @@ function cpm_activity_html( $activities ) {
 
     foreach ($list as $key => $items) {
 
-        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
+        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
 
         foreach ($items as $activity) {
 

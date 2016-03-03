@@ -40,7 +40,6 @@
             $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
             $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
             // Load more
-            $('body').on('click', 'a#load_more_task', this.loadMoreTaskList);
 
 
             this.makeSortableTodoList();
@@ -518,29 +517,6 @@
 
             }
         },
-
-        loadMoreTaskList: function (e){
-            var data = {
-                offset : $("#load_more_task").attr('data-offset'),
-                project_id  : $("#load_more_task").attr('data-project-id'),
-                privacy  : $("#load_more_task").attr('data-privacy'),
-                action: 'cpm_get_task_list',
-            };
-             $(".loadmoreanimation").show() ;
-            var startfrom = (parseInt($("#load_more_task").attr('data-offset'))-1);
-
-           $.post(CPM_Vars.ajaxurl, data, function (res) {
-               res = JSON.parse(res);
-               if (res.success){
-                    $(".cpm-todolists").append(res.response);
-                    $("#load_more_task").attr('data-offset', res.offset);
-                    loadtodos(startfrom) ;
-                } else {
-                }
-                showloadmorebtn() ;
-                $(".loadmoreanimation").hide() ;
-           });
-        }
     }
 
     $(function() {
@@ -548,14 +524,6 @@
         showterror();
         showmerror();
         loadtodos(0);
-        showloadmorebtn() ;
-
-        $(window).scroll(function(){
-            if ($(window).scrollTop() == $(document).height() - $(window).height()){
-                CPM_Task.loadMoreTaskList();
-            }
-        });
-        
     });
 
  function  showterror(){
@@ -582,8 +550,10 @@
     }
 }
 
-function loadtodos(fromli, complete){
 
+
+function loadtodos(fromli, complete){
+var $ = jQuery ;
     $(".cpm-todolist-content").each(function(index, val){
         if(index => fromli) {
           var list_id = $(this).attr('data-listid');
@@ -603,19 +573,7 @@ function loadtodos(fromli, complete){
     });
 }
 
-    function  showloadmorebtn() {
 
-         if ($("body").hasScrollBar()) {
-             $("#load_more_task").hide() ;
-        }else {
-             $("#load_more_task").show() ;
-        }
-
-    }
-
-    $.fn.hasScrollBar = function() {
-        return this.get(0).scrollHeight > this.height();
-    }
 
 })(jQuery);
 

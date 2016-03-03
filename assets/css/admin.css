@@ -143,6 +143,59 @@
 .loadmoreanimation {
   display: none;
 }
+.loadmoreanimation .load-spinner {
+  margin: 10px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+}
+.loadmoreanimation .load-spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+.loadmoreanimation .load-spinner .rect3 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+.loadmoreanimation .load-spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+.loadmoreanimation .load-spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+.loadmoreanimation .load-spinner > div {
+  background-color: #ccc;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+  }
+}
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1);
+  }
+}
 .cpm-left {
   float: left;
 }
@@ -3001,6 +3054,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 0px;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: #eeeeee solid 1px;
   margin-bottom: 0px;
   background: #ffffff;
   text-align: center;
@@ -3013,9 +3068,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-weight: bold;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: #eeeeee solid 1px;
   margin-bottom: 0px;
   margin-right: 0px;
   font-size: 13px;
+  float: right;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body .cpm-col-8,
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body .cpm-col-4 {
