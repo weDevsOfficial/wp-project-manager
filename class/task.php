@@ -395,10 +395,10 @@ class CPM_Task {
     function get_task_lists( $project_id, $offset = 0,  $privacy = false ) {
         $args = array(
             'post_type'   => 'cpm_task_list',
-            'numberposts' => cpm_get_option( 'show_todo' ),
+            'posts_per_page' => cpm_get_option( 'show_todo' ),
             'offset' => $offset,
-            'order'       => 'ASC',
-            'orderby'     => 'menu_order',
+            'order'       => 'DESC',
+            'orderby'     => 'ID',
             'post_parent' => $project_id
         );
 
@@ -412,9 +412,9 @@ class CPM_Task {
             );
         }
 
-        $args = apply_filters( 'cpm_get_tasklist', $args );
+       $args = apply_filters( 'cpm_get_tasklist', $args );
 
-        $lists = get_posts( $args );
+       $lists = get_posts( $args );
         foreach ($lists as $list) {
             $this->set_list_meta( $list );
         }

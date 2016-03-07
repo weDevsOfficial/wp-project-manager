@@ -1,4 +1,4 @@
-<div class="cpm-blank-template">
+<div class="cpm-blank-template file-list">
     <div class="cpm-content" >
         <h2 class="cpm-page-title">  <?php _e('Documents & Files', 'cpm') ?> </h2>
 
@@ -7,17 +7,16 @@
         </p>
 
 
-            <img src="<?php echo plugins_url('../assets/images/blank_documents.svg', dirname(__FILE__)) ?> " />
 
-
+        <div class="cpm-list-content">
             <h2 class="cpm-page-title cpm-why-for"> <?php _e('Benefits of Documents', 'cpm') ?> </h2>
 
-        <ul class="cpm-list">
-            <li> <?php _e('Integrate easily with projects or tasks.', 'cpm') ?> </li>
-            <li> <?php _e('Shared storage keeps all data secure.', 'cpm') ?> </li>
-            <li> <?php _e('File sharing privacy.', 'cpm') ?> </li>
-        </ul>
-
+            <ul class="cpm-list">
+                <li> <?php _e('Integrate easily with projects or tasks.', 'cpm') ?> </li>
+                <li> <?php _e('Shared storage keeps all data secure.', 'cpm') ?> </li>
+                <li> <?php _e('File sharing privacy.', 'cpm') ?> </li>
+            </ul>
+        </div>
 
 
 

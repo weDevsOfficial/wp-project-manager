@@ -1,13 +1,24 @@
-
 <?php
-    wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js', __FILE__ ), array('jquery'), false, true );
-?>
+wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js', __FILE__ ), array('jquery'), false, true );
 
-<?php
+if( isset( $_GET['pagenum']) ){
+    $pagenum = $_GET['pagenum'] ;
+    $offset = (($pagenum-1) * cpm_get_option( 'show_todo' ) );
+}else {
+    $pagenum = 1 ;
+    $offset = 0 ;
+}
+
+
+
+
 $task_obj = CPM_Task::getInstance();
 
+$project_obj =  CPM_Project::getInstance();
+$project_details = $project_obj->get_info($project_id) ;
+
 if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    $lists = $task_obj->get_task_lists( $project_id, true );
+    $lists = $task_obj->get_task_lists( $project_id, $offset, true );
     $privacy =  'yes';
 } else {
     $lists = $task_obj->get_task_lists( $project_id );
@@ -29,7 +40,7 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     <?php  echo cpm_tasklist_form( $project_id ); ?>
 </div>
 
-<ul class="cpm-todolists" >
+<ul class="cpm-todolists"  >
     <?php
     if ( $lists ) {
 
@@ -57,4 +68,10 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     </div>
 
 
-    <a style="" class="cpm-btn cpm-btn-blue" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo' )?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" >Load More .. </a>
+    <a style="display: none" class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo' ) ; ?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" data-totaltodo="<?php echo $project_details->todolist  ;?>" >Load More ... </a>
+
+     <?php
+        if(cpm_get_option( 'todolist_show') == 'pagination') {
+            cpm_pagination( $project_details->todolist, cpm_get_option( 'show_todo' ), $pagenum );
+        }
+     ?>

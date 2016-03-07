@@ -139,69 +139,6 @@
     }
 }
 
-.loadanimation{
-    background: url('../images/more-loading.gif') no-repeat center center ;
-    min-height: 70px;
-    width:100%;
-    text-align: center;
-}
-.loadmoreanimation{
-    display: none;
-    .load-spinner {
-      margin: 10px auto;
-      width: 50px;
-      height: 40px;
-      text-align: center;
-      font-size: 10px;
-
-        .rect2 {
-        -webkit-animation-delay: -1.1s;
-        animation-delay: -1.1s;
-        }
-
-        .rect3 {
-          -webkit-animation-delay: -1.0s;
-          animation-delay: -1.0s;
-        }
-
-        .rect4 {
-          -webkit-animation-delay: -0.9s;
-          animation-delay: -0.9s;
-        }
-
-        .rect5 {
-          -webkit-animation-delay: -0.8s;
-          animation-delay: -0.8s;
-        }
-    }
-
-    .load-spinner > div {
-      background-color: #ccc;
-      height: 100%;
-      width: 6px;
-      display: inline-block;
-
-      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-      animation: sk-stretchdelay 1.2s infinite ease-in-out;
-    }
-
-
-
-    @-webkit-keyframes sk-stretchdelay {
-      0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-      20% { -webkit-transform: scaleY(1.0) }
-    }
-
-    @keyframes sk-stretchdelay {
-      0%, 40%, 100% {
-        transform: scaleY(0.4);
-        -webkit-transform: scaleY(0.4);
-      }  20% {
-        transform: scaleY(1.0);
-        -webkit-transform: scaleY(1.0);
-      }
-    }
-}
 .cpm-left {
     float: left;
 }
@@ -3610,6 +3547,7 @@ ul.cpm-files {
             }
 
             .cpm-todos {
+                min-height : 90px;
                 padding: 0px;
                 margin: 0px;
 
@@ -4294,10 +4232,15 @@ ul.cpm-files {
         .cpm-content{
             margin: auto;
             max-width: 700px;
+            min-height: 450px;
             text-align: center;
+            background-repeat: no-repeat;
+            background-position: top center ;
+            background-size: 100%;
 
             p{
                 font-size: 14px;
+                color : #000000;
 
             }
             img {
@@ -4318,28 +4261,61 @@ ul.cpm-files {
 
             }
             .cpm-why-for{
+
+            }
+            .cpm-list-content{
+                background: #FEFCE3 ;
+                max-width: 450px;
+                margin: auto;
+                padding: 20px 20px 10px;
+                border-radius: 5px;
+                border: #FAEA96 solid 1px ;
                 margin-top: 35px;
             }
             .cpm-list {
                 color: #545353;
-                text-align: left;
-                max-width: 300px;
-                margin: auto;
-                text-align: left;
-                list-style: disc;
-                margin-bottom: 35px;
+                list-style: none;
 
+                li {
+                    border-top: #FAEA96 solid 1px ;
+                    padding: 10px 20px;
+                }
             }
 
-            .cpm-new-message-btn {
-                margin-bottom: 0px;
+            .cpm-btn {
+                margin-bottom:5px;
+                margin-top: 15px;
             }
-
 
         }
 
-
     }
+
+
+        .discussion{
+            .cpm-content {
+                background-image: url('../images/blank_discussion.svg') ;
+            }
+        }
+
+        .todolist{
+            .cpm-content {
+                background-image: url('../images/blank_todolist.svg') ;
+            }
+        }
+
+        .file-list{
+            .cpm-content {
+                background-image: url('../images/blank_documents.svg') ;
+            }
+        }
+        .milestone{
+            .cpm-content {
+                background-image: url('../images/blank_milestone.svg') ;
+            }
+        }
+
+
 
       /*for lazy loding align-content: */
 /* Every thing below this is just positioning */
@@ -4379,6 +4355,71 @@ ul.cpm-files {
                   padding-left: 15px;
             }
         }
+    }
+}
+
+
+.loadanimation{
+    background: url('../images/more-loading.gif') no-repeat center center ;
+    min-height: 70px;
+    width:100%;
+    text-align: center;
+}
+.loadmoreanimation{
+    display: none;
+    .load-spinner {
+      margin: 10px auto;
+      width: 50px;
+      height: 40px;
+      text-align: center;
+      font-size: 10px;
+
+        .rect2 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+        }
+
+        .rect3 {
+          -webkit-animation-delay: -1.0s;
+          animation-delay: -1.0s;
+        }
+
+        .rect4 {
+          -webkit-animation-delay: -0.9s;
+          animation-delay: -0.9s;
+        }
+
+        .rect5 {
+          -webkit-animation-delay: -0.8s;
+          animation-delay: -0.8s;
+        }
+    }
+
+    .load-spinner > div {
+      background-color: #ccc;
+      height: 100%;
+      width: 6px;
+      display: inline-block;
+
+      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+      animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    }
+
+
+
+    @-webkit-keyframes sk-stretchdelay {
+      0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+      20% { -webkit-transform: scaleY(1.0) }
+    }
+
+    @keyframes sk-stretchdelay {
+      0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+      }  20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+      }
     }
 }
 

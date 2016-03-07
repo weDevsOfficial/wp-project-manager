@@ -555,21 +555,23 @@
 function loadtodos(fromli, complete){
 var $ = jQuery ;
     $(".cpm-todolist-content").each(function(index, val){
-        if(index => fromli) {
-          var list_id = $(this).attr('data-listid');
-          var project_id = $(this).attr('data-project-id');
-          var single = $(this).attr('data-status');
-           var data = {
-                 project_id  : project_id,
-                 list_id  : list_id,
-                 single : single,
-                 action: 'cpm_get_todo_list',
-               };
-           $.post(CPM_Vars.ajaxurl, data, function (res) {
+        if(!$(this).hasClass("loadcomplete") || !$(this).hasClass("loadonprocess") ) {
+            $(this).addClass("loadonprocess");
+            var list_id = $(this).attr('data-listid');
+            var project_id = $(this).attr('data-project-id');
+            var single = $(this).attr('data-status');
+            var data = {
+                    project_id  : project_id,
+                    list_id  : list_id,
+                    single : single,
+                    action: 'cpm_get_todo_list',
+                };
+             $.post(CPM_Vars.ajaxurl, data, function (res) {
                 $(val).html(res) ;
-                // $(this).append(res) ;
-           });
+            });
+            $(this).addClass("loadcomplete");
         }
+
     });
 }
 

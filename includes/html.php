@@ -348,7 +348,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
             <?php echo cpm_tasklist_form( $project_id, $list ); ?>
         </div>
 
-        <ul class="cpm-todos cpm-todos-new cpm-todolist-content" data-listid="<?php echo  $list->ID ?>" data-project-id="<?php echo $project_id;?>" data-status="<?php echo $singlePage?>">
+        <ul  class="cpm-todos cpm-todos-new cpm-todolist-content" data-listid="<?php echo  $list->ID ?>" data-project-id="<?php echo $project_id;?>" data-status="<?php echo $singlePage?>">
             <?php
             echo cmp_loading_template() ;
             ?>

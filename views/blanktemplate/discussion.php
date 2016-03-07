@@ -7,9 +7,6 @@
 ', 'cpm') ?>
         </p>
 
-        <p>
-            <img src="<?php echo plugins_url('../assets/images/blank_discussion.svg', dirname(__FILE__)) ?> " />
-        </p>
 
   <?php
           $can_create = cpm_user_can_access( $project_id, 'create_message' );
@@ -24,16 +21,16 @@
         </div>
 
     <?php } ?>
+        <div class="cpm-list-content">
+            <h2 class="cpm-why-for cpm-page-title"> <?php _e('When to use Discussions?', 'cpm') ?> </h2>
 
-        <h2 class="cpm-why-for cpm-page-title"> <?php _e('When to use Discussions?', 'cpm') ?> </h2>
+            <ul class="cpm-list">
+                <li> <?php _e('To discuss a work matter privately.', 'cpm') ?> </li>
+                <li> <?php _e('To exchange files privately.', 'cpm') ?>  </li>
+                <li> <?php _e('To discuss in a group.', 'cpm') ?>  </li>
+                <li> <?php _e('To create an open discussion visible to all.', 'cpm') ?>  </li>
 
-        <ul class="cpm-list">
-            <li> <?php _e('To discuss a work matter privately.', 'cpm') ?> </li>
-            <li> <?php _e('To exchange files privately.', 'cpm') ?>  </li>
-            <li> <?php _e('To discuss in a group.', 'cpm') ?>  </li>
-            <li> <?php _e('To create an open discussion visible to all.', 'cpm') ?>  </li>
-
-        </ul>
-
+            </ul>
+        </div>
     </div>
 </div>

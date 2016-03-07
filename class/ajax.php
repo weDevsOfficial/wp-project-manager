@@ -573,19 +573,17 @@ class CPM_Ajax {
 
     function check_task_access(){
 
-        $project_id = $_POST['project_id'] ;
-        $task_id = $_POST['task_id'] ;
+        $project_id = isset( $_POST['project_id'] ) ? intval( $_POST['project_id'] ) : 0;
+        $task_id = isset( $_POST['task_id'] ) ? intval( $_POST['task_id'] ) : 0;
 
-        if( cpm_user_can_delete_edit($project_id, $task_id, true ) )
-        {
-             $response = true;
-        }else {
-             $response = false;
+        if( cpm_user_can_delete_edit($project_id, $task_id, true ) ) {
+            $response = true;
+        } else {
+            $response = false;
         }
 
-         echo  json_encode( $response );
-
-         exit;
+        echo json_encode( $response );
+        exit;
 
     }
 

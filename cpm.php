@@ -325,6 +325,7 @@ class WeDevs_CPM {
             'nonce'    => wp_create_nonce( 'cpm_nonce' ),
             'is_admin' => is_admin() ? 'yes' : 'no',
             'message'  => cpm_message(),
+            'todolist_show' => cpm_get_option( 'todolist_show') ,
             'plupload' => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',

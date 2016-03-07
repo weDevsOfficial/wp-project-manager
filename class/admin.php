@@ -78,6 +78,14 @@ class CPM_Admin {
                 'desc'    => __('-1 for unlimited', 'cpm')
             ),
             array(
+                'name'    => 'todolist_show',
+                'label'   => __('Todo list show style ', 'cpm'),
+                'type'    => 'radio',
+                'default' => 'pagination',
+                'desc'    => __( 'style for show todo list.', 'cpm' ),
+                'options' =>array( 'pagination' => 'Pagination', 'load_more' => 'Load More', 'lazy_load' => 'Lazy Load' )
+            ),
+            array(
                 'name'    => 'show_todo',
                 'label'   => __('Number of todo show ', 'cpm'),
                 'type'    => 'text',
