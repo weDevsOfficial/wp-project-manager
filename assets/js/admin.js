@@ -59,14 +59,8 @@
                 $checkBoxes.prop('checked', $(this).prop("checked"));
             });
             /* =============== Messages ============ */
+ // new message
 
-            // add new message
-            $('.cpm-new-message-form form').validate({
-                submitHandler: function(form) {
-                    weDevs_CPM.Message.addNew.call(form);
-                    return false;
-                }
-            });
             $('body').on('click', '#cpm-add-message', this.Message.show);
             $('body').on('click', '.dicussion-list .cpm-col-9', this.Message.showDiscussion);
             $('body').on('click', '.dicussion-list .comment-count', this.Message.showDiscussion);
@@ -76,6 +70,7 @@
             $('body').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
             $('body').on('submit', 'form.cpm-message-form', this.Message.update);
             $('body').on('click', 'a.delete-message', this.Message.remove);
+            $('body').on('click', '#create_message', this.Message.addNew);
 
             /* =============== Uploder ============ */
            $('#cpm-upload-container').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
@@ -600,14 +595,13 @@
             },
             addNew: function(e) {
                 // e.preventDefault();
-
                 text = $("#message_title").val();
                 if (text.length < 1) {
                     alert('Please enter some text');
                     return false;
                 }
 
-                var form = $(this),
+                var form = $(".cpm-message-form"),
                     data = form.serialize(),
                     btn = form.find('input[name=create_message]'),
                     spnier = form.find('.cpm-loading');
@@ -963,9 +957,7 @@
 
 
      // for atwho
-     $('#message_detail').atwho({
-        at: "@",
-        data:['Peter', 'Tom', 'Anne']
+     $('#mtes').atwho({
     })
      // end atwho
 })(jQuery);

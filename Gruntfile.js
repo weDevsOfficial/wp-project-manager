@@ -65,6 +65,7 @@ module.exports = function(grunt) {
                     '!**/Gruntfile.js',
                     '!**/package.json',
                     '!**/README.md',
+                    '!nbproject',
                     '!**/*~'
                 ],
                 dest: 'build/'

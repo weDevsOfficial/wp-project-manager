@@ -330,7 +330,7 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <div class="cpm-right">
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
-                    <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>
+                    <!-- <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>-->
                     <a href="#" class="cpm-list-edit cpm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
                     <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                 <?php } else { ?>
@@ -731,7 +731,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
             <?php wp_nonce_field( 'cpm_message' ); ?>
 
             <div class="item title">
-                <input name="message_title" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+                <input name="message_title" required="required" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">

@@ -3507,6 +3507,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
 }
+.cpm .chosen-drop ul li {
+  float: none !important ;
+}
 .cpm .cpm-single-project-search-wrap {
   margin-right: 25px;
 }
