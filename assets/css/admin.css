@@ -3631,7 +3631,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-blank-template .cpm-content .cpm-list li {
   border-top: #FAEA96 solid 1px ;
-  padding: 10px 20px;
+  padding: 5px 0;
 }
 .cpm .cpm-blank-template .cpm-content .cpm-btn {
   margin-bottom: 5px;
