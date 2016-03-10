@@ -18,7 +18,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
     <div class="cpm-row cpm-no-padding cpm-border-bottom">
 
         <div class="cpm-col-6 cpm-project-detail">
-            <h2><?php echo get_the_title( $project_id ); ?>
+            <h2><span class="cpm-project-title"> <?php echo get_the_title( $project_id ); ?> </span>
                 <?php if ( cpm_user_can_access( $project_id ) ) { ?>
                     <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
                 <?php } ?>

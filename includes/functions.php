@@ -1015,12 +1015,14 @@ function cpm_project_actions( $project_id ) {
 
         <ul class="cpm-settings" >
             <li>
+                <span class="cpm-spinner"></span>
                 <a href="<?php echo cpm_url_projects() ?>" class="cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
                     <span class="dashicons dashicons-trash"></span>
                     <span><?php _e( 'Delete', 'cpm' ); ?></span>
                 </a>
             </li>
             <li>
+                <span class="cpm-spinner"></span>
                 <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
                     <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-yes"></span>
@@ -1036,6 +1038,7 @@ function cpm_project_actions( $project_id ) {
 
             <?php if ( cpm_is_pro() ) { ?>
                 <li>
+                    <span class="cpm-spinner"></span>
                     <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
                         <span class="dashicons dashicons-admin-page"></span>
                         <span><?php _e( 'Duplicate', 'cpm' ); ?></span>
