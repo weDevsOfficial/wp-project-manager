@@ -1,38 +1,55 @@
 <?php
-$task_obj = CPM_Task::getInstance();
+wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js', __FILE__ ), array('jquery'), false, true );
 
-if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    $lists = $task_obj->get_task_lists( $project_id, true );
-} else {
-    $lists = $task_obj->get_task_lists( $project_id );
+if( isset( $_GET['pagenum']) ){
+    $pagenum = $_GET['pagenum'] ;
+    $offset = (($pagenum-1) * cpm_get_option( 'show_todo' ) );
+}else {
+    $pagenum = 1 ;
+    $offset = 0 ;
 }
 
-cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
-?>
 
-<h3 class="cpm-nav-title">
-    <?php
-    _e( 'To-do Lists', 'cpm' );
-    
-    if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-        ?> 
-        <a id="cpm-add-tasklist" href="#" class="add-new-h2"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
-    <?php } ?>
-</h2>
+
+
+$task_obj = CPM_Task::getInstance();
+
+$project_obj =  CPM_Project::getInstance();
+$project_details = $project_obj->get_info($project_id) ;
+
+if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
+    $lists = $task_obj->get_task_lists( $project_id, $offset, true );
+    $privacy =  'yes';
+} else {
+    $lists = $task_obj->get_task_lists( $project_id );
+     $privacy =  'no';
+}
+
+cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
+
+cpm_blank_template('todolist', $project_id) ;
+
+echo "<div class='cpm-todo-formcontent'>";
+if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
+    ?>
+    <a id="cpm-add-tasklist" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
+<?php } ?>
+
 
 <div class="cpm-new-todolist-form">
-    <?php echo cpm_tasklist_form( $project_id ); ?>
+    <?php  echo cpm_tasklist_form( $project_id ); ?>
 </div>
 
-<ul class="cpm-todolists">
+<ul class="cpm-todolists"  >
     <?php
     if ( $lists ) {
 
         foreach ($lists as $list) {
             ?>
 
-            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>">
-                <?php echo cpm_task_list_html( $list, $project_id ); ?>
+            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" >
+                <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
+
             </li>
 
             <?php
@@ -40,8 +57,21 @@ cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
     }
     ?>
 </ul>
+    <div class="loadmoreanimation">
+        <div class="load-spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+      </div>
+    </div>
 
-<?php
-if ( !$lists ) {
-    cpm_show_message( __( 'Oh dear, no To-do list found!', 'cpm' ) );
-}
+
+    <a style="display: none" class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo' ) ; ?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" data-totaltodo="<?php echo $project_details->todolist  ;?>" >Load More ... </a>
+
+     <?php
+        if(cpm_get_option( 'todolist_show') == 'pagination') {
+            cpm_pagination( $project_details->todolist, cpm_get_option( 'show_todo' ), $pagenum );
+        }
+     ?>

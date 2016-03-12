@@ -248,7 +248,7 @@ class WeDevs_Settings_API {
      * @param array   $args settings field args
      */
     function callback_radio( $args ) {
-
+        
         $value = $this->get_option( $args['id'], $args['section'], $args['std'] );
 
         $html = '<fieldset>';

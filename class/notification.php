@@ -1,20 +1,17 @@
 <?php
 class CPM_Notification {
-    
     private static $_instance;
-    
     function __construct() {
 
         //notify users
-        add_action( 'cpm_project_new', array($this, 'project_new'), 10, 3 );
-        add_action( 'cpm_project_update', array($this, 'project_update'), 10, 3 );
+        add_action( 'cpm_project_new', array($this, 'project_new'), 10, 2 );
+        add_action( 'cpm_project_update', array($this, 'project_update'), 10, 2 );
 
         add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 3 );
         add_action( 'cpm_message_new', array($this, 'new_message'), 10, 2 );
 
-        add_action( 'cpm_task_new', array($this, 'new_task'), 10, 4 );
-        add_action( 'cpm_task_update', array($this, 'new_task'), 10, 4 );
-        add_action( 'cpm_task_complete', array($this, 'complete_task'), 10, 4 );
+        add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
+        add_action( 'cpm_task_update', array($this, 'new_task'), 10, 3 );
     }
 
     public static function getInstance() {
@@ -65,59 +62,26 @@ class CPM_Notification {
      * @uses `cpm_new_project` hook
      * @param int $project_id
      */
-    function project_new( $project_id, $data, $postdata ) {
-       
-        if ( ! isset( $postdata['project_notify'] ) && $postdata['project_notify'] != 'yes' ) {
-            return;
-        }
+    function project_new( $project_id, $data ) {
 
-        $project_users = CPM_Project::getInstance()->get_users( $project_id );
-        $users         = array();
-   
-        if ( is_array( $project_users ) && count($project_users) ) {
-            
-            foreach ($project_users as $user_id => $role_array ) {
-                
-                if ( $this->filter_email( $user_id ) ) {
-                   $users[$user_id] = sprintf( '%s', $role_array['email'] );
-                }
-            }
-        }
-
-        //if any users left, get their mail addresses and send mail
-        if ( ! $users ) {
-            return;
-        }
-
-        $template_vars = array(
-            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
-        );
-
-        $subject = cpm_get_option( 'email_new_project_sub', 'cpm_mails' );
-        
-        // message
-        foreach ( $template_vars as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $file_path    = dirname (__FILE__) . '/../views/emails/new-project.php';
+        $content_path = apply_filters( 'cpm_new_project_email_content', $file_path );
+        $subject      = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
 
-        ob_start();
-        cpm_get_template( 'emails/new-project', '', 
-            array( 
-                'project_id' => $project_id,
-                'data'       => $data,
-            )
-        );            
-        $message = ob_get_clean();
-        
-        if ( $message ) {
-           $this->send( implode( ', ', $users ), $subject, $message );
+        if ( file_exists( $content_path ) ) {
+            ob_start();
+            include $content_path;
+            $message = ob_get_clean();
+            if ( $message ) {
+               $this->send( implode( ', ', $users ), $subject, $message );
+            }
         }
+
     }
 
     function filter_email( $user_id ) {
@@ -136,158 +100,68 @@ class CPM_Notification {
      * @uses `cpm_new_project` hook
      * @param int $project_id
      */
-    function project_update( $project_id, $data, $postdata ) {
+    function project_update( $project_id, $data ) {
 
-        if ( ! isset( $postdata['project_notify'] ) && $postdata['project_notify'] != 'yes' ) {
-            return;
-        }
-
-        $project_users = CPM_Project::getInstance()->get_users( $project_id );
-        $users         = array();
-   
-        if ( is_array( $project_users ) && count($project_users) ) {
-            
-            foreach ($project_users as $user_id => $role_array ) {
-                
-                if ( $this->filter_email( $user_id ) ) {
-                   $users[$user_id] = sprintf( '%s', $role_array['email'] );
-                }
-            }
-        }
-
-        //if any users left, get their mail addresses and send mail
-        if ( ! $users ) {
-            return;
-        }
-
-        $template_vars = array(
-            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
-        );
-
-        $subject = cpm_get_option( 'email_update_project_sub', 'cpm_mails' );
-        
-        // message
-        foreach ( $template_vars as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $file_path   = dirname (__FILE__) . '/../views/emails/update-project.php';
+        $content_path = apply_filters( 'cpm_update_project_email_content', $file_path );
+        $subject      = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
 
-        ob_start();
-        cpm_get_template( 'emails/update-project', '', 
-            array( 
-                'project_id' => $project_id,
-                'data'       => $data,
-                'instance'   => self::$_instance
-            )
-        );
-        $message = ob_get_clean();
-       
-        if ( $message ) {
-           $this->send( implode(', ', $users), $subject, $message );
+        if ( file_exists( $content_path ) ) {
+            ob_start();
+            include $content_path;
+            $message = ob_get_clean();
+            if ( $message ) {
+               $this->send( implode(', ', $users), $subject, $message );
+            }
         }
-
     }
 
-    function complete_task( $task_id, $list_id, $project_id, $data ) {
-        
-        $project_users = CPM_Project::getInstance()->get_users( $project_id );
-        $users         = array();
-        
-        if( is_array( $project_users ) && count($project_users) ) {
-            
-            foreach ($project_users as $user_id => $role_array ) {
-            
-                if( $role_array['role'] == 'manager' ) {
-            
-                    if( $this->filter_email( $user_id ) ) {
-                        // $users[$user_id] = sprintf( '%s (%s)', $role_array['name'], $role_array['email'] );
-                        $users[$user_id] = sprintf( '%s', $role_array['email'] );
-                    }
-                }
-            }
-        }
+    function complete_task( $list_id, $task_id, $data, $project_id ) {
 
-        if ( ! $users ) {
-            return;
-        }
-
-        $template_vars = array(
-            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-            '%TASK_TITLE%'   => get_post_field( 'post_title', $task_id ),
-        );
-
-        $subject = cpm_get_option( 'email_task_complete_sub', 'cpm_mails' );
-        
-        // message
-        foreach ( $template_vars as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $file_path    = CPM_PATH . '/views/emails/complete-task.php';
+        $content_path = apply_filters( 'cpm_complete_task_email_content', $file_path );
+        $subject      = sprintf( __( '[%s][%s] Task Completed: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $task_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
-        
-        ob_start();
-        cpm_get_template( 'emails/complete-task', '', 
-            array( 
-                'list_id'    => $list_id,
-                'project_id' => $project_id,
-                'task_id'    => $task_id,
-                'data'       => $data,
-            )
-        );
-        $message = ob_get_clean();
-        
-        if ( $message ) {
-            $this->send( implode(', ', $users), $subject, $message);
+
+        if ( file_exists( $content_path ) ) {
+            ob_start();
+            include $content_path;
+            $message = ob_get_clean();
+
+            if ( $message ) {
+                $this->send( implode(', ', $users), $subject, $message);
+            }
         }
-      
     }
 
     function new_message( $message_id, $project_id ) {
-                
-        $users = $this->prepare_contacts();
-
-        if ( !$users ) {
-            return;
-        }
-
-        $template_vars = array(
-            '%SITE%'          => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%'  => get_post_field( 'post_title', $project_id ),
-            '%MESSAGE_TITLE%' => get_post_field( 'post_title', $message_id )
-        );
-
-        $subject = cpm_get_option( 'email_discuss_sub', 'cpm_mails' );
-        
-        // message
-        foreach ( $template_vars as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $file_path    = CPM_PATH . '/views/emails/new-message.php';
+        $content_path = apply_filters( 'cpm_new_message_email_content', $file_path );
+        $subject      = sprintf( __( '[%s][%s] New Message: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $message_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
 
-        ob_start();
-        cpm_get_template( 'emails/new-message', '', 
-            array( 
-                'message_id' => $message_id,
-                'project_id' => $project_id
-            )
-        );
-        $message = ob_get_clean();
+        if ( file_exists( $content_path ) ) {
+            ob_start();
+            include $content_path;
+            $message = ob_get_clean();
 
-        if ( $message ) {
-            $this->send( implode( ', ', $users ), $subject, $message );
+            if ( $message ) {
+                $this->send( implode( ', ', $users ), $subject, $message );
+            }
+
         }
     }
 
@@ -298,89 +172,55 @@ class CPM_Notification {
      * @param array $comment_info the post data
      */
     function new_comment( $comment_id, $project_id, $data ) {
-        
-        $users = $this->prepare_contacts();
-
-        if ( ! $users ) {
-            return;
-        }
-        $parent_post     =  get_comment( $comment_id );
-        
-        $template_vars = array(
-            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-            '%COMMENT_TITLE%' => get_post_field( 'post_title', $parent_post->comment_post_ID ),
-        );
-
-        $subject = cpm_get_option( 'email_comment_sub', 'cpm_mails' );
-        
-        // message
-        foreach ( $template_vars as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $file_path    = CPM_PATH . '/views/emails/new-comment.php';
+        $content_path = apply_filters( 'cpm_new_comment_email_content', $file_path );
+        $parent_post  =  get_comment( $comment_id );
+        $subject      = sprintf( __( '[%s][%s] New Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
 
-        ob_start();
-        cpm_get_template( 'emails/new-comment', '', 
-            array( 
-                'comment_id' => $comment_id,
-                'data'       => $data,
-                'project_id' => $project_id
-            )
-        );
-        $message = ob_get_clean(); 
-
-        if ( $message ) {
-           $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
+        if ( file_exists( $content_path ) ) {
+            ob_start();
+            include $content_path;
+            $message = ob_get_clean();
+            if ( $message ) {
+               $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
+            }
         }
-        
     }
 
-    function new_task( $list_id, $task_id, $data, $postdata ) {
-        
+    function new_task( $list_id, $task_id, $data ) {
         //for api
         $new_task_notification = apply_filters( 'cpm_new_task_notification', true );
-        
         if ( ! $new_task_notification ) {
             return;
         }
 
-        $project_id              = isset( $postdata['project_id'] ) ? intval( $postdata['project_id'] ) : 0;
-        $postdata['task_assign'] = isset( $postdata['task_assign'] ) ? $postdata['task_assign'] : array();
-        
-        if ( $postdata['task_assign'] == '-1' ) {
+        $file_path    = CPM_PATH . '/views/emails/new-task.php';
+        $content_path = apply_filters( 'cpm_new_task_email_content', $file_path );
+
+        $_POST['task_assign'] = isset( $_POST['task_assign'] ) ? $_POST['task_assign'] : array();
+        if ( $_POST['task_assign'] == '-1' ) {
             return;
         }
 
-        $tpm_sub = array(
-            '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-            '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-            '%LIST_TITLE%'   => get_post_field( 'post_title', $list_id ),
-        );
+        $project_id = 0;
 
-        $is_updated = isset( $postdata['task_id'] ) ? $postdata['task_id'] : false;
-
-        if ( $is_updated ) {
-            $subject = cpm_get_option( 'email_updated_task_sub', 'cpm_mails' );
-        } else {
-            $subject = cpm_get_option( 'email_new_task_sub', 'cpm_mails' );
+        if ( isset( $_POST['project_id'] )) {
+            $project_id = intval( $_POST['project_id'] );
         }
 
-        // message
-        foreach ( $tpm_sub as $key => $value ) {
-            $subject = str_replace( $key, $value, $subject );
-        }
+        $subject = sprintf( __( '[%s][%s] New Task Assigned: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $list_id ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
-        
-        foreach ( $postdata['task_assign'] as $key => $user_id) {
+
+        foreach ( $_POST['task_assign'] as $key => $user_id) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
             if ( ! $this->filter_email( $user_id ) ) {
@@ -389,21 +229,16 @@ class CPM_Notification {
 
             $to = sprintf( '%s', $user->user_email );
 
-            ob_start();
-            cpm_get_template( 'emails/new-task', '', 
-                array( 
-                    'list_id'    => $list_id, 
-                    'task_id'    => $task_id, 
-                    'data'       => $data,
-                    'project_id' => $project_id,
-                    'is_updated' => $is_updated
-                )
-            ); 
-            $message = ob_get_clean();
+            if ( file_exists( $content_path ) ) {
+                ob_start();
+                include_once $content_path;
+                $message = ob_get_clean();
+                if ( $message ) {
+                   $this->send( $to, $subject, $message );
+                }
 
-            if ( $message ) {
-               $this->send( $to, $subject, $message );
             }
+
         }
     }
 

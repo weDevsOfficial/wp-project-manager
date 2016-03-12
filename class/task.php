@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Task list manager class
  *
@@ -14,6 +15,7 @@ class CPM_Task {
 
     public static function getInstance() {
         if ( !self::$_instance ) {
+
             self::$_instance = new CPM_Task();
         }
 
@@ -21,7 +23,7 @@ class CPM_Task {
     }
 
     function register_post_type() {
-        register_post_type( 'task_list', array(
+        register_post_type( 'cpm_task_list', array(
             'label' => __( 'Task List', 'cpm' ),
             'description' => __( 'Task List', 'cpm' ),
             'public' => false,
@@ -55,7 +57,7 @@ class CPM_Task {
             ),
         ) );
 
-        register_post_type( 'task', array(
+        register_post_type( 'cpm_task', array(
             'label' => __( 'Task', 'cpm' ),
             'description' => __( 'Tasks', 'cpm' ),
             'public' => false,
@@ -106,7 +108,7 @@ class CPM_Task {
             'post_parent'  => $project_id,
             'post_title'   => $postdata['tasklist_name'],
             'post_content' => $postdata['tasklist_detail'],
-            'post_type'    => 'task_list',
+            'post_type'    => 'cpm_task_list',
             'post_status'  => 'publish'
         );
 
@@ -123,15 +125,16 @@ class CPM_Task {
             update_post_meta( $list_id, '_tasklist_privacy', $tasklist_privacy );
 
             if ( $is_update ) {
-                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'task_list', true );
+                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'cpm_task_list', true );
 
                 do_action( 'cpm_tasklist_update', $list_id, $project_id, $data );
             } else {
-                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'task_list', false );
+                CPM_Project::getInstance()->new_project_item( $project_id, $list_id, $tasklist_privacy, 'cpm_task_list', false );
 
                 do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
             }
         }
+
 
         return $list_id;
     }
@@ -159,16 +162,18 @@ class CPM_Task {
         $task_privacy = isset( $postdata['task_privacy'] ) ? $postdata['task_privacy'] : 'no';
         $is_update    = $task_id ? true : false;
 
+        $task_title   = trim( $postdata['task_title'] );
         $content      = trim( $postdata['task_text'] );
         $assigned     = isset( $postdata['task_assign'] ) ? $postdata['task_assign'] : array( '-1' );
-        $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
-        $start        = empty( $postdata['task_start'] ) ? '' : cpm_date2mysql( $postdata['task_start'] );
+     //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
+        $due  = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql($postdata['task_due']);
+        $start        = empty( $postdata['task_start'] ) ? '' : cpm_date2mysql( $postdata['task_start']);
 
         $data = array(
             'post_parent'  => $list_id,
-            'post_title'   => trim( substr( $content, 0, 40 ) ), //first 40 character
+            'post_title'   => $task_title,
             'post_content' => $content,
-            'post_type'    => 'task',
+            'post_type'    => 'cpm_task',
             'post_status'  => 'publish'
         );
 
@@ -178,9 +183,9 @@ class CPM_Task {
             $data['ID'] = $task_id;
             $task_id = wp_update_post( $data );
         } else {
-            
+
             $task_id = wp_insert_post( $data );
-         
+
         }
 
         if ( $task_id ) {
@@ -210,10 +215,10 @@ class CPM_Task {
 
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
-                do_action( 'cpm_task_update', $list_id, $task_id, $data, $postdata );
+                do_action( 'cpm_task_update', $list_id, $task_id, $data );
             } else {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
-                do_action( 'cpm_task_new', $list_id, $task_id, $data, $postdata );
+                do_action( 'cpm_task_new', $list_id, $task_id, $data );
             }
         }
 
@@ -247,10 +252,10 @@ class CPM_Task {
         if ( $update ) {
             $delete = $this->delete_task_item( $item_id );
             $completed = $task->completed ? $task->completed_on : '0000-00-00 00:00:00';
-            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'task', true, $completed, $task->completed, $list_id );
+            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'cpm_task', true, $completed, $task->completed, $list_id );
             $new_insert_id = $this->get_item_id( $task_id );
         } else {
-            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'task', false, $completed, 0, $list_id );
+            CPM_Project::getInstance()->new_project_item( $list->post_parent, $task_id, $private, 'cpm_task', false, $completed, 0, $list_id );
 
             $new_insert_id = isset( $wpdb->insert_id ) ? $wpdb->insert_id : 0;
 
@@ -285,6 +290,8 @@ class CPM_Task {
                 }
             }
 
+
+
         }
     }
 
@@ -309,6 +316,7 @@ class CPM_Task {
 
         do_action( 'cpm_before_delete_new_project_task_item', $item_id );
 
+
         return   $delete;
     }
 
@@ -331,6 +339,8 @@ class CPM_Task {
                 $this->delete_task_item( $item_id );
                 CPM_Project::getInstance()->delete_project_item( $task->ID );
             }
+
+
         }
     }
 
@@ -382,13 +392,13 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $privacy = false ) {
-
+    function get_task_lists( $project_id, $offset = 0,  $privacy = false ) {
         $args = array(
-            'post_type'   => 'task_list',
-            'numberposts' => -1,
-            'order'       => 'ASC',
-            'orderby'     => 'menu_order',
+            'post_type'   => 'cpm_task_list',
+            'posts_per_page' => cpm_get_option( 'show_todo' ),
+            'offset' => $offset,
+            'order'       => 'DESC',
+            'orderby'     => 'ID',
             'post_parent' => $project_id
         );
 
@@ -402,15 +412,20 @@ class CPM_Task {
             );
         }
 
-        $args = apply_filters( 'cpm_get_tasklist', $args );
+       $args = apply_filters( 'cpm_get_tasklist', $args );
 
-        $lists = get_posts( $args );
+       $lists = get_posts( $args );
         foreach ($lists as $list) {
             $this->set_list_meta( $list );
         }
 
         return $lists;
     }
+
+
+
+
+
 
     /**
      * Get a single task list by a task list id
@@ -462,7 +477,7 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null ) {
 
-        $args = array('post_parent' => $list_id, 'posts_per_page' => -1, 'post_type' => 'task', 'order' => 'ASC', 'orderby' => 'menu_order');
+        $args = array('post_parent' => $list_id, 'posts_per_page' => -1, 'post_type' => 'cpm_task', 'order' => 'ASC', 'orderby' => 'menu_order');
 
         if ( $privacy === false ) {
             $args['meta_query'] =  array(
@@ -508,7 +523,7 @@ class CPM_Task {
     function get_tasklist_by_milestone( $milestone_id, $privacy = false ) {
 
         $args = array(
-            'post_type' => 'task_list',
+            'post_type' => 'cpm_task_list',
             'numberposts' => -1,
             'order' => 'ASC',
             'orderby' => 'menu_order',
@@ -573,12 +588,13 @@ class CPM_Task {
      *
      * @param int $task_id task id
      */
-    function mark_complete( $task_id, $list_id = false, $project_id = false, $postdata = array() ) {
+    function mark_complete( $task_id ) {
         update_post_meta( $task_id, '_completed', 1 );
         update_post_meta( $task_id, '_completed_by', get_current_user_id() );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
         CPM_Project::getInstance()->new_project_item_complete_date( $task_id, current_time( 'mysql' ) );
-        do_action( 'cpm_task_complete', $task_id, $list_id, $project_id, $postdata );
+
+        do_action( 'cpm_task_complete', $task_id );
     }
 
     /**
@@ -590,6 +606,7 @@ class CPM_Task {
         update_post_meta( $task_id, '_completed', 0 );
         update_post_meta( $task_id, '_completed_on', current_time( 'mysql' ) );
         CPM_Project::getInstance()->new_project_item_complete_open( $task_id );
+
         do_action( 'cpm_task_open', $task_id );
     }
 
@@ -605,6 +622,8 @@ class CPM_Task {
         $this->delete_task_item( $item_id );
 
         CPM_Project::getInstance()->delete_project_item( $task_id );
+
+
         wp_delete_post( $task_id, $force );
     }
 
@@ -627,6 +646,9 @@ class CPM_Task {
 
         $this->delete_task_list_item( $list_id );
         wp_delete_post( $list_id, $force );
+
+
+
     }
 
     /**
@@ -646,22 +668,22 @@ class CPM_Task {
     /****************************************************************
      *
      * Time Log
-     * 
+     *
      ****************************************************************/
     function my_task_header_tab( $active_tab = false ) {
         $menus = $this->my_task_nav();
-        
+
         echo '<h2 class="nav-tab-wrapper">';
-       
+
         foreach ( $menus as $key => $value ) {
             $active = ( $key == $active_tab ) ? 'nav-tab-active' : '';
-            ?> 
+            ?>
                 <a id="cpm_general-tab" class="nav-tab <?php echo $active; ?>" href="<?php echo esc_attr($value); ?>">
                 <?php echo $key; ?>
                 </a>
             <?php
         }
-        
+
         echo '</h2>';
     }
 
@@ -681,20 +703,20 @@ class CPM_Task {
 
                 foreach ( $sub_menus as $sub_key => $sub_menu ) {
                     $active = ( strtolower($sub_key) == strtolower($active_sub_tab) ) ? 'active' : '';
-                    ?> 
-                        <li class="<?php echo $active; ?>"> 
-                       
+                    ?>
+                        <li class="<?php echo $active; ?>">
+
                             <a href="<?php echo $sub_menu; ?>">
-                                <?php 
-                                    echo $sub_key; 
+                                <?php
+                                    echo $sub_key;
                                     do_action('cmp_my_task_subtab_content', $sub_menu, $sub_key, $active_sub_tab, $attr );
-                                ?> 
+                                ?>
                             </a>
 
                         </li>
-                    <?php 
+                    <?php
                 }
-                
+
             ?>
         </ul>
         <?php
@@ -706,7 +728,7 @@ class CPM_Task {
             __( 'Outstanding Task', 'cpm' ) => cpm_url_outstanding_task(),
             __( 'Completed Task', 'cpm' )   => cpm_url_complete_task(),
         );
-        
+
         return apply_filters( 'cpm_my_task_sub_tab_nav', $nav );
     }
 }

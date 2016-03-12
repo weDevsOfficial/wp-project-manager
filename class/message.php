@@ -22,7 +22,7 @@ class CPM_Message {
     }
 
     function register_post_type() {
-        register_post_type( 'message', array(
+        register_post_type( 'cpm_message', array(
             'label'               => __( 'Messages', 'cpm' ),
             'description'         => __( 'message post type', 'cpm' ),
             'public'              => false,
@@ -61,7 +61,7 @@ class CPM_Message {
 
         $args = array(
             'numberposts' => -1,
-            'post_type' => 'message',
+            'post_type' => 'cpm_message',
             'post_parent' => $project_id,
             'order' => 'DESC',
             'orderby' => 'ID'
@@ -93,7 +93,6 @@ class CPM_Message {
 
     function get( $message_id ) {
         $message = get_post( $message_id );
-
     	// return null if no message is found
     	if( empty( $message )) {
     		return null;
@@ -116,7 +115,7 @@ class CPM_Message {
             'post_parent'  => $project_id,
             'post_title'   => $post['message_title'],
             'post_content' => $post['message_detail'],
-            'post_type'    => 'message',
+            'post_type'    => 'cpm_message',
             'post_status'  => 'publish'
         );
 
@@ -174,7 +173,7 @@ class CPM_Message {
 
     function get_by_milestone( $milestone_id, $privacy = false ) {
         $args = array(
-            'post_type' => 'message',
+            'post_type' => 'cpm_message',
             'numberposts' => -1
         );
 

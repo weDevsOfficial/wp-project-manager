@@ -34,7 +34,7 @@ class CPM_Free_Loader {
 				<div class="cpm-text">
 					<?php _e( 'This feature is only available in the Pro Version', 'cpm' ); ?>
 				</div>
-				<a target="_blank" href="https://wedevs.com/products/plugins/wp-project-manager-pro/" class="button button-primary"><?php _e( 'Upgrade to Pro Version', 'cpm' ); ?></a>
+				<a target="_blank" href="https://wedevs.com/products/plugins/wp-project-manager-pro/?utm_source=freeplugin&utm_medium=prompt&utm_term=cpm_free_plugin&utm_content=textlink&utm_campaign=pro_prompt" class="button button-primary"><?php _e( 'Upgrade to Pro Version', 'cpm' ); ?></a>
 			</div>
 		</div>
 		<?php

@@ -17,7 +17,7 @@ class CPM_Milestone {
     }
 
     function register_post_type() {
-        register_post_type( 'milestone', array(
+        register_post_type( 'cpm_milestone', array(
             'label'               => __( 'Milestone', 'cpm' ),
             'description'         => __( 'Milestone', 'cpm' ),
             'public'              => false,
@@ -62,7 +62,7 @@ class CPM_Milestone {
             'post_parent' => $project_id,
             'post_title' => $posted['milestone_name'],
             'post_content' => $posted['milestone_detail'],
-            'post_type' => 'milestone',
+            'post_type' => 'cpm_milestone',
             'post_status' => 'publish'
         );
 
@@ -141,7 +141,7 @@ class CPM_Milestone {
     function get_by_project( $project_id, $privacy = false ) {
 
         $args = array(
-            'post_type'      => 'milestone',
+            'post_type'      => 'cpm_milestone',
             'post_parent'    => $project_id,
             'posts_per_page' => -1,
             'order'          => 'DESC',

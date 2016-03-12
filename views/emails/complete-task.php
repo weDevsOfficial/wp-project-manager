@@ -1,5 +1,6 @@
 <?php
-
+$project_users = CPM_Project::getInstance()->get_users( $project_id );
+$users         = array();
 $task_data     = cpm()->task->get_task( $task_id );
 $due_date      = cpm_get_date( current_time( 'mysql' ) );
 if ( ! empty( $due_date ) ) {
@@ -10,11 +11,35 @@ if ( ! empty( $due_date ) ) {
     $next_name = '';
 }
 
+if( is_array( $project_users ) && count($project_users) ) {
+    foreach ($project_users as $user_id => $role_array ) {
+        if( $role_array['role'] == 'manager' ) {
+            if( $this->filter_email( $user_id ) ) {
+                // $users[$user_id] = sprintf( '%s (%s)', $role_array['name'], $role_array['email'] );
+                $users[$user_id] = sprintf( '%s', $role_array['email'] );
+            }
+        }
+    }
+}
+
+if ( ! $users ) {
+	return;
+}
+
 cpm_get_email_header();
 
 $tpbk = CPM_URL . '/assets/images/tpbk.png';
-$completed_user = get_user_by( 'id', $task_data->completed_by );
+$completed_user = get_user_by( 'id', $data->completed_by );
 
+// $template_vars = array(
+//     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+//     '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
+//     '%PROJECT_URL%'  => '<a style="text-decoration: none;" href="'.cpm_url_project_details( $project_id ).'">'.get_post_field( 'post_title', $project_id ).'</a>',
+//     '%TASKLIST_URL%' => '<a style="text-decoration: none;" href="'.cpm_url_single_tasklist($project_id, $list_id).'"">'.get_post_field( 'post_title', $list_id ) .'</a>',
+//     '%TASK_URL%'     => '<a style="text-decoration: none;" href="'.cpm_url_single_task( $project_id, $list_id, $task_id ).'">'.$data->post_content.'</a>',
+//     '%TASK%'         => $data->post_content,
+//     '%IP%'           => get_ipaddress()
+// );
 ?>
 
 	<div style="width:600px;  background: #fff;">
@@ -22,7 +47,7 @@ $completed_user = get_user_by( 'id', $task_data->completed_by );
 		<div style="width: 600px;">
 			<div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
 				<div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-					<?php cpm_get_option( 'email_complete_task_header', 'cpm_mails' ); ?> 
+					<?php _e( 'New task has been completed', 'cpm'  ); ?>
 				</div>
 			</div>
 
@@ -38,11 +63,11 @@ $completed_user = get_user_by( 'id', $task_data->completed_by );
 
 				<div style="font-family: arial; font-size: 14px; line-height: 24px;">
 					<span style="float: left; font-size: 21px; width: 20px; color: #bcbcbc;">&#x2611;</span>
-                    <span style="float: left; width: 459px;"><?php echo $task_data->post_content; ?></span>
+                    <span style="float: left; width: 459px;"><?php echo $data->post_content; ?></span>
                     <div style="clear: both;"></div>
 				</div>
-
 		</div>
+            
 		<center>
 			<div style="padding: 18px; margin: 30px 0 45px; border-radius: 30px; background: #00b1e7; width: 171px;">
 

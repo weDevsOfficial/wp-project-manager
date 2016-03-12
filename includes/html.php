@@ -7,12 +7,15 @@
  * @package CPM
  */
 
+
+
 /**
  * HTML generator for single task
  *
  * @param object $task
  * @param int $project_id
  * @param int $list_id
+ *
  * @return string
  */
 function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
@@ -43,104 +46,121 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     $title_link_status = apply_filters( 'cpm_task_title_link', true, $task, $project_id, $list_id, $single  );
     ob_start();
     ?>
-    <div class="cpm-todo-wrap <?php echo $wrap_class; ?>">
 
-        <?php if ( $can_manage ) { ?>
-            <span class="cpm-todo-action">
-                <a href="#" class="cpm-todo-delete cpm-icon-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>>
-                    <span><?php _e( 'Delete', 'cpm' ); ?></span>
-                </a>
+    <div class="cpm-todo-wrap clearfix">
+        <div class="cpm-todo-content" >
+            <div>
+            <div class="cpm-col-7">
+                <span class="cpm-spinner"></span>
+                <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
 
-                <?php if ( $task->completed != '1' ) { ?>
-                    <a href="#" class="cpm-todo-edit cpm-icon-edit"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
-                <?php } ?>
-            </span>
-        <?php } ?>
-
-        <span class="cpm-spinner"></span>
-        <input class="<?php echo $status_class; ?>" type="checkbox" <?php cpm_data_attr( array('single' => $single, 'list' => $list_id, 'project' => $project_id, 'is_admin' => $is_admin ) ); ?> value="<?php echo $task->ID; ?>" name="" <?php checked( $task->completed, '1' ); ?> <?php echo $disabled; ?>>
-
-        <span class="move"></span>
-        <span class="cpm-todo-content">
-            <?php if ( $single ) { ?>
-                <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
-                <span class="<?php echo $private_class; ?>"></span>
-            <?php } else {
-                if ( $title_link_status ) {
-                    ?>
-                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                        <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
-                        <span class="<?php echo $private_class; ?>"></span>
-                    </a>
-                    <?php
-                } else {?>
-                    <span class="cpm-todo-text"><?php echo $task->post_content; ?></span>
+                <?php if ( $single ) { ?>
+                    <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
                     <span class="<?php echo $private_class; ?>"></span>
-            <?php } } ?>
-
-            <?php if ( (int) $task->comment_count > 0 && !$single ) { ?>
-                <span class="cpm-comment-count">
-                    <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
-                        <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $task->comment_count, 'cpm' ), $task->comment_count ); ?>
-                    </a>
-                </span>
-            <?php } ?>
-
-            <?php
-            //if the task is completed, show completed by
-
-            if ( $task->completed == '1' && $task->completed_by ) {
-                $completion_time = cpm_get_date( $task->completed_on, true );
-                ?>
-                <span class="cpm-completed-by">
-                    <?php printf( __( '(Completed by %s on %s)', 'cpm' ), cpm_url_user( $task->completed_by ), $completion_time ) ?>
-                </span>
-            <?php } ?>
-
-            <?php
-            if ( $task->completed != '1' ) {
-
-                if ( reset( $task->assigned_to ) != '-1' ) {
-                    cpm_assigned_user( $task->assigned_to );
-                }
-
-                if( $start_date != '' || $task->due_date != '' ) {
-                    $task_status_wrap = ( date( 'Y-m-d', time() ) > date( 'Y-m-d', strtotime( $task->due_date) ) ) ? 'cpm-due-date' : 'cpm-current-date';
-                    ?>
-                    <span class="<?php echo $task_status_wrap; ?>">
-                        <?php
-                            if ( ( cpm_get_option( 'task_start_field' ) == 'on' ) && $start_date != '' ) {
-                                echo cpm_get_date( $start_date );
-                            }
-                            if( $start_date != '' & $task->due_date != '' ) {
-                                echo ' - ';
-                            }
-                            if ( $task->due_date != '') {
-                                echo cpm_get_date( $task->due_date );
-                            }
+                <?php } else {
+                    if ( $title_link_status ) {
                         ?>
+                        <a class="task-title" href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
+                            <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
+                            <span class="<?php echo $private_class; ?>"></span>
+                        </a>
+                        <?php
+                    } else {?>
+                        <span class="cpm-todo-text"><?php echo $task->post_title; ?></span>
+                        <span class="<?php echo $private_class; ?>"></span>
+                <?php } } ?>
+
+                <?php
+                // if the task is completed, show completed by
+
+                if ( $task->completed == '1' && $task->completed_by ) {
+                    $completion_time = cpm_get_date( $task->completed_on, false, 'M d' );
+                    ?>
+                    <span class="cpm-completed-by">
+                        <?php printf( __( 'Completed by %s on %s', 'cpm' ), cpm_url_user( $task->completed_by, true ), $completion_time ) ?>
                     </span>
-                    <?php
+                <?php } ?>
+
+                <?php
+                if ( $task->completed != '1' ) {
+
+                    if ( reset( $task->assigned_to ) != '-1' ) {
+                        cpm_assigned_user( $task->assigned_to );
+                    }
+
+                    if ( $start_date != '' || $task->due_date != '' ) {
+                        $task_status_wrap = ( date( 'Y-m-d', time() ) > date( 'Y-m-d', strtotime( $task->due_date) ) ) ? 'cpm-due-date' : 'cpm-current-date';
+                        ?>
+                        <span class="<?php echo $task_status_wrap; ?>">
+                            <?php
+                                if ( ( cpm_get_option( 'task_start_field' ) == 'on' ) && $start_date != '' ) {
+                                    echo cpm_get_date( $start_date, false, 'M d' );
+                                }
+
+                                if ( $start_date != '' & $task->due_date != '' ) {
+                                    echo ' - ';
+                                }
+
+                                if ( $task->due_date != '') {
+                                    echo cpm_get_date( $task->due_date, false, 'M d' );
+                                }
+                            ?>
+                        </span>
+                        <?php
+                    }
                 }
-            }
-            ?>
-        </span>
+                ?>
+            </div>
+
+            <div class="cpm-col-4">
+                <?php if ( !$single ) { ?>
+
+                    <span class="cpm-comment-count">
+                        <a href="<?php echo cpm_url_single_task( $project_id, $list_id, $task->ID ); ?>">
+                            <?php  echo $task->comment_count  ; ?>
+                        </a>
+                    </span>
+
+                <?php } ?>
+
+                <?php do_action( 'cpm_task_column', $task, $project_id, $list_id, $single, $task->completed ); ?>
+            </div>
+
+            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
+                <?php if ( $can_manage ) { ?>
+                    <a class="move"><span class="dashicons dashicons-menu"></span></a>
+                    <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array('single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' )) ); ?>><span class="dashicons dashicons-trash"></span></a>
+
+                    <?php if ( $task->completed != '1' ) { ?>
+                        <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+
+            <div class="cpm-col-12">
+
+                <?php if ( $single ) { ?>
+                    <div class="cpm-todo-details">
+                        <?php echo cpm_get_content( $task->post_content ); ?>
+                    </div>
+                <?php } ?>
+
+                <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
+            </div>
+        </div>
 
         <?php if ( $task->completed != 1 ) { ?>
-
-            <div class="cpm-task-edit-form">
+            <div class="cpm-task-edit-form" >
                 <?php echo cpm_task_new_form( $list_id, $project_id, $task, $single ); ?>
             </div>
         <?php } ?>
-
-        <?php do_action( 'cpm_task_single_after', $task, $project_id, $list_id, $single, $task->completed ); ?>
     </div>
 
     <?php
-
     return ob_get_clean();
 }
-
 
 
 /**
@@ -152,27 +172,26 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
  */
 function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false ) {
     $action        = 'cpm_task_add';
-    $task_content  = $task_due = $task_start = '';
+    $task_title    = $task_content  = $task_due = $task_start = '';
     $assigned_to   = '-1';
     $submit_button = __( 'Add this to-do', 'cpm' );
 
     //for update form
     if ( !is_null( $task ) ) {
         $action        = 'cpm_task_update';
+        $task_title    = $task->post_title;
         $task_content  = $task->post_content;
         $assigned_to   = $task->assigned_to;
         $submit_button = __( 'Save Changes', 'cpm' );
 
         if ( $task->due_date != '' ) {
-            $task_due = date( 'm/d/Y', strtotime( $task->due_date ) );
+            $task_due = date( 'Y-m-d', strtotime( $task->due_date ) );
         }
 
-        if( $task->start_date != '' ) {
-            $task_start = date( 'm/d/Y', strtotime( $task->start_date ) );
+        if ( $task->start_date != '' ) {
+            $task_start = date( 'Y-m-d', strtotime( $task->start_date ) );
         }
-
     }
-
     ?>
 
     <form action="" method="post" class="cpm-task-form">
@@ -186,12 +205,16 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
             <input type="hidden" name="task_id" value="<?php echo $task->ID; ?>">
         <?php } ?>
 
+        <div class="item task-title">
+            <input type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
+        </div>
+
         <div class="item content">
-            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ) ?>" rows="1"><?php echo esc_textarea( $task_content ); ?></textarea>
+            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"><?php echo esc_textarea( $task_content ); ?></textarea>
         </div>
 
         <div class="item date">
-            <?php if(cpm_get_option( 'task_start_field' ) == 'on') { ?>
+            <?php if (cpm_get_option( 'task_start_field' ) == 'on') { ?>
                 <div class="cpm-task-start-field">
                     <label><?php _e('Start date', 'cpm'); ?></label>
                     <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
@@ -283,13 +306,13 @@ function cpm_tasklist_form( $project_id, $list = null ) {
 }
 
 /**
- * HTML generator for a single tasklist
+ * New HTML generator for a single tasklist
  *
  * @param object $list
  * @param int $project_id
  * @return string
  */
-function cpm_task_list_html( $list, $project_id ) {
+function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
     $task_obj           = CPM_Task::getInstance();
     $tasks['pending']   = array();
@@ -297,48 +320,27 @@ function cpm_task_list_html( $list, $project_id ) {
     $private            = ( $list->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
     ob_start();
     ?>
-
     <article class="cpm-todolist">
         <header class="cpm-list-header">
 
             <h3>
-
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
                 <span class="<?php echo $private; ?>"></span>
 
-                <?php if ( (int) $list->comment_count > 0 ) { ?>
-                    <span class="cpm-comment-count">
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
-                        <?php printf( _n( __( '1 Comment', 'cpm' ), __( '%d Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
-                        </a>
-                    </span>
-                <?php } ?>
-
                 <div class="cpm-right">
-                    <?php
-                    $complete = $task_obj->get_completeness( $list->ID, $project_id );
-                    echo cpm_task_completeness( $complete['total'], $complete['completed'] );
-                    ?>
+                <?php
+                if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
+                    <!-- <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>-->
+                    <a href="#" class="cpm-list-edit cpm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
+                    <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                <?php } else { ?>
+                    <a href="#" class="move">&nbsp;</a>
+                <?php } ?>
                 </div>
 
-                <?php
-                if( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
-
-                    <div class="cpm-list-actions">
-                        <a href="#" class="cpm-list-delete cpm-icon-delete" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>">
-                            <span><?php _e( 'Delete', 'cpm' ); ?></span>
-                        </a>
-                        <a href="#" class="cpm-list-edit cpm-icon-edit"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
-                        <span class="move"></span>
-                    </div>
-                <?php } else { ?>
-                    <div class="cpm-list-actions cpm-move-trak">
-                        <span class="move"></span>
-                    </div>
-                <?php } ?>
             </h3>
 
-            <div class="cpm-entry-detail">
+            <div class="cpm-entry-detail" >
                 <?php echo cpm_get_content( $list->post_content ); ?>
             </div>
         </header>
@@ -346,30 +348,35 @@ function cpm_task_list_html( $list, $project_id ) {
             <?php echo cpm_tasklist_form( $project_id, $list ); ?>
         </div>
 
-        <ul class="cpm-todos">
+        <ul  class="cpm-todos cpm-todos-new cpm-todolist-content" data-listid="<?php echo  $list->ID ?>" data-project-id="<?php echo $project_id;?>" data-status="<?php echo $singlePage?>">
             <?php
+            echo cmp_loading_template() ;
+            ?>
 
-            $tasks = $task_obj->get_tasks_by_access_role( $list->ID , $project_id );
-            $tasks = cpm_tasks_filter( $tasks );
+        </ul>
 
-            if ( count( $tasks['pending'] ) ) {
-                foreach ($tasks['pending'] as $task) {
-                    ?>
-                    <li>
-
-                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
-                    </li>
-                    <?php
+        <ul class="cpm-todos cpm-todo-completed" style="<?php if(!$singlePage) echo 'display:none'; ?>">
+            <?php
+            if ( $singlePage ) {
+                if ( count( $tasks['completed'] ) ) {
+                    foreach ($tasks['completed'] as $task) {
+                        ?>
+                        <li class="cpm-todo">
+                            <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
+                        </li>
+                        <?php
+                    }
                 }
             }
             ?>
         </ul>
 
-        <ul class="cpm-todos-new">
+
+        <ul class="cpm-todos-new" >
             <?php
-            if( cpm_user_can_access( $project_id, 'create_todo' ) ) {
-            ?>
-                <li class="cpm-new-btn">
+            if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
+                ?>
+                <li class="cpm-new-btn" >
                     <a href="#" class="cpm-btn add-task"><?php _e( 'Add a to-do', 'cpm' ); ?></a>
                 </li>
             <?php  } ?>
@@ -378,23 +385,66 @@ function cpm_task_list_html( $list, $project_id ) {
             </li>
         </ul>
 
-        <ul class="cpm-todo-completed">
-            <?php
+        <?php
+            $complete = $task_obj->get_completeness( $list->ID, $project_id );
+        ?>
+        <footer class="cpm-row cpm-list-footer">
+            <div class="cpm-col-6">
+                <div class="cpm-col-3 cpm-todo-complete">
+                    <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <span> <?php echo intval($complete['completed']) ; ?> </span>
+                        <?php _e( 'Completed', 'cpm' ) ?>
+                    </a>
+                </div>
+                <div class="cpm-col-3 cpm-todo-incomplete">
+                      <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php echo "<span>". ceil($complete['total']-$complete['completed']) ."</span>" ;?>
+                        <?php _e( 'Incomplete', 'cpm' ) ?>
+                      </a>
+                </div>
+                <div class="cpm-col-3 cpm-todo-comment">
+                    <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
+                        <?php if ( (int) $list->comment_count > 0 ) { ?>
+                            <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                        <?php } else {
+                                        printf("<span>0 %s</span>", __('Comment', 'cpm'));
+                        }
+                        ?>
+                    </a>
+                </div>
+            </div>
 
-            if ( count( $tasks['completed'] ) ) {
-                foreach ($tasks['completed'] as $task) {
-                    ?>
-                    <li>
-                        <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
-                    </li>
-                    <?php
-                }
-            }
-            ?>
-        </ul>
+            <div class="cpm-col-4 cpm-todo-prgress-bar">
+                <?php echo cpm_task_completeness( $complete['total'], $complete['completed'] ); ?>
+            </div>
+            <div class=" cpm-col-1 no-percent"> <?php if ( $complete['total'] != 0 ) echo round(( 100 * $complete['completed'] ) / $complete['total']) . " %";  ?>  </div>
+            <div class="clearfix"></div>
+        </footer>
     </article>
     <?php
     return ob_get_clean();
+}
+
+/**
+ * Loading blank content
+ * return html
+ */
+function  cmp_loading_template() {
+    ob_start();
+?>
+   <div class="cpm-blank-loading">
+            <div class="timeline-item">
+                <div class="animated-background">
+                    <div class="background-masker ">  </div>
+
+                    <div class="background-masker  ">   </div>
+
+                </div>
+            </div>
+    </div>
+
+<?php
+ return ob_get_clean();
 }
 
 /**
@@ -410,7 +460,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     $action        = 'cpm_comment_new';
     $text          = '';
     $submit_button = __( 'Add this comment', 'cpm' );
-    $comment_id    = $comment ? $comment->comment_ID : 0;
+    $comment_id    = $comment ? $comment->comment_ID : 'cm';
     $files         = $comment ? $comment->files : array();
 
     if ( $comment ) {
@@ -427,23 +477,14 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             <div class="cpm-avatar"><?php echo cpm_url_user( get_current_user_id(), true ); ?></div>
         <?php } ?>
 
-        <form class="cpm-comment-form">
+        <form class="cpm-comment-form ">
 
             <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
-            <div class="item message">
-                <?php
-                $args = apply_filters( 'cpm_comment_editor_args', array(
-                    'media_buttons' => false,
-                    'textarea_name' => 'cpm_message',
-                    'textarea_rows' => 10,
-                    'media_buttons' => false,
-                    'quicktags'     => false,
-                    'teeny'         => true
-                ) );
+            <div class="item message cpm-sm-col-12 ">
+                <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo $text?>">
+                <trix-editor input="<?php echo 'cpm-comment-editor-' . $comment_id ?>"></trix-editor>
 
-                wp_editor( $text, 'cpm-comment-editor-' . $comment_id, $args );
-                ?>
             </div>
 
             <div class="cpm-attachment-area">
@@ -451,10 +492,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             </div>
 
             <div class="notify-users">
-                <label class="notify">
-                    <?php _e( 'Notify users', 'cpm' ); ?>:
-                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
-                </label>
                 <?php cpm_user_checkboxes( $project_id ); ?>
             </div>
 
@@ -494,37 +531,42 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
     $class = empty( $class ) ? '' : ' ' . $class;
     ob_start();
     ?>
-    <li class="cpm-comment<?php echo $class; ?>" id="cpm-comment-<?php echo $comment->comment_ID; ?>">
-        <div class="cpm-avatar"><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
+    <li class="cpm-comment clearfix<?php echo $class; ?>" id="cpm-comment-<?php echo $comment->comment_ID; ?>">
+        <div class="cpm-avatar "><?php echo cpm_url_user( $comment->user_id, true ); ?></div>
         <div class="cpm-comment-container">
             <div class="cpm-comment-meta">
                 <span class="cpm-author"><?php echo cpm_url_user( $comment->user_id ); ?></span>
-                <span class="cpm-separator">|</span>
+                <?php _e( 'On', 'cpm' ); ?>
                 <span class="cpm-date"><?php echo cpm_get_date( $comment->comment_date, true ); ?></span>
 
-                <?php if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) { ?>
-                    <span class="cpm-separator">|</span>
+                <?php
+
+                if( $comment->user_id == get_current_user_id() && $comment->comment_type == '' ) {
+                    ?>
+                <div class="cpm-comment-action">
                     <span class="cpm-edit-link">
-                        <a href="#" class="cpm-edit-comment-link" <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>>
-                            <span><?php _e( 'Edit', 'cpm' ); ?></span>
-                        </a>
+                        <a href="#" class="cpm-edit-comment-link dashicons dashicons-edit " <?php cpm_data_attr( array( 'comment_id' => $comment->comment_ID, 'project_id' => $project_id, 'object_id' => $comment->comment_post_ID ) ); ?>></a>
                     </span>
-                    <span class="cpm-separator">|</span>
+
                     <span class="cpm-delete-link">
-                        <a href="#" class="cpm-delete-comment-link" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>>
-                            <span><?php _e( 'Delete', 'cpm' ); ?></span>
-                        </a>
+                        <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
                     </span>
-                <?php } ?>
+                </div>
+                <?php }else{
+                    echo 'No Way';
+                    }  ?>
             </div>
             <div class="cpm-comment-content">
-                <?php echo do_shortcode( $comment->comment_content ); ?>
+                <?php
+                echo do_shortcode( $comment->comment_content ) ;
+                ?>
 
                 <?php echo cpm_show_attachments( $comment, $project_id ); ?>
             </div>
 
             <div class="cpm-comment-edit-form"></div>
         </div>
+
     </li>
     <?php
 
@@ -609,9 +651,9 @@ function cpm_message_form( $project_id, $message = null ) {
             </div>
 
             <div class="item detail">
-                <?php
-                    wp_editor( $content, 'cpm-message-editor-' . $id , array( 'media_buttons' => false, 'textarea_name' => 'message_detail', 'textarea_rows' => 10, 'media_buttons' => false, 'quicktags' => false, 'teeny' => true  ) );
-                ?>
+
+                <input id="<?php echo 'cpm-message-editor-' . $id ?>" type="hidden" name="message_detail" value="<?php echo $content?>">
+                <trix-editor input="<?php echo 'cpm-message-editor-' . $id ?>"></trix-editor>
 
             </div>
 
@@ -630,7 +672,6 @@ function cpm_message_form( $project_id, $message = null ) {
             <div class="notify-users">
                 <label class="notify">
                     <?php _e( 'Notify users', 'cpm' ); ?>:
-                    <?php printf( '<a class="cpm-toggle-checkbox" href="#">%s</a> ', __( 'Select all', 'cpm' ) ); ?>
                 </label>
 
                 <?php cpm_user_checkboxes( $project_id ); ?>
@@ -656,6 +697,163 @@ function cpm_message_form( $project_id, $message = null ) {
 
     return ob_get_clean();
 }
+
+/**
+ * Generates message new/edit form
+ *
+ * @param int $project_id
+ * @param object|null $message
+ * @return string
+ */
+function cpm_discussion_form( $project_id, $message = null ) {
+
+    $title   = '';
+    $content = '';
+    $submit  = __( 'Add Message', 'cpm' );
+    $files   = array();
+    $id      = $milestone = 'nd';
+    $action  = 'cpm_message_new';
+
+    if ( !is_null( $message ) ) {
+        $id        = $message->ID;
+        $title     = $message->post_title;
+        $content   = cpm_get_content( $message->post_content );
+        $files     = $message->files;
+        $milestone = $message->milestone;
+        $submit    = __( 'Update Message', 'cpm' );
+        $action    = 'cpm_message_update';
+    }
+
+    ob_start();
+    ?>
+        <form class="cpm-message-form">
+
+            <?php wp_nonce_field( 'cpm_message' ); ?>
+
+            <div class="item title">
+                <input name="message_title" required="required" type="text" id="message_title" value="<?php echo esc_attr( $title ); ?>" placeholder="<?php esc_attr_e( 'Enter message title', 'cpm' ); ?>">
+            </div>
+
+            <div class="item detail">
+                <input id="message_detail" type="hidden" name="message_detail">
+                <trix-editor input="message_detail"></trix-editor>
+
+            </div>
+
+            <div class="item milestone">
+                <select name="milestone" id="milestone">
+                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+                </select>
+            </div>
+
+            <?php do_action( 'cpm_message_privicy_field', $project_id, $message ); ?>
+
+            <div class="cpm-attachment-area">
+                <?php cpm_upload_field($id, $files ); ?>
+            </div>
+
+            <div class="notify-users">
+                <?php cpm_user_checkboxes( $project_id ); ?>
+            </div>
+
+            <?php do_action( 'cpm_message_form', $project_id, $message ); ?>
+
+            <div class="submit">
+                <input type="hidden" name="action" value="<?php echo $action; ?>" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" />
+
+                <?php if( $id ) { ?>
+                    <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
+                <?php } ?>
+                <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <a href="javaScript:void(0)" class="message-cancel button-secondary"><?php _e( 'Cancel', 'cpm'); ?></a>
+            </div>
+            <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
+        </form>
+
+    <?php
+
+    return ob_get_clean();
+}
+
+function cpm_discussion_single( $message_id, $project_id ) {
+
+    $msg_obj = CPM_Message::getInstance();
+    $message = $msg_obj->get( $message_id );
+
+    ob_start();
+
+    if ( !$message ) {
+    echo '<h2>' . __( 'Error: Message not found', 'cpm' ) . '</h2>';
+    return;
+    }
+
+    if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
+        echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+        return;
+    }
+
+   // cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
+    $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+
+?>
+
+   <a name="<?php echo $message_id ?>" style="margin-top: -50px;"></a>
+    <div class=" ">
+
+        <h3 class="cpm-discuss-title"><?php echo get_the_title( $message_id ); ?>
+            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit cpm-edit-discussion " ></a>
+
+        </h3>
+
+        <div id="cpm-entry-detail">
+            <?php  echo cpm_get_content( $message->post_content ); ?>
+
+            <?php
+            echo cpm_show_attachments( $message, $project_id ); ?>
+        </div>
+
+        <div id="cpm-msg-edit-form"></div>
+
+    </div>
+
+    <?php
+$comments = $msg_obj->get_comments( $message_id );
+
+if ( $comments ) {
+    $count = 0;
+    ?>
+
+    <h3><?php printf( _n( 'One Comment', '%s Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
+
+    <ul class="cpm-comment-wrap">
+
+        <?php
+        foreach ($comments as $comment) {
+            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
+
+            echo cpm_show_comment( $comment, $project_id, $class );
+
+            $count++;
+        }
+        ?>
+
+    </ul>
+    <?php
+} else {
+    printf( '<h3>%s</h3>', __( 'No comments found', 'cpm' ) );
+    echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
+}
+?>
+
+
+
+    <?php
+    echo cpm_comment_form( $project_id, $message_id );
+     return ob_get_clean();
+    }
+
 
 /**
  * Generates milestone new/edit form
@@ -696,13 +894,12 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="cpm-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
-                 <?php
-                    wp_editor( $content, 'cpm-milestone-editor-' . $id , array( 'media_buttons' => false, 'textarea_name' => 'milestone_detail', 'textarea_rows' => 10, 'media_buttons' => false, 'quicktags' => false, 'teeny' => true  ) );
-                ?>
+                <input id="<?php echo 'cpm-milestone-editor-' . $id?>" type="hidden" name="milestone_detail" value="<?php echo $content?>">
+                <trix-editor input="<?php echo 'cpm-milestone-editor-' . $id?>"></trix-editor>
             </div>
 
             <?php do_action( 'cpm_milestone_form', $project_id, $milestone ); ?>
@@ -736,7 +933,6 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
 function cpm_show_milestone( $milestone, $project_id ) {
     $milestone_obj       = CPM_Milestone::getInstance();
     $task_obj            = CPM_Task::getInstance();
-
     $due                 = strtotime( $milestone->due_date );
     $is_left             = cpm_is_left( time(), $due );
     $milestone_completed = (int) $milestone->completed;
@@ -746,31 +942,29 @@ function cpm_show_milestone( $milestone, $project_id ) {
     } else {
         $class = ($is_left == true) ? 'left' : 'late';
     }
-
     $string            = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
     $milestone_private = ( $milestone->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
     ?>
     <div class="cpm-milestone <?php echo $class; ?>">
-
-        <div class="milestone-detail">
-            <h3>
-                <?php echo $milestone->post_title; ?>
+        <div class="milestone-detail ">
+            <h3 class="milestone-head">
+                <?php echo $milestone->post_title; ?> <br/>
                 <?php if ( !$milestone_completed ) { ?>
                     <span class="time-left">(<?php printf( '%s %s - %s', human_time_diff( time(), $due ), $string, cpm_get_date( $milestone->due_date ) ); ?>)</span>
                 <?php } ?>
                 <?php if( cpm_user_can_delete_edit( $project_id, $milestone ) ) { ?>
                         <ul class="cpm-links cpm-right">
                             <li>
-                                <a class="cpm-icon-edit" <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"><span><?php _e( 'Edit', 'cpm' ); ?></span></a>
+                                <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
                             </li>
                             <li>
-                                <a class="cpm-icon-delete cpm-milestone-delete" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"><span><?php _e( 'Delete', 'cpm' ); ?></span></a>
+                                <a class="cpm-milestone-delete dashicons dashicons-trash" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
                             </li>
 
                             <?php if ( $milestone->completed == '0' ) { ?>
-                                <li><a class="cpm-icon-tick grey cpm-milestone-complete" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Mark as complete', 'cpm' ); ?></span></a></li>
+                                <li><a class="cpm-milestone-complete dashicons dashicons-yes" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } else { ?>
-                                <li><a class="cpm-icon-tick green cpm-milestone-open" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"><span><?php _e( 'Reopen', 'cpm' ); ?></span></a></li>
+                                <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
                             <?php } ?>
                             <li>
                                 <span class="<?php echo $milestone_private; ?>"></span>
@@ -785,7 +979,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
         </div>
 
         <div class="cpm-milestone-edit-form"></div>
-
+        <div class="cpm-milestone-items-details">
         <?php
         if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 
@@ -801,47 +995,69 @@ function cpm_show_milestone( $milestone, $project_id ) {
         }
 
 
+
         if ( $tasklists ) {
             ?>
+        <div class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
             <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
 
-            <ul class="dash">
-                <?php foreach ($tasklists as $tasklist) { ?>
+            <ul>
+                <?php foreach ( $tasklists as $tasklist ) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
-                        <div class="cpm-right">
+                        <div class="cpm-col-7">
+                            <a href="<?php echo cpm_url_single_tasklist( $project_id, $tasklist->ID ); ?>"><?php echo stripslashes( $tasklist->post_title ); ?></a>
+                        </div>
+                        <div class=" cpm-col-3">
                             <?php
                             $complete = $task_obj->get_completeness( $tasklist->ID, $project_id );
                             echo cpm_task_completeness( $complete['total'], $complete['completed'] );
                             ?>
                         </div>
-                        <div class="cpm-clear"></div>
+                        <div class="cpm-col-1 cpm-right cpm-last-col">
+                            <?php if( $complete['total'] != 0 ) echo round(( 100 * $complete['completed'] ) / $complete['total']) . '%'; ?>
+                        </div>
+                        <div class="clearfix"></div>
                     </li>
                 <?php } ?>
             </ul>
-
-        <?php } ?>
-
-        <?php
-        if ( $messages ) {
+        </div>
+        <?php }
+         if ( $messages ) {
             ?>
-            <h3><?php _e( 'Messages', 'cpm' ); ?></h3>
+        <div class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
+            <h3><?php _e( 'Discussion', 'cpm' ); ?></h3>
 
-            <ul class="dash">
+            <ul  >
                 <?php foreach ($messages as $message) { ?>
                     <li>
-                        <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
-                        (<?php echo cpm_get_date( $message->post_date, true ); ?> | <?php echo get_the_author_meta( 'display_name', $message->post_author ); ?>)
+                        <div class="cpm-col-5">
+                            <a href="<?php echo cpm_url_single_message( $project_id, $message->ID ); ?>"><?php echo stripslashes( $message->post_title ); ?></a>
+                        </div>
+
+                        <div class="cpm-col-4 ">
+                            <span class="time">
+                            <?php echo cpm_get_date( $message->post_date, true ); ?>
+                            </span>
+                        </div>
+                        <div class="cpm-col-2">
+                            <?php
+                                echo cpm_url_user( $message->post_author, true, 28 ) ;
+                                echo get_the_author_meta( 'display_name', $message->post_author );
+                            ?>
+                        </div>
+                        <div class="clearfix"></div>
                     </li>
                 <?php } ?>
             </ul>
-
+        </div>
         <?php } ?>
+            <div class="clearfix"></div>
+        </div>
 
         <?php if ( $milestone_completed ) { ?>
-            <span class="cpm-milestone-completed">
+            <div class="cpm-milestone-completed">
                 <?php _e( 'Completed on:', 'cpm' ); ?> <?php echo cpm_get_date( $milestone->completed_on, true ); ?>
-            </span>
+            </div>
         <?php } ?>
     </div>
     <?php
@@ -891,7 +1107,7 @@ function cpm_project_form( $project = null ) {
          </div>
 
         <div class="cpm-form-item project-detail">
-            <textarea name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="<?php _e( 'Add some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
+            <textarea name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="<?php _e( 'Some details about the project (optional)', 'cpm' ); ?>"><?php echo esc_textarea( $details ); ?></textarea>
         </div>
         <div class="cpm-form-item cpm-project-role">
             <table><?php echo CPM_Ajax::getInstance()->user_role_table_generator( $project ); ?></table>
@@ -976,7 +1192,7 @@ function cpm_user_create_form() {
  * @param array $activities
  * @return string
  */
-function cpm_activity_html( $activities ) {
+function cpm_activity_html_old( $activities ) {
     global $_get_shorcode_attr;
 
     $list = array();
@@ -1026,6 +1242,120 @@ function cpm_activity_html( $activities ) {
 
     return $html;
 }
+
+
+/**
+ * render view of all project activities
+ *
+ * @since 1.3.8
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_activity_html( $activities ) {
+    global $_get_shorcode_attr;
+
+    $list = array();
+    $html = '<ul class="cpm-activity-list">';
+
+    foreach ($activities as $activity) {
+
+        cpm_custom_do_shortcode($activity->comment_content);
+
+        $task_privacy       = cpm_check_task_privicy( $_get_shorcode_attr, $activity );
+        $tasklist_privacy   = cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity );
+        $milestone_privacy  = cpm_check_milestone_privicy( $_get_shorcode_attr, $activity );
+        $message_privacy    = cpm_check_message_privicy( $_get_shorcode_attr, $activity );
+        $_get_shorcode_attr = '';
+
+        if ( !$task_privacy || !$tasklist_privacy || !$milestone_privacy || !$message_privacy ) {
+            continue;
+        }
+
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+
+        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
+
+        foreach ($items as $activity) {
+
+
+            cpm_custom_do_shortcode($activity->comment_content);
+
+            $task_privacy       = cpm_check_task_privicy( $_get_shorcode_attr, $activity );
+            $tasklist_privacy   = cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity );
+            $milestone_privacy  = cpm_check_milestone_privicy( $_get_shorcode_attr, $activity );
+            $message_privacy    = cpm_check_message_privicy( $_get_shorcode_attr, $activity );
+            $_get_shorcode_attr = '';
+
+            if ( !$task_privacy || !$tasklist_privacy || !$milestone_privacy || !$message_privacy ) {
+                continue;
+            }
+
+            $html .= sprintf( '<li><div class="cpm-col-8 cpm-sm-col-12">%s</div><div class="date cpm-col-4 cpm-sm-col-12">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= "</ul> </li>";
+    }
+
+    $html .= " <div class='clearfix'></div> </ul>";
+    return $html;
+}
+
+
+/**
+ * render view of all activity for a user in all project
+ *
+ * @since 1.3.8
+ *
+ * @param array $activities
+ * @return string
+ */
+function cpm_user_activity_html( $activities, $user_id = 0 ) {
+    global $_get_shorcode_attr;
+
+      if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
+    $list = array();
+    $html = '<ul class="cpm-activity-list">';
+
+    foreach ($activities as $activity) {
+
+        $date = strtotime( date( 'F j, Y', strtotime( $activity->comment_date ) ) );
+        $list[$date][] = $activity;
+    }
+
+    foreach ($list as $key => $items) {
+
+        $html .= sprintf( '<li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> %s </span> <br/> %s   </div> <div  class="cpm-activity-body cpm-col-11 cpm-sm-col-12"> <ul>', date_i18n( 'd', $key ), date_i18n( 'F', $key )  );
+
+        foreach ($items as $activity) {
+
+
+            $html .= sprintf( '<li><div class="cpm-col-8 cpm-sm-col-12">%s</div><div class="date cpm-col-4 cpm-sm-col-12">%s</div> <div class="clear"></div> </li>', do_shortcode( $activity->comment_content ), cpm_get_date( $activity->comment_date, true ) );
+        }
+
+        $html .= "</ul> </li>";
+    }
+
+    $html .= " <div class='clearfix'></div> </ul>";
+    return $html;
+}
+
+
+
+
+
+
+
 
 /**
  * Prints project activities
@@ -1122,14 +1452,21 @@ function cpm_custom_do_shortcode_tag( $m ) {
     $_get_shorcode_attr[$m[2]] = shortcode_parse_atts( $m[3] );
 }
 
-function cpm_check_task_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_task_privicy( $_get_shorcode_attr, $activity, $user_id = 0  ) {
     $task = true;
+      if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'task' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_task' ) {
             $task_privacy = get_post_meta( $post->ID, '_task_privacy', true );
-            if ( $task_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'todo_view_private' ) ) {
+            if ( $task_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'todo_view_private', $user->ID ) ) {
                 $task = false;
             }
         }
@@ -1138,14 +1475,22 @@ function cpm_check_task_privicy( $_get_shorcode_attr, $activity ) {
     return $task;
 }
 
-function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $tasklist = true;
+
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'task_list' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_task_list' ) {
             $tasklist_privacy = get_post_meta( $post->ID, '_tasklist_privacy', true );
-            if ( $tasklist_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'tdolist_view_private' ) ) {
+            if ( $tasklist_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'tdolist_view_private', $user->ID ) ) {
                 $tasklist = false;
             }
         }
@@ -1154,14 +1499,21 @@ function cpm_check_tasklist_privicy( $_get_shorcode_attr, $activity ) {
     return $tasklist;
 }
 
-function cpm_check_message_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_message_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $message = true;
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'message' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_message' ) {
             $message_privacy = get_post_meta( $post->ID, '_message_privacy', true );
-            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'msg_view_private' ) ) {
+            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'msg_view_private', $user->ID ) ) {
                 $message = false;
             }
         }
@@ -1170,14 +1522,21 @@ function cpm_check_message_privicy( $_get_shorcode_attr, $activity ) {
     return $message;
 }
 
-function cpm_check_milestone_privicy( $_get_shorcode_attr, $activity ) {
+function cpm_check_milestone_privicy( $_get_shorcode_attr, $activity, $user_id = 0 ) {
     $message = true;
+
+    if ( absint($user_id) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = wp_get_current_user();
+    }
+
     foreach ( $_get_shorcode_attr as $hook => $attr ) {
         $post = get_post( $attr['id'] );
 
-        if ( isset( $post->post_type ) && $post->post_type == 'milestone' ) {
+        if ( isset( $post->post_type ) && $post->post_type == 'cpm_milestone' ) {
             $message_privacy = get_post_meta( $post->ID, '_milestone_privacy', true );
-            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'milestone_view_private' ) ) {
+            if ( $message_privacy == 'yes' && !cpm_user_can_access( $activity->comment_post_ID, 'milestone_view_private', $user->ID ) ) {
                 $message = false;
             }
         }
@@ -1321,4 +1680,31 @@ function cpm_report_action_button() {
     <input type="submit" name="cpm-report-generat" class="cpm-report-submit-button button button-primary" value="<?php esc_attr_e( 'Generate Report', 'cpm' ); ?>"/>
     <input type="submit" name="cpm_report_csv_generat" class="cpm-report-submit-button button button-secondary" value="<?php esc_attr_e( 'Export to CSV', 'cpm' ); ?>">
     <?php
+}
+
+
+function  cpm_blank_template($page='default', $project_id=null) {
+
+
+        switch ($page) {
+
+            case "discussion":
+                include CPM_PATH . '/views/blanktemplate/discussion.php';
+                break;
+
+            case "todolist":
+                include CPM_PATH . '/views/blanktemplate/todolist.php';
+                break;
+
+            case "milestone":
+                include CPM_PATH . '/views/blanktemplate/milestone.php';
+                break;
+
+            case "files":
+                include CPM_PATH . '/views/blanktemplate/files.php';
+                break;
+
+            default:
+                include CPM_PATH . '/views/blanktemplate/default.php';
+        }
 }

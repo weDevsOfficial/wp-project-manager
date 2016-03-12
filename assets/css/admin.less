@@ -352,7 +352,7 @@ ul.cpm-nav{
     }
 
     [class*="cpm-settings-icon-"] {
-            display: inline-block;
+        display: inline-block;
         width: 16px;
         height: 16px;
         background-image: url("images/sprites.svg");
@@ -736,8 +736,8 @@ ul.cpm-activity {
 
     .cpm-project {
         background: #fff;
-        .border-radius(3px);
-        .box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+        box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        border: 1px solid #e5e5e5;
         width: 210px;
         height: 235px;
         position: relative;
@@ -750,8 +750,8 @@ ul.cpm-activity {
         }
 
         h5 {
-            font-size: 19px;
-            margin: 0 0 3px;
+            font-size: 16px;
+            margin: 0;
             word-wrap: break-word;
             color: #000;
         }
@@ -792,10 +792,10 @@ ul.cpm-activity {
         }
 
         .cpm-project-detail, .cpm-project-meta {
-            color: #AA9C84;
+            color: #aaa;
             word-wrap: break-word;
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: normal;
         }
 
         .cpm-project-meta {
@@ -803,12 +803,12 @@ ul.cpm-activity {
         }
 
         .cpm-project-people {
-            height: 68px;
-            width: 99%;
-            left: 2px;
+            height: 50px;
+            width: 95%;
+            left: 10px;
             overflow: hidden;
             position: absolute;
-            top: 77%;
+            top: 79%;
 
             .cpm-scroll {
                 white-space: nowrap;
@@ -869,9 +869,10 @@ ul.cpm-activity {
         }
         .cpm-action {
             position: absolute;
-            right: 1px;
-            top: 0;
+            right: 5px;
+            top: 5px;
         }
+
         [class*="cpm-icons-"] {
             display: inline-block;
             width: 16px;
@@ -1317,7 +1318,11 @@ ul.cpm-activity {
     margin: 20px 0;
     border-bottom: 1px solid #eee;
     border-top: 1px solid #eee;
-    padding: 10px 0;
+    padding: 10px 0 10px 10px;
+
+    .cpm-todo-text {
+        font-weight: bold;
+    }
 
     .cpm-new-task-spinner {
         background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -1389,7 +1394,7 @@ ul.cpm-activity {
                 }
             }
 
-            .cpm-assigned-user, .cpm-due-date {
+            .cpm-due-date {
                 .border-radius(3px);
                 background: #ddd;
                 font-size: 12px;
@@ -1399,7 +1404,7 @@ ul.cpm-activity {
                 margin-right: 5px;
             }
 
-            .cpm-assigned-user a {
+            .cpm-assigned-user {
                 color: #999;
                 text-decoration: none;
             }
@@ -1407,6 +1412,7 @@ ul.cpm-activity {
             .cpm-completed-by {
                 font-size: 11px;
                 color: #999;
+
                 a {
                     text-decoration: none;
                 }
@@ -1422,7 +1428,7 @@ ul.cpm-activity {
     }
 }
 
-ul.cpm-todolists {
+.cpm-todolists {
 
     .submit {
         margin: 10px 0;
@@ -1436,7 +1442,8 @@ ul.cpm-todolists {
     article.cpm-todolist {
         position: relative;
         background: #fff;
-        box-shadow: -1px 1px 1px -1px #BCBCBC;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e5e5e5;
         padding: 6px 3px 5px 5px;
 
         .cpm-list-edit-form {
@@ -1453,7 +1460,7 @@ ul.cpm-todolists {
 
             .cpm-task-form {
                 margin: 15px 0 10px 15px;
-                border: 1px dashed #ccc;
+                border: 1px solid #eee;
                 padding: 15px 15px 0 15px;
                 width: 40%;
                 background: #F8F8F8;
@@ -1568,7 +1575,7 @@ ul.cpm-todolists {
                 padding-left: 19px;
                 padding-right: 110px;
                 word-wrap: break-word;
-                margin: 2px;
+                margin: 0;
 
                 .cpm-todo-wrap {
                     margin-left: -19px;
@@ -1641,7 +1648,7 @@ ul.cpm-todolists {
                             margin-right: 5px;
                         }
 
-                        .cpm-assigned-user, .cpm-current-date {
+                        .cpm-current-date {
                             .border-radius(3px);
                             background: #ddd;
                             font-size: 12px;
@@ -1651,27 +1658,47 @@ ul.cpm-todolists {
                             margin-right: 5px;
                         }
 
-                        .cpm-assigned-user a {
-                            color: #999;
-                            text-decoration: none;
+                        .cpm-assigned-user {
+                            img {
+                                width: 24px;
+                                height: auto;
+                                vertical-align: middle;
+                                border: 1px solid #ccc;
+                                border-radius: 50%;
+                                margin-left: 10px;
+                            }
+
+                            a {
+                                color: #999;
+                                text-decoration: none;
+                            }
                         }
 
                         .cpm-completed-by {
                             font-size: 11px;
                             color: #999;
+
                             a {
                                 text-decoration: none;
+                            }
+
+                            img {
+                                width: 22px;
+                                height: auto;
+                                border-radius: 50%;
+                                vertical-align: middle;
+                                border: 1px solid #ccc;
                             }
                         }
                     }
 
                     .cpm-task-edit-form {
-                        border: 1px dashed #CCCCCC;
+                        border: 1px solid #eee;
                         display: none;
                         margin-bottom: 25px;
                         margin-left: 35px;
-                        margin-top: -15px;
-                        padding: 10px 10px 0;
+                        margin-top: 15px;
+                        padding: 20px;
                         width: 40%;
                         background: #f8f8f8;
                         input[type="text"], textarea {
@@ -1723,7 +1750,7 @@ ul.cpm-todolists {
     }
 
     > li {
-        margin: 0 0 10px 0;
+        margin: 0;
     }
 
     .cpm-spinner {
@@ -2014,9 +2041,7 @@ ul.cpm-files {
 
         .cpm-file-name {
             padding: 5px 0;
-            border-bottom: 1px solid @borderColor;
-            border-top: 1px solid @borderColor;
-            margin: 0 0 10px 0;
+            margin: 0 0 0px 0;
             font-size: 13px;
         }
 

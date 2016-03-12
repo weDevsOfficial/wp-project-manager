@@ -27,11 +27,23 @@ function cpm_url_my_task() {
     return apply_filters( 'cpm_url_my_task', $url );
 }
 
+function cpm_url_user_activity() {
+    $url = add_query_arg( array( 'tab' => 'useractivity' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_user_activity', $url );
+
+}
+function cpm_url_current_task() {
+    $url = add_query_arg( array( 'tab' => 'current' ), cpm_url_my_task() );
+    return apply_filters( 'cpm_url_current_task', $url );
+
+}
+
 function cpm_url_outstanding_task() {
     $url = add_query_arg( array( 'tab' => 'outstanding' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_outstanding_task', $url );
 
 }
+
 function cpm_url_complete_task() {
     $url = add_query_arg( array( 'tab' => 'complete' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_complete_task', $url );
@@ -82,6 +94,21 @@ function cpm_url_project_details( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=project&action=single&pid=%d', admin_url( 'admin.php' ), $project_id );
     return apply_filters( 'cpm_url_project_details', $url, $project_id );
 }
+
+
+/**
+ * Displays a single project Overview
+ *
+ * @since 1.3.8
+ * @param int $project_id
+ * @return string
+ */
+function cpm_url_project_overview( $project_id ) {
+    $url = sprintf( '%s?page=cpm_projects&tab=project&action=overview&pid=%d', admin_url( 'admin.php' ), $project_id );
+    return apply_filters( 'cpm_url_project_overview', $url, $project_id );
+}
+
+
 
 /**
  * ------------------------------------------------
@@ -206,16 +233,16 @@ function cpm_url_single_milestone( $project_id, $milestone_id ) {
  * @return string
  */
 function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
-    $user = get_user_by( 'id', $user_id );
+    $user    = get_user_by( 'id', $user_id );
     $user_id = $user->ID;
-    $link = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );
-    $name = $user->display_name;
+    $link    = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );
+    $name    = $user->display_name;
 
     if ( $avatar ) {
         $name = get_avatar( $user_id, $size );
     }
 
-    $url = sprintf( '<a href="%s">%s</a>', $link, $name );
+    $url = sprintf( '<a href="%s" title="%s">%s</a>', $link, $user->display_name, $name );
 
     return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
 }
@@ -266,11 +293,11 @@ function cpm_url_comment( $comment_id, $project_id ) {
         return false;
     }
 
-    if ( $post->post_type == 'message' ) {
+    if ( $post->post_type == 'cpm_message' ) {
         $url = cpm_url_single_message( $project_id, $post->ID );
-    } else if ( $post->post_type == 'task_list' ) {
+    } else if ( $post->post_type == 'cpm_task_list' ) {
         $url = cpm_url_single_tasklist( $project_id, $post->ID );
-    } else if ( $post->post_type == 'task' ) {
+    } else if ( $post->post_type == 'cpm_task' ) {
         $list = get_post( $post->post_parent );
         $url = cpm_url_single_task( $project_id, $list->ID, $post->ID );
     }

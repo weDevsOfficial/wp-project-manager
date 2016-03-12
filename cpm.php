@@ -4,8 +4,8 @@
  * Plugin URI: https://wordpress.org/plugins/wedevs-project-manager/
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
- * Author URI: http://tareq.weDevs.com
- * Version: 1.3.8
+ * Author URI: https://tareq.co
+ * Version: 1.4
  * License: GPL2
  */
 
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      */
     public function define_constants() {
 
-        $this->define( 'CPM_VERSION', '1.3.8' );
+        $this->define( 'CPM_VERSION', '1.4' );
         $this->define( 'CPM_DB_VERSION', '1.1' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
@@ -240,6 +240,7 @@ class WeDevs_CPM {
         $this->activity     = CPM_Activity::getInstance();
         $this->ajax         = CPM_Ajax::getInstance();
         $this->notification = CPM_Notification::getInstance();
+        $this->managetransient   = CPM_Managetransient::getInstance();
 
         if ( function_exists( 'json_api_init' ) ) {
             $this->api   = CPM_API::instance();
@@ -309,18 +310,22 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array('jquery'), false, true );
+        wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array('jquery'), false, true );
+        wp_enqueue_script( 'trix_editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'plupload-handlers' );
 
-        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto' ), false, true );
+        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader' ), false, true );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array('jquery'), false, true );
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array('jquery', 'plupload-handlers'), false, true );
+        wp_enqueue_script( 'atwhojs', plugins_url( 'assets/js/jquery.atwho.min.js', __FILE__ ), '', false, false );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'  => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'cpm_nonce' ),
             'is_admin' => is_admin() ? 'yes' : 'no',
             'message'  => cpm_message(),
+            'todolist_show' => cpm_get_option( 'todolist_show') ,
             'plupload' => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
@@ -333,11 +338,12 @@ class WeDevs_CPM {
             )
         ) );
 
-        wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+        wp_enqueue_style( 'atwhocss', plugins_url( 'assets/css/jquery.atwho.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
-
+        wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
+        wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
         do_action( 'cpm_admin_scripts' );
 
     }
@@ -354,7 +360,7 @@ class WeDevs_CPM {
         $hook = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler'), 'dashicons-networking', 3 );
         add_submenu_page( 'cpm_projects', __( 'Projects', 'cpm' ), __( 'Projects', 'cpm' ), $capability, 'cpm_projects', array($this, 'admin_page_handler') );
         if ( current_user_can( 'manage_options' ) ) {
-            add_submenu_page( 'cpm_projects', __( 'Categories', 'cpm' ), __( 'Categories', 'cpm' ), $capability, 'edit-tags.php?taxonomy=project_category' );
+            add_submenu_page( 'cpm_projects', __( 'Categories', 'cpm' ), __( 'Categories', 'cpm' ), $capability, 'edit-tags.php?taxonomy=cpm_project_category' );
         }
         add_submenu_page( 'cpm_projects', __( 'Add-ons', 'cpm' ), __( 'Add-ons', 'cpm' ), $capability, 'cpm_addons', array($this, 'admin_page_addons') );
 

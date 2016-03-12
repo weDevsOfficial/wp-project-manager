@@ -1,4 +1,10 @@
 <?php
+	$users = $this->prepare_contacts();
+
+    if ( !$users ) {
+        return;
+    }
+
 	cpm_get_email_header();
 
     $tpbk = CPM_URL . '/assets/images/tpbk.png';
@@ -40,7 +46,7 @@
         <div style="width: 600px;">
             <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
                 <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-                    <?php echo cpm_get_option( 'email_discuss_header', 'cpm_mails' ); ?>
+                    <?php _e( 'NEW MESSAGE45', 'cpm'  ); ?>
                 </div>
             </div>
 

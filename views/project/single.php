@@ -2,25 +2,19 @@
 /**
  * Project dashboard page
  */
-cpm_get_header( __( 'Activity', 'cpm' ), $project_id );
+cpm_get_header( __( 'Activities', 'cpm' ), $project_id );
 ?>
-<h3 class="cpm-nav-title">
-    <?php
-    _e( 'Project Activity', 'cpm' );
 
-    if ( cpm_user_can_access( $project_id ) ) {
-        cpm_project_actions( $project_id );
-    }
-    ?>
-</h3>
-
-<ul class="cpm-activity dash">
+<ul class="cpm_activity_list">
     <?php
     $count = get_comment_count( $project_id );
+
+
     $activities = CPM_project::getInstance()->get_activity( $project_id, array() );
 
     if ( $activities ) {
-        echo cpm_activity_html( $activities );
+
+       echo cpm_activity_html( $activities );
     }
     ?>
 </ul>

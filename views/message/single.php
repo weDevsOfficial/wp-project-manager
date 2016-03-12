@@ -10,41 +10,33 @@ if ( !$message ) {
 
 if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
     echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
-    return;   
+    return;
 }
 
-cpm_get_header( __( 'Messages', 'cpm' ), $project_id );
+cpm_get_header( __( 'Discussions', 'cpm' ), $project_id );
 $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 ?>
 
-<h3 class="cpm-nav-title">
-    <a href="<?php echo cpm_url_message_index( $project_id ); ?>"><?php _e( '&larr; back', 'cpm' ); ?></a>
-</h3>
+
 
 <div class="cpm-single">
 
-    <h3 class="cpm-entry-title"><?php echo get_the_title( $message_id ); ?></h3>
+    <h3 class="cpm-box-title"><?php echo get_the_title( $message_id ); ?>
+        <span class="cpm-right cpm-edit-link">
+            <?php if( $message->post_author == get_current_user_id() ) { ?>
+                <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit dashicons dashicons-edit"></a>
+            <?php } ?>
+             <span class="<?php echo $private_class; ?>"></span>
+        </span>
+        <div class="cpm-small-title">
+            <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ) , date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
+        </div>
+    </h3>
 
-    <div class="cpm-entry-meta">
-        <span class="cpm-date"><?php echo cpm_get_date( $message->post_date, true ); ?></span>
-        <span class="cpm-separator">|</span>
-        <span class="cpm-date"><?php echo cpm_url_user( $message->post_author ); ?></span>
-        <span class="cpm-separator">|</span>
-        <span class="cpm-comment-num"><?php echo cpm_get_number( $message->comment_count ); ?></span>
-        
-        <?php if( $message->post_author == get_current_user_id() ) { ?>
-            <span class="cpm-separator">|</span>
-            <span class="cpm-edit-link">
-                <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit">
-                    <?php _e( 'Edit', 'cpm' ); ?>
-                </a>
-            </span>
-        <?php } ?>
-        <span class="<?php echo $private_class; ?>"></span>
-    </div>
+
 
     <div class="cpm-entry-detail">
-        <?php echo cpm_get_content( $message->post_content ); ?>
+        <?php  echo cpm_get_content( $message->post_content ); ?>
 
         <?php echo cpm_show_attachments( $message, $project_id ); ?>
     </div>
@@ -53,6 +45,7 @@ $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 
 </div>
 
+<div class="cpm-comment-area">
 <?php
 $comments = $msg_obj->get_comments( $message_id );
 
@@ -83,3 +76,4 @@ if ( $comments ) {
 ?>
 
 <?php echo cpm_comment_form( $project_id, $message_id ); ?>
+</div>

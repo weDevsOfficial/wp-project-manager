@@ -1,4 +1,11 @@
 <?php
+
+	$users = $this->prepare_contacts();
+
+    if ( !$users ) {
+        return;
+    }
+
     cpm_get_email_header();
 
     $tpbk = CPM_URL . '/assets/images/tpbk.png';
@@ -9,19 +16,19 @@
 	$comment_url = '';
 
     switch ($parent_post->post_type) {
-        case 'message':
+        case 'cpm_message':
             $type = __( 'Message', 'cpm' );
             $title = $parent_post->post_title;
             $comment_url = cpm_url_single_message( $project_id, $data['comment_post_ID'] );
             break;
 
-        case 'task_list':
+        case 'cpm_task_list':
             $title = $parent_post->post_title;
             $type = __( 'Task List', 'cpm' );
             $comment_url = cpm_url_single_tasklist( $project_id, $parent_post->ID );
             break;
 
-        case 'task':
+        case 'cpm_task':
             $type = __( 'Task', 'cpm' );
             $title = $parent_post->post_title;
             $comment_url = cpm_url_single_task( $project_id, $parent_post->post_parent, $parent_post->ID );
@@ -53,7 +60,7 @@
         <div style="width: 600px;">
             <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
                 <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-                    <?php echo cpm_get_option( 'email_comment_header', 'cpm_mails' ); ?>
+                    <?php _e( 'NEW COMMENT', 'cpm'  ); ?>
                 </div>
             </div>
 
