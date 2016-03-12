@@ -289,10 +289,10 @@ class CPM_Ajax {
         $respne['success'] = false;
 
         // cpm_user_can_delete_edit( $project_id, $list )
-        $start_date = sanitize_text_field($_POST['start_date']);
-        $end_date   = sanitize_text_field($_POST['end_date']);
+        $start_date = sanitize_text_field( $_POST['start_date'] );
+        $end_date   = sanitize_text_field( $_POST['end_date'] );
 
-        $start_date = !empty( $start_date ) ? date( 'Y-m-d H:i:s', strtotime( $start_date ) : '';
+        $start_date = !empty( $start_date ) ? date( 'Y-m-d H:i:s', strtotime( $start_date ) ) : '';
         $end_date   = !empty( $end_date ) ? date( 'Y-m-d H:i:s', strtotime( $end_date ) ) : '';
         $project_id = sanitize_text_field($_POST['project_id']);
         $task_id    = sanitize_text_field($_POST['task_id']);
