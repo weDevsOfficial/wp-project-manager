@@ -3069,7 +3069,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   visibility: visible;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos {
-  min-height: 90px;
   padding: 0px;
   margin: 0px;
 }
