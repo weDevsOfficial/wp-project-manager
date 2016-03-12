@@ -289,25 +289,26 @@ class CPM_Ajax {
         $respne['success'] = false;
 
         // cpm_user_can_delete_edit( $project_id, $list )
+        $start_date = sanitize_text_field($_POST['start_date']);
+        $end_date   = sanitize_text_field($_POST['end_date']);
 
-        $start_date = !empty(sanitize_text_field($_POST['start_date'])) ? date( 'Y-m-d H:i:s', strtotime(sanitize_text_field($_POST['start_date'])) ) : '';
-        $end_date = !empty(sanitize_text_field($_POST['end_date'])) ? date( 'Y-m-d H:i:s', strtotime(sanitize_text_field($_POST['end_date'])) ) : '';
+        $start_date = !empty( $start_date ) ? date( 'Y-m-d H:i:s', strtotime( $start_date ) : '';
+        $end_date   = !empty( $end_date ) ? date( 'Y-m-d H:i:s', strtotime( $end_date ) ) : '';
         $project_id = sanitize_text_field($_POST['project_id']);
-        $task_id = sanitize_text_field($_POST['task_id']);
+        $task_id    = sanitize_text_field($_POST['task_id']);
 
-        if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
+        if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
 
-            if(cpm_get_option( 'task_start_field' ) == 'on') {
-            update_post_meta( $_POST['task_id'], '_start', $start_date );
+            if ( cpm_get_option( 'task_start_field' ) == 'on' ) {
+                update_post_meta( $_POST['task_id'], '_start', $start_date );
             }
+
             update_post_meta( $_POST['task_id'], '_due', $end_date );
             $respne['success'] = true;
         }
 
-
-
-         echo json_encode($respne);
-         exit() ;
+        echo json_encode($respne);
+        exit() ;
     }
 
     function create_user() {
