@@ -16,22 +16,22 @@ foreach ($all_tasks as $task) {
     }
 }
 
-// Upgrade Database
+// Upgrade Database to change the post types
 global $wpdb;
-$sql_project_update = " UPDATE $wpdb->posts SET post_type = 'cpm_project' WHERE post_type = 'project'   ";
+$sql_project_update = " UPDATE $wpdb->posts SET post_type = 'cpm_project' WHERE post_type = 'project'";
 $wpdb->query($sql_project_update);
 
-$sql_task_update = " UPDATE $wpdb->posts SET post_type = 'cpm_task' WHERE post_type = 'task'   ";
+$sql_task_update = " UPDATE $wpdb->posts SET post_type = 'cpm_task' WHERE post_type = 'task'";
 $wpdb->query($sql_task_update);
 
-$sql_task_list_update = " UPDATE $wpdb->posts SET post_type = 'cpm_task_list' WHERE post_type = 'task_list'   ";
+$sql_task_list_update = " UPDATE $wpdb->posts SET post_type = 'cpm_task_list' WHERE post_type = 'task_list'";
 $wpdb->query($sql_task_list_update);
 
-$sql_milestone_update = " UPDATE $wpdb->posts SET post_type = 'cpm_milestne' WHERE post_type = 'milestone'   ";
+$sql_milestone_update = " UPDATE $wpdb->posts SET post_type = 'cpm_milestne' WHERE post_type = 'milestone'";
 $wpdb->query($sql_milestone_update);
 
-$sql_message_update = " UPDATE $wpdb->posts SET post_type = 'cpm_message' WHERE post_type = 'message'   ";
+$sql_message_update = " UPDATE $wpdb->posts SET post_type = 'cpm_message' WHERE post_type = 'message'";
 $wpdb->query($sql_message_update);
 
-$sql_message_update = " UPDATE $wpdb->term_taxonomy SET taxonomy = 'cpm_project_category' WHERE taxonomy = 'project_category'   ";
+$sql_message_update = " UPDATE $wpdb->term_taxonomy SET taxonomy = 'cpm_project_category' WHERE taxonomy = 'project_category'";
 $wpdb->query($sql_message_update);
