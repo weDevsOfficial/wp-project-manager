@@ -116,10 +116,17 @@ class CPM_Upgrade {
           `project_id` bigint(20) NOT NULL,
           `user_id` bigint(20) NOT NULL,
           `role` varchar(20) CHARACTER SET utf8 NOT NULL,
+          `component` varchar(20) CHARACTER SET utf8 NOT NULL,
           PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
+
+        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table_name LIKE 'component' ");
+        if( !$result ) {
+            $sql = " ALTER TABLE  $table_name ADD `component` varchar(20) CHARACTER SET utf8 NOT NULL ; ";
+            $wpdb->query($sql) ;
+        }
     }
 }

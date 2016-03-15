@@ -35,3 +35,11 @@ $wpdb->query($sql_message_update);
 
 $sql_message_update = " UPDATE $wpdb->term_taxonomy SET taxonomy = 'cpm_project_category' WHERE taxonomy = 'project_category'";
 $wpdb->query($sql_message_update);
+
+// New field add for ERP plugin
+$table_name = $wpdb->prefix . 'cpm_user_role';
+$result = $wpdb->get_results ("SHOW COLUMNS FROM  $table_name LIKE 'component' ");
+if( !$result ) {
+    $sql = " ALTER TABLE  $table_name  ADD `component` varchar(20) CHARACTER SET utf8 NOT NULL ; ";
+    $wpdb->query($sql) ;
+}

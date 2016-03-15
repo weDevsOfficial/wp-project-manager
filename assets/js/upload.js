@@ -47,7 +47,6 @@
     CPM_Uploader.prototype = {
 
         init: function (up, params) {
-            // console.log('uploader init');
         },
 
         added: function (up, files) {

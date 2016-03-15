@@ -378,7 +378,6 @@
                         parent.find('.milestone-detail').hide()
                             .next('.cpm-milestone-edit-form').html(res.content).fadeIn();
                         $('.datepicker').datepicker();
-                        //console.log($('#cpm-milestone-editor-'+res.id) );
 
                     }
                 });
@@ -498,7 +497,7 @@
                         action: 'cpm_comment_get',
                         '_wpnonce': CPM_Vars.nonce
                     };
-                //console.log(data);
+
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
                     res = $.parseJSON(res);
                     if (res.success && parent.find('form').length === 0) {
@@ -976,7 +975,7 @@
 	    }
 	    wrap.find('.cpm-mytas-current').text( res.current_task );
 	    wrap.find('.cpm-mytas-outstanding').text( res.outstanding);
-	    wrap.find('.cpm-mytas-complete').text(res.complete);             
+	    wrap.find('.cpm-mytas-complete').text(res.complete);
 	});
 
 	$(document).on('cpm.markUnDone.after', function(e, res, self) {
@@ -995,9 +994,9 @@
 	    }
 	    wrap.find('.cpm-mytas-current').text( res.current_task );
 	    wrap.find('.cpm-mytas-outstanding').text( res.outstanding);
-	    wrap.find('.cpm-mytas-complete').text(res.complete ); 
+	    wrap.find('.cpm-mytas-complete').text(res.complete );
 	});
- 
+
 })(jQuery);
 
 ;(function($) {
@@ -1630,7 +1629,6 @@ var $ = jQuery ;
     CPM_Uploader.prototype = {
 
         init: function (up, params) {
-            // console.log('uploader init');
         },
 
         added: function (up, files) {

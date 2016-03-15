@@ -399,5 +399,16 @@ function cpm() {
     return WeDevs_CPM::instance();
 }
 
+/**
+ * WP Project Manager  integration with  WP ERP
+ * @since  1.4
+ * @return CPM_ERP_Integration
+ */
+if (  class_exists( 'WeDevs_ERP' ) ) {
+    if ( ! class_exists( 'CPM_ERP_Integration' ) ) {
+        require_once dirname(__FILE__) . '/includes/integrations/erp/cpm-erp.php';
+    }
+}
+
 //cpm instance.
 $cpm = cpm();

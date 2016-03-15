@@ -378,7 +378,6 @@
                         parent.find('.milestone-detail').hide()
                             .next('.cpm-milestone-edit-form').html(res.content).fadeIn();
                         $('.datepicker').datepicker();
-                        //console.log($('#cpm-milestone-editor-'+res.id) );
 
                     }
                 });
@@ -499,7 +498,6 @@
                         action: 'cpm_comment_get',
                         '_wpnonce': CPM_Vars.nonce
                     };
-                //console.log(data);
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
                     res = $.parseJSON(res);
                     if (res.success && parent.find('form').length === 0) {
