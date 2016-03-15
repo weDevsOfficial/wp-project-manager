@@ -479,7 +479,8 @@
                     if (res.success) {
                         $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
                         $('.cpm-comment-form-wrap textarea').val('');
-                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
+                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false) ;
+                        $('.cpm-comment-form-wrap #cpm-comment-editor-cm').val('');
                         $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
                         $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
@@ -545,6 +546,7 @@
                         form.parent().remove();
                         $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
                         $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
+                        $('.cpm-comment-form-wrap #cpm-comment-editor-cm').val('');
                         $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
                     $('.cpm-colorbox-img').prettyPhoto();
@@ -956,8 +958,4 @@
         }
 
 
-     // for atwho
-     $('#mtes').atwho({
-    })
-     // end atwho
 })(jQuery);

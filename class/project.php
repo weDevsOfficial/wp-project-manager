@@ -132,13 +132,13 @@ class CPM_Project {
             wp_set_post_terms( $project_id, $project_cat, 'cpm_project_category', false);
 
             if ( $is_update ) {
-                do_action( 'cpm_project_update', $project_id, $data );
+                do_action( 'cpm_project_update', $project_id, $data, $posted );
             } else {
                 update_post_meta( $project_id, '_project_archive', 'no' );
                 update_post_meta( $project_id, '_project_active', 'yes' );
                 $settings = $this->settings_user_permission();
                 update_post_meta( $project_id, '_settings', $settings );
-                do_action( 'cpm_project_new', $project_id, $data );
+                do_action( 'cpm_project_new', $project_id, $data, $posted );
             }
         }
 
