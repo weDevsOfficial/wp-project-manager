@@ -1096,7 +1096,7 @@ function cpm_project_form( $project = null ) {
         <div class="cpm-form-item project-category">
             <?php
             if ( $project ) {
-                $terms = get_the_terms( $project->ID, 'project_category' );
+                $terms = get_the_terms( $project->ID, 'cpm_project_category' );
                 if ( $terms && ! is_wp_error( $terms ) ) {
                     $project_category = $terms[0]->term_id;
                 }
