@@ -1245,12 +1245,18 @@ class CPM_Ajax {
     }
 
     function  get_task_list(){
-        $project_id = $_POST['project_id'] ;
-        $offset = $_POST['offset'] ;
-        $privacy = $_POST['privacy'] == 'yes' ? true : false ;
+        $is_admin = ( isset( $_POST['is_admin'] ) ) ? sanitize_text_field( $_POST['is_admin'] ) : 'yes';
+        $project_id = ( isset( $_POST['project_id'] ) ) ? sanitize_text_field( $_POST['project_id'] ) : 0;
+        $offset = ( isset(  $_POST['offset'] ) ) ? sanitize_text_field( $_POST['offset'] ) : 0;
+        $privacy = $_POST['privacy'] == 'yes' ? true : false;
         $task_obj = CPM_Task::getInstance();
-        $lists = $task_obj->get_task_lists( $project_id, $offset,  $privacy) ;
+        $lists = $task_obj->get_task_lists( $project_id, $offset,  $privacy);
         $data = '';
+
+        if( 'no' == $is_admin ){
+         new CPM_Frontend_URLs();
+        }
+
          //var_dump($list) ;
         if(empty($lists)){
              echo json_encode( array(
@@ -1275,11 +1281,16 @@ class CPM_Ajax {
     }
 
     function  get_todo_list(){
-         $task_obj  = CPM_Task::getInstance();
-         $list_id = $_POST['list_id'];
-         $project_id = $_POST['project_id'];
-         $single = $_POST['single'];
-         $tasks = $task_obj->get_tasks_by_access_role( $list_id , $project_id );
+        $task_obj  = CPM_Task::getInstance();
+        $is_admin = isset($_POST['is_admin']) ? sanitize_text_field( $_POST['is_admin'] ) : 'yes';
+        $list_id =  sanitize_text_field( $_POST['list_id'] );
+        $project_id =  sanitize_text_field( $_POST['project_id'] );
+        $single =  sanitize_text_field( $_POST['single'] );
+        $tasks = $task_obj->get_tasks_by_access_role( $list_id , $project_id );
+
+        if( 'no' == $is_admin ){
+         new CPM_Frontend_URLs();
+        }
 
          $tasks = cpm_tasks_filter( $tasks );
             if ( count( $tasks['pending'] ) ) {

@@ -565,6 +565,7 @@ var $ = jQuery ;
                     list_id  : list_id,
                     single : single,
                     action: 'cpm_get_todo_list',
+                    is_admin : CPM_Vars.is_admin,
                 };
              $.post(CPM_Vars.ajaxurl, data, function (res) {
                 $(val).html(res) ;

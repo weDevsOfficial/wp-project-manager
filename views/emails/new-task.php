@@ -1,5 +1,5 @@
 <?php
-	cpm_get_email_header();
+    cpm_get_email_header();
     $task_data = cpm()->task->get_task( $task_id );
     $due_date = cpm_get_date( $task_data->due_date );
     if ( ! empty( $due_date ) ) {
@@ -12,6 +12,7 @@
 
     $tpbk = CPM_URL . '/assets/images/tpbk.png';
     $author      = wp_get_current_user();
+    $linkto = cpm_get_option('email_url_link') ;
 
     // $template_vars = array(
     //     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
