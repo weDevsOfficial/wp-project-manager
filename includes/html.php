@@ -552,9 +552,7 @@ function cpm_show_comment( $comment, $project_id, $class = '' ) {
                         <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" <?php cpm_data_attr( array( 'project_id' => $project_id, 'id' => $comment->comment_ID, 'confirm' => 'Are you sure to delete this comment?' ) ); ?>></a>
                     </span>
                 </div>
-                <?php }else{
-                    echo 'No Way';
-                    }  ?>
+                <?php } ?>
             </div>
             <div class="cpm-comment-content">
                 <?php
