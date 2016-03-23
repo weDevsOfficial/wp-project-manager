@@ -482,7 +482,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
             <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
             <div class="item message cpm-sm-col-12 ">
-                <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo $text?>">
+                <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo   esc_html($text) ?>">
                 <trix-editor input="<?php echo 'cpm-comment-editor-' . $comment_id ?>"></trix-editor>
 
             </div>
