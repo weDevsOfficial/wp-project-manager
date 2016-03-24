@@ -327,17 +327,17 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
                 <span class="<?php echo $private; ?>"></span>
 
-                <div class="cpm-right">
+                
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
+                <div class="cpm-right cpm-pin-list"><a title="" href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>"   ><span class="dashicons dashicons-admin-post"></span></a></div>
+                <div class="cpm-right">
                     <!-- <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>-->
+
                     <a href="#" class="cpm-list-edit cpm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
                     <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
-                <?php } else { ?>
-                    <a href="#" class="move">&nbsp;</a>
-                <?php } ?>
-                </div>
-
+                    </div>
+                <?php }  ?>
             </h3>
 
             <div class="cpm-entry-detail" >

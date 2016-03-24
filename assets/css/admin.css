@@ -3192,6 +3192,15 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
 }
+.cpm .cpm-todolists .sticky_list .cpm-todolist {
+  border: #bdbdbb  solid 1px ;
+}
+.cpm .cpm-todolists .sticky_list .cpm-list-header {
+  background: #f1f9e8  ;
+}
+.cpm .cpm-todolists .sticky_list .cpm-pin-list a {
+  visibility: visible  !important;
+}
 .cpm .cpm-new-message-btn {
   margin: 0px 0px 20px;
 }

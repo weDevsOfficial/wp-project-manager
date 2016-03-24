@@ -493,6 +493,17 @@ class CPM_Project {
             $ret = new stdClass();
             $ret->discussion = count( $discussions );
             $ret->todolist   = count( $todolists );
+            $sticky = get_option( 'sticky_posts' );
+            if(!empty( $sticky )){
+                $sticky = implode(',', $sticky) ;
+                $sql_pin_list = "SELECT ID FROM $wpdb->posts WHERE `post_type` = 'cpm_task_list' AND `post_status` = 'publish' AND `post_parent` = $project_id  AND ID IN( $sticky );";
+                $pin_todolists = $wpdb->get_results( $sql_pin_list );
+                $ret->pin_list   = count(  $pin_todolists );
+                $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
+            }else {
+                $ret->pin_list   = 0 ;
+            }
+            $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
             $ret->todos      = count( $todos );
             $ret->comments   = $total_comment;
             $ret->files      = (int) $files;

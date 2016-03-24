@@ -42,6 +42,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
         add_action( 'wp_ajax_cpm_tasklist_delete', array($this, 'delete_tasklist') );
+        add_action( 'wp_ajax_cpm_tasklist_pinstatus_update', array($this, 'update_tasklist_pinstatus') );
 
         add_action( 'wp_ajax_cpm_get_task_list', array($this, 'get_task_list') );
         add_action( 'wp_ajax_cpm_get_todo_list', array($this, 'get_todo_list') );
@@ -728,6 +729,46 @@ class CPM_Ajax {
                 'success' => true,
                 'id' => $list_id,
                 'content' => cpm_task_list_html( $list, $project_id )
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+
+        exit;
+    }
+    /**
+     *  Update Task list Pin Status
+     *  @since 1.4
+     */
+    function update_tasklist_pinstatus() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $post_id = sanitize_text_field( $posted['list_id'] );
+        /*$status = sanitize_text_field( $posted['pin_status'] );
+        $update  = update_post_meta( $list_id, '_pin_list', $status );
+        */
+        $stickies = get_option('sticky_posts');
+
+        if ( !is_array($stickies) )
+            $stickies = array($post_id);
+
+        if ( ! in_array($post_id, $stickies) )
+        {
+            $stickies[] = $post_id;
+        }else {
+            $offset = array_search($post_id, $stickies);
+            if ( false === $offset )
+                return;
+            array_splice($stickies, $offset, 1);
+        }
+         $update = update_option('sticky_posts', $stickies);
+        if (  $update ) {
+
+            echo json_encode( array(
+                'success' => true,
             ) );
         } else {
             echo json_encode( array(
