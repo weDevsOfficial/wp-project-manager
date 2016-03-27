@@ -1,3 +1,8 @@
+= 1.4 - March 27, 2016 =
+* [new] Task List Sticky option
+* [new] Change file icon set
+* [fix] Front-end URL issue
+
 = 1.4 - March 13, 2016 =
 
  * [new] UI Re-designed

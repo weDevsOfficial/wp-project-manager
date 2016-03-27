@@ -2859,7 +2859,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-right: 10px;
   border: solid 1px #E5E5E5;
   padding: 20px 10px;
-  text-align: center;
+  text-align: center !important;
   background: #ffffff;
   width: 15.5%;
   margin-bottom: 20px;
@@ -3148,6 +3148,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-weight: bold;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer {
+  border-top: solid 1px #eeeeee;
   padding: 0px;
   margin: 0px;
   padding-left: 15px;
@@ -3192,14 +3193,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
 }
-.cpm .cpm-todolists .sticky_list .cpm-todolist {
-  border: #bdbdbb  solid 1px ;
-}
-.cpm .cpm-todolists .sticky_list .cpm-list-header {
-  background: #f1f9e8  ;
-}
 .cpm .cpm-todolists .sticky_list .cpm-pin-list a {
   visibility: visible  !important;
+}
+.cpm .cpm-todolists .sticky_list .cpm-pin-list a span {
+  color: #019dd6;
+  font-weight: bold;
 }
 .cpm .cpm-new-message-btn {
   margin: 0px 0px 20px;
@@ -3475,7 +3474,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border: none;
 }
 .cpm .cpm-files-page .cpm-files li img {
-  min-width: 222px;
+  height: 150px;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-name,
 .cpm .cpm-files-page .cpm-files li .cpm-file-meta {

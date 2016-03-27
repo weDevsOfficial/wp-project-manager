@@ -3286,7 +3286,7 @@ ul.cpm-files {
                     margin-right: 10px;
                     border: solid 1px #E5E5E5;
                     padding: 20px 10px;
-                    text-align: center;
+                    text-align: center !important;
                     background: #ffffff;
                     width: 15.5%;
                     margin-bottom: 20px;
@@ -3650,6 +3650,7 @@ ul.cpm-files {
             }
 
             footer.cpm-list-footer {
+                border-top :solid 1px @gray;
                 padding: 0px;
                 margin:0px;
                 padding-left: 15px;
@@ -3709,15 +3710,19 @@ ul.cpm-files {
         }
          .sticky_list{
              .cpm-todolist{
-                 border : #bdbdbb  solid 1px ;
+
                 }
 
                .cpm-list-header {
-                   background: #f1f9e8  ;
+
                }
 
                .cpm-pin-list a{
                    visibility: visible  !important;
+                   span{
+                       color: @blueColor;
+                       font-weight: bold;
+                   }
                 }
             }
 
@@ -4098,8 +4103,7 @@ ul.cpm-files {
                     margin-bottom: 30px;
                     border: none;
                     img{
-                        min-width: 222px;
-
+                        height: 150px;
                     }
                     .cpm-file-name,
                     .cpm-file-meta{

@@ -24,7 +24,7 @@ class CPM_Router {
 		return self::$_instance;
 	}
 
-	
+
 
 	/**
 	 * Shows the add-ons page on admin
@@ -52,7 +52,7 @@ class CPM_Router {
 		include_once CPM_PATH . '/includes/urls.php';
 		include_once CPM_PATH . '/includes/html.php';
 		include_once CPM_PATH . '/includes/shortcodes.php';
-		
+
 	}
 
 	/**
@@ -98,7 +98,7 @@ class CPM_Router {
 	 * @return type
 	 */
 	static public function output() {
-		 echo '<div class="wrap cpm">';
+		 echo '<div class="wrap cpm cpm-front-end">';
 
 		$page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
 		$tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
@@ -135,7 +135,7 @@ class CPM_Router {
 
 								$file = CPM_PATH . '/views/project/index.php';
 								break;
-						} 
+						}
 
 						break;
 
@@ -147,7 +147,7 @@ class CPM_Router {
 
 							case 'single':
 								$file = CPM_PATH . '/views/message/single.php';
-								break; 
+								break;
 
 							default:
 								$file = CPM_PATH . '/views/message/index.php';
@@ -202,7 +202,7 @@ class CPM_Router {
 			default:
 				break;
 		}
-		
+
 		$file = apply_filters( 'cpm_tab_file', $file, $project_id, $page, $tab, $action );
 
 		if ( file_exists( $file )) {

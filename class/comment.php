@@ -262,3 +262,24 @@ class CPM_Comment {
     }
 
 }
+
+
+/**
+ * Chnage File icon
+ * @param type $icon
+ * @param type $mime
+ * @param type $post_id
+ * @return type
+ */
+function cc_mime_types($mimes) {
+  $mimes['svg'] = 'image/svg+xml';
+  return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');
+
+    function change_mime_icon($icon, $mime = null, $post_id = null){
+        $folder = plugins_url( '../assets/images/icons/', __FILE__ ); ;
+        $icon = str_replace(get_bloginfo('wpurl').'/wp-includes/images/media/',$folder, $icon);
+        return $icon;
+    }
+    add_filter('wp_mime_type_icon', 'change_mime_icon');

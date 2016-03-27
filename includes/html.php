@@ -327,7 +327,6 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
                 <span class="<?php echo $private; ?>"></span>
 
-                
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
                 <div class="cpm-right cpm-pin-list"><a title="" href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>"   ><span class="dashicons dashicons-admin-post"></span></a></div>
