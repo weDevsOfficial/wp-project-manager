@@ -51,6 +51,7 @@
   font-size: 13px;
   font-weight: normal;
   color: #999999;
+  margin-top: 10px;
 }
 .cpm .cpm-lock {
   background: url('../images/lock.png') no-repeat scroll rgba(0, 0, 0, 0);
@@ -157,6 +158,11 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
   padding: 0 10px;
+}
+.cpm-box-shadow {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
 }
 span.required {
   color: #cd0a0a;
@@ -1230,69 +1236,72 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
-.cpm-todolists .submit {
+ul.cpm-todolists .submit {
   margin: 10px 0;
   padding: 0 0 15px 0;
 }
-.cpm-todolists > li.ui-state-highlight {
+ul.cpm-todolists > li {
+  margin: 0;
+}
+ul.cpm-todolists > li.ui-state-highlight {
   min-height: 100px;
 }
-.cpm-todolists article.cpm-todolist {
+ul.cpm-todolists article.cpm-todolist {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
-.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
+ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
   border: 1px solid #e5e5e5;
   margin: 20px;
   padding: 15px 15px 0;
   width: 40%;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
   margin: 15px 0 10px 15px;
   border: 1px solid #eee;
   padding: 15px 15px 0 15px;
   width: 40%;
   background: #F8F8F8;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
   width: 98%;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
   width: 98% !important;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
   height: 30px;
   color: #9B9B9B;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
-.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
   display: block;
   font-size: 13px;
 }
-.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
-.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
+ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
+ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
   margin-top: 8px;
 }
-.cpm-todolists article.cpm-todolist header h3 {
+ul.cpm-todolists article.cpm-todolist header h3 {
   margin: 0;
   font-size: 14px;
   padding-left: 5px;
   padding-bottom: 5px;
 }
-.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
   font-style: italic;
   padding: 0 5px;
 }
-.cpm-todolists article.cpm-todolist header .cpm-comment-count {
+ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1302,10 +1311,10 @@ ul.cpm-activity ul li:before {
   padding: 1px 7px;
   margin-right: 5px;
 }
-.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
+ul.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
   color: #999;
 }
-.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   font-size: 11px;
   line-height: 15px;
   border: 1px solid #eee;
@@ -1321,34 +1330,34 @@ ul.cpm-activity ul li:before {
   top: 4px;
   z-index: 9999;
 }
-.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
+ul.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
   display: inline-block;
 }
-.cpm-todolists article.cpm-todolist header .cpm-move-trak {
+ul.cpm-todolists article.cpm-todolist header .cpm-move-trak {
   left: -12px;
   padding: 3px 3px 0 3px;
 }
-.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-.cpm-todolists article.cpm-todolist .ui-state-highlight {
+ul.cpm-todolists article.cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
 }
-.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
+ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
   display: none;
 }
-.cpm-todolists article.cpm-todolist p {
+ul.cpm-todolists article.cpm-todolist p {
   margin: 0;
   padding-bottom: 10px;
 }
-.cpm-todolists article.cpm-todolist > ul {
+ul.cpm-todolists article.cpm-todolist > ul {
   margin: 0 0 0 15px;
   min-height: 6px;
   position: relative;
   list-style: none;
 }
-.cpm-todolists article.cpm-todolist > ul li {
+ul.cpm-todolists article.cpm-todolist > ul li {
   clear: both;
   line-height: 20px;
   padding-left: 19px;
@@ -1356,27 +1365,27 @@ ul.cpm-activity ul li:before {
   word-wrap: break-word;
   margin: 0;
 }
-.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
   padding-top: 5px;
 }
-.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
   width: 100%;
 }
-.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
-.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   font-size: 11px;
   line-height: 14px;
   color: #999;
 }
-.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
   display: none;
 }
-.cpm-todolists > li {
+ul.cpm-todolists > li {
   margin: 0;
 }
-.cpm-todolists .cpm-spinner {
+ul.cpm-todolists .cpm-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   height: 16px;
   display: none;
@@ -1387,7 +1396,7 @@ ul.cpm-activity ul li:before {
   top: 2px;
   left: 9px;
 }
-.cpm-todolists .cpm-new-task-spinner {
+ul.cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
@@ -2430,8 +2439,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li {
   float: left;
-  margin-bottom: 0px;
-  margin-right: 0px;
+  margin: 0;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a {
   padding: 12px 20px 12px 40px;
@@ -2503,9 +2511,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 0px;
   margin: 0px;
 }
+.cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view {
+  margin: 14px 0 0 0;
+}
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li {
   float: right;
-  margin-right: 15px;
+  margin: 0 15px 0 0;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
   color: #eeeeee;
@@ -2557,10 +2568,21 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0px;
   margin-left: 5px;
   margin-bottom: 50px;
+  *zoom: 1;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta ul:before,
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta ul:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.cpm .cpm-project-grid .cpm-project .cpm-project-meta ul:after {
+  clear: both;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-project-meta ul li {
   float: left;
-  width: 41% ;
+  width: 41%;
+  margin: 0;
   list-style: none;
   padding-left: 25px;
   font-size: 13px;
@@ -2749,9 +2771,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border: none;
   float: left;
   padding: 0px;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-right: 5px;
+  margin: 10px 0 0 0;
 }
 .cpm .cpm-project-header ul li a {
   padding: 6px 5px 6px 40px;
@@ -2761,7 +2781,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border-bottom: solid 2px #ffffff;
   color: #aaa;
   min-height: 42px;
-  margin-right: 5px;
   height: 52px;
   background-size: 20px 16px;
   background-position: 15px 30%;
@@ -2968,7 +2987,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-left: 10px;
 }
 .cpm .project-overview .cpm-right-part .user_list li {
-  margin-bottom: 15px;
+  margin: 0 0 15px 0;
   clear: left;
 }
 .cpm .project-overview .cpm-right-part .user_list li img {
@@ -2988,7 +3007,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-activity-list li.cpm-row {
   display: flex;
   vertical-align: middle;
-  margin-bottom: 15px;
+  margin: 0 0 15px 0;
   padding: 0px;
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
@@ -3326,7 +3345,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm #cpm-milestone-page .cpm-milestone-link {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   list-style: none;
 }
 .cpm #cpm-milestone-page .cpm-milestone-link li {

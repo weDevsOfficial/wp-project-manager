@@ -45,7 +45,7 @@ $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 
 </div>
 
-<div class="cpm-comment-area">
+<div class="cpm-comment-area cpm-box-shadow">
 <?php
 $comments = $msg_obj->get_comments( $message_id );
 
