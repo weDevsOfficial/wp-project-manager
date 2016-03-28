@@ -1,40 +1,4 @@
 <?php
-/**
- * Plugin Name: WP Project Manager Pro - ERP Integration
- * Description: ERP integration add-on for WP Project Manager
- * Plugin URI:
- * Author: weDevs
- * Author URI: http://wedevs.com
- * Version: 0.1-alpha
- * License: GPL2
- * Text Domain: cpmerp
- * Domain Path: languages
- *
- * Copyright (c) 2014 weDevs (email: info@wedevs.com). All rights reserved.
- *
- * Released under the GPL license
- * http://www.opensource.org/licenses/gpl-license.php
- *
- * This is an add-on for WordPress
- * http://wordpress.org/
- *
- * **********************************************************************
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- * **********************************************************************
- */
-
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -48,27 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package WP-ERP/WP Project Manager
  */
 class CPM_ERP_Integration {
-
-	/**
-     * Plugin version
-     *
-     * @var string
-     */
-    public $version = '0.1';
-
-   	/**
-     * Check CPM active or not
-     *
-     * @var cpm $cpm
-     */
-    public static $cpm = true;
-
-    /**
-     * Check ERP active or not
-     *
-     * @var erp $erp
-     */
-    public static $erp = true;
 
     /**
      * Containing CPM_ERP activity class object
@@ -132,7 +75,6 @@ class CPM_ERP_Integration {
     * @return void
     */
     private function define_constants() {
-        define( 'CPMERP_VERSION', $this->version );
         define( 'CPMERP_FILE', __FILE__ );
         define( 'CPMERP_PATH', dirname( CPMERP_FILE ) );
         define( 'CPMERP_INCLUDES', CPMERP_PATH . '/includes' );
@@ -190,16 +132,6 @@ class CPM_ERP_Integration {
         ));
     }
 
-    /**
-     * Placeholder for activation function
-     *
-     * @since 0.1
-     *
-     * Nothing being called here yet.
-     */
-    public static function warning () {
-    	require_once dirname ( __FILE__ ) . '/views/warning.php';
-    }
 }
 
 /**
@@ -210,23 +142,6 @@ class CPM_ERP_Integration {
  * @return void
  */
 function cpmerp_init() {
-
-    // Checking project manager plugin active or not
-    if ( ! class_exists( 'WeDevs_CPM' ) ) {
-        CPM_ERP_Integration::$cpm = false;
-    }
-
-    // Checking ERP plugin active or not
-    if ( ! class_exists( 'WeDevs_ERP' ) ) {
-        CPM_ERP_Integration::$erp = false;
-    }
-
-    // Show warning if CPM or ERP not installed
-    if ( ! CPM_ERP_Integration::$cpm || ! CPM_ERP_Integration::$erp ) {
-    	add_action( 'admin_notices', array( 'CPM_ERP_Integration', 'warning' ) );
-        return;
-    }
-
     $erp_active_modules = wperp()->modules->get_active_modules();
 
     // Checking HR module active or not
@@ -264,23 +179,3 @@ function cpm_get_project_by_user( $user_id ) {
 
     return $wpdb->get_results( $sql );
 }
-
-    /**
-    * Doing after plugin active
-    *
-    * @since  0.1
-    *
-    * @return void
-    */
-    function  erp_integration_plugin_activated(){
-        global $wpdb;
-
-        $table  = $wpdb->prefix . 'cpm_user_role';
-        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'component' ");
-        if( !$result ) {
-            $sql = " ALTER TABLE  $table ADD component VARCHAR(64) NOT NULL ; ";
-            $wpdb->query($sql) ;
-        }
-
-    }
-register_activation_hook( __FILE__, 'erp_integration_plugin_activated' );

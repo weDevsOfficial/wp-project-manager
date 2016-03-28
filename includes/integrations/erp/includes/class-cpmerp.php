@@ -77,7 +77,8 @@ class CPM_ERP {
         add_filter( 'cpm_user_role', array( $this, 'get_employee_role' ), 10, 2 );
         add_filter( 'cpm_projects_where', array( $this, 'projects_were' ) );
         add_filter( 'erp_hr_employee_single_tabs', array( $this, 'profile_tab' ) );
-        if( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
+
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
             add_filter( 'cpm_my_task_user_id', array( $this, 'get_my_task_user_id' ) );
             add_filter( 'cpm_my_task_title', array( $this, 'my_task_title' ) );
             add_filter( 'cpm_db_project_users', array( $this, 'db_project_users' ), 10, 3 );
@@ -136,18 +137,11 @@ class CPM_ERP {
      * @return boolean
      */
     function  url_user_activity(){
-      //  return true;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-      /* $user_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
-       $cpmprotask = CPM_Pro_Task::getInstance() ;
-       $count =  $cpmprotask->mytask_count( $user_id ) ;
+        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id='.$id.'&tab=employee_task&subtab=useractivity' );
 
-       include  CPM_PRO_PATH  . '/views/task/overview.php';
-       */
-       $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
-
-       $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id='.$id.'&tab=employee_task&subtab=useractivity' );
-    	return $url;
+        return $url;
     }
 
     /**
@@ -158,18 +152,10 @@ class CPM_ERP {
      * @return boolean
      */
     function  url_user_overview(){
-        //  return true;
-        /*
-         $user_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
-         $cpmprotask = CPM_Pro_Task::getInstance() ;
-         $count =  $cpmprotask->mytask_count( $user_id ) ;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-         include  CPM_PRO_PATH  . '/views/task/overview.php';
-         */
-    $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
-
-    $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id='.$id.'&tab=employee_task&subtab=overview' );
-    return $url;
+        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id='.$id.'&tab=employee_task&subtab=overview' );
+        return $url;
     }
 
     /**
@@ -210,22 +196,23 @@ class CPM_ERP {
      * @return string
      */
     function user_task_tab( $tab ) {
-        // if ( isset( $_GET['subtab'] ) ) echo $_GET['subtab']  ;
         $ctab = 'overview';
+
     	if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'outstanding' ) {
     	   $ctab =  'outstanding';
     	} else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'complete'  ) {
     		$ctab =  'complete';
-    	}else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'overview'  ) {
-                $ctab =  'overview';
-        }else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'useractivity'  ) {
-                $ctab =  'useractivity';
-        }else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'current'  ) {
-                $ctab =  'current';
+    	} else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'overview'  ) {
+            $ctab =  'overview';
+        } else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'useractivity'  ) {
+            $ctab =  'useractivity';
+        } else if ( isset( $_GET['subtab'] ) && $_GET['subtab'] == 'current'  ) {
+            $ctab =  'current';
         }
-        if( $ctab !== ''){
+
+        if ( $ctab !== '') {
             return $ctab ;
-        }else {
+        } else {
             return $tab;
         }
     }
@@ -273,7 +260,6 @@ class CPM_ERP {
     function my_task_title( $title ) {
 
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'erp-hr-employee' ) ) {
-
             return false;
         }
 
