@@ -132,13 +132,13 @@ class CPM_Project {
             wp_set_post_terms( $project_id, $project_cat, 'cpm_project_category', false);
 
             if ( $is_update ) {
-                do_action( 'cpm_project_update', $project_id, $data );
+                do_action( 'cpm_project_update', $project_id, $data, $posted );
             } else {
                 update_post_meta( $project_id, '_project_archive', 'no' );
                 update_post_meta( $project_id, '_project_active', 'yes' );
                 $settings = $this->settings_user_permission();
                 update_post_meta( $project_id, '_settings', $settings );
-                do_action( 'cpm_project_new', $project_id, $data );
+                do_action( 'cpm_project_new', $project_id, $data, $posted );
             }
         }
 
@@ -493,6 +493,17 @@ class CPM_Project {
             $ret = new stdClass();
             $ret->discussion = count( $discussions );
             $ret->todolist   = count( $todolists );
+            $sticky = get_option( 'sticky_posts' );
+            if(!empty( $sticky )){
+                $sticky = implode(',', $sticky) ;
+                $sql_pin_list = "SELECT ID FROM $wpdb->posts WHERE `post_type` = 'cpm_task_list' AND `post_status` = 'publish' AND `post_parent` = $project_id  AND ID IN( $sticky );";
+                $pin_todolists = $wpdb->get_results( $sql_pin_list );
+                $ret->pin_list   = count(  $pin_todolists );
+                $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
+            }else {
+                $ret->pin_list   = 0 ;
+            }
+            $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
             $ret->todos      = count( $todos );
             $ret->comments   = $total_comment;
             $ret->files      = (int) $files;

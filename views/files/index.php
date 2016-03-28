@@ -36,7 +36,7 @@ if ( $attachments ) {
         if ( $parent->post_type == 'cpm_task' ) {
 
             $is_private = get_post_meta( $attachment->post_parent, '_task_privacy', true );
-            if( ! cpm_user_can_access( $project_id, 'todo_view_private', $is_private ) ) {
+            if( ! cpm_user_can_access_file( $project_id, 'todo_view_private', $is_private ) ) {
                 continue;
             }
             $task_list = get_post( $parent->post_parent );
@@ -44,7 +44,7 @@ if ( $attachments ) {
 
         } else if ( $parent->post_type == 'cpm_task_list' ) {
             $is_private = get_post_meta( $attachment->post_parent, '_tasklist_privacy', true );
-            if( ! cpm_user_can_access( $project_id, 'tdolist_view_private', $is_private ) ) {
+            if( ! cpm_user_can_access_file( $project_id, 'todolist_view_private', $is_private ) ) {
                 continue;
             }
             $topic_url = cpm_url_single_tasklist( $project_id, $parent->ID );
@@ -81,7 +81,7 @@ if ( $attachments ) {
                     <ul>
                         <li class="cpm-go-discussion"> <a href="<?php echo esc_url($topic_url) ?>"></a> </li>
                         <li class="cpm-download-file"> <a href="<?php echo $file_url ?>"> </a> </li>
-                        <li class="cpm-comments-count"> <a href="JavaScript:void(0)" >  </a> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> <?php echo get_comments_number( $parent->ID )?></div></li>
+                        <li class="cpm-comments-count"> <span >  </span> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> <?php echo get_comments_number( $parent->ID )?></div></li>
                     </ul>
                 </div>
             </div>
@@ -94,4 +94,4 @@ if ( $attachments ) {
      cpm_blank_template('files', $project_id) ;
 }
 ?>
- 
+

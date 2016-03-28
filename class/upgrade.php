@@ -1,6 +1,7 @@
 <?php
 
 class CPM_Upgrade {
+
     private static $_instance;
 
     /**
@@ -80,10 +81,11 @@ class CPM_Upgrade {
     function plugin_upgrades() {
         $current_version = get_option( 'cpm_version', '0.4.6' );
         $db_updates      = array(
-            '0.5' => 'upgrade-0.5.php',
-            '1.0' => 'upgrade-1.0.php',
-            '1.1' => 'upgrade-1.1.php',
-            '1.4' => 'upgrade-1.4.php',
+            '0.5'   => 'upgrade-0.5.php',
+            '1.0'   => 'upgrade-1.0.php',
+            '1.1'   => 'upgrade-1.1.php',
+            '1.4'   => 'upgrade-1.4.php',
+            '1.4.1' => 'upgrade-1.4.1.php',
         );
 
         $this->create_user_role_table();
@@ -116,6 +118,7 @@ class CPM_Upgrade {
           `project_id` bigint(20) NOT NULL,
           `user_id` bigint(20) NOT NULL,
           `role` varchar(20) CHARACTER SET utf8 NOT NULL,
+          `component` varchar(20) CHARACTER SET utf8 NOT NULL,
           PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 

@@ -63,6 +63,11 @@ class CPM_Admin {
         }
         $role_names = $wp_roles->get_names();
 
+        $url_links['backend'] = 'Link to Backend'  ;
+        if( cpm_is_pro() ) {
+            $url_links['frontend'] =  'Link to Front-end' ;
+        };
+
         $settings_fields['cpm_general'] = apply_filters( 'cpm_settings_field_general', array(
             array(
                 'name'    => 'upload_limit',
@@ -118,6 +123,14 @@ class CPM_Admin {
                 'type'    => 'text',
                 'desc'    => '',
                 'default' => get_option( 'admin_email' )
+            ),
+            array(
+                'name'    => 'email_url_link',
+                'label'   => __( 'URL Link to front or admin', 'cpm' ),
+                'type'    => 'radio',
+                'desc'    => __( 'URL Link to front or admin.', 'cpm' ),
+                'default' => 'backend',
+                'options' => $url_links
             ),
             array(
                 'name'    => 'email_type',
@@ -229,6 +242,8 @@ Task: %TASK%',
                 'desc'    => __('Enable Bcc')
             ),
         ) );
+
+        
 
         return apply_filters( 'cpm_settings_fields', $settings_fields );
     }

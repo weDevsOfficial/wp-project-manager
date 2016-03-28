@@ -18,7 +18,8 @@
                         offset :offset,
                         project_id  : project_id ,
                         privacy  : privacy ,
-                        action: 'cpm_get_task_list'
+                        action: 'cpm_get_task_list',
+                        is_admin : CPM_Vars.is_admin,
                     };
 
                     $(".loadmoreanimation").show() ;
@@ -93,6 +94,7 @@
                        list_id  : list_id,
                        single : single,
                        action: 'cpm_get_todo_list',
+                       is_admin : CPM_Vars.is_admin,
                     };
                 $.post(CPM_Vars.ajaxurl, data, function (res) {
                     $(val).html(res) ;

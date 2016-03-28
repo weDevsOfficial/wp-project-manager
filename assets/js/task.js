@@ -39,6 +39,7 @@
             $('.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
             $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
             $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
+            $('.cpm-todolists').on('click', 'a.cpm-list-pin', this.togglePinStatus);
             // Load more
 
 
@@ -345,6 +346,32 @@
                 article.find('.cpm-list-edit-form').slideToggle();
         },
 
+       togglePinStatus: function (e) {
+            e.preventDefault();
+            var spinner = $(this).find('.cpm-new-list-spinner');
+            var status = $(this).attr('data-status');
+            var new_status = 'yes'
+            if( status == 'yes' ){
+                new_status = 'no'
+            }
+            data = {
+                    list_id: $(this).attr('data-list_id'),
+                    action: 'cpm_tasklist_pinstatus_update',
+                    pin_status : new_status,
+                    '_wpnonce': CPM_Vars.nonce
+            };
+            spinner.show();
+            $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    spinner.hide();
+                    res = JSON.parse(res);
+                    if(res.success === true) {
+                        location.reload();
+                    } else {
+                        alert('something went wrong!');
+                    }
+                });
+        },
+
         submitNewTodo: function (e) {
             e.preventDefault();
 
@@ -565,6 +592,7 @@ var $ = jQuery ;
                     list_id  : list_id,
                     single : single,
                     action: 'cpm_get_todo_list',
+                    is_admin : CPM_Vars.is_admin,
                 };
              $.post(CPM_Vars.ajaxurl, data, function (res) {
                 $(val).html(res) ;

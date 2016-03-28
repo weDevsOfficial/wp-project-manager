@@ -1,6 +1,6 @@
 === WP Project Manager ===
 Contributors: tareq1988, wedevs
-Donate Link: http://tareq.wedevs.com/donate/
+Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 3.5
 Tested up to: 4.4.2
@@ -8,13 +8,13 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress Project Management plugin. Project Management with WordPress has never been this easy!
+The best WordPress Project Management plugin. Project Management with WordPress has never been this easy!
 
 == Description ==
 
 [youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
 
-A WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
+The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
 
 [Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/) | [Demo](http://demo.wedevs.com/pm/wp-admin/)
 
@@ -56,10 +56,10 @@ A WordPress Project Management plugin. Manage your project simply with the \*rig
 This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
 
 = Author =
-Brought to you by [Tareq Hasan](http://tareq.wedevs.com) from [weDevs](http://wedevs.com)
+Brought to you by [Tareq Hasan](https://tareq.co) from [weDevs](http://wedevs.com)
 
 = Donate =
-Please [donate](http://tareq.wedevs.com/donate/) for this awesome plugin to continue it's development to bring more awesome features.
+Please [donate](https://tareq.co/donate/) for this awesome plugin to continue it's development to bring more awesome features.
 
 = Contribution =
 * French translation by Corentin allard
@@ -108,6 +108,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 10. All attached files from message, comment, to-do can be found here.
 
 == Changelog ==
+
+= 1.4.1 - March 28, 2016 =
+
+ * [new] Task list sticky option added as a replacement for sorting
+ * [new] Proper mime type icon set
+ * [new] Initial ERP integration added
+ * [fix] Front-end URL issue
 
 = 1.4 - March 13, 2016 =
 

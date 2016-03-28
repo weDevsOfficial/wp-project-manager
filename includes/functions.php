@@ -493,7 +493,7 @@ function cpm_project_summary_info( $info,  $project_id ) {
     $summary['comments'] = array(
         'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
         'count' => $info->comments,
-        'url' =>  'JavaScript:void(0)'
+        'url' =>  ''
     );
 
     $summary['files'] = array(
@@ -523,7 +523,11 @@ function cpm_project_summary( $info, $project_id ) {
     $info_array = array();
     $summary = cpm_project_summary_info( $info,  $project_id );
     foreach ( $summary as $key =>$val ) {
-        $info_array[] = sprintf( "<li class='%s'><a href='%s'><strong>%d</strong> %s</a></li>", $key, $val['url'], $val['count'],  $val['label'] );
+       if( $val['url'] != '' ){
+           $info_array[] = sprintf( "<li class='%s'><a href='%s'><strong>%d</strong> %s</a></li>", $key, $val['url'], $val['count'],  $val['label'] );
+       } else{
+           $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key,  $val['count'],  $val['label'] );
+       }
     }
     return implode('', $info_array );
 }

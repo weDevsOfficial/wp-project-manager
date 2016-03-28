@@ -42,6 +42,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_add_list', array($this, 'add_tasklist') );
         add_action( 'wp_ajax_cpm_update_list', array($this, 'update_tasklist') );
         add_action( 'wp_ajax_cpm_tasklist_delete', array($this, 'delete_tasklist') );
+        add_action( 'wp_ajax_cpm_tasklist_pinstatus_update', array($this, 'update_tasklist_pinstatus') );
 
         add_action( 'wp_ajax_cpm_get_task_list', array($this, 'get_task_list') );
         add_action( 'wp_ajax_cpm_get_todo_list', array($this, 'get_todo_list') );
@@ -737,6 +738,46 @@ class CPM_Ajax {
 
         exit;
     }
+    /**
+     *  Update Task list Pin Status
+     *  @since 1.4
+     */
+    function update_tasklist_pinstatus() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $post_id = sanitize_text_field( $posted['list_id'] );
+        /*$status = sanitize_text_field( $posted['pin_status'] );
+        $update  = update_post_meta( $list_id, '_pin_list', $status );
+        */
+        $stickies = get_option('sticky_posts');
+
+        if ( !is_array($stickies) )
+            $stickies = array($post_id);
+
+        if ( ! in_array($post_id, $stickies) )
+        {
+            $stickies[] = $post_id;
+        }else {
+            $offset = array_search($post_id, $stickies);
+            if ( false === $offset )
+                return;
+            array_splice($stickies, $offset, 1);
+        }
+         $update = update_option('sticky_posts', $stickies);
+        if (  $update ) {
+
+            echo json_encode( array(
+                'success' => true,
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+
+        exit;
+    }
 
     function delete_tasklist() {
         check_ajax_referer( 'cpm_nonce' );
@@ -1245,12 +1286,18 @@ class CPM_Ajax {
     }
 
     function  get_task_list(){
-        $project_id = $_POST['project_id'] ;
-        $offset = $_POST['offset'] ;
-        $privacy = $_POST['privacy'] == 'yes' ? true : false ;
+        $is_admin = ( isset( $_POST['is_admin'] ) ) ? sanitize_text_field( $_POST['is_admin'] ) : 'yes';
+        $project_id = ( isset( $_POST['project_id'] ) ) ? sanitize_text_field( $_POST['project_id'] ) : 0;
+        $offset = ( isset(  $_POST['offset'] ) ) ? sanitize_text_field( $_POST['offset'] ) : 0;
+        $privacy = $_POST['privacy'] == 'yes' ? true : false;
         $task_obj = CPM_Task::getInstance();
-        $lists = $task_obj->get_task_lists( $project_id, $offset,  $privacy) ;
+        $lists = $task_obj->get_task_lists( $project_id, $offset,  $privacy);
         $data = '';
+
+        if( 'no' == $is_admin ){
+         new CPM_Frontend_URLs();
+        }
+
          //var_dump($list) ;
         if(empty($lists)){
              echo json_encode( array(
@@ -1275,11 +1322,16 @@ class CPM_Ajax {
     }
 
     function  get_todo_list(){
-         $task_obj  = CPM_Task::getInstance();
-         $list_id = $_POST['list_id'];
-         $project_id = $_POST['project_id'];
-         $single = $_POST['single'];
-         $tasks = $task_obj->get_tasks_by_access_role( $list_id , $project_id );
+        $task_obj  = CPM_Task::getInstance();
+        $is_admin = isset($_POST['is_admin']) ? sanitize_text_field( $_POST['is_admin'] ) : 'yes';
+        $list_id =  sanitize_text_field( $_POST['list_id'] );
+        $project_id =  sanitize_text_field( $_POST['project_id'] );
+        $single =  sanitize_text_field( $_POST['single'] );
+        $tasks = $task_obj->get_tasks_by_access_role( $list_id , $project_id );
+
+        if( 'no' == $is_admin ){
+         new CPM_Frontend_URLs();
+        }
 
          $tasks = cpm_tasks_filter( $tasks );
             if ( count( $tasks['pending'] ) ) {

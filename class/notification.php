@@ -12,6 +12,9 @@ class CPM_Notification {
 
         add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
         add_action( 'cpm_task_update', array($this, 'new_task'), 10, 3 );
+        if(  cpm_get_option('email_url_link') == 'frontend' ){
+             new CPM_Frontend_URLs();
+        }
     }
 
     public static function getInstance() {

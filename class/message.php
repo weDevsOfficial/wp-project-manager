@@ -107,6 +107,8 @@ class CPM_Message {
 
     function create( $project_id, $post, $files = array(), $message_id = 0 ) {
 
+        //var_dump($post);
+        //exit() ;
         $is_update = $message_id ? true : false;
 
         $message_privacy = isset( $post['message_privacy'] ) ? $post['message_privacy'] : 'no';

@@ -18,10 +18,13 @@ $project_obj =  CPM_Project::getInstance();
 $project_details = $project_obj->get_info($project_id) ;
 
 if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    $lists = $task_obj->get_task_lists( $project_id, $offset, true );
+    $lists = $task_obj->get_task_lists( $project_id, $offset, true, false );
+    $sticky_list = $task_obj->get_sticky_task_lists( $project_id,  true );
+   // var_dump($sticky_list) ;
     $privacy =  'yes';
 } else {
-    $lists = $task_obj->get_task_lists( $project_id );
+    $lists = $task_obj->get_task_lists( $project_id, false,  false );
+    $sticky_list = $task_obj->get_sticky_task_lists( $project_id);
      $privacy =  'no';
 }
 
@@ -41,6 +44,22 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 </div>
 
 <ul class="cpm-todolists"  >
+     <?php
+    if ( $sticky_list ) {
+
+        foreach ($sticky_list as $list) {
+            ?>
+
+    <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" class="sticky_list" >
+                <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
+
+            </li>
+
+            <?php
+        }
+    }
+    ?>
+
     <?php
     if ( $lists ) {
 
@@ -72,6 +91,6 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
      <?php
         if(cpm_get_option( 'todolist_show') == 'pagination') {
-            cpm_pagination( $project_details->todolist, cpm_get_option( 'show_todo' ), $pagenum );
+            cpm_pagination( $project_details->todolist_without_pin, cpm_get_option( 'show_todo' ), $pagenum );
         }
      ?>

@@ -392,13 +392,56 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $offset = 0,  $privacy = false ) {
+    function get_task_lists( $project_id, $offset = 0,  $privacy = false, $with_pin = true ) {
         $args = array(
             'post_type'   => 'cpm_task_list',
             'posts_per_page' => cpm_get_option( 'show_todo' ),
             'offset' => $offset,
             'order'       => 'DESC',
             'orderby'     => 'ID',
+            'post_parent' => $project_id
+        );
+        if( false === $with_pin ){
+            $sticky = get_option( 'sticky_posts' );
+            $args['ignore_sticky_posts'] = 1;
+            $args['post__not_in'] = $sticky;
+        }
+
+        if ( $privacy === false ) {
+            $args['meta_query'] =  array(
+                array(
+                    'key'     => '_tasklist_privacy',
+                    'value'   => 'yes',
+                    'compare' => '!='
+                ),
+            );
+        }
+
+       $args = apply_filters( 'cpm_get_tasklist', $args );
+
+       $lists = get_posts( $args );
+        foreach ($lists as $list) {
+            $this->set_list_meta( $list );
+        }
+
+        return $lists;
+    }
+
+    /**
+     * Get Sticky Task List Only
+     * @param type $project_id
+     * @param type $offset
+     * @param type $privacy
+     * @return type
+     */
+    function get_sticky_task_lists( $project_id,  $privacy = false ) {
+        $sticky = get_option( 'sticky_posts' );
+        if( empty( $sticky )) return false;
+        $args = array(
+            'post_type'   => 'cpm_task_list',
+            'order'       => 'DESC',
+            'orderby'     => 'ID',
+            'post__in'    => $sticky,
             'post_parent' => $project_id
         );
 
@@ -449,6 +492,7 @@ class CPM_Task {
         $task_list->due_date  = get_post_meta( $task_list->ID, '_due', true );
         $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
         $task_list->private   = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
+        $task_list->pin_list  = get_post_meta( $task_list->ID, '_pin_list', true );
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
