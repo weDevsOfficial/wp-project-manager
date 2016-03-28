@@ -159,6 +159,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+### 1.4.1 - March 28, 2016 ###
+
+ * [new] Task list sticky option added as a replacement for sorting
+ * [new] Proper mime type icon set
+ * [new] Initial ERP integration added
+ * [fix] Front-end URL issue
+
 ### 1.4 - March 13, 2016 ###
 
  * [new] UI Re-designed
