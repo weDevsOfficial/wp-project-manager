@@ -1,6 +1,7 @@
 <?php
 
 class CPM_Upgrade {
+
     private static $_instance;
 
     /**
@@ -80,10 +81,11 @@ class CPM_Upgrade {
     function plugin_upgrades() {
         $current_version = get_option( 'cpm_version', '0.4.6' );
         $db_updates      = array(
-            '0.5' => 'upgrade-0.5.php',
-            '1.0' => 'upgrade-1.0.php',
-            '1.1' => 'upgrade-1.1.php',
-            '1.4' => 'upgrade-1.4.php',
+            '0.5'   => 'upgrade-0.5.php',
+            '1.0'   => 'upgrade-1.0.php',
+            '1.1'   => 'upgrade-1.1.php',
+            '1.4'   => 'upgrade-1.4.php',
+            '1.4.1' => 'upgrade-1.4.1.php',
         );
 
         $this->create_user_role_table();
@@ -122,11 +124,5 @@ class CPM_Upgrade {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
-
-        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table_name LIKE 'component' ");
-        if( !$result ) {
-            $sql = " ALTER TABLE  $table_name ADD `component` varchar(20) CHARACTER SET utf8 NOT NULL ; ";
-            $wpdb->query($sql) ;
-        }
     }
 }

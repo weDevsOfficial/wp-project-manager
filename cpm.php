@@ -5,7 +5,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.4
+ * Version: 1.4.1
  * License: GPL2
  */
 
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      */
     public function define_constants() {
 
-        $this->define( 'CPM_VERSION', '1.4' );
+        $this->define( 'CPM_VERSION', '1.4.1' );
         $this->define( 'CPM_DB_VERSION', '1.1' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
@@ -397,17 +397,6 @@ class WeDevs_CPM {
  */
 function cpm() {
     return WeDevs_CPM::instance();
-}
-
-/**
- * WP Project Manager  integration with  WP ERP
- * @since  1.4
- * @return CPM_ERP_Integration
- */
-if (  class_exists( 'WeDevs_ERP' ) ) {
-    if ( ! class_exists( 'CPM_ERP_Integration' ) ) {
-        require_once dirname(__FILE__) . '/includes/integrations/erp/cpm-erp.php';
-    }
 }
 
 //cpm instance.
