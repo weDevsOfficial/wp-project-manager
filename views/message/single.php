@@ -15,36 +15,10 @@ if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_
 
 cpm_get_header( __( 'Discussions', 'cpm' ), $project_id );
 $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+echo '<div  id="cpm-signle-message"> ';
+echo cpm_discussion_single( $message_id, $project_id );
+echo '</div>';
 ?>
-
-
-
-<div class="cpm-single">
-
-    <h3 class="cpm-box-title"><?php echo get_the_title( $message_id ); ?>
-        <span class="cpm-right cpm-edit-link">
-            <?php if( $message->post_author == get_current_user_id() ) { ?>
-                <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit dashicons dashicons-edit"></a>
-            <?php } ?>
-             <span class="<?php echo $private_class; ?>"></span>
-        </span>
-        <div class="cpm-small-title">
-            <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ) , date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
-        </div>
-    </h3>
-
-
-
-    <div class="cpm-entry-detail">
-        <?php  echo cpm_get_content( $message->post_content ); ?>
-
-        <?php echo cpm_show_attachments( $message, $project_id ); ?>
-    </div>
-
-    <span class="cpm-msg-edit-form"></span>
-
-</div>
-
 <div class="cpm-comment-area">
 <?php
 $comments = $msg_obj->get_comments( $message_id );
