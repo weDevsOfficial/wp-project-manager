@@ -685,7 +685,7 @@ function cpm_message_form( $project_id, $message = null ) {
                 <?php if( $id ) { ?>
                     <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
                 <?php } ?>
-                <input type="submit" name="create_message" id="<?php echo esc_attr( $$submit_btn_id ); ?>" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <input type="submit" name="create_message" id="<?php echo esc_attr( $submit_btn_id ); ?>" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
                 <a class="button message-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             </div>
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
@@ -777,8 +777,10 @@ function cpm_discussion_form( $project_id, $message = null ) {
 
 function cpm_discussion_single( $message_id, $project_id ) {
 
-    $msg_obj = CPM_Message::getInstance();
-    $message = $msg_obj->get( $message_id );
+    $msg_obj       = CPM_Message::getInstance();
+    $message       = $msg_obj->get( $message_id );
+    $is_private    = get_post_meta( $message_id, '_message_privacy', true );
+    $private_class = ( $is_private == 'yes' ) ? 'cpm-lock' : 'cpm-not-private';
 
     ob_start();
     ?>
