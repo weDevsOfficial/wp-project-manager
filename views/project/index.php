@@ -62,7 +62,7 @@ unset( $projects['total_projects'] );
 
 
     <div class="cpm-row cpm-project-group">
-        <ul class="list-inline  cpm-col-6 cpm-project-group-ul">
+        <ul class="list-inline  cpm-col-8 cpm-project-group-ul">
             <li class="cpm-sm-col-4<?php echo $status_class == 'all' ? ' active' : ''; ?>">
                 <a href="<?php echo cpm_url_all(); ?>" class="cpm-all-project">
                 <?php _e( 'All', 'cpm' ); ?></a>
@@ -77,7 +77,7 @@ unset( $projects['total_projects'] );
             </li>
             <div class="clearfix"></div>
         </ul>
-        <div class="cpm-col-5 cpm-last-col cpm-text-right show_desktop_only" >
+        <div class="cpm-col-4 cpm-last-col cpm-text-right show_desktop_only" >
             <ul class="cpm-project-view " >
                 <li><a href="javascript:void(0)" dir="list" alt="List View"  class="change-view">  <span class="<?php if ( $project_view == 'list' ) echo 'active' ; ?> dashicons dashicons-menu"></span></a></li>
                 <li><a href="javascript:void(0)" dir="grid" alt="Grid View" class="change-view"> <span class="<?php if ( $project_view == 'grid' ) echo 'active' ; ?> dashicons dashicons-screenoptions"></span></a></li>
