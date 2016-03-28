@@ -62,6 +62,7 @@
  // new message
 
             $('body').on('click', '#cpm-add-message', this.Message.show);
+            $('body').on('click', '#cpm-add-message-new', this.Message.showasblank);
             $('body').on('click', '.dicussion-list .cpm-col-9', this.Message.showDiscussion);
             $('body').on('click', '.dicussion-list .comment-count', this.Message.showDiscussion);
             $('body').on('click', 'a.message-cancel', this.Message.hide);
@@ -478,7 +479,8 @@
                     if (res.success) {
                         $('.cpm-comment-wrap').append(res.content).fadeIn('slow');
                         $('.cpm-comment-form-wrap textarea').val('');
-                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
+                        $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false) ;
+                        $('.cpm-comment-form-wrap #cpm-comment-editor-cm').val('');
                         $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
                         $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
@@ -497,7 +499,6 @@
                         action: 'cpm_comment_get',
                         '_wpnonce': CPM_Vars.nonce
                     };
-
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
                     res = $.parseJSON(res);
                     if (res.success && parent.find('form').length === 0) {
@@ -544,6 +545,7 @@
                         form.parent().remove();
                         $('.cpm-comment-form-wrap input[type=checkbox]').attr('checked', false)
                         $('.cpm-comment-form-wrap .cpm-upload-filelist').html('');
+                        $('.cpm-comment-form-wrap #cpm-comment-editor-cm').val('');
                         $('.cpm-comment-form-wrap trix-editor div').html('');
                     }
                     $('.cpm-colorbox-img').prettyPhoto();
@@ -584,8 +586,17 @@
         Message: {
             show: function(e) {
                 e.preventDefault();
+                $('#cpm-new-message-form-content').html('');
                 $('#cpm-signle-message').slideUp();
                 $('.cpm-new-message-form').slideDown();
+                $('#cpm-new-message-form-content').hide();
+            },
+            showasblank: function(e) {
+                e.preventDefault();
+                var content = $(".cpm-new-message-form").html() ;
+                $("#cpm-new-message-form-content").html(content);
+                //$('#cpm-signle-message').slideUp();
+                $('#cpm-new-message-form-content').slideDown();
             },
             hide: function(e) {
                e.preventDefault();
@@ -593,7 +604,7 @@
                 $('.cpm-new-message-form').slideUp();
             },
             addNew: function(e) {
-                // e.preventDefault();
+                //e.preventDefault();
                 text = $("#message_title").val();
                 if (text.length < 1) {
                     alert('Please enter some text');
@@ -657,6 +668,7 @@
                 btn.attr('disabled', true);
                 spnier.show();
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
+
                     btn.attr('disabled', false);
                     spnier.hide();
                     res = $.parseJSON(res);
@@ -955,10 +967,6 @@
         }
 
 
-     // for atwho
-     $('#mtes').atwho({
-    })
-     // end atwho
 })(jQuery);
 (function($) {
 
@@ -975,7 +983,7 @@
 	    }
 	    wrap.find('.cpm-mytas-current').text( res.current_task );
 	    wrap.find('.cpm-mytas-outstanding').text( res.outstanding);
-	    wrap.find('.cpm-mytas-complete').text(res.complete);
+	    wrap.find('.cpm-mytas-complete').text(res.complete);             
 	});
 
 	$(document).on('cpm.markUnDone.after', function(e, res, self) {
@@ -994,9 +1002,9 @@
 	    }
 	    wrap.find('.cpm-mytas-current').text( res.current_task );
 	    wrap.find('.cpm-mytas-outstanding').text( res.outstanding);
-	    wrap.find('.cpm-mytas-complete').text(res.complete );
+	    wrap.find('.cpm-mytas-complete').text(res.complete ); 
 	});
-
+ 
 })(jQuery);
 
 ;(function($) {
@@ -1039,6 +1047,7 @@
             $('.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
             $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
             $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
+            $('.cpm-todolists').on('click', 'a.cpm-list-pin', this.togglePinStatus);
             // Load more
 
 
@@ -1345,6 +1354,32 @@
                 article.find('.cpm-list-edit-form').slideToggle();
         },
 
+       togglePinStatus: function (e) {
+            e.preventDefault();
+            var spinner = $(this).find('.cpm-new-list-spinner');
+            var status = $(this).attr('data-status');
+            var new_status = 'yes'
+            if( status == 'yes' ){
+                new_status = 'no'
+            }
+            data = {
+                    list_id: $(this).attr('data-list_id'),
+                    action: 'cpm_tasklist_pinstatus_update',
+                    pin_status : new_status,
+                    '_wpnonce': CPM_Vars.nonce
+            };
+            spinner.show();
+            $.post(CPM_Vars.ajaxurl, data, function (res) {
+                    spinner.hide();
+                    res = JSON.parse(res);
+                    if(res.success === true) {
+                        location.reload();
+                    } else {
+                        alert('something went wrong!');
+                    }
+                });
+        },
+
         submitNewTodo: function (e) {
             e.preventDefault();
 
@@ -1565,6 +1600,7 @@ var $ = jQuery ;
                     list_id  : list_id,
                     single : single,
                     action: 'cpm_get_todo_list',
+                    is_admin : CPM_Vars.is_admin,
                 };
              $.post(CPM_Vars.ajaxurl, data, function (res) {
                 $(val).html(res) ;
