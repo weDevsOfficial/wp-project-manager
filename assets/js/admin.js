@@ -62,6 +62,7 @@
  // new message
 
             $('body').on('click', '#cpm-add-message', this.Message.show);
+            $('body').on('click', '#cpm-add-message-new', this.Message.showasblank);
             $('body').on('click', '.dicussion-list .cpm-col-9', this.Message.showDiscussion);
             $('body').on('click', '.dicussion-list .comment-count', this.Message.showDiscussion);
             $('body').on('click', 'a.message-cancel', this.Message.hide);
@@ -585,8 +586,17 @@
         Message: {
             show: function(e) {
                 e.preventDefault();
+                $('#cpm-new-message-form-content').html('');
                 $('#cpm-signle-message').slideUp();
                 $('.cpm-new-message-form').slideDown();
+                $('#cpm-new-message-form-content').hide();
+            },
+            showasblank: function(e) {
+                e.preventDefault();
+                var content = $(".cpm-new-message-form").html() ;
+                $("#cpm-new-message-form-content").html(content);
+                //$('#cpm-signle-message').slideUp();
+                $('#cpm-new-message-form-content').slideDown();
             },
             hide: function(e) {
                e.preventDefault();
