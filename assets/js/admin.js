@@ -604,7 +604,7 @@
                 $('.cpm-new-message-form').slideUp();
             },
             addNew: function(e) {
-                // e.preventDefault();
+                //e.preventDefault();
                 text = $("#message_title").val();
                 if (text.length < 1) {
                     alert('Please enter some text');
@@ -668,6 +668,7 @@
                 btn.attr('disabled', true);
                 spnier.show();
                 $.post(CPM_Vars.ajaxurl, data, function(res) {
+
                     btn.attr('disabled', false);
                     spnier.hide();
                     res = $.parseJSON(res);

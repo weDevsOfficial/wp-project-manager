@@ -624,6 +624,7 @@ function cpm_message_form( $project_id, $message = null ) {
     $files  = array();
     $id     = $milestone = 0;
     $action = 'cpm_message_new';
+    $submit_btn_id = 'create_message';
 
     if ( !is_null( $message ) ) {
         $id        = $message->ID;
@@ -633,6 +634,7 @@ function cpm_message_form( $project_id, $message = null ) {
         $milestone = $message->milestone;
         $submit    = __( 'Update Message', 'cpm' );
         $action    = 'cpm_message_update';
+        $submit_btn_id = 'update_message';
     }
 
     ob_start();
@@ -649,7 +651,7 @@ function cpm_message_form( $project_id, $message = null ) {
 
             <div class="item detail">
 
-                <input id="<?php echo 'cpm-message-editor-' . $id ?>" type="hidden" name="message_detail" value="<?php echo $content?>">
+                <input id="<?php echo 'cpm-message-editor-' . $id ?>" type="hidden" name="message_detail" value="<?php echo esc_html($content)?>">
                 <trix-editor input="<?php echo 'cpm-message-editor-' . $id ?>"></trix-editor>
 
             </div>
@@ -683,8 +685,7 @@ function cpm_message_form( $project_id, $message = null ) {
                 <?php if( $id ) { ?>
                     <input type="hidden" name="message_id" value="<?php echo $id; ?>" />
                 <?php } ?>
-
-                <input type="submit" name="create_message" id="create_message" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
+                <input type="submit" name="create_message" id="<?php echo esc_attr( $$submit_btn_id ); ?>" class="button-primary" value="<?php echo esc_attr( $submit ); ?>">
                 <a class="button message-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             </div>
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm'); ?></div>
@@ -780,74 +781,36 @@ function cpm_discussion_single( $message_id, $project_id ) {
     $message = $msg_obj->get( $message_id );
 
     ob_start();
+    ?>
 
-    if ( !$message ) {
-    echo '<h2>' . __( 'Error: Message not found', 'cpm' ) . '</h2>';
-    return;
-    }
+    <div class="cpm-single" >
 
-    if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-        echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
-        return;
-    }
-
-   // cpm_get_header( __( 'Discussion', 'cpm' ), $project_id );
-    $private_class =  ( $message->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
-
-?>
-
-   <a name="<?php echo $message_id ?>" style="margin-top: -50px;"></a>
-    <div class=" ">
-
-        <h3 class="cpm-discuss-title"><?php echo get_the_title( $message_id ); ?>
-            <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit cpm-edit-discussion " ></a>
-
+        <h3 class="cpm-box-title"><?php echo get_the_title( $message_id ); ?>
+            <span class="cpm-right cpm-edit-link">
+                <?php if( $message->post_author == get_current_user_id() ) { ?>
+                    <a href="#" data-msg_id="<?php echo $message->ID; ?>" data-project_id="<?php echo $project_id; ?>" class="cpm-msg-edit dashicons dashicons-edit"></a>
+                <?php } ?>
+                 <span class="<?php echo $private_class; ?>"></span>
+            </span>
+            <div class="cpm-small-title">
+                <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ) , date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
+            </div>
         </h3>
 
-        <div id="cpm-entry-detail">
+
+
+        <div class="cpm-entry-detail">
             <?php  echo cpm_get_content( $message->post_content ); ?>
 
-            <?php
-            echo cpm_show_attachments( $message, $project_id ); ?>
+            <?php echo cpm_show_attachments( $message, $project_id ); ?>
         </div>
 
-        <div id="cpm-msg-edit-form"></div>
+        <span class="cpm-msg-edit-form"></span>
 
     </div>
 
-    <?php
-$comments = $msg_obj->get_comments( $message_id );
-
-if ( $comments ) {
-    $count = 0;
-    ?>
-
-    <h3><?php printf( _n( 'One Comment', '%s Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
-
-    <ul class="cpm-comment-wrap">
-
-        <?php
-        foreach ($comments as $comment) {
-            $class = ( $count % 2 == 0 ) ? 'even' : 'odd';
-
-            echo cpm_show_comment( $comment, $project_id, $class );
-
-            $count++;
-        }
-        ?>
-
-    </ul>
-    <?php
-} else {
-    printf( '<h3>%s</h3>', __( 'No comments found', 'cpm' ) );
-    echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
-}
-?>
-
-
 
     <?php
-    echo cpm_comment_form( $project_id, $message_id );
      return ob_get_clean();
     }
 
