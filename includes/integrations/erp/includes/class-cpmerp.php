@@ -63,6 +63,7 @@ class CPM_ERP {
         add_action( 'erp_hr_dept_before_updated', array( $this, 'before_update_dept' ), 10, 2 );
         add_action( 'cpm_my_task_after_title', array( $this, 'after_tab' ) );
         add_action( 'wp_ajax_erp_fetch_employee_task', array( $this, 'employee_new_task' ) );
+        add_action( 'cpm_get_projects_where', array( $this, 'get_project_query' ), 10, 5 );
     }
 
     /**
@@ -90,6 +91,33 @@ class CPM_ERP {
             add_filter( 'cpm_url_complete_task', array( $this, 'url_complete_task' ) );
             add_filter( 'cpm_my_task_tab', array( $this, 'user_task_tab' ), 5 );
         }
+    }
+
+    function get_project_query( $project_where, $table, $where, $wp_query, $user_id ) {
+        global $wp_query, $wpdb;
+
+        $user_id = get_current_user_id();
+        $status  = erp_hr_get_employee_status( $user_id );
+        
+        if ( $status != 'active' ) {
+            return $project_where;
+        }
+
+        $department_id = erp_hr_get_employee_department( $user_id );
+
+        if ( ! $department_id ) {
+            return $project_where;
+        }
+
+        $department_status = erp_hr_get_department_status( $department_id );
+
+        if ( $department_status != 1 ) {
+            return $project_where;
+        }
+
+        $project_where = " AND ( $table.user_id IN ( $user_id, $department_id ) )";
+        
+        return $project_where;
     }
 
     /**
