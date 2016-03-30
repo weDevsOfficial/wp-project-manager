@@ -848,11 +848,13 @@ function cpm_manage_capability( $option_name = 'project_manage_role', $user_id =
         return false;
     }
 
-    $loggedin_user_role = reset( $user->roles );
+    $loggedin_user_role =  $user->roles;
     $manage_capability = cpm_get_option( $option_name );
 
-    if ( array_key_exists( $loggedin_user_role, $manage_capability ) ) {
-        return true;
+    foreach ( $manage_capability as $role => $lebel ) {
+        if ( in_array( $role, $loggedin_user_role ) ) {
+            return true;
+        }
     }
 
     return false;
@@ -900,16 +902,21 @@ function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
         $user = wp_get_current_user();
     }
 
-
-
-    $login_user = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
+    $login_user         = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
     $project_user_role  = cpm_project_user_role( $project_id , $user_id);
-    $loggedin_user_role = reset( $login_user->roles );
+    $loggedin_user_role = $login_user->roles;
     $manage_capability  = cpm_get_option( 'project_manage_role' );
+    $capbility_status   = false;
+
+    foreach ( $manage_capability as $role => $lebel ) {
+        if ( in_array( $role, $loggedin_user_role ) ) {
+            $capbility_status = true;
+        }
+    }
 
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
-    if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
+    if ( $project_user_role == 'manager' || $capbility_status ) {
         return true;
     }
 
@@ -917,11 +924,7 @@ function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
     $settings_role = get_post_meta( $project_id, '_settings', true );
     $can_access    = isset( $settings_role[$project_user_role][$section] ) ? $settings_role[$project_user_role][$section] : '';
 
-    if( $can_access == 'yes' ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( $can_access == 'yes' ) ? true : false;
 }
 
 function cpm_user_can_access_file( $project_id, $section, $is_private ) {
