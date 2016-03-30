@@ -833,12 +833,17 @@ function cpm_is_single_project_manager( $project_id ) {
     }
 }
 
+/**
+ * Check if a user has the manage capability
+ *
+ * @param  string   $option_name
+ * @param  integer  $user_id
+ *
+ * @return boolean
+ */
 function cpm_manage_capability( $option_name = 'project_manage_role', $user_id = 0 ) {
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
 
-    if( absint($user_id) ){
+    if ( absint( $user_id ) ) {
         $user = get_user_by( 'ID', $user_id );
     } else {
         $user = wp_get_current_user();
@@ -859,13 +864,9 @@ function cpm_manage_capability( $option_name = 'project_manage_role', $user_id =
 }
 
 function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
-    if( $id_only ){
+    if ( $id_only ) {
         $task_obj = CPM_Task::getInstance();
         $list = $task_obj->get_task_list( $list );
-    }
-
-    if ( ! cpm_is_pro() ) {
-        return true;
     }
 
     $user = wp_get_current_user();
@@ -873,7 +874,7 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
     $project_user_role  = cpm_project_user_role( $project_id );
     $loggedin_user_role = reset( $user->roles );
     $manage_capability  = cpm_get_option( 'project_manage_role' );
-    //var_dump( $current_user->ID, $list->post_author, $project_user_role, $loggedin_user_role, $manage_capability ); die();
+
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
     if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) || $user->ID == $list->post_author ) {
@@ -883,26 +884,25 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
     return false;
 }
 
+
 /**
- * In the case of create use  is_cpm_user_can_access( $project_id, $section )
+ * Check if a user has any access on a project
  *
- * In the case of view user  ! is_cpm_user_can_access( $project_id, $section )
+ * @param  int      $project_id
+ * @param  string   $section
+ * @param  integer  $user_id
+ *
+ * @return boolean
  */
-
 function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
 
-    if ( absint($user_id) ) {
+    if ( absint( $user_id ) ) {
         $user = get_user_by( 'ID', $user_id );
     } else {
         $user = wp_get_current_user();
     }
 
-
-
-    $login_user = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
+    $login_user         = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
     $project_user_role  = cpm_project_user_role( $project_id , $user_id);
     $loggedin_user_role = reset( $login_user->roles );
     $manage_capability  = cpm_get_option( 'project_manage_role' );
@@ -913,11 +913,15 @@ function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
         return true;
     }
 
+    if ( ! cpm_is_pro() ) {
+        return false;
+    }
+
     // Now, if the user is not manager, check if he can access from settings
     $settings_role = get_post_meta( $project_id, '_settings', true );
     $can_access    = isset( $settings_role[$project_user_role][$section] ) ? $settings_role[$project_user_role][$section] : '';
 
-    if( $can_access == 'yes' ) {
+    if ( $can_access == 'yes' ) {
         return true;
     } else {
         return false;
@@ -937,16 +941,15 @@ function cpm_user_can_access_file( $project_id, $section, $is_private ) {
     return cpm_user_can_access( $project_id, $section );
 }
 
-
 /**
  * Get all the orders from a specific seller
  *
  * @global object $wpdb
+ *
  * @param int $seller_id
+ *
  * @return array
  */
-
-
 function cpm_project_count() {
     global $wpdb;
     $table = $wpdb->prefix . 'cpm_user_role';

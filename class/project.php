@@ -309,7 +309,7 @@ class CPM_Project {
             );
         }
 
-        if ( cpm_manage_capability() == false ) {
+        if ( cpm_manage_capability() === false ) {
             add_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 3 );
         }
@@ -320,7 +320,7 @@ class CPM_Project {
         $total_projects = $projects->found_posts;
         $projects       = $projects->posts;
 
-        if ( cpm_manage_capability() == false ) {
+        if ( cpm_manage_capability() === false ) {
             remove_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             remove_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 2 );
         }
@@ -332,7 +332,6 @@ class CPM_Project {
         $projects['total_projects'] = $total_projects;
         return $projects;
     }
-
 
     function get_user_projects( $user_id ) {
 
@@ -376,8 +375,9 @@ class CPM_Project {
 
         if( absint ( $user_id) ) $user_id = $user_id;
         else $user_id = get_current_user_id();
-        $where .= " AND $table.user_id = $user_id";
 
+        $project_where = " AND $table.user_id = $user_id";
+        $where .= apply_filters( 'cpm_get_projects_where', $project_where, $table, $where, $wp_query, $user_id );
         return $where;
     }
 
