@@ -73,33 +73,31 @@ class CPM_Admin {
                 'name'    => 'upload_limit',
                 'label'   => __('File Upload Limit', 'cpm'),
                 'default' => '2',
-                'desc'    => __('file size in Megabyte. e.g: 2')
+                'desc'    => __('File Size in Megabytes. e.g: 2')
             ),
             array(
                 'name'    => 'pagination',
-                'label'   => __('Number of project per page', 'cpm'),
+                'label'   => __('Show Projects Per Page', 'cpm'),
                 'type'    => 'text',
                 'default' => '10',
                 'desc'    => __('-1 for unlimited', 'cpm')
             ),
             array(
                 'name'    => 'todolist_show',
-                'label'   => __('Todo list show style ', 'cpm'),
+                'label'   => __('To-do List Style', 'cpm'),
                 'type'    => 'radio',
                 'default' => 'pagination',
-                'desc'    => __( 'style for show todo list.', 'cpm' ),
                 'options' =>array( 'pagination' => 'Pagination', 'load_more' => 'Load More', 'lazy_load' => 'Lazy Load' )
             ),
             array(
                 'name'    => 'show_todo',
-                'label'   => __('Number of todo show ', 'cpm'),
+                'label'   => __('Show To-do Lists Per Page', 'cpm'),
                 'type'    => 'text',
                 'default' => '5',
-                'desc'    => 'Show todo list in single screen.'
             ),
             array(
                 'name'    => 'project_manage_role',
-                'label'   => __( 'Project Manage Capability', 'cpm' ),
+                'label'   => __( 'Project Managing Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
                 'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
                 'type'    => 'multicheck',
@@ -107,7 +105,7 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'project_create_role',
-                'label'   => __( 'Project Create Capability', 'cpm' ),
+                'label'   => __( 'Project Creation Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
                 'desc'    => __( 'Select the user role who can create projects', 'cpm' ),
                 'type'    => 'multicheck',
@@ -126,9 +124,9 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'email_url_link',
-                'label'   => __( 'URL Link to front or admin', 'cpm' ),
+                'label'   => __( 'Links in the Email', 'cpm' ),
                 'type'    => 'radio',
-                'desc'    => __( 'URL Link to front or admin.', 'cpm' ),
+                'desc'    => __( 'Select where do you want to take the user. Notification emails contain links.', 'cpm' ),
                 'default' => 'backend',
                 'options' => $url_links
             ),

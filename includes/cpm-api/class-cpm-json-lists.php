@@ -53,7 +53,7 @@ class CPM_JSON_Lists {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid todo list ID.' ), array( 'status' => 404 ) );
 		}
 
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
@@ -99,7 +99,7 @@ class CPM_JSON_Lists {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
 
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
@@ -148,7 +148,7 @@ class CPM_JSON_Lists {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
 
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( ! $manage_capability && ! cpm_is_single_project_manager( $project_id ) ) {
 

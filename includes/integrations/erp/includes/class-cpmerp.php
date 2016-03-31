@@ -15,6 +15,8 @@ class CPM_ERP {
      */
 	public $hrm_users = array();
 
+    public $current_user_departmetn_id = false;
+
 	/**
      * Initializes the CPM_ERP_Integration() class
      *
@@ -57,6 +59,7 @@ class CPM_ERP {
      * @return void
      */
     function init_actions() {
+        add_action( 'admin_init', array( $this, 'set_current_user_department' ), 10 );
         add_action( 'cpm_project_form', array( $this, 'new_field' ) );
         add_action( 'cpm_project_new', array( $this, 'action_after_update_project' ), 10, 3);
         add_action( 'cpm_project_update', array( $this, 'action_after_update_project' ), 10, 3 );
@@ -78,6 +81,7 @@ class CPM_ERP {
         add_filter( 'cpm_user_role', array( $this, 'get_employee_role' ), 10, 2 );
         add_filter( 'cpm_projects_where', array( $this, 'projects_were' ) );
         add_filter( 'erp_hr_employee_single_tabs', array( $this, 'profile_tab' ) );
+        add_filter( 'cpm_project_user_role', array( $this, 'group_user_role' ), 10, 3 );
 
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
             add_filter( 'cpm_my_task_user_id', array( $this, 'get_my_task_user_id' ) );
@@ -91,6 +95,71 @@ class CPM_ERP {
             add_filter( 'cpm_url_complete_task', array( $this, 'url_complete_task' ) );
             add_filter( 'cpm_my_task_tab', array( $this, 'user_task_tab' ), 5 );
         }
+    }
+
+    function set_current_user_department() {
+
+        $user_id = get_current_user_id();
+        $status  = erp_hr_get_employee_status( $user_id );
+        
+        if ( $status != 'active' ) {
+            return false;
+        }
+
+        $department_id = erp_hr_get_employee_department( $user_id );
+
+        if ( ! $department_id ) {
+            return false;
+        }
+
+        $department_status = erp_hr_get_department_status( $department_id );
+
+        if ( $department_status != 1 ) {
+            return false;
+        }
+
+        $this->current_user_departmetn_id = $department_id;
+
+        return $department_id;
+    }
+
+    function group_current_user_role( $project_id ) {
+        $user_id           = get_current_user_id();
+        $cache_key         = 'cpm_group_user_role_' . $project_id . $user_id;
+        $project_user_role = wp_cache_get( $cache_key );
+
+        if ( $project_user_role === false ) {
+            $project_user_role = $this->cache_user_role( $project_id );
+            wp_cache_set( $cache_key, $project_user_role );
+        }
+
+        return $project_user_role;
+    }
+
+    function cache_user_role( $project_id ) {
+        global $wpdb;
+
+        $table   = $wpdb->prefix . 'cpm_user_role';
+        $user_id = $this->current_user_departmetn_id;    
+                
+        $role = $wpdb->get_var( $wpdb->prepare("SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d' AND component='%s'", $project_id, $user_id, 'erp-hrm' ) );
+
+        $project_user_role  = ! empty( $role ) ? $role : false;
+        return $project_user_role;
+
+    }
+
+    function group_user_role( $project_user_role, $project_id, $user_id ) {
+        if ( $project_user_role == 'manager' ) {
+            return $project_user_role;
+        }
+        $role = $this->group_current_user_role( $project_id );
+        
+        if ( ! $role ) {
+            return $project_user_role;
+        }
+
+        return $role;
     }
 
     function get_project_query( $project_where, $table, $where, $wp_query, $user_id ) {

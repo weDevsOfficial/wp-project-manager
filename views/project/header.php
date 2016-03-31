@@ -7,7 +7,7 @@ if ( !$project ) {
     die();
 }
 
-if ( !$pro_obj->has_permission( $project ) ) {
+if ( ! $pro_obj->has_permission( $project ) ) {
     echo '<h2>' . __( 'Error: Permission denied', 'cpm' ) . '</h2>';
     die();
 }

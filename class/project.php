@@ -309,7 +309,7 @@ class CPM_Project {
             );
         }
 
-        if ( cpm_manage_capability() === false ) {
+        if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 3 );
         }
@@ -320,7 +320,7 @@ class CPM_Project {
         $total_projects = $projects->found_posts;
         $projects       = $projects->posts;
 
-        if ( cpm_manage_capability() === false ) {
+        if ( cpm_can_manage_projects() === false ) {
             remove_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             remove_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 2 );
         }
@@ -678,20 +678,32 @@ class CPM_Project {
      * @param object $project
      * @return bool
      */
-    function has_permission( $project ) {
+    function has_permission( $project, $user_id = 0 ) {
         global $current_user;
-
-        $loggedin_user_role = reset( $current_user->roles );
-
-        $manage_capability = cpm_get_option( 'project_manage_role' );
-        $project_users_role = $this->get_users( $project->ID );
-
-        if ( array_key_exists( $current_user->ID, $project_users_role ) || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
-            return true;
+    
+        if ( absint( $user_id ) ) {
+            $user = get_user_by( 'ID', $user_id );
+        } else {
+            $user = $current_user;
         }
 
-        return false;
-
+        if ( ! $user ) {
+            return false;
+        }
+        
+        //chck manage capability
+        if ( cpm_can_manage_projects( $user->ID ) ) {
+            return true;
+        }
+        
+        $uesr_role_in_project = cpm_get_role_in_project( $project->ID , $user_id);
+        
+        //If current user has no role in this project
+        if ( ! $uesr_role_in_project ) {
+            return false;
+        }        
+        
+        return true;
     }
 
     function get_progress_by_tasks( $project_id ) {
