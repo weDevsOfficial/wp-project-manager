@@ -782,9 +782,9 @@ function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
     $table = $wpdb->prefix . 'cpm_user_role';
 
     if ( ! $user_id ) {
-        $user_id = get_current_user_id();    
+        $user_id = get_current_user_id();
     }
-    
+
     $role = $wpdb->get_var( $wpdb->prepare("SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d'", $project_id, $user_id ) );
 
     $project_user_role = ! empty( $role ) ? $role : false;
@@ -910,15 +910,14 @@ function cpm_can_create_projects( $user_id = 0 ) {
  *
  * @return boolean
  */
-function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
+function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
     if ( $id_only ) {
-        $task_obj = CPM_Task::getInstance();
-        $list = $task_obj->get_task_list( $list );
+       $post = get_post( intval( $post ) );
     }
 
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
-    if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $list->post_author ) {
+    if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $post->post_author ) {
         return true;
     }
 
@@ -936,7 +935,7 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
  */
 function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
     global $current_user;
-    
+
     if ( absint( $user_id ) ) {
         $user = get_user_by( 'ID', $user_id );
     } else {
@@ -946,14 +945,14 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
     if ( ! $user ) {
         return false;
     }
-    
+
     //chck manage capability
     if ( cpm_can_manage_projects( $user->ID ) ) {
         return true;
     }
-    
+
     $uesr_role_in_project = cpm_get_role_in_project( $project_id , $user_id);
-    
+
     //If current user has no role in this project
     if ( ! $uesr_role_in_project ) {
         return false;
@@ -971,7 +970,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
 
     $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );
 
-    return $can_access; 
+    return $can_access;
 }
 
 /**
