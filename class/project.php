@@ -679,17 +679,31 @@ class CPM_Project {
      * @return bool
      */
     function has_permission( $project ) {
-        // global $current_user;
+        global $current_user;
+    
+        if ( absint( $user_id ) ) {
+            $user = get_user_by( 'ID', $user_id );
+        } else {
+            $user = $current_user;
+        }
 
-        // $loggedin_user_role = reset( $current_user->roles );
-        // $manage_capability  = cpm_get_option( 'project_manage_role' );
-        // $project_users_role = $this->get_users( $project->ID );
-
-        // if ( array_key_exists( $current_user->ID, $project_users_role ) || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
-        //     return true;
-        // }
+        if ( ! $user ) {
+            return false;
+        }
         
-        return cpm_user_can_access( $project->ID );
+        //chck manage capability
+        if ( cpm_can_manage_projects( $user->ID ) ) {
+            return true;
+        }
+        
+        $uesr_role_in_project = cpm_get_role_in_project( $project_id , $user_id);
+        
+        //If current user has no role in this project
+        if ( ! $uesr_role_in_project ) {
+            return false;
+        }        
+        
+        return true;
     }
 
     function get_progress_by_tasks( $project_id ) {
