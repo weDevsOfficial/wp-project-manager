@@ -416,7 +416,7 @@ class CPM_Ajax {
         $pro_obj = CPM_Project::getInstance();
 
         //fail if current user is not editor or above
-        if ( ! cpm_manage_capability( 'project_create_role' ) ) {
+        if ( ! cpm_can_create_projects() ) {
             echo json_encode( array('success' => false) );
             exit;
         }

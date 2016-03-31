@@ -95,7 +95,7 @@ class CPM_JSON_Comments {
 
 		switch ( $post_type ) {
 			case 'cpm_message':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					return true;
@@ -115,7 +115,7 @@ class CPM_JSON_Comments {
 				break;
 
 			case 'cpm_task':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					$condition = true;
@@ -137,7 +137,7 @@ class CPM_JSON_Comments {
 				}
 				break;
 			case 'cpm_task_list':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					return true;
@@ -293,7 +293,7 @@ class CPM_JSON_Comments {
 
 		switch ( $post_type ) {
 			case 'cpm_message':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					return true;
@@ -307,7 +307,7 @@ class CPM_JSON_Comments {
 				break;
 
 			case 'cpm_task':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					$condition = true;
@@ -322,7 +322,7 @@ class CPM_JSON_Comments {
 				}
 				break;
 			case 'cpm_task_list':
-				$manage_capability = cpm_manage_capability();
+				$manage_capability = cpm_can_manage_projects();
 
 				if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 					return true;
