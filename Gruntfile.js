@@ -129,7 +129,7 @@ module.exports = function(grunt) {
             }
         },
 
-    //    secret: grunt.file.readJSON('secret.json'),
+        secret: grunt.file.readJSON('secret.json'),
         sshconfig: {
             "myhost": {
                 host: '<%= secret.host %>',
