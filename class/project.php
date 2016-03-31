@@ -678,7 +678,7 @@ class CPM_Project {
      * @param object $project
      * @return bool
      */
-    function has_permission( $project ) {
+    function has_permission( $project, $user_id = 0 ) {
         global $current_user;
     
         if ( absint( $user_id ) ) {
@@ -696,7 +696,7 @@ class CPM_Project {
             return true;
         }
         
-        $uesr_role_in_project = cpm_get_role_in_project( $project_id , $user_id);
+        $uesr_role_in_project = cpm_get_role_in_project( $project->ID , $user_id);
         
         //If current user has no role in this project
         if ( ! $uesr_role_in_project ) {
