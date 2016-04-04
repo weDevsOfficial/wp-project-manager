@@ -915,7 +915,7 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
         $task_obj = CPM_Task::getInstance();
         $list = $task_obj->get_task_list( $list );
     }
-
+    $user = wp_get_current_user();
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
     if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $list->post_author ) {
@@ -1323,7 +1323,7 @@ function cpm_message() {
 function cpm_is_pro() {
 
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
-        return true;
+        //return true;
     }
     return false;
 }
