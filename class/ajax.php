@@ -106,7 +106,7 @@ class CPM_Ajax {
      * @return void
      */
     function search_client() {
-        $user = trim( $_POST['user'] );
+        $user = intval( $_POST['user'] );
 
         $args = array(
             'search'         => $user,
@@ -165,7 +165,7 @@ class CPM_Ajax {
     }
 
     function all_search() {
-        $project_id = isset( $_POST['project_id'] ) ? $_POST['project_id'] : false;
+        $project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( $_POST['project_id'] ) : false;
         $item = trim( $_POST['item'] );
 
         if ( !$project_id ) {
@@ -381,7 +381,7 @@ class CPM_Ajax {
         }
         if( cpm_can_manage_projects() ){
             if( isset( $_POST['project_id'] ) ) {
-                $project_id = $_POST['project_id'];
+                $project_id = sanitize_text_field( $_POST['project_id'] );
             } else {
                 wp_send_json_error( __( 'Project ID required', 'cpm' ) );
             }
@@ -533,15 +533,15 @@ class CPM_Ajax {
     function add_new_task() {
         $posted     = $_POST;
 
-        $list_id    = $posted['list_id'];
-        $project_id = $posted['project_id'];
+        $list_id    = isset( $posted['list_id'] )  ? intval( $posted['list_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0 ;
         $response = array('success' => false);
-        if( cpm_user_can_delete_edit( $project_id, $list_id, true ) ){
+        if(cpm_user_can_access( $project_id, 'create_todo' ) ){
             $task_obj   = CPM_Task::getInstance();
-            $task_id    = $task_obj->add_task( $posted['list_id'], $posted );
+            $task_id    = $task_obj->add_task( $list_id, $posted );
             $task       = $task_obj->get_task( $task_id );
             $complete   = $task_obj->get_completeness( $list_id, $project_id );
-            $single     = isset( $_POST['subtask'] ) ? $_POST['subtask'] : false;
+            $single     = isset( $_POST['single'] ) ? $_POST['single'] : false;
 
             if ( $task_id ) {
                 $response = array(
@@ -561,9 +561,9 @@ class CPM_Ajax {
     function update_task() {
         $posted = $_POST;
 
-        $list_id = $posted['list_id'];
-        $project_id = $posted['project_id'];
-        $task_id = $posted['task_id'];
+        $list_id = isset( $posted['list_id'] )? intval( $posted['list_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0 ;
+        $task_id = isset( $posted['task_id'] ) ? intval( $posted['task_id'] ) : 0;
         $single = (int) $posted['single'];
         $response = array('success' => false);
         if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ){
@@ -617,9 +617,9 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
-        $task_id = (int) $posted['task_id'];
-        $list_id = $posted['list_id'];
-        $project_id = $posted['project_id'];
+        $task_id = isset( $posted['task_id'] ) ? intval( $posted['task_id'] ) : 0;
+        $list_id = isset( $posted['list_id']) ? intval( $posted['list_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ): 0;
         $single = (int) $posted['single'];
         $response = array('success' => false);
         if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ){
@@ -650,9 +650,9 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
 
         $posted = $_POST;
-        $task_id = (int) $posted['task_id'];
-        $list_id = $posted['list_id'];
-        $project_id = $posted['project_id'];
+        $task_id = isset( $posted['task_id'] ) ? intval( $posted['task_id'] ) : 0;
+        $list_id = isset( $posted['list_id']) ? intval( $posted['list_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ): 0;
         $single = (int) $posted['single'];
         $response = array('success' => false);
         if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ){
@@ -677,10 +677,10 @@ class CPM_Ajax {
 
     function delete_task() {
         check_ajax_referer( 'cpm_nonce' );
-
-        $task_id = (int) $_POST['task_id'];
-        $list_id = (int) $_POST['list_id'];
-        $project_id = (int) $_POST['project_id'];
+        $posted = $_POST;
+        $task_id = isset( $posted['task_id'] ) ? intval( $posted['task_id'] ) : 0;
+        $list_id = isset( $posted['list_id']) ? intval( $posted['list_id'] ) : 0;
+        $project_id = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ): 0;
         $response = array('success' => false);
         if( cpm_user_can_delete_edit( $project_id, $task_id, true ) ){
             $task_obj = CPM_Task::getInstance();
@@ -708,7 +708,7 @@ class CPM_Ajax {
         $posted = $_POST;
         $project_id = $posted['project_id'];
         $response = array('success' => false);
-        if( cpm_can_manage_projects() ){
+        if(cpm_user_can_access( $project_id, 'create_todolist' ) ){
             $task_obj = CPM_Task::getInstance();
             $list_id = $task_obj->add_list( $project_id, $posted );
 
@@ -777,7 +777,7 @@ class CPM_Ajax {
 
     function milestone_new() {
         check_ajax_referer( 'cpm_milestone' );
-        if( cpm_can_manage_projects() ){
+        if(cpm_user_can_access( $project_id, 'create_milestone' ) ){
             CPM_Milestone::getInstance()->create( $_POST['project_id'] );
 
             echo json_encode( array(
@@ -942,27 +942,31 @@ class CPM_Ajax {
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
         }
+        if ( cpm_user_can_access( $project_id ) ){
+            $data = array(
+                'comment_post_ID' => $parent_id,
+                'comment_content' => $text,
+                'user_id' => get_current_user_id()
+            );
 
-        $data = array(
-            'comment_post_ID' => $parent_id,
-            'comment_content' => $text,
-            'user_id' => get_current_user_id()
-        );
+            $comment_obj = CPM_Comment::getInstance();
+            $comment_id = $comment_obj->create( $data, $files );
 
-        $comment_obj = CPM_Comment::getInstance();
-        $comment_id = $comment_obj->create( $data, $files );
+            if ( $comment_id ) {
 
-        if ( $comment_id ) {
+                $comment = $comment_obj->get( $comment_id );
 
-            $comment = $comment_obj->get( $comment_id );
-
-            echo json_encode( array(
-                'success' => true,
-                'placeholder' => __( 'Add a comment...', 'cpm' ),
-                'content' => cpm_show_comment( $comment, $project_id )
-            ) );
+                echo json_encode( array(
+                    'success' => true,
+                    'placeholder' => __( 'Add a comment...', 'cpm' ),
+                    'content' => cpm_show_comment( $comment, $project_id )
+                ) );
+            }
+        }else{
+             echo json_encode( array(
+                    'success' => false
+                ) );
         }
-
         exit;
     }
 
@@ -1034,24 +1038,28 @@ class CPM_Ajax {
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
         }
+        if ( cpm_user_can_access( $project_id , 'create_message' ) ){
+            $message_obj = CPM_Message::getInstance();
+            $message_id  = $message_obj->create( $project_id, $posted, $files );
 
-        $message_obj = CPM_Message::getInstance();
-        $message_id  = $message_obj->create( $project_id, $posted, $files );
+            if ( $message_id ) {
+                echo json_encode( array(
+                    'success' => true,
+                    'id'      => $message_id,
+                    'url'     => cpm_url_single_message( $project_id, $message_id )
+                ) );
 
-        if ( $message_id ) {
+                exit;
+            }
+
             echo json_encode( array(
-                'success' => true,
-                'id'      => $message_id,
-                'url'     => cpm_url_single_message( $project_id, $message_id )
+                'success' => false
             ) );
-
-            exit;
+        }else {
+            echo json_encode( array(
+                'success' => false
+            ) );
         }
-
-        echo json_encode( array(
-            'success' => false
-        ) );
-
         exit;
     }
 

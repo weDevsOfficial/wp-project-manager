@@ -378,10 +378,10 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <li class="cpm-new-btn" >
                     <a href="#" class="cpm-btn add-task"><?php _e( 'Add a to-do', 'cpm' ); ?></a>
                 </li>
+                <li class="cpm-todo-form cpm-hide">
+                    <?php cpm_task_new_form( $list->ID, $project_id ); ?>
+                </li>
             <?php  } ?>
-            <li class="cpm-todo-form cpm-hide">
-                <?php cpm_task_new_form( $list->ID, $project_id ); ?>
-            </li>
         </ul>
 
         <?php
