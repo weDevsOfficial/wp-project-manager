@@ -711,7 +711,7 @@ class CPM_Ajax {
             if ( $list_id ) {
                 $list = $task_obj->get_task_list( $list_id );
 
-                echo json_encode( array(
+                 $response  = ( array(
                     'success' => true,
                     'id' => $list_id,
                     'content' => cpm_task_list_html( $list, $project_id )
@@ -721,7 +721,11 @@ class CPM_Ajax {
                     'success' => false
                 ) ;
             }
-        }
+        }else {
+               $response = array(
+                    'success' => false
+                ) ;
+            }
         echo json_encode( $response );
         exit;
     }
@@ -938,7 +942,7 @@ class CPM_Ajax {
         if ( isset( $posted['cpm_attachment'] ) ) {
             $files = $posted['cpm_attachment'];
         }
-        if ( cpm_user_can_access( $project_id ) ){
+
             $data = array(
                 'comment_post_ID' => $parent_id,
                 'comment_content' => $text,
@@ -958,11 +962,7 @@ class CPM_Ajax {
                     'content' => cpm_show_comment( $comment, $project_id )
                 ) );
             }
-        }else{
-             echo json_encode( array(
-                    'success' => false
-                ) );
-        }
+
         exit;
     }
 
