@@ -545,8 +545,14 @@ class CPM_Project {
         }
 
         $user_list = array();
-        $table = $wpdb->prefix . 'cpm_user_role';
-        $project_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, role FROM {$table} WHERE project_id = %d", $project_id ) );
+        $table     = $wpdb->prefix . 'cpm_user_role';
+        $query     = "SELECT user_id, role FROM {$table} WHERE project_id = %d AND component = ''";
+        
+        $query         = apply_filters( 'cpm_get_users_query', $query, $project, $table );
+        
+        $project_users = $wpdb->get_results( $wpdb->prepare( $query, $project_id ) );
+        
+        $project_users = apply_filters( 'cpm_get_users', $project_users, $project, $table );
 
         if ( $project_users ) {
             foreach ($project_users as $row ) {

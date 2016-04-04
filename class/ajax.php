@@ -468,7 +468,7 @@ class CPM_Ajax {
     function user_role_table_generator( $project ) {
         ob_start();
         if ( !is_null( $project ) ) {
-            $users_role = $project->users;
+            $users_role = apply_filters( 'cpm_users_exclude_from_project', $project->users, $project );
 
             foreach( $users_role as $array ) {
                 $user_data  = get_userdata( $array['id'] );
@@ -482,28 +482,24 @@ class CPM_Ajax {
                 }
 
                 $name = str_replace(' ', '_', $user_data->display_name );
-
-
                 ?>
-                        <tr>
-                            <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
-                            <td>
-                                <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
-                                <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
-                            </td>
-                            <td>
-                                <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
-                                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
-                            </td>
-                            <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
+                    <tr>
+                        <td><?php printf( '%s', ucfirst( $user_data->display_name )  ); ?></td>
+                        <td>
+                            <input type="radio" <?php checked( 'manager', $array['role'] ); ?> id="cpm-manager-<?php echo $name; ?>"  name="role[<?php echo $array['id']; ?>]" value="manager">
+                            <label for="cpm-manager-<?php echo $name; ?>"><?php _e( 'Manager', 'cpm' ); ?></label>
+                        </td>
+                        <td>
+                            <input type="radio" <?php checked( 'co_worker', $array['role'] ); ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array['id']; ?>]" value="co_worker">
+                            <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' ); ?></label>
+                        </td>
+                        <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
 
-                            <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
-                        </tr>
+                        <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e('Delete','cpm'); ?></span></a></td>
+                    </tr>
 
                 <?php
             }
-
-
         }
         return ob_get_clean();
     }
