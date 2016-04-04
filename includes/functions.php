@@ -1323,7 +1323,7 @@ function cpm_message() {
 function cpm_is_pro() {
 
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
-        //return true;
+        return true;
     }
     return false;
 }
