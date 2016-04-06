@@ -309,7 +309,7 @@ class CPM_Project {
             );
         }
 
-        if ( cpm_manage_capability() == false ) {
+        if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 3 );
         }
@@ -320,7 +320,7 @@ class CPM_Project {
         $total_projects = $projects->found_posts;
         $projects       = $projects->posts;
 
-        if ( cpm_manage_capability() == false ) {
+        if ( cpm_can_manage_projects() === false ) {
             remove_filter( 'posts_join', array($this, 'jonin_user_role_table') );
             remove_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 2 );
         }
@@ -332,7 +332,6 @@ class CPM_Project {
         $projects['total_projects'] = $total_projects;
         return $projects;
     }
-
 
     function get_user_projects( $user_id ) {
 
@@ -376,8 +375,9 @@ class CPM_Project {
 
         if( absint ( $user_id) ) $user_id = $user_id;
         else $user_id = get_current_user_id();
-        $where .= " AND $table.user_id = $user_id";
 
+        $project_where = " AND $table.user_id = $user_id";
+        $where .= apply_filters( 'cpm_get_projects_where', $project_where, $table, $where, $wp_query, $user_id );
         return $where;
     }
 
@@ -545,8 +545,14 @@ class CPM_Project {
         }
 
         $user_list = array();
-        $table = $wpdb->prefix . 'cpm_user_role';
-        $project_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, role FROM {$table} WHERE project_id = %d", $project_id ) );
+        $table     = $wpdb->prefix . 'cpm_user_role';
+        $query     = "SELECT user_id, role FROM {$table} WHERE project_id = %d AND component = ''";
+        
+        $query         = apply_filters( 'cpm_get_users_query', $query, $project, $table );
+        
+        $project_users = $wpdb->get_results( $wpdb->prepare( $query, $project_id ) );
+        
+        $project_users = apply_filters( 'cpm_get_users', $project_users, $project, $table );
 
         if ( $project_users ) {
             foreach ($project_users as $row ) {
@@ -678,20 +684,32 @@ class CPM_Project {
      * @param object $project
      * @return bool
      */
-    function has_permission( $project ) {
+    function has_permission( $project, $user_id = 0 ) {
         global $current_user;
-
-        $loggedin_user_role = reset( $current_user->roles );
-
-        $manage_capability = cpm_get_option( 'project_manage_role' );
-        $project_users_role = $this->get_users( $project->ID );
-
-        if ( array_key_exists( $current_user->ID, $project_users_role ) || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
-            return true;
+    
+        if ( absint( $user_id ) ) {
+            $user = get_user_by( 'ID', $user_id );
+        } else {
+            $user = $current_user;
         }
 
-        return false;
-
+        if ( ! $user ) {
+            return false;
+        }
+        
+        //chck manage capability
+        if ( cpm_can_manage_projects( $user->ID ) ) {
+            return true;
+        }
+        
+        $uesr_role_in_project = cpm_get_role_in_project( $project->ID , $user_id);
+        
+        //If current user has no role in this project
+        if ( ! $uesr_role_in_project ) {
+            return false;
+        }        
+        
+        return true;
     }
 
     function get_progress_by_tasks( $project_id ) {

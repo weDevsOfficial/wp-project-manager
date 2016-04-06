@@ -55,7 +55,7 @@ class CPM_JSON_Tasks {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid todo list ID.' ), array( 'status' => 404 ) );
 		}
 		$posts_list        = cpm()->task->get_task_list( $list_id );
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
@@ -110,7 +110,7 @@ class CPM_JSON_Tasks {
 		}
 
 		$posts_list        = cpm()->task->get_task_list( $list_id );
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
@@ -171,7 +171,7 @@ class CPM_JSON_Tasks {
 			return new WP_Error( 'task_text', __( 'Task Name Required', 'cpm' ) );
 		}
 		$posts_list        = cpm()->task->get_task_list( $list_id );
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( !$manage_capability && !cpm_is_single_project_manager( $project_id ) ) {
 

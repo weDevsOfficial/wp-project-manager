@@ -1,13 +1,14 @@
 <?php
-$pro_obj = CPM_Project::getInstance();
-$project = $pro_obj->get( $project_id );
+$pro_obj    = CPM_Project::getInstance();
+$project    = $pro_obj->get( $project_id );
+$can_manage = cpm_user_can_delete_edit( $project_id, $project );
 
 if ( !$project ) {
     echo '<h2>' . __( 'Error: Project not found', 'cpm' ) . '</h2>';
     die();
 }
 
-if ( !$pro_obj->has_permission( $project ) ) {
+if ( ! $pro_obj->has_permission( $project ) ) {
     echo '<h2>' . __( 'Error: Permission denied', 'cpm' ) . '</h2>';
     die();
 }
@@ -19,7 +20,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
 
         <div class="cpm-col-6 cpm-project-detail">
             <h2><span class="cpm-project-title"> <?php echo get_the_title( $project_id ); ?> </span>
-                <?php if ( cpm_user_can_access( $project_id ) ) { ?>
+                <?php if ( $can_manage ) { ?>
                     <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
                 <?php } ?>
             </h2>
@@ -33,7 +34,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
         <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
             <?php do_action( 'cpm_inside_project_filter', $project ); ?>
 
-            <?php if ( cpm_user_can_access( $project_id ) ) { ?>
+            <?php if ( $can_manage ) { ?>
                 <?php cpm_project_actions( $project_id ); ?>
             <?php } ?>
         </div>
@@ -42,7 +43,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
 
         <div class="cpm-edit-project" style="display:none;">
             <?php
-             if ( cpm_user_can_access( $project_id ) ) {
+            if ( $can_manage ) {
                 cpm_project_form( $project );
             }
             ?>
@@ -50,7 +51,7 @@ if ( !$pro_obj->has_permission( $project ) ) {
 
         <div id="cpm-create-user-wrap" title="<?php _e( 'Create a new user', 'cpm' ); ?>">
             <?php
-            if ( cpm_user_can_access( $project_id ) ) {
+            if ( $can_manage ) {
                 cpm_user_create_form();
             }
             ?>

@@ -323,8 +323,6 @@ function cpm_task_completeness( $total, $completed ) {
     ?>
     <div class="cpm-progress cpm-progress-info">
         <div style="width:<?php echo $percentage; ?>%" class="bar completed"></div>
-        <!-- <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div> -->
-
     </div>
 
     <?php
@@ -776,15 +774,18 @@ function cpm_settings_label() {
     return apply_filters( 'cpm_project_permission',  $labels );
 }
 
-function cpm_project_user_role_pre_chache( $project_id ) {
+function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
     global $wpdb;
 
     $table = $wpdb->prefix . 'cpm_user_role';
-    $user_id = get_current_user_id();
+
+    if ( ! $user_id ) {
+        $user_id = get_current_user_id();
+    }
 
     $role = $wpdb->get_var( $wpdb->prepare("SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d'", $project_id, $user_id ) );
 
-    $project_user_role = !empty( $role ) ? $role : false;
+    $project_user_role = ! empty( $role ) ? $role : false;
 
     return $project_user_role;
 }
@@ -797,17 +798,15 @@ function cpm_project_user_role_pre_chache( $project_id ) {
  * @parm int $user_id //
  * @return string
  */
-function cpm_project_user_role( $project_id, $user_id = 0  ) {
+function cpm_get_role_in_project( $project_id, $user_id = 0  ) {
 
-    if( absint($user_id) ){
+    if ( absint( $user_id ) ){
         $user = get_user_by( 'ID', $user_id );
-
     } else {
        $user = wp_get_current_user();
     }
 
-
-    $cache_key = 'cpm_project_user_role_' . $project_id . $user_id;
+    $cache_key         = 'cpm_project_user_role_' . $project_id . $user_id;
     $project_user_role = wp_cache_get( $cache_key );
 
     if ( $project_user_role === false ) {
@@ -815,68 +814,49 @@ function cpm_project_user_role( $project_id, $user_id = 0  ) {
         wp_cache_set( $cache_key, $project_user_role );
     }
 
-    return $project_user_role;
+    return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user_id );
 }
 
+/**
+ * Check if a user a project manager of an individual project
+ *
+ * @param  int  $project_id
+ *
+ * @return boolean
+ */
 function cpm_is_single_project_manager( $project_id ) {
 
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
+    $project_user_role = cpm_get_role_in_project( $project_id );
 
-    $project_user_role = cpm_project_user_role( $project_id );
-
-    if ( $project_user_role == 'manager' ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( $project_user_role == 'manager' ) ? true : false;
 }
 
-function cpm_manage_capability( $option_name = 'project_manage_role', $user_id = 0 ) {
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
+/**
+ * Check if a user has the manage capability
+ *
+ * @param  integer  $user_id
+ *
+ * @return boolean
+ */
+function cpm_can_manage_projects( $user_id = 0 ) {
+    global $current_user;
 
-    if( absint($user_id) ){
+    if ( absint( $user_id ) ) {
         $user = get_user_by( 'ID', $user_id );
     } else {
-        $user = wp_get_current_user();
+        $user = $current_user;
     }
 
     if ( ! $user ) {
         return false;
     }
 
-    $loggedin_user_role = reset( $user->roles );
-    $manage_capability = cpm_get_option( $option_name );
+    $loggedin_user_role   = array_flip( $user->roles );
+    $manage_cap_option    = cpm_get_option( 'project_manage_role' );
+    $manage_capability    = array_intersect_key( $loggedin_user_role, $manage_cap_option );
 
-    if ( array_key_exists( $loggedin_user_role, $manage_capability ) ) {
-        return true;
-    }
-
-    return false;
-}
-
-function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
-    if( $id_only ){
-        $task_obj = CPM_Task::getInstance();
-        $list = $task_obj->get_task_list( $list );
-    }
-
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
-
-    $user = wp_get_current_user();
-
-    $project_user_role  = cpm_project_user_role( $project_id );
-    $loggedin_user_role = reset( $user->roles );
-    $manage_capability  = cpm_get_option( 'project_manage_role' );
-    //var_dump( $current_user->ID, $list->post_author, $project_user_role, $loggedin_user_role, $manage_capability ); die();
-    // grant project manager all access
-    // also if the user role has the ability to manage all projects from settings, allow him
-    if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) || $user->ID == $list->post_author ) {
+    //checking project manage capability
+    if ( $manage_capability ) {
         return true;
     }
 
@@ -884,51 +864,134 @@ function cpm_user_can_delete_edit( $project_id, $list, $id_only = false ) {
 }
 
 /**
- * In the case of create use  is_cpm_user_can_access( $project_id, $section )
+ * Check if a user has the project create capability
  *
- * In the case of view user  ! is_cpm_user_can_access( $project_id, $section )
+ * @param  integer  $user_id
+ *
+ * @return boolean
  */
+function cpm_can_create_projects( $user_id = 0 ) {
+    global $current_user;
 
-function cpm_user_can_access( $project_id, $section='', $user_id = 0 ) {
-    if ( ! cpm_is_pro() ) {
+    if ( absint( $user_id ) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = $current_user;
+    }
+
+    if ( ! $user ) {
+        return false;
+    }
+
+    //checking project manage capability
+    if ( cpm_can_manage_projects( $user->ID ) ) {
         return true;
     }
 
-    if ( absint($user_id) ) {
-        $user = get_user_by( 'ID', $user_id );
-    } else {
-        $user = wp_get_current_user();
+    $loggedin_user_role       = array_flip( $user->roles );
+    $manage_cap_option        = cpm_get_option( 'project_create_role' );
+    $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
+
+    //checking project create capability
+    if ( $project_ceate_capability ) {
+        return true;
     }
 
+    return false;
 
+}
 
-    $login_user = apply_filters( 'cpm_current_user_access', $user, $project_id, $section );
-    $project_user_role  = cpm_project_user_role( $project_id , $user_id);
-    $loggedin_user_role = reset( $login_user->roles );
-    $manage_capability  = cpm_get_option( 'project_manage_role' );
+/**
+ * Check if a user has the owner for the task list
+ *
+ * @param  integer  $user_id
+ * @param  objec $list
+ * @param  $id_only
+ *
+ * @return boolean
+ */
+function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
+    if ( $id_only ) {
+       $post = get_post( intval( $post ) );
+    }
+
+    $user = wp_get_current_user();
 
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
-    if ( $project_user_role == 'manager' || array_key_exists( $loggedin_user_role, $manage_capability ) ) {
+    if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $post->post_author ) {
         return true;
     }
 
-    // Now, if the user is not manager, check if he can access from settings
-    $settings_role = get_post_meta( $project_id, '_settings', true );
-    $can_access    = isset( $settings_role[$project_user_role][$section] ) ? $settings_role[$project_user_role][$section] : '';
-
-    if( $can_access == 'yes' ) {
-        return true;
-    } else {
-        return false;
-    }
+    return false;
 }
 
-function cpm_user_can_access_file( $project_id, $section, $is_private ) {
+/**
+ * Check if a user has any access on a project
+ *
+ * @param  int      $project_id
+ * @param  string   $section
+ * @param  integer  $user_id
+ *
+ * @return boolean
+ */
+function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
+    global $current_user;
+
+    if ( absint( $user_id ) ) {
+        $user = get_user_by( 'ID', $user_id );
+    } else {
+        $user = $current_user;
+    }
+
+    if ( ! $user ) {
+        return false;
+    }
+
+    //chck manage capability
+    if ( cpm_can_manage_projects( $user->ID ) ) {
+        return true;
+    }
+
+    $uesr_role_in_project = cpm_get_role_in_project( $project_id , $user_id);
+
+    //If current user has no role in this project
+    if ( ! $uesr_role_in_project ) {
+        return false;
+    }
+
+    // grant project manager all access
+    // also if the user role has the ability to manage all projects from settings, allow him
+    if ( $uesr_role_in_project == 'manager' ) {
+        return true;
+    }
 
     if ( ! cpm_is_pro() ) {
         return true;
     }
+
+    $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );
+
+    return $can_access;
+}
+
+/**
+ * Check if a user has any access from a project settings
+ *
+ * @param  int     $project_id
+ * @param  string  $uesr_role_in_project
+ * @param  string  $section
+ *
+ * @return boolean
+ */
+function cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section ) {
+    $settings_role = get_post_meta( $project_id, '_settings', true );
+    $can_access    = isset( $settings_role[$uesr_role_in_project][$section] ) ? $settings_role[$uesr_role_in_project][$section] : '';
+
+    return ( $can_access == 'yes' ) ? true : false;
+}
+
+function cpm_user_can_access_file( $project_id, $section, $is_private ) {
 
     if ( $is_private == 'no' ) {
         return true;
@@ -937,16 +1000,15 @@ function cpm_user_can_access_file( $project_id, $section, $is_private ) {
     return cpm_user_can_access( $project_id, $section );
 }
 
-
 /**
  * Get all the orders from a specific seller
  *
  * @global object $wpdb
+ *
  * @param int $seller_id
+ *
  * @return array
  */
-
-
 function cpm_project_count() {
     global $wpdb;
     $table = $wpdb->prefix . 'cpm_user_role';
@@ -968,7 +1030,7 @@ function cpm_project_count() {
     $project_category_join = apply_filters( 'cpm_project_activity_count_join', $project_category_join );
     $project_category      = apply_filters( 'cpm_project_activity_count_where', $project_category );
 
-    if( cpm_manage_capability() == false ) {
+    if( cpm_can_manage_projects() == false ) {
         $role_join  = "LEFT JOIN {$table} AS role ON role.project_id = post.ID";
         $role_where = "AND role.user_id = $user_id";
     } else {
@@ -994,7 +1056,7 @@ function cpm_project_count() {
         wp_cache_set( $cache_key, $count, 'cpm' );
     }
 
-    if( is_array($count) && count($count) ) {
+    if ( is_array($count) && count($count) ) {
         foreach( $count as $key=>$obj) {
             if( $obj->type == 'yes' ) {
                 $active = $obj->count;
@@ -1259,11 +1321,17 @@ function cpm_message() {
     return apply_filters( 'cpm_message', $message );
 }
 
+/**
+ * Check if this is a pro version
+ *
+ * @return boolean
+ */
 function cpm_is_pro() {
 
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
         return true;
     }
+
     return false;
 }
 

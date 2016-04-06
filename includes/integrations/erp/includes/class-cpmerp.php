@@ -15,6 +15,8 @@ class CPM_ERP {
      */
 	public $hrm_users = array();
 
+    public $current_user_departmetn_id = false;
+
 	/**
      * Initializes the CPM_ERP_Integration() class
      *
@@ -57,12 +59,14 @@ class CPM_ERP {
      * @return void
      */
     function init_actions() {
+        add_action( 'admin_init', array( $this, 'set_current_user_department' ), 10 );
         add_action( 'cpm_project_form', array( $this, 'new_field' ) );
         add_action( 'cpm_project_new', array( $this, 'action_after_update_project' ), 10, 3);
         add_action( 'cpm_project_update', array( $this, 'action_after_update_project' ), 10, 3 );
         add_action( 'erp_hr_dept_before_updated', array( $this, 'before_update_dept' ), 10, 2 );
         add_action( 'cpm_my_task_after_title', array( $this, 'after_tab' ) );
         add_action( 'wp_ajax_erp_fetch_employee_task', array( $this, 'employee_new_task' ) );
+        add_action( 'cpm_get_projects_where', array( $this, 'get_project_query' ), 10, 5 );
     }
 
     /**
@@ -77,6 +81,10 @@ class CPM_ERP {
         add_filter( 'cpm_user_role', array( $this, 'get_employee_role' ), 10, 2 );
         add_filter( 'cpm_projects_where', array( $this, 'projects_were' ) );
         add_filter( 'erp_hr_employee_single_tabs', array( $this, 'profile_tab' ) );
+        add_filter( 'cpm_project_user_role', array( $this, 'group_user_role' ), 10, 3 );
+        //add_filter( 'cpm_get_users_query', array( $this, 'get_user_query' ), 10, 3 );
+        add_filter( 'cpm_get_users', array( $this, 'get_group_user' ), 10, 3 );
+        add_filter( 'cpm_users_exclude_from_project', array( $this, 'users_exclude_from_project' ), 10, 2 );
 
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
             add_filter( 'cpm_my_task_user_id', array( $this, 'get_my_task_user_id' ) );
@@ -90,6 +98,195 @@ class CPM_ERP {
             add_filter( 'cpm_url_complete_task', array( $this, 'url_complete_task' ) );
             add_filter( 'cpm_my_task_tab', array( $this, 'user_task_tab' ), 5 );
         }
+    }
+
+    function users_exclude_from_project( $users, $project ) {
+        global $wpdb;
+        $table      = $wpdb->prefix . 'cpm_user_role';
+        $project_id = $project->ID;
+        $dept_id    = $wpdb->get_var( "SELECT user_id FROM {$table} WHERE project_id = $project_id AND component = 'erp-hrm'" );  
+        $cpm_users  = $wpdb->get_results( "SELECT * FROM {$table} WHERE project_id = $project_id" );
+        $role       = [];
+        
+        if ( ! $dept_id ) {
+            return $users;
+        }  
+
+        foreach ( $cpm_users as $key => $cpm_user ) {
+            $role[$cpm_user->user_id] = $cpm_user->role;
+        }
+
+        foreach (  $users as $key => $user ) {
+            if ( $user['role'] != 'manager' && ! array_key_exists( $user['id'], $role) ) {
+                unset( $users[$key] );
+            }
+        }
+        return $users;
+    }
+
+    function overview_user( $project ) {
+        global $wpdb;
+        $table             = $wpdb->prefix . 'cpm_user_role';
+        $project_id        = $project->ID;
+        $department_id     = $wpdb->get_var( "SELECT user_id FROM {$table} WHERE project_id = $project_id AND component = 'erp-hrm'" );
+        $title             = erp_hr_get_department_title( $department_id );
+        $department_status = \WeDevs\ERP\HRM\Models\Department::select( 'status' )->where( 'id', '=', $department_id )->pluck('status');//( $department_id );
+        $link              = add_query_arg( array( 'user_id' => $department_id, 'component' => 'erp-hrm' ), admin_url( 'admin.php?page=cpm_task' ) );
+
+        if ( $department_status != 1 ) {
+            return;
+        }
+        printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar(0, 34), $link, ucfirst( $title ), ucfirst( $title ), __('Department', 'hrm') );
+    }
+
+    function get_group_user( $project_users, $project, $table ) {
+        global $wpdb;
+
+        if ( is_object( $project ) ) {
+            $project_id = $project->ID;
+        } else {
+            $project_id = $project;
+        }
+        
+        $role = [];
+        $cpm_department    = $wpdb->get_row( "SELECT * FROM {$table} WHERE project_id = $project_id AND component = 'erp-hrm'" );
+        $cpm_users         = $wpdb->get_results( "SELECT * FROM {$table} WHERE project_id = $project_id" );
+        
+        $department_id = isset( $cpm_department->user_id ) ? $cpm_department->user_id : false;
+        
+        if ( ! $department_id ) {
+            return $project_users;
+        } 
+
+        $department   = \WeDevs\ERP\HRM\Models\Department::find( $department_id );
+        
+        if ( ! $department ) {
+            return $project_users;
+        }
+
+        if ( $department->status != 1 ) {
+            return $project_users; 
+        }
+
+        foreach ( $cpm_users as $key => $cpm_user ) {
+            $role[$cpm_user->user_id] = $cpm_user->role;
+        }
+        
+        $args = [
+            'department' => $department_id,
+            'status'     => 'active' 
+        ];
+
+        $active_employees = erp_hr_get_employees( $args );
+
+        foreach ( $active_employees as $key => $active_employee ) {
+            $dept            = new stdClass;
+            $dept->user_id   = $active_employee->id;
+            $dept->role      = ! isset( $role[$active_employee->id] )  ? $cpm_department->role : $role[$active_employee->id];
+            $dept->coponent  = 'erp-hrm';
+            $dept->title     = $department->title;
+            $project_users[] = $dept;
+
+        }
+
+        return $project_users;
+    }
+
+    function get_user_query( $query, $project, $table ) {
+        $query .= " AND component = ''";
+        return $query;
+    }
+
+    function set_current_user_department() {
+
+        $user_id = get_current_user_id();
+        $status  = \WeDevs\ERP\HRM\Models\Employee::select('status')->where( 'user_id', '=', $user_id )->pluck('status');//erp_hr_get_employee_status( $user_id );
+        
+        if ( $status != 'active' ) {
+            return false;
+        }
+
+        $department_id = \WeDevs\ERP\HRM\Models\Employee::select('department')->where( 'user_id', '=', $user_id )->pluck('department');
+
+        if ( ! $department_id ) {
+            return false;
+        }
+
+        $department_status = \WeDevs\ERP\HRM\Models\Department::select( 'status' )->where( 'id', '=', $department_id )->pluck('status');//\WeDevs\ERP\HRM\Models\Department::select( 'status' )->where( 'id', '=', $department_id )->pluck('status');//( $department_id );
+
+        if ( $department_status != 1 ) {
+            return false;
+        }
+
+        $this->current_user_departmetn_id = $department_id;
+
+        return $department_id;
+    }
+
+    function group_current_user_role( $project_id ) {
+        $user_id           = get_current_user_id();
+        $cache_key         = 'cpm_group_user_role_' . $project_id . $user_id;
+        $project_user_role = wp_cache_get( $cache_key );
+
+        if ( $project_user_role === false ) {
+            $project_user_role = $this->cache_user_role( $project_id );
+            wp_cache_set( $cache_key, $project_user_role );
+        }
+
+        return $project_user_role;
+    }
+
+    function cache_user_role( $project_id ) {
+        global $wpdb;
+
+        $table   = $wpdb->prefix . 'cpm_user_role';
+        $user_id = $this->current_user_departmetn_id;    
+                
+        $role = $wpdb->get_var( $wpdb->prepare("SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d' AND component='%s'", $project_id, $user_id, 'erp-hrm' ) );
+
+        $project_user_role  = ! empty( $role ) ? $role : false;
+        return $project_user_role;
+
+    }
+
+    function group_user_role( $project_user_role, $project_id, $user_id ) {
+        if ( $project_user_role == 'manager' ) {
+            return $project_user_role;
+        }
+        $role = $this->group_current_user_role( $project_id );
+        
+        if ( ! $role ) {
+            return $project_user_role;
+        }
+
+        return $role;
+    }
+
+    function get_project_query( $project_where, $table, $where, $wp_query, $user_id ) {
+        global $wp_query, $wpdb;
+
+        $user_id = get_current_user_id();
+        $status  = \WeDevs\ERP\HRM\Models\Employee::select('status')->where( 'user_id', '=', $user_id )->pluck('status');//erp_hr_get_employee_status( $user_id );
+        
+        if ( $status != 'active' ) {
+            return $project_where;
+        }
+
+        $department_id = \WeDevs\ERP\HRM\Models\Employee::select('department')->where( 'user_id', '=', $user_id )->pluck('department');
+
+        if ( ! $department_id ) {
+            return $project_where;
+        }
+
+        $department_status = \WeDevs\ERP\HRM\Models\Department::select( 'status' )->where( 'id', '=', $department_id )->pluck('status');//\WeDevs\ERP\HRM\Models\Department::select( 'status' )->where( 'id', '=', $department_id )->pluck('status');//( $department_id );
+
+        if ( $department_status != 1 ) {
+            return $project_where;
+        }
+
+        $project_where = " AND ( $table.user_id IN ( $user_id, $department_id ) )";
+        
+        return $project_where;
     }
 
     /**

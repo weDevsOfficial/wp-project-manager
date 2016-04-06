@@ -58,7 +58,7 @@ class CPM_JSON_Projects {
 	public function get_project( $project_id ) {
 
 		$id = (int) $project_id;
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
 			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned in this project' ), array( 'status' => 404 ) );
@@ -95,7 +95,7 @@ class CPM_JSON_Projects {
 	 */
 	public function create_project( $data ) {
 
-		if ( ! cpm_manage_capability( 'project_create_role' ) ) {
+		if ( ! cpm_can_create_projects() ) {
 			return new WP_Error( 'project_create_capability', __( 'You do not have permission to create project', 'cpm' ) );
 		}
 
@@ -145,7 +145,7 @@ class CPM_JSON_Projects {
 		if ( ! $id ) {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
 			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
@@ -193,7 +193,7 @@ class CPM_JSON_Projects {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
 
-		$manage_capability = cpm_manage_capability();
+		$manage_capability = cpm_can_manage_projects();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
 			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );

@@ -108,14 +108,14 @@ class CPM_Router {
 	static public function output() {
 		 echo '<div class="wrap cpm cpm-front-end">';
 
-		$page = (isset( $_GET['page'] )) ? $_GET['page'] : '';
-		$tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
-		$action = (isset( $_GET['action'] )) ? $_GET['action'] : '';
+		$page         = (isset( $_GET['page'] )) ? $_GET['page'] : '';
+		$tab          = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
+		$action       = (isset( $_GET['action'] )) ? $_GET['action'] : '';
 
-		$project_id = (isset( $_GET['pid'] )) ? (int) $_GET['pid'] : 0;
-		$message_id = (isset( $_GET['mid'] )) ? (int) $_GET['mid'] : 0;
-		$tasklist_id = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
-		$task_id = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
+		$project_id   = (isset( $_GET['pid'] )) ? (int) $_GET['pid'] : 0;
+		$message_id   = (isset( $_GET['mid'] )) ? (int) $_GET['mid'] : 0;
+		$tasklist_id  = (isset( $_GET['tl_id'] )) ? (int) $_GET['tl_id'] : 0;
+		$task_id      = (isset( $_GET['task_id'] )) ? (int) $_GET['task_id'] : 0;
 		$milestone_id = (isset( $_GET['ml_id'] )) ? (int) $_GET['ml_id'] : 0;
 
 		$default_file = CPM_PATH . '/views/project/index.php';

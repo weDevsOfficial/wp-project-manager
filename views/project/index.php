@@ -7,7 +7,7 @@ $db_limit           = intval( cpm_get_option( 'pagination' ) );
 $limit              = $db_limit ? $db_limit : 10;
 $status_class       = isset( $_GET['status'] ) ? $_GET['status'] : 'active';
 $count              = cpm_project_count();
-$can_create_project = cpm_manage_capability( 'project_create_role' );
+$can_create_project = cpm_can_create_projects();
 $class              = $can_create_project ? '' : ' cpm-no-nav';
 $dpv                = get_user_meta( get_current_user_id(), '_cpm_project_view', true );
 $project_view       = in_array( $dpv, array( 'grid', 'list' ) ) ? $dpv : 'grid';
@@ -137,7 +137,7 @@ unset( $projects['total_projects'] );
                 <div class="cpm-progress-percentage"> <?php if($progress['total'] != 0) {  echo floor(((100 * $progress['completed']) /  $progress['total'])) ."%" ; } ?>  </div>
                 <div class="cpm-project-action-icon">
                     <?php
-                    if ( cpm_user_can_access( $project->ID ) ) {
+                    if ( cpm_user_can_delete_edit( $project->ID, $project ) ) {
                         cpm_project_actions( $project->ID );
                     }
                     ?>

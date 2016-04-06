@@ -12,9 +12,6 @@ class CPM_Notification {
 
         add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
         add_action( 'cpm_task_update', array($this, 'new_task'), 10, 3 );
-        if(  cpm_get_option('email_url_link') == 'frontend' ){
-             new CPM_Frontend_URLs();
-        }
     }
 
     public static function getInstance() {
@@ -23,6 +20,16 @@ class CPM_Notification {
         }
 
         return self::$_instance;
+    }
+
+    /**
+     * check email link url to front-end
+     * @since 1.4.0
+     */
+    public function check_email_url() {
+        if ( cpm_get_option('email_url_link') == 'frontend' ) {
+            new CPM_Frontend_URLs();
+        }
     }
 
     /**
@@ -66,7 +73,7 @@ class CPM_Notification {
      * @param int $project_id
      */
     function project_new( $project_id, $data ) {
-
+        $this->check_email_url();
         $file_path    = dirname (__FILE__) . '/../views/emails/new-project.php';
         $content_path = apply_filters( 'cpm_new_project_email_content', $file_path );
         $subject      = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
@@ -104,7 +111,7 @@ class CPM_Notification {
      * @param int $project_id
      */
     function project_update( $project_id, $data ) {
-
+        $this->check_email_url();
         $file_path   = dirname (__FILE__) . '/../views/emails/update-project.php';
         $content_path = apply_filters( 'cpm_update_project_email_content', $file_path );
         $subject      = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
@@ -125,7 +132,7 @@ class CPM_Notification {
     }
 
     function complete_task( $list_id, $task_id, $data, $project_id ) {
-
+        $this->check_email_url();
         $file_path    = CPM_PATH . '/views/emails/complete-task.php';
         $content_path = apply_filters( 'cpm_complete_task_email_content', $file_path );
         $subject      = sprintf( __( '[%s][%s] Task Completed: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $task_id ) );
@@ -147,6 +154,7 @@ class CPM_Notification {
     }
 
     function new_message( $message_id, $project_id ) {
+        $this->check_email_url();
         $file_path    = CPM_PATH . '/views/emails/new-message.php';
         $content_path = apply_filters( 'cpm_new_message_email_content', $file_path );
         $subject      = sprintf( __( '[%s][%s] New Message: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $message_id ) );
@@ -175,6 +183,7 @@ class CPM_Notification {
      * @param array $comment_info the post data
      */
     function new_comment( $comment_id, $project_id, $data ) {
+        $this->check_email_url();
         $file_path    = CPM_PATH . '/views/emails/new-comment.php';
         $content_path = apply_filters( 'cpm_new_comment_email_content', $file_path );
         $parent_post  =  get_comment( $comment_id );
@@ -196,6 +205,7 @@ class CPM_Notification {
     }
 
     function new_task( $list_id, $task_id, $data ) {
+        $this->check_email_url();
         //for api
         $new_task_notification = apply_filters( 'cpm_new_task_notification', true );
         if ( ! $new_task_notification ) {
