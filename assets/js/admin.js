@@ -15,6 +15,7 @@
             $('.cpm-project-head').on('click', 'a.project-cancel', this.Project.toggleEditForm);
             $('.cpm-load-more').on('click', this.Project.loadActivity);
             $('.cpm-loads-more').on('click', this.Project.loadAllActivity);
+
             /* =============== Milestones ============ */
             $('#cpm-milestone-page').on('click', '.milestone-link', this.Milestone.showMilestonePart);
             $('.cpm-links').on('click', '.cpm-milestone-delete', this.Milestone.remove);
@@ -26,6 +27,7 @@
             $('a#cpm-add-milestone').on('click', this.Milestone.show);
             $('.cpm-milestone').on('click', 'a.milestone-cancel', this.Milestone.cancelUpdate);
             $('.cpm-milestone').on('submit', 'form.cpm-milestone-form', this.Milestone.update);
+
             /* =============== Comments ============ */
             $('body').on('click', '.cpm-edit-comment-link', this.Comment.get);
             $('body').on('click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit);
@@ -33,12 +35,16 @@
             $('body').on('submit', '.cpm-comment-form', this.Comment.update);
             $('body').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
             $('body').on('click', '.cpm-delete-file', this.Uploader.deleteFile);
+
             /* =============== Project Duplicate ============ */
             $('.cpm-duplicate-project').on('click', this.Project.ProjectDuplicate);
+
             /* =============== Project archive ============ */
             $('.cpm-archive').on('click', this.Project.ProjectArchive);
+
             /* =============== Project setting  ============ */
             $('.cpm-settings-bind').on('click', this.Project.Settings);
+
             /* =============== Project view  ============ */
             $('.cpm-project-view').on('click', 'a.change-view', this.Project.View);
             /* ================= */

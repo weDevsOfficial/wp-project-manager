@@ -967,7 +967,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
     }
 
     if ( ! cpm_is_pro() ) {
-        return false;
+        return true;
     }
 
     $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );

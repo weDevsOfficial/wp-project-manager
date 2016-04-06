@@ -1,31 +1,26 @@
 <?php
 wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js', __FILE__ ), array('jquery'), false, true );
 
-if( isset( $_GET['pagenum']) ){
+if ( isset( $_GET['pagenum']) ){
     $pagenum = $_GET['pagenum'] ;
-    $offset = (($pagenum-1) * cpm_get_option( 'show_todo' ) );
+    $offset  = (($pagenum-1) * cpm_get_option( 'show_todo' ) );
 }else {
     $pagenum = 1 ;
-    $offset = 0 ;
+    $offset  = 0 ;
 }
 
-
-
-
-$task_obj = CPM_Task::getInstance();
-
-$project_obj =  CPM_Project::getInstance();
+$task_obj        = CPM_Task::getInstance();
+$project_obj     =  CPM_Project::getInstance();
 $project_details = $project_obj->get_info($project_id) ;
 
 if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    $lists = $task_obj->get_task_lists( $project_id, $offset, true, false );
+    $lists       = $task_obj->get_task_lists( $project_id, $offset, true, false );
     $sticky_list = $task_obj->get_sticky_task_lists( $project_id,  true );
-   // var_dump($sticky_list) ;
-    $privacy =  'yes';
+    $privacy     =  'yes';
 } else {
-    $lists = $task_obj->get_task_lists( $project_id, false,  false );
+    $lists       = $task_obj->get_task_lists( $project_id, false,  false );
     $sticky_list = $task_obj->get_sticky_task_lists( $project_id);
-     $privacy =  'no';
+    $privacy     =  'no';
 }
 
 cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
@@ -49,12 +44,9 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
         foreach ($sticky_list as $list) {
             ?>
-
-    <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" class="sticky_list" >
+            <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" class="sticky_list" >
                 <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
-
             </li>
-
             <?php
         }
     }
@@ -68,7 +60,6 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
 
             <li id="cpm-list-<?php echo $list->ID; ?>" data-id="<?php echo $list->ID; ?>" >
                 <?php echo cpm_task_list_html( $list, $project_id, false ); ?>
-
             </li>
 
             <?php
