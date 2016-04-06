@@ -97,15 +97,18 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 == Screenshots ==
 
 1. Project dashboard. You can see all your projects from here and can create new one.
-2. Single project page, default tab shows all the activities from current project.
-3. Create a new project with title and description. Set milestone, attach files and notify users.
-4. Single message thread. Discuss with other members. Add comments, attachments and notify users.
-5. All messages from this project listed here.
-6. View all To-do List and to-do's. See progress on each to-do list. Task assigned to user, due date, comment count and completed to-do's.
-7. Create a new To-do list. Set title, description and milestone.
-8. Create a new to-do in a to-do list with to-do details, due date and assigned user.
-9. Completed, late and up-coming milestone with assigned to-do list and messages.
-10. All attached files from message, comment, to-do can be found here.
+2. New project creation pop-up window
+3. Project overview page. See the activities going on in a single page at a glance.
+4. Project actvities feeds grouped by date. See what you or your team has done in a project.
+5. To-do list page. View all your to-do lists and to-do's inside them.
+6. Create to-do list form
+7. Create a task in a to-do list. Add task title, additional details, assign multiple users and set dates.
+8. Discussions page. Discuss with your team with various topics.
+9. Single discussion thread. Hop-in to a discussion and brainstorm with your team.
+10. Milestones page. Set milestones for a project and assign tasks, discussions on them and see the progress of that milestone. Mark complete once its done.
+11. See all the shared files across various to-do lists, to-do's and comments. All the attached files can be found in one place.
+12. Project settings -> General Tab
+13. Project Settings -> Email Settings Tab
 
 == Changelog ==
 
