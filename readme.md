@@ -104,60 +104,11 @@ A. Sure, lots of actions and filters are added by default and will add more of t
 ### Q. Found a bug ###
 A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
-## Screenshots ##
-
-###1. Project dashboard. You can see all your projects from here and can create new one.
-###
-![Project dashboard. You can see all your projects from here and can create new one.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-1.png)
-
-###2. Single project page, default tab shows all the activities from current project.
-###
-![Single project page, default tab shows all the activities from current project.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-2.png)
-
-###3. Create a new project with title and description. Set milestone, attach files and notify users.
-###
-![Create a new project with title and description. Set milestone, attach files and notify users.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-3.png)
-
-###4. Single message thread. Discuss with other members. Add comments, attachments and notify users.
-###
-![Single message thread. Discuss with other members. Add comments, attachments and notify users.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-4.png)
-
-###5. All messages from this project listed here.
-###
-![All messages from this project listed here.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-5.png)
-
-###6. View all To-do List and to-do's. See progress on each to-do list. Task assigned to user, due date, comment count and completed to-do's.
-###
-![View all To-do List and to-do's. See progress on each to-do list. Task assigned to user, due date, comment count and completed to-do's.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-6.png)
-
-###7. Create a new To-do list. Set title, description and milestone.
-###
-![Create a new To-do list. Set title, description and milestone.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-7.png)
-
-###8. Create a new to-do in a to-do list with to-do details, due date and assigned user.
-###
-![Create a new to-do in a to-do list with to-do details, due date and assigned user.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-8.png)
-
-###9. Completed, late and up-coming milestone with assigned to-do list and messages.
-###
-![Completed, late and up-coming milestone with assigned to-do list and messages.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-9.png)
-
-###10. All attached files from message, comment, to-do can be found here.
-###
-![All attached files from message, comment, to-do can be found here.
-](https://ps.w.org/wedevs-project-manager/assets/screenshot-10.png)
-
-
 ## Changelog ##
+
+### 1.4.2 - April 6, 2016 ###
+
+ * [fix] Project permission problem in free version
 
 ### 1.4.1 - March 28, 2016 ###
 
