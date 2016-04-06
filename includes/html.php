@@ -329,12 +329,13 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
-                <div class="cpm-right cpm-pin-list"><a title="" href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>"   ><span class="dashicons dashicons-admin-post"></span></a></div>
-                <div class="cpm-right">
-                    <!-- <a href="#" class="move"><span class="dashicons dashicons-menu"></span></a>-->
+                    <div class="cpm-right">
+                        <a href="#" class="cpm-list-edit cpm-icon-edit" title="<?php esc_attr_e( 'Edit this to-to list', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                        <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" title="<?php esc_attr_e( 'Delete this to-do list', 'cpm' ); ?>" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
 
-                    <a href="#" class="cpm-list-edit cpm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
-                    <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                        <span class="cpm-pin-list">
+                            <a href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>" title="<?php esc_attr_e( 'Pin this to-do list at top', 'cpm' ); ?>"><span class="dashicons dashicons-admin-post"></span></a>
+                        </span>
                     </div>
                 <?php }  ?>
             </h3>
