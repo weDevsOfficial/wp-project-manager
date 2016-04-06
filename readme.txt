@@ -109,6 +109,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.4.2 - April 6, 2016 =
+
+ * [fix] Project permission problem in free version
+
 = 1.4.1 - March 28, 2016 =
 
  * [new] Task list sticky option added as a replacement for sorting

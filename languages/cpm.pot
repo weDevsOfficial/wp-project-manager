@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 1.4.1\n"
+"Project-Id-Version: WP Project Manager 1.4.2\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2016-03-28 13:18:56+00:00\n"
+"POT-Creation-Date: 2016-04-06 18:00:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Milestone \"%s\" marked as incomplete by %s "
 msgstr ""
 
-#: class/admin.php:33 class/project.php:613 cpm.php:124
+#: class/admin.php:33 class/project.php:619 cpm.php:124
 #: includes/free/loader.php:59 includes/pro/frontend/frontend.php:227
 #: includes/pro/views/project/settings.php:13
 msgid "Settings"
@@ -129,11 +129,11 @@ msgid "File Upload Limit"
 msgstr ""
 
 #: class/admin.php:76
-msgid "file size in Megabyte. e.g: 2"
+msgid "File Size in Megabytes. e.g: 2"
 msgstr ""
 
 #: class/admin.php:80
-msgid "Number of project per page"
+msgid "Show Projects Per Page"
 msgstr ""
 
 #: class/admin.php:83
@@ -141,66 +141,64 @@ msgid "-1 for unlimited"
 msgstr ""
 
 #: class/admin.php:87
-msgid "Todo list show style "
+msgid "To-do List Style"
 msgstr ""
 
-#: class/admin.php:90
-msgid "style for show todo list."
+#: class/admin.php:94
+msgid "Show To-do Lists Per Page"
 msgstr ""
 
-#: class/admin.php:95
-msgid "Number of todo show "
+#: class/admin.php:100
+msgid "Project Managing Capability"
 msgstr ""
 
 #: class/admin.php:102
-msgid "Project Manage Capability"
-msgstr ""
-
-#: class/admin.php:104
 msgid "Select the user role who can see and manage all projects"
 msgstr ""
 
-#: class/admin.php:110
-msgid "Project Create Capability"
+#: class/admin.php:108
+msgid "Project Creation Capability"
 msgstr ""
 
-#: class/admin.php:112
+#: class/admin.php:110
 msgid "Select the user role who can create projects"
 msgstr ""
 
-#: class/admin.php:122
+#: class/admin.php:120
 msgid "From Email"
 msgstr ""
 
+#: class/admin.php:127
+msgid "Links in the Email"
+msgstr ""
+
 #: class/admin.php:129
-msgid "URL Link to front or admin"
+msgid ""
+"Select where do you want to take the user. Notification emails contain "
+"links."
 msgstr ""
 
-#: class/admin.php:131
-msgid "URL Link to front or admin."
-msgstr ""
-
-#: class/admin.php:137
+#: class/admin.php:135
 msgid "E-Mail Type"
 msgstr ""
 
-#: class/admin.php:141
+#: class/admin.php:139
 msgid "HTML Mail"
 msgstr ""
 
-#: class/admin.php:142
+#: class/admin.php:140
 msgid "Plain Text"
 msgstr ""
 
-#: class/admin.php:239
+#: class/admin.php:237
 msgid "Send email via Bcc"
 msgstr ""
 
-#: class/admin.php:242
+#: class/admin.php:240
 msgid "Enable Bcc"
 msgstr ""
 
-#: class/admin.php:252
+#: class/admin.php:250
 msgid "- select -"
 msgstr ""
 
@@ -232,61 +230,65 @@ msgstr ""
 msgid "No item found !"
 msgstr ""
 
-#: class/ajax.php:352
+#: class/ajax.php:346 class/ajax.php:397
+msgid "Access Denied"
+msgstr ""
+
+#: class/ajax.php:353
 msgid "Username required "
 msgstr ""
 
-#: class/ajax.php:356
+#: class/ajax.php:357
 msgid "Email required"
 msgstr ""
 
-#: class/ajax.php:360
+#: class/ajax.php:361
 msgid "Invalid email"
 msgstr ""
 
-#: class/ajax.php:364
+#: class/ajax.php:365
 msgid "Username already exist"
 msgstr ""
 
-#: class/ajax.php:368
+#: class/ajax.php:369
 msgid "Email already exist"
 msgstr ""
 
-#: class/ajax.php:377 class/ajax.php:405 includes/pro/class/ajax.php:59
+#: class/ajax.php:378 class/ajax.php:409 includes/pro/class/ajax.php:59
 #: includes/pro/class/ajax.php:86 includes/pro/class/ajax.php:110
 msgid "Are you cheating?"
 msgstr ""
 
-#: class/ajax.php:383 includes/pro/class/ajax.php:65
+#: class/ajax.php:384 includes/pro/class/ajax.php:65
 msgid "Project ID required"
 msgstr ""
 
-#: class/ajax.php:482 class/ajax.php:1271
+#: class/ajax.php:487 class/ajax.php:1339
 msgid "Manager"
 msgstr ""
 
-#: class/ajax.php:486 class/ajax.php:1277
+#: class/ajax.php:493 class/ajax.php:1346
 #: includes/pro/views/project/settings.php:29
 msgid "Co-worker"
 msgstr ""
 
-#: class/ajax.php:490 class/ajax.php:1281 includes/functions.php:1025
+#: class/ajax.php:498 class/ajax.php:1351 includes/functions.php:1087
 msgid "Delete"
 msgstr ""
 
-#: class/ajax.php:894 includes/functions.php:235
+#: class/ajax.php:955 includes/functions.php:235
 msgid "Delete File"
 msgstr ""
 
-#: class/ajax.php:956
+#: class/ajax.php:1017
 msgid "Add a comment..."
 msgstr ""
 
-#: class/ajax.php:1227 class/ajax.php:1253
+#: class/ajax.php:1296 class/ajax.php:1322
 msgid "No user found!"
 msgstr ""
 
-#: class/ajax.php:1227
+#: class/ajax.php:1296
 msgid "Create a new user?"
 msgstr ""
 
@@ -351,7 +353,7 @@ msgid "Add New Message"
 msgstr ""
 
 #: class/message.php:47 class/milestone.php:42 class/project.php:52
-#: class/task.php:48 class/task.php:82 views/project/header.php:23
+#: class/task.php:48 class/task.php:82 views/project/header.php:24
 msgid "Edit"
 msgstr ""
 
@@ -384,7 +386,7 @@ msgid "Parent Message"
 msgstr ""
 
 #: class/milestone.php:21 class/milestone.php:22 class/milestone.php:37
-#: class/milestone.php:38 class/milestone.php:39 includes/functions.php:506
+#: class/milestone.php:38 class/milestone.php:39 includes/functions.php:504
 msgid "Milestone"
 msgstr ""
 
@@ -425,32 +427,32 @@ msgstr ""
 msgid "Parent Milestone"
 msgstr ""
 
-#: class/notification.php:72
+#: class/notification.php:79
 msgid "[%s] New Project Invitation: %s"
 msgstr ""
 
-#: class/notification.php:110
+#: class/notification.php:117
 msgid "[%s] Updated Project Invitation: %s"
 msgstr ""
 
-#: class/notification.php:131
+#: class/notification.php:138
 msgid "[%s][%s] Task Completed: %s"
 msgstr ""
 
-#: class/notification.php:152
+#: class/notification.php:160
 msgid "[%s][%s] New Message: %s"
 msgstr ""
 
-#: class/notification.php:181
+#: class/notification.php:190
 msgid "[%s][%s] New Comment on: %s"
 msgstr ""
 
-#: class/notification.php:219
+#: class/notification.php:229
 msgid "[%s][%s] New Task Assigned: %s"
 msgstr ""
 
 #: class/project.php:31 class/project.php:47 class/project.php:48
-#: class/project.php:49 includes/html.php:1620
+#: class/project.php:49 includes/html.php:1560
 #: includes/integrations/erp/views/task-form.php:12
 #: includes/pro/frontend/frontend.php:47
 msgid "Project"
@@ -533,36 +535,36 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: class/project.php:580 includes/pro/frontend/frontend.php:220
+#: class/project.php:586 includes/pro/frontend/frontend.php:220
 #: includes/pro/views/task/my-task.php:64 views/project/overview.php:8
 msgid "Overview"
 msgstr ""
 
-#: class/project.php:585 includes/pro/frontend/frontend.php:306
+#: class/project.php:591 includes/pro/frontend/frontend.php:306
 #: views/project/single.php:5
 msgid "Activities"
 msgstr ""
 
-#: class/project.php:590 views/message/index.php:10 views/message/single.php:16
+#: class/project.php:596 views/message/index.php:10 views/message/single.php:16
 msgid "Discussions"
 msgstr ""
 
-#: class/project.php:595 includes/pro/frontend/frontend.php:265
-#: views/task/index.php:31 views/task/single.php:10
+#: class/project.php:601 includes/pro/frontend/frontend.php:265
+#: views/task/index.php:26 views/task/single.php:10
 msgid "To-do Lists"
 msgstr ""
 
-#: class/project.php:600 views/blanktemplate/milestone.php:3
+#: class/project.php:606 views/blanktemplate/milestone.php:3
 #: views/milestone/index.php:2
 msgid "Milestones"
 msgstr ""
 
-#: class/project.php:605 views/files/index.php:1
+#: class/project.php:611 views/files/index.php:1
 msgid "Files"
 msgstr ""
 
 #: class/task.php:27 class/task.php:28 class/task.php:43 class/task.php:44
-#: class/task.php:45 includes/html.php:1621 views/emails/new-comment.php:27
+#: class/task.php:45 includes/html.php:1561 views/emails/new-comment.php:27
 msgid "Task List"
 msgstr ""
 
@@ -603,14 +605,14 @@ msgid "Parent Task List"
 msgstr ""
 
 #: class/task.php:61 class/task.php:78 class/task.php:79 class/task.php:736
-#: includes/html.php:1622 includes/pro/class/report.php:205
+#: includes/html.php:1562 includes/pro/class/report.php:205
 #: includes/pro/class/report.php:258 includes/pro/views/report/table.php:126
 #: includes/pro/views/report/table.php:209 views/emails/new-comment.php:32
 msgid "Task"
 msgstr ""
 
 #: class/task.php:62 class/task.php:77
-#: includes/integrations/erp/includes/class-cpmerp.php:300
+#: includes/integrations/erp/includes/class-cpmerp.php:497
 msgid "Tasks"
 msgstr ""
 
@@ -689,7 +691,7 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:361 includes/html.php:1522
+#: cpm.php:361 includes/html.php:1462
 msgid "Projects"
 msgstr ""
 
@@ -961,21 +963,21 @@ msgstr ""
 msgid "Sorry! you do not have permission to edit this task"
 msgstr ""
 
-#: includes/free/loader.php:16 includes/pro/loader.php:380
-#: includes/pro/loader.php:388 includes/pro/views/task/my-task.php:19
+#: includes/free/loader.php:16 includes/pro/loader.php:391
+#: includes/pro/loader.php:399 includes/pro/views/task/my-task.php:19
 msgid "My Tasks"
 msgstr ""
 
 #: includes/free/loader.php:17 includes/pro/frontend/frontend.php:60
-#: includes/pro/loader.php:389 includes/pro/views/calendar/index.php:2
+#: includes/pro/loader.php:400 includes/pro/views/calendar/index.php:2
 msgid "Calendar"
 msgstr ""
 
-#: includes/free/loader.php:18 includes/pro/loader.php:393
+#: includes/free/loader.php:18 includes/pro/loader.php:404
 msgid "Reports"
 msgstr ""
 
-#: includes/free/loader.php:19 includes/pro/loader.php:396
+#: includes/free/loader.php:19 includes/pro/loader.php:407
 #: includes/pro/views/progress/progress.php:8
 msgid "Progress"
 msgstr ""
@@ -985,7 +987,7 @@ msgid "This feature is only available in the Pro Version"
 msgstr ""
 
 #: includes/free/loader.php:37
-#: includes/integrations/erp/includes/class-cpmerp.php:323
+#: includes/integrations/erp/includes/class-cpmerp.php:520
 msgid "Upgrade to Pro Version"
 msgstr ""
 
@@ -1037,10 +1039,68 @@ msgstr ""
 msgid "from your computer"
 msgstr ""
 
-#: includes/functions.php:326 includes/functions.php:1033 includes/html.php:395
+#: includes/functions.php:474 includes/html.php:990
+#: views/blanktemplate/discussion.php:3
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:480
+msgid "To-do list"
+msgid_plural "To-do lists"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:486 views/project/overview.php:43
+#: views/project/overview.php:86
+msgid "To-do"
+msgid_plural "To-dos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:492 includes/html.php:410
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:498
+msgid "File"
+msgid_plural "Files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:574
+msgid "file access denied"
+msgstr ""
+
+#: includes/functions.php:581
+msgid "file not found"
+msgstr ""
+
+#: includes/functions.php:754 includes/functions.php:759
+#: includes/functions.php:764 includes/functions.php:769
+msgid "Create"
+msgstr ""
+
+#: includes/functions.php:755 includes/functions.php:760
+#: includes/functions.php:765 includes/functions.php:770
+msgid "View Private"
+msgstr ""
+
+#: includes/functions.php:1085
+msgid "Delete project"
+msgstr ""
+
+#: includes/functions.php:1085
+msgid "Are you sure to delete this project?"
+msgstr ""
+
+#: includes/functions.php:1095 includes/html.php:396
 #: includes/pro/class/report.php:235 includes/pro/class/report.php:289
 #: includes/pro/class/task.php:51 includes/pro/class/task.php:63
-#: includes/pro/class/task.php:212
+#: includes/pro/class/task.php:225
 #: includes/pro/views/project/project_list.php:96
 #: includes/pro/views/report/table.php:172
 #: includes/pro/views/report/table.php:255
@@ -1049,89 +1109,31 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: includes/functions.php:476 includes/html.php:990
-#: views/blanktemplate/discussion.php:3
-msgid "Discussion"
-msgid_plural "Discussions"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:482
-msgid "To-do list"
-msgid_plural "To-do lists"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:488 views/project/overview.php:43
-#: views/project/overview.php:86
-msgid "To-do"
-msgid_plural "To-dos"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:494 includes/html.php:409
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:500
-msgid "File"
-msgid_plural "Files"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:576
-msgid "file access denied"
-msgstr ""
-
-#: includes/functions.php:583
-msgid "file not found"
-msgstr ""
-
-#: includes/functions.php:756 includes/functions.php:761
-#: includes/functions.php:766 includes/functions.php:771
-msgid "Create"
-msgstr ""
-
-#: includes/functions.php:757 includes/functions.php:762
-#: includes/functions.php:767 includes/functions.php:772
-msgid "View Private"
-msgstr ""
-
-#: includes/functions.php:1023
-msgid "Delete project"
-msgstr ""
-
-#: includes/functions.php:1023
-msgid "Are you sure to delete this project?"
-msgstr ""
-
-#: includes/functions.php:1038
+#: includes/functions.php:1100
 msgid "Restore"
 msgstr ""
 
-#: includes/functions.php:1048
+#: includes/functions.php:1110
 msgid "Duplicate"
 msgstr ""
 
-#: includes/functions.php:1094
+#: includes/functions.php:1156
 msgid "&laquo;"
 msgstr ""
 
-#: includes/functions.php:1095
+#: includes/functions.php:1157
 msgid "&raquo;"
 msgstr ""
 
-#: includes/functions.php:1255
+#: includes/functions.php:1317
 msgid "You can not use this field more than once!"
 msgstr ""
 
-#: includes/functions.php:1256
+#: includes/functions.php:1318
 msgid "You can not create more than 4 action"
 msgstr ""
 
-#: includes/html.php:80
+#: includes/html.php:80 includes/pro/views/task/taskhtml.php:66
 msgid "Completed by %s on %s"
 msgstr ""
 
@@ -1191,23 +1193,35 @@ msgstr ""
 msgid "-- milestone --"
 msgstr ""
 
-#: includes/html.php:337
+#: includes/html.php:333
+msgid "Edit this to-to list"
+msgstr ""
+
+#: includes/html.php:334
+msgid "Delete this to-do list"
+msgstr ""
+
+#: includes/html.php:334
 msgid "Are you sure to delete this to-do list?"
 msgstr ""
 
-#: includes/html.php:379
+#: includes/html.php:337
+msgid "Pin this to-do list at top"
+msgstr ""
+
+#: includes/html.php:380
 msgid "Add a to-do"
 msgstr ""
 
-#: includes/html.php:401
+#: includes/html.php:402
 msgid "Incomplete"
 msgstr ""
 
-#: includes/html.php:461
+#: includes/html.php:462
 msgid "Add this comment"
 msgstr ""
 
-#: includes/html.php:468
+#: includes/html.php:469
 msgid "Update comment"
 msgstr ""
 
@@ -1313,74 +1327,74 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: includes/html.php:1521
+#: includes/html.php:1461
 msgid "--Select--"
 msgstr ""
 
-#: includes/html.php:1523
+#: includes/html.php:1463
 msgid "Co-Worker"
 msgstr ""
 
-#: includes/html.php:1524 includes/pro/class/report.php:209
+#: includes/html.php:1464 includes/pro/class/report.php:209
 #: includes/pro/class/report.php:262 includes/pro/views/report/table.php:130
 #: includes/pro/views/report/table.php:213
 msgid "Status"
 msgstr ""
 
-#: includes/html.php:1525
+#: includes/html.php:1465
 msgid "Time Range"
 msgstr ""
 
-#: includes/html.php:1542
+#: includes/html.php:1482
 msgid "All Projects"
 msgstr ""
 
-#: includes/html.php:1565
+#: includes/html.php:1505
 msgid "All Co-Worker"
 msgstr ""
 
-#: includes/html.php:1592
+#: includes/html.php:1532
 msgid "All Status"
 msgstr ""
 
-#: includes/html.php:1593
+#: includes/html.php:1533
 msgid "Active"
 msgstr ""
 
-#: includes/html.php:1594
+#: includes/html.php:1534
 msgid "Inactive"
 msgstr ""
 
-#: includes/html.php:1613 includes/pro/views/project/project_list.php:60
+#: includes/html.php:1553 includes/pro/views/project/project_list.php:60
 #: views/project/index.php:68
 msgid "All"
 msgstr ""
 
-#: includes/html.php:1614
+#: includes/html.php:1554
 msgid "Yearly"
 msgstr ""
 
-#: includes/html.php:1615
+#: includes/html.php:1555
 msgid "Monthly"
 msgstr ""
 
-#: includes/html.php:1616
+#: includes/html.php:1556
 msgid "Weekly"
 msgstr ""
 
-#: includes/html.php:1625
+#: includes/html.php:1565
 msgid "From"
 msgstr ""
 
-#: includes/html.php:1627
+#: includes/html.php:1567
 msgid "To"
 msgstr ""
 
-#: includes/html.php:1642
+#: includes/html.php:1582
 msgid "Generate Report"
 msgstr ""
 
-#: includes/html.php:1643
+#: includes/html.php:1583
 msgid "Export to CSV"
 msgstr ""
 
@@ -1396,7 +1410,11 @@ msgstr ""
 msgid "Text content is required"
 msgstr ""
 
-#: includes/integrations/erp/includes/class-cpmerp.php:320
+#: includes/integrations/erp/includes/class-cpmerp.php:139
+msgid "Department"
+msgstr ""
+
+#: includes/integrations/erp/includes/class-cpmerp.php:517
 msgid "This feature is only available in the project manager pro Version"
 msgstr ""
 
@@ -1420,9 +1438,9 @@ msgstr ""
 msgid "Task Content"
 msgstr ""
 
-#: includes/integrations/erp/views/task-form.php:69 includes/pro/loader.php:291
-#: includes/pro/loader.php:309 includes/pro/loader.php:325
-#: includes/pro/loader.php:344
+#: includes/integrations/erp/views/task-form.php:69 includes/pro/loader.php:302
+#: includes/pro/loader.php:320 includes/pro/loader.php:336
+#: includes/pro/loader.php:355
 msgid "Private"
 msgstr ""
 
@@ -1518,16 +1536,16 @@ msgid "Incompleted"
 msgstr ""
 
 #: includes/pro/class/task.php:49 includes/pro/class/task.php:56
-#: includes/pro/class/task.php:210 includes/pro/views/task/my-task.php:71
+#: includes/pro/class/task.php:223 includes/pro/views/task/my-task.php:71
 msgid "Current"
 msgstr ""
 
 #: includes/pro/class/task.php:50 includes/pro/class/task.php:59
-#: includes/pro/class/task.php:211 includes/pro/views/task/my-task.php:75
+#: includes/pro/class/task.php:224 includes/pro/views/task/my-task.php:75
 msgid "Outstanding"
 msgstr ""
 
-#: includes/pro/class/task.php:324 includes/pro/class/task.php:338
+#: includes/pro/class/task.php:356 includes/pro/class/task.php:370
 msgid "No Data Found!"
 msgstr ""
 
@@ -1634,36 +1652,36 @@ msgstr ""
 msgid "%s version %s is now available! Please notify the site administrator."
 msgstr ""
 
-#: includes/pro/loader.php:64
+#: includes/pro/loader.php:66
 msgid "Search..."
 msgstr ""
 
-#: includes/pro/loader.php:76
+#: includes/pro/loader.php:78
 msgid "Task start date"
 msgstr ""
 
-#: includes/pro/loader.php:79
+#: includes/pro/loader.php:81
 msgid "Enable task start date field"
 msgstr ""
 
-#: includes/pro/loader.php:84
+#: includes/pro/loader.php:86
 msgid "Logo"
 msgstr ""
 
-#: includes/pro/loader.php:89 includes/pro/views/admin/user-profile.php:8
+#: includes/pro/loader.php:91 includes/pro/views/admin/user-profile.php:8
 msgid "Daily Digest"
 msgstr ""
 
-#: includes/pro/loader.php:92
+#: includes/pro/loader.php:94
 msgid "Enable Daily Digest"
 msgstr ""
 
-#: includes/pro/loader.php:354 includes/pro/loader.php:364
+#: includes/pro/loader.php:365 includes/pro/loader.php:375
 #: includes/pro/views/project/settings.php:30
 msgid "Client"
 msgstr ""
 
-#: includes/pro/loader.php:383
+#: includes/pro/loader.php:394
 msgid "My Tasks %s"
 msgstr ""
 
@@ -1718,7 +1736,7 @@ msgstr ""
 msgid "Start a new project"
 msgstr ""
 
-#: includes/pro/views/project/project_list.php:159 views/project/header.php:51
+#: includes/pro/views/project/project_list.php:159 views/project/header.php:52
 #: views/project/index.php:167
 msgid "Create a new user"
 msgstr ""
@@ -1889,7 +1907,7 @@ msgid ""
 "check progress."
 msgstr ""
 
-#: views/blanktemplate/todolist.php:14 views/task/index.php:38
+#: views/blanktemplate/todolist.php:14 views/task/index.php:33
 msgid "Add New To-do List"
 msgstr ""
 
@@ -2057,11 +2075,11 @@ msgstr ""
 msgid "Completed Milestones"
 msgstr ""
 
-#: views/project/header.php:6
+#: views/project/header.php:7
 msgid "Error: Project not found"
 msgstr ""
 
-#: views/project/header.php:11
+#: views/project/header.php:12
 msgid "Error: Permission denied"
 msgstr ""
 
