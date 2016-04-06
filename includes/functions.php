@@ -323,8 +323,6 @@ function cpm_task_completeness( $total, $completed ) {
     ?>
     <div class="cpm-progress cpm-progress-info">
         <div style="width:<?php echo $percentage; ?>%" class="bar completed"></div>
-        <!-- <div class="text"><?php printf( '%s: %d%% (%d of %d)', __( 'Completed', 'cpm' ), $percentage, $completed, $total ); ?></div> -->
-
     </div>
 
     <?php
@@ -802,14 +800,13 @@ function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
  */
 function cpm_get_role_in_project( $project_id, $user_id = 0  ) {
 
-    if( absint($user_id) ){
+    if ( absint( $user_id ) ){
         $user = get_user_by( 'ID', $user_id );
-
     } else {
        $user = wp_get_current_user();
     }
 
-    $cache_key = 'cpm_project_user_role_' . $project_id . $user_id;
+    $cache_key         = 'cpm_project_user_role_' . $project_id . $user_id;
     $project_user_role = wp_cache_get( $cache_key );
 
     if ( $project_user_role === false ) {
@@ -820,11 +817,14 @@ function cpm_get_role_in_project( $project_id, $user_id = 0  ) {
     return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user_id );
 }
 
+/**
+ * Check if a user a project manager of an individual project
+ *
+ * @param  int  $project_id
+ *
+ * @return boolean
+ */
 function cpm_is_single_project_manager( $project_id ) {
-
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
 
     $project_user_role = cpm_get_role_in_project( $project_id );
 
@@ -914,7 +914,9 @@ function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
     if ( $id_only ) {
        $post = get_post( intval( $post ) );
     }
+
     $user = wp_get_current_user();
+
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
     if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $post->post_author ) {
@@ -1054,7 +1056,7 @@ function cpm_project_count() {
         wp_cache_set( $cache_key, $count, 'cpm' );
     }
 
-    if( is_array($count) && count($count) ) {
+    if ( is_array($count) && count($count) ) {
         foreach( $count as $key=>$obj) {
             if( $obj->type == 'yes' ) {
                 $active = $obj->count;
@@ -1319,11 +1321,17 @@ function cpm_message() {
     return apply_filters( 'cpm_message', $message );
 }
 
+/**
+ * Check if this is a pro version
+ *
+ * @return boolean
+ */
 function cpm_is_pro() {
 
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
         return true;
     }
+
     return false;
 }
 
