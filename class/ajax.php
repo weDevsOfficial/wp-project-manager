@@ -611,16 +611,18 @@ class CPM_Ajax {
 	function mark_task_complete() {
 		check_ajax_referer('cpm_nonce');
 
-		$posted = $_POST;
+		$posted     = $_POST;
 
 		$task_id    = isset($posted['task_id'])?intval($posted['task_id']):0;
 		$list_id    = isset($posted['list_id'])?intval($posted['list_id']):0;
 		$project_id = isset($posted['project_id'])?intval($posted['project_id']):0;
 		$single     = (int) $posted['single'];
 		$response   = array('success' => false);
-		if (cpm_user_can_delete_edit($project_id, $task_id, true)) {
+
+		if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
 			$task_obj = CPM_Task::getInstance();
 			$task_obj->mark_complete($task_id);
+
 			$complete = $task_obj->get_completeness($list_id, $project_id);
 			$task     = $task_obj->get_task($task_id);
 			$user_id  = wp_get_current_user()->ID;
@@ -630,15 +632,15 @@ class CPM_Ajax {
 				'content'         => cpm_task_html($task, $project_id, $list_id, $single),
 				'progress'        => cpm_task_completeness($complete['total'], $complete['completed']),
 				'task_complete'   => intval($complete['completed']),
-				'percent'         => $complete['total'] == 0?100:round((100*$complete['completed'])/$complete['total'])." %",
-				'task_uncomplete' => ceil($complete['total']-$complete['completed'])
+				'percent'         => $complete['total'] == 0 ? 100 : round((100*$complete['completed'])/$complete['total'])." %",
+				'task_uncomplete' => ceil( $complete['total'] - $complete['completed'])
 			);
 
-			$response = apply_filters('cpm_task_complete_response', $user_id, $response, $task_id, $list_id, $project_id);
+			$response = apply_filters( 'cpm_task_complete_response', $response, $task_id, $list_id, $project_id, $user_id );
 			CPM_Notification::getInstance()->complete_task($list_id, $task_id, $task, $project_id);
 		}
-		echo json_encode($response);
 
+		echo json_encode( $response );
 		exit;
 	}
 
@@ -649,11 +651,14 @@ class CPM_Ajax {
 		$task_id    = isset($posted['task_id'])?intval($posted['task_id']):0;
 		$list_id    = isset($posted['list_id'])?intval($posted['list_id']):0;
 		$project_id = isset($posted['project_id'])?intval($posted['project_id']):0;
-		$single     = (int) $posted['single'];
+		$single     = isset( $posted['single'] ) ? $posted['single'] : false;
 		$response   = array('success' => false);
-		if (cpm_user_can_delete_edit($project_id, $task_id, true)) {
+
+		if ( cpm_user_can_delete_edit($project_id, $task_id, true ) ) {
+
 			$task_obj = CPM_Task::getInstance();
 			$task_obj->mark_open($task_id);
+
 			$complete = $task_obj->get_completeness($list_id, $project_id);
 			$user_id  = wp_get_current_user()->ID;
 			$task     = $task_obj->get_task($task_id);
@@ -661,13 +666,15 @@ class CPM_Ajax {
 				'success'         => true,
 				'content'         => cpm_task_html($task, $project_id, $list_id, $single),
 				'progress'        => cpm_task_completeness($complete['total'], $complete['completed']),
-				'percent'         => $complete['total'] == 0?0:round((100*$complete['completed'])/$complete['total'])." %",
-				'task_complete'   => intval($complete['completed']),
-				'task_uncomplete' => ceil($complete['total']-$complete['completed'])
+				'percent'         => $complete['total'] == 0 ? 0 : round((100 * $complete['completed'] ) / $complete['total'] ) . " %",
+				'task_complete'   => intval( $complete['completed'] ),
+				'task_uncomplete' => ceil( $complete['total'] - $complete['completed'] )
 			);
-			$response = apply_filters('cpm_task_open_response', $user_id, $response, $task_id, $list_id, $project_id);
+
+			$response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id, $user_id);
 		}
-		echo json_encode($response);
+
+		echo json_encode( $response );
 		exit;
 	}
 
@@ -774,19 +781,69 @@ class CPM_Ajax {
 		exit;
 	}
 
+	/**
+	 * Pin a todo list at top
+	 *
+	 * @since 1.4.1
+	 *
+	 * @return void
+	 */
+	public function update_tasklist_pinstatus() {
+		check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+
+        $post_id = sanitize_text_field( $posted['list_id'] );
+        /*$status = sanitize_text_field( $posted['pin_status'] );
+        $update  = update_post_meta( $list_id, '_pin_list', $status );
+        */
+        $stickies = get_option('sticky_posts');
+
+        if ( !is_array($stickies) ) {
+            $stickies = array($post_id);
+        }
+
+        if ( ! in_array($post_id, $stickies) ) {
+            $stickies[] = $post_id;
+        } else {
+            $offset = array_search($post_id, $stickies);
+
+            if ( false === $offset ) {
+                return;
+            }
+
+            array_splice($stickies, $offset, 1);
+        }
+
+        $update = update_option('sticky_posts', $stickies);
+        if ( $update ) {
+            echo json_encode( array(
+                'success' => true,
+            ) );
+        } else {
+            echo json_encode( array(
+                'success' => false
+            ) );
+        }
+
+        exit;
+	}
+
 	function milestone_new() {
 		check_ajax_referer('cpm_milestone');
-		if (cpm_user_can_access($project_id, 'create_milestone')) {
-			CPM_Milestone::getInstance()->create($_POST['project_id']);
+		$project_id = isset( $_POST['project_id'] ) ? intval( $_POST['project_id'] ) : 0;
+
+		if ( cpm_user_can_access($project_id, 'create_milestone') ) {
+			CPM_Milestone::getInstance()->create( $project_id )	;
 
 			echo json_encode(array(
-					'success' => true
-				));
+				'success' => true
+			));
 		} else {
 			echo json_encode(array(
-					'success' => true
-				));
+				'success' => true
+			));
 		}
+
 		exit;
 	}
 
