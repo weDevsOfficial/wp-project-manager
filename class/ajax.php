@@ -428,10 +428,13 @@ class CPM_Ajax {
 		$posted     = $_POST;
 		$project_id = $pro_obj->create($project_id = 0, $posted);
 		$project    = $pro_obj->get($project_id);
-
+                $url = cpm_url_project_details($project_id) ;
+                if (!isset($posted['cpmf_url'])) {
+                     $url = sprintf( '%s?page=cpm_projects&tab=project&action=overview&pid=%d', admin_url( 'admin.php' ), $project_id );
+                }
 		echo json_encode(array(
 				'success' => true,
-				'url'     => cpm_url_project_details($project_id)
+				'url'     => $url
 			));
 
 		exit;

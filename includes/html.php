@@ -840,7 +840,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
         $action  = 'cpm_milestone_update';
 
         if ( $milestone->due_date != '' ) {
-            $due = date( 'm/d/Y', strtotime( $milestone->due_date ) );
+            $due = date( 'Y-m-d', strtotime( $milestone->due_date ) );
         }
     }
 
@@ -856,7 +856,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="ms-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
@@ -880,7 +880,13 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             <div class="cpm-loading" style="display: none;"><?php _e( 'Saving...', 'cpm' ); ?></div>
         </form>
     </div>
-
+    <script>
+       jQuery(function() {
+            jQuery(".ms-datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+            });
+        })
+    </script>
     <?php
     return ob_get_clean();
 }
