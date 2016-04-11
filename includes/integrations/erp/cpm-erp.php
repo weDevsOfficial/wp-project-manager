@@ -142,6 +142,10 @@ class CPM_ERP_Integration {
  * @return void
  */
 function cpmerp_init() {
+    if ( ! class_exists( 'WeDevs_ERP' ) ) {
+        return;
+    }
+
     $erp_active_modules = wperp()->modules->get_active_modules();
 
     // Checking HR module active or not
