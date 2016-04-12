@@ -8,7 +8,7 @@
             $('.cpm-task-uncomplete .cpm-uncomplete').removeAttr('checked').attr('disabled', false);
 
             $('.cpm-todolists').on('click', 'a.add-task', this.showNewTodoForm);
-            $('.cpm-todolists').on('click', '.cpm-todos-new a.todo-cancel', this.hideNewTodoForm);
+            $('.cpm-todolists').on('click', '.cpm-todos-new-form a.todo-cancel', this.hideNewTodoForm);
             $('.cpm-todolists').on('submit', '.cpm-todo-form form.cpm-task-form', this.submitNewTodo);
 
             //edit todo
@@ -217,9 +217,8 @@
 
                     if(list.length) {
                       //  var currentList = list.parent().siblings('.cpm-todos');
-                        var currentList = $('.cpm-todo-openlist').last();
-
-                        currentList.after('<li class="cpm-todo">' + res.content + '</li>');
+                        var currentList = $('ul.cpm-todos-new').last();
+                        currentList.prepend('<li class="cpm-todo">' + res.content + '</li>');
                         list.remove();
 
                         //update progress
@@ -401,7 +400,7 @@
 
                     res = JSON.parse(res);
                     if(res.success === true) {
-                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos-new');
+                        var currentList = $('ul.cpm-todos-new');
                         currentList.append( '<li class="cpm-todo">' + res.content + '</li>' );
 
                         //clear the form

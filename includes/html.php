@@ -27,12 +27,9 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
     $status_class  = 'can-not';
     $private_class = ( $task->task_privacy == 'yes') ? 'cpm-lock' : 'cpm-unlock';
     $user_id       = get_current_user_id();
+    $task_obj = CPM_Task::getInstance();
+    $assing_user = $task_obj->check_task_assign($task->ID);
 
-    if ( is_array( $task->assigned_to ) ) {
-        $assing_user = in_array( $user_id , $task->assigned_to ) ? true : false;
-    } else {
-        $assing_user = ( $user_id == $task->assigned_to ) ? true : false;
-    }
 
     if ( $can_manage || $assing_user ) {
         $status_class = ( $task->completed == '1' ) ? 'cpm-complete' : 'cpm-uncomplete';
@@ -329,15 +326,22 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
 
                 <?php
                 if ( cpm_user_can_delete_edit( $project_id, $list ) ) { ?>
+                    <div class="cpm-right cpm-pin-list">
+                        <a title="" href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>"   ><span class="dashicons dashicons-admin-post"></span></a>
+                    </div>
                     <div class="cpm-right">
                         <a href="#" class="cpm-list-edit cpm-icon-edit" title="<?php esc_attr_e( 'Edit this to-to list', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
                         <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" title="<?php esc_attr_e( 'Delete this to-do list', 'cpm' ); ?>" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
-
-                        <span class="cpm-pin-list">
-                            <a href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>" title="<?php esc_attr_e( 'Pin this to-do list at top', 'cpm' ); ?>"><span class="dashicons dashicons-admin-post"></span></a>
-                        </span>
                     </div>
-                <?php }  ?>
+                <?php }else{
+                    if($list->pin_list){
+                        ?>
+                         <div class="cpm-right cpm-pin-list">
+                         <span class="dashicons dashicons-admin-post"></span>
+                        </div>
+                <?php
+                    }
+                }  ?>
             </h3>
 
             <div class="cpm-entry-detail" >
@@ -356,23 +360,10 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
         </ul>
 
         <ul class="cpm-todos cpm-todo-completed" style="<?php if(!$singlePage) echo 'display:none'; ?>">
-            <?php
-            if ( $singlePage ) {
-                if ( count( $tasks['completed'] ) ) {
-                    foreach ($tasks['completed'] as $task) {
-                        ?>
-                        <li class="cpm-todo">
-                            <?php echo cpm_task_html( $task, $project_id, $list->ID ); ?>
-                        </li>
-                        <?php
-                    }
-                }
-            }
-            ?>
         </ul>
 
 
-        <ul class="cpm-todos-new" >
+        <ul class="cpm-todos-new-form" >
             <?php
             if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
                 ?>
