@@ -320,7 +320,7 @@ class CPM_Ajax {
 			wp_send_json_error($validate->errors['error'][0]);
 		}
 
-		if (cpm_can_create_project()) {
+		if (cpm_can_create_projects()) {
 			$random_password = wp_generate_password($length = 12, $include_standard_special_chars = false);
 			$first_name      = $postdata['first_name'] != ''?sanitize_text_field($postdata['first_name']):'';
 			$last_name       = $postdata['last_name'] != ''?sanitize_text_field($postdata['last_name']):'';
@@ -338,7 +338,7 @@ class CPM_Ajax {
 				update_user_meta($user_id, 'first_name', $first_name);
 				update_user_meta($user_id, 'last_name', $last_name);
 
-				wp_new_user_notification($user_id, $random_password);
+				wp_new_user_notification($user_id);
 				$user_meta = $this->create_user_meta(sanitize_text_field($postdata['user_name']), $user_id);
 				wp_send_json_success($user_meta);
 			}
@@ -624,7 +624,7 @@ class CPM_Ajax {
                 $task_obj = CPM_Task::getInstance();
                 $is_assign = $task_obj->check_task_assign($task_id);
 		if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
-                    
+
 			$task_obj->mark_complete($task_id);
 
 			$complete = $task_obj->get_completeness($list_id, $project_id);
