@@ -1,6 +1,6 @@
 <?php
 $logo_path   = cpm_get_option( 'logo' );
-$date        = cpm_date2mysql( current_time( 'mysql' ) ); 
+$date        = cpm_date2mysql( current_time( 'mysql' ) );
 $custom_date = date( 'l, d F Y', strtotime( $date ) );
 $calendar    = CPM_URL . '/assets/images/calendar.png';
 
@@ -21,4 +21,4 @@ $calendar    = CPM_URL . '/assets/images/calendar.png';
 				<div style="clear: both;"></div>
 			</div>
 			<div style="clear: both;"></div>
-		</div>                                                                       
+		</div>

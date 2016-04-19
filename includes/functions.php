@@ -916,7 +916,7 @@ function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
     }
 
     $user = wp_get_current_user();
-    
+
     // grant project manager all access
     // also if the user role has the ability to manage all projects from settings, allow him
     if ( cpm_can_manage_projects() || cpm_is_single_project_manager( $project_id ) || $user->ID == $post->post_author ) {
