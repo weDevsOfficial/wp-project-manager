@@ -108,6 +108,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 10. All attached files from message, comment, to-do can be found here.
 
 == Changelog ==
+= 1.4.3 - April 19, 2016 =
+ * [fix] Milestone input date fix and fix project redirect issue after create.
+ * [fix] File upload on first discussion problem fix.
+ * [fix] Task Done/Undone tick problem fix.
+ * [fix] New user create on project create or update problem fix.
 
 = 1.4.2 - April 6, 2016 =
 
