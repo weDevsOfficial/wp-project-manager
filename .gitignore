@@ -9,3 +9,5 @@ node_modules
 includes/pro
 build
 secret.json
+.netbeans.xml
+npm-debug.log

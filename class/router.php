@@ -52,16 +52,9 @@ class CPM_Router {
 		include_once CPM_PATH . '/includes/urls.php';
 		include_once CPM_PATH . '/includes/html.php';
 		include_once CPM_PATH . '/includes/shortcodes.php';
-
-		/**
-		 * ERP integration
-		 *
-		 * @since 1.4.1
-		 */
-		if ( class_exists( 'WeDevs_ERP' ) ) {
-			require_once CPM_PATH . '/includes/integrations/erp/cpm-erp.php';
-		}
+		include_once CPM_PATH . '/includes/integrations/erp/cpm-erp.php';
 	}
+
 
 	/**
 	 * CPM function

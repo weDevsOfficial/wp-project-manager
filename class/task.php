@@ -492,7 +492,7 @@ class CPM_Task {
         $task_list->due_date  = get_post_meta( $task_list->ID, '_due', true );
         $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
         $task_list->private   = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
-        $task_list->pin_list  = get_post_meta( $task_list->ID, '_pin_list', true );
+        $task_list->pin_list  = is_sticky($task_list->ID);
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -774,6 +774,21 @@ class CPM_Task {
         );
 
         return apply_filters( 'cpm_my_task_sub_tab_nav', $nav );
+    }
+
+    function  check_task_assign($task_id, $user_id=false){
+        $task = $this->get_task($task_id);
+
+        if ( ! $user_id ) {
+            $user_id = get_current_user_id();
+        }
+
+        if ( is_array( $task->assigned_to ) ) {
+            $assign = in_array( $user_id , $task->assigned_to ) ? true : false;
+        } else {
+            $assign = ( $user_id == $task->assigned_to ) ? true : false;
+        }
+        return $assign;
     }
 }
 

@@ -599,10 +599,7 @@
             },
             showasblank: function(e) {
                 e.preventDefault();
-                var content = $(".cpm-new-message-form").html() ;
-                $("#cpm-new-message-form-content").html(content);
-                //$('#cpm-signle-message').slideUp();
-                $('#cpm-new-message-form-content').slideDown();
+                $('.cpm-new-message-form').slideDown();
             },
             hide: function(e) {
                e.preventDefault();

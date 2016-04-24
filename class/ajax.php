@@ -320,7 +320,7 @@ class CPM_Ajax {
 			wp_send_json_error($validate->errors['error'][0]);
 		}
 
-		if (cpm_can_create_project()) {
+		if (cpm_can_create_projects()) {
 			$random_password = wp_generate_password($length = 12, $include_standard_special_chars = false);
 			$first_name      = $postdata['first_name'] != ''?sanitize_text_field($postdata['first_name']):'';
 			$last_name       = $postdata['last_name'] != ''?sanitize_text_field($postdata['last_name']):'';
@@ -338,7 +338,7 @@ class CPM_Ajax {
 				update_user_meta($user_id, 'first_name', $first_name);
 				update_user_meta($user_id, 'last_name', $last_name);
 
-				wp_new_user_notification($user_id, $random_password);
+				wp_new_user_notification($user_id);
 				$user_meta = $this->create_user_meta(sanitize_text_field($postdata['user_name']), $user_id);
 				wp_send_json_success($user_meta);
 			}
@@ -428,10 +428,13 @@ class CPM_Ajax {
 		$posted     = $_POST;
 		$project_id = $pro_obj->create($project_id = 0, $posted);
 		$project    = $pro_obj->get($project_id);
-
+                $url = cpm_url_project_details($project_id) ;
+                if (!isset($posted['cpmf_url'])) {
+                     $url = sprintf( '%s?page=cpm_projects&tab=project&action=overview&pid=%d', admin_url( 'admin.php' ), $project_id );
+                }
 		echo json_encode(array(
 				'success' => true,
-				'url'     => cpm_url_project_details($project_id)
+				'url'     => $url
 			));
 
 		exit;
@@ -618,9 +621,10 @@ class CPM_Ajax {
 		$project_id = isset($posted['project_id'])?intval($posted['project_id']):0;
 		$single     = (int) $posted['single'];
 		$response   = array('success' => false);
+                $task_obj = CPM_Task::getInstance();
+                $is_assign = $task_obj->check_task_assign($task_id);
+		if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
 
-		if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
-			$task_obj = CPM_Task::getInstance();
 			$task_obj->mark_complete($task_id);
 
 			$complete = $task_obj->get_completeness($list_id, $project_id);
@@ -638,7 +642,7 @@ class CPM_Ajax {
 
 			$response = apply_filters( 'cpm_task_complete_response', $response, $task_id, $list_id, $project_id, $user_id );
 			CPM_Notification::getInstance()->complete_task($list_id, $task_id, $task, $project_id);
-		}
+                }
 
 		echo json_encode( $response );
 		exit;
@@ -652,11 +656,10 @@ class CPM_Ajax {
 		$list_id    = isset($posted['list_id'])?intval($posted['list_id']):0;
 		$project_id = isset($posted['project_id'])?intval($posted['project_id']):0;
 		$single     = isset( $posted['single'] ) ? $posted['single'] : false;
+                $task_obj = CPM_Task::getInstance();
 		$response   = array('success' => false);
-
-		if ( cpm_user_can_delete_edit($project_id, $task_id, true ) ) {
-
-			$task_obj = CPM_Task::getInstance();
+                $is_assign = $task_obj->check_task_assign($task_id);
+		if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
 			$task_obj->mark_open($task_id);
 
 			$complete = $task_obj->get_completeness($list_id, $project_id);
