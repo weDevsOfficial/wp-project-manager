@@ -5,8 +5,8 @@
     $add_ons = get_transient( 'cpm_addons' );
 
     if ( false === $add_ons ) {
-        $response = wp_remote_get( 'http://wedevs.com/api/cpm/addons.php', array('timeout' => 15) );
-        $add_ons = wp_remote_retrieve_body( $response );
+        $response = wp_remote_get( 'http://wedevs.com/api/cpm/addons.php', array( 'timeout' => 15 ) );
+        $add_ons  = wp_remote_retrieve_body( $response );
 
         if ( is_wp_error( $response ) || $response['response']['code'] != 200 ) {
             return false;
@@ -18,7 +18,7 @@
     $add_ons = json_decode( $add_ons );
 
     if ( count( $add_ons ) ) {
-        foreach ($add_ons as $addon) {
+        foreach ( $add_ons as $addon ) {
             ?>
 
             <div class="wpuf-addon">

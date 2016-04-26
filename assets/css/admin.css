@@ -3486,7 +3486,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-files-page .cpm-files li {
   background: #fff;
   margin-right: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 12px;
   border: none;
 }
 .cpm .cpm-files-page .cpm-files li img {
@@ -3500,17 +3500,19 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-top: 5px;
   border-top: #F4F4F4 solid 1px;
   background: #FCFCFC;
-  padding: 20px 20px 0px;
+  padding: 10px 5px 0px;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul {
+  margin: 0px;
+  padding: 0px;
   text-align: center;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul li {
   background: none;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul a {
-  padding: 15px;
-  background-size: 30px;
+  padding: 10px 10px;
+  background-size: 20px !important;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comment-count {
   font-size: small;

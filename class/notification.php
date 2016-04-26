@@ -1,21 +1,24 @@
 <?php
+
 class CPM_Notification {
+
     private static $_instance;
+
     function __construct() {
 
         //notify users
-        add_action( 'cpm_project_new', array($this, 'project_new'), 10, 2 );
-        add_action( 'cpm_project_update', array($this, 'project_update'), 10, 2 );
+        add_action( 'cpm_project_new', array( $this, 'project_new' ), 10, 2 );
+        add_action( 'cpm_project_update', array( $this, 'project_update' ), 10, 2 );
 
-        add_action( 'cpm_comment_new', array($this, 'new_comment'), 10, 3 );
-        add_action( 'cpm_message_new', array($this, 'new_message'), 10, 2 );
+        add_action( 'cpm_comment_new', array( $this, 'new_comment' ), 10, 3 );
+        add_action( 'cpm_message_new', array( $this, 'new_message' ), 10, 2 );
 
-        add_action( 'cpm_task_new', array($this, 'new_task'), 10, 3 );
-        add_action( 'cpm_task_update', array($this, 'new_task'), 10, 3 );
+        add_action( 'cpm_task_new', array( $this, 'new_task' ), 10, 3 );
+        add_action( 'cpm_task_update', array( $this, 'new_task' ), 10, 3 );
     }
 
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Notification();
         }
 
@@ -27,7 +30,7 @@ class CPM_Notification {
      * @since 1.4.0
      */
     public function check_email_url() {
-        if ( cpm_get_option('email_url_link') == 'frontend' ) {
+        if ( cpm_get_option( 'email_url_link' ) == 'frontend' ) {
             new CPM_Frontend_URLs();
         }
     }
@@ -44,14 +47,14 @@ class CPM_Notification {
     }
 
     function prepare_contacts() {
-        $to = array();
-        $bcc_status = cpm_get_option('email_bcc_enable');
+        $to         = array();
+        $bcc_status = cpm_get_option( 'email_bcc_enable' );
 
         if ( isset( $_POST['notify_user'] ) && is_array( $_POST['notify_user'] ) ) {
 
-            foreach ($_POST['notify_user'] as $user_id) {
+            foreach ( $_POST['notify_user'] as $user_id ) {
                 $user_info = get_user_by( 'id', $user_id );
-                if( ! $this->filter_email( $user_info->ID ) ) {
+                if ( ! $this->filter_email( $user_info->ID ) ) {
                     continue;
                 }
                 if ( $user_info && $bcc_status == 'on' ) {
@@ -74,7 +77,7 @@ class CPM_Notification {
      */
     function project_new( $project_id, $data ) {
         $this->check_email_url();
-        $file_path    = dirname (__FILE__) . '/../views/emails/new-project.php';
+        $file_path    = dirname( __FILE__ ) . '/../views/emails/new-project.php';
         $content_path = apply_filters( 'cpm_new_project_email_content', $file_path );
         $subject      = sprintf( __( '[%s] New Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
@@ -88,10 +91,9 @@ class CPM_Notification {
             include $content_path;
             $message = ob_get_clean();
             if ( $message ) {
-               $this->send( implode( ', ', $users ), $subject, $message );
+                $this->send( implode( ', ', $users ), $subject, $message );
             }
         }
-
     }
 
     function filter_email( $user_id ) {
@@ -112,7 +114,7 @@ class CPM_Notification {
      */
     function project_update( $project_id, $data ) {
         $this->check_email_url();
-        $file_path   = dirname (__FILE__) . '/../views/emails/update-project.php';
+        $file_path    = dirname( __FILE__ ) . '/../views/emails/update-project.php';
         $content_path = apply_filters( 'cpm_update_project_email_content', $file_path );
         $subject      = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
@@ -126,7 +128,7 @@ class CPM_Notification {
             include $content_path;
             $message = ob_get_clean();
             if ( $message ) {
-               $this->send( implode(', ', $users), $subject, $message );
+                $this->send( implode( ', ', $users ), $subject, $message );
             }
         }
     }
@@ -148,7 +150,7 @@ class CPM_Notification {
             $message = ob_get_clean();
 
             if ( $message ) {
-                $this->send( implode(', ', $users), $subject, $message);
+                $this->send( implode( ', ', $users ), $subject, $message );
             }
         }
     }
@@ -172,7 +174,6 @@ class CPM_Notification {
             if ( $message ) {
                 $this->send( implode( ', ', $users ), $subject, $message );
             }
-
         }
     }
 
@@ -186,7 +187,7 @@ class CPM_Notification {
         $this->check_email_url();
         $file_path    = CPM_PATH . '/views/emails/new-comment.php';
         $content_path = apply_filters( 'cpm_new_comment_email_content', $file_path );
-        $parent_post  =  get_comment( $comment_id );
+        $parent_post  = get_comment( $comment_id );
         $subject      = sprintf( __( '[%s][%s] New Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
 
         // cutoff at 78th character
@@ -199,7 +200,7 @@ class CPM_Notification {
             include $content_path;
             $message = ob_get_clean();
             if ( $message ) {
-               $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
+                $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
             }
         }
     }
@@ -222,7 +223,7 @@ class CPM_Notification {
 
         $project_id = 0;
 
-        if ( isset( $_POST['project_id'] )) {
+        if ( isset( $_POST['project_id'] ) ) {
             $project_id = intval( $_POST['project_id'] );
         }
 
@@ -233,7 +234,7 @@ class CPM_Notification {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
 
-        foreach ( $_POST['task_assign'] as $key => $user_id) {
+        foreach ( $_POST['task_assign'] as $key => $user_id ) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
             if ( ! $this->filter_email( $user_id ) ) {
@@ -247,18 +248,16 @@ class CPM_Notification {
                 include_once $content_path;
                 $message = ob_get_clean();
                 if ( $message ) {
-                   $this->send( $to, $subject, $message );
+                    $this->send( $to, $subject, $message );
                 }
-
             }
-
         }
     }
 
     function send( $to, $subject, $message, $comment_post_id = 0 ) {
 
         $bcc_status   = cpm_get_option( 'email_bcc_enable' );
-        $blogname     = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $blogname     = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
         $reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
@@ -268,7 +267,7 @@ class CPM_Notification {
         $reply_to     = "Reply-To: $reply";
 
         if ( $bcc_status == 'on' ) {
-            $bcc = 'Bcc: '. $to;
+            $bcc     = 'Bcc: ' . $to;
             $headers = array(
                 $bcc,
                 $reply_to,
@@ -277,7 +276,7 @@ class CPM_Notification {
                 $from
             );
 
-            wp_mail( $reply, $subject, $message, $headers);
+            wp_mail( $reply, $subject, $message, $headers );
         } else {
 
             $headers = array(

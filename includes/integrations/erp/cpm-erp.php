@@ -1,4 +1,5 @@
 <?php
+
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -54,7 +55,7 @@ class CPM_ERP_Integration {
      */
     public function __construct() {
 
-    	// Define constants
+        // Define constants
         $this->define_constants();
 
         // Include required files
@@ -68,12 +69,12 @@ class CPM_ERP_Integration {
     }
 
     /**
-    * Define the plugin constants
-    *
-    * @since  0.1
-    *
-    * @return void
-    */
+     * Define the plugin constants
+     *
+     * @since  0.1
+     *
+     * @return void
+     */
     private function define_constants() {
         define( 'CPMERP_FILE', __FILE__ );
         define( 'CPMERP_PATH', dirname( CPMERP_FILE ) );
@@ -84,12 +85,12 @@ class CPM_ERP_Integration {
     }
 
     /**
-    * Include the required files
-    *
-    * @since  0.1
-    *
-    * @return void
-    */
+     * Include the required files
+     *
+     * @since  0.1
+     *
+     * @return void
+     */
     function includes() {
         require_once CPMERP_INCLUDES . '/class-cpmerp.php';
 
@@ -97,12 +98,12 @@ class CPM_ERP_Integration {
     }
 
     /**
-    * Doing initial action for this class
-    *
-    * @since  0.1
-    *
-    * @return void
-    */
+     * Doing initial action for this class
+     *
+     * @since  0.1
+     *
+     * @return void
+     */
     function init_actions() {
         add_action( 'admin_enqueue_scripts', array( $this, 'init_script' ) );
     }
@@ -122,14 +123,14 @@ class CPM_ERP_Integration {
         $employee      = new \WeDevs\ERP\HRM\Employee( $employee_id );
         $department_id = intval( $employee->department );
 
-        self::$project_info = cpm_get_project_by_user( $department_id , $employee_id );
+        self::$project_info = cpm_get_project_by_user( $department_id, $employee_id );
 
         wp_localize_script( 'cpm-erp-integrate', 'cpm_attr', array(
             'project_attr' => self::$project_info,
             'popup_title'  => __( 'Employee New Task', 'cpm' ),
             'submit'       => __( 'Submit', 'cpm' ),
             'alert'        => __( 'Text content is required', 'cpm' )
-        ));
+        ) );
     }
 
 }
@@ -168,10 +169,10 @@ add_action( 'plugins_loaded', 'cpmerp_init' );
  *
  * @return object
  */
-function cpm_get_project_by_user( $user_id , $emp_id = false ) {
+function cpm_get_project_by_user( $user_id, $emp_id = false ) {
     global $wpdb;
-    $current_user = $emp_id ? $emp_id : get_current_user_id() ;
-    $user_table = $wpdb->prefix . 'cpm_user_role';
+    $current_user = $emp_id ? $emp_id : get_current_user_id();
+    $user_table   = $wpdb->prefix . 'cpm_user_role';
 
     $sql = "SELECT post.ID as project_id, post.post_title as project_title, tl.ID as list_id, tl.post_title as list_title
             FROM $wpdb->posts as post
