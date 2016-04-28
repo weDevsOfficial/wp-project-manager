@@ -954,6 +954,7 @@
     } );
     new CPM_Uploader( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
     new CPM_Uploader( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
+    new CPM_Uploader( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
 
     function  showderror() {
 

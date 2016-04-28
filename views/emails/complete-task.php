@@ -1,6 +1,5 @@
 <?php
-$project_users = CPM_Project::getInstance()->get_users( $project_id );
-$users         = array();
+
 $task_data     = cpm()->task->get_task( $task_id );
 $due_date      = cpm_get_date( current_time( 'mysql' ) );
 if ( ! empty( $due_date ) ) {
@@ -11,22 +10,8 @@ if ( ! empty( $due_date ) ) {
     $next_name = '';
 }
 
-if ( is_array( $project_users ) && count( $project_users ) ) {
-    foreach ( $project_users as $user_id => $role_array ) {
-        if ( $role_array['role'] == 'manager' ) {
-            if ( $this->filter_email( $user_id ) ) {
-                // $users[$user_id] = sprintf( '%s (%s)', $role_array['name'], $role_array['email'] );
-                $users[$user_id] = sprintf( '%s', $role_array['email'] );
-            }
-        }
-    }
-}
-
-if ( ! $users ) {
-    return;
-}
-
 cpm_get_email_header();
+
 
 $tpbk           = CPM_URL . '/assets/images/tpbk.png';
 $completed_user = get_user_by( 'id', $data->completed_by );

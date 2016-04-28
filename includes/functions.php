@@ -243,9 +243,9 @@ function cpm_upload_field( $id, $files = array() ) {
                     echo $html;
                 }
                 ?>
-    <?php } ?>
+            <?php } ?>
         </div>
-    <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), $id, __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
+        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), $id, __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
     </div>
     <?php
 }
@@ -749,7 +749,7 @@ if ( ! function_exists( 'get_ipaddress' ) ) {
 
 function cpm_settings_label() {
     $labels = array(
-        'Message' => array(
+        'Message'   => array(
             'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
@@ -757,14 +757,18 @@ function cpm_settings_label() {
             'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Todo' => array(
+        'Todo'      => array(
             'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
         'Milestone' => array(
             'create_milestone'       => __( 'Create', 'cpm' ),
             'milestone_view_private' => __( 'View Private', 'cpm' ),
-        )
+        ),
+        'Files'     => array(
+            'upload_file_doc'   => __( 'Upload or create doc', 'cpm' ),
+            'file_view_private' => __( 'View Private files or docs', 'cpm' ),
+        ),
     );
 
     return apply_filters( 'cpm_project_permission', $labels );
@@ -1081,20 +1085,20 @@ function cpm_project_actions( $project_id ) {
             </li>
             <li>
                 <span class="cpm-spinner"></span>
-    <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
+                <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
                     <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-yes"></span>
                         <span><?php _e( 'Completed', 'cpm' ); ?></span>
                     </a>
-    <?php } else { ?>
+                <?php } else { ?>
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-undo"></span>
                         <span><?php _e( 'Restore', 'cpm' ); ?></span>
                     </a>
-    <?php } ?>
+                <?php } ?>
             </li>
 
-                <?php if ( cpm_is_pro() ) { ?>
+            <?php if ( cpm_is_pro() ) { ?>
                 <li>
                     <span class="cpm-spinner"></span>
                     <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array( 'page' => 'cpm_projects' ), get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
@@ -1215,12 +1219,8 @@ function cpm_get_all_manager_from_project( $project_id ) {
  * @return void
  */
 function cpm_get_email_header() {
-    $file_path   = CPM_PATH . '/views/emails/header.php';
-    $header_path = apply_filters( 'cpm_email_header', $file_path );
-
-    if ( file_exists( $header_path ) ) {
-        require_once $header_path;
-    }
+    $file_name   ='/emails/header.php';
+    cpm_load_template( $file_name );
 }
 
 /**
@@ -1233,12 +1233,9 @@ function cpm_get_email_header() {
  * @return void
  */
 function cpm_get_email_footer() {
-    $file_path   = CPM_PATH . '/views/emails/footer.php';
-    $footer_path = apply_filters( 'cpm_email_footer', $file_path );
+   $file_name   ='/emails/footer.php';
+    cpm_load_template( $file_name );
 
-    if ( file_exists( $footer_path ) ) {
-        require_once $footer_path;
-    }
 }
 
 /**
@@ -1335,5 +1332,32 @@ function cpm_strlen( $string ) {
         return mb_strlen( $string );
     } else {
         return strlen( $string );
+    }
+}
+
+/**
+ * Load template for view page and emails
+ *
+ * @since 1.4.3
+ *
+ * @param  string  $file
+ *
+ * @return html
+ */
+function cpm_load_template( $file, $args = array() ) {
+    if ( $args && is_array( $args ) ) {
+        extract( $args );
+    }
+
+    $child_theme_dir  = get_stylesheet_directory() . '/cpm/';
+    $parent_theme_dir = get_template_directory() . '/cpm/';
+    $cpm_dir          = CPM_PATH . '/views/';
+
+    if ( file_exists( $child_theme_dir . $file ) ) {
+        include $child_theme_dir . $file;
+    } else if ( file_exists( $parent_theme_dir . $file ) ) {
+        include $parent_theme_dir . $file;
+    } else {
+        include $cpm_dir . $file;
     }
 }

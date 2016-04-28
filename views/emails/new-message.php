@@ -1,9 +1,4 @@
 <?php
-$users = $this->prepare_contacts();
-
-if ( ! $users ) {
-    return;
-}
 
 cpm_get_email_header();
 
@@ -42,7 +37,7 @@ $author  = wp_get_current_user();
     <div style="width: 600px;">
         <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
             <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-<?php _e( 'NEW MESSAGE45', 'cpm' ); ?>
+<?php _e( 'NEW MESSAGE', 'cpm' ); ?>
             </div>
         </div>
 

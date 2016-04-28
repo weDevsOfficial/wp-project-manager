@@ -14,27 +14,6 @@ $tpbk   = CPM_URL . '/assets/images/tpbk.png';
 $author = wp_get_current_user();
 $linkto = cpm_get_option( 'email_url_link' );
 
-// $template_vars = array(
-//     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-//     '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-//     '%PROJECT_URL%'  => '<a style="text-decoration: none;" href="'.cpm_url_project_details( $project_id ).'">'.get_post_field( 'post_title', $project_id ).'</a>',
-//     '%AUTHOR%'       => $user->display_name,
-//     '%AUTHOR_EMAIL%' => $user->user_email,
-//     '%TASKLIST_URL%' => '<a style="text-decoration: none;" href="'.cpm_url_single_tasklist($project_id, $list_id).'">'.get_post_field( 'post_title', $list_id ).'</a>',
-//     '%TASK_URL%'     => '<a style="text-decoration: none;" href="'.cpm_url_single_task( $project_id, $list_id, $task_id ).'">'.get_post_field( 'post_title', $task_id ).'</a>',
-//     '%TASK%'         => $data['post_content'],
-//     '%IP%'           => get_ipaddress()
-// );
-// $subject = cpm_get_option( 'new_task_sub' );
-// $message = cpm_get_content( cpm_get_option( 'new_task_body' ) );
-// // subject
-// foreach ($template_vars as $key => $value) {
-//     $subject = str_replace( $key, $value, $subject );
-// }
-// // message
-// foreach ($template_vars as $key => $value) {
-//     $message = str_replace( $key, $value, $message );
-// }
 ?>
 
 <div style="width:600px;  background: #fff;">
