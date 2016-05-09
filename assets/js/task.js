@@ -386,8 +386,9 @@
                 this_btn = self.find('input[name=submit_todo]'),
                 spinner = self.find('.cpm-new-task-spinner');
             var data = self.serialize(),
-                taskListEl = self.closest('article.cpm-todolist'),
+                taskListEl = self.closest('.cpm-todolist'),
                 content = $.trim(self.find('.task_title').val());
+
 
             $(document).trigger( 'cpm.submitNewTodo.before', [self] );
 
@@ -402,14 +403,20 @@
 
                     res = JSON.parse(res);
                     if(res.success === true) {
-                        var currentList = $('ul.cpm-todolist-content');
+                        var currentList = taskListEl.find('ul.cpm-todolist-content');
                         currentList.prepend( '<li class="cpm-todo">' + res.content + '</li>' );
 
                         //clear the form
                         self.find('textarea, input[type=text]').val('');
                         self.find('select').val('').trigger("chosen:updated");
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        // taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
+                        taskListEl.find('.no-percent').html(res.percent);
+
+
                         CPM_Task.datePicker();
                     } else {
                         alert('something went wrong!');

@@ -545,7 +545,10 @@ class CPM_Ajax {
                     'success'  => true,
                     'id'       => $task_id,
                     'content'  => cpm_task_html( $task, $project_id, $list_id, $single ),
-                    'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] )
+                    'progress' => cpm_task_completeness( $complete['total'], $complete['completed'] ),
+                    'task_complete'   => intval( $complete['completed'] ),
+                    'percent'         => $complete['total'] == 0 ? 100 : round( (100 * $complete['completed']) / $complete['total'] ) . " %",
+                    'task_uncomplete' => ceil( $complete['total'] - $complete['completed'] )
                 );
             }
 
@@ -1347,7 +1350,7 @@ class CPM_Ajax {
                 <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' );
         ?></label>
             </td>
-            <?php do_action( 'cpm_new_project_client_field', $user_id, $name ); ?>
+                    <?php do_action( 'cpm_new_project_client_field', $user_id, $name ); ?>
 
             <td><a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title"><?php _e( 'Delete', 'cpm' ); ?></span></a></td>
         </tr>
@@ -1407,23 +1410,23 @@ class CPM_Ajax {
             foreach ( $tasks['pending'] as $task ) {
                 ?>
                 <li class="cpm-todo cpm-todo-openlist">
-                    <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
+                <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
                 </li>
-                <?php
+                    <?php
+                }
             }
-        }
 
-        if ( $single && count( $tasks['completed'] ) ) {
-            foreach ( $tasks['completed'] as $task ) {
-                ?>
+            if ( $single && count( $tasks['completed'] ) ) {
+                foreach ( $tasks['completed'] as $task ) {
+                    ?>
                 <li class="cpm-todo cpm-todo-closelist">
-                    <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
+                <?php echo cpm_task_html( $task, $project_id, $list_id ); ?>
                 </li>
-                <?php
+                    <?php
+                }
             }
+
+            exit();
         }
 
-        exit();
     }
-
-}
