@@ -47,8 +47,7 @@ $completed_user = get_user_by( 'id', $data->completed_by );
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px;">
-            <span style="float: left; font-size: 21px; width: 20px; color: #bcbcbc;">&#x2611;</span>
-            <span style="float: left; width: 459px;"><?php echo $data->post_content; ?></span>
+            <span style="float: left; width: 459px;"><?php echo $data->title; ?></span>
             <div style="clear: both;"></div>
         </div>
     </div>

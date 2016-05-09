@@ -35,8 +35,7 @@ $linkto = cpm_get_option( 'email_url_link' );
             </div>
 
             <div style="font-family: arial; font-size: 14px; line-height: 24px;">
-                <span style="float: left; font-size: 21px; width: 20px; color: #bcbcbc;">&#x2751;</span>
-                <span style="float: left; width: 459px;"><?php echo $data['post_content']; ?></span>
+                <span style="float: left; width: 459px;"><?php echo $data['post_title']; ?></span>
                 <div style="clear: both;"></div>
             </div>
 

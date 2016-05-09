@@ -170,8 +170,6 @@ class CPM_Notification {
             if ( cpm_strlen( $subject ) > 78 ) {
                 $subject = substr( $subject, 0, 78 ) . '...';
             }
-
-            if ( file_exists( $content_path ) ) {
                 ob_start();
                 $arg = array(
                     'project_id' => $project_id,
@@ -183,7 +181,7 @@ class CPM_Notification {
                 if ( $message ) {
                     $this->send( implode( ', ', $users ), $subject, $message );
                 }
-            }
+
         }
     }
 
