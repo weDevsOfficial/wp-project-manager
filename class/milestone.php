@@ -140,12 +140,15 @@ class CPM_Milestone {
 
     function get_by_project( $project_id, $privacy = false ) {
 
-        $args = array(
+        $key     = '_due';
+        $orderby = 'ASC';
+        $args    = array(
             'post_type'      => 'cpm_milestone',
             'post_parent'    => $project_id,
             'posts_per_page' => -1,
-            'order'          => 'DESC',
-            'orderby'        => 'ID'
+            'order'          => $orderby,
+            'orderby'        => 'meta_value',
+            'meta_key'       => $key
         );
 
         if ( $privacy === false ) {
