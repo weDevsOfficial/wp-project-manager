@@ -78,8 +78,13 @@ if ( $milestones ) {
                 <h2 class="group-title"><?php _e( 'Completed Milestones', 'cpm' ); ?></h2>
 
                 <?php
+                $cm = array() ;
                 foreach ($completed_milestones as $milestone) {
-                    cpm_show_milestone( $milestone, $project_id );
+                    $cm[$milestone->completed_on] = $milestone ;
+                }
+                krsort($cm) ;
+                foreach ($cm as $milestone){
+                     cpm_show_milestone( $milestone, $project_id );
                 }
                 ?>
             </div>
