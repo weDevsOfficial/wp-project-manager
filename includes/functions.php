@@ -657,7 +657,7 @@ function cpm_hide_comments( $clauses ) {
     global $wpdb, $pagenow;
 
     if ( ! is_admin() || $pagenow == 'edit-comments.php' || (is_admin() && $pagenow == 'index.php') ) {
-        $post_types = implode( "', '", array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message' ) );
+        $post_types = implode( "', '", array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message', 'sub_task' ) );
         $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
         $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
     }
