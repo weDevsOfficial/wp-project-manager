@@ -91,7 +91,9 @@ if ( $attachments ) {
         <?php
     }
     echo '</ul> </div>';
-} else {
+}
+
+if ( empty( $attachments )  ) {
     cpm_blank_template( 'files', $project_id );
 }
 ?>

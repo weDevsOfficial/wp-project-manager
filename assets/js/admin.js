@@ -969,5 +969,34 @@
         }
     }
 
+  $( ".hasDatepicker" ).datepicker( {
+        dateFormat: 'yy-mm-dd'
+    } );
+
+    function dateFormat( date, format ) {
+        date = new Date( date );
+        var month = ("0" + (date.getMonth() + 1)).slice(-2),
+            day   = ("0" + date.getDate()).slice(-2),
+            year  = date.getFullYear(),
+            monthArray = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+            monthShortArray = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec" ],
+            monthName = monthArray[date.getMonth()],
+            monthShortName = monthShortArray[date.getMonth()];
+
+        var pattern = {
+            Y: year,
+            m: month,
+            F: monthName,
+            M: monthShortName,
+            d: day,
+            j: day
+        };
+
+        var dateStr = format.replace(/Y|m|d|j|M|F/gi, function( matched ){
+            return pattern[matched];
+        });
+
+        return dateStr;
+    }
 
 } )( jQuery );

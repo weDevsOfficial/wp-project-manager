@@ -898,7 +898,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
     }
     $string            = ($is_left == true) ? __( 'left', 'cpm' ) : __( 'late', 'cpm' );
     $milestone_private = ( $milestone->private == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
-    ?>
+              ?>
     <div class="cpm-milestone <?php echo $class; ?>">
         <div class="milestone-detail ">
             <h3 class="milestone-head">
@@ -1461,8 +1461,8 @@ function cpm_report_action_from( $selected = '-1' ) {
 function cpm_report_project_form( $projects = array(), $selected = '' ) {
     ?>
     <label>
-        <select class="cpm-field" name="project">
-            <option value="-1"><?php _e( 'All Projects', 'cpm' ); ?></option>
+        <select class="cpm-field" name="project" v-model="project">
+            <option <?php selected( '-1', $selected ); ?> value="-1"><?php _e( 'All Projects', 'cpm' ); ?></option>
             <?php
             foreach( $projects as $project ) {
                 ?>
@@ -1481,10 +1481,11 @@ function cpm_report_project_form( $projects = array(), $selected = '' ) {
  * @since 1.2
  * @return type
  */
-function cpm_report_co_worker_form( $co_workers = array(), $selected = '-1' ) {
+function cpm_report_co_worker_form( $co_workers = array(), $selected = '' ) {
     ?>
     <label>
-        <select class="cpm-field" name="co_worker">
+        <select class="cpm-field" name="co_worker" required>
+            <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
             <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
             <?php
             foreach( $co_workers as $co_worker ) {
@@ -1552,6 +1553,19 @@ function cpm_report_time_form( $interval_selected = '-1', $form = '', $to = '', 
     <?php
 }
 
+function cpm_report_date_input( $mode = false ) {
+    $class_from = $mode ? 'date-picker-from' : '';
+    $class_to   = $mode ? 'date-picker-to' : '';
+    $form = '';
+    $to = '';
+    ?>
+    <input type="text" class="cpm-report-from  cpm-from <?php echo $class_from; ?>" value="<?php echo $form; ?>" placeholder="<?php esc_attr_e( 'From', 'cpm' ); ?>"  name="from">
+
+    <input type="text" class="cpm-report-to cpm-to <?php echo $class_to; ?>" value="<?php echo $to; ?>" placeholder="<?php esc_attr_e( 'To', 'cpm' ); ?>"   name="to">
+
+
+    <?php
+}
 /**
  * Report action button
  *

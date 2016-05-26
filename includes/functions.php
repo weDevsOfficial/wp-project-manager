@@ -1128,18 +1128,21 @@ function cpm_is_project_archived( $project_id ) {
     return false;
 }
 
-function cpm_assigned_user( $users ) {
+function cpm_assigned_user( $users, $render = true , $avatar = true) {
 
+    $html = "";
     if ( is_array( $users ) ) {
         foreach ( $users as $user_id ) {
-            echo '<span class="cpm-assigned-user">';
-            echo cpm_url_user( $user_id, true );
-            echo '</span>';
+            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id,  $name_only ) . "</span> ";
         }
     } else {
-        echo '<span class="cpm-assigned-user">';
-        echo cpm_url_user( $users, true );
-        echo '</span>';
+        $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $name_only ) . "</span>";
+    }
+
+    if ( false === $render ) {
+        return $html;
+    } else {
+        echo $html;
     }
 }
 
@@ -1219,7 +1222,7 @@ function cpm_get_all_manager_from_project( $project_id ) {
  * @return void
  */
 function cpm_get_email_header() {
-    $file_name   ='/emails/header.php';
+    $file_name = '/emails/header.php';
     cpm_load_template( $file_name );
 }
 
@@ -1233,9 +1236,8 @@ function cpm_get_email_header() {
  * @return void
  */
 function cpm_get_email_footer() {
-   $file_name   ='/emails/footer.php';
+    $file_name = '/emails/footer.php';
     cpm_load_template( $file_name );
-
 }
 
 /**

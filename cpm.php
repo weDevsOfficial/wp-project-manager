@@ -317,8 +317,8 @@ class WeDevs_CPM {
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader' ), false, true );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
+        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), '', time(), FALSE );
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
-        wp_enqueue_script( 'atwhojs', plugins_url( 'assets/js/jquery.atwho.min.js', __FILE__ ), '', false, false );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),

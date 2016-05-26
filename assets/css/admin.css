@@ -1936,6 +1936,18 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-report {
   margin-top: 15px;
 }
+#cpm-report ul {
+  margin-left: 20px;
+}
+#cpm-report ul li {
+  text-align: center;
+  padding: 40px;
+  min-height: 200px;
+  border: solid 1px #ccc;
+}
+#cpm-report ul li a {
+  padding: 15px;
+}
 #cpm-report h3 {
   margin: 0;
 }
@@ -2032,6 +2044,20 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-report .cpm-reoprt-individul-table-wrap .cpm-project-title-not-interval {
   margin-bottom: 4px;
 }
+#cpm-report form select {
+  margin-bottom: 5px;
+}
+#cpm-report .modal-body input,
+#cpm-report .modal-body select {
+  width: 100%;
+}
+#cpm-report .cpm-assigned-user {
+  margin-right: 10px;
+}
+#cpm-report input[type="checkbox"],
+#cpm-report input[type="radio"] {
+  width: auto;
+}
 #cpm-progress-wrap ul.cpm-activity ul li::before {
   content: '';
   left: -5px;
@@ -2120,15 +2146,25 @@ ul.cpm-files li .cpm-file-action .comment-number {
      * Project Overview Page
      */
   /**
-    * Activity Page
-    */
+     * Activity Page
+     */
   /** Discussion Page **/
   /** CSS for Milestone Page **/
   /** End MileStone Page **/
   /*** Files ***/
+  /** For Modal **/
+  /*
+     * the following styles are auto-applied to elements with
+     * v-transition="modal" when their visiblity is toggled
+     * by Vue.js.
+     *
+     * You can easily play with the modal transition by editing
+     * these styles.
+     */
   /*for lazy loding align-content: */
   /* Every thing below this is just positioning */
   /**End Loading **/
+  /*Animation for vue */
   /** End Files **/
   /*****/
   /**
@@ -2377,8 +2413,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-top-bar .cpm-top-right-btn input {
   /*  _m1992
-              10777
-                585*/
+                10777
+                  585*/
   margin-right: 20px;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-blue {
@@ -3675,6 +3711,65 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .milestone .cpm-content {
   background-image: url('../images/blank_milestone.svg');
 }
+.cpm .modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity .3s ease;
+}
+.cpm .modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+.cpm .modal-container {
+  width: 450px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.cpm .modal-header {
+  margin-bottom: 5px;
+  border-bottom: #e5e9eb solid 1px;
+  padding: 15px 30px;
+}
+.cpm .modal-header h3 {
+  margin-top: 0;
+  color: #095c91;
+}
+.cpm .modal-body {
+  padding: 10px;
+}
+.cpm .modal-footer {
+  padding: 10px;
+  text-align: center;
+}
+.cpm .modal-default-button {
+  float: right;
+}
+.cpm .close-vue-modal {
+  border: solid 1px #ccc;
+  float: right;
+  padding: 5px;
+  top: 0px;
+  margin: -25px -25px 0px;
+}
+.cpm .modal-enter,
+.cpm .modal-leave {
+  opacity: 0;
+}
+.cpm .modal-enter .modal-container,
+.cpm .modal-leave .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
 .cpm .cpm-blank-loading .timeline-item {
   background: #fff;
   padding: 12px;
@@ -3766,6 +3861,37 @@ ul.cpm-files li .cpm-file-action .comment-number {
   20% {
     transform: scaleY(1);
     -webkit-transform: scaleY(1);
+  }
+}
+.cpm .animated {
+  display: inline-block;
+}
+.cpm .animated.v-enter {
+  animation: fadein .5s;
+}
+.cpm .animated.v-leave {
+  animation: fadeout .5s;
+}
+@keyframes fadein {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes fadeout {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
   }
 }
 @media only screen and (max-width: 640px) {
