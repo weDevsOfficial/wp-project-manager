@@ -281,7 +281,8 @@ class CPM_ERP {
             return $project_where;
         }
 
-        $project_where = " AND ( $table.user_id IN ( $user_id, $department_id ) )";
+    //    $project_where = " AND ( $table.user_id IN ( $user_id, $department_id ) )";
+        $project_where = " AND ( $table.user_id = $user_id OR ($table.component = 'erp-hrm' AND $table.user_id = $department_id) )";
 
         return $project_where;
     }

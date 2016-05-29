@@ -123,7 +123,7 @@ class CPM_ERP_Integration {
         $employee      = new \WeDevs\ERP\HRM\Employee( $employee_id );
         $department_id = intval( $employee->department );
 
-        self::$project_info = cpm_get_project_by_user( $department_id, $employee_id );
+         self::$project_info = cpm_get_project_by_user( $department_id, $employee_id );
 
         wp_localize_script( 'cpm-erp-integrate', 'cpm_attr', array(
             'project_attr' => self::$project_info,
@@ -169,16 +169,18 @@ add_action( 'plugins_loaded', 'cpmerp_init' );
  *
  * @return object
  */
-function cpm_get_project_by_user( $user_id, $emp_id = false ) {
+function cpm_get_project_by_user( $dep_id , $emp_id ) {
     global $wpdb;
-    $current_user = $emp_id ? $emp_id : get_current_user_id();
-    $user_table   = $wpdb->prefix . 'cpm_user_role';
+
+    $wh = " OR ( ut.component = 'erp-hrm' AND  ut.user_id = $dep_id  ) ";
+
+    $user_table = $wpdb->prefix . 'cpm_user_role';
 
     $sql = "SELECT post.ID as project_id, post.post_title as project_title, tl.ID as list_id, tl.post_title as list_title
             FROM $wpdb->posts as post
             LEFT JOIN $user_table as ut ON ut.project_id = post.ID
             LEFT JOIN $wpdb->posts as tl ON tl.post_parent = post.ID
-            WHERE ( ut.user_id = $user_id AND ut.role ='co_worker' AND ut.component = 'erp-hrm' OR  ut.user_id = $current_user AND ( ut.role ='co_worker' OR ut.role ='manager' ) )
+            WHERE ( ( ut.user_id = $emp_id AND ( ut.role ='co_worker' OR ut.role ='manager' ) ) $wh  )
             AND post.post_type = 'cpm_project'
             AND tl.post_type = 'cpm_task_list'";
 
