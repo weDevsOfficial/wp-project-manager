@@ -1133,10 +1133,10 @@ function cpm_assigned_user( $users, $render = true , $avatar = true) {
     $html = "";
     if ( is_array( $users ) ) {
         foreach ( $users as $user_id ) {
-            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id,  $name_only ) . "</span> ";
+            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id,  $avatar ) . "</span> ";
         }
     } else {
-        $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $name_only ) . "</span>";
+        $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
     }
 
     if ( false === $render ) {
