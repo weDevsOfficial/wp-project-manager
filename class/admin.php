@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/class.settings-api.php';
+require_once CPM_PATH . '/includes/lib/class.settings-api.php';
 
 /**
  * Admin options handler class
@@ -139,98 +139,6 @@ class CPM_Admin {
                     'text/plain' => __( 'Plain Text', 'cpm' )
                 )
             ),
-            /**
-             * ************************
-             */
-            /*
-              array(
-              'name'    => 'new_project_sub',
-              'label'   => __( 'New Project Subject', 'cpm' ),
-              'default' => 'New Project invitation on %PROJECT_NAME%'
-              ),
-              array(
-              'name'    => 'new_project_body',
-              'label'   => __( 'New Project Body', 'cpm' ),
-              'type'    => 'textarea',
-              'default' => "Hello\n
-              You are assigned in a new project \"%PROJECT_NAME%\" on %SITE%
-              You can see the project by going here: %PROJECT_URL%",
-              'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_DETAILS%, %PROJECT_URL%'
-
-              ),
-
-              array(
-              'name'    => 'update_project_sub',
-              'label'   => __( 'Update Project Subject', 'cpm' ),
-              'default' => 'Update Project invitation on %PROJECT_NAME%'
-              ),
-              array(
-              'name' => 'update_project_body',
-              'label' => __( 'Update Project Body', 'cpm' ),
-              'type' => 'textarea',
-              'default' => "Hello\n
-              You are assigned in a project update \"%PROJECT_NAME%\" on %SITE%
-              You can see the project by going here: %PROJECT_URL%",
-              'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_DETAILS%, %PROJECT_URL%'
-
-              ),
-              array(
-              'name'    => 'new_message_sub',
-              'label'   => __( 'New Message Subject', 'cpm' ),
-              'default' => '[%SITE%] New message on project: %PROJECT_NAME%'
-              ),
-              array(
-              'name'    => 'new_message_body',
-              'label'   => __( 'New Message Body', 'cpm' ),
-              'type'    => 'textarea',
-              'default' => "Author : %AUTHOR%\nPermalink : %MESSAGE_URL%\nMessage : %MESSAGE%",
-              'desc'    => 'use: %SITE%, %AUTHOR%, %AUTHOR_EMAIL%, %PROJECT_NAME%, %PROJECT_URL%, %MESSAGE_URL%, %MESSAGE%, %IP%'
-              ),
-              array(
-              'name'    => 'new_comment_sub',
-              'label'   => __( 'New Comment Subject', 'cpm' ),
-              'default' => '[%SITE%][%PROJECT_NAME%] New comment added'
-              ),
-              array(
-              'name'    => 'new_comment_body',
-              'label'   => __( 'Body', 'cpm' ),
-              'type'    => 'textarea',
-              'default' => "Author : %AUTHOR%\nPermalink : %COMMENT_URL%\nComment : %COMMENT%",
-              'desc'    => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %AUTHOR_EMAIL%, %COMMENT_URL%, %COMMENT%, %IP%'
-              ),
-              array(
-              'name'    => 'new_task_sub',
-              'label'   => __( 'New Assigned Task Subject', 'cpm' ),
-              'default' => '[%SITE%][%PROJECT_NAME%] New task assigned to you'
-              ),
-              array(
-              'name'  => 'new_task_body',
-              'label' => __( 'Body', 'cpm' ),
-              'type'  => 'textarea',
-              'default' => 'A new task has been assigned to you on %PROJECT_NAME%
-              Task List URL: %TASKLIST_URL%
-              Task URL: %TASK_URL%
-              Task: %TASK%',
-              'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %AUTHOR%, %AUTHOR_EMAIL%, %TASKLIST_URL%, %TASK_URL%, %TASK%, %IP%'
-              ),
-
-              array(
-              'name'    => 'complete_task_sub',
-              'label'   => __( 'Completed Task Subject', 'cpm' ),
-              'default' => '[%SITE%][%PROJECT_NAME%] Completed task'
-              ),
-
-              array(
-              'name' => 'completed_task_body',
-              'label' => __( 'Body', 'cpm' ),
-              'type' => 'textarea',
-              'default' => 'A new task has been completed %PROJECT_NAME%
-              Task List URL: %TASKLIST_URL%
-              Task URL: %TASK_URL%
-              Task: %TASK%',
-              'desc' => 'use: %SITE%, %PROJECT_NAME%, %PROJECT_URL%, %TASKLIST_URL%, %TASK_URL%, %TASK%, %IP%'
-              ),
-             */
             array(
                 'name'    => 'email_bcc_enable',
                 'label'   => __( 'Send email via Bcc', 'cpm' ),
@@ -238,9 +146,7 @@ class CPM_Admin {
                 'default' => 'off',
                 'desc'    => __( 'Enable Bcc' )
             ),
-                ) );
-
-
+        ) );
 
         return apply_filters( 'cpm_settings_fields', $settings_fields );
     }

@@ -14,7 +14,7 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 [youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
 
-The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
+The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
 [Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/) | [Demo](http://demo.wedevs.com/pm/wp-admin/)
 
@@ -111,8 +111,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
-= 1.4.3 - April 19, 2016 =
- * [fix] Milestone input date fix and fix project redirect issue after create.
+
+= 1.4.3 - May 30, 2016 =
+
+ * [fix] Milestone input date and project redirect issue after create.
+ * [fix] Sorting completed milestone
+ * [fix] Image broken in emails
  * [fix] File upload on first discussion problem fix.
  * [fix] Task Done/Undone tick problem fix.
  * [fix] New user create on project create or update problem fix.
