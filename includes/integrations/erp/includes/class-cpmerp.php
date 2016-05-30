@@ -845,14 +845,12 @@ class CPM_ERP {
         foreach ( $projects_id as $key => $project ) {
             $project_id = $project->project_id;
 
-            $wpdb->delete(
-                    $table, array(
+            $wpdb->delete( $table, array(
                 'user_id'    => $lead_id,
                 'role'       => 'manager',
                 'project_id' => $project_id,
                 'component'  => 'erp-hrm'
-                    ), array( '%d', '%s', '%d', '%s' )
-            );
+            ), array( '%d', '%s', '%d', '%s' ) );
         }
 
         if ( $fields['lead'] == 0 || $fields['lead'] == '-1' ) {
@@ -862,14 +860,12 @@ class CPM_ERP {
         foreach ( $projects_id as $key => $project ) {
             $project_id = $project->project_id;
 
-            $wpdb->insert(
-                    $table, array(
+            $wpdb->insert( $table, array(
                 'project_id' => $project_id,
                 'user_id'    => $fields['lead'],
                 'role'       => 'manager',
                 'component'  => 'erp-hrm'
-                    ), array( '%d', '%d', '%s', '%s' )
-            );
+            ), array( '%d', '%d', '%s', '%s' ) );
         }
     }
 
