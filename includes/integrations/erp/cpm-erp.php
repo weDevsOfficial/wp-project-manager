@@ -115,7 +115,15 @@ class CPM_ERP_Integration {
      *
      * @return void
      */
-    function init_script() {
+    function init_script( $hook ) {
+
+        if ( 'hr-management_page_erp-hr-employee' != $hook ) {
+            return;
+        }
+
+        if ( ! isset( $_GET['tab'] ) || $_GET['tab'] != 'employee_task' ) {
+            return;
+        }
 
         wp_enqueue_script( 'cpm-erp-integrate', CPMERP_ASSETS . '/js/cpm-erp.js', array( 'jquery' ), false, true );
 
@@ -123,7 +131,7 @@ class CPM_ERP_Integration {
         $employee      = new \WeDevs\ERP\HRM\Employee( $employee_id );
         $department_id = intval( $employee->department );
 
-         self::$project_info = cpm_get_project_by_user( $department_id, $employee_id );
+        self::$project_info = cpm_get_project_by_user( $department_id, $employee_id );
 
         wp_localize_script( 'cpm-erp-integrate', 'cpm_attr', array(
             'project_attr' => self::$project_info,
