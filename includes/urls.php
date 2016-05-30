@@ -18,7 +18,7 @@ function cpm_url_projects() {
 }
 
 function cpm_url_my_task() {
-    if( isset($_GET['user_id']) && ! empty( $_GET['user_id'] ) ) {
+    if ( isset( $_GET['user_id'] ) && ! empty( $_GET['user_id'] ) ) {
         $url_arg = '&user_id=' . $_GET['user_id'];
     } else {
         $url_arg = '';
@@ -30,18 +30,16 @@ function cpm_url_my_task() {
 function cpm_url_user_activity() {
     $url = add_query_arg( array( 'tab' => 'useractivity' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_user_activity', $url );
-
 }
+
 function cpm_url_current_task() {
     $url = add_query_arg( array( 'tab' => 'current' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_current_task', $url );
-
 }
 
 function cpm_url_outstanding_task() {
     $url = add_query_arg( array( 'tab' => 'outstanding' ), cpm_url_my_task() );
     return apply_filters( 'cpm_url_outstanding_task', $url );
-
 }
 
 function cpm_url_complete_task() {
@@ -69,7 +67,6 @@ function cpm_url_all() {
 function cpm_url_archive() {
     $url = add_query_arg( array( 'status' => 'archive' ), cpm_url_projects() );
     return apply_filters( 'cpm_url_archive', $url );
-
 }
 
 /**
@@ -95,7 +92,6 @@ function cpm_url_project_details( $project_id ) {
     return apply_filters( 'cpm_url_project_details', $url, $project_id );
 }
 
-
 /**
  * Displays a single project Overview
  *
@@ -107,8 +103,6 @@ function cpm_url_project_overview( $project_id ) {
     $url = sprintf( '%s?page=cpm_projects&tab=project&action=overview&pid=%d', admin_url( 'admin.php' ), $project_id );
     return apply_filters( 'cpm_url_project_overview', $url, $project_id );
 }
-
-
 
 /**
  * ------------------------------------------------
@@ -247,7 +241,6 @@ function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
     return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
 }
 
-
 /**
  * Files index url for a project
  *
@@ -282,14 +275,14 @@ function cpm_url_settings_index( $project_id ) {
 function cpm_url_comment( $comment_id, $project_id ) {
     $comment = get_comment( $comment_id );
 
-    if( !$comment ) {
+    if ( ! $comment ) {
         return false;
     }
 
     $post = get_post( $comment->comment_post_ID );
-    $url = '';
+    $url  = '';
 
-    if ( !$post ) {
+    if ( ! $post ) {
         return false;
     }
 
@@ -299,7 +292,7 @@ function cpm_url_comment( $comment_id, $project_id ) {
         $url = cpm_url_single_tasklist( $project_id, $post->ID );
     } else if ( $post->post_type == 'cpm_task' ) {
         $list = get_post( $post->post_parent );
-        $url = cpm_url_single_task( $project_id, $list->ID, $post->ID );
+        $url  = cpm_url_single_task( $project_id, $list->ID, $post->ID );
     }
 
     $url = "$url#cpm-comment-$comment_id";

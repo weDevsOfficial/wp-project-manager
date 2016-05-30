@@ -5,6 +5,7 @@
  * @since 0.1
  * @package CPM
  */
+
 /**
  * Filter all the tasks as pending and completed
  *
@@ -21,24 +22,24 @@
 function cpm_tasks_filter( $tasks ) {
     $response = array(
         'completed' => array(),
-        'pending' => array()
+        'pending'   => array()
     );
 
     if ( $tasks ) {
-        $response['pending'] = array_filter( $tasks, 'cpm_tasks_filter_pending' );
+        $response['pending']   = array_filter( $tasks, 'cpm_tasks_filter_pending' );
         $response['completed'] = array_filter( $tasks, 'cpm_tasks_filter_done' );
     }
 
     return $response;
 }
 
-
-function cpm_project_filters(){
+function cpm_project_filters() {
     ?>
     <input type="text" id="cpm-search-client" name="searchitem" placeholder="<?php _e( 'Search by Client...', 'cpm' ); ?>" value="" />
     <input type="text" id="cpm-all-search" name="searchitem" placeholder="<?php _e( 'Search All...', 'cpm' ); ?>" value="" />
     <?php
 }
+
 /**
  * A category dropdown helper function.
  *
@@ -51,22 +52,22 @@ function cpm_project_filters(){
  */
 function cpm_dropdown_category( $current_category_id = -1, $show_count = false, $show_all = false, $class = '' ) {
     $args = array(
-        'class' => $class,
-        'child_of' => 0,
-        'depth' => 0,
-        'echo' => 0,
-        'hide_empty' => 0,
-        'hide_if_empty' => 0,
-        'hierarchical' => true,
-        'name' => 'project_cat',
-        'order' => 'ASC',
-        'orderby' => 'name',
-        'selected' => $current_category_id,
-        'show_count' => $show_count,
-        'show_option_all' => $show_all ? __( '- All Categories -', 'cpm' ) : '',
-        'show_option_none' => !$show_all ? __( '- Project Category -', 'cpm' ) : '',
-        'tab_index' => 0,
-        'taxonomy' => 'cpm_project_category',
+        'class'            => $class,
+        'child_of'         => 0,
+        'depth'            => 0,
+        'echo'             => 0,
+        'hide_empty'       => 0,
+        'hide_if_empty'    => 0,
+        'hierarchical'     => true,
+        'name'             => 'project_cat',
+        'order'            => 'ASC',
+        'orderby'          => 'name',
+        'selected'         => $current_category_id,
+        'show_count'       => $show_count,
+        'show_option_all'  => $show_all ? __( '- All Categories -', 'cpm' ) : '',
+        'show_option_none' => ! $show_all ? __( '- Project Category -', 'cpm' ) : '',
+        'tab_index'        => 0,
+        'taxonomy'         => 'cpm_project_category',
     );
 
     $args = apply_filters( 'cpm_category_dropdown', $args, $current_category_id );
@@ -77,6 +78,7 @@ function cpm_dropdown_category( $current_category_id = -1, $show_count = false, 
 function cpm_filter_category( $current_category_id ) {
     return cpm_dropdown_category( $current_category_id, false, false );
 }
+
 /**
  * Filter function for `cpm_tasks_filter` for completed tasks
  *
@@ -113,18 +115,18 @@ function cpm_tasks_filter_pending( $task ) {
 function cpm_dropdown_users( $selected = array() ) {
 
     $placeholder = __( 'Select co-workers', 'cpm' );
-    $sel = ' selected="selected"';
+    $sel         = ' selected="selected"';
 
-    $users = get_users();
+    $users   = get_users();
     $options = array();
     if ( $users ) {
-        foreach ($users as $user) {
+        foreach ( $users as $user ) {
             $options[] = sprintf( '<option value="%s"%s>%s</option>', $user->ID, array_key_exists( $user->ID, $selected ) ? $sel : '', $user->display_name );
         }
     }
 
     $dropdown = '<select name="project_coworker[]" id="project_coworker" placeholder="' . $placeholder . '" multiple="multiple">';
-    $dropdown .= implode("\n", $options );
+    $dropdown .= implode( "\n", $options );
     $dropdown .= '</select>';
 
     return $dropdown;
@@ -141,7 +143,7 @@ function cpm_dropdown_users( $selected = array() ) {
 function cpm_date2mysql( $date, $gmt = 0 ) {
     $time = strtotime( $date );
     //return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : get_gmt_from_date( date( 'Y-m-d H:i:s', strtotime( $date ) ) ); //gmdate( 'Y-m-d H:i:s', ( $time + ( get_option( 'timezone_string' ) * 3600 ) ) );
-    return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s',strtotime( $date ) );
+    return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', strtotime( $date ) );
 }
 
 /**
@@ -160,8 +162,8 @@ function cpm_user_checkboxes( $project_id ) {
         unset( $users[$cur_user] );
     }
 
-    foreach ($users as $key => $user) {
-        $sort[$key]  = strtolower( $user['name'] );
+    foreach ( $users as $key => $user ) {
+        $sort[$key] = strtolower( $user['name'] );
     }
 
     if ( $users ) {
@@ -175,15 +177,15 @@ function cpm_user_checkboxes( $project_id ) {
             <?php
             array_multisort( $sort, SORT_ASC, $users );
 
-            foreach ($users as $user) {
+            foreach ( $users as $user ) {
                 $check = sprintf( '<input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />', $user['id'] );
-                printf( '<li><label for="cpm_notify_%d">%s %s</label></li>', $user['id'], $check, ucwords(strtolower( $user['name'] )) );
+                printf( '<li><label for="cpm_notify_%d">%s %s</label></li>', $user['id'], $check, ucwords( strtolower( $user['name'] ) ) );
             }
             ?>
 
             <div class='clearfix'></div>
         </ul>
-    <?php
+        <?php
     } else {
         echo __( 'No users found', 'cpm' );
     }
@@ -203,10 +205,10 @@ function cpm_task_assign_dropdown( $project_id, $selected = '-1' ) {
     if ( $users ) {
         echo '<select name="task_assign[]" class="chosen-select"  id="task_assign" multiple="multiple" data-placeholder="' . __( 'Select User', 'cpm' ) . '">';
 
-        foreach ($users as $user) {
+        foreach ( $users as $user ) {
 
             if ( is_array( $selected ) ) {
-                $selectd_status = in_array($user['id'], $selected) ? 'selected="selected"' : '';
+                $selectd_status = in_array( $user['id'], $selected ) ? 'selected="selected"' : '';
             } else {
                 $selectd_status = selected( $selected, $user['id'], false );
             }
@@ -231,17 +233,19 @@ function cpm_upload_field( $id, $files = array() ) {
     <div id="cpm-upload-container<?php echo $id; ?>">
         <div class="cpm-upload-filelist">
             <?php if ( $files ) { ?>
-                <?php foreach ($files as $file) {
-                    $delete = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
-                    $hidden = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
+                <?php
+                foreach ( $files as $file ) {
+                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+                    $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
                     $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
                     $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
                     echo $html;
-                } ?>
+                }
+                ?>
             <?php } ?>
         </div>
-        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __('To attach', 'cpm') , $id, __('select files', 'cpm'), __('from your computer', 'cpm') ); ?>
+        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), $id, __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
     </div>
     <?php
 }
@@ -434,7 +438,7 @@ function cpm_comment_text( $comment_ID = 0 ) {
  * @return string
  */
 function cpm_excerpt( $text, $length, $append = '...' ) {
-    $text  = wp_strip_all_tags( $text, true );
+    $text = wp_strip_all_tags( $text, true );
 
     if ( function_exists( 'mb_strlen' ) ) {
         $count = mb_strlen( $text );
@@ -460,55 +464,53 @@ function cpm_excerpt( $text, $length, $append = '...' ) {
 function cpm_data_attr( $values ) {
 
     $data = array();
-    foreach ($values as $key => $val) {
+    foreach ( $values as $key => $val ) {
         $data[] = sprintf( 'data-%s="%s"', $key, esc_attr( $val ) );
     }
 
     echo implode( ' ', $data );
 }
 
-
-function cpm_project_summary_info( $info,  $project_id ) {
-    $summary = array();
+function cpm_project_summary_info( $info, $project_id ) {
+    $summary            = array();
     $summary['message'] = array(
         'label' => _n( 'Discussion', 'Discussions', $info->discussion, 'cpm' ),
         'count' => $info->discussion,
-        'url' =>  cpm_url_message_index($project_id)
+        'url'   => cpm_url_message_index( $project_id )
     );
 
     $summary['todo'] = array(
         'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
         'count' => $info->todolist,
-        'url' =>  cpm_url_tasklist_index( $project_id )
+        'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-       'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
-       'count' => $info->todos,
-        'url' =>  cpm_url_tasklist_index( $project_id )
+        'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
+        'count' => $info->todos,
+        'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['comments'] = array(
         'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
         'count' => $info->comments,
-        'url' =>  ''
+        'url'   => ''
     );
 
     $summary['files'] = array(
         'label' => _n( 'File', 'Files', $info->files, 'cpm' ),
         'count' => $info->files,
-        'url' =>  cpm_url_file_index( $project_id )
+        'url'   => cpm_url_file_index( $project_id )
     );
 
     $summary['milestone'] = array(
         'label' => _n( 'Milestone', 'Milestones', $info->milestone, 'cpm' ),
         'count' => $info->milestone,
-        'url' =>  cpm_url_milestone_index( $project_id )
+        'url'   => cpm_url_milestone_index( $project_id )
     );
 
-    return $summary ;
+    return $summary;
 }
-
 
 /**
  * Helper function for displaying project summary
@@ -519,15 +521,15 @@ function cpm_project_summary_info( $info,  $project_id ) {
  */
 function cpm_project_summary( $info, $project_id ) {
     $info_array = array();
-    $summary = cpm_project_summary_info( $info,  $project_id );
-    foreach ( $summary as $key =>$val ) {
-       if( $val['url'] != '' ){
-           $info_array[] = sprintf( "<li class='%s'><a href='%s'><strong>%d</strong> %s</a></li>", $key, $val['url'], $val['count'],  $val['label'] );
-       } else{
-           $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key,  $val['count'],  $val['label'] );
-       }
+    $summary    = cpm_project_summary_info( $info, $project_id );
+    foreach ( $summary as $key => $val ) {
+        if ( $val['url'] != '' ) {
+            $info_array[] = sprintf( "<li class='%s'><a href='%s'><strong>%d</strong> %s</a></li>", $key, $val['url'], $val['count'], $val['label'] );
+        } else {
+            $info_array[] = sprintf( "<li class='%s'><strong>%d</strong> %s</li>", $key, $val['count'], $val['label'] );
+        }
     }
-    return implode('', $info_array );
+    return implode( '', $info_array );
 }
 
 /**
@@ -563,22 +565,22 @@ function cpm_project_overview_summary( $info, $project_id ) {
  * @since 0.3
  */
 function cpm_serve_file() {
-    $file_id = isset( $_GET['file_id'] ) ? intval( $_GET['file_id'] ) : 0;
+    $file_id    = isset( $_GET['file_id'] ) ? intval( $_GET['file_id'] ) : 0;
     $project_id = isset( $_GET['project_id'] ) ? intval( $_GET['project_id'] ) : 0;
-    $type = isset( $_GET['type'] ) ? $_GET['type'] : 'full';
+    $type       = isset( $_GET['type'] ) ? $_GET['type'] : 'full';
 
     //check permission
     $pro_obj = CPM_Project::getInstance();
     $project = $pro_obj->get( $project_id );
-    if ( !$pro_obj->has_permission( $project ) ) {
-        die( __('file access denied', 'cpm') );
+    if ( ! $pro_obj->has_permission( $project ) ) {
+        die( __( 'file access denied', 'cpm' ) );
     }
 
     //get file path
     $file_path = get_attached_file( $file_id );
-    if ( !file_exists( $file_path ) ) {
+    if ( ! file_exists( $file_path ) ) {
         header( "Status: 404 Not Found" );
-        die(__('file not found', 'cpm'));
+        die( __( 'file not found', 'cpm' ) );
     }
 
     if ( $type == 'thumb' ) {
@@ -594,7 +596,7 @@ function cpm_serve_file() {
     $extension = strtolower( substr( strrchr( $file_path, '.' ), 1 ) );
 
     // get the file mime type using the file extension
-    switch ($extension) {
+    switch ( $extension ) {
         case 'jpeg':
         case 'jpg':
             $mime = 'image/jpeg';
@@ -654,8 +656,8 @@ add_action( 'wp_ajax_nopriv_cpm_file_get', 'cpm_serve_file_denied' );
 function cpm_hide_comments( $clauses ) {
     global $wpdb, $pagenow;
 
-    if ( !is_admin() || $pagenow == 'edit-comments.php' || (is_admin() && $pagenow == 'index.php') ) {
-        $post_types = implode( "', '", array('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message') );
+    if ( ! is_admin() || $pagenow == 'edit-comments.php' || (is_admin() && $pagenow == 'index.php') ) {
+        $post_types = implode( "', '", array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message', 'sub_task' ) );
         $clauses['join'] .= " JOIN $wpdb->posts as cpm_p ON cpm_p.ID = $wpdb->comments.comment_post_ID";
         $clauses['where'] .= " AND cpm_p.post_type NOT IN('$post_types')";
     }
@@ -675,14 +677,13 @@ add_filter( 'comments_clauses', 'cpm_hide_comments', 99 );
 function cpm_hide_comment_rss( $where ) {
     global $wpdb;
 
-    $post_types = implode( "', '", array('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message') );
+    $post_types = implode( "', '", array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_milestone', 'cpm_message' ) );
     $where .= " AND {$wpdb->posts}.post_type NOT IN('$post_types')";
 
     return $where;
 }
 
 add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
-
 
 /**
  * Get the value of a settings field
@@ -693,26 +694,26 @@ add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
  */
 function cpm_get_option( $option ) {
 
-    $fields = CPM_Admin::get_settings_fields();
+    $fields          = CPM_Admin::get_settings_fields();
     $prepared_fields = array();
 
     //prepare the array with the field as key
     //and set the section name on each field
-    foreach ($fields as $section => $field) {
-        foreach ($field as $fld) {
-            $prepared_fields[$fld['name']] = $fld;
+    foreach ( $fields as $section => $field ) {
+        foreach ( $field as $fld ) {
+            $prepared_fields[$fld['name']]            = $fld;
             $prepared_fields[$fld['name']]['section'] = $section;
         }
     }
 
     // bail if option not found
-    if ( !isset( $prepared_fields[$option] ) ) {
+    if ( ! isset( $prepared_fields[$option] ) ) {
         return;
     }
 
     //get the value of the section where the option exists
     $opt = get_option( $prepared_fields[$option]['section'] );
-    $opt = is_array($opt) ? $opt : array();
+    $opt = is_array( $opt ) ? $opt : array();
 
     //return the value if found, otherwise default
     if ( array_key_exists( $option, $opt ) ) {
@@ -723,7 +724,7 @@ function cpm_get_option( $option ) {
     }
 }
 
-if ( !function_exists( 'get_ipaddress' ) ) {
+if ( ! function_exists( 'get_ipaddress' ) ) {
 
     /**
      * Returns users current IP Address
@@ -746,32 +747,31 @@ if ( !function_exists( 'get_ipaddress' ) ) {
 
 }
 
-
 function cpm_settings_label() {
     $labels = array(
-
-        'Message' => array(
+        'Message'   => array(
             'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
-
         'Todo List' => array(
             'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
-
-        'Todo' => array(
+        'Todo'      => array(
             'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
-
         'Milestone' => array(
             'create_milestone'       => __( 'Create', 'cpm' ),
             'milestone_view_private' => __( 'View Private', 'cpm' ),
-        )
+        ),
+        'Files'     => array(
+            'upload_file_doc'   => __( 'Upload or create doc', 'cpm' ),
+            'file_view_private' => __( 'View Private files or docs', 'cpm' ),
+        ),
     );
 
-    return apply_filters( 'cpm_project_permission',  $labels );
+    return apply_filters( 'cpm_project_permission', $labels );
 }
 
 function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
@@ -783,13 +783,12 @@ function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
         $user_id = get_current_user_id();
     }
 
-    $role = $wpdb->get_var( $wpdb->prepare("SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d'", $project_id, $user_id ) );
+    $role = $wpdb->get_var( $wpdb->prepare( "SELECT role FROM {$table} WHERE project_id = '%d' AND user_id='%d'", $project_id, $user_id ) );
 
     $project_user_role = ! empty( $role ) ? $role : false;
 
     return $project_user_role;
 }
-
 
 /**
  * Get a project user role by project id
@@ -798,12 +797,12 @@ function cpm_project_user_role_pre_chache( $project_id, $user_id = false ) {
  * @parm int $user_id //
  * @return string
  */
-function cpm_get_role_in_project( $project_id, $user_id = 0  ) {
+function cpm_get_role_in_project( $project_id, $user_id = 0 ) {
 
-    if ( absint( $user_id ) ){
+    if ( absint( $user_id ) ) {
         $user = get_user_by( 'ID', $user_id );
     } else {
-       $user = wp_get_current_user();
+        $user = wp_get_current_user();
     }
 
     $cache_key         = 'cpm_project_user_role_' . $project_id . $user_id;
@@ -851,9 +850,9 @@ function cpm_can_manage_projects( $user_id = 0 ) {
         return false;
     }
 
-    $loggedin_user_role   = array_flip( $user->roles );
-    $manage_cap_option    = cpm_get_option( 'project_manage_role' );
-    $manage_capability    = array_intersect_key( $loggedin_user_role, $manage_cap_option );
+    $loggedin_user_role = array_flip( $user->roles );
+    $manage_cap_option  = cpm_get_option( 'project_manage_role' );
+    $manage_capability  = array_intersect_key( $loggedin_user_role, $manage_cap_option );
 
     //checking project manage capability
     if ( $manage_capability ) {
@@ -898,7 +897,6 @@ function cpm_can_create_projects( $user_id = 0 ) {
     }
 
     return false;
-
 }
 
 /**
@@ -912,7 +910,7 @@ function cpm_can_create_projects( $user_id = 0 ) {
  */
 function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
     if ( $id_only ) {
-       $post = get_post( intval( $post ) );
+        $post = get_post( intval( $post ) );
     }
 
     $user = wp_get_current_user();
@@ -953,7 +951,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
         return true;
     }
 
-    $uesr_role_in_project = cpm_get_role_in_project( $project_id , $user_id);
+    $uesr_role_in_project = cpm_get_role_in_project( $project_id, $user_id );
 
     //If current user has no role in this project
     if ( ! $uesr_role_in_project ) {
@@ -1017,11 +1015,10 @@ function cpm_project_count() {
     $cache_key = 'cpm_project_count';
     $count     = wp_cache_get( $cache_key, 'cpm' );
 
-    if( isset( $_GET['project_cat'] ) && !empty( $_GET['project_cat'] ) && ( $_GET['project_cat'] != '-1' ) ) {
+    if ( isset( $_GET['project_cat'] ) && ! empty( $_GET['project_cat'] ) && ( $_GET['project_cat'] != '-1' ) ) {
         $project_category      = $_GET['project_cat'];
         $project_category_join = " LEFT JOIN {$wpdb->term_relationships} as term ON term.object_id = post.ID";
         $project_category      = " AND term.term_taxonomy_id IN ($project_category)";
-
     } else {
         $project_category      = '';
         $project_category_join = '';
@@ -1030,7 +1027,7 @@ function cpm_project_count() {
     $project_category_join = apply_filters( 'cpm_project_activity_count_join', $project_category_join );
     $project_category      = apply_filters( 'cpm_project_activity_count_where', $project_category );
 
-    if( cpm_can_manage_projects() == false ) {
+    if ( cpm_can_manage_projects() == false ) {
         $role_join  = "LEFT JOIN {$table} AS role ON role.project_id = post.ID";
         $role_where = "AND role.user_id = $user_id";
     } else {
@@ -1056,23 +1053,22 @@ function cpm_project_count() {
         wp_cache_set( $cache_key, $count, 'cpm' );
     }
 
-    if ( is_array($count) && count($count) ) {
-        foreach( $count as $key=>$obj) {
-            if( $obj->type == 'yes' ) {
+    if ( is_array( $count ) && count( $count ) ) {
+        foreach ( $count as $key => $obj ) {
+            if ( $obj->type == 'yes' ) {
                 $active = $obj->count;
             }
-            if( $obj->type == 'no' ) {
+            if ( $obj->type == 'no' ) {
                 $archive = $obj->count;
             }
         }
     }
 
-    $count['active'] = isset( $active ) ? $active : 0;
+    $count['active']  = isset( $active ) ? $active : 0;
     $count['archive'] = isset( $archive ) ? $archive : 0;
 
     return $count;
 }
-
 
 function cpm_project_actions( $project_id ) {
     ?>
@@ -1082,7 +1078,7 @@ function cpm_project_actions( $project_id ) {
         <ul class="cpm-settings" >
             <li>
                 <span class="cpm-spinner"></span>
-                <a href="<?php echo cpm_url_projects() ?>" class="cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array('confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id) ) ?>>
+                <a href="<?php echo cpm_url_projects() ?>" class="cpm-project-delete-link" title="<?php esc_attr_e( 'Delete project', 'cpm' ); ?>" <?php cpm_data_attr( array( 'confirm' => __( 'Are you sure to delete this project?', 'cpm' ), 'project_id' => $project_id ) ) ?>>
                     <span class="dashicons dashicons-trash"></span>
                     <span><?php _e( 'Delete', 'cpm' ); ?></span>
                 </a>
@@ -1105,7 +1101,7 @@ function cpm_project_actions( $project_id ) {
             <?php if ( cpm_is_pro() ) { ?>
                 <li>
                     <span class="cpm-spinner"></span>
-                    <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array('page'=>'cpm_projects') ,get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
+                    <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array( 'page' => 'cpm_projects' ), get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
                         <span class="dashicons dashicons-admin-page"></span>
                         <span><?php _e( 'Duplicate', 'cpm' ); ?></span>
                     </a>
@@ -1135,7 +1131,7 @@ function cpm_is_project_archived( $project_id ) {
 function cpm_assigned_user( $users ) {
 
     if ( is_array( $users ) ) {
-        foreach ($users as $user_id ) {
+        foreach ( $users as $user_id ) {
             echo '<span class="cpm-assigned-user">';
             echo cpm_url_user( $user_id, true );
             echo '</span>';
@@ -1145,12 +1141,11 @@ function cpm_assigned_user( $users ) {
         echo cpm_url_user( $users, true );
         echo '</span>';
     }
-
 }
 
 function cpm_pagination( $total, $limit, $pagenum ) {
     $num_of_pages = ceil( $total / $limit );
-    $page_links = paginate_links( array(
+    $page_links   = paginate_links( array(
         'base'      => add_query_arg( 'pagenum', '%#%' ),
         'format'    => '',
         'prev_text' => __( '&laquo;', 'aag' ),
@@ -1158,7 +1153,7 @@ function cpm_pagination( $total, $limit, $pagenum ) {
         'add_args'  => false,
         'total'     => $num_of_pages,
         'current'   => $pagenum
-    ) );
+            ) );
 
     if ( $page_links ) {
         echo '<div class="tablenav"><div class="tablenav-pages">' . $page_links . '</div></div>';
@@ -1195,7 +1190,6 @@ function cpm_delete_project_child( $project_id ) {
                 CPM_Milestone::getInstance()->delete( $children->ID, true );
                 break;
         }
-
     }
 }
 
@@ -1208,10 +1202,9 @@ function cpm_delete_project_child( $project_id ) {
  *
  * @return array
  */
-
 function cpm_get_all_manager_from_project( $project_id ) {
     global $wpdb;
-    $table = $wpdb->prefix . 'cpm_user_role';
+    $table  = $wpdb->prefix . 'cpm_user_role';
     $result = $wpdb->get_results( "SELECT `user_id` FROM $table WHERE project_id='$project_id' AND role='manager'" );
     return wp_list_pluck( $result, 'user_id' );
 }
@@ -1225,14 +1218,9 @@ function cpm_get_all_manager_from_project( $project_id ) {
  *
  * @return void
  */
-
 function cpm_get_email_header() {
-    $file_path   = CPM_PATH . '/views/emails/header.php';
-    $header_path = apply_filters( 'cpm_email_header', $file_path );
-
-    if ( file_exists( $header_path ) ) {
-        require_once $header_path;
-    }
+    $file_name   ='/emails/header.php';
+    cpm_load_template( $file_name );
 }
 
 /**
@@ -1244,14 +1232,9 @@ function cpm_get_email_header() {
  *
  * @return void
  */
-
 function cpm_get_email_footer() {
-    $file_path   = CPM_PATH . '/views/emails/footer.php';
-    $footer_path = apply_filters( 'cpm_email_footer', $file_path );
-
-    if ( file_exists( $footer_path ) ) {
-        require_once $footer_path;
-    }
+   $file_name   ='/emails/footer.php';
+    cpm_load_template( $file_name );
 
 }
 
@@ -1299,11 +1282,11 @@ function cpm_date_range( $start, $end, $check ) {
  * @return str
  */
 function cpm_ordinal( $number ) {
-    $ends = array('th','st','nd','rd','th','th','th','th','th','th');
-    if ((($number % 100) >= 11) && (($number%100) <= 13))
-        return $number. 'th';
+    $ends = array( 'th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th' );
+    if ( (($number % 100) >= 11) && (($number % 100) <= 13) )
+        return $number . 'th';
     else
-        return $number. $ends[$number % 10];
+        return $number . $ends[$number % 10];
 }
 
 /**
@@ -1349,5 +1332,32 @@ function cpm_strlen( $string ) {
         return mb_strlen( $string );
     } else {
         return strlen( $string );
+    }
+}
+
+/**
+ * Load template for view page and emails
+ *
+ * @since 1.4.3
+ *
+ * @param  string  $file
+ *
+ * @return html
+ */
+function cpm_load_template( $file, $args = array() ) {
+    if ( $args && is_array( $args ) ) {
+        extract( $args );
+    }
+
+    $child_theme_dir  = get_stylesheet_directory() . '/cpm/';
+    $parent_theme_dir = get_template_directory() . '/cpm/';
+    $cpm_dir          = CPM_PATH . '/views/';
+
+    if ( file_exists( $child_theme_dir . $file ) ) {
+        include $child_theme_dir . $file;
+    } else if ( file_exists( $parent_theme_dir . $file ) ) {
+        include $parent_theme_dir . $file;
+    } else {
+        include $cpm_dir . $file;
     }
 }

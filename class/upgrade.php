@@ -12,7 +12,7 @@ class CPM_Upgrade {
      * @return type
      */
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Upgrade();
         }
 
@@ -60,11 +60,11 @@ class CPM_Upgrade {
      * @since 1.1
      */
     function init() {
-        if ( !isset( $_POST['cpm_update'] ) ) {
+        if ( ! isset( $_POST['cpm_update'] ) ) {
             return;
         }
 
-        if ( !wp_verify_nonce( $_POST['cpm_nonce'], '_nonce' ) ) {
+        if ( ! wp_verify_nonce( $_POST['cpm_nonce'], '_nonce' ) ) {
             return;
         }
 
@@ -97,7 +97,7 @@ class CPM_Upgrade {
                 if ( file_exists( $file ) ) {
                     require_once $file;
                 } else {
-                   require_once CPM_PATH . '/includes/upgrades/' . $path;
+                    require_once CPM_PATH . '/includes/upgrades/' . $path;
                 }
 
                 update_option( 'cpm_db_version', $version );
@@ -113,7 +113,7 @@ class CPM_Upgrade {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'cpm_user_role';
-        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+        $sql        = "CREATE TABLE IF NOT EXISTS {$table_name} (
           `ID` bigint(20) NOT NULL AUTO_INCREMENT,
           `project_id` bigint(20) NOT NULL,
           `user_id` bigint(20) NOT NULL,
@@ -125,4 +125,5 @@ class CPM_Upgrade {
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
     }
+
 }

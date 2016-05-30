@@ -5,20 +5,19 @@
  *
  * @author Tareq Hasan (http://tareq.weDevs.com)
  */
-
 class CPM_Project {
 
     private static $_instance;
 
     public function __construct() {
-        add_filter( 'init', array($this, 'register_post_type') );
-        add_filter( 'manage_edit-project_category_columns', array($this, 'manage_edit_project_category_columns') );
+        add_filter( 'init', array( $this, 'register_post_type' ) );
+        add_filter( 'manage_edit-project_category_columns', array( $this, 'manage_edit_project_category_columns' ) );
 
-        add_filter( 'parent_file', array($this, 'fix_category_menu' ) );
+        add_filter( 'parent_file', array( $this, 'fix_category_menu' ) );
     }
 
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Project();
         }
 
@@ -39,12 +38,12 @@ class CPM_Project {
             'show_in_menu'        => false,
             'capability_type'     => 'post',
             'hierarchical'        => false,
-            'rewrite'             => array('slug' => ''),
+            'rewrite'             => array( 'slug' => '' ),
             'query_var'           => true,
             'supports'            => array( 'title', 'editor', 'comments' ),
             'show_in_json'        => true,
-            'labels' => array(
-                'name' => __( 'Project', 'cpm' ),
+            'labels'              => array(
+                'name'               => __( 'Project', 'cpm' ),
                 'singular_name'      => __( 'Project', 'cpm' ),
                 'menu_name'          => __( 'Project', 'cpm' ),
                 'add_new'            => __( 'Add Project', 'cpm' ),
@@ -61,12 +60,12 @@ class CPM_Project {
             ),
         ) );
 
-        register_taxonomy('cpm_project_category', 'cpm_project', array(
+        register_taxonomy( 'cpm_project_category', 'cpm_project', array(
             'hierarchical' => true,
-            'labels' => array(
+            'labels'       => array(
                 'name'              => _x( 'Project Categories', 'taxonomy general name' ),
                 'singular_name'     => _x( 'Location', 'taxonomy singular name' ),
-                'search_items'      =>  __( 'Search Project Categories', 'cpm' ),
+                'search_items'      => __( 'Search Project Categories', 'cpm' ),
                 'all_items'         => __( 'All Project Categories', 'cpm' ),
                 'parent_item'       => __( 'Parent Project Category', 'cpm' ),
                 'parent_item_colon' => __( 'Parent Project Category:', 'cpm' ),
@@ -76,14 +75,13 @@ class CPM_Project {
                 'new_item_name'     => __( 'New Project Category Name', 'cpm' ),
                 'menu_name'         => __( 'Categories', 'cpm' ),
             ),
-            'rewrite' => array(
+            'rewrite'      => array(
                 'slug'         => 'cpm-project-category',
                 'with_front'   => false,
                 'hierarchical' => true
             ),
-        ));
+        ) );
     }
-
 
     /**
      * highlight the proper top level menu
@@ -127,9 +125,9 @@ class CPM_Project {
         }
 
         if ( $project_id ) {
-            $this->insert_project_user_role( $posted, $project_id  );
+            $this->insert_project_user_role( $posted, $project_id );
             $project_cat = isset( $posted['project_cat'] ) ? $posted['project_cat'] : '';
-            wp_set_post_terms( $project_id, $project_cat, 'cpm_project_category', false);
+            wp_set_post_terms( $project_id, $project_cat, 'cpm_project_category', false );
 
             if ( $is_update ) {
                 do_action( 'cpm_project_update', $project_id, $data, $posted );
@@ -145,41 +143,38 @@ class CPM_Project {
         return $project_id;
     }
 
-
-
-    function insert_project_user_role( $posted, $project_id  ) {
+    function insert_project_user_role( $posted, $project_id ) {
 
         global $wpdb;
-        $table = $wpdb->prefix . 'cpm_user_role';
-        $wpdb->delete( $table, array( 'project_id' => $project_id ), array('%d') );
+        $table          = $wpdb->prefix . 'cpm_user_role';
+        $wpdb->delete( $table, array( 'project_id' => $project_id ), array( '%d' ) );
         $project_author = get_post_field( 'post_author', $project_id );
         $this->insert_user( $project_id, $project_author, 'manager' );
 
         $users_role = isset( $posted['role'] ) && array( $posted['role'] ) ? $posted['role'] : array();
         $users_role = apply_filters( 'cpm_assign_user_role', $users_role, $posted, $project_id );
 
-        foreach( $users_role as $user_id => $role ) {
-            if( $user_id == $project_author) {
+        foreach ( $users_role as $user_id => $role ) {
+            if ( $user_id == $project_author ) {
                 continue;
             }
             $this->insert_user( $project_id, $user_id, $role );
         }
-
     }
 
     function update_user_role( $project_id, $user_id, $role ) {
         global $wpdb;
-        $table  = $wpdb->prefix . 'cpm_user_role';
-        $data   = array( 'role' => $role );
-        $where  = array( 'project_id' => $project_id, 'user_id' => $user_id );
+        $table = $wpdb->prefix . 'cpm_user_role';
+        $data  = array( 'role' => $role );
+        $where = array( 'project_id' => $project_id, 'user_id' => $user_id );
 
         $wpdb->update( $table, $data, $where );
     }
 
     function insert_user( $project_id, $user_id, $role ) {
         global $wpdb;
-        $table = $wpdb->prefix . 'cpm_user_role';
-        $data = array(
+        $table  = $wpdb->prefix . 'cpm_user_role';
+        $data   = array(
             'project_id' => $project_id,
             'user_id'    => $user_id,
             'role'       => $role,
@@ -190,10 +185,10 @@ class CPM_Project {
 
     function settings_user_permission() {
         $labels = cpm_settings_label();
-        foreach ($labels as $section => $name ) {
-            foreach ($name as $key => $field) {
+        foreach ( $labels as $section => $name ) {
+            foreach ( $name as $key => $field ) {
                 $settings['co_worker'][$key] = 'yes';
-                $settings['client'][$key] = 'yes';
+                $settings['client'][$key]    = 'yes';
             }
         }
 
@@ -205,7 +200,7 @@ class CPM_Project {
             'milestone_view_private' => 'no',
         );
 
-        foreach( $client_permission as $name => $premisson ) {
+        foreach ( $client_permission as $name => $premisson ) {
             $settings['client'][$name] = $premisson;
         }
 
@@ -238,7 +233,7 @@ class CPM_Project {
 
         global $wpdb;
         $table = $wpdb->prefix . 'cpm_user_role';
-        $wpdb->delete( $table, array( 'project_id' => $project_id ), array('%d') );
+        $wpdb->delete( $table, array( 'project_id' => $project_id ), array( '%d' ) );
 
         $delete = wp_delete_post( $project_id, $force );
 
@@ -267,7 +262,7 @@ class CPM_Project {
         );
 
         //Add Filtering
-        if ( $project_category != 0 &&  $project_category != '-1') {
+        if ( $project_category != 0 && $project_category != '-1' ) {
             $args['tax_query'][] = array(
                 'taxonomy' => 'cpm_project_category',
                 'field'    => 'term_id',
@@ -286,8 +281,7 @@ class CPM_Project {
                         'compare' => '='
                     ),
                 );
-
-            } else if( $_GET['status'] == 'active' ) {
+            } else if ( $_GET['status'] == 'active' ) {
                 $args['meta_query'] = array(
                     array(
                         'key'     => '_project_active',
@@ -295,10 +289,9 @@ class CPM_Project {
                         'compare' => '='
                     ),
                 );
-            } else if( $_GET['status'] == 'all' ) {
+            } else if ( $_GET['status'] == 'all' ) {
                 $args['meta_query'] = '';
             }
-
         } else {
             $args['meta_query'] = array(
                 array(
@@ -310,8 +303,8 @@ class CPM_Project {
         }
 
         if ( cpm_can_manage_projects() === false ) {
-            add_filter( 'posts_join', array($this, 'jonin_user_role_table') );
-            add_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 3 );
+            add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -321,12 +314,12 @@ class CPM_Project {
         $projects       = $projects->posts;
 
         if ( cpm_can_manage_projects() === false ) {
-            remove_filter( 'posts_join', array($this, 'jonin_user_role_table') );
-            remove_filter( 'posts_where', array($this, 'get_project_where_user_role'), 10, 2 );
+            remove_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
+            remove_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
         }
 
-        foreach ($projects as &$project) {
-            $project->info = $this->get_info( $project->ID );
+        foreach ( $projects as &$project ) {
+            $project->info  = $this->get_info( $project->ID );
             $project->users = $this->get_users( $project );
         }
         $projects['total_projects'] = $total_projects;
@@ -336,28 +329,26 @@ class CPM_Project {
     function get_user_projects( $user_id ) {
 
         $args = array(
-            'post_type'      => 'cpm_project'
+            'post_type' => 'cpm_project'
         );
 
         $projects       = new WP_Query( $args );
         $total_projects = $projects->found_posts;
         $projects       = $projects->posts;
-        $rp = array() ;
+        $rp             = array();
 
-        foreach ($projects as &$project) {
+        foreach ( $projects as &$project ) {
 
-            if( cpm_user_can_access ( $project->ID, '', $user_id ) ) {
-               // $project->info = $this->get_info( $project->ID );
-               // $project->users = $this->get_users( $project );
-                $rp[$project->ID] = $project ;
+            if ( cpm_user_can_access( $project->ID, '', $user_id ) ) {
+                // $project->info = $this->get_info( $project->ID );
+                // $project->users = $this->get_users( $project );
+                $rp[$project->ID] = $project;
             }
         }
 
 
         return $rp;
     }
-
-
 
     function jonin_user_role_table( $join ) {
         global $wp_query, $wpdb;
@@ -368,13 +359,15 @@ class CPM_Project {
         return $join;
     }
 
-    function get_project_where_user_role($where, &$wp_query, $user_id = 0) {
+    function get_project_where_user_role( $where, &$wp_query, $user_id = 0 ) {
         global $wp_query, $wpdb;
 
         $table = $wpdb->prefix . 'cpm_user_role';
 
-        if( absint ( $user_id) ) $user_id = $user_id;
-        else $user_id = get_current_user_id();
+        if ( absint( $user_id ) )
+            $user_id = $user_id;
+        else
+            $user_id = get_current_user_id();
 
         $project_where = " AND $table.user_id = $user_id";
         $where .= apply_filters( 'cpm_get_projects_where', $project_where, $table, $where, $wp_query, $user_id );
@@ -387,21 +380,21 @@ class CPM_Project {
      * @param int $project_id
      * @return object
      */
-    function get( $project_id, $invoice_id= '' ) {
+    function get( $project_id, $invoice_id = '' ) {
         $project = get_post( $project_id );
 
-        if ( !$project ) {
+        if ( ! $project ) {
             return false;
         }
 
-        $meta = get_post_meta($invoice_id);
-        if( $meta ) {
-            foreach ($meta as $k=>$v) {
-                $project->$k = maybe_unserialize($v[0]);
+        $meta = get_post_meta( $invoice_id );
+        if ( $meta ) {
+            foreach ( $meta as $k => $v ) {
+                $project->$k = maybe_unserialize( $v[0] );
             }
         }
         $project->users = $this->get_users( $project );
-        $project->info = $this->get_info( $project_id );
+        $project->info  = $this->get_info( $project_id );
 
         return $project;
     }
@@ -422,12 +415,12 @@ class CPM_Project {
             'number' => 20
         );
 
-        $args = wp_parse_args( $args, $defaults );
+        $args            = wp_parse_args( $args, $defaults );
         $args['post_id'] = $project_id;
 
-        $response =  get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
+        $response = get_comments( apply_filters( 'cpm_activity_args', $args, $project_id ) );
 
-        return $response ;
+        return $response;
     }
 
     /**
@@ -440,19 +433,19 @@ class CPM_Project {
      * @return array
      */
     function get_projects_activity( $projects_id, $args = array() ) {
-        if ( !$projects_id ) {
+        if ( ! $projects_id ) {
             return false;
         }
 
         $defaults = array(
-            'order'    => 'DESC',
-            'offset'   => 0,
-            'number'   => 20
+            'order'  => 'DESC',
+            'offset' => 0,
+            'number' => 20
         );
 
-        $args = wp_parse_args( $args, $defaults );
+        $args             = wp_parse_args( $args, $defaults );
         $args['post__in'] = $projects_id;
-        $comments = get_comments( apply_filters( 'cpm_projects_activity_args', $args, $projects_id ) );
+        $comments         = get_comments( apply_filters( 'cpm_projects_activity_args', $args, $projects_id ) );
         return $comments;
     }
 
@@ -474,13 +467,13 @@ class CPM_Project {
 
         if ( false === $ret ) {
             //get discussions
-            $sql = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
+            $sql       = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
             $sql_files = "SELECT COUNT(ID) FROM $wpdb->posts p INNER JOIN $wpdb->postmeta m ON (p.ID = m.post_id) WHERE p.post_type = 'attachment' AND (p.post_status = 'publish' OR p.post_status = 'inherit') AND ( (m.meta_key = '_project' AND CAST(m.meta_value AS CHAR) = '$project_id') )";
 
             $discussions = $wpdb->get_results( sprintf( $sql, 'cpm_message', $project_id ) );
             $todolists   = $wpdb->get_results( sprintf( $sql, 'cpm_task_list', $project_id ) );
             $milestones  = $wpdb->get_results( sprintf( $sql, 'cpm_milestone', $project_id ) );
-            $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'cpm_task', implode(', ', wp_list_pluck( $todolists, 'ID') ) ) ) : array();
+            $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'cpm_task', implode( ', ', wp_list_pluck( $todolists, 'ID' ) ) ) ) : array();
             $files       = $wpdb->get_var( $sql_files );
 
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
@@ -490,24 +483,24 @@ class CPM_Project {
 
             $total_comment = array_sum( $discussion_comment ) + array_sum( $todolist_comment ) + array_sum( $todo_comment );
 
-            $ret = new stdClass();
+            $ret             = new stdClass();
             $ret->discussion = count( $discussions );
             $ret->todolist   = count( $todolists );
-            $sticky = get_option( 'sticky_posts' );
-            if(!empty( $sticky )){
-                $sticky = implode(',', $sticky) ;
-                $sql_pin_list = "SELECT ID FROM $wpdb->posts WHERE `post_type` = 'cpm_task_list' AND `post_status` = 'publish' AND `post_parent` = $project_id  AND ID IN( $sticky );";
-                $pin_todolists = $wpdb->get_results( $sql_pin_list );
-                $ret->pin_list   = count(  $pin_todolists );
-                $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
-            }else {
-                $ret->pin_list   = 0 ;
+            $sticky          = get_option( 'sticky_posts' );
+            if ( ! empty( $sticky ) ) {
+                $sticky                    = implode( ',', $sticky );
+                $sql_pin_list              = "SELECT ID FROM $wpdb->posts WHERE `post_type` = 'cpm_task_list' AND `post_status` = 'publish' AND `post_parent` = $project_id  AND ID IN( $sticky );";
+                $pin_todolists             = $wpdb->get_results( $sql_pin_list );
+                $ret->pin_list             = count( $pin_todolists );
+                $ret->todolist_without_pin = ( $ret->todolist - $ret->pin_list );
+            } else {
+                $ret->pin_list = 0;
             }
-            $ret->todolist_without_pin   = ( $ret->todolist -  $ret->pin_list );
-            $ret->todos      = count( $todos );
-            $ret->comments   = $total_comment;
-            $ret->files      = (int) $files;
-            $ret->milestone  = count( $milestone );
+            $ret->todolist_without_pin = ( $ret->todolist - $ret->pin_list );
+            $ret->todos                = count( $todos );
+            $ret->comments             = $total_comment;
+            $ret->files                = ( int ) $files;
+            $ret->milestone            = count( $milestone );
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
@@ -547,18 +540,18 @@ class CPM_Project {
         $user_list = array();
         $table     = $wpdb->prefix . 'cpm_user_role';
         $query     = "SELECT user_id, role FROM {$table} WHERE project_id = %d AND component = ''";
-        
-        $query         = apply_filters( 'cpm_get_users_query', $query, $project, $table );
-        
+
+        $query = apply_filters( 'cpm_get_users_query', $query, $project, $table );
+
         $project_users = $wpdb->get_results( $wpdb->prepare( $query, $project_id ) );
-        
+
         $project_users = apply_filters( 'cpm_get_users', $project_users, $project, $table );
 
         if ( $project_users ) {
-            foreach ($project_users as $row ) {
+            foreach ( $project_users as $row ) {
                 $user = get_user_by( 'id', $row->user_id );
 
-                if ( !is_wp_error( $user ) && $user ) {
+                if ( ! is_wp_error( $user ) && $user ) {
                     $user_list[$user->ID] = array(
                         'id'    => $user->ID,
                         'email' => $user->user_email,
@@ -579,80 +572,79 @@ class CPM_Project {
      * @return array
      */
     function nav_links( $project_id ) {
-        $project_info   =  $this->get_info( $project_id );
+        $project_info   = $this->get_info( $project_id );
         $count_comments = get_comment_count( $project_id );
-        $total_activity =  $count_comments['total_comments'];
-        $links = array(
+        $total_activity = $count_comments['total_comments'];
+        $links          = array(
             __( 'Overview', 'cpm' )    => array(
-                'url' => cpm_url_project_overview( $project_id ),
+                'url'   => cpm_url_project_overview( $project_id ),
                 'count' => '',
                 'class' => 'overview cpm-sm-col-12'
-                ) ,
+            ),
             __( 'Activities', 'cpm' )  => array(
-                'url' => cpm_url_project_details( $project_id ),
+                'url'   => cpm_url_project_details( $project_id ),
                 'count' => $total_activity,
                 'class' => 'activity cpm-sm-col-12'
-                ),
+            ),
             __( 'Discussions', 'cpm' ) => array(
-                'url' => cpm_url_message_index( $project_id ),
+                'url'   => cpm_url_message_index( $project_id ),
                 'count' => $project_info->discussion,
                 'class' => 'message cpm-sm-col-12'
-                ),
+            ),
             __( 'To-do Lists', 'cpm' ) => array(
-                'url' => cpm_url_tasklist_index( $project_id ),
+                'url'   => cpm_url_tasklist_index( $project_id ),
                 'count' => $project_info->todolist,
                 'class' => 'to-do-list cpm-sm-col-12'
-                ) ,
+            ),
             __( 'Milestones', 'cpm' )  => array(
-                'url' => cpm_url_milestone_index( $project_id ),
+                'url'   => cpm_url_milestone_index( $project_id ),
                 'count' => $project_info->milestone,
                 'class' => 'milestone cpm-sm-col-12'
-                ) ,
-            __( 'Files', 'cpm' )        => array(
-                'url' => cpm_url_file_index( $project_id ),
+            ),
+            __( 'Files', 'cpm' )       => array(
+                'url'   => cpm_url_file_index( $project_id ),
                 'count' => $project_info->files,
                 'class' => 'files cpm-sm-col-12'
-                )
+            )
         );
 
-        if( cpm_user_can_access( $project_id ) ) {
-            $links[__( 'Settings', 'cpm' )] = array('url' => cpm_url_settings_index( $project_id ), 'count' => '', 'class' => 'settings cpm-sm-col-12') ;
+        if ( cpm_user_can_access( $project_id ) ) {
+            $links[__( 'Settings', 'cpm' )] = array( 'url' => cpm_url_settings_index( $project_id ), 'count' => '', 'class' => 'settings cpm-sm-col-12' );
         }
 
-        $links =  apply_filters( 'cpm_project_nav_links', $links, $project_id );
+        $links = apply_filters( 'cpm_project_nav_links', $links, $project_id );
 
         return $links;
     }
 
     /**
-    * Prints navigation menu for a project
-    *
-    * @param int $project_id
-    * @param string $active
-    * @return string
-    */
-
+     * Prints navigation menu for a project
+     *
+     * @param int $project_id
+     * @param string $active
+     * @return string
+     */
     function nav_menu( $project_id, $active = '' ) {
 
-        $links          = $this->nav_links( $project_id );
-        $menu           = array();
+        $links = $this->nav_links( $project_id );
+        $menu  = array();
 
         foreach ( $links as $label => $url ) {
-            if(is_array($url)){
-                $link =  $url['url'] ;
+            if ( is_array( $url ) ) {
+                $link  = $url['url'];
                 $count = $url['count'];
-                $class =  $url['class'] ;
-            }else{
-                $link =  $url ;
+                $class = $url['class'];
+            } else {
+                $link  = $url;
                 $count = '';
-                $class =  'others' ;
+                $class = 'others';
             }
             if ( $active == $label ) {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $link, $label, $count , $class );
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s active" title="%2$s">%2$s <div>%3$s</div></a></li>', $link, $label, $count, $class );
             } else {
 
-                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $link, $label, $count , $class);
+                $menu[] = sprintf( '<li> <a href="%1$s" class="%4$s" title="%2$s">%2$s<div>%3$s</div></a></li>', $link, $label, $count, $class );
             }
         }
 
@@ -686,7 +678,7 @@ class CPM_Project {
      */
     function has_permission( $project, $user_id = 0 ) {
         global $current_user;
-    
+
         if ( absint( $user_id ) ) {
             $user = get_user_by( 'ID', $user_id );
         } else {
@@ -696,19 +688,19 @@ class CPM_Project {
         if ( ! $user ) {
             return false;
         }
-        
+
         //chck manage capability
         if ( cpm_can_manage_projects( $user->ID ) ) {
             return true;
         }
-        
-        $uesr_role_in_project = cpm_get_role_in_project( $project->ID , $user_id);
-        
+
+        $uesr_role_in_project = cpm_get_role_in_project( $project->ID, $user_id );
+
         //If current user has no role in this project
         if ( ! $uesr_role_in_project ) {
             return false;
-        }        
-        
+        }
+
         return true;
     }
 
@@ -721,23 +713,23 @@ class CPM_Project {
             AND p.post_status = 'publish' AND p.post_type = 'cpm_task' AND m.meta_key = '_completed'
             ORDER BY m.meta_value";
 
-        $result = $wpdb->get_results($sql);
+        $result   = $wpdb->get_results( $sql );
         $response = array(
-            'total'     => count($result),
-            'pending'   => count(array_filter( $result, 'cpm_tasks_filter_pending' )),
-            'completed' => count(array_filter( $result, 'cpm_tasks_filter_done' ))
+            'total'     => count( $result ),
+            'pending'   => count( array_filter( $result, 'cpm_tasks_filter_pending' ) ),
+            'completed' => count( array_filter( $result, 'cpm_tasks_filter_done' ) )
         );
 
         return $response;
     }
 
     /**
-      * Modifies columns in project category table.
-      */
-     function manage_edit_project_category_columns( $columns ) {
-          unset( $columns['posts'] );
-          return $columns;
-     }
+     * Modifies columns in project category table.
+     */
+    function manage_edit_project_category_columns( $columns ) {
+        unset( $columns['posts'] );
+        return $columns;
+    }
 
     /**
      * Insert project item
@@ -754,9 +746,9 @@ class CPM_Project {
      *
      * @return type
      */
-    function new_project_item( $project_id, $object_id, $private, $type, $update, $complete_date='0000-00-00 00:00:00', $complete_status=0, $parent=false ) {
+    function new_project_item( $project_id, $object_id, $private, $type, $update, $complete_date = '0000-00-00 00:00:00', $complete_status = 0, $parent = false ) {
         global $wpdb;
-        $table = $wpdb->prefix . 'cpm_project_items';
+        $table   = $wpdb->prefix . 'cpm_project_items';
         $private = ( $private == 'yes' ) ? 1 : 0;
 
         $data = array(
@@ -769,7 +761,7 @@ class CPM_Project {
             'complete_status' => $complete_status
         );
 
-        $format = array( '%d', '%s', '%d','%d', '%d', '%s', '%d' );
+        $format = array( '%d', '%s', '%d', '%d', '%d', '%s', '%d' );
 
         $data = apply_filters( 'cpm_new_project_item_data', $data );
 
@@ -784,12 +776,9 @@ class CPM_Project {
             $wpdb->update( $table, $data, $where, $format );
         } else {
             $wpdb->insert( $table, $data, $format );
-
         }
 
         do_action( 'cpm_after_update_new_project_item', $project_id, $object_id, $private, $type, $update );
-
-
     }
 
     /**
@@ -807,11 +796,11 @@ class CPM_Project {
         $table = $wpdb->prefix . 'cpm_project_items';
 
         $where = array(
-            'object_id'  => $object_id,
+            'object_id' => $object_id,
         );
 
         $data = array(
-            'complete_date'        => $complete,
+            'complete_date'   => $complete,
             'complete_status' => 1
         );
 
@@ -833,7 +822,7 @@ class CPM_Project {
         $table = $wpdb->prefix . 'cpm_project_items';
 
         $where = array(
-            'object_id'  => $object_id
+            'object_id' => $object_id
         );
 
         $data = array(
@@ -842,8 +831,6 @@ class CPM_Project {
         );
 
         $wpdb->update( $table, $data, $where, array( '%s', '%d' ) );
-
-
     }
 
     /**
@@ -881,51 +868,50 @@ class CPM_Project {
      * @param date $start_date
      * @return array
      */
-    function get_chart_data( $project_id,  $end_date, $start_date ) {
+    function get_chart_data( $project_id, $end_date, $start_date ) {
         global $wpdb;
 
-        $chart_transient = 'cpm_chart_data_'.$project_id ;
-        $chart_date = get_transient( $chart_transient );
+        $chart_transient = 'cpm_chart_data_' . $project_id;
+        $chart_date      = get_transient( $chart_transient );
 
         if ( false === $chart_date ) {
-            $where = $wpdb->prepare( "WHERE comment_post_ID = '%d' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
-            $sql = "SELECT * FROM {$wpdb->comments} $where  "  ;
-            $total_activity = $wpdb->get_results($sql);
+            $where          = $wpdb->prepare( "WHERE comment_post_ID = '%d' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
+            $sql            = "SELECT * FROM {$wpdb->comments} $where  ";
+            $total_activity = $wpdb->get_results( $sql );
 
-            $csql = "SELECT  * FROM {$wpdb->posts}
+            $csql  = "SELECT  * FROM {$wpdb->posts}
                     WHERE DATE(post_date) >= '{$start_date}'
                     AND DATE(post_date) <= '{$end_date}'
                     AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_parent = '{$project_id}' ) ";
-            $todos = $wpdb->get_results($csql);
+            $todos = $wpdb->get_results( $csql );
 
             $response['date_list'] = '';
-            $response['todos'] = '';
+            $response['todos']     = '';
             foreach ( $total_activity as $activity ) {
-                $date = date('M d', strtotime( $activity->comment_date))   ;
+                $date = date( 'M d', strtotime( $activity->comment_date ) );
 
-                if ( !isset( $response['date_list'][$date] ) ) {
-                    $response['date_list'][$date] = 1 ;
+                if ( ! isset( $response['date_list'][$date] ) ) {
+                    $response['date_list'][$date] = 1;
                 } else {
 
-                    $response['date_list'][$date] += 1 ;
+                    $response['date_list'][$date] += 1;
                 }
             }
 
             foreach ( $todos as $to_do ) {
-                $tdate = date('M d', strtotime( $to_do->post_date))   ;
+                $tdate = date( 'M d', strtotime( $to_do->post_date ) );
 
-                if ( !isset( $response['todos'][$tdate] ) ) {
-                    $response['todos'][$tdate] = 1 ;
+                if ( ! isset( $response['todos'][$tdate] ) ) {
+                    $response['todos'][$tdate] = 1;
                 } else {
-                    $response['todos'][$tdate] += 1 ;
+                    $response['todos'][$tdate] += 1;
                 }
             }
 
-            $data_transient =  $response ;
-            set_transient( $chart_transient, $data_transient, DAY_IN_SECONDS  );
-
+            $data_transient = $response;
+            set_transient( $chart_transient, $data_transient, DAY_IN_SECONDS );
         } else {
-            $response = $chart_date ;
+            $response = $chart_date;
         }
 
         return $response;

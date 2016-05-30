@@ -17,7 +17,7 @@ class CPM_Comment {
     }
 
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Comment();
         }
 
@@ -34,9 +34,9 @@ class CPM_Comment {
     function create( $commentdata, $files = array() ) {
         $user = apply_filters( 'cpm_comment_user', wp_get_current_user() );
 
-        $commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
-        $commentdata['comment_agent'] = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
-        $commentdata['comment_author'] = $user->display_name;
+        $commentdata['comment_author_IP']    = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
+        $commentdata['comment_agent']        = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
+        $commentdata['comment_author']       = $user->display_name;
         $commentdata['comment_author_email'] = $user->user_email;
 
         $comment_id = wp_insert_comment( $commentdata );
@@ -59,7 +59,7 @@ class CPM_Comment {
      */
     function update( $data, $comment_id ) {
         wp_update_comment( array(
-            'comment_ID' => $comment_id,
+            'comment_ID'      => $comment_id,
             'comment_content' => $data['text']
         ) );
 
@@ -103,11 +103,11 @@ class CPM_Comment {
      */
     function get( $comment_id ) {
         $files_meta = get_comment_meta( $comment_id, '_files', true );
-        $comment = get_comment( $comment_id );
+        $comment    = get_comment( $comment_id );
 
         $files = array();
         if ( $files_meta != '' ) {
-            foreach ($files_meta as $index => $attachment_id) {
+            foreach ( $files_meta as $index => $attachment_id ) {
                 $temp = $this->get_file( $attachment_id );
 
                 if ( $temp ) {
@@ -133,17 +133,17 @@ class CPM_Comment {
      * @return object
      */
     function get_comments( $post_id, $order = 'ASC' ) {
-        $comments = get_comments( array('post_id' => $post_id, 'order' => $order) );
+        $comments = get_comments( array( 'post_id' => $post_id, 'order' => $order ) );
 
         //prepare comment attachments
         if ( $comments ) {
-            foreach ($comments as $key => $comment) {
+            foreach ( $comments as $key => $comment ) {
                 $file_array = array();
-                $files = get_comment_meta( $comment->comment_ID, '_files', true );
+                $files      = get_comment_meta( $comment->comment_ID, '_files', true );
 
                 if ( $files != '' ) {
 
-                    foreach ($files as $attachment_id) {
+                    foreach ( $files as $attachment_id ) {
                         $file = $this->get_file( $attachment_id );
 
                         if ( $file ) {
@@ -178,7 +178,7 @@ class CPM_Comment {
             'size'     => $_FILES['cpm_attachment']['size']
         );
 
-        $uploaded_file = wp_handle_upload( $upload, array('test_form' => false) );
+        $uploaded_file = wp_handle_upload( $upload, array( 'test_form' => false ) );
 
         if ( isset( $uploaded_file['file'] ) ) {
             $file_loc  = $uploaded_file['file'];
@@ -192,15 +192,15 @@ class CPM_Comment {
                 'post_status'    => 'inherit'
             );
 
-            $attach_id = wp_insert_attachment( $attachment, $file_loc );
+            $attach_id   = wp_insert_attachment( $attachment, $file_loc );
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
             do_action( 'cpm_after_upload_file', $attach_id, $attach_data, $post_id );
-            return array('success' => true, 'file_id' => $attach_id);
+            return array( 'success' => true, 'file_id' => $attach_id );
         }
 
-        return array('success' => false, 'error' => $uploaded_file['error']);
+        return array( 'success' => false, 'error' => $uploaded_file['error'] );
     }
 
     /**
@@ -214,19 +214,19 @@ class CPM_Comment {
 
         if ( $file ) {
             $response = array(
-                'id' => $attachment_id,
+                'id'   => $attachment_id,
                 'name' => get_the_title( $attachment_id ),
-                'url' => wp_get_attachment_url( $attachment_id ),
+                'url'  => wp_get_attachment_url( $attachment_id ),
             );
 
             if ( wp_attachment_is_image( $attachment_id ) ) {
 
-                $thumb = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+                $thumb             = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
                 $response['thumb'] = $thumb[0];
-                $response['type'] = 'image';
+                $response['type']  = 'image';
             } else {
                 $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
-                $response['type'] = 'file';
+                $response['type']  = 'file';
             }
 
             return $response;
@@ -246,9 +246,9 @@ class CPM_Comment {
      */
     function associate_file( $files, $parent_id, $project_id ) {
 
-        foreach ($files as $file_id) {
+        foreach ( $files as $file_id ) {
             wp_update_post( array(
-                'ID' => $file_id,
+                'ID'          => $file_id,
                 'post_parent' => $parent_id
             ) );
 
@@ -263,7 +263,6 @@ class CPM_Comment {
 
 }
 
-
 /**
  * Chnage File icon
  * @param type $icon
@@ -271,15 +270,18 @@ class CPM_Comment {
  * @param type $post_id
  * @return type
  */
-function cc_mime_types($mimes) {
-  $mimes['svg'] = 'image/svg+xml';
-  return $mimes;
+function cc_mime_types( $mimes ) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
 }
-add_filter('upload_mimes', 'cc_mime_types');
 
-    function change_mime_icon($icon, $mime = null, $post_id = null){
-        $folder = plugins_url( '../assets/images/icons/', __FILE__ ); ;
-        $icon = str_replace(get_bloginfo('wpurl').'/wp-includes/images/media/',$folder, $icon);
-        return $icon;
-    }
-    add_filter('wp_mime_type_icon', 'change_mime_icon');
+add_filter( 'upload_mimes', 'cc_mime_types' );
+
+function change_mime_icon( $icon, $mime = null, $post_id = null ) {
+    $folder = plugins_url( '../assets/images/icons/', __FILE__ );
+    ;
+    $icon   = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
+    return $icon;
+}
+
+add_filter( 'wp_mime_type_icon', 'change_mime_icon' );

@@ -10,11 +10,11 @@ class CPM_Message {
     private static $_instance;
 
     public function __construct() {
-        add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'init', array( $this, 'register_post_type' ) );
     }
 
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Message();
         }
 
@@ -34,11 +34,11 @@ class CPM_Message {
             'show_in_menu'        => true,
             'capability_type'     => 'post',
             'hierarchical'        => false,
-            'rewrite'             => array('slug' => ''),
+            'rewrite'             => array( 'slug' => '' ),
             'query_var'           => true,
-            'supports'            => array('title', 'editor', 'comments'),
+            'supports'            => array( 'title', 'editor', 'comments' ),
             'show_in_json'        => true,
-            'labels' => array(
+            'labels'              => array(
                 'name'               => __( 'Messages', 'cpm' ),
                 'singular_name'      => __( 'Message', 'cpm' ),
                 'menu_name'          => __( 'Message', 'cpm' ),
@@ -61,17 +61,17 @@ class CPM_Message {
 
         $args = array(
             'numberposts' => -1,
-            'post_type' => 'cpm_message',
+            'post_type'   => 'cpm_message',
             'post_parent' => $project_id,
-            'order' => 'DESC',
-            'orderby' => 'ID'
+            'order'       => 'DESC',
+            'orderby'     => 'ID'
         );
 
         if ( $privacy === false ) {
-            $args['meta_query'] =  array(
+            $args['meta_query'] = array(
                 array(
-                    'key' => '_message_privacy',
-                    'value' => 'yes',
+                    'key'     => '_message_privacy',
+                    'value'   => 'yes',
                     'compare' => '!='
                 ),
             );
@@ -80,7 +80,7 @@ class CPM_Message {
 
         $messages = get_posts( $args );
 
-        foreach ($messages as $message) {
+        foreach ( $messages as $message ) {
             $this->set_message_meta( $message );
         }
 
@@ -93,14 +93,14 @@ class CPM_Message {
 
     function get( $message_id ) {
         $message = get_post( $message_id );
-    	// return null if no message is found
-    	if( empty( $message )) {
-    		return null;
-    	}
+        // return null if no message is found
+        if ( empty( $message ) ) {
+            return null;
+        }
 
         $message->milestone = get_post_meta( $message_id, '_milestone', true );
-        $message->private = get_post_meta( $message_id, '_message_privacy', true );
-        $message->files = $this->get_attachments( $message_id );
+        $message->private   = get_post_meta( $message_id, '_message_privacy', true );
+        $message->files     = $this->get_attachments( $message_id );
 
         return $message;
     }
@@ -123,13 +123,13 @@ class CPM_Message {
 
         if ( $is_update ) {
             $postarr['ID'] = $message_id;
-            $message_id = wp_update_post( $postarr );
+            $message_id    = wp_update_post( $postarr );
         } else {
             $message_id = wp_insert_post( $postarr );
         }
 
         if ( $message_id ) {
-            $milestone_id = isset( $post['milestone'] ) ? (int) $post['milestone'] : 0;
+            $milestone_id = isset( $post['milestone'] ) ? ( int ) $post['milestone'] : 0;
 
             update_post_meta( $message_id, '_milestone', $milestone_id );
             update_post_meta( $message_id, '_message_privacy', $message_privacy );
@@ -175,23 +175,22 @@ class CPM_Message {
 
     function get_by_milestone( $milestone_id, $privacy = false ) {
         $args = array(
-            'post_type' => 'cpm_message',
+            'post_type'   => 'cpm_message',
             'numberposts' => -1
         );
 
         $args['meta_query'][] = array(
-            'key' => '_milestone',
+            'key'   => '_milestone',
             'value' => $milestone_id,
         );
 
-        if( $privacy == false ) {
+        if ( $privacy == false ) {
 
             $args['meta_query'][] = array(
-                'key' => '_message_privacy',
-                'value' => 'yes',
+                'key'     => '_message_privacy',
+                'value'   => 'yes',
                 'compare' => '!='
             );
-
         }
 
         $messages = get_posts( $args );
@@ -215,32 +214,32 @@ class CPM_Message {
         $att_list = array();
 
         $args = array(
-            'post_type' => 'attachment',
+            'post_type'   => 'attachment',
             'numberposts' => -1,
             'post_status' => null,
-            'meta_name' => '_parent',
-            'meta_value' => $post_id,
-            'order' => 'ASC'
+            'meta_name'   => '_parent',
+            'meta_value'  => $post_id,
+            'order'       => 'ASC'
         );
 
         $attachments = get_posts( $args );
 
-        foreach ($attachments as $attachment) {
+        foreach ( $attachments as $attachment ) {
 
             $att_list[$attachment->ID] = array(
-                'id' => $attachment->ID,
+                'id'   => $attachment->ID,
                 'name' => $attachment->post_title,
-                'url' => wp_get_attachment_url( $attachment->ID ),
+                'url'  => wp_get_attachment_url( $attachment->ID ),
             );
 
             if ( wp_attachment_is_image( $attachment->ID ) ) {
 
-                $thumb = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
+                $thumb                              = wp_get_attachment_image_src( $attachment->ID, 'thumbnail' );
                 $att_list[$attachment->ID]['thumb'] = $thumb[0];
-                $att_list[$attachment->ID]['type'] = 'image';
+                $att_list[$attachment->ID]['type']  = 'image';
             } else {
                 $att_list[$attachment->ID]['thumb'] = wp_mime_type_icon( $attachment->post_mime_type );
-                $att_list[$attachment->ID]['type'] = 'file';
+                $att_list[$attachment->ID]['type']  = 'file';
             }
         }
 
@@ -258,11 +257,11 @@ class CPM_Message {
      */
     function associate_file( $files, $parent_id, $project_id ) {
 
-        foreach ($files as $file_id) {
+        foreach ( $files as $file_id ) {
 
             // add message id as the parent
             wp_update_post( array(
-                'ID' => $file_id,
+                'ID'          => $file_id,
                 'post_parent' => $parent_id
             ) );
 

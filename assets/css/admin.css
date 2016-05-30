@@ -3151,13 +3151,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new li {
   margin-bottom: 0px !important;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos-new-form .cpm-new-btn {
   margin-bottom: 10px;
   border-bottom: solid 1px #eeeeee;
   padding: 0px 10px 5px 30px;
   margin-left: 0px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos-new .cpm-new-btn a {
+.cpm .cpm-todolists .cpm-todolist .cpm-todos-new-form .cpm-new-btn a {
   background: url('../images/plus_blue.svg') no-repeat 0% 50%;
   padding: 10px;
   background-size: 20px;
@@ -3213,9 +3213,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .sticky_list .cpm-pin-list a {
   visibility: visible  !important;
 }
-.cpm .cpm-todolists .sticky_list .cpm-pin-list a span {
-  color: #019dd6;
-  font-weight: bold;
+.cpm .cpm-todolists .sticky_list span {
+  color: #019dd6 !important;
 }
 .cpm .cpm-new-message-btn {
   margin: 0px 0px 20px;
@@ -3487,7 +3486,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-files-page .cpm-files li {
   background: #fff;
   margin-right: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 12px;
   border: none;
 }
 .cpm .cpm-files-page .cpm-files li img {
@@ -3501,17 +3500,19 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-top: 5px;
   border-top: #F4F4F4 solid 1px;
   background: #FCFCFC;
-  padding: 20px 20px 0px;
+  padding: 10px 5px 0px;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul {
+  margin: 0px;
+  padding: 0px;
   text-align: center;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul li {
   background: none;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul a {
-  padding: 15px;
-  background-size: 30px;
+  padding: 10px 10px;
+  background-size: 20px !important;
 }
 .cpm .cpm-files-page .cpm-files li .cpm-file-action ul .cpm-comment-count {
   font-size: small;

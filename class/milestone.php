@@ -5,11 +5,11 @@ class CPM_Milestone {
     private static $_instance;
 
     public function __construct() {
-        add_filter( 'init', array($this, 'register_post_type') );
+        add_filter( 'init', array( $this, 'register_post_type' ) );
     }
 
     public static function getInstance() {
-        if ( !self::$_instance ) {
+        if ( ! self::$_instance ) {
             self::$_instance = new CPM_Milestone();
         }
 
@@ -29,11 +29,11 @@ class CPM_Milestone {
             'show_in_menu'        => false,
             'capability_type'     => 'post',
             'hierarchical'        => false,
-            'rewrite'             => array('slug' => 'milestone'),
+            'rewrite'             => array( 'slug' => 'milestone' ),
             'query_var'           => true,
-            'supports'            => array('title', 'editor'),
+            'supports'            => array( 'title', 'editor' ),
             'show_in_json'        => true,
-            'labels' => array(
+            'labels'              => array(
                 'name'               => __( 'Milestone', 'cpm' ),
                 'singular_name'      => __( 'Milestone', 'cpm' ),
                 'menu_name'          => __( 'Milestone', 'cpm' ),
@@ -53,21 +53,21 @@ class CPM_Milestone {
     }
 
     function create( $project_id, $milestone_id = 0 ) {
-        $posted = $_POST;
+        $posted    = $_POST;
         $is_update = $milestone_id ? true : false;
 
         $milestone_privacy = isset( $posted['milestone_privacy'] ) ? $posted['milestone_privacy'] : 'no';
 
         $data = array(
-            'post_parent' => $project_id,
-            'post_title' => $posted['milestone_name'],
+            'post_parent'  => $project_id,
+            'post_title'   => $posted['milestone_name'],
             'post_content' => $posted['milestone_detail'],
-            'post_type' => 'cpm_milestone',
-            'post_status' => 'publish'
+            'post_type'    => 'cpm_milestone',
+            'post_status'  => 'publish'
         );
 
         if ( $milestone_id ) {
-            $data['ID'] = $milestone_id;
+            $data['ID']   = $milestone_id;
             $milestone_id = wp_update_post( $data );
         } else {
             $milestone_id = wp_insert_post( $data );
@@ -75,7 +75,7 @@ class CPM_Milestone {
         }
 
         if ( $milestone_id ) {
-            $posted['milestone_due'] = isset( $posted['milestone_due'] ) && !empty( $posted['milestone_due'] ) ? cpm_date2mysql( $posted['milestone_due'] ) : current_time( 'mysql' );
+            $posted['milestone_due'] = isset( $posted['milestone_due'] ) && ! empty( $posted['milestone_due'] ) ? cpm_date2mysql( $posted['milestone_due'] ) : current_time( 'mysql' );
             update_post_meta( $milestone_id, '_due', $posted['milestone_due'] );
             update_post_meta( $milestone_id, '_milestone_privacy', $milestone_privacy );
 
@@ -140,16 +140,19 @@ class CPM_Milestone {
 
     function get_by_project( $project_id, $privacy = false ) {
 
-        $args = array(
+        $key     = '_due';
+        $orderby = 'ASC';
+        $args    = array(
             'post_type'      => 'cpm_milestone',
             'post_parent'    => $project_id,
             'posts_per_page' => -1,
-            'order'          => 'DESC',
-            'orderby'        => 'ID'
+            'order'          => $orderby,
+            'orderby'        => 'meta_value',
+            'meta_key'       => $key
         );
 
         if ( $privacy === false ) {
-            $args['meta_query'] =  array(
+            $args['meta_query'] = array(
                 array(
                     'key'     => '_milestone_privacy',
                     'value'   => 'yes',
@@ -162,7 +165,7 @@ class CPM_Milestone {
 
         $milestones = new WP_Query( $args );
         if ( $milestones->posts ) {
-            foreach ($milestones->posts as $key => $milestone) {
+            foreach ( $milestones->posts as $key => $milestone ) {
                 $this->set_meta( $milestones->posts[$key] );
             }
         }
@@ -180,10 +183,10 @@ class CPM_Milestone {
 
     function get_dropdown( $project_id, $selected = 0 ) {
         $milestones = $this->get_by_project( $project_id );
-        $string = '';
+        $string     = '';
 
         if ( $milestones ) {
-            foreach ($milestones as $milestone) {
+            foreach ( $milestones as $milestone ) {
                 $string .= sprintf( "<option value='%d'%s>%s</option>\n", $milestone->ID, selected( $selected, $milestone->ID, false ), $milestone->post_title );
             }
         }

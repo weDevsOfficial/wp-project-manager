@@ -106,6 +106,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+### 1.4.3 - April 19, 2016 ###
+ * [fix] Milestone input date fix and fix project redirect issue after create.
+ * [fix] File upload on first discussion problem fix.
+ * [fix] Task Done/Undone tick problem fix.
+ * [fix] New user create on project create or update problem fix.
+ * [fix] Department or personal projects show in ERP integration.
+
 ### 1.4.2 - April 6, 2016 ###
 
  * [fix] Project permission problem in free version

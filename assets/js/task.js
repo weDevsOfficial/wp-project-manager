@@ -8,7 +8,7 @@
             $('.cpm-task-uncomplete .cpm-uncomplete').removeAttr('checked').attr('disabled', false);
 
             $('.cpm-todolists').on('click', 'a.add-task', this.showNewTodoForm);
-            $('.cpm-todolists').on('click', '.cpm-todos-new a.todo-cancel', this.hideNewTodoForm);
+            $('.cpm-todolists').on('click', '.cpm-todos-new-form a.todo-cancel', this.hideNewTodoForm);
             $('.cpm-todolists').on('submit', '.cpm-todo-form form.cpm-task-form', this.submitNewTodo);
 
             //edit todo
@@ -26,7 +26,6 @@
 
             //task done, undone, delete
             $('.cpm-todolists').on('click', '.cpm-uncomplete', this.markDone);
-            $('.cpm-todolists').on('click', '.cpm-todo-completed', this.markUnDone);
             $('.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //todolist
@@ -93,14 +92,14 @@
         },
 
         makeSortableTodo: function() {
-            var todos = $('ul.cpm-todos');
+            var todos = $('ul.cpm-todolist-content');
 
             if (todos) {
                 todos.sortable({
                     placeholder: "ui-state-highlight",
                     handle: '.move',
                     stop: function(e,ui) {
-                        var items = $(ui.item).parents('ul.cpm-todos').find('input[type=checkbox]');
+                        var items = $(ui.item).parents('ul.cpm-todolist-content').find('input[type=checkbox]');
                         var ordered = [];
 
                         for (var i = 0; i < items.length; i++) {
@@ -172,9 +171,12 @@
                     $(document).trigger('cpm.markDone.after', [res,self]);
 
                     if ( list.length ) {
-                        var completeList = list.parent().siblings('.cpm-todo-completed');
-                        completeList.append('<li class="cpm-todo">' + res.content + '</li>');
+                        var completeList = $('ul.cpm-todolist-content').last();
+                        var sp = $('ul.cpm-todolist-content').attr('data-status');
 
+                        if(sp){
+                            completeList.append('<li class="cpm-todo">' + res.content + '</li>');
+                        }
                         // location.reload();
                         list.remove();
                         taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
@@ -217,9 +219,8 @@
 
                     if(list.length) {
                       //  var currentList = list.parent().siblings('.cpm-todos');
-                        var currentList = $('.cpm-todo-openlist').last();
-
-                        currentList.after('<li class="cpm-todo">' + res.content + '</li>');
+                        var currentList = $('ul.cpm-todolist-content').last();
+                        currentList.prepend('<li class="cpm-todo">' + res.content + '</li>');
                         list.remove();
 
                         //update progress
@@ -385,8 +386,9 @@
                 this_btn = self.find('input[name=submit_todo]'),
                 spinner = self.find('.cpm-new-task-spinner');
             var data = self.serialize(),
-                taskListEl = self.closest('article.cpm-todolist'),
+                taskListEl = self.closest('.cpm-todolist'),
                 content = $.trim(self.find('.task_title').val());
+
 
             $(document).trigger( 'cpm.submitNewTodo.before', [self] );
 
@@ -401,14 +403,20 @@
 
                     res = JSON.parse(res);
                     if(res.success === true) {
-                        var currentList = self.closest('ul.cpm-todos-new').siblings('.cpm-todos-new');
-                        currentList.append( '<li class="cpm-todo">' + res.content + '</li>' );
+                        var currentList = taskListEl.find('ul.cpm-todolist-content');
+                        currentList.prepend( '<li class="cpm-todo">' + res.content + '</li>' );
 
                         //clear the form
                         self.find('textarea, input[type=text]').val('');
                         self.find('select').val('').trigger("chosen:updated");
                         //update progress
-                        taskListEl.find('h3 .cpm-right').html(res.progress);
+                        // taskListEl.find('h3 .cpm-right').html(res.progress);
+                        taskListEl.find('.cpm-todo-prgress-bar').html(res.progress);
+                        taskListEl.find('.cpm-todo-complete span').html(res.task_complete);
+                        taskListEl.find('.cpm-todo-incomplete span').html(res.task_uncomplete);
+                        taskListEl.find('.no-percent').html(res.percent);
+
+
                         CPM_Task.datePicker();
                     } else {
                         alert('something went wrong!');
