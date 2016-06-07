@@ -2185,38 +2185,39 @@ ul.cpm-files {
         background: none;
         border: none;
         box-shadow:none;
-    }
-    ul{
-        padding-left: 0px;
+        ul{
+            padding-left: 0px;
 
-        margin-left: 0px;
+            margin-left: 0px;
 
-        li {
-            text-align: center;
-            padding:1%;
-            background: #fff;
-            box-shadow:@box-shadow;
-            border: solid 1px #;
-            margin: 0% 1% 1%;
-            width: 19% ;
-            margin-left: 0;
-            text-align: center;
-            cursor: pointer;
-            min-height: 220px;
-            float: left ;
+            li {
+                text-align: center;
+                padding:2% 1% 1%;
+                background: #fff;
+                box-shadow:@box-shadow;
+                border: solid 1px #;
+                margin: 0% 1% 1%;
+                width: 19% ;
+                margin-left: 0;
+                text-align: center;
+                cursor: pointer;
+                min-height: 228px;
+                float: left ;
 
 
-            a {
-                padding: 15px;
+                a {
+                    padding: 15px;
+                }
+                strong{
+                    color: #000;
+                }
+            }
+            li:hover{
+                background : #f8f8f8;
             }
         }
     }
 
-
-    .hilight {
-        font-weight: bold;
-        color: #000;
-    }
     .cpm-report-content {
         .button {
             margin-top: 1px;
@@ -2342,23 +2343,42 @@ ul.cpm-files {
 
             .cpm-report-filter{
                 border: #E5E5E5 solid 1px ;
-                padding: 15px 20px 0px;
                 background: #F9F9F9;
+                div{
+                    margin-bottom: 0px;
+                }
                 .report-title{
                     font-size: 140%;
-                    padding-top:0px;
+                    padding-top:8px;
                 }
-                .dashicons-before:before{
-                    height: 15px;
-                    font-size: 20px;
-                    line-height: 1.2;
-                }
-                .dashicons-no-alt:before{
-                    color: RED;
-                    font-size: 150%;
+                .cpm-report-btn-group{
+                    padding-top: 15px;
+                    align-content: right;
                 }
                 .cpm-btn-print{
                     padding: 5px 5px 0px;
+                }
+
+                .cpm-close{
+                    display: block;
+                    width: 60px;
+                    padding: 8% 2px 8% 0;
+                    background:'' ;
+                    border: none;
+                    border-left: 1px solid #ddd;
+                    color: #444;
+                    text-align: center;
+                    font-size: 175%;
+                    cursor: pointer;
+                    -webkit-transition: color .1s ease-in-out,background .1s ease-in-out;
+                    transition: color .1s ease-in-out,background .1s ease-in-out;
+                    -webkit-box-sizing: content-box;
+                    -moz-box-sizing: content-box;
+                    box-sizing: content-box;
+
+                }
+                .cpm-close:hover{
+                    background: #eee ;
                 }
 
             }

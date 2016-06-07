@@ -1957,14 +1957,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border: none;
   box-shadow: none;
 }
-#cpm-report ul,
-#cpm-advance-report ul {
+#cpm-report .postbox ul,
+#cpm-advance-report .postbox ul {
   padding-left: 0px;
   margin-left: 0px;
 }
-#cpm-report ul li,
-#cpm-advance-report ul li {
-  padding: 1%;
+#cpm-report .postbox ul li,
+#cpm-advance-report .postbox ul li {
+  padding: 2% 1% 1%;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: solid 1px #;
@@ -1973,17 +1973,20 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-left: 0;
   text-align: center;
   cursor: pointer;
-  min-height: 220px;
+  min-height: 228px;
   float: left ;
 }
-#cpm-report ul li a,
-#cpm-advance-report ul li a {
+#cpm-report .postbox ul li a,
+#cpm-advance-report .postbox ul li a {
   padding: 15px;
 }
-#cpm-report .hilight,
-#cpm-advance-report .hilight {
-  font-weight: bold;
+#cpm-report .postbox ul li strong,
+#cpm-advance-report .postbox ul li strong {
   color: #000;
+}
+#cpm-report .postbox ul li:hover,
+#cpm-advance-report .postbox ul li:hover {
+  background: #f8f8f8;
 }
 #cpm-report .cpm-report-content .button,
 #cpm-advance-report .cpm-report-content .button {
@@ -2147,28 +2150,47 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter,
 #cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter {
   border: #E5E5E5 solid 1px ;
-  padding: 15px 20px 0px;
   background: #F9F9F9;
+}
+#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter div,
+#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter div {
+  margin-bottom: 0px;
 }
 #cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .report-title,
 #cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .report-title {
   font-size: 140%;
-  padding-top: 0px;
+  padding-top: 8px;
 }
-#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .dashicons-before:before,
-#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .dashicons-before:before {
-  height: 15px;
-  font-size: 20px;
-  line-height: 1.2;
-}
-#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .dashicons-no-alt:before,
-#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .dashicons-no-alt:before {
-  color: RED;
-  font-size: 150%;
+#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-report-btn-group,
+#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-report-btn-group {
+  padding-top: 15px;
+  align-content: right;
 }
 #cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-btn-print,
 #cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-btn-print {
   padding: 5px 5px 0px;
+}
+#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-close,
+#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-close {
+  display: block;
+  width: 60px;
+  padding: 8% 2px 8% 0;
+  background: '';
+  border: none;
+  border-left: 1px solid #ddd;
+  color: #444;
+  text-align: center;
+  font-size: 175%;
+  cursor: pointer;
+  -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+#cpm-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-close:hover,
+#cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-filter .cpm-close:hover {
+  background: #eee ;
 }
 #cpm-report .cpm-report-page .cpm-report-body .cpm-report-icon,
 #cpm-advance-report .cpm-report-page .cpm-report-body .cpm-report-icon {
