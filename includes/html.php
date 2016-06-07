@@ -1440,7 +1440,7 @@ function cpm_report_action_from( $selected = '-1' ) {
     ?>
 
     <label class="cpm-report-lebel">
-        <select class="cpm-report-action" name="action[]">
+        <select class="cpm-report-action" name="filter[]">
             <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( '--Select--', 'cpm' ); ?></option>
             <option value="project" <?php selected( $selected, 'project' ); ?>><?php _e( 'Projects', 'cpm' ); ?></option>
             <option value="co-worker" <?php selected( $selected, 'co-worker' ); ?>><?php _e( 'Co-Worker', 'cpm' ); ?></option>
@@ -1458,10 +1458,12 @@ function cpm_report_action_from( $selected = '-1' ) {
  * @since 1.2
  * @return type
  */
-function cpm_report_project_form( $projects = array(), $selected = '' ) {
+function cpm_report_project_form( $projects = array(), $selected = '', $vextra= '' ) {
+
+
     ?>
     <label>
-        <select class="cpm-field" name="project" v-model="project">
+        <select class="cpm-field" name="project" v-model="project" <?php echo $vextra;?>  >
             <option <?php selected( '-1', $selected ); ?> value="-1"><?php _e( 'All Projects', 'cpm' ); ?></option>
             <?php
             foreach( $projects as $project ) {

@@ -313,3 +313,12 @@ function cpm_report_page_url() {
 
     return apply_filters( 'cpm_report_page_url', $url );
 }
+/**
+ * Advance Search page url
+ * @since 1.4.3
+ * @return type
+ */
+function cpm_report_advancesearch_url() {
+    $url = sprintf( '%s?page=cpm_reports&action=advancereport', admin_url( 'admin.php' ) );
+    return apply_filters( 'cpm_report_advancesearch_url', $url );
+}

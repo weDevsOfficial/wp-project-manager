@@ -87,6 +87,37 @@
             padding-top: 10px;
         }
     }
+
+    // for report page
+    #cpm-report {
+
+
+        .cpm-advance-search{
+
+        }
+        .postbox{
+            text-align: center;
+        }
+        ul{
+            text-align: center;
+
+            li {
+                text-align: center;
+                padding: 40px;
+                background: #fff;
+                border: solid 1px #ccc;
+
+                width: auto ;
+                margin-left: 0;
+                text-align: center;
+                float: none ;
+
+                a {
+                    padding: 15px;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 1166px) {
@@ -104,8 +135,8 @@
     }
 
     .cpm-sm-col-4 {
-       width: 30.19999%;
-       float: left;
+        width: 30.19999%;
+        float: left;
     }
 
     .cpm-sm-col-5 {
@@ -288,7 +319,7 @@
             // width: 89.7825598228%;
         }
         .cpm-right-part{
-         .cpm-col-12;
+            .cpm-col-12;
 
         }
     }
@@ -322,3 +353,16 @@
 
     /** Discussion Page End **/
 }
+@media print {
+    .cpm-no-print{
+        display: none;
+    }
+
+    table {
+        
+    }
+    td, th{
+        padding: 1px ;
+    }
+}
+
