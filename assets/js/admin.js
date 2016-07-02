@@ -90,7 +90,7 @@
                 var self = $( this ),
                         spinner = self.find( 'input[type=submit]' ).siblings( 'span' );
                 spinner.addClass( 'cpm-spinner' );
-                if( self.attr( 'disabled' ) == 'disabled' ) {
+                if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
                 }
                 self.attr( 'disabled', true );
@@ -102,7 +102,7 @@
                 $.post( CPM_Vars.ajaxurl, data, function( resp ) {
                     self.attr( 'disabled', false );
                     spinner.removeClass( 'cpm-spinner' );
-                    if( resp.success ) {
+                    if ( resp.success ) {
                         $( "#cpm-create-user-wrap" ).dialog( "close" );
                         $( '.cpm-project-role>table' ).append( resp.data );
                         $( '.cpm-error' ).html( '' );
@@ -117,7 +117,7 @@
                 e.preventDefault();
                 var self = $( this ),
                         status = self.siblings( '.cpm-settings' );
-                if( status.is( ":visible" ) === false ) {
+                if ( status.is( ":visible" ) === false ) {
                     status.show();
                 } else {
                     status.hide();
@@ -126,13 +126,13 @@
             View: function( e ) {
                 var uaction = $( this ).attr( 'dir' );
                 $( ".change-view span" ).removeClass( 'active' );
-                if( uaction == 'list' ) {
+                if ( uaction == 'list' ) {
                     $( ".cpm-projects" ).removeClass( "cpm-project-grid" );
                     $( ".cpm-projects" ).addClass( "cpm-project-list" );
                     $( this ).find( "span" ).addClass( 'active' );
                 }
 
-                if( uaction == 'grid' ) {
+                if ( uaction == 'grid' ) {
                     $( ".cpm-projects" ).removeClass( "cpm-project-list" );
                     $( ".cpm-projects" ).addClass( "cpm-project-grid" );
                     $( this ).find( "span" ).addClass( 'active' );
@@ -143,7 +143,7 @@
                     change_view: uaction,
                 };
                 $.post( CPM_Vars.ajaxurl, data, function( resp ) {
-                    if( resp.success ) {
+                    if ( resp.success ) {
 
                     }
                     ;
@@ -158,15 +158,15 @@
                             project_id: self.data( 'project_id' ),
                             type: self.data( 'type' ),
                         };
-                if( self.attr( 'disabled' ) == 'disabled' ) {
+                if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
                 }
                 self.attr( 'disabled', true );
                 self.siblings( 'span' ).addClass( 'cpm-loading' );
                 $.post( CPM_Vars.ajaxurl, data, function( resp ) {
                     self.attr( 'disabled', false );
-                    if( resp.success ) {
-                        if( $( 'article.cpm-project' ).length ) {
+                    if ( resp.success ) {
+                        if ( $( 'article.cpm-project' ).length ) {
                             $( '.cpm-active' ).html( 'Active(' + resp.data.count.active + ')' );
                             $( '.cpm-archive-head' ).html( 'Completed(' + resp.data.count.archive + ')' );
                             self.closest( 'article' ).fadeOut( 'slow', function() {
@@ -188,7 +188,7 @@
                             url: self.attr( 'href' ),
                             project_id: self.data( 'project_id' ),
                         };
-                if( self.attr( 'disabled' ) == 'disabled' ) {
+                if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
                 }
 
@@ -196,7 +196,7 @@
                 self.siblings( 'span' ).addClass( 'cpm-loading' );
                 $.post( CPM_Vars.ajaxurl, data, function( resp ) {
                     self.attr( 'disabled', false );
-                    if( resp.success ) {
+                    if ( resp.success ) {
                         location.href = resp.data.url;
                     }
                 } );
@@ -212,12 +212,12 @@
             create: function( e ) {
                 e.preventDefault();
                 var self = $( this ).find( 'input[type=submit]' );
-                if( self.is( ':disabled' ) ) {
+                if ( self.is( ':disabled' ) ) {
                     return false;
                 }
 
                 var name = $.trim( $( '#project_name' ).val() );
-                if( name === '' ) {
+                if ( name === '' ) {
                     alert( 'Enter a project name' );
                     return false;
                 }
@@ -228,7 +228,7 @@
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
                     self.attr( 'disabled', false );
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         window.location.href = res.url;
                     }
                 } );
@@ -253,7 +253,7 @@
                     button.attr( 'disabled', false );
                     spinner.hide();
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         container.find( '.cpm-project-title' ).text( res.title );
                         container.find( '.detail' ).html( res.content );
                         form.find( '.cpm-project-role' ).children( 'table' ).html( res.users );
@@ -275,11 +275,11 @@
                             url: self.attr( 'href' ),
                             _wpnonce: CPM_Vars.nonce
                         };
-                if( confirm( message ) ) {
+                if ( confirm( message ) ) {
                     self.siblings( 'span' ).addClass( 'cpm-loading' );
                     $.post( CPM_Vars.ajaxurl, data, function( res ) {
                         res = $.parseJSON( res );
-                        if( res.success ) {
+                        if ( res.success ) {
                             location.href = res.url;
                         }
                     } );
@@ -299,7 +299,7 @@
                 self.append( '<div class="cpm-loading">Loading...</div>' );
                 $.get( CPM_Vars.ajaxurl, data, function( res ) {
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         start = res.count + start;
                         self.prev( '.cpm_activity_list' ).append( res.content );
                         self.data( 'start', start );
@@ -324,7 +324,7 @@
                 self.append( '<div class="cpm-loading">Loading...</div>' );
                 $.get( CPM_Vars.ajaxurl, data, function( res ) {
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         start = res.count + start;
                         self.siblings( '#cpm-progress-wrap' ).find( '.cpm-activity' ).append( res.content );
                         self.data( 'start', start );
@@ -347,7 +347,7 @@
             remove: function( e ) {
                 e.preventDefault();
                 var self = $( this );
-                if( confirm( self.data( 'confirm' ) ) ) {
+                if ( confirm( self.data( 'confirm' ) ) ) {
                     weDevs_CPM.Milestone.ajaxRequest.call( this, 'cpm_delete_milestone' );
                 }
             },
@@ -380,7 +380,7 @@
                 self.addClass( 'cpm-milestones-spinner' );
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         parent.find( '.milestone-detail' ).hide()
                                 .next( '.cpm-milestone-edit-form' ).html( res.content ).fadeIn();
                         $( '.datepicker' ).datepicker();
@@ -400,7 +400,7 @@
                     spinner.hide();
                     btn.attr( 'disabled', false );
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         window.location.reload();
                     }
                 } );
@@ -417,7 +417,7 @@
                     //spinner.hide();
                     //btn.attr( 'disabled', false );
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         window.location.reload();
                     }
                 } );
@@ -448,7 +448,7 @@
         Uploader: {
             deleteFile: function( e ) {
                 e.preventDefault();
-                if( confirm( 'This file will be deleted permanently' ) ) {
+                if ( confirm( 'This file will be deleted permanently' ) ) {
                     var that = $( this ),
                             data = {
                                 file_id: that.data( 'id' ),
@@ -470,7 +470,7 @@
                         data = that.serialize();
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
-                if( text.length < 1 ) {
+                if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
                 }
@@ -481,7 +481,7 @@
                     btn.attr( 'disabled', false );
                     spnier.hide();
                     res = JSON.parse( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         $( '.cpm-comment-wrap' ).append( res.content ).fadeIn( 'slow' );
                         $( '.cpm-comment-form-wrap textarea' ).val( '' );
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false );
@@ -506,7 +506,7 @@
                         };
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
                     res = $.parseJSON( res );
-                    if( res.success && parent.find( 'form' ).length === 0 ) {
+                    if ( res.success && parent.find( 'form' ).length === 0 ) {
 
                         parent.find( '.cpm-comment-content' ).hide();
                         parent.find( '.cpm-comment-edit-form' ).hide().html( res.form ).fadeIn();
@@ -532,7 +532,7 @@
                         container = form.closest( '.cpm-comment-container' ),
                         data = form.serialize(),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
-                if( text.length < 1 ) {
+                if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
                 }
@@ -545,7 +545,7 @@
                     btn.attr( 'disabled', false );
                     spnier.hide();
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         container.find( '.cpm-comment-content' ).html( res.content ).fadeIn();
                         form.parent().remove();
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false )
@@ -567,11 +567,11 @@
                             action: 'cpm_comment_delete',
                             '_wpnonce': CPM_Vars.nonce
                         };
-                if( self.attr( 'disabled' ) == 'disabled' ) {
+                if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
                 }
 
-                if( confirm( confirmMsg ) ) {
+                if ( confirm( confirmMsg ) ) {
                     self.addClass( 'cpm-comment-spinner' );
                     self.attr( 'disabled', 'disabled' );
                     $.post( CPM_Vars.ajaxurl, data, function( res ) {
@@ -579,7 +579,7 @@
                         self.removeClass( 'cpm-comment-spinner' );
                         self.removeAttr( 'disabled' );
                         res = $.parseJSON( res );
-                        if( res.success ) {
+                        if ( res.success ) {
                             self.closest( 'li' ).fadeOut( function() {
                                 $( this ).remove();
                             } );
@@ -608,7 +608,7 @@
             addNew: function( e ) {
                 //e.preventDefault();
                 text = $( "#message_title" ).val();
-                if( text.length < 1 ) {
+                if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
                 }
@@ -622,7 +622,7 @@
 
                     btn.attr( 'disabled', false );
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         var url = res.url;
                         // history.pushState(null, null, url ) ;
                         window.location.href = url;
@@ -634,7 +634,7 @@
                         };
                         $.post( CPM_Vars.ajaxurl, data, function( res ) {
                             res = $.parseJSON( res );
-                            if( res.success ) {
+                            if ( res.success ) {
 
                                 //window.location.reload();
                                 /*
@@ -674,7 +674,7 @@
                     btn.attr( 'disabled', false );
                     spnier.hide();
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
                         var data = {
                             message_id: res.id,
                             project_id: res.project_id,
@@ -683,7 +683,7 @@
                         };
                         $.post( CPM_Vars.ajaxurl, data, function( res ) {
                             res = $.parseJSON( res );
-                            if( res.success ) {
+                            if ( res.success ) {
                                 var did = res.id;
 
                                 $( "#cpm-signle-message" ).html( res.content );
@@ -707,7 +707,7 @@
             get: function( e ) {
                 e.preventDefault();
                 var self = $( this );
-                if( self.attr( 'disabled' ) == 'disabled' ) {
+                if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
                 }
 
@@ -724,7 +724,7 @@
                     self.removeClass( 'cpm-single-spinner' );
                     self.attr( 'disabled', false );
                     res = $.parseJSON( res );
-                    if( res.success ) {
+                    if ( res.success ) {
 
                         parent.find( '.cpm-entry-detail' ).hide().next( '.cpm-msg-edit-form' ).hide().html( res.content ).fadeIn();
                         //re-initialize the uploader
@@ -751,16 +751,16 @@
                             action: 'cpm_message_delete',
                             '_wpnonce': CPM_Vars.nonce
                         };
-                if( confirm( self.data( 'confirm' ) ) ) {
+                if ( confirm( self.data( 'confirm' ) ) ) {
                     self.css( 'opacity', '1' ).addClass( 'cpm-messages-spinner' );
                     $.post( CPM_Vars.ajaxurl, data, function( res ) {
 
                         res = $.parseJSON( res );
-                        if( res.success ) {
+                        if ( res.success ) {
                             //  window.location.href = res.url;
 
                             var li = $( ".dicussion-list li" ).length;
-                            if( li == 1 )
+                            if ( li == 1 )
                             {
                                 window.location.reload();
                             } else {
@@ -809,7 +809,7 @@
                 $( ".date_picker_from" ).datepicker( "option", "maxDate", selectedDate );
             }
         } );
-        if( $( '#cpm-all-search' ).length || $( '#cpm-single-project-search' ).length ) {
+        if ( $( '#cpm-all-search' ).length || $( '#cpm-single-project-search' ).length ) {
             cpm_all_sinle_project_search();
         }
 
@@ -824,13 +824,13 @@
                         project_id: self.data( 'project_id' ),
                         is_admin: CPM_Vars.is_admin
                     };
-                    if( cpm_abort ) {
+                    if ( cpm_abort ) {
                         cpm_abort.abort();
                     }
 
                     cpm_abort = $.post( CPM_Vars.ajaxurl, data, function( resp ) {
 
-                        if( resp.success ) {
+                        if ( resp.success ) {
                             var nme = eval( resp.data );
                             response( eval( resp.data ) );
                         } else {
@@ -853,7 +853,7 @@
 
 
 
-        if( $( "#cpm-search-client" ).length ) {
+        if ( $( "#cpm-search-client" ).length ) {
             cpm_project_search_by_client();
         }
 
@@ -867,13 +867,13 @@
                                 user: request.term,
                                 is_admin: CPM_Vars.is_admin
                             };
-                    if( cpm_abort ) {
+                    if ( cpm_abort ) {
                         cpm_abort.abort();
                     }
 
                     cpm_abort = $.post( CPM_Vars.ajaxurl, data, function( resp ) {
 
-                        if( resp.success ) {
+                        if ( resp.success ) {
                             var nme = eval( resp.data );
                             response( eval( resp.data ) );
                         } else {
@@ -894,7 +894,7 @@
             };
         }
 
-        if( $( ".cpm-project-coworker" ).length ) {
+        if ( $( ".cpm-project-coworker" ).length ) {
             cpm_coworker_search()
         }
 
@@ -907,13 +907,13 @@
                         action: 'cpm_user_autocomplete',
                         term: request.term
                     };
-                    if( cpm_abort ) {
+                    if ( cpm_abort ) {
                         cpm_abort.abort();
                     }
 
                     cpm_abort = $.post( CPM_Vars.ajaxurl, data, function( resp ) {
 
-                        if( resp.success ) {
+                        if ( resp.success ) {
                             var nme = eval( resp.data );
                             response( eval( resp.data ) );
                         } else {
@@ -932,7 +932,7 @@
                     return false;
                 },
                 select: function( event, ui ) {
-                    if( ui.item.value == 'cpm_create_user' ) {
+                    if ( ui.item.value == 'cpm_create_user' ) {
                         $( "form.cpm-user-create-form" ).find( 'input[type=text]' ).val( '' );
                         $( "#cpm-create-user-wrap" ).dialog( "open" );
                     } else {
@@ -959,7 +959,7 @@
     function  showderror() {
 
         var li = $( ".dicussion-list li" ).length;
-        if( li == 0 )
+        if ( li == 0 )
         {
             $( ".cpm-blank-template.discussion" ).show( '500' );
             $( ".3discussion-page" ).hide();
@@ -969,19 +969,19 @@
         }
     }
 
-  $( ".hasDatepicker" ).datepicker( {
+    $( ".hasDatepicker" ).datepicker( {
         dateFormat: 'yy-mm-dd'
     } );
 
     function dateFormat( date, format ) {
         date = new Date( date );
-        var month = ("0" + (date.getMonth() + 1)).slice(-2),
-            day   = ("0" + date.getDate()).slice(-2),
-            year  = date.getFullYear(),
-            monthArray = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
-            monthShortArray = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec" ],
-            monthName = monthArray[date.getMonth()],
-            monthShortName = monthShortArray[date.getMonth()];
+        var month = ( "0" + ( date.getMonth() + 1 ) ).slice( -2 ),
+                day = ( "0" + date.getDate() ).slice( -2 ),
+                year = date.getFullYear(),
+                monthArray = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+                monthShortArray = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec" ],
+                monthName = monthArray[date.getMonth()],
+                monthShortName = monthShortArray[date.getMonth()];
 
         var pattern = {
             Y: year,
@@ -992,9 +992,9 @@
             j: day
         };
 
-        var dateStr = format.replace(/Y|m|d|j|M|F/gi, function( matched ){
+        var dateStr = format.replace( /Y|m|d|j|M|F/gi, function( matched ) {
             return pattern[matched];
-        });
+        } );
 
         return dateStr;
     }

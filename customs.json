@@ -1,0 +1,13 @@
+{
+    "attributes": {
+        "v-for": {},
+        "@click": {
+            "context": "a"
+        },
+        "v-bind:class": {
+            "context": "a"
+        },
+        "v-if": {}
+    },
+    "elements": {}
+}

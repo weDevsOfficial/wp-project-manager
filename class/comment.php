@@ -121,6 +121,7 @@ class CPM_Comment {
         }
 
         $comment->files = $files;
+        $comment->avatar = get_avatar($comment->comment_author_email) ;
 
         return $comment;
     }
@@ -153,6 +154,7 @@ class CPM_Comment {
                 }
 
                 $comments[$key]->files = $file_array;
+                $comments[$key]->avatar = get_avatar($comment->comment_author_email) ;;
             }
         }
 

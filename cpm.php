@@ -6,7 +6,7 @@
  * Description: A WordPress Project Management plugin. Simply it does everything and it was never been easier with WordPress.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.4.2
+ * Version: 1.4.3
  * License: GPL2
  */
 /**
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      */
     public function define_constants() {
 
-        $this->define( 'CPM_VERSION', '1.4.2' );
+        $this->define( 'CPM_VERSION', '1.4.3' );
         $this->define( 'CPM_DB_VERSION', '1.1' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
@@ -301,7 +301,7 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
-        $upload_size = intval( cpm_get_option( 'upload_limit' ) ) * 1024 * 1024;
+        $upload_size = intval( cpm_get_option( 'upload_limit' , 'cpm_general') ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-autocomplete' );
@@ -325,7 +325,7 @@ class WeDevs_CPM {
             'nonce'         => wp_create_nonce( 'cpm_nonce' ),
             'is_admin'      => is_admin() ? 'yes' : 'no',
             'message'       => cpm_message(),
-            'todolist_show' => cpm_get_option( 'todolist_show' ),
+            'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',

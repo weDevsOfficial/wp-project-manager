@@ -52,7 +52,7 @@ foreach ( $projects as $key => $project ) {
         ?>
     </li>
 
-    <?php if ( cpm_get_option( 'task_start_field' ) == 'on' ) { ?>
+    <?php if ( cpm_get_option( 'task_start_field', 'cpm_general' ) == 'on' ) { ?>
         <li class="row erp-hide cpm-employee-task-form">
             <?php
             erp_html_form_input( array(

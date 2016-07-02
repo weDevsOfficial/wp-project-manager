@@ -108,7 +108,7 @@ class CPM_Project {
      */
     function create( $project_id = 0, $posted = array() ) {
 
-        $is_update = ( $project_id ) ? true : false;
+       echo $is_update = ( $project_id ) ? true : false;
 
         $data = array(
             'post_title'   => $posted['project_name'],
@@ -250,7 +250,7 @@ class CPM_Project {
      */
     function get_projects( $count = -1 ) {
         $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
-        $limit            = ( $count == '-1' ) ? intval( cpm_get_option( 'pagination' ) ) : $count;
+        $limit            = ( $count == '-1' ) ? intval( cpm_get_option( 'pagination', 'cpm_general' ) ) : $count;
         $offset           = ( $pagenum - 1 ) * $limit;
         $filters          = $_GET;
         $project_category = isset( $filters['project_cat'] ) ? $filters['project_cat'] : 0;

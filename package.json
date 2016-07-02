@@ -16,6 +16,10 @@
     "grunt-contrib-imagemin": "^0.8.1",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-ssh": "^0.12.6",
-    "grunt-text-replace": "^0.4.0"
+    "grunt-text-replace": "^0.4.0",
+    "partialify": "^3.1.6"
+  },
+  "dependencies": {
+    "grunt-browserify": "^5.0.0"
   }
 }

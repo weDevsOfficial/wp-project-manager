@@ -3,7 +3,7 @@ wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js',
 
 if ( isset( $_GET['pagenum']) ){
     $pagenum = $_GET['pagenum'] ;
-    $offset  = (($pagenum-1) * cpm_get_option( 'show_todo' ) );
+    $offset  = (($pagenum-1) * cpm_get_option( 'show_todo', 'cpm_general' ) );
 }else {
     $pagenum = 1 ;
     $offset  = 0 ;
@@ -78,10 +78,10 @@ if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
     </div>
 
 
-    <a style="display: none" class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo' ) ; ?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" data-totaltodo="<?php echo $project_details->todolist  ;?>" >Load More ... </a>
+    <a style="display: none" class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)" id="load_more_task" data-offset="<?php echo cpm_get_option( 'show_todo', 'cpm_general' ) ; ?>" data-privacy="<?php echo $privacy ; ?>" data-project-id="<?php echo $project_id?>" data-totaltodo="<?php echo $project_details->todolist  ;?>" >Load More ... </a>
 
      <?php
-        if(cpm_get_option( 'todolist_show') == 'pagination') {
-            cpm_pagination( $project_details->todolist_without_pin, cpm_get_option( 'show_todo' ), $pagenum );
+        if(cpm_get_option( 'todolist_show', 'cpm_general') == 'pagination') {
+            cpm_pagination( $project_details->todolist_without_pin, cpm_get_option( 'show_todo', 'cpm_general' ), $pagenum );
         }
      ?>

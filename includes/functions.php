@@ -692,36 +692,57 @@ add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
  * @param string $option option field name
  * @return mixed
  */
-function cpm_get_option( $option ) {
+//function cpm_get_option( $option ) {
 
-    $fields          = CPM_Admin::get_settings_fields();
-    $prepared_fields = array();
+function cpm_get_option( $option, $section, $default = '' ) {
 
-    //prepare the array with the field as key
-    //and set the section name on each field
-    foreach ( $fields as $section => $field ) {
-        foreach ( $field as $fld ) {
-            $prepared_fields[$fld['name']]            = $fld;
-            $prepared_fields[$fld['name']]['section'] = $section;
-        }
+    $options = get_option( $section );
+
+    if ( isset( $options[$option] ) ) {
+        return $options[$option];
     }
 
-    // bail if option not found
-    if ( ! isset( $prepared_fields[$option] ) ) {
-        return;
-    }
+    return $default;
 
-    //get the value of the section where the option exists
-    $opt = get_option( $prepared_fields[$option]['section'] );
-    $opt = is_array( $opt ) ? $opt : array();
+    /* $value = get_option( $option );
 
-    //return the value if found, otherwise default
-    if ( array_key_exists( $option, $opt ) ) {
-        return $opt[$option];
-    } else {
-        $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
-        return $val;
-    }
+      if ( isset( $section[$option] ) ) {
+      echo get_option ( $section[$option] );
+
+      }
+     */
+
+    // return $value;
+    /*
+      $fields          = CPM_Admin::get_settings_fields();
+      $prepared_fields = array();
+
+      //prepare the array with the field as key
+      //and set the section name on each field
+      foreach ( $fields as $section => $field ) {
+      foreach ( $field as $fld ) {
+      $prepared_fields[$fld['name']]            = $fld;
+      $prepared_fields[$fld['name']]['section'] = $section;
+      }
+      }
+
+      // bail if option not found
+      if ( ! isset( $prepared_fields[$option] ) ) {
+      return;
+      }
+
+      //get the value of the section where the option exists
+      $opt = get_option( $prepared_fields[$option]['section'] );
+      $opt = is_array( $opt ) ? $opt : array();
+
+      //return the value if found, otherwise default
+      if ( array_key_exists( $option, $opt ) ) {
+      return $opt[$option];
+      } else {
+      $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
+      return $val;
+      }
+     */
 }
 
 if ( ! function_exists( 'get_ipaddress' ) ) {
@@ -850,10 +871,11 @@ function cpm_can_manage_projects( $user_id = 0 ) {
         return false;
     }
 
-    $loggedin_user_role = array_flip( $user->roles );
-    $manage_cap_option  = cpm_get_option( 'project_manage_role' );
-    $manage_capability  = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-
+    $loggedin_user_role  = array_flip( $user->roles );
+    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general' );
+    $manage_cap_option  = $opt;
+    $manage_capability   = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
+        
     //checking project manage capability
     if ( $manage_capability ) {
         return true;
@@ -888,9 +910,9 @@ function cpm_can_create_projects( $user_id = 0 ) {
     }
 
     $loggedin_user_role       = array_flip( $user->roles );
-    $manage_cap_option        = cpm_get_option( 'project_create_role' );
+    $manage_cap_option[]      = cpm_get_option( 'project_create_role', 'cpm_general' );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-
+    var_dump( $project_ceate_capability );
     //checking project create capability
     if ( $project_ceate_capability ) {
         return true;
@@ -1128,12 +1150,12 @@ function cpm_is_project_archived( $project_id ) {
     return false;
 }
 
-function cpm_assigned_user( $users, $render = true , $avatar = true) {
+function cpm_assigned_user( $users, $render = true, $avatar = true ) {
 
     $html = "";
     if ( is_array( $users ) ) {
         foreach ( $users as $user_id ) {
-            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id,  $avatar ) . "</span> ";
+            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span> ";
         }
     } else {
         $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";

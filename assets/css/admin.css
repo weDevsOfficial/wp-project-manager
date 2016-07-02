@@ -2028,13 +2028,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   /** End MileStone Page **/
   /*** Files ***/
   /** For Modal **/
+  /***Half page Modal ***/
   /*
-     * the following styles are auto-applied to elements with
-     * v-transition="modal" when their visiblity is toggled
-     * by Vue.js.
-     *
-     * You can easily play with the modal transition by editing
-     * these styles.
+     * for v-modla transection
      */
   /*for lazy loding align-content: */
   /* Every thing below this is just positioning */
@@ -3588,7 +3584,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 99999;
   top: 0;
   left: 0;
   width: 100%;
@@ -3613,11 +3609,32 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .modal-header {
   margin-bottom: 5px;
   border-bottom: #e5e9eb solid 1px;
-  padding: 15px 30px;
 }
 .cpm .modal-header h3 {
-  margin-top: 0;
+  margin: 0;
+  padding: 0;
   color: #095c91;
+  padding: 15px 30px 10px;
+}
+.cpm .modal-header .close-vue-modal a {
+  display: block;
+  width: 20px;
+  background: '';
+  border: none;
+  border-left: 1px solid #ddd;
+  color: #444;
+  text-align: center;
+  padding: 15px 10px 10px;
+  font-size: 110%;
+  cursor: pointer;
+  -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.cpm .modal-header .close-vue-modal:hover {
+  background: #eee ;
 }
 .cpm .modal-body {
   padding: 10px;
@@ -3629,12 +3646,71 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .modal-default-button {
   float: right;
 }
-.cpm .close-vue-modal {
-  border: solid 1px #ccc;
-  float: right;
-  padding: 5px;
-  top: 0px;
-  margin: -25px -25px 0px;
+.cpm .half-modal .modal-container {
+  width: 70%;
+  margin: 0 0 50px auto;
+  overflow: visible;
+  height: 100%;
+  display: table;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.cpm .half-modal .close-vue-modal {
+  margin-left: -40px;
+  margin-top: 15px;
+  float: left;
+}
+.cpm .half-modal .close-vue-modal a {
+  display: block;
+  width: 20px;
+  background: #333 ;
+  border: none;
+  color: #fff ;
+  text-align: center;
+  padding: 8px 10px 10px;
+  font-size: 110%;
+  cursor: pointer;
+  -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.cpm .half-modal .edit-vue-modal a {
+  display: block;
+  width: 50px;
+  background: '';
+  border: none;
+  border-left: 1px solid #ddd;
+  color: #444;
+  text-align: center;
+  padding: 8px 10px 10px;
+  font-size: 110%;
+  cursor: pointer;
+  -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.cpm .half-modal .edit-vue-modal:hover {
+  background: #eee ;
+}
+.cpm .half-modal .modal-header h3 {
+  padding-bottom: 2px;
+}
+.cpm .half-modal .sub-title {
+  padding-left: 30px;
+}
+.cpm .half-modal .modal-body {
+  padding: 30px;
+}
+.cpm .half-modal .cpm-modal-conetnt {
+  overflow: auto;
+  height: 90vh;
 }
 .cpm .modal-enter,
 .cpm .modal-leave {

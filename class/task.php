@@ -191,7 +191,7 @@ class CPM_Task {
             $this->assign_user( $task_id, $assigned );
             update_post_meta( $task_id, '_due', $due );
 
-            if ( cpm_get_option( 'task_start_field' ) == 'on' ) {
+            if ( cpm_get_option( 'task_start_field', 'cpm_general' ) == 'on' ) {
                 update_post_meta( $task_id, '_start', $start );
             } else {
                 update_post_meta( $task_id, '_start', '' );
@@ -388,7 +388,7 @@ class CPM_Task {
     function get_task_lists( $project_id, $offset = 0, $privacy = false, $with_pin = true ) {
         $args = array(
             'post_type'      => 'cpm_task_list',
-            'posts_per_page' => cpm_get_option( 'show_todo' ),
+            'posts_per_page' => cpm_get_option( 'show_todo', 'cpm_general' ),
             'offset'         => $offset,
             'order'          => 'DESC',
             'orderby'        => 'ID',
