@@ -3584,7 +3584,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .modal-mask {
   position: fixed;
-  z-index: 99999;
+  z-index: 10000;
   top: 0;
   left: 0;
   width: 100%;

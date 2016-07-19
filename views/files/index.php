@@ -2,7 +2,7 @@
 
 
 <?php
-do_action( 'cpm_show_file_before', $project_id );
+// do_action( 'cpm_show_file_before', $project_id );
 $args = array(
     'post_type'   => 'attachment',
     'meta_key'    => '_project',

@@ -204,7 +204,7 @@ class WeDevs_CPM {
      */
     public function define_constants() {
 
-        $this->define( 'CPM_VERSION', '1.4.3' );
+        $this->define( 'CPM_VERSION', '1.4.4' );
         $this->define( 'CPM_DB_VERSION', '1.1' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
