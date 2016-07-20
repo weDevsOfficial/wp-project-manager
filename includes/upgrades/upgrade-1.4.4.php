@@ -1,7 +1,7 @@
 <?php
 
 global $wpdb;
-$wpdb->prefix ;
+
 $table_name = $wpdb->prefix . 'cpm_file_relationship';
 
 $sql = "
