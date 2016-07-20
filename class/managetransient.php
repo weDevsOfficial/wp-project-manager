@@ -22,11 +22,12 @@ class CPM_Managetransient extends CPM_Notification {
         return self::$_instance;
     }
 
-    public function check_email_url(){
+    public function check_email_url() {
         return;
     }
+
     function project_new( $project_id, $data ) {
-        return ;
+        return;
     }
 
     function project_update( $project_id, $data ) {

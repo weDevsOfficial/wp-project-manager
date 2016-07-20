@@ -2,8 +2,8 @@
 Contributors: tareq1988, wedevs
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
-Requires at least: 3.5
-Tested up to: 4.4.2
+Requires at least: 4.0
+Tested up to: 4.5.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,16 +14,19 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 [youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
 
-The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of basecamp, just inside your loved WordPress.
+The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
-[Pro Version](http://wedevs.com/plugin/wp-project-manager/) | [Add-ons](http://wedevs.com/wp-project-manager-add-ons/) | [Demo](http://demo.wedevs.com/pm/wp-admin/)
+[Pro Version](https://wedevs.com/products/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://demo.wedevs.com/pm/?preview)
 
 = Add-ons =
-* [Time Tracker](http://wedevs.com/plugin/wp-project-manager/time-tracker/)
-* [Sub Task](http://wedevs.com/plugin/wp-project-manager/sub-task/)
-* [Invoice](http://wedevs.com/plugin/wp-project-manager/invoice/)
-* [Invoice - Stripe gateway](http://wedevs.com/plugin/wp-project-manager/invoice-stripe-gateway/)
-* [Project Manager Frontend](http://wedevs.com/plugin/wp-project-manager/wp-project-manager-frontend/) (**free with pro**)
+
+* [Kanban Board](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Kanban+Board)
+* [Gantt Chart](https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Gantt+Chart)
+* [Time Tracker](https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Time+Tracker)
+* [Invoice](https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Invoice)
+* [Sub Task](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Sub+Task)
+* [BuddyPress Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=BuddyPress)
+* [WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WooCommerce+Order)
 
 
 = Features =
@@ -56,7 +59,7 @@ The WordPress Project Management plugin. Manage your project simply with the \*r
 This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
 
 = Author =
-Brought to you by [Tareq Hasan](https://tareq.co) from [weDevs](http://wedevs.com)
+Brought to you by [Tareq Hasan](https://tareq.co) from [weDevs](https://wedevs.com/)
 
 = Donate =
 Please [donate](https://tareq.co/donate/) for this awesome plugin to continue it's development to bring more awesome features.
@@ -111,8 +114,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
-= 1.4.3 - April 19, 2016 =
- * [fix] Milestone input date fix and fix project redirect issue after create.
+
+= 1.4.3 - May 30, 2016 =
+
+ * [fix] Milestone input date and project redirect issue after create.
+ * [fix] Sorting completed milestone
+ * [fix] Image broken in emails
  * [fix] File upload on first discussion problem fix.
  * [fix] Task Done/Undone tick problem fix.
  * [fix] New user create on project create or update problem fix.
