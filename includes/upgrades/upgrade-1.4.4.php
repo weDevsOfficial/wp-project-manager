@@ -5,13 +5,16 @@ global $wpdb;
 $table_name = $wpdb->prefix . 'cpm_file_relationship';
 
 $sql = "
-CREATE TABLE IF NOT EXISTS `{$table_name}` (
+
+CREATE TABLE IF NOT EXISTS `pro_cpm_file_relationship` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `dir_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
   `attachment_id` int(11) unsigned NOT NULL,
   `parent_id` int(11) unsigned NOT NULL,
   `is_dir` tinyint(1) unsigned NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `private` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_by` int(11) unsigned NOT NULL,
   `created_at` datetime DEFAULT NULL,

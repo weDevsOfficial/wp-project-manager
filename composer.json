@@ -18,7 +18,7 @@
     },
     "require"     : {
         "composer/installers"          : "~1.0",
-        "php"                          : ">=5.2",
+        "php"                          : ">=5.2"
     },
     "autoload"    : {
         "classmap": ["cpm.php"]
