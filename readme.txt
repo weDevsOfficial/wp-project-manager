@@ -115,6 +115,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.4.4 - August 3, 2016 =
+
+ * [new] Report section new design.
+ * [new] New Report item added.
+ * [new] Files tab new design and add new feature in pro version.
+ * [new] Add option for create document and connect to other online Docs.
+ * [new] Add option to upload files / attachment direct to a project.
+ * [fix] Duplicate mail send on project create.
+ * [fix] Change cpm_get_option function.
+
 = 1.4.3 - May 30, 2016 =
 
  * [fix] Milestone input date and project redirect issue after create.

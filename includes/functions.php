@@ -875,7 +875,7 @@ function cpm_can_manage_projects( $user_id = 0 ) {
     $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general' );
     $manage_cap_option  = $opt;
     $manage_capability   = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
-        
+
     //checking project manage capability
     if ( $manage_capability ) {
         return true;
@@ -1154,8 +1154,12 @@ function cpm_assigned_user( $users, $render = true, $avatar = true ) {
 
     $html = "";
     if ( is_array( $users ) ) {
+        $sl = 0 ;
         foreach ( $users as $user_id ) {
-            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span> ";
+            $html .= ($sl > 0) ? ", " : " ";
+            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
+
+            $sl++;
         }
     } else {
         $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";

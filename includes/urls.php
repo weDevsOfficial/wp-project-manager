@@ -234,7 +234,7 @@ function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
         $name    = $user->display_name;
 
         if ( $avatar ) {
-            $name = get_avatar( $user_id, $size );
+            $name = get_avatar( $user->user_email, $size, $user->display_name, $user->display_name, null );
         }
 
         $url = sprintf( '<a href="%s" title="%s">%s</a>', $link, $user->display_name, $name );

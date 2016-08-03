@@ -11,7 +11,13 @@ class CPM_Managetransient extends CPM_Notification {
     private static $_instance;
 
     function __construct() {
-        parent::__construct();
+        //  parent::__construct();
+        
+        add_action( 'cpm_comment_new', array( $this, 'new_comment' ), 10, 3 );
+        add_action( 'cpm_message_new', array( $this, 'new_message' ), 10, 2 );
+
+        add_action( 'cpm_task_new', array( $this, 'new_task' ), 10, 3 );
+        add_action( 'cpm_task_update', array( $this, 'new_task' ), 10, 3 );
     }
 
     public static function getInstance() {

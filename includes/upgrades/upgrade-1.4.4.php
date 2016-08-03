@@ -6,7 +6,7 @@ $table_name = $wpdb->prefix . 'cpm_file_relationship';
 
 $sql = "
 
-CREATE TABLE IF NOT EXISTS `pro_cpm_file_relationship` (
+CREATE TABLE IF NOT EXISTS $table_name (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `dir_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
