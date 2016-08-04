@@ -108,7 +108,7 @@ class CPM_Project {
      */
     function create( $project_id = 0, $posted = array() ) {
 
-       echo $is_update = ( $project_id ) ? true : false;
+        echo $is_update = ( $project_id ) ? true : false;
 
         $data = array(
             'post_title'   => $posted['project_name'],
@@ -476,6 +476,8 @@ class CPM_Project {
             $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'cpm_task', implode( ', ', wp_list_pluck( $todolists, 'ID' ) ) ) ) : array();
             $files       = $wpdb->get_var( $sql_files );
 
+            // for promodule files
+
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
             $todolist_comment   = wp_list_pluck( $todolists, 'comment_count' );
             $todo_comment       = $todolists ? wp_list_pluck( $todos, 'comment_count' ) : array();
@@ -501,6 +503,8 @@ class CPM_Project {
             $ret->comments             = $total_comment;
             $ret->files                = ( int ) $files;
             $ret->milestone            = count( $milestone );
+            $ret->total_attach_doc     = $ret->files;
+            $ret->files                = apply_filters( 'cpm_project_total_files', $ret->files, $project_id );
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
