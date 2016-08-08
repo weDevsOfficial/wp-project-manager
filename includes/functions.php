@@ -871,10 +871,10 @@ function cpm_can_manage_projects( $user_id = 0 ) {
         return false;
     }
 
-    $loggedin_user_role  = array_flip( $user->roles );
-    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general' );
+    $loggedin_user_role = array_flip( $user->roles );
+    $opt                = cpm_get_option( 'project_manage_role', 'cpm_general', [] );
     $manage_cap_option  = $opt;
-    $manage_capability   = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
+    $manage_capability  = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
 
     //checking project manage capability
     if ( $manage_capability ) {
@@ -912,7 +912,7 @@ function cpm_can_create_projects( $user_id = 0 ) {
     $loggedin_user_role       = array_flip( $user->roles );
     $manage_cap_option[]      = cpm_get_option( 'project_create_role', 'cpm_general' );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-    var_dump( $project_ceate_capability );
+
     //checking project create capability
     if ( $project_ceate_capability ) {
         return true;
