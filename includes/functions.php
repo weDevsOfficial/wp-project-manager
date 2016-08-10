@@ -872,7 +872,7 @@ function cpm_can_manage_projects( $user_id = 0 ) {
     }
 
     $loggedin_user_role  = array_flip( $user->roles );
-    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general' );
+    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator' ) );
     $manage_cap_option  = $opt;
     $manage_capability   = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
 
