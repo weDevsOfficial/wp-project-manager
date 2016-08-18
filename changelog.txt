@@ -1,4 +1,4 @@
-= 1.4.4 - August 3, 2016 =
+= 1.4.4 - August 18, 2016 =
 
  * [new] Report section new design.
  * [new] New Report item added.

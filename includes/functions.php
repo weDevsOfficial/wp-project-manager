@@ -694,7 +694,7 @@ add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
  */
 //function cpm_get_option( $option ) {
 
-function cpm_get_option( $option, $section, $default = '' ) {
+function cpm_get_option( $option, $section='cpm_general', $default = '' ) {
 
     $options = get_option( $section );
 
@@ -1277,6 +1277,13 @@ function cpm_get_co_worker() {
     global $wpdb;
     $table = $wpdb->prefix . 'cpm_user_role';
     return $wpdb->get_results( "SELECT DISTINCT user_id FROM $table WHERE role IN( 'manager', 'co_worker' )" );
+}
+
+function cpm_get_co_worker_dropdown() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'cpm_user_role';
+    $user_table = $wpdb->prefix . 'users';
+    return $wpdb->get_results( "SELECT u.ID as ID, u.display_name as display_name, cu.user_id as user_id, cu.role as role FROM $user_table as u, $table as cu  WHERE  u.ID = cu.user_id AND ( cu.role = 'manager' OR cu.role = 'co_worker' ) GROUP BY u.ID ORDER BY u.display_name ASC  " );
 }
 
 /**

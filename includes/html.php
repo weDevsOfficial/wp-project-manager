@@ -1505,6 +1505,26 @@ function cpm_report_co_worker_form( $co_workers = array(), $selected = '' ) {
     <?php
 }
 
+
+function cpm_report_co_worker_dropdown( $co_workers = array(), $selected = "" ) {
+
+    ?>
+    <label>
+        <select class="cpm-field" name="co_worker" required>
+            <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
+    <?php
+    foreach ( $co_workers as $user ) {
+        ?>
+                <option <?php selected( $user->ID, $selected ); ?> value="<?php echo $user->ID; ?>"><?php echo $user->display_name; ?></option>
+                <?php
+            }
+            ?>
+        </select>
+    </label>
+    <?php
+}
+
 /**
  * Report status form generate
  *

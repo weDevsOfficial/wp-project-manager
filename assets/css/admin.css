@@ -1476,7 +1476,7 @@ ul.cpm-todolists .cpm-new-task-spinner {
 }
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
   width: 24px;
-  height: auto;
+  height: 24px;
   vertical-align: middle;
   border: 1px solid #ccc;
   border-radius: 50%;

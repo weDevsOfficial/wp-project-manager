@@ -327,6 +327,7 @@ class WeDevs_CPM {
             'is_admin'      => is_admin() ? 'yes' : 'no',
             'message'       => cpm_message(),
             'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
+            'pluginURL' => CPM_URL ,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
@@ -345,6 +346,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
         wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+        wp_enqueue_style( 'dashicons' );
         do_action( 'cpm_admin_scripts' );
     }
 

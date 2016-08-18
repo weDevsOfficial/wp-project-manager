@@ -242,13 +242,13 @@ class CPM_Project {
         }
     }
 
-    /**
-     * Get all the projects
-     *
-     * @param int $count
-     * @return object
-     */
-    function get_projects( $count = -1 ) {
+   /**
+    * Get all the projects
+    * @param int $count
+    * @param array $order_by // $array('orderby', 'order')
+    * @return object
+    */
+    function get_projects( $count = -1 , $order_by = array() ) {
         $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
         $limit            = ( $count == '-1' ) ? intval( cpm_get_option( 'pagination', 'cpm_general' ) ) : $count;
         $offset           = ( $pagenum - 1 ) * $limit;
@@ -260,6 +260,10 @@ class CPM_Project {
             'posts_per_page' => $limit,
             'offset'         => $offset
         );
+        if(!  empty( $order_by ) ){
+            $args['orderby'] = $order_by[0] ;
+            $args['order'] = $order_by[1] ;
+        }
 
         //Add Filtering
         if ( $project_category != 0 && $project_category != '-1' ) {
