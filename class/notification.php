@@ -30,7 +30,7 @@ class CPM_Notification {
      * @since 1.4.0
      */
     public function check_email_url() {
-        if ( cpm_get_option( 'email_url_link' ) == 'frontend' ) {
+        if ( cpm_get_option( 'email_url_link', 'cpm_mails' ) == 'frontend' ) {
             new CPM_Frontend_URLs();
         }
     }
@@ -48,7 +48,7 @@ class CPM_Notification {
 
     function prepare_contacts() {
         $to         = array();
-        $bcc_status = cpm_get_option( 'email_bcc_enable' );
+        $bcc_status = cpm_get_option( 'email_bcc_enable' , 'cpm_mails');
 
         if ( isset( $_POST['notify_user'] ) && is_array( $_POST['notify_user'] ) ) {
 
@@ -350,12 +350,12 @@ class CPM_Notification {
 
     function send( $to, $subject, $message, $comment_post_id = 0 ) {
 
-        $bcc_status   = cpm_get_option( 'email_bcc_enable' );
+        $bcc_status   = cpm_get_option( 'email_bcc_enable', 'cpm_mails' );
         $blogname     = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
         $reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
-        $from_email   = cpm_get_option( 'email_from' );
+        $from_email   = cpm_get_option( 'email_from', 'cpm_mails' );
         $from         = "From: $blogname <$from_email>";
         $reply        = apply_filters( 'cpm_reply_to', $to, $comment_post_id );
         $reply_to     = "Reply-To: $reply";

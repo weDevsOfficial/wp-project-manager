@@ -692,36 +692,57 @@ add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
  * @param string $option option field name
  * @return mixed
  */
-function cpm_get_option( $option ) {
+//function cpm_get_option( $option ) {
 
-    $fields          = CPM_Admin::get_settings_fields();
-    $prepared_fields = array();
+function cpm_get_option( $option, $section='cpm_general', $default = '' ) {
 
-    //prepare the array with the field as key
-    //and set the section name on each field
-    foreach ( $fields as $section => $field ) {
-        foreach ( $field as $fld ) {
-            $prepared_fields[$fld['name']]            = $fld;
-            $prepared_fields[$fld['name']]['section'] = $section;
-        }
+    $options = get_option( $section );
+
+    if ( isset( $options[$option] ) ) {
+        return $options[$option];
     }
 
-    // bail if option not found
-    if ( ! isset( $prepared_fields[$option] ) ) {
-        return;
-    }
+    return $default;
 
-    //get the value of the section where the option exists
-    $opt = get_option( $prepared_fields[$option]['section'] );
-    $opt = is_array( $opt ) ? $opt : array();
+    /* $value = get_option( $option );
 
-    //return the value if found, otherwise default
-    if ( array_key_exists( $option, $opt ) ) {
-        return $opt[$option];
-    } else {
-        $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
-        return $val;
-    }
+      if ( isset( $section[$option] ) ) {
+      echo get_option ( $section[$option] );
+
+      }
+     */
+
+    // return $value;
+    /*
+      $fields          = CPM_Admin::get_settings_fields();
+      $prepared_fields = array();
+
+      //prepare the array with the field as key
+      //and set the section name on each field
+      foreach ( $fields as $section => $field ) {
+      foreach ( $field as $fld ) {
+      $prepared_fields[$fld['name']]            = $fld;
+      $prepared_fields[$fld['name']]['section'] = $section;
+      }
+      }
+
+      // bail if option not found
+      if ( ! isset( $prepared_fields[$option] ) ) {
+      return;
+      }
+
+      //get the value of the section where the option exists
+      $opt = get_option( $prepared_fields[$option]['section'] );
+      $opt = is_array( $opt ) ? $opt : array();
+
+      //return the value if found, otherwise default
+      if ( array_key_exists( $option, $opt ) ) {
+      return $opt[$option];
+      } else {
+      $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
+      return $val;
+      }
+     */
 }
 
 if ( ! function_exists( 'get_ipaddress' ) ) {
@@ -850,9 +871,11 @@ function cpm_can_manage_projects( $user_id = 0 ) {
         return false;
     }
 
-    $loggedin_user_role = array_flip( $user->roles );
-    $manage_cap_option  = cpm_get_option( 'project_manage_role' );
-    $manage_capability  = array_intersect_key( $loggedin_user_role, $manage_cap_option );
+
+    $loggedin_user_role  = array_flip( $user->roles );
+    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator' ) );
+    $manage_cap_option  = $opt;
+    $manage_capability  = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
 
     //checking project manage capability
     if ( $manage_capability ) {
@@ -888,7 +911,7 @@ function cpm_can_create_projects( $user_id = 0 ) {
     }
 
     $loggedin_user_role       = array_flip( $user->roles );
-    $manage_cap_option        = cpm_get_option( 'project_create_role' );
+    $manage_cap_option[]      = cpm_get_option( 'project_create_role', 'cpm_general' );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
 
     //checking project create capability
@@ -1128,18 +1151,25 @@ function cpm_is_project_archived( $project_id ) {
     return false;
 }
 
-function cpm_assigned_user( $users ) {
+function cpm_assigned_user( $users, $render = true, $avatar = true ) {
 
+    $html = "";
     if ( is_array( $users ) ) {
+        $sl = 0 ;
         foreach ( $users as $user_id ) {
-            echo '<span class="cpm-assigned-user">';
-            echo cpm_url_user( $user_id, true );
-            echo '</span>';
+            $html .= ($sl > 0) ? ", " : " ";
+            $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
+
+            $sl++;
         }
     } else {
-        echo '<span class="cpm-assigned-user">';
-        echo cpm_url_user( $users, true );
-        echo '</span>';
+        $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
+    }
+
+    if ( false === $render ) {
+        return $html;
+    } else {
+        echo $html;
     }
 }
 
@@ -1219,7 +1249,7 @@ function cpm_get_all_manager_from_project( $project_id ) {
  * @return void
  */
 function cpm_get_email_header() {
-    $file_name   ='/emails/header.php';
+    $file_name = '/emails/header.php';
     cpm_load_template( $file_name );
 }
 
@@ -1233,9 +1263,8 @@ function cpm_get_email_header() {
  * @return void
  */
 function cpm_get_email_footer() {
-   $file_name   ='/emails/footer.php';
+    $file_name = '/emails/footer.php';
     cpm_load_template( $file_name );
-
 }
 
 /**
@@ -1248,6 +1277,13 @@ function cpm_get_co_worker() {
     global $wpdb;
     $table = $wpdb->prefix . 'cpm_user_role';
     return $wpdb->get_results( "SELECT DISTINCT user_id FROM $table WHERE role IN( 'manager', 'co_worker' )" );
+}
+
+function cpm_get_co_worker_dropdown() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'cpm_user_role';
+    $user_table = $wpdb->prefix . 'users';
+    return $wpdb->get_results( "SELECT u.ID as ID, u.display_name as display_name, cu.user_id as user_id, cu.role as role FROM $user_table as u, $table as cu  WHERE  u.ID = cu.user_id AND ( cu.role = 'manager' OR cu.role = 'co_worker' ) GROUP BY u.ID ORDER BY u.display_name ASC  " );
 }
 
 /**

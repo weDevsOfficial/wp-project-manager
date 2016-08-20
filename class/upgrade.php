@@ -86,6 +86,7 @@ class CPM_Upgrade {
             '1.1'   => 'upgrade-1.1.php',
             '1.4'   => 'upgrade-1.4.php',
             '1.4.1' => 'upgrade-1.4.1.php',
+            '1.5'   => 'upgrade-1.5.php',
         );
 
         $this->create_user_role_table();

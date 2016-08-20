@@ -12,7 +12,7 @@ if ( ! empty( $due_date ) ) {
 
 $tpbk   = CPM_URL . '/assets/images/tpbk.png';
 $author = wp_get_current_user();
-$linkto = cpm_get_option( 'email_url_link' );
+$linkto = cpm_get_option( 'email_url_link', 'cpm_mails' );
 
 ?>
 

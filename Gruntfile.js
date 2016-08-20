@@ -24,11 +24,20 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+         browserify: {
+            dist: {
+                options: {
+                    transform: [['partialify']]
+                },
+                files: {
+                    "./includes/pro/assets/js/build.js": ["./includes/pro/assets/js/files.js"]
+                }
+            }
+        },
         watch: {
             styles: {
-                files: ['assets/css/*.less', 'includes/pro/assets/css/*.less', 'includes/pro/frontend/css/*.less'], // which files to watch
-                tasks: ['less'],
+                files: ['assets/css/*.less', 'includes/pro/assets/css/*.less', 'includes/pro/assets/html/**/*.html','includes/pro/assets/js/*.js' , 'includes/pro/frontend/css/*.less'], // which files to watch
+                tasks: ['less', 'browserify'],
                 options: {
                     nospawn: true
                 }
@@ -187,8 +196,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
     grunt.loadNpmTasks( 'grunt-text-replace' );
     grunt.loadNpmTasks( 'grunt-ssh' );
-
+    grunt.loadNpmTasks( 'grunt-browserify' );
     grunt.registerTask('default', ['less', 'watch']);
+
+
+    grunt.registerTask( 'build', [ 'browserify' ] );
 
     grunt.registerTask('release', [
         'makepot',

@@ -2,7 +2,7 @@
 
 
 <?php
-do_action( 'cpm_show_file_before', $project_id );
+// do_action( 'cpm_show_file_before', $project_id );
 $args = array(
     'post_type'   => 'attachment',
     'meta_key'    => '_project',
@@ -66,6 +66,8 @@ if ( $attachments ) {
             $thumb_url = $file['thumb'];
             $class     = '';
         }
+        $thumb_url = apply_filters( 'cpm_attachment_url_thum', $thumb_url, $project_id, $file['id'] );
+        $file_url  = apply_filters( 'cpm_attachment_url', $file_url, $project_id, $file['id'] );
         ?>
         <li>
             <div class="cpm-thumb">
@@ -91,7 +93,9 @@ if ( $attachments ) {
         <?php
     }
     echo '</ul> </div>';
-} else {
+}
+
+if ( empty( $attachments ) ) {
     cpm_blank_template( 'files', $project_id );
 }
 ?>

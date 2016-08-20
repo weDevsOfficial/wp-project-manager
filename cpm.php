@@ -5,9 +5,10 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.4.3
+ * Version: 1.5
  * License: GPL2
  */
+
 /**
  * Copyright (c) 2016 Tareq Hasan (email: info@wedevs.com). All rights reserved.
  *
@@ -43,6 +44,7 @@ class WeDevs_CPM {
 
     /**
      * @var The single instance of the class
+     *
      * @since 0.1
      */
     protected static $_instance = null;
@@ -202,9 +204,8 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-
-        $this->define( 'CPM_VERSION', '1.4.3' );
-        $this->define( 'CPM_DB_VERSION', '1.1' );
+        $this->define( 'CPM_VERSION', '1.5' );
+        $this->define( 'CPM_DB_VERSION', '1.5' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
     }
@@ -302,7 +303,7 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
-        $upload_size = intval( cpm_get_option( 'upload_limit' ) ) * 1024 * 1024;
+        $upload_size = intval( cpm_get_option( 'upload_limit' , 'cpm_general') ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-autocomplete' );
@@ -318,15 +319,16 @@ class WeDevs_CPM {
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader' ), false, true );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
+        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), '', time(), FALSE );
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
-        wp_enqueue_script( 'atwhojs', plugins_url( 'assets/js/jquery.atwho.min.js', __FILE__ ), '', false, false );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),
             'nonce'         => wp_create_nonce( 'cpm_nonce' ),
             'is_admin'      => is_admin() ? 'yes' : 'no',
             'message'       => cpm_message(),
-            'todolist_show' => cpm_get_option( 'todolist_show' ),
+            'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
+            'pluginURL' => CPM_URL ,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
@@ -345,6 +347,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
         wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+        wp_enqueue_style( 'dashicons' );
         do_action( 'cpm_admin_scripts' );
     }
 

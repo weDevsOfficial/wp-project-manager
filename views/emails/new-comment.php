@@ -39,7 +39,7 @@ switch ( $parent_post->post_type ) {
 //     '%COMMENT%'      => $data['comment_content'],
 //     '%IP%'           => get_ipaddress()
 // );
-// $message = cpm_get_content( cpm_get_option( 'new_comment_body' ) );
+// $message = cpm_get_content( cpm_get_option( 'new_comment_body', 'cpm_general ) );
 // // message
 // foreach ($template_vars as $key => $value) {
 //     $message = str_replace( $key, $value, $message );

@@ -295,8 +295,8 @@ class CPM_Ajax {
         $task_id    = sanitize_text_field( $_POST['task_id'] );
 
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
-
-            if ( cpm_get_option( 'task_start_field' ) == 'on' ) {
+            $task_start_field = cpm_get_option( 'task_start_field', 'cpm_general', 'off' );
+            if ( $task_start_field == 'on' ) {
                 update_post_meta( $_POST['task_id'], '_start', $start_date );
             }
 
@@ -1383,11 +1383,11 @@ class CPM_Ajax {
             foreach ( $lists as $list ) {
                 $data .= cpm_task_list_html( $list, $project_id );
             }
-
+            $show_todo = cpm_get_option( 'show_todo', 'cpm_general' ) ;
             echo json_encode( array(
                 'success'  => true,
                 'response' => $data,
-                'offset'   => intval( $offset + cpm_get_option( 'show_todo' ) )
+                'offset'   => intval( $offset + $show_todo )
             ) );
         }
         exit();

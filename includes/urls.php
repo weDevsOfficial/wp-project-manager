@@ -227,18 +227,20 @@ function cpm_url_single_milestone( $project_id, $milestone_id ) {
  * @return string
  */
 function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
-    $user    = get_user_by( 'id', $user_id );
-    $user_id = $user->ID;
-    $link    = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );
-    $name    = $user->display_name;
+    $user = get_user_by( 'id', $user_id );
+    if ( $user ) {
+        $user_id = $user->ID;
+        $link    = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );
+        $name    = $user->display_name;
 
-    if ( $avatar ) {
-        $name = get_avatar( $user_id, $size );
+        if ( $avatar ) {
+            $name = get_avatar( $user->user_email, $size, $user->display_name, $user->display_name, null );
+        }
+
+        $url = sprintf( '<a href="%s" title="%s">%s</a>', $link, $user->display_name, $name );
+
+        return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
     }
-
-    $url = sprintf( '<a href="%s" title="%s">%s</a>', $link, $user->display_name, $name );
-
-    return apply_filters( 'cpm_url_user', $url, $user, $link, $avatar, $size );
 }
 
 /**
@@ -310,4 +312,13 @@ function cpm_report_page_url() {
     $url = sprintf( '%s?page=cpm_reports', admin_url( 'admin.php' ) );
 
     return apply_filters( 'cpm_report_page_url', $url );
+}
+/**
+ * Advance Search page url
+ * @since 1.4.3
+ * @return type
+ */
+function cpm_report_advancesearch_url() {
+    $url = sprintf( '%s?page=cpm_reports&action=advancereport', admin_url( 'admin.php' ) );
+    return apply_filters( 'cpm_report_advancesearch_url', $url );
 }

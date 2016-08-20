@@ -21,7 +21,7 @@ $author  = wp_get_current_user();
 //     '%IP%'           => get_ipaddress()
 // );
 // $subject = apply_filters( 'new_message_sub', __('New Message', 'cpm') );
-// $message = cpm_get_content( cpm_get_option( 'new_message_body' ) );
+// $message = cpm_get_content( cpm_get_option( 'new_message_body', 'cpm_general ) );
 // // subject
 // foreach ($template_vars as $key => $value) {
 //     $subject = str_replace( $key, $value, $subject );

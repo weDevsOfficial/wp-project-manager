@@ -239,7 +239,7 @@ ul.cpm-inline-ul {
     }
 
     thead:first-child tr th,
-    thead:first-child tr td {
+        thead:first-child tr td {
         border: none;
     }
 
@@ -282,30 +282,30 @@ ul.cpm-inline-ul {
 
     // Prevent a double border
     thead:first-child tr:first-child th,
-    tbody:first-child tr:first-child th,
-    tbody:first-child tr:first-child td {
+        tbody:first-child tr:first-child th,
+        tbody:first-child tr:first-child td {
         border-top: 0;
     }
 
     // For first th or td in the first row in the first thead or tbody
     thead:first-child tr:first-child th:first-child,
-    tbody:first-child tr:first-child td:first-child {
+        tbody:first-child tr:first-child td:first-child {
         .border-radius(4px 0 0 0);
     }
 
     thead:first-child tr:first-child th:last-child,
-    tbody:first-child tr:first-child td:last-child {
+        tbody:first-child tr:first-child td:last-child {
         .border-radius(0 4px 0 0);
     }
 
     // For first th or td in the first row in the first thead or tbody
     thead:last-child tr:last-child th:first-child,
-    tbody:last-child tr:last-child td:first-child {
+        tbody:last-child tr:last-child td:first-child {
         .border-radius(0 0 0 4px);
     }
 
     thead:last-child tr:last-child th:last-child,
-    tbody:last-child tr:last-child td:last-child {
+        tbody:last-child tr:last-child td:last-child {
         .border-radius(0 0 4px 0);
     }
 }
@@ -317,9 +317,9 @@ ul.cpm-attachments {
     li {
         display: inline-block;
         border: solid 1px @gray;
-      //  .vignette-effect(5px);
+        //  .vignette-effect(5px);
         padding: 5px;
-      //  .border-radius(3px);
+        //  .border-radius(3px);
         margin: 0 15px 15px 0;
 
     }
@@ -515,7 +515,7 @@ ul.cpm-nav{
     }
 
     .ui-dialog-content {
-       // overflow: hidden !important;
+        // overflow: hidden !important;
     }
 
     .cpm-project-form {
@@ -1053,11 +1053,11 @@ ul.cpm-activity {
 /*--------------------------------------------------
 :: Comment
 -------------------------------------------------- */
- .cpm-comment-area {
+.cpm-comment-area {
     background: #fff;
     margin-top: 20px;
-     padding: 1px 15px 15px 15px;
-    }
+    padding: 1px 15px 15px 15px;
+}
 .cpm-comment-wrap {
 
     border: none;
@@ -1128,7 +1128,7 @@ ul.cpm-activity {
     }
     .cpm-comment :hover{
         .cpm-comment-action {
-             visibility: visible;
+            visibility: visible;
         }
     }
 }
@@ -1616,7 +1616,7 @@ ul.cpm-todolists {
             .cpm-assigned-user {
                 img {
                     width: 24px;
-                    height: auto;
+                    height: 24px;
                     vertical-align: middle;
                     border: 1px solid #ccc;
                     border-radius: 50%;
@@ -1651,70 +1651,70 @@ ul.cpm-todolists {
 
     }
 
-      .cpm-task-edit-form {
-            border: 1px solid #e5e5e5;
-            display: none;
-            margin-bottom: 25px;
-            margin-left: 0;
-            margin-top: 20px;
-            padding: 20px;
-            width: 40%;
-            background: #f8f8f8;
+    .cpm-task-edit-form {
+        border: 1px solid #e5e5e5;
+        display: none;
+        margin-bottom: 25px;
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 20px;
+        width: 40%;
+        background: #f8f8f8;
 
-            input[type="text"], textarea {
-                width: 98%;
+        input[type="text"], textarea {
+            width: 98%;
+        }
+
+        #task_assign_chosen {
+            width: 98% !important;
+
+            input[type="text"] {
+                height: 30px;
+                color: #9B9B9B;
+            }
+            .chosen-choices .search-choice {
+                position: relative;
+                margin: 3px 0 3px 5px;
+                padding: 3px 20px 3px 5px;
+                border: 1px solid #aaa;
+                border-radius: 3px;
+                background-color: #e4e4e4;
+                background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
+                background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+                background-clip: padding-box;
+                box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+                color: #333;
+                line-height: 13px;
+                cursor: default;
             }
 
-            #task_assign_chosen {
-                width: 98% !important;
-
-                input[type="text"] {
-                    height: 30px;
-                    color: #9B9B9B;
-                }
-                .chosen-choices .search-choice {
-                    position: relative;
-                    margin: 3px 0 3px 5px;
-                    padding: 3px 20px 3px 5px;
-                    border: 1px solid #aaa;
-                    border-radius: 3px;
-                    background-color: #e4e4e4;
-                    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-                    background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                    background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                    background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                    background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                    background-clip: padding-box;
-                    box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-                    color: #333;
-                    line-height: 13px;
-                    cursor: default;
-                }
-
-                .chosen-results li.highlighted {
-                    background-color: #3875d7;
-                    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
-                    background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                    background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                    background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                    background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
-                    color: #fff;
-                  }
-
+            .chosen-results li.highlighted {
+                background-color: #3875d7;
+                background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
+                background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
+                background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
+                color: #fff;
             }
 
-            .cpm-make-privacy {
-                margin-top: 8px;
+        }
 
-                input[type="checkbox"] {
-                    margin-left: 0;
-                }
-            }
+        .cpm-make-privacy {
+            margin-top: 8px;
 
-            .date label {
-                display: block;
+            input[type="checkbox"] {
+                margin-left: 0;
             }
         }
+
+        .date label {
+            display: block;
+        }
+    }
 
 }
 
@@ -1860,7 +1860,7 @@ ul.cpm-todolists {
 
 .cpm-progress-info .bar {
     background-color: #62c462;
-  // #gradient > .vertical(#62c462, #57a957);
+    // #gradient > .vertical(#62c462, #57a957);
 }
 
 ul.cpm-links {
@@ -2008,48 +2008,48 @@ ul.cpm-files {
 .cpm-user-task {
 
     .cpm-list-header h3 {
-                color: #0074A2;;
-            }
-            .cpm-todo-content a {
-                color: #333333;
-                text-decoration: none;
-                font-family: "helvetica neue",helvetica,arial,sans-serif;
-                font-size: 14px;
-            }
+        color: #0074A2;;
+    }
+    .cpm-todo-content a {
+        color: #333333;
+        text-decoration: none;
+        font-family: "helvetica neue",helvetica,arial,sans-serif;
+        font-size: 14px;
+    }
 
-            .cpm-todo-content a:hover {
-                color: #21759b;
-                text-decoration: underline;
-            }
+    .cpm-todo-content a:hover {
+        color: #21759b;
+        text-decoration: underline;
+    }
 
-            .cpm-comment-count {
-                background: none repeat scroll 0 0 #E2E9F8;
-                border-radius: 3px;
-                font-size: 12px;
-                line-height: 12px;
-                margin-right: 5px;
-                padding: 1px 7px;
-            }
-            .cpm-assign-by {
-                background: none repeat scroll 0 0 #DDDDDD;
-                border-radius: 3px;
-                color: #999999;
-                font-size: 12px;
-                line-height: 12px;
-                margin-right: 5px;
-                padding: 1px 7px;
-            }
-            .cpm-completed-by {
-                color: #999999;
-                a {
-                    text-decoration: none;
-                }
-            }
-            .cpm-user-todo-completed .cpm-todo-text {
-                color: #999999;
-                font-size: 11px;
-                line-height: 14px;
-            }
+    .cpm-comment-count {
+        background: none repeat scroll 0 0 #E2E9F8;
+        border-radius: 3px;
+        font-size: 12px;
+        line-height: 12px;
+        margin-right: 5px;
+        padding: 1px 7px;
+    }
+    .cpm-assign-by {
+        background: none repeat scroll 0 0 #DDDDDD;
+        border-radius: 3px;
+        color: #999999;
+        font-size: 12px;
+        line-height: 12px;
+        margin-right: 5px;
+        padding: 1px 7px;
+    }
+    .cpm-completed-by {
+        color: #999999;
+        a {
+            text-decoration: none;
+        }
+    }
+    .cpm-user-todo-completed .cpm-todo-text {
+        color: #999999;
+        font-size: 11px;
+        line-height: 14px;
+    }
 }
 
 #cpm-create-user-wrap {
@@ -2133,17 +2133,17 @@ ul.cpm-files {
 .cpm-calendar {
     position: relative;
     a.cpm-expire-task {
-        background-color: #B06565 !important;
+        background-color:#F29B27 !important;
 
     }
     a.cpm-task-running {
-        background-color: #CDD372 !important;
+        background-color: #0090D9 !important;
         //color: #292929;
     }
 
     a.cpm-complete-task {
         text-decoration: line-through;
-        background-color: #0C677E !important;
+        background-color: #85BE33 !important;
         //color: #0C677E !important;
     }
 
@@ -2166,103 +2166,6 @@ ul.cpm-files {
 
 }
 
-#cpm-report {
-    margin-top: 15px;
-    h3 {
-        margin: 0;
-    }
-    .cpm-report-content {
-        .button {
-            margin-top: 1px;
-        }
-        .cpm-field, .cpm-report-more {
-            margin-left: 10px;
-        }
-    }
-    .cpm-form-title {
-        border-bottom: 1px solid #eee;
-        padding: 8px 12px;
-        margin-bottom: 14px;
-    }
-    .cpm-projects-dropdown {
-        margin-left: 10px;
-        margin-top: -4px;
-    }
-    .cpm-projects-from, .cpm-projects-to {
-        margin-left: 6px;
-    }
-    .cpm-report-more {
-        margin-left: 5px;
-    }
-    .cpm-action-parent {
-        width: 100%;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-
-    .cpm-report-action-wrap {
-        .cpm-report-lebel, .cpm-report-projects-wrap, .cpm-report-co-worker-wrap, .cpm-report-status-wrap, .cpm-report-time-wrap {
-            float: left;
-            //padding-left: 10px;
-        }
-        input[type="text"], select {
-            width: 160px;
-        }
-    }
-    .cpm-report-button-wrap {
-        margin-top: 10px;
-    }
-    select {
-        width: 160px;
-    }
-    label {
-        strong {
-            width: 100px;
-        }
-    }
-    .cpm-postbox-wrap {
-        padding: 0px 20px 20px 13px;
-        .cpm-label-title {
-            width: 100px;
-        }
-        .cpm-label-title, .cpm-field {
-            float: left;
-        }
-    }
-    .cpm-reoprt-individul-table-wrap {
-        margin-bottom: 30px;
-        padding: 20px !important;
-        th, td {
-            width: 20%;
-        }
-        .cpm-list-title {
-            margin: 20px 0;
-            width: 100%;
-            display: inline-block;
-        }
-        .cpm-project-title {
-            padding-left: 10px;
-            padding: 0 10px;
-        }
-        .cpm-project-title, .cpm-interval-title {
-            margin-bottom: 10px;
-        }
-        .cpm-interval-title {
-            padding-right: 10px;
-            border-right: 1px solid #939393;
-        }
-        .cpm-project-title, .cpm-interval-title {
-            float: left;
-        }
-        .cpm-reoprt-table-header {
-            margin-bottom: 20px;
-        }
-        .cpm-project-title-not-interval {
-            margin-bottom: 4px;
-        }
-    }
-
-}
 #cpm-progress-wrap {
     ul.cpm-activity ul li::before {
         content: '';
@@ -2356,8 +2259,8 @@ ul.cpm-files {
     }
 
     a:active,
-    a:hover,
-    a:focus {
+        a:hover,
+        a:focus {
         text-decoration: none  ;
         outline: 0;
         -moz-outline-style: none;
@@ -2631,7 +2534,7 @@ ul.cpm-files {
 
     .notify-users {
         .cpm-small-title {
-          margin-left: 10px;
+            margin-left: 10px;
         }
 
         .cpm-user-list{
@@ -2686,10 +2589,10 @@ ul.cpm-files {
             margin-top:12px;
             padding-left: 10px;
             input{
-              /*  _m1992
-              10777
-                585*/
-              margin-right: 20px;
+                /*  _m1992
+                10777
+                  585*/
+                margin-right: 20px;
             }
             .cpm-btn-blue {
                 .cercale-corners;
@@ -2988,7 +2891,7 @@ ul.cpm-files {
     }
 
     li.files {
-       background-image:  url('../images/docs.png')    ;
+        background-image:  url('../images/docs.png')    ;
     }
 
     li.milestone {
@@ -3115,24 +3018,24 @@ ul.cpm-files {
             height: auto ;
         }
         .cpm-project-meta {
-                padding: @defaultPadding;
+            padding: @defaultPadding;
 
-                ul {
-                    padding: 0px;
-                    margin: 0px;
-                    margin-left: 5px;
-                    margin-bottom: 50px;
+            ul {
+                padding: 0px;
+                margin: 0px;
+                margin-left: 5px;
+                margin-bottom: 50px;
 
-                    li {
-                        float: none !important;
-                        width: 100%  !important;
-                        list-style: none;
-                        padding-left:  25px;
-                        font-size: @defaultFontSize;
-                        color: #888888;
-                        line-height: auto !important;
-                    }
+                li {
+                    float: none !important;
+                    width: 100%  !important;
+                    list-style: none;
+                    padding-left:  25px;
+                    font-size: @defaultFontSize;
+                    color: #888888;
+                    line-height: auto !important;
                 }
+            }
         }
     }
 
@@ -3226,7 +3129,7 @@ ul.cpm-files {
                 }
 
                 .to-do-list{
-                   background-image: url('../images/todo.svg');
+                    background-image: url('../images/todo.svg');
                 }
                 .to-do-list:hover,
                     a.to-do-list.active {
@@ -3253,7 +3156,7 @@ ul.cpm-files {
 
 
                 a:hover,
-                .active {
+                    .active {
                     border-bottom: solid 2px  @blueColor ;
                     color: #000000;
 
@@ -3447,9 +3350,9 @@ ul.cpm-files {
         }
     }
 
-   /**
-    * Activity Page
-    */
+    /**
+     * Activity Page
+     */
     .cpm-activity-list {
         padding: 0px;
         margin: 0px;
@@ -3719,30 +3622,30 @@ ul.cpm-files {
                 }
             }
         }
-            .sticky_list{
-                .cpm-todolist{
-
-                }
-
-                .cpm-list-header {
-
-                }
-
-                .cpm-pin-list a{
-                    visibility: visible  !important;
-                }
-                span {
-                        color: @blueColor !important;
-                }
+        .sticky_list{
+            .cpm-todolist{
 
             }
+
+            .cpm-list-header {
+
+            }
+
+            .cpm-pin-list a{
+                visibility: visible  !important;
+            }
+            span {
+                color: @blueColor !important;
+            }
+
+        }
 
     }
 
     /** Discussion Page **/
-     .cpm-new-message-btn {
-            margin : 0px 0px 20px;
-        }
+    .cpm-new-message-btn {
+        margin : 0px 0px 20px;
+    }
 
     .cpm-message-page {
         width : auto ;
@@ -3806,15 +3709,15 @@ ul.cpm-files {
                 }
 
                 .comment-count {
-                  background-image:  url('../images/comment_blue.svg');
-                  background-repeat: no-repeat;
-                  background-position: 0% 65%;
-                  background-size: 20px;
-                  min-height: 30px;
-                  padding-left: 28px;
-                  padding-top: 5px;
+                    background-image:  url('../images/comment_blue.svg');
+                    background-repeat: no-repeat;
+                    background-position: 0% 65%;
+                    background-size: 20px;
+                    min-height: 30px;
+                    padding-left: 28px;
+                    padding-top: 5px;
 
-                  color: @blueColor;
+                    color: @blueColor;
                 }
             }
 
@@ -3873,41 +3776,41 @@ ul.cpm-files {
 
     }
 
-  .cpm-comment{
-                background: #fff;
-                margin-bottom: 10px;
-                display: block;
-                border: @gray solid 1px;
-                padding: 10px;
-                min-height: 50px;
+    .cpm-comment{
+        background: #fff;
+        margin-bottom: 10px;
+        display: block;
+        border: @gray solid 1px;
+        padding: 10px;
+        min-height: 50px;
 
-                .cpm-comment-action {
-                    position: absolute;
-                    visibility: hidden;
-                    text-align: right;
-                    right: 10px;
-                    top : 10px ;
-                    span{
-                        margin:  0 4px;
-                    }
-
-                    .cpm-edit-comment-link {
-                    }
-
-                    .cpm-delete-comment-link {
-
-
-                    }
-                }
+        .cpm-comment-action {
+            position: absolute;
+            visibility: hidden;
+            text-align: right;
+            right: 10px;
+            top : 10px ;
+            span{
+                margin:  0 4px;
             }
+
+            .cpm-edit-comment-link {
+            }
+
+            .cpm-delete-comment-link {
+
+
+            }
+        }
+    }
 
 
     /** CSS for Milestone Page **/
     #cpm-milestone-page{
 
         .cpm-milestone-form-wrap{
-         width: auto;
-         margin-left: 0px;
+            width: auto;
+            margin-left: 0px;
 
         }
         .cpm-milestone-link{
@@ -3934,14 +3837,14 @@ ul.cpm-files {
                     margin-top: -10px;
                 }
                 .cpm-plus-white:hover
-                {
+                    {
                     border: none;
 
                 }
 
             }
             li a:hover,
-            li.active a{
+                li.active a{
                 border-bottom: #F46720 solid 2px ;
             }
         }
@@ -4059,14 +3962,14 @@ ul.cpm-files {
                         border: solid 1px @gray;
 
                         h3{
-                          margin: 0px;
-                          padding: 15px 15px;
-                          margin-bottom: 5px;
+                            margin: 0px;
+                            padding: 15px 15px;
+                            margin-bottom: 5px;
                         }
 
                         ul{
-                           padding :0px;
-                           margin :0px;
+                            padding :0px;
+                            margin :0px;
 
                             li{
                                 border-bottom: solid 1px @gray;
@@ -4079,12 +3982,12 @@ ul.cpm-files {
                         }
                     }
                     img.avatar{
-                            border-radius: 15px;
-                            border: solid 1px @gray;
-                            vertical-align: top;
-                            margin-right: 5px;
+                        border-radius: 15px;
+                        border: solid 1px @gray;
+                        vertical-align: top;
+                        margin-right: 5px;
 
-                        }
+                    }
                 }
             }
             .cpm-milestone-completed{
@@ -4108,60 +4011,60 @@ ul.cpm-files {
                 padding : 0px;
                 margin : 0px;
             }
-                li{
-                    background: #fff;
-                    margin-right: 30px;
-                    margin-bottom: 12px;
-                    border: none;
-                    img{
-                        height: 150px;
-                    }
-                    .cpm-file-name,
-                    .cpm-file-meta{
-                        padding-left: 20px;
-                    }
-                    .cpm-file-action{
-                        margin-top: 5px;
-                        border-top: #F4F4F4 solid 1px;
-                        background: #FCFCFC;
-                        padding: 10px 5px 0px;
+            li{
+                background: #fff;
+                margin-right: 30px;
+                margin-bottom: 12px;
+                border: none;
+                img{
+                    height: 150px;
+                }
+                .cpm-file-name,
+                .cpm-file-meta{
+                    padding-left: 20px;
+                }
+                .cpm-file-action{
+                    margin-top: 5px;
+                    border-top: #F4F4F4 solid 1px;
+                    background: #FCFCFC;
+                    padding: 10px 5px 0px;
 
-                        ul{
-                            margin: 0px;
-                            padding: 0px;
-                            text-align:center;
-                            li{
-                                background: none;
-                            }
-                            a{
-                                padding: 10px 10px;
-                                background-size: 20px !important;
+                    ul{
+                        margin: 0px;
+                        padding: 0px;
+                        text-align:center;
+                        li{
+                            background: none;
+                        }
+                        a{
+                            padding: 10px 10px;
+                            background-size: 20px !important;
 
-                            }
-                            .cpm-comment-count{
-                                    font-size: small;
-                                    padding: 0px 6px;
-                                    margin-top: -15px;
-                                    border-radius: 10px;
-                                    position: absolute;
-                                    top : 0px;
-                                }
+                        }
+                        .cpm-comment-count{
+                            font-size: small;
+                            padding: 0px 6px;
+                            margin-top: -15px;
+                            border-radius: 10px;
+                            position: absolute;
+                            top : 0px;
+                        }
 
-                            .cpm-go-discussion a{
-                                background :  url('../images/attach.svg') no-repeat  center center ;
-                            }
-                            .cpm-comments-count span{
-                                background :  url('../images/discussion.svg') no-repeat center center ;
-                                padding: 15px;
-                                background-size: 30px;
-                            }
-                            .cpm-download-file a{
-                                background :  url('../images/download.svg') no-repeat  center center ;
+                        .cpm-go-discussion a{
+                            background :  url('../images/attach.svg') no-repeat  center center ;
+                        }
+                        .cpm-comments-count span{
+                            background :  url('../images/discussion.svg') no-repeat center center ;
+                            padding: 15px;
+                            background-size: 30px;
+                        }
+                        .cpm-download-file a{
+                            background :  url('../images/download.svg') no-repeat  center center ;
 
-                            }
                         }
                     }
                 }
+            }
 
 
 
@@ -4169,8 +4072,8 @@ ul.cpm-files {
     }
 
     .chosen-drop ul li {
-            float: none !important ;
-        }
+        float: none !important ;
+    }
 
     .cpm-single-project-search-wrap {
         margin-right: 25px;
@@ -4349,115 +4252,319 @@ ul.cpm-files {
     }
 
 
+    /** For Modal **/
+    .modal-mask {
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
 
-      /*for lazy loding align-content: */
-/* Every thing below this is just positioning */
-.cpm-blank-loading {
-    .timeline-item {
-        background: #fff;
-        padding: 12px;
-        margin: 0 auto;
+    .modal-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .modal-container {
+        width: 450px;
+        margin: 0px auto;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+        transition: all .3s ease;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .modal-header{
+        margin-bottom: 5px;
+        border-bottom: #e5e9eb solid 1px;
+
+        h3 {
+            margin: 0;
+            padding: 0;
+            color: #095c91;
+            padding: 15px 30px 10px;
+        }
+        .close-vue-modal{
+            a{
+                display: block;
+                width: 20px;
+                background: '';
+                border: none;
+                border-left: 1px solid #ddd;
+                color: #444;
+                text-align: center;
+                padding: 15px 10px 10px;
+                font-size: 110%;
+                cursor: pointer;
+                -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+            }
+        }
+        .close-vue-modal:hover{
+            background: #eee ;
+        }
+    }
+
+    .modal-body {
+        padding:10px;
+    }
+    .modal-footer{
+        padding: 10px;
+        text-align: center;
+    }
+    .modal-default-button {
+        float: right;
+    }
+    /***Half page Modal ***/
+    .half-modal {
+        .modal-container {
+            width: 70%;
+            margin: 0 0 0 auto;
+            overflow: visible;
+            display: compact;
+            background-color: #fff000;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+            transition: all .3s ease;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+         .close-vue-modal{
+                margin-left: -40px;
+                margin-top: 20px;
+                float: left;
+                a{
+                    display: block;
+                    width: 20px;
+                    background: #000 ;
+                    border: none;
+                    color:#fff ;
+                    text-align: center;
+                    padding: 8px 10px 10px;
+                    font-size: 110%;
+                    cursor: pointer;
+                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    -webkit-box-sizing: content-box;
+                    -moz-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
+
+            }
+
+            .edit-vue-modal{
+                a{
+                    display: block;
+                    width: 50px;
+                    background: '';
+                    border: none;
+                    border-left: 1px solid #ddd;
+                    color: #444;
+                    text-align: center;
+                    padding: 8px 10px 10px;
+                    font-size: 110%;
+                    cursor: pointer;
+                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    -webkit-box-sizing: content-box;
+                    -moz-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
+            }
+            .edit-vue-modal:hover{
+                background: #eee ;
+            }
+
+        .modal-header{
+            h3 {
+                padding-bottom: 2px;
+            }
+
+        }
+        .sub-title{
+
+        }
+        .modal-body{
+
+        }
+        .cpm-modal-conetnt{
+            overflow: auto;
+            height:99vh;
+
+        }
 
     }
 
-    @keyframes placeHolderShimmer{
-        0%{
-            background-position: -468px 0
-        }
-        100%{
-            background-position: 468px 0
-        }
+    /*
+     * for v-modla transection
+     */
+
+    .modal-enter, .modal-leave {
+        opacity: 0;
     }
 
-    .animated-background {
-        background:#fff ;
+    .modal-enter .modal-container,
+    .modal-leave .modal-container {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
 
-        .background-masker{
-            min-height: 25px;
-            padding: 8px;
-            background: linear-gradient(to right, #fff 8%, #eee 18%, #fff 33%);
-            margin-bottom: 5px;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-            animation-iteration-count: infinite;
-            animation-name: placeHolderShimmer;
-            animation-timing-function: linear;
 
-            .comment_image {
-                  background :  url('../images/comment_gray.svg') no-repeat left ;
-                  padding-left: 15px;
+    /*for lazy loding align-content: */
+    /* Every thing below this is just positioning */
+    .cpm-blank-loading {
+        .timeline-item {
+            background: #fff;
+            padding: 12px;
+            margin: 0 auto;
+
+        }
+
+        @keyframes placeHolderShimmer{
+            0%{
+                background-position: -468px 0
+            }
+            100%{
+                background-position: 468px 0
+            }
+        }
+
+        .animated-background {
+            background:#fff ;
+
+            .background-masker{
+                min-height: 25px;
+                padding: 8px;
+                background: linear-gradient(to right, #fff 8%, #eee 18%, #fff 33%);
+                margin-bottom: 5px;
+                animation-duration: 1s;
+                animation-fill-mode: forwards;
+                animation-iteration-count: infinite;
+                animation-name: placeHolderShimmer;
+                animation-timing-function: linear;
+
+                .comment_image {
+                    background :  url('../images/comment_gray.svg') no-repeat left ;
+                    padding-left: 15px;
+                }
             }
         }
     }
-}
 
 
 
-.loadanimation{
-    background: url('../images/more-loading.gif') no-repeat center center ;
-    min-height: 70px;
-    width:100%;
-    text-align: center;
-}
-.loadmoreanimation{
-    display: none;
-    .load-spinner {
-      margin: 10px auto;
-      width: 50px;
-      height: 40px;
-      text-align: center;
-      font-size: 10px;
 
-        .rect2 {
-        -webkit-animation-delay: -1.1s;
-        animation-delay: -1.1s;
+    .loadanimation{
+        background: url('../images/more-loading.gif') no-repeat center center ;
+        min-height: 70px;
+        width:100%;
+        text-align: center;
+    }
+    .loadmoreanimation{
+        display: none;
+        .load-spinner {
+            margin: 10px auto;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+
+            .rect2 {
+                -webkit-animation-delay: -1.1s;
+                animation-delay: -1.1s;
+            }
+
+            .rect3 {
+                -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s;
+            }
+
+            .rect4 {
+                -webkit-animation-delay: -0.9s;
+                animation-delay: -0.9s;
+            }
+
+            .rect5 {
+                -webkit-animation-delay: -0.8s;
+                animation-delay: -0.8s;
+            }
         }
 
-        .rect3 {
-          -webkit-animation-delay: -1.0s;
-          animation-delay: -1.0s;
+        .load-spinner > div {
+            background-color: #ccc;
+            height: 100%;
+            width: 6px;
+            display: inline-block;
+
+            -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+            animation: sk-stretchdelay 1.2s infinite ease-in-out;
         }
 
-        .rect4 {
-          -webkit-animation-delay: -0.9s;
-          animation-delay: -0.9s;
+
+        @-webkit-keyframes sk-stretchdelay {
+            0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+            20% { -webkit-transform: scaleY(1.0) }
         }
 
-        .rect5 {
-          -webkit-animation-delay: -0.8s;
-          animation-delay: -0.8s;
+        @keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }  20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
         }
     }
 
-    .load-spinner > div {
-      background-color: #ccc;
-      height: 100%;
-      width: 6px;
-      display: inline-block;
+    /**End Loading **/
 
-      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-      animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    /*Animation for vue */
+    .animated {
+        display: inline-block;
     }
 
-
-    @-webkit-keyframes sk-stretchdelay {
-      0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-      20% { -webkit-transform: scaleY(1.0) }
+    .animated.v-enter {
+        animation: fadein .5s;
     }
 
-    @keyframes sk-stretchdelay {
-      0%, 40%, 100% {
-        transform: scaleY(0.4);
-        -webkit-transform: scaleY(0.4);
-      }  20% {
-        transform: scaleY(1.0);
-        -webkit-transform: scaleY(1.0);
-      }
+    .animated.v-leave {
+        animation: fadeout .5s;
     }
-}
 
-/**End Loading **/
+    @keyframes fadein {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 
-/** End Files **/
+    @keyframes fadeout {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(0);
+        }
+    }
+
+    /** End Files **/
     @import "responsive.less";
 }
