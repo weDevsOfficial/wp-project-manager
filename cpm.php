@@ -1,14 +1,14 @@
 <?php
-
 /**
  * Plugin Name: WP Project Manager
  * Plugin URI: https://wordpress.org/plugins/wedevs-project-manager/
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.4.3
+ * Version: 1.5
  * License: GPL2
  */
+
 /**
  * Copyright (c) 2016 Tareq Hasan (email: info@wedevs.com). All rights reserved.
  *
@@ -44,6 +44,7 @@ class WeDevs_CPM {
 
     /**
      * @var The single instance of the class
+     *
      * @since 0.1
      */
     protected static $_instance = null;
@@ -203,8 +204,8 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-        $this->define( 'CPM_VERSION', '1.4.4' );
-        $this->define( 'CPM_DB_VERSION', '1.1' );
+        $this->define( 'CPM_VERSION', '1.5' );
+        $this->define( 'CPM_DB_VERSION', '1.5' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
     }
