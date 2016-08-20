@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.5.2
+Tested up to: 4.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -115,13 +115,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= 1.4.4 - August 3, 2016 =
+= 1.5 - August 20, 2016 =
 
- * [new] Report section new design.
- * [new] New Report item added.
- * [new] Files tab new design and add new feature in pro version.
- * [new] Add option for create document and connect to other online Docs.
- * [new] Add option to upload files / attachment direct to a project.
+ * [new] Report section new design (*pro*).
+ * [new] New Report item added (*pro*).
+ * [new] Files tab new design and add new feature in pro version (*pro*).
+ * [new] Add option for create document and connect to other online Docs (*pro*).
+ * [new] Add option to upload files / attachment direct to a project (*pro*).
  * [fix] Duplicate mail send on project create.
  * [fix] Change cpm_get_option function.
 
