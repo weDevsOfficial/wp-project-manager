@@ -108,7 +108,7 @@ class CPM_Project {
      */
     function create( $project_id = 0, $posted = array() ) {
 
-        echo $is_update = ( $project_id ) ? true : false;
+        $is_update = ( $project_id ) ? true : false;
 
         $data = array(
             'post_title'   => $posted['project_name'],
