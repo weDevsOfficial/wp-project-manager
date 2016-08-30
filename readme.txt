@@ -115,6 +115,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.5.1 - August 30, 2016 =
+
+ * [fix] Fixed Project creation capability and update language files.
+ * [fix] Make Report print friendly. 
+ * [fix] Files tab loading improve. 
+ * [fix] Show all comments in newly uploaded file view. 
+
 = 1.5 - August 20, 2016 =
 
  * [new] Report section new design (*pro*).
