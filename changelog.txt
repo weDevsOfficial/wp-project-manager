@@ -1,9 +1,9 @@
 = 1.5.1 - August 31, 2016 =
  * [fix] Fixed Project creation capability and update language files.
  * [fix] Make Report print friendly. 
- * [fix] Files tab loading improve. 
+ * [fix] Files tab loading improvement. 
  * [fix] Show all comments in newly uploaded file view. 
- * [fix] Client view privet discussion. 
+ * [fix] Client view private discussion. 
 
 = 1.5 - August 20, 2016 =
 
