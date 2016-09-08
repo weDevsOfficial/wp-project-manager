@@ -3,7 +3,7 @@
 /**
  * Project manager - pro API
  */
-class CPM_API {
+class CPM_API extends WP_REST_Posts_Controller {
 
     /**
      * API authenticate user
@@ -43,17 +43,17 @@ class CPM_API {
         add_action( 'edit_user_profile_update', array( $this, 'generate_api_key' ) );
 
         //for master
-        add_filter( 'json_authentication_errors', array( $this, 'check_authentication' ) );
+        //add_filter( 'json_authentication_errors', array( $this, 'check_authentication' ) );
         //for develop
         add_filter( 'rest_authentication_errors', array( $this, 'check_authentication' ) );
 
         //for master
-        add_filter( 'json_url_prefix', array( $this, 'url_prefix' ) );
+        //add_filter( 'json_url_prefix', array( $this, 'url_prefix' ) );
         //for develop
         add_filter( 'rest_url_prefix', array( $this, 'url_prefix' ) );
 
         //for master
-        add_action( 'wp_json_server_before_serve', array( $this, 'output' ), 10, 1 );
+       // add_action( 'wp_json_server_before_serve', array( $this, 'output' ), 10, 1 );
         //for develop
         add_action( 'rest_api_init', array( $this, 'output' ), 10, 1 );
     }
@@ -69,9 +69,10 @@ class CPM_API {
         CPM_Router::api_content();
 
         // Projects.
-        $wp_json_posts = new CPM_JSON_Projects( $server );
-        add_filter( 'json_endpoints', array( $wp_json_posts, 'register_routes' ), 0 );
-        add_filter( 'json_prepare_taxonomy', array( $wp_json_posts, 'add_post_type_data' ), 10, 3 );
+        $wp_json_posts = new CPM_JSON_Projects( );
+        $wp_json_posts->register_routes() ;
+
+       // add_filter( 'json_prepare_taxonomy', array( $wp_json_posts, 'add_post_type_data' ), 10, 3 );
 
         //Task lists
         $wp_json_posts = new CPM_JSON_Lists( $server );
@@ -127,7 +128,7 @@ class CPM_API {
         }
 
         $current_user     = $this->oauth_user = $key;
-
+        
         return $authentication;
     }
 
@@ -176,7 +177,8 @@ class CPM_API {
      * @since 1.2
      */
     function url_prefix( $prefix ) {
-        return 'cpm-json';
+       // $prefix =  'cpm-json';
+      return $prefix ;
     }
 
     /**

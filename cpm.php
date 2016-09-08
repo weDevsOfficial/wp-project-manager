@@ -242,9 +242,9 @@ class WeDevs_CPM {
         $this->notification    = CPM_Notification::getInstance();
         $this->managetransient = CPM_Managetransient::getInstance();
 
-        if ( function_exists( 'json_api_init' ) ) {
-            $this->api = CPM_API::instance();
-        }
+
+        $this->api = CPM_API::instance();
+
 
         // instantiate admin settings only on admin page
         if ( is_admin() ) {

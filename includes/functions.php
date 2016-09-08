@@ -913,7 +913,7 @@ function cpm_can_create_projects( $user_id = 0 ) {
     $loggedin_user_role       = array_flip( $user->roles );
     $manage_cap_option      = cpm_get_option( 'project_create_role', 'cpm_general' , array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-    
+
     //checking project create capability
     if ( $project_ceate_capability ) {
         return true;

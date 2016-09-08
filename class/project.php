@@ -364,14 +364,14 @@ class CPM_Project {
     }
 
     function get_project_where_user_role( $where, &$wp_query, $user_id = 0 ) {
-        global $wp_query, $wpdb;
+        global $wp_query, $wpdb, $current_user;
 
         $table = $wpdb->prefix . 'cpm_user_role';
 
         if ( absint( $user_id ) )
             $user_id = $user_id;
         else
-            $user_id = get_current_user_id();
+            $user_id = $current_user->ID;
 
         $project_where = " AND $table.user_id = $user_id";
         $where .= apply_filters( 'cpm_get_projects_where', $project_where, $table, $where, $wp_query, $user_id );
