@@ -6,7 +6,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.5
+ * Version: 1.5.1
  * License: GPL2
  */
 /**
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-        $this->define( 'CPM_VERSION', '1.5' );
+        $this->define( 'CPM_VERSION', '1.5.1' );
         $this->define( 'CPM_DB_VERSION', '1.5' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
