@@ -873,7 +873,7 @@ function cpm_can_manage_projects( $user_id = 0 ) {
 
 
     $loggedin_user_role  = array_flip( $user->roles );
-    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator' ) );
+    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
     $manage_cap_option  = $opt;
     $manage_capability  = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
 
@@ -911,9 +911,9 @@ function cpm_can_create_projects( $user_id = 0 ) {
     }
 
     $loggedin_user_role       = array_flip( $user->roles );
-    $manage_cap_option[]      = cpm_get_option( 'project_create_role', 'cpm_general' );
+    $manage_cap_option      = cpm_get_option( 'project_create_role', 'cpm_general' , array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-
+    
     //checking project create capability
     if ( $project_ceate_capability ) {
         return true;
@@ -1151,13 +1151,13 @@ function cpm_is_project_archived( $project_id ) {
     return false;
 }
 
-function cpm_assigned_user( $users, $render = true, $avatar = true ) {
+function cpm_assigned_user( $users, $render = true, $avatar = true, $separator = '' ) {
 
     $html = "";
     if ( is_array( $users ) ) {
         $sl = 0 ;
         foreach ( $users as $user_id ) {
-            $html .= ($sl > 0) ? ", " : " ";
+            $html .= ($sl > 0) ?  $separator : " ";
             $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
 
             $sl++;

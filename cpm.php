@@ -1,14 +1,14 @@
 <?php
+
 /**
  * Plugin Name: WP Project Manager
  * Plugin URI: https://wordpress.org/plugins/wedevs-project-manager/
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.5
+ * Version: 1.5.1
  * License: GPL2
  */
-
 /**
  * Copyright (c) 2016 Tareq Hasan (email: info@wedevs.com). All rights reserved.
  *
@@ -204,7 +204,7 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-        $this->define( 'CPM_VERSION', '1.5' );
+        $this->define( 'CPM_VERSION', '1.5.1' );
         $this->define( 'CPM_DB_VERSION', '1.5' );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
@@ -303,7 +303,7 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
-        $upload_size = intval( cpm_get_option( 'upload_limit' , 'cpm_general') ) * 1024 * 1024;
+        $upload_size = intval( cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-autocomplete' );
@@ -328,7 +328,7 @@ class WeDevs_CPM {
             'is_admin'      => is_admin() ? 'yes' : 'no',
             'message'       => cpm_message(),
             'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
-            'pluginURL' => CPM_URL ,
+            'pluginURL'     => CPM_URL,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',

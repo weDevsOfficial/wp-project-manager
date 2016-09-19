@@ -11,6 +11,7 @@ class CPM_Notification {
         add_action( 'cpm_project_update', array( $this, 'project_update' ), 10, 2 );
 
         add_action( 'cpm_comment_new', array( $this, 'new_comment' ), 10, 3 );
+        add_action( 'cpm_comment_update', array( $this, 'update_comment' ), 10, 3 );
         add_action( 'cpm_message_new', array( $this, 'new_message' ), 10, 2 );
 
         add_action( 'cpm_task_new', array( $this, 'new_task' ), 10, 3 );
@@ -290,6 +291,42 @@ class CPM_Notification {
 
         if ( $message ) {
             $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
+        }
+    }
+
+    /**
+     * Send email to all about a  comment Update
+     * @since 1.5.1
+     * @param int $comment_id
+     * @param array $comment_info the post data
+     */
+    function update_comment( $comment_id, $project_id, $data ) {
+
+        $users = $this->prepare_contacts();
+        if ( ! $users ) {
+            return;
+        }
+
+        $this->check_email_url();
+        $file_name   = 'emails/update-comment.php';
+        $parent_post = get_comment( $comment_id );
+        $subject     = sprintf( __( '[%s][%s] Uudate Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
+        }
+        ob_start();
+        $arg     = array(
+            'project_id' => $project_id,
+            'comment_id' => $comment_id,
+            'data'       => $data
+        );
+        cpm_load_template( $file_name, $arg );
+        $message = ob_get_clean();
+      
+        if ( $message ) {
+           $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
         }
     }
 

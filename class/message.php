@@ -87,6 +87,47 @@ class CPM_Message {
         return $messages;
     }
 
+    /**
+     * Get All message created User as Authore. 
+     * @since 1.5.1
+     * @global Object $current_user
+     * @param int $project_id
+     * @param int $user_id
+     * @return array
+     */
+    function get_users_all_message( $project_id, $user_id = 0 ) {
+
+        global $current_user;
+
+        if ( absint( $user_id ) ) {
+            $user_id = get_user_by( 'ID', $user_id );
+        } else {
+            $user_id = $current_user->ID;
+        }
+
+        if ( ! $user_id ) {
+            return false;
+        }
+
+        $args = array(
+            'numberposts' => -1,
+            'post_type'   => 'cpm_message',
+            'post_parent' => $project_id,
+            'author'      => $user_id,
+            'order'       => 'DESC',
+            'orderby'     => 'ID'
+        );
+
+
+        $messages = get_posts( $args );
+
+        foreach ( $messages as $message ) {
+            $this->set_message_meta( $message );
+        }
+
+        return $messages;
+    }
+
     function set_message_meta( &$message ) {
         $message->private = get_post_meta( $message->ID, '_message_privacy', true );
     }
