@@ -308,7 +308,7 @@ class CPM_Notification {
         }
 
         $this->check_email_url();
-        $file_name   = 'emails/new-comment.php';
+        $file_name   = 'emails/update-comment.php';
         $parent_post = get_comment( $comment_id );
         $subject     = sprintf( __( '[%s][%s] Uudate Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
 
@@ -324,9 +324,9 @@ class CPM_Notification {
         );
         cpm_load_template( $file_name, $arg );
         $message = ob_get_clean();
-
+      
         if ( $message ) {
-            $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
+           $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
         }
     }
 

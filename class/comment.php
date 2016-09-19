@@ -62,14 +62,12 @@ class CPM_Comment {
             'comment_ID'      => $comment_id,
             'comment_content' => $data['text']
         ) );
-
+        $parent_id = isset( $_POST['parent_id'] ) ? intval( $_POST['parent_id'] ) : 0;
         if ( isset( $_POST['cpm_attachment'] ) ) {
-            $parent_id = isset( $_POST['parent_id'] ) ? intval( $_POST['parent_id'] ) : 0;
-
             update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
             $this->associate_file( $_POST['cpm_attachment'], $parent_id, $_POST['project_id'] );
         }
-
+        $data['comment_post_ID'] =  $parent_id ; 
         do_action( 'cpm_comment_update', $comment_id, $_POST['project_id'], $data );
     }
 
