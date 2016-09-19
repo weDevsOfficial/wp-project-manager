@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 1.5\n"
+"Project-Id-Version: WP Project Manager 1.5.1\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2016-08-20 11:27:54+00:00\n"
+"POT-Creation-Date: 2016-09-19 04:41:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -277,7 +277,7 @@ msgid "Delete"
 msgstr ""
 
 #: class/ajax.php:958 includes/functions.php:238
-#: includes/pro/class/files.php:116
+#: includes/pro/class/files.php:119
 msgid "Delete File"
 msgstr ""
 
@@ -338,6 +338,7 @@ msgid "message post type"
 msgstr ""
 
 #: class/message.php:43 class/message.php:44 views/emails/new-comment.php:14
+#: views/emails/update-comment.php:14
 msgid "Message"
 msgstr ""
 
@@ -350,7 +351,7 @@ msgid "Add New Message"
 msgstr ""
 
 #: class/message.php:47 class/milestone.php:42 class/project.php:51
-#: class/task.php:48 class/task.php:82 includes/pro/class/files.php:73
+#: class/task.php:48 class/task.php:82 includes/pro/class/files.php:76
 #: views/project/header.php:24
 msgid "Edit"
 msgstr ""
@@ -426,27 +427,31 @@ msgstr ""
 msgid "Parent Milestone"
 msgstr ""
 
-#: class/notification.php:103
+#: class/notification.php:104
 msgid "[%s] New Project Invitation: %s"
 msgstr ""
 
-#: class/notification.php:167
+#: class/notification.php:168
 msgid "[%s] Updated Project Invitation: %s"
 msgstr ""
 
-#: class/notification.php:209
+#: class/notification.php:210
 msgid "[%s][%s] Task Completed: %s"
 msgstr ""
 
-#: class/notification.php:241
+#: class/notification.php:242
 msgid "[%s][%s] New Message: %s"
 msgstr ""
 
-#: class/notification.php:276
+#: class/notification.php:277
 msgid "[%s][%s] New Comment on: %s"
 msgstr ""
 
-#: class/notification.php:318
+#: class/notification.php:313
+msgid "[%s][%s] Uudate Comment on: %s"
+msgstr ""
+
+#: class/notification.php:355
 msgid "[%s][%s] New Task Assigned: %s"
 msgstr ""
 
@@ -565,6 +570,7 @@ msgstr ""
 
 #: class/task.php:27 class/task.php:28 class/task.php:43 class/task.php:44
 #: class/task.php:45 includes/html.php:1566 views/emails/new-comment.php:21
+#: views/emails/update-comment.php:21
 msgid "Task List"
 msgstr ""
 
@@ -609,6 +615,7 @@ msgstr ""
 #: includes/pro/class/report.php:848 includes/pro/views/report/index.php:95
 #: includes/pro/views/report/table.php:123
 #: includes/pro/views/report/table.php:205 views/emails/new-comment.php:26
+#: views/emails/update-comment.php:26
 msgid "Task"
 msgstr ""
 
@@ -701,7 +708,7 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:364 includes/html.php:1447 includes/pro/loader.php:485
+#: cpm.php:364 includes/html.php:1447 includes/pro/loader.php:479
 msgid "Projects"
 msgstr ""
 
@@ -973,22 +980,22 @@ msgstr ""
 msgid "Sorry! you do not have permission to edit this task"
 msgstr ""
 
-#: includes/free/loader.php:16 includes/pro/loader.php:426
-#: includes/pro/loader.php:434 includes/pro/loader.php:501
+#: includes/free/loader.php:16 includes/pro/loader.php:420
+#: includes/pro/loader.php:428 includes/pro/loader.php:495
 #: includes/pro/views/task/my-task.php:19
 msgid "My Tasks"
 msgstr ""
 
 #: includes/free/loader.php:17 includes/pro/frontend/frontend.php:60
-#: includes/pro/loader.php:435 includes/pro/views/calendar/index.php:2
+#: includes/pro/loader.php:429 includes/pro/views/calendar/index.php:2
 msgid "Calendar"
 msgstr ""
 
-#: includes/free/loader.php:18 includes/pro/loader.php:439
+#: includes/free/loader.php:18 includes/pro/loader.php:433
 msgid "Reports"
 msgstr ""
 
-#: includes/free/loader.php:19 includes/pro/loader.php:442
+#: includes/free/loader.php:19 includes/pro/loader.php:436
 #: includes/pro/views/progress/progress.php:8
 msgid "Progress"
 msgstr ""
@@ -1038,15 +1045,15 @@ msgstr ""
 msgid "Select User"
 msgstr ""
 
-#: includes/functions.php:248 includes/pro/class/files.php:117
+#: includes/functions.php:248 includes/pro/class/files.php:120
 msgid "To attach"
 msgstr ""
 
-#: includes/functions.php:248 includes/pro/class/files.php:118
+#: includes/functions.php:248 includes/pro/class/files.php:121
 msgid "select files"
 msgstr ""
 
-#: includes/functions.php:248 includes/pro/class/files.php:119
+#: includes/functions.php:248 includes/pro/class/files.php:122
 msgid "from your computer"
 msgstr ""
 
@@ -1246,8 +1253,8 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: includes/html.php:529 includes/pro/class/files.php:127
-#: views/emails/new-comment.php:65
+#: includes/html.php:529 includes/pro/class/files.php:130
+#: views/emails/new-comment.php:65 views/emails/update-comment.php:51
 msgid "On"
 msgstr ""
 
@@ -1424,7 +1431,7 @@ msgstr ""
 msgid "Employee New Task"
 msgstr ""
 
-#: includes/integrations/erp/cpm-erp.php:143 includes/pro/class/files.php:112
+#: includes/integrations/erp/cpm-erp.php:143 includes/pro/class/files.php:115
 msgid "Submit"
 msgstr ""
 
@@ -1460,9 +1467,9 @@ msgstr ""
 msgid "Task Content"
 msgstr ""
 
-#: includes/integrations/erp/views/task-form.php:81 includes/pro/loader.php:333
-#: includes/pro/loader.php:352 includes/pro/loader.php:370
-#: includes/pro/loader.php:389
+#: includes/integrations/erp/views/task-form.php:81 includes/pro/loader.php:327
+#: includes/pro/loader.php:346 includes/pro/loader.php:364
+#: includes/pro/loader.php:383
 msgid "Private"
 msgstr ""
 
@@ -1548,193 +1555,193 @@ msgstr ""
 msgid "(Completed by %s)"
 msgstr ""
 
-#: includes/pro/class/files.php:52 includes/pro/class/files.php:53
-#: includes/pro/class/files.php:68 includes/pro/class/files.php:70
+#: includes/pro/class/files.php:55 includes/pro/class/files.php:56
+#: includes/pro/class/files.php:71 includes/pro/class/files.php:73
 msgid "Documents"
 msgstr ""
 
-#: includes/pro/class/files.php:69
+#: includes/pro/class/files.php:72
 msgid "Document"
 msgstr ""
 
-#: includes/pro/class/files.php:71
+#: includes/pro/class/files.php:74
 msgid "Add Document"
 msgstr ""
 
-#: includes/pro/class/files.php:72
+#: includes/pro/class/files.php:75
 msgid "Add New Document"
 msgstr ""
 
-#: includes/pro/class/files.php:74
+#: includes/pro/class/files.php:77
 msgid "Edit Document"
 msgstr ""
 
-#: includes/pro/class/files.php:75
+#: includes/pro/class/files.php:78
 msgid "New Document"
 msgstr ""
 
-#: includes/pro/class/files.php:76 includes/pro/class/files.php:77
+#: includes/pro/class/files.php:79 includes/pro/class/files.php:80
 msgid "View Document"
 msgstr ""
 
-#: includes/pro/class/files.php:78
+#: includes/pro/class/files.php:81
 msgid "Search Documents"
 msgstr ""
 
-#: includes/pro/class/files.php:79
+#: includes/pro/class/files.php:82
 msgid "No Documents Found"
 msgstr ""
 
-#: includes/pro/class/files.php:80
+#: includes/pro/class/files.php:83
 msgid "No Documentst Found in Trash"
 msgstr ""
 
-#: includes/pro/class/files.php:81
+#: includes/pro/class/files.php:84
 msgid "Parent Document"
 msgstr ""
 
-#: includes/pro/class/files.php:102
+#: includes/pro/class/files.php:105
 msgid "Create a folder"
 msgstr ""
 
-#: includes/pro/class/files.php:103
+#: includes/pro/class/files.php:106
 msgid "Upload a file"
 msgstr ""
 
-#: includes/pro/class/files.php:104
+#: includes/pro/class/files.php:107
 msgid "Create a doc"
 msgstr ""
 
-#: includes/pro/class/files.php:105
+#: includes/pro/class/files.php:108
 msgid "Create a document"
 msgstr ""
 
-#: includes/pro/class/files.php:106
+#: includes/pro/class/files.php:109
 msgid "Link to Docs"
 msgstr ""
 
-#: includes/pro/class/files.php:107
+#: includes/pro/class/files.php:110
 msgid "Back to previous"
 msgstr ""
 
-#: includes/pro/class/files.php:108
+#: includes/pro/class/files.php:111
 msgid "File uploads"
 msgstr ""
 
-#: includes/pro/class/files.php:109
+#: includes/pro/class/files.php:112
 msgid "Attach a File"
 msgstr ""
 
-#: includes/pro/class/files.php:110
+#: includes/pro/class/files.php:113
 msgid "Make files private."
 msgstr ""
 
-#: includes/pro/class/files.php:111
+#: includes/pro/class/files.php:114
 msgid "Make this private."
 msgstr ""
 
-#: includes/pro/class/files.php:113
+#: includes/pro/class/files.php:116
 msgid "Folder or Documents not found. Please create new folder or document."
 msgstr ""
 
-#: includes/pro/class/files.php:114
+#: includes/pro/class/files.php:117
 msgid "Create Folder"
 msgstr ""
 
-#: includes/pro/class/files.php:115
+#: includes/pro/class/files.php:118
 msgid "Title"
 msgstr ""
 
-#: includes/pro/class/files.php:120
+#: includes/pro/class/files.php:123
 msgid "Link for  Docs"
 msgstr ""
 
-#: includes/pro/class/files.php:121
+#: includes/pro/class/files.php:124
 msgid "Download"
 msgstr ""
 
-#: includes/pro/class/files.php:122
+#: includes/pro/class/files.php:125
 msgid "Note"
 msgstr ""
 
-#: includes/pro/class/files.php:123
+#: includes/pro/class/files.php:126
 msgid "View Current Post"
 msgstr ""
 
-#: includes/pro/class/files.php:124
+#: includes/pro/class/files.php:127
 msgid "View Online"
 msgstr ""
 
-#: includes/pro/class/files.php:125
+#: includes/pro/class/files.php:128
 msgid "Attachments"
 msgstr ""
 
-#: includes/pro/class/files.php:126
+#: includes/pro/class/files.php:129
 msgid "Comments"
 msgstr ""
 
-#: includes/pro/class/files.php:128
+#: includes/pro/class/files.php:131
 msgid " Load More Files"
 msgstr ""
 
-#: includes/pro/class/files.php:129
+#: includes/pro/class/files.php:132
 msgid "Add Comment"
 msgstr ""
 
-#: includes/pro/class/files.php:130
+#: includes/pro/class/files.php:133
 msgid "Update Doc"
 msgstr ""
 
-#: includes/pro/class/files.php:131
+#: includes/pro/class/files.php:134
 msgid "Cancel Edit"
 msgstr ""
 
-#: includes/pro/class/files.php:132
+#: includes/pro/class/files.php:135
 msgid "Revisions"
 msgstr ""
 
-#: includes/pro/class/files.php:133
+#: includes/pro/class/files.php:136
 msgid "No Revision"
 msgstr ""
 
-#: includes/pro/class/files.php:134
+#: includes/pro/class/files.php:137
 msgid "Are you sure to delete this file?"
 msgstr ""
 
-#: includes/pro/class/files.php:135
+#: includes/pro/class/files.php:138
 msgid "Are you sure to delete this folder?"
 msgstr ""
 
-#: includes/pro/class/files.php:136
+#: includes/pro/class/files.php:139
 msgid "Are you sure to change privacy for this file or folder?"
 msgstr ""
 
-#: includes/pro/class/files.php:137
+#: includes/pro/class/files.php:140
 msgid "Please write something in comments!"
 msgstr ""
 
-#: includes/pro/class/files.php:388
+#: includes/pro/class/files.php:391
 msgid "Attached to "
 msgstr ""
 
-#: includes/pro/class/files.php:388
+#: includes/pro/class/files.php:391
 msgid " by "
 msgstr ""
 
-#: includes/pro/class/files.php:577 includes/pro/class/files.php:635
+#: includes/pro/class/files.php:581 includes/pro/class/files.php:639
 msgid "Folder name already exist! Please check again."
 msgstr ""
 
-#: includes/pro/class/files.php:602
+#: includes/pro/class/files.php:606
 msgid "You have not access to creat folder."
 msgstr ""
 
-#: includes/pro/class/files.php:688 includes/pro/class/files.php:730
-#: includes/pro/class/files.php:745
+#: includes/pro/class/files.php:692 includes/pro/class/files.php:734
+#: includes/pro/class/files.php:749
 msgid "There is an error while delete, please try again!"
 msgstr ""
 
-#: includes/pro/class/files.php:733 includes/pro/class/files.php:748
+#: includes/pro/class/files.php:737 includes/pro/class/files.php:752
 msgid "Permission Problem"
 msgstr ""
 
@@ -2027,16 +2034,16 @@ msgstr ""
 msgid "Enable Daily Digest"
 msgstr ""
 
-#: includes/pro/loader.php:400 includes/pro/loader.php:410
+#: includes/pro/loader.php:394 includes/pro/loader.php:404
 #: includes/pro/views/project/settings.php:29
 msgid "Client"
 msgstr ""
 
-#: includes/pro/loader.php:429
+#: includes/pro/loader.php:423
 msgid "My Tasks %s"
 msgstr ""
 
-#: includes/pro/loader.php:517 includes/pro/views/task/overview.php:68
+#: includes/pro/loader.php:511 includes/pro/views/task/overview.php:68
 msgid "My Calender"
 msgstr ""
 
@@ -2424,27 +2431,27 @@ msgstr ""
 msgid "NEW COMMENT"
 msgstr ""
 
-#: views/emails/new-comment.php:61
+#: views/emails/new-comment.php:61 views/emails/update-comment.php:47
 msgid "Commented By"
 msgstr ""
 
-#: views/emails/new-comment.php:72
+#: views/emails/new-comment.php:72 views/emails/update-comment.php:59
 msgid "Author : "
 msgstr ""
 
-#: views/emails/new-comment.php:74
+#: views/emails/new-comment.php:74 views/emails/update-comment.php:61
 msgid "Permalink : "
 msgstr ""
 
-#: views/emails/new-comment.php:75
+#: views/emails/new-comment.php:75 views/emails/update-comment.php:62
 msgid "Comment link"
 msgstr ""
 
-#: views/emails/new-comment.php:76
+#: views/emails/new-comment.php:76 views/emails/update-comment.php:63
 msgid "Comment : "
 msgstr ""
 
-#: views/emails/new-comment.php:85
+#: views/emails/new-comment.php:85 views/emails/update-comment.php:72
 msgid "View Comment"
 msgstr ""
 
@@ -2490,6 +2497,10 @@ msgstr ""
 
 #: views/emails/new-task.php:30
 msgid "Created By"
+msgstr ""
+
+#: views/emails/update-comment.php:40
+msgid "UPDATE COMMENT"
 msgstr ""
 
 #: views/emails/update-project.php:14
