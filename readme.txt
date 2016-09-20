@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.6
+Tested up to: 4.6.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -115,13 +115,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= 1.5.1 - August 31, 2016 =
+= 1.5.1 - September 19, 2016 =
 
+ * [new] Send Email Notification when a comment updates.
+ * [new] Add filter for how many letter to show when image name is long in files tab.
+ * [fix] Fixed conflict with buddypress.
  * [fix] Fixed Project creation capability and update language files.
- * [fix] Make Report print friendly. 
- * [fix] Files tab loading improve. 
- * [fix] Show all comments in newly uploaded file view. 
- * [fix] Client view privet discussion. 
+ * [fix] Made Report print friendly.
+ * [fix] Files tab loading improvement.
+ * [fix] Show all comments in newly uploaded file view.
+ * [fix] Client view private discussion.
 
 = 1.5 - August 20, 2016 =
 

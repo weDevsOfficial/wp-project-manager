@@ -1,12 +1,13 @@
-= 1.5.1 - September 1, 2016 =
- * [New] Send Email Notification when a comment update. 
- * [New] Add filer for how many letter show when image name long in files tab.
- * [fix] Fixed conflict with buddypress. 
+= 1.5.1 - September 19, 2016 =
+
+ * [new] Send Email Notification when a comment updates.
+ * [new] Add filter for how many letter to show when image name is long in files tab.
+ * [fix] Fixed conflict with buddypress.
  * [fix] Fixed Project creation capability and update language files.
- * [fix] Make Report print friendly. 
- * [fix] Files tab loading improvement. 
- * [fix] Show all comments in newly uploaded file view. 
- * [fix] Client view private discussion. 
+ * [fix] Made Report print friendly.
+ * [fix] Files tab loading improvement.
+ * [fix] Show all comments in newly uploaded file view.
+ * [fix] Client view private discussion.
 
 = 1.5 - August 20, 2016 =
 
