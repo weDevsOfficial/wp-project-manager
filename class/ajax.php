@@ -1365,7 +1365,7 @@ class CPM_Ajax {
         $offset     = (isset( $_POST['offset'] )) ? sanitize_text_field( $_POST['offset'] ) : 0;
         $privacy    = $_POST['privacy'] == 'yes' ? true : false;
         $task_obj   = CPM_Task::getInstance();
-        $lists      = $task_obj->get_task_lists( $project_id, $offset, $privacy );
+        $lists      = $task_obj->get_task_lists( $project_id,  $privacy , $offset);
         $data       = '';
 
         if ( 'no' == $is_admin ) {

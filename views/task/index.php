@@ -14,11 +14,11 @@ $project_obj     =  CPM_Project::getInstance();
 $project_details = $project_obj->get_info($project_id) ;
 
 if ( cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    $lists       = $task_obj->get_task_lists( $project_id, $offset, true, false );
+    $lists       = $task_obj->get_task_lists( $project_id,  true, $offset, false );
     $sticky_list = $task_obj->get_sticky_task_lists( $project_id,  true );
     $privacy     =  'yes';
 } else {
-    $lists       = $task_obj->get_task_lists( $project_id, false,  false );
+    $lists       = $task_obj->get_task_lists( $project_id, false, $offset,  false );
     $sticky_list = $task_obj->get_sticky_task_lists( $project_id);
     $privacy     =  'no';
 }

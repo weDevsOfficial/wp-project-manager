@@ -385,7 +385,7 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $offset = 0, $privacy = false, $with_pin = true ) {
+    function get_task_lists( $project_id,  $privacy = false, $offset = 0, $with_pin = true ) {
         $args = array(
             'post_type'      => 'cpm_task_list',
             'posts_per_page' => cpm_get_option( 'show_todo', 'cpm_general' ),

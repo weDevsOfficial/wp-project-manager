@@ -3705,6 +3705,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
   overflow: auto;
   height: 99vh;
 }
+.cpm .cpm-comment-content ul li,
+.cpm trix-editor ul li,
+.cpm .cpm-entry-detail ul li {
+  margin-left: 2em;
+  list-style-type: disc;
+}
 .cpm .modal-enter,
 .cpm .modal-leave {
   opacity: 0;
