@@ -392,22 +392,22 @@ class CPM_Notification {
         $reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
-        $from_email   = cpm_get_option( 'email_from', 'cpm_mails' );
+        $from_email   = cpm_get_option( 'email_from', 'cpm_mails', get_option( 'admin_email' ) );
         $from         = "From: $blogname <$from_email>";
         $reply        = apply_filters( 'cpm_reply_to', $to, $comment_post_id );
         $reply_to     = "Reply-To: $reply";
-
+        
         if ( $bcc_status == 'on' ) {
             $bcc     = 'Bcc: ' . $to;
             $headers = array(
                 $bcc,
-                $reply_to,
+                $from_email,
                 $content_type,
                 $charset,
                 $from
             );
 
-            wp_mail( $reply, $subject, $message, $headers );
+            wp_mail( $from_email, $subject, $message, $headers );
         } else {
 
             $headers = array(
