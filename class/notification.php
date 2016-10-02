@@ -389,14 +389,14 @@ class CPM_Notification {
 
         $bcc_status   = cpm_get_option( 'email_bcc_enable', 'cpm_mails' );
         $blogname     = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-        $reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
+        $no_reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
-        $from_email   = cpm_get_option( 'email_from', 'cpm_mails' );
+        $from_email   = cpm_get_option( 'email_from', 'cpm_mails', get_option( 'admin_email' ) );
         $from         = "From: $blogname <$from_email>";
         $reply        = apply_filters( 'cpm_reply_to', $to, $comment_post_id );
-        $reply_to     = "Reply-To: $reply";
-
+        $reply_to     = "Reply-To: $no_reply";
+        
         if ( $bcc_status == 'on' ) {
             $bcc     = 'Bcc: ' . $to;
             $headers = array(
@@ -404,10 +404,10 @@ class CPM_Notification {
                 $reply_to,
                 $content_type,
                 $charset,
-                $from
+                $from_email
             );
 
-            wp_mail( $reply, $subject, $message, $headers );
+            wp_mail( $from_email, $subject, $message, $headers );
         } else {
 
             $headers = array(

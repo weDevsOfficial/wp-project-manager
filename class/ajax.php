@@ -75,8 +75,6 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_project_archive', array( $this, 'archive' ) );
 
         add_action( 'wp_ajax_cpm_calender_update_duetime', array( $this, 'update_task_time' ) );
-        add_action( 'wp_ajax_all_search', array( $this, 'all_search' ) );
-        add_action( 'wp_ajax_search_client', array( $this, 'search_client' ) );
 
         add_action( 'wp_ajax_cpm_project_reports', array( $this, 'report' ) );
         add_action( 'wp_ajax_cpm_get_projects_activity', array( $this, 'get_projects_activity' ) );
@@ -99,58 +97,6 @@ class CPM_Ajax {
         wp_send_json_success( array( 'table' => $table ) );
     }
 
-    /**
-     * Search clients via ajax
-     *
-     * @return void
-     */
-    function search_client() {
-        $user = intval( $_POST['user'] );
-
-        $args = array(
-            'search'         => $user,
-            'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
-        );
-
-        add_action( 'pre_user_query', array( $this, 'pre_user_query' ) );
-
-        $user_query = new WP_User_Query( $args );
-
-        $projects_id = array();
-        foreach ( $user_query->results as $user ) {
-            $projects_id[] = $user->project_id;
-        }
-
-        $items = array();
-
-        if ( ! count( $projects_id ) ) {
-            $items[] = array(
-                'label' => '<div class="cpm-all-search-item"><strong>' . __( 'No project found !', 'cpm' ) . '</strong></div>',
-            );
-
-            $search_details = json_encode( $items );
-            wp_send_json_success( $search_details );
-        }
-
-        $post_query = new WP_Query( array(
-            'post_type'      => 'cpm_project',
-            'post_status'    => 'publish',
-            'post__in'       => $projects_id,
-            'posts_per_page' => -1,
-                ) );
-
-        foreach ( $post_query->posts as $post ) {
-            $url      = cpm_url_project_details( $post->ID );
-            $category = __( 'Project: ', 'cpm' );
-            $items[]  = array(
-                'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-            );
-        }
-
-        $search_details = json_encode( $items );
-        wp_send_json_success( $search_details );
-    }
-
     function pre_user_query( $self ) {
         global $wpdb;
 
@@ -161,103 +107,6 @@ class CPM_Ajax {
         $query_where = " AND cpu.role='client'";
 
         $self->query_where .= apply_filters( 'cpm_pre_user_query_where', $query_where, $self );
-    }
-
-    function all_search() {
-        $project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( $_POST['project_id'] ) : false;
-        $item       = trim( $_POST['item'] );
-
-        if ( ! $project_id ) {
-            $args  = array(
-                'post_type'      => array( 'cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_message', 'cpm_milestone' ),
-                'post_status'    => 'publish',
-                'posts_per_page' => '-1',
-                's'              => $item,
-            );
-            $args  = apply_filters( 'cpm_all_project_search_query_arg', $args, $item );
-            $query = new WP_Query( $args );
-            $posts = $query->posts;
-        }
-
-        if ( $project_id ) {
-            $args  = array(
-                'post_type'      => array( 'cpm_task_list', 'cpm_message', 'cpm_milestone' ),
-                'post_status'    => 'publish',
-                'post_parent'    => $project_id,
-                'posts_per_page' => '-1',
-                's'              => $item,
-            );
-            $query = new WP_Query( $args );
-
-            global $wpdb;
-            $sql = "SELECT * FROM $wpdb->posts AS p
-                LEFT JOIN $wpdb->posts AS tl ON p.ID=tl.post_parent
-                LEFT JOIN $wpdb->posts AS tk ON tl.ID=tk.post_parent
-                WHERE
-                p.post_type='cpm_project' AND p.post_status='publish' AND p.ID=$project_id
-                AND  tl.post_type='cpm_task_list' AND tk.post_type='cpm_task'
-                AND  tl.post_status='publish' AND tk.post_status='publish'
-                AND ( tk.post_title like '%$item%' OR tk.post_content like '%$item%' )";
-
-            $posts = $wpdb->get_results( $sql );
-            $posts = array_merge( $query->posts, $posts );
-        }
-
-        $url   = array();
-        $items = array();
-        foreach ( $posts as $key => $post ) {
-            switch ( $post->post_type ) {
-                case 'cpm_project':
-                    $url      = cpm_url_project_details( $post->ID );
-                    $category = __( 'Project: ', 'cpm' );
-                    $items[]  = array(
-                        'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-                    );
-                    break;
-
-                case 'cpm_task_list':
-                    $url      = cpm_url_single_tasklist( $post->post_parent, $post->ID );
-                    $category = __( 'Task List: ', 'cpm' );
-                    $items[]  = array(
-                        'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-                    );
-                    break;
-
-                case 'cpm_task':
-                    $task_list = get_post( $post->post_parent );
-                    $url       = cpm_url_single_task( $task_list->post_parent, $post->post_parent, $post->ID );
-                    $category  = __( 'Task: ', 'cpm' );
-                    $items[]   = array(
-                        'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-                    );
-                    break;
-
-                case 'cpm_message':
-                    $url      = cpm_url_single_message( $post->post_parent, $post->ID );
-                    $category = __( 'Message: ', 'cpm' );
-                    $items[]  = array(
-                        'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-                    );
-                    break;
-
-                case 'cpm_milestone':
-                    $url      = cpm_url_milestone_index( $post->post_parent );
-                    $category = __( 'Milestone: ', 'cpm' );
-                    $items[]  = array(
-                        'label' => '<div class="cpm-all-search-item"><a href="' . $url . '"><strong>' . $category . '</strong>' . $post->post_title . '</a></div>',
-                    );
-                    break;
-            }
-        }
-
-        if ( ! count( $items ) ) {
-            $items[] = array(
-                'label' => '<div class="cpm-all-search-item"><strong>' . __( 'No item found !', 'cpm' ) . '</strong></div>',
-            );
-        }
-        $search_details = json_encode( $items );
-
-        wp_send_json_success( $search_details );
     }
 
     function where_project_search( $where ) {
