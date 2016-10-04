@@ -385,15 +385,20 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id,  $privacy = false, $offset = 0, $with_pin = true ) {
+    function get_task_lists( $project_id,  $privacy = false, $offset = 0, $with_pin = true , $show_all = false) {
         $args = array(
             'post_type'      => 'cpm_task_list',
-            'posts_per_page' => cpm_get_option( 'show_todo', 'cpm_general' ),
             'offset'         => $offset,
             'order'          => 'DESC',
             'orderby'        => 'ID',
             'post_parent'    => $project_id
         );
+        if( true === $show_all){
+            $args['posts_per_page'] = -1 ;
+        }else {
+            $args['posts_per_page'] = cpm_get_option( 'show_todo', 'cpm_general' );
+        }
+        
         if ( false === $with_pin ) {
             $sticky                      = get_option( 'sticky_posts' );
             $args['ignore_sticky_posts'] = 1;
