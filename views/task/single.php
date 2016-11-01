@@ -3,7 +3,7 @@ $task_obj = CPM_Task::getInstance();
 $list = $task_obj->get_task_list( $tasklist_id );
 
 if( $list->private == 'yes' && ! cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-    echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+    echo '<h2>' . __( 'You do not have permission to access this page', 'cpm' ) . '</h2>';
     return;
 }
 

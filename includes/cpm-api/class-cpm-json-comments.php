@@ -123,14 +123,14 @@ class CPM_JSON_Comments {
 					return array( 'key' => 'permission', 'message' => __( 'Sorry! you are not assinged in this project', 'cpm' ), array( 'status' => 404 ) );
 
 				} else if ( !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 
 				} else {
 					$task = cpm()->task->get_task( $post_id );
 
 					if ( isset( $task->task_privacy ) && $task->task_privacy == 'yes' ) {
 						if ( !cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
-							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 						}
 					}
 
@@ -148,7 +148,7 @@ class CPM_JSON_Comments {
 					$task_list = cpm()->task->get_task_list( $post_id );
 					if ( isset( $milestone->_tasklist_privacy ) && $task->_tasklist_privacy == 'yes' ) {
 						if ( !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+							return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 						}
 					}
 				}
@@ -315,10 +315,10 @@ class CPM_JSON_Comments {
 					return array( 'key' => 'permission', 'message' => __( 'Sorry! you are not assinged in this project', 'cpm' ), array( 'status' => 404 ) );
 
 				} else if ( !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 
 				} else if ( !cpm_user_can_access( $project_id, 'create_todo' ) ) {
-					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 				}
 				break;
 			case 'cpm_task_list':
@@ -330,7 +330,7 @@ class CPM_JSON_Comments {
 					return array( 'key' => 'permission', 'message' => __( 'Sorry! you are not assinged in this project', 'cpm' ), array( 'status' => 404 ) );
 
 				} else if ( !cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do no have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
+					return array( 'key' => 'permission', 'message' => __( 'Sorry! you do not have permission to view this comment', 'cpm' ), array( 'status' => 404 ) );
 				}
 				break;
 		}

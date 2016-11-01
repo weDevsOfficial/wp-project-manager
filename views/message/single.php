@@ -9,7 +9,7 @@ if ( !$message ) {
 }
 
 if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-    echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+    echo '<h2>' . __( 'You do not have permission to access this page', 'cpm' ) . '</h2>';
     return;
 }
 
