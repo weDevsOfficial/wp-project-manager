@@ -63,7 +63,7 @@ class CPM_JSON_Tasks {
 			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( $posts_list->private == 'yes' && !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you do no have permission to view this todo list', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! you do not have permission to view this todo list', 'cpm' ), array( 'status' => 404 ) );
 
 		}
 
@@ -74,7 +74,7 @@ class CPM_JSON_Tasks {
 
 			if ( isset( $task->task_privacy ) && $task->task_privacy == 'yes' ) {
 				if ( ! cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
-					return new WP_Error( 'permission', __( 'Sorry! you do no have permission to view this task', 'cpm' ), array( 'status' => 404 ) );
+					return new WP_Error( 'permission', __( 'Sorry! you do not have permission to view this task', 'cpm' ), array( 'status' => 404 ) );
 				}
 			}
 		}
@@ -118,7 +118,7 @@ class CPM_JSON_Tasks {
 			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( $posts_list->private == 'yes' && !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you do no have permission to view this todo list', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! you do not have permission to view this todo list', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
 			$condition = true;
