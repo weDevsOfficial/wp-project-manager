@@ -14,8 +14,8 @@ class CPM_Notification {
         add_action( 'cpm_comment_update', array( $this, 'update_comment' ), 10, 3 );
         add_action( 'cpm_message_new', array( $this, 'new_message' ), 10, 2 );
 
-        add_action( 'cpm_task_new', array( $this, 'new_task' ), 10, 3 );
-        add_action( 'cpm_task_update', array( $this, 'new_task' ), 10, 3 );
+        add_action( 'cpm_task_new', array( $this, 'new_task' ), 9, 3 );
+        add_action( 'cpm_task_update', array( $this, 'new_task' ), 9, 3 );
     }
 
     public static function getInstance() {
@@ -324,7 +324,7 @@ class CPM_Notification {
         );
         cpm_load_template( $file_name, $arg );
         $message = ob_get_clean();
-      
+
         if ( $message ) {
            $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
         }
@@ -358,8 +358,8 @@ class CPM_Notification {
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
-
-        foreach ( $_POST['task_assign'] as $key => $user_id ) {
+        $assign_user =  (!is_array ($_POST['task_assign']) ) ? explode( ',', $_POST['task_assign'] ) : $_POST['task_assign'] ;
+        foreach ( $assign_user as $key => $user_id ) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
             if ( ! $this->filter_email( $user_id ) ) {
@@ -396,7 +396,7 @@ class CPM_Notification {
         $from         = "From: $blogname <$from_email>";
         $reply        = apply_filters( 'cpm_reply_to', $to, $comment_post_id );
         $reply_to     = "Reply-To: $no_reply";
-        
+
         if ( $bcc_status == 'on' ) {
             $bcc     = 'Bcc: ' . $to;
             $headers = array(

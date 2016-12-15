@@ -1198,7 +1198,7 @@ ul.cpm-activity ul li:before {
 :: Task List
 -------------------------------------------------- */
 .cpm-new-todolist-form {
-  display: none;
+  display: block;
   border: 1px solid #e5e5e5;
   padding: 25px;
   max-width: 600px;
@@ -1235,72 +1235,72 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
-ul.cpm-todolists .submit {
+.cpm-todolists .submit {
   margin: 10px 0;
   padding: 0 0 15px 0;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists > li.ui-state-highlight {
+.cpm-todolists > li.ui-state-highlight {
   min-height: 100px;
 }
-ul.cpm-todolists article.cpm-todolist {
+.cpm-todolists article.cpm-todolist {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
+.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
   border: 1px solid #e5e5e5;
   margin: 20px;
   padding: 15px 15px 0;
   width: 40%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
+.cpm-todolists article.cpm-todolist .add-task .cpm-task-form,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
   margin: 15px 0 10px 15px;
   border: 1px solid #eee;
   padding: 15px 15px 0 15px;
   width: 40%;
   background: #F8F8F8;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
+.cpm-todolists article.cpm-todolist .add-task .cpm-task-form input[type="text"],
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
+.cpm-todolists article.cpm-todolist .add-task .cpm-task-form textarea,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
+.cpm-todolists article.cpm-todolist .add-task .cpm-task-form #task_assign_chosen,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
   width: 98% !important;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
+.cpm-todolists article.cpm-todolist .add-task .cpm-task-form #task_assign_chosen input[type="text"],
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
   height: 30px;
   color: #9B9B9B;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
+.cpm-todolists article.cpm-todolist .add-task .item.date label,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
   display: block;
   font-size: 13px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
+.cpm-todolists article.cpm-todolist .add-task .cpm-make-privacy,
+.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
   margin-top: 8px;
 }
-ul.cpm-todolists article.cpm-todolist header h3 {
+.cpm-todolists article.cpm-todolist header h3 {
   margin: 0;
   font-size: 14px;
   padding-left: 5px;
   padding-bottom: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
   font-style: italic;
   padding: 0 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
+.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1310,10 +1310,10 @@ ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   padding: 1px 7px;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
+.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   font-size: 11px;
   line-height: 15px;
   border: 1px solid #eee;
@@ -1329,34 +1329,31 @@ ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   top: 4px;
   z-index: 9999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
+.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-move-trak {
+.cpm-todolists article.cpm-todolist header .cpm-move-trak {
   left: -12px;
   padding: 3px 3px 0 3px;
 }
-ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-ul.cpm-todolists article.cpm-todolist .ui-state-highlight {
+.cpm-todolists article.cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
-  display: none;
-}
-ul.cpm-todolists article.cpm-todolist p {
+.cpm-todolists article.cpm-todolist p {
   margin: 0;
   padding-bottom: 10px;
 }
-ul.cpm-todolists article.cpm-todolist > ul {
+.cpm-todolists article.cpm-todolist > ul {
   margin: 0 0 0 15px;
   min-height: 6px;
   position: relative;
   list-style: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li {
+.cpm-todolists article.cpm-todolist > ul li {
   clear: both;
   line-height: 20px;
   padding-left: 19px;
@@ -1364,27 +1361,27 @@ ul.cpm-todolists article.cpm-todolist > ul li {
   word-wrap: break-word;
   margin: 0;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
   padding-top: 5px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
   width: 100%;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   font-size: 11px;
   line-height: 14px;
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
+.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
   display: none;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists .cpm-spinner {
+.cpm-todolists .cpm-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   height: 16px;
   display: none;
@@ -1395,7 +1392,7 @@ ul.cpm-todolists .cpm-spinner {
   top: 2px;
   left: 9px;
 }
-ul.cpm-todolists .cpm-new-task-spinner {
+.cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
@@ -1501,6 +1498,9 @@ ul.cpm-todolists .cpm-new-task-spinner {
   vertical-align: middle;
   border: 1px solid #ccc;
 }
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .task_extra_content {
+  margin-left: 25px;
+}
 .cpm-todo .cpm-task-edit-form {
   border: 1px solid #e5e5e5;
   display: none;
@@ -1581,6 +1581,56 @@ ul.cpm-todolists .cpm-new-task-spinner {
 .cpm-new-todolist-form .submit,
 .cpm-list-edit-form .submit {
   padding: 3px 0 10px 0;
+}
+.cpm-task-modal .cpm-assigned-user,
+.cpm-task-modal time {
+  background: none;
+}
+.cpm-task-modal .avatar {
+  border-radius: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpm-task-modal .cpm-lock {
+  width: auto;
+  height: 22px;
+  background-color: #fcf4aa ;
+  padding-left: 12px;
+}
+.cpm-task-modal .cpm-due-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #CD7A7A;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #fff;
+  margin-right: 5px;
+}
+.cpm-task-modal .cpm-current-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #999;
+  margin-right: 5px;
+}
+.cpm-task-modal #new_comment_form {
+  margin-bottom: 50px;
+}
+.cpm-task-modal #new_comment_form trix-toolbar .button_group button,
+.cpm-task-modal #new_comment_form trix-toolbar .button_group input[type=button] {
+  background: rgba(255, 255, 255, 0);
+}
+.comment-content .cpm-avatar img {
+  height: 48px;
+}
+.comment-content .cpm-comment {
+  background: none;
 }
 /*--------------------------------------------------
 :: Milestone
@@ -2099,6 +2149,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border-radius: 3px;
   display: inline-block;
 }
+.cpm .cpm-btn-small {
+  font-size: small;
+}
 .cpm .cpm-btn-xs {
   padding: 3px;
   font-size: small ;
@@ -2135,6 +2188,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-btn-blue a:hover {
   color: red;
+}
+.cpm .cpm-btn-green {
+  background: #009999;
+  color: #ffffff;
+}
+.cpm .cpm-btn-green a:hover {
+  color: #81a599 ;
 }
 .cpm .cpm-plus-white {
   background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
@@ -3008,12 +3068,16 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding-top: 2px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-content .cpm-comment-count {
-  background: url('../images/comment_gray.svg') no-repeat 0% 50%;
-  background-size: 20px;
-  padding: 10px;
-  padding-left: 25px;
-  font-weight: bold;
-  width: 50px;
+  background: none;
+  /* background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;
+                            background-size: 20px;
+                            padding: 10px;
+                            padding-left: 25px;
+                            font-weight: bold;
+                            width : 50px;*/
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-content .post-com-count-approved {
+  margin-top: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by .cpm-assigned-user,
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by time {
@@ -3058,13 +3122,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new li {
   margin-bottom: 0px !important;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos-new-form .cpm-new-btn {
+.cpm .cpm-todolists .cpm-todolist .cpm-new-btn {
   margin-bottom: 10px;
   border-bottom: solid 1px #eeeeee;
   padding: 0px 10px 5px 30px;
   margin-left: 0px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos-new-form .cpm-new-btn a {
+.cpm .cpm-todolists .cpm-todolist .cpm-new-btn a {
   background: url('../images/plus_blue.svg') no-repeat 0% 50%;
   padding: 10px;
   background-size: 20px;
@@ -3117,11 +3181,19 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
 }
-.cpm .cpm-todolists .sticky_list .cpm-pin-list a {
+.cpm .cpm-todolists .sticky_list a {
   visibility: visible  !important;
 }
 .cpm .cpm-todolists .sticky_list span {
   color: #019dd6 !important;
+}
+.cpm .cpm-todolists .close-list-single {
+  position: absolute;
+  right: -5px;
+  top: -10px;
+}
+.cpm .cpm-todolists .list-comments {
+  margin: 20px;
 }
 .cpm .cpm-new-message-btn {
   margin: 0px 0px 20px;
@@ -3651,7 +3723,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0 0 0 auto;
   overflow: visible;
   display: compact;
-  background-color: #fff000;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
@@ -4109,5 +4180,339 @@ ul.cpm-files li .cpm-file-action .comment-number {
   .cpm td,
   .cpm th {
     padding: 1px ;
+  }
+}
+.cpm fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+.cpm .multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 40px;
+  height: 22px;
+  background: #fff;
+  display: block;
+}
+.cpm .multiselect__spinner:before,
+.cpm .multiselect__spinner:after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #0073aa transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+.cpm .multiselect__spinner:before {
+  animation: spinning 2.4s cubic-bezier(0.41, 0.26, 0.2, 0.62);
+  animation-iteration-count: infinite;
+}
+.cpm .multiselect__spinner:after {
+  animation: spinning 2.4s cubic-bezier(0.51, 0.09, 0.21, 0.8);
+  animation-iteration-count: infinite;
+}
+.cpm .multiselect__loading-transition {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+.cpm .multiselect__loading-enter,
+.cpm .multiselect__loading-leave {
+  opacity: 0;
+}
+.cpm .multiselect,
+.cpm .multiselect__input,
+.cpm .multiselect__single {
+  font-family: inherit;
+  font-size: inherit;
+}
+.cpm .multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 28px;
+  text-align: left;
+  color: #35495E;
+}
+.cpm .multiselect * {
+  box-sizing: border-box;
+}
+.cpm .multiselect:focus {
+  outline: none;
+}
+.cpm .multiselect--disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.cpm .multiselect--active {
+  z-index: 50;
+}
+.cpm .multiselect--active .multiselect__current,
+.cpm .multiselect--active .multiselect__input,
+.cpm .multiselect--active .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.cpm .multiselect--active .multiselect__select {
+  transform: rotateZ(180deg);
+}
+.cpm .multiselect__input,
+.cpm .multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 18px;
+  font-size: 14px;
+  line-height: 15px;
+  border: none;
+  border-radius: 3px;
+  background: #fff;
+  padding: 1px 0 0 5px;
+  width: calc(100%);
+  transition: border 0.1s ease;
+  box-sizing: border-box;
+  margin-bottom: 3px;
+}
+.cpm .multiselect__input[type="text"],
+.cpm .multiselect__single[type="text"],
+.cpm .multiselect__input[type="text"]:focus,
+.cpm .multiselect__single[type="text"]:focus {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: inherit;
+  color: inherit;
+  outline: none;
+  -webkit-transition: inherit;
+  transition: inherit;
+}
+.cpm .multiselect__tag ~ .multiselect__input {
+  width: auto;
+}
+.cpm .multiselect__input:hover,
+.cpm .multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+.cpm .multiselect__input:focus,
+.cpm .multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+.cpm .multiselect__single {
+  padding-left: 6px;
+  margin-bottom: 0;
+  line-height: 20px;
+}
+.cpm .multiselect__tags {
+  min-height: 28px;
+  display: block;
+  padding: 2px 30px 0 3px;
+  border-radius: 3px;
+  border: 1px solid #cccccc;
+  background: #fff;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+}
+.cpm .multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 3px 20px 3px 8px;
+  border-radius: 3px;
+  margin-right: 5px;
+  color: #444;
+  line-height: 2;
+  background: #ccc;
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+.cpm .multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: initial;
+  width: 18px;
+  text-align: center;
+  line-height: 18px;
+  transition: all 0.2s ease;
+  border-radius: 3px;
+}
+.cpm .multiselect__tag-icon:after {
+  content: "×";
+  color: #a2a2a2;
+  font-size: 14px;
+}
+.cpm .multiselect__tag-icon:focus,
+.cpm .multiselect__tag-icon:hover {
+  background: #999;
+}
+.cpm .multiselect__tag-icon:focus:after,
+.cpm .multiselect__tag-icon:hover:after {
+  color: white;
+}
+.cpm .multiselect__current {
+  line-height: 16px;
+  min-height: 28px;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  margin: 0;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+}
+.cpm .multiselect__select {
+  line-height: 16px;
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.cpm .multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #999999 transparent transparent transparent;
+  content: "";
+}
+.cpm .multiselect__placeholder {
+  color: #ADADAD;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+.cpm .multiselect--active .multiselect__placeholder {
+  display: none;
+}
+.cpm .multiselect__content {
+  position: absolute;
+  list-style: none;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #cccccc;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 50;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.cpm .multiselect__content::webkit-scrollbar {
+  display: none;
+}
+.cpm .multiselect__option {
+  display: block;
+  padding: 8px;
+  line-height: 2;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+.cpm .multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 28px;
+  padding-right: 12px;
+  padding-left: 20px;
+}
+.cpm .multiselect__option--highlight {
+  background: #0073aa !important;
+  outline: none;
+  color: white;
+}
+.cpm .multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #0073aa !important;
+  color: white;
+}
+.cpm .multiselect__option--selected {
+  background: #cccccc;
+  color: #35495E;
+  font-weight: bold;
+}
+.cpm .multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+.cpm .multiselect__option--selected.multiselect__option--highlight {
+  background: #d54e21;
+  color: #fff;
+}
+.cpm .multiselect__option--selected.multiselect__option--highlight:after {
+  background: #d54e21;
+  content: attr(data-deselect);
+  color: #fff;
+}
+.cpm .multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+.cpm .multiselect--disabled .multiselect__current,
+.cpm .multiselect--disabled .multiselect__select {
+  background: #ededed;
+  color: #a6a6a6;
+}
+.cpm .multiselect__option--disabled {
+  background: #ededed;
+  color: #a6a6a6;
+  cursor: text;
+  pointer-events: none;
+}
+.cpm .multiselect__option--disabled:visited {
+  color: #a6a6a6;
+}
+.cpm .multiselect__option--disabled:hover,
+.cpm .multiselect__option--disabled:focus {
+  background: #3dad7b;
+}
+.cpm .multiselect-transition {
+  transition: all 0.3s ease;
+}
+.cpm .multiselect-enter,
+.cpm .multiselect-leave {
+  opacity: 0;
+  max-height: 0 !important;
+}
+@keyframes spinning {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(2turn);
   }
 }

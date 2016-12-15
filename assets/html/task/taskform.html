@@ -1,0 +1,60 @@
+<div class="cpm-todo-form">
+    <form action="" method="post" class="cpm-task-form"  @submit.prevent="savetask(task,list,fid)" id="{{fid}}">
+    <input type="hidden" name="list_id" value="{{list.ID}}">
+    <input type="hidden" name="action" value="{{form_action}}">
+    <input type="hidden" name="single" value="false">
+    <input type="hidden" name="type" value="json">
+    <input type="hidden" name="_wp_none" value="{{wp_nonce}}">
+    <input type="hidden" name="project_id" value="{{current_project}}">
+    <input type="hidden" name="task_assign" value="{{task.task_assign}}">
+
+
+     <input type="hidden" name="task_id" v-if="task && task.ID" value="{{task.ID}}">
+
+
+    <div class="item task-title">
+        <input type="text" name="task_title" class="task_title" placeholder="{{text.add_a_new_todo}}" value="{{task.post_title}}" required>
+    </div>
+
+    <div class="item content">
+        <textarea name="task_text" class="todo_content" cols="40" placeholder="{{text.add_todo_details_text}}" rows="2" value="{{task.post_content}}"></textarea>
+    </div>
+
+    <div class="item date">
+
+        <div class="cpm-task-start-field" v-if="pree_init_data.task_start_field">
+            <label>{{text.start_date}} </label>
+            <input  type="text"  placeholder="{{text.start_date}}" value="{{task.start_date}}" name="task_start" v-model="task_start" v-datepicker />
+        </div>
+
+        <div class="cpm-task-due-field">
+            <label>{{text.due_date}}  </label>
+            <input type="text" autocomplete="off" class="date_picker_to" placeholder="{{text.due_date}}" value="{{task.due_date}}" name="task_due"  v-datepicker :min-date="task_start" />
+        </div>
+    </div>
+
+    <div class="item user">
+        <multiselect
+            @update="updateTaskAssignUser"
+            :options="pree_init_data.users"
+            :selected="task.assigned_to"
+            :multiple="true"
+            label="name"
+            :multiple="true"
+            :taggable="true"
+            key="id"
+        ></multiselect>
+
+
+    </div>
+
+     <partial name="todoform_extra_field"> </partial>
+
+    <div class="item submit">
+        <span class="cpm-new-task-spinner"></span>
+
+        <input type="submit" class="button-primary" name="submit_todo" value="{{text.submit}}">
+        <a class="button todo-cancel" href="#" @click.prevent="hideTaskForm(list, task)">{{text.cancel}}</a>
+    </div>
+</form>
+</div>

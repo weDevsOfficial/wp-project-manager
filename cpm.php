@@ -310,17 +310,26 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'jquery-ui-sortable' );
+        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.js', __FILE__ ), '', time(), FALSE, false );
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'trix_editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
-        wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, true );
+        wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, false );
         wp_enqueue_script( 'plupload-handlers' );
+        wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
-        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader' ), false, true );
+        wp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vuejs', 'cpm_vue-multiselect'), false, false );
         wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
-        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), '', time(), FALSE );
+
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
+
+
+
+      
+        $cpm_dependency = array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader');
+        $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
+        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),

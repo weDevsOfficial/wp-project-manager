@@ -550,6 +550,8 @@
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor' ).val( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
 
@@ -600,6 +602,7 @@
                 }
 
 
+
                 btn.attr( 'disabled', true );
                 spnier.show();
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
@@ -614,6 +617,8 @@
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( 'trix-editor' ).html( '' );
+                        $( 'trix-editor' ).val( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
                 } );

@@ -1,0 +1,57 @@
+
+<div class="modal-mask half-modal cpm-task-modal"  v-show="show" transition="modal">
+    <div class="modal-wrapper" @click.prevent="closeTaskModal" >
+        <div class="modal-container"  :style="modalwide">
+            <span class="close-vue-modal"><a class=""  @click=""><span class="dashicons dashicons-no"></span></a></span>
+
+
+            <div class="modal-body cpm-todolists " @click.stop=""   >
+                <div class="cpm-col-12 cpm-todo " >
+                    <div class="cpm-modal-conetnt  ">
+                        <h3>{{task.post_title}}</h3>
+
+
+                        <div class="task-details ">
+                            <div>{{task.post_content}}</div>
+
+                            <span class="cpm-lock" v-show="task.task_privacy">{{text.privet_task}}</span>
+                            <partial name="hook_cpm_task_extra"></partial>
+
+                            <span  v-if="task.completed==0">
+                                <user_show_list
+                                    :users="task.assigned_to"
+                                    ></user_show_list>
+                                <span class="{{task.date_css_class}}"> {{{task.date_show}}} </span>
+
+                            </span>
+
+                            <span class="">{{task.comment_count}} {{task.comment_count | pluralize  text.comments }} </span>
+
+                            <span class="cpm-btn-small cpm-right">
+                            <a class="completed cpm-btn cpm-btn-green" href="#" v-if="task.completed==1" @click.prevent="checktoggeltask(task, list)">Completed</a>
+                            <a class="incomplete cpm-btn cpm-btn-red " href="#" v-if="task.completed==0" @click.prevent="checktoggeltask(task, list)">Incomplete</a>
+                            </span>
+                            <div class="clearfix cpm-clear"></div>
+                        </div>
+                        <hr/>
+
+                        <div class="cpm-todo-wrap clearfix">
+                            <div class="cpm-todo-content" >
+                                <partial name="hook_cpm_task_single_after"></partial>
+                            </div>
+
+                            <comment_warp :comments="comments" :task="task" :pree_init_data="pree_init_data" :formid="'task_popup'" :uploderid="'tc'"></comment_warp>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix" ></div>
+        </div>
+
+    </div>
+</div>
+
+

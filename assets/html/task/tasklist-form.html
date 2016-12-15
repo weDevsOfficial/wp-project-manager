@@ -1,0 +1,32 @@
+<form action="" method="post">
+    <input type="hidden" name="project_id" value="{{pid}}">
+    <input type="hidden" name="action" value="{{task_edit_action}}">
+    <input type="hidden" id="_wpnonce" name="_wpnonce" value="{{wp_nonce}}">
+
+
+    <input v-if="list.ID" type="hidden" name="list_id" value="{{list.ID}}">
+
+
+    <div class="item title">
+        <input type="text" name="tasklist_name" value="{{list.post_title}}" placeholder="To-do list name">
+    </div>
+
+    <div class="item content">
+        <textarea name="tasklist_detail" id="" cols="40" rows="2" placeholder="To-do list detail">{{list.post_content}}</textarea>
+    </div>
+
+    <div class="item milestone">
+        <select name="tasklist_milestone" id="tasklist_milestone">
+            <option selected="selected" value="-1"><?php _e( '-- milestone --', 'cpm' ); ?></option>
+            <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
+        </select>
+    </div>
+
+    <?php do_action( 'cpm_tasklist_form', $project_id, $list ); ?>
+
+    <div class="item submit">
+        <span class="cpm-new-list-spinner"></span>
+        <input type="submit" class="button-primary" name="submit_todo" value="<?php echo esc_attr( $submit_button ); ?>">
+        <a class="button list-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+    </div>
+</form>

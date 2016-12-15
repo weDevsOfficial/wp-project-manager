@@ -1,13 +1,20 @@
 {
-    "attributes": {
-        "v-for": {},
-        "@click": {
-            "context": "a"
-        },
-        "v-bind:class": {
-            "context": "a"
-        },
-        "v-if": {}
-    },
-    "elements": {}
+    "elements":{ },
+    "attributes":{
+	"v-bind:class":{
+	    "context":"a"
+	},
+	"v-if":{ },
+	"@click":{
+	    "context":"a"
+	},
+	"v-for":{ },
+	"v-modal":{
+	    "context":"input"
+	},
+	"v-model":{
+	    "context":"input"
+	},
+	"v-show":{ }
+    }
 }

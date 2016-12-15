@@ -1,0 +1,56 @@
+
+<div v-show="list.show_new_task_form">
+     
+
+    <form action="" method="post" class="cpm-task-form"  @submit.prevent="savetask(task,list,fid)" id="{{fid}}">
+    <input type="hidden" name="list_id" value="{{list.ID}}">
+    <input type="hidden" name="action" value="{{form_action}}">
+    <input type="hidden" name="single" value="false">
+    <input type="hidden" name="json" value="json">
+    <input type="hidden" name="_wp_none" value="{{wp_nonce}}">
+     <input type="hidden" name="project_id" value="{{current_project}}">
+
+
+     <input type="hidden" name="task_id" v-if="task.ID" value="{{task.ID}}">
+
+
+    <div class="item task-title">
+        <input type="text" name="task_title" class="task_title" placeholder="{{text.add_a_new_todo}}" value="{{task.title}}" required>
+    </div>
+
+    <div class="item content">
+        <textarea name="task_text" class="todo_content" cols="40" placeholder="{{text.add_todo_details_text}}" rows="2">{{task.content}}</textarea>
+    </div>
+
+    <div class="item date">
+
+        <div class="cpm-task-start-field" v-if="pree_init_data.task_start_field">
+            <label>{{text.start_date}}</label>
+            <input  type="text"  placeholder="{{text.start_date}}" value="{{task.start_date}}" name="task_start" v-model="task_start" v-datepicker />
+        </div>
+
+
+        <div class="cpm-task-due-field">
+            <label>{{text.due_date}}</label>
+            <input type="text" autocomplete="off" class="date_picker_to" placeholder="{{text.due_date}}" value="{{task.due_date}}" name="task_due"  v-datepicker :min-date="task_start" />
+        </div>
+    </div>
+
+    <div class="item user">
+
+
+
+        <select name="task_assign[]" class="chosen-select"  id="task_assign" multiple="multiple" data-placeholder="Select User">
+            <option value="0">User Name  </opton>
+        </select>
+    </div>
+
+     <partial name="todoform_extra_field"> </partial>
+
+    <div class="item submit">
+        <span class="cpm-new-task-spinner"></span>
+        <input type="submit" class="button-primary" name="submit_todo" value="{{text.submit}}">
+        <a class="button todo-cancel" href="#" @click.prevent="list.show_new_task_form=false">{{text.cancel}}</a>
+    </div>
+</form>
+</div>
