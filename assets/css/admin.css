@@ -3188,9 +3188,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: #019dd6 !important;
 }
 .cpm .cpm-todolists .close-list-single {
-  position: absolute;
-  right: -5px;
-  top: -10px;
+  margin-bottom: 10px;
 }
 .cpm .cpm-todolists .list-comments {
   margin: 20px;

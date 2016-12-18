@@ -69,6 +69,7 @@ class CPM_Task {
                     'add_comment'              => __( 'Add Comment', 'cpm' ),
                     'delete_confirm'           => __( 'Are you sure to delete this file?', 'cpm' ),
                     'empty_comment'            => __( 'Please write something in comments!', 'cpm' ),
+                    'backtotasklist'            => __( 'Back to To-do Lists', 'cpm' ),
                 ),
                 'cpm_task_column_partial' => apply_filters( 'cpm_task_column_partial', ' ' ),
                 'cpm_task_single_after'   => apply_filters( 'cpm_task_single_after', ' ' ),
@@ -452,16 +453,22 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_lists( $project_id, $privacy = false, $offset = 0, $with_pin = true, $show_all = false ) {
+
         $task_list = array ();
-        if ( $with_pin === true ) {
-            $task_list = $this->get_sticky_task_lists( $project_id, $privacy );
+      //  print_r($with_pin);
+        if ( $with_pin) {
+
+            $s_list = $this->get_sticky_task_lists( $project_id, $privacy );
+            $task_list = $s_list;
         }
         $sticky = get_option( 'sticky_posts' );
+
+
         $args   = array (
             'post_type'           => 'cpm_task_list',
             'offset'              => $offset,
             'order'               => 'DESC',
-            'orderby'             => 'sticky_posts ID',
+            'orderby'             => 'ID',
             'post_parent'         => $project_id,
             'ignore_sticky_posts' => 1,
             'post__not_in'        => $sticky,
@@ -486,8 +493,11 @@ class CPM_Task {
 
         $lists = get_posts( $args );
 
-
+        if(!empty($task_list)) {
         $final_list = array_merge( $task_list, $lists );
+        }else{
+            $final_list = $lists ;
+        }
 
 
         foreach ( $final_list as $list ) {
@@ -506,6 +516,7 @@ class CPM_Task {
      */
     function get_sticky_task_lists( $project_id, $privacy = false ) {
         $sticky = get_option( 'sticky_posts' );
+        rsort( $sticky );
         if ( empty( $sticky ) )
             return false;
         $args   = array (

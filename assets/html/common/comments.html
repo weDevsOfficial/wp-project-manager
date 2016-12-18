@@ -33,8 +33,8 @@
 </div>
 
 <div class='cpm-new-doc-comment-form'>
-    <form @submit.prevent="createComment(comments, formid)" :id="formid">
-        <input type="hidden" name="action" value="cpm_pro_create_comment" />
+    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">
+        <input type="hidden" name="action" value="cpm_task_create_comment" />
         <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />
         <input type="hidden" name="parent_id" value="{{task.ID}}" />
         <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />
@@ -43,7 +43,7 @@
             <input id="cc-{{formid}}" type="hidden" name="description" value="" />
             <trix-editor input="cc-{{formid}}"></trix-editor>
         </div>
-       
+
         <fileuploader :files="" :uploderid="uploderid"></fileuploader>
         <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />
     </form>

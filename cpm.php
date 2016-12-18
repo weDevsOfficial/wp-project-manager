@@ -326,7 +326,7 @@ class WeDevs_CPM {
 
 
 
-      
+
         $cpm_dependency = array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader');
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );

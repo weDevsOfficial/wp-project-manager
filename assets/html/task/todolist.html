@@ -1,9 +1,12 @@
-
+<a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">
+    <span class="dashicons dashicons-arrow-left-alt"></span>
+    {{text.backtotasklist}}
+</a>
 <article class="cpm-todolist">
     <header class="cpm-list-header">
-        <a href="" class="close-list-single dashicons dashicons-dismiss" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode"></a>
+
         <h3>
-            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} {{list.full_view_mode | json}} </a>
+            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} </a>
                 <div class="cpm-right" v-if="list.ed_permission">
                 <a href="#" class="cpm-icon-edit" title="Edit this List " @click.prevent="editList(list)"><span class="dashicons dashicons-edit"></span></a>
                 <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deletelist(list)" title="Delete this List" data-list_id="{{list.ID}}" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
@@ -34,9 +37,10 @@
         </div>
     </header>
     <div class="cpm-todo">
+
         <tasklist
             :list="list"
-            :tasks.sync="list.tasklist"
+
             :pree_init_data="pree_init_data"
             :wp_nonce="wp_nonce"
             :current_project="current_project"
@@ -56,7 +60,7 @@
             :fid="list.ID"
         ></taskform>
     </div>
- <div class="cpm-new-btn"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>
+ <div class="cpm-new-btn" v-show="! list.show_new_task_form"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>
 
  <div class="list-comments" v-if="list.full_view_mode">
 
@@ -64,22 +68,24 @@
 
  </div>
 
+
+
     <footer class="cpm-row cpm-list-footer">
         <div class="cpm-col-6">
             <div class="cpm-col-3 cpm-todo-complete">
-                <a href="Link to task list ">
+                <a href="#" @click.prevent="taskListDetails(list)">
                     <span> {{list.complete}} </span>
                     Complete
                 </a>
             </div>
             <div class="cpm-col-3 cpm-todo-incomplete">
-                <a href=" Task List Link ">
+                <a href="#" @click.prevent="taskListDetails(list)">
                     <span> {{list.incomplete}} </span>
                     Incomplete
                 </a>
             </div>
             <div class="cpm-col-3 cpm-todo-comment">
-                <a href="List to task list ">
+                <a href="#" @click.prevent="taskListDetails(list)" >
                     {{list.comment_count}} Comments
                 </a>
             </div>
@@ -94,7 +100,9 @@
             {{list.complete_percent}}%
         </div>
         <div class="clearfix"></div>
+
     </footer>
+
 
 
 </article>

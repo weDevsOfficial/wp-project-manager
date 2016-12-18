@@ -28,15 +28,17 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 
     <ul class="cpm-todolists" v-for="list in tasklist  | orderBy 'pin_list'  -1" >
 
+
         <todolists
             :list="list"
-            :text="text"
             :milestonelist="milestonelist"
-            :wp_nonce="wp_nonce",
+            :wp_nonce="wp_nonce"
             :current_project="current_project"
             :pree_init_data="pree_init_data"
-             v-if="!list.hideme"
+            v-if="!list.hideme"
             ></todolists>
+
+
     </ul>
     <div class="loadmoreanimation">
         <div class="load-spinner">
@@ -49,7 +51,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
     </div>
 
 
-    <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" v-if="project_obj.todolist > offset" href="JavaScript:void(0)" id="" @click.prevent="loadmorelist()" >Load More ... </a>
+    <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" v-show="project_obj.todolist > offset" href="JavaScript:void(0)" id="" @click.prevent="loadmorelist()" >Load More ... </a>
 
 
     <?php

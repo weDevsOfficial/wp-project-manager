@@ -87,6 +87,7 @@ class CPM_Ajax {
         // For Task Page on Vue JS
         add_action( 'wp_ajax_cpm_get_list_extra_field', array ( $this, 'listfrom_extrafield_list' ) );
         add_action( 'wp_ajax_cpm_get_task_extra_field', array ( $this, 'taskfrom_extrafield_list' ) );
+         add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
     }
 
     /**
@@ -118,6 +119,50 @@ class CPM_Ajax {
         $where .= " OR tk.post_title LIKE '%$item%'";
         return $where;
     }
+
+     function cpm_task_create_comment() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted              = $_POST;
+        $files               = array();
+        $response['success'] = FALSE;
+        $text                = trim( $posted['description'] );
+        $parent_id           = isset( $posted['parent_id'] ) ? intval( $posted['parent_id'] ) : 0;
+        $project_id          = isset( $posted['project_id'] ) ? intval( $posted['project_id'] ) : 0;
+        $comment_obj         = new CPM_Comment();
+        if ( isset( $posted['cpm_attachment'] ) ) {
+            $files = $posted['cpm_attachment'];
+        }
+
+        $user_id = get_current_user_id();
+        $user    = get_user_by( 'id', $user_id );
+
+        $data = array(
+            'comment_post_ID'      => $parent_id,
+            'comment_content'      => $text,
+            'user_id'              => get_current_user_id(),
+            'comment_author_IP'    => preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] ),
+            'comment_agent'        => substr( $_SERVER['HTTP_USER_AGENT'], 0, $this->_files_name_show4 ),
+            'comment_author'       => $user->display_name,
+            'comment_author_email' => $user->user_email
+        );
+
+        $comment_id = wp_insert_comment( $data );
+
+        if ( $comment_id ) {
+            add_comment_meta( $comment_id, '_files', $files );
+
+            do_action( 'cpm_comment_new', $comment_id, $_POST['project_id'], $data );
+
+            $response['success'] = TRUE;
+            $comment             = $comment_obj->get( $comment_id );
+            //  $comment['avata'] = get_avatar($comment->comment_author_email) ;
+            $response['comment'] = $comment;
+        }
+        echo json_encode( $response );
+
+        exit();
+    }
+
 
     function join_project_search( $join ) {
         global $wpdb;
@@ -1287,12 +1332,13 @@ class CPM_Ajax {
 
     function get_task_list() {
         $is_admin   = (isset( $_POST[ 'is_admin' ] )) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
+        $show_pin   = (isset( $_POST[ 'show_pin' ] ) && sanitize_text_field( $_POST[ 'show_pin' ] ) == 'yes' ) ? TRUE : FALSE;
         $project_id = (isset( $_POST[ 'project_id' ] )) ? sanitize_text_field( $_POST[ 'project_id' ] ) : 0;
         $offset     = (isset( $_POST[ 'offset' ] )) ? sanitize_text_field( $_POST[ 'offset' ] ) : 0;
         $privacy    = (isset( $_POST[ 'privacy' ] ) ) ? sanitize_text_field( $_POST[ 'privacy' ] ) : false;
         $type       = (isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
         $task_obj   = CPM_Task::getInstance();
-        $lists      = $task_obj->get_task_lists( $project_id, $privacy, $offset );
+        $lists      = $task_obj->get_task_lists( $project_id, $privacy, $offset, $show_pin );
         $data       = '';
 
         if ( 'no' == $is_admin ) {

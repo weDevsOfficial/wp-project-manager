@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         }
     });
 
-
     Vue.directive('datepicker', {
         params: ['exclude', 'minDate'],
 
@@ -111,8 +110,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         methods: {
 
             checktoggeltask: function (task, list) {
+                console.log(list);
                 if (confirm(vm.text.confirm_update)) {
-                    var self = this, task = task, task_id = task.ID, list = list, list_id = task.post_parent;
+                    var self = this, task = task, task_id = task.ID, list = list, list_id = task.post_parent, actp = true;
+                    var oct = list.complete;
+                    var oict = list.incomplete;
 
                     var data = {
                         task_id: task_id,
@@ -124,12 +126,25 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         data.action = 'cpm_task_complete';
                     } else {
                         data.action = 'cpm_task_open';
+                        actp = false;
                     }
+
+
 
                     jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                         res = JSON.parse(res);
                         if (res.success) {
                             task.completed = res.completed;
+                            if (actp) {
+                                list.complete = (oct + 1);
+                                list.incomplete = (oict - 1);
+                            } else {
+                                list.complete = (oct - 1);
+                                list.incomplete = (oict + 1);
+                            }
+
+                            var complete_percent = parseInt((100 * list.complete) / list.total);
+                            list.complete_percent = complete_percent;
                         }
                     });
                 }
@@ -231,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     return {}
                 }
             },
+
             current_project: {
                 type: String,
                 default: ""
@@ -248,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         data: function () {
             return {
                 task: {},
+                list: {},
                 taskData: {}
             }
         },
@@ -268,9 +285,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         },
 
         events: {
-            'open-taskmodal': function (task) {
+            'open-taskmodal': function (task, list) {
                 this.taskData = task;
                 this.task = jQuery.extend(true, {}, task);
+                this.list = list;
                 this.show = true;
                 Vue.set(this.task, "show_popup", true);
             }
@@ -323,10 +341,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         },
         methods: {
 
-            createComment: function (comments, formid) {
+            createComment: function (comments, formid, post) {
 
                 var data = jQuery("#" + formid).serialize( ), self = this;
-                console.log(formid);
+                var totalc = parseInt(post.comment_count);
                 if (jQuery("#" + formid + "#coment-content").val( ) == '') {
                     alert(vm.text.empty_comment);
                     return;
@@ -335,7 +353,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     var c = res.comment;
                     if (res.success == true) {
-                        //
 
                         var comment_obj = {
                             comment_ID: c.comment_ID,
@@ -353,6 +370,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         jQuery("#" + formid + " input[name='description']").val('');
                         jQuery("#" + formid + " trix-editor").val('');
                         //
+                        post.comment_count = (totalc + 1);
 
 
                     } else {
@@ -396,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             list: {
                 type: Object,
                 default: function () {
-                    return []
+                    return {}
                 }
             },
             milestonelist: {
@@ -476,10 +494,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     if (res.success == true) {
 
-                        console.log(res);
-                        console.log("success in ajax");
                         self.list.comments = res.comments;
-                        console.log(list.comments)
+
                     } else {
 
                     }
@@ -633,24 +649,33 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     Vue.component('tasklist', {
         template: require('./../html/task/tasklist.html'),
         mixins: [taskMixin],
-        props: ['lists', 'list', 'tasks', 'task', 'current_project', 'wp_nonce', 'pree_init_data'],
+        props: ['lists', 'list',   'task', 'current_project', 'wp_nonce', 'pree_init_data'],
 
         computed: {
+
+            tasks() {
+                if (!this.list.tasklist || !this.list.tasklist.length) {
+                    return [];
+                }
+
+                return this.list.tasklist;
+            },
+
             completeList() {
-                return this.tasks.filter(function (task) {
-                    return parseInt(task.completed);
+                return this.tasks.filter(function (tasks) {
+                    return parseInt(tasks.completed);
                 });
             },
             pendingList() {
-                return this.tasks.filter(function (task) {
-                    return !parseInt(task.completed);
+                return this.tasks.filter(function (tasks) {
+                    return !parseInt(tasks.completed);
                 });
             }
         },
         methods: {
-            taskDetails: function (task) {
+            taskDetails: function (task, list) {
                 this.getTaskComments(task);
-                this.$dispatch('open-taskmodal', task);
+                this.$dispatch('open-taskmodal', task, list);
 
             },
 
@@ -666,8 +691,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     if (res.success == true) {
 
-                        console.log(res);
-                        console.log("success in ajax");
+
                         vm.comments = res.comments;
 
                     } else {
@@ -685,7 +709,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     var self = this, task = task;
                     var task_id = task.ID;
                     var list_id = task.post_parent;
-
+                    var oct = plist.complete;
+                    var oict = plist.incomplete;
+                    var taskstatus = task.completed;
+                    var total = plist.total;
                     var data = {
                         task_id: task_id,
                         action: 'cpm_task_delete',
@@ -696,6 +723,16 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         res = JSON.parse(res);
                         if (res.success) {
                             plist.$remove(task);
+                            if (taskstatus) {
+                                plist.complete = (oct - 1);
+                            } else {
+                                plist.incomplete = (oict - 1);
+                            }
+
+                            plist.total = (total - 1);
+                            var complete_percent = parseInt((100 * plist.complete) / plist.total);
+                            plist.complete_percent = complete_percent;
+
                         }
                     });
                 }
@@ -703,6 +740,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         },
         ready: function ( ) {
+
         }
     });
 
@@ -723,15 +761,22 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 var self = this, ctask = task,
                         sform = jQuery("#" + fid),
                         data = sform.serialize();
+                var oict = list.incomplete;
+                var total = list.total;
                 sform.find(".cpm-new-task-spinner").show();
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
                     var task = res.task;
                     if (res.success) {
                         if (res.newtask) {
+
                             self.list.tasklist.unshift(task);
                             self.clear_form_data("#" + fid);
                             self.list.new_task_form = false;
+                            self.list.incomplete = (oict + 1);
+                            self.list.total = (total + 1);
+                            var complete_percent = parseInt((100 * self.list.complete) / self.list.total);
+                            self.list.complete_percent = complete_percent;
                         } else {
                             // ctask = task ;
                             ctask.post_title = task.post_title;
@@ -832,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             showMoreBtn: false,
             current_project: CPM_task.current_project,
             submit_btn_text: CPM_task.static_text.submit_btn_text,
-            project_obj: CPM_pro_files.project_obj,
+            project_obj: CPM_task.project_obj,
             //for dodal
             showlistmodal: false,
             list_org: null,
@@ -846,8 +891,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 task_start_field: true
             },
         },
-
-        
 
         ready: function ( ) {
             this.getInitData();
@@ -880,9 +923,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     _wpnonce: CPM_Vars.nonce,
                     project_id: this.current_project,
                     offset: this.offset,
+                    show_pin : 'yes',
                     type: 'json',
                 }
                 this.tasklist = [];
+
 
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
@@ -902,19 +947,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 var data = {
                     action: 'cpm_get_task_list',
                     _wpnonce: CPM_Vars.nonce,
-                    project_id: this.current_project,
-                    offset: this.offset,
+                    project_id: vm.current_project,
+                    offset: vm.offset,
+                    show_pin : 'no',
                     type: 'json',
                 }
 
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
                     if (res.success == true) {
+                         vm.offset = res.next_offset;
                         for (var i = 0; i <= res.lists.length; i++) {
                             var list = res.lists[i];
+                            vm.getListTask(list);
                             vm.tasklist.push(list);
+
                         }
-                        vm.offset = res.next_offset;
+
+
                     }
                 });
             },
@@ -928,13 +978,13 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     type: 'json'
                 }
                 lists.forEach(function (list) {
-                    var list_id = list.ID, clist = list;
+                    var list_id = list.ID;
                     data.list_id = list_id;
 
                     jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                         res = JSON.parse(res);
                         if (res.success == true) {
-                            clist.tasklist = res.tasklist;
+                            list.tasklist = res.tasklist;
                         }
                     });
 
@@ -942,6 +992,27 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
 
             },
+
+            getListTask: function (list) {
+                var listc = list ;
+
+                var data = {
+                    project_id: vm.current_project,
+                    single: true,
+                    action: 'cpm_get_todo_list',
+                    is_admin: CPM_Vars.is_admin,
+                    list_id: listc.ID,
+                    type: 'json'
+                }
+                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success == true) {
+                            listc.tasklist = res.tasklist;
+                        }
+                    });
+
+            },
+
             fileUploadShow: function ( ) {
                 this.hideAllform( );
                 this.uploadFormShow = true;
@@ -966,8 +1037,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         },
 
         events: {
-            'open-taskmodal': function (task) {
-                this.$broadcast('open-taskmodal', task);
+            'open-taskmodal': function (task, list) {
+                this.$broadcast('open-taskmodal', task, list);
             }
         }
     })
