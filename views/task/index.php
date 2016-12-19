@@ -68,7 +68,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
         </div>
     </div>
 
-        <div v-if="showMoreBtn">
+        <div v-if="showMoreBtn && !listfullview">
                 <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)"  @click.prevent="loadmorelist()" >Load More ... </a>
         </div>
 

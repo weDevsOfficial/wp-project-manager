@@ -630,6 +630,7 @@ class CPM_Task {
         $task->completed_by = get_post_meta( $task->ID, '_completed_by', true );
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );
         $task->assigned_to  = get_post_meta( $task->ID, '_assigned' );
+
         $task->due_date     = get_post_meta( $task->ID, '_due', true );
         $task->start_date   = get_post_meta( $task->ID, '_start', true );
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
@@ -707,7 +708,9 @@ class CPM_Task {
         $task->due_date     = ($task->due_date != '') ? date( $date_format, strtotime( $task->due_date ) ) : '';
 
         $task->completed_on         = date( $date_format, strtotime( $task->completed_on ) );
+         $task->task_assign          = implode(',', $task->assigned_to);
         $task->assigned_to          = $ajax_obj->task_users( $task->assigned_to, true );
+
         $task->completed_by         = $ajax_obj->task_users( $task->completed_by, true );
         $task->hook_cpm_task_column = $ajax_obj->hook_cpm_task_column( $project_id, $list_id, $task, $single );
 

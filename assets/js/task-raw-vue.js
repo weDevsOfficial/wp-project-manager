@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     if (res.success == true) {
                         vm.comments = res.comments;
-                    } 
+                    }
                 });
             },
             editTask: function (task) {
@@ -766,9 +766,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         methods: {
             savetask: function (task, list, fid) {
+
                 var self = this, ctask = task,
-                        sform = jQuery("#" + fid),
-                        data = sform.serialize();
+                        sform = jQuery("#" + fid);
+                var  data = sform.serialize() ;
+
                 var oict = list.incomplete;
                 var total = list.total;
                 sform.find(".cpm-new-task-spinner").show();
@@ -777,7 +779,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     var task = res.task;
                     if (res.success) {
                         if (res.newtask) {
-
                             self.list.tasklist.unshift(task);
                             self.clear_form_data("#" + fid);
                             self.list.new_task_form = false;
@@ -808,20 +809,22 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 list.show_new_task_form = false;
             },
             updateTaskAssignUser: function (assigned_users) {
+
                 var au = [], list = this.list, task = this.task;
                 var sf = '';
-                if (typeof task === "undefined") {
-                    sf = "#" + list.ID;
+                if (task.ID = 0 || (typeof task !== "undefined")) {
+                    sf = list.ID;
                 } else {
-                    sf = "#" + task.ID;
+                    sf =  task.ID;
                 }
 
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
                 });
-
-                jQuery(sf + " input[name='task_assign']").val(au);
-
+                if(sf != ""){
+                    jQuery("#" + sf + " input[name='task_assign']").val(au);
+                    
+                }
             }
         },
         ready: function ( ) {
