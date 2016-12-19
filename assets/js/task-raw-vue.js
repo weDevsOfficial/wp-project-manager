@@ -225,6 +225,18 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 });
 
             },
+            showLoadMoreBtn: function () {
+                if (vm.project_obj.todolist > vm.offset) {
+                    vm.showMoreBtn = true;
+                } else {
+                    vm.showMoreBtn = false;
+                }
+            },
+            hideLoading: function () {
+                jQuery(".cpm-data-load-before").hide();
+                jQuery(".cpm-task-container").show();
+                //this.dataLoading = false
+            },
 
         }
     }
@@ -835,8 +847,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
 
-
-
     // Partial for Task List form extra data
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
 
@@ -895,6 +905,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         ready: function ( ) {
             this.getInitData();
             this.getTaskList();
+            this.hideLoading();
         },
         methods: {
             getInitData: function () {
@@ -937,7 +948,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                         // get Task for the list
                         vm.getTasks(res.lists);
-
+                        vm.showLoadMoreBtn();
                     }
                 });
             },
@@ -961,6 +972,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                             var list = res.lists[i];
                             vm.getListTask(list);
                             vm.tasklist.push(list);
+                            vm.showLoadMoreBtn();
+
 
                         }
 

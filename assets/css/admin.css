@@ -1235,6 +1235,9 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
+.cpm-task-container {
+  display: none;
+}
 .cpm-todolists .submit {
   margin: 10px 0;
   padding: 0 0 15px 0;
