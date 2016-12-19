@@ -226,7 +226,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
             showLoadMoreBtn: function () {
-                if (vm.project_obj.todolist > vm.offset) {
+               var totallist = parseInt(vm.project_obj.todolist - vm.project_obj.pin_list ) ;
+                if ( totallist > vm.offset) {
                     vm.showMoreBtn = true;
                 } else {
                     vm.showMoreBtn = false;
@@ -235,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             hideLoading: function () {
                 jQuery(".cpm-data-load-before").hide();
                 jQuery(".cpm-task-container").show();
-                //this.dataLoading = false
+
             },
 
         }
@@ -496,9 +497,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             getlistComments: function (list) {
                 var data = {
-                    action: 'cpm_get_doc_comments',
+                    action: 'cpm_get_post_comments',
                     _wpnonce: CPM_Vars.nonce,
-                    doc_id: list.ID,
+                    post_id: list.ID,
                 }
                 var self = this;
 
@@ -661,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     Vue.component('tasklist', {
         template: require('./../html/task/tasklist.html'),
         mixins: [taskMixin],
-        props: ['lists', 'list',   'task', 'current_project', 'wp_nonce', 'pree_init_data'],
+        props: ['lists', 'list', 'task', 'current_project', 'wp_nonce', 'pree_init_data'],
 
         computed: {
 
@@ -693,22 +694,17 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             getTaskComments: function (task) {
                 var data = {
-                    action: 'cpm_get_doc_comments',
+                    action: 'cpm_get_post_comments',
                     _wpnonce: CPM_Vars.nonce,
-                    doc_id: task.ID,
+                    post_id: task.ID,
                 }
                 var self = this;
 
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
                     if (res.success == true) {
-
-
                         vm.comments = res.comments;
-
-                    } else {
-
-                    }
+                    } 
                 });
             },
             editTask: function (task) {
@@ -934,7 +930,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     _wpnonce: CPM_Vars.nonce,
                     project_id: this.current_project,
                     offset: this.offset,
-                    show_pin : 'yes',
+                    show_pin: 'yes',
                     type: 'json',
                 }
                 this.tasklist = [];
@@ -960,24 +956,22 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     _wpnonce: CPM_Vars.nonce,
                     project_id: vm.current_project,
                     offset: vm.offset,
-                    show_pin : 'no',
+                    show_pin: 'no',
                     type: 'json',
                 }
 
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
                     res = JSON.parse(res);
                     if (res.success == true) {
-                         vm.offset = res.next_offset;
-                        for (var i = 0; i <= res.lists.length; i++) {
-                            var list = res.lists[i];
-                            vm.getListTask(list);
-                            vm.tasklist.push(list);
+                        vm.offset = res.next_offset;
+                        var thelists = res.lists;
+
+                        for (var l in thelists) {
+                            var tls = thelists[l];
+                            vm.getListTask(tls);
+                            vm.tasklist.push(tls);
                             vm.showLoadMoreBtn();
-
-
                         }
-
-
                     }
                 });
             },
@@ -1006,23 +1000,22 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
 
-            getListTask: function (list) {
-                var listc = list ;
+            getListTask: function (thelist) {
 
                 var data = {
                     project_id: vm.current_project,
                     single: true,
                     action: 'cpm_get_todo_list',
                     is_admin: CPM_Vars.is_admin,
-                    list_id: listc.ID,
+                    list_id: thelist.ID,
                     type: 'json'
                 }
                 jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
-                        res = JSON.parse(res);
-                        if (res.success == true) {
-                            listc.tasklist = res.tasklist;
-                        }
-                    });
+                    res = JSON.parse(res);
+                    if (res.success == true) {
+                        thelist.tasklist = res.tasklist;
+                    }
+                });
 
             },
 
@@ -1030,11 +1023,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.hideAllform( );
                 this.uploadFormShow = true;
             },
-            getComments: function (docid) {
+            getComments: function (postid) {
                 var data = {
-                    action: 'cpm_get_doc_comments',
+                    action: 'cpm_get_post_comments',
                     _wpnonce: CPM_Vars.nonce,
-                    doc_id: docid,
+                    post_id: postid,
                 }
                 var self = this;
                 self.comments = [];

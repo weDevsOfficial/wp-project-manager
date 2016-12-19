@@ -88,6 +88,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_list_extra_field', array ( $this, 'listfrom_extrafield_list' ) );
         add_action( 'wp_ajax_cpm_get_task_extra_field', array ( $this, 'taskfrom_extrafield_list' ) );
          add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
+         add_action( 'wp_ajax_cpm_get_post_comments', array( $this, 'get_post_comments' ) );
     }
 
     /**
@@ -1453,6 +1454,18 @@ class CPM_Ajax {
     }
 
 
+    function get_post_comments() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted               = $_POST;
+        $post_id              = isset( $posted['post_id'] ) ? intval( $posted['post_id'] ) : 0;
+        $comment_obj          = new CPM_Comment();
+        $comments             = $comment_obj->get_comments( $post_id );
+        $response['success']  = TRUE;
+        $response['comments'] = $comments;
+        echo json_encode( $response );
+
+        exit();
+    }
 
     function task_users( $task_users, $avatar = false ) {
         $user = array ();

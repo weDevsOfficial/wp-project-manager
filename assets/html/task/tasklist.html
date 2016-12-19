@@ -11,12 +11,13 @@
 
 
                         <span class="cpm-spinner"></span>
-                         
+
                         <input class="" type="checkbox" checked="{{task.completed==1}}" @click.prevent="checktoggeltask(task, list)">
 
                         <span class="cpm-todo-text"> <a href="#" @click.prevent="taskDetails(task, list)"> {{task.post_title}} </a> </span>
                         <span class="cpm-lock" v-show="task.task_privacy"></span>
                         <span> <partial name="hook_cpm_task_extra"></partial> </span>
+                        
                         <span  v-if="task.completed==0">
                             <user_show_list
                                 :users="task.assigned_to"
