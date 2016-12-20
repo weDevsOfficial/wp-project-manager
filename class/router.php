@@ -161,13 +161,13 @@ class CPM_Router {
                             case 'index':
                                 $file = CPM_PATH . '/views/task/index.php';
                                 break;
-                            case 'single':
-                                $file = CPM_PATH . '/views/task/single.php';
-                                break;
-
-                            case 'task_single':
-                                $file = CPM_PATH . '/views/task/task-single.php';
-                                break;
+//                            case 'single':
+//                                $file = CPM_PATH . '/views/task/single.php';
+//                                break;
+//
+//                            case 'task_single':
+//                                $file = CPM_PATH . '/views/task/task-single.php';
+//                                break;
 
                             default:
                                 $file = CPM_PATH . '/views/task/index.php';

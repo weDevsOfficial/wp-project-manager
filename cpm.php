@@ -305,12 +305,14 @@ class WeDevs_CPM {
     static function admin_scripts() {
         $upload_size = intval( cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'underscore' );
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-autocomplete' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.js', __FILE__ ), '', time(), FALSE, false );
+        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue-router.js', __FILE__ ), array('cpm-vuejs'), FALSE, false );
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array( 'jquery' ), false, true );

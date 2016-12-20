@@ -1,5 +1,4 @@
 <div class="cpm-todo-form">
-    {{fid | json}}
     <form action="" method="post" class="cpm-task-form"  @submit.prevent="savetask(task,list,fid)" id="{{fid}}">
     <input type="hidden" name="list_id" value="{{list.ID}}">
     <input type="hidden" name="action" value="{{form_action}}">

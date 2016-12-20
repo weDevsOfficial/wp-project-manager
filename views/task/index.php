@@ -72,14 +72,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
                 <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)"  @click.prevent="loadmorelist()" >Load More ... </a>
         </div>
 
-
-    <?php
-    if ( cpm_get_option( 'todolist_show', 'cpm_general' ) == 'pagination' ) {
-        cpm_pagination( $project_details->todolist_without_pin, cpm_get_option( 'show_todo', 'cpm_general' ), $pagenum );
-    }
-    ?>
-
-
+ 
 
 
     <taskmodal

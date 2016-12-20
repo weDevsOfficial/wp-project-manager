@@ -45,6 +45,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_tasklist_pinstatus_update', array ( $this, 'update_tasklist_pinstatus' ) );
 
         add_action( 'wp_ajax_cpm_get_task_list', array ( $this, 'get_task_list' ) );
+        add_action( 'wp_ajax_cpm_get_task_list_single', array ( $this, 'get_task_list_single' ) );
         add_action( 'wp_ajax_cpm_get_todo_list', array ( $this, 'get_todo_list' ) );
         add_action( 'wp_ajax_cpm_get_task', array ( $this, 'get_todo_single' ) );
 
@@ -1375,6 +1376,42 @@ class CPM_Ajax {
         }
         exit();
     }
+
+    function get_task_list_single() {
+        $is_admin   = (isset( $_POST[ 'is_admin' ] )) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
+
+        $list_id = (isset( $_POST[ 'list_id' ] )) ? sanitize_text_field( $_POST[ 'list_id' ] ) : 0;
+        $project_id = (isset( $_POST[ 'project_id' ] )) ? sanitize_text_field( $_POST[ 'project_id' ] ) : 0;
+        $offset     = (isset( $_POST[ 'offset' ] )) ? sanitize_text_field( $_POST[ 'offset' ] ) : 0;
+        $privacy    = (isset( $_POST[ 'privacy' ] ) ) ? sanitize_text_field( $_POST[ 'privacy' ] ) : false;
+        $type       = (isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
+        $task_obj   = CPM_Task::getInstance();
+        $list      = $task_obj->get_task_list($list_id);
+
+
+        if ( 'no' == $is_admin ) {
+            new CPM_Frontend_URLs();
+        }
+
+        //var_dump($list) ;
+        if ( empty( $list ) ) {
+            echo json_encode( array (
+                'success'  => false,
+                'response' => '',
+            ) );
+        }else {
+
+             $list = $this->add_new_list_kyes( $list, $project_id );
+
+            $response = array (
+                'list'       => $list,
+                'success'     => true,
+            );
+            echo json_encode( $response );
+        }
+        exit();
+    }
+
 
     function get_todo_list() {
         $task_obj   = CPM_Task::getInstance();

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function ( ) {
-// register modal component
 
     Vue.directive('fileupload', {
         bind: function ( ) {
@@ -226,8 +225,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
             showLoadMoreBtn: function () {
-               var totallist = parseInt(vm.project_obj.todolist - vm.project_obj.pin_list ) ;
-                if ( totallist > vm.offset) {
+                var totallist = parseInt(vm.project_obj.todolist - vm.project_obj.pin_list);
+                if (totallist > vm.offset) {
                     vm.showMoreBtn = true;
                 } else {
                     vm.showMoreBtn = false;
@@ -237,6 +236,28 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 jQuery(".cpm-data-load-before").hide();
                 jQuery(".cpm-task-container").show();
 
+            },
+
+            getUrlParameter: function (name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
+            getTaskComments: function (task) {
+                var data = {
+                    action: 'cpm_get_post_comments',
+                    _wpnonce: CPM_Vars.nonce,
+                    post_id: task.ID,
+                }
+                var self = this;
+
+                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = JSON.parse(res);
+                    if (res.success == true) {
+                        vm.comments = res.comments;
+                    }
+                });
             },
 
         }
@@ -291,9 +312,14 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.taskData.completed = this.task.completed;
                 this.taskData.comments = this.task.comments;
                 this.taskData.subtasks = this.task.subtasks;
+                this.taskData.comment_count = this.task.comment_count;
+                this.taskData.assigned_to = this.task.assigned_to;
+                this.taskData.completed_by = this.task.completed_by;
+                this.taskData.date_show_complete = this.task.date_show_complete;
 
                 this.show = false;
                 vm.comments = [];
+
             },
         },
 
@@ -358,6 +384,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 var data = jQuery("#" + formid).serialize( ), self = this;
                 var totalc = parseInt(post.comment_count);
+
                 if (jQuery("#" + formid + "#coment-content").val( ) == '') {
                     alert(vm.text.empty_comment);
                     return;
@@ -396,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
 
-// File Upload component ...   snns
+// File Upload component ...
     Vue.component('fileuploader', {
         template: require('./../html/common/fileuploader.html'),
         mixins: [taskMixin],
@@ -692,21 +719,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
 
-            getTaskComments: function (task) {
-                var data = {
-                    action: 'cpm_get_post_comments',
-                    _wpnonce: CPM_Vars.nonce,
-                    post_id: task.ID,
-                }
-                var self = this;
-
-                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
-                    res = JSON.parse(res);
-                    if (res.success == true) {
-                        vm.comments = res.comments;
-                    }
-                });
-            },
             editTask: function (task) {
                 vm.get_task_extra_field(task);
                 task.edit_mode = true;
@@ -769,7 +781,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 var self = this, ctask = task,
                         sform = jQuery("#" + fid);
-                var  data = sform.serialize() ;
+                var data = sform.serialize();
 
                 var oict = list.incomplete;
                 var total = list.total;
@@ -815,15 +827,15 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 if (task.ID = 0 || (typeof task !== "undefined")) {
                     sf = list.ID;
                 } else {
-                    sf =  task.ID;
+                    sf = task.ID;
                 }
 
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
                 });
-                if(sf != ""){
+                if (sf != "") {
                     jQuery("#" + sf + " input[name='task_assign']").val(au);
-                    
+
                 }
             }
         },
@@ -864,6 +876,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     Vue.config.debug = true;
 
+
+
     var vm = new Vue({
         el: '#taskapp',
         mixins: [taskMixin],
@@ -900,11 +914,13 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 task_start_field: true
             },
         },
+        created: function () {
 
+        },
         ready: function ( ) {
             this.getInitData();
-            this.getTaskList();
-            this.hideLoading();
+            this.getTaskLists();
+
         },
         methods: {
             getInitData: function () {
@@ -926,7 +942,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 });
             },
-            getTaskList: function ( ) {
+            getTaskLists: function ( ) {
                 var self = this;
                 var data = {
                     action: 'cpm_get_task_list',
@@ -948,6 +964,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         // get Task for the list
                         vm.getTasks(res.lists);
                         vm.showLoadMoreBtn();
+                        vm.loadListfist();
+                        vm.hideLoading();
                     }
                 });
             },
@@ -971,7 +989,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                         for (var l in thelists) {
                             var tls = thelists[l];
-                            vm.getListTask(tls);
+                            vm.getListTasks(tls);
                             vm.tasklist.push(tls);
                             vm.showLoadMoreBtn();
                         }
@@ -995,6 +1013,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         res = JSON.parse(res);
                         if (res.success == true) {
                             list.tasklist = res.tasklist;
+                            vm.loadTaskfirst(list);
                         }
                     });
 
@@ -1003,7 +1022,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
 
-            getListTask: function (thelist) {
+            loadTaskfirst: function (list) {
+                var act = vm.getUrlParameter('action');
+                if (act === 'task_single') {
+                    var task_id = parseInt(vm.getUrlParameter('task_id'));
+
+                    for (var t in list.tasklist) {
+                        var ct = list.tasklist[t];
+
+                        if (_.isMatch(ct, {ID: task_id})) {
+                            vm.getTaskComments(ct);
+                            vm.$dispatch('open-taskmodal', ct, list);
+                        }
+                    }
+
+                }
+            },
+
+            getListTasks: function (thelist) {
 
                 var data = {
                     project_id: vm.current_project,
@@ -1017,6 +1053,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     if (res.success == true) {
                         thelist.tasklist = res.tasklist;
+                        vm.loadTaskfirst(thelist);
                     }
                 });
 
@@ -1043,6 +1080,55 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     }
                 });
             },
+
+            loadListfist: function () {
+
+                var act = this.getUrlParameter('action');
+                if (act === 'task_single' || act == 'single') {
+                    var list_id = this.getUrlParameter('tl_id');
+                    var task_id = this.getUrlParameter('task_id');
+                    var self = this;
+                    var data = {
+                        action: 'cpm_get_task_list_single',
+                        _wpnonce: CPM_Vars.nonce,
+                        project_id: this.current_project,
+                        offset: this.offset,
+                        list_id: list_id,
+                        type: 'json',
+                    }
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success == true) {
+                            var ls = res.list;
+                            var estlist = self.tasklist;
+                            var ne = false;
+                            vm.listfullview = true;
+                            var current_list;
+                            for (var l in estlist) {
+                                var nsl = estlist[l];
+                                nsl.hideme = true;
+                                if (_.isMatch(nsl, {ID: ls.ID})) {
+                                    nsl.hideme = false;
+                                    nsl.full_view_mode = true;
+                                    ne = true;
+                                    current_list = nsl;
+                                }
+                            }
+                            if (!ne) {
+                                ls.full_view_mode = true;
+                                ls.hideme = false;
+                                self.getListTasks(ls);
+                                self.tasklist.push(ls);
+                                current_list = ls;
+                            }
+
+                        }
+                    });
+
+
+                }
+            },
+
         },
 
         events: {

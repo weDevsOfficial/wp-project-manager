@@ -5,7 +5,7 @@ module.exports = '<div class=\'cpm-attachment-area\'>\n    <div id=\'cpm-upload-
 },{}],3:[function(require,module,exports){
 module.exports = '<a  target="_new" v-bind:class="{\'cpm-colorbox-img\' : file.type !=\'file\'}"  title="{{file.name}}" href="{{file.url}}">\n    <img :src="file.thumb" alt="{{file.name}}" />\n</a>';
 },{}],4:[function(require,module,exports){
-module.exports = '<div class="cpm-todo-form">\n    {{fid | json}}\n    <form action="" method="post" class="cpm-task-form"  @submit.prevent="savetask(task,list,fid)" id="{{fid}}">\n    <input type="hidden" name="list_id" value="{{list.ID}}">\n    <input type="hidden" name="action" value="{{form_action}}">\n    <input type="hidden" name="single" value="false">\n    <input type="hidden" name="type" value="json">\n    <input type="hidden" name="_wp_none" value="{{wp_nonce}}">\n    <input type="hidden" name="project_id" value="{{current_project}}">\n    <input type="hidden" name="task_assign" value="{{task.task_assign}}">\n\n\n     <input type="hidden" name="task_id" v-if="task && task.ID" value="{{task.ID}}">\n\n\n    <div class="item task-title">\n        <input type="text" name="task_title" class="task_title" placeholder="{{text.add_a_new_todo}}" value="{{task.post_title}}" required>\n    </div>\n\n    <div class="item content">\n        <textarea name="task_text" class="todo_content" cols="40" placeholder="{{text.add_todo_details_text}}" rows="2" value="{{task.post_content}}">{{task.post_content}}</textarea>\n    </div>\n\n    <div class="item date">\n\n        <div class="cpm-task-start-field" v-if="pree_init_data.task_start_field">\n            <label>{{text.start_date}} </label>\n            <input  type="text"  placeholder="{{text.start_date}}" value="{{task.start_date}}" name="task_start" v-model="task_start" v-datepicker />\n        </div>\n\n        <div class="cpm-task-due-field">\n            <label>{{text.due_date}}  </label>\n            <input type="text" autocomplete="off" class="date_picker_to" placeholder="{{text.due_date}}" value="{{task.due_date}}" name="task_due"  v-datepicker :min-date="task_start" />\n        </div>\n    </div>\n\n    <div class="item user">\n        <multiselect\n            @update="updateTaskAssignUser"\n            :options="pree_init_data.users"\n            :selected="task.assigned_to"\n            :multiple="true"\n            label="name"\n            :multiple="true"\n            :taggable="true"\n            key="id"\n        ></multiselect>\n\n\n    </div>\n\n     <partial name="todoform_extra_field"> </partial>\n\n    <div class="item submit">\n        <span class="cpm-new-task-spinner"></span>\n\n        <input type="submit" class="button-primary" name="submit_todo" value="{{text.submit}}">\n        <a class="button todo-cancel" href="#" @click.prevent="hideTaskForm(list, task)">{{text.cancel}}</a>\n    </div>\n</form>\n</div>';
+module.exports = '<div class="cpm-todo-form">\n    <form action="" method="post" class="cpm-task-form"  @submit.prevent="savetask(task,list,fid)" id="{{fid}}">\n    <input type="hidden" name="list_id" value="{{list.ID}}">\n    <input type="hidden" name="action" value="{{form_action}}">\n    <input type="hidden" name="single" value="false">\n    <input type="hidden" name="type" value="json">\n    <input type="hidden" name="_wp_none" value="{{wp_nonce}}">\n    <input type="hidden" name="project_id" value="{{current_project}}">\n    <input type="hidden" name="task_assign" value="{{task.task_assign}}">\n\n\n     <input type="hidden" name="task_id" v-if="task && task.ID" value="{{task.ID}}">\n\n\n    <div class="item task-title">\n        <input type="text" name="task_title" class="task_title" placeholder="{{text.add_a_new_todo}}" value="{{task.post_title}}" required>\n    </div>\n\n    <div class="item content">\n        <textarea name="task_text" class="todo_content" cols="40" placeholder="{{text.add_todo_details_text}}" rows="2" value="{{task.post_content}}">{{task.post_content}}</textarea>\n    </div>\n\n    <div class="item date">\n\n        <div class="cpm-task-start-field" v-if="pree_init_data.task_start_field">\n            <label>{{text.start_date}} </label>\n            <input  type="text"  placeholder="{{text.start_date}}" value="{{task.start_date}}" name="task_start" v-model="task_start" v-datepicker />\n        </div>\n\n        <div class="cpm-task-due-field">\n            <label>{{text.due_date}}  </label>\n            <input type="text" autocomplete="off" class="date_picker_to" placeholder="{{text.due_date}}" value="{{task.due_date}}" name="task_due"  v-datepicker :min-date="task_start" />\n        </div>\n    </div>\n\n    <div class="item user">\n        <multiselect\n            @update="updateTaskAssignUser"\n            :options="pree_init_data.users"\n            :selected="task.assigned_to"\n            :multiple="true"\n            label="name"\n            :multiple="true"\n            :taggable="true"\n            key="id"\n        ></multiselect>\n\n\n    </div>\n\n     <partial name="todoform_extra_field"> </partial>\n\n    <div class="item submit">\n        <span class="cpm-new-task-spinner"></span>\n\n        <input type="submit" class="button-primary" name="submit_todo" value="{{text.submit}}">\n        <a class="button todo-cancel" href="#" @click.prevent="hideTaskForm(list, task)">{{text.cancel}}</a>\n    </div>\n</form>\n</div>';
 },{}],5:[function(require,module,exports){
 module.exports = '\n<ul  class="cpm-todos cpm-todolist-content" >\n\n    <li v-for="task in pendingList ">\n\n        <div class="cpm-todo-wrap clearfix">\n            <div class="cpm-todo-content" >\n\n                <div>\n                    <div class="cpm-col-7">\n\n\n                        <span class="cpm-spinner"></span>\n\n                        <input class="" type="checkbox" checked="{{task.completed==1}}" @click.prevent="checktoggeltask(task, list)">\n\n                        <span class="cpm-todo-text"> <a href="#" @click.prevent="taskDetails(task, list)"> {{task.post_title}} </a> </span>\n                        <span class="cpm-lock" v-show="task.task_privacy"></span>\n                        <span> <partial name="hook_cpm_task_extra"></partial> </span>\n\n                        <span  v-if="task.completed==0">\n                            <user_show_list\n                                :users="task.assigned_to"\n                                ></user_show_list>\n                            <span class="{{task.date_css_class}}"> {{{task.date_show}}} </span>\n\n                        </span>\n\n\n                    </div>\n\n                    <div class="cpm-col-4">\n\n                        <span class="comments column-comments post-com-count-wrapper">\n                            <a href="#" @click.prevent="taskDetails(task, list)"  class="post-com-count post-com-count-approved">\n                                <span class="comment-count-approved" aria-hidden="true">{{task.comment_count}}</span>\n                            </a>\n                        </span>\n\n\n                        <partial name="hook_cpm_task_column"></partial>\n\n                    </div>\n\n                    <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">\n\n\n                        <a href="#" class="cpm-todo-delete" @click.prevent="deleteTask(tasks,task)" ><span class="dashicons dashicons-trash"></span></a>\n\n\n                        <a href="#" @click.prevent="editTask(task)" class=""><span class="dashicons dashicons-edit"></span></a>\n\n                    </div>\n                    <div class="clearfix"></div>\n\n\n                </div>\n                <div class="" v-if="task.edit_mode" >\n\n                    <taskform\n                        :list="list"\n                        :task="task"\n                        :text="text"\n                        :current_project="current_project"\n                        :form_action="\'cpm_task_update\'"\n                        :wp_nonce="wp_nonce"\n                        :pree_init_data="pree_init_data"\n                        :extra_fields="task.extra_data"\n                        :fid="task.ID"\n                        ></taskform>\n                </div>\n                <div class="cpm-col-12">\n\n                    <partial name="hook_cpm_task_single_after"></partial>\n\n                </div>\n\n            </div>\n\n\n\n        </div>\n    </li>\n</ul>\n<div v-if="list.full_view_mode">\n    <ul  class="cpm-todos cpm-todolist-content" >\n        <li v-for="task in completeList " >\n\n            <div class="cpm-todo-wrap clearfix">\n                <div class="cpm-todo-content" >\n\n                    <div>\n                        <div class="cpm-col-7">\n\n\n                            <span class="cpm-spinner"></span>\n\n                            <input class="" type="checkbox" checked="{{task.completed==1}}" @click.prevent="checktoggeltask(task, list)">\n\n                            <span class="cpm-todo-text"> <a href="#" @click.prevent="taskDetails(task, list)"> {{task.post_title}} </a> </span>\n                            <span class="cpm-lock" v-show="task.task_privacy"></span>\n                            <span> <partial name="hook_cpm_task_extra"></partial> </span>\n                            <span  v-if="task.completed==1"> {{text.completed_by}}\n                                <user_show_list\n                                    :users="task.completed_by"\n                                    ></user_show_list>  {{text.on}}\n\n                                <span class="cpm-completed-by"> {{{task.date_show_complete}}} </span>\n\n                            </span>\n\n\n                        </div>\n\n                        <div class="cpm-col-4">\n\n                            <span class="comments column-comments post-com-count-wrapper">\n                                <a href="#" @click.prevent="taskDetails(task, list)" class="post-com-count post-com-count-approved">\n                                    <span class="comment-count-approved" aria-hidden="true">{{task.comment_count}}</span>\n                                </a>\n                            </span>\n\n\n                            <partial name="hook_cpm_task_column"></partial>\n\n                        </div>\n\n                        <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">\n\n\n                            <a href="#" class="cpm-todo-delete" @click.prevent="deleteTask(tasks,task)" ><span class="dashicons dashicons-trash"></span></a>\n                        </div>\n                        <div class="clearfix"></div>\n\n\n                    </div>\n\n                    <div class="cpm-col-12">\n\n                        <partial name="hook_cpm_task_single_after"></partial>\n\n                    </div>\n\n                </div>\n\n\n\n            </div>\n        </li>\n    </ul>\n\n\n\n</div>';
 },{}],6:[function(require,module,exports){
@@ -14,7 +14,6 @@ module.exports = '\n<div class="modal-mask half-modal cpm-task-modal"  v-show="s
 module.exports = '<a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">\n    <span class="dashicons dashicons-arrow-left-alt"></span>\n    {{text.backtotasklist}}\n</a>\n<article class="cpm-todolist">\n    <header class="cpm-list-header">\n\n        <h3>\n            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} </a>\n                <div class="cpm-right" v-if="list.ed_permission">\n                <a href="#" class="cpm-icon-edit" title="Edit this List " @click.prevent="editList(list)"><span class="dashicons dashicons-edit"></span></a>\n                <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deletelist(list)" title="Delete this List" data-list_id="{{list.ID}}" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>\n            </div>\n            <div class="cpm-right cpm-pin-list" :class="{sticky_list:list.pin_list}" v-if="list.ed_permission" >\n                <a title="" href="#" class=" cpm-icon-pin " @click.prevent="pinlist(list)"  ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n            <div v-else>\n                <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n        </h3>\n\n        <div class="cpm-entry-detail" >  {{list.post_content}}</div>\n\n        <div class="cpm-list-edit-form" v-if="list.edit_mode">\n\n            <todolistform\n                :lists="list"\n                :pid="current_project"\n                :formaction="\'cpm_update_list\'"\n                :wp_nonce="wp_nonce"\n                :extra_fields="list.extra_data"\n                :milestonelist="milestonelist"\n                :slected_milestone="list.milestone"\n                :fid="list.ID"\n\n            ></todolistform>\n        </div>\n    </header>\n    <div class="cpm-todo">\n\n        <tasklist\n            :list="list"\n\n            :pree_init_data="pree_init_data"\n            :wp_nonce="wp_nonce"\n            :current_project="current_project"\n        ></tasklist>\n\n    </div>\n    <div v-show="list.show_new_task_form">\n        <taskform\n            :list="list"\n            :task="etask"\n            :text="text"\n            :current_project="current_project"\n            :form_action="\'cpm_task_add\'"\n            :wp_nonce="wp_nonce"\n            :pree_init_data="pree_init_data"\n            :extra_fields=""\n            :fid="list.ID"\n        ></taskform>\n    </div>\n <div class="cpm-new-btn" v-show="! list.show_new_task_form"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>\n\n <div class="list-comments" v-if="list.full_view_mode">\n\n     <comment_warp :comments="list.comments" :task="list" :pree_init_data="pree_init_data" :formid="\'list-comments\'" :uploderid="\'lc\'"></comment_warp>\n\n </div>\n\n\n\n    <footer class="cpm-row cpm-list-footer">\n        <div class="cpm-col-6">\n            <div class="cpm-col-3 cpm-todo-complete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.complete}} </span>\n                    Complete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-incomplete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.incomplete}} </span>\n                    Incomplete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-comment">\n                <a href="#" @click.prevent="taskListDetails(list)" >\n                    {{list.comment_count}} Comments\n                </a>\n            </div>\n        </div>\n\n        <div class="cpm-col-4 cpm-todo-prgress-bar">\n            <div class="cpm-progress cpm-progress-info">\n                <div :style="{width: list.complete_percent + \'%\'}" class="bar completed"></div>\n            </div>\n        </div>\n        <div class=" cpm-col-1 no-percent">\n            {{list.complete_percent}}%\n        </div>\n        <div class="clearfix"></div>\n\n    </footer>\n\n\n\n</article>';
 },{}],8:[function(require,module,exports){
 document.addEventListener('DOMContentLoaded', function ( ) {
-// register modal component
 
     Vue.directive('fileupload', {
         bind: function ( ) {
@@ -241,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
             showLoadMoreBtn: function () {
-               var totallist = parseInt(vm.project_obj.todolist - vm.project_obj.pin_list ) ;
-                if ( totallist > vm.offset) {
+                var totallist = parseInt(vm.project_obj.todolist - vm.project_obj.pin_list);
+                if (totallist > vm.offset) {
                     vm.showMoreBtn = true;
                 } else {
                     vm.showMoreBtn = false;
@@ -252,6 +251,28 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 jQuery(".cpm-data-load-before").hide();
                 jQuery(".cpm-task-container").show();
 
+            },
+
+            getUrlParameter: function (name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
+            getTaskComments: function (task) {
+                var data = {
+                    action: 'cpm_get_post_comments',
+                    _wpnonce: CPM_Vars.nonce,
+                    post_id: task.ID,
+                }
+                var self = this;
+
+                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = JSON.parse(res);
+                    if (res.success == true) {
+                        vm.comments = res.comments;
+                    }
+                });
             },
 
         }
@@ -306,9 +327,14 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.taskData.completed = this.task.completed;
                 this.taskData.comments = this.task.comments;
                 this.taskData.subtasks = this.task.subtasks;
+                this.taskData.comment_count = this.task.comment_count;
+                this.taskData.assigned_to = this.task.assigned_to;
+                this.taskData.completed_by = this.task.completed_by;
+                this.taskData.date_show_complete = this.task.date_show_complete;
 
                 this.show = false;
                 vm.comments = [];
+
             },
         },
 
@@ -373,6 +399,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 var data = jQuery("#" + formid).serialize( ), self = this;
                 var totalc = parseInt(post.comment_count);
+
                 if (jQuery("#" + formid + "#coment-content").val( ) == '') {
                     alert(vm.text.empty_comment);
                     return;
@@ -411,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
 
-// File Upload component ...   snns
+// File Upload component ...
     Vue.component('fileuploader', {
         template: require('./../html/common/fileuploader.html'),
         mixins: [taskMixin],
@@ -707,21 +734,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
 
-            getTaskComments: function (task) {
-                var data = {
-                    action: 'cpm_get_post_comments',
-                    _wpnonce: CPM_Vars.nonce,
-                    post_id: task.ID,
-                }
-                var self = this;
-
-                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
-                    res = JSON.parse(res);
-                    if (res.success == true) {
-                        vm.comments = res.comments;
-                    }
-                });
-            },
             editTask: function (task) {
                 vm.get_task_extra_field(task);
                 task.edit_mode = true;
@@ -784,7 +796,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 var self = this, ctask = task,
                         sform = jQuery("#" + fid);
-                var  data = sform.serialize() ;
+                var data = sform.serialize();
 
                 var oict = list.incomplete;
                 var total = list.total;
@@ -830,15 +842,15 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 if (task.ID = 0 || (typeof task !== "undefined")) {
                     sf = list.ID;
                 } else {
-                    sf =  task.ID;
+                    sf = task.ID;
                 }
 
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
                 });
-                if(sf != ""){
+                if (sf != "") {
                     jQuery("#" + sf + " input[name='task_assign']").val(au);
-                    
+
                 }
             }
         },
@@ -879,6 +891,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     Vue.config.debug = true;
 
+
+
     var vm = new Vue({
         el: '#taskapp',
         mixins: [taskMixin],
@@ -915,11 +929,13 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 task_start_field: true
             },
         },
+        created: function () {
 
+        },
         ready: function ( ) {
             this.getInitData();
-            this.getTaskList();
-            this.hideLoading();
+            this.getTaskLists();
+
         },
         methods: {
             getInitData: function () {
@@ -941,7 +957,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 });
             },
-            getTaskList: function ( ) {
+            getTaskLists: function ( ) {
                 var self = this;
                 var data = {
                     action: 'cpm_get_task_list',
@@ -963,6 +979,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         // get Task for the list
                         vm.getTasks(res.lists);
                         vm.showLoadMoreBtn();
+                        vm.loadListfist();
+                        vm.hideLoading();
                     }
                 });
             },
@@ -986,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                         for (var l in thelists) {
                             var tls = thelists[l];
-                            vm.getListTask(tls);
+                            vm.getListTasks(tls);
                             vm.tasklist.push(tls);
                             vm.showLoadMoreBtn();
                         }
@@ -1010,6 +1028,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         res = JSON.parse(res);
                         if (res.success == true) {
                             list.tasklist = res.tasklist;
+                            vm.loadTaskfirst(list);
                         }
                     });
 
@@ -1018,7 +1037,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             },
 
-            getListTask: function (thelist) {
+            loadTaskfirst: function (list) {
+                var act = vm.getUrlParameter('action');
+                if (act === 'task_single') {
+                    var task_id = parseInt(vm.getUrlParameter('task_id'));
+
+                    for (var t in list.tasklist) {
+                        var ct = list.tasklist[t];
+
+                        if (_.isMatch(ct, {ID: task_id})) {
+                            vm.getTaskComments(ct);
+                            vm.$dispatch('open-taskmodal', ct, list);
+                        }
+                    }
+
+                }
+            },
+
+            getListTasks: function (thelist) {
 
                 var data = {
                     project_id: vm.current_project,
@@ -1032,6 +1068,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     res = JSON.parse(res);
                     if (res.success == true) {
                         thelist.tasklist = res.tasklist;
+                        vm.loadTaskfirst(thelist);
                     }
                 });
 
@@ -1058,6 +1095,55 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     }
                 });
             },
+
+            loadListfist: function () {
+
+                var act = this.getUrlParameter('action');
+                if (act === 'task_single' || act == 'single') {
+                    var list_id = this.getUrlParameter('tl_id');
+                    var task_id = this.getUrlParameter('task_id');
+                    var self = this;
+                    var data = {
+                        action: 'cpm_get_task_list_single',
+                        _wpnonce: CPM_Vars.nonce,
+                        project_id: this.current_project,
+                        offset: this.offset,
+                        list_id: list_id,
+                        type: 'json',
+                    }
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success == true) {
+                            var ls = res.list;
+                            var estlist = self.tasklist;
+                            var ne = false;
+                            vm.listfullview = true;
+                            var current_list;
+                            for (var l in estlist) {
+                                var nsl = estlist[l];
+                                nsl.hideme = true;
+                                if (_.isMatch(nsl, {ID: ls.ID})) {
+                                    nsl.hideme = false;
+                                    nsl.full_view_mode = true;
+                                    ne = true;
+                                    current_list = nsl;
+                                }
+                            }
+                            if (!ne) {
+                                ls.full_view_mode = true;
+                                ls.hideme = false;
+                                self.getListTasks(ls);
+                                self.tasklist.push(ls);
+                                current_list = ls;
+                            }
+
+                        }
+                    });
+
+
+                }
+            },
+
         },
 
         events: {
