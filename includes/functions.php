@@ -161,7 +161,9 @@ function cpm_user_checkboxes( $project_id ) {
 
     // remove current logged in user from list
     if ( array_key_exists( $cur_user, $users ) ) {
-        unset( $users[$cur_user] );
+
+        $arr_index = array_search( $cur_user, $users );
+        unset( $users[$arr_index] );
     }
 
     foreach ( $users as $key => $user ) {
