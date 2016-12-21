@@ -561,6 +561,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         res = JSON.parse(res);
                         if (res.success) {
                             vm.tasklist.$remove(list);
+                            if(vm.tasklist.length === 0 ){
+                                vm.emptylist = true;
+                            }
                         }
                     });
                 }
@@ -666,6 +669,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                             vm.tasklist.unshift(list);
                             self.clear_form_data("#" + fid);
                             vm.new_list_form = false;
+                            vm.emptylist = false;
                         } else {
 
                             clist.post_title = list.post_title;
@@ -857,6 +861,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     });
 
+    Vue.component('blanktemplate', {
+
+        template: require('./../html/task/blanktemplate.html'),
+        mixins: [taskMixin],
+        data: function () {
+            return {
+                user_create_access: CPM_task.user_can_create,
+
+            }
+        },
+        props: ['emptylist', 'new_list_form'],
+        methods: {
+        },
+        ready: function () {
+
+        }
+    });
+
 
     // Partial for Task List form extra data
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
@@ -891,6 +913,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             comments: [],
             attachments: [],
             new_list_form: false,
+            new_list_form_btn: false,
             wp_nonce: CPM_Vars.nonce,
             tasklist_new_action: 'cpm_add_list',
             tasklist_update_action: 'cpm_update_list',
@@ -908,6 +931,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             showtask: [],
             showtaskmodal: false,
             listfullview: false,
+            emptylist: false,
+            user_create_access: CPM_task.user_can_create,
+
             pree_init_data: {
                 users: [],
                 task_start: '',
@@ -919,7 +945,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         },
         ready: function ( ) {
             this.getInitData();
-            this.getTaskLists();
 
         },
         methods: {
@@ -936,10 +961,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     self.milestonelist = res.milestone;
                     self.tasklist_form_extra_field = res.tlf_extra_field;
                     self.pree_init_data = res.init_data;
+
                     Vue.set(self.pree_init_data, "cpm_nonce", CPM_Vars.nonce);
                     Vue.set(self.pree_init_data, "current_project", self.current_project);
 
-
+                    vm.getTaskLists();
                 });
             },
             getTaskLists: function ( ) {
@@ -960,13 +986,17 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     if (res.success == true) {
                         vm.tasklist = res.lists;
                         vm.offset = res.next_offset;
-
-                        // get Task for the list
                         vm.getTasks(res.lists);
                         vm.showLoadMoreBtn();
                         vm.loadListfist();
-                        vm.hideLoading();
+
+                    } else {
+                        vm.emptylist = true;
                     }
+
+
+                    vm.hideLoading();
+                     vm.showNewListFormBtn();
                 });
             },
 
@@ -1121,12 +1151,27 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                                 self.tasklist.push(ls);
                                 current_list = ls;
                             }
-
                         }
                     });
-
-
                 }
+            },
+
+
+            showNewListFormBtn: function () {
+
+                var r = false;
+
+                if (this.user_create_access)
+                    r = true;
+
+                if (!this.listfullview)
+                    r = true;
+
+                if (this.emptylist )
+                    r = false;
+
+                this.new_list_form_btn = r;
+
             },
 
         },

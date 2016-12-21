@@ -69,11 +69,21 @@ class CPM_Task {
                     'add_comment'              => __( 'Add Comment', 'cpm' ),
                     'delete_confirm'           => __( 'Are you sure to delete this file?', 'cpm' ),
                     'empty_comment'            => __( 'Please write something in comments!', 'cpm' ),
-                    'backtotasklist'            => __( 'Back to To-do Lists', 'cpm' ),
+                    'backtotasklist'           => __( 'Back to To-do Lists', 'cpm' ),
+                    'todolist'                 => __( 'To-Do Lists', 'cpm' ),
+                    'todolist_n_title'         => __( 'You can list all your Tasks in a single thread using a To-Do list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ),
+                    'when_use_todo'            => __( 'When to use To-Do lists?', 'cpm' ),
+                    'to_pertition_a_project'   => __( 'To partition a project internals.', 'cpm' ),
+                    'to_mark_milestone'        => __( 'To mark milestone points.', 'cpm' ),
+                    'to_assign_people_task'    => __( 'To assign people to tasks.', 'cpm' ),
+                    'add_new_todo_btn'         => __( 'Add New To-do List', 'cpm' ),
+                    ''                         => __( '', 'cpm' ),
+                    ''                         => __( '', 'cpm' ),
                 ),
                 'cpm_task_column_partial' => apply_filters( 'cpm_task_column_partial', ' ' ),
                 'cpm_task_single_after'   => apply_filters( 'cpm_task_single_after', ' ' ),
                 'cpm_task_extra_partial'  => apply_filters( 'cpm_task_extra_partial', ' ' ),
+                'user_can_create'         => cpm_user_can_access( $pid, 'create_todolist' ),
             ) );
             return $message;
         }
@@ -455,16 +465,16 @@ class CPM_Task {
     function get_task_lists( $project_id, $privacy = false, $offset = 0, $with_pin = true, $show_all = false ) {
 
         $task_list = array ();
-      //  print_r($with_pin);
-        if ( $with_pin) {
+        //  print_r($with_pin);
+        if ( $with_pin ) {
 
-            $s_list = $this->get_sticky_task_lists( $project_id, $privacy );
+            $s_list    = $this->get_sticky_task_lists( $project_id, $privacy );
             $task_list = $s_list;
         }
         $sticky = get_option( 'sticky_posts' );
 
 
-        $args   = array (
+        $args = array (
             'post_type'           => 'cpm_task_list',
             'offset'              => $offset,
             'order'               => 'DESC',
@@ -493,10 +503,10 @@ class CPM_Task {
 
         $lists = get_posts( $args );
 
-        if(!empty($task_list)) {
-        $final_list = array_merge( $task_list, $lists );
-        }else{
-            $final_list = $lists ;
+        if ( !empty( $task_list ) ) {
+            $final_list = array_merge( $task_list, $lists );
+        }else {
+            $final_list = $lists;
         }
 
 
@@ -707,9 +717,9 @@ class CPM_Task {
         $task->start_date   = $task->start_date != "" ? date( $date_format, strtotime( $task->start_date ) ) : '';
         $task->due_date     = ($task->due_date != '') ? date( $date_format, strtotime( $task->due_date ) ) : '';
 
-        $task->completed_on         = date( $date_format, strtotime( $task->completed_on ) );
-         $task->task_assign          = implode(',', $task->assigned_to);
-        $task->assigned_to          = $ajax_obj->task_users( $task->assigned_to, true );
+        $task->completed_on = date( $date_format, strtotime( $task->completed_on ) );
+        $task->task_assign  = implode( ',', $task->assigned_to );
+        $task->assigned_to  = $ajax_obj->task_users( $task->assigned_to, true );
 
         $task->completed_by         = $ajax_obj->task_users( $task->completed_by, true );
         $task->hook_cpm_task_column = $ajax_obj->hook_cpm_task_column( $project_id, $list_id, $task, $single );

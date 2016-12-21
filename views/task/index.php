@@ -18,12 +18,8 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 </div>
 
 
-<div class='cpm-task-container'  id='taskapp' v-cloak >
-    <?php
-    if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-        ?>
-        <a @click.prevent="new_list_form = true" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist" v-if="!listfullview"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
-    <?php } ?>
+<div class='cpm-task-container'  id='taskapp' v-cloak > 
+    <a @click.prevent="new_list_form = true" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist" v-show="new_list_form_btn && !emptylist" >{{text.add_new_todo_btn}}</a>
 
 
     <div class="cpm-new-todolist-form" v-show="new_list_form">
@@ -56,7 +52,10 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
     </ul>
 
 
-
+        <blanktemplate
+            :emptylist="emptylist"
+            :new_list_form.sync="new_list_form"
+        ></blanktemplate>
 
      <div class="loadmoreanimation">
         <div class="load-spinner">
@@ -72,7 +71,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
                 <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)"  @click.prevent="loadmorelist()" >Load More ... </a>
         </div>
 
- 
+
 
 
     <taskmodal

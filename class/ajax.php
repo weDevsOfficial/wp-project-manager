@@ -1322,9 +1322,11 @@ class CPM_Ajax {
 
         $response[ 'tlf_extra_field' ] = $this->listfrom_extrafield( $project_id );
         $response[ 'init_data' ]       = array (
+            
             'task_start_field'      => filter_var( cpm_get_option( 'task_start_field', 'cpm_general' ), FILTER_VALIDATE_BOOLEAN ),
             'task_form_extra_field' => $this->taskfrom_extrafield( $project_id ),
             'users'                 => CPM_Project::getInstance()->get_users( $project_id ),
+
 
         );
 
