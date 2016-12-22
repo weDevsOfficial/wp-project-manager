@@ -6,7 +6,7 @@ Vue.directive('datepicker', {
             dateFormat: "yy-mm-dd",
             changeMonth: true,
             changeYear: true,
-            yearRange: '-100:+0',
+            yearRange: '-10:+10',
         };
 
         switch (this.params.exclude) {
@@ -63,6 +63,15 @@ Vue.directive('datepicker', {
 
 });
 // Maxxin
+
+    Vue.directive('colorimg', {
+        bind: function ( ) {
+            jQuery('body .cpm-colorbox-img').prettyPhoto( );
+        }
+    });
+
+
+
 
 Vue.component('multiselect', {
     template: require('./../html/common/multiselect.html'),

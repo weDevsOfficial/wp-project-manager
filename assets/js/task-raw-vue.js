@@ -5,76 +5,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             new CPM_Uploader('cpm-upload-pickfiles-nd', 'cpm-upload-container-nd');
         }
     });
-    Vue.directive('colorimg', {
-        bind: function ( ) {
-            jQuery('body .cpm-colorbox-img').prettyPhoto( );
-        }
-    });
 
-    Vue.directive('datepicker', {
-        params: ['exclude', 'minDate'],
-
-        bind: function () {
-            var settings = {
-                dateFormat: "yy-mm-dd",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '-100:+0',
-            };
-
-            switch (this.params.exclude) {
-                case 'prev':
-                    settings.minDate = 0;
-                    break;
-
-                case 'next':
-                    settings.maxDate = 0;
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (this.params.minDate) {
-                settings.minDate = new Date(this.params.minDate);
-            }
-
-            jQuery(this.el).datepicker(settings);
-        },
-
-        paramWatchers: {
-            minDate: function (newDate) {
-                jQuery(this.el).datepicker('destroy');
-
-                var settings = {
-                    dateFormat: "yy-mm-dd",
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '-100:+0',
-                };
-
-                switch (this.params.exclude) {
-                    case 'prev':
-                        settings.minDate = 0;
-                        break;
-
-                    case 'next':
-                        settings.maxDate = 0;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (this.params.minDate) {
-                    settings.minDate = new Date(newDate);
-                }
-
-                jQuery(this.el).datepicker(settings);
-            }
-        }
-
-    });
 
 // Maxxin
     var taskMixin = {
@@ -778,13 +709,13 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
             }
         },
-        props: ['list', 'assigned_users', 'task', 'task_start', 'multiselect', 'fid', 'current_project', 'extra_fields', 'form_action', 'wp_nonce', 'pree_init_data'],
+        props: ['list', 'assigned_users', 'task', 'task_start', 'multiselect', 'tfid', 'current_project', 'extra_fields', 'form_action', 'wp_nonce', 'pree_init_data'],
 
         methods: {
-            savetask: function (task, list, fid) {
+            savetask: function (task, list, tfid) {
 
                 var self = this, ctask = task,
-                        sform = jQuery("#" + fid);
+                        sform = jQuery("#" + tfid);
                 var data = sform.serialize();
 
                 var oict = list.incomplete;
@@ -796,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     if (res.success) {
                         if (res.newtask) {
                             self.list.tasklist.unshift(task);
-                            self.clear_form_data("#" + fid);
+                            self.clear_form_data("#" + tfid);
                             self.list.new_task_form = false;
                             self.list.incomplete = (oict + 1);
                             self.list.total = (total + 1);
@@ -828,12 +759,11 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 var au = [], list = this.list, task = this.task;
                 var sf = '';
-                if (task.ID = 0 || (typeof task !== "undefined")) {
+                if (0 === task.ID  || (typeof task !== "undefined")) {
                     sf = list.ID;
                 } else {
                     sf = task.ID;
                 }
-
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
                 });
@@ -841,6 +771,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     jQuery("#" + sf + " input[name='task_assign']").val(au);
 
                 }
+                return false;
             }
         },
         ready: function ( ) {
@@ -868,7 +799,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         data: function () {
             return {
                 user_create_access: CPM_task.user_can_create,
-
             }
         },
         props: ['emptylist', 'new_list_form'],
