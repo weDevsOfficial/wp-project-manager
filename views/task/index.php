@@ -18,7 +18,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 </div>
 
 
-<div class='cpm-task-container'  id='taskapp' v-cloak > 
+<div class='cpm-task-container'  id='taskapp' v-cloak >
     <a @click.prevent="new_list_form = true" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist" v-show="new_list_form_btn && !emptylist" >{{text.add_new_todo_btn}}</a>
 
 
@@ -45,6 +45,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
             :wp_nonce="wp_nonce"
             :current_project="current_project"
             :pree_init_data="pree_init_data"
+
             v-if="!list.hideme"
             ></todolists>
 
@@ -78,6 +79,7 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
         :comments="comments"
         :current_project="current_project"
         :pree_init_data="pree_init_data"
+        :inpopup="'ypp'"
         >
     </taskmodal>
 

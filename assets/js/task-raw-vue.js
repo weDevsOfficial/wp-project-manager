@@ -220,6 +220,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 type: String,
                 default: ""
             },
+            inpopup: {
+                type: String,
+                default: ""
+            },
             show: {
                 type: Boolean,
                 default: false
@@ -235,19 +239,20 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         },
 
         ready: function ( ) {
-
+          //  this.task = this.taskData ;
         },
         methods: {
             closeTaskModal: function () {
 
-                this.taskData.completed = this.task.completed;
+             /* this.taskData.completed = this.task.completed;
                 this.taskData.comments = this.task.comments;
                 this.taskData.subtasks = this.task.subtasks;
                 this.taskData.comment_count = this.task.comment_count;
                 this.taskData.assigned_to = this.task.assigned_to;
                 this.taskData.completed_by = this.task.completed_by;
                 this.taskData.date_show_complete = this.task.date_show_complete;
-
+                */
+                this.taskData = this.task;
                 this.show = false;
                 vm.comments = [];
 
@@ -257,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         events: {
             'open-taskmodal': function (task, list) {
                 this.taskData = task;
-                this.task = jQuery.extend(true, {}, task);
+                //this.task = jQuery.extend(true, {}, task);
+                this.task = task;
                 this.list = list;
                 this.show = true;
                 Vue.set(this.task, "show_popup", true);
@@ -310,13 +316,13 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         },
         methods: {
-
             createComment: function (comments, formid, post) {
 
                 var data = jQuery("#" + formid).serialize( ), self = this;
                 var totalc = parseInt(post.comment_count);
+                console.log(jQuery("#" + formid + " input[name='description'] ").val() ) ;
 
-                if (jQuery("#" + formid + "#coment-content").val( ) == '') {
+                if (jQuery("#" + formid + " input[name='description'] ").val( ) == '') {
                     alert(vm.text.empty_comment);
                     return;
                 }
@@ -808,13 +814,30 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         }
     });
+// Components for hooks
+    Vue.component('blanktemplate', {
 
+        template: require('./../html/task/blanktemplate.html'),
+        mixins: [taskMixin],
+        data: function () {
+            return {
+                user_create_access: CPM_task.user_can_create,
+            }
+        },
+        props: ['emptylist', 'new_list_form'],
+        methods: {
+        },
+        ready: function () {
 
+        }
+    });
     // Partial for Task List form extra data
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
 
     // Partial for todo form extra data
     Vue.partial('todoform_extra_field', '<div>{{{extra_fields}}}</div>');
+
+
 
 
     // Partial for Project Users
@@ -998,6 +1021,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                 }
             },
+
+
 
             getListTasks: function (thelist) {
 

@@ -37,8 +37,11 @@
 
                         <div class="cpm-todo-wrap clearfix">
                             <div class="cpm-todo-content" >
+
                                 <partial name="hook_cpm_task_single_after"></partial>
                             </div>
+
+                              
 
                             <comment_warp :comments="comments" :task="task" :pree_init_data="pree_init_data" :formid="'task_popup'" :uploderid="'tc'"></comment_warp>
                         </div>
