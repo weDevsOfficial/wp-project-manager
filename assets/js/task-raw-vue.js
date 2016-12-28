@@ -359,6 +359,95 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     });
 
+    Vue.component('comment_warp_task', {
+        template: require('./../html/common/comments_task.html'),
+
+        mixins: [taskMixin],
+        props: {
+
+            comments: {
+                type: Array,
+                default: function () {
+                    return []
+                }
+            },
+            task: {
+                type: Object,
+                default: function () {
+                    return []
+                }
+            },
+            pree_init_data: {
+                type: Object,
+                default: function () {
+                    return []
+                }
+            },
+            formid: {
+                type: String,
+                default: ''
+            },
+            uploderid: {
+                type: String,
+                default: ''
+            },
+
+        },
+
+        data: function () {
+            return {
+
+            }
+        },
+
+        ready: function ( ) {
+
+        },
+        methods: {
+            createComment: function (comments, formid, post) {
+
+                var data = jQuery("#" + formid).serialize( ), self = this;
+                var totalc = parseInt(post.comment_count);
+                console.log(jQuery("#" + formid + " input[name='description'] ").val() ) ;
+
+                if (jQuery("#" + formid + " input[name='description'] ").val( ) == '') {
+                    alert(vm.text.empty_comment);
+                    return;
+                }
+                jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                    res = JSON.parse(res);
+                    var c = res.comment;
+                    if (res.success == true) {
+
+                        var comment_obj = {
+                            comment_ID: c.comment_ID,
+                            comment_author: c.comment_author,
+                            comment_author_email: c.comment_author_email,
+                            comment_content: c.comment_content,
+                            comment_date: c.comment_date,
+                            comment_post_ID: c.comment_post_ID,
+                            files: c.files,
+                            user_id: c.user_id,
+                            avatar: c.avatar
+                        }
+                        self.comments.push(comment_obj);
+                        jQuery("#" + formid + " .cpm-upload-filelist").html('');
+                        jQuery("#" + formid + " input[name='description']").val('');
+                        jQuery("#" + formid + " trix-editor").val('');
+                        //
+                        post.comment_count = (totalc + 1);
+
+
+                    } else {
+                        alert(res.error);
+                    }
+                });
+            },
+        },
+
+    });
+
+
 
 // File Upload component ...
     Vue.component('fileuploader', {
@@ -372,6 +461,20 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         }
 
     });
+
+    Vue.component('fileuploader_task', {
+        template: require('./../html/common/fileuploader_task.html'),
+        mixins: [taskMixin],
+        props: ['files', 'baseurl', 'uploderid'],
+        methods: {
+        },
+        ready: function ( ) {
+            new CPM_Uploader('cpm-upload-pickfiles-task', 'cpm-upload-container-task');
+        }
+
+    });
+
+
     Vue.component('prettyphoto', {
         template: require('./../html/common/imageview.html'),
         mixins: [taskMixin],

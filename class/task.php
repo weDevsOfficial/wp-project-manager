@@ -477,7 +477,7 @@ class CPM_Task {
         $args = array (
             'post_type'           => 'cpm_task_list',
             'offset'              => $offset,
-            'order'               => 'DESC',
+            'order'               => 'ASC',
             'orderby'             => 'ID',
             'post_parent'         => $project_id,
             'ignore_sticky_posts' => 1,
