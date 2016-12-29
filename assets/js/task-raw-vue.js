@@ -355,6 +355,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     }
                 });
             },
+            deleteComment:
+                function ( comment ) {
+                if (confirm("Confirm to delete ?")) {
+                    var self = this;
+                    var comment_id = comment.comment_ID;
+                    var data = {
+                        comment_id: comment_id,
+                        action: 'cpm_comment_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success) {
+                            self.comments.$remove(comment);
+                        }
+                    });
+                }
+            },
         },
 
     });
@@ -442,6 +460,27 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         alert(res.error);
                     }
                 });
+            },
+            deleteComment:
+                function ( comment ) {
+                if (confirm("Confirm to delete ?")) {
+                    var self = this;
+                    var totalComment = this.task.comment_count;
+                    var commentsCalc = totalComment -1;
+                    var comment_id = comment.comment_ID;
+                    var data = {
+                        comment_id: comment_id,
+                        action: 'cpm_comment_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success) {
+                            self.comments.$remove(comment);
+                            self.task.comment_count = commentsCalc;
+                        }
+                    });
+                }
             },
         },
 

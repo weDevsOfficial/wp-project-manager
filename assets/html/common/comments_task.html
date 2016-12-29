@@ -2,7 +2,9 @@
 <div class="comment-content">
     <ul class="cpm-comment-wrap">
         <li class="cpm-comment" v-for="comment in comments" >
-
+            <div class="cpm-right">
+                <a href="#" class="cpm-btn cpm-btn-xs" @click="deleteComment(comment)"><span class="dashicons dashicons-trash"></span></a>
+            </div>
             <div class="cpm-avatar ">{{{comment.avatar}}}</div>
             <div class="cpm-comment-container">
                 <div class="cpm-comment-meta">
