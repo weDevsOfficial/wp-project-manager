@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = '<h3>{{text.comments}}</h3>\n<div class="comment-content">\n    <ul class="cpm-comment-wrap">\n        <li class="cpm-comment" v-for="comment in comments" >\n\n            <div class="cpm-avatar ">{{{comment.avatar}}}</div>\n            <div class="cpm-comment-container">\n                <div class="cpm-comment-meta">\n                    <span class="cpm-author">{{comment.comment_author}}</span>\n                    {{text.on}}\n                    <span class="cpm-date">{{comment.comment_date}}</span>\n\n                </div>\n                <div class="cpm-comment-content">\n                    {{{comment.comment_content}}}\n                </div>\n\n                <div v-if="comment.files.length">\n                    <ul class="cpm-attachments">\n                        <li v-for="cfile in comment.files">\n                        <prettyphoto :file="cfile" ></prettyphoto>\n\n                        </li>\n                    </ul>\n\n                </div>\n\n            </div>\n\n        </li>\n    </ul>\n\n</div>\n\n<div class=\'cpm-new-doc-comment-form\'>\n    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">\n        <input type="hidden" name="action" value="cpm_task_create_comment" />\n        <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />\n        <input type="hidden" name="parent_id" value="{{task.ID}}" />\n        <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />\n\n        <div class="cpm-trix-editor">\n            <input id="cc-{{formid}}" type="hidden" name="description" class="comment-content" value="" />\n            <trix-editor input="cc-{{formid}}"></trix-editor>\n        </div>\n\n        <fileuploader :files="" :uploderid="uploderid"></fileuploader>\n        <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />\n    </form>\n</div>';
+module.exports = '<h3>{{text.comments}}</h3>\n<div class="comment-content">\n    <ul class="cpm-comment-wrap">\n        <li class="cpm-comment" v-for="comment in comments" >\n        \n            <div class="cpm-right">\n                <a href="#" class="cpm-btn cpm-btn-xs" @click="deleteComment(comment)"><span class="dashicons dashicons-trash"></span></a>\n            </div>\n            <div class="cpm-avatar ">{{{comment.avatar}}}</div>\n            <div class="cpm-comment-container">\n                <div class="cpm-comment-meta">\n                    <span class="cpm-author">{{comment.comment_author}}</span>\n                    {{text.on}}\n                    <span class="cpm-date">{{comment.comment_date}}</span>\n\n                </div>\n                <div class="cpm-comment-content">\n                    {{{comment.comment_content}}}\n                </div>\n\n                <div v-if="comment.files.length">\n                    <ul class="cpm-attachments">\n                        <li v-for="cfile in comment.files">\n                        <prettyphoto :file="cfile" ></prettyphoto>\n\n                        </li>\n                    </ul>\n\n                </div>\n\n            </div>\n\n        </li>\n    </ul>\n\n</div>\n\n<div class=\'cpm-new-doc-comment-form\'>\n    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">\n        <input type="hidden" name="action" value="cpm_task_create_comment" />\n        <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />\n        <input type="hidden" name="parent_id" value="{{task.ID}}" />\n        <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />\n\n        <div class="cpm-trix-editor">\n            <input id="cc-{{formid}}" type="hidden" name="description" class="comment-content" value="" />\n            <trix-editor input="cc-{{formid}}"></trix-editor>\n        </div>\n\n        <fileuploader :files="" :uploderid="uploderid"></fileuploader>\n        <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />\n    </form>\n</div>';
 },{}],2:[function(require,module,exports){
-module.exports = '<h3>{{text.comments}}</h3>\n<div class="comment-content">\n    <ul class="cpm-comment-wrap">\n        <li class="cpm-comment" v-for="comment in comments" >\n\n            <div class="cpm-avatar ">{{{comment.avatar}}}</div>\n            <div class="cpm-comment-container">\n                <div class="cpm-comment-meta">\n                    <span class="cpm-author">{{comment.comment_author}}</span>\n                    {{text.on}}\n                    <span class="cpm-date">{{comment.comment_date}}</span>\n\n                </div>\n                <div class="cpm-comment-content">\n                    {{{comment.comment_content}}}\n                </div>\n\n                <div v-if="comment.files.length">\n                    <ul class="cpm-attachments">\n                        <li v-for="cfile in comment.files">\n                        <prettyphoto :file="cfile" ></prettyphoto>\n\n                        </li>\n                    </ul>\n\n                </div>\n\n            </div>\n\n        </li>\n    </ul>\n\n</div>\n\n<div class=\'cpm-new-doc-comment-form\'>\n    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">\n        <input type="hidden" name="action" value="cpm_task_create_comment" />\n        <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />\n        <input type="hidden" name="parent_id" value="{{task.ID}}" />\n        <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />\n\n        <div class="cpm-trix-editor">\n            <input id="cc-{{formid}}" type="hidden" name="description" class="comment-content" value="" />\n            <trix-editor input="cc-{{formid}}"></trix-editor>\n        </div>\n\n        <fileuploader_task :files="" :uploderid="uploderid"></fileuploader_task>\n        <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />\n    </form>\n</div>';
+module.exports = '<h3>{{text.comments}}</h3>\n<div class="comment-content">\n    <ul class="cpm-comment-wrap">\n        <li class="cpm-comment" v-for="comment in comments" >\n            <div class="cpm-right">\n                <a href="#" class="cpm-btn cpm-btn-xs" @click="deleteComment(comment)"><span class="dashicons dashicons-trash"></span></a>\n            </div>\n            <div class="cpm-avatar ">{{{comment.avatar}}}</div>\n            <div class="cpm-comment-container">\n                <div class="cpm-comment-meta">\n                    <span class="cpm-author">{{comment.comment_author}}</span>\n                    {{text.on}}\n                    <span class="cpm-date">{{comment.comment_date}}</span>\n\n                </div>\n                <div class="cpm-comment-content">\n                    {{{comment.comment_content}}}\n                </div>\n\n                <div v-if="comment.files.length">\n                    <ul class="cpm-attachments">\n                        <li v-for="cfile in comment.files">\n                        <prettyphoto :file="cfile" ></prettyphoto>\n\n                        </li>\n                    </ul>\n\n                </div>\n\n            </div>\n\n        </li>\n    </ul>\n\n</div>\n\n<div class=\'cpm-new-doc-comment-form\'>\n    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">\n        <input type="hidden" name="action" value="cpm_task_create_comment" />\n        <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />\n        <input type="hidden" name="parent_id" value="{{task.ID}}" />\n        <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />\n\n        <div class="cpm-trix-editor">\n            <input id="cc-{{formid}}" type="hidden" name="description" class="comment-content" value="" />\n            <trix-editor input="cc-{{formid}}"></trix-editor>\n        </div>\n\n        <fileuploader_task :files="" :uploderid="uploderid"></fileuploader_task>\n        <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />\n    </form>\n</div>';
 },{}],3:[function(require,module,exports){
 module.exports = '<div class=\'cpm-attachment-area\'>\n    <div id=\'cpm-upload-container-dc\'>\n\n        <div class=\'cpm-upload-filelist\'>\n            <div class="cpm-uploaded-item" v-if="files.length" v-for="file in files"  >\n                <a href="{{file.url}}" target="_blank">\n                    <img :src="file.thumb" alt="{{file.name}}" />\n                </a>\n                <a href="#" data-id="{{file.id}}" id="{{file.id}}" class="cpm-delete-file button" @click.prevent="deletefile(file.id)">{{text.delete_file}}</a>\n                <input type="hidden" name="cpm_attachment[]" value="{{file.id}}">\n            </div>\n        </div>\n        <div class=\'clearfix\'></div>\n    </div>\n\n      {{text.to_attach}}, <a href=\'#\' id=\'cpm-upload-pickfiles-dc\' class="" > {{text.select_file}} </a> {{text.from_computer}}.\n\n</div>';
 },{}],4:[function(require,module,exports){
@@ -376,6 +376,24 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                     }
                 });
             },
+            deleteComment:
+                function ( comment ) {
+                if (confirm("Confirm to delete ?")) {
+                    var self = this;
+                    var comment_id = comment.comment_ID;
+                    var data = {
+                        comment_id: comment_id,
+                        action: 'cpm_comment_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success) {
+                            self.comments.$remove(comment);
+                        }
+                    });
+                }
+            },
         },
 
     });
@@ -463,6 +481,27 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                         alert(res.error);
                     }
                 });
+            },
+            deleteComment:
+                function ( comment ) {
+                if (confirm("Confirm to delete ?")) {
+                    var self = this;
+                    var totalComment = this.task.comment_count;
+                    var commentsCalc = totalComment -1;
+                    var comment_id = comment.comment_ID;
+                    var data = {
+                        comment_id: comment_id,
+                        action: 'cpm_comment_delete',
+                        _wpnonce: CPM_Vars.nonce
+                    };
+                    jQuery.post(CPM_Vars.ajaxurl, data, function (res) {
+                        res = JSON.parse(res);
+                        if (res.success) {
+                            self.comments.$remove(comment);
+                            self.task.comment_count = commentsCalc;
+                        }
+                    });
+                }
             },
         },
 
