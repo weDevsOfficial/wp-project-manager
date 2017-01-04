@@ -45,9 +45,11 @@
             :multiple="true"
             :taggable="true"
             key="id"
-        ></multiselect>
-
-
+        >
+            <pre>
+{{$data | json}}
+</pre>
+        </multiselect>
     </div>
 
      <partial name="todoform_extra_field"> </partial>

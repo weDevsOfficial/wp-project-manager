@@ -471,7 +471,8 @@ class CPM_Ajax {
 
     function update_task() {
         $posted = $_POST;
-
+//         var_dump($posted);
+// die();
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $task_id    = isset( $posted[ 'task_id' ] ) ? intval( $posted[ 'task_id' ] ) : 0;

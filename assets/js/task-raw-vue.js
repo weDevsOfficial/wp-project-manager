@@ -914,6 +914,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 }
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
+                    alert(au);
                 });
                 if (sf != "") {
                     jQuery("#" + sf + " input[name='task_assign']").val(au);
