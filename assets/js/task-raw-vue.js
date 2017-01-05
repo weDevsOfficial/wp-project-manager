@@ -854,16 +854,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         mixins: [taskMixin],
         data: function () {
             return {
-                assign_task: ''
             }
         },
         props: ['list', 'assigned_users', 'task', 'task_start', 'multiselect', 'tfid', 'current_project', 'extra_fields', 'form_action', 'wp_nonce', 'pree_init_data'],
-
-        watch: {
-            // assign_task: function() {
-            //     console.log(this.assign_task);
-            // }
-        },
 
         methods: {
             savetask: function (task, list, tfid) {
