@@ -854,10 +854,16 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         mixins: [taskMixin],
         data: function () {
             return {
-
+                assign_task: ''
             }
         },
         props: ['list', 'assigned_users', 'task', 'task_start', 'multiselect', 'tfid', 'current_project', 'extra_fields', 'form_action', 'wp_nonce', 'pree_init_data'],
+
+        watch: {
+            // assign_task: function() {
+            //     console.log(this.assign_task);
+            // }
+        },
 
         methods: {
             savetask: function (task, list, tfid) {
@@ -904,27 +910,28 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 list.show_new_task_form = false;
             },
             updateTaskAssignUser: function (assigned_users) {
-
                 var au = [], list = this.list, task = this.task;
                 var sf = '';
                 if (0 === task.ID  || (typeof task !== "undefined")) {
-                    sf = list.ID;
+                    sf = task.ID;
                 } else {
                     sf = task.ID;
                 }
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
-                    alert(au);
                 });
-                if (sf != "") {
-                    jQuery("#" + sf + " input[name='task_assign']").val(au);
 
+                if (sf != "") {
+                    jQuery("#" + 'ttl-'+sf + " input[name='task_assign']").val(au);
                 }
                 return false;
+            },
+
+            changeTaskUser: function( selectedVal, id ) {
+                console.log( selectedVal, id );
             }
         },
         ready: function ( ) {
-
         }
     });
 
