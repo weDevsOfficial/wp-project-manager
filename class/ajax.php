@@ -90,6 +90,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_task_extra_field', array ( $this, 'taskfrom_extrafield_list' ) );
          add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
          add_action( 'wp_ajax_cpm_get_post_comments', array( $this, 'get_post_comments' ) );
+         add_action( 'wp_ajax_cpm_get_compiled_content', array( $this, 'get_compiled_content' ) );
     }
 
     /**
@@ -1506,10 +1507,15 @@ class CPM_Ajax {
         exit();
     }
 
+    function get_compiled_content(){
+        $rendered = cpm_get_content( $_GET['content'] );
+        echo json_encode( $rendered );
+        exit();
+    }
+
     function task_users( $task_users, $avatar = false ) {
         $user = array ();
         if ( is_array( $task_users ) ) {
-            //print_r($task_users) ;
             foreach ( $task_users as $u ) {
                 $user_details = get_user_by( 'ID', $u );
                 if ( $user_details ) {

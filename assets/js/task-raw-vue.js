@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             return {
                 task: {},
                 list: {},
-                taskData: {}
+                taskData: {},
+                compiled_content: '',
             }
         },
 
@@ -255,8 +256,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.taskData = this.task;
                 this.show = false;
                 vm.comments = [];
+                this.compiled_content = '';
 
-            },
+            }
+ 
         },
 
         events: {
@@ -267,6 +270,19 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.list = list;
                 this.show = true;
                 Vue.set(this.task, "show_popup", true);
+
+
+                var data = {
+                    action: 'cpm_get_compiled_content',
+                    content: task.post_content
+                };
+
+                var self = this;
+
+                jQuery.get(CPM_Vars.ajaxurl, data, function (res) {
+                    res = JSON.parse(res);
+                    self.compiled_content = res;
+                });                
             }
         }
     });
@@ -957,6 +973,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         }
     });
+
 // Components for hooks
     Vue.component('blanktemplate', {
 

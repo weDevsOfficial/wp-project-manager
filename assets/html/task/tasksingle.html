@@ -15,7 +15,8 @@
 
 
                         <div class="task-details ">
-                            <p>{{{task.post_content}}}</p>
+                            <p v-if="!compiled_content">Loading...</p>
+                            <p>{{{ compiled_content }}}</p>
 
                             <span class="cpm-lock" v-show="task.task_privacy">{{text.privet_task}}</span>
                             <partial name="hook_cpm_task_extra"></partial>
