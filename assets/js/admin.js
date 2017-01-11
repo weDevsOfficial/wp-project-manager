@@ -169,6 +169,7 @@
                         $( '.cpm-project-role>table' ).append( resp.data );
                         $( '.cpm-error' ).html( '' );
                         $( "form.cpm-user-create-form input[type=text], input[type=email]" ).val( '' );
+                        $( "input.cpm-project-coworker.ui-autocomplete-input" ).val( '' );
                     } else {
                         $( '.cpm-error' ).html( resp.data );
                     }

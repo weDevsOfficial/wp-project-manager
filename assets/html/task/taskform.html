@@ -37,7 +37,6 @@
 
     <div class="item user">
         <multiselect
-            @update="updateTaskAssignUser"
             :options="pree_init_data.users"
             :selected="task.assigned_to"
             :multiple="true"
@@ -45,6 +44,7 @@
             :multiple="true"
             :taggable="true"
             key="id"
+            @update="updateTaskAssignUser"
         ></multiselect>
 
 

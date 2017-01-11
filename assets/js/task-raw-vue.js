@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             return {
                 task: {},
                 list: {},
-                taskData: {}
+                taskData: {},
+                compiled_content: '',
             }
         },
 
@@ -255,8 +256,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.taskData = this.task;
                 this.show = false;
                 vm.comments = [];
+                this.compiled_content = '';
 
-            },
+            }
+ 
         },
 
         events: {
@@ -267,6 +270,19 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 this.list = list;
                 this.show = true;
                 Vue.set(this.task, "show_popup", true);
+
+
+                var data = {
+                    action: 'cpm_get_compiled_content',
+                    content: task.post_content
+                };
+
+                var self = this;
+
+                jQuery.get(CPM_Vars.ajaxurl, data, function (res) {
+                    res = JSON.parse(res);
+                    self.compiled_content = res;
+                });                
             }
         }
     });
@@ -854,7 +870,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         mixins: [taskMixin],
         data: function () {
             return {
-
             }
         },
         props: ['list', 'assigned_users', 'task', 'task_start', 'multiselect', 'tfid', 'current_project', 'extra_fields', 'form_action', 'wp_nonce', 'pree_init_data'],
@@ -904,26 +919,28 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 list.show_new_task_form = false;
             },
             updateTaskAssignUser: function (assigned_users) {
-
                 var au = [], list = this.list, task = this.task;
                 var sf = '';
                 if (0 === task.ID  || (typeof task !== "undefined")) {
-                    sf = list.ID;
+                    sf = task.ID;
                 } else {
                     sf = task.ID;
                 }
                 assigned_users.forEach(function (user) {
                     au.push(user.id);
                 });
-                if (sf != "") {
-                    jQuery("#" + sf + " input[name='task_assign']").val(au);
 
+                if (sf != "") {
+                    jQuery("#" + 'ttl-'+sf + " input[name='task_assign']").val(au);
                 }
                 return false;
+            },
+
+            changeTaskUser: function( selectedVal, id ) {
+                console.log( selectedVal, id );
             }
         },
         ready: function ( ) {
-
         }
     });
 
@@ -956,6 +973,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         }
     });
+
 // Components for hooks
     Vue.component('blanktemplate', {
 
