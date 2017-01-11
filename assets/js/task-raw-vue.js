@@ -993,8 +993,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     Vue.config.debug = true;
 
-
-
     var vm = new Vue({
         el: '#taskapp',
         mixins: [taskMixin],
