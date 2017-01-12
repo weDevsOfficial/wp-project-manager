@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: WP Project Manager
  * Plugin URI: https://wordpress.org/plugins/wedevs-project-manager/
@@ -41,6 +40,20 @@
  * @author Tareq Hasan
  */
 class WeDevs_CPM {
+
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    public $version = '1.5.1';
+
+     /**
+     * Plugin Database version
+     *
+     * @var string
+     */
+    public $db_version = '1.5';
 
     /**
      * @var The single instance of the class
@@ -94,17 +107,73 @@ class WeDevs_CPM {
      */
     public $api;
 
+    /**
+     * Main CPM Instance
+     *
+     * @since 1.1
+     * @static
+     * @see cpm()
+     * @return CPMRP - Main instance
+     */
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+
+    /**
+     * Constructor for the WeDevs_CPM class
+     *
+     * Sets up all the appropriate hooks and actions
+     * within our plugin.
+     */
     function __construct() {
-        $this->init();
+        // Define constants
+        $this->define_constants();
 
+        //Required class file include
+        spl_autoload_register( array( $this, 'autoload' ) );
+
+        // Include required files
+        $this->includes();
+
+        // instantiate classes
+        $this->instantiate();
+
+        // Initialize the action hooks
+        $this->init_actions();
+
+        // Initialize the action hooks
+        $this->init_filters();
+
+        //Execute only plugin install time
+        register_activation_hook( __FILE__, array( $this, 'install' ) );
+
+        //Do some thing after load this plugin
+        do_action( 'cpm_loaded' );
+    }
+
+    /**
+     * Initialize WordPress action hooks
+     *
+     * @return void
+     */
+    function init_filters() {
+        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+    }
+
+    /**
+     * Initialize WordPress action hooks
+     *
+     * @return void
+     */
+    function init_actions() {
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-
         add_action( 'plugins_loaded', array( $this, 'cpm_content_filter' ) );
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-
         add_action( 'wp_enqueue_scripts', array( $this, 'admin_scripts' ) );
-        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-        register_activation_hook( __FILE__, array( $this, 'install' ) );
     }
 
     /**
@@ -132,22 +201,6 @@ class WeDevs_CPM {
     }
 
     /**
-     * Main CPM Instance
-     *
-     * @since 1.1
-     * @static
-     * @see cpm()
-     * @return CPMRP - Main instance
-     */
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
-    /**
      * Add filters for text displays on Project Manager texts
      *
      * @since 0.4
@@ -160,24 +213,6 @@ class WeDevs_CPM {
         add_filter( 'cpm_get_content', 'shortcode_unautop' );
         add_filter( 'cpm_get_content', 'prepend_attachment' );
         add_filter( 'cpm_get_content', 'make_clickable' );
-    }
-
-    /**
-     * Initial do
-     *
-     * @since 1.1
-     * @return type
-     */
-    function init() {
-        $this->define_constants();
-        spl_autoload_register( array( $this, 'autoload' ) );
-        $this->page()->cpm_function();
-
-        $this->version    = CPM_VERSION;
-        $this->db_version = CPM_DB_VERSION;
-
-        $this->includes();
-        $this->instantiate();
     }
 
     /**
@@ -204,8 +239,8 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-        $this->define( 'CPM_VERSION', '1.5.1' );
-        $this->define( 'CPM_DB_VERSION', '1.5' );
+        $this->define( 'CPM_VERSION', $this->version );
+        $this->define( 'CPM_DB_VERSION', $this->db_version );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
     }
@@ -273,6 +308,9 @@ class WeDevs_CPM {
      * @return void
      */
     function includes() {
+        $this->version    = CPM_VERSION;
+        $this->db_version = CPM_DB_VERSION;
+        $this->page()->cpm_function();
         $this->router->includes();
     }
 

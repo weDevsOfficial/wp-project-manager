@@ -17,7 +17,7 @@ module.exports = '\n<ul  class="cpm-todos cpm-todolist-content" >\n\n    <li v-f
 },{}],9:[function(require,module,exports){
 module.exports = '\n<div class="modal-mask half-modal cpm-task-modal"  v-show="show" transition="modal">\n    <div class="modal-wrapper" @click.prevent="closeTaskModal" >\n        <div class="modal-container"  :style="modalwide">\n            <span class="close-vue-modal"><a class=""  @click=""><span class="dashicons dashicons-no"></span></a></span>\n\n\n            <div class="modal-body cpm-todolists " @click.stop=""   >\n                <div class="cpm-col-12 cpm-todo " >\n                    <div class="cpm-modal-conetnt  ">\n                        <h3>\n                            <input class="" type="checkbox" v-model="task.completed" checked="{{task.completed==1}}" @click.prevent="checktoggeltask(task, list)">\n                            {{task.post_title}}\n                        </h3>\n\n\n                        <div class="task-details ">\n                            <p v-if="!compiled_content">Loading...</p>\n                            <p>{{{ compiled_content }}}</p>\n\n                            <span class="cpm-lock" v-show="task.task_privacy">{{text.privet_task}}</span>\n                            <partial name="hook_cpm_task_extra"></partial>\n\n                            <span  v-if="task.completed==0">\n                                <user_show_list\n                                    :users="task.assigned_to"\n                                    ></user_show_list>\n                                <span class="{{task.date_css_class}}"> {{{task.date_show}}} </span>\n\n                            </span>\n\n                            <span class="">{{task.comment_count}} {{task.comment_count | pluralize  text.comment }} </span>\n\n\n                            <div class="clearfix cpm-clear"></div>\n                        </div>\n                        <hr/>\n\n                        <div class="cpm-todo-wrap clearfix">\n                            <div class="cpm-todo-content" >\n\n                                <partial name="hook_cpm_task_single_after"></partial>\n                            </div>\n\n\n\n                            <comment_warp_task :comments="comments" :task="task" :pree_init_data="pree_init_data" :formid="\'task_popup\'" :uploderid="\'tc\'"></comment_warp_task>\n                        </div>\n                        <br/>\n                        <br/>\n                    </div>\n                    <div class="clearfix"></div>\n                </div>\n            </div>\n            <div class="clearfix" ></div>\n        </div>\n\n    </div>\n</div>\n\n\n';
 },{}],10:[function(require,module,exports){
-module.exports = '<a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">\n    <span class="dashicons dashicons-arrow-left-alt"></span>\n    {{text.backtotasklist}}\n</a>\n<article class="cpm-todolist">\n    <header class="cpm-list-header">\n\n        <h3>\n            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} </a>\n                <div class="cpm-right" v-if="list.ed_permission">\n                <a href="#" class="cpm-icon-edit" title="Edit this List " @click.prevent="editList(list)"><span class="dashicons dashicons-edit"></span></a>\n                <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deletelist(list)" title="Delete this List" data-list_id="{{list.ID}}" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>\n            </div>\n            <div class="cpm-right cpm-pin-list" :class="{sticky_list:list.pin_list}" v-if="list.ed_permission" >\n                <a title="" href="#" class=" cpm-icon-pin " @click.prevent="pinlist(list)"  ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n            <div v-else>\n                <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n        </h3>\n\n        <div class="cpm-entry-detail" >  {{list.post_content}}</div>\n\n        <div class="cpm-list-edit-form" v-if="list.edit_mode">\n\n            <todolistform\n                :lists="list"\n                :pid="current_project"\n                :formaction="\'cpm_update_list\'"\n                :wp_nonce="wp_nonce"\n                :extra_fields="list.extra_data"\n                :milestonelist="milestonelist"\n                :slected_milestone="list.milestone"\n                :fid="list.ID"\n\n            ></todolistform>\n        </div>\n    </header>\n    <div class="cpm-todo">\n\n        <tasklist\n            :list="list"\n\n            :pree_init_data="pree_init_data"\n            :wp_nonce="wp_nonce"\n            :current_project="current_project"\n\n        ></tasklist>\n\n    </div>\n    <div v-show="list.show_new_task_form">\n        <taskform\n            :list="list"\n            :task="etask"\n            :text="text"\n            :current_project="current_project"\n            :form_action="\'cpm_task_add\'"\n            :wp_nonce="wp_nonce"\n            :pree_init_data="pree_init_data"\n            :extra_fields=""\n            :tfid="list.ID"\n        ></taskform>\n    </div>\n <div class="cpm-new-btn" v-show="! list.show_new_task_form"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>\n\n <div class="list-comments" v-if="list.full_view_mode">\n\n     <comment_warp :comments="list.comments" :task="list" :pree_init_data="pree_init_data" :formid="\'list-comments\'" :uploderid="\'lc\'"></comment_warp>\n\n </div>\n\n\n\n    <footer class="cpm-row cpm-list-footer">\n        <div class="cpm-col-6">\n            <div class="cpm-col-3 cpm-todo-complete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.complete}} </span>\n                    Complete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-incomplete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.incomplete}} </span>\n                    Incomplete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-comment">\n                <a href="#" @click.prevent="taskListDetails(list)" >\n                    {{list.comment_count}} Comments\n                </a>\n            </div>\n        </div>\n\n        <div class="cpm-col-4 cpm-todo-prgress-bar">\n            <div class="cpm-progress cpm-progress-info">\n                <div :style="{width: list.complete_percent + \'%\'}" class="bar completed"></div>\n            </div>\n        </div>\n        <div class=" cpm-col-1 no-percent">\n            {{list.complete_percent}}%\n        </div>\n        <div class="clearfix"></div>\n\n    </footer>\n\n\n\n</article>';
+module.exports = '<a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">\n    <span class="dashicons dashicons-arrow-left-alt"></span>\n    {{text.backtotasklist}}\n</a>\n<article class="cpm-todolist">\n    <header class="cpm-list-header">\n\n        <h3>\n            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} </a>\n                <div class="cpm-right" v-if="list.ed_permission">\n                <a href="#" class="cpm-icon-edit" title="Edit this List " @click.prevent="editList(list)"><span class="dashicons dashicons-edit"></span></a>\n                <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deletelist(list)" title="Delete this List" data-list_id="{{list.ID}}" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>\n            </div>\n            <div class="cpm-right cpm-pin-list" :class="{sticky_list:list.pin_list}" v-if="list.ed_permission" >\n                <a title="" href="#" class=" cpm-icon-pin " @click.prevent="pinlist(list)"  ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n            <div v-else>\n                <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>\n            </div>\n        </h3>\n\n        <div class="cpm-entry-detail" >  {{list.post_content}}</div>\n\n        <div class="cpm-list-edit-form" v-if="list.edit_mode">\n\n            <todolistform\n                :lists="list"\n                :pid="current_project"\n                :formaction="\'cpm_update_list\'"\n                :wp_nonce="wp_nonce"\n                :extra_fields="list.extra_data"\n                :milestonelist="milestonelist"\n                :slected_milestone="list.milestone"\n                :fid="list.ID"\n\n            ></todolistform>\n        </div>\n    </header>\n    <div class="cpm-todo">\n\n        <tasklist\n            :list="list"\n            :pree_init_data="pree_init_data"\n            :wp_nonce="wp_nonce"\n            :current_project="current_project">\n                \n        </tasklist>\n\n    </div>\n    <div v-show="list.show_new_task_form">\n        <taskform\n            :list="list"\n            :task="etask"\n            :text="text"\n            :current_project="current_project"\n            :form_action="\'cpm_task_add\'"\n            :wp_nonce="wp_nonce"\n            :pree_init_data="pree_init_data"\n            :extra_fields=""\n            :tfid="list.ID"\n        ></taskform>\n    </div>\n <div class="cpm-new-btn" v-show="! list.show_new_task_form"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>\n\n <div class="list-comments" v-if="list.full_view_mode">\n\n     <comment_warp :comments="list.comments" :task="list" :pree_init_data="pree_init_data" :formid="\'list-comments\'" :uploderid="\'lc\'"></comment_warp>\n\n </div>\n\n\n\n    <footer class="cpm-row cpm-list-footer">\n        <div class="cpm-col-6">\n            <div class="cpm-col-3 cpm-todo-complete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.complete}} </span>\n                    Complete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-incomplete">\n                <a href="#" @click.prevent="taskListDetails(list)">\n                    <span> {{list.incomplete}} </span>\n                    Incomplete\n                </a>\n            </div>\n            <div class="cpm-col-3 cpm-todo-comment">\n                <a href="#" @click.prevent="taskListDetails(list)" >\n                    {{list.comment_count}} Comments\n                </a>\n            </div>\n        </div>\n\n        <div class="cpm-col-4 cpm-todo-prgress-bar">\n            <div class="cpm-progress cpm-progress-info">\n                <div :style="{width: list.complete_percent + \'%\'}" class="bar completed"></div>\n            </div>\n        </div>\n        <div class=" cpm-col-1 no-percent">\n            {{list.complete_percent}}%\n        </div>\n        <div class="clearfix"></div>\n\n    </footer>\n\n\n\n</article>';
 },{}],11:[function(require,module,exports){
 document.addEventListener('DOMContentLoaded', function ( ) {
 
@@ -814,7 +814,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         computed: {
 
             tasks() {
-                if (!this.list.tasklist || !this.list.tasklist.length) {
+                if (! this.list.tasklist || ! this.list.tasklist.length) {
                     return [];
                 }
 
@@ -1012,14 +1012,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         }
     });
-    // Partial for Task List form extra data
-    Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
 
     // Partial for todo form extra data
     Vue.partial('todoform_extra_field', '<div>{{{extra_fields}}}</div>');
-
-
-
 
     // Partial for Project Users
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
@@ -1031,8 +1026,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     Vue.partial('hook_cpm_task_single_after_popup', " POPup " + CPM_task.cpm_task_single_after);
 
     Vue.config.debug = true;
-
-
 
     var vm = new Vue({
         el: '#taskapp',
@@ -1074,13 +1067,16 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 task_start_field: true
             },
         },
+        
         created: function () {
 
         },
+
         ready: function ( ) {
             this.getInitData();
 
         },
+
         methods: {
             getInitData: function () {
                 var data = {
@@ -1098,7 +1094,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                     Vue.set(self.pree_init_data, "cpm_nonce", CPM_Vars.nonce);
                     Vue.set(self.pree_init_data, "current_project", self.current_project);
-
+                    
                     vm.getTaskLists();
                 });
             },
@@ -1206,7 +1202,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
 
             getListTasks: function (thelist) {
-
                 var data = {
                     project_id: vm.current_project,
                     single: true,

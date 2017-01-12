@@ -793,7 +793,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         computed: {
 
             tasks() {
-                if (!this.list.tasklist || !this.list.tasklist.length) {
+                if (! this.list.tasklist || ! this.list.tasklist.length) {
                     return [];
                 }
 
@@ -991,14 +991,9 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
         }
     });
-    // Partial for Task List form extra data
-    Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
 
     // Partial for todo form extra data
     Vue.partial('todoform_extra_field', '<div>{{{extra_fields}}}</div>');
-
-
-
 
     // Partial for Project Users
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
@@ -1051,13 +1046,16 @@ document.addEventListener('DOMContentLoaded', function ( ) {
                 task_start_field: true
             },
         },
+        
         created: function () {
 
         },
+
         ready: function ( ) {
             this.getInitData();
 
         },
+
         methods: {
             getInitData: function () {
                 var data = {
@@ -1075,7 +1073,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
                     Vue.set(self.pree_init_data, "cpm_nonce", CPM_Vars.nonce);
                     Vue.set(self.pree_init_data, "current_project", self.current_project);
-
+                    
                     vm.getTaskLists();
                 });
             },
@@ -1183,7 +1181,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
 
             getListTasks: function (thelist) {
-
                 var data = {
                     project_id: vm.current_project,
                     single: true,

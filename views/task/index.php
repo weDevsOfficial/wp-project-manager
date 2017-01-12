@@ -1,9 +1,4 @@
-<?php
-// wp_enqueue_script( 'cpm_task_list', plugins_url( '../../assets/js/task_list.js', __FILE__ ), array('jquery'), false, true );
-
-
-cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
-?>
+<?php cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );  ?>
 
 <div class="cpm-data-load-before" >
     <div class="loadmoreanimation">
@@ -18,9 +13,8 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
 </div>
 
 
-<div class='cpm-task-container'  id='taskapp' v-cloak >
+<div class='cpm-task-container'  id='taskapp' v-cloak>
     <a @click.prevent="new_list_form = true" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist" v-show="new_list_form_btn && !emptylist" >{{text.add_new_todo_btn}}</a>
-
 
     <div class="cpm-new-todolist-form" v-show="new_list_form">
 
@@ -32,12 +26,12 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
             :wp_nonce="wp_nonce"
             :extra_fields="tasklist_form_extra_field"
             :slected_milestone="0"
-            :fid="'cpm-new-task-list'"
-            ></todolistform>
+            :fid="'cpm-new-task-list'">
+                
+        </todolistform>
     </div>
-
+    
     <ul class="cpm-todolists" v-for="list in tasklist  | orderBy 'pin_list'  -1" >
-
 
         <todolists
             :list="list"
@@ -45,18 +39,17 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
             :wp_nonce="wp_nonce"
             :current_project="current_project"
             :pree_init_data="pree_init_data"
-
-            v-if="!list.hideme"
-            ></todolists>
-
-
+            v-if="!list.hideme">
+                
+        </todolists>
     </ul>
 
 
-        <blanktemplate
-            :emptylist="emptylist"
-            :new_list_form.sync="new_list_form"
-        ></blanktemplate>
+    <blanktemplate
+        :emptylist="emptylist"
+        :new_list_form.sync="new_list_form">
+            
+    </blanktemplate>
 
      <div class="loadmoreanimation">
         <div class="load-spinner">
@@ -79,8 +72,8 @@ cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );
         :comments="comments"
         :current_project="current_project"
         :pree_init_data="pree_init_data"
-        :inpopup="'ypp'"
-        >
+        :inpopup="'ypp'">
+    
     </taskmodal>
 
     <template id="task-list-form-t">
