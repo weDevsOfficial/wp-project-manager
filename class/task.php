@@ -82,7 +82,7 @@ class CPM_Task {
                 ),
                 'cpm_task_column_partial' => apply_filters( 'cpm_task_column_partial', ' ' ),
                 'cpm_task_single_after'   => apply_filters( 'cpm_task_single_after', ' ' ),
-                'cpm_task_extra_partial'  => apply_filters( 'cpm_task_extra_partial', ' ' ),
+                'cpm_task_extra_partial'  => apply_filters( 'cpm_task_extra_partial', '' ),
                 'user_can_create'         => cpm_user_can_access( $pid, 'create_todolist' ),
             ) );
             return $message;

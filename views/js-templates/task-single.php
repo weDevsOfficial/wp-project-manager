@@ -1,4 +1,3 @@
-
 <div class="modal-mask half-modal cpm-task-modal"  v-show="show" transition="modal">
     <div class="modal-wrapper" @click.prevent="closeTaskModal" >
         <div class="modal-container"  :style="modalwide">
@@ -19,7 +18,7 @@
                             <p>{{{ compiled_content }}}</p>
 
                             <span class="cpm-lock" v-show="task.task_privacy">{{text.privet_task}}</span>
-                            <partial name="hook_cpm_task_extra"></partial>
+                            <span> <?php do_action( 'cpm_task_extra_partial' ); ?> </span>
 
                             <span  v-if="task.completed==0">
                                 <user_show_list

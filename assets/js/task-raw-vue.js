@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     }
 
     Vue.component('taskmodal', {
-        template: require('./../html/task/tasksingle.html'),
+        template: '#tmpl-cpm-task-single', //require('./../html/task/tasksingle.html'),
 
         mixins: [taskMixin],
         props: {
@@ -784,9 +784,10 @@ document.addEventListener('DOMContentLoaded', function ( ) {
             jQuery('.cpm-colorbox-img').prettyPhoto( );
         }
     });
+
     // Todo List show
     Vue.component('tasklist', {
-        template: require('./../html/task/tasklist.html'),
+        template: '#tmpl-cpm-task-list', //require('./../html/task/tasklist.html'),
         mixins: [taskMixin],
         props: ['lists', 'list', 'task', 'current_project', 'wp_nonce', 'pree_init_data'],
 
@@ -999,7 +1000,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     Vue.partial('lfe_field', '<div>{{{extra_fields}}}</div>');
     Vue.partial('assigned_user', '<div>{{{assigned_user_input}}}</div>');
     Vue.partial('hook_cpm_task_column', CPM_task.cpm_task_column_partial);
-    Vue.partial('hook_cpm_task_extra', CPM_task.cpm_task_extra_partial);
+    //Vue.partial('hook_cpm_task_extra', CPM_task.cpm_task_extra_partial);
     Vue.partial('hook_cpm_task_column_popup', CPM_task.cpm_task_column_partial);
     Vue.partial('hook_cpm_task_single_after', CPM_task.cpm_task_single_after);
     Vue.partial('hook_cpm_task_single_after_popup', " POPup " + CPM_task.cpm_task_single_after);

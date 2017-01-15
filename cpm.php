@@ -174,6 +174,7 @@ class WeDevs_CPM {
         add_action( 'plugins_loaded', array( $this, 'cpm_content_filter' ) );
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'admin_scripts' ) );
+        add_action( 'admin_footer', array( $this, 'admin_js_templates' ) );
     }
 
     /**
@@ -243,6 +244,7 @@ class WeDevs_CPM {
         $this->define( 'CPM_DB_VERSION', $this->db_version );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
+        $this->define( 'CPM_JS_TMPL', CPM_PATH . '/views/js-templates' );
     }
 
     /**
@@ -363,9 +365,6 @@ class WeDevs_CPM {
 
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
-
-
-
         $cpm_dependency = array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader', 'cpm-vuejs');
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
@@ -437,6 +436,26 @@ class WeDevs_CPM {
      */
     function admin_page_addons() {
         $this->router->admin_page_addons();
+    }
+
+    /**
+     * Print JS templates in footer
+     *
+     * @since  2.0.0
+     *
+     * @return void
+     */
+    public function admin_js_templates() {
+        global $current_screen;
+
+        $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab']; 
+        $hook = empty( $current_screen->base ) ? false : $current_screen->base;
+        
+        if ( $hook == 'toplevel_page_cpm_projects' && $tab == 'task' ) {
+            cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
+            cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
+        }
+
     }
 
 }
