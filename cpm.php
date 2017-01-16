@@ -451,10 +451,21 @@ class WeDevs_CPM {
         $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab']; 
         $hook = empty( $current_screen->base ) ? false : $current_screen->base;
         
-        if ( $hook == 'toplevel_page_cpm_projects' && $tab == 'task' ) {
+        
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
-        }
+            cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
+            cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
+            cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
+            cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
+            cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+            cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
+            cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
+            cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+
+            
+            
+        
 
     }
 

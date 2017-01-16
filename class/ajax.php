@@ -1472,23 +1472,27 @@ class CPM_Ajax {
         exit();
     }
 
-
+    /**
+     * Get single task,  Required project ID and task ID
+     *
+     * @since 0.4
+     * 
+     * @return obj
+     */
     function get_todo_single() {
+        check_ajax_referer( 'cpm_nonce' );
+        
         $task_obj   = CPM_Task::getInstance();
         $is_admin   = isset( $_POST[ 'is_admin' ] ) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
         $task_id    = sanitize_text_field( $_POST[ 'task_id' ] );
         $project_id = sanitize_text_field( $_POST[ 'project_id' ] );
-
-        $type       = (isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
-        $task     = $task_obj->get_task( $task_id);
-
-        $task = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
-
-        $response[ 'success' ]  = TRUE;
-        $response[ 'task' ] = $task;
-
-            echo json_encode( $response );
-
+        $type       = ( isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
+        $task       = $task_obj->get_task( $task_id);
+        $task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
+        
+        $task->post_content = cpm_get_content( $task->post_content );
+        
+        wp_send_json_success( array( 'task' => $task ) );
 
         exit();
     }

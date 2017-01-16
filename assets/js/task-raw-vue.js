@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
     Vue.component('comment_warp', {
-        template: require('./../html/common/comments.html'),
+        template: '#tmpl-cpm-comments', //require('./../html/common/comments.html'),
 
         mixins: [taskMixin],
         props: {
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
     Vue.component('comment_warp_task', {
-        template: require('./../html/common/comments_task.html'),
+        template: '#tmpl-cpm-task-comments', //require('./../html/common/comments_task.html'),
 
         mixins: [taskMixin],
         props: {
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
 // File Upload component ...
     Vue.component('fileuploader', {
-        template: require('./../html/common/fileuploader.html'),
+        template: '#tmpl-cpm-file-uploader', //require('./../html/common/fileuploader.html'),
         mixins: [taskMixin],
         props: ['files', 'baseurl', 'uploderid'],
         methods: {
@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
     Vue.component('fileuploader_task', {
-        template: require('./../html/common/fileuploader_task.html'),
+        template: '#tmpl-cpm-task-file-uploader', //require('./../html/common/fileuploader_task.html'),
         mixins: [taskMixin],
         props: ['files', 'baseurl', 'uploderid'],
         methods: {
@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
 
     Vue.component('prettyphoto', {
-        template: require('./../html/common/imageview.html'),
+        template: '#tmpl-cpm-image-view', //require('./../html/common/imageview.html'),
         mixins: [taskMixin],
         props: ['file'],
         methods: {
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
     });
 
     Vue.component('todolists', {
-        template: require('./../html/task/todolist.html'),
+        template: '#tmpl-cpm-todo-list', //require('./../html/task/todolist.html'),
         mixins: [taskMixin],
         //props: ['list', 'show', 'showlistmodal',   'tasklist_form_extra_field_edit', 'milestonelist', 'wp_nonce', 'current_project'],
         props: {
@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     // Todo List add form
     Vue.component('taskform', {
-        template: require('./../html/task/taskform.html'),
+        template: '#tmpl-cpm-task-form', //require('./../html/task/taskform.html'),
         mixins: [taskMixin],
         data: function () {
             return {
@@ -960,7 +960,7 @@ document.addEventListener('DOMContentLoaded', function ( ) {
 
     Vue.component('blanktemplate', {
 
-        template: require('./../html/task/blanktemplate.html'),
+        template: '#tmpl-cpm-blank-template', //require('./../html/task/blanktemplate.html'),
         mixins: [taskMixin],
         data: function () {
             return {
@@ -975,23 +975,6 @@ document.addEventListener('DOMContentLoaded', function ( ) {
         }
     });
 
-// Components for hooks
-    Vue.component('blanktemplate', {
-
-        template: require('./../html/task/blanktemplate.html'),
-        mixins: [taskMixin],
-        data: function () {
-            return {
-                user_create_access: CPM_task.user_can_create,
-            }
-        },
-        props: ['emptylist', 'new_list_form'],
-        methods: {
-        },
-        ready: function () {
-
-        }
-    });
 
     // Partial for todo form extra data
     Vue.partial('todoform_extra_field', '<div>{{{extra_fields}}}</div>');

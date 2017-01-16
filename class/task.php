@@ -161,6 +161,8 @@ class CPM_Task {
 
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
+            wp_enqueue_script( 'media' );
+            wp_enqueue_media();
             wp_enqueue_script( 'cpm_task-vue', plugins_url( '../assets/js/task-vue.js', __FILE__ ), array ( 'jquery', 'plupload-handlers', 'cpm_common_js' ), false, true );
         }
     }

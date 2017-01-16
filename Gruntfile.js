@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                 files: {
                     "./includes/pro/assets/js/build.js": ["./includes/pro/assets/js/files.js"], // For Files and Folder Tab
                     "./assets/js/cpm_common_js.js": ["./assets/js/cpm_common_js_raw.js"], // For Commons JS
-                    "./assets/js/task-vue.js": ["./assets/js/task-raw-vue.js"] // For Taks List and Task
+                    //"./assets/js/task-vue.js": ["./assets/js/task-raw-vue.js"] // For Taks List and Task
                 }
             }
         },

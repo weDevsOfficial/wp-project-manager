@@ -61,20 +61,12 @@
         </div>
     </div>
 
-        <div v-if="showMoreBtn && !listfullview">
-                <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)"  @click.prevent="loadmorelist()" >Load More ... </a>
-        </div>
+    <div v-if="showMoreBtn && !listfullview">
+            <a class="cpm-btn cpm-btn-blue cpm-btn-secondary" href="JavaScript:void(0)"  @click.prevent="loadmorelist()" >Load More ... </a>
+    </div>
 
+    <single-task :project_id="current_project" :tasklist="tasklist"></single-task> 
 
-
-
-    <taskmodal
-        :comments="comments"
-        :current_project="current_project"
-        :pree_init_data="pree_init_data"
-        :inpopup="'ypp'">
-    
-    </taskmodal>
 
     <template id="task-list-form-t">
 
