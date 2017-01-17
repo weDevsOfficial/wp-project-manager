@@ -1343,6 +1343,7 @@ function cpm_message() {
     $message = array(
         'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
         'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
+        'new_todo' => __( 'New Todo', 'cpm' )
     );
 
     return apply_filters( 'cpm_message', $message );

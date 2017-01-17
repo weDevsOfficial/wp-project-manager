@@ -1226,7 +1226,7 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
-.cpm-task-container {
+[v-cloak] {
   display: none;
 }
 .cpm-todolists .submit {
@@ -2176,12 +2176,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 5px;
   font-weight: bold;
 }
-.cpm .cpm-btn-blue {
+.cpm .cpm-btn-blue,
+.cpm .cpm-btn-blue:active,
+.cpm .cpm-btn-blue:focus {
   background: #019dd6;
   color: #ffffff;
-}
-.cpm .cpm-btn-blue a:hover {
-  color: red;
+  box-shadow: none;
 }
 .cpm .cpm-btn-green {
   background: #009999;
@@ -3824,7 +3824,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   display: none;
 }
 .cpm .loadmoreanimation .load-spinner {
-  margin: 10px auto;
+  margin: 50px 0 0 36%;
   width: 50px;
   height: 40px;
   text-align: center;

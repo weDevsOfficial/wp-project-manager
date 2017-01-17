@@ -1,22 +1,37 @@
 <?php cpm_get_header( __( 'To-do Lists', 'cpm' ), $project_id );  ?>
 
-<div class="cpm-data-load-before" >
-    <div class="loadmoreanimation">
-        <div class="load-spinner">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
+<div class='cpm-task-container wrap'  id='cpm-task-el' v-cloak>
+
+    <!-- New Todo list button -->
+    <a @click.prevent="newList()" href="#" class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist">
+        <i v-if="hide_list_form" class="fa fa-plus-circle" aria-hidden="true"></i>
+        <i v-if="!hide_list_form" class="fa fa-minus-circle" aria-hidden="true"></i>
+        {{text.new_todo}}
+    </a>
+
+    <!-- Spinner before load task -->
+    <div v-if="loading" class="cpm-data-load-before" >
+        <div class="loadmoreanimation">
+            <div class="load-spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
         </div>
     </div>
-</div>
 
+    <!-- New Todo list form -->
+    <todo-list-form 
+        v-if="!hide_list_form" 
+        :project_id="project_id"
+        :milestones="mixin_milestones">
+        
+    </todo-list-form>
+    
 
-<div class='cpm-task-container'  id='taskapp' v-cloak>
-    <a @click.prevent="new_list_form = true" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist" v-show="new_list_form_btn && !emptylist" >{{text.add_new_todo_btn}}</a>
-
-    <div class="cpm-new-todolist-form" v-show="new_list_form">
+   <!--  <div class="cpm-new-todolist-form" v-show="new_list_form">
 
         <todolistform
             :lists="listblank"
@@ -104,5 +119,5 @@
                 <a class="button" href="#" @click.prevent="hide_list_form(lists)">Cancel</a>
             </div>
         </form>
-    </template>
+    </template> -->
 </div>

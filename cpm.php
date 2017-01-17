@@ -372,6 +372,7 @@ class WeDevs_CPM {
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),
             'nonce'         => wp_create_nonce( 'cpm_nonce' ),
+            'project_id'    => empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] ),
             'is_admin'      => is_admin() ? 'yes' : 'no',
             'message'       => cpm_message(),
             'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
@@ -394,6 +395,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
         wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+        wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );
         do_action( 'cpm_admin_scripts' );
     }
@@ -451,7 +453,10 @@ class WeDevs_CPM {
         $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab']; 
         $hook = empty( $current_screen->base ) ? false : $current_screen->base;
         
-        
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
+            
+
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
@@ -464,9 +469,6 @@ class WeDevs_CPM {
             cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
 
             
-            
-        
-
     }
 
 }

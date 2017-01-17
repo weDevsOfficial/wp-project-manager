@@ -54,6 +54,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_milestone_complete', array ( $this, 'milestone_complete' ) );
         add_action( 'wp_ajax_cpm_milestone_open', array ( $this, 'milestone_open' ) );
         add_action( 'wp_ajax_cpm_milestone_get', array ( $this, 'milestone_get' ) );
+        add_action( 'wp_ajax_cpm_get_milestones', array ( $this, 'get_milestones' ) );
         add_action( 'wp_ajax_cpm_delete_milestone', array ( $this, 'milestone_delete' ) );
         add_action( 'wp_ajax_cpm_milestone_update', array ( $this, 'milestone_update' ) );
 
@@ -822,6 +823,15 @@ class CPM_Ajax {
             ) );
         }
         exit;
+    }
+
+    function get_milestones() {
+        check_ajax_referer( 'cpm_nonce' );
+        
+        $project_id = abs( $_POST['project_id'] );
+        $milestone  = CPM_Milestone::getInstance()->get_by_project( $project_id );
+
+        wp_send_json_success( array( 'milestones' => $milestone ) );
     }
 
     function milestone_get() {
