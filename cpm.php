@@ -455,7 +455,7 @@ class WeDevs_CPM {
         
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
-            
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
@@ -466,7 +466,7 @@ class WeDevs_CPM {
             cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
-            cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+            
 
             
     }

@@ -1,4 +1,41 @@
-<a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">
+<div>
+    <article class="cpm-todolist">
+        <header class="cpm-list-header">
+
+            <h3>
+                <a href="#"> {{list.post_title}} </a>
+                    <div class="cpm-right">
+                    <a href="#" class="cpm-icon-edit" title="Edit this List "><span class="dashicons dashicons-edit"></span></a>
+                    <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
+                </div>
+                <div class="cpm-right cpm-pin-list">
+                    <a title="" href="#" class=" cpm-icon-pin "><span class="dashicons dashicons-admin-post"></span></a>
+                </div>
+                <div>
+                    <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>
+                </div>
+            </h3>
+
+            <div class="cpm-entry-detail" >  {{list.post_content}}</div>
+
+            <div class="cpm-list-edit-form" v-if="list.edit_mode">
+
+                <!-- <todolistform
+                    :lists="list"
+                    :pid="current_project"
+                    :formaction="'cpm_update_list'"
+                    :wp_nonce="wp_nonce"
+                    :extra_fields="list.extra_data"
+                    :milestonelist="milestonelist"
+                    :slected_milestone="list.milestone"
+                    :fid="list.ID"
+
+                ></todolistform> -->
+            </div>
+        </header>
+    </article>
+</div>
+<!-- <a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">
     <span class="dashicons dashicons-arrow-left-alt"></span>
     {{text.backtotasklist}}
 </a>
@@ -104,3 +141,5 @@
 
 
 </article>
+
+ -->

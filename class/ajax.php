@@ -89,9 +89,51 @@ class CPM_Ajax {
         // For Task Page on Vue JS
         add_action( 'wp_ajax_cpm_get_list_extra_field', array ( $this, 'listfrom_extrafield_list' ) );
         add_action( 'wp_ajax_cpm_get_task_extra_field', array ( $this, 'taskfrom_extrafield_list' ) );
-         add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
-         add_action( 'wp_ajax_cpm_get_post_comments', array( $this, 'get_post_comments' ) );
-         add_action( 'wp_ajax_cpm_get_compiled_content', array( $this, 'get_compiled_content' ) );
+        add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
+        add_action( 'wp_ajax_cpm_get_post_comments', array( $this, 'get_post_comments' ) );
+        add_action( 'wp_ajax_cpm_get_compiled_content', array( $this, 'get_compiled_content' ) );
+        
+        add_action( 'wp_ajax_cpm_initial_todo_list', array( $this, 'initial_todo_list' ) );
+    }
+
+    /**
+     * Get initial value when loaded todo list tab
+     *
+     * @since  2.0.0
+     * 
+     * @return json
+     */
+    function initial_todo_list() {
+        check_ajax_referer( 'cpm_nonce' );
+        $project_id = absint( $_POST['project_id'] );
+
+        if ( ! $project_id ) {
+            wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
+        }
+
+        $tasks      = array();
+        $lists      = CPM_Task::getInstance()->get_task_lists( $project_id );
+        
+        foreach ( $lists as $list ) {
+            $task        = CPM_Task::getInstance()->get_tasks( $list->ID );
+            $list->tasks = $task;
+            $lists[]     = $list;
+        }
+        
+        $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
+        $permission = array(
+            'tdolist_view_private' => cpm_user_can_access( $project_id, 'tdolist_view_private' ),
+        );
+
+        $send = array( 
+            'milestones'  => $milestones, 
+            'permissions' => $permission, 
+            'lists'       => $lists,
+        );
+
+        $send = apply_filters( 'cpm_initial_todo_list', $send );
+
+        wp_send_json_success( $send );
     }
 
     /**

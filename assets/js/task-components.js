@@ -36,7 +36,7 @@ var CPM_Mixin = {
 // New todo list and update todo list form
 Vue.component('todo-list-form', {
     template: '#tmpl-cpm-todo-list-form', 
-    props: ['list', 'project_id', 'milestones'],
+    props: ['list', 'project_id', 'milestones', 'init'],
 
     mixins: [CPM_Mixin],
 
@@ -52,6 +52,8 @@ Vue.component('todo-list-form', {
             tasklist_name: '',
             tasklist_detail: '',
             tasklist_milestone: '',
+            tdolist_view_private: this.init.permissions.tdolist_view_private,
+            tasklist_privacy: ''
     	}
     },
 
@@ -80,13 +82,18 @@ Vue.component('todo-list-form', {
                 tasklist_detail: this.tasklist_detail,
                 tasklist_milestone: this.tasklist_milestone,
                 project_id: this.project_id,
+                tasklist_privacy: this.tasklist_privacy,
                 list_id: typeof this.list == 'undefined' ? false : this.list.ID,
                 _wpnonce: CPM_Vars.nonce
-            }
+            },
+            self = this;
 
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
                 if ( res.success ) {
-                    
+                    self.tasklist_name ='';
+                    self.tasklist_detail = '';
+                    self.tasklist_milestone = '';
+                    self.tasklist_privacy = '';
                 } 
             });
         }
@@ -113,6 +120,27 @@ Vue.component('milestone-dropdown', {
         milestone: function( new_val ) {
             this.setTaskHook( 'milestone_dropdown', { milestone_id: new_val } );
         }
+    }
+
+});
+
+// Milestone dropdown
+Vue.component('todo-list', {
+    mixins: [CPM_Mixin],
+    template: '#tmpl-cpm-todo-list', 
+    props: ['list'],
+
+    data: function() {
+        return {
+        }
+    },
+
+    created: function() {
+        
+    },
+
+    watch: {
+       
     }
 
 });
