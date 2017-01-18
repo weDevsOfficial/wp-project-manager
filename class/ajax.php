@@ -640,6 +640,7 @@ class CPM_Ajax {
         $posted     = $_POST;
         $project_id = $posted[ 'project_id' ];
         $response   = array ( 'success' => false );
+        
         if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
             $task_obj = CPM_Task::getInstance();
             $list_id  = $task_obj->add_list( $project_id, $posted );
@@ -664,8 +665,8 @@ class CPM_Ajax {
                 'success' => false
             );
         }
-        echo json_encode( $response );
-        exit;
+        
+        wp_send_json_success( array( 'list' => $response ) );
     }
 
     function update_tasklist() {

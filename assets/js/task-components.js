@@ -80,10 +80,15 @@ Vue.component('todo-list-form', {
                 tasklist_detail: this.tasklist_detail,
                 tasklist_milestone: this.tasklist_milestone,
                 project_id: this.project_id,
-                list_id: typeof this.list == 'undefined' ? false : this.list.ID
+                list_id: typeof this.list == 'undefined' ? false : this.list.ID,
+                _wpnonce: CPM_Vars.nonce
             }
 
-            console.log(form_data);
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    
+                } 
+            });
         }
     }
 });

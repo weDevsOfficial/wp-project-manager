@@ -176,7 +176,6 @@ class CPM_Task {
      */
     function add_list( $project_id, $postdata, $list_id = 0 ) {
 
-
         $is_update        = ( $list_id ) ? true : false;
         $tasklist_privacy = isset( $postdata[ 'tasklist_privacy' ] ) ? $postdata[ 'tasklist_privacy' ] : 'no';
 
