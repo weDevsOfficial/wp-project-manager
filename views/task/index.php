@@ -10,7 +10,7 @@
     </a>
 
     <!-- Spinner before load task -->
-    <div v-if="loading" class="cpm-data-load-before" >
+    <!-- <div v-if="loading" class="cpm-data-load-before" >
         <div class="loadmoreanimation">
             <div class="load-spinner">
                 <div class="rect1"></div>
@@ -20,7 +20,7 @@
                 <div class="rect5"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- New Todo list form -->
     <todo-list-form 

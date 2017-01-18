@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	// Task root object for vue
+	// Task root object 
 	var CPM_Task = new Vue({
 		el: '#cpm-task-el',
 
@@ -19,7 +19,9 @@
 			}
 		},
 
+		// Initial doing 
 		created: function() {
+			this.$on( 'cpm_task_hook', this.getTaskHook );
 			this.getMilestone( this.project_id );
 		},
 
@@ -27,6 +29,19 @@
 			// New todo list
 			newList: function() {
 				this.hide_list_form = this.hide_list_form ? false : true;
+			},
+
+			// Get all hook from chiled components
+			getTaskHook: function( hook, data, e ) {
+
+				switch( hook ) {
+					case 'hide_todo_list_form':
+						this.hide_list_form = true;
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
 	});

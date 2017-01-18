@@ -135,6 +135,17 @@
   font-size: 13px;
   border: 1px solid #E4E4E4;
 }
+.cpm .cpm-task-container .cpm-todo-list-form-wrap .item {
+  padding: 0;
+  margin: 10px 0 10px 0;
+}
+.cpm .cpm-task-container .cpm-todo-list-form-wrap input[type="text"],
+.cpm .cpm-task-container .cpm-todo-list-form-wrap textarea,
+.cpm .cpm-task-container .cpm-todo-list-form-wrap select {
+  width: 35%;
+  padding: 10px;
+  margin: 0;
+}
 .cpm-left {
   float: left;
 }

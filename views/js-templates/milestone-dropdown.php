@@ -1,4 +1,4 @@
-<select v-model="selected_milestone">
+<select v-model="milestone">
 	<option value="">
 		--Milestone--
 	</option>
