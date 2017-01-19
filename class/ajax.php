@@ -112,12 +112,13 @@ class CPM_Ajax {
         }
 
         $tasks      = array();
+        $new_lists  = array();
         $lists      = CPM_Task::getInstance()->get_task_lists( $project_id );
         
         foreach ( $lists as $list ) {
             $task        = CPM_Task::getInstance()->get_tasks( $list->ID );
             $list->tasks = $task;
-            $lists[]     = $list;
+            $new_lists[] = $list;
         }
         
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
@@ -128,7 +129,7 @@ class CPM_Ajax {
         $send = array( 
             'milestones'  => $milestones, 
             'permissions' => $permission, 
-            'lists'       => $lists,
+            'lists'       => $new_lists,
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );

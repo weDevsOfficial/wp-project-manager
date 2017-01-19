@@ -29,7 +29,7 @@ var CPM_Mixin = {
 	                self.mixin_milestones = res.data.milestones;
 	            } 
 	        });
-		}
+		},
 	}
 }
 
@@ -46,15 +46,44 @@ Vue.component('todo-list-form', {
 
     data: function() {
     	return {
-    		submit_btn_text: 'Add New',
-    		selected_milestone: '',
-            action: 'cpm_add_list',
-            tasklist_name: '',
-            tasklist_detail: '',
-            tasklist_milestone: '',
-            tdolist_view_private: this.init.permissions.tdolist_view_private,
-            tasklist_privacy: ''
+            privacy: false,
+            submit_btn_text: 'submit',
+            milestone: '-1',
+            tasklist_name: this.list.post_title,
+            tasklist_detail: this.list.post_content
     	}
+    },
+
+    computed: {
+        tdolist_view_private: function() {
+
+            if ( ! this.init.hasOwnProperty('premissions')) {
+                return true;
+            }
+
+            if ( this.init.premissions.hasOwnProperty('tdolist_view_private')) {
+                return this.init.premissions.tdolist_view_private
+            }
+
+            return true;
+        },
+    },
+
+    watch: {
+        privacy: function( new_val ) {
+            this.privacy = new_val;
+        },
+
+        list: {
+            handler: function( new_val, old_val ) {
+                this.tasklist_name   = new_val.post_title;
+                this.tasklist_detail = new_val.post_content;
+                this.milestone       = new_val.milestone ? new_val.milestone : '-1';
+                this.privacy         = new_val.private;
+            },
+
+            deep: true
+        }
     },
 
     methods: {
@@ -62,8 +91,9 @@ Vue.component('todo-list-form', {
         getTaskHook: function( hook, data, e ) {
 
             switch( hook ) {
-                case 'milestone_dropdown':
-                    this.tasklist_milestone = data.milestone_id;
+                case 'watch_milestone':
+                    // get onchnage milestone id from milestone-dropdown component 
+                    this.milestone = data.milestone_id; 
                     break;
 
                 default:
@@ -76,27 +106,27 @@ Vue.component('todo-list-form', {
         },
 
         newTodoList: function() {
-            var form_data = {
-                action: 'cpm_add_list',
-                tasklist_name: this.tasklist_name,
-                tasklist_detail: this.tasklist_detail,
-                tasklist_milestone: this.tasklist_milestone,
-                project_id: this.project_id,
-                tasklist_privacy: this.tasklist_privacy,
-                list_id: typeof this.list == 'undefined' ? false : this.list.ID,
-                _wpnonce: CPM_Vars.nonce
-            },
-            self = this;
-
+    
+            var self = this,
+                form_data = {
+                    action: 'cpm_add_list',
+                    tasklist_name: this.tasklist_name,
+                    tasklist_detail: this.tasklist_detail,
+                    tasklist_privacy: this.privacy,
+                    project_id: this.project_id,
+                    tasklist_milestone: this.milestone,
+                    list_id: typeof this.list == 'undefined' ? false : this.list.ID,
+                    _wpnonce: CPM_Vars.nonce,
+                }
+            
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
                 if ( res.success ) {
-                    self.tasklist_name ='';
-                    self.tasklist_detail = '';
-                    self.tasklist_milestone = '';
-                    self.tasklist_privacy = '';
+                    self.privacy = false;
+                    this.milestone = '-1';
+                    self.setTaskHook( 'update_todo_list',  res );
                 } 
             });
-        }
+        },
     }
 });
 
@@ -104,43 +134,39 @@ Vue.component('todo-list-form', {
 Vue.component('milestone-dropdown', {
     mixins: [CPM_Mixin],
     template: '#tmpl-cpm-milestone-dropdown', 
-    props: ['milestones', 'selected_milestone'],
+    props: ['milestones', 'milestone'],
 
     data: function() {
         return {
-            milestone: ''
+            // Default (when component loaded) set selected milestone from props
+            selected_milestone: this.milestone
         }
-    },
-
-    created: function() {
-        this.milestone = this.selected_milestone;
-    },
+    },  
 
     watch: {
+        // onChange milestone from dropdown and send it to others component by 'watch_milestone' hook
+        selected_milestone: function(new_val) {
+            this.setTaskHook( 'watch_milestone', { milestone_id: new_val });
+        },
+
+        // onchange props['milestone'] and set it to selected_milestone.  (when its change from others component) 
         milestone: function( new_val ) {
-            this.setTaskHook( 'milestone_dropdown', { milestone_id: new_val } );
+            this.selected_milestone = new_val;
         }
     }
-
 });
 
-// Milestone dropdown
+// Show todo lists
 Vue.component('todo-list', {
     mixins: [CPM_Mixin],
     template: '#tmpl-cpm-todo-list', 
-    props: ['list'],
+    props: ['lists'],
 
-    data: function() {
-        return {
+
+    methods: {
+        updateTaskList: function( list ) {
+            this.setTaskHook( 'update_todo_list_btn', { list: list });
         }
-    },
-
-    created: function() {
-        
-    },
-
-    watch: {
-       
     }
 
 });

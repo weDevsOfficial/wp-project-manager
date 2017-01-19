@@ -9,7 +9,7 @@
         </div>
 
         <div class="item milestone">
-            <milestone-dropdown :selected_milestone="selected_milestone" :milestones="milestones"></milestone-dropdown> 
+            <milestone-dropdown :milestone="milestone" :milestones="milestones"></milestone-dropdown> 
         </div>
 
         <?php do_action( 'cpm_tasklist_form' ); ?>

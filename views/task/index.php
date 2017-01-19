@@ -4,8 +4,8 @@
 
     <!-- New Todo list button -->
     <a @click.prevent="newList()" href="#" class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist">
-        <i v-if="hide_list_form" class="fa fa-plus-circle" aria-hidden="true"></i>
-        <i v-if="!hide_list_form" class="fa fa-minus-circle" aria-hidden="true"></i>
+        <i v-if="!show_list_form" class="fa fa-plus-circle" aria-hidden="true"></i>
+        <i v-if="show_list_form" class="fa fa-minus-circle" aria-hidden="true"></i>
         {{text.new_todo}}
     </a>
 
@@ -24,21 +24,19 @@
 
     <!-- New Todo list form -->
     <todo-list-form 
-        v-if="!hide_list_form" 
+        v-show="show_list_form" 
         :project_id="project_id"
         :milestones="milestones"
+        :show_list_form="show_list_form"
+        :list="list"
         :init="init">
         
     </todo-list-form>
     
-    
-    <ul class="cpm-todolists" v-for="list in lists">
-        <li>
-            <todo-list :list="list">
-                    
-            </todo-list>
-        </li>
-    </ul>
+    <!-- Show Task list and his child -->
+    <todo-list :lists="lists"></todo-list>
+        
+   
 
 
 <!--     <blanktemplate

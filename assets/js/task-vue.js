@@ -11,8 +11,8 @@
 		data: {
 			project_id: CPM_Vars.project_id,
 			loading: true,
-			hide_list_form: true,
-			lists: '',
+			show_list_form: false,
+			lists: [],
 			milestones: '',
 			init: {},
 			list: {},
@@ -31,7 +31,8 @@
 		methods: {
 			// New todo list
 			newList: function() {
-				this.hide_list_form = this.hide_list_form ? false : true;
+				this.show_list_form = this.show_list_form ? false : true;
+				this.list = {};
 			},
 
 			// Get all hook from chiled components
@@ -39,7 +40,18 @@
 
 				switch( hook ) {
 					case 'hide_todo_list_form':
-						this.hide_list_form = true;
+						this.show_list_form = false;
+						this.list = {};
+						break; 
+
+					case 'update_todo_list':
+						this.show_list_form = false;
+						this.list = {};
+						break;
+
+					case 'update_todo_list_btn':
+						this.show_list_form = true;
+						this.list = data.list;
 						break;
 
 					default:
@@ -75,7 +87,7 @@
 	                } 
 	                
 	            });
-			}
+			},
 		}
 	});
 

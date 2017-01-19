@@ -1,22 +1,22 @@
-<div>
-    <article class="cpm-todolist">
+<div class="cpm-todolists">
+    <article class="cpm-todolist" v-for="list in lists">
         <header class="cpm-list-header">
 
             <h3>
-                <a href="#"> {{list.post_title}} </a>
-                    <div class="cpm-right">
-                    <a href="#" class="cpm-icon-edit" title="Edit this List "><span class="dashicons dashicons-edit"></span></a>
+                <a href="#">{{list.post_title}}</a>
+                <div class="cpm-right">
+                    <a href="#" @click.prevent="updateTaskList( list )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                     <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="cpm-right cpm-pin-list">
-                    <a title="" href="#" class=" cpm-icon-pin "><span class="dashicons dashicons-admin-post"></span></a>
+                    <a title="" href="#" class="cpm-icon-pin"><span class="dashicons dashicons-admin-post"></span></a>
                 </div>
                 <div>
-                    <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>
+                    <a title="" href="#" class="cpm-list-pin cpm-icon-pin "><span class="dashicons dashicons-admin-post"></span></a>
                 </div>
             </h3>
 
-            <div class="cpm-entry-detail" >  {{list.post_content}}</div>
+            <div class="cpm-entry-detail">{{list.post_content}}</div>
 
             <div class="cpm-list-edit-form" v-if="list.edit_mode">
 
