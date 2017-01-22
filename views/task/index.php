@@ -34,7 +34,14 @@
     </todo-list-form>
     
     <!-- Show Task list and his child -->
-    <todo-list :lists="lists"></todo-list>
+    <todo-list 
+        :project_id="project_id"
+        :milestones="milestones"
+        :show_list_form="show_list_form"
+        :lists="lists"
+        :init="init">
+        
+    </todo-list>
         
    
 

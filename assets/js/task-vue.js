@@ -32,7 +32,6 @@
 			// New todo list
 			newList: function() {
 				this.show_list_form = this.show_list_form ? false : true;
-				this.list = {};
 			},
 
 			// Get all hook from chiled components
@@ -41,17 +40,16 @@
 				switch( hook ) {
 					case 'hide_todo_list_form':
 						this.show_list_form = false;
-						this.list = {};
 						break; 
 
 					case 'update_todo_list':
+						this.lists.splice( 0, 0, data.data.list.list );
 						this.show_list_form = false;
 						this.list = {};
 						break;
 
 					case 'update_todo_list_btn':
-						this.show_list_form = true;
-						this.list = data.list;
+						this.lists[data.index].edit_mode = this.lists[data.index].edit_mode ? false : true; 
 						break;
 
 					default:

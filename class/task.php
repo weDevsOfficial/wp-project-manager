@@ -162,8 +162,10 @@ class CPM_Task {
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
+            wp_enqueue_script( 'toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
             wp_enqueue_script( 'cpm_task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery' ), false, true );
             wp_enqueue_script( 'cpm_task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'cpm_task-components', 'plupload-handlers', 'cpm_common_js' ), false, true );
+            wp_enqueue_style( 'toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
         }
     }
 
@@ -176,13 +178,17 @@ class CPM_Task {
      */
     function add_list( $project_id, $postdata, $list_id = 0 ) {
 
+        if ( empty( $postdata[ 'tasklist_name' ] ) ) {
+            return new WP_Error( 'tasklist_name', __( 'Task list name required', 'cpm' ) );
+        }
+
         $is_update        = ( $list_id ) ? true : false;
         $tasklist_privacy = isset( $postdata[ 'tasklist_privacy' ] ) ? $postdata[ 'tasklist_privacy' ] : 'no';
 
         $data = array (
             'post_parent'  => $project_id,
             'post_title'   => $postdata[ 'tasklist_name' ],
-            'post_content' => $postdata[ 'tasklist_detail' ],
+            'post_content' => empty( $postdata[ 'tasklist_detail' ] ) ? '' : $postdata[ 'tasklist_detail' ],
             'post_type'    => 'cpm_task_list',
             'post_status'  => 'publish'
         );
@@ -209,7 +215,6 @@ class CPM_Task {
                 do_action( 'cpm_tasklist_new', $list_id, $project_id, $data );
             }
         }
-
 
         return $list_id;
     }
@@ -581,6 +586,7 @@ class CPM_Task {
         $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
         $task_list->private   = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
         $task_list->pin_list  = is_sticky( $task_list->ID ) ? true : false;
+        $task_list->edit_mode = false;
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -710,7 +716,6 @@ class CPM_Task {
         // print_r($task) ;
         $ajax_obj        = CPM_Ajax::getInstance();
         $date_format     = "Y-m-d";
-        $task->edit_mode = false;
         $task->comments  = [];
 
         $task->extra_data   = '';

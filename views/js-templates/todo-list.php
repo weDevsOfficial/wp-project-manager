@@ -1,36 +1,32 @@
 <div class="cpm-todolists">
-    <article class="cpm-todolist" v-for="list in lists">
+    <article class="cpm-todolist" v-for="( list, index ) in lists">
         <header class="cpm-list-header">
 
             <h3>
                 <a href="#">{{list.post_title}}</a>
                 <div class="cpm-right">
-                    <a href="#" @click.prevent="updateTaskList( list )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                    <a href="#" @click.prevent="updateTaskList( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                     <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="cpm-right cpm-pin-list">
                     <a title="" href="#" class="cpm-icon-pin"><span class="dashicons dashicons-admin-post"></span></a>
                 </div>
-                <div>
-                    <a title="" href="#" class="cpm-list-pin cpm-icon-pin "><span class="dashicons dashicons-admin-post"></span></a>
-                </div>
             </h3>
 
             <div class="cpm-entry-detail">{{list.post_content}}</div>
-
+            
             <div class="cpm-list-edit-form" v-if="list.edit_mode">
 
-                <!-- <todolistform
-                    :lists="list"
-                    :pid="current_project"
-                    :formaction="'cpm_update_list'"
-                    :wp_nonce="wp_nonce"
-                    :extra_fields="list.extra_data"
-                    :milestonelist="milestonelist"
-                    :slected_milestone="list.milestone"
-                    :fid="list.ID"
-
-                ></todolistform> -->
+                <!-- New Todo list form -->
+                <todo-list-form 
+                    v-show="show_list_form" 
+                    :project_id="project_id"
+                    :milestones="milestones"
+                    :show_list_form="show_list_form"
+                    :list="list"
+                    :init="init">
+                    
+                </todo-list-form>
             </div>
         </header>
     </article>

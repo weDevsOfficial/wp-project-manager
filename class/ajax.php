@@ -688,7 +688,7 @@ class CPM_Ajax {
             $task_obj = CPM_Task::getInstance();
             $list_id  = $task_obj->add_list( $project_id, $posted );
 
-            if ( $list_id ) {
+            if ( ! is_wp_error( $list_id ) ) {
                 $list = $task_obj->get_task_list( $list_id );
                 $list = $this->add_new_list_kyes( $list, $project_id );
 
@@ -698,18 +698,15 @@ class CPM_Ajax {
                     'newlist' => TRUE,
                     'list'    => $list
                 ));
-            }else {
-                $response = array (
-                    'success' => false,
-                );
+            } else {
+                wp_send_json_error( array( 'error' => $list_id->get_error_messages() ) );
             }
-        }else {
-            $response = array (
-                'success' => false
-            );
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-        
-        wp_send_json_success( array( 'list' => $response ) );
+
+        wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'list' => $response ) );
     }
 
     function update_tasklist() {
@@ -758,7 +755,7 @@ class CPM_Ajax {
         $list->show_new_task_form  = false;
         $list->tasklist            = [];
         $list->assigned_users_temp = array ();
-
+        
         return $list;
     }
 
