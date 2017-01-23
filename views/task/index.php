@@ -23,7 +23,9 @@
     </div>
 
     <!-- New Todo list form -->
-    <todo-list-form :list="list" :index="index" v-show="show_list_form"></todo-list-form>
+    <div v-if="show_list_form">
+        <todo-list-form :list="list" :index="index"></todo-list-form>
+    </div>
     
     <!-- Show Task list and his child -->
     <todo-list></todo-list>
