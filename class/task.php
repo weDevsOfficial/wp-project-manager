@@ -162,10 +162,15 @@ class CPM_Task {
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
-            wp_enqueue_script( 'toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
-            wp_enqueue_script( 'cpm_task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery' ), false, true );
-            wp_enqueue_script( 'cpm_task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'cpm_task-components', 'plupload-handlers', 'cpm_common_js' ), false, true );
-            wp_enqueue_style( 'toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
+            
+            wp_enqueue_script( 'cpm-vue' );
+            wp_enqueue_script( 'cpm-vuex' );
+            wp_enqueue_script( 'cpm-toastr' );
+            wp_enqueue_script( 'cpm-task-store' );
+            wp_enqueue_script( 'cpm-task-components' );
+            wp_enqueue_script( 'cpm-task-vue' );
+            
+            wp_enqueue_style( 'cpm-toastr' );
         }
     }
 

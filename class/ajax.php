@@ -724,15 +724,10 @@ class CPM_Ajax {
                 $list = $task_obj->get_task_list( $list_id );
                 $list = $this->add_new_list_kyes( $list, $project_id );
 
-                $response = array (
-                    'success' => true,
-                    'newlist' => FALSE,
-                    'list'    => $list,
-                );
             }
         }
-        echo json_encode( $response );
-        exit;
+        
+        wp_send_json_success( array( 'list' => $list, 'success' => __( 'Sucessfull updated', 'cpm' ) ) );
     }
 
     function add_new_list_kyes( $list, $project_id ) {

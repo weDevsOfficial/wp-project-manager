@@ -26,11 +26,11 @@
         </div>
 
         <?php do_action( 'cpm_tasklist_form' ); ?>
-
+        
         <div class="item submit">
             <span class="cpm-new-list-spinner"></span>
             <input type="submit" class="button-primary" name="submit_todo" :value="submit_btn_text">
-            <a @click.prevent="hideTodoListForm()" class="button list-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            <a @click.prevent="showHideTodoListForm( list, index )" class="button list-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
     </form>

@@ -5,7 +5,7 @@
             <h3>
                 <a href="#">{{list.post_title}}</a>
                 <div class="cpm-right">
-                    <a href="#" @click.prevent="updateTaskList( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                    <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                     <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="cpm-right cpm-pin-list">
@@ -14,19 +14,11 @@
             </h3>
 
             <div class="cpm-entry-detail">{{list.post_content}}</div>
-            
+
             <div class="cpm-list-edit-form" v-if="list.edit_mode">
 
                 <!-- New Todo list form -->
-                <todo-list-form 
-                    v-show="show_list_form" 
-                    :project_id="project_id"
-                    :milestones="milestones"
-                    :show_list_form="show_list_form"
-                    :list="list"
-                    :init="init">
-                    
-                </todo-list-form>
+                <todo-list-form :list="list" :index="index"></todo-list-form>
             </div>
         </header>
     </article>
