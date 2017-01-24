@@ -1,7 +1,6 @@
 <div class="cpm-todolists">
     <article class="cpm-todolist" v-for="( list, index ) in lists">
         <header class="cpm-list-header">
-
             <h3>
                 <a href="#">{{list.post_title}}</a>
                 <div class="cpm-right">
@@ -13,7 +12,7 @@
                 </div>
             </h3>
 
-            <div class="cpm-entry-detail">{{list.post_content}}</div>
+            <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
 
             <div class="cpm-list-edit-form" v-if="list.edit_mode">
 

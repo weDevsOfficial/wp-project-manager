@@ -29,7 +29,7 @@ Vue.component('todo-list-form', {
 
     data: function() {
     	return {
-            privacy: this.list.private,
+            privacy: this.list.private == 'on' ? true : false,
             submit_btn_text: this.list.ID ? CPM_Vars.message.update_todo : CPM_Vars.message.new_todo,
             tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
             tasklist_name: this.list.post_title,
@@ -86,11 +86,12 @@ Vue.component('todo-list-form', {
         newTodoList: function() {
     
             var self = this,
+                is_update = typeof this.list.ID == 'undefined' ? false : true,
                 form_data = {
                     action: typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list',
                     tasklist_name: this.tasklist_name,
                     tasklist_detail: this.tasklist_detail,
-                    tasklist_privacy: this.privacy,
+                    tasklist_privacy: this.privacy ? 'on' : 'no',
                     project_id: this.$store.state.project_id,
                     tasklist_milestone: this.tasklist_milestone,
                     list_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
@@ -106,9 +107,20 @@ Vue.component('todo-list-form', {
                     self.tasklist_milestone = '-1';
                     self.show_spinner       = false;
 
+                    if ( is_update ) {
+                        var list = res.data.list;
+                    } else {
+                        var list = res.data.list.list;
+                    }
+
                     // Display a success toast, with a title
                     toastr.success(res.data.success);
+
+                    // Hide the todo list update form
                     self.showHideTodoListForm( self.list, self.index );
+                    
+                    self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
+                
                 } else {
                     self.show_spinner = false;
                     res.data.error.map(function(value, index) {

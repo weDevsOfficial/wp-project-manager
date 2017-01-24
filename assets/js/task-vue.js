@@ -15,7 +15,7 @@
                 new_todo: CPM_Vars.message.new_todo
             },
             list: {},
-            index: false
+            index: false,
         },
 
         computed: {
@@ -42,6 +42,7 @@
 
             // Get initial data for todo list page 
             getInitialData: function( project_id ) {
+
                 var self = this,
                     data = {
                         project_id: project_id,
@@ -49,6 +50,7 @@
                         action: 'cpm_initial_todo_list'
                     }
 
+                    
                 jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
                     if ( res.success ) {
                         self.$store.commit( 'setTaskInitData', res );
@@ -58,6 +60,7 @@
                         //      self.$data[key] = res.data[key];
                         //  }
                         // }
+                        
                     } 
                     
                 });

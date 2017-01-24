@@ -715,7 +715,7 @@ class CPM_Ajax {
         $posted     = $_POST;
         $project_id = $posted[ 'project_id' ];
         $list_id    = $posted[ 'list_id' ];
-        $response   = array ( 'success' => false );
+        
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
             $list_id  = $task_obj->update_list( $project_id, $posted, $list_id );
