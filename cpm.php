@@ -467,6 +467,10 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+
+        cpm_get_js_template( CPM_JS_TMPL . '/blanktemplate/todolist.php', 'todo-list-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-btn.php', 'todo-list-button' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );

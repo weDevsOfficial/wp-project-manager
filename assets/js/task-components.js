@@ -36,7 +36,8 @@ Vue.component('todo-list-form', {
             tasklist_detail: this.list.post_content,
             show_spinner: false,
             error: [],
-            success: ''
+            success: '',
+            submit_disabled: false
     	}
     },
 
@@ -84,9 +85,16 @@ Vue.component('todo-list-form', {
         },
 
         newTodoList: function() {
-    
-            var self = this,
+            
+            if ( this.submit_disabled ) {
+                return;
+            }
+
+            this.submit_disabled = true;
+
+            var self      = this,
                 is_update = typeof this.list.ID == 'undefined' ? false : true,
+                
                 form_data = {
                     action: typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list',
                     tasklist_name: this.tasklist_name,
@@ -96,7 +104,7 @@ Vue.component('todo-list-form', {
                     tasklist_milestone: this.tasklist_milestone,
                     list_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
                     _wpnonce: CPM_Vars.nonce,
-                }
+                };
             
             this.show_spinner = true;
             
@@ -119,14 +127,19 @@ Vue.component('todo-list-form', {
                     // Hide the todo list update form
                     self.showHideTodoListForm( self.list, self.index );
                     
+                    // Update store lists array 
                     self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
                 
                 } else {
                     self.show_spinner = false;
+
+                    // Showing error
                     res.data.error.map(function(value, index) {
                         toastr.error(value);
                     });
                 }
+
+                this.submit_disabled = false;
             });
         },
     }
@@ -162,5 +175,58 @@ Vue.component('todo-list', {
         },
     }
 
+});
+
+// Default template for todo lists
+Vue.component('todo-list-default-tmpl', {
+    template: '#tmpl-todo-list-default',
+
+    data: function() {
+        return {
+            list: {},
+            index: false
+        }
+    },
+
+    computed: {
+        lists: function() {
+            return this.$store.state.lists;
+        },
+
+        create_todolist: function() {
+            if ( ! this.$store.state.init.hasOwnProperty( 'premissions' ) ) {
+                return true;
+            }
+
+            return this.$store.state.init.premissions.create_todolist;
+        },
+
+        show_list_form: function() {
+            return this.$store.state.show_list_form;
+        }
+    }
+});
+
+// Todo list btn 
+Vue.component('todo-list-button', {
+    template: '#tmpl-todo-list-button',
+
+    mixins: [CPM_Mixin],
+
+    data: function() {
+        return {
+            list: {},
+            index: false,
+            text: {
+                new_todo: CPM_Vars.message.new_todo
+            },
+        }
+    },
+
+    computed: {
+        show_list_form: function() {
+            return this.$store.state.show_list_form;
+        }
+    }
 });
 

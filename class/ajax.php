@@ -124,6 +124,7 @@ class CPM_Ajax {
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
         $permission = array(
             'tdolist_view_private' => cpm_user_can_access( $project_id, 'tdolist_view_private' ),
+            'create_todolist' => cpm_user_can_access( $project_id, 'create_todolist' ),
         );
 
         $send = array( 
@@ -725,8 +726,15 @@ class CPM_Ajax {
                 $list = $this->add_new_list_kyes( $list, $project_id );
 
             }
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to update new todo list', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
         
+        if ( is_wp_error( $list_id ) ) {
+            wp_send_json_error( array( 'error' => $list_id->get_error_messages() ) );
+        }
+
         wp_send_json_success( array( 'list' => $list, 'success' => __( 'Sucessfull updated', 'cpm' ) ) );
     }
 

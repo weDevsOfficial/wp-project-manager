@@ -59,6 +59,9 @@
   display: inline-block;
   width: 16px;
 }
+.cpm .cpm-form .submit {
+  position: relative;
+}
 .cpm .cpm-validation-message .cpm-message {
   padding: 8px 12px;
   background: #fff;
@@ -1286,7 +1289,6 @@ ul.cpm-activity ul li:before {
 .cpm-todolists article.cpm-todolist {
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
@@ -1330,8 +1332,6 @@ ul.cpm-activity ul li:before {
 .cpm-todolists article.cpm-todolist header h3 {
   margin: 0;
   font-size: 14px;
-  padding-left: 5px;
-  padding-bottom: 5px;
 }
 .cpm-todolists article.cpm-todolist header .cpm-entry-detail {
   font-style: italic;
@@ -1418,16 +1418,11 @@ ul.cpm-activity ul li:before {
 .cpm-todolists > li {
   margin: 0;
 }
-.cpm-todolists .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+.cpm-todolists .cpm-spinner .cpm-spinner {
+  background: url(images/loading.gif) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   height: 16px;
-  display: none;
-  float: left;
-  opacity: 0.62;
+  display: inline-block;
   width: 16px;
-  position: absolute;
-  top: 2px;
-  left: 9px;
 }
 .cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -3064,13 +3059,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 .cpm .cpm-todolists .cpm-todolist header {
-  padding: 10px 10px 3px 10px;
-  margin-bottom: 10px;
-  background: #f9fafa;
-  border-bottom: 1px solid #e5e5e5;
+  padding: 6px 10px;
 }
 .cpm .cpm-todolists .cpm-todolist header .cpm-right {
   text-align: right;
@@ -3090,21 +3082,39 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist:hover header .cpm-right a {
   visibility: visible;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos {
   padding: 0px;
   margin: 0px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li {
-  border-bottom: solid 1px #eeeeee;
-  padding: 0px 8px 5px 15px;
-  background: #ffffff;
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos .cpm-task-checkbox,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos .cpm-task-checkbox {
+  -ms-transform: scale(0.8);
+  /* IE */
+  -moz-transform: scale(0.8);
+  /* FF */
+  -webkit-transform: scale(0.8);
+  /* Safari and Chrome */
+  -o-transform: scale(0.8);
+  /* Opera */
+  margin: -1px 4px 0 0;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li div {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li {
+  padding: 0 10px 4px 10px;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 200;
+  margin: 0;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li div,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li div {
   margin-bottom: 0px;
   padding-bottom: 0px;
   padding-top: 2px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-content .cpm-comment-count {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-content .cpm-comment-count,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-content .cpm-comment-count {
   background: none;
   /* background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;
                             background-size: 20px;
@@ -3113,44 +3123,62 @@ ul.cpm-files li .cpm-file-action .comment-number {
                             font-weight: bold;
                             width : 50px;*/
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-content .post-com-count-approved {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-content .post-com-count-approved,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-content .post-com-count-approved {
   margin-top: 0px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by .cpm-assigned-user,
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by time {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .completed_by .cpm-assigned-user,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .completed_by .cpm-assigned-user,
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .completed_by time,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .completed_by time {
   background: none;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .completed_by .avatar {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .completed_by .avatar,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .completed_by .avatar {
   border-radius: 50px;
   vertical-align: middle;
   margin-right: 8px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpmtt-icon-clock {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpmtt-icon-clock,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpmtt-icon-clock {
   background: none url('../images/time.svg') no-repeat 0% 50%;
   background-size: 20px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-action-right,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-action-right {
   float: right;
   text-align: right;
   visibility: hidden;
   padding-right: 0px;
   margin-right: 0px;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-action-right a,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-action-right a {
   padding: 0;
   margin: 0px;
   text-decoration: none;
   color: #ccc;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a:hover {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-action-right a:hover,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-action-right a:hover {
   color: #444;
   text-decoration: none;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos li .cpm-todo-action-right a.move {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos li .cpm-todo-action-right a.move,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li .cpm-todo-action-right a.move {
   cursor: move;
 }
-.cpm .cpm-todolists .cpm-todolist .cpm-todos :hover .cpm-todo-action-right {
+.cpm .cpm-todolists .cpm-todolist .cpm-incomplete-todos :hover .cpm-todo-action-right,
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos :hover .cpm-todo-action-right {
   visibility: visible ;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos {
+  margin-left: 2px;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+.cpm .cpm-todolists .cpm-todolist .cpm-complete-todos li {
+  text-decoration: line-through;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new {
   margin: 0px;

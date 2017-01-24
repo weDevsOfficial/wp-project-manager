@@ -1,4 +1,4 @@
-<div class="cpm-blank-template todolist" style="display: none">
+<div class="cpm-blank-template todolist">
     <div class="cpm-content" >
         <h2 class="cpm-page-title">  <?php _e( 'To-Do Lists', 'cpm' ) ?> </h2>
 
@@ -6,18 +6,17 @@
             <?php _e( 'You can list all your Tasks in a single thread using a To-Do list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ) ?>
         </p>
 
+        <div v-if="create_todolist">
+            <!-- <a id="cpm-add-tasklist" href="#" itemref="blank" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a> -->
 
+            <todo-list-button></todo-list-button>
 
-        <?php
-        if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-            ?>
-            <a id="cpm-add-tasklist" href="#" itemref="blank" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a>
-
-            <div class="cpm-new-todolist-form">
-                <?php echo cpm_tasklist_form( $project_id ); ?>
+            <div class="cpm-new-todolist-form" v-if="show_list_form">
+                <!-- New Todo list form -->
+                <todo-list-form :list="list" :index="index"></todo-list-form>
             </div>
 
-        <?php } ?>
+        </div>
 
         <div class="cpm-list-content">
             <h2 class="cpm-why-for cpm-page-title"> <?php _e( 'When to use To-Do lists?', 'cpm' ) ?> </h2>
@@ -29,8 +28,5 @@
             </ul>
 
         </div>
-
     </div>
-
-
 </div>

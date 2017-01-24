@@ -31,6 +31,10 @@
                 return this.$store.state.show_list_form;
             },
 
+            hasTodoLists: function() {
+                return this.$store.state.lists.length;
+            }
+
         },
 
         // Initial doing 

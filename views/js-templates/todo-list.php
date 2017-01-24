@@ -2,6 +2,8 @@
     <article class="cpm-todolist" v-for="( list, index ) in lists">
         <header class="cpm-list-header">
             <h3>
+                <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i> -->
+                
                 <a href="#">{{list.post_title}}</a>
                 <div class="cpm-right">
                     <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
@@ -13,13 +15,49 @@
             </h3>
 
             <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
-
             <div class="cpm-list-edit-form" v-if="list.edit_mode">
 
                 <!-- New Todo list form -->
                 <todo-list-form :list="list" :index="index"></todo-list-form>
             </div>
         </header>
+        <div class="cpm-todo-wrap">
+            <div class="cpm-todo-content" >
+                <ul class="cpm-incomplete-todos">
+                    <li>
+                        <input class="cpm-task-checkbox" type="checkbox">
+                        Task 1
+                    </li>
+                    <li>
+                        <input class="cpm-task-checkbox" type="checkbox">
+                        Task 1
+                    </li>
+                    <li>
+                        <input class="cpm-task-checkbox" type="checkbox">
+                        Task 1
+                    </li>
+
+                </ul>
+
+                <ul class="cpm-complete-todos">
+                    <li>
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        Task 1
+                    </li>
+                    <li>
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        Task 1
+                    </li>
+                    <li>
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        Task 1
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
     </article>
 </div>
 <!-- <a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">
