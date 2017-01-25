@@ -58,6 +58,7 @@
     }
 
     .cpm-form {
+        width: 40%;
         .cpm-spinner {
             background: url(images/loading.gif) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
             height: 16px;
@@ -176,9 +177,7 @@
 
     .cpm-task-container {
         .cpm-todo-list-form-wrap, .cpm-todo-form-wrap {
-            form {
-                width: 35%;
-            }
+        
             .item {
                 padding: 0;
                 margin: 10px 0 10px 0;                
@@ -381,7 +380,6 @@ ul.cpm-attachments {
 :: Form
 -------------------------------------------------- */
 .cpm-form {
-    width: 100%;
     overflow: hidden;
 
     .form-table {
@@ -1347,10 +1345,14 @@ ul.cpm-activity {
     display: block;
     border: 1px solid #e5e5e5;
     padding: 25px;
-    max-width: 600px;
     background: #fff;
     margin-top: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+    .cpm-form {
+        margin: auto;
+        width: 65%;
+    }
 }
 
 .cpm-single-task {
