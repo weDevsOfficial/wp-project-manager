@@ -7,7 +7,7 @@
 
     <div v-if="hasTodoLists">
 
-        <todo-list-button></todo-list-button>
+        <new-todo-list-button></new-todo-list-button>
 
         <!-- Spinner before load task -->
         <div v-if="loading" class="cpm-data-load-before" >
@@ -23,12 +23,12 @@
         </div>
 
         <!-- New Todo list form -->
-        <div v-if="show_list_form">
+        <div class="cpm-new-todolist-form" v-if="show_list_form">
             <todo-list-form :list="list" :index="index"></todo-list-form>
         </div>
         
         <!-- Show Task list and his child -->
-        <todo-list></todo-list>
+        <todo-lists></todo-lists>
     </div>
         
    

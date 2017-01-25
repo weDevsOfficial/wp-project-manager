@@ -9,7 +9,7 @@
         <div v-if="create_todolist">
             <!-- <a id="cpm-add-tasklist" href="#" itemref="blank" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-margin-bottom add-tasklist"><?php _e( 'Add New To-do List', 'cpm' ) ?></a> -->
 
-            <todo-list-button></todo-list-button>
+            <new-todo-list-button></new-todo-list-button>
 
             <div class="cpm-new-todolist-form" v-if="show_list_form">
                 <!-- New Todo list form -->

@@ -269,7 +269,6 @@ class CPM_Task {
             $data[ 'ID' ] = $task_id;
             $task_id      = wp_update_post( $data );
         }else {
-
             $task_id = wp_insert_post( $data );
         }
 
@@ -587,11 +586,12 @@ class CPM_Task {
      * @param object $task_list
      */
     function set_list_meta( &$task_list ) {
-        $task_list->due_date  = get_post_meta( $task_list->ID, '_due', true );
-        $task_list->milestone = get_post_meta( $task_list->ID, '_milestone', true );
-        $task_list->private   = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
-        $task_list->pin_list  = is_sticky( $task_list->ID ) ? true : false;
-        $task_list->edit_mode = false;
+        $task_list->due_date       = get_post_meta( $task_list->ID, '_due', true );
+        $task_list->milestone      = get_post_meta( $task_list->ID, '_milestone', true );
+        $task_list->private        = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
+        $task_list->pin_list       = is_sticky( $task_list->ID ) ? true : false;
+        $task_list->edit_mode      = false;
+        $task_list->show_task_form = false;
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {

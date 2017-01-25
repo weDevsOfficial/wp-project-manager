@@ -57,41 +57,6 @@
         }
     }
 
-    .cpm-form {
-        width: 40%;
-        .cpm-spinner {
-            background: url(images/loading.gif) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-            height: 16px;
-            display: inline-block;
-            width: 16px;
-        }
-        .submit {
-            position: relative;
-        }
-    }
-
-    .cpm-validation-message {
-        .cpm-message {
-            padding: 8px 12px;
-            background: #fff;
-            border-left: 4px solid #fff;
-            margin: 10px 0 10px 0;
-            width: 35%;
-            box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
-        }
-        .cpm-success {
-            border-left-color: #46b450;
-        }
-        .cpm-error {
-            border-left-color: #dc3232;
-        }
-        .cpm-mesg-cross {
-            float: right;
-            margin-top: 3px;
-            cursor: pointer;
-        }
-    }
-
 
     .cpm-lock {
         background: url('../images/lock.png') no-repeat scroll rgba(0, 0, 0, 0);
@@ -120,7 +85,6 @@
     textarea, input[type=text] {
         padding: 5px 10px;
         border: 1px solid #DDD;
-        margin-bottom: 10px;
         font-size: 13px;
         .box-shadow(inset 0 1px 5px rgba(0, 0, 0, 0.05));
 
@@ -171,22 +135,6 @@
                 padding: 3px 10px;
                 font-size: 13px;
                 border: 1px solid #E4E4E4;
-            }
-        }
-    }
-
-    .cpm-task-container {
-        .cpm-todo-list-form-wrap, .cpm-todo-form-wrap {
-        
-            .item {
-                padding: 0;
-                margin: 10px 0 10px 0;                
-            }
-
-            input[type="text"], textarea, select {
-                width: 100%;
-                padding: 10px;
-                margin: 0;
             }
         }
     }
@@ -380,7 +328,28 @@ ul.cpm-attachments {
 :: Form
 -------------------------------------------------- */
 .cpm-form {
+    width: 100%;
     overflow: hidden;
+
+    .item {
+        margin: 10px 10px 10px 0;
+        position: relative;
+        input[type="text"], select, textarea {
+            width: 100%;
+        }
+    }
+    .submit {
+        padding: 0;
+
+        .cpm-spinner {
+            background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+            height: 16px;
+            display: inline-block;
+            width: 16px;
+        }
+    }
+
+
 
     .form-table {
         width: 70%;
@@ -1263,33 +1232,17 @@ ul.cpm-activity {
         }
     }
 
-    select {
-        margin-bottom: 10px;
-    }
-
     input[type=text] {
         width: 80%;
         padding: 5px 10px;
     }
 
-
-
-    .submit {
-        padding: 10px 0 0 0;
-    }
-
-    .notify-users{
-        border : #dfdfdf solid  1px;
-        box-shadow: @box-shadow;
-    }
-}
- .cpm-attachment-area {
+    .cpm-attachment-area {
         background: url('../images/attachment.png') 5px 10px no-repeat;
         color: #999;
         border: 1px dashed #DDD;
         padding: 10px 10px 10px 30px;
-        margin-bottom: 20px auto;
-        margin-bottom: 25px;
+        margin-bottom: 10px;
         font-size: 13px;
         position: relative;
         line-height: 17px;
@@ -1337,22 +1290,23 @@ ul.cpm-activity {
         }
     }
 
+    .notify-users{
+        border : #dfdfdf solid  1px;
+        box-shadow: @box-shadow;
+    }
+}
+
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
 
-.cpm-new-todolist-form {
-    display: block;
+.cpm-new-todolist-form, .cpm-update-todolist-form {
     border: 1px solid #e5e5e5;
     padding: 25px;
+    width: 40%;
     background: #fff;
     margin-top: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-
-    .cpm-form {
-        margin: auto;
-        width: 65%;
-    }
 }
 
 .cpm-single-task {
@@ -1391,15 +1345,10 @@ ul.cpm-activity {
     }
 }
 
-[v-cloak] {
-  display: none;
-}
-
-.cpm-todolists {
+ul.cpm-todolists {
 
     .submit {
         margin: 10px 0;
-        padding: 0 0 15px 0;
     }
 
     > li {
@@ -1413,7 +1362,7 @@ ul.cpm-activity {
     article.cpm-todolist {
         position: relative;
         background: #fff;
-        //box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
         border: 1px solid #e5e5e5;
         padding: 6px 3px 5px 5px;
 
@@ -1423,10 +1372,11 @@ ul.cpm-activity {
                 border: 1px solid #e5e5e5;
                 margin: 20px;
                 padding: 15px 15px 0;
+                width: 40%;
             }
         }
 
-        .add-task, .cpm-todo-form {
+        .cpm-new-btn, .cpm-todo-form {
 
             .cpm-task-form {
                 margin: 15px 0 10px 15px;
@@ -1465,8 +1415,8 @@ ul.cpm-activity {
             h3 {
                 margin: 0;
                 font-size: 14px;
-                //padding-left: 5px;
-                //padding-bottom: 5px;
+                padding-left: 5px;
+                padding-bottom: 5px;
             }
 
             .cpm-entry-detail {
@@ -1523,7 +1473,7 @@ ul.cpm-activity {
         .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
 
         .cpm-list-edit-form {
-            // display: none;
+            display: none;
         }
 
         p {
@@ -1571,15 +1521,7 @@ ul.cpm-activity {
         margin: 0;
     }
 
-    .cpm-spinner {
-        .cpm-spinner {
-            background: url(images/loading.gif) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-            height: 16px;
-            display: inline-block;
-            width: 16px;
-        }
-    }
-    .cpm-new-task-spinner {
+   .cpm-new-task-spinner {
         background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
         display: none;
         height: 16px;
@@ -1702,11 +1644,6 @@ ul.cpm-activity {
                     border: 1px solid #ccc;
                 }
             }
-
-            .task_extra_content{
-                margin-left: 25px;
-
-            }
         }
 
 
@@ -1801,65 +1738,7 @@ ul.cpm-activity {
         padding: 3px 0 10px 0;
     }
 }
-.cpm-task-modal{
 
-    .cpm-assigned-user,
-    time {
-        background: none;
-    }
-    .avatar {
-        border-radius: 30px;
-        vertical-align: middle;
-        margin-right: 8px;
-    }
-    .cpm-lock{
-        width:auto;
-        height: 22px;
-
-        background-color: #fcf4aa ;
-        padding-left: 12px;
-    }
-    .cpm-due-date {
-        .border-radius(3px);
-        background: #CD7A7A;
-        font-size: 12px;
-        line-height: 12px;
-        padding: 1px 7px;
-        color: #fff;
-        margin-right: 5px;
-    }
-
-    .cpm-current-date {
-        .border-radius(3px);
-        background: #ddd;
-        font-size: 12px;
-        line-height: 12px;
-        padding: 1px 7px;
-        color: #999;
-        margin-right: 5px;
-    }
-
-    #new_comment_form{
-        margin-bottom: 50px;
-
-        trix-toolbar .button_group button,
-        trix-toolbar .button_group input[type=button]{
-            background: rgba(255, 255, 255, 0)
-        }
-    }
-
-}
-
-    .comment-content{
-        .cpm-avatar img{
-            height: 48px;
-        }
-        .cpm-comment{
-            background: none;
-        }
-
-
-    }
 /*--------------------------------------------------
 :: Milestone
 -------------------------------------------------- */
@@ -2464,9 +2343,7 @@ ul.cpm-files {
         border-radius: 3px;
         display: inline-block;
     }
-    .cpm-btn-small{
-        font-size: small;
-    }
+
     .cpm-btn-xs {
         padding:   3px;
         font-size: small ;
@@ -2497,17 +2374,12 @@ ul.cpm-files {
         font-weight: bold;
     }
 
-    .cpm-btn-blue, .cpm-btn-blue:active, .cpm-btn-blue:focus {
+    .cpm-btn-blue {
         background: @blueColor;
-        color : #ffffff;
-        box-shadow: none;
-    }
-    .cpm-btn-green {
-        background: #009999;
         color : #ffffff;
         a:hover
             {
-            color: #81a599 ;
+            color: red;
         }
     }
 
@@ -3553,13 +3425,13 @@ ul.cpm-files {
         .cpm-todolist {
             margin: 0px;
             padding: 0px;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
 
             header {
-                padding: 6px 10px;
-                //margin-bottom: 10px;
-                //background: #f9fafa;
-                //border-bottom: 1px solid #e5e5e5;
+                padding: 10px 10px 3px 10px;
+                margin-bottom: 10px;
+                background: #f9fafa;
+                border-bottom: 1px solid #e5e5e5;
 
                 .cpm-right {
                     text-align : right;
@@ -3585,27 +3457,16 @@ ul.cpm-files {
                 visibility: visible;
             }
 
-
-
-            .cpm-incomplete-todos, .cpm-complete-todos {
+            .cpm-todos {
                 padding: 0px;
                 margin: 0px;
 
-                .cpm-task-checkbox {
-                    -ms-transform: scale(0.8); /* IE */
-                    -moz-transform: scale(0.8); /* FF */
-                    -webkit-transform: scale(0.8); /* Safari and Chrome */
-                    -o-transform: scale(0.8); /* Opera */
-                    margin: -1px 4px 0 0;
-                }
+                
 
-                li,  {
-                   // border-bottom: solid 1px @gray;
-                    padding: 0 10px 4px 10px;
+                li {
+                    border-bottom: solid 1px @gray;
+                    padding: 0px 8px 5px 15px;
                     background: #ffffff;
-                    font-size: 13px;
-                    font-weight: 200;
-                    margin: 0;
 
                     div {
                         margin-bottom: 0px;
@@ -3615,18 +3476,12 @@ ul.cpm-files {
 
                     .cpm-todo-content {
                         .cpm-comment-count {
-                            background: none;
-                            /* background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;
+                            background :  url('../images/comment_gray.svg') no-repeat 0% 50% ;
                             background-size: 20px;
                             padding: 10px;
                             padding-left: 25px;
                             font-weight: bold;
-                            width : 50px;*/
-
-
-                        }
-                        .post-com-count-approved{
-                            margin-top: 0px;
+                            width : 50px;
 
                         }
                     }
@@ -3682,16 +3537,6 @@ ul.cpm-files {
                 }
             }
 
-            .cpm-complete-todos {
-                margin-left: 2px;
-                margin-top: 12px;
-                margin-bottom: 6px;
-
-                li {
-                    text-decoration: line-through;
-                }
-            }
-
             .cpm-todos-new {
                 margin: 0px;
                 padding: 0px;
@@ -3700,23 +3545,23 @@ ul.cpm-files {
                     margin-bottom : 0px !important;
                 }
             }
+            .cpm-todos-new-form{
+                .cpm-new-btn {
+                    margin-bottom: 10px;
+                    border-bottom: solid 1px @gray;
+                    padding: 0px 10px 5px 30px;
+                    margin-left: 0px;
 
-            .cpm-new-btn {
-                margin-bottom: 10px;
-                border-bottom: solid 1px @gray;
-                padding: 0px 10px 5px 30px;
-                margin-left: 0px;
-
-                a {
-                    background :  url('../images/plus_blue.svg') no-repeat 0% 50% ;
-                    padding: 10px;
-                    background-size: 20px;
-                    padding-left: 25px;
-                    color : @blueColor ;
-                    font-weight: bold;
+                    a {
+                        background :  url('../images/plus_blue.svg') no-repeat 0% 50% ;
+                        padding: 10px;
+                        background-size: 20px;
+                        padding-left: 25px;
+                        color : @blueColor ;
+                        font-weight: bold;
+                    }
                 }
             }
-
 
             footer.cpm-list-footer {
                 // border-top :solid 1px @gray;
@@ -3768,6 +3613,14 @@ ul.cpm-files {
                     background-image:  url('../images/comment.svg');
                 }
 
+                .cpm-new-task-btn {
+                    background-image: url('../images/plus_blue.svg');
+                }
+
+                .cpm-new-task-btn-minus {
+                    background-image: url('../images/minus.svg');
+                }
+
                 .cpm-todo-prgress-bar{
                     margin-top: 15px;
                 }
@@ -3786,22 +3639,13 @@ ul.cpm-files {
 
             }
 
-            a{
+            .cpm-pin-list a{
                 visibility: visible  !important;
             }
             span {
                 color: @blueColor !important;
             }
 
-        }
-
-        .close-list-single{
-
-            margin-bottom: 10px;
-        }
-
-        .list-comments{
-            margin: 20px;
         }
 
     }
@@ -4329,6 +4173,11 @@ ul.cpm-files {
         padding: 25px;
         padding-bottom : 35px;
 
+        .cpm-new-todolist-form {
+            margin: auto;
+            width: 65%;
+        }
+
 
         .cpm-content{
             margin: auto;
@@ -4495,57 +4344,58 @@ ul.cpm-files {
             margin: 0 0 0 auto;
             overflow: visible;
             display: compact;
+            background-color: #fff000;
             border-radius: 2px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
             transition: all .3s ease;
             font-family: Helvetica, Arial, sans-serif;
         }
 
-        .close-vue-modal{
-            margin-left: -40px;
-            margin-top: 20px;
-            float: left;
-            a{
-                display: block;
-                width: 20px;
-                background: #000 ;
-                border: none;
-                color:#fff ;
-                text-align: center;
-                padding: 8px 10px 10px;
-                font-size: 110%;
-                cursor: pointer;
-                -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                -webkit-box-sizing: content-box;
-                -moz-box-sizing: content-box;
-                box-sizing: content-box;
+         .close-vue-modal{
+                margin-left: -40px;
+                margin-top: 20px;
+                float: left;
+                a{
+                    display: block;
+                    width: 20px;
+                    background: #000 ;
+                    border: none;
+                    color:#fff ;
+                    text-align: center;
+                    padding: 8px 10px 10px;
+                    font-size: 110%;
+                    cursor: pointer;
+                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    -webkit-box-sizing: content-box;
+                    -moz-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
+
             }
 
-        }
-
-        .edit-vue-modal{
-            a{
-                display: block;
-                width: 50px;
-                background: '';
-                border: none;
-                border-left: 1px solid #ddd;
-                color: #444;
-                text-align: center;
-                padding: 8px 10px 10px;
-                font-size: 110%;
-                cursor: pointer;
-                -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                -webkit-box-sizing: content-box;
-                -moz-box-sizing: content-box;
-                box-sizing: content-box;
+            .edit-vue-modal{
+                a{
+                    display: block;
+                    width: 50px;
+                    background: '';
+                    border: none;
+                    border-left: 1px solid #ddd;
+                    color: #444;
+                    text-align: center;
+                    padding: 8px 10px 10px;
+                    font-size: 110%;
+                    cursor: pointer;
+                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                    -webkit-box-sizing: content-box;
+                    -moz-box-sizing: content-box;
+                    box-sizing: content-box;
+                }
             }
-        }
-        .edit-vue-modal:hover{
-            background: #eee ;
-        }
+            .edit-vue-modal:hover{
+                background: #eee ;
+            }
 
         .modal-header{
             h3 {
@@ -4565,13 +4415,6 @@ ul.cpm-files {
 
         }
 
-    }
-
-    .cpm-comment-content ul li,
-    trix-editor ul li,
-    .cpm-entry-detail ul li{
-        margin-left: 2em;
-        list-style-type: disc;
     }
 
     /*
@@ -4642,7 +4485,7 @@ ul.cpm-files {
     .loadmoreanimation{
         display: none;
         .load-spinner {
-            margin: 50px 0 0 36%;
+            margin: 10px auto;
             width: 50px;
             height: 40px;
             text-align: center;
@@ -4734,8 +4577,7 @@ ul.cpm-files {
             transform: scale(0);
         }
     }
+
     /** End Files **/
     @import "responsive.less";
-    @import "multiselect.less";
-
 }

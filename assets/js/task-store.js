@@ -33,6 +33,10 @@ var Task_Store = new Vuex.Store({
             } else {
                 state.lists.splice( 0, 0, res.res_list );
             }
+        },
+
+        show_new_task_form: function( state, list_index ) {
+            state.lists[list_index].show_task_form = state.lists[list_index].show_task_form ? false : true;
         }
     }
 });

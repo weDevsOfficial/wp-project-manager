@@ -10,14 +10,16 @@ var CPM_Mixin = {
 
         // Handel new todo list form show and hide
         showHideTodoListForm: function( list, list_index ) {
-
             if ( list.ID ) {
                 this.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
             } else {
                 this.$store.commit( 'newTodoListForm' );
             }
-            
-        }
+        },
+
+        showNewTaskForm: function(list_index) {
+            this.$store.commit( 'show_new_task_form', list_index );
+        },
 	}
 }
 
@@ -146,7 +148,7 @@ Vue.component('todo-list-form', {
 });
 
 // Show todo lists
-Vue.component('todo-list', {
+Vue.component('todo-lists', {
     mixins: [CPM_Mixin],
     template: '#tmpl-cpm-todo-list', 
 
@@ -173,6 +175,39 @@ Vue.component('todo-list', {
         init: function() {
             return this.$store.state.init;
         },
+    }
+
+});
+
+
+// Show all todos
+Vue.component('tasks', {
+    mixins: [CPM_Mixin],
+
+    template: '#tmpl-cpm-tasks', 
+
+    props: ['list', 'index'],
+
+    data: function() {
+        return {
+           showTaskForm: false,
+        }
+    },
+
+    computed: {
+        tasks: function() {
+            return this.list.tasks;
+        },
+
+        taskLength: function() {
+            return this.list.tasks.length;
+        }
+    },
+
+    methods: {
+        showTaskForm: function() {
+
+        }
     }
 
 });
@@ -207,9 +242,9 @@ Vue.component('todo-list-default-tmpl', {
     }
 });
 
-// Todo list btn 
-Vue.component('todo-list-button', {
-    template: '#tmpl-todo-list-button',
+// New todo list btn 
+Vue.component('new-todo-list-button', {
+    template: '#tmpl-new-todo-list-button',
 
     mixins: [CPM_Mixin],
 
@@ -229,4 +264,50 @@ Vue.component('todo-list-button', {
         }
     }
 });
+
+// New task btn 
+Vue.component('new-task-button', {
+    template: '#tmpl-cpm-new-task-button',
+
+    mixins: [CPM_Mixin],
+
+    props: ['list', 'list_index'],
+
+    data: function() {
+        return {
+            
+        }
+    },
+
+    methods: {
+        newTaskBtnClass: function() {
+            return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
+        }
+    }
+});
+
+// New task form 
+Vue.component('new-task-form', {
+    template: '#tmpl-cpm-new-task-form',
+
+    mixins: [CPM_Mixin],
+
+    props: ['list', 'list_index'],
+
+    data: function() {
+        return {
+            
+        }
+    },
+
+    methods: {
+        hideNewTaskForm: function(list_index) {
+            this.showNewTaskForm( list_index );
+        }
+    }
+});
+
+
+
+
 

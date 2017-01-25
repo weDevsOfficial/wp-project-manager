@@ -1,10 +1,5 @@
 <div :class="taskFormClass(list)">
 
-    <div class="cpm-validation-message">
-        <div class="cpm-message cpm-success" v-show="success">{{success}} <i class="cpm-mesg-cross fa fa-times-circle" aria-hidden="true"></i></div>
-        <div class="cpm-message cpm-error" v-for="error_msg in error">{{error_msg}} <i class="cpm-mesg-cross fa fa-times-circle" aria-hidden="true"></i></div>
-    </div>
-
     <form v-on:submit.prevent="newTodoList()" action="" method="post">
         <div class="item title">
             <input type="text" required="required" name="tasklist_name" v-model="tasklist_name" placeholder="To-do list name">
