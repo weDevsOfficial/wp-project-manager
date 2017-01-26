@@ -167,6 +167,7 @@ class CPM_Task {
             wp_enqueue_script( 'cpm-vuex' );
             wp_enqueue_script( 'cpm-toastr' );
             wp_enqueue_script( 'cpm-task-store' );
+            wp_enqueue_script( 'cpm-vue-multiselect' );
             wp_enqueue_script( 'cpm-task-components' );
             wp_enqueue_script( 'cpm-task-vue' );
             

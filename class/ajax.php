@@ -124,13 +124,15 @@ class CPM_Ajax {
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
         $permission = array(
             'tdolist_view_private' => cpm_user_can_access( $project_id, 'tdolist_view_private' ),
-            'create_todolist' => cpm_user_can_access( $project_id, 'create_todolist' ),
+            'create_todolist'      => cpm_user_can_access( $project_id, 'create_todolist' ),
+            'todo_view_private'    => cpm_user_can_access( $project_id, 'todo_view_private' )
         );
 
         $send = array( 
-            'milestones'  => $milestones, 
-            'permissions' => $permission, 
-            'lists'       => $new_lists,
+            'milestones'    => $milestones, 
+            'permissions'   => $permission, 
+            'lists'         => $new_lists,
+            'project_users' => CPM_Project::getInstance()->get_users( $project_id )
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );
@@ -511,8 +513,8 @@ class CPM_Ajax {
 
             do_action( 'cpm_after_new_task', $task_id, $list_id, $project_id );
         }
-        echo json_encode( $response );
-        exit;
+        
+        wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'task' => $task ) );
     }
 
     function update_task() {

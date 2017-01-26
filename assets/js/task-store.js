@@ -3,17 +3,19 @@ var Task_Store = new Vuex.Store({
         lists: [],
         milestones: [],
         init: {},
+        project_users: [],
         loading: true,
         show_list_form: false,
         project_id: CPM_Vars.project_id ? CPM_Vars.project_id : false,
     },
 
-    // Set init data for todolist
     mutations: {
         setTaskInitData: function( state, task_init ) {
-            state.lists      = task_init.data.lists;
-            state.milestones = task_init.data.milestones;
-            state.init       = task_init.data;
+            state.lists         = task_init.data.lists;
+            state.milestones    = task_init.data.milestones;
+            state.init          = task_init.data;
+            state.project_users = task_init.data.project_users;
+
             state.loading    = false;
         },
 
@@ -37,6 +39,12 @@ var Task_Store = new Vuex.Store({
 
         show_new_task_form: function( state, list_index ) {
             state.lists[list_index].show_task_form = state.lists[list_index].show_task_form ? false : true;
+        },
+
+        update_task: function( state, data ) {
+            var index = data.list_index;
+            console.log(index);
+            state.lists[index].tasks.splice( 0, 0, data.task );
         }
     }
 });
