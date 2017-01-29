@@ -17,8 +17,8 @@ var CPM_Mixin = {
             }
         },
 
-        showNewTaskForm: function(list_index) {
-            this.$store.commit( 'show_new_task_form', list_index );
+        showHideTaskForm: function(list_index, task_index) {
+            this.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
         },
 	}
 }
@@ -34,8 +34,6 @@ Vue.component('todo-list-form', {
             tasklist_privacy: this.list.private == 'on' ? true : false,
             submit_btn_text: this.list.ID ? CPM_Vars.message.update_todo : CPM_Vars.message.new_todo,
             tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
-            tasklist_name: this.list.post_title,
-            tasklist_detail: this.list.post_content,
             show_spinner: false,
             error: [],
             success: '',
@@ -81,8 +79,8 @@ Vue.component('todo-list-form', {
                 
                 form_data = {
                     action: typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list',
-                    tasklist_name: this.tasklist_name,
-                    tasklist_detail: this.tasklist_detail,
+                    tasklist_name: this.list.post_title,
+                    tasklist_detail: this.list.post_content,
                     tasklist_privacy: this.tasklist_privacy ? 'on' : 'no',
                     project_id: this.$store.state.project_id,
                     tasklist_milestone: this.tasklist_milestone,
@@ -173,6 +171,8 @@ Vue.component('tasks', {
     data: function() {
         return {
            showTaskForm: false,
+           task: {},
+           task_index: false
         }
     },
 
@@ -187,8 +187,8 @@ Vue.component('tasks', {
     },
 
     methods: {
-        showTaskForm: function() {
-
+        taskEdit: function( task_index ) {
+            this.showHideTaskForm( this.index, task_index );
         }
     }
 
@@ -243,7 +243,7 @@ Vue.component('new-todo-list-button', {
     computed: {
         show_list_form: function() {
             return this.$store.state.show_list_form;
-        }
+        },
     }
 });
 
@@ -253,7 +253,7 @@ Vue.component('new-task-button', {
 
     mixins: [CPM_Mixin],
 
-    props: ['list', 'list_index'],
+    props: ['list', 'list_index', 'task'],
 
     data: function() {
         return {
@@ -264,6 +264,11 @@ Vue.component('new-task-button', {
     methods: {
         newTaskBtnClass: function() {
             return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
+        },
+
+        showNewTaskForm: function( list_index ) {
+            //this.task = {};
+            this.showHideTaskForm( list_index );
         }
     }
 });
@@ -274,25 +279,29 @@ Vue.component('new-task-form', {
 
     mixins: [CPM_Mixin],
 
-    props: ['list', 'list_index'],
+    props: ['list', 'list_index', 'task', 'task_index'],
 
     data: function() {
         return {
             project_users: this.$store.state.project_users,
-            task: {},
-            task_assign: [],
-            task_title: '',
-            task_text: '',
-            task_start: '',
-            task_due: '',
+            task_privacy: this.task.task_privacy == 'yes' ? true : false,
             submit_disabled: false,
-            task_privacy: false,
-            show_spinner: false
+            show_spinner: false,
         }
     },
 
     created: function() {
         this.$root.$on( 'cpm_date_picker', this.getDatePicker );
+    },
+
+    watch: {
+        task_privacy: function( val ) {
+            if ( val ) {
+                this.task.task_privacy = 'yes';
+            } else {
+                this.task.task_privacy = 'no';
+            }
+        }
     },
 
     computed: {
@@ -306,34 +315,50 @@ Vue.component('new-task-form', {
             }
 
             return true;
-        }
+        },
+
+        task_assign: {
+            get: function () {
+                var filtered_users = [];
+
+                if ( this.task.assigned_to && this.task.assigned_to.length ) {
+                    var assigned_to = this.task.assigned_to.map(function (id) {
+                        return parseInt(id);
+                    });
+
+
+                    filtered_users = this.project_users.filter(function (user) {
+                        return (assigned_to.indexOf(parseInt(user.id)) >= 0);
+                    });
+                }
+
+                return filtered_users;
+                
+            }, 
+
+            set: function ( selected_users ) {
+                this.task.assigned_to = selected_users.map(function (user) {
+                    return user.id;
+                });
+            }
+        },
     },
 
     methods: {
-        
+
         getDatePicker: function( data ) {
             
             if ( data.field == 'datepicker_from' ) {
-                this.task_start = data.date;
+                this.task.start_date = data.date;
             }
 
             if ( data.field == 'datepicker_to' ) {
-                this.task_due = data.date;
+                this.task.due_date = data.date;
             }
         },
 
-        hideNewTaskForm: function(list_index) {
-            this.showNewTaskForm( list_index );
-        },
-
-        filterUsers: function( users ) {
-            var filter_users = [];
-            
-            users.filter( function( user, index ) {
-                filter_users.push( user.id );
-            });
-
-            return filter_users;
+        hideNewTaskForm: function(list_index, task_index) {
+            this.showHideTaskForm( list_index, task_index );
         },
 
         newTask: function() {
@@ -348,19 +373,19 @@ Vue.component('new-task-form', {
                 
                 form_data = {
                     action: typeof this.task.ID == 'undefined' ? 'cpm_task_add' : 'cpm_task_update',
-                    task_assign: this.filterUsers( this.task_assign ),
-                    task_title: this.task_title,
-                    task_text: this.task_text,
-                    task_start: this.task_start,
-                    task_due: this.task_due,
-                    task_privacy: this.task_privacy,
+                    task_assign: this.task.assigned_to,
+                    task_title: this.task.post_title,
+                    task_text: this.task.post_content,
+                    task_start: this.task.start_date,
+                    task_due: this.task.due_date,
+                    task_privacy: this.task.task_privacy,
                     list_id: this.list.ID,
                     task_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
                     _wpnonce: CPM_Vars.nonce,
                 };
             
             this.show_spinner = true;
-            
+
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
@@ -370,12 +395,18 @@ Vue.component('new-task-form', {
                     // Display a success toast, with a title
                     toastr.success(res.data.success);
 
-                    // Hide the todo list update form
-                    self.showNewTaskForm( self.list_index );
+                    if ( form_data.task_id ) {
+                        self.showHideTaskForm( self.list_index, self.task_index );
+                    } else {
+                        // Hide the todo list update form
+                        self.showHideTaskForm( self.list_index );    
+                    }
                     
-                    // Update store lists array 
-                    self.$store.commit( 'update_task', { res: res, list_index: self.list_index, is_update: is_update } );
-                
+                    if ( ! form_data.task_id ) {
+                        // Update store lists array 
+                        self.$store.commit( 'update_task', { res: res, list_index: self.list_index, is_update: is_update } );    
+                    }
+                    
                 } else {
                     self.show_spinner = false;
                     

@@ -2,11 +2,11 @@
 
     <form v-on:submit.prevent="newTodoList()" action="" method="post">
         <div class="item title">
-            <input type="text" required="required" name="tasklist_name" v-model="tasklist_name" placeholder="To-do list name">
+            <input type="text" required="required" name="tasklist_name" v-model="list.post_title" placeholder="To-do list name">
         </div>
 
         <div class="item content">
-            <textarea name="tasklist_detail" id="" v-model="tasklist_detail" cols="40" rows="2" placeholder="To-do list detail"></textarea>
+            <textarea name="tasklist_detail" id="" v-model="list.post_content" cols="40" rows="2" placeholder="To-do list detail"></textarea>
         </div>
 
         <div class="item milestone">

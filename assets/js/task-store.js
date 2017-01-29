@@ -27,6 +27,15 @@ var Task_Store = new Vuex.Store({
             state.lists[list.list_index].edit_mode = state.lists[list.list_index].edit_mode ? false : true; 
         },
 
+        showHideTaskForm: function( state, index ) {
+          
+            if ( ( typeof index.task_index == 'undefined' ) || ( index.task_index === false ) ) {
+                state.lists[index.list_index].show_task_form = state.lists[index.list_index].show_task_form ? false : true; 
+            } else {
+                state.lists[index.list_index].tasks[index.task_index].edit_mode = state.lists[index.list_index].tasks[index.task_index].edit_mode ? false : true; 
+            }
+        },
+
         update_todo_list: function( state, res ) {
 
             if ( res.is_update ) {
@@ -37,14 +46,9 @@ var Task_Store = new Vuex.Store({
             }
         },
 
-        show_new_task_form: function( state, list_index ) {
-            state.lists[list_index].show_task_form = state.lists[list_index].show_task_form ? false : true;
-        },
-
         update_task: function( state, data ) {
             var index = data.list_index;
-            console.log(index);
-            state.lists[index].tasks.splice( 0, 0, data.task );
+            state.lists[index].tasks.splice( 0, 0, data.res.data.task );
         }
     }
 });

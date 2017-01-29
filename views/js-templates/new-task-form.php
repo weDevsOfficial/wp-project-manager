@@ -2,24 +2,24 @@
       <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
 
         <div class="item task-title">
-            <input v-model="task_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="" required="required">
+            <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="" required="required">
         </div>
 
         <div class="item content">
-            <textarea v-model="task_text" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"></textarea>
+            <textarea v-model="task.post_content" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"></textarea>
         </div>
 
         <div class="item date">
             
                 <div class="cpm-task-start-field">
                     <label><?php _e( 'Start date', 'cpm' ); ?></label>
-                    <input v-model="task_start" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="" name="task_start" />
+                    <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="" name="task_start" />
                 </div>
             
 
             <div class="cpm-task-due-field">
                 <label><?php _e( 'Due date', 'cpm' ); ?></label>
-                <input v-model="task_due" type="text" v-cpm-datepicker autocomplete="off" class="cpm-date-picker-to" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="" name="task_due" />
+                <input v-model="task.due_date" type="text" v-cpm-datepicker autocomplete="off" class="cpm-date-picker-to" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="" name="task_due" />
             </div>
         </div>
 
@@ -48,7 +48,7 @@
         <div class="item submit">
             <span class="cpm-new-task-spinner"></span>
             <input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="<?php _e( 'New Task', 'cpm' ); ?>">
-            <a @click.prevent="hideNewTaskForm(list_index)" class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            <a @click.prevent="hideNewTaskForm(list_index, task_index)" class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
     </form>

@@ -490,14 +490,8 @@ class CPM_Ajax {
             $complete = $task_obj->get_completeness( $list_id, $project_id );
             $single   = isset( $_POST[ 'single' ] ) ? $_POST[ 'single' ] : false;
 
-            if ( $task ) {
-                $task_obj->set_todo_extra_data( $project_id, $list_id, $task );
-            }
-
             if ( is_wp_error( $task_id ) ) {
-                
                 wp_send_json_error( array( 'error' => $task_id->get_error_messages() ) );
-                
             }
 
             do_action( 'cpm_after_new_task', $task_id, $list_id, $project_id );
@@ -518,33 +512,23 @@ class CPM_Ajax {
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $single     = ( int ) $posted[ 'single' ];
         $response   = array ( 'success' => false );
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->update_task( $list_id, $posted, $task_id );
             $task     = $task_obj->get_task( $task_id );
-            $task_obj->set_todo_extra_data( $project_id, $list_id, $task, $single );
-
-            if ( $task_id ) {
-                if ( $type == 'json' ) {
-                    $response = array (
-                        'success' => true,
-                        'id'      => $task_id,
-                        'task'    => $task,
-                        'newtask' => FALSE
-                    );
-                }else {
-                    $response = array (
-                        'success' => true,
-                        'content' => cpm_task_html( $task, $project_id, $list_id, $single )
-                    );
-                }
+            
+            if ( is_wp_error( $task_id ) ) {
+                wp_send_json_error( array( 'error' => $task_id->get_error_messages() ) );
             }
 
             do_action( 'cpm_after_update_task', $task_id, $list_id, $project_id );
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
-        echo json_encode( $response );
-
-        exit;
+        
+        wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'task' => $task ) );
     }
 
     function check_task_access() {
@@ -685,7 +669,8 @@ class CPM_Ajax {
 
             if ( ! is_wp_error( $list_id ) ) {
                 $list = $task_obj->get_task_list( $list_id );
-                $list = $this->add_new_list_kyes( $list, $project_id );
+                $list->tasks = [];
+                //$list = $this->add_new_list_kyes( $list, $project_id );
 
                 $response = (array (
                     'success' => true,
@@ -716,8 +701,10 @@ class CPM_Ajax {
             $list_id  = $task_obj->update_list( $project_id, $posted, $list_id );
 
             if ( $list_id ) {
+                //$task_obj->get_tasks( $list_id )
                 $list = $task_obj->get_task_list( $list_id );
-                $list = $this->add_new_list_kyes( $list, $project_id );
+                $list->tasks = $task_obj->get_tasks( $list_id );
+                //$list = $this->add_new_list_kyes( $list, $project_id );
 
             }
         } else {

@@ -1,16 +1,16 @@
  <div>
     <ul class="cpm-todos cpm-todolist-content">
-        <li class="cpm-todo" v-for="task in tasks">
-
+        <li class="cpm-todo" v-for="(task, task_index) in tasks">
+            
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
                     <div>
                         <div class="cpm-col-7">
-                            <span class="cpm-spinner"></span>
+                            <!-- <span class="cpm-spinner"></span> -->
                             <input class="" type="checkbox"  value="" name="" >
 
                             <?php if ( true ) { ?>
-                                <span class="cpm-todo-text">kdlkfgdsjkfg</span>
+                                <span class="cpm-todo-text">{{ task.post_title }}</span>
                                 <span class="lskdfg"></span>
                                 <?php
                             } else {
@@ -59,9 +59,8 @@
                             <?php if ( true ) { ?>
                                 <a class="move"><span class="dashicons dashicons-menu"></span></a>
                                 <a href="#" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-
                                 <?php if ( true ) { ?>
-                                    <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+                                    <a href="#" @click.prevent="taskEdit( task_index )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
                                 <?php } ?>
                             <?php } ?>
                         </div>
@@ -79,18 +78,23 @@
                         <?php do_action( 'cpm_task_single_after' ); ?>
                     </div>
                 </div>
+                <div class="cpm-todo-form" v-if="task.edit_mode">
+                    <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+                </div>
             </div>
         </li>
 
         <li v-if="!taskLength"><?php _e( 'No task found!', 'cpm'); ?></li>
 
-        <li v-if="list.show_task_form" class="cpm-todo-form"><new-task-form :list="list" :list_index="index"></new-task-form></li>
+        <li v-if="list.show_task_form" class="cpm-todo-form">
+            <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+        </li>
     </ul>
 
     <footer class="cpm-row cpm-list-footer">
         <div class="cpm-col-6">
             
-                <new-task-button :list="list" :list_index="index"></new-task-button>
+                <new-task-button :task="task" :list="list" :list_index="index"></new-task-button>
             
             <div class="cpm-col-3 cpm-todo-complete">
                 <a href="#">

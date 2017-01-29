@@ -259,7 +259,7 @@ class CPM_Task {
         //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
         $due        = empty( $postdata[ 'task_due' ] ) ? '' : cpm_date2mysql( $postdata[ 'task_due' ] );
         $start      = empty( $postdata[ 'task_start' ] ) ? '' : cpm_date2mysql( $postdata[ 'task_start' ] );
-
+        
         $data = array (
             'post_parent'  => $list_id,
             'post_title'   => $task_title,
@@ -662,6 +662,7 @@ class CPM_Task {
         $task->start_date   = get_post_meta( $task->ID, '_start', true );
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
         $task->comments     = [];
+        $task->edit_mode    = false;
     }
 
     /**
