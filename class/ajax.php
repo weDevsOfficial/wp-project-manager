@@ -482,36 +482,28 @@ class CPM_Ajax {
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $response   = array ( 'success' => false );
+        
         if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->add_task( $list_id, $posted );
             $task     = $task_obj->get_task( $task_id );
-            $task_obj->set_todo_extra_data( $project_id, $list_id, $task );
             $complete = $task_obj->get_completeness( $list_id, $project_id );
             $single   = isset( $_POST[ 'single' ] ) ? $_POST[ 'single' ] : false;
 
-            if ( $task_id ) {
-                if ( $type == 'json' ) {
-                    $response = array (
-                        'success' => true,
-                        'id'      => $task_id,
-                        'task'    => $task,
-                        'newtask' => TRUE
-                    );
-                }else {
-                    $response = array (
-                        'success'         => true,
-                        'id'              => $task_id,
-                        'content'         => cpm_task_html( $task, $project_id, $list_id, $single ),
-                        'progress'        => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] ),
-                        'task_complete'   => intval( $complete[ 'completed' ] ),
-                        'percent'         => $complete[ 'total' ] == 0 ? 100 : round( (100 * $complete[ 'completed' ]) / $complete[ 'total' ] ) . " %",
-                        'task_uncomplete' => ceil( $complete[ 'total' ] - $complete[ 'completed' ] )
-                    );
-                }
+            if ( $task ) {
+                $task_obj->set_todo_extra_data( $project_id, $list_id, $task );
+            }
+
+            if ( is_wp_error( $task_id ) ) {
+                
+                wp_send_json_error( array( 'error' => $task_id->get_error_messages() ) );
+                
             }
 
             do_action( 'cpm_after_new_task', $task_id, $list_id, $project_id );
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
         
         wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'task' => $task ) );

@@ -1377,27 +1377,75 @@ ul.cpm-todolists {
         .cpm-new-btn, .cpm-todo-form {
 
             .cpm-task-form {
-                margin: 15px 0 10px 15px;
+                margin: 10px 0 10px 0;
                 border: 1px solid #eee;
-                padding: 15px 15px 0 15px;
+                padding: 10px 15px 8px 15px;
                 width: 40%;
                 background: #F8F8F8;
-                .multiselect__input {
-                    border: none;
-                    box-shadow: none;
-                }
-                .multiselect__content {
-                    
-                    li {
-                        border: none;
-                        padding: 0;
-                    }
-                }
 
-                input[type="text"], textarea {
+                .multiselect {
                     width: 98%;
                 }
 
+                .item {
+                    margin-bottom: 10px;
+
+                    input[type="text"] {
+                        height: 34px;
+                    }
+
+                    input[type="text"], textarea {
+                        width: 98%;
+                    }
+                    .multiselect__tag {
+                        background: #019dd6;
+                    }
+                    .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
+                        background: #019dd6;
+                    }
+                    .multiselect__input {
+                        border: none;
+                        box-shadow: none;
+                        margin: 0;
+                        margin-top: -1px;
+                        padding: 0;
+                        height: 30px !important;
+                    }
+                    .multiselect__element {
+                        height: 25px;
+                        margin: 0;
+                    }
+
+                    .multiselect__select:before {
+                        top: 57%;
+                    }
+
+                    .multiselect__tags {
+                        min-height: 34px;
+                        border-radius: 0px;
+                    }
+
+                    .multiselect__option {
+                       min-height: 30px;
+                       padding: 8px 12px;
+                    }
+
+                    .multiselect__option--highlight {
+                        background: #019dd6;
+                    }
+
+
+                    .multiselect__content {
+                        border-radius: 0px;
+                        li {
+                            border: none;
+                            padding: 0;
+                            height: 34px;
+                        }
+                    }
+
+                }
+                
                 #task_assign_chosen {
                     width: 98% !important;
 
@@ -1656,71 +1704,6 @@ ul.cpm-todolists {
         }
 
 
-    }
-
-    .cpm-task-edit-form {
-        border: 1px solid #e5e5e5;
-        display: none;
-        margin-bottom: 25px;
-        margin-left: 0;
-        margin-top: 20px;
-        padding: 20px;
-        width: 40%;
-        background: #f8f8f8;
-
-        input[type="text"], textarea {
-            width: 98%;
-        }
-
-        #task_assign_chosen {
-            width: 98% !important;
-
-            input[type="text"] {
-                height: 30px;
-                color: #9B9B9B;
-            }
-            .chosen-choices .search-choice {
-                position: relative;
-                margin: 3px 0 3px 5px;
-                padding: 3px 20px 3px 5px;
-                border: 1px solid #aaa;
-                border-radius: 3px;
-                background-color: #e4e4e4;
-                background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-                background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-                background-clip: padding-box;
-                box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-                color: #333;
-                line-height: 13px;
-                cursor: default;
-            }
-
-            .chosen-results li.highlighted {
-                background-color: #3875d7;
-                background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
-                background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
-                background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
-                color: #fff;
-            }
-
-        }
-
-        .cpm-make-privacy {
-            margin-top: 8px;
-
-            input[type="checkbox"] {
-                margin-left: 0;
-            }
-        }
-
-        .date label {
-            display: block;
-        }
     }
 
 }

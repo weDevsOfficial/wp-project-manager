@@ -244,6 +244,10 @@ class CPM_Task {
      */
     function add_task( $list_id, $postdata, $task_id = 0 ) {
 
+        if ( empty( $postdata[ 'task_title' ] ) ) {
+            return new WP_Error( 'task_title', __( 'Task name required', 'cpm' ) );
+        }
+
         $files        = isset( $postdata[ 'cpm_attachment' ] ) ? $postdata[ 'cpm_attachment' ] : array ();
         $task_privacy = isset( $postdata[ 'task_privacy' ] ) ? $postdata[ 'task_privacy' ] : 'no';
         $is_update    = $task_id ? true : false;

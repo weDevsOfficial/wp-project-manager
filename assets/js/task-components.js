@@ -123,7 +123,7 @@ Vue.component('todo-list-form', {
                     });
                 }
 
-                this.submit_disabled = false;
+                self.submit_disabled = false;
             });
         },
     }
@@ -378,14 +378,14 @@ Vue.component('new-task-form', {
                 
                 } else {
                     self.show_spinner = false;
-
+                    
                     // Showing error
                     res.data.error.map( function( value, index ) {
                         toastr.error(value);
                     });
                 }
 
-                this.submit_disabled = false;
+                self.submit_disabled = false;
             });
         }
     }

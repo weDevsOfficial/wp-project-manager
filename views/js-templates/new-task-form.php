@@ -33,6 +33,7 @@
                     :close-on-select="false"
                     :clear-on-select="false"
                     :hide-selected="true"
+                    :show-labels="false"
                     placeholder="Select User" 
                     label="name"
                     track-by="id">
