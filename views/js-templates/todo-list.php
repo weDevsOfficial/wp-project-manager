@@ -3,7 +3,7 @@
         <article class="cpm-todolist" >
             <header class="cpm-list-header">
                 <h3>
-                    <a href="#">{{list.post_title}}</a>
+                    <a href="#">{{ list.post_title }}</a>
                     <div class="cpm-right">
                         <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                         <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
@@ -14,7 +14,7 @@
                 </h3>
 
                 <div class="cpm-entry-detail" >
-                    {{list.post_content}}    
+                    {{ list.post_content }}    
                 </div>
 
                 <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->

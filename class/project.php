@@ -562,11 +562,15 @@ class CPM_Project {
                 if ( ! is_wp_error( $user ) && $user ) {
 
                     $u = array(
-                        'id'    => $user->ID,
-                        'email' => $user->user_email,
-                        'name'  => $user->display_name,
-                        'role'  => $row->role
+                        'id'         => $user->ID,
+                        'email'      => $user->user_email,
+                        'name'       => $user->display_name,
+                        'role'       => $row->role,
+                        'avatar'     => get_avatar( $user->ID ),
+                        'avatar_url' => get_avatar_url( $user->ID ),
+                        'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
+                    
                     array_push( $user_list, $u) ;
                 }
             }

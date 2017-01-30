@@ -1,7 +1,7 @@
  <div>
     <ul class="cpm-todos cpm-todolist-content">
         <li class="cpm-todo" v-for="(task, task_index) in tasks">
-            
+            <!-- <pre>{{ task_start_field }}</pre> -->
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
                     <div>
@@ -9,35 +9,22 @@
                             <!-- <span class="cpm-spinner"></span> -->
                             <input class="" type="checkbox"  value="" name="" >
 
-                            <?php if ( true ) { ?>
+                            <a class="task-title" href="#">
                                 <span class="cpm-todo-text">{{ task.post_title }}</span>
-                                <span class="lskdfg"></span>
-                                <?php
-                            } else {
-                                if ( true ) {
-                                    ?>
-                                    <a class="task-title" href="#">
-                                        <span class="cpm-todo-text">sdflksdlfkg</span>
-                                        <span class=""></span>
-                                    </a>
-                                <?php } else {
-                                    ?>
-                                    <span class="cpm-todo-text">ergkldkfsndkf</span>
-                                    <span class="ergw"></span>
-                                    <?php
-                                }
-                            }
-                            ?>
-
+                                <span :class="privateClass( task )"></span>
+                            </a>
                             
-                                <span class="cpm-completed-by">
-                                    sdsfh
-                                </span>
-                           
-                                <span class="lkjlkjl">
-                                 kjkjkjlkjl
-                                </span>
-                           
+                            <span class='cpm-assigned-user' 
+                                v-for="user in getUsers( task.assigned_to )" 
+                                v-html="user.user_url">
+
+                            </span>
+
+                            <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
+                                <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                <span>{{ dateFormat( task.due_date ) }}</span>
+                            </span>
                         </div>
 
                         <div class="cpm-col-4">
@@ -71,7 +58,7 @@
 
                         <?php if ( true ) { ?>
                             <div class="cpm-todo-details">
-                                content
+                                
                             </div>
                         <?php } ?>
 
@@ -87,7 +74,7 @@
         <li v-if="!taskLength"><?php _e( 'No task found!', 'cpm'); ?></li>
 
         <li v-if="list.show_task_form" class="cpm-todo-form">
-            <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+            <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
         </li>
     </ul>
 

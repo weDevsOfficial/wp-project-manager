@@ -226,8 +226,8 @@ function cpm_url_single_milestone( $project_id, $milestone_id ) {
  * @param int $size
  * @return string
  */
-function cpm_url_user( $user_id, $avatar = false, $size = 48 ) {
-    $user = get_user_by( 'id', $user_id );
+function cpm_url_user( $user_id, $avatar = false, $size = 48, $user = false ) {
+    $user = $user ? $user : get_user_by( 'id', $user_id );
     if ( $user ) {
         $user_id = $user->ID;
         $link    = add_query_arg( array( 'user_id' => $user_id ), admin_url( 'admin.php?page=cpm_task' ) );

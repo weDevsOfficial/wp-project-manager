@@ -163,6 +163,8 @@ class CPM_Task {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
             
+            wp_enqueue_script( 'cpm-moment' );
+            wp_enqueue_script( 'cpm-moment-timezone' );
             wp_enqueue_script( 'cpm-vue' );
             wp_enqueue_script( 'cpm-vuex' );
             wp_enqueue_script( 'cpm-toastr' );

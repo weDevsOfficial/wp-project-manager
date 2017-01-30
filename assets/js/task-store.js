@@ -7,6 +7,7 @@ var Task_Store = new Vuex.Store({
         loading: true,
         show_list_form: false,
         project_id: CPM_Vars.project_id ? CPM_Vars.project_id : false,
+        permissions: {},
     },
 
     mutations: {
@@ -15,6 +16,7 @@ var Task_Store = new Vuex.Store({
             state.milestones    = task_init.data.milestones;
             state.init          = task_init.data;
             state.project_users = task_init.data.project_users;
+            state.permissions   = task_init.data.permissions;
 
             state.loading    = false;
         },

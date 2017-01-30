@@ -343,6 +343,9 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
+        $time_zone_string      = file_get_contents( CPM_URL . '/assets/js/moment/latest.json' );
+        $json_time_zone_string = json_decode($time_zone_string, true);
+
         $upload_size = intval( cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
         //wp_enqueue_script( 'underscore' );
@@ -351,6 +354,9 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         //wp_enqueue_script( 'jquery-ui-sortable' );
+
+        wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
+        wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false, true );
 
         wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue.js', '', time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vuex.js', array( 'cpm-vue' ), time(), false, true );
@@ -380,6 +386,10 @@ class WeDevs_CPM {
             'message'       => cpm_message(),
             'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
             'pluginURL'     => CPM_URL,
+            'wp_time_zone'  => cpm_get_wp_timezone(),
+            'time_zones'    => $json_time_zone_string['zones'],
+            'time_links'    => $json_time_zone_string['links'],
+            'wp_date_fomat' => get_option( 'date_format' ),
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',

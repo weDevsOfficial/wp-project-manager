@@ -125,14 +125,15 @@ class CPM_Ajax {
         $permission = array(
             'tdolist_view_private' => cpm_user_can_access( $project_id, 'tdolist_view_private' ),
             'create_todolist'      => cpm_user_can_access( $project_id, 'create_todolist' ),
-            'todo_view_private'    => cpm_user_can_access( $project_id, 'todo_view_private' )
+            'todo_view_private'    => cpm_user_can_access( $project_id, 'todo_view_private' ),
+            'task_start_field'     => cpm_get_option( 'task_start_field', 'cpm_general' )
         );
 
         $send = array( 
             'milestones'    => $milestones, 
             'permissions'   => $permission, 
             'lists'         => $new_lists,
-            'project_users' => CPM_Project::getInstance()->get_users( $project_id )
+            'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );

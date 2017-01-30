@@ -20,6 +20,26 @@ var CPM_Mixin = {
         showHideTaskForm: function(list_index, task_index) {
             this.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
         },
+
+        dateFormat: function( date ) {
+            if ( date == '' ) {
+                return;
+            }
+            
+            var format = 'MMMM DD YYYY';
+            
+            if ( CPM_Vars.wp_date_fomat == 'Y-m-d' ) {
+                format = 'YYYY-MM-DD';
+            
+            } else if ( CPM_Vars.wp_date_fomat == 'm/d/Y' ) {
+                format = 'MM/DD/YYYY';
+            
+            } else if ( CPM_Vars.wp_date_fomat == 'd/m/Y' ) {
+                format = 'DD/MM/YYYY';
+            } 
+
+            return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
+        }
 	}
 }
 
@@ -172,7 +192,8 @@ Vue.component('tasks', {
         return {
            showTaskForm: false,
            task: {},
-           task_index: false
+           task_index: false,
+           task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
         }
     },
 
@@ -189,6 +210,46 @@ Vue.component('tasks', {
     methods: {
         taskEdit: function( task_index ) {
             this.showHideTaskForm( this.index, task_index );
+        },
+
+        privateClass: function( task ) {
+            return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+        },
+
+        getUsers: function( assigned_user ) {
+            filtered_users = [];
+            var assigned_to = assigned_user.map(function (id) {
+                    return parseInt(id);
+                });
+
+
+            filtered_users = this.$store.state.project_users.filter( function (user) {
+                return ( assigned_to.indexOf( parseInt(user.id) ) >= 0 );
+            });
+
+            return filtered_users;
+        },
+
+        isBetweenDate: function( task_start_field, start_date, due_date ) {
+            if ( task_start_field && ( start_date != '' ) && ( due_date != '' ) ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        taskDateWrap: function( start_date, due_date ) {
+            if ( start_date == '' && due_date == '' ) {
+                return false;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+            
+            var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
+                due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
+            
+            return moment( String(today) ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
         }
     }
 
