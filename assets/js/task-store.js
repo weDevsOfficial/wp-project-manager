@@ -51,6 +51,11 @@ var Task_Store = new Vuex.Store({
         update_task: function( state, data ) {
             var index = data.list_index;
             state.lists[index].tasks.splice( 0, 0, data.res.data.task );
+        },
+
+        update_todo_list_single: function( state, data ) {
+            state.lists = [];
+            state.lists.splice( 0, 0, data.list );
         }
     }
 });

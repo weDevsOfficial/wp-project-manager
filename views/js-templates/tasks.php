@@ -1,7 +1,8 @@
  <div>
     <ul class="cpm-todos cpm-todolist-content">
+    <pre>{{ list }}</pre>
         <li class="cpm-todo" v-for="(task, task_index) in tasks">
-            <!-- <pre>{{ task_start_field }}</pre> -->
+            
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
                     <div>
@@ -28,15 +29,12 @@
                         </div>
 
                         <div class="cpm-col-4">
-                            <?php if ( true ) { ?>
-
-                                <span class="cpm-comment-count">
-                                    <a href="#">
-                                        7
-                                    </a>
-                                </span>
-
-                            <?php } ?>
+                            
+                            <span class="cpm-comment-count">
+                                <a href="#">
+                                    {{ task.comment_count }}
+                                </a>
+                            </span>
 
                             <?php do_action( 'cpm_task_column' ); ?>
                         </div>
@@ -44,7 +42,7 @@
 
                         <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                             <?php if ( true ) { ?>
-                                <a class="move"><span class="dashicons dashicons-menu"></span></a>
+                                <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
                                 <a href="#" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                                 <?php if ( true ) { ?>
                                     <a href="#" @click.prevent="taskEdit( task_index )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
@@ -78,42 +76,7 @@
         </li>
     </ul>
 
-    <footer class="cpm-row cpm-list-footer">
-        <div class="cpm-col-6">
-            
-                <new-task-button :task="task" :list="list" :list_index="index"></new-task-button>
-            
-            <div class="cpm-col-3 cpm-todo-complete">
-                <a href="#">
-                    <span>9 </span>
-                    <?php _e( 'Completed', 'cpm' ) ?>
-                </a>
-            </div>
-            <div class="cpm-col-3 cpm-todo-incomplete">
-                <a href="#">
-                    <span>9</span>
-                    <?php _e( 'Incomplete', 'cpm' ) ?>
-                </a>
-            </div>
-            <div class="cpm-col-3 cpm-todo-comment">
-                <a href="#">
-                    <?php if ( true ) { ?>
-                        <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), 4, 'cpm' ), 5 ); ?>
-                        <?php
-                    } else {
-                        printf( "<span>0 %s</span>", __( 'Comment', 'cpm' ) );
-                    }
-                    ?>
-                </a>
-            </div>
-        </div>
-
-        <div class="cpm-col-4 cpm-todo-prgress-bar">
-            
-        </div>
-        <div class=" cpm-col-1 no-percent"> 2%  </div>
-        <div class="clearfix"></div>
-    </footer>
+   
 </div>
 
 

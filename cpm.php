@@ -360,6 +360,7 @@ class WeDevs_CPM {
 
         wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue.js', '', time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vuex.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue-router.min.js', array( 'cpm-vue' ), time(), false, true );
 
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
@@ -406,6 +407,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-task-store' ), false, true );
+        wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components', 'cpm-task-store' ), false, true );
         
 
@@ -479,8 +481,9 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
-        cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
-
+        
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-router-default.php', 'cpm-todo-list-router-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-single.php', 'cpm-todo-list-single' );
         cpm_get_js_template( CPM_JS_TMPL . '/blanktemplate/todolist.php', 'todo-list-default' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-btn.php', 'new-todo-list-button' );
         cpm_get_js_template( CPM_JS_TMPL . '/tasks.php', 'cpm-tasks' );

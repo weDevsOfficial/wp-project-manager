@@ -55,65 +55,67 @@
 
     // Task root object 
     var CPM_Task_Vue = new Vue({
-        el: '#cpm-task-el',
+        //el: '#cpm-task-el',
         
         store: Task_Store,
 
+        router: CPM_Task_Router,
+
         mixins: [CPM_Mixin],
 
-        data: {
-            text: {
-                new_todo: CPM_Vars.message.new_todo
-            },
-            list: {},
-            index: false,
-        },
+        // data: {
+        //     text: {
+        //         new_todo: CPM_Vars.message.new_todo
+        //     },
+        //     list: {},
+        //     index: false,
+        // },
 
-        computed: {
-            lists: function () {
-                return this.$store.state.lists;
-            },
+        // computed: {
+        //     lists: function () {
+        //         return this.$store.state.lists;
+        //     },
 
-            loading: function() {
-                return this.$store.state.loading;
-            },
+        //     loading: function() {
+        //         return this.$store.state.loading;
+        //     },
 
-            show_list_form: function() {
-                return this.$store.state.show_list_form;
-            },
+        //     show_list_form: function() {
+        //         return this.$store.state.show_list_form;
+        //     },
 
-            hasTodoLists: function() {
-                return this.$store.state.lists.length;
-            }
+        //     hasTodoLists: function() {
+        //         return this.$store.state.lists.length;
+        //     }
 
-        },
+        // },
 
-        // Initial doing 
-        created: function() {
-            this.getInitialData( this.$store.state.project_id );
-        },
+        // // Initial doing 
+        // created: function() {
+        //     this.getInitialData( this.$store.state.project_id );
+        // },
 
-        methods: {
+        // methods: {
 
-            // Get initial data for todo list page 
-            getInitialData: function( project_id ) {
+        //     // Get initial data for todo list page 
+        //     getInitialData: function( project_id ) {
 
-                var self = this,
-                    data = {
-                        project_id: project_id,
-                        _wpnonce: CPM_Vars.nonce,
-                        action: 'cpm_initial_todo_list'
-                    }
+        //         var self = this,
+        //             data = {
+        //                 project_id: project_id,
+        //                 _wpnonce: CPM_Vars.nonce,
+        //                 action: 'cpm_initial_todo_list'
+        //             }
 
                     
-                jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
-                    if ( res.success ) {
-                        self.$store.commit( 'setTaskInitData', res );
-                    } 
+        //         jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
+        //             if ( res.success ) {
+        //                 self.$store.commit( 'setTaskInitData', res );
+        //             } 
                     
-                });
-            },
-        }
-    });
+        //         });
+        //     },
+        // }
+    }).$mount('#cpm-task-el');
 
 })(jQuery);

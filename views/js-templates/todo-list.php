@@ -3,14 +3,12 @@
         <article class="cpm-todolist" >
             <header class="cpm-list-header">
                 <h3>
-                    <a href="#">{{ list.post_title }}</a>
+                    <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
+                    
                     <div class="cpm-right">
                         <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                         <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
                     </div>
-                    <!-- <div class="cpm-right cpm-pin-list">
-                        <a title="" href="#" class="cpm-icon-pin"><span class="dashicons dashicons-admin-post"></span></a>
-                    </div> -->
                 </h3>
 
                 <div class="cpm-entry-detail" >
@@ -26,114 +24,37 @@
 
             <!-- Todos component -->
             <tasks :list="list" :index="index" :key="list.ID"></tasks>
+
+            <footer class="cpm-row cpm-list-footer">
+                <div class="cpm-col-6">
+                    
+                        <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
+                    
+                    <div class="cpm-col-3 cpm-todo-complete">
+                        <a href="#">
+                            <span>{{ countCompletedTasks( list.tasks ) }}</span>
+                            <?php _e( 'Completed', 'cpm' ) ?>
+                        </a>
+                    </div>
+                    <div class="cpm-col-3 cpm-todo-incomplete">
+                        <a href="#">
+                            <span>{{ countIncompletedTasks( list.tasks ) }}</span>
+                            <?php _e( 'Incomplete', 'cpm' ) ?>
+                        </a>
+                    </div>
+                    <div class="cpm-col-3 cpm-todo-comment">
+                        <a href="#">
+                            <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="cpm-col-4 cpm-todo-prgress-bar">
+                    <div :style="getProgressStyle( list.tasks )" class="bar completed"></div>
+                </div>
+                <div class=" cpm-col-1 no-percent">{{ getProgressPersent( list.tasks ) }}%</div>
+                <div class="clearfix"></div>
+            </footer>
         </article>
     </li>
 </ul>
-<!-- <a href="" class="close-list-single cpm-btn cpm-btn-blue   cpm-margin-bottom add-tasklist" @click.prevent="hideTaskListDetails(list)" v-show="list.full_view_mode">
-    <span class="dashicons dashicons-arrow-left-alt"></span>
-    {{text.backtotasklist}}
-</a>
-<article class="cpm-todolist">
-    <header class="cpm-list-header">
-
-        <h3>
-            <a href="#" @click.prevent="taskListDetails(list)" > {{list.post_title}} </a>
-                <div class="cpm-right" v-if="list.ed_permission">
-                <a href="#" class="cpm-icon-edit" title="Edit this List " @click.prevent="editList(list)"><span class="dashicons dashicons-edit"></span></a>
-                <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deletelist(list)" title="Delete this List" data-list_id="{{list.ID}}" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
-            </div>
-            <div class="cpm-right cpm-pin-list" :class="{sticky_list:list.pin_list}" v-if="list.ed_permission" >
-                <a title="" href="#" class=" cpm-icon-pin " @click.prevent="pinlist(list)"  ><span class="dashicons dashicons-admin-post"></span></a>
-            </div>
-            <div v-else>
-                <a title="" href="#" class="cpm-list-pin cpm-icon-pin "   ><span class="dashicons dashicons-admin-post"></span></a>
-            </div>
-        </h3>
-
-        <div class="cpm-entry-detail" >  {{list.post_content}}</div>
-
-        <div class="cpm-list-edit-form" v-if="list.edit_mode">
-
-            <todolistform
-                :lists="list"
-                :pid="current_project"
-                :formaction="'cpm_update_list'"
-                :wp_nonce="wp_nonce"
-                :extra_fields="list.extra_data"
-                :milestonelist="milestonelist"
-                :slected_milestone="list.milestone"
-                :fid="list.ID"
-
-            ></todolistform>
-        </div>
-    </header>
-    <div class="cpm-todo">
-
-        <task-list
-            :list="list"
-            :project_id="current_project">
-
-        </task-list>
-
-    </div>
-    <div v-show="list.show_new_task_form">
-        <taskform
-            :list="list"
-            :task="etask"
-            :text="text"
-            :current_project="current_project"
-            :form_action="'cpm_task_add'"
-            :wp_nonce="wp_nonce"
-            :pree_init_data="pree_init_data"
-            :extra_fields=""
-            :tfid="list.ID"
-        ></taskform>
-    </div>
- <div class="cpm-new-btn" v-show="! list.show_new_task_form"> <a href="#" class="cpm-btn add-task" @click.prevent="list.show_new_task_form=true">{{text.add_task_btn}}</a> </div>
-
- <div class="list-comments" v-if="list.full_view_mode">
-
-     <comment_warp :comments="list.comments" :task="list" :pree_init_data="pree_init_data" :formid="'list-comments'" :uploderid="'lc'"></comment_warp>
-
- </div>
-
-
-
-    <footer class="cpm-row cpm-list-footer">
-        <div class="cpm-col-6">
-            <div class="cpm-col-3 cpm-todo-complete">
-                <a href="#" @click.prevent="taskListDetails(list)">
-                    <span> {{list.complete}} </span>
-                    Complete
-                </a>
-            </div>
-            <div class="cpm-col-3 cpm-todo-incomplete">
-                <a href="#" @click.prevent="taskListDetails(list)">
-                    <span> {{list.incomplete}} </span>
-                    Incomplete
-                </a>
-            </div>
-            <div class="cpm-col-3 cpm-todo-comment">
-                <a href="#" @click.prevent="taskListDetails(list)" >
-                    {{list.comment_count}} Comments
-                </a>
-            </div>
-        </div>
-
-        <div class="cpm-col-4 cpm-todo-prgress-bar">
-            <div class="cpm-progress cpm-progress-info">
-                <div :style="{width: list.complete_percent + '%'}" class="bar completed"></div>
-            </div>
-        </div>
-        <div class=" cpm-col-1 no-percent">
-            {{list.complete_percent}}%
-        </div>
-        <div class="clearfix"></div>
-
-    </footer>
-
-
-
-</article>
-
- -->

@@ -175,6 +175,46 @@ Vue.component('todo-lists', {
         init: function() {
             return this.$store.state.init;
         },
+    },
+
+    methods: {
+        countCompletedTasks: function( tasks ) {
+            var completed_task = 0;
+
+            tasks.filter( function( task ) {
+                if ( task.completed === 1 ) {
+                    completed_task++;
+                }
+            });
+
+            return completed_task;
+        },
+
+        countIncompletedTasks: function( tasks ) {
+            var in_completed_task = 0;
+
+            tasks.filter( function( task ) {
+                if ( task.completed === 0 ) {
+                    in_completed_task++;
+                }
+            });
+
+            return in_completed_task;
+        },
+
+        getProgressPersent: function( tasks ) {
+            var total_tasks    = tasks.length,
+                completed_tasks = this.countCompletedTasks( tasks ),
+                progress       = ( 100 * completed_tasks ) / total_tasks;
+
+            return isNaN( progress ) ? 0 : progress;
+        },
+
+        getProgressStyle: function( tasks ) {
+            var width = this.getProgressPersent( tasks );
+
+            return { width: width+'%' };
+        }
     }
 
 });
@@ -203,7 +243,7 @@ Vue.component('tasks', {
         },
 
         taskLength: function() {
-            return this.list.tasks.length;
+            return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
         }
     },
 
@@ -249,7 +289,11 @@ Vue.component('tasks', {
             var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
                 due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
             
-            return moment( String(today) ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
+            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
+                return false;
+            }
+            
+           return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
         }
     }
 
@@ -482,6 +526,134 @@ Vue.component('new-task-form', {
         }
     }
 });
+
+var CPM_Router_Init = {
+    template: '#tmpl-cpm-todo-list-router-default',
+
+    mixins: [CPM_Mixin],
+
+    data: function() {
+        return { 
+            text: {
+                new_todo: CPM_Vars.message.new_todo
+            },
+            list: {},
+            index: false,
+        }
+    },
+
+    computed: {
+        lists: function () {
+            return this.$store.state.lists;
+        },
+
+        loading: function() {
+            return this.$store.state.loading;
+        },
+
+        show_list_form: function() {
+            return this.$store.state.show_list_form;
+        },
+
+        hasTodoLists: function() {
+            return this.$store.state.lists.length;
+        }
+
+    },
+
+    // Initial doing 
+    created: function() {
+        this.getInitialData( this.$store.state.project_id );
+    },
+
+    methods: {
+
+        // Get initial data for todo list page 
+        getInitialData: function( project_id ) {
+
+            var self = this,
+                data = {
+                    project_id: project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                    action: 'cpm_initial_todo_list'
+                }
+
+                
+            jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
+                if ( res.success ) {
+                    self.$store.commit( 'setTaskInitData', res );
+                } 
+                
+            });
+        },
+    }
+}
+
+
+var CPM_List_Single = { 
+    template: '#tmpl-cpm-todo-list-single',  
+
+    mixins: [CPM_Mixin],
+
+    created: function() {
+        this.getList( this.$route.params.list_id );
+    },
+
+    data: function() {
+        return {
+            list_id: this.$route.params.list_id,
+            list: {},
+            index: false
+        }
+    },
+    
+    watch: {
+        '$route': function (to, from) {
+            
+        }
+    },
+
+    computed: {
+        lists: function () {
+            return this.$store.state.lists;
+        },
+
+        milestones: function() {
+            return this.$store.state.milestones;
+        },
+
+        project_id: function() {
+            return this.$store.state.project_id;
+        },
+
+        init: function() {
+            return this.$store.state.init;
+        },
+    },
+
+    methods: {
+        getList: function( list_id ) {
+            
+            var self = this,
+                form_data = {
+                    list_id: list_id,
+                    action: 'cpm_get_todo_list_single',
+                    project_id: CPM_Vars.project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                }
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+
+                if ( res.success ) {
+                    self.list = res.data.list;
+                    self.$store.commit( 'update_todo_list_single', { list: res.data.list }  );
+                } else {
+
+                }
+            });
+        }
+    }
+
+}
 
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
