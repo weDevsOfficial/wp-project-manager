@@ -54,8 +54,15 @@ var Task_Store = new Vuex.Store({
         },
 
         update_todo_list_single: function( state, data ) {
+            
             state.lists = [];
-            state.lists.splice( 0, 0, data.list );
+            state.lists.push( data.list );
+            state.milestones = data.milestones;
+            state.project_users = data.project_users;
+        },
+
+        task_done_undone: function( state, data ) {
+            state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
         }
     }
 });

@@ -282,7 +282,7 @@ Vue.component('todo-lists', {
             var completed_task = 0;
 
             tasks.filter( function( task ) {
-                if ( task.completed === 1 ) {
+                if ( ( task.completed === 1 ) || task.completed ) {
                     completed_task++;
                 }
             });
@@ -301,7 +301,7 @@ Vue.component('todo-lists', {
             var in_completed_task = 0;
 
             tasks.filter( function( task ) {
-                if ( task.completed === 0 ) {
+                if ( ( task.completed === 0 ) || !task.completed ) {
                     in_completed_task++;
                 }
             });
@@ -317,9 +317,9 @@ Vue.component('todo-lists', {
          * @return float       
          */
         getProgressPercent: function( tasks ) {
-            var total_tasks    = tasks.length,
+            var total_tasks     = tasks.length,
                 completed_tasks = this.countCompletedTasks( tasks ),
-                progress       = ( 100 * completed_tasks ) / total_tasks;
+                progress        = ( 100 * completed_tasks ) / total_tasks;
 
             return isNaN( progress ) ? 0 : progress;
         },
@@ -332,7 +332,7 @@ Vue.component('todo-lists', {
          * @return obj       
          */
         getProgressStyle: function( tasks ) {
-            var width = this.getProgressPersent( tasks );
+            var width = this.getProgressPercent( tasks );
 
             return { width: width+'%' };
         }
@@ -361,21 +361,13 @@ Vue.component('tasks', {
         return {
            showTaskForm: false,
            task: {},
+           tasks: this.list.tasks,
            task_index: false,
            task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
         }
     },
 
     computed: {
-        /**
-         * Get tasks from this props todo-list (list)
-         * 
-         * @return array
-         */
-        tasks: function() {
-            return this.list.tasks;
-        },
-
         /**
          * Check, Has task from this props list
          * 
@@ -448,6 +440,14 @@ Vue.component('tasks', {
             return false;
         },
 
+        /**
+         * CSS class for task date
+         * 
+         * @param  string start_date 
+         * @param  string due_date   
+         * 
+         * @return string            
+         */
         taskDateWrap: function( start_date, due_date ) {
             if ( start_date == '' && due_date == '' ) {
                 return false;
@@ -464,6 +464,40 @@ Vue.component('tasks', {
             }
             
            return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
+        },
+
+        /**
+         * Mark task done and undone
+         * 
+         * @param  int  task_id    
+         * @param  Boolean is_checked 
+         * @param  int  task_index 
+         * 
+         * @return void             
+         */
+        taskDoneUndone: function( task_id, is_checked, task_index ) {
+            
+            var self = this,
+                form_data = {
+                    _wpnonce: CPM_Vars.nonce,
+                    action: is_checked ? 'cpm_task_complete' : 'cpm_task_open',
+                    task_id: task_id,
+                    project_id: CPM_Vars.project_id
+                }
+
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+
+                if ( res.success ) {
+                    // Display a success message
+                    toastr.success(res.data.success);
+                    //self.$store.commit( 'task_done_undone', { is_done: is_checked, list_index: self.index, task_index: task_index } );
+                } else {
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                }
+            });
         }
     }
 
@@ -488,10 +522,21 @@ Vue.component('todo-list-default-tmpl', {
     },
 
     computed: {
+
+        /**
+         * Get lists from vuex store
+         * 
+         * @return array
+         */
         lists: function() {
             return this.$store.state.lists;
         },
 
+        /**
+         * Check todo-list create premission for current user
+         * 
+         * @return boolean
+         */
         create_todolist: function() {
             if ( ! this.$store.state.init.hasOwnProperty( 'premissions' ) ) {
                 return true;
@@ -500,6 +545,11 @@ Vue.component('todo-list-default-tmpl', {
             return this.$store.state.init.premissions.create_todolist;
         },
 
+        /**
+         * Show new todo-list form
+         * 
+         * @return boolean
+         */
         show_list_form: function() {
             return this.$store.state.show_list_form;
         }
@@ -531,6 +581,11 @@ Vue.component('new-todo-list-button', {
     },
 
     computed: {
+        /**
+         * Show new todo-list form
+         * 
+         * @return boolean
+         */
         show_list_form: function() {
             return this.$store.state.show_list_form;
         },
@@ -561,12 +616,23 @@ Vue.component('new-task-button', {
     },
 
     methods: {
+        /**
+         * Select new todo-list button class for +,- icon
+         * 
+         * @return string
+         */
         newTaskBtnClass: function() {
             return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
         },
 
+        /**
+         * Show new task form
+         * 
+         * @param  int list_index 
+         * 
+         * @return void            
+         */
         showNewTaskForm: function( list_index ) {
-            //this.task = {};
             this.showHideTaskForm( list_index );
         }
     }
@@ -603,6 +669,13 @@ Vue.component('new-task-form', {
     },
 
     watch: {
+        /**
+         * Live check is the task private or not
+         * 
+         * @param  boolean val 
+         * 
+         * @return void     
+         */
         task_privacy: function( val ) {
             if ( val ) {
                 this.task.task_privacy = 'yes';
@@ -613,6 +686,11 @@ Vue.component('new-task-form', {
     },
 
     computed: {
+        /**
+         * Check current user can view the todo or not
+         * 
+         * @return boolean
+         */
         todo_view_private: function() {
             if ( ! this.$store.state.init.hasOwnProperty('premissions')) {
                 return true;
@@ -848,7 +926,7 @@ var CPM_List_Single = {
         },
 
         /**
-         * Get milestones from vuex array
+         * Get milestones from vuex store
          * 
          * @return array
          */
@@ -877,7 +955,7 @@ var CPM_List_Single = {
 
     methods: {
         /**
-         * Get todo list
+         * Get todo list for single todo list page
          * 
          * @param  int list_id 
          * 
@@ -892,11 +970,17 @@ var CPM_List_Single = {
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
                 }
+
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
                     self.list = res.data.list;
-                    self.$store.commit( 'update_todo_list_single', { list: res.data.list }  );
+                    self.$store.commit( 'update_todo_list_single', { 
+                        list: res.data.list,
+                        milestones: res.data.milestones,
+                        project_users: res.data.project_users
+                    });
+                
                 } else {
 
                 }

@@ -1,6 +1,7 @@
  <div>
-    <ul class="cpm-todos cpm-todolist-content">
     <pre>{{ list }}</pre>
+    <ul class="cpm-todos cpm-todolist-content">
+    
         <li class="cpm-todo" v-for="(task, task_index) in tasks">
             
             <div class="cpm-todo-wrap clearfix">
@@ -8,7 +9,7 @@
                     <div>
                         <div class="cpm-col-7">
                             <!-- <span class="cpm-spinner"></span> -->
-                            <input class="" type="checkbox"  value="" name="" >
+                            <input v-model="task.completed" @change="taskDoneUndone( task.ID, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
                             <a class="task-title" href="#">
                                 <span class="cpm-todo-text">{{ task.post_title }}</span>
