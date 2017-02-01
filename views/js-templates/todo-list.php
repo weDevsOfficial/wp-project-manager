@@ -52,7 +52,7 @@
                 <div class="cpm-col-4 cpm-todo-prgress-bar">
                     <div :style="getProgressStyle( list.tasks )" class="bar completed"></div>
                 </div>
-                <div class=" cpm-col-1 no-percent">{{ getProgressPersent( list.tasks ) }}%</div>
+                <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list.tasks ) }}%</div>
                 <div class="clearfix"></div>
             </footer>
         </article>

@@ -1,14 +1,21 @@
-// Global object for all components and root
+/**
+ * Global object for all components and root
+ */
 var CPM_Mixin = {
-	data: function() {
-		return {
-            mixin_milestones: []
-        }
-	}, 	
 
+    /**
+     * Methods for global component
+     */
 	methods: {
 
-        // Handel new todo list form show and hide
+        /**
+         * Handel new todo list form show and hide
+         * 
+         * @param  obj list       
+         * @param  int list_index 
+         * 
+         * @return void            
+         */
         showHideTodoListForm: function( list, list_index ) {
             if ( list.ID ) {
                 this.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
@@ -17,10 +24,25 @@ var CPM_Mixin = {
             }
         },
 
-        showHideTaskForm: function(list_index, task_index) {
+        /**
+         * Handel new todo or task form show and hide
+         * 
+         * @param  int list_index 
+         * @param  int task_index 
+         * 
+         * @return void            
+         */
+        showHideTaskForm: function( list_index, task_index ) {
             this.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
         },
 
+        /**
+         * WP settings date format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
         dateFormat: function( date ) {
             if ( date == '' ) {
                 return;
@@ -43,12 +65,25 @@ var CPM_Mixin = {
 	}
 }
 
-// New todo list and update todo list form
+/**
+ * New todo list and update todo list form
+ */
 Vue.component('todo-list-form', {
+
+    // Assign template for this component
     template: '#tmpl-cpm-todo-list-form', 
+    
+    // Get passing data for this component. Remember only array and objects are 
     props: [ 'list', 'index' ],
+    
+    // Include global properties and methods
     mixins: [CPM_Mixin],
 
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
     	return {
             tasklist_privacy: this.list.private == 'on' ? true : false,
@@ -62,6 +97,12 @@ Vue.component('todo-list-form', {
     },
 
     computed: {
+        
+        /**
+         * Checking, is todo list view private 
+         * 
+         * @return boolen
+         */
         tdolist_view_private: function() {
 
             if ( ! this.$store.state.init.hasOwnProperty('premissions')) {
@@ -75,6 +116,11 @@ Vue.component('todo-list-form', {
             return true;
         },
 
+        /**
+         * Get current project milestones 
+         * 
+         * @return array
+         */
         milestones: function() {
             return this.$store.state.milestones;
         },
@@ -82,16 +128,30 @@ Vue.component('todo-list-form', {
 
     methods: {
 
-        taskFormClass: function( list ) {
+        /**
+         * Get todo list form class
+         * 
+         * @param  obej list 
+         * 
+         * @return string     
+         */
+        todolistFormClass: function( list ) {
             return list.ID ? 'cpm-todo-form-wrap cpm-form' : 'cpm-todo-list-form-wrap cpm-form';
         },
 
+        /**
+         * Insert and update todo list
+         * 
+         * @return void
+         */
         newTodoList: function() {
-            
+
+            // Prevent sending request when multiple click submit button 
             if ( this.submit_disabled ) {
                 return;
             }
 
+            // Make disable submit button
             this.submit_disabled = true;
 
             var self      = this,
@@ -110,6 +170,7 @@ Vue.component('todo-list-form', {
             
             this.show_spinner = true;
             
+            // Seding request for insert or update todo list
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
@@ -123,13 +184,13 @@ Vue.component('todo-list-form', {
                         var list = res.data.list.list;
                     }
 
-                    // Display a success toast, with a title
+                    // Display a success message, with a title
                     toastr.success(res.data.success);
 
                     // Hide the todo list update form
                     self.showHideTodoListForm( self.list, self.index );
                     
-                    // Update store lists array 
+                    // Update lists array from vuex store 
                     self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
                 
                 } else {
@@ -141,6 +202,7 @@ Vue.component('todo-list-form', {
                     });
                 }
 
+                // Make enable submit button
                 self.submit_disabled = false;
             });
         },
@@ -149,9 +211,18 @@ Vue.component('todo-list-form', {
 
 // Show todo lists
 Vue.component('todo-lists', {
-    mixins: [CPM_Mixin],
+
+    // Assign template for this component
     template: '#tmpl-cpm-todo-list', 
 
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             list: {},
@@ -160,24 +231,53 @@ Vue.component('todo-lists', {
     },
 
     computed: {
+
+        /**
+         * Get lists from vuex store
+         * 
+         * @return array
+         */
         lists: function () {
             return this.$store.state.lists;
         },
 
+        /**
+         * Get milestoes from vuex store
+         * 
+         * @return array
+         */
         milestones: function() {
             return this.$store.state.milestones;
         },
 
+        /**
+         * Get current project id from vuex store
+         * 
+         * @return int
+         */
         project_id: function() {
             return this.$store.state.project_id;
         },
 
+        /**
+         * Get initial data from vuex store when this component loaded
+         * 
+         * @return obj
+         */
         init: function() {
             return this.$store.state.init;
         },
     },
 
     methods: {
+
+        /**
+         * Count completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return int      
+         */
         countCompletedTasks: function( tasks ) {
             var completed_task = 0;
 
@@ -190,6 +290,13 @@ Vue.component('todo-lists', {
             return completed_task;
         },
 
+        /**
+         * Count incompleted tasks
+         * 
+         * @param  array tasks
+         *  
+         * @return int       
+         */
         countIncompletedTasks: function( tasks ) {
             var in_completed_task = 0;
 
@@ -202,7 +309,14 @@ Vue.component('todo-lists', {
             return in_completed_task;
         },
 
-        getProgressPersent: function( tasks ) {
+        /**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function( tasks ) {
             var total_tasks    = tasks.length,
                 completed_tasks = this.countCompletedTasks( tasks ),
                 progress       = ( 100 * completed_tasks ) / total_tasks;
@@ -210,6 +324,13 @@ Vue.component('todo-lists', {
             return isNaN( progress ) ? 0 : progress;
         },
 
+        /**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
         getProgressStyle: function( tasks ) {
             var width = this.getProgressPersent( tasks );
 
@@ -219,15 +340,23 @@ Vue.component('todo-lists', {
 
 });
 
-
 // Show all todos
 Vue.component('tasks', {
-    mixins: [CPM_Mixin],
 
+    // Assign template for this component
     template: '#tmpl-cpm-tasks', 
-
+    
+    // Get passing data for this component. Remember only array and objects are
     props: ['list', 'index'],
 
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
            showTaskForm: false,
@@ -238,26 +367,58 @@ Vue.component('tasks', {
     },
 
     computed: {
+        /**
+         * Get tasks from this props todo-list (list)
+         * 
+         * @return array
+         */
         tasks: function() {
             return this.list.tasks;
         },
 
+        /**
+         * Check, Has task from this props list
+         * 
+         * @return boolen
+         */
         taskLength: function() {
             return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
         }
     },
 
     methods: {
+        /**
+         * Show task edit form
+         * 
+         * @param  int task_index 
+         * 
+         * @return void            
+         */
         taskEdit: function( task_index ) {
             this.showHideTaskForm( this.index, task_index );
         },
 
+        /**
+         * Class for showing task private incon
+         * 
+         * @param  obje task 
+         * 
+         * @return string      
+         */
         privateClass: function( task ) {
             return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
         },
 
+        /**
+         * Get user information from task assigned user id
+         *  
+         * @param  array assigned_user 
+         * 
+         * @return obje               
+         */
         getUsers: function( assigned_user ) {
             filtered_users = [];
+            
             var assigned_to = assigned_user.map(function (id) {
                     return parseInt(id);
                 });
@@ -270,6 +431,15 @@ Vue.component('tasks', {
             return filtered_users;
         },
 
+        /**
+         * Showing (-) between task start date and due date
+         * 
+         * @param  string  task_start_field 
+         * @param  string  start_date       
+         * @param  string  due_date         
+         * 
+         * @return Boolean                  
+         */
         isBetweenDate: function( task_start_field, start_date, due_date ) {
             if ( task_start_field && ( start_date != '' ) && ( due_date != '' ) ) {
                 return true;
@@ -301,8 +471,15 @@ Vue.component('tasks', {
 
 // Default template for todo lists
 Vue.component('todo-list-default-tmpl', {
+
+    // Assign template for this component
     template: '#tmpl-todo-list-default',
 
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             list: {},
@@ -331,10 +508,18 @@ Vue.component('todo-list-default-tmpl', {
 
 // New todo list btn 
 Vue.component('new-todo-list-button', {
+
+    // Assign template for this component
     template: '#tmpl-new-todo-list-button',
 
+    // Include global properties and methods
     mixins: [CPM_Mixin],
 
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             list: {},
@@ -354,12 +539,21 @@ Vue.component('new-todo-list-button', {
 
 // New task btn 
 Vue.component('new-task-button', {
+
+    // Assign template for this component
     template: '#tmpl-cpm-new-task-button',
 
-    mixins: [CPM_Mixin],
-
+    // Get passing data for this component. Remember only array and objects are
     props: ['list', 'list_index', 'task'],
 
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             
@@ -380,12 +574,21 @@ Vue.component('new-task-button', {
 
 // New task form 
 Vue.component('new-task-form', {
+
+    // Assign template for this component
     template: '#tmpl-cpm-new-task-form',
 
-    mixins: [CPM_Mixin],
-
+    // Get passing data for this component. Remember only array and objects are
     props: ['list', 'list_index', 'task', 'task_index'],
 
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             project_users: this.$store.state.project_users,
@@ -528,10 +731,18 @@ Vue.component('new-task-form', {
 });
 
 var CPM_Router_Init = {
+
+    // Assign template for this component
     template: '#tmpl-cpm-todo-list-router-default',
 
+    // Include global properties and methods
     mixins: [CPM_Mixin],
 
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return { 
             text: {
@@ -589,16 +800,19 @@ var CPM_Router_Init = {
     }
 }
 
-
 var CPM_List_Single = { 
+
+    // Assign template for this component
     template: '#tmpl-cpm-todo-list-single',  
 
+    // Include global properties and methods
     mixins: [CPM_Mixin],
 
-    created: function() {
-        this.getList( this.$route.params.list_id );
-    },
-
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             list_id: this.$route.params.list_id,
@@ -606,7 +820,17 @@ var CPM_List_Single = {
             index: false
         }
     },
-    
+
+    /**
+     * Initial action for this component
+     * 
+     * @return void
+     */
+    created: function() {
+        // Get todo list 
+        this.getList( this.$route.params.list_id );
+    },
+
     watch: {
         '$route': function (to, from) {
             
@@ -614,24 +838,51 @@ var CPM_List_Single = {
     },
 
     computed: {
+        /**
+         * Get todo lists from vuex store
+         * 
+         * @return array
+         */
         lists: function () {
             return this.$store.state.lists;
         },
 
+        /**
+         * Get milestones from vuex array
+         * 
+         * @return array
+         */
         milestones: function() {
             return this.$store.state.milestones;
         },
 
+        /**
+         * Get current project id from vuex store
+         * 
+         * @return int
+         */
         project_id: function() {
             return this.$store.state.project_id;
         },
 
+        /**
+         * Get initial data from vuex store when this component loaded
+         * 
+         * @return obj
+         */
         init: function() {
             return this.$store.state.init;
         },
     },
 
     methods: {
+        /**
+         * Get todo list
+         * 
+         * @param  int list_id 
+         * 
+         * @return void         
+         */
         getList: function( list_id ) {
             
             var self = this,
@@ -657,10 +908,6 @@ var CPM_List_Single = {
 
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
-
-
-
-
 
 
 
