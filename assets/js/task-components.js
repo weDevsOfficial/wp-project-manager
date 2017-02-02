@@ -280,7 +280,7 @@ Vue.component('todo-lists', {
          */
         countCompletedTasks: function( tasks ) {
             var completed_task = 0;
-
+            
             tasks.filter( function( task ) {
                 if ( ( task.completed === 1 ) || task.completed ) {
                     completed_task++;
@@ -974,7 +974,7 @@ var CPM_List_Single = {
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
-                    self.list = res.data.list;
+                    // self.list = res.data.list;
                     self.$store.commit( 'update_todo_list_single', { 
                         list: res.data.list,
                         milestones: res.data.milestones,

@@ -1,5 +1,4 @@
  <div>
-    <pre>{{ list }}</pre>
     <ul class="cpm-todos cpm-todolist-content">
     
         <li class="cpm-todo" v-for="(task, task_index) in tasks">
