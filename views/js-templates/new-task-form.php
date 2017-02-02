@@ -48,7 +48,7 @@
         <div class="item submit">
             <span class="cpm-new-task-spinner"></span>
             <input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="<?php _e( 'New Task', 'cpm' ); ?>">
-            <a @click.prevent="hideNewTaskForm(list_index, task_index)" class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
+            <a @click.prevent="hideNewTaskForm(list_index, task.ID)" class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
     </form>

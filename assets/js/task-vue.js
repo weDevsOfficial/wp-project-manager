@@ -64,6 +64,7 @@
             lists: [],
             milestones: [],
             init: {},
+            is_single_list: false,
             project_users: [],
             loading: true,
             show_list_form: false,
@@ -90,7 +91,9 @@
                 state.init          = {};
                 state.project_users = [];
                 state.permissions   = {};
-                state.loading       = true;
+
+                state.loading        = true;
+                state.is_single_list = false,
 
                 Vue.nextTick(function () {
                     state.lists         = task_init.data.lists;
@@ -99,7 +102,8 @@
                     state.project_users = task_init.data.project_users;
                     state.permissions   = task_init.data.permissions;
 
-                    state.loading    = false;
+                    state.loading        = false;
+                    state.is_single_list = false;
                 });
             },
 
@@ -188,9 +192,9 @@
 
                 Vue.nextTick(function () {
                     state.lists.push(data.list);
-                    state.milestones    = data.milestones;
-                    state.project_users = data.project_users;
-                    
+                    state.milestones     = data.milestones;
+                    state.project_users  = data.project_users;
+                    state.is_single_list = true;
                 });
             },
 

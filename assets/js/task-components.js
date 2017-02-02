@@ -364,6 +364,7 @@ Vue.component('tasks', {
            tasks: this.list.tasks,
            task_index: false,
            task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
+           is_single_list: this.$store.state.is_single_list
         }
     },
 
@@ -375,6 +376,32 @@ Vue.component('tasks', {
          */
         taskLength: function() {
             return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
+        },
+
+        /**
+         * Get incomplete tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getIncompleteTasks: function() {
+            return this.list.tasks.filter(function( task ) {
+                return ( task.completed == '0' || !task.completed );
+            });
+        },
+
+        /**
+         * Get completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getCompletedTask: function() {
+            return this.list.tasks.filter(function( task ) {
+                return ( task.completed == '1' || task.completed );
+            }); 
         }
     },
 
@@ -386,8 +413,14 @@ Vue.component('tasks', {
          * 
          * @return void            
          */
-        taskEdit: function( task_index ) {
-            this.showHideTaskForm( this.index, task_index );
+        taskEdit: function( task_id ) {
+            var self = this;
+
+            this.tasks.map(function( task, index ) {
+                if ( task.ID == task_id ) {
+                    self.showHideTaskForm( self.index, index );
+                }
+            }); 
         },
 
         /**
@@ -476,7 +509,6 @@ Vue.component('tasks', {
          * @return void             
          */
         taskDoneUndone: function( task_id, is_checked, task_index ) {
-            
             var self = this,
                 form_data = {
                     _wpnonce: CPM_Vars.nonce,
@@ -497,6 +529,16 @@ Vue.component('tasks', {
                         toastr.error(value);
                     });
                 }
+            });
+        },
+
+        getFiltereddTasks: function( tasks ) {
+            if ( this.$store.state.is_single_list ) {
+                return tasks;
+            }
+
+            return this.list.tasks.filter(function( task ) {
+                return ( task.completed == '0' || !task.completed );
             });
         }
     }
@@ -743,8 +785,14 @@ Vue.component('new-task-form', {
             }
         },
 
-        hideNewTaskForm: function(list_index, task_index) {
-            this.showHideTaskForm( list_index, task_index );
+        hideNewTaskForm: function(list_index, task_id) {
+            var self = this;
+
+            this.list.tasks.map(function( task, index ) {
+                if ( task.ID == task_id ) {
+                    self.showHideTaskForm( list_index, index );
+                }
+            }); 
         },
 
         newTask: function() {
@@ -782,7 +830,12 @@ Vue.component('new-task-form', {
                     toastr.success(res.data.success);
 
                     if ( form_data.task_id ) {
-                        self.showHideTaskForm( self.list_index, self.task_index );
+                        self.list.tasks.map(function( task, index ) {
+                            if ( task.ID == form_data.task_id ) {
+                                self.showHideTaskForm( self.list_index, index );
+                            }
+                        }); 
+                        
                     } else {
                         // Hide the todo list update form
                         self.showHideTaskForm( self.list_index );    
