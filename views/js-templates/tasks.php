@@ -1,5 +1,5 @@
  <div>
-    <ul class="cpm-todos cpm-todolist-content">
+    <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
         <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks">
             
             <div class="cpm-todo-wrap clearfix">
@@ -75,7 +75,7 @@
         </li>
     </ul>
 
-    <ul v-if="is_single_list" class="cpm-todos cpm-todolist-content">
+    <ul v-if="is_single_list" class="cpm-todos cpm-todolist-content cpm-todo-completed">
         <li class="cpm-todo" v-for="(task, task_index) in getCompletedTask">
             
             <div class="cpm-todo-wrap clearfix">

@@ -1454,9 +1454,11 @@ ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-
   left: -16px;
 }
 ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
-  font-size: 11px;
   line-height: 14px;
   color: #999;
+}
+ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-text {
+  text-decoration: line-through;
 }
 ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
   display: none;

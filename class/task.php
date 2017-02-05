@@ -163,6 +163,9 @@ class CPM_Task {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
             
+            wp_enqueue_script( 'cpm-tiny-mce' );
+
+            wp_enqueue_script( 'cpm-trix' );
             wp_enqueue_script( 'cpm-moment' );
             wp_enqueue_script( 'cpm-moment-timezone' );
             wp_enqueue_script( 'cpm-vue' );
@@ -171,11 +174,14 @@ class CPM_Task {
             wp_enqueue_script( 'cpm-toastr' );
             wp_enqueue_script( 'cpm-task-store' ); 
             wp_enqueue_script( 'cpm-vue-multiselect' );
+           // wp_enqueue_script( 'cpm-tiny-mce-component' );
             wp_enqueue_script( 'cpm-task-components' );
             wp_enqueue_script( 'cpm-task-router' );
             wp_enqueue_script( 'cpm-task-vue' );
             
             wp_enqueue_style( 'cpm-toastr' );
+            //wp_enqueue_style( 'cpm-trix' );
+            //wp_enqueue_style( 'cpm-tiny-mce' );
         }
     }
 

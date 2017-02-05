@@ -30,22 +30,22 @@
                     
                         <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
                     
-                    <div class="cpm-col-3 cpm-todo-complete">
-                        <a href="#">
+                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
+                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                             <span>{{ countCompletedTasks( list.tasks ) }}</span>
                             <?php _e( 'Completed', 'cpm' ) ?>
-                        </a>
+                        </router-link>
                     </div>
-                    <div class="cpm-col-3 cpm-todo-incomplete">
-                        <a href="#">
+                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-incomplete">
+                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                             <span>{{ countIncompletedTasks( list.tasks ) }}</span>
                             <?php _e( 'Incomplete', 'cpm' ) ?>
-                        </a>
+                        </router-link>
                     </div>
-                    <div class="cpm-col-3 cpm-todo-comment">
-                        <a href="#">
+                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-comment">
+                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                             <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
-                        </a>
+                        </router-link>
                     </div>
                 </div>
 

@@ -12,6 +12,49 @@
             this.datepicker();
         },
 
+        tinymceInit: function( el, id ) {
+            tinymce.execCommand( 'mceRemoveEditor', true, id );
+            
+            tinymce.init({
+                selector: 'textarea#' +id,
+                menubar: false,
+                setup: function (editor) {
+                    var component = this;
+                    // editor change triggers
+                    editor.on('change', function () {
+                        //console.log(editor.getContent());
+                        //component.$set('content', editor.getContent());
+                    });
+                    editor.on('keyup', function () {
+                        //console.log(component);
+                        //component.$set('content', editor.getContent());
+                    });
+                    editor.on('NodeChange', function () {
+                        //component.$set('content', editor.getContent());
+                    });
+                },
+
+                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+                font_formats : 'Arial=arial,helvetica,sans-serif;'+
+                    'Comic Sans MS=comic sans ms,sans-serif;'+
+                    'Courier New=courier new,courier;'+
+                    'Georgia=georgia,palatino;'+
+                    'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
+                    'Tahoma=tahoma,arial,helvetica,sans-serif;'+
+                    'Times New Roman=times new roman,times;'+
+                    'Trebuchet MS=trebuchet ms,geneva;'+
+                    'Verdana=verdana,geneva;',
+                plugins: 'wplink wordpress',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+                toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+            });
+
+            //tinymce.execCommand( 'mceRemoveEditor', true, id );
+            //tinymce.execCommand( 'mceAddEditor', true, id );
+           // tinymce.execCommand( 'mceAddControl', true, id );
+        },
+
         datepicker: function() {
             $( '.cpm-date-field').datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -188,7 +231,9 @@
              */
             update_todo_list_single: function( state, data ) {
                 
-                state.lists = [];
+                state.lists          = [];
+                state.milestones     = [];
+                state.project_users  = [];
 
                 Vue.nextTick(function () {
                     state.lists.push(data.list);
@@ -248,5 +293,7 @@
         mixins: [CPM_Mixin],
 
     }).$mount('#cpm-task-el');
+
+
 
 })(jQuery);

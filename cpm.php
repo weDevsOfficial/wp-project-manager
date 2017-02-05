@@ -354,13 +354,14 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         //wp_enqueue_script( 'jquery-ui-sortable' );
-
+        wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
+        //wp_register_script( 'cpm-trix', CPM_URL . '/assets/js/trix/trix.js', array( 'jquery' ), time(), false, true );
         wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
         wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false, true );
 
-        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue.js', '', time(), false, true );
-        wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vuex.js', array( 'cpm-vue' ), time(), false, true );
-        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue-router.min.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue.min.js', '', time(), false, true );
+        wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex.min.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router.min.js', array( 'cpm-vue' ), time(), false, true );
 
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
@@ -391,6 +392,7 @@ class WeDevs_CPM {
             'time_zones'    => $json_time_zone_string['zones'],
             'time_links'    => $json_time_zone_string['links'],
             'wp_date_fomat' => get_option( 'date_format' ),
+            'current_user_avatar_url' => get_avatar_url( get_current_user_id() ),
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
@@ -403,21 +405,23 @@ class WeDevs_CPM {
             )
         ) );
 
+        
         wp_register_script( 'cpm-vue-multiselect', CPM_URL . '/assets/js/vue-multiselect/vue-multiselect.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-task-store' ), false, true );
+        wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery', 'cpm-task-store' ), false, true );
         wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components', 'cpm-task-store' ), false, true );
         
-
-        
+        //wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
+        wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
         wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
         wp_enqueue_style( 'atwhocss', plugins_url( 'assets/css/jquery.atwho.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
-        wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
+        //wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );
@@ -499,8 +503,6 @@ class WeDevs_CPM {
             cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
-            
-
             
     }
 

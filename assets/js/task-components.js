@@ -267,6 +267,10 @@ Vue.component('todo-lists', {
         init: function() {
             return this.$store.state.init;
         },
+
+        is_single_list: function() {
+            return this.$store.state.is_single_list;
+        }
     },
 
     methods: {
@@ -321,7 +325,7 @@ Vue.component('todo-lists', {
                 completed_tasks = this.countCompletedTasks( tasks ),
                 progress        = ( 100 * completed_tasks ) / total_tasks;
 
-            return isNaN( progress ) ? 0 : progress;
+            return isNaN( progress ) ? 0 : progress.toFixed(0);
         },
 
         /**
@@ -531,16 +535,6 @@ Vue.component('tasks', {
                 }
             });
         },
-
-        getFiltereddTasks: function( tasks ) {
-            if ( this.$store.state.is_single_list ) {
-                return tasks;
-            }
-
-            return this.list.tasks.filter(function( task ) {
-                return ( task.completed == '0' || !task.completed );
-            });
-        }
     }
 
 });
@@ -788,6 +782,11 @@ Vue.component('new-task-form', {
         hideNewTaskForm: function(list_index, task_id) {
             var self = this;
 
+            if ( typeof task_id == 'undefined'   ) {
+                self.showHideTaskForm( list_index );
+                return;
+            }
+
             this.list.tasks.map(function( task, index ) {
                 if ( task.ID == task_id ) {
                     self.showHideTaskForm( list_index, index );
@@ -948,7 +947,9 @@ var CPM_List_Single = {
         return {
             list_id: this.$route.params.list_id,
             list: {},
-            index: false
+            index: false,
+            content: 'I am text content',
+            editor_id: 'test'
         }
     },
 
@@ -965,10 +966,22 @@ var CPM_List_Single = {
     watch: {
         '$route': function (to, from) {
             
+        },
+
+        cpm_content: function( new_val ) {
+            console.log(new_val);
         }
     },
 
     computed: {
+
+        /**
+         * Get current user avatar
+         */
+        getCurrentUserAvatar: function() {
+            return CPM_Vars.current_user_avatar_url;
+        },
+
         /**
          * Get todo lists from vuex store
          * 
@@ -1043,8 +1056,64 @@ var CPM_List_Single = {
 
 }
 
+Vue.component('cpm-text-editor', {
+    template: '<textarea :id="editor_id" v-model="content"></textarea>',
+
+    props: ['editor_id', 'content'],
+
+    created: function() {
+        var self = this;
+        tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
+        
+        tinymce.init({
+            selector: 'textarea#' +self.editor_id,
+            menubar: false,
+            setup: function (editor) {
+                
+                editor.on('change', function () {
+                    self.content = editor.getContent();
+                });
+                editor.on('keyup', function () {
+                    self.content = editor.getContent();
+                });
+                editor.on('NodeChange', function () {
+                    self.content = editor.getContent();
+                });
+            },
+
+            fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+            font_formats : 'Arial=arial,helvetica,sans-serif;'+
+                'Comic Sans MS=comic sans ms,sans-serif;'+
+                'Courier New=courier new,courier;'+
+                'Georgia=georgia,palatino;'+
+                'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
+                'Tahoma=tahoma,arial,helvetica,sans-serif;'+
+                'Times New Roman=times new roman,times;'+
+                'Trebuchet MS=trebuchet ms,geneva;'+
+                'Verdana=verdana,geneva;',
+            plugins: 'wplink wordpress',
+            toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+            toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+            toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+        });
+
+        //tinymce.execCommand( 'mceRemoveEditor', true, id );
+            //tinymce.execCommand( 'mceAddEditor', true, id );
+           // tinymce.execCommand( 'mceAddControl', true, id );
+    },
+
+    watch: {
+        content: function(new_val) {
+            console.log(new_val);
+        }
+    },
+
+});
+
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
+
+
 
 
 
