@@ -1,60 +1,66 @@
-<ul class="cpm-todolists">
-    <li v-for="( list, index ) in lists">
-        <article class="cpm-todolist" >
-            <header class="cpm-list-header">
-                <h3>
-                    <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
-                    
-                    <div class="cpm-right">
-                        <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-                        <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
+<div>
+    <ul class="cpm-todolists">
+        <li v-for="( list, index ) in lists">
+            <article class="cpm-todolist" >
+                <header class="cpm-list-header">
+                    <h3>
+                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
+                        
+                        <div class="cpm-right">
+                            <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                            <a href="#" class="cpm-btn cpm-btn-xs" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this to-do list?"><span class="dashicons dashicons-trash"></span></a>
+                        </div>
+                    </h3>
+
+                    <div class="cpm-entry-detail" >
+                        {{ list.post_content }}    
                     </div>
-                </h3>
 
-                <div class="cpm-entry-detail" >
-                    {{ list.post_content }}    
-                </div>
-
-                <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
-                <div class="cpm-update-todolist-form" v-if="list.edit_mode">
-                    <!-- New Todo list form -->
-                    <todo-list-form :list="list" :index="index" :key="list.ID"></todo-list-form>
-                </div>
-            </header>
-
-            <!-- Todos component -->
-            <tasks :list="list" :index="index" :key="list.ID"></tasks>
-
-            <footer class="cpm-row cpm-list-footer">
-                <div class="cpm-col-6">
-                    
-                        <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
-                    
-                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
-                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                            <span>{{ countCompletedTasks( list.tasks ) }}</span>
-                            <?php _e( 'Completed', 'cpm' ) ?>
-                        </router-link>
+                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
+                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
+                        <!-- New Todo list form -->
+                        <todo-list-form :list="list" :index="index" :key="list.ID"></todo-list-form>
                     </div>
-                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-incomplete">
-                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                            <span>{{ countIncompletedTasks( list.tasks ) }}</span>
-                            <?php _e( 'Incomplete', 'cpm' ) ?>
-                        </router-link>
-                    </div>
-                    <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-comment">
-                        <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                            <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
-                        </router-link>
-                    </div>
-                </div>
+                </header>
 
-                <div class="cpm-col-4 cpm-todo-prgress-bar">
-                    <div :style="getProgressStyle( list.tasks )" class="bar completed"></div>
-                </div>
-                <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list.tasks ) }}%</div>
-                <div class="clearfix"></div>
-            </footer>
-        </article>
-    </li>
-</ul>
+                <!-- Todos component -->
+                <tasks :list="list" :index="index" :key="list.ID"></tasks>
+
+                <footer class="cpm-row cpm-list-footer">
+                    <div class="cpm-col-6">
+                        
+                            <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
+                        
+                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
+                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+                                <span>{{ countCompletedTasks( list.tasks ) }}</span>
+                                <?php _e( 'Completed', 'cpm' ) ?>
+                            </router-link>
+                        </div>
+                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-incomplete">
+                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+                                <span>{{ countIncompletedTasks( list.tasks ) }}</span>
+                                <?php _e( 'Incomplete', 'cpm' ) ?>
+                            </router-link>
+                        </div>
+                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-comment">
+                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+                                <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
+                            </router-link>
+                        </div>
+                    </div>
+
+                    <div class="cpm-col-4 cpm-todo-prgress-bar">
+                        <div :style="getProgressStyle( list.tasks )" class="bar completed"></div>
+                    </div>
+                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list.tasks ) }}%</div>
+                    <div class="clearfix"></div>
+                </footer>
+            </article>
+        </li>
+    </ul>
+
+    <div v-if="is_single_list">
+        <cpm-list-comments :comments="lists[0].comments" :list="lists[0]"></cpm-list-comments>
+    </div>
+</div>

@@ -1,12 +1,11 @@
-;(function($) {
-
+    var $ = jQuery;
     /**
      * Upload handler helper
      *
      * @param string browse_button ID of the pickfile
      * @param string container ID of the wrapper
      */
-    window.CPM_Uploader = function (browse_button, container) {
+    window.CPM_Uploader = function (browse_button, container, component) {
         this.container = container;
         this.browse_button = browse_button;
 
@@ -15,8 +14,12 @@
             return;
         }
 
+        this.component = component;
+
         //instantiate the uploader
         this.uploader = new plupload.Uploader({
+            dragdrop: true,
+            drop_element: 'cpm-upload-container',
             runtimes: 'html5,silverlight,flash,html4',
             browse_button: browse_button,
             container: container,
@@ -30,7 +33,7 @@
             flash_swf_url: CPM_Vars.plupload.flash_swf_url,
             silverlight_xap_url: CPM_Vars.plupload.silverlight_xap_url,
             filters: CPM_Vars.plupload.filters,
-            resize: CPM_Vars.plupload.resize
+            resize: CPM_Vars.plupload.resize,
         });
 
         //attach event handlers
@@ -47,6 +50,7 @@
     CPM_Uploader.prototype = {
 
         init: function (up, params) {
+
         },
 
         added: function (up, files) {
@@ -86,15 +90,12 @@
             $('#' + file.id).remove();
 
             if(res.success) {
-                var $container = $('#' + this.container).find('.cpm-upload-filelist');
-                $container.append(res.content);
+                this.component.$root.$emit( 'cpm_file_upload_hook', { res: res.data } );
             } else {
                 alert(res.error);
             }
         }
     };
 
-    $(function () {
-        new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container');
-    });
-})(jQuery);
+
+

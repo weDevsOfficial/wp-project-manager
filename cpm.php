@@ -381,17 +381,18 @@ class WeDevs_CPM {
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
-            'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-            'nonce'         => wp_create_nonce( 'cpm_nonce' ),
-            'project_id'    => empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] ),
-            'is_admin'      => is_admin() ? 'yes' : 'no',
-            'message'       => cpm_message(),
-            'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
-            'pluginURL'     => CPM_URL,
-            'wp_time_zone'  => cpm_get_wp_timezone(),
-            'time_zones'    => $json_time_zone_string['zones'],
-            'time_links'    => $json_time_zone_string['links'],
-            'wp_date_fomat' => get_option( 'date_format' ),
+            'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+            'nonce'          => wp_create_nonce( 'cpm_nonce' ),
+            'project_id'     => empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] ),
+            'is_admin'       => is_admin() ? 'yes' : 'no',
+            'message'        => cpm_message(),
+            'todolist_show'  => cpm_get_option( 'todolist_show', 'cpm_general' ),
+            'pluginURL'      => CPM_URL,
+            'wp_time_zone'   => cpm_get_wp_timezone(),
+            'time_zones'     => $json_time_zone_string['zones'],
+            'time_links'     => $json_time_zone_string['links'],
+            'wp_date_format'  => get_option( 'date_format' ),
+            'wp_time_format' => get_option( 'time_format' ),
             'current_user_avatar_url' => get_avatar_url( get_current_user_id() ),
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
@@ -493,6 +494,8 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/tasks.php', 'cpm-tasks' );
         cpm_get_js_template( CPM_JS_TMPL . '/new-task-button.php', 'cpm-new-task-button' );
         cpm_get_js_template( CPM_JS_TMPL . '/new-task-form.php', 'cpm-new-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );

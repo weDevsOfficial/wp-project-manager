@@ -942,32 +942,39 @@ class CPM_Ajax {
     function ajax_upload() {
         check_ajax_referer( 'cpm_ajax_upload', 'nonce' );
 
-        $object_id   = isset( $_REQUEST[ 'object_id' ] ) ? intval( $_REQUEST[ 'object_id' ] ) : 0;
+        $object_id   = isset( $_REQUEST['object_id'] ) ? intval( $_REQUEST['object_id'] ) : 0;
         $comment_obj = CPM_Comment::getInstance();
         $response    = $comment_obj->upload_file( $object_id );
 
-        if ( $response[ 'success' ] ) {
-            $file = $comment_obj->get_file( $response[ 'file_id' ] );
+        if ( $response['success'] ) {
+            $file = $comment_obj->get_file( $response['file_id'] );
 
-            $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file[ 'id' ], __( 'Delete File', 'cpm' ) );
-            $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file[ 'id' ] );
-            $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file[ 'url' ], $file[ 'thumb' ], esc_attr( $file[ 'name' ] ) );
+            // $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File', 'cpm' ) );
+            // $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
+            // $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
-            $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
-            echo json_encode( array (
-                'success' => true,
-                'content' => $html,
-            ) );
+            // $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
+            // echo json_encode( array(
+            //     'success' => true,
+            //     'content' => $html,
+            // ) );
 
-            exit;
+            // exit;
+            
+            wp_send_json_success( 
+                array( 
+                    'file' => array( 
+                        'name'  => esc_attr( $file['name'] ),
+                        'id'    => $file['id'],
+                        'url'   => $file['url'],
+                        'thumb' => $file['thumb'],
+                        'type'  => $file['type']
+                    )
+                )
+            );
+        } else {
+            wp_send_json_error( array( 'error' => $response['error'] ) );
         }
-
-        echo json_encode( array (
-            'success' => false,
-            'error'   => $response[ 'error' ],
-        ) );
-
-        exit;
     }
 
     function delete_file() {
@@ -983,7 +990,7 @@ class CPM_Ajax {
     }
 
     function new_comment() {
-        check_ajax_referer( 'cpm_new_message' );
+        check_ajax_referer( 'cpm_nonce' );
 
         $posted = $_POST;
         $files  = array ();
@@ -1009,14 +1016,15 @@ class CPM_Ajax {
 
             $comment = $comment_obj->get( $comment_id );
 
-            echo json_encode( array (
-                'success'     => true,
-                'placeholder' => __( 'Add a comment...', 'cpm' ),
-                'content'     => cpm_show_comment( $comment, $project_id )
-            ) );
+            // echo json_encode( array (
+            //     'success'     => true,
+            //     'placeholder' => __( 'Add a comment...', 'cpm' ),
+            //     'content'     => cpm_show_comment( $comment, $project_id )
+            // ) );
+            wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'comment' => $comment ) );
+        } else {
+            wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
         }
-
-        exit;
     }
 
     function update_comment() {
@@ -1452,7 +1460,7 @@ class CPM_Ajax {
                 'success'  => false,
                 'response' => '',
             ) );
-        }else {
+        } else {
 
              $list = $this->add_new_list_kyes( $list, $project_id );
 

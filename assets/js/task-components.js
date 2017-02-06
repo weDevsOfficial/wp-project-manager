@@ -47,20 +47,77 @@ var CPM_Mixin = {
             if ( date == '' ) {
                 return;
             }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
             
             var format = 'MMMM DD YYYY';
             
-            if ( CPM_Vars.wp_date_fomat == 'Y-m-d' ) {
+            if ( CPM_Vars.wp_date_format == 'Y-m-d' ) {
                 format = 'YYYY-MM-DD';
             
-            } else if ( CPM_Vars.wp_date_fomat == 'm/d/Y' ) {
+            } else if ( CPM_Vars.wp_date_format == 'm/d/Y' ) {
                 format = 'MM/DD/YYYY';
             
-            } else if ( CPM_Vars.wp_date_fomat == 'd/m/Y' ) {
+            } else if ( CPM_Vars.wp_date_format == 'd/m/Y' ) {
                 format = 'DD/MM/YYYY';
             } 
 
             return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
+        },
+
+        /**
+         * WP settings date time format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateTimeFormat: function( date ) {
+            if ( date == '' ) {
+                return;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+            
+            var date_format = 'MMMM DD YYYY',
+                time_format = 'h:mm:ss a';
+            
+            if ( CPM_Vars.wp_date_format == 'Y-m-d' ) {
+                date_format = 'YYYY-MM-DD';
+            
+            } else if ( CPM_Vars.wp_date_format == 'm/d/Y' ) {
+                date_format = 'MM/DD/YYYY';
+            
+            } else if ( CPM_Vars.wp_date_format == 'd/m/Y' ) {
+                date_format = 'DD/MM/YYYY';
+            } 
+
+            if ( CPM_Vars.wp_time_format == 'g:i a' ) {
+                time_format = 'h:m a';
+            
+            } else if ( CPM_Vars.wp_time_format == 'g:i A' ) {
+                time_format = 'h:m A';
+            
+            } else if ( CPM_Vars.wp_time_format == 'H:i' ) {
+                time_format = 'HH:m';
+            } 
+
+            var format = String( date_format+', '+time_format );
+
+            return moment.tz( date, CPM_Vars.wp_time_zone ).format( format );
+        },
+
+        /**
+         * ISO_8601 Date format convert to moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateISO8601Format: function( date ) {
+            return moment( date ).format();
         }
 	}
 }
@@ -226,12 +283,11 @@ Vue.component('todo-lists', {
     data: function() {
         return {
             list: {},
-            index: false
+            index: false,
         }
     },
 
     computed: {
-
         /**
          * Get lists from vuex store
          * 
@@ -700,6 +756,7 @@ Vue.component('new-task-form', {
         }
     },
 
+    // Initial action for this component
     created: function() {
         this.$root.$on( 'cpm_date_picker', this.getDatePicker );
     },
@@ -739,7 +796,15 @@ Vue.component('new-task-form', {
             return true;
         },
 
+        /**
+         * Get and Set task users
+         */
         task_assign: {
+            /**
+             * Filter only current task assgin user from vuex state project_users
+             *
+             * @return array
+             */
             get: function () {
                 var filtered_users = [];
 
@@ -755,9 +820,13 @@ Vue.component('new-task-form', {
                 }
 
                 return filtered_users;
-                
             }, 
 
+            /**
+             * Set selected users at task insert or edit time
+             * 
+             * @param array selected_users 
+             */
             set: function ( selected_users ) {
                 this.task.assigned_to = selected_users.map(function (user) {
                     return user.id;
@@ -767,7 +836,13 @@ Vue.component('new-task-form', {
     },
 
     methods: {
-
+        /**
+         * Set tast start and end date at task insert or edit time
+         * 
+         * @param  string data 
+         * 
+         * @return void   
+         */
         getDatePicker: function( data ) {
             
             if ( data.field == 'datepicker_from' ) {
@@ -779,6 +854,14 @@ Vue.component('new-task-form', {
             }
         },
 
+        /**
+         * Show or hieding task insert and edit form
+         *  
+         * @param  int list_index 
+         * @param  int task_id    
+         * 
+         * @return void           
+         */
         hideNewTaskForm: function(list_index, task_id) {
             var self = this;
 
@@ -794,11 +877,18 @@ Vue.component('new-task-form', {
             }); 
         },
 
+        /**
+         * Insert and edit task
+         * 
+         * @return void
+         */
         newTask: function() {
+            // Exit from this function, If submit button disabled 
             if ( this.submit_disabled ) {
                 return;
             }
 
+            // Disable submit button for preventing multiple click
             this.submit_disabled = true;
 
             var self      = this,
@@ -817,8 +907,10 @@ Vue.component('new-task-form', {
                     _wpnonce: CPM_Vars.nonce,
                 };
             
+            // Showing loading option 
             this.show_spinner = true;
 
+            // Sending request for insert or update task
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
@@ -841,7 +933,7 @@ Vue.component('new-task-form', {
                     }
                     
                     if ( ! form_data.task_id ) {
-                        // Update store lists array 
+                        // Update vuex state lists after insert or update task 
                         self.$store.commit( 'update_task', { res: res, list_index: self.list_index, is_update: is_update } );    
                     }
                     
@@ -948,8 +1040,6 @@ var CPM_List_Single = {
             list_id: this.$route.params.list_id,
             list: {},
             index: false,
-            content: 'I am text content',
-            editor_id: 'test'
         }
     },
 
@@ -974,14 +1064,6 @@ var CPM_List_Single = {
     },
 
     computed: {
-
-        /**
-         * Get current user avatar
-         */
-        getCurrentUserAvatar: function() {
-            return CPM_Vars.current_user_avatar_url;
-        },
-
         /**
          * Get todo lists from vuex store
          * 
@@ -1029,27 +1111,26 @@ var CPM_List_Single = {
          */
         getList: function( list_id ) {
             
-            var self = this,
+            var self      = this,
                 form_data = {
                     list_id: list_id,
                     action: 'cpm_get_todo_list_single',
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
-                }
+                };
 
+            // Sending request for getting singel todo list 
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
-                    // self.list = res.data.list;
+                    
+                    // After getting todo list, set it to vuex state lists
                     self.$store.commit( 'update_todo_list_single', { 
                         list: res.data.list,
                         milestones: res.data.milestones,
                         project_users: res.data.project_users
                     });
-                
-                } else {
-
-                }
+                } 
             });
         }
     }
@@ -1057,57 +1138,179 @@ var CPM_List_Single = {
 }
 
 Vue.component('cpm-text-editor', {
-    template: '<textarea :id="editor_id" v-model="content"></textarea>',
+    // Assign template for this component
+    template: '<textarea :id="editor_id" v-model="content.html"></textarea>',
 
+    // Get passing data for this component.
     props: ['editor_id', 'content'],
 
+    // Initial action for this component
     created: function() {
         var self = this;
-        tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
-        
-        tinymce.init({
-            selector: 'textarea#' +self.editor_id,
-            menubar: false,
-            setup: function (editor) {
+
+        // After ready dom
+        Vue.nextTick(function() {
+            // Remove the editor
+            tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
+            
+            // Instantiate the editor
+            tinymce.init({
+                selector: 'textarea#' +self.editor_id,
+                menubar: false,
                 
-                editor.on('change', function () {
-                    self.content = editor.getContent();
-                });
-                editor.on('keyup', function () {
-                    self.content = editor.getContent();
-                });
-                editor.on('NodeChange', function () {
-                    self.content = editor.getContent();
-                });
-            },
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('keyup', function () {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('NodeChange', function () {
+                        self.content.html = editor.getContent();
+                    });
+                },
 
-            fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
-            font_formats : 'Arial=arial,helvetica,sans-serif;'+
-                'Comic Sans MS=comic sans ms,sans-serif;'+
-                'Courier New=courier new,courier;'+
-                'Georgia=georgia,palatino;'+
-                'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
-                'Tahoma=tahoma,arial,helvetica,sans-serif;'+
-                'Times New Roman=times new roman,times;'+
-                'Trebuchet MS=trebuchet ms,geneva;'+
-                'Verdana=verdana,geneva;',
-            plugins: 'wplink wordpress',
-            toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
-            toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
-            toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+                font_formats : 'Arial=arial,helvetica,sans-serif;'+
+                    'Comic Sans MS=comic sans ms,sans-serif;'+
+                    'Courier New=courier new,courier;'+
+                    'Georgia=georgia,palatino;'+
+                    'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
+                    'Tahoma=tahoma,arial,helvetica,sans-serif;'+
+                    'Times New Roman=times new roman,times;'+
+                    'Trebuchet MS=trebuchet ms,geneva;'+
+                    'Verdana=verdana,geneva;',
+                plugins: 'wplink wordpress',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+                toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+            });
         });
-
+       
         //tinymce.execCommand( 'mceRemoveEditor', true, id );
-            //tinymce.execCommand( 'mceAddEditor', true, id );
-           // tinymce.execCommand( 'mceAddControl', true, id );
+        //tinymce.execCommand( 'mceAddEditor', true, id );
+        //tinymce.execCommand( 'mceAddControl', true, id );
     },
 
     watch: {
-        content: function(new_val) {
-            console.log(new_val);
+        content: {
+            handler: function( new_content ) {
+                tinyMCE.get(this.editor_id).setContent(new_content.html);
+            },
+            deep: true
+        }
+    }
+});
+
+Vue.component('cpm-file-uploader', {
+    // Assign template for this component
+    template: '#tmpl-cpm-file-uploader',
+
+    props: ['files'],
+
+    // Initial action for this component
+    created: function() {
+        this.$root.$on( 'cpm_file_upload_hook', this.fileUploaded );
+
+        var self = this;
+
+        // Instantiate file upload, After dom ready
+        Vue.nextTick(function() {
+            new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self );
+        });
+        
+    },
+
+    methods: {
+        /**
+         * Set the uploaded file 
+         * 
+         * @param  object file_res 
+         * 
+         * @return void          
+         */
+        fileUploaded: function( file_res ) {
+            this.files.push( file_res.res.file );
+        }
+    }
+});
+
+Vue.component('cpm-list-comments', {
+    // Assign template for this component
+    template: '#tmpl-cpm-list-comments',
+
+    // Get passing data for this component. 
+    props: ['comments', 'list'],
+
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    data: function() {
+        return {
+            content: {
+                html: 'I am text content'
+            },
+            editor_id: 'cpm-list-editor',
+            files: []
         }
     },
 
+    created: function() {
+        this.$root.$on( 'cpm_post_content', this.getPostContent );
+    },
+
+    computed: {
+        /**
+         * Get current user avatar
+         */
+        getCurrentUserAvatar: function() {
+            return CPM_Vars.current_user_avatar_url;
+        },
+    },
+
+    methods: {
+        updateComment: function() {
+            var self = this,
+                form_data = {
+                    parent_id: this.list.ID,
+                    action: 'cpm_comment_new',
+                    cpm_message: this.content.html,
+                    cpm_attachment: this.filtersOnlyFileID( this.files ),
+                    project_id: CPM_Vars.project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            // Sending request for add and update comment
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+
+                if ( res.success ) {
+                    
+                    // After getting todo list, set it to vuex state lists
+                    self.$store.commit( 'update_todo_list_comment', { 
+                        list_id: self.list.ID,
+                        comment: res.data.comment,
+                    });
+
+                    self.files = [];
+                    self.content.html = '';
+                    
+                    Vue.nextTick( function() {
+                        self.content.html = 'I am text content';
+                    }); 
+                } 
+            });
+        },
+
+        getPostContent: function( data ) {
+            this.content = data.new_content;
+        },
+
+        filtersOnlyFileID: function( files ) {
+            return files.map( function( file ) {
+                return file.id;
+            });
+        }
+    }
 });
 
 // Global multiselect

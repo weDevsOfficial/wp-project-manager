@@ -878,6 +878,8 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  width: 32px;
+  height: 32px;
 }
 .cpm-messages-table .message {
   font-size: 13px;
@@ -1012,7 +1014,8 @@ ul.cpm-activity ul li:before {
   -moz-border-radius: 50%;
   border-radius: 50%;
   background: #D5D5D5;
-  max-width: 100%;
+  width: 32px;
+  height: 32px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container {
   margin-left: 68px;
@@ -1143,6 +1146,7 @@ ul.cpm-activity ul li:before {
   border: 1px dashed #DDD;
   padding: 10px 10px 10px 30px;
   margin-bottom: 10px;
+  margin-top: 10px;
   font-size: 13px;
   position: relative;
   line-height: 17px;

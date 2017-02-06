@@ -254,6 +254,26 @@
             task_done_undone: function( state, data ) {
                 state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
             },
+
+            /**
+             * After update list-comment store it in state lists
+             * 
+             * @param  object state 
+             * @param  object data  
+             * 
+             * @return void        
+             */
+            update_todo_list_comment: function( state, data ) {
+                var list_index = false;
+
+                state.lists.filter( function( list, index ) {
+                    list_index = ( list.ID == data.list_id ) ? index : false;
+                });
+
+                if ( list_index !== false ) {
+                    state.lists[list_index].comments.splice( 0, 0, data.comment );
+                }
+            }
         }
     });
 
