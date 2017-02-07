@@ -995,6 +995,11 @@ class CPM_Ajax {
         $posted = $_POST;
         $files  = array ();
 
+        if ( empty( $posted['cpm_message'] ) ) {
+            $error = new WP_Error( 'cpm_message', 'Required comment content', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
+        }
+
         $text       = trim( $posted[ 'cpm_message' ] );
         $parent_id  = isset( $posted[ 'parent_id' ] ) ? intval( $posted[ 'parent_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
@@ -1013,15 +1018,9 @@ class CPM_Ajax {
         $comment_id  = $comment_obj->create( $data, $files );
 
         if ( $comment_id ) {
-
             $comment = $comment_obj->get( $comment_id );
-
-            // echo json_encode( array (
-            //     'success'     => true,
-            //     'placeholder' => __( 'Add a comment...', 'cpm' ),
-            //     'content'     => cpm_show_comment( $comment, $project_id )
-            // ) );
             wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ),  'comment' => $comment ) );
+        
         } else {
             wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
         }
@@ -1029,28 +1028,29 @@ class CPM_Ajax {
 
     function update_comment() {
         $posted = $_POST;
-        //print_r( $posted );
 
+        if ( empty( $posted['cpm_message'] ) ) {
+            $error = new WP_Error( 'cpm_message', 'Required comment content', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
+        }
+ 
         $comment_id = isset( $posted[ 'comment_id' ] ) ? intval( $posted[ 'comment_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
 
         $data = array (
-            'text' => $posted[ 'cpm_message' ],
+            'text' => $posted['cpm_message'],
         );
 
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->update( $data, $comment_id );
 
-        $comment = $comment_obj->get( $comment_id );
-        $content = cpm_comment_text( $comment_id );
-        $content .= cpm_show_attachments( $comment, $project_id );
+        wp_send_json_success( array( 'success' => __( 'Sucessfull updated', 'cpm' ) ) );
 
-        echo json_encode( array (
-            'success' => true,
-            'content' => $content,
-        ) );
+        // $comment = $comment_obj->get( $comment_id );
+        // $content = cpm_comment_text( $comment_id );
+        // $content .= cpm_show_attachments( $comment, $project_id );
 
-        exit;
+        
     }
 
     function get_comment() {

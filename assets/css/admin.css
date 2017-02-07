@@ -2012,6 +2012,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 /****/
 /**SVG background image **/
+.cpm-list-comment-wrap .mce-panel {
+  border-color: #e5e5e5;
+}
 .cpm {
   color: #848484;
   margin-top: 20px;

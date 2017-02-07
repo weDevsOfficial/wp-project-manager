@@ -90,7 +90,7 @@
             $('#' + file.id).remove();
 
             if(res.success) {
-                this.component.$root.$emit( 'cpm_file_upload_hook', { res: res.data } );
+               this.component.$emit( 'cpm_file_upload_hook', { res: res.data, component: this.component } );
             } else {
                 alert(res.error);
             }

@@ -20,8 +20,6 @@ class CPM_Notification {
         add_action('cpm_sub_task_new',array( $this, 'subtask_new_notify' ), 9, 3);
 
         // add_action( 'phpmailer_init', array( $this, 'test' ) );
-
-
     }
 
     /**

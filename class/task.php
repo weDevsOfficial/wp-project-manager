@@ -165,7 +165,7 @@ class CPM_Task {
             
             wp_enqueue_script( 'cpm-tiny-mce' );
 
-            wp_enqueue_script( 'cpm-trix' );
+            //wp_enqueue_script( 'cpm-trix' );
             wp_enqueue_script( 'cpm-moment' );
             wp_enqueue_script( 'cpm-moment-timezone' );
             wp_enqueue_script( 'cpm-vue' );

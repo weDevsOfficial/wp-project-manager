@@ -394,6 +394,7 @@ class WeDevs_CPM {
             'wp_date_format'  => get_option( 'date_format' ),
             'wp_time_format' => get_option( 'time_format' ),
             'current_user_avatar_url' => get_avatar_url( get_current_user_id() ),
+            'CPM_URL'        => CPM_URL,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
@@ -496,6 +497,7 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/new-task-form.php', 'cpm-new-task-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comment-form.php', 'cpm-list-comment-form' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );

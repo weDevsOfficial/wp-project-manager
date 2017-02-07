@@ -32,7 +32,7 @@
             $( 'body' ).on( 'click', '.cpm-edit-comment-link', this.Comment.get );
             $( 'body' ).on( 'click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit );
             $( 'body' ).on( 'click', '.cpm-delete-comment-link', this.Comment.deleteComment );
-            $( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
+            //$( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
             $( 'body' ).on( 'click', '.cpm-delete-file', this.Uploader.deleteFile );
 
             /* =============== Project Duplicate ============ */
@@ -53,12 +53,12 @@
 
 
             // add new commenttoggleForm
-            $( '.cpm-comment-form' ).validate( {
-                submitHandler: function( form ) {
-                    weDevs_CPM.Comment.addNew.call( form );
-                    return false;
-                }
-            } );
+            // $( '.cpm-comment-form' ).validate( {
+            //     submitHandler: function( form ) {
+            //         weDevs_CPM.Comment.addNew.call( form );
+            //         return false;
+            //     }
+            // } );
             // toggle all user notification checkbox
             $( '.cpm' ).on( 'change', '.cpm-toggle-checkbox', function( e ) {
                 var $checkBoxes = $( this ).closest( '.notify-users' ).find( 'input[type=checkbox][name="notify_user[]"]' );

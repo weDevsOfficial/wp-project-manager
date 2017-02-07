@@ -118,6 +118,17 @@ var CPM_Mixin = {
          */
         dateISO8601Format: function( date ) {
             return moment( date ).format();
+        },
+
+        /**
+         * Show hide todo-list edit form
+         * 
+         * @param  int comment_id 
+         * 
+         * @return void            
+         */
+        showHideListCommentEditForm: function( comment_id ) {
+            this.$store.commit( 'showHideListCommentEditForm', { comment_id: comment_id, list_index: 0 } );
         }
 	}
 }
@@ -1057,10 +1068,6 @@ var CPM_List_Single = {
         '$route': function (to, from) {
             
         },
-
-        cpm_content: function( new_val ) {
-            console.log(new_val);
-        }
     },
 
     computed: {
@@ -1139,7 +1146,7 @@ var CPM_List_Single = {
 
 Vue.component('cpm-text-editor', {
     // Assign template for this component
-    template: '<textarea :id="editor_id" v-model="content.html"></textarea>',
+    template: '<textarea :id="editor_id" v-model="content.html"></textarea></div>',
 
     // Get passing data for this component.
     props: ['editor_id', 'content'],
@@ -1147,9 +1154,10 @@ Vue.component('cpm-text-editor', {
     // Initial action for this component
     created: function() {
         var self = this;
-
+        this.$root.$on( 'after_comment', this.afterComment );
         // After ready dom
         Vue.nextTick(function() {
+
             // Remove the editor
             tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
             
@@ -1157,6 +1165,7 @@ Vue.component('cpm-text-editor', {
             tinymce.init({
                 selector: 'textarea#' +self.editor_id,
                 menubar: false,
+                placeholder: CPM_Vars.message.comment_placeholder,
                 
                 setup: function (editor) {
                     editor.on('change', function () {
@@ -1170,6 +1179,10 @@ Vue.component('cpm-text-editor', {
                     });
                 },
 
+                external_plugins: {
+                    'placeholder' : CPM_Vars.CPM_URL + '/assets/js/tinymce/plugins/placeholder/plugin.min.js'
+                },
+
                 fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
                 font_formats : 'Arial=arial,helvetica,sans-serif;'+
                     'Comic Sans MS=comic sans ms,sans-serif;'+
@@ -1180,11 +1193,13 @@ Vue.component('cpm-text-editor', {
                     'Times New Roman=times new roman,times;'+
                     'Trebuchet MS=trebuchet ms,geneva;'+
                     'Verdana=verdana,geneva;',
-                plugins: 'wplink wordpress',
+                plugins: 'placeholder textcolor colorpicker wplink wordpress',
                 toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
             });
+
+            
         });
        
         //tinymce.execCommand( 'mceRemoveEditor', true, id );
@@ -1192,12 +1207,9 @@ Vue.component('cpm-text-editor', {
         //tinymce.execCommand( 'mceAddControl', true, id );
     },
 
-    watch: {
-        content: {
-            handler: function( new_content ) {
-                tinyMCE.get(this.editor_id).setContent(new_content.html);
-            },
-            deep: true
+    methods: {
+        afterComment: function() {
+            tinyMCE.get(this.editor_id).setContent('');
         }
     }
 });
@@ -1210,7 +1222,7 @@ Vue.component('cpm-file-uploader', {
 
     // Initial action for this component
     created: function() {
-        this.$root.$on( 'cpm_file_upload_hook', this.fileUploaded );
+        this.$on( 'cpm_file_upload_hook', this.fileUploaded );
 
         var self = this;
 
@@ -1230,8 +1242,118 @@ Vue.component('cpm-file-uploader', {
          * @return void          
          */
         fileUploaded: function( file_res ) {
+            
+            if ( typeof this.files == 'undefined' ) {
+                this.files = [];
+            }
+
             this.files.push( file_res.res.file );
         }
+    }
+});
+
+Vue.component('cpm-list-comment-form', {
+    // Assign template for this component
+    template: '#tmpl-cpm-list-comment-form',
+
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    // Get passing data for this component. 
+    props: ['comment', 'list'],
+
+    data: function() {
+        return {
+            files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
+            content: {
+                html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
+            }
+        }
+    },
+
+    watch: {
+        files: function( new_files ) {
+            this.comment.files = new_files;
+        },
+        content: {
+            handler: function( new_content ) {
+                this.comment.comment_content = new_content.html;
+            },
+
+            deep: true
+        }
+    },
+
+    computed: {
+        editor_id: function() {
+            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
+                '' : '-' + this.comment.comment_ID;
+
+            return 'cpm-list-editor' + comment_id;
+        }
+    },
+
+    methods: {
+        updateComment: function() {
+            var self = this,
+                is_update = typeof this.comment.comment_ID == 'undefined' ? false : true,
+                form_data = {
+                    parent_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
+                    comment_id: is_update ? this.comment.comment_ID : false,
+                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new', 
+                    cpm_message: this.comment.comment_content,
+                    cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
+                    project_id: CPM_Vars.project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+            
+            // Sending request for add and update comment
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+
+                if ( res.success ) {
+                    
+                    if ( ! is_update ) {
+                        // After getting todo list, set it to vuex state lists
+                        self.$store.commit( 'update_todo_list_comment', { 
+                            list_id: self.list.ID,
+                            comment: res.data.comment,
+                        });
+
+                        self.files = [];
+                        self.content.html = '';
+                        
+                        self.$root.$emit( 'after_comment' );
+                        // Vue.set(self.content, {
+                        //     html: ''
+                        // });
+                        
+                        
+                    } else {
+                        self.showHideListCommentEditForm( self.comment.comment_ID );
+                    }
+
+                    // Display a success toast, with a title
+                    toastr.success(res.data.success);
+                } else {
+
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                } 
+            });
+        },
+
+        filtersOnlyFileID: function( files ) {
+            if ( typeof files == 'undefined' ) {
+                return [];
+            }
+
+            return files.map( function( file ) {
+                return file.id;
+            });
+        },
+
     }
 });
 
@@ -1245,20 +1367,6 @@ Vue.component('cpm-list-comments', {
     // Include global properties and methods
     mixins: [CPM_Mixin],
 
-    data: function() {
-        return {
-            content: {
-                html: 'I am text content'
-            },
-            editor_id: 'cpm-list-editor',
-            files: []
-        }
-    },
-
-    created: function() {
-        this.$root.$on( 'cpm_post_content', this.getPostContent );
-    },
-
     computed: {
         /**
          * Get current user avatar
@@ -1266,50 +1374,6 @@ Vue.component('cpm-list-comments', {
         getCurrentUserAvatar: function() {
             return CPM_Vars.current_user_avatar_url;
         },
-    },
-
-    methods: {
-        updateComment: function() {
-            var self = this,
-                form_data = {
-                    parent_id: this.list.ID,
-                    action: 'cpm_comment_new',
-                    cpm_message: this.content.html,
-                    cpm_attachment: this.filtersOnlyFileID( this.files ),
-                    project_id: CPM_Vars.project_id,
-                    _wpnonce: CPM_Vars.nonce,
-                };
-
-            // Sending request for add and update comment
-            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
-
-                if ( res.success ) {
-                    
-                    // After getting todo list, set it to vuex state lists
-                    self.$store.commit( 'update_todo_list_comment', { 
-                        list_id: self.list.ID,
-                        comment: res.data.comment,
-                    });
-
-                    self.files = [];
-                    self.content.html = '';
-                    
-                    Vue.nextTick( function() {
-                        self.content.html = 'I am text content';
-                    }); 
-                } 
-            });
-        },
-
-        getPostContent: function( data ) {
-            this.content = data.new_content;
-        },
-
-        filtersOnlyFileID: function( files ) {
-            return files.map( function( file ) {
-                return file.id;
-            });
-        }
     }
 });
 
