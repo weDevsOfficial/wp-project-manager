@@ -1,4 +1,27 @@
 /**
+ * Global jQuery action for this component
+ */
+window.CPM_Component_jQuery = {
+    faceIn: function() {
+        jQuery('.cpm-fade-in').fadeIn(300);
+    },
+
+    fadeOut: function( id ) {
+        var class_id = ( typeof id == 'undefined' ) ? false : '-'+id;
+
+        jQuery('.cpm-fade-out' + class_id).fadeOut(300);
+    },
+
+    slideDown: function() {
+        jQuery('.cpm-slide-down').slideDown(300);
+    },
+
+    slideUp: function() {
+        jQuery('.cpm-slide-up').slideUp(300);
+    }
+}
+
+/**
  * Global object for all components and root
  */
 var CPM_Mixin = {
@@ -110,6 +133,26 @@ var CPM_Mixin = {
         },
 
         /**
+         * Get index from array object element
+         * 
+         * @param   array 
+         * @param   id    
+         * 
+         * @return  int      
+         */
+        getIndex: function ( array,  id, slug) {
+            var target;
+
+            array.map(function(content, index) {
+                if ( content[slug] == id ) {
+                    target = index;
+                }
+            });
+
+            return target;
+        },
+
+        /**
          * ISO_8601 Date format convert to moment date format
          * 
          * @param  string date 
@@ -129,6 +172,82 @@ var CPM_Mixin = {
          */
         showHideListCommentEditForm: function( comment_id ) {
             this.$store.commit( 'showHideListCommentEditForm', { comment_id: comment_id, list_index: 0 } );
+        },
+
+        /**
+         * Get current project users by role
+         * 
+         * @param  string role 
+         * 
+         * @return array     
+         */
+        get_porject_users_by_role: function( role ) {
+            return this.$store.state.project_users.filter(function( user ) {
+                return ( user.role == role ) ? true : false;
+            });
+        },
+
+        /**
+         * Get current project users by role
+         * 
+         * @param  string role 
+         * 
+         * @return array     
+         */
+        get_porject_users_id_by_role: function( role ) {
+            var ids = [];
+            
+            this.$store.state.project_users.map(function(user) {
+                if ( user.role == role ) {
+                    ids.push(user.id);
+                } 
+
+                if ( typeof role == 'undefined' ) {
+                    ids.push(user.id);
+                }
+            });
+
+            return ids;
+        },
+
+        /**
+         * Remove comment
+         * 
+         * @param int comment_id 
+         * 
+         * @return void            
+         */
+        deleteComment: function( comment_id, list_id ) {
+            
+            if ( ! confirm( CPM_Vars.message.confirm ) ) {
+                return;
+            }
+
+            var self       = this,
+                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
+                form_data  = {
+                    action: 'cpm_comment_delete',
+                    comment_id: comment_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+                comment_index = this.getIndex( this.$store.state.lists[list_index].comments, comment_id, 'comment_ID' );
+
+            // Seding request for insert or update todo list
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    // Display a success message, with a title
+                    toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut( comment_id );
+                    
+                    // self.$store.commit( 'after_delete_comment', { 
+                    //     list_index: list_index,
+                    //     comment_index: comment_index
+                    // });
+
+                    
+                }
+            });
         }
 	}
 }
@@ -1262,40 +1381,98 @@ Vue.component('cpm-list-comment-form', {
     // Get passing data for this component. 
     props: ['comment', 'list'],
 
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
     data: function() {
         return {
             files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
             content: {
                 html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
-            }
+            },
+            notify_co_workers: [],
+            notify_all_co_worker: false,
+            show_spinner: false,
+            submit_disabled: false,
         }
     },
 
+    /**
+     * Observe onchange value
+     */
     watch: {
+        /**
+         * Observed comment file change
+         * 
+         * @param  array new_files 
+         * 
+         * @return void           
+         */
         files: function( new_files ) {
             this.comment.files = new_files;
         },
+
+        /**
+         * Observe onchange comment message
+         *
+         * @param string new_content 
+         * 
+         * @type void
+         */
         content: {
             handler: function( new_content ) {
                 this.comment.comment_content = new_content.html;
             },
 
             deep: true
-        }
+        },
+
     },
 
+    /**
+     * Unassigned varable value
+     */
     computed: {
+        /**
+         * Editor ID
+         * 
+         * @return string
+         */
         editor_id: function() {
             var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
                 '' : '-' + this.comment.comment_ID;
 
             return 'cpm-list-editor' + comment_id;
+        },
+
+        /**
+         * Get current projects co-worker
+         * 
+         * @return object
+         */
+        co_workers: function() {
+            return this.get_porject_users_by_role('co_worker');
         }
     },
 
     methods: {
+        /**
+         * Insert and update todo-list comment
+         * 
+         * @return void
+         */
         updateComment: function() {
-            var self = this,
+            // Prevent sending request when multiple click submit button 
+            if ( this.submit_disabled ) {
+                return;
+            }
+
+            // Make disable submit button
+            this.submit_disabled = true;
+
+            var self      = this,
                 is_update = typeof this.comment.comment_ID == 'undefined' ? false : true,
                 form_data = {
                     parent_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
@@ -1306,10 +1483,16 @@ Vue.component('cpm-list-comment-form', {
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
                 };
-            
+
+            // Showing spinner    
+            this.show_spinner = true;
+
             // Sending request for add and update comment
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
-
+                
+                self.show_spinner    = false;
+                self.submit_disabled = false;
+                
                 if ( res.success ) {
                     
                     if ( ! is_update ) {
@@ -1323,11 +1506,7 @@ Vue.component('cpm-list-comment-form', {
                         self.content.html = '';
                         
                         self.$root.$emit( 'after_comment' );
-                        // Vue.set(self.content, {
-                        //     html: ''
-                        // });
-                        
-                        
+ 
                     } else {
                         self.showHideListCommentEditForm( self.comment.comment_ID );
                     }
@@ -1344,6 +1523,13 @@ Vue.component('cpm-list-comment-form', {
             });
         },
 
+        /**
+         * Get files id array from file object
+         * 
+         * @param  object files 
+         * 
+         * @return array       
+         */
         filtersOnlyFileID: function( files ) {
             if ( typeof files == 'undefined' ) {
                 return [];
@@ -1353,6 +1539,39 @@ Vue.component('cpm-list-comment-form', {
                 return file.id;
             });
         },
+
+        /**
+         * Check select all check box enable or disabled. for notify users
+         * 
+         * @param  int user_id 
+         * 
+         * @return void         
+         */
+        notify_coo_workers: function( user_id ) {
+            var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
+                notify_co_worker_length = this.notify_co_workers.length;
+            
+            if ( co_worker_length != notify_co_worker_length ) {
+                this.notify_all_co_worker = false;
+            }
+
+            if ( co_worker_length === notify_co_worker_length ) {
+                this.notify_all_co_worker = true;
+            }
+        },
+
+        /**
+         * Is notification send all co-worker or not
+         */
+        notify_all_coo_worker: function() {
+
+            if ( this.notify_all_co_worker ) {
+                this.notify_co_workers = [];
+                this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
+            } else {
+                this.notify_co_workers = [];
+            }
+        }
 
     }
 });
@@ -1375,6 +1594,10 @@ Vue.component('cpm-list-comments', {
             return CPM_Vars.current_user_avatar_url;
         },
     }
+});
+
+Vue.component( 'cpm-loading', {
+    template: '#tmpl-cpm-spinner'
 });
 
 // Global multiselect

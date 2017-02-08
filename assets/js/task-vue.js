@@ -233,6 +233,18 @@
             },
 
             /**
+             * Remove comment from lists
+             * 
+             * @param  object state 
+             * @param  object data  
+             * 
+             * @return void       
+             */
+            after_delete_comment: function( state, data ) {
+                state.lists[data.list_index].comments.splice( data.comment_index, 1 );
+            },
+
+            /**
              * Showing todo-list comment edit form
              * 
              * @param  object state 

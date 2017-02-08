@@ -9,26 +9,33 @@
         <cpm-file-uploader :files="files"></cpm-file-uploader>
 
         <div class="notify-users">
-            <h2 class="cpm-box-title"> <?php _e( 'Notify users', 'cpm' ); ?>
-                <label class="cpm-small-title" for="select-all"> <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox" /> <?php _e( 'Select all', 'cpm' ); ?></label>
-            </h2>
+                        
+                <h2 class="cpm-box-title"> 
+                    <?php _e( 'Notify users', 'cpm' ); ?>            
+                    <label class="cpm-small-title" for="select-all"> 
+                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="cpm-toggle-checkbox"> 
+                        <?php _e( 'Select all', 'cpm' ); ?>
+                    </label>
+                </h2>
 
-                <ul class='cpm-user-list' >
-                    
-                        <input type="checkbox" name="notify_user[]" id="cpm_notify_%1$s" value="%1$s" />
-                        <li><label for="cpm_notify_%d">jj hjh</label></li>
-                    
+                <ul class="cpm-user-list">
+                    <li v-for="co_worker in co_workers">
+                        <label :for="'cpm_notify_' + co_worker.id">
+                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'cpm_notify_' + co_worker.id" > 
+                            {{ co_worker.name }}
+                        </label>
+                    </li>
 
-                    <div class='clearfix'></div>
+                    <div class="clearfix"></div>
                 </ul>
-            
         </div>
 
         <?php do_action( 'cpm_comment_form' ); ?>
-
+        
         <div class="submit">
-            <input type="submit" class="button-primary"  value="<?php _e( 'Add New Commment', 'cpm' ); ?>" id="" />
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Add New Commment', 'cpm' ); ?>" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Update Commment', 'cpm' ); ?>" id="" />
+            <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
-        <!-- <div class="cpm-loading" ><?php _e( 'Saving...', 'cpm' ); ?></div> -->
     </form>
 </div>

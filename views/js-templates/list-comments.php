@@ -3,7 +3,7 @@
         <h3 class="cpm-comment-title"><?php _e( 'Discuss this to-do list', 'cpm' ); ?></h3>
 
         <ul class="cpm-comment-wrap">
-            <li class="cpm-comment clearfix even" v-for="comment in comments">
+            <li  v-for="comment in comments" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
 
                 <div class="cpm-avatar" v-html="comment.avatar"></div>
 
@@ -21,7 +21,7 @@
                             </span>
 
                             <span class="cpm-delete-link">
-                                <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
+                                <a href="#" @click.prevent="deleteComment( comment.comment_ID, list.ID )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
                             </span>
                         </div>
                     </div>
@@ -49,6 +49,4 @@
                 <cpm-list-comment-form :comment="{}" :list="list"></cpm-list-comment-form>
             </div>
         </div>
-    
-
 </div>

@@ -498,6 +498,7 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
         cpm_get_js_template( CPM_JS_TMPL . '/list-comment-form.php', 'cpm-list-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/spinner.php', 'cpm-spinner' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );

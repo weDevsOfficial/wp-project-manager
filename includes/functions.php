@@ -1346,6 +1346,7 @@ function cpm_message() {
         'new_todo'                     => __( 'New Todo List', 'cpm' ),
         'update_todo'                  => __( 'Update Todo List', 'cpm' ),
         'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),
+        'confirm'                      => __( 'Are you sure!', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );
