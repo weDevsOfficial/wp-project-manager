@@ -253,16 +253,9 @@
              * @return void
              */
             showHideListCommentEditForm: function( state, data ) {
-                var comment_index = false;
 
-                state.lists[data.list_index].comments.filter( function( comment, index ) {
-                    if ( comment.comment_ID == data.comment_id ) {
-                        comment_index = index;
-                    } 
-                });
-
-                if ( comment_index !== false ) {
-                    state.lists[data.list_index].comments[comment_index].edit_mode = state.lists[data.list_index].comments[comment_index].edit_mode ? false : true;
+                if ( data.comment_index !== false ) {
+                    state.lists[data.list_index].comments[data.comment_index].edit_mode = state.lists[data.list_index].comments[data.comment_index].edit_mode ? false : true;
                 }
             },
 

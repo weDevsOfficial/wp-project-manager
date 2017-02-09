@@ -2,22 +2,58 @@
  * Global jQuery action for this component
  */
 window.CPM_Component_jQuery = {
-    faceIn: function() {
-        jQuery('.cpm-fade-in').fadeIn(300);
-    },
-
-    fadeOut: function( id ) {
+    /**
+     * JQuery fadeIn
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    faceIn: function( id, callback ) {
         var class_id = ( typeof id == 'undefined' ) ? false : '-'+id;
 
-        jQuery('.cpm-fade-out' + class_id).fadeOut(300);
+        jQuery('.cpm-fade-in' + class_id).fadeOut(300, function() {
+            if ( typeof callback != 'undefined' ) {
+                callback( callback );
+            }
+        });
     },
 
-    slideDown: function() {
-        jQuery('.cpm-slide-down').slideDown(300);
+    /**
+     * JQuery fadeOut
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    fadeOut: function( id, callback ) {
+        var class_id = ( typeof id == 'undefined' ) ? false : String( '-'+id );
+        
+        jQuery('.cpm-fade-out' + class_id).fadeOut(300, function() {
+            if ( typeof callback != 'undefined' ) {
+                callback( callback );
+            }
+        });
     },
 
-    slideUp: function() {
-        jQuery('.cpm-slide-up').slideUp(300);
+    /**
+     * JQuery slideUp
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    slide: function( id, callback ) {
+        var class_id = '-'+id;//( typeof id == 'undefined' ) ? false : '-'+id;
+        
+        jQuery('.cpm-slide' + class_id).slideToggle(300, function() {
+            if ( typeof callback != 'undefined' ) {
+                callback( callback );
+            }
+        });
     }
 }
 
@@ -41,9 +77,48 @@ var CPM_Mixin = {
          */
         showHideTodoListForm: function( list, list_index ) {
             if ( list.ID ) {
-                this.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
+                //this.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
             } else {
-                this.$store.commit( 'newTodoListForm' );
+                //this.$store.commit( 'newTodoListForm' );
+            }
+
+
+            var edit_mode = list.ID ? true : false,
+                self      = this;
+            
+            if ( edit_mode ) {
+                var is_edit = self.$store.state.lists[list_index].edit_mode;
+
+                if ( is_edit ) {
+                    CPM_Component_jQuery.slide( list.ID, function() {
+                        self.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
+                    });
+                
+                } else {
+                    self.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
+                 
+                     Vue.nextTick( function() {
+
+                        CPM_Component_jQuery.slide( list.ID );
+                    });    
+                }
+            } else {
+                var is_edit = self.$store.state.show_list_form;
+
+                if ( is_edit ) {
+                    CPM_Component_jQuery.slide( 'list', function() {
+                        self.$store.commit( 'newTodoListForm' );
+                    });
+                } else {
+                    self.$store.commit( 'newTodoListForm' );
+                
+                    Vue.nextTick( function() {
+
+                        CPM_Component_jQuery.slide( 'list' );
+                    } );
+
+                }
+                
             }
         },
 
@@ -56,7 +131,45 @@ var CPM_Mixin = {
          * @return void            
          */
         showHideTaskForm: function( list_index, task_index ) {
-            this.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
+            
+            if ( ( typeof task_index == 'undefined' ) || ( task_index === false ) ) {
+
+                var edit_mode = this.$store.state.lists[list_index].show_task_form,
+                    self      = this;
+
+                if ( edit_mode ) {
+
+                    CPM_Component_jQuery.slide( task_index, function() {
+                        self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
+                    });
+                
+                } else {
+                    self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
+                    
+                    Vue.nextTick( function() {
+
+                        CPM_Component_jQuery.slide( task_index );
+                    } );
+                }
+                
+            } else {
+                var edit_mode = this.$store.state.lists[list_index].tasks[task_index].edit_mode,
+                    self      = this;
+
+                if ( edit_mode ) {
+                    CPM_Component_jQuery.slide( task_index, function() {
+                        self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
+                    });
+                
+                } else {
+                    self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
+                    
+                    Vue.nextTick( function() {
+
+                        CPM_Component_jQuery.slide( task_index );
+                    } );
+                }
+            }
         },
 
         /**
@@ -141,7 +254,7 @@ var CPM_Mixin = {
          * @return  int      
          */
         getIndex: function ( array,  id, slug) {
-            var target;
+            var target = false;
 
             array.map(function(content, index) {
                 if ( content[slug] == id ) {
@@ -171,7 +284,23 @@ var CPM_Mixin = {
          * @return void            
          */
         showHideListCommentEditForm: function( comment_id ) {
-            this.$store.commit( 'showHideListCommentEditForm', { comment_id: comment_id, list_index: 0 } );
+            var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
+                self = this;
+
+            var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
+
+            if ( edit_mode ) {
+                CPM_Component_jQuery.slide( comment_id, function() {
+                    self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
+                });
+            
+            } else {
+                self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
+                
+                Vue.nextTick( function() {
+                    CPM_Component_jQuery.slide( comment_id );
+                } );
+            }
         },
 
         /**
@@ -236,15 +365,15 @@ var CPM_Mixin = {
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
                 if ( res.success ) {
                     // Display a success message, with a title
-                    toastr.success(res.data.success);
+                    //toastr.success(res.data.success);
 
-                    CPM_Component_jQuery.fadeOut( comment_id );
+                    CPM_Component_jQuery.fadeOut( comment_id, function() {
+                        self.$store.commit( 'after_delete_comment', { 
+                            list_index: list_index,
+                            comment_index: comment_index
+                        });
+                    });
                     
-                    // self.$store.commit( 'after_delete_comment', { 
-                    //     list_index: list_index,
-                    //     comment_index: comment_index
-                    // });
-
                     
                 }
             });
@@ -323,7 +452,7 @@ Vue.component('todo-list-form', {
          * @return string     
          */
         todolistFormClass: function( list ) {
-            return list.ID ? 'cpm-todo-form-wrap cpm-form' : 'cpm-todo-list-form-wrap cpm-form';
+            return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-'+ list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
         },
 
         /**
@@ -552,7 +681,7 @@ Vue.component('tasks', {
            showTaskForm: false,
            task: {},
            tasks: this.list.tasks,
-           task_index: false,
+           task_index: 'undefined', // Using undefined for slideToggle class
            task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
            is_single_list: this.$store.state.is_single_list
         }
@@ -1512,7 +1641,7 @@ Vue.component('cpm-list-comment-form', {
                     }
 
                     // Display a success toast, with a title
-                    toastr.success(res.data.success);
+                    //toastr.success(res.data.success);
                 } else {
 
                     // Showing error

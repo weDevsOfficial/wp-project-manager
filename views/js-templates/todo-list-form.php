@@ -1,4 +1,4 @@
-<div :class="todolistFormClass(list)">
+<div :class="todolistFormClass(list)" style="display: none;">
 
     <form v-on:submit.prevent="newTodoList()" action="" method="post">
         <div class="item title">

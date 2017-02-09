@@ -343,6 +343,8 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
+        $suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
         $time_zone_string      = file_get_contents( CPM_URL . '/assets/js/moment/latest.json' );
         $json_time_zone_string = json_decode($time_zone_string, true);
 
@@ -359,7 +361,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
         wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false, true );
 
-        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue.min.js', '', time(), false, true );
+        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', '', time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex.min.js', array( 'cpm-vue' ), time(), false, true );
         wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router.min.js', array( 'cpm-vue' ), time(), false, true );
 

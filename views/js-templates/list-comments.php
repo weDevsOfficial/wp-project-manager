@@ -37,7 +37,9 @@
                     </div>
 
                     <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
-                        <cpm-list-comment-form :comment="comment" :list="list"></cpm-list-comment-form>
+                        <div :class="'cpm-slide-'+comment.comment_ID" style="display: none;">
+                            <cpm-list-comment-form :comment="comment" :list="list"></cpm-list-comment-form>
+                        </div>
                     </div>
                 </div>
             </li>

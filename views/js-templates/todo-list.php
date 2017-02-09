@@ -29,7 +29,7 @@
                 <footer class="cpm-row cpm-list-footer">
                     <div class="cpm-col-6">
                         
-                            <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
+                        <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
                         
                         <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
