@@ -501,9 +501,11 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
         cpm_get_js_template( CPM_JS_TMPL . '/list-comment-form.php', 'cpm-list-comment-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/spinner.php', 'cpm-spinner' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comment-form.php', 'cpm-task-comment-form' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
-            cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
+            
             cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
             cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
             cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );

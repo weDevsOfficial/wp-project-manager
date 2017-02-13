@@ -1479,6 +1479,28 @@ ul.cpm-todolists .cpm-new-task-spinner {
   position: absolute;
   width: 16px;
 }
+.cpm-due-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #CD7A7A;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #fff;
+  margin-right: 5px;
+}
+.cpm-current-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #999;
+  margin-right: 5px;
+}
 .cpm-todo .cpm-todo-wrap {
   position: relative;
 }
@@ -1526,28 +1548,6 @@ ul.cpm-todolists .cpm-new-task-spinner {
 }
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
   color: #999;
-}
-.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #CD7A7A;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #fff;
-  margin-right: 5px;
-}
-.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #ddd;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #999;
-  margin-right: 5px;
 }
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
   width: 24px;
@@ -3679,7 +3679,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0 0 0 auto;
   overflow: visible;
   display: compact;
-  background-color: #fff000;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
@@ -4132,4 +4131,25 @@ ul.cpm-files li .cpm-file-action .comment-number {
   .cpm th {
     padding: 1px ;
   }
+}
+.cpm-task-modal .cpm-assigned-user,
+.cpm-task-modal time {
+  background: none;
+}
+.cpm-task-modal .avatar {
+  border-radius: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpm-task-modal .cpm-lock {
+  width: auto;
+  height: 22px;
+  padding-left: 12px;
+}
+.cpm-task-modal #new_comment_form {
+  margin-bottom: 50px;
+}
+.cpm-task-modal #new_comment_form trix-toolbar .button_group button,
+.cpm-task-modal #new_comment_form trix-toolbar .button_group input[type=button] {
+  background: rgba(255, 255, 255, 0);
 }

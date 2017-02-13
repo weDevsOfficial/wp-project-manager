@@ -70,6 +70,8 @@
             show_list_form: false,
             project_id: CPM_Vars.project_id ? CPM_Vars.project_id : false,
             permissions: {},
+            task: {},
+            is_single_task: false
         },
 
         /**
@@ -259,6 +261,39 @@
                 }
             },
 
+            /**
+             * Set single task popup data to vuex store
+             * 
+             * @param  object state 
+             * @param  object task  
+             * 
+             * @return void       
+             */
+            single_task_popup: function( state, task ) {
+                state.task = {};
+                state.is_single_task = false;
+
+                Vue.nextTick(function() {
+                    state.task = task.task;
+                    state.is_single_task = true;
+                });
+            },
+
+            /**
+             * Make empty store task and make false is_single_task
+             * 
+             * @param  object state 
+             * 
+             * @return void       
+             */
+            close_single_task_popup: function( state ) {
+                state.is_single_task = false;
+                state.task = {};
+            },
+
+            update_task_comment: function( state, comment ) {
+                state.lists[comment.list_index].tasks[comment.task_index].comments.push(comment.comment);
+            }
         }
     });
 

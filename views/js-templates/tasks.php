@@ -10,7 +10,7 @@
                             <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
                             <a class="task-title" href="#">
-                                <span class="cpm-todo-text">{{ task.post_title }}</span>
+                                <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }}</span>
                                 <span :class="privateClass( task )"></span>
                             </a>
                             
@@ -31,7 +31,7 @@
                             
                             <span class="cpm-comment-count">
                                 <a href="#">
-                                    {{ task.comment_count }}
+                                    {{ task.comments.length }}
                                 </a>
                             </span>
 
@@ -144,7 +144,9 @@
             </div>
         </li>
     </ul>
-   
 </div>
+
+
+
 
 

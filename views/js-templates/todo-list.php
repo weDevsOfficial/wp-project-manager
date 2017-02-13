@@ -63,4 +63,6 @@
     <div v-if="is_single_list">
         <cpm-list-comments :comments="lists[0].comments" :list="lists[0]"></cpm-list-comments>
     </div>
+    
+    <div v-if="is_single_task"><cpm-single-task :task="task"></cpm-single-task></div>
 </div>

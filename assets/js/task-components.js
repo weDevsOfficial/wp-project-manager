@@ -377,7 +377,84 @@ var CPM_Mixin = {
                     
                 }
             });
-        }
+        },
+
+        /**
+         * Get user information from task assigned user id
+         *  
+         * @param  array assigned_user 
+         * 
+         * @return obje               
+         */
+        getUsers: function( assigned_user ) {
+            filtered_users = [];
+            
+            var assigned_to = assigned_user.map(function (id) {
+                    return parseInt(id);
+                });
+
+
+            filtered_users = this.$store.state.project_users.filter( function (user) {
+                return ( assigned_to.indexOf( parseInt(user.id) ) >= 0 );
+            });
+
+            return filtered_users;
+        },
+
+        /**
+         * CSS class for task date
+         * 
+         * @param  string start_date 
+         * @param  string due_date   
+         * 
+         * @return string            
+         */
+        taskDateWrap: function( start_date, due_date ) {
+            if ( start_date == '' && due_date == '' ) {
+                return false;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+            
+            var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
+                due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
+            
+            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
+                return false;
+            }
+            
+           return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
+        },
+
+        /**
+         * Showing (-) between task start date and due date
+         * 
+         * @param  string  task_start_field 
+         * @param  string  start_date       
+         * @param  string  due_date         
+         * 
+         * @return Boolean                  
+         */
+        isBetweenDate: function( task_start_field, start_date, due_date ) {
+            if ( task_start_field && ( start_date != '' ) && ( due_date != '' ) ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        get_index: function( items, item_id ) {
+            var item_index = false;
+
+            items.map( function( item, index ) {
+                if ( ( item.ID == item_id ) ) {
+                    item_index = index;
+                }
+            });
+
+            return item_index;
+        },
 	}
 }
 
@@ -583,8 +660,31 @@ Vue.component('todo-lists', {
             return this.$store.state.init;
         },
 
+        /**
+         * Check is todo-list single or not
+         * 
+         * @return Boolean
+         */
         is_single_list: function() {
             return this.$store.state.is_single_list;
+        },
+
+        /**
+         * Check is task single or not
+         * 
+         * @return Boolean
+         */
+        is_single_task: function() {
+            return this.$store.state.is_single_task;
+        },
+
+        /**
+         * Get task for single task popup
+         * 
+         * @return object
+         */
+        task: function() {
+            return this.$store.state.task;
         }
     },
 
@@ -754,71 +854,6 @@ Vue.component('tasks', {
         },
 
         /**
-         * Get user information from task assigned user id
-         *  
-         * @param  array assigned_user 
-         * 
-         * @return obje               
-         */
-        getUsers: function( assigned_user ) {
-            filtered_users = [];
-            
-            var assigned_to = assigned_user.map(function (id) {
-                    return parseInt(id);
-                });
-
-
-            filtered_users = this.$store.state.project_users.filter( function (user) {
-                return ( assigned_to.indexOf( parseInt(user.id) ) >= 0 );
-            });
-
-            return filtered_users;
-        },
-
-        /**
-         * Showing (-) between task start date and due date
-         * 
-         * @param  string  task_start_field 
-         * @param  string  start_date       
-         * @param  string  due_date         
-         * 
-         * @return Boolean                  
-         */
-        isBetweenDate: function( task_start_field, start_date, due_date ) {
-            if ( task_start_field && ( start_date != '' ) && ( due_date != '' ) ) {
-                return true;
-            }
-
-            return false;
-        },
-
-        /**
-         * CSS class for task date
-         * 
-         * @param  string start_date 
-         * @param  string due_date   
-         * 
-         * @return string            
-         */
-        taskDateWrap: function( start_date, due_date ) {
-            if ( start_date == '' && due_date == '' ) {
-                return false;
-            }
-
-            moment.tz.add(CPM_Vars.time_zones);
-            moment.tz.link(CPM_Vars.time_links);
-            
-            var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
-                due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
-            
-            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
-                return false;
-            }
-            
-           return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
-        },
-
-        /**
          * Mark task done and undone
          * 
          * @param  int  task_id    
@@ -850,8 +885,228 @@ Vue.component('tasks', {
                 }
             });
         },
+
+        /**
+         * Single task popup
+         * 
+         * @param  object task
+         *  
+         * @return void      
+         */
+        singleTask: function( task ) {
+            this.$store.commit( 'single_task_popup', { task: task } );
+        }
     }
 
+});
+
+Vue.component('cpm-task-comment-form', {
+    // Assign template for this component
+    template: '#tmpl-cpm-task-comment-form',
+
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    // Get passing data for this component. 
+    props: ['comment', 'task'],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function() {
+        return {
+            files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
+            content: {
+                html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
+            },
+            notify_co_workers: [],
+            notify_all_co_worker: false,
+            show_spinner: false,
+            submit_disabled: false,
+        }
+    },
+
+    /**
+     * Observe onchange value
+     */
+    watch: {
+        /**
+         * Observed comment file change
+         * 
+         * @param  array new_files 
+         * 
+         * @return void           
+         */
+        files: function( new_files ) {
+            this.comment.files = new_files;
+        },
+
+        /**
+         * Observe onchange comment message
+         *
+         * @param string new_content 
+         * 
+         * @type void
+         */
+        content: {
+            handler: function( new_content ) {
+                this.comment.comment_content = new_content.html;
+            },
+
+            deep: true
+        },
+
+    },
+
+    /**
+     * Unassigned varable value
+     */
+    computed: {
+        /**
+         * Editor ID
+         * 
+         * @return string
+         */
+        editor_id: function() {
+            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
+                '' : '-' + this.comment.comment_ID;
+
+            return 'cpm-task-editor' + comment_id;
+        },
+
+        /**
+         * Get current projects co-worker
+         * 
+         * @return object
+         */
+        co_workers: function() {
+            return this.get_porject_users_by_role('co_worker');
+        }
+    },
+
+    methods: {
+        /**
+         * Insert and update todo-task comment
+         * 
+         * @return void
+         */
+        updateComment: function() {
+            // Prevent sending request when multiple click submit button 
+            if ( this.submit_disabled ) {
+                return;
+            }
+
+            // Make disable submit button
+            this.submit_disabled = true;
+
+            var self       = this,
+                list_index = this.get_index( this.$store.state.lists, this.task.post_parent ),
+                task_index = this.get_index( this.$store.state.lists[list_index].tasks, this.task.ID ),
+                is_update  = typeof this.comment.comment_ID == 'undefined' ? false : true,
+                
+                form_data = {
+                    parent_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
+                    comment_id: is_update ? this.comment.comment_ID : false,
+                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new', 
+                    cpm_message: this.comment.comment_content,
+                    cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
+                    project_id: CPM_Vars.project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            // Showing spinner    
+            this.show_spinner = true;
+
+            // Sending request for add and update comment
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                
+                self.show_spinner    = false;
+                self.submit_disabled = false;
+                
+                if ( res.success ) {
+                    
+                    if ( ! is_update ) {
+                        // After getting todo task, set it to vuex state tasks
+                        self.$store.commit( 'update_task_comment', { 
+                            task_index: task_index,
+                            list_index: list_index,
+                            comment: res.data.comment,
+                        });
+
+                        self.files = [];
+                        self.content.html = '';
+                        
+                        self.$root.$emit( 'after_comment' );
+ 
+                    } else {
+                        self.showHideTaskCommentEditForm( self.comment.comment_ID );
+                    }
+
+                    // Display a success toast, with a title
+                    //toastr.success(res.data.success);
+                } else {
+
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                } 
+            });
+        },
+
+        /**
+         * Get files id array from file object
+         * 
+         * @param  object files 
+         * 
+         * @return array       
+         */
+        filtersOnlyFileID: function( files ) {
+            if ( typeof files == 'undefined' ) {
+                return [];
+            }
+
+            return files.map( function( file ) {
+                return file.id;
+            });
+        },
+
+        /**
+         * Check select all check box enable or disabled. for notify users
+         * 
+         * @param  int user_id 
+         * 
+         * @return void         
+         */
+        notify_coo_workers: function( user_id ) {
+            var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
+                notify_co_worker_length = this.notify_co_workers.length;
+            
+            if ( co_worker_length != notify_co_worker_length ) {
+                this.notify_all_co_worker = false;
+            }
+
+            if ( co_worker_length === notify_co_worker_length ) {
+                this.notify_all_co_worker = true;
+            }
+        },
+
+        /**
+         * Is notification send all co-worker or not
+         */
+        notify_all_coo_worker: function() {
+
+            if ( this.notify_all_co_worker ) {
+                this.notify_co_workers = [];
+                this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
+            } else {
+                this.notify_co_workers = [];
+            }
+        }
+
+    }
 });
 
 // Default template for todo lists
@@ -1727,6 +1982,29 @@ Vue.component('cpm-list-comments', {
 
 Vue.component( 'cpm-loading', {
     template: '#tmpl-cpm-spinner'
+});
+
+Vue.component( 'cpm-single-task', {
+    // Assign template for this component
+    template: '#tmpl-cpm-task-single',
+
+    // Get passing data for this component. 
+    props: ['task'],
+
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    methods: {
+        closePopup: function() {
+            this.$store.commit( 'close_single_task_popup' );
+        }
+    },
+
+    computed: {
+        task_start_field: function() {
+           return this.$store.state.permissions.task_start_field == 'on' ? true : false;
+        }
+    }
 });
 
 // Global multiselect

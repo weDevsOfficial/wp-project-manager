@@ -1,59 +1,96 @@
-<div v-if="task_id">
-<pre>{{task | json}}</pre>
-    <div class="modal-mask half-modal cpm-task-modal"  transition="modal">
-        <div class="modal-wrapper" @click.prevent="closeTaskModal" >
-            <div class="modal-container"  :style="modalwide">
-                <span class="close-vue-modal"><a class=""  @click=""><span class="dashicons dashicons-no"></span></a></span>
+<div>
+    <div class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 
-                <div class="modal-body cpm-todolists " @click.stop=""   >
-                    <div class="cpm-col-12 cpm-todo " >
-                        <div class="cpm-modal-conetnt  ">
+        <div class="modal-wrapper">
+            <div class="modal-container" style="width: 700px;">
+                <span class="close-vue-modal">
+                    <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                </span>
+
+
+                <div class="modal-body cpm-todolists">
+                    <div class="cpm-col-12 cpm-todo">
+
+                        <div class="cpm-modal-conetnt">
                             <h3>
-                                <input class="" type="checkbox" v-model="task.completed" checked="{{task.completed==1}}" @click.prevent="checktoggeltask(task, list)">
-                                {{task.post_title}}
+                                <input class="" type="checkbox">
+                                {{ task.post_title }}
+                                <span v-if="task.task_privacy == 'no'" class="cpm-lock" title="Private Task"></span>
                             </h3>
 
+
                             <div class="task-details ">
+                                <!--v-if-->
+                                <p><p>{{ task.post_content }}</p></p>
+                                <span>
+                                    <span class='cpm-assigned-user' 
+                                        v-for="user in getUsers( task.assigned_to )" 
+                                        v-html="user.user_url">
 
-                                <p>{{{ task.post_content }}}</p>
+                                    </span>
+                                    <span class="cpm-due-date"> 
+                                        <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                            <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
+                                            <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                            <span>{{ dateFormat( task.due_date ) }}</span>
+                                        </span>
+                                    </span>
 
-                                <span class="cpm-lock" v-show="task.task_privacy">{{text.privet_task}}</span>
-                                <span> <?php do_action( 'cpm_task_extra_partial' ); ?> </span>
+                                </span><!--v-if-->
 
-                                <span  v-if="task.completed==0">
-                                    <user_show_list
-                                        :users="task.assigned_to"
-                                        ></user_show_list>
-                                    <span class="{{task.date_css_class}}"> {{{task.date_show}}} </span>
-
-                                </span>
-
-                                <span class="">{{task.comment_count}} {{task.comment_count | pluralize  text.comment }} </span>
+                                <span class="">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
 
 
                                 <div class="clearfix cpm-clear"></div>
                             </div>
-                            <hr/>
+                                        
 
                             <div class="cpm-todo-wrap clearfix">
-                                <div class="cpm-todo-content" >
+                               
 
-                                    <!-- <partial name="hook_cpm_task_single_after"></partial> -->
-                                    <?php do_action( 'hook_cpm_task_single_after' ); ?>
+
+
+                                <h3><?php _e( 'Comments', 'cpm'); ?></h3>
+                                <div class="comment-content">
+                                    <ul class="cpm-comment-wrap">
+                                        <li class="cpm-comment">
+                                            <div class="cpm-right">
+                                                <a href="#" class="cpm-btn cpm-btn-xs"><span class="dashicons dashicons-trash"></span></a>
+                                            </div>
+                                            <div class="cpm-avatar "><img alt="" src="http://0.gravatar.com/avatar/c87a74ffe6e96d07200fb4b7d7a6b37d?s=96&amp;d=mm&amp;r=g" srcset="http://0.gravatar.com/avatar/c87a74ffe6e96d07200fb4b7d7a6b37d?s=192&amp;d=mm&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96"><!--v-html--></div>
+                                            <div class="cpm-comment-container">
+                                                <div class="cpm-comment-meta">
+                                                    <span class="cpm-author">Ashraf Hossain</span>
+                                                    On
+                                                    <span class="cpm-date">2016-10-07 11:02:03</span>
+
+                                                </div>
+                                                <div class="cpm-comment-content">
+                                                    Re-opened to-do<!--v-html-->
+                                                </div>
+
+                                                <!--v-if-->
+
+                                            </div>
+
+                                        </li><!--v-for-end-->
+                                    </ul>
+
                                 </div>
+                                <pre>{{ task }}</pre>
 
-                                <comment_warp_task :task="task""></comment_warp_task>
-                            </div>
-                            
+                                <div class="cpm-new-doc-comment-form">
+                                    <cpm-task-comment-form :comment="{}" :task="task"></cpm-task-comment-form>
+                                </div><!--v-end--><!--v-component-->
+                            </div>          
                         </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="clearfix" ></div>
+                <div class="clearfix"></div>
             </div>
-
         </div>
-    </div> 
+    </div>
 </div>
 
 
