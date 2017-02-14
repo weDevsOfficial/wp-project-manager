@@ -503,13 +503,13 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/spinner.php', 'cpm-spinner' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-comment-form.php', 'cpm-task-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             
             cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
             cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
             cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
-            cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
             cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
             cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );

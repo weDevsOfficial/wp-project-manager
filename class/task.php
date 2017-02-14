@@ -671,7 +671,7 @@ class CPM_Task {
         $task->due_date     = get_post_meta( $task->ID, '_due', true );
         $task->start_date   = get_post_meta( $task->ID, '_start', true );
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
-        $task->comments     = [];
+        $task->comments     = $this->get_task_comments( $task->ID );
         $task->edit_mode    = false;
     }
 

@@ -1,52 +1,56 @@
-<h3>{{text.comments}}</h3>
-<div class="comment-content">
-    <ul class="cpm-comment-wrap">
-        <li class="cpm-comment" v-for="comment in comments" >
-            <div class="cpm-right">
-                <a href="#" class="cpm-btn cpm-btn-xs" @click="deleteComment(comment)"><span class="dashicons dashicons-trash"></span></a>
+<div class="cpm-task-comment-wrap">
+
+        <h3 class="cpm-comment-title"><?php _e( 'Discuss this task', 'cpm' ); ?></h3>
+
+        <ul class="cpm-comment-wrap">
+            <li  v-for="comment in comments" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
+
+                <div class="cpm-avatar" v-html="comment.avatar"></div>
+
+                <div class="cpm-comment-container">
+                    <div class="cpm-comment-meta">
+                        <span class="cpm-author" v-html="comment.comment_user"></span>
+                        <span><?php _e( 'On', 'cpm' ); ?></span>
+                        <span class="cpm-date">
+                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
+                        </span>
+
+                        <div class="cpm-comment-action">
+                            <span class="cpm-edit-link">
+                                <a href="#" @click.prevent="showHideTaskCommentEditForm( comment.comment_ID )" class="dashicons dashicons-edit"></a>
+                            </span>
+
+                            <span class="cpm-delete-link">
+                                <a href="#" @click.prevent="deleteTaskComment( comment.comment_ID, task )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cpm-comment-content">
+                        <div v-html="comment.comment_content"></div>
+                        <ul class="cpm-attachments">
+                            <li v-for="file in comment.files">
+                                <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
+                                    <img :src="file.thumb">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
+                        <div :class="'cpm-slide-'+comment.comment_ID" style="display: none;">
+                            <cpm-task-comment-form :comment="comment" :task="task"></cpm-task-comment-form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="single-todo-comments">
+            <div class="cpm-comment-form-wrap">
+
+                <div class="cpm-avatar"><img :src="getCurrentUserAvatar" height="48" width="48"/></div>
+                <div class="cpm-new-doc-comment-form">
+                    <cpm-task-comment-form :comment="{}" :task="task"></cpm-task-comment-form>
+                </div><!--v-end--><!--v-component-->
             </div>
-            <div class="cpm-avatar ">{{{comment.avatar}}}</div>
-            <div class="cpm-comment-container">
-                <div class="cpm-comment-meta">
-                    <span class="cpm-author">{{comment.comment_author}}</span>
-                    {{text.on}}
-                    <span class="cpm-date">{{comment.comment_date}}</span>
-
-                </div>
-                <div class="cpm-comment-content">
-                    {{{comment.comment_content}}}
-                </div>
-
-                <div v-if="comment.files.length">
-                    <ul class="cpm-attachments">
-                        <li v-for="cfile in comment.files">
-                        <prettyphoto :file="cfile" ></prettyphoto>
-
-                        </li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </li>
-    </ul>
-
-</div>
-
-<div class='cpm-new-doc-comment-form'>
-    <form @submit.prevent="createComment(comments, formid, task)" :id="formid">
-        <input type="hidden" name="action" value="cpm_task_create_comment" />
-        <input type="hidden" name="project_id" value="{{pree_init_data.current_project}}" />
-        <input type="hidden" name="parent_id" value="{{task.ID}}" />
-        <input type="hidden" name="_wpnonce" value="{{pree_init_data.cpm_nonce}}" />
-
-        <div class="cpm-trix-editor">
-            <input id="cc-{{formid}}" type="hidden" name="description" class="comment-content" value="" />
-            <trix-editor input="cc-{{formid}}"></trix-editor>
         </div>
-
-        <fileuploader_task :files="" :uploderid="uploderid"></fileuploader_task>
-        <input type="submit" name="submit" value="{{text.add_comment}}" class="button-primary" />
-    </form>
 </div>

@@ -380,6 +380,46 @@ var CPM_Mixin = {
         },
 
         /**
+         * Remove comment
+         * 
+         * @param int comment_id 
+         * 
+         * @return void            
+         */
+        deleteTaskComment: function( comment_id, task ) {
+            
+            if ( ! confirm( CPM_Vars.message.confirm ) ) {
+                return;
+            }
+
+            var self       = this,
+                list_index = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
+                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
+                form_data  = {
+                    action: 'cpm_comment_delete',
+                    comment_id: comment_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+                comment_index = this.getIndex( task.comments, comment_id, 'comment_ID' );
+
+            // Seding request for insert or update todo list
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut( comment_id, function() {
+                        self.$store.commit( 'after_delete_task_comment', { 
+                            list_index: list_index,
+                            task_index: task_index,
+                            comment_index: comment_index
+                        });
+                    });
+                }
+            });
+        },
+
+        /**
          * Get user information from task assigned user id
          *  
          * @param  array assigned_user 
@@ -442,18 +482,6 @@ var CPM_Mixin = {
             }
 
             return false;
-        },
-
-        get_index: function( items, item_id ) {
-            var item_index = false;
-
-            items.map( function( item, index ) {
-                if ( ( item.ID == item_id ) ) {
-                    item_index = index;
-                }
-            });
-
-            return item_index;
         },
 	}
 }
@@ -1002,8 +1030,8 @@ Vue.component('cpm-task-comment-form', {
             this.submit_disabled = true;
 
             var self       = this,
-                list_index = this.get_index( this.$store.state.lists, this.task.post_parent ),
-                task_index = this.get_index( this.$store.state.lists[list_index].tasks, this.task.ID ),
+                list_index = this.getIndex( this.$store.state.lists, this.task.post_parent, 'ID' ),
+                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, this.task.ID, 'ID' ),
                 is_update  = typeof this.comment.comment_ID == 'undefined' ? false : true,
                 
                 form_data = {
@@ -1966,6 +1994,26 @@ Vue.component('cpm-list-comments', {
 
     // Get passing data for this component. 
     props: ['comments', 'list'],
+
+    // Include global properties and methods
+    mixins: [CPM_Mixin],
+
+    computed: {
+        /**
+         * Get current user avatar
+         */
+        getCurrentUserAvatar: function() {
+            return CPM_Vars.current_user_avatar_url;
+        },
+    }
+});
+
+Vue.component('cpm-task-comments', {
+    // Assign template for this component
+    template: '#tmpl-cpm-task-comments',
+
+    // Get passing data for this component. 
+    props: ['comments', 'task'],
 
     // Include global properties and methods
     mixins: [CPM_Mixin],

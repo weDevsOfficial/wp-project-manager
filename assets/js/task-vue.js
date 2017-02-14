@@ -235,7 +235,7 @@
             },
 
             /**
-             * Remove comment from lists
+             * Remove comment from list
              * 
              * @param  object state 
              * @param  object data  
@@ -244,6 +244,18 @@
              */
             after_delete_comment: function( state, data ) {
                 state.lists[data.list_index].comments.splice( data.comment_index, 1 );
+            },
+
+            /**
+             * Remove comment from task
+             * 
+             * @param  object state 
+             * @param  object data  
+             * 
+             * @return void       
+             */
+            after_delete_task_comment: function( state, data ) {
+                state.lists[data.list_index].tasks[data.task_index].comments.splice( data.comment_index, 1 );
             },
 
             /**

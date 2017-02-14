@@ -50,38 +50,13 @@
 
 
 
-                                <h3><?php _e( 'Comments', 'cpm'); ?></h3>
+                               
                                 <div class="comment-content">
-                                    <ul class="cpm-comment-wrap">
-                                        <li class="cpm-comment">
-                                            <div class="cpm-right">
-                                                <a href="#" class="cpm-btn cpm-btn-xs"><span class="dashicons dashicons-trash"></span></a>
-                                            </div>
-                                            <div class="cpm-avatar "><img alt="" src="http://0.gravatar.com/avatar/c87a74ffe6e96d07200fb4b7d7a6b37d?s=96&amp;d=mm&amp;r=g" srcset="http://0.gravatar.com/avatar/c87a74ffe6e96d07200fb4b7d7a6b37d?s=192&amp;d=mm&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96"><!--v-html--></div>
-                                            <div class="cpm-comment-container">
-                                                <div class="cpm-comment-meta">
-                                                    <span class="cpm-author">Ashraf Hossain</span>
-                                                    On
-                                                    <span class="cpm-date">2016-10-07 11:02:03</span>
-
-                                                </div>
-                                                <div class="cpm-comment-content">
-                                                    Re-opened to-do<!--v-html-->
-                                                </div>
-
-                                                <!--v-if-->
-
-                                            </div>
-
-                                        </li><!--v-for-end-->
-                                    </ul>
+                                    <cpm-task-comments :comments="task.comments" :task="task"></cpm-task-comments>
 
                                 </div>
-                                <pre>{{ task }}</pre>
 
-                                <div class="cpm-new-doc-comment-form">
-                                    <cpm-task-comment-form :comment="{}" :task="task"></cpm-task-comment-form>
-                                </div><!--v-end--><!--v-component-->
+                                
                             </div>          
                         </div>
                         <div class="clearfix"></div>
