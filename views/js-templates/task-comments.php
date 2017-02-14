@@ -17,7 +17,7 @@
 
                         <div class="cpm-comment-action">
                             <span class="cpm-edit-link">
-                                <a href="#" @click.prevent="showHideTaskCommentEditForm( comment.comment_ID )" class="dashicons dashicons-edit"></a>
+                                <a href="#" @click.prevent="showHideTaskCommentEditForm( task, comment.comment_ID )" class="dashicons dashicons-edit"></a>
                             </span>
 
                             <span class="cpm-delete-link">

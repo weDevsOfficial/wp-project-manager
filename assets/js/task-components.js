@@ -304,6 +304,36 @@ var CPM_Mixin = {
         },
 
         /**
+         * Show hide todo-list edit form
+         * 
+         * @param  int comment_id 
+         * 
+         * @return void            
+         */
+        showHideTaskCommentEditForm: function( task, comment_id ) {
+            var list_index    = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
+                task_index    = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
+                comment_index = this.getIndex( this.$store.state.lists[list_index].tasks[task_index].comments, comment_id, 'comment_ID' ) ,
+                self          = this;
+
+            var edit_mode = self.$store.state.lists[list_index].tasks[task_index].comments[comment_index].edit_mode;
+
+            if ( edit_mode ) {
+                CPM_Component_jQuery.slide( comment_id, function() {
+                    self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                });
+            
+            } else {
+                self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                
+                Vue.nextTick( function() {
+                    CPM_Component_jQuery.slide( comment_id );
+                } );
+            }
+        },
+
+
+        /**
          * Get current project users by role
          * 
          * @param  string role 
@@ -1069,7 +1099,7 @@ Vue.component('cpm-task-comment-form', {
                         self.$root.$emit( 'after_comment' );
  
                     } else {
-                        self.showHideTaskCommentEditForm( self.comment.comment_ID );
+                        self.showHideTaskCommentEditForm( self.task, self.comment.comment_ID);
                     }
 
                     // Display a success toast, with a title

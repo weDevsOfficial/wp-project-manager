@@ -274,6 +274,21 @@
             },
 
             /**
+             * Showing task comment edit form
+             * 
+             * @param  object state 
+             * @param  object data  
+             * 
+             * @return void
+             */
+            showHideTaskCommentEditForm: function( state, data ) {
+                console.log(data);
+                if ( data.comment_index !== false ) {
+                    state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode = state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode ? false : true;
+                }
+            },
+
+            /**
              * Set single task popup data to vuex store
              * 
              * @param  object state 
