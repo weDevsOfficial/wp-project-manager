@@ -1211,11 +1211,16 @@ ul.cpm-activity ul li:before {
 .cpm-new-todolist-form,
 .cpm-update-todolist-form {
   border: 1px solid #e5e5e5;
-  padding: 25px;
   width: 40%;
   background: #fff;
   margin-top: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  padding: 10px;
+}
+.cpm-new-todolist-form .item,
+.cpm-update-todolist-form .item {
+  padding: 5px;
+  margin: 0;
 }
 .cpm-single-task {
   margin: 20px 0;
@@ -1245,9 +1250,6 @@ ul.cpm-activity ul li:before {
   border-bottom: 1px solid #eee;
   border-top: 1px solid #eee;
   padding: 20px 0;
-}
-ul.cpm-todolists .submit {
-  margin: 10px 0;
 }
 ul.cpm-todolists > li {
   margin: 0;
@@ -1595,10 +1597,6 @@ ul.cpm-todolists .cpm-new-task-spinner {
 .cpm-new-todolist-form .cpm-make-privacy,
 .cpm-list-edit-form .cpm-make-privacy {
   margin-top: 8px;
-}
-.cpm-new-todolist-form .submit,
-.cpm-list-edit-form .submit {
-  padding: 3px 0 10px 0;
 }
 /*--------------------------------------------------
 :: Milestone

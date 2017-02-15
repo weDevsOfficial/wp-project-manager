@@ -71,7 +71,8 @@
             project_id: CPM_Vars.project_id ? CPM_Vars.project_id : false,
             permissions: {},
             task: {},
-            is_single_task: false
+            is_single_task: false,
+            add_filter: {}
         },
 
         /**
@@ -320,6 +321,10 @@
 
             update_task_comment: function( state, comment ) {
                 state.lists[comment.list_index].tasks[comment.task_index].comments.push(comment.comment);
+            },
+
+            apply_filters: function( state, args ) {
+                state.add_filter = args;
             }
         }
     });

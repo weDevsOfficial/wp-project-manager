@@ -1,6 +1,6 @@
 <div :class="'cpm-task-edit-form cpm-slide-'+task_index" style="display: none;">
       <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
-
+      
         <div class="item task-title">
             <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="" required="required">
         </div>

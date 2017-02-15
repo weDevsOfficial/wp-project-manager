@@ -361,9 +361,9 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
         wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false, true );
 
-        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', '', time(), false, true );
-        wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex.min.js', array( 'cpm-vue' ), time(), false, true );
-        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router.min.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', array('cpm-tiny-mce','cpm-moment', 'cpm-moment-timezone'), time(), false, true );
+        wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
 
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
@@ -412,11 +412,11 @@ class WeDevs_CPM {
         
         wp_register_script( 'cpm-vue-multiselect', CPM_URL . '/assets/js/vue-multiselect/vue-multiselect.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-task-store' ), false, true );
-        wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery', 'cpm-task-store' ), false, true );
-        wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components', 'cpm-task-store' ), false, true );
+        //wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-tiny-mce-component', 'cpm-toastr' ), false, true );
+        wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery' ), false, true );
+       // wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
         
         //wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
         wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );

@@ -162,24 +162,51 @@ class CPM_Task {
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
+
+            $scripts = array(
+                'cpm-tiny-mce',
+                'cpm-moment',
+                'cpm-moment-timezone',
+                'cpm-vue',
+                'cpm-vuex',
+                'cpm-vue-router',
+                'cpm-toastr',
+                'cpm-task-store',
+                'cpm-vue-multiselect',
+                'cpm-task-components',
+                'cpm-task-router',
+                'cpm-task-vue',
+                'cpm-toastr'
+            );
+
+            $scripts = apply_filters( 'cpm_task_scripts', $scripts );
+
+            wp_localize_script('cpm-task-components', 'CPM_Todo_List', array(
+                'todo_list_form' => apply_filters( 'todo_list_form', array( 'CPM_Mixin' ) ),
+            )); 
+
+            foreach( $scripts as $script ) {
+                do_action( 'before-'. $script );
+                wp_enqueue_script( $script );
+                do_action( 'after-'. $script );
+            }
             
-            wp_enqueue_script( 'cpm-tiny-mce' );
 
             //wp_enqueue_script( 'cpm-trix' );
-            wp_enqueue_script( 'cpm-moment' );
-            wp_enqueue_script( 'cpm-moment-timezone' );
-            wp_enqueue_script( 'cpm-vue' );
-            wp_enqueue_script( 'cpm-vuex' );
-            wp_enqueue_script( 'cpm-vue-router' );
-            wp_enqueue_script( 'cpm-toastr' );
-            wp_enqueue_script( 'cpm-task-store' ); 
-            wp_enqueue_script( 'cpm-vue-multiselect' );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  ); 
+            // wp_enqueue_script(  );
            // wp_enqueue_script( 'cpm-tiny-mce-component' );
-            wp_enqueue_script( 'cpm-task-components' );
-            wp_enqueue_script( 'cpm-task-router' );
-            wp_enqueue_script( 'cpm-task-vue' );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
+            // wp_enqueue_script(  );
             
-            wp_enqueue_style( 'cpm-toastr' );
+            // wp_enqueue_style(  );
             //wp_enqueue_style( 'cpm-trix' );
             //wp_enqueue_style( 'cpm-tiny-mce' );
         }
@@ -296,6 +323,7 @@ class CPM_Task {
             }else {
                 update_post_meta( $task_id, '_start', '' );
             }
+
             update_post_meta( $task_id, '_task_privacy', $task_privacy );
 
             //initially mark as uncomplete
