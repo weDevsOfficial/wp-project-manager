@@ -643,24 +643,28 @@ class CPM_Ajax {
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $response   = array ( 'success' => false );
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
 
             do_action( 'cpm_delete_task_prev', $task_id, $list_id, $project_id, $task_obj );
 
             $task_obj->delete_task( $task_id, true );
-            $complete = $task_obj->get_completeness( $list_id, $project_id );
+            //$complete = $task_obj->get_completeness( $list_id, $project_id );
 
             do_action( 'cpm_delete_task_after', $task_id, $list_id, $project_id, $task_obj );
 
-            $response = array (
-                'success'  => true,
-                'list_url' => cpm_url_single_tasklist( $project_id, $list_id ),
-                'progress' => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] )
-            );
+            // $response = array (
+            //     'success'  => true,
+            //     'list_url' => cpm_url_single_tasklist( $project_id, $list_id ),
+            //     'progress' => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] )
+            // );
+            wp_send_json_success( array( 'success' => __( 'Sucessfully deleted', 'cpm' ) ) );
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to delete this task', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-        echo json_encode( $response );
-        exit;
+        
     }
 
     function add_tasklist() {
@@ -754,19 +758,18 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
         $list_id  = $posted[ 'list_id' ];
         $response = array ( 'success' => false );
+        
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             do_action( 'cpm_delete_tasklist_prev', $_POST[ 'list_id' ] );
 
             CPM_Task::getInstance()->delete_list( $_POST[ 'list_id' ], true );
 
             do_action( 'cpm_delete_tasklist_after', $_POST[ 'list_id' ] );
-
-            $response = array (
-                'success' => true
-            );
+            wp_send_json_success( array( 'success' => __( 'Sucessfully deleted', 'cpm' ) ) );
+        } else {
+            $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-        echo json_encode( $response );
-        exit;
     }
 
     /**

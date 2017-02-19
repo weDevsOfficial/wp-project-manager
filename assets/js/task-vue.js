@@ -283,7 +283,6 @@
              * @return void
              */
             showHideTaskCommentEditForm: function( state, data ) {
-                console.log(data);
                 if ( data.comment_index !== false ) {
                     state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode = state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode ? false : true;
                 }
@@ -323,8 +322,28 @@
                 state.lists[comment.list_index].tasks[comment.task_index].comments.push(comment.comment);
             },
 
-            apply_filters: function( state, args ) {
-                state.add_filter = args;
+            /**
+             * Remove todo list 
+             * 
+             * @param  object state 
+             * @param  object list  
+             * 
+             * @return return
+             */
+            after_delete_todo_list: function( state, list ) {
+                state.lists.splice( list.list_index, 1 );
+            },
+
+            /**
+             * After delete task
+             * 
+             * @param  object state 
+             * @param  object task  
+             * 
+             * @return void       
+             */
+            after_delete_task: function( state, task ) {
+                state.lists[task.list_index].tasks.splice( task.task_index, 1 );
             }
         }
     });

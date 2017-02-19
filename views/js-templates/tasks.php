@@ -1,6 +1,6 @@
  <div>
     <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
-        <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks">
+        <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :class="'cpm-fade-out-'+task.ID">
             
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
@@ -43,7 +43,7 @@
                         <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                             <?php if ( true ) { ?>
                                 <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                                <a href="#" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                                 <?php if ( true ) { ?>
                                     <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
                                 <?php } ?>

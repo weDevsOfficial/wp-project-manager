@@ -269,11 +269,11 @@ class WeDevs_CPM {
      */
     function instantiate() {
 
-        $this->project   = CPM_Project::getInstance();
-        $this->message   = CPM_Message::getInstance();
-        $this->task      = CPM_Task::getInstance();
-        $this->milestone = CPM_Milestone::getInstance();
-
+        $this->project         = CPM_Project::getInstance();
+        $this->message         = CPM_Message::getInstance();
+        $this->task            = CPM_Task::getInstance();
+        $this->milestone       = CPM_Milestone::getInstance();
+        
         $this->activity        = CPM_Activity::getInstance();
         $this->ajax            = CPM_Ajax::getInstance();
         $this->notification    = CPM_Notification::getInstance();

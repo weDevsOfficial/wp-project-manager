@@ -810,6 +810,46 @@ Vue.component('todo-lists', {
             var width = this.getProgressPercent( tasks );
 
             return { width: width+'%' };
+        },
+
+        /**
+         * Delete list
+         * 
+         * @param  int list_id 
+         * 
+         * @return void         
+         */
+        deleteList: function( list_id ) {
+            if ( ! confirm( CPM_Vars.message.confirm ) ) {
+                return;
+            }
+
+            var self       = this,
+                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
+                form_data  = {
+                    action: 'cpm_tasklist_delete',
+                    list_id: list_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            // Seding request for insert or update todo list
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+                    
+                    CPM_Component_jQuery.fadeOut( list_id, function() {
+                        self.$store.commit( 'after_delete_todo_list', { 
+                            list_index: list_index,
+                        });
+                    });
+                } else {
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                }
+            });
         }
     }
 
@@ -951,6 +991,46 @@ Vue.component('tasks', {
          */
         singleTask: function( task ) {
             this.$store.commit( 'single_task_popup', { task: task } );
+        },
+
+        /**
+         * Delete task
+         * 
+         * @return void
+         */
+        deleteTask: function( list_id, task_id ) {
+            if ( ! confirm( CPM_Vars.message.confirm ) ) {
+                return;
+            }
+
+            var self       = this,
+                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
+                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task_id, 'ID' ),
+                form_data  = {
+                    action: 'cpm_task_delete',
+                    task_id: task_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            // Seding request for insert or update todo list
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+                    
+                    CPM_Component_jQuery.fadeOut( task_id, function() {
+                        self.$store.commit( 'after_delete_task', { 
+                            list_index: list_index,
+                            task_index: task_index,
+                        });
+                    });
+                } else {
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                }
+            });
         }
     }
 
