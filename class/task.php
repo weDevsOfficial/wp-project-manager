@@ -183,6 +183,7 @@ class CPM_Task {
 
             wp_localize_script('cpm-task-components', 'CPM_Todo_List', array(
                 'todo_list_form' => apply_filters( 'todo_list_form', array( 'CPM_Mixin' ) ),
+                'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Mixin' ) ),
             )); 
 
             foreach( $scripts as $script ) {

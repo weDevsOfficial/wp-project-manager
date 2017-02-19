@@ -123,11 +123,13 @@ class CPM_Ajax {
         
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
         $permission = array(
-            'tdolist_view_private' => cpm_user_can_access( $project_id, 'tdolist_view_private' ),
-            'create_todolist'      => cpm_user_can_access( $project_id, 'create_todolist' ),
-            'todo_view_private'    => cpm_user_can_access( $project_id, 'todo_view_private' ),
-            'task_start_field'     => cpm_get_option( 'task_start_field', 'cpm_general' )
+            'tdolist_view_private' => apply_filters( 'tdolist_view_private', true ), //cpm_user_can_access( $project_id, 'tdolist_view_private' ),
+            'create_todolist'      => apply_filters( 'create_todolist', true ), //cpm_user_can_access( $project_id, 'create_todolist' ),
+            'todo_view_private'    => apply_filters( 'todo_view_private', true ), //cpm_user_can_access( $project_id, 'todo_view_private' ),
+            'task_start_field'     => apply_filters( 'task_start_field', true ), //cpm_get_option( 'task_start_field', 'cpm_general' )
         );
+
+        
 
         $send = array( 
             'milestones'    => $milestones, 

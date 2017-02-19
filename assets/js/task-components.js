@@ -1305,7 +1305,7 @@ Vue.component('new-todo-list-button', {
     template: '#tmpl-new-todo-list-button',
 
     // Include global properties and methods
-    mixins: [CPM_Mixin],
+    mixins: cpm_todo_list_mixins( CPM_Todo_List.new_todo_list_button ),
 
     /**
      * Initial data for this component
@@ -1609,7 +1609,7 @@ var CPM_Router_Init = {
     template: '#tmpl-cpm-todo-list-router-default',
 
     // Include global properties and methods
-    mixins: [CPM_Mixin],
+    mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_router_default ),
 
     /**
      * Initial data for this component
@@ -1641,6 +1641,10 @@ var CPM_Router_Init = {
 
         hasTodoLists: function() {
             return this.$store.state.lists.length;
+        },
+
+        is_visible_list_btn: function() {
+            return this.$store.state.permissions.create_todolist;
         }
 
     },

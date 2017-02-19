@@ -5,7 +5,7 @@
 
     <div v-if="hasTodoLists">
 
-        <new-todo-list-button></new-todo-list-button>
+        <div v-if="is_visible_list_btn"><new-todo-list-button></new-todo-list-button></div>
 
         <!-- Spinner before load task -->
         <div v-if="loading" class="cpm-data-load-before" >
