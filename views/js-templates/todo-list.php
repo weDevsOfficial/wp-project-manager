@@ -1,7 +1,9 @@
 <div>
     <ul class="cpm-todolists">
+        
         <li v-for="( list, index ) in lists" :class="'cpm-fade-out-'+list.ID">
-            <article class="cpm-todolist" >
+
+            <article class="cpm-todolist">
                 <header class="cpm-list-header">
                     <h3>
                         <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
@@ -29,7 +31,7 @@
                 <footer class="cpm-row cpm-list-footer">
                     <div class="cpm-col-6">
                         
-                        <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
+                        <div v-if="canUserCreateTask"><new-task-button :task="{}" :list="list" :list_index="index"></new-task-button></div>
                         
                         <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">

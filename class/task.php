@@ -207,9 +207,9 @@ class CPM_Task {
             // wp_enqueue_script(  );
             // wp_enqueue_script(  );
             
-            // wp_enqueue_style(  );
-            //wp_enqueue_style( 'cpm-trix' );
-            //wp_enqueue_style( 'cpm-tiny-mce' );
+            wp_enqueue_style( 'cpm-toastr' );
+            wp_enqueue_style( 'cpm-trix' );
+            wp_enqueue_style( 'cpm-tiny-mce' );
         }
     }
 
@@ -518,16 +518,6 @@ class CPM_Task {
      */
     function get_task_lists( $project_id, $privacy = false, $offset = 0, $with_pin = true, $show_all = false ) {
 
-        $task_list = array ();
-        //  print_r($with_pin);
-        if ( $with_pin ) {
-
-            $s_list    = $this->get_sticky_task_lists( $project_id, $privacy );
-            $task_list = $s_list;
-        }
-        $sticky = get_option( 'sticky_posts' );
-
-
         $args = array (
             'post_type'           => 'cpm_task_list',
             'offset'              => $offset,
@@ -543,32 +533,15 @@ class CPM_Task {
             $args[ 'posts_per_page' ] = cpm_get_option( 'show_todo', 'cpm_general' );
         }
 
-        if ( $privacy === false ) {
-            $args[ 'meta_query' ] = array (
-                array (
-                    'key'     => '_tasklist_privacy',
-                    'value'   => 'yes',
-                    'compare' => '!='
-                ),
-            );
-        }
-
-        $args = apply_filters( 'cpm_get_tasklist', $args );
+        $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );
 
         $lists = get_posts( $args );
 
-        if ( !empty( $task_list ) ) {
-            $final_list = array_merge( $task_list, $lists );
-        }else {
-            $final_list = $lists;
-        }
-
-
-        foreach ( $final_list as $list ) {
+        foreach ( $lists as $list ) {
             $this->set_list_meta( $list );
         }
 
-        return $final_list;
+        return $lists;
     }
 
     /**
@@ -664,19 +637,15 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null ) {
 
-        $args = array ( 'post_parent' => $list_id, 'posts_per_page' => -1, 'post_type' => 'cpm_task', 'order' => 'ASC', 'orderby' => 'menu_order' );
+        $args = array ( 
+            'post_parent'    => $list_id, 
+            'posts_per_page' => -1, 
+            'post_type'      => 'cpm_task', 
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order' 
+        );
 
-        if ( $privacy === false ) {
-            $args[ 'meta_query' ] = array (
-                array (
-                    'key'     => '_task_privacy',
-                    'value'   => 'yes',
-                    'compare' => '!='
-                ),
-            );
-        }
-
-        $args = apply_filters( 'cpm_get_task', $args );
+        $args = apply_filters( 'cpm_get_task', $args, $privacy );
 
         $tasks = new WP_Query( $args );
 

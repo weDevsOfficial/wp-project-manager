@@ -111,26 +111,20 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
         }
 
-        $tasks      = array();
-        $new_lists  = array();
-        $lists      = CPM_Task::getInstance()->get_task_lists( $project_id );
+        $permission = $permission = $this->permissions( $project_id );
+
+        $tasks        = array();
+        $new_lists    = array();
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'] );
         
         foreach ( $lists as $list ) {
-            $task        = CPM_Task::getInstance()->get_tasks( $list->ID );
+            $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
             $list->tasks = $task;
             $new_lists[] = $list;
         }
         
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
-        $permission = array(
-            'tdolist_view_private' => apply_filters( 'tdolist_view_private', true ), //cpm_user_can_access( $project_id, 'tdolist_view_private' ),
-            'create_todolist'      => apply_filters( 'create_todolist', true ), //cpm_user_can_access( $project_id, 'create_todolist' ),
-            'todo_view_private'    => apply_filters( 'todo_view_private', true ), //cpm_user_can_access( $project_id, 'todo_view_private' ),
-            'task_start_field'     => apply_filters( 'task_start_field', true ), //cpm_get_option( 'task_start_field', 'cpm_general' )
-        );
-
         
-
         $send = array( 
             'milestones'    => $milestones, 
             'permissions'   => $permission, 
@@ -1431,22 +1425,33 @@ class CPM_Ajax {
         exit();
     }
 
-    function get_todo_list_single() {
-        $is_admin   = (isset( $_POST[ 'is_admin' ] )) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
+    function permissions( $project_id ) {
+        return array(
+            'todolist_view_private' => apply_filters( 'tdolist_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'tdolist_view_private' ),
+            'create_todolist'      => apply_filters( 'create_todolist', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todolist' ),
+            'todo_view_private'    => apply_filters( 'todo_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'todo_view_private' ),
+            'create_todo'          => apply_filters( 'create_todo', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todo' ),
+            'task_start_field'     => apply_filters( 'task_start_field', true, $project_id ), //cpm_get_option( 'task_start_field', 'cpm_general' )
+        );
+    }
 
-        $list_id    = (isset( $_POST[ 'list_id' ] )) ? sanitize_text_field( $_POST[ 'list_id' ] ) : 0;
-        $project_id = (isset( $_POST[ 'project_id' ] )) ? sanitize_text_field( $_POST[ 'project_id' ] ) : 0;
-        $offset     = (isset( $_POST[ 'offset' ] )) ? sanitize_text_field( $_POST[ 'offset' ] ) : 0;
-        $privacy    = (isset( $_POST[ 'privacy' ] ) ) ? sanitize_text_field( $_POST[ 'privacy' ] ) : false;
-        $type       = (isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
-        $task_obj   = CPM_Task::getInstance();
-        $list       = $task_obj->get_task_list($list_id);
-        $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
+    function get_todo_list_single() {
+        $is_admin      = (isset( $_POST[ 'is_admin' ] )) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
+        
+        $list_id       = (isset( $_POST[ 'list_id' ] )) ? sanitize_text_field( $_POST[ 'list_id' ] ) : 0;
+        $project_id    = (isset( $_POST[ 'project_id' ] )) ? sanitize_text_field( $_POST[ 'project_id' ] ) : 0;
+        $offset        = (isset( $_POST[ 'offset' ] )) ? sanitize_text_field( $_POST[ 'offset' ] ) : 0;
+        $privacy       = (isset( $_POST[ 'privacy' ] ) ) ? sanitize_text_field( $_POST[ 'privacy' ] ) : false;
+        $type          = (isset( $_POST[ 'type' ] ) && $_POST[ 'type' ] == 'json' ) ? 'json' : 'html';
+        $permission    = $this->permissions( $project_id );
+        $task_obj      = CPM_Task::getInstance();
+        $list          = $task_obj->get_task_list($list_id, $permission['todolist_view_private']);
+        $milestones    = CPM_Milestone::getInstance()->get_by_project( $project_id );
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
         
         if ( $list ) {
-            $list->tasks     = $task_obj->get_tasks( $list_id );
-            $list->comments = $task_obj->get_comments( $list_id );    
+            $list->tasks     = $task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
+            $list->comments  = $task_obj->get_comments( $list_id );    
         }
         
         if ( 'no' == $is_admin ) {

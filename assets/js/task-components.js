@@ -75,6 +75,17 @@ window.CPM_Component_jQuery = {
  */
 var CPM_Mixin = {
 
+    computed: {
+        /**
+         * Is current user can create task
+         * 
+         * @return object
+         */
+        canUserCreateTask: function() {
+            return this.$store.state.permissions.create_todo;
+        }
+    },
+
     /**
      * Methods for global component
      */
@@ -741,7 +752,7 @@ Vue.component('todo-lists', {
          */
         task: function() {
             return this.$store.state.task;
-        }
+        },
     },
 
     methods: {
@@ -850,7 +861,8 @@ Vue.component('todo-lists', {
                     });
                 }
             });
-        }
+        },
+
     }
 
 });
@@ -1305,7 +1317,7 @@ Vue.component('new-todo-list-button', {
     template: '#tmpl-new-todo-list-button',
 
     // Include global properties and methods
-    mixins: cpm_todo_list_mixins( CPM_Todo_List.new_todo_list_button ),
+    mixins: [CPM_Mixin],
 
     /**
      * Initial data for this component
