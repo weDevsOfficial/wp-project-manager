@@ -516,32 +516,34 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $privacy = false, $offset = 0, $with_pin = true, $show_all = false ) {
-
+    function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1 ) {
+        global $wpdb;
+        
         $args = array (
             'post_type'           => 'cpm_task_list',
-            'offset'              => $offset,
             'order'               => 'DESC',
             'orderby'             => 'ID',
             'post_parent'         => $project_id,
-            'ignore_sticky_posts' => 1,
-            'post__not_in'        => $sticky,
         );
+        
         if ( true === $show_all ) {
             $args[ 'posts_per_page' ] = -1;
-        }else {
+        } else {
+            $limit            = absint( cpm_get_option( 'show_todo', 'cpm_general' ) );
+            $offset           = ( $pagenum - 1 ) * $limit;
+            $args[ 'offset' ] = $offset;
             $args[ 'posts_per_page' ] = cpm_get_option( 'show_todo', 'cpm_general' );
         }
 
         $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );
 
-        $lists = get_posts( $args );
+        $lists = new WP_Query( $args );
 
         foreach ( $lists as $list ) {
             $this->set_list_meta( $list );
         }
 
-        return $lists;
+        return array( 'lists' => $lists->posts, 'count' => $lists->found_posts );
     }
 
     /**

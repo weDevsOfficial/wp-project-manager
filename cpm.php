@@ -504,6 +504,7 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-comment-form.php', 'cpm-task-comment-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/pagination.php', 'cpm-pagination' );
 
             cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
             

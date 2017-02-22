@@ -112,12 +112,13 @@ class CPM_Ajax {
         }
 
         $permission = $permission = $this->permissions( $project_id );
+        $current_page = empty( absint( $_POST['current_page'] ) ) ? 1 : $_POST['current_page'];
 
         $tasks        = array();
         $new_lists    = array();
-        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'] );
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'], false, $current_page );
         
-        foreach ( $lists as $list ) {
+        foreach ( $lists['lists'] as $list ) {
             $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
             $list->tasks = $task;
             $new_lists[] = $list;
@@ -129,7 +130,9 @@ class CPM_Ajax {
             'milestones'    => $milestones, 
             'permissions'   => $permission, 
             'lists'         => $new_lists,
+            'list_total'    => empty( $lists['count'] ) ? 0 : $lists['count'],
             'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
+            'post_per_page' => cpm_get_option( 'show_todo', 'cpm_general' )
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );
@@ -1396,7 +1399,7 @@ class CPM_Ajax {
         }
 
         //var_dump($list) ;
-        if ( empty( $lists ) ) {
+        if ( empty( $lists['posts'] ) ) {
             echo json_encode( array (
                 'success'  => false,
                 'response' => '',
@@ -1404,7 +1407,7 @@ class CPM_Ajax {
             ) );
         }else {
             $json_list = array ();
-            foreach ( $lists as $list ) {
+            foreach ( $lists['posts'] as $list ) {
                 $data .= cpm_task_list_html( $list, $project_id );
                 $list = $this->add_new_list_kyes( $list, $project_id );
 

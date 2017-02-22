@@ -1190,8 +1190,8 @@ function cpm_pagination( $total, $limit, $pagenum ) {
         'next_text' => __( '&raquo;', 'aag' ),
         'add_args'  => false,
         'total'     => $num_of_pages,
-        'current'   => $pagenum
-            ) );
+        'current'   => $pagenum,
+    ));
 
     if ( $page_links ) {
         echo '<div class="tablenav"><div class="tablenav-pages">' . $page_links . '</div></div>';

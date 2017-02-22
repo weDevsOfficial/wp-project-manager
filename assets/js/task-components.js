@@ -649,7 +649,7 @@ Vue.component('todo-list-form', {
                     self.showHideTodoListForm( self.list, self.index );
 
                     self.after_new_todo_list();
-                    
+                    self.$router.push('/');
                     // Update lists array from vuex store 
                     self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
                 
@@ -753,6 +753,18 @@ Vue.component('todo-lists', {
         task: function() {
             return this.$store.state.task;
         },
+
+        total: function() {
+            return Math.ceil( this.$store.state.list_total / this.$store.state.post_per_page );
+        },
+
+        limit: function() {
+            return this.$store.state.post_per_page;
+        },
+
+        page_number: function() {
+            return this.$route.params.page_number ? this.$route.params.page_number : 1;
+        }
     },
 
     methods: {
@@ -1633,6 +1645,7 @@ var CPM_Router_Init = {
             text: {
                 new_todo: CPM_Vars.message.new_todo
             },
+            //current_page: this.$route.params.page_number,
             list: {},
             index: false,
         }
@@ -1666,6 +1679,13 @@ var CPM_Router_Init = {
         this.getInitialData( this.$store.state.project_id );
     },
 
+    watch: {
+        '$route': function (to, from) {
+            console.log(to);
+            this.getInitialData( this.$store.state.project_id );
+        }
+    },
+
     methods: {
 
         // Get initial data for todo list page 
@@ -1674,11 +1694,12 @@ var CPM_Router_Init = {
             var self = this,
                 data = {
                     project_id: project_id,
+                    current_page: this.$route.params.page_number,
                     _wpnonce: CPM_Vars.nonce,
                     action: 'cpm_initial_todo_list'
                 }
-
-                
+            
+               
             jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
                 if ( res.success ) {
                     self.$store.commit( 'setTaskInitData', res );
@@ -2177,6 +2198,21 @@ Vue.component( 'cpm-single-task', {
         task_start_field: function() {
            return this.$store.state.permissions.task_start_field == 'on' ? true : false;
         }
+    }
+});
+
+Vue.component( 'cpm-paginaton', {
+    template: '#tmpl-cpm-pagination',
+    props: ['total', 'limit', 'page_number'],
+
+    methods: {
+        pageClass: function( page ) {
+            if ( page == this.page_number ) {
+                return 'page-numbers current'
+            }
+
+            return 'page-numbers';
+        },
     }
 });
 

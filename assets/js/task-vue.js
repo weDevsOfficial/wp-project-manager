@@ -62,6 +62,7 @@
          */
         state: {
             lists: [],
+            list_total: 0,
             milestones: [],
             init: {},
             is_single_list: false,
@@ -72,7 +73,8 @@
             permissions: {},
             task: {},
             is_single_task: false,
-            add_filter: {}
+            add_filter: {},
+            post_per_page: 5,
         },
 
         /**
@@ -90,6 +92,7 @@
              */
             setTaskInitData: function( state, task_init ) {
                 state.lists         = [];
+                state.list_total    = 0;
                 state.milestones    = [];
                 state.init          = {};
                 state.project_users = [];
@@ -97,13 +100,15 @@
 
                 state.loading        = true;
                 state.is_single_list = false,
-
+                
                 Vue.nextTick(function () {
                     state.lists         = task_init.data.lists;
                     state.milestones    = task_init.data.milestones;
                     state.init          = task_init.data;
                     state.project_users = task_init.data.project_users;
                     state.permissions   = task_init.data.permissions;
+                    state.list_total    = task_init.data.list_total;
+                    state.post_per_page = task_init.data.post_per_page;
 
                     state.loading        = false;
                     state.is_single_list = false;
@@ -360,8 +365,13 @@
 
             // Todo list singe page
             { path: '/list/:list_id', component: CPM_List_Single, name: 'list_single' },
+
+            // Pagination
+            { path: '/page/:page_number', component: CPM_Router_Init, name: 'pagination' },
         ], 
     });
+
+
 
     // Register a global custom directive called v-cpm-datepicker
     Vue.directive('cpm-datepicker', {
