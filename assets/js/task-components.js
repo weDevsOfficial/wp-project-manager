@@ -537,6 +537,55 @@ var CPM_Mixin = {
 
             return false;
         },
+
+        /**
+         * Get initial data for todo-list page
+         * 
+         * @param  int project_id 
+         * 
+         * @return void            
+         */
+        getInitialData: function( project_id, callback ) {
+
+            var self = this,
+                data = {
+                    project_id: project_id,
+                    current_page: this.$route.params.page_number,
+                    _wpnonce: CPM_Vars.nonce,
+                    action: 'cpm_initial_todo_list'
+                }
+            
+               
+            jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
+                if ( res.success ) {
+                    self.$store.commit( 'setTaskInitData', res );
+                    if ( typeof callback != 'undefined'  ) {
+                        callback(true);
+                    }
+                    
+                } else {
+                    if ( typeof callback != 'undefined'  ) {
+                        callback(false);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Refresh todo-list page
+         * 
+         * @return void
+         */
+        refreshTodoListPage: function() {
+            // Redirect to first page
+            this.$router.push('/');
+            
+            // Condition because $route is watch in CPM_Router_Init component
+            // When watch is not active then its execute 
+            if ( ! this.$route.params.page_number ) {
+                this.getInitialData( this.$store.state.project_id );
+            }
+        }
 	}
 }
 
@@ -648,10 +697,12 @@ Vue.component('todo-list-form', {
                     // Hide the todo list update form
                     self.showHideTodoListForm( self.list, self.index );
 
-                    self.after_new_todo_list();
-                    self.$router.push('/');
+                    //self.after_new_todo_list();
+                    
+                    self.refreshTodoListPage();
+                    
                     // Update lists array from vuex store 
-                    self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
+                    //self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
                 
                 } else {
                     self.show_spinner = false;
@@ -862,9 +913,12 @@ Vue.component('todo-lists', {
                     //toastr.success(res.data.success);
                     
                     CPM_Component_jQuery.fadeOut( list_id, function() {
-                        self.$store.commit( 'after_delete_todo_list', { 
-                            list_index: list_index,
-                        });
+                        
+                        self.refreshTodoListPage();
+                        
+                        // self.$store.commit( 'after_delete_todo_list', { 
+                        //     list_index: list_index,
+                        // });
                     });
                 } else {
                     // Showing error
@@ -1370,17 +1424,6 @@ Vue.component('new-task-button', {
     // Include global properties and methods
     mixins: [CPM_Mixin],
 
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function() {
-        return {
-            
-        }
-    },
-
     methods: {
         /**
          * Select new todo-list button class for +,- icon
@@ -1645,7 +1688,6 @@ var CPM_Router_Init = {
             text: {
                 new_todo: CPM_Vars.message.new_todo
             },
-            //current_page: this.$route.params.page_number,
             list: {},
             index: false,
         }
@@ -1676,38 +1718,45 @@ var CPM_Router_Init = {
 
     // Initial doing 
     created: function() {
-        this.getInitialData( this.$store.state.project_id );
+        var self = this;
+        this.getInitialData( this.$store.state.project_id, function(status) {
+            Vue.nextTick(function() {
+                if ( ! self.$store.state.lists.length ) {
+                    self.refreshTodoListPage();
+                }
+            });
+        } );
     },
 
     watch: {
         '$route': function (to, from) {
-            console.log(to);
-            this.getInitialData( this.$store.state.project_id );
+            if ( this.$route.params.page_number ) {
+                this.getInitialData( this.$store.state.project_id );
+            }
         }
     },
 
-    methods: {
+    // methods: {
 
-        // Get initial data for todo list page 
-        getInitialData: function( project_id ) {
+    //     // Get initial data for todo list page 
+    //     getInitialData: function( project_id ) {
 
-            var self = this,
-                data = {
-                    project_id: project_id,
-                    current_page: this.$route.params.page_number,
-                    _wpnonce: CPM_Vars.nonce,
-                    action: 'cpm_initial_todo_list'
-                }
+    //         var self = this,
+    //             data = {
+    //                 project_id: project_id,
+    //                 current_page: this.$route.params.page_number,
+    //                 _wpnonce: CPM_Vars.nonce,
+    //                 action: 'cpm_initial_todo_list'
+    //             }
             
                
-            jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
-                if ( res.success ) {
-                    self.$store.commit( 'setTaskInitData', res );
-                } 
-                
-            });
-        },
-    }
+    //         jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
+    //             if ( res.success ) {
+    //                 self.$store.commit( 'setTaskInitData', res );
+    //             } 
+    //         });
+    //     },
+    // }
 }
 
 var CPM_List_Single = { 
@@ -1739,12 +1788,6 @@ var CPM_List_Single = {
     created: function() {
         // Get todo list 
         this.getList( this.$route.params.list_id );
-    },
-
-    watch: {
-        '$route': function (to, from) {
-            
-        },
     },
 
     computed: {

@@ -457,7 +457,9 @@ class CPM_Ajax {
         $posted = $_POST;
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
-        if ( cpm_can_manage_projects() ) {
+        $post = get_post( $project_id );
+        
+        if ( cpm_user_can_delete_edit( $project_id, $post ) ) {
             do_action( 'cpm_delete_project_prev', $project_id );
 
             CPM_Project::getInstance()->delete( $project_id, true );
