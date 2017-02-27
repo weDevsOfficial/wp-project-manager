@@ -67,5 +67,7 @@
     </div>
     
     <div v-if="is_single_task"><cpm-single-task :task="task"></cpm-single-task></div>
-    <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
+    <div v-if="!is_single_list">
+        <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
+    </div>
 </div>

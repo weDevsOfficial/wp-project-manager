@@ -30,13 +30,13 @@
                         <div class="cpm-col-4">
                             <a @click.prevent="singleTask( task )" href="#">
                             <span class="cpm-comment-count">
-                                
-                                    {{ task.comments.length }}
-                                
+                                {{ task.comments.length }}
                             </span>
                             </a>
-
+                            <!-- deprecated -->
                             <?php do_action( 'cpm_task_column' ); ?>
+
+                            <?php do_action( 'cpm_after_task_title' ); ?>
                         </div>
 
 

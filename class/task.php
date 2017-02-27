@@ -164,26 +164,29 @@ class CPM_Task {
             wp_enqueue_media();
 
             $scripts = array(
+                'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
                 'cpm-moment-timezone',
+                'cpm-tiny-mce-component',
                 'cpm-vue',
                 'cpm-vuex',
                 'cpm-vue-router',
                 'cpm-toastr',
                 'cpm-task-store',
                 'cpm-vue-multiselect',
+                'cpm-task-mixin',
+                'cpm-task-store',
                 'cpm-task-components',
                 'cpm-task-router',
                 'cpm-task-vue',
-                'cpm-toastr'
             );
 
             $scripts = apply_filters( 'cpm_task_scripts', $scripts );
 
             wp_localize_script('cpm-task-components', 'CPM_Todo_List', array(
-                'todo_list_form' => apply_filters( 'todo_list_form', array( 'CPM_Mixin' ) ),
-                'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Mixin' ) ),
+                'todo_list_form'           => apply_filters( 'todo_list_form', array( 'CPM_Task_Mixin' ) ),
+                'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
             )); 
 
             foreach( $scripts as $script ) {
@@ -539,7 +542,7 @@ class CPM_Task {
 
         $lists = new WP_Query( $args );
 
-        foreach ( $lists as $list ) {
+        foreach ( $lists->posts as $list ) {
             $this->set_list_meta( $list );
         }
 
@@ -654,6 +657,7 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
+        
         return $tasks->posts;
     }
 
@@ -673,6 +677,9 @@ class CPM_Task {
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
         $task->comments     = $this->get_task_comments( $task->ID );
         $task->edit_mode    = false;
+
+        $task = apply_filters( 'cpm_set_task_meta', $task );
+
     }
 
     /**
