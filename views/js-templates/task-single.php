@@ -10,12 +10,13 @@
 
                 <div class="modal-body cpm-todolists">
                     <div class="cpm-col-12 cpm-todo">
-
+                    
                         <div class="cpm-modal-conetnt">
                             <h3>
-                                <input class="" type="checkbox">
-                                {{ task.post_title }}
-                                <span v-if="task.task_privacy == 'no'" class="cpm-lock" title="Private Task"></span>
+                                <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox">
+                                <span class="cpm-todo-text">{{ task.post_title }}</span>
+
+                                <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
                             </h3>
 
 
@@ -46,11 +47,7 @@
                                         
 
                             <div class="cpm-todo-wrap clearfix">
-                               
-
-
-
-                               
+                                
                                 <div class="comment-content">
                                     <cpm-task-comments :comments="task.comments" :task="task"></cpm-task-comments>
 
