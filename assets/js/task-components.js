@@ -956,7 +956,7 @@ Vue.component('tasks', {
            task: {},
            tasks: this.list.tasks,
            task_index: 'undefined', // Using undefined for slideToggle class
-           task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
+           //task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
            is_single_list: this.$store.state.is_single_list
         }
     },
@@ -2236,12 +2236,6 @@ Vue.component( 'cpm-single-task', {
             this.$store.commit( 'close_single_task_popup' );
         }
     },
-
-    computed: {
-        task_start_field: function() {
-           return this.$store.state.permissions.task_start_field == 'on' ? true : false;
-        }
-    }
 });
 
 Vue.component( 'cpm-paginaton', {

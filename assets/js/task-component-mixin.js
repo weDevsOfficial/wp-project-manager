@@ -11,6 +11,10 @@ var CPM_Task_Mixin = {
          */
         canUserCreateTask: function() {
             return this.$store.state.permissions.create_todo;
+        },
+
+        task_start_field: function() {
+           return this.$store.state.permissions.task_start_field;
         }
     },
 

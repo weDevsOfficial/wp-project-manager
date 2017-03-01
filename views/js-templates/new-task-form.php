@@ -11,10 +11,10 @@
 
         <div class="item date">
             
-                <div class="cpm-task-start-field">
-                    <label><?php _e( 'Start date', 'cpm' ); ?></label>
-                    <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="" name="task_start" />
-                </div>
+            <div class="cpm-task-start-field" v-if="task_start_field">
+                <label><?php _e( 'Start date', 'cpm' ); ?></label>
+                <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="" name="task_start" />
+            </div>
             
 
             <div class="cpm-task-due-field">

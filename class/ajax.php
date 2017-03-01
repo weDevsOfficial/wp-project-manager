@@ -1436,7 +1436,7 @@ class CPM_Ajax {
             'create_todolist'      => apply_filters( 'create_todolist', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todolist' ),
             'todo_view_private'    => apply_filters( 'todo_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'todo_view_private' ),
             'create_todo'          => apply_filters( 'create_todo', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todo' ),
-            'task_start_field'     => apply_filters( 'task_start_field', true, $project_id ), //cpm_get_option( 'task_start_field', 'cpm_general' )
+            'task_start_field'     => apply_filters( 'task_start_field', false, $project_id ), //cpm_get_option( 'task_start_field', 'cpm_general' )
         );
     }
 
