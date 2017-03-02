@@ -61,7 +61,7 @@ window.CPM_Component_jQuery = {
      */
     slide: function( id, callback ) {
         var class_id = '-'+id;//( typeof id == 'undefined' ) ? false : '-'+id;
-        
+
         jQuery('.cpm-slide' + class_id).slideToggle(300, function() {
             if ( typeof callback != 'undefined' ) {
                 callback( callback );
@@ -1007,11 +1007,15 @@ Vue.component('tasks', {
          * @return void            
          */
         taskEdit: function( task_id ) {
-            var self = this;
+            var self = this,
+                lists = this.$store.state.lists,
+                list_index = this.getIndex( lists, this.list.ID, 'ID' );
 
             this.tasks.map(function( task, index ) {
+
                 if ( task.ID == task_id ) {
-                    self.showHideTaskForm( self.index, index );
+                    
+                    self.showHideTaskForm( list_index, index );
                 }
             }); 
         },
@@ -2201,6 +2205,10 @@ Vue.component( 'cpm-single-task', {
     methods: {
         closePopup: function() {
             this.$store.commit( 'close_single_task_popup' );
+        },
+
+        singleTaskTitle: function(task) {
+            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
         }
     },
 });

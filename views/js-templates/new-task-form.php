@@ -1,4 +1,4 @@
-<div :class="'cpm-task-edit-form cpm-slide-'+task_index" style="display: none;">
+<div :class="'cpm-task-edit-form cpm-slide-'+task.ID" style="display: none;">
       <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
       
         <div class="item task-title">

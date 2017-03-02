@@ -8,13 +8,13 @@
                 </span>
 
 
-                <div class="modal-body cpm-todolists">
+                <div class="modal-body cpm-todolist">
                     <div class="cpm-col-12 cpm-todo">
                     
                         <div class="cpm-modal-conetnt">
                             <h3>
                                 <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox">
-                                <span class="cpm-todo-text">{{ task.post_title }}</span>
+                                <span :class="singleTaskTitle(task)">{{ task.post_title }}</span>
 
                                 <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
                             </h3>
@@ -44,7 +44,9 @@
 
                                 <div class="clearfix cpm-clear"></div>
                             </div>
-                                        
+                                   
+
+                            <?php do_action( 'after_task_details' ); ?>    
 
                             <div class="cpm-todo-wrap clearfix">
                                 
@@ -58,6 +60,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
+
                 </div>
                 <div class="clearfix"></div>
             </div>

@@ -989,7 +989,7 @@ class CPM_Ajax {
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->delete_file( $file_id, true );
 
-        echo 'success';
+        wp_send_json_success();
         exit;
     }
 

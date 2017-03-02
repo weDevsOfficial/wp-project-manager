@@ -1251,73 +1251,73 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists > li.ui-state-highlight {
+.cpm-todolists > li.ui-state-highlight {
   min-height: 100px;
 }
-ul.cpm-todolists article.cpm-todolist {
+.cpm-todolists .cpm-todolist {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-todo-prgress-bar {
+.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar {
   margin-top: 15px;
   overflow: hidden;
   height: 13px;
   background-color: #f7f7f7;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-todo-prgress-bar .bar {
+.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar .bar {
   height: 18px;
   background-color: #62c462;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
+.cpm-todolists .cpm-todolist .cpm-list-edit-form form {
   border: 1px solid #e5e5e5;
   margin: 20px;
   padding: 15px 15px 0;
   width: 40%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form {
   margin: 10px 0 10px 0;
   border: 1px solid #eee;
   padding: 10px 15px 8px 15px;
   width: 40%;
   background: #F8F8F8;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .multiselect,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .multiselect {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .multiselect,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .multiselect {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item {
   margin-bottom: 10px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"] {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"] {
   height: 34px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item textarea,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item textarea {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item textarea,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item textarea {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag {
   background: #019dd6;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:focus,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:focus,
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:hover,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:hover {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:focus,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:focus,
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:hover,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:hover {
   background: #019dd6;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__input,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__input {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__input,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__input {
   border: none;
   box-shadow: none;
   margin: 0;
@@ -1325,68 +1325,68 @@ ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multi
   padding: 0;
   height: 30px !important;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__element,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__element {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__element,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__element {
   height: 25px;
   margin: 0;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__select:before,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__select:before {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__select:before,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__select:before {
   top: 57%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tags,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tags {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tags,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tags {
   min-height: 34px;
   border-radius: 0px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option {
   min-height: 30px;
   padding: 8px 12px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option--highlight,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option--highlight {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option--highlight,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option--highlight {
   background: #019dd6;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content {
   border-radius: 0px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content li,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content li {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content li,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content li {
   border: none;
   padding: 0;
   height: 34px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
   width: 98% !important;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
   height: 30px;
   color: #9B9B9B;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
+.cpm-todolists .cpm-todolist .cpm-new-btn .item.date label,
+.cpm-todolists .cpm-todolist .cpm-todo-form .item.date label {
   display: block;
   font-size: 13px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-make-privacy,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-make-privacy {
   margin-top: 8px;
 }
-ul.cpm-todolists article.cpm-todolist header h3 {
+.cpm-todolists .cpm-todolist header h3 {
   margin: 0;
   font-size: 14px;
   padding-left: 5px;
   padding-bottom: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+.cpm-todolists .cpm-todolist header .cpm-entry-detail {
   font-style: italic;
   padding: 0 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
+.cpm-todolists .cpm-todolist header .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1396,10 +1396,10 @@ ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   padding: 1px 7px;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
+.cpm-todolists .cpm-todolist header .cpm-comment-count a {
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+.cpm-todolists .cpm-todolist header .cpm-list-actions {
   font-size: 11px;
   line-height: 15px;
   border: 1px solid #eee;
@@ -1415,34 +1415,34 @@ ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   top: 4px;
   z-index: 9999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
+.cpm-todolists .cpm-todolist header .cpm-list-actions a {
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-move-trak {
+.cpm-todolists .cpm-todolist header .cpm-move-trak {
   left: -12px;
   padding: 3px 3px 0 3px;
 }
-ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+.cpm-todolists .cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-ul.cpm-todolists article.cpm-todolist .ui-state-highlight {
+.cpm-todolists .cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
+.cpm-todolists .cpm-todolist .cpm-list-edit-form {
   display: none;
 }
-ul.cpm-todolists article.cpm-todolist p {
+.cpm-todolists .cpm-todolist p {
   margin: 0;
   padding-bottom: 10px;
 }
-ul.cpm-todolists article.cpm-todolist > ul {
+.cpm-todolists .cpm-todolist > ul {
   margin: 0 0 0 15px;
   min-height: 6px;
   position: relative;
   list-style: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li {
+.cpm-todolists .cpm-todolist > ul li {
   clear: both;
   line-height: 20px;
   padding-left: 19px;
@@ -1450,29 +1450,29 @@ ul.cpm-todolists article.cpm-todolist > ul li {
   word-wrap: break-word;
   margin: 0;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
+.cpm-todolists .cpm-todolist .cpm-todo-completed {
   padding-top: 5px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap {
   width: 100%;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   line-height: 14px;
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-text {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-text {
   text-decoration: line-through;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .move {
   display: none;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists .cpm-new-task-spinner {
+.cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
@@ -3664,6 +3664,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .modal-body {
   padding: 10px;
+}
+.cpm .modal-body .cpm-task-complete {
+  text-decoration: line-through;
+  color: #848484;
 }
 .cpm .modal-footer {
   padding: 10px;

@@ -679,7 +679,7 @@ class CPM_Task {
         $task->edit_mode    = false;
 
         $task = apply_filters( 'cpm_set_task_meta', $task );
-
+       // var_dump( $task ); die();
     }
 
     /**

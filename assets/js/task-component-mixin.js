@@ -89,31 +89,33 @@ var CPM_Task_Mixin = {
         showHideTaskForm: function( list_index, task_index ) {
             
             if ( ( typeof task_index == 'undefined' ) || ( task_index === false ) ) {
-
+                
                 var edit_mode = this.$store.state.lists[list_index].show_task_form,
+                    list_id   = this.$store.state.lists[list_index].ID,
                     self      = this;
 
                 if ( edit_mode ) {
 
-                    CPM_Component_jQuery.slide( task_index, function() {
+                    CPM_Component_jQuery.slide( 'undefined', function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
                     });
                 
                 } else {
-
                     self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
                     
                     Vue.nextTick( function() {
-                        CPM_Component_jQuery.slide( task_index );
+                        CPM_Component_jQuery.slide( 'undefined' );
                     } );
                 }
                 
             } else {
                 var edit_mode = this.$store.state.lists[list_index].tasks[task_index].edit_mode,
+                    list_id   = this.$store.state.lists[list_index].ID,
+                    task_id   = this.$store.state.lists[list_index].tasks[task_index].ID,
                     self      = this;
 
                 if ( edit_mode ) {
-                    CPM_Component_jQuery.slide( task_index, function() {
+                    CPM_Component_jQuery.slide( task_id, function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
                     });
                 
@@ -122,7 +124,7 @@ var CPM_Task_Mixin = {
                     
                     Vue.nextTick( function() {
 
-                        CPM_Component_jQuery.slide( task_index );
+                        CPM_Component_jQuery.slide( 'undefined' );
                     } );
                 }
             }
@@ -529,7 +531,7 @@ var CPM_Task_Mixin = {
          * @return void             
          */
         taskDoneUndone: function( task_id, is_checked ) {
-            console.log(is_checked);
+            
             var self = this,
                 form_data = {
                     _wpnonce: CPM_Vars.nonce,
