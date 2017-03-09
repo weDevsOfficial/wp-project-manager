@@ -513,17 +513,6 @@ Vue.component('tasks', {
         },
 
         /**
-         * Single task popup
-         * 
-         * @param  object task
-         *  
-         * @return void      
-         */
-        singleTask: function( task ) {
-            this.$store.commit( 'single_task_popup', { task: task } );
-        },
-
-        /**
          * Delete task
          * 
          * @return void
@@ -1213,6 +1202,7 @@ var CPM_List_Single = {
             list_id: this.$route.params.list_id,
             list: {},
             index: false,
+            task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
         }
     },
 
@@ -1286,13 +1276,21 @@ var CPM_List_Single = {
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
-                    
                     // After getting todo list, set it to vuex state lists
                     self.$store.commit( 'update_todo_list_single', { 
                         list: res.data.list,
                         milestones: res.data.milestones,
                         project_users: res.data.project_users
                     });
+
+                    if ( self.task_id ) {
+                        var task_idex = self.getIndex( res.data.list.tasks, self.task_id, 'ID' ),
+                            task = res.data.list.tasks[task_idex];
+                        
+                        if ( task ) {
+                            self.singleTask(task);
+                        }
+                    }
                 } 
             });
         }

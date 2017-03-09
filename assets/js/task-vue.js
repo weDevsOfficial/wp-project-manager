@@ -95,6 +95,9 @@
             // Todo list singe page
             { path: '/list/:list_id', component: CPM_List_Single, name: 'list_single' },
 
+            // Todo list singe page
+            { path: '/list/:list_id/task/:task_id', component: CPM_List_Single, name: 'task_single' },
+
             // Pagination
             { path: '/page/:page_number', component: CPM_Router_Init, name: 'pagination' },
         ], 

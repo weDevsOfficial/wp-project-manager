@@ -24,6 +24,17 @@ var CPM_Task_Mixin = {
 	methods: {
 
         /**
+         * Single task popup
+         * 
+         * @param  object task
+         *  
+         * @return void      
+         */
+        singleTask: function( task ) {
+            this.$store.commit( 'single_task_popup', { task: task } );
+        },
+
+        /**
          * Handel new todo list form show and hide
          * 
          * @param  obj list       
