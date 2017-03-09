@@ -113,8 +113,9 @@ var CPM_Task_Mixin = {
                     list_id   = this.$store.state.lists[list_index].ID,
                     task_id   = this.$store.state.lists[list_index].tasks[task_index].ID,
                     self      = this;
-
+                
                 if ( edit_mode ) {
+
                     CPM_Component_jQuery.slide( task_id, function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
                     });
@@ -124,7 +125,7 @@ var CPM_Task_Mixin = {
                     
                     Vue.nextTick( function() {
 
-                        CPM_Component_jQuery.slide( 'undefined' );
+                        CPM_Component_jQuery.slide( task_id );
                     } );
                 }
             }

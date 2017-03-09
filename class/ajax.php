@@ -112,7 +112,8 @@ class CPM_Ajax {
         }
 
         $permission = $permission = $this->permissions( $project_id );
-        $current_page = empty( absint( $_POST['current_page'] ) ) ? 1 : $_POST['current_page'];
+        
+        $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
 
         $tasks        = array();
         $new_lists    = array();

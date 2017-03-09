@@ -396,6 +396,7 @@ class WeDevs_CPM {
             'wp_date_format' => get_option( 'date_format' ),
             'wp_time_format' => get_option( 'time_format' ),
             'current_user_avatar_url' => get_avatar_url( get_current_user_id() ),
+            'get_current_user_id' => get_current_user_id(),
             'CPM_URL'        => CPM_URL,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',

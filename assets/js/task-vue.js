@@ -48,6 +48,32 @@
                     CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_to', date: dateText } );
                 }
             });
+
+            $( ".cpm-date-time-picker-from" ).datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                changeYear: true,
+                changeMonth: true,
+                numberOfMonths: 1,
+                onClose: function( selectedDate ) {
+                    $( ".cpm-date-time-picker-to" ).datetimepicker( "option", "minDate", selectedDate );
+                },
+                onSelect: function(dateText) {
+                    
+                }
+            });
+
+            $( ".cpm-date-time-picker-to" ).datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                onClose: function( selectedDate ) {
+                    $( ".cpm-date-time-picker-from" ).datetimepicker( "option", "maxDate", selectedDate );
+                },
+                onSelect: function(dateText) {
+                   
+                }
+            });
         }
     }
 

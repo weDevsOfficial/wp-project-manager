@@ -711,46 +711,6 @@ function cpm_get_option( $option, $section = 'cpm_general', $default = '' ) {
     }
 
     return $default;
-
-    /* $value = get_option( $option );
-
-      if ( isset( $section[$option] ) ) {
-      echo get_option ( $section[$option] );
-
-      }
-     */
-
-    // return $value;
-    /*
-      $fields          = CPM_Admin::get_settings_fields();
-      $prepared_fields = array();
-
-      //prepare the array with the field as key
-      //and set the section name on each field
-      foreach ( $fields as $section => $field ) {
-      foreach ( $field as $fld ) {
-      $prepared_fields[$fld['name']]            = $fld;
-      $prepared_fields[$fld['name']]['section'] = $section;
-      }
-      }
-
-      // bail if option not found
-      if ( ! isset( $prepared_fields[$option] ) ) {
-      return;
-      }
-
-      //get the value of the section where the option exists
-      $opt = get_option( $prepared_fields[$option]['section'] );
-      $opt = is_array( $opt ) ? $opt : array();
-
-      //return the value if found, otherwise default
-      if ( array_key_exists( $option, $opt ) ) {
-      return $opt[$option];
-      } else {
-      $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
-      return $val;
-      }
-     */
 }
 
 if ( ! function_exists( 'get_ipaddress' ) ) {

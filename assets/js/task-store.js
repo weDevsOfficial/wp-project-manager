@@ -22,6 +22,7 @@ var cpm_task_store = {
         is_single_task: false,
         add_filter: {},
         post_per_page: 5,
+        get_current_user_id: CPM_Vars.get_current_user_id
     },
 
     /**
@@ -296,6 +297,6 @@ var cpm_task_store = {
          */
         after_delete_task: function( state, task ) {
             state.lists[task.list_index].tasks.splice( task.task_index, 1 );
-        }
+        },
     }
 }
