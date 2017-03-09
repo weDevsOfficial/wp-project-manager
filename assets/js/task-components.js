@@ -1048,8 +1048,6 @@ Vue.component('new-task-form', {
                     self.task = jQuery.extend( self.task, self.before_edit );
                 }
             }); 
-
-
         },
 
         /**
@@ -1071,6 +1069,7 @@ Vue.component('new-task-form', {
                 
                 form_data = {
                     action: typeof this.task.ID == 'undefined' ? 'cpm_task_add' : 'cpm_task_update',
+                    project_id: CPM_Vars.project_id,
                     task_assign: this.task.assigned_to,
                     task_title: this.task.post_title,
                     task_text: this.task.post_content,

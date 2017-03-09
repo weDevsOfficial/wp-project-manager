@@ -1433,7 +1433,7 @@ class CPM_Ajax {
 
     function permissions( $project_id ) {
         return array(
-            'todolist_view_private' => apply_filters( 'tdolist_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'tdolist_view_private' ),
+            'todolist_view_private'=> apply_filters( 'tdolist_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'tdolist_view_private' ),
             'create_todolist'      => apply_filters( 'create_todolist', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todolist' ),
             'todo_view_private'    => apply_filters( 'todo_view_private', true, $project_id ), //cpm_user_can_access( $project_id, 'todo_view_private' ),
             'create_todo'          => apply_filters( 'create_todo', true, $project_id ), //cpm_user_can_access( $project_id, 'create_todo' ),

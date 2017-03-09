@@ -794,15 +794,15 @@ function cpm_get_role_in_project( $project_id, $user_id = 0 ) {
         $user = wp_get_current_user();
     }
 
-    $cache_key         = 'cpm_project_user_role_' . $project_id . $user_id;
+    $cache_key         = 'cpm_project_user_role_' . $project_id . $user->ID;
     $project_user_role = wp_cache_get( $cache_key );
 
     if ( $project_user_role === false ) {
-        $project_user_role = cpm_project_user_role_pre_chache( $project_id );
+        $project_user_role = cpm_project_user_role_pre_chache( $project_id, $user->ID );
         wp_cache_set( $cache_key, $project_user_role );
     }
 
-    return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user_id );
+    return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user->ID );
 }
 
 /**
@@ -942,7 +942,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
         return true;
     }
 
-    $uesr_role_in_project = cpm_get_role_in_project( $project_id, $user_id );
+    $uesr_role_in_project = cpm_get_role_in_project( $project_id, $user->ID );
 
     //If current user has no role in this project
     if ( ! $uesr_role_in_project ) {
