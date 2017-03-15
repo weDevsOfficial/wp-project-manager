@@ -539,7 +539,7 @@ class CPM_Task {
         }
 
         $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );
-
+        
         $lists = new WP_Query( $args );
 
         foreach ( $lists->posts as $list ) {

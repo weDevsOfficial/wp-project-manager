@@ -142,23 +142,21 @@ Vue.component('todo-list-form', {
             this.submit_disabled = true;
 
             var self      = this,
-                is_update = typeof this.list.ID == 'undefined' ? false : true,
-                form_data = {
-                    action: typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list',
-                    tasklist_name: this.list.post_title,
-                    tasklist_detail: this.list.post_content,
-                    project_id: this.$store.state.project_id,
-                    tasklist_milestone: this.tasklist_milestone,
-                    list_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
-                    _wpnonce: CPM_Vars.nonce,
-                };
+                is_update = typeof this.list.ID == 'undefined' ? false : true;
+               
+            this.list_form_data.action = typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list';
+            this.list_form_data.tasklist_name = this.list.post_title;
+            this.list_form_data.tasklist_detail = this.list.post_content;
+            this.list_form_data.project_id = this.$store.state.project_id;
+            this.list_form_data.tasklist_milestone = this.tasklist_milestone;
+            this.list_form_data.list_id = typeof this.list.ID == 'undefined' ? false : this.list.ID;
+            this.list_form_data._wpnonce = CPM_Vars.nonce;
+                
             
             this.show_spinner = true;
 
-            form_data = this.befor_new_todo_list( form_data, is_update, this );
-            
             // Seding request for insert or update todo list
-            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+            jQuery.post( CPM_Vars.ajaxurl, this.list_form_data, function( res ) {
 
                 if ( res.success ) {
                     self.tasklist_milestone = '-1';
@@ -178,13 +176,8 @@ Vue.component('todo-list-form', {
                     // Hide the todo list update form
                     self.showHideTodoListForm( self.list, self.index );
 
-                    //self.after_new_todo_list();
-                    
                     self.refreshTodoListPage();
                     
-                    // Update lists array from vuex store 
-                    //self.$store.commit( 'update_todo_list', { res_list: list, list: self.list, index: self.index, is_update: is_update } );
-                
                 } else {
                     self.show_spinner = false;
 

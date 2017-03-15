@@ -2,6 +2,11 @@
  * Global object for all components and root
  */
 var CPM_Task_Mixin = {
+    data: function() {
+        return {
+            list_form_data: {}
+        }
+    },
 
     computed: {
         /**
