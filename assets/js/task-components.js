@@ -403,6 +403,10 @@ Vue.component('todo-lists', {
             });
         },
 
+        privateClass: function(list) {
+            return list.private == 'on' ? 'cpm-lock' : '';
+        }
+
     }
 
 });

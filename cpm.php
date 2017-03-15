@@ -356,6 +356,7 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         //wp_enqueue_script( 'jquery-ui-sortable' );
+        wp_enqueue_script( 'cpm-timepicker', CPM_URL . '/assets/js/jquery-ui-timepicker.js', array('jquery'), false, true );
         wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
         //wp_register_script( 'cpm-trix', CPM_URL . '/assets/js/trix/trix.js', array( 'jquery' ), time(), false, true );
         wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
@@ -509,14 +510,13 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
         cpm_get_js_template( CPM_JS_TMPL . '/pagination.php', 'cpm-pagination' );
 
-            cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
-            
-            cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
-            cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
-            cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
-            cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
-            cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
-            cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
             
     }
 
