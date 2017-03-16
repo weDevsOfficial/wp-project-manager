@@ -724,6 +724,22 @@ class CPM_Ajax {
         $posted     = $_POST;
         $project_id = $posted[ 'project_id' ];
         $list_id    = $posted[ 'list_id' ];
+
+        // form data validation start 
+        $validator = new CPM_Validator();
+
+        $rules = [
+            'tasklist_name' => 'required',
+        ];
+
+        $error_messages = [
+            'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
+        ];
+
+        if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
+            $validator->send_json_errors();
+        }
+        // form data validation end 
         
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
