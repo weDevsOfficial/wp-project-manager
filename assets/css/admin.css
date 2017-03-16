@@ -2063,6 +2063,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 **/
   /* Smartphones (portrait and landscape) ----------- */
 }
+.cpm .mce-tinymce {
+  border: 1px solid #e5e5e5;
+}
 .cpm * {
   box-sizing: border-box;
 }
@@ -4154,4 +4157,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm-task-modal #new_comment_form trix-toolbar .button_group button,
 .cpm-task-modal #new_comment_form trix-toolbar .button_group input[type=button] {
   background: rgba(255, 255, 255, 0);
+}
+.cpm-comment-content ul {
+  display: block;
+  list-style-type: disc;
+  margin-left: 2em;
 }

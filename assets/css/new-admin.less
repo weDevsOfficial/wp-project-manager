@@ -2261,6 +2261,9 @@ ul.cpm-files {
 .cpm {
     color: @defaultFontColor ;
     margin-top: 20px;
+    .mce-tinymce {
+        border: 1px solid #e5e5e5;
+    }
 
     * {
         box-sizing: border-box;
@@ -4623,4 +4626,11 @@ ul.cpm-files {
 .cpm-task-modal #new_comment_form trix-toolbar .button_group button,
 .cpm-task-modal #new_comment_form trix-toolbar .button_group input[type=button] {
   background: rgba(255, 255, 255, 0);
+}
+.cpm-comment-content {
+    ul{
+        display: block;
+        list-style-type: disc;
+        margin-left: 2em;
+    }
 }
