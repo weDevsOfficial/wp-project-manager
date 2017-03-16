@@ -486,6 +486,24 @@ class CPM_Ajax {
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $response   = array ( 'success' => false );
         
+        // form data validation start 
+        $validator = new CPM_Validator();
+
+        $rules = [
+            'task_title' => 'required',
+            'task_due' => 'date',
+        ];
+
+        $error_messages = [
+            'task_title.required' => __( 'Task title is required.', 'cpm' ),
+            'task_due.date' => __( 'Task due date is not a valid date.', 'cpm' ),
+        ];
+
+        if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
+            $validator->send_json_errors();
+        }
+        // form data validation end 
+        
         if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->add_task( $list_id, $posted );

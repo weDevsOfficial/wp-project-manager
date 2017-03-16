@@ -17,6 +17,7 @@ class CPM_Validator {
         $this->rules = [
             'required',
             'email',
+            'date',
         ];
     }
 
@@ -55,8 +56,8 @@ class CPM_Validator {
 
     protected function validate_data_keys( $data, $rule_set ) {
         $data_keys = array_keys( $data );
-        $required_keys = array_keys( $rule_set );
-
+        $required_keys = $this->find_required_keys( $rule_set );
+        
         foreach ( $required_keys as $key ) {
             if (!in_array( $key, $data_keys )) {
                 $message = ucfirst( str_replace( '_', ' ', $key ) );
@@ -65,6 +66,19 @@ class CPM_Validator {
                     : $message . __( ' is required.', 'cpm' );
             }
         }
+    }
+
+    protected function find_required_keys( $ruleSet ) {
+        $required_keys = [];
+
+        foreach ( $ruleSet as $key => $rules ) {
+            $rules = $this->explode_rules( $rules );
+            if ( in_array('required', $rules ) ) {
+                $required_keys[] = $key;
+            }
+        }
+        
+        return $required_keys;
     }
 
     protected function apply_rules( $key, $value, $rules ) {
@@ -81,20 +95,33 @@ class CPM_Validator {
 
     protected function required( $key, $value ) {
         if ( !trim( $value ) ) {
-            $message = ucfirst( str_replace( '_', ' ', $key ) );
+            $field_name = ucfirst( str_replace( '_', ' ', $key ) );
             $this->errors[$key][] =  isset( $this->messages[$key . '.required'] )
                 ? $this->messages[$key . '.required']
-                : $message . __( ' is required.', 'cpm' );
+                : $field_name . __( ' is required.', 'cpm' );
         }
     }
 
     protected function email( $key, $value ) {
         if ( !is_email( $value ) ) {
-            $message = ucfirst( str_replace( '_', ' ', $key ) );
+            $field_name = ucfirst( str_replace( '_', ' ', $key ) );
             $this->errors[$key][] =  isset( $this->messages[$key . '.email'] )
                 ? $this->messages[$key . '.email']
-                : $message . __( ' is email field.', 'cpm' );
+                : $field_name . __( ' is email field.', 'cpm' );
         }
+    }
+
+    protected function date( $key, $value ) {
+        $date = trim( $value );
+        $d = DateTime::createFromFormat( 'Y-m-d', $date );
+
+        if ( !( $d && $d->format($format) == $date ) ) {
+            $field_name = ucfirst( str_replace( '_', ' ', $key ) );
+            $this->errors[$key][] =  isset( $this->messages[$key . '.email'] )
+                ? $this->messages[$key . '.date']
+                : $field_name . __( ' is a date field.', 'cpm' );
+        }
+
     }
 }
 
