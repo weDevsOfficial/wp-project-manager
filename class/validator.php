@@ -5,31 +5,13 @@
  * 
  * @author weDevs
  */
-
-// $validator = new CPM_Validator();
-
-// $rules = [
-//     'tasklist_name' => 'required',
-//     'tasklist_detail' => 'required|email',
-// ];
-
-// $errorMessages = [
-//     'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
-//     'tasklist_detail.required' => __( 'Todo list detail is required.', 'cpm' ),
-//     'tasklist_detail.email' => __( 'Todo list detail is email field.', 'cpm' ),
-// ];
-
-// if ( !$validator->validate( $posted, $rules ) ) {
-//     $validator->sendJsonErrors();
-// }
-
 class CPM_Validator {
 
     protected $rules = [];
 
     protected $errors = [];
 
-    protected $messages;
+    protected $messages = [];
 
     function __construct() {
         $this->rules = [
@@ -38,13 +20,13 @@ class CPM_Validator {
         ];
     }
 
-    public function validate( $data, $ruleSet, $messages = null ) {
+    public function validate( $data, $rule_set, $messages = [] ) {
         $this->messages = $messages;
-        $this->validateDataKeys( $data, $ruleSet );
+        $this->validate_data_keys( $data, $rule_set );
         
         foreach ( $data as $key => $value ) {
-            if ( array_key_exists( $key, $ruleSet ) ) {
-                $this->applyRules( $key, $value, $ruleSet[$key] );
+            if ( array_key_exists( $key, $rule_set ) ) {
+                $this->apply_rules( $key, $value, $rule_set[$key] );
             }
         }
 
@@ -55,28 +37,28 @@ class CPM_Validator {
         return false;
     }
 
-    public function sendJsonErrors() {
-        $wpErrors = new WP_Error();
+    public function send_json_errors() {
+        $wp_errors = new WP_Error();
 
         foreach ( $this->errors as $key => $messages ) {
             foreach ( $messages as $message ) {
-                $wpErrors->add( $key, $message );
+                $wp_errors->add( $key, $message );
             }
         }
 
-        wp_send_json_error( array( 'error' => $wpErrors->get_error_messages() ) );
+        wp_send_json_error( array( 'error' => $wp_errors->get_error_messages() ) );
     }
 
-    public function getErrors() {
+    public function get_errors() {
         return $this->errors;
     }
 
-    protected function validateDataKeys( $data, $ruleSet ) {
-        $dataKeys = array_keys( $data );
-        $requiredKeys = array_keys( $ruleSet );
+    protected function validate_data_keys( $data, $rule_set ) {
+        $data_keys = array_keys( $data );
+        $required_keys = array_keys( $rule_set );
 
-        foreach ( $requiredKeys as $key ) {
-            if (!in_array( $key, $dataKeys )) {
+        foreach ( $required_keys as $key ) {
+            if (!in_array( $key, $data_keys )) {
                 $message = ucfirst( str_replace( '_', ' ', $key ) );
                 $this->errors[$key][] =  isset( $this->messages[$key . '.required'] )
                     ? $this->messages[$key . '.required']
@@ -85,15 +67,15 @@ class CPM_Validator {
         }
     }
 
-    public function applyRules( $key, $value, $rules ) {
-        foreach ( $this->explodeRules( $rules ) as $rule ) {
+    protected function apply_rules( $key, $value, $rules ) {
+        foreach ( $this->explode_rules( $rules ) as $rule ) {
             if ( in_array( $rule, $this->rules ) ) {
                 $this->$rule($key, $value);
             }
         }
     }
 
-    protected function explodeRules( $rules ) {
+    protected function explode_rules( $rules ) {
         return explode( '|', $rules );
     }
 
@@ -115,3 +97,24 @@ class CPM_Validator {
         }
     }
 }
+
+/**
+ * Usage of CPM_Validator class for form data validation
+ *
+ * $validator = new CPM_Validator();
+ * 
+ * $rules = [
+ *   'tasklist_name' => 'required',
+ *   'tasklist_detail' => 'required|email',
+ * ];
+ * 
+ * $error_messages = [
+ *   'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
+ *   'tasklist_detail.required' => __( 'Todo list detail is required.', 'cpm' ),
+ *   'tasklist_detail.email' => __( 'Todo list detail is email field.', 'cpm' ),
+ * ];
+
+ * if ( !$validator->validate( $posted, $rules ) ) {
+ *   $validator->send_json_errors();
+ * }
+ */
