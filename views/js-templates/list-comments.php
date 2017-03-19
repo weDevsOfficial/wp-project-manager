@@ -3,7 +3,7 @@
         <h3 class="cpm-comment-title"><?php _e( 'Discuss this to-do list', 'cpm' ); ?></h3>
 
         <ul class="cpm-comment-wrap">
-            <li  v-for="comment in comments" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
+            <li  v-for="comment in comments" :key="comment.comment_ID" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
 
                 <div class="cpm-avatar" v-html="comment.avatar"></div>
 
@@ -28,7 +28,7 @@
                     <div class="cpm-comment-content">
                         <div v-html="comment.comment_content"></div>
                         <ul class="cpm-attachments">
-                            <li v-for="file in comment.files">
+                            <li v-for="file in comment.files" :key="file.id">
                                 <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
                                     <img :src="file.thumb">
                                 </a>

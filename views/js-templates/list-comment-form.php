@@ -19,7 +19,7 @@
                 </h2>
 
                 <ul class="cpm-user-list">
-                    <li v-for="co_worker in co_workers">
+                    <li v-for="co_worker in co_workers" :key="co_worker.id">
                         <label :for="'cpm_notify_' + co_worker.id">
                             <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'cpm_notify_' + co_worker.id" > 
                             {{ co_worker.name }}

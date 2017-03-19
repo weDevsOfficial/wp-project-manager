@@ -3,7 +3,7 @@
         <h3 class="cpm-comment-title"><?php _e( 'Discuss this task', 'cpm' ); ?></h3>
 
         <ul class="cpm-comment-wrap">
-            <li  v-for="comment in comments" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
+            <li  v-for="comment in comments" :key="comment.comment_ID" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">
 
                 <div class="cpm-avatar" v-html="comment.avatar"></div>
 

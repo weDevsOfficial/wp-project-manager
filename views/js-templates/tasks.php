@@ -69,7 +69,7 @@
             </div>
         </li>
 
-        <li v-if="!taskLength"><?php _e( 'No task found!', 'cpm'); ?></li>
+        <li v-if="!getIncompleteTasks.length"><?php _e( 'No task found!', 'cpm'); ?></li>
 
         <li v-if="list.show_task_form" class="cpm-todo-form">
             <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>

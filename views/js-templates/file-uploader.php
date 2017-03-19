@@ -1,8 +1,7 @@
 <div class="cpm-attachment-area">
     <div id="cpm-upload-container">
         <div class="cpm-upload-filelist">
-        
-        	<div class="cpm-uploaded-item" v-for="file in files">
+        	<div class="cpm-uploaded-item" v-for="file in files" :key="file.id">
         		<a :href="file.url" target="_blank">
         			<img :src="file.thumb" :alt="file.name">
         		</a> 
