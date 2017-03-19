@@ -1538,6 +1538,16 @@ ul.cpm-activity ul li:before {
   text-decoration: underline;
   color: #21759b;
 }
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-comment {
+  display: inline-block;
+  margin-right: -15px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-subtask {
+  display: inline-block;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-time-track {
+  display: inline-block;
+}
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
