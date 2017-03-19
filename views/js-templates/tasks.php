@@ -26,15 +26,18 @@
                             </span>
                         </div>
 
-                        <div class="cpm-col-4">
-                            <a @click.prevent="singleTask( task )" href="#">
-                            <span class="cpm-comment-count">
-                                {{ task.comments.length }}
-                            </span>
-                            </a>
+                        <div class="cpm-col-4 cpm-todo-action-center">
+                            <div class="cpm-task-comment">
+                                <a @click.prevent="singleTask( task )" href="#">
+                                    <span class="cpm-comment-count">
+                                        {{ task.comments.length }}
+                                    </span>
+                                </a>
+                            </div>
+
                             <!-- deprecated -->
                             <?php do_action( 'cpm_task_column' ); ?>
-
+                            
                             <?php do_action( 'cpm_after_task_title' ); ?>
                         </div>
 
