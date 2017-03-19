@@ -298,5 +298,17 @@ var cpm_task_store = {
         after_delete_task: function( state, task ) {
             state.lists[task.list_index].tasks.splice( task.task_index, 1 );
         },
+
+        /**
+         * After get tasks from list id
+         * 
+         * @param  object state 
+         * @param  object task  
+         * 
+         * @return void       
+         */
+        insert_tasks: function( state, task ) {
+            state.lists[task.list_index].tasks = task.tasks.tasks;
+        }
     }
 }

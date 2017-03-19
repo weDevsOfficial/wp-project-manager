@@ -94,6 +94,18 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_compiled_content', array( $this, 'get_compiled_content' ) );
         
         add_action( 'wp_ajax_cpm_initial_todo_list', array( $this, 'initial_todo_list' ) );
+        add_action( 'wp_ajax_cpm_get_tasks', array( $this, 'get_tasks' ) );
+    }
+
+    function get_tasks() {
+        check_ajax_referer( 'cpm_nonce' );
+        $list_id    = absint( $_POST['list_id'] );
+        $project_id = absint( $_POST['project_id'] );
+
+        $permission  = $this->permissions( $project_id );
+        $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'] );
+
+        wp_send_json_success( array( 'tasks' => $tasks ) );
     }
 
     /**
@@ -111,17 +123,15 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
         }
 
-        $permission = $permission = $this->permissions( $project_id );
-        
+        $permission   = $permission = $this->permissions( $project_id );
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
-
         $tasks        = array();
         $new_lists    = array();
         $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'], false, $current_page );
         
         foreach ( $lists['lists'] as $list ) {
-            $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
-            $list->tasks = $task;
+           // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
+            $list->tasks = array();
             $new_lists[] = $list;
         }
         

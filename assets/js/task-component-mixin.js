@@ -432,6 +432,9 @@ var CPM_Task_Mixin = {
          * @return obje               
          */
         getUsers: function( assigned_user ) {
+            if ( ! assigned_user ) {
+                return [];
+            }
             filtered_users = [];
             
             var assigned_to = assigned_user.map(function (id) {
@@ -574,6 +577,24 @@ var CPM_Task_Mixin = {
 
         isEmptyObject: function(obj) {
             return Object.keys(obj).length === 0;
+        },
+
+        getTasks: function(list_id) {
+            var form_data = {
+                    _wpnonce: CPM_Vars.nonce,
+                    list_id: list_id,
+                    project_id: CPM_Vars.project_id
+                },
+                self = this;
+
+            wp.ajax.send('cpm_get_tasks', {
+                data: form_data,
+                success: function(res) {
+                    var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
+                    self.$store.commit( 'insert_tasks', {tasks: res, list_index: list_index} );
+                }
+            });
         }
 	}
 }
+

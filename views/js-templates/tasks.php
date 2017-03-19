@@ -1,6 +1,7 @@
  <div>
     <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
-        <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :class="'cpm-fade-out-'+task.ID">
+        <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
+
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
                     <div>

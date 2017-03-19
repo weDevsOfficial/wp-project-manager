@@ -327,6 +327,10 @@ Vue.component('todo-lists', {
          * @return int      
          */
         countCompletedTasks: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+
             var completed_task = 0;
             
             tasks.filter( function( task ) {
@@ -346,6 +350,10 @@ Vue.component('todo-lists', {
          * @return int       
          */
         countIncompletedTasks: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+
             var in_completed_task = 0;
 
             tasks.filter( function( task ) {
@@ -365,6 +373,9 @@ Vue.component('todo-lists', {
          * @return float       
          */
         getProgressPercent: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
             var total_tasks     = tasks.length,
                 completed_tasks = this.countCompletedTasks( tasks ),
                 progress        = ( 100 * completed_tasks ) / total_tasks;
@@ -380,6 +391,9 @@ Vue.component('todo-lists', {
          * @return obj       
          */
         getProgressStyle: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
             var width = this.getProgressPercent( tasks );
 
             return { width: width+'%' };
@@ -448,6 +462,10 @@ Vue.component('tasks', {
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
+    created: function() {
+        this.getTasks(this.list.ID);
+    },
+
     /**
      * Initial data for this component
      * 
@@ -482,6 +500,10 @@ Vue.component('tasks', {
          * @return array       
          */
         getIncompleteTasks: function() {
+            if ( ! this.list.tasks ) {
+                return [];
+            }
+
             return this.list.tasks.filter(function( task ) {
                 return ( task.completed == '0' || !task.completed );
             });
@@ -495,6 +517,10 @@ Vue.component('tasks', {
          * @return array       
          */
         getCompletedTask: function() {
+            if ( ! this.list.tasks ) {
+                return [];
+            }
+
             return this.list.tasks.filter(function( task ) {
                 return ( task.completed == '1' || task.completed );
             }); 

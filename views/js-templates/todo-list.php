@@ -1,7 +1,7 @@
 <div>
     <ul class="cpm-todolists">
         
-        <li v-for="( list, index ) in lists" :class="'cpm-fade-out-'+list.ID">
+        <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">
 
             <article class="cpm-todolist">
                 <header class="cpm-list-header">
@@ -21,12 +21,12 @@
                     <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
                     <div class="cpm-update-todolist-form" v-if="list.edit_mode">
                         <!-- New Todo list form -->
-                        <todo-list-form :list="list" :index="index" :key="list.ID"></todo-list-form>
+                        <todo-list-form :list="list" :index="index"></todo-list-form>
                     </div>
                 </header>
 
                 <!-- Todos component -->
-                <tasks :list="list" :index="index" :key="list.ID"></tasks>
+                <tasks :list="list" :index="index"></tasks>
 
                 <footer class="cpm-row cpm-list-footer">
                     <div class="cpm-col-6">
