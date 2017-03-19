@@ -115,11 +115,11 @@ class CPM_Validator {
         $date = trim( $value );
         $d = DateTime::createFromFormat( 'Y-m-d', $date );
 
-        if ( !( $d && $d->format($format) == $date ) ) {
+        if ( !( $d && $d->format( 'Y-m-d' ) == $date ) ) {
             $field_name = ucfirst( str_replace( '_', ' ', $key ) );
-            $this->errors[$key][] =  isset( $this->messages[$key . '.email'] )
+            $this->errors[$key][] =  isset( $this->messages[$key . '.date'] )
                 ? $this->messages[$key . '.date']
-                : $field_name . __( ' is a date field.', 'cpm' );
+                : $field_name . __( ' is a date field and should be formated as Y-m-d.', 'cpm' );
         }
 
     }

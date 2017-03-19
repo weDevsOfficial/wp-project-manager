@@ -496,7 +496,7 @@ class CPM_Ajax {
 
         $error_messages = [
             'task_title.required' => __( 'Task title is required.', 'cpm' ),
-            'task_due.date' => __( 'Task due date is not a valid date.', 'cpm' ),
+            'task_due.date' => __( 'Task due is not a valid date and should be formatted as Y-m-d', 'cpm' ),
         ];
 
         if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
