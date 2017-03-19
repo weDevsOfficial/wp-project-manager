@@ -133,7 +133,7 @@ class CPM_Ajax {
             'lists'         => $new_lists,
             'list_total'    => empty( $lists['count'] ) ? 0 : $lists['count'],
             'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
-            'post_per_page' => empty( cpm_get_option( 'show_todo', 'cpm_general' ) ) ? 5 : cpm_get_option( 'show_todo', 'cpm_general' ) 
+            'todo_list_per_page' => empty( cpm_get_option( 'show_todo', 'cpm_general' ) ) ? 5 : cpm_get_option( 'show_todo', 'cpm_general' ) 
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );

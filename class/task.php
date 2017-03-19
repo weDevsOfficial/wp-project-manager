@@ -535,7 +535,7 @@ class CPM_Task {
             $limit            = absint( cpm_get_option( 'show_todo', 'cpm_general' ) );
             $offset           = ( $pagenum - 1 ) * $limit;
             $args[ 'offset' ] = $offset;
-            $args[ 'posts_per_page' ] = cpm_get_option( 'show_todo', 'cpm_general' );
+            $args[ 'posts_per_page' ] = $limit;
         }
 
         $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );

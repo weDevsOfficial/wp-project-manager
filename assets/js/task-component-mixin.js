@@ -571,5 +571,9 @@ var CPM_Task_Mixin = {
                 }
             });
         },
+
+        isEmptyObject: function(obj) {
+            return Object.keys(obj).length === 0;
+        }
 	}
 }

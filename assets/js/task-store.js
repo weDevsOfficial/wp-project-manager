@@ -21,7 +21,7 @@ var cpm_task_store = {
         task: {},
         is_single_task: false,
         add_filter: {},
-        post_per_page: 5,
+        todo_list_per_page: 5,
         get_current_user_id: CPM_Vars.get_current_user_id
     },
 
@@ -39,28 +39,28 @@ var cpm_task_store = {
          * @return void
          */
         setTaskInitData: function( state, task_init ) {
-            // state.lists         = [];
-            // state.list_total    = 0;
-            // state.milestones    = [];
-            // state.init          = {};
-            // state.project_users = [];
-            // state.permissions   = {};
+            state.lists         = [];
+            state.list_total    = 0;
+            state.milestones    = [];
+            state.init          = {};
+            state.project_users = [];
+            state.permissions   = {};
 
-            // state.loading        = true;
-            // state.is_single_list = false,
+            state.loading        = true;
+            state.is_single_list = false,
             
-            //Vue.nextTick(function () {
+            Vue.nextTick(function () {
                 state.lists         = task_init.data.lists;
                 state.milestones    = task_init.data.milestones;
                 state.init          = task_init.data;
                 state.project_users = task_init.data.project_users;
                 state.permissions   = task_init.data.permissions;
                 state.list_total    = task_init.data.list_total;
-                state.post_per_page = task_init.data.post_per_page;
+                state.todo_list_per_page = task_init.data.todo_list_per_page;
 
                 state.loading        = false;
                 state.is_single_list = false;
-            //});
+            });
         },
 
         /**

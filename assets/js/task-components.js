@@ -203,6 +203,8 @@ Vue.component('todo-lists', {
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
+    props: ['current_page_number'],
+
     /**
      * Initial data for this component
      * 
@@ -212,6 +214,29 @@ Vue.component('todo-lists', {
         return {
             list: {},
             index: false,
+        }
+    },
+
+    watch: {
+        current_page_number: function( page_number ) {
+            var per_page = this.$store.state.todo_list_per_page,
+                self     = this;
+            
+            for (var i = 0; i < per_page; i++) {
+                var request_data  = {
+                    per_page: per_page,
+                    current_page: page_number,
+                    project_id: CPM_Vars.project_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+                wp.ajax.send('cpm_get_todo_lists', {
+                    data: request_data,
+                    success: function(res) {
+                        self.$store.commit( 'new_todo_list', res );
+                    }
+                });
+            }
         }
     },
 
@@ -280,11 +305,11 @@ Vue.component('todo-lists', {
         },
 
         total: function() {
-            return Math.ceil( this.$store.state.list_total / this.$store.state.post_per_page );
+            return Math.ceil( this.$store.state.list_total / this.$store.state.todo_list_per_page );
         },
 
         limit: function() {
-            return this.$store.state.post_per_page;
+            return this.$store.state.todo_list_per_page;
         },
 
         page_number: function() {
@@ -1133,6 +1158,7 @@ var CPM_Router_Init = {
             },
             list: {},
             index: false,
+            current_page_number: 1
         }
     },
 
@@ -1173,8 +1199,10 @@ var CPM_Router_Init = {
 
     watch: {
         '$route': function (to, from) {
+            
             if ( this.$route.params.page_number ) {
                 this.getInitialData( this.$store.state.project_id );
+                this.current_page_number = this.$route.params.page_number;
             }
         }
     },
