@@ -376,14 +376,17 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
         //wp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );
-        wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
+        
 
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
         $cpm_dependency = array( 'jquery', 'cpm_uploader', 'cpm-vue');
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
+        //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
+        
         $project_id = empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] );
+        
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'        => admin_url( 'admin-ajax.php' ),
             'nonce'          => wp_create_nonce( 'cpm_nonce' ),
