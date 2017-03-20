@@ -1617,17 +1617,25 @@ ul.cpm-activity {
     line-height: 12px;
     padding: 1px 7px;
     color: #fff;
-    margin-right: 5px;
 }
 
 .cpm-current-date {
     .border-radius(3px);
     background: #ddd;
     font-size: 12px;
-    line-height: 12px;
-    padding: 1px 7px;
+    line-height: 1.3em;
     color: #999;
-    margin-right: 5px;
+    padding: 2px 5px;
+}
+
+.cpm-task-comment-count {
+    .border-radius(3px);
+    background: #ddd;
+    font-size: 12px;
+    line-height: 1.3em;
+    color: #999;
+    padding: 2px 5px;
+    margin-top: -5px;
 }
 
 .cpm-todo {
@@ -3806,18 +3814,31 @@ ul.cpm-files {
             width: auto;
         }
 
-        .single-todo-comments{
+        .single-todo-comments {
+            margin-bottom: 30px;
+
             .cpm-comment-form-wrap {
                 background:  #ffffff !important;
-                padding: 10px;
+                padding: 0px;
                 width: auto !important ;
             }
 
-
+            .submit {
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+            }
         }
 
-
     }
+
+    .single-todo-comments {
+        margin-bottom: 30px;
+    }
+
+.single-todo-comments .submit {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
 
     .cpm-comment{
         background: #fff;
@@ -4381,7 +4402,7 @@ ul.cpm-files {
     .half-modal {
         .modal-container {
             width: 70%;
-            margin: 0 0 0 auto;
+            margin: 30px 0 0 auto;
             overflow: visible;
             display: compact;
             border-radius: 2px;
@@ -4390,67 +4411,83 @@ ul.cpm-files {
             font-family: Helvetica, Arial, sans-serif;
         }
 
-         .close-vue-modal{
-                margin-left: -40px;
-                margin-top: 20px;
-                float: left;
-                a{
-                    display: block;
-                    width: 20px;
-                    background: #000 ;
-                    border: none;
-                    color:#fff ;
-                    text-align: center;
-                    padding: 8px 10px 10px;
-                    font-size: 110%;
-                    cursor: pointer;
-                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                    -webkit-box-sizing: content-box;
-                    -moz-box-sizing: content-box;
-                    box-sizing: content-box;
-                }
-
+         .close-vue-modal {
+            margin-left: -40px;
+            margin-top: 0px;
+            float: left;
+            a{
+                display: block;
+                width: 20px;
+                background: #000 ;
+                border: none;
+                color:#fff ;
+                text-align: center;
+                padding: 8px 10px 10px;
+                font-size: 110%;
+                cursor: pointer;
+                -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
             }
 
-            .edit-vue-modal{
-                a{
-                    display: block;
-                    width: 50px;
-                    background: '';
-                    border: none;
-                    border-left: 1px solid #ddd;
-                    color: #444;
-                    text-align: center;
-                    padding: 8px 10px 10px;
-                    font-size: 110%;
-                    cursor: pointer;
-                    -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
-                    -webkit-box-sizing: content-box;
-                    -moz-box-sizing: content-box;
-                    box-sizing: content-box;
-                }
-            }
-            .edit-vue-modal:hover{
-                background: #eee ;
-            }
+        }
 
-        .modal-header{
+        .edit-vue-modal{
+            a{
+                display: block;
+                width: 50px;
+                background: '';
+                border: none;
+                border-left: 1px solid #ddd;
+                color: #444;
+                text-align: center;
+                padding: 8px 10px 10px;
+                font-size: 110%;
+                cursor: pointer;
+                -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+            }
+        }
+
+        .edit-vue-modal:hover {
+            background: #eee ;
+        }
+
+        .modal-header {
             h3 {
                 padding-bottom: 2px;
             }
 
         }
-        .sub-title{
 
-        }
-        .modal-body{
-
-        }
-        .cpm-modal-conetnt{
+        .cpm-modal-conetnt {
             overflow: auto;
             height:99vh;
+            padding-bottom: 15px;
+
+            .cpm-task-title {
+                margin-top: 0px;
+            }
+
+            .cpm-task-meta {
+                margin-top: -15px;
+            }
+
+            .cpm-assigned-user {
+                img {
+                    width: 24px;
+                    height: 24px
+                }
+            }
+
+            .cpm-task-comment {
+
+            }
 
         }
 

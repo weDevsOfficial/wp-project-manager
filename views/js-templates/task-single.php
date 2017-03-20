@@ -1,4 +1,4 @@
-<div>
+<div >
     <div class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 
         <div class="modal-wrapper">
@@ -12,18 +12,39 @@
                     <div class="cpm-col-12 cpm-todo">
                     
                         <div class="cpm-modal-conetnt">
-                            <h3>
-                                <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox">
-                                <span :class="singleTaskTitle(task)">{{ task.post_title }}</span>
+                            <div class="cmp-task-header">
+                                <h3 class="cpm-task-title"> 
+                                    <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox">
+                                    <span :class="singleTaskTitle(task)">{{ task.post_title }}</span>
 
-                                <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
-                            </h3>
+                                    <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
+                                </h3>
+                                
+                                <p class="cpm-task-meta">
+                                    <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                        <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
+                                        <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                        <span>{{ dateFormat( task.due_date ) }}</span>
+                                    </span>
+
+                                    <span class="cpm-task-comment-count">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
+                                </p>
+
+                                <span>
+                                    <span class='cpm-assigned-user' 
+                                        v-for="user in getUsers( task.assigned_to )" 
+                                        v-html="user.user_url">
+
+                                    </span>
+                                </span><!--v-if-->
+                            </div>
 
 
                             <div class="task-details ">
                                 <!--v-if-->
                                 <p><p>{{ task.post_content }}</p></p>
-                                <span>
+
+                                <!--<span>
                                     <span class='cpm-assigned-user' 
                                         v-for="user in getUsers( task.assigned_to )" 
                                         v-html="user.user_url">
@@ -37,30 +58,23 @@
                                         </span>
                                     </span>
 
-                                </span><!--v-if-->
-
-                                <span class="">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
-
+                                </span>--><!--v-if-->
 
                                 <div class="clearfix cpm-clear"></div>
                             </div>
-                                   
-
+                            
                             <?php do_action( 'after_task_details' ); ?>    
 
                             <div class="cpm-todo-wrap clearfix">
-                                
-                                <div class="comment-content">
-                                    <cpm-task-comments :comments="task.comments" :task="task"></cpm-task-comments>
-
+                                <div class="cpm-task-comment">
+                                    <div class="comment-content">
+                                        <cpm-task-comments :comments="task.comments" :task="task"></cpm-task-comments>
+                                    </div>
                                 </div>
-
-                                
                             </div>          
                         </div>
                         <div class="clearfix"></div>
                     </div>
-
                 </div>
                 <div class="clearfix"></div>
             </div>
