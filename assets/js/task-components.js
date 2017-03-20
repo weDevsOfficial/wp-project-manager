@@ -536,17 +536,13 @@ Vue.component('tasks', {
          * @return void            
          */
         taskEdit: function( task_id ) {
+
             var self = this,
                 lists = this.$store.state.lists,
-                list_index = this.getIndex( lists, this.list.ID, 'ID' );
-
-            this.tasks.map(function( task, index ) {
-
-                if ( task.ID == task_id ) {
-                    
-                    self.showHideTaskForm( list_index, index );
-                }
-            }); 
+                list_index = this.getIndex( lists, this.list.ID, 'ID' )
+                task_index = this.getIndex( self.list.tasks, task_id, 'ID' );
+            
+                self.showHideTaskForm( list_index, task_index );
         },
 
         /**
