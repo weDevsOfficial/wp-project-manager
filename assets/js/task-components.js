@@ -1466,6 +1466,10 @@ Vue.component('cpm-file-uploader', {
          * @return void          
          */
         deletefile: function(file_id) {
+            if ( ! confirm(CPM_Vars.message.confirm) ) {
+                return;
+            }
+
             var request_data  = {
                 file_id: file_id,
                 _wpnonce: CPM_Vars.nonce,

@@ -89,10 +89,10 @@
                             <!-- <span class="cpm-spinner"></span> -->
                             <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
-                            <a class="task-title" href="#">
+                            <span class="task-title">
                                 <span class="cpm-todo-text">{{ task.post_title }}</span>
                                 <span :class="privateClass( task )"></span>
-                            </a>
+                            </span>
                             
                             <span class='cpm-assigned-user' 
                                 v-for="user in getUsers( task.assigned_to )" 

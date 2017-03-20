@@ -343,6 +343,7 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
+
         $suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
         $time_zone_string      = file_get_contents( CPM_URL . '/assets/js/moment/latest.json' );
@@ -382,11 +383,11 @@ class WeDevs_CPM {
         $cpm_dependency = array( 'jquery', 'cpm_uploader', 'cpm-vue');
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
-
+        $project_id = empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] );
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'        => admin_url( 'admin-ajax.php' ),
             'nonce'          => wp_create_nonce( 'cpm_nonce' ),
-            'project_id'     => empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] ),
+            'project_id'     => apply_filters( 'cpm_project_id', $project_id ),
             'is_admin'       => is_admin() ? 'yes' : 'no',
             'message'        => cpm_message(),
             'todolist_show'  => cpm_get_option( 'todolist_show', 'cpm_general' ),
@@ -484,7 +485,7 @@ class WeDevs_CPM {
      *
      * @return void
      */
-    public function admin_js_templates() {
+    public static function admin_js_templates() {
         global $current_screen;
 
         $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab']; 
