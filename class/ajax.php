@@ -1045,7 +1045,7 @@ class CPM_Ajax {
     function delete_file() {
         check_ajax_referer( 'cpm_nonce' );
 
-        $file_id = (isset( $_POST[ 'file_id' ] )) ? intval( $_POST[ 'file_id' ] ) : 0;
+        $file_id = absint( $_POST[ 'file_id' ] ) ? $_POST[ 'file_id' ] : 0;
 
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->delete_file( $file_id, true );

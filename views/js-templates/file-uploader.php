@@ -6,7 +6,7 @@
         			<img :src="file.thumb" :alt="file.name">
         		</a> 
         		
-        		<a href="#" data-id="373" class="cpm-delete-file button">Delete File</a>
+        		<a href="#" @click.prevent="deletefile(file.id)" class="button"><?php _e( 'Delete File', 'cpm' ); ?></a>
         			
         	</div>
  

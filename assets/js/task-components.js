@@ -1425,6 +1425,9 @@ Vue.component('cpm-file-uploader', {
 
     props: ['files'],
 
+    // Include global properties and methods
+    mixins: [CPM_Task_Mixin],
+
     // Initial action for this component
     created: function() {
         this.$on( 'cpm_file_upload_hook', this.fileUploaded );
@@ -1453,6 +1456,29 @@ Vue.component('cpm-file-uploader', {
             }
 
             this.files.push( file_res.res.file );
+        },
+
+        /**
+         * Delete file 
+         * 
+         * @param  object file_id 
+         * 
+         * @return void          
+         */
+        deletefile: function(file_id) {
+            var request_data  = {
+                file_id: file_id,
+                _wpnonce: CPM_Vars.nonce,
+            },
+            self = this;
+
+            wp.ajax.send('cpm_delete_file', {
+                data: request_data,
+                success: function(res) {
+                   var file_index = self.getIndex( self.files, file_id, 'id' );
+                   self.files.splice(file_index,1);
+                }
+            });
         }
     }
 });
@@ -1657,8 +1683,7 @@ Vue.component('cpm-list-comment-form', {
             } else {
                 this.notify_co_workers = [];
             }
-        }
-
+        },
     }
 });
 
@@ -1679,6 +1704,11 @@ Vue.component('cpm-list-comments', {
         getCurrentUserAvatar: function() {
             return CPM_Vars.current_user_avatar_url;
         },
+    },
+
+    methods: {
+
+          
     }
 });
 

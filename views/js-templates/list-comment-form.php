@@ -5,7 +5,6 @@
         <div class="item message cpm-sm-col-1">
             <cpm-text-editor :editor_id="editor_id" :content="content"></cpm-text-editor>
         </div>
-
         <cpm-file-uploader :files="files"></cpm-file-uploader>
 
         <div class="notify-users">
