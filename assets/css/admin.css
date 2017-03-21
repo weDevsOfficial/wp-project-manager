@@ -1490,7 +1490,6 @@ ul.cpm-activity ul li:before {
   line-height: 12px;
   padding: 1px 7px;
   color: #fff;
-  margin-right: 5px;
 }
 .cpm-current-date {
   -webkit-border-radius: 3px;
@@ -1498,10 +1497,20 @@ ul.cpm-activity ul li:before {
   border-radius: 3px;
   background: #ddd;
   font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
+  line-height: 1.3em;
   color: #999;
-  margin-right: 5px;
+  padding: 2px 5px;
+}
+.cpm-task-comment-count {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 1.3em;
+  color: #999;
+  padding: 2px 5px;
+  margin-top: -5px;
 }
 .cpm-todo .cpm-todo-wrap {
   position: relative;
@@ -3255,10 +3264,24 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-message-page .cpm-milestone-form {
   width: auto;
 }
+.cpm .cpm-message-page .single-todo-comments {
+  margin-bottom: 30px;
+}
 .cpm .cpm-message-page .single-todo-comments .cpm-comment-form-wrap {
   background: #ffffff !important;
-  padding: 10px;
+  padding: 0px;
   width: auto !important ;
+}
+.cpm .cpm-message-page .single-todo-comments .submit {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+.cpm .single-todo-comments {
+  margin-bottom: 30px;
+}
+.cpm .single-todo-comments .submit {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 .cpm .cpm-comment {
   background: #fff;
@@ -3691,7 +3714,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .half-modal .modal-container {
   width: 70%;
-  margin: 0 0 0 auto;
+  margin: 30px 0 0 auto;
   overflow: visible;
   display: compact;
   border-radius: 2px;
@@ -3701,7 +3724,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .half-modal .close-vue-modal {
   margin-left: -40px;
-  margin-top: 20px;
+  margin-top: 0px;
   float: left;
 }
 .cpm .half-modal .close-vue-modal a {
@@ -3746,6 +3769,17 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .half-modal .cpm-modal-conetnt {
   overflow: auto;
   height: 99vh;
+  padding-bottom: 15px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title {
+  margin-top: 0px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta {
+  margin-top: -15px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-assigned-user img {
+  width: 24px;
+  height: 24px;
 }
 .cpm .modal-enter,
 .cpm .modal-leave {
