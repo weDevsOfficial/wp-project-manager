@@ -383,6 +383,7 @@ class WeDevs_CPM {
 
         $cpm_dependency = array( 'jquery', 'cpm-vue');
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
+
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
         //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
         

@@ -32,7 +32,7 @@
             $( 'body' ).on( 'click', '.cpm-edit-comment-link', this.Comment.get );
             $( 'body' ).on( 'click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit );
             $( 'body' ).on( 'click', '.cpm-delete-comment-link', this.Comment.deleteComment );
-            $( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
+            $( 'body' ).on( 'submit', 'form.cpm-comment-form', this.Comment.update );
             $( 'body' ).on( 'click', '.cpm-delete-file', this.Uploader.deleteFile );
 
             /* =============== Project Duplicate ============ */
@@ -532,6 +532,7 @@
                         data = that.serialize();
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -594,6 +595,7 @@
                         container = form.closest( '.cpm-comment-container' ),
                         data = form.serialize(),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
