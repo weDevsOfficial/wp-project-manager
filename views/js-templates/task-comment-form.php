@@ -1,6 +1,6 @@
-<div>
+<div class="cpm-comment-form">
 
-	 <form class="cpm-comment-form" @submit.prevent="updateComment()">
+	 <form class="cpm-comment-form-vue" @submit.prevent="updateComment()">
 
         <div class="item message cpm-sm-col-12 ">
             <cpm-text-editor :editor_id="editor_id" :content="content"></cpm-text-editor>

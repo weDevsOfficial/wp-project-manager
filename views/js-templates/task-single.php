@@ -1,5 +1,5 @@
-<div >
-    <div class="modal-mask half-modal cpm-task-modal modal-transition" style="">
+<div>
+    <div v-if="task" class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 
         <div class="modal-wrapper">
             <div class="modal-container" style="width: 700px;">

@@ -9,10 +9,12 @@
                             <!-- <span class="cpm-spinner"></span> -->
                             <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox"  value="" name="" >
 
-                            <a class="task-title" href="#">
+                            <!-- <a class="task-title" href="#">
                                 <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>
                                 <span :class="privateClass( task )"></span>
-                            </a>
+                            </a> -->
+
+                            <router-link :to="{ name: 'task_single', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
                             
                             <span class='cpm-assigned-user' 
                                 v-for="user in getUsers( task.assigned_to )" 
@@ -149,8 +151,6 @@
         </li>
     </ul>
 </div>
-
-
 
 
 

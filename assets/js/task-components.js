@@ -1231,6 +1231,51 @@ var CPM_Router_Init = {
 
 }
 
+var CPM_Task_Single = {
+    // Assign template for this component
+    template: '#tmpl-cpm-task-single',
+
+    // Include global properties and methods
+    mixins: [CPM_Task_Mixin],
+
+    data: function() {
+        return {
+            task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task
+        }
+    },
+
+    created: function() {
+        if ( this.task === false ) {
+            
+            var request_data  = {
+                task_id: this.$route.params.task_id,
+                project_id: CPM_Vars.project_id,
+                _wpnonce: CPM_Vars.nonce,
+            },
+            self = this;
+
+            wp.ajax.send('cpm_get_task', {
+                data: request_data,
+                success: function(res) {
+                    self.task = res.task;
+                    //self.singleTask(res.task);
+                }
+            });
+            
+        }
+    },
+
+    methods: {
+        closePopup: function() {
+            this.$store.commit( 'close_single_task_popup' );
+        },
+
+        singleTaskTitle: function(task) {
+            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
+        }
+    },
+}
+
 var CPM_List_Single = { 
 
     // Assign template for this component
@@ -1736,26 +1781,26 @@ Vue.component( 'cpm-loading', {
     template: '#tmpl-cpm-spinner'
 });
 
-Vue.component( 'cpm-single-task', {
-    // Assign template for this component
-    template: '#tmpl-cpm-task-single',
+// Vue.component( 'cpm-single-task', {
+//     // Assign template for this component
+//     template: '#tmpl-cpm-task-single',
 
-    // Get passing data for this component. 
-    props: ['task'],
+//     // Get passing data for this component. 
+//     props: ['task'],
 
-    // Include global properties and methods
-    mixins: [CPM_Task_Mixin],
+//     // Include global properties and methods
+//     mixins: [CPM_Task_Mixin],
 
-    methods: {
-        closePopup: function() {
-            this.$store.commit( 'close_single_task_popup' );
-        },
+//     methods: {
+//         closePopup: function() {
+//             this.$store.commit( 'close_single_task_popup' );
+//         },
 
-        singleTaskTitle: function(task) {
-            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
-        }
-    },
-});
+//         singleTaskTitle: function(task) {
+//             return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
+//         }
+//     },
+// });
 
 Vue.component( 'cpm-paginaton', {
     template: '#tmpl-cpm-pagination',
