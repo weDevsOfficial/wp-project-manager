@@ -551,7 +551,7 @@ function cpm_project_overview_summary( $info, $project_id ) {
 
     foreach ( $summary as $key => $val ) {
         if($val['url'] == ""  OR $val['url'] == '#' ){
-           $info_array[] = sprintf( '<li class="%s"><div class="icon"></div> <div class="count"><span>%d</span> %s</div> </li>', $key,  $val['count'], $val['label'] );
+           $info_array[] = sprintf( '<li class="%s"><a><div class="icon"></div> <div class="count"><span>%d</span> %s</div> </a></li>', $key,  $val['count'], $val['label'] );
         }else {
         $info_array[] = sprintf( '<li class="%s"><a href="%s"> <div class="icon"></div> <div class="count"><span>%d</span> %s</div> </a></li>', $key, $val['url'], $val['count'], $val['label'] );
         }

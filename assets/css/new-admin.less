@@ -4472,10 +4472,13 @@ ul.cpm-files {
 
             .cpm-task-title {
                 margin-top: 0px;
+                display: inline-block;
+                padding-right: 20px;
             }
 
             .cpm-task-meta {
-                margin-top: -15px;
+                margin-top: 0px;
+                display: inline-block;
             }
 
             .cpm-assigned-user {
@@ -4685,5 +4688,13 @@ ul.cpm-files {
         display: block;
         list-style-type: disc;
         margin-left: 2em;
+    }
+}
+
+.cpm-project-action {
+    ul.cpm-settings {
+        li .cpm-spinner {
+            display: none;
+        }
     }
 }
