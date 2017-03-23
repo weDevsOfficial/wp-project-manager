@@ -20,7 +20,13 @@
                                     <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
                                 </h3>
                                 
-                                <p class="cpm-task-meta">
+                                <div class="cpm-task-meta">
+                                     <span class='cpm-assigned-user' 
+                                        v-for="user in getUsers( task.assigned_to )" 
+                                        v-html="user.user_url">
+
+                                    </span>
+                                    
                                     <span :class="taskDateWrap( task.start_date, task.due_date )">
                                         <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
                                         <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
@@ -28,15 +34,7 @@
                                     </span>
 
                                     <span class="cpm-task-comment-count">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
-                                </p>
-
-                                <span>
-                                    <span class='cpm-assigned-user' 
-                                        v-for="user in getUsers( task.assigned_to )" 
-                                        v-html="user.user_url">
-
-                                    </span>
-                                </span><!--v-if-->
+                                </div>
                             </div>
 
 

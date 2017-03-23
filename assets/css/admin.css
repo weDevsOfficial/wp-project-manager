@@ -3773,9 +3773,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-title {
   margin-top: 0px;
+  display: inline-block;
+  padding-right: 20px;
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-meta {
-  margin-top: -15px;
+  margin-top: 0px;
+  display: inline-block;
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-assigned-user img {
   width: 24px;
@@ -4206,4 +4209,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   display: block;
   list-style-type: disc;
   margin-left: 2em;
+}
+.cpm-project-action ul.cpm-settings li .cpm-spinner {
+  display: none;
 }
