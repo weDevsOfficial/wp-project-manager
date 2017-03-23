@@ -20,7 +20,25 @@ var CPM_Task_Mixin = {
 
         task_start_field: function() {
            return this.$store.state.permissions.task_start_field;
-        }
+        },
+
+        /**
+         * Check is todo-list single or not
+         * 
+         * @return Boolean
+         */
+        is_single_list: function() {
+            return this.$store.state.is_single_list;
+        },
+
+        /**
+         * Check is task single or not
+         * 
+         * @return Boolean
+         */
+        is_single_task: function() {
+            return this.$store.state.is_single_task;
+        },
     },
 
     /**

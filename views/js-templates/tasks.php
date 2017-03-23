@@ -14,7 +14,11 @@
                                 <span :class="privateClass( task )"></span>
                             </a> -->
 
-                            <router-link :to="{ name: 'task_single', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
+                            <span v-if="is_single_list">
+                                <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
+                            </span>
+                            <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link></span>
+                            <span :class="privateClass( task )"></span>
                             
                             <span class='cpm-assigned-user' 
                                 v-for="user in getUsers( task.assigned_to )" 
@@ -91,11 +95,16 @@
                             <!-- <span class="cpm-spinner"></span> -->
                             <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
-                            <span class="task-title">
+                            <!-- <span class="task-title">
                                 <span class="cpm-todo-text">{{ task.post_title }}</span>
                                 <span :class="privateClass( task )"></span>
+                            </span> -->
+                            <span class="task-title">
+                                <span v-if="is_single_list"><router-link exact :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
+                                <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
+                                <span :class="privateClass( task )"></span>
                             </span>
-                            
+
                             <span class='cpm-assigned-user' 
                                 v-for="user in getUsers( task.assigned_to )" 
                                 v-html="user.user_url">
@@ -150,6 +159,7 @@
             </div>
         </li>
     </ul>
+
 </div>
 
 

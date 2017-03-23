@@ -90,13 +90,23 @@
 
         routes: [
             // Default template. showing todolist and task
-            { path: '/', component: CPM_Router_Init },
+            { path: '/', component: CPM_Router_Init, name: 'all_lists', 
+                children: [
+                    { path: 'task/:task_id', component: CPM_Task_Single, name: 'task_single_under_todo_lists' },
+                ] 
+            },
 
             // Todo list singe page
-            { path: '/list/:list_id', component: CPM_List_Single, name: 'list_single' },
+            { path: '/list/:list_id', component: CPM_List_Single, name: 'list_single', 
 
-            // Todo list singe page
-            { path: '/list/:list_id/task/:task_id', component: CPM_Task_Single, name: 'task_single' },
+                children: [
+                    { path: 'task/:task_id', component: CPM_Task_Single, name: 'list_task_single_under_todo' },
+                ]
+            },
+
+            { path: '/single-task/:task_id', component: CPM_Task_Single, name: 'task_single' },
+
+            // Todo singe page
 
             // Pagination
             { path: '/page/:page_number', component: CPM_Router_Init, name: 'pagination' },

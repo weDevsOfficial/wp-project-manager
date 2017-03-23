@@ -278,24 +278,6 @@ Vue.component('todo-lists', {
         },
 
         /**
-         * Check is todo-list single or not
-         * 
-         * @return Boolean
-         */
-        is_single_list: function() {
-            return this.$store.state.is_single_list;
-        },
-
-        /**
-         * Check is task single or not
-         * 
-         * @return Boolean
-         */
-        is_single_task: function() {
-            return this.$store.state.is_single_task;
-        },
-
-        /**
          * Get task for single task popup
          * 
          * @return object
@@ -478,7 +460,7 @@ Vue.component('tasks', {
            tasks: this.list.tasks,
            task_index: 'undefined', // Using undefined for slideToggle class
            //task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
-           is_single_list: this.$store.state.is_single_list
+           //is_single_list: this.$store.state.is_single_list
         }
     },
 
@@ -1228,7 +1210,6 @@ var CPM_Router_Init = {
             }
         }
     },
-
 }
 
 var CPM_Task_Single = {
@@ -1245,8 +1226,34 @@ var CPM_Task_Single = {
     },
 
     created: function() {
-        if ( this.task === false ) {
+
+        this.getTask();
+    },
+
+
+    methods: {
+        closePopup: function() {
+            this.$store.commit( 'close_single_task_popup' );
             
+            if ( this.$route.name == 'list_task_single_under_todo'  ) {
+                var list_id = this.task.post_parent,
+                    push_url = '/list/'+list_id;
+                this.$router.push(push_url);
+            } else {
+                this.$router.push('/');
+            }
+        },
+
+        singleTaskTitle: function(task) {
+            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
+        },
+
+        getTask: function() {
+            if ( ! this.$route.params.task_id ) {
+                return;
+            }
+        
+
             var request_data  = {
                 task_id: this.$route.params.task_id,
                 project_id: CPM_Vars.project_id,
@@ -1258,20 +1265,9 @@ var CPM_Task_Single = {
                 data: request_data,
                 success: function(res) {
                     self.task = res.task;
-                    //self.singleTask(res.task);
+                    self.$store.commit('single_task_popup');
                 }
             });
-            
-        }
-    },
-
-    methods: {
-        closePopup: function() {
-            this.$store.commit( 'close_single_task_popup' );
-        },
-
-        singleTaskTitle: function(task) {
-            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
         }
     },
 }
@@ -1297,6 +1293,7 @@ var CPM_List_Single = {
             task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
         }
     },
+
 
     /**
      * Initial action for this component
@@ -1374,18 +1371,9 @@ var CPM_List_Single = {
                         milestones: res.data.milestones,
                         project_users: res.data.project_users
                     });
-
-                    if ( self.task_id ) {
-                        var task_idex = self.getIndex( res.data.list.tasks, self.task_id, 'ID' ),
-                            task = res.data.list.tasks[task_idex];
-                        
-                        if ( task ) {
-                            self.singleTask(task);
-                        }
-                    }
                 } 
             });
-        }
+        },
     }
 
 }

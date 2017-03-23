@@ -249,14 +249,14 @@ var cpm_task_store = {
          * 
          * @return void       
          */
-        single_task_popup: function( state, task ) {
-            state.task = {};
-            state.is_single_task = false;
+        single_task_popup: function( state ) {
+            //state.task = {};
+            state.is_single_task = true;
 
-            Vue.nextTick(function() {
-                state.task = task.task;
-                state.is_single_task = true;
-            });
+            // Vue.nextTick(function() {
+            //     state.task = task.task;
+            //     state.is_single_task = true;
+            // });
         },
 
         /**
@@ -268,7 +268,7 @@ var cpm_task_store = {
          */
         close_single_task_popup: function( state ) {
             state.is_single_task = false;
-            state.task = {};
+            //state.task = {};
         },
 
         update_task_comment: function( state, comment ) {
