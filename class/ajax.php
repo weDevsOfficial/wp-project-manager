@@ -59,6 +59,7 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_milestone_update', array ( $this, 'milestone_update' ) );
 
         add_action( 'wp_ajax_cpm_ajax_upload', array ( $this, 'ajax_upload' ) );
+        add_action( 'wp_ajax_cpm_ajax_upload_old', array ( $this, 'ajax_upload_old' ) );
         add_action( 'wp_ajax_cpm_delete_file', array ( $this, 'delete_file' ) );
 
         add_action( 'wp_ajax_cpm_comment_new', array ( $this, 'new_comment' ) );
@@ -1717,13 +1718,44 @@ class CPM_Ajax {
         exit();
     }
 
-     function hook_cpm_task_column( $project_id, $list_id, $task, $single = false ) {
+    function hook_cpm_task_column( $project_id, $list_id, $task, $single = false ) {
         ob_start();
 
         $r = do_action( 'cpm_task_column', $task, $project_id, $list_id, $single, $task->completed );
 
         return ob_get_clean();
         exit();
+    }
+
+    function ajax_upload_old() {
+        check_ajax_referer( 'cpm_ajax_upload', 'nonce' );
+
+        $object_id   = isset( $_REQUEST['object_id'] ) ? intval( $_REQUEST['object_id'] ) : 0;
+        $comment_obj = CPM_Comment::getInstance();
+        $response    = $comment_obj->upload_file( $object_id );
+
+        if ( $response['success'] ) {
+            $file = $comment_obj->get_file( $response['file_id'] );
+
+            $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File', 'cpm' ) );
+            $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
+            $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
+
+            $html = '<div class="cpm-uploaded-item">' . $file_url . ' ' . $delete . $hidden . '</div>';
+            echo json_encode( array(
+                'success' => true,
+                'content' => $html,
+            ) );
+
+            exit;
+        }
+
+        echo json_encode( array(
+            'success' => false,
+            'error'   => $response['error'],
+        ) );
+
+        exit;
     }
 
 }

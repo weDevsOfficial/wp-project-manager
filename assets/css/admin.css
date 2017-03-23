@@ -1944,14 +1944,15 @@ ul.cpm-files li .cpm-file-action .comment-number {
   position: relative;
 }
 .cpm-calendar a.cpm-expire-task {
-  background-color: #F29B27 !important;
+  background-color: #a30 !important;
 }
 .cpm-calendar a.cpm-task-running {
-  background-color: #0090D9 !important;
+  background-color: #1abc9c !important;
 }
 .cpm-calendar a.cpm-complete-task {
   text-decoration: line-through;
-  background-color: #85BE33 !important;
+  background-color: #3498db !important;
+  text-decoration: line-through !important;
 }
 .cpm-calendar span.fc-event-title {
   color: #fff;

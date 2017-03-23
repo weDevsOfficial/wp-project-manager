@@ -32,7 +32,7 @@
             $( 'body' ).on( 'click', '.cpm-edit-comment-link', this.Comment.get );
             $( 'body' ).on( 'click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit );
             $( 'body' ).on( 'click', '.cpm-delete-comment-link', this.Comment.deleteComment );
-            //$( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
+            $( 'body' ).on( 'submit', 'form.cpm-comment-form', this.Comment.update );
             $( 'body' ).on( 'click', '.cpm-delete-file', this.Uploader.deleteFile );
 
             /* =============== Project Duplicate ============ */
@@ -53,12 +53,12 @@
 
 
             // add new commenttoggleForm
-            // $( '.cpm-comment-form' ).validate( {
-            //     submitHandler: function( form ) {
-            //         weDevs_CPM.Comment.addNew.call( form );
-            //         return false;
-            //     }
-            // } );
+            $( '.cpm-comment-form' ).validate( {
+                submitHandler: function( form ) {
+                    weDevs_CPM.Comment.addNew.call( form );
+                    return false;
+                }
+            } );
             // toggle all user notification checkbox
             $( '.cpm' ).on( 'change', '.cpm-toggle-checkbox', function( e ) {
                 var $checkBoxes = $( this ).closest( '.notify-users' ).find( 'input[type=checkbox][name="notify_user[]"]' );
@@ -169,7 +169,6 @@
                         $( '.cpm-project-role>table' ).append( resp.data );
                         $( '.cpm-error' ).html( '' );
                         $( "form.cpm-user-create-form input[type=text], input[type=email]" ).val( '' );
-                        $( "input.cpm-project-coworker.ui-autocomplete-input" ).val( '' );
                     } else {
                         $( '.cpm-error' ).html( resp.data );
                     }
@@ -533,6 +532,7 @@
                         data = that.serialize();
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -551,8 +551,6 @@
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
-                        $( '.cpm-comment-form-wrap trix-editor' ).html( '' );
-                        $( '.cpm-comment-form-wrap trix-editor' ).val( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
 
@@ -576,7 +574,7 @@
                         parent.find( '.cpm-comment-content' ).hide();
                         parent.find( '.cpm-comment-edit-form' ).hide().html( res.form ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -597,11 +595,11 @@
                         container = form.closest( '.cpm-comment-container' ),
                         data = form.serialize(),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
                 }
-
 
 
                 btn.attr( 'disabled', true );
@@ -618,8 +616,6 @@
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
-                        $( 'trix-editor' ).html( '' );
-                        $( 'trix-editor' ).val( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
                 } );
@@ -670,7 +666,7 @@
             },
             hide: function( e ) {
                 e.preventDefault();
-                new CPM_Uploader( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
+                new CPM_Uploader_Old( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
                 $( '.cpm-new-message-form' ).slideUp();
             },
             addNew: function( e ) {
@@ -796,7 +792,7 @@
 
                         parent.find( '.cpm-entry-detail' ).hide().next( '.cpm-msg-edit-form' ).hide().html( res.content ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -1020,9 +1016,9 @@
             $( this ).closest( 'tr' ).remove();
         } );
     } );
-    new CPM_Uploader( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
 
     function  showderror() {
 
