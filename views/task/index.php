@@ -3,7 +3,10 @@
 
     <!-- route outlet -->
     <!-- component matched by the route will render here -->
-    <router-view></router-view>
+    <router-view name="Initital_view"></router-view>
+    <router-view name="single_list"></router-view>
+    <router-view name="single_task"></router-view>
+    <router-view name="pagination"></router-view>
 
 </div>
 

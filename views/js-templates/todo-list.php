@@ -62,7 +62,7 @@
         </li>
     </ul>
 
-    <router-view></router-view>
+    <router-view name="single_task"></router-view>
     
 
     <div v-if="is_single_list">
