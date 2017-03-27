@@ -4214,3 +4214,32 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm-project-action ul.cpm-settings li .cpm-spinner {
   display: none;
 }
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project {
+  width: 50%;
+  margin-top: 0px;
+  background-color: #ffffff;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item.cpm-project-role a.cpm-del-proj-role.cpm-assign-del-user {
+  border: none;
+  box-shadow: none;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item {
+  margin-bottom: 15px;
+  width: 100%;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item input[type="text"] {
+  width: 70%;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item textarea {
+  width: 70%;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item select {
+  width: 70%;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item #project_cat_chosen {
+  width: 70%;
+}
+.cpm.cpm-front-end .cpm-project-header.cpm-project-head .cpm-edit-project .cpm-form-item .chosen-container-single a.chosen-single {
+  height: 30px;
+  box-shadow: none;
+}
