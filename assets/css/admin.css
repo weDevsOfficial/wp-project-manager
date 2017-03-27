@@ -4214,3 +4214,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm-project-action ul.cpm-settings li .cpm-spinner {
   display: none;
 }
+.cpm-project-form .cpm-form-item {
+  margin-bottom: 15px;
+}
+.cpm-project-form .cpm-form-item .chosen-container-single a.chosen-single {
+  height: 30px;
+  box-shadow: none;
+}
