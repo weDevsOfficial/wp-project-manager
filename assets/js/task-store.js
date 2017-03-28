@@ -152,6 +152,7 @@ var cpm_task_store = {
                 state.lists.push(data.list);
                 state.milestones     = data.milestones;
                 state.project_users  = data.project_users;
+                state.permissions    = data.permissions;
                 state.is_single_list = true;
             });
         },
@@ -296,6 +297,7 @@ var cpm_task_store = {
          * @return void       
          */
         after_delete_task: function( state, task ) {
+            console.log( state.lists[task.list_index].tasks );
             state.lists[task.list_index].tasks.splice( task.task_index, 1 );
         },
 
@@ -309,6 +311,10 @@ var cpm_task_store = {
          */
         insert_tasks: function( state, task ) {
             state.lists[task.list_index].tasks = task.tasks.tasks;
+        },
+
+        emptyTodoLists: function(state) {
+            state.lists = [];
         }
     }
 }

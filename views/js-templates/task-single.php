@@ -1,4 +1,5 @@
 <div>
+    
     <div v-if="is_single_task">
         <div v-if="task" class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 

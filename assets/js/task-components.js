@@ -301,132 +301,7 @@ Vue.component('todo-lists', {
 
     methods: {
 
-        /**
-         * Count completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return int      
-         */
-        countCompletedTasks: function( tasks ) {
-            if ( ! tasks ) {
-                return 0;
-            }
-
-            var completed_task = 0;
-            
-            tasks.filter( function( task ) {
-                if ( ( task.completed === 1 ) || task.completed ) {
-                    completed_task++;
-                }
-            });
-
-            return completed_task;
-        },
-
-        /**
-         * Count incompleted tasks
-         * 
-         * @param  array tasks
-         *  
-         * @return int       
-         */
-        countIncompletedTasks: function( tasks ) {
-            if ( ! tasks ) {
-                return 0;
-            }
-
-            var in_completed_task = 0;
-
-            tasks.filter( function( task ) {
-                if ( ( task.completed === 0 ) || !task.completed ) {
-                    in_completed_task++;
-                }
-            });
-
-            return in_completed_task;
-        },
-
-        /**
-         * Get task completed percentage from todo list
-         * 
-         * @param  array tasks
-         *  
-         * @return float       
-         */
-        getProgressPercent: function( tasks ) {
-            if ( ! tasks ) {
-                return 0;
-            }
-            var total_tasks     = tasks.length,
-                completed_tasks = this.countCompletedTasks( tasks ),
-                progress        = ( 100 * completed_tasks ) / total_tasks;
-
-            return isNaN( progress ) ? 0 : progress.toFixed(0);
-        },
-
-        /**
-         * Get task completed progress width
-         * 
-         * @param  array tasks 
-         * 
-         * @return obj       
-         */
-        getProgressStyle: function( tasks ) {
-            if ( ! tasks ) {
-                return 0;
-            }
-            var width = this.getProgressPercent( tasks );
-
-            return { width: width+'%' };
-        },
-
-        /**
-         * Delete list
-         * 
-         * @param  int list_id 
-         * 
-         * @return void         
-         */
-        deleteList: function( list_id ) {
-            if ( ! confirm( CPM_Vars.message.confirm ) ) {
-                return;
-            }
-
-            var self       = this,
-                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
-                form_data  = {
-                    action: 'cpm_tasklist_delete',
-                    list_id: list_id,
-                    _wpnonce: CPM_Vars.nonce,
-                };
-
-            // Seding request for insert or update todo list
-            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
-                if ( res.success ) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-                    
-                    CPM_Component_jQuery.fadeOut( list_id, function() {
-                        
-                        self.refreshTodoListPage();
-                        
-                        // self.$store.commit( 'after_delete_todo_list', { 
-                        //     list_index: list_index,
-                        // });
-                    });
-                } else {
-                    // Showing error
-                    res.data.error.map( function( value, index ) {
-                        toastr.error(value);
-                    });
-                }
-            });
-        },
-
-        privateClass: function(list) {
-            return list.private == 'on' ? 'cpm-lock' : '';
-        }
+        
 
     }
 
@@ -715,6 +590,8 @@ Vue.component('cpm-task-comment-form', {
                             list_index: list_index,
                             comment: res.data.comment,
                         });
+
+                        self.task.comments.push(res.data.comment);
 
                         self.files = [];
                         self.content.html = '';
@@ -1192,12 +1069,13 @@ var CPM_Router_Init = {
     // Initial doing 
     created: function() {
         var self = this;
+        this.$store.commit('emptyTodoLists');
         this.getInitialData( this.$store.state.project_id, function(status) {
-            Vue.nextTick(function() {
-                if ( ! self.$store.state.lists.length ) {
-                    self.refreshTodoListPage();
-                }
-            });
+            // Vue.nextTick(function() {
+            //     if ( ! self.$store.state.lists.length ) {
+            //         self.refreshTodoListPage();
+            //     }
+            // });
         } );
     },
 
@@ -1205,6 +1083,7 @@ var CPM_Router_Init = {
         '$route': function (to, from) {
             
             if ( this.$route.params.page_number ) {
+                this.$store.commit('emptyTodoLists');
                 this.getInitialData( this.$store.state.project_id );
                 this.current_page_number = this.$route.params.page_number;
             }
@@ -1289,7 +1168,7 @@ var CPM_List_Single = {
         return {
             list_id: this.$route.params.list_id,
             list: {},
-            index: false,
+            render_tmpl: false,
             task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
         }
     },
@@ -1301,6 +1180,7 @@ var CPM_List_Single = {
      * @return void
      */
     created: function() {
+        this.$store.commit('emptyTodoLists');
         // Get todo list 
         this.getList( this.$route.params.list_id );
     },
@@ -1365,12 +1245,16 @@ var CPM_List_Single = {
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
+
                     // After getting todo list, set it to vuex state lists
                     self.$store.commit( 'update_todo_list_single', { 
                         list: res.data.list,
+                        permissions: res.data.permissions,
                         milestones: res.data.milestones,
                         project_users: res.data.project_users
                     });
+
+                    self.render_tmpl = true;
                 } 
             });
         },
