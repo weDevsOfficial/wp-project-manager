@@ -1,9 +1,9 @@
-<div> 
-    <router-link to="/"><?php _e( 'To-do Lists', 'cpm' ); ?></router-link>
-    
+<div>
+    <router-link class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist" to="/"><i class="fa fa-angle-left"></i> <?php _e( 'Back to to-do lists', 'cpm' ); ?></router-link>
+
     <div v-if="render_tmpl">
 	    <ul class="cpm-todolists">
-	        
+
 	        <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">
 
 	            <article class="cpm-todolist">
@@ -18,7 +18,7 @@
 	                    </h3>
 
 	                    <div class="cpm-entry-detail">
-	                        {{ list.post_content }}    
+	                        {{ list.post_content }}
 	                    </div>
 
 	                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
@@ -33,9 +33,9 @@
 
 	                <footer class="cpm-row cpm-list-footer">
 	                    <div class="cpm-col-6">
-	                        
+
 	                        <div v-if="canUserCreateTask"><new-task-button :task="{}" :list="list" :list_index="index"></new-task-button></div>
-	                        
+
 	                    </div>
 
 	                    <div class="cpm-col-4 cpm-todo-prgress-bar">
@@ -48,8 +48,8 @@
 	        </li>
 	    </ul>
 	    <router-view name="single_task"></router-view>
-	    <cpm-list-comments :comments="comments" :list="comment_list"></cpm-list-comments> 
-	    
+	    <cpm-list-comments :comments="comments" :list="comment_list"></cpm-list-comments>
+
 	</div>
 </div>
 
