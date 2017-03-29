@@ -646,7 +646,7 @@ class CPM_Ajax {
 
             do_action( 'cpm_mark_task_open', $project_id, $task_id );
 
-            wp_send_json_success( array( 'success' => __( 'The task has been reopened.', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
 
             // $complete = $task_obj->get_completeness( $list_id, $project_id );
             // $user_id  = wp_get_current_user()->ID;
