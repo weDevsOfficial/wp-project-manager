@@ -482,7 +482,7 @@ var CPM_Task_Mixin = {
             if ( start_date == '' && due_date == '' ) {
                 return false;
             }
-
+            
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
             

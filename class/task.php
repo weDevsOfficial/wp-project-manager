@@ -614,6 +614,7 @@ class CPM_Task {
         $task_list->pin_list       = is_sticky( $task_list->ID ) ? true : false;
         $task_list->edit_mode      = false;
         $task_list->show_task_form = false;
+        $task_list->can_del_edit   = cpm_user_can_delete_edit( $task_list->post_parent, $task_list );
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -667,6 +668,7 @@ class CPM_Task {
      * @param object $task
      */
     function set_task_meta( &$task ) {
+
         $task->completed    = intval( get_post_meta( $task->ID, '_completed', true ) );
         $task->completed_by = get_post_meta( $task->ID, '_completed_by', true );
         $task->completed_on = get_post_meta( $task->ID, '_completed_on', true );

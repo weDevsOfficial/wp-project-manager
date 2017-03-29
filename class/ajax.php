@@ -106,6 +106,10 @@ class CPM_Ajax {
         $permission  = $this->permissions( $project_id );
         $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'] );
 
+        foreach ( $tasks as $key => $task ) {
+            $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
+        }
+
         wp_send_json_success( array( 'tasks' => $tasks ) );
     }
 
@@ -1622,6 +1626,7 @@ class CPM_Ajax {
         //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
         
         $task->post_content = cpm_get_content( $task->post_content );
+        $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
         
         wp_send_json_success( array( 'task' => $task ) );
     }

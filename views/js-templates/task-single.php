@@ -42,7 +42,7 @@
 
                                 <div class="task-details ">
                                     <!--v-if-->
-                                    <p><p>{{ task.post_content }}</p></p>
+                                    <p v-html="task.post_content"></p>
 
                                     <!--<span>
                                         <span class='cpm-assigned-user' 

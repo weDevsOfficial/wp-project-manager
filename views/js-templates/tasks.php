@@ -35,11 +35,13 @@
 
                         <div class="cpm-col-4 cpm-todo-action-center">
                             <div class="cpm-task-comment">
-                                <a @click.prevent="singleTask( task )" href="#">
-                                    <span class="cpm-comment-count">
-                                        {{ task.comments.length }}
-                                    </span>
-                                </a>
+                                <!-- <a @click.prevent="singleTask( task )" href="#"> -->
+                                    <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
+                                        <span class="cpm-comment-count">
+                                            {{ task.comments.length }}
+                                        </span>
+                                    </router-link>
+                                <!-- </a> -->
                             </div>
 
                             <!-- deprecated -->
@@ -49,14 +51,13 @@
                         </div>
 
 
-                        <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-                            <?php if ( true ) { ?>
+                        <div class="cpm-col-1 cpm-todo-action-right cpm-last-col" v-if="task.can_del_edit">
+                            
                                 <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
                                 <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-                                <?php if ( true ) { ?>
-                                    <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
-                                <?php } ?>
-                            <?php } ?>
+                                
+                                <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+
                         </div>
                         <div class="clearfix"></div>
                     </div>
