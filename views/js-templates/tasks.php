@@ -85,8 +85,8 @@
         </li>
     </ul>
 
-    <ul v-if="is_single_list" class="cpm-todos cpm-todolist-content cpm-todo-completed">
-        <li class="cpm-todo" v-for="(task, task_index) in getCompletedTask">
+    <ul v-if="is_single_list"  class="cpm-todos cpm-todolist-content cpm-todo-completed">
+        <li v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
             
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
@@ -133,10 +133,8 @@
                         <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                             <?php if ( true ) { ?>
                                 <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                                <a href="#" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-                                <?php if ( true ) { ?>
-                                    <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
-                                <?php } ?>
+                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                                
                             <?php } ?>
                         </div>
                         <div class="clearfix"></div>

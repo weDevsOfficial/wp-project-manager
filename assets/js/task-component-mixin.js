@@ -306,19 +306,22 @@ var CPM_Task_Mixin = {
         showHideTaskCommentEditForm: function( task, comment_id ) {
             var list_index    = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
                 task_index    = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
-                comment_index = this.getIndex( this.$store.state.lists[list_index].tasks[task_index].comments, comment_id, 'comment_ID' ) ,
+                comment_index = this.getIndex( this.task.comments, comment_id, 'comment_ID' ) ,
                 self          = this;
 
-            var edit_mode = self.$store.state.lists[list_index].tasks[task_index].comments[comment_index].edit_mode;
-
+            var edit_mode = this.task.comments[comment_index].edit_mode;
+            
             if ( edit_mode ) {
                 CPM_Component_jQuery.slide( comment_id, function() {
-                    self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                    //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );
+                    self.task.comments[comment_index].edit_mode = false;    
+                    
                 });
             
             } else {
-                self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
-                
+                //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                self.task.comments[comment_index].edit_mode = true;
+
                 Vue.nextTick( function() {
                     CPM_Component_jQuery.slide( comment_id );
                 } );
@@ -612,6 +615,133 @@ var CPM_Task_Mixin = {
                     self.$store.commit( 'insert_tasks', {tasks: res, list_index: list_index} );
                 }
             });
+        },
+
+        /**
+         * Count completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return int      
+         */
+        countCompletedTasks: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+
+            var completed_task = 0;
+            
+            tasks.filter( function( task ) {
+                if ( ( task.completed === 1 ) || task.completed ) {
+                    completed_task++;
+                }
+            });
+
+            return completed_task;
+        },
+
+        /**
+         * Count incompleted tasks
+         * 
+         * @param  array tasks
+         *  
+         * @return int       
+         */
+        countIncompletedTasks: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+
+            var in_completed_task = 0;
+
+            tasks.filter( function( task ) {
+                if ( ( task.completed === 0 ) || !task.completed ) {
+                    in_completed_task++;
+                }
+            });
+
+            return in_completed_task;
+        },
+
+        /**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+            var total_tasks     = tasks.length,
+                completed_tasks = this.countCompletedTasks( tasks ),
+                progress        = ( 100 * completed_tasks ) / total_tasks;
+
+            return isNaN( progress ) ? 0 : progress.toFixed(0);
+        },
+
+        /**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
+        getProgressStyle: function( tasks ) {
+            if ( ! tasks ) {
+                return 0;
+            }
+            var width = this.getProgressPercent( tasks );
+
+            return { width: width+'%' };
+        },
+
+        /**
+         * Delete list
+         * 
+         * @param  int list_id 
+         * 
+         * @return void         
+         */
+        deleteList: function( list_id ) {
+            if ( ! confirm( CPM_Vars.message.confirm ) ) {
+                return;
+            }
+
+            var self       = this,
+                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
+                form_data  = {
+                    action: 'cpm_tasklist_delete',
+                    list_id: list_id,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            // Seding request for insert or update todo list
+            jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
+                if ( res.success ) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+                    
+                    CPM_Component_jQuery.fadeOut( list_id, function() {
+                        
+                        self.refreshTodoListPage();
+                        
+                        // self.$store.commit( 'after_delete_todo_list', { 
+                        //     list_index: list_index,
+                        // });
+                    });
+                } else {
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                }
+            });
+        },
+
+        privateClass: function(list) {
+            return list.private == 'on' ? 'cpm-lock' : '';
         }
 	}
 }

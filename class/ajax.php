@@ -128,6 +128,7 @@ class CPM_Ajax {
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
         $tasks        = array();
         $new_lists    = array();
+     
         $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'], false, $current_page );
         
         foreach ( $lists['lists'] as $list ) {
@@ -1525,7 +1526,7 @@ class CPM_Ajax {
             new CPM_Frontend_URLs();
         }
 
-        wp_send_json_success( array( 'list' => $list, 'project_users' => $project_users, 'milestones' => $milestones ) );
+        wp_send_json_success( array( 'permissions' => $permission, 'list' => $list, 'project_users' => $project_users, 'milestones' => $milestones ) );
 
         //var_dump($list) ;
         if ( empty( $list ) ) {
@@ -1618,7 +1619,7 @@ class CPM_Ajax {
         $task_id    = sanitize_text_field( $_POST[ 'task_id' ] );
         $project_id = sanitize_text_field( $_POST[ 'project_id' ] );
         $task       = $task_obj->get_task( $task_id);
-        $task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
+        //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
         
         $task->post_content = cpm_get_content( $task->post_content );
         

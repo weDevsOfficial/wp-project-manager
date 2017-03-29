@@ -33,19 +33,19 @@
                         
                         <div v-if="canUserCreateTask"><new-task-button :task="{}" :list="list" :list_index="index"></new-task-button></div>
                         
-                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-complete">
+                        <div class="cpm-col-3 cpm-todo-complete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                                 <span>{{ countCompletedTasks( list.tasks ) }}</span>
                                 <?php _e( 'Completed', 'cpm' ) ?>
                             </router-link>
                         </div>
-                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-incomplete">
+                        <div  class="cpm-col-3 cpm-todo-incomplete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                                 <span>{{ countIncompletedTasks( list.tasks ) }}</span>
                                 <?php _e( 'Incomplete', 'cpm' ) ?>
                             </router-link>
                         </div>
-                        <div v-if="!is_single_list" class="cpm-col-3 cpm-todo-comment">
+                        <div  class="cpm-col-3 cpm-todo-comment">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                                 <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
                             </router-link>
@@ -65,12 +65,6 @@
     <router-view name="single_task"></router-view>
     
 
-    <div v-if="is_single_list">
-        <cpm-list-comments :comments="lists[0].comments" :list="lists[0]"></cpm-list-comments>
-    </div>
+    <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
     
-    <!-- <cpm-single-task></cpm-single-task> -->
-    <div v-if="!is_single_list">
-        <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
-    </div>
 </div>
