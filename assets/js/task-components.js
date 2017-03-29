@@ -1221,6 +1221,23 @@ var CPM_List_Single = {
         init: function() {
             return this.$store.state.init;
         },
+
+        comments: function() {
+            if ( this.$store.state.lists.length ) {
+                return this.$store.state.lists[0].comments;
+            }
+
+            return [];
+        },
+
+        comment_list: function() {
+            if ( this.$store.state.lists.length ) {
+                return this.$store.state.lists[0];
+            }
+
+            return {};
+        }
+
     },
 
     methods: {

@@ -47,7 +47,8 @@
 
         <div class="item submit">
             <span class="cpm-new-task-spinner"></span>
-            <input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="<?php _e( 'New Task', 'cpm' ); ?>">
+            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="<?php _e( 'Update Task', 'cpm' ); ?>"></span>
+            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="<?php _e( 'New Task', 'cpm' ); ?>"></span>
             <a @click.prevent="hideNewTaskForm(list_index, task.ID)" class="button todo-cancel" href="#"><?php _e( 'Cancel', 'cpm' ); ?></a>
             <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>

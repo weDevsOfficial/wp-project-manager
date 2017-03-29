@@ -106,6 +106,10 @@ class CPM_Ajax {
         $permission  = $this->permissions( $project_id );
         $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'] );
 
+        foreach ( $tasks as $key => $task ) {
+            $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
+        }
+
         wp_send_json_success( array( 'tasks' => $tasks ) );
     }
 
@@ -533,7 +537,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
         
-        wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'task' => $task ) );
+        wp_send_json_success( array( 'success' => __( 'A new task has been created successfully.', 'cpm' ),  'task' => $task ) );
     }
 
     function update_task() {
@@ -561,7 +565,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
         
-        wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'task' => $task ) );
+        wp_send_json_success( array( 'success' => __( 'The task has been updated successfully..', 'cpm' ),  'task' => $task ) );
     }
 
     function check_task_access() {
@@ -621,7 +625,7 @@ class CPM_Ajax {
 
             //CPM_Notification::getInstance()->complete_task( $project_id );
             
-            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been marked as completed.', 'cpm' ) ) );
         
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
@@ -646,7 +650,7 @@ class CPM_Ajax {
 
             do_action( 'cpm_mark_task_open', $project_id, $task_id );
 
-            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
 
             // $complete = $task_obj->get_completeness( $list_id, $project_id );
             // $user_id  = wp_get_current_user()->ID;
@@ -691,7 +695,7 @@ class CPM_Ajax {
             //     'list_url' => cpm_url_single_tasklist( $project_id, $list_id ),
             //     'progress' => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] )
             // );
-            wp_send_json_success( array( 'success' => __( 'Sucessfully deleted', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been deleted successfully.', 'cpm' ) ) );
         } else {
             $error = new WP_Error( 'permission', 'You do not have permission to delete this task', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
@@ -745,7 +749,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
 
-        wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'list' => $response ) );
+        wp_send_json_success( array( 'success' => __( 'A new todo list has been created successfully.', 'cpm' ),  'list' => $response ) );
     }
 
     function update_tasklist() {
@@ -791,7 +795,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $list_id->get_error_messages() ) );
         }
 
-        wp_send_json_success( array( 'list' => $list, 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
+        wp_send_json_success( array( 'list' => $list, 'success' => __( 'Todo list has been updated successfully.', 'cpm' ) ) );
     }
 
     function add_new_list_kyes( $list, $project_id ) {
@@ -829,7 +833,7 @@ class CPM_Ajax {
             CPM_Task::getInstance()->delete_list( $_POST[ 'list_id' ], true );
 
             do_action( 'cpm_delete_tasklist_after', $_POST[ 'list_id' ] );
-            wp_send_json_success( array( 'success' => __( 'Sucessfully deleted', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'Todo list has been deleted successfully.', 'cpm' ) ) );
         } else {
             $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
@@ -1622,6 +1626,7 @@ class CPM_Ajax {
         //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
         
         $task->post_content = cpm_get_content( $task->post_content );
+        $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
         
         wp_send_json_success( array( 'task' => $task ) );
     }

@@ -4221,3 +4221,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   height: 30px;
   box-shadow: none;
 }
+.toast-top-right {
+  top: 32px !important;
+  right: 0px !important;
+}

@@ -2,7 +2,6 @@
     <router-link to="/"><?php _e( 'To-do Lists', 'cpm' ); ?></router-link>
     
     <div v-if="render_tmpl">
-    	
 	    <ul class="cpm-todolists">
 	        
 	        <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">
@@ -18,7 +17,7 @@
 	                        </div>
 	                    </h3>
 
-	                    <div class="cpm-entry-detail" >
+	                    <div class="cpm-entry-detail">
 	                        {{ list.post_content }}    
 	                    </div>
 
@@ -48,13 +47,9 @@
 	            </article>
 	        </li>
 	    </ul>
-
 	    <router-view name="single_task"></router-view>
-	    
-	    <cpm-list-comments :comments="lists[0].comments" :list="lists[0]"></cpm-list-comments> 
+	    <cpm-list-comments :comments="comments" :list="comment_list"></cpm-list-comments> 
 	    
 	</div>
-
-
 </div>
 
