@@ -310,7 +310,12 @@ var cpm_task_store = {
          * @return void       
          */
         insert_tasks: function( state, task ) {
-            state.lists[task.list_index].tasks = task.tasks.tasks;
+            
+            task.tasks.tasks.forEach(function(task_obj) {
+                //console.log(task);
+               state.lists[task.list_index].tasks.push(task_obj);
+            });
+            //state.lists[task.list_index].tasks = task.tasks.tasks;
         },
 
         emptyTodoLists: function(state) {

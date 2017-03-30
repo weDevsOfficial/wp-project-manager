@@ -32,7 +32,7 @@
                     <div class="cpm-col-6">
                         
                         <div v-if="canUserCreateTask"><new-task-button :task="{}" :list="list" :list_index="index"></new-task-button></div>
-                        
+                       
                         <div class="cpm-col-3 cpm-todo-complete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
                                 <span>{{ countCompletedTasks( list.tasks ) }}</span>

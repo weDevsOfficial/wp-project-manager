@@ -320,7 +320,13 @@ Vue.component('tasks', {
     mixins: [CPM_Task_Mixin],
 
     created: function() {
-        this.getTasks(this.list.ID);
+        var self = this;
+        this.getTasks(this.list.ID, 0, function(res) {
+
+            if ( res.found_tasks > self.list.tasks.length ) {
+                self.show_load_more_btn = true;
+            }
+        });
     },
 
     /**
@@ -336,6 +342,8 @@ Vue.component('tasks', {
            task_index: 'undefined', // Using undefined for slideToggle class
            //task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
            //is_single_list: this.$store.state.is_single_list
+           task_loading_status: false,
+           show_load_more_btn: false,
         }
     },
 
@@ -451,6 +459,28 @@ Vue.component('tasks', {
                     });
                 }
             });
+        },
+
+        loadMoreTasks: function(list) {
+            if ( this.task_loading_status ) {
+                return;
+            }
+
+            this.task_loading_status = true;
+
+            var page_number = list.tasks.length,
+                self   = this;
+            
+            this.getTasks( list.ID, page_number, function(res) {
+                self.task_loading_status = false;
+
+                if ( res.found_tasks > self.list.tasks.length ) {
+                    self.show_load_more_btn = true;
+                } else {
+                    self.show_load_more_btn = false;
+                }
+            });
+
         }
     }
 

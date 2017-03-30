@@ -84,7 +84,8 @@
         <li v-if="list.show_task_form" class="cpm-todo-form">
             <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
         </li>
-    </ul>
+        <li v-if="show_load_more_btn"><a @click.prevent="loadMoreTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
+    </ul> 
 
     <ul v-if="is_single_list"  class="cpm-todos cpm-todolist-content cpm-todo-completed">
         <li v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
@@ -132,23 +133,15 @@
 
 
                         <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-                            <?php if ( true ) { ?>
-                                <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-                                
-                            <?php } ?>
+                            <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
                     <div class="cpm-col-12">
-
-                        <?php if ( true ) { ?>
-                            <div class="cpm-todo-details">
-                                
-                            </div>
-                        <?php } ?>
-
+                        <div class="cpm-todo-details">
+                            
+                        </div>
                         <?php do_action( 'cpm_task_single_after' ); ?>
                     </div>
                 </div>

@@ -600,10 +600,11 @@ var CPM_Task_Mixin = {
             return Object.keys(obj).length === 0;
         },
 
-        getTasks: function(list_id) {
+        getTasks: function(list_id, page_number, callback) {
             var form_data = {
                     _wpnonce: CPM_Vars.nonce,
                     list_id: list_id,
+                    page_number: typeof page_number == 'undefined' ? 0 : page_number,
                     project_id: CPM_Vars.project_id
                 },
                 self = this;
@@ -613,6 +614,10 @@ var CPM_Task_Mixin = {
                 success: function(res) {
                     var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
                     self.$store.commit( 'insert_tasks', {tasks: res, list_index: list_index} );
+
+                    if ( typeof callback != 'undefined' ) {
+                        callback(res);
+                    }
                 }
             });
         },
@@ -628,7 +633,7 @@ var CPM_Task_Mixin = {
             if ( ! tasks ) {
                 return 0;
             }
-
+            
             var completed_task = 0;
             
             tasks.filter( function( task ) {

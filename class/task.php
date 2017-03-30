@@ -641,14 +641,18 @@ class CPM_Task {
      * @param int $list_id
      * @return object object array of the result set
      */
-    function get_tasks( $list_id, $privacy = null ) {
+    function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
+
+        $limit = 10;
 
         $args = array ( 
             'post_parent'    => $list_id, 
-            'posts_per_page' => -1, 
             'post_type'      => 'cpm_task', 
             'order'          => 'ASC', 
-            'orderby'        => 'menu_order' 
+            'orderby'        => 'menu_order',
+            'offset'         => $pagenum, // * $limit,
+            'posts_per_page' => $limit,
+
         );
 
         $args = apply_filters( 'cpm_get_task', $args, $privacy );
@@ -658,9 +662,31 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
-        
+
         return $tasks->posts;
     }
+
+    /**
+     * Get all tasks based on a task list
+     *
+     * @param int $list_id
+     * @return object object array of the result set
+     */
+    function count_tasks( $list_id ) {
+
+        $args = array ( 
+            'post_parent'    => $list_id, 
+            'post_type'      => 'cpm_task', 
+            'posts_per_page' => 1,
+        );
+
+        $args = apply_filters( 'cpm_get_task', $args, $privacy );
+
+        $tasks = new WP_Query( $args );
+
+        return $tasks->found_posts;
+    }
+
 
     /**
      * Set all the meta values to a single task

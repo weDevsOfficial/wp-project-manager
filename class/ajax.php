@@ -102,15 +102,19 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
         $list_id    = absint( $_POST['list_id'] );
         $project_id = absint( $_POST['project_id'] );
+        $page_number = absint( $_POST['page_number'] );
 
         $permission  = $this->permissions( $project_id );
-        $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'] );
+        $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'], $page_number );
 
         foreach ( $tasks as $key => $task ) {
             $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
         }
 
-        wp_send_json_success( array( 'tasks' => $tasks ) );
+        $found_tasks = CPM_Task::getInstance()->count_tasks($list_id);
+
+        
+        wp_send_json_success( array( 'tasks' => $tasks, 'found_tasks' => $found_tasks ) );
     }
 
     /**

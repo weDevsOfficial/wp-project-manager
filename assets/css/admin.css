@@ -3156,6 +3156,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-new-task-btn {
   background-image: url('../images/plus_blue.svg');
 }
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-sub-task-show {
+  background-image: url('../images/dark-eye.svg');
+}
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-new-task-btn-minus {
   background-image: url('../images/minus.svg');
 }
