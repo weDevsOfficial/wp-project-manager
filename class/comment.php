@@ -137,7 +137,7 @@ class CPM_Comment {
         }
 
         $comment->files        = $files;
-        $comment->avatar       = get_avatar($comment->comment_author_email) ;
+        $comment->avatar       = get_avatar($comment->comment_author_email, 96, 'mm') ;
         $comment->comment_user = cpm_url_user( $comment->comment_author_email ); 
         $comment->edit_mode    = false;
     }
