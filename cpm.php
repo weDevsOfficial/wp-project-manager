@@ -273,7 +273,7 @@ class WeDevs_CPM {
         $this->message         = CPM_Message::getInstance();
         $this->task            = CPM_Task::getInstance();
         $this->milestone       = CPM_Milestone::getInstance();
-        
+
         $this->activity        = CPM_Activity::getInstance();
         $this->ajax            = CPM_Ajax::getInstance();
         $this->notification    = CPM_Notification::getInstance();
@@ -346,8 +346,10 @@ class WeDevs_CPM {
 
         $suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-        $time_zone_string      = file_get_contents( CPM_URL . '/assets/js/moment/latest.json' );
-        $json_time_zone_string = json_decode($time_zone_string, true);
+        ob_start();
+        include CPM_PATH . '/assets/js/moment/latest.json';
+        $time_zone_string      = ob_get_clean();
+        $json_time_zone_string = json_decode( $time_zone_string, true );
 
         $upload_size = intval( cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
@@ -376,7 +378,7 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
         //swp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );
-        
+
 
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
@@ -386,9 +388,9 @@ class WeDevs_CPM {
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
         //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
-        
+
         $project_id = empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] );
-        
+
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'        => admin_url( 'admin-ajax.php' ),
             'nonce'          => wp_create_nonce( 'cpm_nonce' ),
@@ -402,7 +404,7 @@ class WeDevs_CPM {
             'time_links'     => $json_time_zone_string['links'],
             'wp_date_format' => get_option( 'date_format' ),
             'wp_time_format' => get_option( 'time_format' ),
-            'current_user_avatar_url' => get_avatar_url( get_current_user_id() ),
+            'current_user_avatar_url' => get_avatar_url( get_current_user_id(), ['default' => 'mm'] ),
             'get_current_user_id' => get_current_user_id(),
             'CPM_URL'        => CPM_URL,
             'plupload'      => array(
@@ -418,7 +420,7 @@ class WeDevs_CPM {
             )
         ) );
 
-        
+
         wp_register_script( 'cpm-vue-multiselect', CPM_URL . '/assets/js/vue-multiselect/vue-multiselect.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
         //wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
@@ -428,7 +430,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-toastr', 'cpm-task-store', 'cpm-task-mixin' ), false, true );
        // wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
-        
+
         wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
         wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
         wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
@@ -440,7 +442,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );
-        
+
         do_action( 'cpm_admin_scripts' );
     }
 
@@ -494,13 +496,13 @@ class WeDevs_CPM {
     public static function admin_js_templates() {
         global $current_screen;
 
-        $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab']; 
+        $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab'];
         $hook = empty( $current_screen->base ) ? false : $current_screen->base;
-        
+
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
         cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
-        
+
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-router-default.php', 'cpm-todo-list-router-default' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-list-single.php', 'cpm-todo-list-single' );
         cpm_get_js_template( CPM_JS_TMPL . '/blanktemplate/todolist.php', 'todo-list-default' );
@@ -524,7 +526,7 @@ class WeDevs_CPM {
         cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
-            
+
     }
 
 }

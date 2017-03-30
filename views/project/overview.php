@@ -56,7 +56,7 @@ $str_todo     = implode( $str_todo, ',' );
 	         	if ( count( $project->users ) ) {
 	              	foreach ($project->users as $id => $user_meta) {
                             $role = ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) ;
-	              		printf( '<li>%s %s<span>%s</span></li>', get_avatar( $user_meta['id'], 34,  $user_meta['name'] ), cpm_url_user(  $user_meta['id']  ), __( $role, 'cpm') );
+	              		printf( '<li>%s %s<span>%s</span></li>', get_avatar( $user_meta['id'], 34, 'mm', $user_meta['name'] ), cpm_url_user(  $user_meta['id']  ), __( $role, 'cpm') );
 	           		}
 	           }
 	        ?>

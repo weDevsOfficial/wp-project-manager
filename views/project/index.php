@@ -122,7 +122,7 @@ unset( $projects['total_projects'] );
                             <?php
                             if ( count( $project->users ) ) {
                                 foreach ($project->users as $id => $user_meta) {
-                                    echo get_avatar( $user_meta['id'], 48, '', $user_meta['name'] );
+                                    echo get_avatar( $user_meta['id'], 48, 'mm', $user_meta['name'] );
                                 }
                             }
                             ?>

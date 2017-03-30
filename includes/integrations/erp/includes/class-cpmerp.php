@@ -135,7 +135,7 @@ class CPM_ERP {
         if ( $department_status != 1 ) {
             return;
         }
-        printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34 ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
+        printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34, 'mm' ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
     }
 
     function get_group_user( $project_users, $project, $table ) {

@@ -566,8 +566,8 @@ class CPM_Project {
                         'email'      => $user->user_email,
                         'name'       => $user->display_name,
                         'role'       => $row->role,
-                        'avatar'     => get_avatar( $user->ID ),
-                        'avatar_url' => get_avatar_url( $user->ID ),
+                        'avatar'     => get_avatar( $user->ID, 96, 'mm' ),
+                        'avatar_url' => get_avatar_url( $user->ID, ['default' => 'mm'] ),
                         'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
                     
