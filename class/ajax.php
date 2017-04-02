@@ -528,6 +528,7 @@ class CPM_Ajax {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->add_task( $list_id, $posted );
             $task     = $task_obj->get_task( $task_id );
+            $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
             $complete = $task_obj->get_completeness( $list_id, $project_id );
             $single   = isset( $_POST[ 'single' ] ) ? $_POST[ 'single' ] : false;
 
@@ -1526,7 +1527,7 @@ class CPM_Ajax {
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
         
         if ( $list ) {
-            $list->tasks     = $task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
+            $list->tasks     = [];//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
             $list->comments  = $task_obj->get_comments( $list_id );    
         }
         

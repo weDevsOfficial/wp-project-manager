@@ -7,7 +7,7 @@
                     <div>
                         <div class="cpm-col-7">
                             <!-- <span class="cpm-spinner"></span> -->
-                            <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox"  value="" name="" >
+                            <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
 
                             <!-- <a class="task-title" href="#">
                                 <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>
@@ -95,7 +95,7 @@
                     <div>
                         <div class="cpm-col-7">
                             <!-- <span class="cpm-spinner"></span> -->
-                            <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
+                            <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
                             <!-- <span class="task-title">
                                 <span class="cpm-todo-text">{{ task.post_title }}</span>
