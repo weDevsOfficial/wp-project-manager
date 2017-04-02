@@ -1,5 +1,5 @@
 <?php
-$milestone = cpm_has_posts('cpm_milestone');
+$milestone = cpm_has_milestone( $project_id );
 
 if ( $milestone ) {
     return;

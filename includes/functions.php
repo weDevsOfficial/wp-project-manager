@@ -1479,11 +1479,12 @@ function cpm_get_wp_timezone() {
     return $tzstring;
 }
 
-function cpm_has_posts( $post_type ) {
+function cpm_has_milestone( $project_id ) {
     $args = array(
         'posts_per_page'   => 1,
-        'post_type'        => $post_type,
-        'post_status'      => 'publish'
+        'post_type'        => 'cpm_milestone',
+        'post_status'      => 'publish',
+        'post_parent'      => $project_id
     );
 
     $posts = get_posts( $args ); 
