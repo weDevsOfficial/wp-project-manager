@@ -12,7 +12,7 @@ $from_day   = date('Y-m-d', strtotime( '-30 days', strtotime($today) ));
 $chart_data = $pro_obj->get_chart_data ( $project_id, $today, $from_day );
 $str_date   = $str_activity = $str_todo = array();
 
-if ( $chart_data['date_list'] ) {
+if ( is_array( $chart_data['date_list'] ) ) {
 	foreach ( $chart_data['date_list'] as $key => $value ) {
 		$ctd = isset($chart_data['todos'][$key]) ? $chart_data['todos'][$key] : 0;
 
