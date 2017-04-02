@@ -571,22 +571,27 @@ var CPM_Task_Mixin = {
          * 
          * @return void             
          */
-        taskDoneUndone: function( task_id, is_checked ) {
+        taskDoneUndone: function( task, is_checked ) {
             
             var self = this,
                 form_data = {
                     _wpnonce: CPM_Vars.nonce,
                     action: is_checked ? 'cpm_task_complete' : 'cpm_task_open',
-                    task_id: task_id,
+                    task_id: task.ID,
                     project_id: CPM_Vars.project_id
-                }
+                },
+                list_index = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
+                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' );
+
+                console.log(list_index, task_index);
 
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
                     // Display a success message
                     toastr.success(res.data.success);
-                    //self.$store.commit( 'task_done_undone', { is_done: is_checked, list_index: self.index, task_index: task_index } );
+
+                    self.$store.commit( 'task_done_undone', { is_done: is_checked, list_index: list_index, task_index: task_index } );
                 } else {
                     // Showing error
                     res.data.error.map( function( value, index ) {

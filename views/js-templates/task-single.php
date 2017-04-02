@@ -16,7 +16,7 @@
                             <div class="cpm-modal-conetnt">
                                 <div class="cmp-task-header">
                                     <h3 class="cpm-task-title"> 
-                                        <input v-model="task.completed" @click="taskDoneUndone( task.ID, task.completed )" class="" type="checkbox">
+                                        <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox">
                                         <span :class="singleTaskTitle(task)">{{ task.post_title }}</span>
 
                                         <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
