@@ -1478,3 +1478,15 @@ function cpm_get_wp_timezone() {
 
     return $tzstring;
 }
+
+function cpm_has_posts( $post_type ) {
+    $args = array(
+        'posts_per_page'   => 1,
+        'post_type'        => $post_type,
+        'post_status'      => 'publish'
+    );
+
+    $posts = get_posts( $args ); 
+
+    return $posts; 
+}

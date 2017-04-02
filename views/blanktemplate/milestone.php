@@ -1,4 +1,12 @@
-<div class="cpm-blank-template milestone" style="display: none">
+<?php
+$milestone = cpm_has_posts('cpm_milestone');
+
+if ( $milestone ) {
+    return;
+}
+
+?>
+<div class="cpm-blank-template milestone">
     <div class="cpm-content" >
         <h2 class="cpm-page-title">  <?php _e( 'Milestones', 'cpm' ) ?> </h2>
 
