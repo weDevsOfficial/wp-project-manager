@@ -411,8 +411,20 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
+        // form data validation start 
+        $validator = new CPM_Validator();
+
+        $rules = [
+            'project_name' => 'required',
+        ];
+
+        $error_messages = [
+            'project_name.required' => __( 'Project name is required.', 'cpm' ),
+        ];
+        // form data validation end 
+
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
-        if ( cpm_can_manage_projects() ) {
+        if ( cpm_can_manage_projects() && $validator->validate( $posted, $rules, $error_messages ) ) {
             $pro_obj    = CPM_Project::getInstance();
             $project_id = $pro_obj->update( $project_id, $posted );
             $project    = $pro_obj->get( $project_id );
@@ -423,9 +435,10 @@ class CPM_Ajax {
                 'content' => cpm_get_content( $project->post_content ),
                 'users'   => $this->user_role_table_generator( $project )
             ) );
-        }else {
+        } else {
             echo json_encode( array (
                 'success' => false,
+                'errors' => $validator->get_errors()
             ) );
         }
         exit;
@@ -500,29 +513,17 @@ class CPM_Ajax {
 
     function add_new_task() {
         $posted = $_POST;
+        
+        // removing empty fields
+        $posted = array_filter( $posted );
+
+        // validating task data 
+        $this->validate_data( $posted );
 
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $response   = array ( 'success' => false );
-        
-        // form data validation start 
-        $validator = new CPM_Validator();
-
-        $rules = [
-            'task_title' => 'required',
-            'task_due' => 'date',
-        ];
-
-        $error_messages = [
-            'task_title.required' => __( 'Task title is required.', 'cpm' ),
-            'task_due.date' => __( 'Task due is not a valid date and should be formatted as Y-m-d', 'cpm' ),
-        ];
-
-        if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
-            $validator->send_json_errors();
-        }
-        // form data validation end 
         
         if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
             $task_obj = CPM_Task::getInstance();
@@ -545,8 +546,35 @@ class CPM_Ajax {
         wp_send_json_success( array( 'success' => __( 'A new task has been created successfully.', 'cpm' ),  'task' => $task ) );
     }
 
+    protected function validate_data($data)
+    {
+        $validator = new CPM_Validator();
+
+        $rules = [
+            'task_title' => 'required',
+            'task_start' => 'date',
+            'task_due' => 'date',
+        ];
+
+        $error_messages = [
+            'task_title.required' => __( 'Task title is required.', 'cpm' ),
+            'task_start.date' => __( 'Start date is a date field and should be formatted as Y-m-d', 'cpm' ),
+            'task_due.date' => __( 'Due date is a date field and should be formatted as Y-m-d', 'cpm' ),
+        ];
+
+        if ( !$validator->validate( $data, $rules, $error_messages ) ) {
+            $validator->send_json_errors();
+        }
+    }
+
     function update_task() {
         $posted = $_POST;
+
+        // removing empty fields
+        $posted = array_filter($posted);
+
+        // validating task data 
+        $this->validate_data($posted);
 
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;

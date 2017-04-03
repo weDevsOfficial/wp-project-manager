@@ -14,8 +14,8 @@
                         <span class="cpm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
-
-                        <div class="cpm-comment-action">
+                        
+                        <div v-if="comment.comment_type !== 'cpm_activity'" class="cpm-comment-action">
                             <span class="cpm-edit-link">
                                 <a href="#" @click.prevent="showHideTaskCommentEditForm( task, comment.comment_ID )" class="dashicons dashicons-edit"></a>
                             </span>
