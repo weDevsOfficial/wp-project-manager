@@ -298,8 +298,8 @@ class CPM_Task {
         //print_r($postdata[ 'task_assign' ]) ;  exit() ;
         $assigned   = isset( $postdata[ 'task_assign' ] ) ? $postdata[ 'task_assign' ] : array ( '-1' );
         //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
-        $due        = empty( $postdata[ 'task_due' ] ) ? '' : cpm_date2mysql( $postdata[ 'task_due' ] );
-        $start      = empty( $postdata[ 'task_start' ] ) ? '' : cpm_date2mysql( $postdata[ 'task_start' ] );
+        $due        = empty( $postdata[ 'task_due' ] ) ? '' : cpm_to_mysql_date( $postdata[ 'task_due' ] );
+        $start      = empty( $postdata[ 'task_start' ] ) ? '' : cpm_to_mysql_date( $postdata[ 'task_start' ] );
         
         $data = array (
             'post_parent'  => $list_id,
