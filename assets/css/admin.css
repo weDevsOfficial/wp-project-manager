@@ -4228,3 +4228,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
   top: 32px !important;
   right: 0px !important;
 }
+.item .multiselect__input {
+  display: inline !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0;
+}
+.multiselect__element {
+  padding: 0px !important;
+  margin: 0px !important;
+}
