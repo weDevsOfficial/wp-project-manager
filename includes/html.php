@@ -517,7 +517,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
  * @return string
  */
 function cpm_show_comment( $comment, $project_id, $class = '' ) {
-
     $class = empty( $class ) ? '' : ' ' . $class;
     ob_start();
     ?>

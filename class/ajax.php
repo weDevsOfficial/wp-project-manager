@@ -411,8 +411,20 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
+        // form data validation start 
+        $validator = new CPM_Validator();
+
+        $rules = [
+            'project_name' => 'required',
+        ];
+
+        $error_messages = [
+            'project_name.required' => __( 'Project name is required.', 'cpm' ),
+        ];
+        // form data validation end 
+
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
-        if ( cpm_can_manage_projects() ) {
+        if ( cpm_can_manage_projects() && $validator->validate( $posted, $rules, $error_messages ) ) {
             $pro_obj    = CPM_Project::getInstance();
             $project_id = $pro_obj->update( $project_id, $posted );
             $project    = $pro_obj->get( $project_id );
@@ -423,9 +435,10 @@ class CPM_Ajax {
                 'content' => cpm_get_content( $project->post_content ),
                 'users'   => $this->user_role_table_generator( $project )
             ) );
-        }else {
+        } else {
             echo json_encode( array (
                 'success' => false,
+                'errors' => $validator->get_errors()
             ) );
         }
         exit;
