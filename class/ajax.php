@@ -96,25 +96,86 @@ class CPM_Ajax {
         
         add_action( 'wp_ajax_cpm_initial_todo_list', array( $this, 'initial_todo_list' ) );
         add_action( 'wp_ajax_cpm_get_tasks', array( $this, 'get_tasks' ) );
+        add_action( 'wp_ajax_cpm_get_incompleted_tasks', array( $this, 'get_incompleted_tasks' ) );
+        add_action( 'wp_ajax_cpm_get_completed_tasks', array( $this, 'get_completed_tasks' ) );
     }
 
-    function get_tasks() {
+    function get_incompleted_tasks() {
         check_ajax_referer( 'cpm_nonce' );
-        $list_id    = absint( $_POST['list_id'] );
-        $project_id = absint( $_POST['project_id'] );
+        $list_id     = absint( $_POST['list_id'] );
+        $project_id  = absint( $_POST['project_id'] );
         $page_number = absint( $_POST['page_number'] );
 
         $permission  = $this->permissions( $project_id );
-        $tasks       = CPM_Task::getInstance()->get_tasks( $list_id, $permission['todo_view_private'], $page_number );
+        $tasks       = CPM_Task::getInstance()->get_incompleted_tasks( $list_id, $permission['todo_view_private'], $page_number );
 
         foreach ( $tasks as $key => $task ) {
             $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
         }
 
-        $found_tasks = CPM_Task::getInstance()->count_tasks($list_id);
-
+        $found_tasks = CPM_Task::getInstance()->count_incompleted_tasks($list_id);
         
-        wp_send_json_success( array( 'tasks' => $tasks, 'found_tasks' => $found_tasks ) );
+        wp_send_json_success( 
+            array( 
+                'tasks' => $tasks, 
+                'incompleted_tasks' => $tasks, 
+                'found_incompleted_tasks' => $found_tasks 
+            ) 
+        );
+    }
+
+    function get_completed_tasks() {
+        check_ajax_referer( 'cpm_nonce' );
+        $list_id     = absint( $_POST['list_id'] );
+        $project_id  = absint( $_POST['project_id'] );
+        $page_number = absint( $_POST['page_number'] );
+
+        $permission  = $this->permissions( $project_id );
+        $tasks       = CPM_Task::getInstance()->get_completed_tasks( $list_id, $permission['todo_view_private'], $page_number );
+
+        foreach ( $tasks as $key => $task ) {
+            $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
+        }
+
+        $found_tasks = CPM_Task::getInstance()->count_completed_tasks($list_id);
+        
+        wp_send_json_success( 
+            array( 
+                'tasks' => $tasks, 
+                'completed_tasks' => $tasks, 
+                'found_completed_tasks' => $found_tasks 
+            ) 
+        );
+    }
+
+    function get_tasks() {
+        check_ajax_referer( 'cpm_nonce' );
+        $list_id     = absint( $_POST['list_id'] );
+        $project_id  = absint( $_POST['project_id'] );
+        $page_number = absint( $_POST['page_number'] );
+
+        $permission  = $this->permissions( $project_id );
+        $incompleted_tasks       = CPM_Task::getInstance()->get_incompleted_tasks( $list_id, $permission['todo_view_private'], $page_number );
+        $completed_tasks         = CPM_Task::getInstance()->get_completed_tasks( $list_id, $permission['todo_view_private'], $page_number );
+
+        $tasks = array_merge( $incompleted_tasks, $completed_tasks );
+
+        foreach ( $tasks as $key => $task ) {
+            $tasks[$key]->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
+        }
+
+        $found_incompleted_tasks = CPM_Task::getInstance()->count_incompleted_tasks($list_id);
+        $found_completed_tasks   = CPM_Task::getInstance()->count_completed_tasks($list_id);
+        
+        wp_send_json_success( 
+            array( 
+                'tasks'                   => $tasks,
+                'incompleted_tasks'       => $incompleted_tasks,
+                'completed_tasks'         => $completed_tasks,
+                'found_incompleted_tasks' => $found_incompleted_tasks, 
+                'found_completed_tasks'   => $found_completed_tasks 
+            ) 
+        );
     }
 
     /**

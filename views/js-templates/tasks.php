@@ -84,7 +84,7 @@
         <li v-if="list.show_task_form" class="cpm-todo-form">
             <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
         </li>
-        <li v-if="show_load_more_btn"><a @click.prevent="loadMoreTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
+        <li v-if="incomplete_show_load_more_btn"><a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
     </ul> 
 
     <ul v-if="is_single_list"  class="cpm-todos cpm-todolist-content cpm-todo-completed">
@@ -148,8 +148,10 @@
                 <div class="cpm-todo-form" v-if="task.edit_mode">
                     <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
                 </div>
+
             </div>
         </li>
+        <li v-if="complete_show_load_more_btn"><a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
     </ul>
 
 </div>

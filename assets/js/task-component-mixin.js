@@ -605,16 +605,17 @@ var CPM_Task_Mixin = {
             return Object.keys(obj).length === 0;
         },
 
-        getTasks: function(list_id, page_number, callback) {
+        getTasks: function(list_id, page_number, action, callback) {
             var form_data = {
                     _wpnonce: CPM_Vars.nonce,
                     list_id: list_id,
                     page_number: typeof page_number == 'undefined' ? 0 : page_number,
                     project_id: CPM_Vars.project_id
                 },
-                self = this;
+                self = this,
+                action =  action; //this.$store.state.is_single_list ? 'cpm_get_tasks' : 'cpm_get_incompleted_tasks'
 
-            wp.ajax.send('cpm_get_tasks', {
+            wp.ajax.send( action, {
                 data: form_data,
                 success: function(res) {
                     var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
