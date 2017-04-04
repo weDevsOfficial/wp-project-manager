@@ -608,13 +608,17 @@ class CPM_Task {
      * @param object $task_list
      */
     function set_list_meta( &$task_list ) {
-        $task_list->due_date       = get_post_meta( $task_list->ID, '_due', true );
-        $task_list->milestone      = get_post_meta( $task_list->ID, '_milestone', true );
-        $task_list->private        = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
-        $task_list->pin_list       = is_sticky( $task_list->ID ) ? true : false;
-        $task_list->edit_mode      = false;
-        $task_list->show_task_form = false;
-        $task_list->can_del_edit   = cpm_user_can_delete_edit( $task_list->post_parent, $task_list );
+        $task_list->due_date                = get_post_meta( $task_list->ID, '_due', true );
+        $task_list->milestone               = get_post_meta( $task_list->ID, '_milestone', true );
+        $task_list->private                 = get_post_meta( $task_list->ID, '_tasklist_privacy', true );
+        $task_list->pin_list                = is_sticky( $task_list->ID ) ? true : false;
+        $task_list->edit_mode               = false;
+        $task_list->show_task_form          = false;
+        $task_list->can_del_edit            = cpm_user_can_delete_edit( $task_list->post_parent, $task_list );
+        $task_list->count_completed_tasks   = $this->count_completed_tasks( $task_list->ID );
+        $task_list->count_incompleted_tasks = $this->count_incompleted_tasks( $task_list->ID );
+        $comments                           = wp_count_comments( $task_list->ID );
+        $task_list->count_comments          = $comments->approved; 
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -622,11 +626,12 @@ class CPM_Task {
         if ( cpm_user_can_access( $project_id ) ) {
             //for manager lavel
             $tasks = $this->get_tasks( $list_id );
-        }else {
+        } else {
+
             if ( cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
                 //for settings role true
                 $tasks = $this->get_tasks( $list_id, true );
-            }else {
+            } else {
                 //for settings role false
                 $tasks = $this->get_tasks( $list_id, false );
             }
@@ -643,16 +648,78 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = 10;
+        $limit = 2;
 
         $args = array ( 
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
             'order'          => 'ASC', 
             'orderby'        => 'menu_order',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
+        );
 
+        $args = apply_filters( 'cpm_get_task', $args, $privacy );
+
+        $tasks = new WP_Query( $args );
+
+        foreach ( $tasks->posts as $key => $task ) {
+            $this->set_task_meta( $task );
+        }
+
+        return $tasks->posts;
+    }
+
+    function get_incompleted_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
+        $limit = 2;
+
+        $args = array ( 
+            'post_parent'    => $list_id, 
+            'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            'offset'         => $pagenum, // * $limit,
+            'posts_per_page' => $limit,
+            'meta_query'     => array (
+                array ( 
+                    'key'     => '_completed',
+                    'value'   => '0',
+                    'compare' => '='
+                )
+            )
+        );
+
+        $args = apply_filters( 'cpm_get_task', $args, $privacy );
+
+        $tasks = new WP_Query( $args );
+
+        foreach ( $tasks->posts as $key => $task ) {
+            $this->set_task_meta( $task );
+        }
+
+        return $tasks->posts;
+    }
+
+    function get_completed_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
+        $limit = 2;
+
+        $args = array ( 
+            'post_parent'    => $list_id, 
+            'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            'offset'         => $pagenum, // * $limit,
+            'posts_per_page' => $limit,
+            'meta_query'     => array (
+                array ( 
+                    'key'     => '_completed',
+                    'value'   => '1',
+                    'compare' => '='
+                )
+            )
         );
 
         $args = apply_filters( 'cpm_get_task', $args, $privacy );
@@ -677,6 +744,7 @@ class CPM_Task {
         $args = array ( 
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
             'posts_per_page' => 1,
         );
 
@@ -685,6 +753,60 @@ class CPM_Task {
         $tasks = new WP_Query( $args );
 
         return $tasks->found_posts;
+    }
+
+    /**
+     * Get all tasks based on a task list
+     *
+     * @param int $list_id
+     * @return object object array of the result set
+     */
+    function count_completed_tasks( $list_id ) {
+
+        $complete_task_args = array ( 
+            'post_parent'    => $list_id, 
+            'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
+            'orderby'        => 'menu_order',
+            'posts_per_page' => 1,
+            'meta_query'     => array (
+                array ( 
+                    'key'     => '_completed',
+                    'value'   => '1',
+                    'compare' => '='
+                )
+            )
+        );
+
+        $complete_task = new WP_Query( $complete_task_args );
+        return $complete_task->found_posts;
+    }
+
+    /**
+     * Get all tasks based on a task list
+     *
+     * @param int $list_id
+     * @return object object array of the result set
+     */
+    function count_incompleted_tasks( $list_id ) {
+
+        $complete_task_args = array ( 
+            'post_parent'    => $list_id, 
+            'post_type'      => 'cpm_task', 
+            'post_status'    => 'publish',
+            'posts_per_page' => 1,
+            'meta_query'     => array (
+                array ( 
+                    'key'     => '_completed',
+                    'value'   => '0',
+                    'compare' => '='
+                )
+            )
+        );
+
+        $complete_task = new WP_Query( $complete_task_args );
+        
+        return $complete_task->found_posts;
     }
 
 

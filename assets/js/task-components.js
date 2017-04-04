@@ -299,12 +299,6 @@ Vue.component('todo-lists', {
         }
     },
 
-    methods: {
-
-        
-
-    }
-
 });
 
 // Show all todos
@@ -318,16 +312,6 @@ Vue.component('tasks', {
 
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
-
-    created: function() {
-        var self = this;
-        this.getTasks(this.list.ID, 0, function(res) {
-
-            if ( res.found_tasks > self.list.tasks.length ) {
-                self.show_load_more_btn = true;
-            }
-        });
-    },
 
     /**
      * Initial data for this component
@@ -343,9 +327,36 @@ Vue.component('tasks', {
            //task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
            //is_single_list: this.$store.state.is_single_list
            task_loading_status: false,
-           show_load_more_btn: false,
+           incomplete_show_load_more_btn: false,
+           complete_show_load_more_btn: false,
         }
     },
+
+    created: function() {
+        var self = this;
+        if ( this.$store.state.is_single_list ) {
+            this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
+                var getIncompletedTasks = self.getIncompletedTasks(self.list);
+                var getCompleteTask = self.getCompleteTask(self.list);
+
+                if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
+                    self.incomplete_show_load_more_btn = true;
+                }
+
+                if ( res.found_completed_tasks > getCompleteTask.length ) {
+                    self.complete_show_load_more_btn = true;
+                }
+            });
+        } else {
+            this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
+                if ( res.found_incompleted_tasks > self.list.tasks.length ) {
+                    self.incomplete_show_load_more_btn = true;
+                }
+            });
+        }
+    },
+
+
 
     computed: {
         /**
@@ -393,6 +404,31 @@ Vue.component('tasks', {
     },
 
     methods: {
+        /**
+         * Get incomplete tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getIncompletedTasks: function(lists) {
+            return lists.tasks.filter(function( task ) {
+                return ( task.completed == '0' || !task.completed );
+            });
+        },
+
+        /**
+         * Get completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getCompleteTask: function(lists) {
+            return lists.tasks.filter(function( task ) {
+                return ( task.completed == '1' || task.completed );
+            }); 
+        },
         /**
          * Show task edit form
          * 
@@ -461,23 +497,50 @@ Vue.component('tasks', {
             });
         },
 
-        loadMoreTasks: function(list) {
+        loadMoreIncompleteTasks: function(list) {
+            if ( this.task_loading_status ) {
+                return;
+            }
+
+            this.task_loading_status = true;
+            var incompleted_tasks = this.getIncompletedTasks( this.list );
+
+            var page_number = incompleted_tasks.length,
+                self   = this;
+            
+            this.getTasks( list.ID, page_number, 'cpm_get_incompleted_tasks', function(res) {
+                self.task_loading_status = false;
+                var incompleted_tasks = self.getIncompletedTasks( self.list );
+                
+                if ( res.found_incompleted_tasks > incompleted_tasks.length ) {
+                    self.incomplete_show_load_more_btn = true;
+                } else {
+                    self.incomplete_show_load_more_btn = false;
+                }
+            });
+
+        },
+
+        loadMoreCompleteTasks: function(list) {
             if ( this.task_loading_status ) {
                 return;
             }
 
             this.task_loading_status = true;
 
-            var page_number = list.tasks.length,
+            var completed_tasks = this.getCompleteTask( this.list );
+
+            var page_number = completed_tasks.length,
                 self   = this;
             
-            this.getTasks( list.ID, page_number, function(res) {
+            this.getTasks( list.ID, page_number, 'cpm_get_completed_tasks', function(res) {
                 self.task_loading_status = false;
-
-                if ( res.found_tasks > self.list.tasks.length ) {
-                    self.show_load_more_btn = true;
+                var completed_tasks = self.getCompleteTask( self.list );
+                
+                if ( res.found_completed_tasks > completed_tasks.length ) {
+                    self.complete_show_load_more_btn = true;
                 } else {
-                    self.show_load_more_btn = false;
+                    self.complete_show_load_more_btn = false;
                 }
             });
 
@@ -1030,8 +1093,9 @@ Vue.component('new-task-form', {
                     }
                     
                     if ( ! form_data.task_id ) {
+                        var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
                         // Update vuex state lists after insert or update task 
-                        self.$store.commit( 'update_task', { res: res, list_index: self.list_index, is_update: is_update } );    
+                        self.$store.commit( 'update_task', { res: res, list_index: list_index, is_update: is_update } );    
                     }
                     
                 } else {

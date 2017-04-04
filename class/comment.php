@@ -101,7 +101,7 @@ class CPM_Comment {
      */
     function get( $comment_id ) {
         
-        $comment    = get_comment( $comment_id );
+        $comment  = get_comment( $comment_id );
         
         $this->get_comment_meta( $comment_id, $comment );
         

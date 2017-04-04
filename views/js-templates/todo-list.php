@@ -35,13 +35,13 @@
                        
                         <div class="cpm-col-3 cpm-todo-complete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                                <span>{{ countCompletedTasks( list.tasks ) }}</span>
+                                <span>{{ list.count_completed_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
                                 <?php _e( 'Completed', 'cpm' ) ?>
                             </router-link>
                         </div>
                         <div  class="cpm-col-3 cpm-todo-incomplete">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                                <span>{{ countIncompletedTasks( list.tasks ) }}</span>
+                                <span>{{ list.count_incompleted_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
                                 <?php _e( 'Incomplete', 'cpm' ) ?>
                             </router-link>
                         </div>

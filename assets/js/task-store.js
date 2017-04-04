@@ -131,6 +131,7 @@ var cpm_task_store = {
          */
         update_task: function( state, data ) {
             var index = data.list_index;
+            state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) + 1;
             state.lists[index].tasks.splice( 0, 0, data.res.data.task );
         },
 
@@ -166,6 +167,14 @@ var cpm_task_store = {
          * @return void        
          */
         task_done_undone: function( state, data ) {
+            if ( data.is_done ) {
+                state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) - 1;
+                state.lists[data.list_index].count_completed_tasks = parseInt( state.lists[data.list_index].count_completed_tasks ) + 1;
+            } else {
+                state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) + 1;
+                state.lists[data.list_index].count_completed_tasks = parseInt( state.lists[data.list_index].count_completed_tasks ) - 1;
+            }
+
             state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
         },
 
@@ -297,7 +306,15 @@ var cpm_task_store = {
          * @return void       
          */
         after_delete_task: function( state, task ) {
-            console.log( state.lists[task.list_index].tasks );
+            
+            if ( state.lists[task.list_index].tasks[task.task_index].completed == '0' ) {
+               state.lists[task.list_index].count_incompleted_tasks = parseInt( state.lists[task.list_index].count_incompleted_tasks ) - 1;
+            }  
+
+            if ( state.lists[task.list_index].tasks[task.task_index].completed == '1' ) {
+                state.lists[task.list_index].count_completed_tasks = parseInt( state.lists[task.list_index].count_completed_tasks ) - 1;
+            }
+
             state.lists[task.list_index].tasks.splice( task.task_index, 1 );
         },
 
