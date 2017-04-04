@@ -4732,3 +4732,27 @@ ul.cpm-files {
     margin: 0px !important;
 }
 
+#cpm-single-todo-list-view {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+
+    .cpm-incomplete-tasks {
+        width: 100%;
+    }
+
+    .cpm-completed-tasks {
+        width: 100%;
+
+        .cpm-completed-task-list {
+            min-height: 55px;
+
+            .cpm-complete-task-list-item {
+                height: 51px;
+            }
+        }
+    }
+}
+

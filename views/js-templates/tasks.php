@@ -1,4 +1,164 @@
- <div>
+<div v-if="is_single_list" id="cpm-single-todo-list-view">
+    <div class="cpm-incomplete-tasks">
+        <h3>Remaining Tasks</h3>
+        <ul class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
+            <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
+
+                <div class="cpm-todo-wrap clearfix">
+                    <div class="cpm-todo-content" >
+                        <div class="cpm-incomplete-todo">  
+                            <div class="cpm-col-7">
+                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
+
+                                <span>
+                                    <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
+                                </span>
+                                
+                                <span :class="privateClass( task )"></span>
+                                
+                                <span class='cpm-assigned-user' 
+                                    v-for="user in getUsers( task.assigned_to )" 
+                                    v-html="user.user_url">
+
+                                </span>
+
+                                <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
+                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                    <span>{{ dateFormat( task.due_date ) }}</span>
+                                </span>
+                            </div>
+
+                            <div class="cpm-col-4 cpm-todo-action-center">
+                                <div class="cpm-task-comment">
+                                        <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
+                                            <span class="cpm-comment-count">
+                                                {{ task.comments.length }}
+                                            </span>
+                                        </router-link>
+                                    <!-- </a> -->
+                                </div>
+
+                                <!-- deprecated -->
+                                <?php do_action( 'cpm_task_column' ); ?>
+                                
+                                <?php do_action( 'cpm_after_task_title' ); ?>
+                            </div>
+
+
+                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col" v-if="task.can_del_edit">
+                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                                    
+                                <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="cpm-col-12">
+
+                            <?php if ( true ) { ?>
+                                <div class="cpm-todo-details">
+                                    
+                                </div>
+                            <?php } ?>
+
+                            <?php do_action( 'cpm_task_single_after' ); ?>
+                        </div>
+                    </div>
+                    <div class="cpm-todo-form" v-if="task.edit_mode">
+                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+                    </div>
+                </div>
+            </li>
+
+            <li v-if="!getIncompleteTasks.length"><?php _e( 'No task found!', 'cpm'); ?></li>
+            <li v-if="incomplete_show_load_more_btn">
+                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="cpm-completed-tasks">
+        <h3>Completed Tasks</h3>
+        <ul class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
+            <li class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
+                
+                <div class="cpm-todo-wrap clearfix">
+                    <div class="cpm-todo-content" >
+                        <div>
+                            <div class="cpm-col-7">
+                                <!-- <span class="cpm-spinner"></span> -->
+                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
+
+                                <!-- <span class="task-title">
+                                    <span class="cpm-todo-text">{{ task.post_title }}</span>
+                                    <span :class="privateClass( task )"></span>
+                                </span> -->
+                                <span class="task-title">
+                                    <span v-if="is_single_list"><router-link exact :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
+                                    <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
+                                    <span :class="privateClass( task )"></span>
+                                </span>
+
+                                <span class='cpm-assigned-user' 
+                                    v-for="user in getUsers( task.assigned_to )" 
+                                    v-html="user.user_url">
+
+                                </span>
+
+                                <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
+                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                    <span>{{ dateFormat( task.due_date ) }}</span>
+                                </span>
+                            </div>
+
+                            <div class="cpm-col-4">
+                                
+                                <span class="cpm-comment-count">
+                                    <a href="#">
+                                        {{ task.comment_count }}
+                                    </a>
+                                </span>
+
+                                <?php do_action( 'cpm_task_column' ); ?>
+                            </div>
+
+
+                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
+                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="cpm-col-12">
+                            <div class="cpm-todo-details">
+                                
+                            </div>
+                            <?php do_action( 'cpm_task_single_after' ); ?>
+                        </div>
+                    </div>
+                    <div class="cpm-todo-form" v-if="task.edit_mode">
+                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+                    </div>
+
+                </div>
+            </li>
+
+            <li v-if="complete_show_load_more_btn">
+                <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+            </li>
+        </ul>
+    </div>
+
+    <div v-if="list.show_task_form" class="cpm-todo-form">
+        <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+    </div>
+
+</div>
+
+<!-- original code without v-else -->
+<div v-else>
     <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
         <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
 
