@@ -299,12 +299,6 @@ Vue.component('todo-lists', {
         }
     },
 
-    methods: {
-
-        
-
-    }
-
 });
 
 // Show all todos
@@ -355,7 +349,6 @@ Vue.component('tasks', {
             });
         } else {
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
-
                 if ( res.found_incompleted_tasks > self.list.tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 }
@@ -517,8 +510,8 @@ Vue.component('tasks', {
             
             this.getTasks( list.ID, page_number, 'cpm_get_incompleted_tasks', function(res) {
                 self.task_loading_status = false;
+                var incompleted_tasks = self.getIncompletedTasks( self.list );
                 
-
                 if ( res.found_incompleted_tasks > incompleted_tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 } else {
@@ -542,7 +535,8 @@ Vue.component('tasks', {
             
             this.getTasks( list.ID, page_number, 'cpm_get_completed_tasks', function(res) {
                 self.task_loading_status = false;
-
+                var completed_tasks = self.getCompleteTask( self.list );
+                
                 if ( res.found_completed_tasks > completed_tasks.length ) {
                     self.complete_show_load_more_btn = true;
                 } else {
@@ -1099,8 +1093,9 @@ Vue.component('new-task-form', {
                     }
                     
                     if ( ! form_data.task_id ) {
+                        var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
                         // Update vuex state lists after insert or update task 
-                        self.$store.commit( 'update_task', { res: res, list_index: self.list_index, is_update: is_update } );    
+                        self.$store.commit( 'update_task', { res: res, list_index: list_index, is_update: is_update } );    
                     }
                     
                 } else {
