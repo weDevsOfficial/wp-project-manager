@@ -17,7 +17,10 @@
                             <span v-if="is_single_list">
                                 <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
                             </span>
-                            <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link></span>
+                            <span v-else>
+                                <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>
+                            </span>
+
                             <span :class="privateClass( task )"></span>
                             
                             <span class='cpm-assigned-user' 
@@ -35,13 +38,20 @@
 
                         <div class="cpm-col-4 cpm-todo-action-center">
                             <div class="cpm-task-comment">
-                                <!-- <a @click.prevent="singleTask( task )" href="#"> -->
+                                <span v-if="is_single_list">
+                                    <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
+                                        <span class="cpm-comment-count">
+                                            {{ task.comments.length }}
+                                        </span>
+                                    </router-link>
+                                </span>
+                                <span v-else>
                                     <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
                                         <span class="cpm-comment-count">
                                             {{ task.comments.length }}
                                         </span>
                                     </router-link>
-                                <!-- </a> -->
+                                </span>
                             </div>
 
                             <!-- deprecated -->
