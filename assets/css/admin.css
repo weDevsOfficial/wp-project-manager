@@ -4238,3 +4238,105 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 0px !important;
   margin: 0px !important;
 }
+#cpm-single-todo-list-view {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-around;
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-todo {
+  padding-bottom: 0px;
+  padding-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-todo .cpm-todo-wrap {
+  padding: 0px;
+  margin: 0px;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks {
+  width: 100%;
+  padding: 0px 15px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list {
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list li {
+  border-bottom: none;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks {
+  width: 100%;
+  padding: 0px 15px;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list {
+  min-height: 55px;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list li {
+  border-bottom: none;
+}
+#cpm-single-todo-list-view .cpm-tag-gray {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 22px;
+  position: relative;
+  content: "";
+  cursor: pointer;
+  margin: 0 13px 0 0;
+  padding: 5px 15px 5px 5px;
+  border: none;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  background: #f1f1f1;
+}
+#cpm-single-todo-list-view .cpm-tag-gray::before {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  content: "";
+  cursor: pointer;
+  top: 5px;
+  right: -12px;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #f1f1f1;
+  text-shadow: none;
+  -webkit-transform: rotateY(1deg) rotateZ(-45deg);
+  transform: rotateY(1deg) rotateZ(-45deg);
+}
+#cpm-single-todo-list-view .cpm-task-edit-form {
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form {
+  background: #fff;
+  border: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form .item.submit {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-single-task-subtask-form {
+  width: 100%;
+}

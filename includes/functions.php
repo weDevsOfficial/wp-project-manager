@@ -148,6 +148,9 @@ function cpm_date2mysql( $date, $gmt = 0 ) {
     return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', strtotime( $date ) );
 }
 
+function cpm_to_mysql_date( $date, $gmt = 0 ) {
+    return ( $gmt ) ? gmdate( 'Y-m-d', $time ) : gmdate( 'Y-m-d', strtotime( $date ) );
+}
 /**
  * Displays users as checkboxes from a project
  *

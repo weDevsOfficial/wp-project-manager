@@ -30,7 +30,6 @@
 
                 <footer class="cpm-row cpm-list-footer">
                     <div class="cpm-col-6">
-                        
                         <div v-if="canUserCreateTask"><new-task-button :task="{}" :list="list" :list_index="index"></new-task-button></div>
                        
                         <div class="cpm-col-3 cpm-todo-complete">

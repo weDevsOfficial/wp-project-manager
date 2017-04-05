@@ -489,11 +489,15 @@ var CPM_Task_Mixin = {
             var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
                 due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
             
-            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
+            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
                 return false;
             }
             
-           return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
+            if ( moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
+                return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
+            }
+
+            return 'cpm-current-date';
         },
 
         /**
