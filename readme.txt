@@ -115,6 +115,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 2.0 - April 05, 2017 =
+   
+ * [new] Use js library Vue
+ * [new] Design layout change for To-do Lists.
+ * [new] Real time update every action for To-do lists.
+ * [fix] .
+ * [fix] Made Report print friendly.
+ * [fix] Files tab loading improvement.
+ * [fix] Show all comments in newly uploaded file view.
+ * [fix] Client view private discussion.
+
 = 1.5.1 - September 19, 2016 =
 
  * [new] Send Email Notification when a comment updates.
