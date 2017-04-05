@@ -7,7 +7,7 @@
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
                         <div class="cpm-incomplete-todo">  
-                            <div class="cpm-col-7">
+                            <div class="cpm-col-6">
                                 <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
 
                                 <span>
@@ -29,7 +29,7 @@
                                 </span>
                             </div>
 
-                            <div class="cpm-col-4 cpm-todo-action-center">
+                            <div class="cpm-col-5 cpm-todo-action-center">
                                 <div class="cpm-task-comment">
                                         <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
                                             <span class="cpm-comment-count">
@@ -86,7 +86,7 @@
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
                         <div>
-                            <div class="cpm-col-7">
+                            <div class="cpm-col-6">
                                 <!-- <span class="cpm-spinner"></span> -->
                                 <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
@@ -113,7 +113,7 @@
                                 </span>
                             </div>
 
-                            <div class="cpm-col-4">
+                            <div class="cpm-col-5">
                                 
                                 <span class="cpm-comment-count">
                                     <a href="#">

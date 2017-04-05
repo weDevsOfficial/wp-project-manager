@@ -4738,10 +4738,32 @@ ul.cpm-files {
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: space-around;
+    border-bottom: 1px solid #e5e5e5;
+
+    .cpm-todo {
+        padding-bottom: 0px;
+        padding-right: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        .cpm-todo-wrap {
+            padding: 0px;
+            margin: 0px;
+        }
+    }
 
     .cpm-incomplete-tasks {
         width: 100%;
         padding: 0px 15px;
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+
+        .cpm-incomplete-task-list {
+            border-bottom: 1px solid #e5e5e5;
+            .cpm-todo, li {
+                border-bottom: none;
+            }
+        }
     }
 
     .cpm-completed-tasks {
@@ -4751,8 +4773,8 @@ ul.cpm-files {
         .cpm-completed-task-list {
             min-height: 55px;
 
-            .cpm-complete-task-list-item {
-                height: 51px;
+            .cpm-todo, li {
+                border-bottom: none;
             }
         }
     }
@@ -4799,6 +4821,25 @@ ul.cpm-files {
         text-shadow: none;
         -webkit-transform: rotateY(1deg) rotateZ(-45deg)   ;
         transform: rotateY(1deg) rotateZ(-45deg)   ;
+    }
+    .cpm-task-edit-form {
+        border-top: 1px solid #e5e5e5;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+
+        .cpm-task-form {
+            background: #fff;
+            border: none;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+            .item.submit {
+                padding-bottom: 5px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+    .cpm-single-task-subtask-form {
+        width: 100%;
     }
  
 }

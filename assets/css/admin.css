@@ -4244,10 +4244,30 @@ ul.cpm-files li .cpm-file-action .comment-number {
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: space-around;
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-todo {
+  padding-bottom: 0px;
+  padding-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-todo .cpm-todo-wrap {
+  padding: 0px;
+  margin: 0px;
 }
 #cpm-single-todo-list-view .cpm-incomplete-tasks {
   width: 100%;
   padding: 0px 15px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list {
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list li {
+  border-bottom: none;
 }
 #cpm-single-todo-list-view .cpm-completed-tasks {
   width: 100%;
@@ -4256,8 +4276,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list {
   min-height: 55px;
 }
-#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list .cpm-complete-task-list-item {
-  height: 51px;
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list li {
+  border-bottom: none;
 }
 #cpm-single-todo-list-view .cpm-tag-gray {
   display: inline-block;
@@ -4300,4 +4321,22 @@ ul.cpm-files li .cpm-file-action .comment-number {
   text-shadow: none;
   -webkit-transform: rotateY(1deg) rotateZ(-45deg);
   transform: rotateY(1deg) rotateZ(-45deg);
+}
+#cpm-single-todo-list-view .cpm-task-edit-form {
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form {
+  background: #fff;
+  border: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form .item.submit {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-single-task-subtask-form {
+  width: 100%;
 }
