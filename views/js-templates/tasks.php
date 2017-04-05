@@ -1,6 +1,6 @@
 <div v-if="is_single_list" id="cpm-single-todo-list-view">
     <div class="cpm-incomplete-tasks">
-        <h3>Remaining Tasks</h3>
+        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Incomplete Tasks</a></h3>
         <ul class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
             <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
 
@@ -79,7 +79,7 @@
     </div>
 
     <div class="cpm-completed-tasks">
-        <h3>Completed Tasks</h3>
+        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
         <ul class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
             <li class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
                 

@@ -4741,10 +4741,12 @@ ul.cpm-files {
 
     .cpm-incomplete-tasks {
         width: 100%;
+        padding: 0px 15px;
     }
 
     .cpm-completed-tasks {
         width: 100%;
+        padding: 0px 15px;
 
         .cpm-completed-task-list {
             min-height: 55px;
@@ -4754,5 +4756,50 @@ ul.cpm-files {
             }
         }
     }
+
+    .cpm-tag-gray {
+        display: inline-block;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        height: 22px;
+        position: relative;
+        content: "";
+        cursor: pointer;
+        margin: 0 13px 0 0;
+        padding: 5px 15px 5px 5px;
+        border: none;
+        font-size: 14px;
+        color: rgba(255,255,255,1);
+        text-align: center;
+        text-transform: uppercase;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        background: #f1f1f1;
+    }
+
+    .cpm-tag-gray::before {
+        display: inline-block;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        z-index: 1;
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        content: "";
+        cursor: pointer;
+        top: 5px;
+        right: -12px;
+        border: none;
+        color: rgba(255,255,255,0.9);
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: #f1f1f1;
+        text-shadow: none;
+        -webkit-transform: rotateY(1deg) rotateZ(-45deg)   ;
+        transform: rotateY(1deg) rotateZ(-45deg)   ;
+    }
+ 
 }
 
