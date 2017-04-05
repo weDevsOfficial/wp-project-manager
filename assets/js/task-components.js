@@ -324,11 +324,10 @@ Vue.component('tasks', {
            task: {},
            tasks: this.list.tasks,
            task_index: 'undefined', // Using undefined for slideToggle class
-           //task_start_field: this.$store.state.permissions.task_start_field == 'on' ? true : false,
-           //is_single_list: this.$store.state.is_single_list
            task_loading_status: false,
            incomplete_show_load_more_btn: false,
            complete_show_load_more_btn: false,
+           currnet_user_id: this.$store.state.get_current_user_id
         }
     },
 
@@ -400,10 +399,21 @@ Vue.component('tasks', {
             return this.list.tasks.filter(function( task ) {
                 return ( task.completed == '1' || task.completed );
             }); 
-        }
+        },
     },
 
     methods: {
+        is_assigned: function(task) {
+            
+            var get_current_user_id = this.$store.state.get_current_user_id,
+                in_task  = task.assigned_to.indexOf(get_current_user_id);
+            
+            if ( task.can_del_edit || ( in_task != '-1' ) ) {
+                return true;
+            }
+
+            return false;
+        },
         /**
          * Get incomplete tasks
          * 
@@ -1735,7 +1745,18 @@ Vue.component('cpm-list-comments', {
     },
 
     methods: {
+        current_user_can_edit_delete: function( comment, list ) {
+            
+            if ( list.can_del_edit ) {
+                return true;
+            }
+            
+            if ( (comment.user_id == this.$store.state.get_current_user_id ) && (comment.comment_type == '') ) {
+                return true;
+            }
 
+            return false;
+        }
           
     }
 });
@@ -1750,6 +1771,12 @@ Vue.component('cpm-task-comments', {
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
+    data: function() {
+        return {
+            currnet_user_id: this.$store.state.get_current_user_id
+        }
+    },
+
     computed: {
         /**
          * Get current user avatar
@@ -1757,6 +1784,22 @@ Vue.component('cpm-task-comments', {
         getCurrentUserAvatar: function() {
             return CPM_Vars.current_user_avatar_url;
         },
+    },
+
+    methods: {
+        current_user_can_edit_delete: function( comment, task ) {
+            
+            if ( task.can_del_edit ) {
+                return true;
+            }
+            
+            if ( (comment.user_id == this.currnet_user_id ) && (comment.comment_type == '') ) {
+                return true;
+            }
+
+            return false;
+        }
+        
     }
 });
 

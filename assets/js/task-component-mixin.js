@@ -587,8 +587,6 @@ var CPM_Task_Mixin = {
                 list_index = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
                 task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' );
 
-                console.log(list_index, task_index);
-
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
@@ -600,6 +598,7 @@ var CPM_Task_Mixin = {
                     // Showing error
                     res.data.error.map( function( value, index ) {
                         toastr.error(value);
+                        self.$store.commit( 'task_done_undone', { is_done: false, list_index: list_index, task_index: task_index } );
                     });
                 }
             });

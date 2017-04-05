@@ -162,7 +162,7 @@ class CPM_Task {
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
-
+            
             $scripts = array(
                 'cpm-toastr',
                 'cpm-tiny-mce',
@@ -189,30 +189,19 @@ class CPM_Task {
                 'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
             )); 
 
+            do_action( 'cpm_before_task_scripts' );
+
             foreach( $scripts as $script ) {
                 do_action( 'before-'. $script );
                 wp_enqueue_script( $script );
                 do_action( 'after-'. $script );
             }
             
-
-            //wp_enqueue_script( 'cpm-trix' );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  ); 
-            // wp_enqueue_script(  );
-           // wp_enqueue_script( 'cpm-tiny-mce-component' );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            // wp_enqueue_script(  );
-            
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
             wp_enqueue_style( 'cpm-tiny-mce' );
+
+            do_action( 'cpm_after_task_scripts' );
         }
     }
 
@@ -654,8 +643,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
-            'orderby'        => 'menu_order',
+            // 'order'          => 'ASC', 
+            // 'orderby'        => 'menu_order',
+            'order'               => 'DESC',
+            'orderby'             => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
         );
@@ -678,8 +669,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
-            'orderby'        => 'menu_order',
+            // 'order'          => 'ASC', 
+            // 'orderby'        => 'menu_order',
+            'order'               => 'DESC',
+            'orderby'             => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
@@ -709,8 +702,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
-            'orderby'        => 'menu_order',
+            // 'order'          => 'ASC', 
+            // 'orderby'        => 'menu_order',
+            'order'               => 'DESC',
+            'orderby'             => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (

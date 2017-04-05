@@ -131,7 +131,7 @@ function cpm_url_tasklist_index( $project_id ) {
  * @return string
  */
 function cpm_url_single_tasklist( $project_id, $list_id ) {
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=single&pid=%d&tl_id=%d', admin_url( 'admin.php' ), $project_id, $list_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=single&pid=%d#/list/%d', admin_url( 'admin.php' ), $project_id, $list_id );
 
     return apply_filters( 'cpm_url_single_tasklislt', $url, $project_id, $list_id );
 }
@@ -146,7 +146,7 @@ function cpm_url_single_tasklist( $project_id, $list_id ) {
  */
 function cpm_url_single_task( $project_id, $list_id, $task_id ) {
 
-    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_single&pid=%d#/list/%d/task/%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
+    $url = sprintf( '%s?page=cpm_projects&tab=task&action=task_single&pid=%d#/single-task/%d', admin_url( 'admin.php' ), $project_id, $list_id, $task_id );
 
     return apply_filters( 'cpm_url_single_task', $url, $project_id, $list_id, $task_id );
 }
