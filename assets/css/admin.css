@@ -4260,9 +4260,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   width: 100%;
   padding: 0px 15px;
   padding-bottom: 10px;
-  margin-bottom: 5px;
-}
-#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list {
+  margin-bottom: 10px;
   border-bottom: 1px solid #e5e5e5;
 }
 #cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list .cpm-todo,
@@ -4272,6 +4270,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-single-todo-list-view .cpm-completed-tasks {
   width: 100%;
   padding: 0px 15px;
+  margin-bottom: 10px;
 }
 #cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list {
   min-height: 55px;
@@ -4338,5 +4337,5 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-bottom: 5px;
 }
 #cpm-single-todo-list-view .cpm-single-task-subtask-form {
-  width: 100%;
+  width: 300px;
 }
