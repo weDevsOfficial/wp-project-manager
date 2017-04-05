@@ -15,7 +15,7 @@
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
 
-                        <div class="cpm-comment-action">
+                        <div v-if="current_user_can_edit_delete(comment, list)" class="cpm-comment-action">
                             <span class="cpm-edit-link">
                                 <a href="#" @click.prevent="showHideListCommentEditForm( comment.comment_ID )" class="dashicons dashicons-edit"></a>
                             </span>

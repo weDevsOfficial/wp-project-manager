@@ -1,13 +1,13 @@
  <div>
+
     <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
         <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
-
             <div class="cpm-todo-wrap clearfix">
                 <div class="cpm-todo-content" >
                     <div>
                         <div class="cpm-col-7">
                             <!-- <span class="cpm-spinner"></span> -->
-                            <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
+                           <input :disabled="!is_assigned(task)" v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
 
                             <!-- <a class="task-title" href="#">
                                 <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>
