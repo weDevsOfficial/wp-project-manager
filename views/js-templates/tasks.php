@@ -31,7 +31,7 @@
 
                             <div class="cpm-col-5 cpm-todo-action-center">
                                 <div class="cpm-task-comment">
-                                        <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
+                                        <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">
                                             <span class="cpm-comment-count">
                                                 {{ task.comments.length }}
                                             </span>
