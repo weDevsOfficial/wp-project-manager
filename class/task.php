@@ -637,7 +637,7 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = 2;
+        $limit = 10;
 
         $args = array ( 
             'post_parent'    => $list_id, 
@@ -663,7 +663,7 @@ class CPM_Task {
     }
 
     function get_incompleted_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
-        $limit = 2;
+        $limit = 10;
 
         $args = array ( 
             'post_parent'    => $list_id, 
@@ -696,7 +696,7 @@ class CPM_Task {
     }
 
     function get_completed_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
-        $limit = 2;
+        $limit = 10;
 
         $args = array ( 
             'post_parent'    => $list_id, 
