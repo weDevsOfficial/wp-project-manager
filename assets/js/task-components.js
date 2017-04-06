@@ -1143,7 +1143,8 @@ var CPM_Router_Init = {
             },
             list: {},
             index: false,
-            current_page_number: 1
+            current_page_number: 1,
+            loading: true
         }
     },
 
@@ -1152,9 +1153,9 @@ var CPM_Router_Init = {
             return this.$store.state.lists;
         },
 
-        loading: function() {
-            return this.$store.state.loading;
-        },
+        // loading: function() {
+        //     return this.$store.state.loading;
+        // },
 
         show_list_form: function() {
             return this.$store.state.show_list_form;
@@ -1174,21 +1175,22 @@ var CPM_Router_Init = {
     created: function() {
         var self = this;
         this.$store.commit('emptyTodoLists');
+        
         this.getInitialData( this.$store.state.project_id, function(status) {
-            // Vue.nextTick(function() {
-            //     if ( ! self.$store.state.lists.length ) {
-            //         self.refreshTodoListPage();
-            //     }
-            // });
+            self.loading = false;
         } );
     },
 
     watch: {
         '$route': function (to, from) {
-            
+            var self = this;
+
             if ( this.$route.params.page_number ) {
+                this.loading = true;
                 this.$store.commit('emptyTodoLists');
-                this.getInitialData( this.$store.state.project_id );
+                this.getInitialData( this.$store.state.project_id, function(res) {
+                    self.loading = false;
+                });
                 this.current_page_number = this.$route.params.page_number;
             }
         }
@@ -1204,12 +1206,12 @@ var CPM_Task_Single = {
 
     data: function() {
         return {
-            task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task
+            task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
+            loading: true
         }
     },
 
     created: function() {
-
         this.getTask();
     },
 
@@ -1233,10 +1235,10 @@ var CPM_Task_Single = {
 
         getTask: function() {
             if ( ! this.$route.params.task_id ) {
+                this.loading = false;
                 return;
             }
         
-
             var request_data  = {
                 task_id: this.$route.params.task_id,
                 project_id: CPM_Vars.project_id,
@@ -1249,6 +1251,7 @@ var CPM_Task_Single = {
                 success: function(res) {
                     self.task = res.task;
                     self.$store.commit('single_task_popup');
+                    self.loading = false;
                 }
             });
         }
@@ -1274,6 +1277,7 @@ var CPM_List_Single = {
             list: {},
             render_tmpl: false,
             task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
+            loading: true
         }
     },
 
@@ -1284,9 +1288,14 @@ var CPM_List_Single = {
      * @return void
      */
     created: function() {
+        var self = this;
+        
         this.$store.commit('emptyTodoLists');
+        
         // Get todo list 
-        this.getList( this.$route.params.list_id );
+        this.getList( this.$route.params.list_id, function(res) {
+            self.loading = false;
+        });
     },
 
     computed: {
@@ -1352,7 +1361,7 @@ var CPM_List_Single = {
          * 
          * @return void         
          */
-        getList: function( list_id ) {
+        getList: function( list_id, callback ) {
             
             var self      = this,
                 form_data = {
@@ -1376,6 +1385,10 @@ var CPM_List_Single = {
                     });
 
                     self.render_tmpl = true;
+
+                    if ( typeof callback != 'undefined'  ) {
+                        callback(res);
+                    }
                 } 
             });
         },

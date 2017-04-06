@@ -1,4 +1,30 @@
 <div>
+    <!-- Spinner before load task -->
+    <div v-if="loading" class="modal-mask half-modal cpm-task-modal modal-transition">
+        <div class="modal-wrapper">
+            <div class="modal-container" style="width: 700px; height: 20000px;">
+                <span class="close-vue-modal">
+                    <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                </span>
+
+                <div class="modal-body cpm-todolist">
+                    
+                    <!-- Spinner before load task -->
+                    <div class="cpm-data-load-before" >
+                        <div class="loadmoreanimation">
+                            <div class="load-spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div v-if="is_single_task">
         <div v-if="task" class="modal-mask half-modal cpm-task-modal modal-transition" style="">

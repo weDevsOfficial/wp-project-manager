@@ -63,6 +63,10 @@ var cpm_task_store = {
             });
         },
 
+        loadingEffect: function(state, loading_status) {
+            state.loading = loading_status;
+        },
+
         /**
          * New todo list form showing or hiding
          * 
