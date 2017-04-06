@@ -4339,3 +4339,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 #cpm-single-todo-list-view .cpm-single-task-subtask-form {
   width: 300px;
 }
+.cpm-incomplete-task-spinner,
+.cpm-completed-task-spinner {
+  margin-left: 2% !important;
+}

@@ -663,7 +663,8 @@ class CPM_Task {
     }
 
     function get_incompleted_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
-        $limit = 10;
+        $per_page = cpm_get_option( 'show_incomplete_tasks', 'cpm_general' );
+        $limit    = empty( $per_page ) ? 50 : $per_page; 
 
         $args = array ( 
             'post_parent'    => $list_id, 
@@ -696,7 +697,8 @@ class CPM_Task {
     }
 
     function get_completed_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
-        $limit = 10;
+        $per_page = cpm_get_option( 'show_completed_tasks', 'cpm_general' );
+        $limit    = empty( $per_page ) ? 50 : $per_page;
 
         $args = array ( 
             'post_parent'    => $list_id, 

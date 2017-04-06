@@ -74,6 +74,7 @@
             <li v-if="!getIncompleteTasks.length"><?php _e( 'No task found!', 'cpm'); ?></li>
             <li v-if="incomplete_show_load_more_btn">
                 <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+                <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
             </li>
         </ul>
     </div>
@@ -147,6 +148,7 @@
 
             <li v-if="complete_show_load_more_btn">
                 <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+                <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
             </li>
         </ul>
     </div>
@@ -159,6 +161,7 @@
 
 <!-- original code without v-else -->
 <div v-else>
+    <div class="cpm-incomplete-tasks">
     <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
         <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
             <div class="cpm-todo-wrap clearfix">
@@ -253,9 +256,14 @@
         <li v-if="list.show_task_form" class="cpm-todo-form">
             <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
         </li>
-        <li v-if="incomplete_show_load_more_btn"><a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
+        <li v-if="incomplete_show_load_more_btn">
+            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+            <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
+        </li>
     </ul> 
+    </div>
 
+    <div class="cpm-completed-tasks">
     <ul v-if="is_single_list"  class="cpm-todos cpm-todolist-content cpm-todo-completed">
         <li v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
             
@@ -320,8 +328,12 @@
 
             </div>
         </li>
-        <li v-if="complete_show_load_more_btn"><a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a></li>
+        <li v-if="complete_show_load_more_btn">
+            <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
+            <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
+        </li>
     </ul>
+    </div>
 </div>
 
 
