@@ -1321,7 +1321,7 @@ function cpm_message() {
  * @return boolean
  */
 function cpm_is_pro() {
-
+    
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
         return true;
     }

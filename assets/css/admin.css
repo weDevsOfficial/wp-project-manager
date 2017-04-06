@@ -46,6 +46,13 @@
   display: inline-block;
   width: 16px;
 }
+.cpm .cpm-data-load-before {
+  width: 100%;
+  text-align: center;
+}
+.cpm .cpm-data-load-before .loadmoreanimation {
+  display: block;
+}
 .cpm .cpm-box-title {
   margin: 0;
   font-size: 14px;
