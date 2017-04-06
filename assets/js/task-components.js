@@ -1788,6 +1788,9 @@ Vue.component('cpm-task-comments', {
 
     methods: {
         current_user_can_edit_delete: function( comment, task ) {
+            if ( comment.comment_type == 'cpm_activity' ) {
+                return false;
+            }
             
             if ( task.can_del_edit ) {
                 return true;
