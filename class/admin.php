@@ -96,6 +96,18 @@ class CPM_Admin {
                 'default' => '5',
             ),
             array(
+                'name'    => 'show_incomplete_tasks',
+                'label'   => __( 'Show incomplete tasks per page', 'cpm' ),
+                'type'    => 'text',
+                'default' => '5',
+            ),
+            array(
+                'name'    => 'show_completed_tasks',
+                'label'   => __( 'Show completed tasks per page', 'cpm' ),
+                'type'    => 'text',
+                'default' => '5',
+            ),
+            array(
                 'name'    => 'project_manage_role',
                 'label'   => __( 'Project Managing Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
