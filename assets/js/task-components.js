@@ -329,7 +329,9 @@ Vue.component('tasks', {
            complete_show_load_more_btn: false,
            currnet_user_id: this.$store.state.get_current_user_id,
            more_incomplete_task_spinner: false,
-           more_completed_task_spinner: false
+           more_completed_task_spinner: false,
+           loading_completed_tasks: true,
+           loading_incomplete_tasks: true
         }
     },
 
@@ -338,7 +340,10 @@ Vue.component('tasks', {
         if ( this.$store.state.is_single_list ) {
             this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
                 var getIncompletedTasks = self.getIncompletedTasks(self.list);
-                var getCompleteTask = self.getCompleteTask(self.list);
+                var getCompleteTask     = self.getCompleteTask(self.list);
+
+                self.loading_completed_tasks = false;
+                self.loading_incomplete_tasks = false;
 
                 if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
                     self.incomplete_show_load_more_btn = true;
@@ -350,6 +355,8 @@ Vue.component('tasks', {
             });
         } else {
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
+                self.loading_incomplete_tasks = false;
+                
                 if ( res.found_incompleted_tasks > self.list.tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 }
