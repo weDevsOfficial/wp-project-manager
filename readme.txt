@@ -118,13 +118,21 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = 2.0 - April 05, 2017 =
    
  * [new] Use js library Vue
- * [new] Design layout change for To-do Lists.
+ * [new] Design layout changed for To-do Lists.
  * [new] Real time update every action for To-do lists.
- * [fix] .
- * [fix] Made Report print friendly.
- * [fix] Files tab loading improvement.
- * [fix] Show all comments in newly uploaded file view.
- * [fix] Client view private discussion.
+ * [new] Two way data binding for to-do list edit 
+ * [new] Two way data binding for task edit
+ * [new] Task lazy loading.
+ * [new] Vue routing for single To-do list
+ * [new] Real time pagination.
+ * [new] Completed and incomplete label added for corresponding tasks in single to-list.
+ * [update] Discussion editor changed from tricks to tinymce.
+ * [update] Real time change of progress bar.
+ * [update] Assign user to task options changed from choosen to Vue multiselect.
+ * [update] User avatar(gravatar) link changed form 404 to mm
+ * [fix] Remove comments link from overview.
+ * [fix] All functionalities for to-do list.
+ 
 
 = 1.5.1 - September 19, 2016 =
 
