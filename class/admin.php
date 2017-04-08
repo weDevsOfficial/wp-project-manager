@@ -91,9 +91,21 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'show_todo',
-                'label'   => __( 'Show To-do Lists Per Page', 'cpm' ),
+                'label'   => __( 'To-do Lists Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '5',
+            ),
+            array(
+                'name'    => 'show_incomplete_tasks',
+                'label'   => __( 'Incomplete tasks per page', 'cpm' ),
+                'type'    => 'text',
+                'default' => '50',
+            ),
+            array(
+                'name'    => 'show_completed_tasks',
+                'label'   => __( 'Completed tasks per page', 'cpm' ),
+                'type'    => 'text',
+                'default' => '50',
             ),
             array(
                 'name'    => 'project_manage_role',

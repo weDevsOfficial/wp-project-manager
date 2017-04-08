@@ -558,14 +558,20 @@ class CPM_Project {
         if ( $project_users ) {
             foreach ( $project_users as $row ) {
                 $user = get_user_by( 'id', $row->user_id );
-
+               // print_r($user) ;
                 if ( ! is_wp_error( $user ) && $user ) {
-                    $user_list[$user->ID] = array(
-                        'id'    => $user->ID,
-                        'email' => $user->user_email,
-                        'name'  => $user->display_name,
-                        'role'  => $row->role
+
+                    $u = array(
+                        'id'         => $user->ID,
+                        'email'      => $user->user_email,
+                        'name'       => $user->display_name,
+                        'role'       => $row->role,
+                        'avatar'     => get_avatar( $user->ID, 96, 'mm' ),
+                        'avatar_url' => get_avatar_url( $user->ID, ['default' => 'mm'] ),
+                        'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
+                    
+                    array_push( $user_list, $u) ;
                 }
             }
         }

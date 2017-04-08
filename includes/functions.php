@@ -34,8 +34,10 @@ function cpm_tasks_filter( $tasks ) {
 }
 
 function cpm_project_filters() {
-    ?>
-    <input type="text" id="cpm-search-client" name="searchitem" placeholder="<?php _e( 'Search by Client...', 'cpm' ); ?>" value="" />
+    if ( cpm_can_manage_projects() ) {
+        ?>
+        <input type="text" id="cpm-search-client" name="searchitem" placeholder="<?php _e( 'Search by Client...', 'cpm' ); ?>" value="" />
+    <?php } ?>
     <input type="text" id="cpm-all-search" name="searchitem" placeholder="<?php _e( 'Search All...', 'cpm' ); ?>" value="" />
     <?php
 }
@@ -146,6 +148,9 @@ function cpm_date2mysql( $date, $gmt = 0 ) {
     return ( $gmt ) ? gmdate( 'Y-m-d H:i:s', $time ) : gmdate( 'Y-m-d H:i:s', strtotime( $date ) );
 }
 
+function cpm_to_mysql_date( $date, $gmt = 0 ) {
+    return ( $gmt ) ? gmdate( 'Y-m-d', $time ) : gmdate( 'Y-m-d', strtotime( $date ) );
+}
 /**
  * Displays users as checkboxes from a project
  *
@@ -159,7 +164,9 @@ function cpm_user_checkboxes( $project_id ) {
 
     // remove current logged in user from list
     if ( array_key_exists( $cur_user, $users ) ) {
-        unset( $users[$cur_user] );
+
+        $arr_index = array_search( $cur_user, $users );
+        unset( $users[$arr_index] );
     }
 
     foreach ( $users as $key => $user ) {
@@ -546,7 +553,11 @@ function cpm_project_overview_summary( $info, $project_id ) {
     $summary    = cpm_project_summary_info( $info, $project_id );
 
     foreach ( $summary as $key => $val ) {
+        if($val['url'] == ""  OR $val['url'] == '#' ){
+           $info_array[] = sprintf( '<li class="%s"><a><div class="icon"></div> <div class="count"><span>%d</span> %s</div> </a></li>', $key,  $val['count'], $val['label'] );
+        }else {
         $info_array[] = sprintf( '<li class="%s"><a href="%s"> <div class="icon"></div> <div class="count"><span>%d</span> %s</div> </a></li>', $key, $val['url'], $val['count'], $val['label'] );
+        }
     }
 
     return implode( '', $info_array );
@@ -694,7 +705,7 @@ add_filter( 'comment_feed_where', 'cpm_hide_comment_rss' );
  */
 //function cpm_get_option( $option ) {
 
-function cpm_get_option( $option, $section='cpm_general', $default = '' ) {
+function cpm_get_option( $option, $section = 'cpm_general', $default = '' ) {
 
     $options = get_option( $section );
 
@@ -703,46 +714,6 @@ function cpm_get_option( $option, $section='cpm_general', $default = '' ) {
     }
 
     return $default;
-
-    /* $value = get_option( $option );
-
-      if ( isset( $section[$option] ) ) {
-      echo get_option ( $section[$option] );
-
-      }
-     */
-
-    // return $value;
-    /*
-      $fields          = CPM_Admin::get_settings_fields();
-      $prepared_fields = array();
-
-      //prepare the array with the field as key
-      //and set the section name on each field
-      foreach ( $fields as $section => $field ) {
-      foreach ( $field as $fld ) {
-      $prepared_fields[$fld['name']]            = $fld;
-      $prepared_fields[$fld['name']]['section'] = $section;
-      }
-      }
-
-      // bail if option not found
-      if ( ! isset( $prepared_fields[$option] ) ) {
-      return;
-      }
-
-      //get the value of the section where the option exists
-      $opt = get_option( $prepared_fields[$option]['section'] );
-      $opt = is_array( $opt ) ? $opt : array();
-
-      //return the value if found, otherwise default
-      if ( array_key_exists( $option, $opt ) ) {
-      return $opt[$option];
-      } else {
-      $val = isset( $prepared_fields[$option]['default'] ) ? $prepared_fields[$option]['default'] : '';
-      return $val;
-      }
-     */
 }
 
 if ( ! function_exists( 'get_ipaddress' ) ) {
@@ -826,15 +797,15 @@ function cpm_get_role_in_project( $project_id, $user_id = 0 ) {
         $user = wp_get_current_user();
     }
 
-    $cache_key         = 'cpm_project_user_role_' . $project_id . $user_id;
+    $cache_key         = 'cpm_project_user_role_' . $project_id . $user->ID;
     $project_user_role = wp_cache_get( $cache_key );
 
     if ( $project_user_role === false ) {
-        $project_user_role = cpm_project_user_role_pre_chache( $project_id );
+        $project_user_role = cpm_project_user_role_pre_chache( $project_id, $user->ID );
         wp_cache_set( $cache_key, $project_user_role );
     }
 
-    return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user_id );
+    return apply_filters( 'cpm_project_user_role', $project_user_role, $project_id, $user->ID );
 }
 
 /**
@@ -872,10 +843,10 @@ function cpm_can_manage_projects( $user_id = 0 ) {
     }
 
 
-    $loggedin_user_role  = array_flip( $user->roles );
-    $opt                 = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
+    $loggedin_user_role = array_flip( $user->roles );
+    $opt                = cpm_get_option( 'project_manage_role', 'cpm_general', array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
     $manage_cap_option  = $opt;
-    $manage_capability  = array_intersect_key( $manage_cap_option, $loggedin_user_role  );
+    $manage_capability  = array_intersect_key( $manage_cap_option, $loggedin_user_role );
 
     //checking project manage capability
     if ( $manage_capability ) {
@@ -911,9 +882,9 @@ function cpm_can_create_projects( $user_id = 0 ) {
     }
 
     $loggedin_user_role       = array_flip( $user->roles );
-    $manage_cap_option      = cpm_get_option( 'project_create_role', 'cpm_general' , array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
+    $manage_cap_option        = cpm_get_option( 'project_create_role', 'cpm_general', array( 'administrator' => 'administrator', 'editor' => 'editor', 'author' => 'author' ) );
     $project_ceate_capability = array_intersect_key( $loggedin_user_role, $manage_cap_option );
-    
+
     //checking project create capability
     if ( $project_ceate_capability ) {
         return true;
@@ -974,7 +945,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
         return true;
     }
 
-    $uesr_role_in_project = cpm_get_role_in_project( $project_id, $user_id );
+    $uesr_role_in_project = cpm_get_role_in_project( $project_id, $user->ID );
 
     //If current user has no role in this project
     if ( ! $uesr_role_in_project ) {
@@ -1155,12 +1126,12 @@ function cpm_assigned_user( $users, $render = true, $avatar = true, $separator =
 
     $html = "";
     if ( is_array( $users ) ) {
-        $sl = 0 ;
+        $sl = 0;
         foreach ( $users as $user_id ) {
-            $html .= ($sl > 0) ?  $separator : " ";
+            $html .= ($sl > 0) ? $separator : " ";
             $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
 
-            $sl++;
+            $sl ++;
         }
     } else {
         $html .="<span class='cpm-assigned-user'>" . cpm_url_user( $user_id, $avatar ) . "</span>";
@@ -1182,8 +1153,8 @@ function cpm_pagination( $total, $limit, $pagenum ) {
         'next_text' => __( '&raquo;', 'aag' ),
         'add_args'  => false,
         'total'     => $num_of_pages,
-        'current'   => $pagenum
-            ) );
+        'current'   => $pagenum,
+    ));
 
     if ( $page_links ) {
         echo '<div class="tablenav"><div class="tablenav-pages">' . $page_links . '</div></div>';
@@ -1281,7 +1252,7 @@ function cpm_get_co_worker() {
 
 function cpm_get_co_worker_dropdown() {
     global $wpdb;
-    $table = $wpdb->prefix . 'cpm_user_role';
+    $table      = $wpdb->prefix . 'cpm_user_role';
     $user_table = $wpdb->prefix . 'users';
     return $wpdb->get_results( "SELECT u.ID as ID, u.display_name as display_name, cu.user_id as user_id, cu.role as role FROM $user_table as u, $table as cu  WHERE  u.ID = cu.user_id AND ( cu.role = 'manager' OR cu.role = 'co_worker' ) GROUP BY u.ID ORDER BY u.display_name ASC  " );
 }
@@ -1335,6 +1306,10 @@ function cpm_message() {
     $message = array(
         'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
         'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
+        'new_todo'                     => __( 'New Todo List', 'cpm' ),
+        'update_todo'                  => __( 'Update Todo List', 'cpm' ),
+        'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),
+        'confirm'                      => __( 'Are you sure!', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );
@@ -1346,7 +1321,7 @@ function cpm_message() {
  * @return boolean
  */
 function cpm_is_pro() {
-
+    
     if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
         return true;
     }
@@ -1396,4 +1371,126 @@ function cpm_load_template( $file, $args = array() ) {
     } else {
         include $cpm_dir . $file;
     }
+}
+
+/**
+ * Embed a JS template page with its ID
+ *
+ * @param  string  the file path of the file
+ * @param  string  the script id
+ *
+ * @return void
+ */
+function cpm_get_js_template( $file_path, $id ) {
+    if ( file_exists( $file_path ) ) {
+        echo '<script type="text/html" id="tmpl-' . $id . '">' . "\n";
+        include_once $file_path;
+        echo "\n" . '</script>' . "\n";
+    }
+}
+
+/**
+ * WP Timezone Settings
+ *
+ * @since 2.0.0
+ *
+ * @return string
+ */
+function cpm_get_wp_timezone() {
+    $momentjs_tz_map = [
+        'UTC-12'    => 'Etc/GMT+12',
+        'UTC-11.5'  => 'Pacific/Niue',
+        'UTC-11'    => 'Pacific/Pago_Pago',
+        'UTC-10.5'  => 'Pacific/Honolulu',
+        'UTC-10'    => 'Pacific/Honolulu',
+        'UTC-9.5'   => 'Pacific/Marquesas',
+        'UTC-9'     => 'America/Anchorage',
+        'UTC-8.5'   => 'Pacific/Pitcairn',
+        'UTC-8'     => 'America/Los_Angeles',
+        'UTC-7.5'   => 'America/Edmonton',
+        'UTC-7'     => 'America/Denver',
+        'UTC-6.5'   => 'Pacific/Easter',
+        'UTC-6'     => 'America/Chicago',
+        'UTC-5.5'   => 'America/Havana',
+        'UTC-5'     => 'America/New_York',
+        'UTC-4.5'   => 'America/Halifax',
+        'UTC-4'     => 'America/Manaus',
+        'UTC-3.5'   => 'America/St_Johns',
+        'UTC-3'     => 'America/Sao_Paulo',
+        'UTC-2.5'   => 'Atlantic/South_Georgia',
+        'UTC-2'     => 'Atlantic/South_Georgia',
+        'UTC-1.5'   => 'Atlantic/Cape_Verde',
+        'UTC-1'     => 'Atlantic/Azores',
+        'UTC-0.5'   => 'Atlantic/Reykjavik',
+        'UTC+0'     => 'Etc/UTC',
+        'UTC'       => 'Etc/UTC',
+        'UTC+0.5'   => 'Etc/UTC',
+        'UTC+1'     => 'Europe/Madrid',
+        'UTC+1.5'   => 'Europe/Belgrade',
+        'UTC+2'     => 'Africa/Tripoli',
+        'UTC+2.5'   => 'Asia/Amman',
+        'UTC+3'     => 'Europe/Moscow',
+        'UTC+3.5'   => 'Asia/Tehran',
+        'UTC+4'     => 'Europe/Samara',
+        'UTC+4.5'   => 'Asia/Kabul',
+        'UTC+5'     => 'Asia/Karachi',
+        'UTC+5.5'   => 'Asia/Kolkata',
+        'UTC+5.75'  => 'Asia/Kathmandu',
+        'UTC+6'     => 'Asia/Dhaka',
+        'UTC+6.5'   => 'Asia/Rangoon',
+        'UTC+7'     => 'Asia/Bangkok',
+        'UTC+7.5'   => 'Asia/Bangkok',
+        'UTC+8'     => 'Asia/Shanghai',
+        'UTC+8.5'   => 'Asia/Pyongyang',
+        'UTC+8.75'  => 'Australia/Eucla',
+        'UTC+9'     => 'Asia/Tokyo',
+        'UTC+9.5'   => 'Australia/Darwin',
+        'UTC+10'    => 'Australia/Brisbane',
+        'UTC+10.5'  => 'Australia/Adelaide',
+        'UTC+11'    => 'Australia/Melbourne',
+        'UTC+11.5'  => 'Pacific/Norfolk',
+        'UTC+12'    => 'Asia/Anadyr',
+        'UTC+12.75' => 'Asia/Anadyr',
+        'UTC+13'    => 'Pacific/Fiji',
+        'UTC+13.75' => 'Pacific/Chatham',
+        'UTC+14'    => 'Pacific/Tongatapu',
+    ];
+
+    $current_offset = get_option('gmt_offset');
+    $tzstring       = get_option('timezone_string');
+
+    // Remove old Etc mappings. Fallback to gmt_offset.
+    if ( false !== strpos( $tzstring, 'Etc/GMT' ) ) {
+        $tzstring = '';
+    }
+
+    if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
+        if ( 0 == $current_offset ) {
+            $tzstring = 'UTC+0';
+        } elseif ($current_offset < 0) {
+            $tzstring = 'UTC' . $current_offset;
+        } else {
+            $tzstring = 'UTC+' . $current_offset;
+        }
+
+    }
+
+    if ( array_key_exists( $tzstring , $momentjs_tz_map ) ) {
+        $tzstring = $momentjs_tz_map[ $tzstring ];
+    }
+
+    return $tzstring;
+}
+
+function cpm_has_milestone( $project_id ) {
+    $args = array(
+        'posts_per_page'   => 1,
+        'post_type'        => 'cpm_milestone',
+        'post_status'      => 'publish',
+        'post_parent'      => $project_id
+    );
+
+    $posts = get_posts( $args ); 
+
+    return $posts; 
 }

@@ -32,7 +32,7 @@
             $( 'body' ).on( 'click', '.cpm-edit-comment-link', this.Comment.get );
             $( 'body' ).on( 'click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit );
             $( 'body' ).on( 'click', '.cpm-delete-comment-link', this.Comment.deleteComment );
-            $( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
+            $( 'body' ).on( 'submit', 'form.cpm-comment-form', this.Comment.update );
             $( 'body' ).on( 'click', '.cpm-delete-file', this.Uploader.deleteFile );
 
             /* =============== Project Duplicate ============ */
@@ -532,6 +532,7 @@
                         data = that.serialize();
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -573,7 +574,7 @@
                         parent.find( '.cpm-comment-content' ).hide();
                         parent.find( '.cpm-comment-edit-form' ).hide().html( res.form ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -594,6 +595,7 @@
                         container = form.closest( '.cpm-comment-container' ),
                         data = form.serialize(),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -664,7 +666,7 @@
             },
             hide: function( e ) {
                 e.preventDefault();
-                new CPM_Uploader( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
+                new CPM_Uploader_Old( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
                 $( '.cpm-new-message-form' ).slideUp();
             },
             addNew: function( e ) {
@@ -790,7 +792,7 @@
 
                         parent.find( '.cpm-entry-detail' ).hide().next( '.cpm-msg-edit-form' ).hide().html( res.content ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -1014,9 +1016,9 @@
             $( this ).closest( 'tr' ).remove();
         } );
     } );
-    new CPM_Uploader( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
 
     function  showderror() {
 
@@ -1100,7 +1102,6 @@
 	});
  
 })(jQuery);
-
 ;(function($) {
 
     var CPM_Task = {
@@ -1131,16 +1132,16 @@
             $('.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //todolist
-            $('.cpm-new-todolist-form').on('submit', 'form', this.addList);
-            $('.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
-            $('.cpm-new-todolist-form').on('click', 'a.list-cancel', this.toggleNewTaskListForm);
-            $('a#cpm-add-tasklist').on('click', this.toggleNewTaskListFormLink);
+            // $('.cpm-new-todolist-form').on('submit', 'form', this.addList);
+            // $('.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
+            //$('.cpm-new-todolist-form').on('click', 'a.list-cancel', this.toggleNewTaskListForm);
+            //$('a#cpm-add-tasklist').on('click', this.toggleNewTaskListFormLink);
 
             //tasklist edit, delete links toggle
-            $('.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
-            $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
-            $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
-            $('.cpm-todolists').on('click', 'a.cpm-list-pin', this.togglePinStatus);
+            // $('body').on('click', 'a.cpm-list-delete', this.deleteList);
+            //$('body').on('click', 'a.cpm-list-edit', this.toggleEditList);
+            //$('body').on('click', 'a.list-cancel', this.toggleEditList);
+            // $('body').on('click', 'a.cpm-list-pin', this.togglePinStatus);
             // Load more
 
 
@@ -1467,7 +1468,6 @@
                 pin_status: new_status,
                 '_wpnonce': CPM_Vars.nonce
             };
-
             spinner.show();
             $.post(CPM_Vars.ajaxurl, data, function(res) {
                 spinner.hide();
@@ -1723,15 +1723,14 @@ var $ = jQuery ;
 
 })(jQuery);
 
-;(function($) {
-
+    var $ = jQuery;
     /**
      * Upload handler helper
      *
      * @param string browse_button ID of the pickfile
      * @param string container ID of the wrapper
      */
-    window.CPM_Uploader = function (browse_button, container) {
+    window.CPM_Uploader = function (browse_button, container, component) {
         this.container = container;
         this.browse_button = browse_button;
 
@@ -1740,8 +1739,12 @@ var $ = jQuery ;
             return;
         }
 
+        this.component = component;
+
         //instantiate the uploader
         this.uploader = new plupload.Uploader({
+            dragdrop: true,
+            drop_element: 'cpm-upload-container',
             runtimes: 'html5,silverlight,flash,html4',
             browse_button: browse_button,
             container: container,
@@ -1755,7 +1758,7 @@ var $ = jQuery ;
             flash_swf_url: CPM_Vars.plupload.flash_swf_url,
             silverlight_xap_url: CPM_Vars.plupload.silverlight_xap_url,
             filters: CPM_Vars.plupload.filters,
-            resize: CPM_Vars.plupload.resize
+            resize: CPM_Vars.plupload.resize,
         });
 
         //attach event handlers
@@ -1772,6 +1775,7 @@ var $ = jQuery ;
     CPM_Uploader.prototype = {
 
         init: function (up, params) {
+
         },
 
         added: function (up, files) {
@@ -1811,15 +1815,12 @@ var $ = jQuery ;
             $('#' + file.id).remove();
 
             if(res.success) {
-                var $container = $('#' + this.container).find('.cpm-upload-filelist');
-                $container.append(res.content);
+               this.component.$emit( 'cpm_file_upload_hook', { res: res.data, component: this.component } );
             } else {
                 alert(res.error);
             }
         }
     };
 
-    $(function () {
-        new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container');
-    });
-})(jQuery);
+
+

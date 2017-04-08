@@ -1,16 +1,15 @@
 <?php
-
 /**
  * Plugin Name: WP Project Manager
  * Plugin URI: https://wordpress.org/plugins/wedevs-project-manager/
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.5.1
+ * Version: 1.6
  * License: GPL2
  */
 /**
- * Copyright (c) 2016 Tareq Hasan (email: info@wedevs.com). All rights reserved.
+ * Copyright (c) 2017 Tareq Hasan (email: info@wedevs.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -41,6 +40,20 @@
  * @author Tareq Hasan
  */
 class WeDevs_CPM {
+
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    public $version = '1.6';
+
+     /**
+     * Plugin Database version
+     *
+     * @var string
+     */
+    public $db_version = '1.5';
 
     /**
      * @var The single instance of the class
@@ -94,17 +107,74 @@ class WeDevs_CPM {
      */
     public $api;
 
+    /**
+     * Main CPM Instance
+     *
+     * @since 1.1
+     * @static
+     * @see cpm()
+     * @return CPMRP - Main instance
+     */
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+
+    /**
+     * Constructor for the WeDevs_CPM class
+     *
+     * Sets up all the appropriate hooks and actions
+     * within our plugin.
+     */
     function __construct() {
-        $this->init();
+        // Define constants
+        $this->define_constants();
 
+        //Required class file include
+        spl_autoload_register( array( $this, 'autoload' ) );
+
+        // Include required files
+        $this->includes();
+
+        // instantiate classes
+        $this->instantiate();
+
+        // Initialize the action hooks
+        $this->init_actions();
+
+        // Initialize the action hooks
+        $this->init_filters();
+
+        //Execute only plugin install time
+        register_activation_hook( __FILE__, array( $this, 'install' ) );
+
+        //Do some thing after load this plugin
+        do_action( 'cpm_loaded' );
+    }
+
+    /**
+     * Initialize WordPress action hooks
+     *
+     * @return void
+     */
+    function init_filters() {
+        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+    }
+
+    /**
+     * Initialize WordPress action hooks
+     *
+     * @return void
+     */
+    function init_actions() {
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-
         add_action( 'plugins_loaded', array( $this, 'cpm_content_filter' ) );
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-
         add_action( 'wp_enqueue_scripts', array( $this, 'admin_scripts' ) );
-        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-        register_activation_hook( __FILE__, array( $this, 'install' ) );
+        add_action( 'admin_footer', array( $this, 'admin_js_templates' ) );
     }
 
     /**
@@ -132,22 +202,6 @@ class WeDevs_CPM {
     }
 
     /**
-     * Main CPM Instance
-     *
-     * @since 1.1
-     * @static
-     * @see cpm()
-     * @return CPMRP - Main instance
-     */
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
-    /**
      * Add filters for text displays on Project Manager texts
      *
      * @since 0.4
@@ -160,24 +214,6 @@ class WeDevs_CPM {
         add_filter( 'cpm_get_content', 'shortcode_unautop' );
         add_filter( 'cpm_get_content', 'prepend_attachment' );
         add_filter( 'cpm_get_content', 'make_clickable' );
-    }
-
-    /**
-     * Initial do
-     *
-     * @since 1.1
-     * @return type
-     */
-    function init() {
-        $this->define_constants();
-        spl_autoload_register( array( $this, 'autoload' ) );
-        $this->page()->cpm_function();
-
-        $this->version    = CPM_VERSION;
-        $this->db_version = CPM_DB_VERSION;
-
-        $this->includes();
-        $this->instantiate();
     }
 
     /**
@@ -204,10 +240,11 @@ class WeDevs_CPM {
      * @return type
      */
     public function define_constants() {
-        $this->define( 'CPM_VERSION', '1.5.1' );
-        $this->define( 'CPM_DB_VERSION', '1.5' );
+        $this->define( 'CPM_VERSION', $this->version );
+        $this->define( 'CPM_DB_VERSION', $this->db_version );
         $this->define( 'CPM_PATH', dirname( __FILE__ ) );
         $this->define( 'CPM_URL', plugins_url( '', __FILE__ ) );
+        $this->define( 'CPM_JS_TMPL', CPM_PATH . '/views/js-templates' );
     }
 
     /**
@@ -232,10 +269,10 @@ class WeDevs_CPM {
      */
     function instantiate() {
 
-        $this->project   = CPM_Project::getInstance();
-        $this->message   = CPM_Message::getInstance();
-        $this->task      = CPM_Task::getInstance();
-        $this->milestone = CPM_Milestone::getInstance();
+        $this->project         = CPM_Project::getInstance();
+        $this->message         = CPM_Message::getInstance();
+        $this->task            = CPM_Task::getInstance();
+        $this->milestone       = CPM_Milestone::getInstance();
 
         $this->activity        = CPM_Activity::getInstance();
         $this->ajax            = CPM_Ajax::getInstance();
@@ -273,6 +310,9 @@ class WeDevs_CPM {
      * @return void
      */
     function includes() {
+        $this->version    = CPM_VERSION;
+        $this->db_version = CPM_DB_VERSION;
+        $this->page()->cpm_function();
         $this->router->includes();
     }
 
@@ -303,37 +343,76 @@ class WeDevs_CPM {
      * @since 0.1
      */
     static function admin_scripts() {
+
+        $suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+        ob_start();
+        include CPM_PATH . '/assets/js/moment/latest.json';
+        $time_zone_string      = ob_get_clean();
+        $json_time_zone_string = json_decode( $time_zone_string, true );
+
         $upload_size = intval( cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
         wp_enqueue_script( 'jquery' );
+        //wp_enqueue_script( 'underscore' );
         wp_enqueue_script( 'jquery-ui-core' );
         wp_enqueue_script( 'jquery-ui-autocomplete' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
-        wp_enqueue_script( 'jquery-ui-sortable' );
+        //wp_enqueue_script( 'jquery-ui-sortable' );
+        wp_enqueue_script( 'cpm-timepicker', CPM_URL . '/assets/js/jquery-ui-timepicker.js', array('jquery'), false, true );
+        wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
+        //wp_register_script( 'cpm-trix', CPM_URL . '/assets/js/trix/trix.js', array( 'jquery' ), time(), false, true );
+        wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false, true );
+        wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false, true );
+
+        wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', array('cpm-tiny-mce','cpm-moment', 'cpm-moment-timezone'), time(), false, true );
+        wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
+
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'trix_editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
-        wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, true );
+        wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, false );
         wp_enqueue_script( 'plupload-handlers' );
+        //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
-        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-prettyPhoto', 'cpm_uploader' ), false, true );
-        wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
-        wp_enqueue_script( 'cpm-vuejs', plugins_url( 'assets/js/vue.min.js', __FILE__ ), '', time(), FALSE );
+        //swp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );
+
+
         wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
+        wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
+
+        $cpm_dependency = array( 'jquery', 'cpm-vue');
+        $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
+
+        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
+        //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
+
+        $project_id = empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] );
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
-            'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-            'nonce'         => wp_create_nonce( 'cpm_nonce' ),
-            'is_admin'      => is_admin() ? 'yes' : 'no',
-            'message'       => cpm_message(),
-            'todolist_show' => cpm_get_option( 'todolist_show', 'cpm_general' ),
-            'pluginURL'     => CPM_URL,
+            'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+            'nonce'          => wp_create_nonce( 'cpm_nonce' ),
+            'project_id'     => apply_filters( 'cpm_project_id', $project_id ),
+            'is_admin'       => is_admin() ? 'yes' : 'no',
+            'message'        => cpm_message(),
+            'todolist_show'  => cpm_get_option( 'todolist_show', 'cpm_general' ),
+            'pluginURL'      => CPM_URL,
+            'wp_time_zone'   => cpm_get_wp_timezone(),
+            'time_zones'     => $json_time_zone_string['zones'],
+            'time_links'     => $json_time_zone_string['links'],
+            'wp_date_format' => get_option( 'date_format' ),
+            'wp_time_format' => get_option( 'time_format' ),
+            'current_user_avatar_url' => get_avatar_url( get_current_user_id(), ['default' => 'mm'] ),
+            'get_current_user_id' => get_current_user_id(),
+            'CPM_URL'        => CPM_URL,
             'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',
                 'max_file_size'       => $upload_size . 'b',
                 'url'                 => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
+                'url_old'                 => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload_old&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
                 'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
                 'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
                 'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
@@ -341,13 +420,29 @@ class WeDevs_CPM {
             )
         ) );
 
+
+        wp_register_script( 'cpm-vue-multiselect', CPM_URL . '/assets/js/vue-multiselect/vue-multiselect.min.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
+        //wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-mixin', CPM_URL . '/assets/js/task-component-mixin.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-toastr', 'cpm-task-store', 'cpm-task-mixin' ), false, true );
+       // wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
+
+        wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
+        wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
+        wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
         wp_enqueue_style( 'atwhocss', plugins_url( 'assets/css/jquery.atwho.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
         wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+        wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );
+
         do_action( 'cpm_admin_scripts' );
     }
 
@@ -389,6 +484,49 @@ class WeDevs_CPM {
      */
     function admin_page_addons() {
         $this->router->admin_page_addons();
+    }
+
+    /**
+     * Print JS templates in footer
+     *
+     * @since  2.0.0
+     *
+     * @return void
+     */
+    public static function admin_js_templates() {
+        global $current_screen;
+
+        $tab  = empty( $_GET['tab'] ) ? false : $_GET['tab'];
+        $hook = empty( $current_screen->base ) ? false : $current_screen->base;
+
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-router-default.php', 'cpm-todo-list-router-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-single.php', 'cpm-todo-list-single' );
+        cpm_get_js_template( CPM_JS_TMPL . '/blanktemplate/todolist.php', 'todo-list-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-btn.php', 'new-todo-list-button' );
+        cpm_get_js_template( CPM_JS_TMPL . '/tasks.php', 'cpm-tasks' );
+        cpm_get_js_template( CPM_JS_TMPL . '/new-task-button.php', 'cpm-new-task-button' );
+        cpm_get_js_template( CPM_JS_TMPL . '/new-task-form.php', 'cpm-new-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comment-form.php', 'cpm-list-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/spinner.php', 'cpm-spinner' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comment-form.php', 'cpm-task-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/pagination.php', 'cpm-pagination' );
+
+        cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
+
     }
 
 }

@@ -40,6 +40,19 @@
   vertical-align: baseline;
   position: relative;
 }
+.cpm .cpm-spinner {
+  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  height: 16px;
+  display: inline-block;
+  width: 16px;
+}
+.cpm .cpm-data-load-before {
+  width: 100%;
+  text-align: center;
+}
+.cpm .cpm-data-load-before .loadmoreanimation {
+  display: block;
+}
 .cpm .cpm-box-title {
   margin: 0;
   font-size: 14px;
@@ -85,7 +98,6 @@
 .cpm input[type=text] {
   padding: 5px 10px;
   border: 1px solid #DDD;
-  margin-bottom: 10px;
   font-size: 13px;
   -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
@@ -293,6 +305,18 @@ ul.cpm-attachments li {
 .cpm-form {
   width: 100%;
   overflow: hidden;
+}
+.cpm-form .item {
+  margin: 10px 10px 10px 0;
+  position: relative;
+}
+.cpm-form .item input[type="text"],
+.cpm-form .item select,
+.cpm-form .item textarea {
+  width: 100%;
+}
+.cpm-form .submit {
+  padding: 0;
 }
 .cpm-form .form-table {
   width: 70%;
@@ -861,6 +885,8 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  width: 32px;
+  height: 32px;
 }
 .cpm-messages-table .message {
   font-size: 13px;
@@ -995,7 +1021,8 @@ ul.cpm-activity ul li:before {
   -moz-border-radius: 50%;
   border-radius: 50%;
   background: #D5D5D5;
-  max-width: 100%;
+  width: 32px;
+  height: 32px;
 }
 .cpm-comment-wrap li.cpm-comment .cpm-comment-container {
   margin-left: 68px;
@@ -1112,11 +1139,6 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #ddd;
   border-radius: 0;
 }
-.cpm-comment-form select,
-.cpm-message-form select,
-.cpm-milestone-form select {
-  margin-bottom: 10px;
-}
 .cpm-comment-form input[type=text],
 .cpm-message-form input[type=text],
 .cpm-milestone-form input[type=text] {
@@ -1131,6 +1153,7 @@ ul.cpm-activity ul li:before {
   border: 1px dashed #DDD;
   padding: 10px 10px 10px 30px;
   margin-bottom: 10px;
+  margin-top: 10px;
   font-size: 13px;
   position: relative;
   line-height: 17px;
@@ -1183,11 +1206,6 @@ ul.cpm-activity ul li:before {
   width: 200px;
   z-index: 10;
 }
-.cpm-comment-form .submit,
-.cpm-message-form .submit,
-.cpm-milestone-form .submit {
-  padding: 10px 0 0 0;
-}
 .cpm-comment-form .notify-users,
 .cpm-message-form .notify-users,
 .cpm-milestone-form .notify-users {
@@ -1197,14 +1215,19 @@ ul.cpm-activity ul li:before {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
-.cpm-new-todolist-form {
-  display: none;
+.cpm-new-todolist-form,
+.cpm-update-todolist-form {
   border: 1px solid #e5e5e5;
-  padding: 25px;
-  max-width: 600px;
+  width: 40%;
   background: #fff;
   margin-top: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  padding: 10px;
+}
+.cpm-new-todolist-form .item,
+.cpm-update-todolist-form .item {
+  padding: 5px;
+  margin: 0;
 }
 .cpm-single-task {
   margin: 20px 0;
@@ -1235,72 +1258,142 @@ ul.cpm-activity ul li:before {
   border-top: 1px solid #eee;
   padding: 20px 0;
 }
-ul.cpm-todolists .submit {
-  margin: 10px 0;
-  padding: 0 0 15px 0;
-}
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists > li.ui-state-highlight {
+.cpm-todolists > li.ui-state-highlight {
   min-height: 100px;
 }
-ul.cpm-todolists article.cpm-todolist {
+.cpm-todolists .cpm-todolist {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form form {
+.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar {
+  margin-top: 15px;
+  overflow: hidden;
+  height: 13px;
+  background-color: #f7f7f7;
+}
+.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar .bar {
+  height: 18px;
+  background-color: #62c462;
+}
+.cpm-todolists .cpm-todolist .cpm-list-edit-form form {
   border: 1px solid #e5e5e5;
   margin: 20px;
   padding: 15px 15px 0;
   width: 40%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form {
-  margin: 15px 0 10px 15px;
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form {
+  margin: 10px 0 10px 0;
   border: 1px solid #eee;
-  padding: 15px 15px 0 15px;
+  padding: 10px 15px 8px 15px;
   width: 40%;
   background: #F8F8F8;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form textarea,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form textarea {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .multiselect,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .multiselect {
   width: 98%;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item {
+  margin-bottom: 10px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"] {
+  height: 34px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item textarea,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item textarea {
+  width: 98%;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag {
+  background: #019dd6;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:focus,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:focus,
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tag-icon:hover,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tag-icon:hover {
+  background: #019dd6;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__input,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__input {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  margin-top: -1px;
+  padding: 0;
+  height: 30px !important;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__element,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__element {
+  height: 25px;
+  margin: 0;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__select:before,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__select:before {
+  top: 57%;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__tags,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__tags {
+  min-height: 34px;
+  border-radius: 0px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option {
+  min-height: 30px;
+  padding: 8px 12px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__option--highlight,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__option--highlight {
+  background: #019dd6;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content {
+  border-radius: 0px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form .item .multiselect__content li,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form .item .multiselect__content li {
+  border: none;
+  padding: 0;
+  height: 34px;
+}
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen {
   width: 98% !important;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-task-form #task_assign_chosen input[type="text"],
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-task-form #task_assign_chosen input[type="text"] {
   height: 30px;
   color: #9B9B9B;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .item.date label,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .item.date label {
+.cpm-todolists .cpm-todolist .cpm-new-btn .item.date label,
+.cpm-todolists .cpm-todolist .cpm-todo-form .item.date label {
   display: block;
   font-size: 13px;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-new-btn .cpm-make-privacy,
-ul.cpm-todolists article.cpm-todolist .cpm-todo-form .cpm-make-privacy {
+.cpm-todolists .cpm-todolist .cpm-new-btn .cpm-make-privacy,
+.cpm-todolists .cpm-todolist .cpm-todo-form .cpm-make-privacy {
   margin-top: 8px;
 }
-ul.cpm-todolists article.cpm-todolist header h3 {
+.cpm-todolists .cpm-todolist header h3 {
   margin: 0;
   font-size: 14px;
   padding-left: 5px;
   padding-bottom: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-entry-detail {
+.cpm-todolists .cpm-todolist header .cpm-entry-detail {
   font-style: italic;
   padding: 0 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
+.cpm-todolists .cpm-todolist header .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1310,10 +1403,10 @@ ul.cpm-todolists article.cpm-todolist header .cpm-comment-count {
   padding: 1px 7px;
   margin-right: 5px;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-comment-count a {
+.cpm-todolists .cpm-todolist header .cpm-comment-count a {
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
+.cpm-todolists .cpm-todolist header .cpm-list-actions {
   font-size: 11px;
   line-height: 15px;
   border: 1px solid #eee;
@@ -1329,34 +1422,34 @@ ul.cpm-todolists article.cpm-todolist header .cpm-list-actions {
   top: 4px;
   z-index: 9999;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-list-actions a {
+.cpm-todolists .cpm-todolist header .cpm-list-actions a {
   display: inline-block;
 }
-ul.cpm-todolists article.cpm-todolist header .cpm-move-trak {
+.cpm-todolists .cpm-todolist header .cpm-move-trak {
   left: -12px;
   padding: 3px 3px 0 3px;
 }
-ul.cpm-todolists article.cpm-todolist header:hover .cpm-list-actions {
+.cpm-todolists .cpm-todolist header:hover .cpm-list-actions {
   visibility: visible;
 }
-ul.cpm-todolists article.cpm-todolist .ui-state-highlight {
+.cpm-todolists .cpm-todolist .ui-state-highlight {
   height: 1.5em;
   line-height: 1.2em;
 }
-ul.cpm-todolists article.cpm-todolist .cpm-list-edit-form {
+.cpm-todolists .cpm-todolist .cpm-list-edit-form {
   display: none;
 }
-ul.cpm-todolists article.cpm-todolist p {
+.cpm-todolists .cpm-todolist p {
   margin: 0;
   padding-bottom: 10px;
 }
-ul.cpm-todolists article.cpm-todolist > ul {
+.cpm-todolists .cpm-todolist > ul {
   margin: 0 0 0 15px;
   min-height: 6px;
   position: relative;
   list-style: none;
 }
-ul.cpm-todolists article.cpm-todolist > ul li {
+.cpm-todolists .cpm-todolist > ul li {
   clear: both;
   line-height: 20px;
   padding-left: 19px;
@@ -1364,38 +1457,29 @@ ul.cpm-todolists article.cpm-todolist > ul li {
   word-wrap: break-word;
   margin: 0;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed {
+.cpm-todolists .cpm-todolist .cpm-todo-completed {
   padding-top: 5px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap {
   width: 100%;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-action {
   left: -16px;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
-  font-size: 11px;
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-content a {
   line-height: 14px;
   color: #999;
 }
-ul.cpm-todolists article.cpm-todolist ul.cpm-todo-completed .cpm-todo-wrap .move {
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .cpm-todo-text {
+  text-decoration: line-through;
+}
+.cpm-todolists .cpm-todolist .cpm-todo-completed .cpm-todo-wrap .move {
   display: none;
 }
-ul.cpm-todolists > li {
+.cpm-todolists > li {
   margin: 0;
 }
-ul.cpm-todolists .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-  height: 16px;
-  display: none;
-  float: left;
-  opacity: 0.62;
-  width: 16px;
-  position: absolute;
-  top: 2px;
-  left: 9px;
-}
-ul.cpm-todolists .cpm-new-task-spinner {
+.cpm-todolists .cpm-new-task-spinner {
   background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
@@ -1403,6 +1487,37 @@ ul.cpm-todolists .cpm-new-task-spinner {
   margin-top: 5px;
   position: absolute;
   width: 16px;
+}
+.cpm-due-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #CD7A7A;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 7px;
+  color: #fff;
+}
+.cpm-current-date {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 1.3em;
+  color: #999;
+  padding: 2px 5px;
+}
+.cpm-task-comment-count {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 12px;
+  line-height: 1.3em;
+  color: #999;
+  padding: 2px 5px;
+  margin-top: -5px;
 }
 .cpm-todo .cpm-todo-wrap {
   position: relative;
@@ -1439,6 +1554,16 @@ ul.cpm-todolists .cpm-new-task-spinner {
   text-decoration: underline;
   color: #21759b;
 }
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-comment {
+  display: inline-block;
+  margin-right: -15px;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-subtask {
+  display: inline-block;
+}
+.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-todo-action-center .cpm-task-time-track {
+  display: inline-block;
+}
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -1451,28 +1576,6 @@ ul.cpm-todolists .cpm-new-task-spinner {
 }
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-comment-count a {
   color: #999;
-}
-.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-due-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #CD7A7A;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #fff;
-  margin-right: 5px;
-}
-.cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-current-date {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #ddd;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 1px 7px;
-  color: #999;
-  margin-right: 5px;
 }
 .cpm-todo .cpm-todo-wrap .cpm-todo-content .cpm-assigned-user img {
   width: 24px;
@@ -1501,63 +1604,6 @@ ul.cpm-todolists .cpm-new-task-spinner {
   vertical-align: middle;
   border: 1px solid #ccc;
 }
-.cpm-todo .cpm-task-edit-form {
-  border: 1px solid #e5e5e5;
-  display: none;
-  margin-bottom: 25px;
-  margin-left: 0;
-  margin-top: 20px;
-  padding: 20px;
-  width: 40%;
-  background: #f8f8f8;
-}
-.cpm-todo .cpm-task-edit-form input[type="text"],
-.cpm-todo .cpm-task-edit-form textarea {
-  width: 98%;
-}
-.cpm-todo .cpm-task-edit-form #task_assign_chosen {
-  width: 98% !important;
-}
-.cpm-todo .cpm-task-edit-form #task_assign_chosen input[type="text"] {
-  height: 30px;
-  color: #9B9B9B;
-}
-.cpm-todo .cpm-task-edit-form #task_assign_chosen .chosen-choices .search-choice {
-  position: relative;
-  margin: 3px 0 3px 5px;
-  padding: 3px 20px 3px 5px;
-  border: 1px solid #aaa;
-  border-radius: 3px;
-  background-color: #e4e4e4;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-  background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-clip: padding-box;
-  box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-  color: #333;
-  line-height: 13px;
-  cursor: default;
-}
-.cpm-todo .cpm-task-edit-form #task_assign_chosen .chosen-results li.highlighted {
-  background-color: #3875d7;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
-  background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
-  color: #fff;
-}
-.cpm-todo .cpm-task-edit-form .cpm-make-privacy {
-  margin-top: 8px;
-}
-.cpm-todo .cpm-task-edit-form .cpm-make-privacy input[type="checkbox"] {
-  margin-left: 0;
-}
-.cpm-todo .cpm-task-edit-form .date label {
-  display: block;
-}
 .cpm-new-todolist-form input[type="text"],
 .cpm-list-edit-form input[type="text"],
 .cpm-new-todolist-form textarea,
@@ -1577,10 +1623,6 @@ ul.cpm-todolists .cpm-new-task-spinner {
 .cpm-new-todolist-form .cpm-make-privacy,
 .cpm-list-edit-form .cpm-make-privacy {
   margin-top: 8px;
-}
-.cpm-new-todolist-form .submit,
-.cpm-list-edit-form .submit {
-  padding: 3px 0 10px 0;
 }
 /*--------------------------------------------------
 :: Milestone
@@ -1909,14 +1951,15 @@ ul.cpm-files li .cpm-file-action .comment-number {
   position: relative;
 }
 .cpm-calendar a.cpm-expire-task {
-  background-color: #F29B27 !important;
+  background-color: #a30 !important;
 }
 .cpm-calendar a.cpm-task-running {
-  background-color: #0090D9 !important;
+  background-color: #1abc9c !important;
 }
 .cpm-calendar a.cpm-complete-task {
   text-decoration: line-through;
-  background-color: #85BE33 !important;
+  background-color: #3498db !important;
+  text-decoration: line-through !important;
 }
 .cpm-calendar span.fc-event-title {
   color: #fff;
@@ -1994,6 +2037,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 /****/
 /**SVG background image **/
+.cpm-list-comment-wrap .mce-panel {
+  border-color: #e5e5e5;
+}
 .cpm {
   color: #848484;
   margin-top: 20px;
@@ -2043,6 +2089,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 *
 **/
   /* Smartphones (portrait and landscape) ----------- */
+}
+.cpm .mce-tinymce {
+  border: 1px solid #e5e5e5;
 }
 .cpm * {
   box-sizing: border-box;
@@ -3111,8 +3160,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-comment {
   background-image: url('../images/comment.svg');
 }
-.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-prgress-bar {
-  margin-top: 15px;
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-new-task-btn {
+  background-image: url('../images/plus_blue.svg');
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-sub-task-show {
+  background-image: url('../images/dark-eye.svg');
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-new-task-btn-minus {
+  background-image: url('../images/minus.svg');
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .no-percent {
   padding-top: 0.86555551%;
@@ -3220,10 +3275,24 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-message-page .cpm-milestone-form {
   width: auto;
 }
+.cpm .cpm-message-page .single-todo-comments {
+  margin-bottom: 30px;
+}
 .cpm .cpm-message-page .single-todo-comments .cpm-comment-form-wrap {
   background: #ffffff !important;
-  padding: 10px;
+  padding: 0px;
   width: auto !important ;
+}
+.cpm .cpm-message-page .single-todo-comments .submit {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+.cpm .single-todo-comments {
+  margin-bottom: 30px;
+}
+.cpm .single-todo-comments .submit {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 .cpm .cpm-comment {
   background: #fff;
@@ -3522,6 +3591,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 25px;
   padding-bottom: 35px;
 }
+.cpm .cpm-blank-template .cpm-new-todolist-form {
+  margin: auto;
+  width: 65%;
+}
 .cpm .cpm-blank-template .cpm-content {
   margin: auto;
   max-width: 700px;
@@ -3639,6 +3712,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .modal-body {
   padding: 10px;
 }
+.cpm .modal-body .cpm-task-complete {
+  text-decoration: line-through;
+  color: #848484;
+}
 .cpm .modal-footer {
   padding: 10px;
   text-align: center;
@@ -3648,10 +3725,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .half-modal .modal-container {
   width: 70%;
-  margin: 0 0 0 auto;
+  margin: 30px 0 0 auto;
   overflow: visible;
   display: compact;
-  background-color: #fff000;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
@@ -3659,7 +3735,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .half-modal .close-vue-modal {
   margin-left: -40px;
-  margin-top: 20px;
+  margin-top: 0px;
   float: left;
 }
 .cpm .half-modal .close-vue-modal a {
@@ -3704,6 +3780,20 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .half-modal .cpm-modal-conetnt {
   overflow: auto;
   height: 99vh;
+  padding-bottom: 15px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title {
+  margin-top: 0px;
+  display: inline-block;
+  padding-right: 20px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta {
+  margin-top: 0px;
+  display: inline-block;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-assigned-user img {
+  width: 24px;
+  height: 24px;
 }
 .cpm .modal-enter,
 .cpm .modal-leave {
@@ -4104,4 +4194,159 @@ ul.cpm-files li .cpm-file-action .comment-number {
   .cpm th {
     padding: 1px ;
   }
+}
+.cpm-task-modal .cpm-assigned-user,
+.cpm-task-modal time {
+  background: none;
+}
+.cpm-task-modal .avatar {
+  border-radius: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.cpm-task-modal .cpm-lock {
+  width: auto;
+  height: 22px;
+  padding-left: 12px;
+}
+.cpm-task-modal #new_comment_form {
+  margin-bottom: 50px;
+}
+.cpm-task-modal #new_comment_form trix-toolbar .button_group button,
+.cpm-task-modal #new_comment_form trix-toolbar .button_group input[type=button] {
+  background: rgba(255, 255, 255, 0);
+}
+.cpm-comment-content ul {
+  display: block;
+  list-style-type: disc;
+  margin-left: 2em;
+}
+.cpm-project-action ul.cpm-settings li .cpm-spinner {
+  display: none;
+}
+.cpm-project-form .cpm-form-item {
+  margin-bottom: 15px;
+}
+.cpm-project-form .cpm-form-item .chosen-container-single a.chosen-single {
+  height: 30px;
+  box-shadow: none;
+}
+.toast-top-right {
+  top: 32px !important;
+  right: 0px !important;
+}
+.item .multiselect__input {
+  display: inline !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0;
+}
+.multiselect__element {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+#cpm-single-todo-list-view {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-around;
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-todo {
+  padding-bottom: 0px;
+  padding-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-todo .cpm-todo-wrap {
+  padding: 0px;
+  margin: 0px;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks {
+  width: 100%;
+  padding: 0px 15px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-incomplete-tasks .cpm-incomplete-task-list li {
+  border-bottom: none;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks {
+  width: 100%;
+  padding: 0px 15px;
+  margin-bottom: 10px;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list {
+  min-height: 55px;
+}
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list .cpm-todo,
+#cpm-single-todo-list-view .cpm-completed-tasks .cpm-completed-task-list li {
+  border-bottom: none;
+}
+#cpm-single-todo-list-view .cpm-tag-gray {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 22px;
+  position: relative;
+  content: "";
+  cursor: pointer;
+  margin: 0 13px 0 0;
+  padding: 5px 15px 5px 5px;
+  border: none;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  background: #f1f1f1;
+}
+#cpm-single-todo-list-view .cpm-tag-gray::before {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  content: "";
+  cursor: pointer;
+  top: 5px;
+  right: -12px;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #f1f1f1;
+  text-shadow: none;
+  -webkit-transform: rotateY(1deg) rotateZ(-45deg);
+  transform: rotateY(1deg) rotateZ(-45deg);
+}
+#cpm-single-todo-list-view .cpm-task-edit-form {
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form {
+  background: #fff;
+  border: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+#cpm-single-todo-list-view .cpm-task-edit-form .cpm-task-form .item.submit {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#cpm-single-todo-list-view .cpm-single-task-subtask-form {
+  width: 300px;
+}
+.cpm-incomplete-task-spinner,
+.cpm-completed-task-spinner {
+  margin-left: 2% !important;
 }

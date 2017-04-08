@@ -14,9 +14,25 @@ class CPM_Notification {
         add_action( 'cpm_comment_update', array( $this, 'update_comment' ), 10, 3 );
         add_action( 'cpm_message_new', array( $this, 'new_message' ), 10, 2 );
 
-        add_action( 'cpm_task_new', array( $this, 'new_task' ), 10, 3 );
-        add_action( 'cpm_task_update', array( $this, 'new_task' ), 10, 3 );
+        add_action( 'cpm_task_new', array( $this, 'new_task' ), 9, 3 );
+        add_action( 'cpm_task_update', array( $this, 'new_task' ), 9, 3 );
+
+        add_action('cpm_sub_task_new',array( $this, 'subtask_new_notify' ), 9, 3);
+
+        // add_action( 'phpmailer_init', array( $this, 'test' ) );
     }
+
+    /**
+     * undocumented function
+     *
+     * @since x.x
+     * @return void
+     **/
+    // function test( $value ) {
+    
+    //     var_export( $value ); die()
+        
+    // }
 
     public static function getInstance() {
         if ( ! self::$_instance ) {
@@ -324,7 +340,7 @@ class CPM_Notification {
         );
         cpm_load_template( $file_name, $arg );
         $message = ob_get_clean();
-      
+
         if ( $message ) {
            $this->send( implode( ', ', $users ), $subject, $message, $parent_post->comment_post_ID );
         }
@@ -358,8 +374,8 @@ class CPM_Notification {
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
-
-        foreach ( $_POST['task_assign'] as $key => $user_id ) {
+        $assign_user =  (!is_array ($_POST['task_assign']) ) ? explode( ',', $_POST['task_assign'] ) : $_POST['task_assign'] ;
+        foreach ( $assign_user as $key => $user_id ) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
             if ( ! $this->filter_email( $user_id ) ) {
@@ -385,17 +401,76 @@ class CPM_Notification {
         }
     }
 
+    /**
+     * Send email about subtask
+     */
+    function subtask_new_notify( $list_id, $task_id, $data ) {
+        $new_task_notification = apply_filters( 'cpm_new_task_notification', true );
+
+        if ( ! $new_task_notification ) {
+            return;
+        }
+
+        $this->check_email_url();
+        $file_name = 'emails/new-task.php';
+
+
+        $_POST['task_assign'] = isset( $_POST['task_assign'] ) ? $_POST['task_assign'] : array();
+        if ( $_POST['task_assign'] == '-1' ) {
+            return;
+        }
+
+        $project_id = 0;
+
+        if ( isset( $_POST['project_id'] ) ) {
+            $project_id = intval( $_POST['project_id'] );
+        }
+
+        $subject = sprintf( __( '[%s][%s] New Sub Task Assigned: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $list_id ) );
+
+        // cutoff at 78th character
+        if ( cpm_strlen( $subject ) > 78 ) {
+            $subject = substr( $subject, 0, 78 ) . '...';
+        }
+        $assign_user =  (!is_array ($_POST['task_assign']) ) ? explode( ',', $_POST['task_assign'] ) : $_POST['task_assign'] ;
+        foreach ( $assign_user as $key => $user_id ) {
+            $user = get_user_by( 'id', intval( $user_id ) );
+
+            if ( ! $this->filter_email( $user_id ) ) {
+                continue;
+            }
+
+            $to = sprintf( '%s', $user->user_email );
+
+
+            ob_start();
+            $arg = array(
+                'project_id' => $project_id,
+                'list_id'    => $list_id,
+                'task_id'    => $task_id,
+                'data'       => $data,
+            );
+            cpm_load_template( $file_name, $arg );
+            $message = ob_get_clean();
+
+            if ( $message ) {
+                $this->send( $to, $subject, $message );
+            }
+        }
+    }
+
+
     function send( $to, $subject, $message, $comment_post_id = 0 ) {
 
         $bcc_status   = cpm_get_option( 'email_bcc_enable', 'cpm_mails' );
         $blogname     = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-        $reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
+        $no_reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
-        $from_email   = cpm_get_option( 'email_from', 'cpm_mails' );
+        $from_email   = cpm_get_option( 'email_from', 'cpm_mails', get_option( 'admin_email' ) );
         $from         = "From: $blogname <$from_email>";
         $reply        = apply_filters( 'cpm_reply_to', $to, $comment_post_id );
-        $reply_to     = "Reply-To: $reply";
+        $reply_to     = "Reply-To: $no_reply";
 
         if ( $bcc_status == 'on' ) {
             $bcc     = 'Bcc: ' . $to;
@@ -404,10 +479,10 @@ class CPM_Notification {
                 $reply_to,
                 $content_type,
                 $charset,
-                $from
+                $from_email
             );
 
-            wp_mail( $reply, $subject, $message, $headers );
+            wp_mail( $from_email, $subject, $message, $headers );
         } else {
 
             $headers = array(

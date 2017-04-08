@@ -12,7 +12,7 @@ $from_day   = date('Y-m-d', strtotime( '-30 days', strtotime($today) ));
 $chart_data = $pro_obj->get_chart_data ( $project_id, $today, $from_day );
 $str_date   = $str_activity = $str_todo = array();
 
-if ( $chart_data['date_list'] ) {
+if ( is_array( $chart_data['date_list'] ) ) {
 	foreach ( $chart_data['date_list'] as $key => $value ) {
 		$ctd = isset($chart_data['todos'][$key]) ? $chart_data['todos'][$key] : 0;
 
@@ -55,7 +55,8 @@ $str_todo     = implode( $str_todo, ',' );
 			<?php
 	         	if ( count( $project->users ) ) {
 	              	foreach ($project->users as $id => $user_meta) {
-	              		printf( '<li>%s %s<span>%s</span></li>', get_avatar( $id, 34, '', $user_meta['name'] ), cpm_url_user( $id ), ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) );
+                            $role = ucfirst( str_replace( '_', '-', $user_meta['role'] ) ) ;
+	              		printf( '<li>%s %s<span>%s</span></li>', get_avatar( $user_meta['id'], 34, 'mm', $user_meta['name'] ), cpm_url_user(  $user_meta['id']  ), __( $role, 'cpm') );
 	           		}
 	           }
 	        ?>
