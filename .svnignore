@@ -9,5 +9,5 @@ export.sh
 plugin-deploy.sh
 readme.md
 composer.json
-cusotms.json
+customs.json
 secret.json
