@@ -657,7 +657,14 @@ Vue.component('cpm-task-comment-form', {
          * @return object
          */
         co_workers: function() {
-            return this.get_porject_users_by_role('co_worker');
+            var self = this;
+            var project_users = this.get_porject_users_by_role('co_worker');
+            
+            var filtered_users = project_users.filter(function(user) {
+                return self.task.assigned_to.indexOf(String(user.id)) == '1';
+            }); 
+
+            return filtered_users;
         }
     },
 
