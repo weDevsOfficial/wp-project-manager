@@ -4,7 +4,7 @@ $list = $task_obj->get_task_list( $tasklist_id );
 $task = $task_obj->get_task( $task_id );
 
 if( $task->task_privacy == 'yes' && ! cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
-    echo '<h2>' . __( 'You do no have permission to access this page', 'cpm' ) . '</h2>';
+    echo '<h2>' . __( 'You do not have permission to access this page', 'cpm' ) . '</h2>';
     return;
 }
 

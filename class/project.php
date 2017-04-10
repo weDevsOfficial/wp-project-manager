@@ -108,7 +108,7 @@ class CPM_Project {
      */
     function create( $project_id = 0, $posted = array() ) {
 
-       echo $is_update = ( $project_id ) ? true : false;
+        $is_update = ( $project_id ) ? true : false;
 
         $data = array(
             'post_title'   => $posted['project_name'],
@@ -242,13 +242,13 @@ class CPM_Project {
         }
     }
 
-    /**
-     * Get all the projects
-     *
-     * @param int $count
-     * @return object
-     */
-    function get_projects( $count = -1 ) {
+   /**
+    * Get all the projects
+    * @param int $count
+    * @param array $order_by // $array('orderby', 'order')
+    * @return object
+    */
+    function get_projects( $count = -1 , $order_by = array() ) {
         $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
         $limit            = ( $count == '-1' ) ? intval( cpm_get_option( 'pagination', 'cpm_general' ) ) : $count;
         $offset           = ( $pagenum - 1 ) * $limit;
@@ -260,6 +260,10 @@ class CPM_Project {
             'posts_per_page' => $limit,
             'offset'         => $offset
         );
+        if(!  empty( $order_by ) ){
+            $args['orderby'] = $order_by[0] ;
+            $args['order'] = $order_by[1] ;
+        }
 
         //Add Filtering
         if ( $project_category != 0 && $project_category != '-1' ) {
@@ -476,6 +480,8 @@ class CPM_Project {
             $todos       = $todolists ? $wpdb->get_results( sprintf( $sql, 'cpm_task', implode( ', ', wp_list_pluck( $todolists, 'ID' ) ) ) ) : array();
             $files       = $wpdb->get_var( $sql_files );
 
+            // for promodule files
+
             $discussion_comment = wp_list_pluck( $discussions, 'comment_count' );
             $todolist_comment   = wp_list_pluck( $todolists, 'comment_count' );
             $todo_comment       = $todolists ? wp_list_pluck( $todos, 'comment_count' ) : array();
@@ -501,6 +507,8 @@ class CPM_Project {
             $ret->comments             = $total_comment;
             $ret->files                = ( int ) $files;
             $ret->milestone            = count( $milestone );
+            $ret->total_attach_doc     = $ret->files;
+            $ret->files                = apply_filters( 'cpm_project_total_files', $ret->files, $project_id );
 
             wp_cache_set( 'cpm_project_info_' . $project_id, $ret );
         }
@@ -550,14 +558,20 @@ class CPM_Project {
         if ( $project_users ) {
             foreach ( $project_users as $row ) {
                 $user = get_user_by( 'id', $row->user_id );
-
+               // print_r($user) ;
                 if ( ! is_wp_error( $user ) && $user ) {
-                    $user_list[$user->ID] = array(
-                        'id'    => $user->ID,
-                        'email' => $user->user_email,
-                        'name'  => $user->display_name,
-                        'role'  => $row->role
+
+                    $u = array(
+                        'id'         => $user->ID,
+                        'email'      => $user->user_email,
+                        'name'       => $user->display_name,
+                        'role'       => $row->role,
+                        'avatar'     => get_avatar( $user->ID, 96, 'mm' ),
+                        'avatar_url' => get_avatar_url( $user->ID, ['default' => 'mm'] ),
+                        'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
+                    
+                    array_push( $user_list, $u) ;
                 }
             }
         }

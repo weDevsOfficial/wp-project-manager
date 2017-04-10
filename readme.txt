@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.5.2
+Tested up to: 4.7.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
-[Pro Version](https://wedevs.com/products/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://demo.wedevs.com/pm/?preview)
+[Pro Version](https://wedevs.com/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://pmdemo.wedevs.com/)
 
 = Add-ons =
 
@@ -58,8 +58,13 @@ The WordPress Project Management plugin. Manage your project simply with the \*r
 = Contribute =
 This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
 
+= Checkout Our Other Products =
+* [Dokan - Multivendor Plugin](https://wedevs.com/dokan/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Dokan+Multivendor+Marketplace)
+* [WP User Frontend Pro](https://wedevs.com/wp-user-frontend-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+User+Frontend+Pro)
+* [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
+
 = Author =
-Brought to you by [Tareq Hasan](https://tareq.co) from [weDevs](https://wedevs.com/)
+Brought to you by [Tareq Hasan](https://tareq.co/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Author) from [weDevs](https://wedevs.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=From+weDevs)
 
 = Donate =
 Please [donate](https://tareq.co/donate/) for this awesome plugin to continue it's development to bring more awesome features.
@@ -115,13 +120,43 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= 1.4.4 - August 3, 2016 =
+= 1.6 - April 08, 2017 =
 
- * [new] Report section new design.
- * [new] New Report item added.
- * [new] Files tab new design and add new feature in pro version.
- * [new] Add option for create document and connect to other online Docs.
- * [new] Add option to upload files / attachment direct to a project.
+ * [new] Use js library Vue
+ * [new] Design layout changed for To-do Lists.
+ * [new] Real time update every action for To-do lists.
+ * [new] Two way data binding for to-do list edit
+ * [new] Two way data binding for task edit
+ * [new] Task lazy loading.
+ * [new] Vue routing for single To-do list
+ * [new] Real time pagination.
+ * [new] Completed and incomplete label added for corresponding tasks in single to-list.
+ * [update] Discussion editor changed from tricks to tinymce.
+ * [update] Real time change of progress bar.
+ * [update] Assign user to task options changed from choosen to Vue multiselect.
+ * [update] User avatar(gravatar) link changed form 404 to mm
+ * [fix] Remove comments link from overview.
+ * [fix] All functionalities for to-do list.
+
+
+= 1.5.1 - September 19, 2016 =
+
+ * [new] Send Email Notification when a comment updates.
+ * [new] Add filter for how many letter to show when image name is long in files tab.
+ * [fix] Fixed conflict with buddypress.
+ * [fix] Fixed Project creation capability and update language files.
+ * [fix] Made Report print friendly.
+ * [fix] Files tab loading improvement.
+ * [fix] Show all comments in newly uploaded file view.
+ * [fix] Client view private discussion.
+
+= 1.5 - August 20, 2016 =
+
+ * [new] Report section new design (*pro*).
+ * [new] New Report item added (*pro*).
+ * [new] Files tab new design and add new feature in pro version (*pro*).
+ * [new] Add option for create document and connect to other online Docs (*pro*).
+ * [new] Add option to upload files / attachment direct to a project (*pro*).
  * [fix] Duplicate mail send on project create.
  * [fix] Change cpm_get_option function.
 

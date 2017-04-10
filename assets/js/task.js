@@ -1,4 +1,3 @@
-
 ;(function($) {
 
     var CPM_Task = {
@@ -29,16 +28,16 @@
             $('.cpm-todolists').on('click', 'a.cpm-todo-delete', this.deleteTodo);
 
             //todolist
-            $('.cpm-new-todolist-form').on('submit', 'form', this.addList);
-            $('.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
-            $('.cpm-new-todolist-form').on('click', 'a.list-cancel', this.toggleNewTaskListForm);
-            $('a#cpm-add-tasklist').on('click', this.toggleNewTaskListFormLink);
+            // $('.cpm-new-todolist-form').on('submit', 'form', this.addList);
+            // $('.cpm-todolists').on('submit', '.cpm-list-edit-form form', this.updateList);
+            //$('.cpm-new-todolist-form').on('click', 'a.list-cancel', this.toggleNewTaskListForm);
+            //$('a#cpm-add-tasklist').on('click', this.toggleNewTaskListFormLink);
 
             //tasklist edit, delete links toggle
-            $('.cpm-todolists').on('click', 'a.cpm-list-delete', this.deleteList);
-            $('.cpm-todolists').on('click', 'a.cpm-list-edit', this.toggleEditList);
-            $('.cpm-todolists').on('click', 'a.list-cancel', this.toggleEditList);
-            $('.cpm-todolists').on('click', 'a.cpm-list-pin', this.togglePinStatus);
+            // $('body').on('click', 'a.cpm-list-delete', this.deleteList);
+            //$('body').on('click', 'a.cpm-list-edit', this.toggleEditList);
+            //$('body').on('click', 'a.list-cancel', this.toggleEditList);
+            // $('body').on('click', 'a.cpm-list-pin', this.togglePinStatus);
             // Load more
 
 
@@ -365,7 +364,6 @@
                 pin_status: new_status,
                 '_wpnonce': CPM_Vars.nonce
             };
-
             spinner.show();
             $.post(CPM_Vars.ajaxurl, data, function(res) {
                 spinner.hide();

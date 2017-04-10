@@ -62,14 +62,12 @@ class CPM_Comment {
             'comment_ID'      => $comment_id,
             'comment_content' => $data['text']
         ) );
-
+        $parent_id = isset( $_POST['parent_id'] ) ? intval( $_POST['parent_id'] ) : 0;
         if ( isset( $_POST['cpm_attachment'] ) ) {
-            $parent_id = isset( $_POST['parent_id'] ) ? intval( $_POST['parent_id'] ) : 0;
-
             update_comment_meta( $comment_id, '_files', $_POST['cpm_attachment'] );
             $this->associate_file( $_POST['cpm_attachment'], $parent_id, $_POST['project_id'] );
         }
-
+        $data['comment_post_ID'] =  $parent_id ; 
         do_action( 'cpm_comment_update', $comment_id, $_POST['project_id'], $data );
     }
 
@@ -102,10 +100,28 @@ class CPM_Comment {
      * @return object
      */
     function get( $comment_id ) {
-        $files_meta = get_comment_meta( $comment_id, '_files', true );
-        $comment    = get_comment( $comment_id );
+        
+        $comment  = get_comment( $comment_id );
+        
+        $this->get_comment_meta( $comment_id, $comment );
+        
+        return $comment;
+    }
 
+    /**
+     * Get comment meta
+     * 
+     * @param  int $comment_id 
+     * @param  object &$comment   
+     *
+     * @since  2.0.0 
+     * 
+     * @return object             
+     */
+    function get_comment_meta( $comment_id, &$comment ) {
+        $files_meta = get_comment_meta( $comment_id, '_files', true );
         $files = array();
+        
         if ( $files_meta != '' ) {
             foreach ( $files_meta as $index => $attachment_id ) {
                 $temp = $this->get_file( $attachment_id );
@@ -120,10 +136,10 @@ class CPM_Comment {
             }
         }
 
-        $comment->files = $files;
-        $comment->avatar = get_avatar($comment->comment_author_email) ;
-
-        return $comment;
+        $comment->files        = $files;
+        $comment->avatar       = get_avatar($comment->comment_author_email, 96, 'mm') ;
+        $comment->comment_user = cpm_url_user( $comment->comment_author_email ); 
+        $comment->edit_mode    = false;
     }
 
     /**
@@ -139,22 +155,7 @@ class CPM_Comment {
         //prepare comment attachments
         if ( $comments ) {
             foreach ( $comments as $key => $comment ) {
-                $file_array = array();
-                $files      = get_comment_meta( $comment->comment_ID, '_files', true );
-
-                if ( $files != '' ) {
-
-                    foreach ( $files as $attachment_id ) {
-                        $file = $this->get_file( $attachment_id );
-
-                        if ( $file ) {
-                            $file_array[] = $file;
-                        }
-                    }
-                }
-
-                $comments[$key]->files = $file_array;
-                $comments[$key]->avatar = get_avatar($comment->comment_author_email) ;;
+                $this->get_comment_meta( $comment->comment_ID, $comments[$key] );
             }
         }
 

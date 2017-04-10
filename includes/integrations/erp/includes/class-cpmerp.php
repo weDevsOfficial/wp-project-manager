@@ -135,7 +135,7 @@ class CPM_ERP {
         if ( $department_status != 1 ) {
             return;
         }
-        printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34 ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
+        printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34, 'mm' ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
     }
 
     function get_group_user( $project_users, $project, $table ) {
@@ -333,7 +333,7 @@ class CPM_ERP {
     function url_user_activity() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=useractivity' );
+        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=useractivity' );
 
         return $url;
     }
@@ -348,7 +348,7 @@ class CPM_ERP {
     function url_user_overview() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=overview' );
+        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=overview' );
         return $url;
     }
 
@@ -362,7 +362,7 @@ class CPM_ERP {
     function url_current_task() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=current' );
+        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=current' );
         return $url;
     }
 
@@ -376,7 +376,7 @@ class CPM_ERP {
     function url_complete_task() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=complete' );
+        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=complete' );
         return $url;
     }
 
@@ -423,7 +423,7 @@ class CPM_ERP {
     function url_outstanding_task( $url ) {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=outstanding' );
+        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=outstanding' );
         return $url;
     }
 

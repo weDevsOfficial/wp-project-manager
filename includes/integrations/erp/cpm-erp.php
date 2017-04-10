@@ -117,6 +117,10 @@ class CPM_ERP_Integration {
      */
     function init_script( $hook ) {
 
+        if ( ! class_exists( 'WeDevs_ERP' ) ) {
+            return;
+        }
+
         if ( 'hr-management_page_erp-hr-employee' != $hook ) {
             return;
         }
@@ -177,7 +181,7 @@ add_action( 'plugins_loaded', 'cpmerp_init' );
  *
  * @return object
  */
-function cpm_get_project_by_user( $dep_id , $emp_id ) {
+function cpm_get_project_by_user( $dep_id, $emp_id ) {
     global $wpdb;
 
     $wh = " OR ( ut.component = 'erp-hrm' AND  ut.user_id = $dep_id  ) ";

@@ -30,14 +30,16 @@ module.exports = function(grunt) {
                     transform: [['partialify']]
                 },
                 files: {
-                    "./includes/pro/assets/js/build.js": ["./includes/pro/assets/js/files.js"]
+                    "./includes/pro/assets/js/build.js": ["./includes/pro/assets/js/files.js"], // For Files and Folder Tab
+                    "./assets/js/cpm_common_js.js": ["./assets/js/cpm_common_js_raw.js"], // For Commons JS
+                    //"./assets/js/task-vue.js": ["./assets/js/task-raw-vue.js"] // For Taks List and Task
                 }
             }
         },
         watch: {
             styles: {
-                files: ['assets/css/*.less', 'includes/pro/assets/css/*.less', 'includes/pro/assets/html/**/*.html','includes/pro/assets/js/*.js' , 'includes/pro/frontend/css/*.less'], // which files to watch
-                tasks: ['less', 'browserify'],
+                files: ['assets/css/*.less', 'assets/html/task/*.html', 'includes/pro/assets/css/*.less', 'includes/pro/assets/html/**/*.html', 'includes/pro/assets/js/*.js', 'assets/js/*.js', 'includes/pro/frontend/css/*.less'], // which files to watch
+                tasks: ['less'],
                 options: {
                     nospawn: true
                 }

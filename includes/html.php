@@ -517,7 +517,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
  * @return string
  */
 function cpm_show_comment( $comment, $project_id, $class = '' ) {
-
     $class = empty( $class ) ? '' : ' ' . $class;
     ob_start();
     ?>
@@ -1497,6 +1496,26 @@ function cpm_report_co_worker_form( $co_workers = array(), $selected = '' ) {
         }
         ?>
                 <option <?php selected( $co_worker->user_id, $selected ); ?> value="<?php echo $co_worker->user_id; ?>"><?php echo $user->display_name; ?></option>
+                <?php
+            }
+            ?>
+        </select>
+    </label>
+    <?php
+}
+
+
+function cpm_report_co_worker_dropdown( $co_workers = array(), $selected = "" ) {
+
+    ?>
+    <label>
+        <select class="cpm-field" name="co_worker" required>
+            <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
+    <?php
+    foreach ( $co_workers as $user ) {
+        ?>
+                <option <?php selected( $user->ID, $selected ); ?> value="<?php echo $user->ID; ?>"><?php echo $user->display_name; ?></option>
                 <?php
             }
             ?>

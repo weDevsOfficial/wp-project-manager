@@ -32,7 +32,7 @@
             $( 'body' ).on( 'click', '.cpm-edit-comment-link', this.Comment.get );
             $( 'body' ).on( 'click', '.cpm-comment-edit-cancel', this.Comment.cancelCommentEdit );
             $( 'body' ).on( 'click', '.cpm-delete-comment-link', this.Comment.deleteComment );
-            $( 'body' ).on( 'submit', '.cpm-comment-form', this.Comment.update );
+            $( 'body' ).on( 'submit', 'form.cpm-comment-form', this.Comment.update );
             $( 'body' ).on( 'click', '.cpm-delete-file', this.Uploader.deleteFile );
 
             /* =============== Project Duplicate ============ */
@@ -49,6 +49,7 @@
             /* ================= */
 
             // User List on message and comments
+
 
 
             // add new commenttoggleForm
@@ -78,6 +79,67 @@
             $( 'body' ).on( 'click', '#create_message', this.Message.addNew );
 
             /* =============== Uploder ============ */
+
+            // Vue component for TinyMCE
+
+            Vue.component( 'texteditor', {
+                template: '<textarea id="vue-text-editor-{{ editorId }}" name="{{inputname}}" class="vue-text-editor">{{ content }}</textarea>',
+                props: [ 'content', 'inputname' ],
+                data: function() {
+                    return {
+                        editorId: this._uid
+                    };
+                },
+                computed: {
+                    shortcodes: function() {
+                       // return this.tinymceSettings.shortcodes;
+                    },
+                    pluginURL: function() {
+                        return CPM_Vars.pluginURL;
+                    }
+                },
+                ready: function() {
+                    var component = this;
+
+                    window.tinymce.init( {
+                        selector: 'textarea#vue-text-editor-' + this.editorId,
+                        height: 300,
+                        menubar: false,
+                        convert_urls: false,
+                        theme: 'modern',
+                        skin: 'lightgray',
+                        content_css: component.pluginURL + '/assets/css/text-editor.css',
+                        setup: function( editor ) {
+                            // editor change triggers
+                            editor.on( 'change', function() {
+                                component.$set( 'content', editor.getContent() );
+                            } );
+                            editor.on( 'keyup', function() {
+                                component.$set( 'content', editor.getContent() );
+                            } );
+                            editor.on( 'NodeChange', function() {
+                                component.$set( 'content', editor.getContent() );
+                            } );
+                        },
+                        fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+                        font_formats: 'Arial=arial,helvetica,sans-serif;' +
+                                'Comic Sans MS=comic sans ms,sans-serif;' +
+                                'Courier New=courier new,courier;' +
+                                'Georgia=georgia,palatino;' +
+                                'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;' +
+                                'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+                                'Times New Roman=times new roman,times;' +
+                                'Trebuchet MS=trebuchet ms,geneva;' +
+                                'Verdana=verdana,geneva;',
+                        plugins: 'textcolor colorpicker wplink   hr',
+                        toolbar1: 'bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                        toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+                        toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+                    } );
+                }
+            } );
+
+
 
         },
         tinymceInit: function( id ) {
@@ -470,6 +532,7 @@
                         data = that.serialize();
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -511,7 +574,7 @@
                         parent.find( '.cpm-comment-content' ).hide();
                         parent.find( '.cpm-comment-edit-form' ).hide().html( res.form ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -532,6 +595,7 @@
                         container = form.closest( '.cpm-comment-container' ),
                         data = form.serialize(),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
+
                 if ( text.length < 1 ) {
                     alert( 'Please enter some text' );
                     return false;
@@ -602,7 +666,7 @@
             },
             hide: function( e ) {
                 e.preventDefault();
-                new CPM_Uploader( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
+                new CPM_Uploader_Old( 'cpm-upload-pickfiles-0', 'cpm-upload-container-0' );
                 $( '.cpm-new-message-form' ).slideUp();
             },
             addNew: function( e ) {
@@ -728,7 +792,7 @@
 
                         parent.find( '.cpm-entry-detail' ).hide().next( '.cpm-msg-edit-form' ).hide().html( res.content ).fadeIn();
                         //re-initialize the uploader
-                        new CPM_Uploader( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
+                        new CPM_Uploader_Old( 'cpm-upload-pickfiles-' + res.id, 'cpm-upload-container-' + res.id );
 
                     }
                 } );
@@ -952,9 +1016,9 @@
             $( this ).closest( 'tr' ).remove();
         } );
     } );
-    new CPM_Uploader( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
-    new CPM_Uploader( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
+    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
 
     function  showderror() {
 
