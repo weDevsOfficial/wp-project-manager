@@ -1631,7 +1631,6 @@ class CPM_Ajax {
 
         wp_send_json_success( array( 'permissions' => $permission, 'list' => $list, 'project_users' => $project_users, 'milestones' => $milestones ) );
 
-        //var_dump($list) ;
         if ( empty( $list ) ) {
             echo json_encode( array (
                 'success'  => false,

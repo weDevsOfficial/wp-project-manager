@@ -947,7 +947,13 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_comments( $task_id ) {
-        return CPM_Comment::getInstance()->get_comments( $task_id );
+        $task_comments = CPM_Comment::getInstance()->get_comments( $task_id );
+
+        foreach ( $task_comments as $key => $comment ) {
+            $comment->comment_content = do_shortcode( $comment->comment_content );
+        } 
+
+        return $task_comments;
     }
 
     /**
