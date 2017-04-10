@@ -1618,7 +1618,11 @@ class CPM_Ajax {
         
         if ( $list ) {
             $list->tasks     = [];//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
-            $list->comments  = $task_obj->get_comments( $list_id );    
+            $list->comments  = $task_obj->get_comments( $list_id );   
+
+            foreach ( $list->comments as $key => $comment ) {
+                 $comment->comment_content = do_shortcode( $comment->comment_content );
+            } 
         }
         
         if ( 'no' == $is_admin ) {
