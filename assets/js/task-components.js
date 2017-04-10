@@ -10,7 +10,6 @@ var cpm_todo_list_mixins = function(mixins, mixin_parent) {
     });
 };
 
-
 /**
  * Global jQuery action for this component
  */
@@ -1840,26 +1839,6 @@ Vue.component( 'cpm-loading', {
     template: '#tmpl-cpm-spinner'
 });
 
-// Vue.component( 'cpm-single-task', {
-//     // Assign template for this component
-//     template: '#tmpl-cpm-task-single',
-
-//     // Get passing data for this component. 
-//     props: ['task'],
-
-//     // Include global properties and methods
-//     mixins: [CPM_Task_Mixin],
-
-//     methods: {
-//         closePopup: function() {
-//             this.$store.commit( 'close_single_task_popup' );
-//         },
-
-//         singleTaskTitle: function(task) {
-//             return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
-//         }
-//     },
-// });
 
 Vue.component( 'cpm-paginaton', {
     template: '#tmpl-cpm-pagination',
@@ -1878,8 +1857,4 @@ Vue.component( 'cpm-paginaton', {
 
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
-
-
-
-
 
