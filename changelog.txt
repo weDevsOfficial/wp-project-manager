@@ -1,3 +1,12 @@
+= 1.6.1 - April 11, 2017 =
+
+ * [fix] Load JS files only in todo list page
+ * [fix] Fix typo in todo list privacy checking capability
+ * [fix] Shortcode rendering in comments
+ * [fix] Remove users from notification panel outside of the project members
+ * [fix] Removed PHP array shorthand declaration
+ * [fix] Single task URL problem in My Task
+
 = 1.6 - April 08, 2017 =
 
  * [new] Use js library Vue
