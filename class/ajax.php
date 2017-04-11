@@ -797,7 +797,7 @@ class CPM_Ajax {
 
             if ( ! is_wp_error( $list_id ) ) {
                 $list = $task_obj->get_task_list( $list_id );
-                $list->tasks = $arrayName = array('' => , );();
+                $list->tasks = array();
                 //$list = $this->add_new_list_kyes( $list, $project_id );
 
                 $response = (array (
@@ -878,10 +878,10 @@ class CPM_Ajax {
         $list->edit_mode  = false;
         $list->full_view_mode  = false;
         $list->hideme  = false;
-        $list->comments  = $arrayName = array('' => , );();
+        $list->comments  = array();
 
         $list->show_new_task_form  = false;
-        $list->tasklist            = $arrayName = array('' => , );();
+        $list->tasklist            = array();
         $list->assigned_users_temp = array();
         
         return $list;
@@ -1587,7 +1587,7 @@ class CPM_Ajax {
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
         
         if ( $list ) {
-            $list->tasks     = $arrayName = array('' => , );();//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
+            $list->tasks     = array();//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
             $list->comments  = $task_obj->get_comments( $list_id );   
 
             foreach ( $list->comments as $key => $comment ) {
