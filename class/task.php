@@ -891,7 +891,7 @@ class CPM_Task {
         // print_r($task) ;
         $ajax_obj        = CPM_Ajax::getInstance();
         $date_format     = "Y-m-d";
-        $task->comments  = [];
+        $task->comments  = array();
 
         $task->extra_data   = '';
         $task->task_privacy = filter_var( $task->task_privacy, FILTER_VALIDATE_BOOLEAN );
