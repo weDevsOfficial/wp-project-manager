@@ -7,11 +7,11 @@
  */
 class CPM_Validator {
 
-    protected $rules = [];
+    protected $rules = array();
 
-    protected $errors = [];
+    protected $errors = array();
 
-    protected $messages = [];
+    protected $messages = array();
 
     function __construct() {
         $this->rules = [
@@ -21,7 +21,7 @@ class CPM_Validator {
         ];
     }
 
-    public function validate( $data, $rule_set, $messages = [] ) {
+    public function validate( $data, $rule_set, $messages = array() ) {
         $this->messages = $messages;
         $this->validate_data_keys( $data, $rule_set );
         
@@ -69,7 +69,7 @@ class CPM_Validator {
     }
 
     protected function find_required_keys( $ruleSet ) {
-        $required_keys = [];
+        $required_keys = array();
 
         foreach ( $ruleSet as $key => $rules ) {
             $rules = $this->explode_rules( $rules );
