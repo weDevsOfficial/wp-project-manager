@@ -702,24 +702,8 @@ class CPM_Ajax {
 
             $task_obj->mark_complete( $task_id );
 
-            //$complete = $task_obj->get_completeness( $list_id, $project_id );
-            //$task     = $task_obj->get_task( $task_id );
-            //$user_id  = wp_get_current_user()->ID;
-
-            // $response = array (
-            //     'success'         => true,
-            //    // 'content'         => cpm_task_html( $task, $project_id, $list_id, $single ),
-            //     'progress'        => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] ),
-            //     'task_complete'   => intval( $complete[ 'completed' ] ),
-            //     'percent'         => $complete[ 'total' ] == 0 ? 100 : round( (100 * $complete[ 'completed' ]) / $complete[ 'total' ] ) . " %",
-            //     'task_uncomplete' => ceil( $complete[ 'total' ] - $complete[ 'completed' ] ),
-            //     'completed'       => 1
-            // );
-
             do_action( 'mark_task_complete', $project_id, $task_id );
 
-            //CPM_Notification::getInstance()->complete_task( $project_id );
-            
             wp_send_json_success( array( 'success' => __( 'The task has been marked as completed.', 'cpm' ) ) );
         
         } else {
@@ -747,20 +731,6 @@ class CPM_Ajax {
 
             wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
 
-            // $complete = $task_obj->get_completeness( $list_id, $project_id );
-            // $user_id  = wp_get_current_user()->ID;
-            // $task     = $task_obj->get_task( $task_id );
-            // $response = array (
-            //     'success'         => true,
-            //    // 'content'         => cpm_task_html( $task, $project_id, $list_id, $single ),
-            //     'progress'        => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] ),
-            //     'percent'         => $complete[ 'total' ] == 0 ? 0 : round( (100 * $complete[ 'completed' ] ) / $complete[ 'total' ] ) . " %",
-            //     'task_complete'   => intval( $complete[ 'completed' ] ),
-            //     'task_uncomplete' => ceil( $complete[ 'total' ] - $complete[ 'completed' ] ),
-            //     'completed'       => 0
-            // );
-
-            //$response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id, $user_id );
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );

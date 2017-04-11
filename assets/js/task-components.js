@@ -657,18 +657,41 @@ Vue.component('cpm-task-comment-form', {
          * @return object
          */
         co_workers: function() {
-            var self = this;
-            var project_users = this.get_porject_users_by_role('co_worker');
-            
-            var filtered_users = project_users.filter(function(user) {
-                return self.task.assigned_to.indexOf(String(user.id)) == '1';
-            }); 
+            return this.co_worker_lists();
+        },
 
-            return filtered_users;
+        /**
+         * Check Co-Worker exist or not in a task
+         *
+         * @return boolean
+         */
+        hasCoWorker: function() {
+            var co_workers = this.co_worker_lists();
+            
+            if ( co_workers.length ) {
+                return true;
+            }
+
+            return false;
         }
     },
 
     methods: {
+        /**
+         * Get current projects co-worker
+         * 
+         * @return object
+         */
+        co_worker_lists: function() {
+            var self = this;
+            var project_users = this.get_porject_users_by_role('co_worker');
+            
+            var filtered_users = project_users.filter(function(user) {
+                return self.task.assigned_to.indexOf(String(user.id)) != '-1';
+            }); 
+
+            return filtered_users;
+        },
         /**
          * Insert and update todo-task comment
          * 
@@ -1640,6 +1663,21 @@ Vue.component('cpm-list-comment-form', {
          */
         co_workers: function() {
             return this.get_porject_users_by_role('co_worker');
+        },
+
+        /**
+         * Check has co-worker in project or not
+         * 
+         * @return boolean
+         */
+        hasCoWorker: function() {
+            var co_worker = this.get_porject_users_by_role('co_worker');
+
+            if (co_worker.length) {
+                return true;
+            }
+
+            return false;
         }
     },
 
