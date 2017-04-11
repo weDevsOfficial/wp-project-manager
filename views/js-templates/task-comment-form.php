@@ -8,7 +8,7 @@
         
         <cpm-file-uploader :files="files"></cpm-file-uploader>
 
-        <div class="notify-users">
+        <div v-if="hasCoWorker" class="notify-users">
                         
                 <h2 class="cpm-box-title"> 
                     <?php _e( 'Notify users', 'cpm' ); ?>            
@@ -17,7 +17,6 @@
                         <?php _e( 'Select all', 'cpm' ); ?>
                     </label>
                 </h2>
-
                 <ul class="cpm-user-list">
                     <li v-for="co_worker in co_workers">
                         <label :for="'cpm_notify_' + co_worker.id">

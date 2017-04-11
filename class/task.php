@@ -891,7 +891,7 @@ class CPM_Task {
         // print_r($task) ;
         $ajax_obj        = CPM_Ajax::getInstance();
         $date_format     = "Y-m-d";
-        $task->comments  = [];
+        $task->comments  = array();
 
         $task->extra_data   = '';
         $task->task_privacy = filter_var( $task->task_privacy, FILTER_VALIDATE_BOOLEAN );
@@ -947,7 +947,13 @@ class CPM_Task {
      * @return object object array of the result set
      */
     function get_task_comments( $task_id ) {
-        return CPM_Comment::getInstance()->get_comments( $task_id );
+        $task_comments = CPM_Comment::getInstance()->get_comments( $task_id );
+
+        foreach ( $task_comments as $key => $comment ) {
+            $comment->comment_content = do_shortcode( $comment->comment_content );
+        } 
+
+        return $task_comments;
     }
 
     /**
@@ -1118,6 +1124,43 @@ class CPM_Task {
             $assign = ( $user_id == $task->assigned_to ) ? true : false;
         }
         return $assign;
+    }
+
+    /**
+     * All necessary template for todo-lists
+     *
+     * @since  1.6
+     * 
+     * @return void
+     */
+    function load_js_template() {
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-form.php', 'cpm-todo-list-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/milestone-dropdown.php', 'cpm-milestone-dropdown' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list.php', 'cpm-todo-list' );
+
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-router-default.php', 'cpm-todo-list-router-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-single.php', 'cpm-todo-list-single' );
+        cpm_get_js_template( CPM_JS_TMPL . '/blanktemplate/todolist.php', 'todo-list-default' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-list-btn.php', 'new-todo-list-button' );
+        cpm_get_js_template( CPM_JS_TMPL . '/tasks.php', 'cpm-tasks' );
+        cpm_get_js_template( CPM_JS_TMPL . '/new-task-button.php', 'cpm-new-task-button' );
+        cpm_get_js_template( CPM_JS_TMPL . '/new-task-form.php', 'cpm-new-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comments.php', 'cpm-list-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-comment-form.php', 'cpm-list-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/spinner.php', 'cpm-spinner' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-single.php', 'cpm-task-single' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comment-form.php', 'cpm-task-comment-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-comments.php', 'cpm-task-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/pagination.php', 'cpm-pagination' );
+
+        cpm_get_js_template( CPM_JS_TMPL . '/task-list.php', 'cpm-task-list' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-form.php', 'cpm-task-form' );
+        cpm_get_js_template( CPM_JS_TMPL . '/comments.php', 'cpm-comments' );
+        cpm_get_js_template( CPM_JS_TMPL . '/blank-template.php', 'cpm-blank-template' );
+        cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
+        cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
     }
 
 }

@@ -7,7 +7,7 @@
         </div>
         <cpm-file-uploader :files="files"></cpm-file-uploader>
 
-        <div class="notify-users">
+        <div v-if="hasCoWorker" class="notify-users">
                         
                 <h2 class="cpm-box-title"> 
                     <?php _e( 'Notify users', 'cpm' ); ?>            

@@ -16,7 +16,7 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
-[Pro Version](https://wedevs.com/products/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://demo.wedevs.com/pm/?preview)
+[Pro Version](https://wedevs.com/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://pmdemo.wedevs.com/)
 
 = Add-ons =
 
@@ -58,8 +58,13 @@ The WordPress Project Management plugin. Manage your project simply with the \*r
 = Contribute =
 This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
 
+= Checkout Our Other Products =
+* [Dokan - Multivendor Plugin](https://wedevs.com/dokan/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Dokan+Multivendor+Marketplace)
+* [WP User Frontend Pro](https://wedevs.com/wp-user-frontend-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+User+Frontend+Pro)
+* [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
+
 = Author =
-Brought to you by [Tareq Hasan](https://tareq.co) from [weDevs](https://wedevs.com/)
+Brought to you by [Tareq Hasan](https://tareq.co/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Author) from [weDevs](https://wedevs.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=From+weDevs)
 
 = Donate =
 Please [donate](https://tareq.co/donate/) for this awesome plugin to continue it's development to bring more awesome features.
@@ -114,6 +119,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= 1.6.1 - April 11, 2017 =
+
+ * [fix] Load JS files only in todo list page
+ * [fix] Fix typo in todo list privacy checking capability
+ * [fix] Shortcode rendering in comments
+ * [fix] Remove users from notification panel outside of the project members
+ * [fix] Removed PHP array shorthand declaration
+ * [fix] Single task URL problem in My Task
 
 = 1.6 - April 08, 2017 =
 

@@ -194,11 +194,12 @@ class CPM_Ajax {
         }
 
         $permission   = $permission = $this->permissions( $project_id );
+        
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
         $tasks        = array();
         $new_lists    = array();
      
-        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_privates'], false, $current_page );
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_private'], false, $current_page );
         
         foreach ( $lists['lists'] as $list ) {
            // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
@@ -701,24 +702,8 @@ class CPM_Ajax {
 
             $task_obj->mark_complete( $task_id );
 
-            //$complete = $task_obj->get_completeness( $list_id, $project_id );
-            //$task     = $task_obj->get_task( $task_id );
-            //$user_id  = wp_get_current_user()->ID;
-
-            // $response = array (
-            //     'success'         => true,
-            //    // 'content'         => cpm_task_html( $task, $project_id, $list_id, $single ),
-            //     'progress'        => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] ),
-            //     'task_complete'   => intval( $complete[ 'completed' ] ),
-            //     'percent'         => $complete[ 'total' ] == 0 ? 100 : round( (100 * $complete[ 'completed' ]) / $complete[ 'total' ] ) . " %",
-            //     'task_uncomplete' => ceil( $complete[ 'total' ] - $complete[ 'completed' ] ),
-            //     'completed'       => 1
-            // );
-
             do_action( 'mark_task_complete', $project_id, $task_id );
 
-            //CPM_Notification::getInstance()->complete_task( $project_id );
-            
             wp_send_json_success( array( 'success' => __( 'The task has been marked as completed.', 'cpm' ) ) );
         
         } else {
@@ -746,20 +731,6 @@ class CPM_Ajax {
 
             wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
 
-            // $complete = $task_obj->get_completeness( $list_id, $project_id );
-            // $user_id  = wp_get_current_user()->ID;
-            // $task     = $task_obj->get_task( $task_id );
-            // $response = array (
-            //     'success'         => true,
-            //    // 'content'         => cpm_task_html( $task, $project_id, $list_id, $single ),
-            //     'progress'        => cpm_task_completeness( $complete[ 'total' ], $complete[ 'completed' ] ),
-            //     'percent'         => $complete[ 'total' ] == 0 ? 0 : round( (100 * $complete[ 'completed' ] ) / $complete[ 'total' ] ) . " %",
-            //     'task_complete'   => intval( $complete[ 'completed' ] ),
-            //     'task_uncomplete' => ceil( $complete[ 'total' ] - $complete[ 'completed' ] ),
-            //     'completed'       => 0
-            // );
-
-            //$response = apply_filters( 'cpm_task_open_response', $response, $task_id, $list_id, $project_id, $user_id );
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
@@ -826,7 +797,7 @@ class CPM_Ajax {
 
             if ( ! is_wp_error( $list_id ) ) {
                 $list = $task_obj->get_task_list( $list_id );
-                $list->tasks = [];
+                $list->tasks = array();
                 //$list = $this->add_new_list_kyes( $list, $project_id );
 
                 $response = (array (
@@ -907,11 +878,11 @@ class CPM_Ajax {
         $list->edit_mode  = false;
         $list->full_view_mode  = false;
         $list->hideme  = false;
-        $list->comments  = [];
+        $list->comments  = array();
 
         $list->show_new_task_form  = false;
-        $list->tasklist            = [];
-        $list->assigned_users_temp = array ();
+        $list->tasklist            = array();
+        $list->assigned_users_temp = array();
         
         return $list;
     }
@@ -1158,7 +1129,7 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_nonce' );
 
         $posted = $_POST;
-        $files  = array ();
+        $files  = array();
 
         if ( empty( $posted['cpm_message'] ) ) {
             $error = new WP_Error( 'cpm_message', 'Required comment content', 'cpm' );
@@ -1250,7 +1221,7 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_message' );
         $posted = $_POST;
 
-        $files      = array ();
+        $files      = array();
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
 
         if ( isset( $posted[ 'cpm_attachment' ] ) ) {
@@ -1290,7 +1261,7 @@ class CPM_Ajax {
         check_ajax_referer( 'cpm_message' );
         $posted = $_POST;
 
-        $files      = array ();
+        $files      = array();
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $message_id = isset( $posted[ 'message_id' ] ) ? intval( $posted[ 'message_id' ] ) : 0;
 
@@ -1569,7 +1540,7 @@ class CPM_Ajax {
                 'offset'   => intval( $offset )
             ) );
         }else {
-            $json_list = array ();
+            $json_list = array();
             foreach ( $lists['posts'] as $list ) {
                 $data .= cpm_task_list_html( $list, $project_id );
                 $list = $this->add_new_list_kyes( $list, $project_id );
@@ -1616,8 +1587,12 @@ class CPM_Ajax {
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
         
         if ( $list ) {
-            $list->tasks     = [];//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
-            $list->comments  = $task_obj->get_comments( $list_id );    
+            $list->tasks     = array();//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
+            $list->comments  = $task_obj->get_comments( $list_id );   
+
+            foreach ( $list->comments as $key => $comment ) {
+                 $comment->comment_content = do_shortcode( $comment->comment_content );
+            }
         }
         
         if ( 'no' == $is_admin ) {
@@ -1626,7 +1601,6 @@ class CPM_Ajax {
 
         wp_send_json_success( array( 'permissions' => $permission, 'list' => $list, 'project_users' => $project_users, 'milestones' => $milestones ) );
 
-        //var_dump($list) ;
         if ( empty( $list ) ) {
             echo json_encode( array (
                 'success'  => false,
@@ -1660,7 +1634,7 @@ class CPM_Ajax {
         }
 
         $tasks     = cpm_tasks_filter( $tasks );
-        $task_list = array ();
+        $task_list = array();
 
 
 
@@ -1746,7 +1720,7 @@ class CPM_Ajax {
     }
 
     function task_users( $task_users, $avatar = false ) {
-        $user = array ();
+        $user = array();
         if ( is_array( $task_users ) ) {
             foreach ( $task_users as $u ) {
                 $user_details = get_user_by( 'ID', $u );
