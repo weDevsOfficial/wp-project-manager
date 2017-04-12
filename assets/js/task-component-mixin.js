@@ -728,6 +728,7 @@ var CPM_Task_Mixin = {
                 form_data  = {
                     action: 'cpm_tasklist_delete',
                     list_id: list_id,
+                    project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
                 };
 

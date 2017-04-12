@@ -486,7 +486,7 @@ class CPM_Ajax {
         // form data validation end 
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
-        if ( cpm_can_manage_projects() && $validator->validate( $posted, $rules, $error_messages ) ) {
+        if ( ( cpm_can_manage_projects() || cpm_can_create_projects() ) && $validator->validate( $posted, $rules, $error_messages ) ) {
             $pro_obj    = CPM_Project::getInstance();
             $project_id = $pro_obj->update( $project_id, $posted );
             $project    = $pro_obj->get( $project_id );
@@ -889,8 +889,9 @@ class CPM_Ajax {
 
     function delete_tasklist() {
         check_ajax_referer( 'cpm_nonce' );
-        $list_id  = $posted[ 'list_id' ];
-        $response = array ( 'success' => false );
+        $list_id    = $_POST['list_id'];
+        $project_id = $_POST['project_id'];
+        $response   = array ( 'success' => false );
         
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             do_action( 'cpm_delete_tasklist_prev', $_POST[ 'list_id' ] );
