@@ -1,4 +1,7 @@
 <div>
+    
+    <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
+
     <ul class="cpm-todolists">
         
         <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">

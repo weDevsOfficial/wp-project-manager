@@ -35,6 +35,20 @@
 @linkColor: #21759b;
 @box-shadow: 0 1px 1px rgba(0,0,0,.04);
 
+.cpm-clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+}
+.cpm-clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+.cpm-clearfix { height: 1%; }
+.cpm-clearfix { display: block; }
+
+
 .cpm {
     font-size: 14px;
     line-height: 21px;
@@ -56,7 +70,6 @@
             display: block;
         }
     }
-
 
     .cpm-box-title{
         margin: 0;
@@ -151,6 +164,83 @@
                 padding: 3px 10px;
                 font-size: 13px;
                 border: 1px solid #E4E4E4;
+            }
+        }
+    }
+
+    .cpm-pagination-wrap {
+        float: right;
+
+        a {
+            box-shadow: none;
+        }
+
+        a:hover {
+            box-shadow: none;
+        }
+        
+        .cpm-pagination-btn {
+            border: 1px solid #ddd;
+            padding: 4px 10px;
+            margin-left: 2px;
+            font-size: 12px;
+            background: #fff;
+            color: #000;
+            height: 30px;
+            line-height: 1.5;
+        }
+
+        .current {
+            background: #32373c;
+            border-color: #ddd;
+            color: #fff;
+        }
+
+        .cpm-pagination-btn:hover {
+            background: #32373c;
+            border-color: #d6d6d6;
+            color: #fff;
+        }
+    }
+
+    .cpm-list-header-new-todo-btn {
+        float: left;
+    }
+
+    .cpm-list-header-menu {
+        float: right;
+    }
+
+    .cpm-lists-view {
+        float: right;
+        margin: 0;
+
+        a {
+            box-shadow: none;
+        }
+
+        a:hover {
+            box-shadow: none;
+        }
+        
+        .cpm-lists-view-li {
+            float: left;
+            background: #fff;
+            border: 1px solid #ddd;
+            margin-left: 3px;
+
+            .to-do-list:hover {
+                background-image: url('../images/todo_hover.svg');
+            }
+            .to-do-list {
+                background-image: url('../images/todo.svg');
+            }
+
+            .background-position {
+                padding: 0px 0px 0px 35px;
+                background-size: 16px 16px;
+                background-position: 50%;
+                background-repeat: no-repeat;
             }
         }
     }
@@ -3475,7 +3565,7 @@ ul.cpm-files {
 
     .cpm-todolists{
 
-        margin-top: 20px;
+       // margin-top: 20px;
         padding: 0px;
 
         .cpm-todolist {
