@@ -1903,3 +1903,5 @@ Vue.component( 'cpm-paginaton', {
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
 
+
+

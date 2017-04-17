@@ -428,7 +428,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-task-mixin', CPM_URL . '/assets/js/task-component-mixin.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-toastr', 'cpm-task-store', 'cpm-task-mixin' ), false, true );
-       // wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
 
         wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
@@ -499,6 +499,7 @@ class WeDevs_CPM {
 
         if ( 'task' == $tab ) {
             CPM_Task::getInstance()->load_js_template();
+            do_action( 'cpm_task_footer_template', $tab );
         }
     }
 
