@@ -23,14 +23,7 @@
                 <div class="cpm-list-header-new-todo-btn">
                     <new-todo-list-button></new-todo-list-button>
                 </div>
-
-                <div class="cpm-list-header-menu">
-                    <ul class="cpm-lists-view">
-                        <li class="cpm-lists-view-li"><a title="To-do List" class="background-position to-do-list" href=""></a></li>
-                        <?php do_action( 'cpm_corner_menu' ); ?>
-                    </ul>
-                    <div class="cpm-clearfix"></div>
-                </div>
+                <cpm-list-corner-menu></cpm-list-corner-menu>
                 <div class="cpm-clearfix"></div>
             </div>
 
@@ -40,7 +33,9 @@
             </div>
             
             <!-- Show Task list and his child -->
-            <todo-lists></todo-lists>
+            <div v-if="active_mode == 'list'"><todo-lists></todo-lists></div>
+
+            <?php do_action( 'cpm_after_todo_lists' ); ?>
         </div>
     </div>
 </div>

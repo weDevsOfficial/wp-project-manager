@@ -1161,6 +1161,7 @@ class CPM_Task {
         cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-corner-menu.php', 'cpm-list-corner-menu' );
     }
 
 }

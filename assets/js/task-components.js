@@ -1199,9 +1199,9 @@ var CPM_Router_Init = {
             return this.$store.state.lists;
         },
 
-        // loading: function() {
-        //     return this.$store.state.loading;
-        // },
+        active_mode: function() {
+            return this.$store.state.active_mode;
+        },
 
         show_list_form: function() {
             return this.$store.state.show_list_form;
@@ -1877,6 +1877,15 @@ Vue.component('cpm-task-comments', {
             return false;
         }
         
+    }
+});
+
+Vue.component( 'cpm-list-corner-menu', {
+    template: '#tmpl-cpm-list-corner-menu',
+    methods: {
+        changeActiveMode: function() {
+            this.$store.commit('change_active_mode', {mode: 'list'});
+        }
     }
 });
 
