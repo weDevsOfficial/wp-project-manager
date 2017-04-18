@@ -191,6 +191,7 @@
 
 <!-- original code without v-else -->
 <div v-else>
+    
     <div class="cpm-incomplete-tasks">
         <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
 

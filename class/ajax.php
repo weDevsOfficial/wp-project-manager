@@ -98,6 +98,18 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_tasks', array( $this, 'get_tasks' ) );
         add_action( 'wp_ajax_cpm_get_incompleted_tasks', array( $this, 'get_incompleted_tasks' ) );
         add_action( 'wp_ajax_cpm_get_completed_tasks', array( $this, 'get_completed_tasks' ) );
+        add_action( 'wp_ajax_cpm_update_active_mode', array( $this, 'update_active_mode' ) );
+    }
+
+    function update_active_mode() {
+        check_ajax_referer( 'cpm_nonce' );
+        
+        $project_id = absint( $_POST['project_id'] );
+        $mode       = $_POST['mode'];
+
+        update_post_meta( $project_id, 'cpm_list_active_mode', $mode );
+
+        wp_send_json_success();
     }
 
     function get_incompleted_tasks() {
@@ -210,6 +222,7 @@ class CPM_Ajax {
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
         
         $send = array( 
+            'active_mode'   => get_post_meta( $project_id, 'cpm_list_active_mode', true ), 
             'milestones'    => $milestones, 
             'permissions'   => $permission, 
             'lists'         => $new_lists,

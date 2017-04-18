@@ -335,8 +335,10 @@ Vue.component('tasks', {
     },
 
     created: function() {
+
         var self = this;
         if ( this.$store.state.is_single_list ) {
+            //For sigle todo-list page
             this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
                 var getIncompletedTasks = self.getIncompletedTasks(self.list);
                 var getCompleteTask     = self.getCompleteTask(self.list);
@@ -353,13 +355,15 @@ Vue.component('tasks', {
                 }
             });
         } else {
+            self.list.tasks = [];
+            //For todo-lists page
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
                 self.loading_incomplete_tasks = false;
                 
                 if ( res.found_incompleted_tasks > self.list.tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 }
-            });
+            }); 
         }
     },
 
@@ -1199,10 +1203,6 @@ var CPM_Router_Init = {
             return this.$store.state.lists;
         },
 
-        active_mode: function() {
-            return this.$store.state.active_mode;
-        },
-
         show_list_form: function() {
             return this.$store.state.show_list_form;
         },
@@ -1882,8 +1882,16 @@ Vue.component('cpm-task-comments', {
 
 Vue.component( 'cpm-list-corner-menu', {
     template: '#tmpl-cpm-list-corner-menu',
+    // Include global properties and methods
+    mixins: [CPM_Task_Mixin],
     methods: {
         changeActiveMode: function() {
+            if ( this.$store.state.active_mode == 'list' ) {
+                return;
+            }
+
+            this.updateActiveMode('list');
+
             this.$store.commit('change_active_mode', {mode: 'list'});
         }
     }

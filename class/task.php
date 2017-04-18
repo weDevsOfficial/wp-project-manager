@@ -188,7 +188,7 @@ class CPM_Task {
                 'todo_list_form'           => apply_filters( 'todo_list_form', array( 'CPM_Task_Mixin' ) ),
                 'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
             )); 
-
+            
             do_action( 'cpm_before_task_scripts' );
 
             foreach( $scripts as $script ) {

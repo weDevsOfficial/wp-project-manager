@@ -58,7 +58,7 @@ var cpm_task_store = {
                 state.permissions   = task_init.data.permissions;
                 state.list_total    = task_init.data.list_total;
                 state.todo_list_per_page = task_init.data.todo_list_per_page;
-
+                state.active_mode = task_init.data.active_mode;
                 state.loading        = false;
                 state.is_single_list = false;
             });

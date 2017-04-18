@@ -21,9 +21,12 @@
 
             <div v-if="is_visible_list_btn">
                 <div class="cpm-list-header-new-todo-btn">
-                    <new-todo-list-button></new-todo-list-button>
+                    <new-todo-list-button v-if="active_mode == 'list'"></new-todo-list-button>
                 </div>
-                <cpm-list-corner-menu></cpm-list-corner-menu>
+                <div class="cpm-list-header-menu">
+                    <cpm-list-corner-menu></cpm-list-corner-menu>
+                    <div class="cpm-clearfix"></div>
+                </div>
                 <div class="cpm-clearfix"></div>
             </div>
 

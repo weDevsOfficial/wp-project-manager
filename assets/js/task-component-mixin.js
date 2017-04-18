@@ -39,6 +39,16 @@ var CPM_Task_Mixin = {
         is_single_task: function() {
             return this.$store.state.is_single_task;
         },
+
+        /**
+         * Todo-lists view active mode
+         * 
+         * @return string
+         */
+        active_mode: function() {
+            return ( this.$store.state.active_mode == '' ) ? 'list' : this.$store.state.active_mode;
+        },
+
     },
 
     /**
@@ -757,6 +767,25 @@ var CPM_Task_Mixin = {
 
         privateClass: function(list) {
             return list.private == 'on' ? 'cpm-lock' : '';
+        },
+
+        updateActiveMode(mode) {
+            var self       = this,
+                form_data  = {
+                    project_id: CPM_Vars.project_id,
+                    mode: mode,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            wp.ajax.send('cpm_update_active_mode', {
+                data: form_data,
+                success: function(res) {
+
+                },
+                error: function(res) {
+
+                }
+            });
         }
 	}
 }
