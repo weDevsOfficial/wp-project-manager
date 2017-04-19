@@ -5,27 +5,26 @@ cpm_get_email_header();
 $tpbk = CPM_URL . '/assets/images/tpbk.png';
 
 $msg_obj     = CPM_Message::getInstance();
-$parent_post = get_post( $data['comment_post_ID'] );
 $author      = wp_get_current_user();
 $comment_url = '';
 
-switch ( $parent_post->post_type ) {
+switch ( $post_type ) {
     case 'cpm_message':
         $type        = __( 'Message', 'cpm' );
-        $title       = $parent_post->post_title;
-        $comment_url = cpm_url_single_message( $project_id, $data['comment_post_ID'] );
+        $title       = $post_title;
+        $comment_url = cpm_url_single_message( $project_id, $comment_post_id );
         break;
 
     case 'cpm_task_list':
-        $title       = $parent_post->post_title;
+        $title       = $post_title;
         $type        = __( 'Task List', 'cpm' );
-        $comment_url = cpm_url_single_tasklist( $project_id, $parent_post->ID );
+        $comment_url = cpm_url_single_tasklist( $project_id, $post_id );
         break;
 
     case 'cpm_task':
         $type        = __( 'Task', 'cpm' );
-        $title       = $parent_post->post_title;
-        $comment_url = cpm_url_single_task( $project_id, $parent_post->post_parent, $parent_post->ID );
+        $title       = $post_title;
+        $comment_url = cpm_url_single_task( $project_id, $post_parent, $post_id );
         break;
 }
 ?>
