@@ -34,6 +34,24 @@
 /*--------------------------------------------------
 :: Variables
 -------------------------------------------------- */
+.cpm-clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.cpm-clearfix {
+  display: inline-block;
+}
+/* start commented backslash hack \*/
+.cpm-clearfix {
+  height: 1%;
+}
+.cpm-clearfix {
+  display: block;
+}
 .cpm {
   font-size: 14px;
   line-height: 21px;
@@ -146,6 +164,69 @@
   padding: 3px 10px;
   font-size: 13px;
   border: 1px solid #E4E4E4;
+}
+.cpm .cpm-pagination-wrap {
+  float: right;
+}
+.cpm .cpm-pagination-wrap a {
+  box-shadow: none;
+}
+.cpm .cpm-pagination-wrap a:hover {
+  box-shadow: none;
+}
+.cpm .cpm-pagination-wrap .cpm-pagination-btn {
+  border: 1px solid #ddd;
+  padding: 4px 10px;
+  margin-left: 2px;
+  font-size: 12px;
+  background: #fff;
+  color: #000;
+  height: 30px;
+  line-height: 1.5;
+}
+.cpm .cpm-pagination-wrap .current {
+  background: #32373c;
+  border-color: #ddd;
+  color: #fff;
+}
+.cpm .cpm-pagination-wrap .cpm-pagination-btn:hover {
+  background: #32373c;
+  border-color: #d6d6d6;
+  color: #fff;
+}
+.cpm .cpm-list-header-new-todo-btn {
+  float: left;
+}
+.cpm .cpm-list-header-menu {
+  float: right;
+}
+.cpm .cpm-lists-view {
+  float: right;
+  margin: 0;
+}
+.cpm .cpm-lists-view a {
+  box-shadow: none;
+}
+.cpm .cpm-lists-view a:hover {
+  box-shadow: none;
+}
+.cpm .cpm-lists-view .cpm-lists-view-li {
+  float: left;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-left: 3px;
+}
+.cpm .cpm-lists-view .cpm-lists-view-li .to-do-list:hover {
+  background-image: url('../images/todo_hover.svg');
+}
+.cpm .cpm-lists-view .cpm-lists-view-li .to-do-list {
+  background-image: url('../images/todo.svg');
+}
+.cpm .cpm-lists-view .cpm-lists-view-li .background-position {
+  padding: 0px 0px 0px 35px;
+  background-size: 16px 16px;
+  background-position: 50%;
+  background-repeat: no-repeat;
 }
 .cpm-left {
   float: left;
@@ -3010,7 +3091,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background: #F8F9FB;
 }
 .cpm .cpm-todolists {
-  margin-top: 20px;
   padding: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist {
