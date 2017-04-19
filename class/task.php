@@ -508,7 +508,7 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1 ) {
+    function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1, $defaults = array() ) {
         global $wpdb;
         
         $args = array (
@@ -517,6 +517,8 @@ class CPM_Task {
             'orderby'             => 'ID',
             'post_parent'         => $project_id,
         );
+
+        $args = wp_parse_args( $args, $defaults );
         
         if ( true === $show_all ) {
             $args[ 'posts_per_page' ] = -1;
@@ -527,7 +529,7 @@ class CPM_Task {
             $args[ 'posts_per_page' ] = $limit;
         }
 
-        $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );
+        $args = apply_filters( 'cpm_get_tasklist', $args, $privacy, $show_all, $pagenum, $defaults );
         
         $lists = new WP_Query( $args );
 

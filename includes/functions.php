@@ -1494,3 +1494,8 @@ function cpm_has_milestone( $project_id ) {
 
     return $posts; 
 }
+
+function cpm_get_project_id() {
+    return empty( $_GET['pid'] ) ? false : absint( $_GET['pid'] );
+}
+

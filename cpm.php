@@ -389,7 +389,7 @@ class WeDevs_CPM {
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
         //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
 
-        $project_id = empty( $_GET['pid'] ) ? false : abs( $_GET['pid'] );
+        $project_id = cpm_get_project_id();
 
         wp_localize_script( 'cpm_admin', 'CPM_Vars', array(
             'ajaxurl'        => admin_url( 'admin-ajax.php' ),
