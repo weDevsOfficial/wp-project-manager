@@ -210,8 +210,9 @@ class CPM_Ajax {
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
         $tasks        = array();
         $new_lists    = array();
-     
-        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_private'], false, $current_page );
+        $filter_private_list = $permission['todolist_view_private'] ? false : true;
+        
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $filter_private_list, false, $current_page );
         
         foreach ( $lists['lists'] as $list ) {
            // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
