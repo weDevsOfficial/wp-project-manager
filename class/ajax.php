@@ -1156,7 +1156,21 @@ class CPM_Ajax {
 
         if ( $comment_id ) {
             $comment = $comment_obj->get( $comment_id );
-            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );
+            
+            // depricated feature support
+            if ($posted['feature'] === 'old') {
+                $content = cpm_show_comment( $comment, $project_id );
+                echo json_encode( array (
+                    'success' => true,
+                    'id'      => $comment_id,
+                    'content' => $content,
+                    'form'    => cpm_comment_form( $project_id, $object_id, $comment )
+                ) );
+
+                exit;
+            }
+
+            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );  
         
         } else {
             wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
@@ -1180,6 +1194,19 @@ class CPM_Ajax {
 
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->update( $data, $comment_id );
+
+        // depricated feature support
+        if ( $posted['feature'] === 'old' ) {
+            $comment = $comment_obj->get( $comment_id );
+            echo json_encode( array (
+                'success' => true,
+                'id'      => $comment_id,
+                'content' => $comment->comment_content,
+                'form'    => cpm_comment_form( $project_id, $object_id, $comment )
+            ) );
+
+            exit;
+        }
 
         wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
 
@@ -1214,6 +1241,13 @@ class CPM_Ajax {
 
         $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
         CPM_Comment::getInstance()->delete( $comment_id, true );
+
+        // depricated feature support
+        if ( $_POST['feature'] === 'old' ) {
+            echo json_encode( array ('success' => true ) );
+
+            exit;
+        }
 
         wp_send_json_success( array( 'success' => __( 'Sucessfully deleted comment', 'cpm' ) ) );
     }
