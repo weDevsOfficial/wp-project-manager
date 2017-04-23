@@ -17,23 +17,14 @@ class CPM_Notification {
         add_action( 'cpm_task_new', array( $this, 'new_task' ), 9, 3 );
         add_action( 'cpm_task_update', array( $this, 'new_task' ), 9, 3 );
 
-        add_action('cpm_sub_task_new',array( $this, 'subtask_new_notify' ), 9, 3);
-
-        // add_action( 'phpmailer_init', array( $this, 'test' ) );
+        add_action( 'cpm_sub_task_new', array( $this, 'subtask_new_notify' ), 9, 3);
     }
 
     /**
-     * undocumented function
-     *
-     * @since x.x
-     * @return void
-     **/
-    // function test( $value ) {
-    
-    //     var_export( $value ); die()
-        
-    // }
-
+     * get instance of CPM_Notification
+     * 
+     * @return Object
+     */
     public static function getInstance() {
         if ( ! self::$_instance ) {
             self::$_instance = new CPM_Notification();

@@ -187,6 +187,7 @@ class CPM_Task {
             wp_localize_script('cpm-task-components', 'CPM_Todo_List', array(
                 'todo_list_form'           => apply_filters( 'todo_list_form', array( 'CPM_Task_Mixin' ) ),
                 'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
+                'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
             )); 
             
             do_action( 'cpm_before_task_scripts' );
