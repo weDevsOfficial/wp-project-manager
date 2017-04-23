@@ -518,7 +518,7 @@ class CPM_Task {
             'post_parent'         => $project_id,
         );
 
-        //$args = wp_parse_args( $args, $defaults );
+        $args = wp_parse_args( $args, $defaults );
         
         if ( true === $show_all ) {
             $args[ 'posts_per_page' ] = -1;

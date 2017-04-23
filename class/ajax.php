@@ -221,6 +221,8 @@ class CPM_Ajax {
         }
         
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
+
+        $show_todo = cpm_get_option( 'show_todo', 'cpm_general' );
         
         $send = array( 
             'active_mode'   => get_post_meta( $project_id, 'cpm_list_active_mode', true ), 
@@ -229,7 +231,7 @@ class CPM_Ajax {
             'lists'         => $new_lists,
             'list_total'    => empty( $lists['count'] ) ? 0 : $lists['count'],
             'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
-            'todo_list_per_page' => empty( cpm_get_option( 'show_todo', 'cpm_general' ) ) ? 5 : cpm_get_option( 'show_todo', 'cpm_general' ) 
+            'todo_list_per_page' => empty( $show_todo ) ? 5 : $show_todo
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );

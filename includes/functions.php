@@ -1397,7 +1397,7 @@ function cpm_get_js_template( $file_path, $id ) {
  * @return string
  */
 function cpm_get_wp_timezone() {
-    $momentjs_tz_map = [
+    $momentjs_tz_map = array(
         'UTC-12'    => 'Etc/GMT+12',
         'UTC-11.5'  => 'Pacific/Niue',
         'UTC-11'    => 'Pacific/Pago_Pago',
@@ -1454,7 +1454,7 @@ function cpm_get_wp_timezone() {
         'UTC+13'    => 'Pacific/Fiji',
         'UTC+13.75' => 'Pacific/Chatham',
         'UTC+14'    => 'Pacific/Tongatapu',
-    ];
+    );
 
     $current_offset = get_option('gmt_offset');
     $tzstring       = get_option('timezone_string');
@@ -1497,5 +1497,9 @@ function cpm_has_milestone( $project_id ) {
 
 function cpm_get_project_id() {
     return empty( $_GET['pid'] ) ? false : absint( $_GET['pid'] );
+}
+
+function cpm_pr( $data ) {
+    echo '<pre>'; print_r( $data ); echo '</pre>';
 }
 
