@@ -362,8 +362,11 @@ class WeDevs_CPM {
         wp_enqueue_script( 'cpm-timepicker', CPM_URL . '/assets/js/jquery-ui-timepicker.js', array('jquery'), false, true );
         wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
         //wp_register_script( 'cpm-trix', CPM_URL . '/assets/js/trix/trix.js', array( 'jquery' ), time(), false, true );
+        
         wp_register_script( 'cpm-moment', CPM_URL . '/assets/js/moment/moment.min.js', false, time(), false );
-        wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', false, time(), false );
+        // this is removing conflict with buddypress momentjs
+        $momentjs_dependency = apply_filters('momentjs', array('cpm-moment') );
+        wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', $momentjs_dependency, time(), false );
 
         wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', array('cpm-tiny-mce','cpm-moment', 'cpm-moment-timezone'), time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
