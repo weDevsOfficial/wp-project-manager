@@ -80,6 +80,7 @@ class CPM_Project {
                 'with_front'   => false,
                 'hierarchical' => true
             ),
+            'capabilities'=> apply_filters( 'cpm_taxonomy_capabilities', array() )
         ) );
     }
 
