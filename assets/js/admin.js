@@ -550,7 +550,7 @@
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
-                        $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor *' ).html( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
 
@@ -616,7 +616,7 @@
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false )
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
-                        $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor *' ).html( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
                 } );

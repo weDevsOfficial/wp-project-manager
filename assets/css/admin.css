@@ -4430,3 +4430,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm-completed-task-spinner {
   margin-left: 2% !important;
 }
+.cpm trix-editor ul {
+  list-style: disc;
+  padding-left: 20px;
+}
