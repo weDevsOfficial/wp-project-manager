@@ -209,13 +209,14 @@ class CPM_Ajax {
 
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
 
+        $per_page = cpm_get_option( 'show_todo', 'cpm_general' );
         $send = array(
             'milestones'    => $milestones,
             'permissions'   => $permission,
             'lists'         => $new_lists,
             'list_total'    => empty( $lists['count'] ) ? 0 : $lists['count'],
             'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
-            'todo_list_per_page' => empty( cpm_get_option( 'show_todo', 'cpm_general' ) ) ? 5 : cpm_get_option( 'show_todo', 'cpm_general' )
+            'todo_list_per_page' => empty( $per_page ) ? 5 : $per_page,
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );
