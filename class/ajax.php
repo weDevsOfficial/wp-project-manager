@@ -193,13 +193,14 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
         }
 
-        $permission   = $permission = $this->permissions( $project_id );
+        $permission = $this->permissions( $project_id );
 
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
         $tasks        = array();
         $new_lists    = array();
+        $list_premission = $permission['todolist_view_private'] ? false : true;
 
-        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $permission['todolist_view_private'], false, $current_page );
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $list_premission, false, $current_page );
 
         foreach ( $lists['lists'] as $list ) {
            // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
