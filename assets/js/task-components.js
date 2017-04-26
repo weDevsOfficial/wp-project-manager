@@ -1901,6 +1901,13 @@ Vue.component( 'cpm-list-corner-menu', {
             this.updateActiveMode('list');
 
             this.$store.commit('change_active_mode', {mode: 'list'});
+
+            var self = this;
+            this.$store.commit('emptyTodoLists');
+            
+            this.getInitialData( this.$store.state.project_id, function(status) {
+                self.loading = false;
+            } );
         }
     }
 });
