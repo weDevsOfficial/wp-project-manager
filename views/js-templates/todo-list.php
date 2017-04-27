@@ -1,4 +1,7 @@
 <div>
+    
+    <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
+
     <ul class="cpm-todolists">
         
         <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">
@@ -52,9 +55,9 @@
                     </div>
 
                     <div class="cpm-col-4 cpm-todo-prgress-bar">
-                        <div :style="getProgressStyle( list.tasks )" class="bar completed"></div>
+                        <div :style="getProgressStyle( list )" class="bar completed"></div>
                     </div>
-                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list.tasks ) }}%</div>
+                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list ) }}%</div>
                     <div class="clearfix"></div>
                 </footer>
             </article>
@@ -63,7 +66,6 @@
 
     <router-view name="single_task"></router-view>
     
-
     <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
     
 </div>

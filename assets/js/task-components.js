@@ -887,6 +887,7 @@ Vue.component('new-todo-list-button', {
         return {
             list: {},
             index: false,
+            permissions: this.$store.state.permissions,
             text: {
                 new_todo: CPM_Vars.message.new_todo
             },
@@ -1446,6 +1447,8 @@ Vue.component('cpm-text-editor', {
     // Assign template for this component
     template: '<textarea :id="editor_id" v-model="content.html"></textarea></div>',
 
+    mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
+
     // Get passing data for this component.
     props: ['editor_id', 'content'],
 
@@ -1460,7 +1463,7 @@ Vue.component('cpm-text-editor', {
             tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
             
             // Instantiate the editor
-            tinymce.init({
+            var settings = {
                 selector: 'textarea#' +self.editor_id,
                 menubar: false,
                 placeholder: CPM_Vars.message.comment_placeholder,
@@ -1469,7 +1472,7 @@ Vue.component('cpm-text-editor', {
                     editor.on('change', function () {
                         self.content.html = editor.getContent();
                     });
-                    editor.on('keyup', function () {
+                    editor.on('keyup', function (event) {
                         self.content.html = editor.getContent();
                     });
                     editor.on('NodeChange', function () {
@@ -1478,7 +1481,7 @@ Vue.component('cpm-text-editor', {
                 },
 
                 external_plugins: {
-                    'placeholder' : CPM_Vars.CPM_URL + '/assets/js/tinymce/plugins/placeholder/plugin.min.js'
+                    'placeholder' : CPM_Vars.CPM_URL + '/assets/js/tinymce/plugins/placeholder/plugin.min.js',
                 },
 
                 fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
@@ -1495,8 +1498,14 @@ Vue.component('cpm-text-editor', {
                 toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
-            });
+            };
 
+            if (self.tinyMCE_settings) {
+                settings = $.extend(settings, self.tinyMCE_settings);
+            }
+
+
+            tinymce.init(settings);
             
         });
        
@@ -1902,4 +1911,6 @@ Vue.component( 'cpm-paginaton', {
 
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
+
+
 

@@ -19,7 +19,10 @@
 
         <div v-if="hasTodoLists">
 
-            <div v-if="is_visible_list_btn"><new-todo-list-button></new-todo-list-button></div>
+            <div class="cpm-list-header-new-todo-btn">
+                <new-todo-list-button></new-todo-list-button>
+            </div>
+            <div class="cpm-clearfix"></div>
 
             <!-- New Todo list form -->
             <div class="cpm-new-todolist-form" v-if="show_list_form">
