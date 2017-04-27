@@ -120,6 +120,20 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.2 - April 27, 2017 =
+
+ * [update] Include filter for register project post type.
+ * [update] Include filter for register project taxonomy.
+ * [update] Change pagination position from left to right.
+ * [update] Pagination has been shown up and down of to-do lists content.
+ * [update] Single task url.
+ * [update] To-do lists progress bar.
+ * [fix] Can’t use function return value in write context.
+ * [fix] Syntax error, unexpected '['
+ * [fix] Filtering for to-do lists private view.
+ * [fix] Filtering problem for the visibility of to-do lists create button.
+ 
+
 = 1.6.1 - April 11, 2017 =
 
  * [fix] Load JS files only in todo list page
