@@ -122,9 +122,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = 1.6.2 - April 27, 2017 =
 
- * [new] Email template for mentioning users in a comment.
+ * [new] Email template for mentioning users in a comment. [pro]
  * [new] Moment js dependency added.
- * [new] Compatibility for mentioning users in a cooment.
+ * [new] Compatibility for mentioning users in a comment.
  * [update] Include filter for register project post type.
  * [update] Include filter for register project taxonomy.
  * [update] Change pagination position from left to right.
@@ -139,7 +139,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] Filtering problem for the visibility of to-do lists create button.
  * [fix] List style problem in tiny-MCE comment box while commenting on discussion board.
  * [fix] WP nonce problem in project discussion.
- 
+
 
 = 1.6.1 - April 11, 2017 =
 
