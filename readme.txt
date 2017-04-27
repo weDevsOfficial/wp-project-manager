@@ -121,17 +121,23 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 == Changelog ==
 
 = 1.6.2 - April 27, 2017 =
-
+ * [new] Email template for mentioning users in a comment.
+ * [new] Moment js dependency added.
+ * [new] Compatibility for mentioning users in a cooment.
  * [update] Include filter for register project post type.
  * [update] Include filter for register project taxonomy.
  * [update] Change pagination position from left to right.
  * [update] Pagination has been shown up and down of to-do lists content.
  * [update] Single task url.
  * [update] To-do lists progress bar.
+ * [update] Unnecessary parameters removed form wp_enqueue_script in cpm.
+ * [update] Array declaration according to lower version of php.
  * [fix] Can’t use function return value in write context.
  * [fix] Syntax error, unexpected '['
  * [fix] Filtering for to-do lists private view.
  * [fix] Filtering problem for the visibility of to-do lists create button.
+ * [fix] List style problem in tiny-MCE comment box while commenting on discussion board.
+ * [fix] WP nonce problem in project discussion.
  
 
 = 1.6.1 - April 11, 2017 =
