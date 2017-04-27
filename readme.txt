@@ -121,6 +121,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 == Changelog ==
 
 = 1.6.2 - April 27, 2017 =
+
  * [new] Email template for mentioning users in a comment.
  * [new] Moment js dependency added.
  * [new] Compatibility for mentioning users in a cooment.
