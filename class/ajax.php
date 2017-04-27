@@ -200,7 +200,7 @@ class CPM_Ajax {
         $new_lists    = array();
         $list_premission = $permission['todolist_view_private'] ? false : true;
 
-        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $list_premission, false, $current_page );
+        $lists   = CPM_Task::getInstance()->get_task_lists( $project_id, $list_premission, false, $current_page );
 
         foreach ( $lists['lists'] as $list ) {
            // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );

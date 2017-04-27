@@ -178,7 +178,7 @@ class CPM_Task {
                 'cpm-task-mixin',
                 'cpm-task-store',
                 'cpm-task-components',
-                'cpm-task-router',
+                'cpm-task-router', //do not change this key, here was dependency from others addon
                 'cpm-task-vue',
             );
 

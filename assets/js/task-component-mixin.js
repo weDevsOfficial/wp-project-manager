@@ -638,20 +638,20 @@ var CPM_Task_Mixin = {
          * 
          * @return int      
          */
-        countCompletedTasks: function( tasks ) {
-            if ( ! tasks ) {
-                return 0;
-            }
+        countCompletedTasks: function( list ) {
+            // if ( ! list.tasks ) {
+            //     return 0;
+            // }
             
-            var completed_task = 0;
+            // var completed_task = 0;
             
-            tasks.filter( function( task ) {
-                if ( ( task.completed === 1 ) || task.completed ) {
-                    completed_task++;
-                }
-            });
+            // list.tasks.filter( function( task ) {
+            //     if ( ( list.count_completed_tasks === 1 ) || list.count_completed_tasks ) {
+            //         completed_task++;
+            //     }
+            // });
 
-            return completed_task;
+            return list.count_completed_tasks;
         },
 
         /**
@@ -684,12 +684,14 @@ var CPM_Task_Mixin = {
          *  
          * @return float       
          */
-        getProgressPercent: function( tasks ) {
-            if ( ! tasks ) {
+        getProgressPercent: function( list ) {
+            
+            if (typeof list ==  'undefined') {
                 return 0;
             }
-            var total_tasks     = tasks.length,
-                completed_tasks = this.countCompletedTasks( tasks ),
+            
+            var total_tasks     = parseInt(list.count_incompleted_tasks) + parseInt(list.count_completed_tasks), //tasks.length,
+                completed_tasks = list.count_completed_tasks, //this.countCompletedTasks( list ),
                 progress        = ( 100 * completed_tasks ) / total_tasks;
 
             return isNaN( progress ) ? 0 : progress.toFixed(0);
@@ -702,11 +704,11 @@ var CPM_Task_Mixin = {
          * 
          * @return obj       
          */
-        getProgressStyle: function( tasks ) {
-            if ( ! tasks ) {
+        getProgressStyle: function( list ) {
+            if ( typeof list == 'undefined' ) {
                 return 0;
             }
-            var width = this.getProgressPercent( tasks );
+            var width = this.getProgressPercent( list );
 
             return { width: width+'%' };
         },

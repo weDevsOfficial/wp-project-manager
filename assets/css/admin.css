@@ -210,17 +210,21 @@
 .cpm .cpm-lists-view a:hover {
   box-shadow: none;
 }
+.cpm .cpm-lists-view .cpm-lists-view-li:first-child {
+  border-left: 1px solid #ddd;
+}
 .cpm .cpm-lists-view .cpm-lists-view-li {
   float: left;
   background: #fff;
-  border: 1px solid #ddd;
-  margin-left: 3px;
+  border-right: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 .cpm .cpm-lists-view .cpm-lists-view-li .to-do-list:hover {
-  background-image: url('../images/todo_hover.svg');
+  background-image: url('../images/list-menu-hover.svg');
 }
 .cpm .cpm-lists-view .cpm-lists-view-li .to-do-list {
-  background-image: url('../images/todo.svg');
+  background-image: url('../images/list-menu.svg');
 }
 .cpm .cpm-lists-view .cpm-lists-view-li .background-position {
   padding: 0px 0px 0px 35px;

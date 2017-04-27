@@ -223,17 +223,21 @@
             box-shadow: none;
         }
         
+        .cpm-lists-view-li:first-child {
+            border-left: 1px solid #ddd;
+        }
         .cpm-lists-view-li {
             float: left;
             background: #fff;
-            border: 1px solid #ddd;
-            margin-left: 3px;
-
+            border-right: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            
             .to-do-list:hover {
-                background-image: url('../images/todo_hover.svg');
+                background-image: url('../images/list-menu-hover.svg');
             }
             .to-do-list {
-                background-image: url('../images/todo.svg');
+                background-image: url('../images/list-menu.svg');
             }
 
             .background-position {
