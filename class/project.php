@@ -26,7 +26,7 @@ class CPM_Project {
 
     function register_post_type() {
 
-        register_post_type( 'cpm_project', array(
+        $args_post_type = array (
             'label'               => __( 'Project', 'cpm' ),
             'description'         => __( 'project manager post type', 'cpm' ),
             'public'              => false,
@@ -58,9 +58,13 @@ class CPM_Project {
                 'not_found_in_trash' => __( 'No Project Found in Trash', 'cpm' ),
                 'parent'             => __( 'Parent Project', 'cpm' ),
             ),
-        ) );
+        ); 
 
-        register_taxonomy( 'cpm_project_category', 'cpm_project', array(
+        $args_post_type = apply_filters( 'cpm_register_project_post_type', $args_post_type );
+
+        register_post_type( 'cpm_project', $args_post_type );
+
+        $args = array (
             'hierarchical' => true,
             'labels'       => array(
                 'name'              => _x( 'Project Categories', 'taxonomy general name' ),
@@ -80,8 +84,12 @@ class CPM_Project {
                 'with_front'   => false,
                 'hierarchical' => true
             ),
-            'capabilities'=> apply_filters( 'cpm_taxonomy_capabilities', array() )
-        ) );
+        );
+
+        $args = apply_filters( 'cpm_register_taxonomy', $args );
+
+        register_taxonomy( 'cpm_project_category', 'cpm_project', $args );
+
     }
 
     /**

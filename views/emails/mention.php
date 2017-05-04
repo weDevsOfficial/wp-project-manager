@@ -31,12 +31,14 @@ switch ( $post_type ) {
 
 <div style="width:600px;  background: #fff;">
     <div style="width: 600px;">
-        <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
+        <div style="height: 174px; width: 600px;">
             <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #333; font-size: 16px; padding-top: 20px; text-align: center; padding-right: 40px; padding-left: 40px;">
                 <?php
-                    _e( 'Hi! You are mentioned in a comment by', 'cpm' );
-                    echo ' <strong><em>' . $author->display_name . '</em></strong>. ';
-                    _e('Please visit the link bellow to view the comment.', 'cpm' ); 
+                    _e( 'Hi! ', 'cpm' );
+                    echo '<strong>' . $user['name'] . '</strong>. ';
+                    _e( 'You are mentioned in a comment by', 'cpm' );
+                    echo ' <strong>' . $author->display_name . '</strong>. ';
+                    _e('Please click the link bellow to view the comment.', 'cpm' ); 
                 ?>
             </div>
             <center>

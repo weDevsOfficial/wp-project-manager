@@ -891,6 +891,7 @@ Vue.component('new-todo-list-button', {
         return {
             list: {},
             index: false,
+            permissions: this.$store.state.permissions,
             text: {
                 new_todo: CPM_Vars.message.new_todo
             },
