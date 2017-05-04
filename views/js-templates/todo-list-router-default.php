@@ -22,6 +22,7 @@
             <div v-if="is_visible_list_btn">
                 <div class="cpm-list-header-new-todo-btn">
                     <new-todo-list-button v-if="active_mode == 'list'"></new-todo-list-button>
+                    <?php do_action( 'cpm_before_todo_list_content' ); ?>
                 </div>
                 <div class="cpm-list-header-menu">
                     <cpm-list-corner-menu></cpm-list-corner-menu>
@@ -31,8 +32,9 @@
             </div>
 
             <!-- New Todo list form -->
-            <div class="cpm-new-todolist-form" v-if="show_list_form">
-                <todo-list-form :list="list" :index="index"></todo-list-form>
+            <div class="cpm-new-todolist-form">
+                <todo-list-form v-if="show_list_form" :list="list" :index="index"></todo-list-form>
+                <?php do_action( 'cpm_after_todo_list' ); ?>
             </div>
             
             <!-- Show Task list and his child -->
