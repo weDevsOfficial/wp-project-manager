@@ -32,9 +32,9 @@
             </div>
 
             <!-- New Todo list form -->
-            <div class="cpm-new-todolist-form">
+            <div>
                 <todo-list-form v-if="show_list_form" :list="list" :index="index"></todo-list-form>
-                <?php do_action( 'cpm_after_todo_list' ); ?>
+                <?php do_action( 'cpm_after_todo_list_form' ); ?>
             </div>
             
             <!-- Show Task list and his child -->

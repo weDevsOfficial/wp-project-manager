@@ -1066,6 +1066,8 @@
     }
 
 } )( jQuery );
+
+
 (function($) {
 
 	$(document).on('cpm.markDone.after', function( event, res, self ) {

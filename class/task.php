@@ -610,7 +610,8 @@ class CPM_Task {
         $task_list->count_completed_tasks   = $this->count_completed_tasks( $task_list->ID );
         $task_list->count_incompleted_tasks = $this->count_incompleted_tasks( $task_list->ID );
         $comments                           = wp_count_comments( $task_list->ID );
-        $task_list->count_comments          = $comments->approved; 
+        $task_list->count_comments          = $comments->approved;
+        $task_list->tasks                   = array(); 
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -640,7 +641,7 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = 10;
+        $limit = '-1';
 
         $args = array ( 
             'post_parent'    => $list_id, 
@@ -650,7 +651,7 @@ class CPM_Task {
             // 'orderby'        => 'menu_order',
             'order'               => 'DESC',
             'orderby'             => 'ID',
-            'offset'         => $pagenum, // * $limit,
+            //'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
         );
 
