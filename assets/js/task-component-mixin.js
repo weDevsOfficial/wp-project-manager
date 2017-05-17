@@ -206,6 +206,26 @@ var CPM_Task_Mixin = {
         },
 
         /**
+         * WP settings date format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        shortDateFormat: function( date ) {
+            if ( date == '' ) {
+                return;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+            
+            var format = 'MMMM DD';
+
+            return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
+        },
+
+        /**
          * WP settings date time format convert to moment date format with time zone
          * 
          * @param  string date 
