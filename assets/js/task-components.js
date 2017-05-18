@@ -1936,5 +1936,10 @@ Vue.component( 'cpm-paginaton', {
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
 
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-single-new-task-field', {
+    template: '#tmpl-cpm-single-new-task-field',
+});
+
 
 
