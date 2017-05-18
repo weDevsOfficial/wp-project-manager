@@ -1939,6 +1939,69 @@ Vue.component('multiselect', VueMultiselect.default);
 // Quick task create procedure. Task create with ony one text field
 Vue.component( 'cpm-single-new-task-field', {
     template: '#tmpl-cpm-single-new-task-field',
+
+    methods: {
+        settings: function() {
+            
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-assign-user-drop-down', {
+    template: '#tmpl-cpm-assign-user-drop-down',
+
+    data: function() {
+        return {
+            task_assign: [],
+            enable_multi_select: false
+        }
+    },
+
+    computed: {
+        project_users: function() {
+            return this.$store.state.project_users;
+        },
+    },
+
+    methods: {
+        showMultiSelectForm: function() {
+            this.enable_multi_select = this.enable_multi_select ? false : true;  
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-start-date', {
+    template: '#tmpl-cpm-task-start-date',
+
+    data: function() {
+        return {
+            enable_start_field: false
+        }
+    },
+
+    methods: {
+        showTaskStartField: function() {
+            this.enable_start_field = this.enable_start_field ? false : true;  
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-end-date', {
+    template: '#tmpl-cpm-task-end-date',
+    data: function() {
+        return {
+            enable_end_field: false
+        }
+    },
+
+    methods: {
+        showTaskEndField: function() {
+            this.enable_end_field = this.enable_end_field ? false : true;  
+        }
+    }
 });
 
 

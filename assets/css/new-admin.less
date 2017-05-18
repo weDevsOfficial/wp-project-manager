@@ -4961,3 +4961,56 @@ ul.cpm-files {
     }
 }
 
+.cpm-single-new-task-field-wrap {
+    position: relative;
+    .cpm-settings {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+    }
+
+    .cpm-settings-control {
+        position: absolute;
+        background: #deb;
+        padding: 6px;
+        border-radius: 3px;
+        top: 0px;
+        z-index: 9999;
+        width: 100%;
+
+        .cpm-triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 8px;
+
+        }
+    }
+}
+
+.cpm-single-new-task-field-wrap-right {
+    .cpm-settings-control {
+        left: 104%;
+        .cpm-triangle {
+            
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #deb;
+            left: -9px;
+        }
+    }
+}
+
+.cpm-single-new-task-field-wrap-left {
+    .cpm-settings-control {
+        right: 34px;
+        .cpm-triangle {
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid #deb;
+            right: -9px;
+        }
+    }
+
+}
+
