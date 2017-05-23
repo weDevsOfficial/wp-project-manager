@@ -1997,6 +1997,10 @@ Vue.component( 'cpm-task-start-date', {
         }
     },
 
+    created: function() {
+        this.$root.$on( 'cpm_date_picker', this.datePickerFrom );
+    },
+
     watch: {
         enable_start_field: function(status) {
             if ( status === false ) {
@@ -2020,6 +2024,12 @@ Vue.component( 'cpm-task-start-date', {
     methods: {
         showTaskStartField: function() {
             this.enable_start_field = this.enable_start_field ? false : true;  
+        },
+
+        datePickerFrom: function(date) {
+            if (date.field == 'datepicker_from') {
+                this.$store.commit('add_inline_task_start_date', {date: date.date});
+            }
         }
     }
 });
@@ -2031,6 +2041,10 @@ Vue.component( 'cpm-task-end-date', {
         return {
             enable_end_field: false
         }
+    },
+
+    created: function() {
+        this.$root.$on( 'cpm_date_picker', this.datePickerTo );
     },
 
     watch: {
@@ -2056,6 +2070,12 @@ Vue.component( 'cpm-task-end-date', {
     methods: {
         showTaskEndField: function() {
             this.enable_end_field = this.enable_end_field ? false : true;  
+        },
+
+        datePickerTo: function(date) {
+            if (date.field == 'datepicker_to') {
+                this.$store.commit('add_inline_task_end_date', {date: date.date});
+            }
         }
     }
 });
@@ -2065,7 +2085,6 @@ Vue.component( 'cpm-task-description', {
     template: '#tmpl-cpm-task-description',
     data: function() {
         return {
-            task_description: '',
             enable_description_field: false
         }
     },
