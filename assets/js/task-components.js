@@ -1953,14 +1953,15 @@ Vue.component( 'cpm-assign-user-drop-down', {
     
     data: function() {
         return {
-            task_assign: [],
             enable_multi_select: false
         }
     },
 
     watch: {
-        task_assign: function(users) {
-            this.$store.commit('add_inline_task_users', {users: users});
+        enable_multi_select: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_users', {users: []});
+            }
         }
     },
 
@@ -1968,6 +1969,16 @@ Vue.component( 'cpm-assign-user-drop-down', {
         project_users: function() {
             return this.$store.state.project_users;
         },
+
+        task_assign: {
+            get: function() {
+                return this.$store.state.inline_task_users;
+            },
+
+            set: function(users) {
+                this.$store.commit('add_inline_task_users', {users: users});
+            }
+        }
     },
 
     methods: {
@@ -1982,8 +1993,27 @@ Vue.component( 'cpm-task-start-date', {
     template: '#tmpl-cpm-task-start-date',
     data: function() {
         return {
-            task_start_date: '',
             enable_start_field: false
+        }
+    },
+
+    watch: {
+        enable_start_field: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_start_date', {date: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_start_date: {
+            get: function() {
+                return this.$store.state.inline_task_start_date;
+            },
+
+            set: function(date) {
+                this.$store.commit('add_inline_task_start_date', {date: date});
+            }
         }
     },
 
@@ -1999,8 +2029,27 @@ Vue.component( 'cpm-task-end-date', {
     template: '#tmpl-cpm-task-end-date',
     data: function() {
         return {
-            task_end_date: '',
             enable_end_field: false
+        }
+    },
+
+    watch: {
+        enable_end_field: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_end_date', {date: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_end_date: {
+            get: function() {
+                return this.$store.state.inline_task_end_date;
+            },
+
+            set: function(date) {
+                this.$store.commit('add_inline_task_end_date', {date: date});
+            }
         }
     },
 
@@ -2018,6 +2067,26 @@ Vue.component( 'cpm-task-description', {
         return {
             task_description: '',
             enable_description_field: false
+        }
+    },
+
+    watch: {
+        enable_description_field: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_description', {description: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_description: {
+            get: function() {
+                return this.$store.state.inline_task_description;
+            },
+
+            set: function(description) {
+                this.$store.commit('add_inline_task_description', {description: description});
+            }
         }
     },
 

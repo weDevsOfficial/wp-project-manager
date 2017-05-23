@@ -363,6 +363,19 @@ var cpm_task_store = {
 
         add_inline_task_users: function(state, users) {
             state.inline_task_users = users.users;
+        },
+
+        add_inline_task_start_date: function(state, date) {
+            state.inline_task_start_date = date.date;
+        },
+
+        add_inline_task_end_date: function(state, date) {
+            state.inline_task_end_date = date.date;
+        },
+
+        add_inline_task_description: function(state, description) {
+            state.inline_task_description = description.description;
         }
+
     }
 }
