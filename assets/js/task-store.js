@@ -23,7 +23,12 @@ var cpm_task_store = {
         add_filter: {},
         todo_list_per_page: 5,
         get_current_user_id: CPM_Vars.get_current_user_id,
-        active_mode: 'list'
+        active_mode: 'list',
+        inline_task_users: [],
+        inline_task_start_date: '',
+        inline_task_end_date: '',
+        inline_task_description: '',
+        inline_task_list: 0,
     },
 
     /**
@@ -354,6 +359,10 @@ var cpm_task_store = {
          */
         change_active_mode: function(state, mode) {
             state.active_mode = mode.mode;
+        },
+
+        add_inline_task_users: function(state, users) {
+            state.inline_task_users = users.users;
         }
     }
 }

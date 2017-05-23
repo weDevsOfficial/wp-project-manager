@@ -5014,3 +5014,127 @@ ul.cpm-files {
 
 }
 
+.cpm-single-task-field-multiselect-wrap {
+    .cpm-multiselect {
+        position: relative;
+
+        .cpm-multiselect-cross {
+            position: absolute;
+            z-index: 9999;
+            right: 5px;
+            top: 7px;
+        }
+        .multiselect__tags {
+            border: none;
+            padding: 0;
+        }
+        .multiselect__select {
+            display: none;
+        }
+    }
+}
+
+.cpm-popover-wrap {
+    //position: relative;
+}
+
+.cpm-popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: block;
+    max-width: 276px;
+    padding: 1px;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.5;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    font-size: .875rem;
+    word-wrap: break-word;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    margin-left: 10px;
+    opacity: 1;
+    padding: 10px;
+    width: 270px;
+
+    .cpm-arrow {
+        top: 74px;
+        left: -20px;
+        content: " ";
+        border-width: 10px;
+        position: absolute;
+        display: block;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-right-color: #999;
+    }
+
+    .cpm-arrow::after {
+        top: -10px;
+        left: -9px;
+        content: " ";
+        border-left-width: 0;
+        border-width: 10px;
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-right-color: #fff;
+    }
+}
+
+
+
+.cpm-popover-title {
+    padding: 8px 14px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-top-right-radius: calc(.3rem - 1px);
+    border-top-left-radius: calc(.3rem - 1px);
+}
+
+.cpm-popover-content {
+    padding: 9px 14px;
+}
+
+.cpm-single-task-field-start-wrap, 
+.cpm-single-task-field-end-wrap, 
+.cpm-single-task-field-description-wrap {
+    position: relative;
+    width: 100%;
+    .cpm-single-task-field-start-link, 
+    .cpm-single-task-field-end-link,
+    .cpm-single-task-field-description-link {
+        position: absolute;
+        right: 5px;
+        top: 4px;
+    }
+    .cpm-single-task-field-start-field, 
+    .cpm-single-task-field-end-field,
+    .cpm-single-task-field-description-field {
+        width: 100%;
+        border-radius: 3px;
+        margin-bottom: 5px;
+    }
+}
+

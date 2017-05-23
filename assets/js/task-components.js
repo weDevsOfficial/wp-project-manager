@@ -1950,11 +1950,17 @@ Vue.component( 'cpm-single-new-task-field', {
 // Quick task create procedure. Task create with ony one text field
 Vue.component( 'cpm-assign-user-drop-down', {
     template: '#tmpl-cpm-assign-user-drop-down',
-
+    
     data: function() {
         return {
             task_assign: [],
             enable_multi_select: false
+        }
+    },
+
+    watch: {
+        task_assign: function(users) {
+            this.$store.commit('add_inline_task_users', {users: users});
         }
     },
 
@@ -1974,9 +1980,9 @@ Vue.component( 'cpm-assign-user-drop-down', {
 // Quick task create procedure. Task create with ony one text field
 Vue.component( 'cpm-task-start-date', {
     template: '#tmpl-cpm-task-start-date',
-
     data: function() {
         return {
+            task_start_date: '',
             enable_start_field: false
         }
     },
@@ -1993,6 +1999,7 @@ Vue.component( 'cpm-task-end-date', {
     template: '#tmpl-cpm-task-end-date',
     data: function() {
         return {
+            task_end_date: '',
             enable_end_field: false
         }
     },
@@ -2000,6 +2007,23 @@ Vue.component( 'cpm-task-end-date', {
     methods: {
         showTaskEndField: function() {
             this.enable_end_field = this.enable_end_field ? false : true;  
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-description', {
+    template: '#tmpl-cpm-task-description',
+    data: function() {
+        return {
+            task_description: '',
+            enable_description_field: false
+        }
+    },
+
+    methods: {
+        showTaskDescriptionField: function() {
+            this.enable_description_field = this.enable_description_field ? false : true;  
         }
     }
 });
