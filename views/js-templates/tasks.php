@@ -137,7 +137,7 @@
 
                                 </span>
 
-                                <span :class="taskDateWrap( task.start_date, task.due_date )">
+                                <span :class="completedTaskWrap( task.start_date, task.due_date )">
                                     <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
                                     <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
                                     <span>{{ dateFormat( task.due_date ) }}</span>
