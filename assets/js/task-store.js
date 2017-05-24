@@ -28,7 +28,7 @@ var cpm_task_store = {
         inline_task_start_date: '',
         inline_task_end_date: '',
         inline_task_description: '',
-        inline_task_list: 0,
+        inline_todo_list_id: 0,
     },
 
     /**
@@ -375,6 +375,10 @@ var cpm_task_store = {
 
         add_inline_task_description: function(state, description) {
             state.inline_task_description = description.description;
+        },
+
+        add_inline_todo_list_id: function(state, list) {
+            state.inline_todo_list_id = list.list_id;
         }
 
     }

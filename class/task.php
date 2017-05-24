@@ -1171,6 +1171,7 @@ class CPM_Task {
         cpm_get_js_template( CPM_JS_TMPL . '/task-start-date.php', 'cpm-task-start-date' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-end-date.php', 'cpm-task-end-date' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-description.php', 'cpm-task-description' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-lists-drop-down.php', 'cpm-todo-lists-drop-down' );
     }
 
 }

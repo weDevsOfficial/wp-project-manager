@@ -2116,5 +2116,55 @@ Vue.component( 'cpm-task-description', {
     }
 });
 
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-todo-lists-drop-down', {
+    template: '#tmpl-cpm-todo-lists-drop-down',
+    data: function() {
+        return {
+            enable_lists_drop_down: false
+        }
+    },
+
+    watch: {
+        enable_description_field: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_description', {description: ''});
+            }
+        }
+    },
+
+    computed: {
+        todo_lists: function() {
+            var lists = [];
+            this.$store.state.lists.map(function(list) {
+                var list_obj = {
+                    id: list.ID,
+                    name: list.post_title
+                }
+
+                lists.push(list_obj);
+            });
+            return lists;
+        },
+
+        todo_list: {
+            get: function() {
+                return this.$store.state.inline_todo_list_id;
+            },
+
+            set: function(list) {
+                this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
+            }
+        }
+    },
+
+
+    methods: {
+        showTodoListDropDown: function() {
+            this.enable_lists_drop_down = this.enable_lists_drop_down ? false : true;  
+        }
+    }
+});
+
 
 

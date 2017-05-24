@@ -4479,20 +4479,24 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border-left: 10px solid #deb;
   right: -9px;
 }
-.cpm-single-task-field-multiselect-wrap .cpm-multiselect {
+.cpm-single-task-field-multiselect-wrap .cpm-multiselect,
+.cpm-todo-lists-drop-down-wrap .cpm-multiselect {
   position: relative;
 }
-.cpm-single-task-field-multiselect-wrap .cpm-multiselect .cpm-multiselect-cross {
+.cpm-single-task-field-multiselect-wrap .cpm-multiselect .cpm-multiselect-cross,
+.cpm-todo-lists-drop-down-wrap .cpm-multiselect .cpm-multiselect-cross {
   position: absolute;
   z-index: 9999;
   right: 5px;
   top: 7px;
 }
-.cpm-single-task-field-multiselect-wrap .cpm-multiselect .multiselect__tags {
+.cpm-single-task-field-multiselect-wrap .cpm-multiselect .multiselect__tags,
+.cpm-todo-lists-drop-down-wrap .cpm-multiselect .multiselect__tags {
   border: none;
   padding: 0;
 }
-.cpm-single-task-field-multiselect-wrap .cpm-multiselect .multiselect__select {
+.cpm-single-task-field-multiselect-wrap .cpm-multiselect .multiselect__select,
+.cpm-todo-lists-drop-down-wrap .cpm-multiselect .multiselect__select {
   display: none;
 }
 .cpm-popover {
