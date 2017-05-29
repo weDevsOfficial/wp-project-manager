@@ -6,7 +6,7 @@
     <div class="cpm-multiselect" v-if="enable_lists_drop_down">
         <a class="cpm-multiselect-cross" @click.prevent="showTodoListDropDown()" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
 
-        <multiselect 
+       <!--  <multiselect 
             v-model="todo_list" 
             :options="todo_lists" 
             :close-on-select="false"
@@ -16,6 +16,19 @@
             placeholder="Select User" 
             label="name"
             track-by="id">
+                
+        </multiselect> -->
+       
+  
+        <multiselect 
+            v-model="todo_list"
+            deselect-label="Can't remove this value"
+            track-by="id"
+            label="name"
+            placeholder="Select To-do list"
+            :searchable="true"
+            :allow-empty="true"
+            :options="todo_lists">
                 
         </multiselect>
     </div>

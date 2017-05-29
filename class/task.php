@@ -164,6 +164,7 @@ class CPM_Task {
             wp_enqueue_media();
             
             $scripts = array(
+                'cpm-waypoints',
                 'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
@@ -198,6 +199,7 @@ class CPM_Task {
                 do_action( 'after-'. $script );
             }
             
+            wp_enqueue_style( 'cpm-vue-multiselect' );
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
             wp_enqueue_style( 'cpm-tiny-mce' );

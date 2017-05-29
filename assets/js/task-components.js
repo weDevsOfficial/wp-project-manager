@@ -1953,7 +1953,7 @@ Vue.component( 'cpm-assign-user-drop-down', {
     
     data: function() {
         return {
-            enable_multi_select: false
+            enable_multi_select: false,
         }
     },
 
@@ -1967,6 +1967,13 @@ Vue.component( 'cpm-assign-user-drop-down', {
 
     computed: {
         project_users: function() {
+            
+            
+            this.$store.state.project_users.map(function(user) {
+                user.title = user.name;
+                user.img  = user.avatar_url;
+            });
+
             return this.$store.state.project_users;
         },
 
@@ -1983,8 +1990,15 @@ Vue.component( 'cpm-assign-user-drop-down', {
 
     methods: {
         showMultiSelectForm: function() {
-            this.enable_multi_select = this.enable_multi_select ? false : true;  
-        }
+            this.enable_multi_select = this.enable_multi_select ? false : true; 
+            Vue.nextTick(function() {
+                jQuery('.cpm-multiselect').find('.multiselect__input').focus();
+            }); 
+        },
+
+        afterSelect: function(selectedOption, id, event) {
+            jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+        },
     }
 });
 
@@ -2024,6 +2038,10 @@ Vue.component( 'cpm-task-start-date', {
     methods: {
         showTaskStartField: function() {
             this.enable_start_field = this.enable_start_field ? false : true;  
+            
+            Vue.nextTick(function() {
+               jQuery('.cpm-single-task-field-start-wrap').find('.cpm-single-task-field-start-field').focus(); 
+            });
         },
 
         datePickerFrom: function(date) {
@@ -2070,6 +2088,10 @@ Vue.component( 'cpm-task-end-date', {
     methods: {
         showTaskEndField: function() {
             this.enable_end_field = this.enable_end_field ? false : true;  
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-single-task-field-end-wrap').find('.cpm-single-task-field-end-field').focus(); 
+            });
         },
 
         datePickerTo: function(date) {
@@ -2126,15 +2148,61 @@ Vue.component( 'cpm-todo-lists-drop-down', {
     },
 
     watch: {
-        enable_description_field: function(status) {
+        enable_lists_drop_down: function(status) {
             if ( status === false ) {
-                this.$store.commit('add_inline_task_description', {description: ''});
+                this.$store.commit('add_inline_todo_list_id', {list_id: false});
             }
         }
     },
 
     computed: {
         todo_lists: function() {
+            return this.dropDownListsArray();
+        },
+
+        todo_list: {
+            get: function(list) {
+                var list_id = this.$store.state.inline_todo_list_id,
+                    lists = this.dropDownListsArray(),
+                    return_val = {};
+                
+                lists.map(function(list) {
+                    if ( list.id == list_id ) {
+                        return_val = list;
+                    }
+                });
+
+                if (jQuery.isEmptyObject(return_val)) {
+                    if (this.$store.state.lists.length) {
+                        var list = this.$store.state.lists[0];
+                        return_val = {
+                            id: list.ID,
+                            name: list.post_title
+                        }
+                    }
+                }
+                
+                return return_val;
+            },
+
+            set: function(list) {
+                
+                this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
+            }
+        }
+    },
+
+
+    methods: {
+        showTodoListDropDown: function() {
+            this.enable_lists_drop_down = this.enable_lists_drop_down ? false : true;  
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-todo-lists-drop-down-wrap').find('.multiselect__input').focus(); 
+            });
+        },
+
+        dropDownListsArray: function() {
             var lists = [];
             this.$store.state.lists.map(function(list) {
                 var list_obj = {
@@ -2145,23 +2213,6 @@ Vue.component( 'cpm-todo-lists-drop-down', {
                 lists.push(list_obj);
             });
             return lists;
-        },
-
-        todo_list: {
-            get: function() {
-                return this.$store.state.inline_todo_list_id;
-            },
-
-            set: function(list) {
-                this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
-            }
-        }
-    },
-
-
-    methods: {
-        showTodoListDropDown: function() {
-            this.enable_lists_drop_down = this.enable_lists_drop_down ? false : true;  
         }
     }
 });
