@@ -626,7 +626,8 @@ class CPM_Task {
                 $tasks = $this->get_tasks( $list_id, false );
             }
         }
-
+        // $tasks = $this->get_tasks($list_id);
+        // var_dump($tasks); die();
         return $tasks;
     }
 
@@ -638,7 +639,8 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = 10;
+        $limit = -1;
+        $offset = ($pagenum - 1)*$limit;
 
         $args = array ( 
             'post_parent'    => $list_id, 
