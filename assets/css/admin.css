@@ -1577,7 +1577,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #a30;
+  background: #F29B27;
   font-size: 12px;
   line-height: 12px;
   padding: 1px 7px;
@@ -1587,7 +1587,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #1abc9c;
+  background: #0073AA;
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
@@ -1597,7 +1597,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #3498db;
+  background: #85BE33;
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
@@ -2046,14 +2046,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
   position: relative;
 }
 .cpm-calendar a.cpm-expire-task {
-  background-color: #a30 !important;
+  background-color: #F29B27 !important;
 }
 .cpm-calendar a.cpm-task-running {
-  background-color: #1abc9c !important;
+  background-color: #0090D9 !important;
 }
 .cpm-calendar a.cpm-complete-task {
   text-decoration: line-through;
-  background-color: #3498db !important;
+  background-color: #85BE33 !important;
   text-decoration: line-through !important;
 }
 .cpm-calendar span.fc-event-title {
@@ -4447,4 +4447,45 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm trix-editor ul {
   list-style: disc;
   padding-left: 20px;
+}
+.cpm-single-new-task-field-wrap {
+  position: relative;
+}
+.cpm-single-new-task-field-wrap .cpm-settings {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+.cpm-single-new-task-field-wrap .cpm-settings-control {
+  position: absolute;
+  background: #deb;
+  padding: 6px;
+  border-radius: 3px;
+  top: 0px;
+  z-index: 9999;
+  width: 100%;
+}
+.cpm-single-new-task-field-wrap .cpm-settings-control .cpm-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 8px;
+}
+.cpm-single-new-task-field-wrap-right .cpm-settings-control {
+  left: 104%;
+}
+.cpm-single-new-task-field-wrap-right .cpm-settings-control .cpm-triangle {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #deb;
+  left: -9px;
+}
+.cpm-single-new-task-field-wrap-left .cpm-settings-control {
+  right: 34px;
+}
+.cpm-single-new-task-field-wrap-left .cpm-settings-control .cpm-triangle {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #deb;
+  right: -9px;
 }

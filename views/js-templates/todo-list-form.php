@@ -1,4 +1,5 @@
-<div :class="todolistFormClass(list)" style="display: none;">
+
+<div :class="todolistFormClass(list)+' cpm-new-todolist-form'" style="display: none;">
 
     <form v-on:submit.prevent="newTodoList()" action="" method="post">
         <div class="item title">

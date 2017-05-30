@@ -89,6 +89,7 @@ class CPM_Project {
         $args = apply_filters( 'cpm_register_taxonomy', $args );
 
         register_taxonomy( 'cpm_project_category', 'cpm_project', $args );
+
     }
 
     /**

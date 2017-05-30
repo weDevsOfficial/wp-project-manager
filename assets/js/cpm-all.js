@@ -529,7 +529,7 @@
                 var that = $( this ),
                         btn = that.find( 'input[name=cpm_new_comment]' ),
                         spnier = that.find( '.cpm-loading' ),
-                        data = that.serialize();
+                        data = that.serialize() + '&_wpnonce=' + CPM_Vars.nonce + '&feature=' + 'old';
                 var form = $( this ),
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
 
@@ -550,7 +550,7 @@
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
-                        $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor *' ).html( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
 
@@ -565,7 +565,8 @@
                             project_id: that.data( 'project_id' ),
                             object_id: that.data( 'object_id' ),
                             action: 'cpm_comment_get',
-                            '_wpnonce': CPM_Vars.nonce
+                            '_wpnonce': CPM_Vars.nonce,
+                            'feature' : 'old'
                         };
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
                     res = $.parseJSON( res );
@@ -593,7 +594,7 @@
                         btn = form.find( 'input[name=cpm_new_comment]' ),
                         spnier = form.find( '.cpm-loading' ),
                         container = form.closest( '.cpm-comment-container' ),
-                        data = form.serialize(),
+                        data = form.serialize() + '&_wpnonce=' + CPM_Vars.nonce + '&feature=' + 'old';
                         text = $.trim( form.find( 'input[name=cpm_message]' ).val() );
 
                 if ( text.length < 1 ) {
@@ -615,7 +616,7 @@
                         $( '.cpm-comment-form-wrap input[type=checkbox]' ).attr( 'checked', false )
                         $( '.cpm-comment-form-wrap .cpm-upload-filelist' ).html( '' );
                         $( '.cpm-comment-form-wrap #cpm-comment-editor-cm' ).val( '' );
-                        $( '.cpm-comment-form-wrap trix-editor div' ).html( '' );
+                        $( '.cpm-comment-form-wrap trix-editor *' ).html( '' );
                     }
                     $( '.cpm-colorbox-img' ).prettyPhoto();
                 } );
@@ -629,7 +630,8 @@
                             comment_id: self.data( 'id' ),
                             project_id: self.data( 'project_id' ),
                             action: 'cpm_comment_delete',
-                            '_wpnonce': CPM_Vars.nonce
+                            '_wpnonce': CPM_Vars.nonce,
+                            'feature' : 'old'
                         };
                 if ( self.attr( 'disabled' ) == 'disabled' ) {
                     return false;
@@ -1064,6 +1066,8 @@
     }
 
 } )( jQuery );
+
+
 (function($) {
 
 	$(document).on('cpm.markDone.after', function( event, res, self ) {
