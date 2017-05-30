@@ -1593,7 +1593,7 @@ ul.cpm-activity ul li:before {
   color: #fff;
   padding: 2px 5px;
 }
-.cpm-running-date {
+.cpm-task-done {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

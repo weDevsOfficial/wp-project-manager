@@ -478,11 +478,15 @@ var CPM_Task_Mixin = {
          * 
          * @return string            
          */
-        taskDateWrap: function( start_date, due_date ) {
+        taskDateWrap: function( start_date, due_date, task) {
             if ( start_date == '' && due_date == '' ) {
                 return false;
             }
-            
+
+            if (task.completed) { 
+                return 'cpm-task-done';
+            }
+
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
             
@@ -498,28 +502,6 @@ var CPM_Task_Mixin = {
             }
 
             return 'cpm-current-date';
-        },
-
-        completedTaskWrap: function( start_date, due_date ) {
-            if ( start_date == '' && due_date == '' ) {
-                return false;
-            }
-            
-            moment.tz.add(CPM_Vars.time_zones);
-            moment.tz.link(CPM_Vars.time_links);
-            
-            var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
-                due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
-            
-            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
-                return false;
-            }
-            
-            if ( moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
-                return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-running-date' : 'cpm-due-date';
-            }
-
-            return 'cpm-running-date';
         },
 
         /**
