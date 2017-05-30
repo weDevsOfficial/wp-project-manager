@@ -251,6 +251,89 @@ class CPM_Project {
         }
     }
 
+    function get_all_project( $count = -1 , $order_by = array() )
+    {
+        $pagenum          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+        $limit            = -1;
+        $offset           = ( $pagenum - 1 ) * $limit;
+        $filters          = $_GET;
+        $project_category = isset( $filters['project_cat'] ) ? $filters['project_cat'] : 0;
+
+        $args = array(
+            'post_type'      => 'cpm_project',
+            'posts_per_page' => $limit,
+            'offset'         => $offset
+        );
+        if(!  empty( $order_by ) ){
+            $args['orderby'] = $order_by[0] ;
+            $args['order'] = $order_by[1] ;
+        }
+
+        //Add Filtering
+        if ( $project_category != 0 && $project_category != '-1' ) {
+            $args['tax_query'][] = array(
+                'taxonomy' => 'cpm_project_category',
+                'field'    => 'term_id',
+                'terms'    => array( $project_category ),
+                'operator' => 'IN',
+            );
+        }
+
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'cpm_projects' && isset( $_GET['status'] ) ) {
+            if ( $_GET['status'] == 'archive' ) {
+
+                $args['meta_query'] = array(
+                    array(
+                        'key'     => '_project_active',
+                        'value'   => 'no',
+                        'compare' => '='
+                    ),
+                );
+            } else if ( $_GET['status'] == 'active' ) {
+                $args['meta_query'] = array(
+                    array(
+                        'key'     => '_project_active',
+                        'value'   => 'yes',
+                        'compare' => '='
+                    ),
+                );
+            } else if ( $_GET['status'] == 'all' ) {
+                $args['meta_query'] = '';
+            }
+        } else {
+            $args['meta_query'] = array(
+                array(
+                    'key'     => '_project_active',
+                    'value'   => 'yes',
+                    'compare' => '='
+                ),
+            );
+        }
+
+        if ( cpm_can_manage_projects() === false ) {
+            add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
+        }
+
+        $args = apply_filters( 'cpm_get_projects_argument', $args );
+
+        $projects       = new WP_Query( $args );
+        $total_projects = $projects->found_posts;
+        $projects       = $projects->posts;
+
+        if ( cpm_can_manage_projects() === false ) {
+            remove_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
+            remove_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
+        }
+
+        foreach ( $projects as &$project ) {
+            $project->info  = $this->get_info( $project->ID );
+            $project->users = $this->get_users( $project );
+        }
+        $projects['total_projects'] = $total_projects;
+        return $projects;
+    }
+
    /**
     * Get all the projects
     * @param int $count
