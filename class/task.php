@@ -164,6 +164,7 @@ class CPM_Task {
             wp_enqueue_media();
             
             $scripts = array(
+                'cpm-uploader',
                 'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
