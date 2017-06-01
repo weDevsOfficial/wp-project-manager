@@ -1577,7 +1577,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #F29B27;
+  background: #EB5A46;
   font-size: 12px;
   line-height: 12px;
   padding: 1px 7px;
@@ -1587,7 +1587,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #0073AA;
+  background: #61BD4F;
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
@@ -1597,7 +1597,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #85BE33;
+  background: #0090D9;
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
@@ -2046,14 +2046,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
   position: relative;
 }
 .cpm-calendar a.cpm-expire-task {
-  background-color: #F29B27 !important;
+  background-color: #EB5A46 !important;
 }
 .cpm-calendar a.cpm-task-running {
-  background-color: #0090D9 !important;
+  background-color: #61BD4F !important;
 }
 .cpm-calendar a.cpm-complete-task {
   text-decoration: line-through;
-  background-color: #85BE33 !important;
+  background-color: #0090D9!important;
   text-decoration: line-through !important;
 }
 .cpm-calendar span.fc-event-title {
