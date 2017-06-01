@@ -5122,8 +5122,6 @@ ul.cpm-files {
 .cpm-single-task-field-description-wrap {
     position: relative;
     width: 100%;
-    .cpm-single-task-field-start-link, 
-    .cpm-single-task-field-end-link,
     .cpm-single-task-field-description-link {
         position: absolute;
         right: 5px;
@@ -5135,6 +5133,34 @@ ul.cpm-files {
         width: 100%;
         border-radius: 3px;
         margin-bottom: 5px;
+    }
+}
+.cpm-single-task-field-start-wrap,
+.cpm-single-task-field-end-wrap {
+    .cpm-inline-date-picker-from,
+    .cpm-inline-date-picker-to {
+        .ui-datepicker {
+            width: 16em; /*what ever width you want*/
+        }
+        i {
+            font-size: 20px;
+            background: #444;
+            color: #fff;
+            border-radius: 8px;
+            height: 20px;
+            width: 20px;
+            text-align: center;
+            font-weight: 100 !important;
+        }
+        position: relative;
+
+        .cpm-single-task-field-start-link,
+        .cpm-single-task-field-end-link {
+            position: absolute;
+            right: -5px;
+            top: -12px;
+            z-index: 99999;
+        }
     }
 }
 

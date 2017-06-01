@@ -1953,14 +1953,14 @@ Vue.component( 'cpm-assign-user-drop-down', {
     
     data: function() {
         return {
-            enable_multi_select: false,
+            //enable_multi_select: false,
         }
     },
 
     watch: {
         enable_multi_select: function(status) {
             if ( status === false ) {
-                this.$store.commit('add_inline_task_users', {users: []});
+                //this.$store.commit('add_inline_task_users', {users: []});
             }
         }
     },
@@ -1985,12 +1985,24 @@ Vue.component( 'cpm-assign-user-drop-down', {
             set: function(users) {
                 this.$store.commit('add_inline_task_users', {users: users});
             }
+        },
+
+        enable_multi_select: function() {
+            return this.$store.state.inline_display.users;
         }
     },
 
     methods: {
         showMultiSelectForm: function() {
-            this.enable_multi_select = this.enable_multi_select ? false : true; 
+            var display_status =  this.$store.state.inline_display.users ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: display_status,
+                start: false,
+                lists: false,
+                description: false
+            });
+
             Vue.nextTick(function() {
                 jQuery('.cpm-multiselect').find('.multiselect__input').focus();
             }); 
@@ -2007,7 +2019,7 @@ Vue.component( 'cpm-task-start-date', {
     template: '#tmpl-cpm-task-start-date',
     data: function() {
         return {
-            enable_start_field: false
+            //enable_start_field: false
         }
     },
 
@@ -2018,7 +2030,7 @@ Vue.component( 'cpm-task-start-date', {
     watch: {
         enable_start_field: function(status) {
             if ( status === false ) {
-                this.$store.commit('add_inline_task_start_date', {date: ''});
+                //this.$store.commit('add_inline_task_start_date', {date: ''});
             }
         }
     },
@@ -2032,12 +2044,22 @@ Vue.component( 'cpm-task-start-date', {
             set: function(date) {
                 this.$store.commit('add_inline_task_start_date', {date: date});
             }
+        },
+        enable_start_field: function() {
+            return this.$store.state.inline_display.start;
         }
     },
 
     methods: {
         showTaskStartField: function() {
-            this.enable_start_field = this.enable_start_field ? false : true;  
+            var display_status =  this.$store.state.inline_display.start ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: false,
+                start: display_status,
+                lists: false,
+                description: false
+            }); 
             
             Vue.nextTick(function() {
                jQuery('.cpm-single-task-field-start-wrap').find('.cpm-single-task-field-start-field').focus(); 
@@ -2057,7 +2079,7 @@ Vue.component( 'cpm-task-end-date', {
     template: '#tmpl-cpm-task-end-date',
     data: function() {
         return {
-            enable_end_field: false
+           // enable_end_field: false
         }
     },
 
@@ -2068,7 +2090,7 @@ Vue.component( 'cpm-task-end-date', {
     watch: {
         enable_end_field: function(status) {
             if ( status === false ) {
-                this.$store.commit('add_inline_task_end_date', {date: ''});
+                //this.$store.commit('add_inline_task_end_date', {date: ''});
             }
         }
     },
@@ -2082,12 +2104,22 @@ Vue.component( 'cpm-task-end-date', {
             set: function(date) {
                 this.$store.commit('add_inline_task_end_date', {date: date});
             }
+        },
+        enable_end_field: function() {
+            return this.$store.state.inline_display.end;
         }
     },
 
     methods: {
         showTaskEndField: function() {
-            this.enable_end_field = this.enable_end_field ? false : true;  
+            var display_status =  this.$store.state.inline_display.end ? false : true;
+            this.$store.commit('inline_display', {
+                end: display_status,
+                users: false,
+                start: false,
+                lists: false,
+                description: false
+            });
 
             Vue.nextTick(function() {
                 jQuery('.cpm-single-task-field-end-wrap').find('.cpm-single-task-field-end-field').focus(); 
@@ -2143,14 +2175,14 @@ Vue.component( 'cpm-todo-lists-drop-down', {
     template: '#tmpl-cpm-todo-lists-drop-down',
     data: function() {
         return {
-            enable_lists_drop_down: false
+            //enable_lists_drop_down: false
         }
     },
 
     watch: {
         enable_lists_drop_down: function(status) {
             if ( status === false ) {
-                this.$store.commit('add_inline_todo_list_id', {list_id: false});
+                //this.$store.commit('add_inline_todo_list_id', {list_id: false});
             }
         }
     },
@@ -2189,13 +2221,25 @@ Vue.component( 'cpm-todo-lists-drop-down', {
                 
                 this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
             }
+        },
+
+        enable_lists_drop_down: function() {
+            return this.$store.state.inline_display.lists;
         }
     },
 
 
     methods: {
         showTodoListDropDown: function() {
-            this.enable_lists_drop_down = this.enable_lists_drop_down ? false : true;  
+
+            var display_status =  this.$store.state.inline_display.lists ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: false,
+                start: false,
+                lists: display_status,
+                description: false
+            });
 
             Vue.nextTick(function() {
                 jQuery('.cpm-todo-lists-drop-down-wrap').find('.multiselect__input').focus(); 

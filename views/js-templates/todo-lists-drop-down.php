@@ -1,6 +1,10 @@
 <div class="cpm-todo-lists-drop-down-wrap">
     <div v-if="!enable_lists_drop_down">
-        <a  @click.prevent="showTodoListDropDown()" href="#"><?php _e( 'Lists', 'cpm' ); ?></a>
+        <a class="cpm-inline-task-event"  @click.prevent="showTodoListDropDown()" href="#">
+            <i class="fa fa-list-ul cpm-inline-task-lists-icon" aria-hidden="true"></i>
+            <?php _e( 'Lists', 'cpm' ); ?>
+            
+        </a>
     </div>
 
     <div class="cpm-multiselect" v-if="enable_lists_drop_down">

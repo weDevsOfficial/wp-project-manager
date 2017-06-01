@@ -335,7 +335,7 @@ class CPM_Task {
                     $comment_obj->associate_file( $file_id, $task_id );
                 }
             }
-
+            
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
                 do_action( 'cpm_task_update', $list_id, $task_id, $data );

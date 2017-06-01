@@ -1,10 +1,16 @@
 <div class="cpm-single-task-field-multiselect-wrap">
     <div v-if="!enable_multi_select">
-        <a  @click.prevent="showMultiSelectForm()" href="#"><?php _e( 'Assign User', 'cpm' ); ?></a>
+        <a class="cpm-inline-task-event" @click.prevent="showMultiSelectForm()" href="#">
+            <i class="fa fa-user-plus cpm-inline-task-users-icon" aria-hidden="true"></i>
+            <?php _e( 'Assign User', 'cpm' ); ?>
+            
+        </a>
     </div>
 
     <div @click.prevent="afterSelect" class="cpm-multiselect" v-if="enable_multi_select">
-        <a class="cpm-multiselect-cross" @click.prevent="showMultiSelectForm()" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
+        <a class="cpm-multiselect-cross" @click.prevent="showMultiSelectForm()" href="#">
+            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+        </a>
 
         <multiselect 
             v-model="task_assign" 
