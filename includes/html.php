@@ -449,14 +449,14 @@ function cmp_loading_template() {
 function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
 
 
-    $action        = 'cpm_comment_new';
+    $action        = 'cpm_comment_new_old';
     $text          = '';
     $submit_button = __( 'Add this comment', 'cpm' );
     $comment_id    = $comment ? $comment->comment_ID : 'cm';
     $files         = $comment ? $comment->files : array();
 
     if ( $comment ) {
-        $action        = 'cpm_comment_update';
+        $action        = 'cpm_comment_update_old';
         $text          = $comment->comment_content;
         $submit_button = __( 'Update comment', 'cpm' );
     }
@@ -470,8 +470,6 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
         <?php } ?>
 
         <form class="cpm-comment-form ">
-
-            <?php wp_nonce_field( 'cpm_new_message' ); ?>
 
             <div class="item message cpm-sm-col-12 ">
                 <input id="<?php echo 'cpm-comment-editor-' . $comment_id ?>" type="hidden" name="cpm_message" value="<?php echo esc_html( $text ) ?>">

@@ -67,6 +67,11 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_update', array ( $this, 'update_comment' ) );
         add_action( 'wp_ajax_cpm_comment_delete', array ( $this, 'delete_comment' ) );
 
+        add_action( 'wp_ajax_cpm_comment_new_old', array ( $this, 'new_comment_old' ) );
+        add_action( 'wp_ajax_cpm_comment_update_old', array ( $this, 'update_comment_old' ) );
+        add_action( 'wp_ajax_cpm_comment_delete_old', array ( $this, 'delete_comment_old' ) );
+
+
         add_action( 'wp_ajax_cpm_show_discussion', array ( $this, 'get_discussion' ) );
         add_action( 'wp_ajax_cpm_message_new', array ( $this, 'new_message' ) );
         add_action( 'wp_ajax_cpm_message_update', array ( $this, 'update_message' ) );
@@ -1179,6 +1184,35 @@ class CPM_Ajax {
         }
     }
 
+    function new_comment_old() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+        $files  = array ();
+        $text       = trim( $posted[ 'cpm_message' ] );
+        $parent_id  = isset( $posted[ 'parent_id' ] ) ? intval( $posted[ 'parent_id' ] ) : 0;
+        $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
+        if ( isset( $posted[ 'cpm_attachment' ] ) ) {
+            $files = $posted[ 'cpm_attachment' ];
+        }
+        $data = array (
+            'comment_post_ID' => $parent_id,
+            'comment_content' => $text,
+            'user_id'         => get_current_user_id()
+        );
+        $comment_obj = CPM_Comment::getInstance();
+        $comment_id  = $comment_obj->create( $data, $files );
+        if ( $comment_id ) {
+            $comment = $comment_obj->get( $comment_id );
+            echo json_encode( array (
+                'success'     => true,
+                'placeholder' => __( 'Add a comment...', 'cpm' ),
+                'content'     => cpm_show_comment( $comment, $project_id )
+            ) );
+        }
+
+        exit;
+    }
+
     function update_comment() {
         $posted = $_POST;
 
@@ -1206,8 +1240,29 @@ class CPM_Ajax {
         
     }
 
+    function update_comment_old() {
+        $posted = $_POST;
+        //print_r( $posted );
+        $comment_id = isset( $posted[ 'comment_id' ] ) ? intval( $posted[ 'comment_id' ] ) : 0;
+        $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
+        $data = array (
+            'text' => $posted[ 'cpm_message' ],
+        );
+        $comment_obj = CPM_Comment::getInstance();
+        $comment_obj->update( $data, $comment_id );
+        $comment = $comment_obj->get( $comment_id );
+        $content = cpm_comment_text( $comment_id );
+        $content .= cpm_show_attachments( $comment, $project_id );
+        echo json_encode( array (
+            'success' => true,
+            'content' => $content,
+        ) );
+        exit;
+    }
+
     function get_comment() {
         check_ajax_referer( 'cpm_nonce' );
+        
         $posted = $_POST;
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
@@ -1232,6 +1287,19 @@ class CPM_Ajax {
         CPM_Comment::getInstance()->delete( $comment_id, true );
 
         wp_send_json_success( array( 'success' => __( 'Sucessfully deleted comment', 'cpm' ) ) );
+    }
+
+    function delete_comment_old() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
+        CPM_Comment::getInstance()->delete( $comment_id, true );
+
+        echo json_encode( array (
+            'success' => true
+        ) );
+
+        exit;
     }
 
     function new_message() {
