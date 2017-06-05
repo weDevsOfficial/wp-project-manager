@@ -104,6 +104,8 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_get_incompleted_tasks', array( $this, 'get_incompleted_tasks' ) );
         add_action( 'wp_ajax_cpm_get_completed_tasks', array( $this, 'get_completed_tasks' ) );
         add_action( 'wp_ajax_cpm_update_active_mode', array( $this, 'update_active_mode' ) );
+
+        add_action( 'wp_ajax_cpm_update_task_order', array( $this, 'update_task_order' ) );
     }
 
     function update_active_mode() {
@@ -1912,6 +1914,23 @@ class CPM_Ajax {
         ) );
 
         exit;
+    }
+
+    function update_task_order() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $orders = $_POST['orders'];
+
+        foreach ($orders as $task_id => $task_order) {
+            $post_data = array(
+                'ID' => $task_id,
+                'menu_order' => $task_order
+            );
+
+            wp_update_post($post_data, true);
+        }
+                
+        wp_send_json_success( __( 'Successfully reordered', 'cpm' ));
     }
 
 }

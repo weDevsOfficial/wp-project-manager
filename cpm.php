@@ -358,6 +358,8 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-autocomplete' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_enqueue_script( 'jquery-ui-sortable' );
+
         //wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'cpm-timepicker', CPM_URL . '/assets/js/jquery-ui-timepicker.js', array('jquery'), false, true );
         wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
