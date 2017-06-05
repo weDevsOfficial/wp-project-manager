@@ -1407,7 +1407,6 @@ ul.cpm-activity {
 
 .cpm-new-todolist-form, .cpm-update-todolist-form {
     border: 1px solid #e5e5e5;
-    width: 40%;
     background: #fff;
     margin-top: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -1416,6 +1415,18 @@ ul.cpm-activity {
     .item {
         padding: 5px;
         margin: 0;
+    }
+}
+
+.cpm-new-todolist-form {
+    width: 40%;
+}
+
+.cpm-update-todolist-form {
+    width: 50%;
+    .cpm-new-todolist-form {
+        margin: 0px;
+        width: 100%;
     }
 }
 
