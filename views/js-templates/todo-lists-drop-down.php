@@ -26,13 +26,16 @@
   
         <multiselect 
             v-model="todo_list"
-            deselect-label="Can't remove this value"
             track-by="id"
             label="name"
             placeholder="Select To-do list"
+            :close-on-select="false"
             :searchable="true"
-            :allow-empty="true"
-            :options="todo_lists">
+            :allow-empty="false"
+            :options="todo_lists"
+            select-label=""
+            deselect-label=""
+            >
                 
         </multiselect>
     </div>

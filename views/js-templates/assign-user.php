@@ -27,7 +27,7 @@
             :taggable="true"
             label="name"
             track-by="id"
-            :allow-empty="false">
+            :allow-empty="true">
 
             <template  slot="option" scope="props">
                 <div>
