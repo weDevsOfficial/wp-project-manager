@@ -199,6 +199,7 @@ class CPM_Task {
                 do_action( 'after-'. $script );
             }
             
+            wp_enqueue_style( 'cpm-vue-multiselect' );
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
             wp_enqueue_style( 'cpm-tiny-mce' );
@@ -334,7 +335,7 @@ class CPM_Task {
                     $comment_obj->associate_file( $file_id, $task_id );
                 }
             }
-
+            
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
                 do_action( 'cpm_task_update', $list_id, $task_id, $data );
@@ -1171,6 +1172,8 @@ class CPM_Task {
         cpm_get_js_template( CPM_JS_TMPL . '/assign-user.php', 'cpm-assign-user-drop-down' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-start-date.php', 'cpm-task-start-date' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-end-date.php', 'cpm-task-end-date' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-description.php', 'cpm-task-description' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-lists-drop-down.php', 'cpm-todo-lists-drop-down' );
     }
 
 }

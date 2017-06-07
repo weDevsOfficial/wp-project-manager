@@ -369,10 +369,11 @@ class WeDevs_CPM {
         // this is removing conflict with buddypress momentjs
         $momentjs_dependency = apply_filters('momentjs', array('cpm-moment') );
         wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', $momentjs_dependency, time(), false );
-
+        
         wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', array('cpm-tiny-mce','cpm-moment', 'cpm-moment-timezone'), time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
         wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
+        wp_register_script( 'cpm-waypoints', CPM_URL . '/assets/js/waypoints/jquery.waypoints.js', array( 'jquery' ), time(), false, true );
 
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
@@ -438,6 +439,8 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-tiptip', CPM_URL . '/assets/js/tiptip/jquery.tipTip.min.js', array ( 'jquery' ), false, false );
 
         wp_register_style( 'cpm-tiptip', CPM_URL . '/assets/js/tiptip/tipTip.css' );
+        wp_register_style( 'cpm-vue-multiselect', CPM_URL . '/assets/css/vue-multiselect/vue-multiselect.min.css' );
+
         wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
         wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
         wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );

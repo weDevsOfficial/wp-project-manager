@@ -220,7 +220,7 @@ var CPM_Task_Mixin = {
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
             
-            var format = 'MMMM DD';
+            var format = 'MMM DD';
 
             return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
         },

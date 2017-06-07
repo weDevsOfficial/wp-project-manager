@@ -857,7 +857,7 @@ class CPM_Project {
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_project_items';
         $private = ( $private == 'yes' ) ? 1 : 0;
-
+        
         $data = array(
             'project_id'      => $project_id,
             'item_type'       => $type,
