@@ -2004,6 +2004,11 @@ Vue.component( 'cpm-assign-user-drop-down', {
             });
 
             Vue.nextTick(function() {
+                jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove();
+                //jQuery('.cpm-multiselect').find('.multiselect__input').focus();
+            });
+
+            Vue.nextTick(function() {
                 jQuery('.cpm-multiselect').find('.multiselect__input').focus();
             }); 
         },
