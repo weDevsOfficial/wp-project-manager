@@ -22,7 +22,20 @@ var cpm_task_store = {
         is_single_task: false,
         add_filter: {},
         todo_list_per_page: 5,
-        get_current_user_id: CPM_Vars.get_current_user_id
+        get_current_user_id: CPM_Vars.get_current_user_id,
+        active_mode: 'list',
+        inline_task_users: [],
+        inline_task_start_date: '',
+        inline_task_end_date: '',
+        inline_task_description: '',
+        inline_todo_list_id: 0,
+        inline_display: {
+            users: false,
+            start: false,
+            end: false,
+            lists: false,
+            description: false
+        }
     },
 
     /**
@@ -57,7 +70,7 @@ var cpm_task_store = {
                 state.permissions   = task_init.data.permissions;
                 state.list_total    = task_init.data.list_total;
                 state.todo_list_per_page = task_init.data.todo_list_per_page;
-
+                state.active_mode = task_init.data.active_mode;
                 state.loading        = false;
                 state.is_single_list = false;
             });
@@ -341,6 +354,43 @@ var cpm_task_store = {
 
         emptyTodoLists: function(state) {
             state.lists = [];
+        },
+
+        /**
+         * Chanage view active mode
+         *
+         * @param  object state 
+         * @param  object mode 
+         * 
+         * @return void
+         */
+        change_active_mode: function(state, mode) {
+            state.active_mode = mode.mode;
+        },
+
+        add_inline_task_users: function(state, users) {
+            state.inline_task_users = users.users;
+        },
+
+        add_inline_task_start_date: function(state, date) {
+            state.inline_task_start_date = date.date;
+        },
+
+        add_inline_task_end_date: function(state, date) {
+            state.inline_task_end_date = date.date;
+        },
+
+        add_inline_task_description: function(state, description) {
+            state.inline_task_description = description.description;
+        },
+
+        add_inline_todo_list_id: function(state, list) {
+            state.inline_todo_list_id = list.list_id;
+        },
+
+        inline_display: function(state, inline_display) {
+            state.inline_display = inline_display;
         }
+
     }
 }

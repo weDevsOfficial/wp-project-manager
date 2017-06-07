@@ -1407,7 +1407,6 @@ ul.cpm-activity {
 
 .cpm-new-todolist-form, .cpm-update-todolist-form {
     border: 1px solid #e5e5e5;
-    width: 40%;
     background: #fff;
     margin-top: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -1416,6 +1415,18 @@ ul.cpm-activity {
     .item {
         padding: 5px;
         margin: 0;
+    }
+}
+
+.cpm-new-todolist-form {
+    width: 40%;
+}
+
+.cpm-update-todolist-form {
+    width: 50%;
+    .cpm-new-todolist-form {
+        margin: 0px;
+        width: 100%;
     }
 }
 
@@ -1715,7 +1726,7 @@ ul.cpm-activity {
 
 .cpm-due-date {
     .border-radius(3px);
-    background: #CD7A7A;
+    background: #EB5A46;
     font-size: 12px;
     line-height: 12px;
     padding: 1px 7px;
@@ -1724,12 +1735,22 @@ ul.cpm-activity {
 
 .cpm-current-date {
     .border-radius(3px);
-    background: #ddd;
+    background: #61BD4F;
     font-size: 12px;
     line-height: 1.3em;
-    color: #999;
+    color: #fff;
     padding: 2px 5px;
 }
+
+.cpm-task-done {
+    .border-radius(3px);
+    background: #0090D9;
+    font-size: 12px;
+    line-height: 1.3em;
+    color: #fff;
+    padding: 2px 5px;
+}
+
 
 .cpm-task-comment-count {
     .border-radius(3px);
@@ -2272,17 +2293,17 @@ ul.cpm-files {
 .cpm-calendar {
     position: relative;
     a.cpm-expire-task {
-        background-color: #a30 !important;
+        background-color: #EB5A46 !important;
 
     }
     a.cpm-task-running {
-        background-color: #1abc9c !important;
+        background-color: #61BD4F !important;
         //color: #292929;
     }
 
     a.cpm-complete-task {
         text-decoration: line-through;
-        background-color: #3498db !important;
+        background-color: #0090D9!important;
         text-decoration: line-through !important;
     }
 
@@ -4957,6 +4978,209 @@ ul.cpm-files {
         ul {
             list-style : disc;
             padding-left: 20px;
+        }
+    }
+}
+
+.cpm-single-new-task-field-wrap {
+    position: relative;
+    .cpm-settings {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+    }
+
+    .cpm-settings-control {
+        position: absolute;
+        background: #deb;
+        padding: 6px;
+        border-radius: 3px;
+        top: 0px;
+        z-index: 9999;
+        width: 100%;
+
+        .cpm-triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 8px;
+
+        }
+    }
+}
+
+.cpm-single-new-task-field-wrap-right {
+    .cpm-settings-control {
+        left: 104%;
+        .cpm-triangle {
+            
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #deb;
+            left: -9px;
+        }
+    }
+}
+
+.cpm-single-new-task-field-wrap-left {
+    .cpm-settings-control {
+        right: 34px;
+        .cpm-triangle {
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid #deb;
+            right: -9px;
+        }
+    }
+
+}
+
+.cpm-single-task-field-multiselect-wrap, .cpm-todo-lists-drop-down-wrap {
+    .cpm-multiselect {
+        position: relative;
+
+        .cpm-multiselect-cross {
+            position: absolute;
+            z-index: 9999;
+            right: 5px;
+            top: 7px;
+        }
+        .multiselect__tags {
+            border: none;
+            padding: 0;
+        }
+        .multiselect__select {
+            display: none;
+        }
+    }
+}
+
+.cpm-popover-wrap {
+    //position: relative;
+}
+
+.cpm-popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: block;
+    max-width: 276px;
+    padding: 1px;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.5;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    font-size: .875rem;
+    word-wrap: break-word;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    margin-left: 10px;
+    opacity: 1;
+    padding: 10px;
+    width: 270px;
+
+    .cpm-arrow {
+        top: 74px;
+        left: -20px;
+        content: " ";
+        border-width: 10px;
+        position: absolute;
+        display: block;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-right-color: #999;
+    }
+
+    .cpm-arrow::after {
+        top: -10px;
+        left: -9px;
+        content: " ";
+        border-left-width: 0;
+        border-width: 10px;
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-right-color: #fff;
+    }
+}
+
+
+
+.cpm-popover-title {
+    padding: 8px 14px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-top-right-radius: calc(.3rem - 1px);
+    border-top-left-radius: calc(.3rem - 1px);
+}
+
+.cpm-popover-content {
+    padding: 9px 14px;
+}
+
+.cpm-single-task-field-start-wrap, 
+.cpm-single-task-field-end-wrap, 
+.cpm-single-task-field-description-wrap {
+    position: relative;
+    width: 100%;
+    .cpm-single-task-field-description-link {
+        position: absolute;
+        right: 5px;
+        top: 4px;
+    }
+    .cpm-single-task-field-start-field, 
+    .cpm-single-task-field-end-field,
+    .cpm-single-task-field-description-field {
+        width: 100%;
+        border-radius: 3px;
+        margin-bottom: 5px;
+    }
+}
+.cpm-single-task-field-start-wrap,
+.cpm-single-task-field-end-wrap {
+    .cpm-inline-date-picker-from,
+    .cpm-inline-date-picker-to {
+        .ui-datepicker {
+            width: 16em; /*what ever width you want*/
+        }
+        i {
+            font-size: 20px;
+            background: #444;
+            color: #fff;
+            border-radius: 8px;
+            height: 20px;
+            width: 20px;
+            text-align: center;
+            font-weight: 100 !important;
+        }
+        position: relative;
+
+        .cpm-single-task-field-start-link,
+        .cpm-single-task-field-end-link {
+            position: absolute;
+            right: -5px;
+            top: -12px;
+            z-index: 99999;
         }
     }
 }

@@ -164,6 +164,7 @@ class CPM_Task {
             wp_enqueue_media();
             
             $scripts = array(
+                'cpm-uploader',
                 'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
@@ -189,7 +190,7 @@ class CPM_Task {
                 'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
                 'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
             )); 
-
+            
             do_action( 'cpm_before_task_scripts' );
 
             foreach( $scripts as $script ) {
@@ -198,6 +199,7 @@ class CPM_Task {
                 do_action( 'after-'. $script );
             }
             
+            wp_enqueue_style( 'cpm-vue-multiselect' );
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
             wp_enqueue_style( 'cpm-tiny-mce' );
@@ -333,7 +335,7 @@ class CPM_Task {
                     $comment_obj->associate_file( $file_id, $task_id );
                 }
             }
-
+            
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
                 do_action( 'cpm_task_update', $list_id, $task_id, $data );
@@ -509,7 +511,7 @@ class CPM_Task {
      * @param int $project_id
      * @return object object array of the result set
      */
-    function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1 ) {
+    function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1, $defaults = array() ) {
         global $wpdb;
         
         $args = array (
@@ -518,6 +520,8 @@ class CPM_Task {
             'orderby'             => 'ID',
             'post_parent'         => $project_id,
         );
+
+        $args = wp_parse_args( $args, $defaults );
         
         if ( true === $show_all ) {
             $args[ 'posts_per_page' ] = -1;
@@ -528,7 +532,7 @@ class CPM_Task {
             $args[ 'posts_per_page' ] = $limit;
         }
 
-        $args = apply_filters( 'cpm_get_tasklist', $args, $privacy );
+        $args = apply_filters( 'cpm_get_tasklist', $args, $privacy, $show_all, $pagenum, $defaults );
         
         $lists = new WP_Query( $args );
 
@@ -608,7 +612,8 @@ class CPM_Task {
         $task_list->count_completed_tasks   = $this->count_completed_tasks( $task_list->ID );
         $task_list->count_incompleted_tasks = $this->count_incompleted_tasks( $task_list->ID );
         $comments                           = wp_count_comments( $task_list->ID );
-        $task_list->count_comments          = $comments->approved; 
+        $task_list->count_comments          = $comments->approved;
+        $task_list->tasks                   = array(); 
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
@@ -638,17 +643,17 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = 10;
+        $limit = -1;
 
         $args = array ( 
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
-            'offset'         => $pagenum, // * $limit,
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
+            // 'offset'         => $offset,
             'posts_per_page' => $limit,
         );
 
@@ -659,7 +664,7 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
-
+        // var_dump($tasks->posts); die();
         return $tasks->posts;
     }
 
@@ -671,10 +676,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
@@ -705,10 +710,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
@@ -1162,6 +1167,13 @@ class CPM_Task {
         cpm_get_js_template( CPM_JS_TMPL . '/file-uploader.php', 'cpm-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/task-file-uploader.php', 'cpm-task-file-uploader' );
         cpm_get_js_template( CPM_JS_TMPL . '/image-view.php', 'cpm-image-view' );
+        cpm_get_js_template( CPM_JS_TMPL . '/list-corner-menu.php', 'cpm-list-corner-menu' );
+        cpm_get_js_template( CPM_JS_TMPL . '/single-new-task-field.php', 'cpm-single-new-task-field' );
+        cpm_get_js_template( CPM_JS_TMPL . '/assign-user.php', 'cpm-assign-user-drop-down' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-start-date.php', 'cpm-task-start-date' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-end-date.php', 'cpm-task-end-date' );
+        cpm_get_js_template( CPM_JS_TMPL . '/task-description.php', 'cpm-task-description' );
+        cpm_get_js_template( CPM_JS_TMPL . '/todo-lists-drop-down.php', 'cpm-todo-lists-drop-down' );
     }
 
 }

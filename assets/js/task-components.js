@@ -335,8 +335,10 @@ Vue.component('tasks', {
     },
 
     created: function() {
+
         var self = this;
         if ( this.$store.state.is_single_list ) {
+            //For sigle todo-list page
             this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
                 var getIncompletedTasks = self.getIncompletedTasks(self.list);
                 var getCompleteTask     = self.getCompleteTask(self.list);
@@ -353,13 +355,15 @@ Vue.component('tasks', {
                 }
             });
         } else {
+            self.list.tasks = [];
+            //For todo-lists page
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
                 self.loading_incomplete_tasks = false;
                 
                 if ( res.found_incompleted_tasks > self.list.tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 }
-            });
+            }); 
         }
     },
 
@@ -1200,10 +1204,6 @@ var CPM_Router_Init = {
             return this.$store.state.lists;
         },
 
-        // loading: function() {
-        //     return this.$store.state.loading;
-        // },
-
         show_list_form: function() {
             return this.$store.state.show_list_form;
         },
@@ -1889,6 +1889,30 @@ Vue.component('cpm-task-comments', {
     }
 });
 
+Vue.component( 'cpm-list-corner-menu', {
+    template: '#tmpl-cpm-list-corner-menu',
+    // Include global properties and methods
+    mixins: [CPM_Task_Mixin],
+    methods: {
+        changeActiveMode: function() {
+            if ( this.$store.state.active_mode == 'list' ) {
+                return;
+            }
+
+            this.updateActiveMode('list');
+
+            this.$store.commit('change_active_mode', {mode: 'list'});
+
+            var self = this;
+            this.$store.commit('emptyTodoLists');
+            
+            this.getInitialData( this.$store.state.project_id, function(status) {
+                self.loading = false;
+            } );
+        }
+    }
+});
+
 Vue.component( 'cpm-loading', {
     template: '#tmpl-cpm-spinner'
 });
@@ -1911,6 +1935,336 @@ Vue.component( 'cpm-paginaton', {
 
 // Global multiselect
 Vue.component('multiselect', VueMultiselect.default);
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-single-new-task-field', {
+    template: '#tmpl-cpm-single-new-task-field',
+
+    methods: {
+        settings: function() {
+            
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-assign-user-drop-down', {
+    template: '#tmpl-cpm-assign-user-drop-down',
+    
+    data: function() {
+        return {
+            //enable_multi_select: false,
+        }
+    },
+
+    watch: {
+        enable_multi_select: function(status) {
+            if ( status === false ) {
+                //this.$store.commit('add_inline_task_users', {users: []});
+            }
+        }
+    },
+
+    computed: {
+        project_users: function() {
+            
+            
+            this.$store.state.project_users.map(function(user) {
+                user.title = user.name;
+                user.img  = user.avatar_url;
+            });
+
+            return this.$store.state.project_users;
+        },
+
+        task_assign: {
+            get: function() {
+                return this.$store.state.inline_task_users;
+            },
+
+            set: function(users) {
+                this.$store.commit('add_inline_task_users', {users: users});
+            }
+        },
+
+        enable_multi_select: function() {
+            return this.$store.state.inline_display.users;
+        }
+    },
+
+    methods: {
+        showMultiSelectForm: function() {
+            var display_status =  this.$store.state.inline_display.users ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: display_status,
+                start: false,
+                lists: false,
+                description: false
+            });
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove();
+                //jQuery('.cpm-multiselect').find('.multiselect__input').focus();
+            });
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-multiselect').find('.multiselect__input').focus();
+            }); 
+        },
+
+        afterSelect: function(selectedOption, id, event) {
+            jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+        },
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-start-date', {
+    template: '#tmpl-cpm-task-start-date',
+    data: function() {
+        return {
+            //enable_start_field: false
+        }
+    },
+
+    created: function() {
+        this.$root.$on( 'cpm_date_picker', this.datePickerFrom );
+    },
+
+    watch: {
+        enable_start_field: function(status) {
+            if ( status === false ) {
+                //this.$store.commit('add_inline_task_start_date', {date: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_start_date: {
+            get: function() {
+                return this.$store.state.inline_task_start_date;
+            },
+
+            set: function(date) {
+                this.$store.commit('add_inline_task_start_date', {date: date});
+            }
+        },
+        enable_start_field: function() {
+            return this.$store.state.inline_display.start;
+        }
+    },
+
+    methods: {
+        showTaskStartField: function() {
+            var display_status =  this.$store.state.inline_display.start ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: false,
+                start: display_status,
+                lists: false,
+                description: false
+            }); 
+            
+            Vue.nextTick(function() {
+               jQuery('.cpm-single-task-field-start-wrap').find('.cpm-single-task-field-start-field').focus(); 
+            });
+        },
+
+        datePickerFrom: function(date) {
+            if (date.field == 'datepicker_from') {
+                this.$store.commit('add_inline_task_start_date', {date: date.date});
+            }
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-end-date', {
+    template: '#tmpl-cpm-task-end-date',
+    data: function() {
+        return {
+           // enable_end_field: false
+        }
+    },
+
+    created: function() {
+        this.$root.$on( 'cpm_date_picker', this.datePickerTo );
+    },
+
+    watch: {
+        enable_end_field: function(status) {
+            if ( status === false ) {
+                //this.$store.commit('add_inline_task_end_date', {date: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_end_date: {
+            get: function() {
+                return this.$store.state.inline_task_end_date;
+            },
+
+            set: function(date) {
+                this.$store.commit('add_inline_task_end_date', {date: date});
+            }
+        },
+        enable_end_field: function() {
+            return this.$store.state.inline_display.end;
+        }
+    },
+
+    methods: {
+        showTaskEndField: function() {
+            var display_status =  this.$store.state.inline_display.end ? false : true;
+            this.$store.commit('inline_display', {
+                end: display_status,
+                users: false,
+                start: false,
+                lists: false,
+                description: false
+            });
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-single-task-field-end-wrap').find('.cpm-single-task-field-end-field').focus(); 
+            });
+        },
+
+        datePickerTo: function(date) {
+            if (date.field == 'datepicker_to') {
+                this.$store.commit('add_inline_task_end_date', {date: date.date});
+            }
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-task-description', {
+    template: '#tmpl-cpm-task-description',
+    data: function() {
+        return {
+            enable_description_field: false
+        }
+    },
+
+    watch: {
+        enable_description_field: function(status) {
+            if ( status === false ) {
+                this.$store.commit('add_inline_task_description', {description: ''});
+            }
+        }
+    },
+
+    computed: {
+        task_description: {
+            get: function() {
+                return this.$store.state.inline_task_description;
+            },
+
+            set: function(description) {
+                this.$store.commit('add_inline_task_description', {description: description});
+            }
+        }
+    },
+
+    methods: {
+        showTaskDescriptionField: function() {
+            this.enable_description_field = this.enable_description_field ? false : true;  
+        }
+    }
+});
+
+// Quick task create procedure. Task create with ony one text field
+Vue.component( 'cpm-todo-lists-drop-down', {
+    template: '#tmpl-cpm-todo-lists-drop-down',
+    data: function() {
+        return {
+            //enable_lists_drop_down: false
+        }
+    },
+
+    watch: {
+        enable_lists_drop_down: function(status) {
+            if ( status === false ) {
+                //this.$store.commit('add_inline_todo_list_id', {list_id: false});
+            }
+        }
+    },
+
+    computed: {
+        todo_lists: function() {
+            return this.dropDownListsArray();
+        },
+
+        todo_list: {
+            get: function(list) {
+                var list_id = this.$store.state.inline_todo_list_id,
+                    lists = this.dropDownListsArray(),
+                    return_val = {};
+                
+                lists.map(function(list) {
+                    if ( list.id == list_id ) {
+                        return_val = list;
+                    }
+                });
+
+                if (jQuery.isEmptyObject(return_val)) {
+                    if (this.$store.state.lists.length) {
+                        var list = this.$store.state.lists[0];
+                        return_val = {
+                            id: list.ID,
+                            name: list.post_title
+                        }
+                    }
+                }
+                
+                return return_val;
+            },
+
+            set: function(list) {
+                
+                this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
+            }
+        },
+
+        enable_lists_drop_down: function() {
+            return this.$store.state.inline_display.lists;
+        }
+    },
+
+
+    methods: {
+        showTodoListDropDown: function() {
+
+            var display_status =  this.$store.state.inline_display.lists ? false : true;
+            this.$store.commit('inline_display', {
+                end: false,
+                users: false,
+                start: false,
+                lists: display_status,
+                description: false
+            });
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-todo-lists-drop-down-wrap').find('.multiselect__input').focus(); 
+            });
+        },
+
+        dropDownListsArray: function() {
+            var lists = [];
+            this.$store.state.lists.map(function(list) {
+                var list_obj = {
+                    id: list.ID,
+                    name: list.post_title
+                }
+
+                lists.push(list_obj);
+            });
+            return lists;
+        }
+    }
+});
 
 
 

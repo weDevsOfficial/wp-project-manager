@@ -67,6 +67,11 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_comment_update', array ( $this, 'update_comment' ) );
         add_action( 'wp_ajax_cpm_comment_delete', array ( $this, 'delete_comment' ) );
 
+        add_action( 'wp_ajax_cpm_comment_new_old', array ( $this, 'new_comment_old' ) );
+        add_action( 'wp_ajax_cpm_comment_update_old', array ( $this, 'update_comment_old' ) );
+        add_action( 'wp_ajax_cpm_comment_delete_old', array ( $this, 'delete_comment_old' ) );
+
+
         add_action( 'wp_ajax_cpm_show_discussion', array ( $this, 'get_discussion' ) );
         add_action( 'wp_ajax_cpm_message_new', array ( $this, 'new_message' ) );
         add_action( 'wp_ajax_cpm_message_update', array ( $this, 'update_message' ) );
@@ -93,11 +98,25 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_task_create_comment', array( $this, 'cpm_task_create_comment' ) );
         add_action( 'wp_ajax_cpm_get_post_comments', array( $this, 'get_post_comments' ) );
         add_action( 'wp_ajax_cpm_get_compiled_content', array( $this, 'get_compiled_content' ) );
-
+        
         add_action( 'wp_ajax_cpm_initial_todo_list', array( $this, 'initial_todo_list' ) );
         add_action( 'wp_ajax_cpm_get_tasks', array( $this, 'get_tasks' ) );
         add_action( 'wp_ajax_cpm_get_incompleted_tasks', array( $this, 'get_incompleted_tasks' ) );
         add_action( 'wp_ajax_cpm_get_completed_tasks', array( $this, 'get_completed_tasks' ) );
+        add_action( 'wp_ajax_cpm_update_active_mode', array( $this, 'update_active_mode' ) );
+
+        add_action( 'wp_ajax_cpm_update_task_order', array( $this, 'update_task_order' ) );
+    }
+
+    function update_active_mode() {
+        check_ajax_referer( 'cpm_nonce' );
+        
+        $project_id = absint( $_POST['project_id'] );
+        $mode       = $_POST['mode'];
+
+        update_post_meta( $project_id, 'cpm_list_active_mode', $mode );
+
+        wp_send_json_success();
     }
 
     function get_incompleted_tasks() {
@@ -114,13 +133,13 @@ class CPM_Ajax {
         }
 
         $found_tasks = CPM_Task::getInstance()->count_incompleted_tasks($list_id);
-
-        wp_send_json_success(
-            array(
-                'tasks' => $tasks,
-                'incompleted_tasks' => $tasks,
-                'found_incompleted_tasks' => $found_tasks
-            )
+        
+        wp_send_json_success( 
+            array( 
+                'tasks' => $tasks, 
+                'incompleted_tasks' => $tasks, 
+                'found_incompleted_tasks' => $found_tasks 
+            ) 
         );
     }
 
@@ -138,13 +157,13 @@ class CPM_Ajax {
         }
 
         $found_tasks = CPM_Task::getInstance()->count_completed_tasks($list_id);
-
-        wp_send_json_success(
-            array(
-                'tasks' => $tasks,
-                'completed_tasks' => $tasks,
-                'found_completed_tasks' => $found_tasks
-            )
+        
+        wp_send_json_success( 
+            array( 
+                'tasks' => $tasks, 
+                'completed_tasks' => $tasks, 
+                'found_completed_tasks' => $found_tasks 
+            ) 
         );
     }
 
@@ -166,15 +185,15 @@ class CPM_Ajax {
 
         $found_incompleted_tasks = CPM_Task::getInstance()->count_incompleted_tasks($list_id);
         $found_completed_tasks   = CPM_Task::getInstance()->count_completed_tasks($list_id);
-
-        wp_send_json_success(
-            array(
+        
+        wp_send_json_success( 
+            array( 
                 'tasks'                   => $tasks,
                 'incompleted_tasks'       => $incompleted_tasks,
                 'completed_tasks'         => $completed_tasks,
-                'found_incompleted_tasks' => $found_incompleted_tasks,
-                'found_completed_tasks'   => $found_completed_tasks
-            )
+                'found_incompleted_tasks' => $found_incompleted_tasks, 
+                'found_completed_tasks'   => $found_completed_tasks 
+            ) 
         );
     }
 
@@ -182,7 +201,7 @@ class CPM_Ajax {
      * Get initial value when loaded todo list tab
      *
      * @since  2.0.0
-     *
+     * 
      * @return json
      */
     function initial_todo_list() {
@@ -193,31 +212,33 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
         }
 
-        $permission = $this->permissions( $project_id );
-
+        $permission   = $permission = $this->permissions( $project_id );
+        
         $current_page = empty( $_POST['current_page'] ) ? 1 : absint( $_POST['current_page'] );
         $tasks        = array();
         $new_lists    = array();
-        $list_premission = $permission['todolist_view_private'] ? false : true;
-
-        $lists   = CPM_Task::getInstance()->get_task_lists( $project_id, $list_premission, false, $current_page );
-
+        $filter_private_list = $permission['todolist_view_private'] ? false : true;
+        
+        $lists        = CPM_Task::getInstance()->get_task_lists( $project_id, $filter_private_list, false, $current_page );
+        
         foreach ( $lists['lists'] as $list ) {
            // $task        = CPM_Task::getInstance()->get_tasks( $list->ID, $permission['todo_view_private'] );
             $list->tasks = array();
             $new_lists[] = $list;
         }
-
+        
         $milestones = CPM_Milestone::getInstance()->get_by_project( $project_id );
 
-        $per_page = cpm_get_option( 'show_todo', 'cpm_general' );
-        $send = array(
-            'milestones'    => $milestones,
-            'permissions'   => $permission,
+        $show_todo = cpm_get_option( 'show_todo', 'cpm_general' );
+        
+        $send = array( 
+            'active_mode'   => get_post_meta( $project_id, 'cpm_list_active_mode', true ), 
+            'milestones'    => $milestones, 
+            'permissions'   => $permission, 
             'lists'         => $new_lists,
             'list_total'    => empty( $lists['count'] ) ? 0 : $lists['count'],
             'project_users' => CPM_Project::getInstance()->get_users( $project_id ),
-            'todo_list_per_page' => empty( $per_page ) ? 5 : $per_page,
+            'todo_list_per_page' => empty( $show_todo ) ? 5 : $show_todo
         );
 
         $send = apply_filters( 'cpm_initial_todo_list', $send );
@@ -475,7 +496,7 @@ class CPM_Ajax {
 
         $posted = $_POST;
 
-        // form data validation start
+        // form data validation start 
         $validator = new CPM_Validator();
 
         $rules = [
@@ -485,7 +506,7 @@ class CPM_Ajax {
         $error_messages = [
             'project_name.required' => __( 'Project name is required.', 'cpm' ),
         ];
-        // form data validation end
+        // form data validation end 
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         if ( ( cpm_can_manage_projects() || cpm_can_create_projects() ) && $validator->validate( $posted, $rules, $error_messages ) ) {
@@ -556,7 +577,7 @@ class CPM_Ajax {
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $post = get_post( $project_id );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $post ) ) {
             do_action( 'cpm_delete_project_prev', $project_id );
 
@@ -577,18 +598,18 @@ class CPM_Ajax {
 
     function add_new_task() {
         $posted = $_POST;
-
+        
         // removing empty fields
         $posted = array_filter( $posted );
 
-        // validating task data
+        // validating task data 
         $this->validate_data( $posted );
 
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $response   = array ( 'success' => false );
-
+        
         if ( cpm_user_can_access( $project_id, 'create_todo' ) ) {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->add_task( $list_id, $posted );
@@ -604,9 +625,9 @@ class CPM_Ajax {
             do_action( 'cpm_after_new_task', $task_id, $list_id, $project_id );
         } else {
             $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
-            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
-
+        
         wp_send_json_success( array( 'success' => __( 'A new task has been created successfully.', 'cpm' ),  'task' => $task ) );
     }
 
@@ -637,7 +658,7 @@ class CPM_Ajax {
         // removing empty fields
         $posted = array_filter($posted);
 
-        // validating task data
+        // validating task data 
         $this->validate_data($posted);
 
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
@@ -646,12 +667,12 @@ class CPM_Ajax {
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
         $single     = ( int ) $posted[ 'single' ];
         $response   = array ( 'success' => false );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
             $task_id  = $task_obj->update_task( $list_id, $posted, $task_id );
             $task     = $task_obj->get_task( $task_id );
-
+            
             if ( is_wp_error( $task_id ) ) {
                 wp_send_json_error( array( 'error' => $task_id->get_error_messages() ) );
             }
@@ -659,9 +680,9 @@ class CPM_Ajax {
             do_action( 'cpm_after_update_task', $task_id, $list_id, $project_id );
         } else {
             $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
-            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
-
+        
         wp_send_json_success( array( 'success' => __( 'The task has been updated successfully..', 'cpm' ),  'task' => $task ) );
     }
 
@@ -699,7 +720,7 @@ class CPM_Ajax {
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $task_obj   = CPM_Task::getInstance();
         $is_assign  = $task_obj->check_task_assign( $task_id );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
 
             $task_obj->mark_complete( $task_id );
@@ -707,10 +728,10 @@ class CPM_Ajax {
             do_action( 'mark_task_complete', $project_id, $task_id );
 
             wp_send_json_success( array( 'success' => __( 'The task has been marked as completed.', 'cpm' ) ) );
-
+        
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
-            wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
+            wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
     }
 
@@ -725,7 +746,7 @@ class CPM_Ajax {
         $task_obj   = CPM_Task::getInstance();
         // $response   = array ( 'success' => false );
         $is_assign  = $task_obj->check_task_assign( $task_id );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
             $task_obj->mark_open( $task_id );
 
@@ -736,7 +757,7 @@ class CPM_Ajax {
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
-        }
+        } 
     }
 
     function delete_task() {
@@ -746,7 +767,7 @@ class CPM_Ajax {
         $list_id    = isset( $posted[ 'list_id' ] ) ? intval( $posted[ 'list_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $response   = array ( 'success' => false );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
 
@@ -767,7 +788,7 @@ class CPM_Ajax {
             $error = new WP_Error( 'permission', 'You do not have permission to delete this task', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-
+        
     }
 
     function add_tasklist() {
@@ -777,7 +798,7 @@ class CPM_Ajax {
         $project_id = $posted[ 'project_id' ];
         $response   = array ( 'success' => false );
 
-        // form data validation start
+        // form data validation start 
         $validator = new CPM_Validator();
 
         $rules = [
@@ -791,8 +812,8 @@ class CPM_Ajax {
         if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
             $validator->send_json_errors();
         }
-        // form data validation end
-
+        // form data validation end 
+        
         if ( cpm_user_can_access( $project_id, 'create_todolist' ) ) {
             $task_obj = CPM_Task::getInstance();
             $list_id  = $task_obj->add_list( $project_id, $posted );
@@ -826,7 +847,7 @@ class CPM_Ajax {
         $project_id = $posted[ 'project_id' ];
         $list_id    = $posted[ 'list_id' ];
 
-        // form data validation start
+        // form data validation start 
         $validator = new CPM_Validator();
 
         $rules = [
@@ -840,8 +861,8 @@ class CPM_Ajax {
         if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
             $validator->send_json_errors();
         }
-        // form data validation end
-
+        // form data validation end 
+        
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             $task_obj = CPM_Task::getInstance();
             $list_id  = $task_obj->update_list( $project_id, $posted, $list_id );
@@ -857,7 +878,7 @@ class CPM_Ajax {
             $error = new WP_Error( 'permission', 'You do not have permission to update new todo list', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-
+        
         if ( is_wp_error( $list_id ) ) {
             wp_send_json_error( array( 'error' => $list_id->get_error_messages() ) );
         }
@@ -885,7 +906,7 @@ class CPM_Ajax {
         $list->show_new_task_form  = false;
         $list->tasklist            = array();
         $list->assigned_users_temp = array();
-
+        
         return $list;
     }
 
@@ -894,7 +915,7 @@ class CPM_Ajax {
         $list_id    = $_POST['list_id'];
         $project_id = $_POST['project_id'];
         $response   = array ( 'success' => false );
-
+        
         if ( cpm_user_can_delete_edit( $project_id, $list_id, true ) ) {
             do_action( 'cpm_delete_tasklist_prev', $_POST[ 'list_id' ] );
 
@@ -998,7 +1019,7 @@ class CPM_Ajax {
 
     function get_milestones() {
         check_ajax_referer( 'cpm_nonce' );
-
+        
         $project_id = abs( $_POST['project_id'] );
         $milestone  = CPM_Milestone::getInstance()->get_by_project( $project_id );
 
@@ -1099,10 +1120,10 @@ class CPM_Ajax {
             // ) );
 
             // exit;
-
-            wp_send_json_success(
-                array(
-                    'file' => array(
+            
+            wp_send_json_success( 
+                array( 
+                    'file' => array( 
                         'name'  => esc_attr( $file['name'] ),
                         'id'    => $file['id'],
                         'url'   => $file['url'],
@@ -1158,24 +1179,40 @@ class CPM_Ajax {
 
         if ( $comment_id ) {
             $comment = $comment_obj->get( $comment_id );
-            
-            // depricated feature support
-            if ($posted['feature'] === 'old') {
-                $content = cpm_show_comment( $comment, $project_id );
-                echo json_encode( array (
-                    'success' => true,
-                    'id'      => $comment_id,
-                    'content' => $content,
-                    'form'    => cpm_comment_form( $project_id, $object_id, $comment )
-                ) );
-
-                exit;
-            }
-
             wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );
+        
         } else {
             wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
         }
+    }
+
+    function new_comment_old() {
+        check_ajax_referer( 'cpm_nonce' );
+        $posted = $_POST;
+        $files  = array ();
+        $text       = trim( $posted[ 'cpm_message' ] );
+        $parent_id  = isset( $posted[ 'parent_id' ] ) ? intval( $posted[ 'parent_id' ] ) : 0;
+        $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
+        if ( isset( $posted[ 'cpm_attachment' ] ) ) {
+            $files = $posted[ 'cpm_attachment' ];
+        }
+        $data = array (
+            'comment_post_ID' => $parent_id,
+            'comment_content' => $text,
+            'user_id'         => get_current_user_id()
+        );
+        $comment_obj = CPM_Comment::getInstance();
+        $comment_id  = $comment_obj->create( $data, $files );
+        if ( $comment_id ) {
+            $comment = $comment_obj->get( $comment_id );
+            echo json_encode( array (
+                'success'     => true,
+                'placeholder' => __( 'Add a comment...', 'cpm' ),
+                'content'     => cpm_show_comment( $comment, $project_id )
+            ) );
+        }
+
+        exit;
     }
 
     function update_comment() {
@@ -1185,7 +1222,7 @@ class CPM_Ajax {
             $error = new WP_Error( 'cpm_message', 'Required comment content', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
-
+ 
         $comment_id = isset( $posted[ 'comment_id' ] ) ? intval( $posted[ 'comment_id' ] ) : 0;
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
 
@@ -1196,28 +1233,38 @@ class CPM_Ajax {
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->update( $data, $comment_id );
 
-        // depricated feature support
-        if ( $posted['feature'] === 'old' ) {
-            $comment = $comment_obj->get( $comment_id );
-            echo json_encode( array (
-                'success' => true,
-                'id'      => $comment_id,
-                'content' => $comment->comment_content,
-                'form'    => cpm_comment_form( $project_id, $object_id, $comment )
-            ) );
-
-            exit;
-        }
-
         wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
 
         // $comment = $comment_obj->get( $comment_id );
         // $content = cpm_comment_text( $comment_id );
         // $content .= cpm_show_attachments( $comment, $project_id );
+
+        
+    }
+
+    function update_comment_old() {
+        $posted = $_POST;
+        //print_r( $posted );
+        $comment_id = isset( $posted[ 'comment_id' ] ) ? intval( $posted[ 'comment_id' ] ) : 0;
+        $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
+        $data = array (
+            'text' => $posted[ 'cpm_message' ],
+        );
+        $comment_obj = CPM_Comment::getInstance();
+        $comment_obj->update( $data, $comment_id );
+        $comment = $comment_obj->get( $comment_id );
+        $content = cpm_comment_text( $comment_id );
+        $content .= cpm_show_attachments( $comment, $project_id );
+        echo json_encode( array (
+            'success' => true,
+            'content' => $content,
+        ) );
+        exit;
     }
 
     function get_comment() {
         check_ajax_referer( 'cpm_nonce' );
+        
         $posted = $_POST;
 
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
@@ -1241,14 +1288,20 @@ class CPM_Ajax {
         $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
         CPM_Comment::getInstance()->delete( $comment_id, true );
 
-        // depricated feature support
-        if ( $_POST['feature'] === 'old' ) {
-            echo json_encode( array ('success' => true ) );
-
-            exit;
-        }
-
         wp_send_json_success( array( 'success' => __( 'Sucessfully deleted comment', 'cpm' ) ) );
+    }
+
+    function delete_comment_old() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
+        CPM_Comment::getInstance()->delete( $comment_id, true );
+
+        echo json_encode( array (
+            'success' => true
+        ) );
+
+        exit;
     }
 
     function new_message() {
@@ -1450,8 +1503,8 @@ class CPM_Ajax {
     function autocomplete_user_role() {
         $users = get_users( array (
             'search'         => '*' . $_POST[ 'term' ] . '*',
-            'search_columns' => array( 'user_login', 'user_email', 'user_nicename', 'display_name' )
-        ) );
+            'search_columns' => array ( 'user_login', 'user_email', 'nicename' ),
+                ) );
 
         foreach ( $users as $user ) {
             $data[] = array (
@@ -1539,7 +1592,7 @@ class CPM_Ajax {
 
         $response[ 'tlf_extra_field' ] = $this->listfrom_extrafield( $project_id );
         $response[ 'init_data' ]       = array (
-
+            
             'task_start_field'      => filter_var( cpm_get_option( 'task_start_field', 'cpm_general' ), FILTER_VALIDATE_BOOLEAN ),
             'task_form_extra_field' => $this->taskfrom_extrafield( $project_id ),
             'users'                 => CPM_Project::getInstance()->get_users( $project_id ),
@@ -1608,7 +1661,7 @@ class CPM_Ajax {
 
     function get_todo_list_single() {
         $is_admin      = (isset( $_POST[ 'is_admin' ] )) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
-
+        
         $list_id       = (isset( $_POST[ 'list_id' ] )) ? sanitize_text_field( $_POST[ 'list_id' ] ) : 0;
         $project_id    = (isset( $_POST[ 'project_id' ] )) ? sanitize_text_field( $_POST[ 'project_id' ] ) : 0;
         $offset        = (isset( $_POST[ 'offset' ] )) ? sanitize_text_field( $_POST[ 'offset' ] ) : 0;
@@ -1619,16 +1672,16 @@ class CPM_Ajax {
         $list          = $task_obj->get_task_list($list_id, $permission['todolist_view_private']);
         $milestones    = CPM_Milestone::getInstance()->get_by_project( $project_id );
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
-
+        
         if ( $list ) {
             $list->tasks     = array();//$task_obj->get_tasks( $list_id, $permission['todo_view_private'] );
-            $list->comments  = $task_obj->get_comments( $list_id );
+            $list->comments  = $task_obj->get_comments( $list_id );   
 
             foreach ( $list->comments as $key => $comment ) {
                  $comment->comment_content = do_shortcode( $comment->comment_content );
             }
         }
-
+        
         if ( 'no' == $is_admin ) {
             new CPM_Frontend_URLs();
         }
@@ -1714,22 +1767,22 @@ class CPM_Ajax {
      * Get single task,  Required project ID and task ID
      *
      * @since 0.4
-     *
+     * 
      * @return obj
      */
     function get_todo_single() {
         check_ajax_referer( 'cpm_nonce' );
-
+        
         $task_obj   = CPM_Task::getInstance();
         $is_admin   = isset( $_POST[ 'is_admin' ] ) ? sanitize_text_field( $_POST[ 'is_admin' ] ) : 'yes';
         $task_id    = sanitize_text_field( $_POST[ 'task_id' ] );
         $project_id = sanitize_text_field( $_POST[ 'project_id' ] );
         $task       = $task_obj->get_task( $task_id);
         //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
-
+        
         $task->post_content = cpm_get_content( $task->post_content );
         $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
-
+        
         wp_send_json_success( array( 'task' => $task ) );
     }
 
@@ -1861,6 +1914,23 @@ class CPM_Ajax {
         ) );
 
         exit;
+    }
+
+    function update_task_order() {
+        check_ajax_referer( 'cpm_nonce' );
+
+        $orders = $_POST['orders'];
+
+        foreach ($orders as $task_id => $task_order) {
+            $post_data = array(
+                'ID' => $task_id,
+                'menu_order' => $task_order
+            );
+
+            wp_update_post($post_data, true);
+        }
+                
+        wp_send_json_success( __( 'Successfully reordered', 'cpm' ));
     }
 
 }

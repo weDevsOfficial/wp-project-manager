@@ -11,3 +11,4 @@ build
 secret.json
 .netbeans.xml
 npm-debug.log
+.svnignore

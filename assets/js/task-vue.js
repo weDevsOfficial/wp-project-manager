@@ -10,6 +10,44 @@
     var CPM_Task = {
         init: function() {
             this.datepicker();
+            this.sortable();
+        },
+
+        sortable: function () {
+            $('.cpm-todos').sortable({
+                cancel: '.nonsortable,form',
+                update: function(event, ui) {
+                    var newOrder = {},
+                        oldOrder = [];
+
+                    // finding new order sequence and old orders
+                    $(this).find('li.cpm-todo').each( function(e) {
+                        newOrder[$(this).attr('data-id')] = $(this).index() + 1;
+                        oldOrder.push(parseInt($(this).attr('data-order')));
+                    });
+
+                    // setting new order
+                    for(var prop in newOrder) {
+                        if(!newOrder.hasOwnProperty(prop)) continue;
+
+                        newOrder[prop] = oldOrder[newOrder] ? oldOrder[newOrder] : newOrder[prop];
+                    }
+
+                    // prepare data for server
+                    var data = {
+                        action: 'cpm_update_task_order',
+                        orders: newOrder,
+                        _wpnonce: CPM_Vars.nonce
+                    };
+
+                    // send data to the server
+                    $.post( CPM_Vars.ajaxurl, data, function( response ) {
+                        if (response.success) {
+                            console.log(response.data);
+                        }
+                    } );
+                }
+            });
         },
 
         datepicker: function() {
@@ -32,7 +70,7 @@
                     $( ".cpm-date-picker-to" ).datepicker( "option", "minDate", selectedDate );
                 },
                 onSelect: function(dateText) {
-                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText } );
+                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
                 }
             });
 
@@ -93,6 +131,13 @@
     Vue.directive('cpm-datepicker', {
         inserted: function (el) {
             CPM_Task.datepicker( el );
+        }
+    });
+
+    // Register a global custom directive called v-cpm-sortable
+    Vue.directive('cpm-sortable', {
+        inserted: function () {
+            CPM_Task.sortable();
         }
     });
 

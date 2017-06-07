@@ -39,6 +39,16 @@ var CPM_Task_Mixin = {
         is_single_task: function() {
             return this.$store.state.is_single_task;
         },
+
+        /**
+         * Todo-lists view active mode
+         * 
+         * @return string
+         */
+        active_mode: function() {
+            return ( this.$store.state.active_mode == '' ) ? 'list' : this.$store.state.active_mode;
+        },
+
     },
 
     /**
@@ -191,6 +201,26 @@ var CPM_Task_Mixin = {
             } else if ( CPM_Vars.wp_date_format == 'd/m/Y' ) {
                 format = 'DD/MM/YYYY';
             } 
+
+            return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
+        },
+
+        /**
+         * WP settings date format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        shortDateFormat: function( date ) {
+            if ( date == '' ) {
+                return;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+            
+            var format = 'MMM DD';
 
             return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
         },
@@ -482,7 +512,7 @@ var CPM_Task_Mixin = {
             if ( start_date == '' && due_date == '' ) {
                 return false;
             }
-            
+
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
             
@@ -498,6 +528,24 @@ var CPM_Task_Mixin = {
             }
 
             return 'cpm-current-date';
+        },
+
+        completedTaskWrap( start_date, due_date ) {
+            if ( start_date == '' && due_date == '' ) {
+                return false;
+            }
+
+            moment.tz.add(CPM_Vars.time_zones);
+            moment.tz.link(CPM_Vars.time_links);
+
+            var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
+                due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
+
+            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
+                return false;
+            }
+
+            return 'cpm-task-done';
         },
 
         /**
@@ -759,6 +807,25 @@ var CPM_Task_Mixin = {
 
         privateClass: function(list) {
             return list.private == 'on' ? 'cpm-lock' : '';
+        },
+
+        updateActiveMode(mode) {
+            var self       = this,
+                form_data  = {
+                    project_id: CPM_Vars.project_id,
+                    mode: mode,
+                    _wpnonce: CPM_Vars.nonce,
+                };
+
+            wp.ajax.send('cpm_update_active_mode', {
+                data: form_data,
+                success: function(res) {
+
+                },
+                error: function(res) {
+
+                }
+            });
         }
 	}
 }
