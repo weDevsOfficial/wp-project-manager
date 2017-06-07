@@ -842,6 +842,7 @@
             }
         }
     };
+
     //dom ready
     $( function() {
         var cpm_abort;
