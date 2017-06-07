@@ -1303,7 +1303,6 @@ ul.cpm-activity ul li:before {
 .cpm-new-todolist-form,
 .cpm-update-todolist-form {
   border: 1px solid #e5e5e5;
-  width: 40%;
   background: #fff;
   margin-top: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -1313,6 +1312,16 @@ ul.cpm-activity ul li:before {
 .cpm-update-todolist-form .item {
   padding: 5px;
   margin: 0;
+}
+.cpm-new-todolist-form {
+  width: 40%;
+}
+.cpm-update-todolist-form {
+  width: 50%;
+}
+.cpm-update-todolist-form .cpm-new-todolist-form {
+  margin: 0px;
+  width: 100%;
 }
 .cpm-single-task {
   margin: 20px 0;
@@ -1577,7 +1586,7 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #CD7A7A;
+  background: #EB5A46;
   font-size: 12px;
   line-height: 12px;
   padding: 1px 7px;
@@ -1587,10 +1596,20 @@ ul.cpm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #ddd;
+  background: #61BD4F;
   font-size: 12px;
   line-height: 1.3em;
-  color: #999;
+  color: #fff;
+  padding: 2px 5px;
+}
+.cpm-task-done {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #0090D9;
+  font-size: 12px;
+  line-height: 1.3em;
+  color: #fff;
   padding: 2px 5px;
 }
 .cpm-task-comment-count {
@@ -2036,14 +2055,14 @@ ul.cpm-files li .cpm-file-action .comment-number {
   position: relative;
 }
 .cpm-calendar a.cpm-expire-task {
-  background-color: #a30 !important;
+  background-color: #EB5A46 !important;
 }
 .cpm-calendar a.cpm-task-running {
-  background-color: #1abc9c !important;
+  background-color: #61BD4F !important;
 }
 .cpm-calendar a.cpm-complete-task {
   text-decoration: line-through;
-  background-color: #3498db !important;
+  background-color: #0090D9!important;
   text-decoration: line-through !important;
 }
 .cpm-calendar span.fc-event-title {

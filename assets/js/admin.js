@@ -543,7 +543,9 @@
                 $.post( CPM_Vars.ajaxurl, data, function( res ) {
                     btn.attr( 'disabled', false );
                     spnier.hide();
+
                     res = JSON.parse( res );
+                    
                     if ( res.success ) {
                         $( '.cpm-comment-wrap' ).append( res.content ).fadeIn( 'slow' );
                         $( '.cpm-comment-form-wrap textarea' ).val( '' );
@@ -629,7 +631,7 @@
                         data = {
                             comment_id: self.data( 'id' ),
                             project_id: self.data( 'project_id' ),
-                            action: 'cpm_comment_delete',
+                            action: 'cpm_comment_delete_old',
                             '_wpnonce': CPM_Vars.nonce,
                             'feature' : 'old'
                         };
@@ -840,6 +842,7 @@
             }
         }
     };
+
     //dom ready
     $( function() {
         var cpm_abort;
