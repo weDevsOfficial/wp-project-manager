@@ -5,9 +5,8 @@
     <!-- component matched by the route will render here -->
     <router-view name="Initital_view"></router-view>
     <router-view name="single_list"></router-view>
-     <router-view name="single_task"></router-view>
+    <!-- <router-view name="single_task"></router-view> -->
     <router-view name="pagination"></router-view>
-
     <?php do_action( 'cpm_after_task_router_view' ); ?>
 
 </div>

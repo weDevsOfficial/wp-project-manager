@@ -164,7 +164,7 @@ class CPM_Task {
             wp_enqueue_media();
             
             $scripts = array(
-                'cpm-waypoints',
+                'cpm-uploader',
                 'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
@@ -643,17 +643,17 @@ class CPM_Task {
      */
     function get_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
 
-        $limit = '-1';
+        $limit = -1;
 
         $args = array ( 
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
-            //'offset'         => $pagenum, // * $limit,
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
+            // 'offset'         => $offset,
             'posts_per_page' => $limit,
         );
 
@@ -664,7 +664,7 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
-
+        // var_dump($tasks->posts); die();
         return $tasks->posts;
     }
 
@@ -676,10 +676,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
@@ -710,10 +710,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (

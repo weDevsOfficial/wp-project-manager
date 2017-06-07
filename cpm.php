@@ -358,6 +358,8 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-ui-autocomplete' );
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_enqueue_script( 'jquery-ui-sortable' );
+
         //wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'cpm-timepicker', CPM_URL . '/assets/js/jquery-ui-timepicker.js', array('jquery'), false, true );
         wp_register_script( 'cpm-tiny-mce', site_url( '/wp-includes/js/tinymce/tinymce.min.js' ) );
@@ -367,8 +369,7 @@ class WeDevs_CPM {
         // this is removing conflict with buddypress momentjs
         $momentjs_dependency = apply_filters('momentjs', array('cpm-moment') );
         wp_register_script( 'cpm-moment-timezone', CPM_URL . '/assets/js/moment/moment-timezone.min.js', $momentjs_dependency, time(), false );
-        wp_register_script( 'cpm-index', CPM_URL . '/assets/js/bootstrap/index.js', array('jquery'), time(), true );
-
+        
         wp_register_script( 'cpm-vue', CPM_URL . '/assets/js/vue/vue'.$suffix.'.js', array('cpm-tiny-mce','cpm-moment', 'cpm-moment-timezone'), time(), false, true );
         wp_register_script( 'cpm-vuex', CPM_URL . '/assets/js/vue/vuex'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
         wp_register_script( 'cpm-vue-router', CPM_URL . '/assets/js/vue/vue-router'.$suffix.'.js', array( 'cpm-vue' ), time(), false, true );
@@ -384,8 +385,8 @@ class WeDevs_CPM {
 
         //swp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );
 
-
-        wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
+        wp_register_script( 'cpm-uploader', CPM_URL . '/assets/js/upload.js', array( 'jquery', 'plupload-handlers' ), time(), true );
+        //wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
         $cpm_dependency = array( 'jquery', 'cpm-vue');
@@ -439,7 +440,7 @@ class WeDevs_CPM {
 
         wp_register_style( 'cpm-tiptip', CPM_URL . '/assets/js/tiptip/tipTip.css' );
         wp_register_style( 'cpm-vue-multiselect', CPM_URL . '/assets/css/vue-multiselect/vue-multiselect.min.css' );
-        wp_register_style( 'cpm-index', CPM_URL . '/assets/css/bootstrap/index.css' );
+
         wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
         wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
         wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
