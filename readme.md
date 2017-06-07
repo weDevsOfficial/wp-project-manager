@@ -106,7 +106,107 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+### 1.6.3 - June 07, 2017 ###
+
+ * [new] Drag and drop sortability added to the task
+ * [update] Task color scheme.
+ * [update] Activity graph color scheme in my task section.
+ * [update] Single task redirection in my task section.
+ * [update] Project duplication.
+ * [update] Project overview section.
+ * [fix] Grid/List view action on project listing is not working.
+ * [fix] Project overview graph is not working.
+ * [fix] Not all users of a project is being duplicated when duplicating a project.
+ * [fix] Notification is sent to the co-workers when a project is created.
+ * [fix] Unable to comment in a task when it is redirected from current task in my task. 
+ * [fix] Unable to comment in a task when it is redirected from outstanding task in mytask.
+ * [fix] Unable to comment in a task when it is redirected from competed task in my task.
+ * [fix] User selection is not working in my task.
+ * [fix] Date section is not working in activity graph in my task.
+ * [fix] Red color is showing for current task in my task.
+ * [fix] Overview section in my task is not working
+ * [fix] Activity section in my task is not working
+ * [fix] Current task section in my task is not working
+ * [fix] Outstanding task section in my task is not working
+ * [fix] Completed task section in my task is not working
+ * [fix] File attachment is not working when commenting in the file section of a project.
+ * [fix] Unable to delete a comment in the file section of a project.
+ * [fix] Commenting in a discussion board is not working.
+ * [fix] Editing a comment in a discussion board is not working.
+ * [fix] Deleting a comment in a discussion board is not working.
+ * [fix] Javascript shows error when commenting, editing comments and deleting comments in discussion board.
+
+### 1.6.2 - April 27, 2017 ###
+
+ * [new] Email template for mentioning users in a comment. [pro]
+ * [new] Moment js dependency added.
+ * [new] Compatibility for mentioning users in a comment.
+ * [update] Include filter for register project post type.
+ * [update] Include filter for register project taxonomy.
+ * [update] Change pagination position from left to right.
+ * [update] Pagination has been shown up and down of to-do lists content.
+ * [update] Single task url.
+ * [update] To-do lists progress bar.
+ * [update] Unnecessary parameters removed form wp_enqueue_script in cpm.
+ * [update] Array declaration according to lower version of php.
+ * [fix] Can’t use function return value in write context.
+ * [fix] Syntax error, unexpected '['
+ * [fix] Filtering for to-do lists private view.
+ * [fix] Filtering problem for the visibility of to-do lists create button.
+ * [fix] List style problem in tiny-MCE comment box while commenting on discussion board.
+ * [fix] WP nonce problem in project discussion.
+
+### 1.6.1 - April 11, 2017 ###
+
+ * [fix] Load JS files only in todo list page
+ * [fix] Fix typo in todo list privacy checking capability
+ * [fix] Shortcode rendering in comments
+ * [fix] Remove users from notification panel outside of the project members
+ * [fix] Removed PHP array shorthand declaration
+ * [fix] Single task URL problem in My Task
+
+### 1.6 - April 08, 2017 ###
+
+ * [new] Use js library Vue
+ * [new] Design layout changed for To-do Lists.
+ * [new] Real time update every action for To-do lists.
+ * [new] Two way data binding for to-do list edit
+ * [new] Two way data binding for task edit
+ * [new] Task lazy loading.
+ * [new] Vue routing for single To-do list
+ * [new] Real time pagination.
+ * [new] Completed and incomplete label added for corresponding tasks in single to-list.
+ * [update] Discussion editor changed from tricks to tinymce.
+ * [update] Real time change of progress bar.
+ * [update] Assign user to task options changed from choosen to Vue multiselect.
+ * [update] User avatar(gravatar) link changed form 404 to mm
+ * [fix] Remove comments link from overview.
+ * [fix] All functionalities for to-do list.
+
+
+### 1.5.1 - September 19, 2016 ###
+
+ * [new] Send Email Notification when a comment updates.
+ * [new] Add filter for how many letter to show when image name is long in files tab.
+ * [fix] Fixed conflict with buddypress.
+ * [fix] Fixed Project creation capability and update language files.
+ * [fix] Made Report print friendly.
+ * [fix] Files tab loading improvement.
+ * [fix] Show all comments in newly uploaded file view.
+ * [fix] Client view private discussion.
+
+### 1.5 - August 20, 2016 ###
+
+ * [new] Report section new design (*pro*).
+ * [new] New Report item added (*pro*).
+ * [new] Files tab new design and add new feature in pro version (*pro*).
+ * [new] Add option for create document and connect to other online Docs (*pro*).
+ * [new] Add option to upload files / attachment direct to a project (*pro*).
+ * [fix] Duplicate mail send on project create.
+ * [fix] Change cpm_get_option function.
+
 ### 1.4.3 - April 19, 2016 ###
+
  * [fix] Milestone input date fix and fix project redirect issue after create.
  * [fix] File upload on first discussion problem fix.
  * [fix] Task Done/Undone tick problem fix.

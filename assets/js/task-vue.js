@@ -15,7 +15,7 @@
 
         sortable: function () {
             $('.cpm-todos').sortable({
-                cancel: '.nonsortable',
+                cancel: '.nonsortable,form',
                 update: function(event, ui) {
                     var newOrder = {},
                         oldOrder = [];
