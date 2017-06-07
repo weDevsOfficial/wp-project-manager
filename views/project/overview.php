@@ -40,7 +40,7 @@ $str_todo     = implode( $str_todo, ',' );
 
 	    	<div class="inside">
 				<div class="cpm-chart-legend cpm-text-right">
-					<span class="to-do"><?php _e( 'To-do', 'cpm' ); ?></span> <span class="activity"><?php _e( 'Activity', 'cpm' ); ?></span>
+					<spna></spna> <span class="to-do"><?php _e( 'To-do', 'cpm' ); ?></span> <span class="activity"><?php _e( 'Activity', 'cpm' ); ?></span>
 				</div>
 
 				<div class="clearfix"></div>
@@ -103,7 +103,7 @@ $str_todo     = implode( $str_todo, ',' );
 		var cpmChart = new Chart(ctx).Line(data, {
 			pointDotRadius : 8,
 			animationSteps: 60,
-                        tooltipTemplate: "<%= labels + sss %>%" ,
+            tooltipTemplate: "<%= labels + sss %>%" ,
 			animationEasing: "easeOutQuart"
 		});
 

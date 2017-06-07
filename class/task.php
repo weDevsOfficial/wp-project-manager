@@ -164,6 +164,7 @@ class CPM_Task {
             wp_enqueue_media();
             
             $scripts = array(
+                'cpm-uploader',
                 'cpm-toastr',
                 'cpm-tiny-mce',
                 'cpm-moment',
@@ -647,10 +648,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'       => 'ASC', 
-            // 'orderby'     => 'menu_order',
-            'order'          => 'DESC',
-            'orderby'        => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             // 'offset'         => $offset,
             'posts_per_page' => $limit,
         );
@@ -674,10 +675,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
@@ -708,10 +709,10 @@ class CPM_Task {
             'post_parent'    => $list_id, 
             'post_type'      => 'cpm_task', 
             'post_status'    => 'publish',
-            // 'order'          => 'ASC', 
-            // 'orderby'        => 'menu_order',
-            'order'               => 'DESC',
-            'orderby'             => 'ID',
+            'order'          => 'ASC', 
+            'orderby'        => 'menu_order',
+            // 'order'          => 'DESC',
+            // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (

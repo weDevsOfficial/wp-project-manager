@@ -1,9 +1,9 @@
 <div v-if="is_single_list" id="cpm-single-todo-list-view">
     <div class="cpm-incomplete-tasks">
         <h3 class="cpm-task-list-title cpm-tag-gray"><a><?php _e( 'Incomplete Tasks',  'cpm'); ?></a></h3>
-        <ul class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
+        <ul v-cpm-sortable class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
 
-            <li v-if="loading_incomplete_tasks">
+            <li v-if="loading_incomplete_tasks" class="nonsortable">
                 <div class="cpm-data-load-before" >
                     <div class="loadmoreanimation">
                         <div class="load-spinner">
@@ -17,11 +17,11 @@
                 </div>
             </li>
 
-            <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
+            <li class="cpm-todo" :data-id="task.ID" :data-order="task.menu_order" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
 
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
-                        <div class="cpm-incomplete-todo">  
+                        <div class="cpm-incomplete-todo">
                             <div class="cpm-col-6">
                                 <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
 
@@ -86,8 +86,8 @@
                 </div>
             </li>
 
-            <li v-if="!getIncompleteTasks.length"><?php _e( 'No task found!', 'cpm'); ?></li>
-            <li v-if="incomplete_show_load_more_btn">
+            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No task found!', 'cpm'); ?></li>
+            <li v-if="incomplete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
             </li>
@@ -96,9 +96,9 @@
 
     <div class="cpm-completed-tasks">
         <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
-        <ul class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
+        <ul v-cpm-sortable class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
 
-            <li v-if="loading_completed_tasks">
+            <li v-if="loading_completed_tasks" class="nonsortable">
                 <div class="cpm-data-load-before" >
                     <div class="loadmoreanimation">
                         <div class="load-spinner">
@@ -112,7 +112,7 @@
                 </div>
             </li>
 
-            <li class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
+            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
                 
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
@@ -176,7 +176,9 @@
                 </div>
             </li>
 
-            <li v-if="complete_show_load_more_btn">
+            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed task!', 'cpm'); ?></li>
+
+            <li v-if="complete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
             </li>
@@ -193,9 +195,9 @@
 <div v-else>
     
     <div class="cpm-incomplete-tasks">
-        <ul class="cpm-todos cpm-todolist-content cpm-incomplete-task">
+        <ul v-cpm-sortable class="cpm-todos cpm-todolist-content cpm-incomplete-task">
 
-            <li v-if="loading_incomplete_tasks">
+            <li v-if="loading_incomplete_tasks" class="nonsortable">
                 <div class="cpm-data-load-before" >
                     <div class="loadmoreanimation">
                         <div class="load-spinner">
@@ -209,7 +211,7 @@
                 </div>
             </li>
 
-            <li class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
+            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
                         <div>
@@ -297,12 +299,12 @@
                 </div>
             </li>
 
-            <li v-if="!getIncompleteTasks.length"><?php _e( 'No task found!', 'cpm'); ?></li>
+            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No task found!', 'cpm'); ?></li>
 
-            <li v-if="list.show_task_form" class="cpm-todo-form">
+            <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
                 <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
             </li>
-            <li v-if="incomplete_show_load_more_btn">
+            <li v-if="incomplete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
             </li>
@@ -310,8 +312,8 @@
     </div>
 
     <div class="cpm-completed-tasks">
-        <ul v-if="is_single_list"  class="cpm-todos cpm-todolist-content cpm-todo-completed">
-            <li v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
+        <ul v-cpm-sortable v-if="is_single_list"  v-cpm-sortable class="cpm-todos cpm-todolist-content cpm-todo-completed">
+            <li :data-id="task.ID" :data-order="task.menu_order" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
                 
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
@@ -374,7 +376,8 @@
 
                 </div>
             </li>
-            <li v-if="complete_show_load_more_btn">
+            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed task!', 'cpm'); ?></li>
+            <li v-if="complete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
             </li>

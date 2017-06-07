@@ -1,5 +1,4 @@
 <div>
-    
     <cpm-paginaton :total="total" :limit="limit" :page_number="page_number"></cpm-paginaton>
 
     <ul class="cpm-todolists">

@@ -981,7 +981,7 @@ class CPM_Project {
         $chart_transient = 'cpm_chart_data_' . $project_id;
         $chart_date      = get_transient( $chart_transient );
 
-        if ( false === $chart_date ) {
+        if ( $chart_date === false ) {
             $where          = $wpdb->prepare( "WHERE comment_post_ID = '%d' AND DATE(comment_date) >= '%s' AND DATE(comment_date) <= '%s'", $project_id, $start_date, $end_date );
             $sql            = "SELECT * FROM {$wpdb->comments} $where  ";
             $total_activity = $wpdb->get_results( $sql );
@@ -992,8 +992,9 @@ class CPM_Project {
                     AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_parent = '{$project_id}' ) ";
             $todos = $wpdb->get_results( $csql );
 
-            $response['date_list'] = '';
-            $response['todos']     = '';
+            $response['date_list'] = array();
+            $response['todos']     = array();
+
             foreach ( $total_activity as $activity ) {
                 $date = date( 'M d', strtotime( $activity->comment_date ) );
 
