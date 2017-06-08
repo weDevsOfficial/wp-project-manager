@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.7.3
+Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -132,7 +132,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] Project overview graph is not working.
  * [fix] Not all users of a project is being duplicated when duplicating a project.
  * [fix] Notification is sent to the co-workers when a project is created.
- * [fix] Unable to comment in a task when it is redirected from current task in my task. 
+ * [fix] Unable to comment in a task when it is redirected from current task in my task.
  * [fix] Unable to comment in a task when it is redirected from outstanding task in mytask.
  * [fix] Unable to comment in a task when it is redirected from competed task in my task.
  * [fix] User selection is not working in my task.
