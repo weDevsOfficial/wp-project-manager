@@ -1,0 +1,13 @@
+includes/pro
+node_modules
+nbproject
+Gruntfile.js
+package.json
+docs.md
+changelog.txt
+export.sh
+plugin-deploy.sh
+readme.md
+composer.json
+customs.json
+secret.json
