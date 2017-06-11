@@ -11,3 +11,4 @@ readme.md
 composer.json
 customs.json
 secret.json
+.gitignore
