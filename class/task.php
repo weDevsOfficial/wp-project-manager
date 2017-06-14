@@ -173,7 +173,6 @@ class CPM_Task {
                 'cpm-vue',
                 'cpm-vuex',
                 'cpm-vue-router',
-                'cpm-toastr',
                 'cpm-task-store',
                 'cpm-vue-multiselect',
                 'cpm-task-mixin',
