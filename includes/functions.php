@@ -1321,8 +1321,8 @@ function cpm_message() {
  * @return boolean
  */
 function cpm_is_pro() {
-    
-    if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
+
+    if ( class_exists( 'WeDevs_CPM_Pro' ) ) {
         return true;
     }
 
@@ -1490,9 +1490,9 @@ function cpm_has_milestone( $project_id ) {
         'post_parent'      => $project_id
     );
 
-    $posts = get_posts( $args ); 
+    $posts = get_posts( $args );
 
-    return $posts; 
+    return $posts;
 }
 
 function cpm_get_project_id() {

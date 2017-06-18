@@ -42,10 +42,8 @@ class CPM_Router {
      * @return void
      */
     function includes() {
-        if ( cpm_is_pro() ) {
-            include_once CPM_PATH . '/includes/pro/loader.php';
-        } else {
-            include_once CPM_PATH . '/includes/free/loader.php';
+        if ( ! cpm_is_pro() ) {
+            include_once CPM_PATH . '/class/loader.php';
         }
 
         include_once CPM_PATH . '/includes/urls.php';
