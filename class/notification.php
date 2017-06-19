@@ -5,7 +5,7 @@ class CPM_Notification {
     private static $_instance;
 
     function __construct() {
-
+        
         //notify users
         add_action( 'cpm_project_new', array( $this, 'project_new' ), 10, 2 );
         add_action( 'cpm_project_update', array( $this, 'project_update' ), 10, 2 );
@@ -16,7 +16,8 @@ class CPM_Notification {
 
         add_action( 'cpm_task_new', array( $this, 'new_task' ), 9, 3 );
         add_action( 'cpm_task_update', array( $this, 'new_task' ), 9, 3 );
-
+        add_action( 'mark_task_complete', array( $this, 'complete_task' ), 9, 3 );
+       
         add_action( 'cpm_sub_task_new', array( $this, 'subtask_new_notify' ), 9, 3);
     }
 
@@ -193,7 +194,7 @@ class CPM_Notification {
         }
     }
 
-    function complete_task( $list_id, $task_id, $data, $project_id ) {
+    function complete_task( $project_id, $task_id  ) {
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
         $users         = array();
 
@@ -224,10 +225,8 @@ class CPM_Notification {
         ob_start();
 
         $arg = array(
-            'list_id'    => $list_id,
-            'task_id'    => $task_id,
             'project_id' => $project_id,
-            'data'       => $data,
+            'task_id'    => $task_id,
         );
         cpm_load_template( $file_name, $arg );
 
