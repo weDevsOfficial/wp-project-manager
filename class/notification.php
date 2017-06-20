@@ -196,16 +196,17 @@ class CPM_Notification {
 
     function complete_task( $project_id, $task_id  ) {
         $project_users = CPM_Project::getInstance()->get_users( $project_id );
+
         $users         = array();
 
         if ( is_array( $project_users ) && count( $project_users ) ) {
             foreach ( $project_users as $user_id => $role_array ) {
-                if ( $role_array['role'] == 'manager' ) {
+                //if ( $role_array['role'] == 'manager' ) {
                     if ( $this->filter_email( $user_id ) ) {
                         // $users[$user_id] = sprintf( '%s (%s)', $role_array['name'], $role_array['email'] );
                         $users[$user_id] = sprintf( '%s', $role_array['email'] );
                     }
-                }
+                //}
             }
         }
 
@@ -231,7 +232,7 @@ class CPM_Notification {
         cpm_load_template( $file_name, $arg );
 
         $message = ob_get_clean();
-
+        
         if ( $message ) {
             $this->send( implode( ', ', $users ), $subject, $message );
         }
