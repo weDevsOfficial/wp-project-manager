@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-         browserify: {
+        browserify: {
             dist: {
                 options: {
                     transform: [['partialify']]
@@ -117,54 +117,8 @@ module.exports = function(grunt) {
                     }
                 }
             }
-        },
-
-        secret: grunt.file.readJSON('secret.json'),
-
-        sshconfig: {
-            "myhost": {
-                host: '<%= secret.host %>',
-                username: '<%= secret.username %>',
-                password : "vagrant",
-                agent: process.env.SSH_AUTH_SOCK,
-                agentForward: true
-            }
-        },
-        sftp: {
-            upload: {
-                files: {
-                    "./": 'build/wedevs-project-manager-v' + pkg.version + '.zip'
-                },
-                options: {
-                    path: '<%= secret.path %>',
-                    config: 'myhost',
-                    showProgress: true,
-                    srcBasePath: "build/"
-                }
-            }
-        },
-        sshexec: {
-            updateVersion: {
-                command: '<%= secret.updateFiles %> ' + pkg.version + ' --allow-root',
-                options: {
-                    config: 'myhost'
-                }
-            },
-
-            uptime: {
-                command: 'uptime',
-                options: {
-                    config: 'myhost'
-                }
-            },
-
-            updateLounge: {
-                command: '<%= secret.updateLounge %>',
-                options: {
-                    config: 'myhost'
-                }
-            }
         }
+
     });
 
     grunt.loadNpmTasks( 'grunt-contrib-less' );
