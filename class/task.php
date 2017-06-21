@@ -619,7 +619,7 @@ class CPM_Task {
 
         if ( cpm_user_can_access( $project_id ) ) {
             //for manager lavel
-            $tasks = $this->get_tasks( $list_id );
+            $tasks = $this->get_tasks( $list_id, true );
         } else {
 
             if ( cpm_user_can_access( $project_id, 'todo_view_private' ) ) {

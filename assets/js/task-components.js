@@ -1467,6 +1467,7 @@ Vue.component('cpm-text-editor', {
                 selector: 'textarea#' +self.editor_id,
                 menubar: false,
                 placeholder: CPM_Vars.message.comment_placeholder,
+                branding: false,
                 
                 setup: function (editor) {
                     editor.on('change', function () {
