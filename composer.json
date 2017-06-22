@@ -1,0 +1,25 @@
+{
+    "name"        : "weDevsOfficial/wp-project-manager",
+    "description" : "A project management plugin for WordPress",
+    "keywords"    : ["wordpress", "project", "project management"],
+    "type"        : "wordpress-plugin",
+    "homepage"    : "http://wedevs.com/plugin/wp-project-manager/",
+    "license"     : "GPL-2.0+",
+    "authors"     : [
+    {
+        "name"    : "Tareq Hasan",
+        "email"   : "tareq@wedevs.com",
+        "homepage": "https://tareq.co/"
+    }
+    ],
+    "support"     : {
+        "issues": "https://github.com/weDevsOfficial/wp-project-manager/issues"
+    },
+    "require"     : {
+        "composer/installers"          : "~1.0",
+        "php"                          : ">=5.2"
+    },
+    "autoload"    : {
+        "classmap": ["cpm.php"]
+    }
+}

@@ -720,6 +720,7 @@ class CPM_Ajax {
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $task_obj   = CPM_Task::getInstance();
         $is_assign  = $task_obj->check_task_assign( $task_id );
+
         
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) || $is_assign ) {
 

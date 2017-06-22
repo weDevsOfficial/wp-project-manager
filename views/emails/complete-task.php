@@ -1,6 +1,7 @@
 <?php
 
 $task_data     = cpm()->task->get_task( $task_id );
+$list_id       = $task_data->post_parent;
 $due_date      = cpm_get_date( current_time( 'mysql' ) );
 if ( ! empty( $due_date ) ) {
     $next_name = sprintf( '<em style="font-family: lato; color: #B3B3B3; ">%s</em>
@@ -12,19 +13,10 @@ if ( ! empty( $due_date ) ) {
 
 cpm_get_email_header();
 
-
 $tpbk           = CPM_URL . '/assets/images/tpbk.png';
-$completed_user = get_user_by( 'id', $data->completed_by );
+$completed_user = get_user_by( 'id', $task_data->completed_by );
 
-// $template_vars = array(
-//     '%SITE%'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-//     '%PROJECT_NAME%' => get_post_field( 'post_title', $project_id ),
-//     '%PROJECT_URL%'  => '<a style="text-decoration: none;" href="'.cpm_url_project_details( $project_id ).'">'.get_post_field( 'post_title', $project_id ).'</a>',
-//     '%TASKLIST_URL%' => '<a style="text-decoration: none;" href="'.cpm_url_single_tasklist($project_id, $list_id).'"">'.get_post_field( 'post_title', $list_id ) .'</a>',
-//     '%TASK_URL%'     => '<a style="text-decoration: none;" href="'.cpm_url_single_task( $project_id, $list_id, $task_id ).'">'.$data->post_content.'</a>',
-//     '%TASK%'         => $data->post_content,
-//     '%IP%'           => get_ipaddress()
-// );
+
 ?>
 
 <div style="width:600px;  background: #fff;">
@@ -47,7 +39,7 @@ $completed_user = get_user_by( 'id', $data->completed_by );
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px;">
-            <span style="float: left; width: 459px;"><?php echo $data->title; ?></span>
+            <span style="float: left; width: 459px;"><?php echo $task_data->title; ?></span>
             <div style="clear: both;"></div>
         </div>
     </div>
