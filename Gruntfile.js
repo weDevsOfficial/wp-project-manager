@@ -212,11 +212,11 @@ module.exports = function(grunt) {
         'concat',
         'clean',
         'copy',
-        'compress'
+        'compress',
         'uglify'
     ]);
 
-    grunt.registerTask( 'zip', [
+    grunt.registerTask('zip', [
         'clean',
         'copy',
         'replace',
