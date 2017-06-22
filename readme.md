@@ -1,5 +1,5 @@
 # WP Project Manager #
-**Contributors:** tareq1988, wedevs
+**Contributors:** tareq1988, wedevs, asaquzzaman, wpasikur
 
 **Donate Link:** http://tareq.wedevs.com/donate/
 
@@ -106,6 +106,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+## 1.6.4 - June 22, 2017 ###
+
+ * [new] Task list view on the right corner in to-do list section.
+ * [update] Notify co-workers on task completion.
+ * [update] Task update action hook.
+ * [update] Style sheets updated.
+ * [update] Some javascript refactored.
+ * [fix] Wrong color is showing for a task on basis of task competion status.
+ * [fix] PHP warning on project overview.
+ * [fix] PHP warning on my task overview.
+
 ### 1.6.3 - June 07, 2017 ###
 
  * [new] Drag and drop sortability added to the task
@@ -118,7 +129,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] Project overview graph is not working.
  * [fix] Not all users of a project is being duplicated when duplicating a project.
  * [fix] Notification is sent to the co-workers when a project is created.
- * [fix] Unable to comment in a task when it is redirected from current task in my task. 
+ * [fix] Unable to comment in a task when it is redirected from current task in my task.
  * [fix] Unable to comment in a task when it is redirected from outstanding task in mytask.
  * [fix] Unable to comment in a task when it is redirected from competed task in my task.
  * [fix] User selection is not working in my task.
