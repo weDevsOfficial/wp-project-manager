@@ -1,5 +1,5 @@
 # WP Project Manager #
-**Contributors:** tareq1988, wedevs, asaquzzaman, wpasikur
+**Contributors:** tareq1988, wedevs, asaquzzaman, asikur
 
 **Donate Link:** http://tareq.wedevs.com/donate/
 
