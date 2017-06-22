@@ -221,7 +221,7 @@ module.exports = function(grunt) {
         'copy',
         'replace',
         'compress'
-    ])
+    ]);
 
     grunt.registerTask( 'deploy', [
         'sftp:upload', 'sshexec:updateVersion'
