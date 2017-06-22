@@ -210,10 +210,10 @@ module.exports = function(grunt) {
         'makepot',
         'less',
         'concat',
-        // 'clean',
-        // 'copy',
-        // 'compress'
-        // 'uglify'
+        'clean',
+        'copy',
+        'compress'
+        'uglify'
     ]);
 
     grunt.registerTask( 'zip', [
