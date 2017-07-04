@@ -13,7 +13,7 @@
     </div>
 
     <div v-else>
-        <div v-if="!hasTodoLists">
+        <div v-if="hasTodoLists()">
             <todo-list-default-tmpl></todo-list-default-tmpl>
         </div>
 

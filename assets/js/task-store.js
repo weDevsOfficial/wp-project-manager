@@ -390,6 +390,10 @@ var cpm_task_store = {
 
         inline_display: function(state, inline_display) {
             state.inline_display = inline_display;
+        },
+
+        loading_effect: function(state, effect) {
+            state.loading = effect.mode;
         }
 
     }
