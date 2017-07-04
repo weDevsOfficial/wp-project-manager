@@ -642,6 +642,7 @@ var CPM_Task_Mixin = {
                     toastr.success(res.data.success);
 
                     self.$store.commit( 'task_done_undone', { is_done: is_checked, list_index: list_index, task_index: task_index } );
+                    self.$root.$emit('cpm_after_task_done_open', { is_done: is_checked, list_index: list_index, task_index: task_index });
                 } else {
                     // Showing error
                     res.data.error.map( function( value, index ) {

@@ -1195,7 +1195,6 @@ var CPM_Router_Init = {
             list: {},
             index: false,
             current_page_number: 1,
-            loading: true
         }
     },
 
@@ -1208,12 +1207,12 @@ var CPM_Router_Init = {
             return this.$store.state.show_list_form;
         },
 
-        hasTodoLists: function() {
-            return this.$store.state.lists.length;
-        },
-
         is_visible_list_btn: function() {
             return this.$store.state.permissions.create_todolist;
+        },
+
+        loading: function() {
+            return this.$store.state.loading;
         }
 
     },
@@ -1242,6 +1241,24 @@ var CPM_Router_Init = {
             }
         }
     },
+
+    methods: {
+        hasTodoLists: function() {
+            if ( this.$store.state.active_mode != 'list' ) {
+                return false;
+            }
+
+            if ( this.$store.state.loading ) {
+                return false;
+            }
+            
+            if ( ! this.$store.state.lists.length ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    }
 }
 
 var CPM_Task_Single = {
@@ -1467,6 +1484,7 @@ Vue.component('cpm-text-editor', {
                 selector: 'textarea#' +self.editor_id,
                 menubar: false,
                 placeholder: CPM_Vars.message.comment_placeholder,
+                branding: false,
                 
                 setup: function (editor) {
                     editor.on('change', function () {
@@ -1902,12 +1920,13 @@ Vue.component( 'cpm-list-corner-menu', {
             this.updateActiveMode('list');
 
             this.$store.commit('change_active_mode', {mode: 'list'});
+            this.$store.commit('loading_effect', {mode: true});
 
             var self = this;
             this.$store.commit('emptyTodoLists');
             
             this.getInitialData( this.$store.state.project_id, function(status) {
-                self.loading = false;
+                self.$store.commit('loading_effect', {mode: false});
             } );
         }
     }

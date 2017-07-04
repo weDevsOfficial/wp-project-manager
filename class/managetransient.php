@@ -96,7 +96,7 @@ class CPM_Managetransient extends CPM_Notification {
      * @param array $data
      * @param int $project_id
      */
-    function complete_task( $list_id, $task_id, $data, $project_id ) {
+    function complete_task( $project_id, $task_id ) {
 
         $this->delete_chart_transient_data( $project_id );
     }

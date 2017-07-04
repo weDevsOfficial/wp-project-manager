@@ -162,7 +162,7 @@ class CPM_Task {
     function tasks_scripts() {
         if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'task' ) {
             wp_enqueue_media();
-            
+
             $scripts = array(
                 'cpm-uploader',
                 'cpm-toastr',
@@ -173,7 +173,6 @@ class CPM_Task {
                 'cpm-vue',
                 'cpm-vuex',
                 'cpm-vue-router',
-                'cpm-toastr',
                 'cpm-task-store',
                 'cpm-vue-multiselect',
                 'cpm-task-mixin',
@@ -189,8 +188,8 @@ class CPM_Task {
                 'todo_list_form'           => apply_filters( 'todo_list_form', array( 'CPM_Task_Mixin' ) ),
                 'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
                 'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
-            )); 
-            
+            ));
+
             do_action( 'cpm_before_task_scripts' );
 
             foreach( $scripts as $script ) {
@@ -198,7 +197,7 @@ class CPM_Task {
                 wp_enqueue_script( $script );
                 do_action( 'after-'. $script );
             }
-            
+
             wp_enqueue_style( 'cpm-vue-multiselect' );
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
@@ -292,7 +291,7 @@ class CPM_Task {
         //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
         $due        = empty( $postdata[ 'task_due' ] ) ? '' : cpm_to_mysql_date( $postdata[ 'task_due' ] );
         $start      = empty( $postdata[ 'task_start' ] ) ? '' : cpm_to_mysql_date( $postdata[ 'task_start' ] );
-        
+
         $data = array (
             'post_parent'  => $list_id,
             'post_title'   => $task_title,
@@ -335,7 +334,9 @@ class CPM_Task {
                     $comment_obj->associate_file( $file_id, $task_id );
                 }
             }
-            
+
+            $data['assigned_users'] = $postdata[ 'task_assign' ];
+
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
                 do_action( 'cpm_task_update', $list_id, $task_id, $data );
@@ -513,7 +514,7 @@ class CPM_Task {
      */
     function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1, $defaults = array() ) {
         global $wpdb;
-        
+
         $args = array (
             'post_type'           => 'cpm_task_list',
             'order'               => 'DESC',
@@ -522,7 +523,7 @@ class CPM_Task {
         );
 
         $args = wp_parse_args( $args, $defaults );
-        
+
         if ( true === $show_all ) {
             $args[ 'posts_per_page' ] = -1;
         } else {
@@ -533,7 +534,7 @@ class CPM_Task {
         }
 
         $args = apply_filters( 'cpm_get_tasklist', $args, $privacy, $show_all, $pagenum, $defaults );
-        
+
         $lists = new WP_Query( $args );
 
         foreach ( $lists->posts as $list ) {
@@ -613,14 +614,14 @@ class CPM_Task {
         $task_list->count_incompleted_tasks = $this->count_incompleted_tasks( $task_list->ID );
         $comments                           = wp_count_comments( $task_list->ID );
         $task_list->count_comments          = $comments->approved;
-        $task_list->tasks                   = array(); 
+        $task_list->tasks                   = array();
     }
 
     function get_tasks_by_access_role( $list_id, $project_id = null ) {
 
         if ( cpm_user_can_access( $project_id ) ) {
             //for manager lavel
-            $tasks = $this->get_tasks( $list_id );
+            $tasks = $this->get_tasks( $list_id, true );
         } else {
 
             if ( cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
@@ -645,11 +646,11 @@ class CPM_Task {
 
         $limit = -1;
 
-        $args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
+            'order'          => 'ASC',
             'orderby'        => 'menu_order',
             // 'order'          => 'DESC',
             // 'orderby'        => 'ID',
@@ -670,20 +671,20 @@ class CPM_Task {
 
     function get_incompleted_tasks( $list_id, $privacy = null, $pagenum = 1 ) {
         $per_page = cpm_get_option( 'show_incomplete_tasks', 'cpm_general' );
-        $limit    = empty( $per_page ) ? 50 : $per_page; 
+        $limit    = empty( $per_page ) ? 50 : $per_page;
 
-        $args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
+            'order'          => 'ASC',
             'orderby'        => 'menu_order',
             // 'order'          => 'DESC',
             // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
-                array ( 
+                array (
                     'key'     => '_completed',
                     'value'   => '0',
                     'compare' => '='
@@ -706,18 +707,18 @@ class CPM_Task {
         $per_page = cpm_get_option( 'show_completed_tasks', 'cpm_general' );
         $limit    = empty( $per_page ) ? 50 : $per_page;
 
-        $args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
-            'order'          => 'ASC', 
+            'order'          => 'ASC',
             'orderby'        => 'menu_order',
             // 'order'          => 'DESC',
             // 'orderby'        => 'ID',
             'offset'         => $pagenum, // * $limit,
             'posts_per_page' => $limit,
             'meta_query'     => array (
-                array ( 
+                array (
                     'key'     => '_completed',
                     'value'   => '1',
                     'compare' => '='
@@ -744,9 +745,9 @@ class CPM_Task {
      */
     function count_tasks( $list_id ) {
 
-        $args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
             'posts_per_page' => 1,
         );
@@ -766,14 +767,14 @@ class CPM_Task {
      */
     function count_completed_tasks( $list_id ) {
 
-        $complete_task_args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $complete_task_args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
             'orderby'        => 'menu_order',
             'posts_per_page' => 1,
             'meta_query'     => array (
-                array ( 
+                array (
                     'key'     => '_completed',
                     'value'   => '1',
                     'compare' => '='
@@ -793,13 +794,13 @@ class CPM_Task {
      */
     function count_incompleted_tasks( $list_id ) {
 
-        $complete_task_args = array ( 
-            'post_parent'    => $list_id, 
-            'post_type'      => 'cpm_task', 
+        $complete_task_args = array (
+            'post_parent'    => $list_id,
+            'post_type'      => 'cpm_task',
             'post_status'    => 'publish',
             'posts_per_page' => 1,
             'meta_query'     => array (
-                array ( 
+                array (
                     'key'     => '_completed',
                     'value'   => '0',
                     'compare' => '='
@@ -808,7 +809,7 @@ class CPM_Task {
         );
 
         $complete_task = new WP_Query( $complete_task_args );
-        
+
         return $complete_task->found_posts;
     }
 
@@ -957,7 +958,7 @@ class CPM_Task {
 
         foreach ( $task_comments as $key => $comment ) {
             $comment->comment_content = do_shortcode( $comment->comment_content );
-        } 
+        }
 
         return $task_comments;
     }
@@ -1136,7 +1137,7 @@ class CPM_Task {
      * All necessary template for todo-lists
      *
      * @since  1.6
-     * 
+     *
      * @return void
      */
     function load_js_template() {
