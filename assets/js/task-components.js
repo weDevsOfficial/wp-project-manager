@@ -1213,6 +1213,14 @@ var CPM_Router_Init = {
 
         loading: function() {
             return this.$store.state.loading;
+        },
+
+        hasTodoLists: function() {
+            if ( ! this.$store.state.lists.length ) {
+                return false;
+            } 
+            
+            return true;
         }
 
     },
@@ -1243,21 +1251,7 @@ var CPM_Router_Init = {
     },
 
     methods: {
-        hasTodoLists: function() {
-            if ( this.$store.state.active_mode != 'list' ) {
-                return false;
-            }
 
-            if ( this.$store.state.loading ) {
-                return false;
-            }
-            
-            if ( ! this.$store.state.lists.length ) {
-                return true;
-            } else {
-                return false;
-            }
-        },
     }
 }
 

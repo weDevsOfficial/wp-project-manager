@@ -371,7 +371,7 @@ class CPM_Ajax {
         if ( is_wp_error( $validate ) ) {
             wp_send_json_error( $validate->errors[ 'error' ][ 0 ] );
         }
-
+        
         if ( cpm_can_create_projects() ) {
             $random_password                = wp_generate_password( $length                         = 12, $include_standard_special_chars = false );
             $first_name                     = $postdata[ 'first_name' ] != '' ? sanitize_text_field( $postdata[ 'first_name' ] ) : '';
