@@ -57,6 +57,7 @@ module.exports = function(grunt) {
                     '!.git/**',
                     '!Gruntfile.js',
                     '!package.json',
+                    '!package-lock.json',
                     '!debug.log',
                     '!phpunit.xml',
                     '!export.sh',
