@@ -927,7 +927,7 @@ function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
  *
  * @return boolean
  */
-function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
+function cpm_user_can_access( $project_id, $section = '', $user_id = 0, $post_id = false ) {
     global $current_user;
 
     if ( absint( $user_id ) ) {
@@ -938,6 +938,10 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
 
     if ( ! $user ) {
         return false;
+    }
+
+    if ( ! cpm_is_pro() ) {
+        return true;
     }
 
     //chck manage capability
@@ -958,10 +962,15 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
         return true;
     }
 
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
+    // Check Post authority
+    if ( $post_id ) {
+        $post = get_post( absint( $post_id ) );
 
+        if ( $user->ID == $post->post_author ) {
+            return true;
+        }
+    }
+    
     $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );
 
     return $can_access;

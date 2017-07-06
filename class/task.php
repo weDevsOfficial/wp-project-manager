@@ -514,7 +514,7 @@ class CPM_Task {
      */
     function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1, $defaults = array() ) {
         global $wpdb;
-
+        
         $args = array (
             'post_type'           => 'cpm_task_list',
             'order'               => 'DESC',
@@ -733,7 +733,7 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
-
+        
         return $tasks->posts;
     }
 
