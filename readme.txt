@@ -122,6 +122,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.5 - July 6, 2017 =
+
+ * [fix] Co-worker can not show the list corner menu.
+ * [fix] Co-Worker could not notifying when add or update project.
+ * [fix] Double "New To-Do" button shown and also cpm-new-todolist-form has shown when clicked "New To-Do" List button.
+ * [fix] Project create permission.
+ * [fix] Get complete and incomplete task query
+ * [fix] Change routing effect at todo-list page to another page
+
 = 1.6.4 - June 22, 2017 =
 
  * [new] Task list view on the right corner in to-do list section.
