@@ -927,7 +927,7 @@ function cpm_user_can_delete_edit( $project_id, $post, $id_only = false ) {
  *
  * @return boolean
  */
-function cpm_user_can_access( $project_id, $section = '', $user_id = 0, $post_id = false ) {
+function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
     global $current_user;
 
     if ( absint( $user_id ) ) {
@@ -960,15 +960,6 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0, $post_id
     // also if the user role has the ability to manage all projects from settings, allow him
     if ( $uesr_role_in_project == 'manager' ) {
         return true;
-    }
-
-    // Check Post authority
-    if ( $post_id ) {
-        $post = get_post( absint( $post_id ) );
-
-        if ( $user->ID == $post->post_author ) {
-            return true;
-        }
     }
     
     $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );
