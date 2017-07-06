@@ -940,6 +940,10 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
         return false;
     }
 
+    if ( ! cpm_is_pro() ) {
+        return true;
+    }
+
     //chck manage capability
     if ( cpm_can_manage_projects( $user->ID ) ) {
         return true;
@@ -957,11 +961,7 @@ function cpm_user_can_access( $project_id, $section = '', $user_id = 0 ) {
     if ( $uesr_role_in_project == 'manager' ) {
         return true;
     }
-
-    if ( ! cpm_is_pro() ) {
-        return true;
-    }
-
+    
     $can_access = cpm_get_project_permsision_settings( $project_id, $uesr_role_in_project, $section );
 
     return $can_access;
@@ -1321,8 +1321,8 @@ function cpm_message() {
  * @return boolean
  */
 function cpm_is_pro() {
-    
-    if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
+
+    if ( class_exists( 'WeDevs_CPM_Pro' ) ) {
         return true;
     }
 
@@ -1490,9 +1490,9 @@ function cpm_has_milestone( $project_id ) {
         'post_parent'      => $project_id
     );
 
-    $posts = get_posts( $args ); 
+    $posts = get_posts( $args );
 
-    return $posts; 
+    return $posts;
 }
 
 function cpm_get_project_id() {

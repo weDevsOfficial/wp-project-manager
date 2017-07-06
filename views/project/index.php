@@ -137,7 +137,8 @@ unset( $projects['total_projects'] );
                 <div class="cpm-progress-percentage"> <?php if($progress['total'] != 0) {  echo floor(((100 * $progress['completed']) /  $progress['total'])) ."%" ; } ?>  </div>
                 <div class="cpm-project-action-icon">
                     <?php
-                    if ( cpm_user_can_delete_edit( $project->ID, $project ) ) {
+                    //cpm_user_can_delete_edit( $project->ID, $project ) 
+                    if ( $can_create_project ) {
                         cpm_project_actions( $project->ID );
                     }
                     ?>

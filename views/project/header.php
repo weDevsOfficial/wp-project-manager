@@ -1,7 +1,7 @@
 <?php
 $pro_obj    = CPM_Project::getInstance();
 $project    = $pro_obj->get( $project_id );
-$can_manage = cpm_user_can_delete_edit( $project_id, $project );
+$can_manage = cpm_can_create_projects(); //cpm_user_can_delete_edit( $project_id, $project );
 
 if ( !$project ) {
     echo '<h2>' . __( 'Error: Project not found', 'cpm' ) . '</h2>';

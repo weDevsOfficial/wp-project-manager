@@ -19,8 +19,8 @@
 
         <div v-if="hasTodoLists">
 
-            <div v-if="is_visible_list_btn">
-                <div class="cpm-list-header-new-todo-btn">
+            <div>
+                <div v-if="is_visible_list_btn" class="cpm-list-header-new-todo-btn">
                     <new-todo-list-button v-if="active_mode == 'list'"></new-todo-list-button>
                     <?php do_action( 'cpm_before_todo_list_content' ); ?>
                 </div>

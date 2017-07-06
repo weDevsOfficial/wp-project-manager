@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.4
+ * Version: 1.6.5
  * License: GPL2
  */
 /**
@@ -34,6 +34,9 @@
  * **********************************************************************
  */
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Project Manager bootstrap class
  *
@@ -46,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.4';
+    public $version = '1.6.5';
 
      /**
      * Plugin Database version
@@ -187,13 +190,16 @@ class WeDevs_CPM {
      * @return array
      */
     function plugin_action_links( $links, $file ) {
-
         if ( $file == plugin_basename( __FILE__ ) ) {
             $new_links = array(
                 sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/plugin/wp-project-manager/', __( 'Pro Version', 'cpm' ) ),
                 sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/wp-project-manager-add-ons/', __( 'Add-ons', 'cpm' ) ),
                 sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=cpm_settings' ), __( 'Settings', 'cpm' ) )
             );
+
+            if ( cpm_is_pro() ) {
+                unset( $new_links[0] );
+            }
 
             return array_merge( $new_links, $links );
         }

@@ -1195,7 +1195,6 @@ var CPM_Router_Init = {
             list: {},
             index: false,
             current_page_number: 1,
-            loading: true
         }
     },
 
@@ -1208,12 +1207,20 @@ var CPM_Router_Init = {
             return this.$store.state.show_list_form;
         },
 
-        hasTodoLists: function() {
-            return this.$store.state.lists.length;
-        },
-
         is_visible_list_btn: function() {
             return this.$store.state.permissions.create_todolist;
+        },
+
+        loading: function() {
+            return this.$store.state.loading;
+        },
+
+        hasTodoLists: function() {
+            if ( ! this.$store.state.lists.length ) {
+                return false;
+            } 
+            
+            return true;
         }
 
     },
@@ -1242,6 +1249,10 @@ var CPM_Router_Init = {
             }
         }
     },
+
+    methods: {
+
+    }
 }
 
 var CPM_Task_Single = {
@@ -1903,12 +1914,13 @@ Vue.component( 'cpm-list-corner-menu', {
             this.updateActiveMode('list');
 
             this.$store.commit('change_active_mode', {mode: 'list'});
+            this.$store.commit('loading_effect', {mode: true});
 
             var self = this;
             this.$store.commit('emptyTodoLists');
             
             this.getInitialData( this.$store.state.project_id, function(status) {
-                self.loading = false;
+                self.$store.commit('loading_effect', {mode: false});
             } );
         }
     }

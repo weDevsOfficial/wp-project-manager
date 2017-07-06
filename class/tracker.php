@@ -36,7 +36,7 @@ class CPM_Tracker extends WeDevs_Insights {
      * @return boolean
      */
     private function is_pro() {
-        if ( file_exists( CPM_PATH . '/includes/pro/loader.php' ) ) {
+        if ( class_exists( 'WeDevs_CPM_Pro' ) ) {
             return true;
         }
 
