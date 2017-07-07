@@ -211,7 +211,7 @@ class CPM_JSON_Messages {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
 		if ( ! $message_id ) {
-			return new WP_Error( 'message_id', __( 'Invalid message id', 'cpm' ) );
+			return new WP_Error( 'message_id', __( 'Invalid message ID.', 'cpm' ) );
 		}
 
 		if ( empty( $data['message_title'] ) ) {
@@ -256,7 +256,7 @@ class CPM_JSON_Messages {
 		}
 
 		if ( ! $message_id ) {
-			return new WP_Error( 'message_id', __( 'Invalid message id', 'cpm' ) );
+			return new WP_Error( 'message_id', __( 'Invalid message ID.', 'cpm' ) );
 		}
 
 		if ( ! cpm_user_can_delete_edit( $project_id, $message ) ) {

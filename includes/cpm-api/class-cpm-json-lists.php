@@ -200,11 +200,11 @@ class CPM_JSON_Lists {
 		$project_id = (int) $project_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_id', __( 'Invalid project id.', 'cpm' ) );
+			return new WP_Error( 'project_id', __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		if ( ! $list_id ) {
-			return new WP_Error( 'list_id', __( 'Invalid list id', 'cpm' ) );
+			return new WP_Error( 'list_id', __( 'Invalid list ID.', 'cpm' ) );
 		}
 
 		if ( empty( $data['tasklist_name'] ) ) {
@@ -251,11 +251,11 @@ class CPM_JSON_Lists {
 		$project_id = (int) $project_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_id', __( 'Invalid project id.', 'cpm' ) );
+			return new WP_Error( 'project_id', __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		if ( ! $list_id ) {
-			return new WP_Error( 'list_id', __( 'Invalid list id', 'cpm' ) );
+			return new WP_Error( 'list_id', __( 'Invalid list ID.', 'cpm' ) );
 		}
 
 		$project_id = intval( $project_id );

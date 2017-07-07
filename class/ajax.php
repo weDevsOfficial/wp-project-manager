@@ -209,7 +209,7 @@ class CPM_Ajax {
         $project_id = absint( $_POST['project_id'] );
 
         if ( ! $project_id ) {
-            wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
+            wp_send_json_error( array( 'error' => __( 'Invalid project ID.', 'cpm' ) ) );
         }
 
         $permission   = $permission = $this->permissions( $project_id );

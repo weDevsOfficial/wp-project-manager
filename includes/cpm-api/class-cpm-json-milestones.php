@@ -209,11 +209,11 @@ class CPM_JSON_Milestones {
 		$milestone_id = intval( $milestone_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid project id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		if ( ! $milestone_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid milestoe id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid milestone ID.', 'cpm' ) );
 		}
 
 		if ( ! isset( $data['milestone_name'] ) ) {
@@ -258,11 +258,11 @@ class CPM_JSON_Milestones {
 		$milestone_id = intval( $milestone_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid project id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		if ( ! $milestone_id ) {
-			return new WP_Error( 'milestone_id', __( 'Invalid milestoe id', 'cpm' ) );
+			return new WP_Error( 'milestone_id', __( 'Invalid milestone ID.', 'cpm' ) );
 		}
 
 		$milestone = get_post( $milestone_id );

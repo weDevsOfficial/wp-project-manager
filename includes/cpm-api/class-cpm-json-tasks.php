@@ -242,11 +242,11 @@ class CPM_JSON_Tasks {
 		}
 
 		if ( ! $list_id ) {
-			return new WP_Error( 'list_id', __( 'Invalid list id', 'cpm' ) );
+			return new WP_Error( 'list_id', __( 'Invalid list ID.', 'cpm' ) );
 		}
 
 		if ( ! $task_id ) {
-			return new WP_Error( 'task_id', __( 'Invalid task id', 'cpm' ) );
+			return new WP_Error( 'task_id', __( 'Invalid task ID.', 'cpm' ) );
 		}
 
 		if ( empty( $data['task_text'] ) ) {
@@ -293,7 +293,7 @@ class CPM_JSON_Tasks {
 		}
 
 		if ( ! $task_id ) {
-			return new WP_Error( 'task_id', __( 'Invalid task id', 'cpm' ) );
+			return new WP_Error( 'task_id', __( 'Invalid task ID.', 'cpm' ) );
 		}
 
 		$task = get_post( $task_id );
