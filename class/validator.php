@@ -136,7 +136,7 @@ class CPM_Validator {
  * ];
  * 
  * $error_messages = [
- *   'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
+ *   'tasklist_name.required' => __( 'Task list name is required.', 'cpm' ),
  *   'tasklist_detail.required' => __( 'Todo list detail is required.', 'cpm' ),
  *   'tasklist_detail.email' => __( 'Todo list detail is email field.', 'cpm' ),
  * ];

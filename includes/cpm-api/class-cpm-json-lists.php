@@ -50,7 +50,7 @@ class CPM_JSON_Lists {
 		}
 
 		if ( empty( $list_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid todo list ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -71,7 +71,7 @@ class CPM_JSON_Lists {
 
 			if ( isset( $posts_list->private ) && $posts_list->private == 'yes' ) {
 				if ( !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
-					return new WP_Error( 'permission', __( 'Sorry! you do not have persmission to view this todo list', 'cpm' ), array( 'status' => 404 ) );
+					return new WP_Error( 'permission', __( 'Sorry! You do not have permission to view this task list.', 'cpm' ), array( 'status' => 404 ) );
 				}
 			}
 		}
@@ -157,7 +157,7 @@ class CPM_JSON_Lists {
 			}
 
 			if ( !cpm_user_can_access( $project_id, 'create_todolist' ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you do not have permission to create todo list', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You do not have permission to create task list.', 'cpm' ), array( 'status' => 404 ) );
 			}
 		}
 
@@ -228,7 +228,7 @@ class CPM_JSON_Lists {
 			return $response;
 
 		} else {
-			return new WP_Error( 'create_capability', __( 'Sorry! permission deny to edit todolist' ), array( 'status' => 404 ) );
+			return new WP_Error( 'create_capability', __( 'Sorry! Permission denied to edit task list.' ), array( 'status' => 404 ) );
 		}
 	}
 
