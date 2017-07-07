@@ -60,7 +60,7 @@ class CPM_JSON_Tasks {
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( $posts_list->private == 'yes' && !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 			return new WP_Error( 'permission', __( 'Sorry! You do not have permission to view this task list.', 'cpm' ), array( 'status' => 404 ) );
@@ -115,7 +115,7 @@ class CPM_JSON_Tasks {
 		if ( $manage_capability || cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( $posts_list->private == 'yes' && !cpm_user_can_access( $project_id, 'tdolist_view_private' ) ) {
 			return new WP_Error( 'permission', __( 'Sorry! You do not have permission to view this task list.', 'cpm' ), array( 'status' => 404 ) );
@@ -176,7 +176,7 @@ class CPM_JSON_Tasks {
 		if ( !$manage_capability && !cpm_is_single_project_manager( $project_id ) ) {
 
 			if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 			}
 
 			if ( ! cpm_user_can_access( $project_id, 'create_todolist' ) ) {
