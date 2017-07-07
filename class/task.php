@@ -217,7 +217,7 @@ class CPM_Task {
     function add_list( $project_id, $postdata, $list_id = 0 ) {
 
         if ( empty( $postdata[ 'tasklist_name' ] ) ) {
-            return new WP_Error( 'tasklist_name', __( 'Task list name required', 'cpm' ) );
+            return new WP_Error( 'tasklist_name', __( 'Task list name is required.', 'cpm' ) );
         }
 
         $is_update        = ( $list_id ) ? true : false;
@@ -277,7 +277,7 @@ class CPM_Task {
     function add_task( $list_id, $postdata, $task_id = 0 ) {
 
         if ( empty( $postdata[ 'task_title' ] ) ) {
-            return new WP_Error( 'task_title', __( 'Task name required', 'cpm' ) );
+            return new WP_Error( 'task_title', __( 'Task name is required.', 'cpm' ) );
         }
 
         $files        = isset( $postdata[ 'cpm_attachment' ] ) ? $postdata[ 'cpm_attachment' ] : array ();

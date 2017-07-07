@@ -168,7 +168,7 @@ class CPM_JSON_Tasks {
 		}
 
 		if ( empty( $data['task_text'] ) ) {
-			return new WP_Error( 'task_text', __( 'Task Name Required', 'cpm' ) );
+			return new WP_Error( 'task_text', __( 'Task name is required.', 'cpm' ) );
 		}
 		$posts_list        = cpm()->task->get_task_list( $list_id );
 		$manage_capability = cpm_can_manage_projects();
@@ -250,7 +250,7 @@ class CPM_JSON_Tasks {
 		}
 
 		if ( empty( $data['task_text'] ) ) {
-			return new WP_Error( 'task_text', __( 'Task Name Required', 'cpm' ) );
+			return new WP_Error( 'task_text', __( 'Task name is required.', 'cpm' ) );
 		}
 
 		$task = get_post( $task_id  );

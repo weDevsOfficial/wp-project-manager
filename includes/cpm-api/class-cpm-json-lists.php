@@ -162,7 +162,7 @@ class CPM_JSON_Lists {
 		}
 
 		if ( empty( $data['tasklist_name'] ) ) {
-			return new WP_Error( 'task_list_name', __( 'Task List Name Required', 'cpm' ) );
+			return new WP_Error( 'task_list_name', __( 'Task list name is required.', 'cpm' ) );
 		}
 
 		$data['tasklist_milestone'] = isset( $data['tasklist_milestone'] ) ? $data['tasklist_milestone'] : '-1';
@@ -208,7 +208,7 @@ class CPM_JSON_Lists {
 		}
 
 		if ( empty( $data['tasklist_name'] ) ) {
-			return new WP_Error( 'task_list_name', __( 'Task List Name Required', 'cpm' ) );
+			return new WP_Error( 'task_list_name', __( 'Task list name is required.', 'cpm' ) );
 		}
 
 		$post = get_post( $list_id );
