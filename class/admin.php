@@ -97,13 +97,13 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'show_incomplete_tasks',
-                'label'   => __( 'Incomplete tasks per page', 'cpm' ),
+                'label'   => __( 'Incomplete Tasks Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '50',
             ),
             array(
                 'name'    => 'show_completed_tasks',
-                'label'   => __( 'Completed tasks per page', 'cpm' ),
+                'label'   => __( 'Completed Tasks Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '50',
             ),
