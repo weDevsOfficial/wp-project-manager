@@ -558,7 +558,7 @@ class CPM_Ajax {
                     <td>
                         <input type="radio" <?php checked( 'co_worker', $array[ 'role' ] );
                 ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array[ 'id' ]; ?>]" value="co_worker">
-                        <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' );
+                        <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-Worker', 'cpm' );
                 ?></label>
                     </td>
                     <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
@@ -1569,7 +1569,7 @@ class CPM_Ajax {
             <td>
 
                 <input type="radio" checked="checked" id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $user_id; ?>]" value="co_worker">
-                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' );
+                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-Worker', 'cpm' );
         ?></label>
             </td>
             <?php do_action( 'cpm_new_project_client_field', $user_id, $name ); ?>

@@ -1073,7 +1073,7 @@ function cpm_project_form( $project = null ) {
             <input type="hidden" name="project_notify" value="no" />
             <label>
                 <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
-                <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+                <?php _e( 'Notify Co-Workers', 'cpm' ) ?>
             </label>
         </div>
 
@@ -1485,7 +1485,7 @@ function cpm_report_co_worker_form( $co_workers = array(), $selected = '' ) {
     <label>
         <select class="cpm-field" name="co_worker" required>
             <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
-            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Workers', 'cpm' ); ?></option>
     <?php
     foreach ( $co_workers as $co_worker ) {
         $user = get_user_by( 'id', $co_worker->user_id );
