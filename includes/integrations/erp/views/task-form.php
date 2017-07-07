@@ -22,7 +22,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide erp-employee-task-list-drop">
         <?php
         erp_html_form_input( array(
-            'label'   => __( 'To Do Lists', 'wp-erp' ),
+            'label'   => __( 'Task Lists', 'wp-erp' ),
             'name'    => 'task_list',
             'id'      => 'erp-employee-task-list-drop',
             'type'    => 'select',
