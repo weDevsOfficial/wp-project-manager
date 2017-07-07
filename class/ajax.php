@@ -402,7 +402,7 @@ class CPM_Ajax {
     function form_validate( $postdata ) {
 
         if ( empty( $postdata[ 'user_name' ] ) ) {
-            return new WP_Error( 'error', __( 'Username required ', 'cpm' ) );
+            return new WP_Error( 'error', __( 'Username required', 'cpm' ) );
         }
 
         if ( empty( $postdata[ 'user_email' ] ) ) {

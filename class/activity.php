@@ -299,7 +299,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" added by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" added by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
@@ -310,7 +310,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" updated by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" updated by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
@@ -321,7 +321,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" deleted by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" deleted by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
@@ -332,7 +332,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" marked as complete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" marked as complete by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
@@ -343,7 +343,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" marked as incomplete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" marked as incomplete by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }

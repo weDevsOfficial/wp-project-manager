@@ -53,7 +53,7 @@ $author  = wp_get_current_user();
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
             <span style="float: left;  width: 70px;">
-                <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'Title ', 'cpm' ); ?></em>
+                <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'Title', 'cpm' ); ?></em>
             </span>
             <span style="float: left; width: 430px;">
                 <strong style="font-family: lato; color: #7e7e7e;">
@@ -64,7 +64,7 @@ $author  = wp_get_current_user();
                 </strong>
             </span>
             <div style="clear: both;"></div>
-            <span style="float: left;  width: 70px;"><em style="font-family: lato; color: #B3B3B3; "><?php _e( 'Message ', 'cpm' ); ?></em></span>
+            <span style="float: left;  width: 70px;"><em style="font-family: lato; color: #B3B3B3; "><?php _e( 'Message', 'cpm' ); ?></em></span>
             <span style="float: left; width: 430px;"><?php echo $msg->post_content; ?></span>
             <div style="clear: both;"></div>
         </div>
