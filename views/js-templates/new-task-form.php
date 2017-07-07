@@ -2,11 +2,11 @@
       <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
       
         <div class="item task-title">
-            <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="" required="required">
+            <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new task', 'cpm' ); ?>" value="" required="required">
         </div>
 
         <div class="item content">
-            <textarea v-model="task.post_content" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"></textarea>
+            <textarea v-model="task.post_content" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this task (optional)', 'cpm' ) ?>" rows="2"></textarea>
         </div>
 
         <div class="item date">

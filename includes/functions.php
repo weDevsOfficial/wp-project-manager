@@ -487,13 +487,13 @@ function cpm_project_summary_info( $info, $project_id ) {
     );
 
     $summary['todo'] = array(
-        'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
+        'label' => _n( 'Task List', 'Task Lists', $info->todolist, 'cpm' ),
         'count' => $info->todolist,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-        'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
+        'label' => _n( 'Task', 'Tasks', $info->todos, 'cpm' ),
         'count' => $info->todos,
         'url'   => cpm_url_tasklist_index( $project_id )
     );

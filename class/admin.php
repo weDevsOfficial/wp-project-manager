@@ -84,14 +84,14 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'todolist_show',
-                'label'   => __( 'To-do List Style', 'cpm' ),
+                'label'   => __( 'Task List Style', 'cpm' ),
                 'type'    => 'radio',
                 'default' => 'pagination',
                 'options' => array( 'pagination' => 'Pagination', 'load_more' => 'Load More', 'lazy_load' => 'Lazy Load' )
             ),
             array(
                 'name'    => 'show_todo',
-                'label'   => __( 'To-do Lists Per Page', 'cpm' ),
+                'label'   => __( 'Task Lists Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '5',
             ),
