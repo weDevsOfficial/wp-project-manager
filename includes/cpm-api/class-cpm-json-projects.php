@@ -100,11 +100,11 @@ class CPM_JSON_Projects {
 		}
 
 		if ( !isset( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 
 		if ( empty( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 
 		$data['project_notify'] = false;
@@ -156,7 +156,7 @@ class CPM_JSON_Projects {
 		}
 
 		if ( empty( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 		$data['project_notify'] = false;
 

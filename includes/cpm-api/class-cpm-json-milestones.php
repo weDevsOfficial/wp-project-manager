@@ -148,7 +148,7 @@ class CPM_JSON_Milestones {
 		}
 
 		if ( isset( $data['milestone_name'] ) &&  empty( $data['milestone_name'] ) ) {
-			return new WP_Error( 'milestone_name', __( 'Milestone Name Required', 'cpm' ) );
+			return new WP_Error( 'milestone_name', __( 'Milestone name is required.', 'cpm' ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -217,11 +217,11 @@ class CPM_JSON_Milestones {
 		}
 
 		if ( ! isset( $data['milestone_name'] ) ) {
-			return new WP_Error( 'milestone_name', __( 'Milestone Name Required', 'cpm' ) );
+			return new WP_Error( 'milestone_name', __( 'Milestone name is required.', 'cpm' ) );
 		}
 
 		if ( empty( $data['milestone_name'] ) ) {
-			return new WP_Error( 'milestone_name', __( 'Milestone Name Required', 'cpm' ) );
+			return new WP_Error( 'milestone_name', __( 'Milestone name is required.', 'cpm' ) );
 		}
 
 		$milestone = get_post( $milestone_id );

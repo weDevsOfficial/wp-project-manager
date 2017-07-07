@@ -214,14 +214,14 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         <div class="item date">
             <?php if ( cpm_get_option( 'task_start_field', 'cpm_general' ) == 'on' ) { ?>
                 <div class="cpm-task-start-field">
-                    <label><?php _e( 'Start date', 'cpm' ); ?></label>
-                    <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
+                    <label><?php _e( 'Start Date', 'cpm' ); ?></label>
+                    <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start Date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
                 </div>
             <?php } ?>
 
             <div class="cpm-task-due-field">
-                <label><?php _e( 'Due date', 'cpm' ); ?></label>
-                <input type="text" autocomplete="off" class="date_picker_to" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
+                <label><?php _e( 'Due Date', 'cpm' ); ?></label>
+                <input type="text" autocomplete="off" class="date_picker_to" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
             </div>
         </div>
 
@@ -458,7 +458,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     if ( $comment ) {
         $action        = 'cpm_comment_update_old';
         $text          = $comment->comment_content;
-        $submit_button = __( 'Update comment', 'cpm' );
+        $submit_button = __( 'Update Comment', 'cpm' );
     }
 
     ob_start();
@@ -841,7 +841,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="ms-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="ms-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
@@ -908,7 +908,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                 <?php if ( cpm_user_can_delete_edit( $project_id, $milestone ) ) { ?>
                     <ul class="cpm-links cpm-right">
                         <li>
-                            <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
+                            <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit Milestone', 'cpm' ); ?>"></a>
                         </li>
                         <li>
                             <a class="cpm-milestone-delete dashicons dashicons-trash" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
@@ -917,7 +917,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                         <?php if ( $milestone->completed == '0' ) { ?>
                             <li><a class="cpm-milestone-complete dashicons dashicons-yes" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
                         <?php } else { ?>
-                            <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
+                            <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as incomplete', 'cpm' ); ?>" href="#"></a></li>
                         <?php } ?>
                         <li>
                             <span class="<?php echo $milestone_private; ?>"></span>

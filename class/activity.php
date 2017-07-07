@@ -86,7 +86,7 @@ class CPM_Activity {
         }
         $msg     = get_post( $message_id );
         $message = sprintf(
-                __( 'Message %s created by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
+                __( 'Message "%s" created by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );
@@ -98,7 +98,7 @@ class CPM_Activity {
         }
         $msg     = get_post( $message_id );
         $message = sprintf(
-                __( 'Message %s updated by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
+                __( 'Message "%s" updated by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );

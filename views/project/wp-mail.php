@@ -236,7 +236,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	} else {
 		echo '<p>' . sprintf(
 			/* translators: %s: the message ID */
-			__( 'Mission complete. Message %s deleted.', 'cpm' ),
+			__( 'Mission complete. Message "%s" deleted.', 'cpm' ),
 			'<strong>' . $i . '</strong>'
 		) . '</p>';
 	}

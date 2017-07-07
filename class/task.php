@@ -55,7 +55,7 @@ class CPM_Task {
                     'add_todo_details_text'    => __( 'Add extra details about this task (optional)', 'cpm' ),
                     'title'                    => __( 'Title', 'cpm' ),
                     'start_date'               => __( 'Start Date', 'cpm' ),
-                    'due_date'                 => __( 'Due date', 'cpm' ),
+                    'due_date'                 => __( 'Due Date', 'cpm' ),
                     'to_attach'                => __( 'To attach', 'cpm' ),
                     'select_file'              => __( 'select files', 'cpm' ),
                     'from_computer'            => __( 'from your computer', 'cpm' ),

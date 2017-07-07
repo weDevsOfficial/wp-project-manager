@@ -116,7 +116,7 @@ function cpm_tasks_filter_pending( $task ) {
  */
 function cpm_dropdown_users( $selected = array() ) {
 
-    $placeholder = __( 'Select co-workers', 'cpm' );
+    $placeholder = __( 'Select Co-Workers', 'cpm' );
     $sel         = ' selected="selected"';
 
     $users   = get_users();
@@ -1309,7 +1309,7 @@ function cpm_message() {
         'new_todo'                     => __( 'New Task List', 'cpm' ),
         'update_todo'                  => __( 'Update Task List', 'cpm' ),
         'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),
-        'confirm'                      => __( 'Are you sure!', 'cpm' ),
+        'confirm'                      => __( 'Are you sure?', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );

@@ -148,7 +148,7 @@ class CPM_JSON_Messages {
 		}
 
 		if ( empty( $data['message_title'] ) ) {
-			return new WP_Error( 'message_title', __( 'Message Name Required', 'cpm' ) );
+			return new WP_Error( 'message_title', __( 'Message name is required.', 'cpm' ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -215,7 +215,7 @@ class CPM_JSON_Messages {
 		}
 
 		if ( empty( $data['message_title'] ) ) {
-			return new WP_Error( 'message_title', __( 'Message Name Required', 'cpm' ) );
+			return new WP_Error( 'message_title', __( 'Message name is required.', 'cpm' ) );
 		}
 
 		$message = get_post( $message_id );
