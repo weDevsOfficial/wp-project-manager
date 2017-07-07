@@ -683,7 +683,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
         
-        wp_send_json_success( array( 'success' => __( 'The task has been updated successfully..', 'cpm' ),  'task' => $task ) );
+        wp_send_json_success( array( 'success' => __( 'The task has been updated successfully.', 'cpm' ),  'task' => $task ) );
     }
 
     function check_task_access() {
