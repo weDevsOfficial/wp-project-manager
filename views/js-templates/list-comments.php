@@ -1,6 +1,6 @@
 <div class="cpm-list-comment-wrap">
 
-        <h3 class="cpm-comment-title"><?php _e( 'Discuss this to-do list', 'cpm' ); ?></h3>
+        <h3 class="cpm-comment-title"><?php _e( 'Discuss this task list', 'cpm' ); ?></h3>
 
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.comment_ID" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.comment_ID">

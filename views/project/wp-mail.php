@@ -222,13 +222,13 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	 */
 	do_action( 'publish_phone', $post_ID );
 
-	echo "\n<p><strong>" . __( 'Author:' ) . '</strong> ' . esc_html( $post_author ) . '</p>';
-	echo "\n<p><strong>" . __( 'Posted title:' ) . '</strong> ' . esc_html( $post_title ) . '</p>';
+	echo "\n<p><strong>" . __( 'Author:', 'cpm' ) . '</strong> ' . esc_html( $post_author ) . '</p>';
+	echo "\n<p><strong>" . __( 'Posted title:', 'cpm' ) . '</strong> ' . esc_html( $post_title ) . '</p>';
 
 	if(!$pop3->delete($i)) {
 		echo '<p>' . sprintf(
 			/* translators: %s: POP3 error */
-			__( 'Oops: %s' ),
+			__( 'Oops: %s', 'cpm' ),
 			esc_html( $pop3->ERROR )
 		) . '</p>';
 		$pop3->reset();
@@ -236,7 +236,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	} else {
 		echo '<p>' . sprintf(
 			/* translators: %s: the message ID */
-			__( 'Mission complete. Message %s deleted.' ),
+			__( 'Mission complete. Message "%s" deleted.', 'cpm' ),
 			'<strong>' . $i . '</strong>'
 		) . '</p>';
 	}

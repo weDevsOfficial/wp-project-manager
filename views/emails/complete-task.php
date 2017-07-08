@@ -6,7 +6,7 @@ $due_date      = cpm_get_date( current_time( 'mysql' ) );
 if ( ! empty( $due_date ) ) {
     $next_name = sprintf( '<em style="font-family: lato; color: #B3B3B3; ">%s</em>
                 <strong style="font-family: lato; color: #7e7e7e;">
-                    <span style="padding-right: 5px;">%s</span>', __( 'Date ', 'cpm' ), $due_date );
+                    <span style="padding-right: 5px;">%s</span>', __( 'Date', 'cpm' ), ' '.$due_date );
 } else {
     $next_name = '';
 }

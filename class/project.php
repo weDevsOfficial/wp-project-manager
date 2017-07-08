@@ -698,7 +698,7 @@ class CPM_Project {
                 'count' => $project_info->discussion,
                 'class' => 'message cpm-sm-col-12'
             ),
-            __( 'To-do Lists', 'cpm' ) => array(
+            __( 'Task Lists', 'cpm' ) => array(
                 'url'   => cpm_url_tasklist_index( $project_id ),
                 'count' => $project_info->todolist,
                 'class' => 'to-do-list cpm-sm-col-12'

@@ -40,7 +40,7 @@ $str_todo     = implode( $str_todo, ',' );
 
 	    	<div class="inside">
 				<div class="cpm-chart-legend cpm-text-right">
-					<spna></spna> <span class="to-do"><?php _e( 'To-do', 'cpm' ); ?></span> <span class="activity"><?php _e( 'Activity', 'cpm' ); ?></span>
+					<spna></spna> <span class="to-do"><?php _e( 'Task', 'cpm' ); ?></span> <span class="activity"><?php _e( 'Activity', 'cpm' ); ?></span>
 				</div>
 
 				<div class="clearfix"></div>
@@ -84,7 +84,7 @@ $str_todo     = implode( $str_todo, ',' );
 		            data: [<?php echo $str_activity ?>]
 		        },
 		        {
-		            label: "<?php _e('To-do', 'cpm') ?>",
+		            label: "<?php _e('Task', 'cpm') ?>",
 		            fillColor: "rgba(185, 114, 182,0.5)",
 		            strokeColor: "#B972B6",
 		            pointColor: "#B972B6",

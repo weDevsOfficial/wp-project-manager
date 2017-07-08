@@ -116,7 +116,7 @@ function cpm_tasks_filter_pending( $task ) {
  */
 function cpm_dropdown_users( $selected = array() ) {
 
-    $placeholder = __( 'Select co-workers', 'cpm' );
+    $placeholder = __( 'Select Co-Workers', 'cpm' );
     $sel         = ' selected="selected"';
 
     $users   = get_users();
@@ -487,13 +487,13 @@ function cpm_project_summary_info( $info, $project_id ) {
     );
 
     $summary['todo'] = array(
-        'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
+        'label' => _n( 'Task List', 'Task Lists', $info->todolist, 'cpm' ),
         'count' => $info->todolist,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-        'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
+        'label' => _n( 'Task', 'Tasks', $info->todos, 'cpm' ),
         'count' => $info->todos,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
@@ -1149,8 +1149,8 @@ function cpm_pagination( $total, $limit, $pagenum ) {
     $page_links   = paginate_links( array(
         'base'      => add_query_arg( 'pagenum', '%#%' ),
         'format'    => '',
-        'prev_text' => __( '&laquo;', 'aag' ),
-        'next_text' => __( '&raquo;', 'aag' ),
+        'prev_text' => __( '&laquo;', 'cpm' ),
+        'next_text' => __( '&raquo;', 'cpm' ),
         'add_args'  => false,
         'total'     => $num_of_pages,
         'current'   => $pagenum,
@@ -1306,10 +1306,10 @@ function cpm_message() {
     $message = array(
         'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
         'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
-        'new_todo'                     => __( 'New Todo List', 'cpm' ),
-        'update_todo'                  => __( 'Update Todo List', 'cpm' ),
+        'new_todo'                     => __( 'New Task List', 'cpm' ),
+        'update_todo'                  => __( 'Update Task List', 'cpm' ),
         'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),
-        'confirm'                      => __( 'Are you sure!', 'cpm' ),
+        'confirm'                      => __( 'Are you sure?', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );

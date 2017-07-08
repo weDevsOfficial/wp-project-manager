@@ -58,7 +58,7 @@ class CPM_JSON_Messages {
 		if ( $manage_capability && cpm_is_single_project_manager( $project_id ) ) {
 			$condition = true;
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
 			$condition = true;
@@ -71,7 +71,7 @@ class CPM_JSON_Messages {
 
 			if ( isset( $message->private ) && $message->private == 'yes' ) {
 				if ( ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-					return new WP_Error( 'permission', __( 'Sorry! you do not have permission to view this message', 'cpm' ), array( 'status' => 404 ) );
+					return new WP_Error( 'permission', __( 'Sorry! You do not have permission to view this message.', 'cpm' ), array( 'status' => 404 ) );
 				}
 			}
 		}
@@ -105,7 +105,7 @@ class CPM_JSON_Messages {
 			$condition = true;
 
 		} else if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 
 		} else if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
 			$condition = true;
@@ -148,7 +148,7 @@ class CPM_JSON_Messages {
 		}
 
 		if ( empty( $data['message_title'] ) ) {
-			return new WP_Error( 'message_title', __( 'Message Name Required', 'cpm' ) );
+			return new WP_Error( 'message_title', __( 'Message name is required.', 'cpm' ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -156,11 +156,11 @@ class CPM_JSON_Messages {
 		if ( ! $manage_capability && ! cpm_is_single_project_manager( $project_id ) ) {
 
 			if ( ! cpm_project_user_role_pre_chache( $project_id ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 			}
 
 			if ( !cpm_user_can_access( $project_id, 'create_message' ) ) {
-				return new WP_Error( 'permission', __( 'Sorry! you do not have permission to create message', 'cpm' ), array( 'status' => 404 ) );
+				return new WP_Error( 'permission', __( 'Sorry! You do not have permission to create message.', 'cpm' ), array( 'status' => 404 ) );
 			}
 		}
 
@@ -211,17 +211,17 @@ class CPM_JSON_Messages {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
 		}
 		if ( ! $message_id ) {
-			return new WP_Error( 'message_id', __( 'Invalid message id', 'cpm' ) );
+			return new WP_Error( 'message_id', __( 'Invalid message ID.', 'cpm' ) );
 		}
 
 		if ( empty( $data['message_title'] ) ) {
-			return new WP_Error( 'message_title', __( 'Message Name Required', 'cpm' ) );
+			return new WP_Error( 'message_title', __( 'Message name is required.', 'cpm' ) );
 		}
 
 		$message = get_post( $message_id );
 
 		if ( ! cpm_user_can_delete_edit( $project_id, $message ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you do not have permission to edit this message', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You do not have permission to edit this message.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$message_id  = cpm()->message->update( $message_id, $data, $message_id );
@@ -256,11 +256,11 @@ class CPM_JSON_Messages {
 		}
 
 		if ( ! $message_id ) {
-			return new WP_Error( 'message_id', __( 'Invalid message id', 'cpm' ) );
+			return new WP_Error( 'message_id', __( 'Invalid message ID.', 'cpm' ) );
 		}
 
 		if ( ! cpm_user_can_delete_edit( $project_id, $message ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you do not have permission to edit this message', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You do not have permission to edit this message.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$force  = $force ? true : false;

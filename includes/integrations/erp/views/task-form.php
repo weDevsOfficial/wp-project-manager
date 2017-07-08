@@ -22,7 +22,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide erp-employee-task-list-drop">
         <?php
         erp_html_form_input( array(
-            'label'   => __( 'To Do Lists', 'wp-erp' ),
+            'label'   => __( 'Task Lists', 'wp-erp' ),
             'name'    => 'task_list',
             'id'      => 'erp-employee-task-list-drop',
             'type'    => 'select',
@@ -56,7 +56,7 @@ foreach ( $projects as $key => $project ) {
         <li class="row erp-hide cpm-employee-task-form">
             <?php
             erp_html_form_input( array(
-                'label' => __( 'Start date', 'wp-erp' ),
+                'label' => __( 'Start Date', 'wp-erp' ),
                 'name'  => 'task_start',
                 'type'  => 'text',
                 'class' => 'date_picker_from',
@@ -68,7 +68,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide cpm-employee-task-form">
         <?php
         erp_html_form_input( array(
-            'label' => __( 'Due date', 'wp-erp' ),
+            'label' => __( 'Due Date', 'wp-erp' ),
             'name'  => 'task_due',
             'type'  => 'text',
             'class' => 'date_picker_to',

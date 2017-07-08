@@ -7,7 +7,7 @@
         
     </ul>
 
-    <h3 class="cpm-comment-title"><?php _e( 'Discuss this to-do list', 'cpm' ); ?></h3>
+    <h3 class="cpm-comment-title"><?php _e( 'Discuss this task list', 'cpm' ); ?></h3>
 
     <ul class="cpm-comment-wrap">
         <?php
