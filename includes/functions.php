@@ -194,7 +194,7 @@ function cpm_user_checkboxes( $project_id ) {
         </ul>
         <?php
     } else {
-        echo __( 'No users found', 'cpm' );
+        echo __( 'No users found.', 'cpm' );
     }
 
     return $users;

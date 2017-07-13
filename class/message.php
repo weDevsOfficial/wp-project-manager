@@ -50,8 +50,8 @@ class CPM_Message {
                 'view'               => __( 'View Message', 'cpm' ),
                 'view_item'          => __( 'View Message', 'cpm' ),
                 'search_items'       => __( 'Search Messages', 'cpm' ),
-                'not_found'          => __( 'No Messages Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Messages Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No messages found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No messages found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Message', 'cpm' ),
             ),
         ) );

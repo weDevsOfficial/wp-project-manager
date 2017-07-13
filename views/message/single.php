@@ -44,7 +44,7 @@ if ( $comments ) {
     </ul>
     <?php
 } else {
-    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+    printf( '<h4>%s</h4>', __( 'No comments found.', 'cpm' ) );
     echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
 }
 ?>

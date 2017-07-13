@@ -117,8 +117,8 @@ class CPM_Task {
                 'view'               => __( 'View Task List', 'cpm' ),
                 'view_item'          => __( 'View Task List', 'cpm' ),
                 'search_items'       => __( 'Search Task List', 'cpm' ),
-                'not_found'          => __( 'No Task List Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Task List Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No task lists found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No task lists found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Task List', 'cpm' ),
             ),
         ) );
@@ -151,8 +151,8 @@ class CPM_Task {
                 'view'               => __( 'View Task', 'cpm' ),
                 'view_item'          => __( 'View Task', 'cpm' ),
                 'search_items'       => __( 'Search Task', 'cpm' ),
-                'not_found'          => __( 'No Task Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Task Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No tasks found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No tasks found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Task', 'cpm' ),
             ),
         ) );

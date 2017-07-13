@@ -1518,7 +1518,7 @@ class CPM_Ajax {
             $user_info = json_encode( $data );
         }else {
             $data[]    = array (
-                'label'      => '<div class="no-user-wrap"><p>' . __( 'No user found!', 'cpm' ) . '</p> <span class="button-primary">' . __( 'Create a new user?', 'cpm' ) . '</span></div>',
+                'label'      => '<div class="no-user-wrap"><p>' . __( 'No users found.', 'cpm' ) . '</p> <span class="button-primary">' . __( 'Create a new user?', 'cpm' ) . '</span></div>',
                 'value'      => 'cpm_create_user',
                 '_user_meta' => '',
             );
@@ -1545,7 +1545,7 @@ class CPM_Ajax {
             $user_info = json_encode( $data );
         }else {
             $data[]    = array (
-                'label' => '<p>' . __( 'No user found!', 'cpm' ) . '</p>',
+                'label' => '<p>' . __( 'No users found.', 'cpm' ) . '</p>',
             );
             $user_info = json_encode( $data );
         }
