@@ -275,10 +275,10 @@ class CPM_JSON_Lists {
 		cpm()->task->delete_list( $list_id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Permanently deleted post', 'cpm' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 

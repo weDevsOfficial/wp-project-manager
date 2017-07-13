@@ -212,9 +212,9 @@ class CPM_JSON_Projects {
 		cpm()->project->delete( $id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Permanently deleted post', 'cpm' ) );
 		} else {
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 }

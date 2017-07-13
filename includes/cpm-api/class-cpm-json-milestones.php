@@ -279,7 +279,7 @@ class CPM_JSON_Milestones {
 			return array( 'message' => __( 'Permanently deleted post' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 }
