@@ -50,7 +50,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
                        <?php echo cpm_excerpt( $message->post_title, 50 ); ?>
                     </div>
                     <div class="dicussion-meta">
-                        <?php printf( __( 'by %s on %s', 'cpm' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
+                        <?php printf( __( 'By %s on %s', 'cpm' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y h:i a', strtotime( $message->post_date ) ) ); ?>
                     </div>
 
             </div>
