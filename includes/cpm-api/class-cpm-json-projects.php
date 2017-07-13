@@ -96,7 +96,7 @@ class CPM_JSON_Projects {
 	public function create_project( $data ) {
 
 		if ( ! cpm_can_create_projects() ) {
-			return new WP_Error( 'project_create_capability', __( 'You do not have permission to create project', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'You do not have permission to create projects.', 'cpm' ) );
 		}
 
 		if ( !isset( $data['project_name'] ) ) {
@@ -152,7 +152,7 @@ class CPM_JSON_Projects {
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
-			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to edit this project', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to edit this project.', 'cpm' ) );
 		}
 
 		if ( empty( $data['project_name'] ) ) {
@@ -200,7 +200,7 @@ class CPM_JSON_Projects {
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
-			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to delete this project', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to delete this project.', 'cpm' ) );
 		}
 
 		$post = get_post( $id, ARRAY_A );
