@@ -267,7 +267,7 @@ class CPM_JSON_Lists {
 		}
 		$post = cpm()->task->get_task_list( $list_id );
 		if ( !cpm_user_can_delete_edit( $project_id, $post ) ) {
-			return new WP_Error( 'premission', __( 'Permission deny' ), array( 'status' => 404 ) );
+			return new WP_Error( 'premission', __( 'Permission denied.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$force = $force ? true : false;
