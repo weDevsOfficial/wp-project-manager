@@ -111,7 +111,7 @@ class CPM_JSON_Projects {
 		$project_id   = cpm()->project->create( 0, $data );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_create_capability', __( 'Can not create project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'Cannot create project, something wrong!', 'cpm' ) );
 		}
 
 		$get_project = cpm()->project->get( $project_id );
@@ -163,7 +163,7 @@ class CPM_JSON_Projects {
 		$project_id  = cpm()->project->update( $id, $data );
 
 		if( ! $project_id ) {
-			return new WP_Error( 'project_edit_capability', __( 'Can not edit project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'Cannot edit project, something wrong!', 'cpm' ) );
 		}
 		$get_project = cpm()->project->get( $project_id );
 
