@@ -1,7 +1,7 @@
 <?php
 $projects = CPM_ERP_Integration::$project_info;
 
-$title = ['-1' => __( '-Select-', 'cpm' ) ];
+$title = ['-1' => __( '- Select -', 'cpm' ) ];
 foreach ( $projects as $key => $project ) {
     $title[$project->project_id] = $project->project_title;
 }

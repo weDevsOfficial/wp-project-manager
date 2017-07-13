@@ -164,7 +164,7 @@ class CPM_Admin {
     }
 
     public static function get_post_type( $post_type ) {
-        $pages_array = array( '-1' => __( '- select -', 'cpm' ) );
+        $pages_array = array( '-1' => __( '- Select -', 'cpm' ) );
         $pages       = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
 
         if ( $pages ) {
