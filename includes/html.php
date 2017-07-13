@@ -396,10 +396,10 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <div class="cpm-col-3 cpm-todo-comment">
                     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
                         <?php if ( ( int ) $list->comment_count > 0 ) { ?>
-                            <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                            <?php printf( _n( '1 Comment', '%d Comments', $list->comment_count, 'cpm' ), $list->comment_count ); ?>
                             <?php
                         } else {
-                            printf( "<span>0 %s</span>", __( 'Comment', 'cpm' ) );
+                            printf( 'No Comments', 'cpm' );
                         }
                         ?>
                     </a>
