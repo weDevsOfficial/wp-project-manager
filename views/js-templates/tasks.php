@@ -95,7 +95,7 @@
     </div>
 
     <div class="cpm-completed-tasks">
-        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
+        <h3 class="cpm-task-list-title cpm-tag-gray"><a><?php _e( 'Completed Tasks', 'cpm' ); ?></a></h3>
         <ul v-cpm-sortable class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
 
             <li v-if="loading_completed_tasks" class="nonsortable">
