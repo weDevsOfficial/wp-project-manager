@@ -28,7 +28,7 @@
             v-model="todo_list"
             track-by="id"
             label="name"
-            placeholder="Select To-do list"
+            placeholder="<?php _e( 'Select Task List', 'cpm' ); ?>"
             :close-on-select="false"
             :searchable="true"
             :allow-empty="false"
