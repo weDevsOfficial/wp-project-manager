@@ -1180,7 +1180,7 @@ class CPM_Ajax {
 
         if ( $comment_id ) {
             $comment = $comment_obj->get( $comment_id );
-            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );
+            wp_send_json_success( array( 'success' => __( 'Successfully updated', 'cpm' ),  'comment' => $comment ) );
         
         } else {
             wp_send_json_error( array( 'error' => __( 'Error', 'cpm' ) ) );
@@ -1234,7 +1234,7 @@ class CPM_Ajax {
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->update( $data, $comment_id );
 
-        wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
+        wp_send_json_success( array( 'success' => __( 'Successfully updated', 'cpm' ) ) );
 
         // $comment = $comment_obj->get( $comment_id );
         // $content = cpm_comment_text( $comment_id );
@@ -1289,7 +1289,7 @@ class CPM_Ajax {
         $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
         CPM_Comment::getInstance()->delete( $comment_id, true );
 
-        wp_send_json_success( array( 'success' => __( 'Sucessfully deleted comment', 'cpm' ) ) );
+        wp_send_json_success( array( 'success' => __( 'Successfully deleted comment', 'cpm' ) ) );
     }
 
     function delete_comment_old() {
