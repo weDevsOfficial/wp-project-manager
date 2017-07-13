@@ -402,11 +402,11 @@ class CPM_Ajax {
     function form_validate( $postdata ) {
 
         if ( empty( $postdata[ 'user_name' ] ) ) {
-            return new WP_Error( 'error', __( 'Username required', 'cpm' ) );
+            return new WP_Error( 'error', __( 'Username is required.', 'cpm' ) );
         }
 
         if ( empty( $postdata[ 'user_email' ] ) ) {
-            return new WP_Error( 'error', __( 'Email required', 'cpm' ) );
+            return new WP_Error( 'error', __( 'Email is required.', 'cpm' ) );
         }
 
         if ( !is_email( $postdata[ 'user_email' ] ) ) {
@@ -753,7 +753,7 @@ class CPM_Ajax {
 
             do_action( 'cpm_mark_task_open', $project_id, $task_id );
 
-            wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been reopened.', 'cpm' ) ) );
 
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
@@ -1183,7 +1183,7 @@ class CPM_Ajax {
             wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );
         
         } else {
-            wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
+            wp_send_json_error( array( 'error' => __( 'Error', 'cpm' ) ) );
         }
     }
 

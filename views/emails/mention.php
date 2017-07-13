@@ -34,7 +34,7 @@ switch ( $post_type ) {
         <div style="height: 174px; width: 600px;">
             <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #333; font-size: 16px; padding-top: 20px; text-align: center; padding-right: 40px; padding-left: 40px;">
                 <?php
-                    _e( 'Hi! ', 'cpm' );
+                    _e( 'Hello', 'cpm' );
                     echo '<strong>' . $user['name'] . '</strong>. ';
                     _e( 'You are mentioned in a comment by', 'cpm' );
                     echo ' <strong>' . $author->display_name . '</strong>. ';
