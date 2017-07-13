@@ -781,7 +781,7 @@ function cpm_discussion_single( $message_id, $project_id ) {
                 <span class="<?php echo $private_class; ?>"></span>
             </span>
             <div class="cpm-small-title">
-                <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
+                <?php printf( __( 'by %s on %s at %s', 'cpm' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
             </div>
         </h3>
 
