@@ -61,13 +61,13 @@ class CPM_JSON_Projects {
 		$manage_capability = cpm_can_manage_projects();
 
 		if( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned to this project.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$post = get_post( $id, ARRAY_A );
 
 		if ( empty( $id ) || empty( $post['ID'] ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$project  = cpm()->project->get( $id );
@@ -143,7 +143,7 @@ class CPM_JSON_Projects {
 		$id = intval( $project_id );
 
 		if ( ! $id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 		$manage_capability = cpm_can_manage_projects();
 
@@ -190,7 +190,7 @@ class CPM_JSON_Projects {
 		$id = intval( $project_id );
 
 		if ( ! $id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -206,7 +206,7 @@ class CPM_JSON_Projects {
 		$post = get_post( $id, ARRAY_A );
 
 		if ( empty( $post['ID'] ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		cpm()->project->delete( $id, $force );
