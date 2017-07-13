@@ -37,7 +37,7 @@ class CPM_Admin {
         $sections = array(
             array(
                 'id'    => 'cpm_general',
-                'title' => __( 'General', 'cpm' )
+                'title' => __( 'General Settings', 'cpm' )
             ),
             array(
                 'id'    => 'cpm_mails',
