@@ -286,7 +286,7 @@ function cpm_tasklist_form( $project_id, $list = null ) {
 
         <div class="item milestone">
             <select name="tasklist_milestone" id="tasklist_milestone">
-                <option selected="selected" value="-1"><?php _e( '-- milestone --', 'cpm' ); ?></option>
+                <option selected="selected" value="-1"><?php _e( '- Milestone -', 'cpm' ); ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
@@ -646,7 +646,7 @@ function cpm_message_form( $project_id, $message = null ) {
 
             <div class="item milestone">
                 <select name="milestone" id="milestone">
-                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                     <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
                 </select>
             </div>
@@ -727,7 +727,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
 
         <div class="item milestone">
             <select name="milestone" id="milestone">
-                <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
