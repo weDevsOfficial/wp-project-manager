@@ -77,7 +77,7 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'pagination',
-                'label'   => __( 'Show Projects Per Page', 'cpm' ),
+                'label'   => __( 'Projects Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '10',
                 'desc'    => __( '-1 for unlimited', 'cpm' )
@@ -87,7 +87,7 @@ class CPM_Admin {
                 'label'   => __( 'Task List Style', 'cpm' ),
                 'type'    => 'radio',
                 'default' => 'pagination',
-                'options' => array( 'pagination' => __( 'Pagination', 'cpm' ), 'load_more' => __( 'Load More', 'cpm' ), 'lazy_load' => __( 'Lazy Load', 'cpm' ) )
+                'options' => array( 'pagination' => __( 'Pagination', 'cpm' ), 'load_more' => __( 'Load More...', 'cpm' ), 'lazy_load' => __( 'Lazy Load', 'cpm' ) )
             ),
             array(
                 'name'    => 'show_todo',
