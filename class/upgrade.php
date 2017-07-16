@@ -37,6 +37,10 @@ class CPM_Upgrade {
      * @since 1.1
      */
     function notice() {
+        if ( ! current_user_can( 'update_plugins' ) ) {
+            return;
+        }
+
         $version = get_option( 'cpm_version', '0.4.6' );
 
         if ( version_compare( CPM_VERSION, $version, '<=' ) ) {
