@@ -23,7 +23,7 @@
                     <div class="cpm-todo-content" >
                         <div class="cpm-incomplete-todo">
                             <div class="cpm-col-6">
-                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
+                                <input :disabled="!is_assigned(task)" v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
 
                                 <span>
                                     <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}"">{{ task.post_title }}</router-link>

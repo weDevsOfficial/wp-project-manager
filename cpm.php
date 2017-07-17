@@ -435,7 +435,7 @@ class WeDevs_CPM {
 
         wp_register_script( 'cpm-vue-multiselect', CPM_URL . '/assets/js/vue-multiselect/vue-multiselect.min.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-toastr', CPM_URL . '/assets/js/toastr/toastr.min.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-vue-focus', CPM_URL . '/assets/js/vue/vue.focus.min.js', array ( 'cpm-vue' ), false, true );
+        //wp_register_script( 'cpm-vue-focus', CPM_URL . '/assets/js/vue/vue.focus.min.js', array ( 'cpm-vue' ), false, true );
         wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-mixin', CPM_URL . '/assets/js/task-component-mixin.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
