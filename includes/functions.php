@@ -1513,7 +1513,42 @@ function cpm_get_project_id() {
     return false;
 }
 
+/**
+ * Get locale code
+ *
+ * @since 1.6.6
+ *
+ * @return str
+ */
+function cpm_pro_get_locale() {
+    $locale = get_locale();
+
+    // no need to add locale for en_US
+    if ( 'en_US' === $locale ) {
+        return;
+    }
+
+    $explod_locale = explode( '_', $locale );
+
+    // make sure we have two segments - 1.lang, 2.country
+    if ( count( $explod_locale ) < 2 ) {
+        return $locale;
+    }
+
+    $lang = $explod_locale[0];
+    $country = strtolower( $explod_locale[1] );
+
+    if ( $lang === $country ) {
+        $locale = $lang;
+    } else {
+        $locale = $lang . '-' . $country;
+    }
+
+    return $locale;
+}
+
 function cpm_pr( $data ) {
     echo '<pre>'; print_r( $data ); echo '</pre>';
 }
+
 
