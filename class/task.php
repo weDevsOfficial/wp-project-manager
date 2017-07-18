@@ -540,7 +540,7 @@ class CPM_Task {
         foreach ( $lists->posts as $list ) {
             $this->set_list_meta( $list );
         }
-
+        
         return array( 'lists' => $lists->posts, 'count' => $lists->found_posts );
     }
 

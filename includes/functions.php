@@ -1495,8 +1495,22 @@ function cpm_has_milestone( $project_id ) {
     return $posts;
 }
 
+/**
+ * Get project id
+ *
+ * @since  1.6.3
+ * 
+ * @return int
+ */
 function cpm_get_project_id() {
-    return empty( $_GET['pid'] ) ? false : absint( $_GET['pid'] );
+    if ( isset( $_GET['pid'] ) ) {
+        return absint( $_GET['pid'] ) ? $_GET['pid'] : false;
+
+    } else if ( isset( $_GET['project_id'] ) ) {
+        return absint( $_GET['project_id'] ) ? $_GET['project_id'] : false;
+    }
+    
+    return false;
 }
 
 function cpm_pr( $data ) {

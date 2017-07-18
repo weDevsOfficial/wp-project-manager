@@ -192,8 +192,8 @@ class WeDevs_CPM {
     function plugin_action_links( $links, $file ) {
         if ( $file == plugin_basename( __FILE__ ) ) {
             $new_links = array(
-                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/plugin/wp-project-manager/', __( 'Pro Version', 'cpm' ) ),
-                sprintf( '<a href="%s">%s</a>', 'http://wedevs.com/wp-project-manager-add-ons/', __( 'Add-ons', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', 'https://wedevs.com/wp-project-manager-pro/pricing/', __( 'Pro Version', 'cpm' ) ),
+                sprintf( '<a href="%s">%s</a>', 'https://wedevs.com/wp-project-manager-pro/extensions/', __( 'Add-ons', 'cpm' ) ),
                 sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=cpm_settings' ), __( 'Settings', 'cpm' ) )
             );
 
