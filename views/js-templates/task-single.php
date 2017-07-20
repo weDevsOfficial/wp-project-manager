@@ -42,10 +42,17 @@
                             <div class="cpm-modal-conetnt">
                                 <div class="cmp-task-header">
                                     <h3 class="cpm-task-title"> 
-                                        <input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox">
-                                        <span :class="singleTaskTitle(task)">{{ task.post_title }}</span>
+                                        <span class="cpm-mark-done-checkbox"><input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"></span>
+                                        <span :class="singleTaskTitle(task) + ' cpm-task-title-wrap'">
+                                            <div class="cpm-task-title-text">{{ task.post_title }}</div>
+                                            <div class="cpm-task-title-meta">
+                                                <span v-if="task.task_privacy == 'yes'" class="dashicons dashicons-lock" title="Private Task"></span>
+                                                <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit" title="Edit Task Title"></span></a>
+                                            </div>
+                                            <div class="clearfix cpm-clear"></div>
+                                        </span>
 
-                                        <span v-if="task.task_privacy == 'yes'" class="cpm-lock" title="Private Task"></span>
+                                        <div class="clearfix cpm-clear"></div>
                                     </h3>
                                     
                                     <div class="cpm-task-meta">

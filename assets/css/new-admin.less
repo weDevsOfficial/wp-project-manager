@@ -4598,10 +4598,49 @@ ul.cpm-files {
             height:99vh;
             padding-bottom: 15px;
 
+            .cpm-todo-edit {
+                display: none;
+            }
+
+            .cpm-task-title:hover .cpm-todo-edit {
+                display: inline-block;
+            }
+
             .cpm-task-title {
                 margin-top: 0px;
                 display: inline-block;
                 padding-right: 20px;
+                width: 100%;
+
+                .dashicons-lock {
+                    color: #0073aa;
+                }
+
+                .cpm-task-title-text, .cpm-task-title-meta {
+                    float: left;
+                }
+
+                .cpm-task-title-text {
+                    max-width: 88%;
+                    margin-right: 12px;
+                }
+
+                .cpm-task-title-meta {
+                    width: 8%;
+                }
+
+                .cpm-mark-done-checkbox {
+                    width: 4%;
+                }
+
+                .cpm-task-title-wrap {
+                    width: 90%;
+                    text-align: justify;
+                }
+
+                .cpm-task-title-wrap, .cpm-mark-done-checkbox {
+                    float: left;
+                }
             }
 
             .cpm-task-meta {

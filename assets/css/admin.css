@@ -3885,10 +3885,42 @@ ul.cpm-files li .cpm-file-action .comment-number {
   height: 99vh;
   padding-bottom: 15px;
 }
+.cpm .half-modal .cpm-modal-conetnt .cpm-todo-edit {
+  display: none;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title:hover .cpm-todo-edit {
+  display: inline-block;
+}
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-title {
   margin-top: 0px;
   display: inline-block;
   padding-right: 20px;
+  width: 100%;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .dashicons-lock {
+  color: #0073aa;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-text,
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-meta {
+  float: left;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-text {
+  max-width: 88%;
+  margin-right: 12px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-meta {
+  width: 8%;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-mark-done-checkbox {
+  width: 4%;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-wrap {
+  width: 90%;
+  text-align: justify;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-wrap,
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-mark-done-checkbox {
+  float: left;
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-meta {
   margin-top: 0px;
