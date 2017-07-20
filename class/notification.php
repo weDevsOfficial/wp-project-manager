@@ -317,7 +317,7 @@ class CPM_Notification {
         $this->check_email_url();
         $file_name   = 'emails/update-comment.php';
         $parent_post = get_comment( $comment_id );
-        $subject     = sprintf( __( '[%s][%s] Uudate Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
+        $subject     = sprintf( __( '[%s][%s] Update Comment on: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ), get_post_field( 'post_title', $parent_post->comment_post_ID ) );
 
         // cutoff at 78th character
         if ( cpm_strlen( $subject ) > 78 ) {

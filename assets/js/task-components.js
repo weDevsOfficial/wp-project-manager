@@ -250,7 +250,7 @@ Vue.component('todo-lists', {
         },
 
         /**
-         * Get milestoes from vuex store
+         * Get milestones from vuex store
          * 
          * @return array
          */

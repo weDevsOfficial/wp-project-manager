@@ -45,8 +45,8 @@ class CPM_Milestone {
                 'view'               => __( 'View Milestone', 'cpm' ),
                 'view_item'          => __( 'View Milestone', 'cpm' ),
                 'search_items'       => __( 'Search Milestone', 'cpm' ),
-                'not_found'          => __( 'No Milestone Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Milestone Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No milestones found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No milestones found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Milestone', 'cpm' ),
             ),
         ) );

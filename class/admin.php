@@ -37,7 +37,7 @@ class CPM_Admin {
         $sections = array(
             array(
                 'id'    => 'cpm_general',
-                'title' => __( 'General', 'cpm' )
+                'title' => __( 'General Settings', 'cpm' )
             ),
             array(
                 'id'    => 'cpm_mails',
@@ -77,7 +77,7 @@ class CPM_Admin {
             ),
             array(
                 'name'    => 'pagination',
-                'label'   => __( 'Show Projects Per Page', 'cpm' ),
+                'label'   => __( 'Projects Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '10',
                 'desc'    => __( '-1 for unlimited', 'cpm' )
@@ -87,7 +87,7 @@ class CPM_Admin {
                 'label'   => __( 'Task List Style', 'cpm' ),
                 'type'    => 'radio',
                 'default' => 'pagination',
-                'options' => array( 'pagination' => __( 'Pagination', 'cpm' ), 'load_more' => __( 'Load More', 'cpm' ), 'lazy_load' => __( 'Lazy Load', 'cpm' ) )
+                'options' => array( 'pagination' => __( 'Pagination', 'cpm' ), 'load_more' => __( 'Load More...', 'cpm' ), 'lazy_load' => __( 'Lazy Load', 'cpm' ) )
             ),
             array(
                 'name'    => 'show_todo',
@@ -111,7 +111,7 @@ class CPM_Admin {
                 'name'    => 'project_manage_role',
                 'label'   => __( 'Project Managing Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
-                'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
+                'desc'    => __( 'Select the user roles who can see and manage all projects.', 'cpm' ),
                 'type'    => 'multicheck',
                 'options' => $role_names,
             ),
@@ -119,7 +119,7 @@ class CPM_Admin {
                 'name'    => 'project_create_role',
                 'label'   => __( 'Project Creation Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
-                'desc'    => __( 'Select the user role who can create projects', 'cpm' ),
+                'desc'    => __( 'Select the user roles who can create projects.', 'cpm' ),
                 'type'    => 'multicheck',
                 'options' => $role_names,
             ),
@@ -164,7 +164,7 @@ class CPM_Admin {
     }
 
     public static function get_post_type( $post_type ) {
-        $pages_array = array( '-1' => __( '- select -', 'cpm' ) );
+        $pages_array = array( '-1' => __( '- Select -', 'cpm' ) );
         $pages       = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
 
         if ( $pages ) {

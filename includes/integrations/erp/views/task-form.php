@@ -1,7 +1,7 @@
 <?php
 $projects = CPM_ERP_Integration::$project_info;
 
-$title = ['-1' => __( '-Select-', 'cpm' ) ];
+$title = ['-1' => __( '- Select -', 'cpm' ) ];
 foreach ( $projects as $key => $project ) {
     $title[$project->project_id] = $project->project_title;
 }
@@ -10,7 +10,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row">
         <?php
         erp_html_form_input( array(
-            'label'   => __( 'Project', 'wp-erp' ),
+            'label'   => __( 'Project', 'cpm' ),
             'name'    => 'project',
             'id'      => 'erp-project',
             'type'    => 'select',
@@ -22,7 +22,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide erp-employee-task-list-drop">
         <?php
         erp_html_form_input( array(
-            'label'   => __( 'Task Lists', 'wp-erp' ),
+            'label'   => __( 'Task Lists', 'cpm' ),
             'name'    => 'task_list',
             'id'      => 'erp-employee-task-list-drop',
             'type'    => 'select',
@@ -34,7 +34,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide cpm-employee-task-form">
         <?php
         erp_html_form_input( array(
-            'label' => __( 'Task Title', 'wp-erp' ),
+            'label' => __( 'Task Title', 'cpm' ),
             'name'  => 'task_title',
             'type'  => 'text',
         ) );
@@ -44,7 +44,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide cpm-employee-task-form">
         <?php
         erp_html_form_input( array(
-            'label' => __( 'Task Content', 'wp-erp' ),
+            'label' => __( 'Task Content', 'cpm' ),
             'name'  => 'task_text',
             //'id'      => 'erp-employee-task-list-drop',
             'type'  => 'textarea',
@@ -56,7 +56,7 @@ foreach ( $projects as $key => $project ) {
         <li class="row erp-hide cpm-employee-task-form">
             <?php
             erp_html_form_input( array(
-                'label' => __( 'Start Date', 'wp-erp' ),
+                'label' => __( 'Start Date', 'cpm' ),
                 'name'  => 'task_start',
                 'type'  => 'text',
                 'class' => 'date_picker_from',
@@ -68,7 +68,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide cpm-employee-task-form">
         <?php
         erp_html_form_input( array(
-            'label' => __( 'Due Date', 'wp-erp' ),
+            'label' => __( 'Due Date', 'cpm' ),
             'name'  => 'task_due',
             'type'  => 'text',
             'class' => 'date_picker_to',
@@ -78,7 +78,7 @@ foreach ( $projects as $key => $project ) {
     <li class="row erp-hide cpm-employee-task-form">
         <?php
         erp_html_form_input( array(
-            'label' => __( 'Private', 'wp-erp' ),
+            'label' => __( 'Private', 'cpm' ),
             'name'  => 'task_privacy',
             'type'  => 'checkbox',
             'class' => '',

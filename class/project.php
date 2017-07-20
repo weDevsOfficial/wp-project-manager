@@ -54,8 +54,8 @@ class CPM_Project {
                 'view'               => __( 'View Project', 'cpm' ),
                 'view_item'          => __( 'View Project', 'cpm' ),
                 'search_items'       => __( 'Search Project', 'cpm' ),
-                'not_found'          => __( 'No Project Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Project Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No projects found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No projects found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Project', 'cpm' ),
             ),
         ); 

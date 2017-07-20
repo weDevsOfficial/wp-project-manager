@@ -69,12 +69,9 @@ switch ( $parent_post->post_type ) {
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
-           <!--  <strong><?php _e( 'Author : ' ); ?></strong>
-<?php echo $author->display_name; ?>
-            <strong style="margin-left: 10px;"><?php _e( 'Permalink : ' ); ?></strong>
-            <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $comment_url; ?>"><?php _e( 'Comment link', 'cpm' ); ?></a>
-            <strong style="margin-left: 10px;"><?php _e( 'Comment : ' ); ?></strong> -->
-            <?php echo $data['comment_content']; ?>
+           <!--  <strong><?php _e( 'Author:' ); ?></strong> <?php echo $author->display_name; ?>
+            <strong style="margin-left: 10px;"><?php _e( 'Permalink:' ); ?></strong> <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $comment_url; ?>"><?php _e( 'Comment link', 'cpm' ); ?></a>
+            <strong style="margin-left: 10px;"><?php _e( 'Comment:' ); ?></strong> --> <?php echo $data['comment_content']; ?>
         </div>
 
     </div>

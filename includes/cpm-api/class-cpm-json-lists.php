@@ -46,11 +46,11 @@ class CPM_JSON_Lists {
 		$list_id    = (int) $list_id;
 
 		if ( empty( $project_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( empty( $list_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -96,7 +96,7 @@ class CPM_JSON_Lists {
 		$project_id = (int) $project_id;
 
 		if ( empty( $project_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -145,7 +145,7 @@ class CPM_JSON_Lists {
 		$list_id    = (int) $list_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -214,7 +214,7 @@ class CPM_JSON_Lists {
 		$post = get_post( $list_id );
 
 		if ( empty( $post->ID ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$post = cpm()->task->get_task_list( $list_id );
@@ -228,7 +228,7 @@ class CPM_JSON_Lists {
 			return $response;
 
 		} else {
-			return new WP_Error( 'create_capability', __( 'Sorry! Permission denied to edit task list.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'create_capability', __( 'Sorry! Permission denied to edit task list.', 'cpm' ), array( 'status' => 404 ) );
 		}
 	}
 
@@ -263,11 +263,11 @@ class CPM_JSON_Lists {
 		$post       = get_post( $list_id );
 
 		if ( empty( $list_id ) || empty( $post->ID ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 		$post = cpm()->task->get_task_list( $list_id );
 		if ( !cpm_user_can_delete_edit( $project_id, $post ) ) {
-			return new WP_Error( 'premission', __( 'Permission deny' ), array( 'status' => 404 ) );
+			return new WP_Error( 'premission', __( 'Permission denied.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$force = $force ? true : false;
@@ -275,10 +275,10 @@ class CPM_JSON_Lists {
 		cpm()->task->delete_list( $list_id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Permanently deleted post', 'cpm' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 
