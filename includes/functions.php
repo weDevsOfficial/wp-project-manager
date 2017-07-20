@@ -1082,7 +1082,7 @@ function cpm_project_actions( $project_id ) {
                 <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
                     <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-yes"></span>
-                        <span><?php _e( 'Completed', 'cpm' ); ?></span>
+                        <span><?php _e( 'Complete', 'cpm' ); ?></span>
                     </a>
                 <?php } else { ?>
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#">
