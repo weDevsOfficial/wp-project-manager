@@ -101,10 +101,10 @@ function cpm_sc_comment_url( $atts ) {
     $url = cpm_url_comment( $id, $project );
 
     if ( ! $url ) {
-        return '<span class="cpm-strikethrough">' . __( 'thread', 'cpm' ) . '</span>';
+        return '<span class="cpm-strikethrough">' . __( 'discussion', 'cpm' ) . '</span>';
     }
 
-    return sprintf( '<a href="%s">%s</a>', $url, __( 'thread', 'cpm' ) );
+    return sprintf( '<a href="%s">%s</a>', $url, __( 'discussion', 'cpm' ) );
 }
 
 add_shortcode( 'cpm_comment_url', 'cpm_sc_comment_url' );

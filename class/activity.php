@@ -280,7 +280,7 @@ class CPM_Activity {
     }
 
     function comment_update( $comment_id, $project_id ) {
-        $message = sprintf( __( '%s updated comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
+        $message = sprintf( __( '%s updated a comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
 
         $this->log( $project_id, $message );
     }
