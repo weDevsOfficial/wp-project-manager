@@ -49,7 +49,7 @@ class CPM_Task {
                     'tasklist_submit_btn_text' => __( 'Add Task List', 'cpm' ),
                     'tasklist_update_btn_text' => __( 'Update Task List', 'cpm' ),
                     'add_task_btn'             => __( 'Add Task', 'cpm' ),
-                    'confirm_update'           => __( 'Are you confirm to update task status?', 'cpm' ),
+                    'confirm_update'           => __( 'Are you sure to update task status?', 'cpm' ),
                     //
                     'add_a_new_todo'           => __( "Add a new task", 'cpm' ),
                     'add_todo_details_text'    => __( 'Add extra details about this task (optional)', 'cpm' ),
