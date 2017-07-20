@@ -101,7 +101,7 @@ unset( $projects['total_projects'] );
 
               <article class="cpm-project cpm-column-gap-left cpm-sm-col-12<?php echo $last_cal ; ?>">
                 <?php if ( cpm_is_project_archived( $project->ID ) ) { ?>
-                    <div class="cpm-completed-wrap"><div class="ribbon-green"><?php _e( 'Completed', 'cpm' ); ?></div></div>
+                    <div class="cpm-completed-wrap"><div class="ribbon-green"><?php _ex( 'Completed', 'Single project status', 'cpm' ); ?></div></div>
                 <?php } ?>
 
                 <a title="<?php echo get_the_title( $project->ID ); ?>" href="<?php echo cpm_url_project_overview( $project->ID ); ?>">
