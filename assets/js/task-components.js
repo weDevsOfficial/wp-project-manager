@@ -1265,12 +1265,14 @@ var CPM_Task_Single = {
     data: function() {
         return {
             task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
-            loading: true
+            loading: true,
+            is_task_title_edit_mode: false
         }
     },
 
     created: function() {
         this.getTask();
+        window.addEventListener('click', this.windowActivity);
     },
 
 
@@ -1312,6 +1314,51 @@ var CPM_Task_Single = {
                     self.loading = false;
                 }
             });
+        },
+
+        updateTaskElement: function(task) {
+            
+            var request_data  = {
+                    task_id: task.ID,
+                    list_id: task.post_parent,
+                    project_id: CPM_Vars.project_id,
+                    task_assign: task.assigned_to,
+                    task_title: task.post_title,
+                    task_text: task.post_content,
+                    task_start: task.start_date,
+                    task_due: task.due_date,
+                    task_privacy: task.task_privacy,
+                    _wpnonce: CPM_Vars.nonce,
+                },
+                self = this;
+
+            wp.ajax.send('cpm_task_update', {
+                data: request_data,
+                success: function(res) {
+                    var list_index = self.getIndex( self.$store.state.lists, task.post_parent, 'ID' ),
+                        task_index = self.getIndex( self.$store.state.lists[0].tasks, task.ID, 'ID' );
+
+                    self.$store.commit('afterUpdateTaskElement', {
+                        list_index: list_index,
+                        task_index: task_index,
+                        task: task
+                    });
+                    self.is_task_title_edit_mode = false;
+                }
+            });
+        },
+
+        isTaskTitleEditMode: function() {
+            this.is_task_title_edit_mode = true;
+        },
+
+        windowActivity: function(el) {
+            var title_blur = jQuery(el.target).hasClass('cpm-task-title-activity');
+
+            if ( ! title_blur ) {
+                this.is_task_title_edit_mode = false;
+            }
+            
         }
     },
 }

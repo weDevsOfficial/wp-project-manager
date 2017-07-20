@@ -44,10 +44,23 @@
                                     <h3 class="cpm-task-title"> 
                                         <span class="cpm-mark-done-checkbox"><input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"></span>
                                         <span :class="singleTaskTitle(task) + ' cpm-task-title-wrap'">
-                                            <div class="cpm-task-title-text">{{ task.post_title }}</div>
+                                            <div class="cpm-task-title-text">
+                                                
+                                                <span v-if="is_task_title_edit_mode">
+                                                    <input 
+                                                        v-model="task.post_title"
+                                                        @blur="updateTaskElement(task)" 
+                                                        @keyup.enter="updateTaskElement(task)"
+                                                        :value="task.post_title" 
+                                                        class="cpm-task-title-activity"
+                                                        type="text">
+                                                </span>
+                                                
+                                                <span class="cpm-task-title-activity" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
+                                            </div>
                                             <div class="cpm-task-title-meta">
                                                 <span v-if="task.task_privacy == 'yes'" class="dashicons dashicons-lock" title="Private Task"></span>
-                                                <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit" title="Edit Task Title"></span></a>
+                                                <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a>
                                             </div>
                                             <div class="clearfix cpm-clear"></div>
                                         </span>
