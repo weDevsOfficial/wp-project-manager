@@ -31,7 +31,7 @@ unset( $projects['total_projects'] );
     <div class="cpm-row cpm-no-padding cpm-priject-search-bar">
         <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin">
              <?php if ( $can_create_project ) { ?>
-                <a href="#" id="cpm-create-project" class="cpm-btn cpm-plus-white"><?php _e( 'NEW PROJECT', 'cpm' ); ?></a>
+                <a href="#" id="cpm-create-project" class="cpm-btn cpm-plus-white cpm-btn-uppercase"><?php _e( 'New Project', 'cpm' ); ?></a>
             <?php } ?>
         </div>
 
