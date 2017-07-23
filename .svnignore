@@ -1,4 +1,5 @@
 includes/pro
+includes/debug.log
 node_modules
 nbproject
 Gruntfile.js
