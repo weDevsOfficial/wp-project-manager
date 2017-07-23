@@ -31,7 +31,7 @@ $completed_user = get_user_by( 'id', $task_data->completed_by );
     </div>
     <div style="padding: 0 50px; text-align: justify; background-repeat: no-repeat;">
         <div style="margin: 40px 0 10px; margin-bottom: 20px;">
-            <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Completed By', 'cpm' ); ?></em>
+            <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Completed by', 'cpm' ); ?></em>
             <strong style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
                 <?php echo $completed_user->display_name; ?>
             </strong>

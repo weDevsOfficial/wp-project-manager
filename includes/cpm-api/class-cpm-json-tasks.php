@@ -48,11 +48,11 @@ class CPM_JSON_Tasks {
 		$list_id    = (int) $list_id;
 
 		if ( empty( $project_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( empty( $list_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 		$posts_list        = cpm()->task->get_task_list( $list_id );
 		$manage_capability = cpm_can_manage_projects();
@@ -102,11 +102,11 @@ class CPM_JSON_Tasks {
 		$list_id    = (int) $list_id;
 
 		if ( empty( $project_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( empty( $list_id ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$posts_list        = cpm()->task->get_task_list( $list_id );
@@ -160,11 +160,11 @@ class CPM_JSON_Tasks {
 		$list_id    = (int) $list_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! $list_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid task list ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( empty( $data['task_text'] ) ) {
@@ -238,7 +238,7 @@ class CPM_JSON_Tasks {
 		$project_id = (int) $project_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! $list_id ) {
@@ -289,7 +289,7 @@ class CPM_JSON_Tasks {
 		$project_id = (int) $project_id;
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! $task_id ) {
@@ -307,10 +307,10 @@ class CPM_JSON_Tasks {
 
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Permanently deleted post', 'cpm' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 }

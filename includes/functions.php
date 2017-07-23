@@ -194,7 +194,7 @@ function cpm_user_checkboxes( $project_id ) {
         </ul>
         <?php
     } else {
-        echo __( 'No users found', 'cpm' );
+        echo __( 'No users found.', 'cpm' );
     }
 
     return $users;
@@ -252,7 +252,7 @@ function cpm_upload_field( $id, $files = array() ) {
                 ?>
             <?php } ?>
         </div>
-        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), $id, __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
+        <?php printf( __( 'To attach, %sselect files%s from your computer.', 'cpm' ), sprintf( '<a id="cpm-upload-pickfiles%s" href="#">', $id ), '</a>' ); ?>
     </div>
     <?php
 }
@@ -1304,8 +1304,8 @@ function cpm_ordinal( $number ) {
  */
 function cpm_message() {
     $message = array(
-        'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
-        'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
+        'report_frm_field_limit'       => __( 'You cannot use this field more than once!', 'cpm' ),
+        'report_total_frm_field_limit' => __( 'You cannot create more than 4 actions!', 'cpm' ),
         'new_todo'                     => __( 'New Task List', 'cpm' ),
         'update_todo'                  => __( 'Update Task List', 'cpm' ),
         'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),

@@ -141,7 +141,7 @@ class CPM_ERP_Integration {
             'project_attr' => self::$project_info,
             'popup_title'  => __( 'Employee New Task', 'cpm' ),
             'submit'       => __( 'Submit', 'cpm' ),
-            'alert'        => __( 'Text content is required', 'cpm' )
+            'alert'        => __( 'Text content is required.', 'cpm' )
         ) );
     }
 

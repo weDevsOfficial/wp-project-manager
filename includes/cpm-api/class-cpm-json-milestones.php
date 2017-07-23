@@ -48,11 +48,11 @@ class CPM_JSON_Milestones {
 		$milestone_id = intval( $milestone_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! $milestone_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -96,7 +96,7 @@ class CPM_JSON_Milestones {
 		$project_id = intval( $project_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
@@ -144,7 +144,7 @@ class CPM_JSON_Milestones {
 		$project_id = intval( $project_id );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( isset( $data['milestone_name'] ) &&  empty( $data['milestone_name'] ) ) {
@@ -279,7 +279,7 @@ class CPM_JSON_Milestones {
 			return array( 'message' => __( 'Permanently deleted post' ) );
 		} else {
 			// TODO: return a HTTP 202 here instead
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 }

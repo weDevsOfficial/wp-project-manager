@@ -83,11 +83,11 @@ class CPM_JSON_Comments {
 		$project_id = intval( $project_id );
 
 		if ( ! $post_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.', 'cpm' ) );
 		}
 
 		if ( ! $project_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		$post      = get_post( $post_id );
@@ -200,11 +200,11 @@ class CPM_JSON_Comments {
 		$project_id = intval( $project_id );
 
 		if ( ! $post_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.', 'cpm' ) );
 		}
 
 		if ( ! $project_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		$post      = get_post( $post_id );
@@ -281,11 +281,11 @@ class CPM_JSON_Comments {
 		$project_id = intval( $project_id );
 
 		if ( ! $post_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid post ID.', 'cpm' ) );
 		}
 
 		if ( ! $project_id ) {
-			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.' ) );
+			return array( 'key' => 'json_post_invalid_id', 'message' => __( 'Invalid project ID.', 'cpm' ) );
 		}
 
 		$post      = get_post( $post_id );

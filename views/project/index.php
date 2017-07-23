@@ -153,7 +153,7 @@ unset( $projects['total_projects'] );
 
     <?php } else { ?>
 
-        <h3><?php _e( 'No projects found!', 'cpm' ); ?></h3>
+        <h3><?php _e( 'No projects found.', 'cpm' ); ?></h3>
 
     <?php } ?>
 

@@ -286,7 +286,7 @@ function cpm_tasklist_form( $project_id, $list = null ) {
 
         <div class="item milestone">
             <select name="tasklist_milestone" id="tasklist_milestone">
-                <option selected="selected" value="-1"><?php _e( '-- milestone --', 'cpm' ); ?></option>
+                <option selected="selected" value="-1"><?php _e( '- Milestone -', 'cpm' ); ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
@@ -396,10 +396,10 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <div class="cpm-col-3 cpm-todo-comment">
                     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
                         <?php if ( ( int ) $list->comment_count > 0 ) { ?>
-                            <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                            <?php printf( _n( '1 Comment', '%d Comments', $list->comment_count, 'cpm' ), $list->comment_count ); ?>
                             <?php
                         } else {
-                            printf( "<span>0 %s</span>", __( 'Comment', 'cpm' ) );
+                            printf( 'No Comments', 'cpm' );
                         }
                         ?>
                     </a>
@@ -646,7 +646,7 @@ function cpm_message_form( $project_id, $message = null ) {
 
             <div class="item milestone">
                 <select name="milestone" id="milestone">
-                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                     <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
                 </select>
             </div>
@@ -727,7 +727,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
 
         <div class="item milestone">
             <select name="milestone" id="milestone">
-                <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
@@ -781,7 +781,7 @@ function cpm_discussion_single( $message_id, $project_id ) {
                 <span class="<?php echo $private_class; ?>"></span>
             </span>
             <div class="cpm-small-title">
-                <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
+                <?php printf( __( 'By %s on %s at %s', 'cpm' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
             </div>
         </h3>
 
@@ -1440,7 +1440,7 @@ function cpm_report_action_from( $selected = '-1' ) {
 
     <label class="cpm-report-lebel">
         <select class="cpm-report-action" name="filter[]">
-            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( '--Select--', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( '- Select -', 'cpm' ); ?></option>
             <option value="project" <?php selected( $selected, 'project' ); ?>><?php _e( 'Projects', 'cpm' ); ?></option>
             <option value="co-worker" <?php selected( $selected, 'co-worker' ); ?>><?php _e( 'Co-Worker', 'cpm' ); ?></option>
             <option value="status" <?php selected( $selected, 'status' ); ?>><?php _e( 'Status', 'cpm' ); ?></option>

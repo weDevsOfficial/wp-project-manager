@@ -86,7 +86,7 @@
                 </div>
             </li>
 
-            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No task found!', 'cpm'); ?></li>
+            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No tasks found.', 'cpm'); ?></li>
             <li v-if="incomplete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreIncompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
@@ -95,7 +95,7 @@
     </div>
 
     <div class="cpm-completed-tasks">
-        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
+        <h3 class="cpm-task-list-title cpm-tag-gray"><a><?php _e( 'Completed Tasks', 'cpm' ); ?></a></h3>
         <ul v-cpm-sortable class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
 
             <li v-if="loading_completed_tasks" class="nonsortable">
@@ -176,7 +176,7 @@
                 </div>
             </li>
 
-            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed task!', 'cpm'); ?></li>
+            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed tasks.', 'cpm'); ?></li>
 
             <li v-if="complete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
@@ -299,7 +299,7 @@
                 </div>
             </li>
 
-            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No task found!', 'cpm'); ?></li>
+            <li v-if="!getIncompleteTasks.length" class="nonsortable"><?php _e( 'No tasks found.', 'cpm'); ?></li>
 
             <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
                 <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
@@ -376,7 +376,7 @@
 
                 </div>
             </li>
-            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed task!', 'cpm'); ?></li>
+            <li v-if="!getCompletedTask.length" class="nonsortable"><?php _e( 'No completed tasks.', 'cpm'); ?></li>
             <li v-if="complete_show_load_more_btn" class="nonsortable">
                 <a @click.prevent="loadMoreCompleteTasks(list)" href="#"><?php _e( 'More Tasks', 'cpm' ); ?></a>
                 <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
