@@ -397,10 +397,7 @@ var cpm_task_store = {
         },
 
         afterUpdateTaskElement: function(state, task) {
-            console.log( state.lists[task.list_index].tasks[task.task_index], task.task );
-            //state.lists[task.list_index].tasks[task.task_index] = task.task;
-
-            jQuery.extend( true, state.lists[task.list_index].tasks[task.task_index], task.task);
+            jQuery.extend(true, state.lists[task.list_index].tasks[task.task_index], task.task);
         }
 
     }

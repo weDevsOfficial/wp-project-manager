@@ -3897,7 +3897,8 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding-right: 20px;
   width: 100%;
 }
-.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .dashicons-lock {
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .dashicons-lock,
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-title .dashicons-unlock {
   color: #0073aa;
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-title .cpm-task-title-text,
@@ -3929,6 +3930,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .half-modal .cpm-modal-conetnt .cpm-assigned-user img {
   width: 24px;
   height: 24px;
+}
+.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-task-des-edit-btn {
+  display: none;
+}
+.cpm .half-modal .cpm-modal-conetnt .task-details:hover .cpm-task-des-edit-btn {
+  display: inline-block;
+  color: #0073aa;
 }
 .cpm .modal-enter,
 .cpm .modal-leave {

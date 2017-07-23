@@ -4612,7 +4612,7 @@ ul.cpm-files {
                 padding-right: 20px;
                 width: 100%;
 
-                .dashicons-lock {
+                .dashicons-lock, .dashicons-unlock {
                     color: #0073aa;
                 }
 
@@ -4654,9 +4654,15 @@ ul.cpm-files {
                     height: 24px
                 }
             }
+            .task-details {
+                .cpm-task-des-edit-btn {
+                    display: none;
+                }
+            }
 
-            .cpm-task-comment {
-
+            .task-details:hover .cpm-task-des-edit-btn {
+                display: inline-block;
+                color: #0073aa;
             }
 
         }

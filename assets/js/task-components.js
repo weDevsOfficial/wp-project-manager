@@ -1266,7 +1266,8 @@ var CPM_Task_Single = {
         return {
             task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
             loading: true,
-            is_task_title_edit_mode: false
+            is_task_title_edit_mode: false,
+            is_task_details_edit_mode: false,
         }
     },
 
@@ -1277,6 +1278,13 @@ var CPM_Task_Single = {
 
 
     methods: {
+        updateTaskPrivacy: function(task, status) {
+            task.task_privacy = status;
+            this.updateTaskElement(task);
+        },
+        isTaskDetailsEditMode: function() {
+            this.is_task_details_edit_mode = true;
+        },
         closePopup: function() {
             this.$store.commit( 'close_single_task_popup' );
             
@@ -1344,6 +1352,7 @@ var CPM_Task_Single = {
                         task: task
                     });
                     self.is_task_title_edit_mode = false;
+                    self.is_task_details_edit_mode = false;
                 }
             });
         },
@@ -1353,10 +1362,15 @@ var CPM_Task_Single = {
         },
 
         windowActivity: function(el) {
-            var title_blur = jQuery(el.target).hasClass('cpm-task-title-activity');
+            var title_blur      = jQuery(el.target).hasClass('cpm-task-title-activity'),
+                dscription_blur = jQuery(el.target).hasClass('cpm-des-area');
 
             if ( ! title_blur ) {
                 this.is_task_title_edit_mode = false;
+            }
+            
+            if ( ! dscription_blur ) {
+                this.is_task_details_edit_mode = false;
             }
             
         }

@@ -59,7 +59,8 @@
                                                 <span class="cpm-task-title-activity" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
                                             </div>
                                             <div class="cpm-task-title-meta">
-                                                <span v-if="task.task_privacy == 'yes'" class="dashicons dashicons-lock" title="Private Task"></span>
+                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" class="dashicons dashicons-lock" title="Click for unlock"></span>
+                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" class="dashicons dashicons-unlock" title="Click for lock"></span>
                                                 <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a>
                                             </div>
                                             <div class="clearfix cpm-clear"></div>
@@ -86,9 +87,26 @@
                                 </div>
 
 
-                                <div class="task-details ">
+                                <div class="task-details">
+                                                
                                     <!--v-if-->
-                                    <p v-html="task.post_content"></p>
+                                    
+                                    <p class="cpm-des-area" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
+                                        {{ task.post_content }}
+                                        <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span>
+                                    </p>
+                                        
+                                    
+                                    
+                                    <textarea 
+                                        @blur="updateTaskElement(task)" 
+                                        class="cpm-des-area" 
+                                        v-if="is_task_details_edit_mode"
+                                        v-model="task.post_content">
+                                        
+                                        {{ task.post_content }}
+
+                                        </textarea>
 
                                     <!--<span>
                                         <span class='cpm-assigned-user' 
