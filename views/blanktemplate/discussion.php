@@ -3,8 +3,7 @@
         <h2 class="cpm-page-title">  <?php _e( 'Discussion', 'cpm' ) ?> </h2>
 
         <p>
-            <?php _e( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
-', 'cpm' ) ?>
+            <?php _e( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'cpm' ) ?>
         </p>
 
 
