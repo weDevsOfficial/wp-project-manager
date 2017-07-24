@@ -507,45 +507,45 @@ class WeDevs_Insights {
         $reasons = array(
             array(
                 'id'          => 'could-not-understand',
-                'text'        => 'I couldn\'t understand how to make it work',
+                'text'        => __( 'I couldn\'t understand how to make it work', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Would you like us to assist you?'
+                'placeholder' => __( 'Would you like us to assist you?', 'cpm' )
             ),
             array(
                 'id'          => 'found-better-plugin',
-                'text'        => 'I found a better plugin',
+                'text'        => __( 'I found a better plugin', 'cpm' ),
                 'type'        => 'text',
-                'placeholder' => 'Which plugin?'
+                'placeholder' => __( 'Which plugin?', 'cpm' )
             ),
             array(
                 'id'          => 'not-have-that-feature',
-                'text'        => 'The plugin is great, but I need specific feature that you don\'t support',
+                'text'        => __( 'The plugin is great, but I need specific feature that you don\'t support', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us more about that feature?'
+                'placeholder' => __( 'Could you tell us more about that feature?', 'cpm' )
             ),
             array(
                 'id'          => 'is-not-working',
-                'text'        => 'The plugin is not working',
+                'text'        => __( 'The plugin is not working', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us a bit more whats not working?'
+                'placeholder' => __( 'Could you tell us a bit more whats not working?', 'cpm' )
             ),
             array(
                 'id'          => 'looking-for-other',
-                'text'        => 'It\'s not what I was looking for',
+                'text'        => __( 'It\'s not what I was looking for', 'cpm' ),
                 'type'        => '',
                 'placeholder' => ''
             ),
             array(
                 'id'          => 'did-not-work-as-expected',
-                'text'        => 'The plugin didn\'t work as expected',
+                'text'        => __( 'The plugin didn\'t work as expected', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'What did you expect?'
+                'placeholder' => __( 'What did you expect?', 'cpm' )
             ),
             array(
                 'id'          => 'other',
-                'text'        => 'Other',
+                'text'        => __( 'Other', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us a bit more?'
+                'placeholder' => __( 'Could you tell us a bit more?', 'cpm' )
             ),
         );
 

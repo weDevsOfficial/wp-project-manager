@@ -20,7 +20,7 @@
             :clear-on-select="true"
             :hide-selected="false"
             :show-labels="true"
-            placeholder="Select User" 
+            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
             select-label=""
             selected-label="selected"
             deselect-label=""
