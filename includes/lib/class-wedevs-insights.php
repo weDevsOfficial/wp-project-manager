@@ -181,12 +181,12 @@ class WeDevs_Insights {
      */
     protected function data_we_collect() {
         $data = array(
-            'Server environment details (php, mysql, server, WordPress versions)',
-            'Number of users in your site',
-            'Site language',
-            'Number of active and inactive plugins',
-            'Site name and url',
-            'Your name and email address',
+            __( 'Server environment details (PHP, MySQL, server, WordPress versions)', 'cpm' ),
+            __( 'Number of users in your site', 'cpm' ),
+            __( 'Site language', 'cpm' ),
+            __( 'Number of active and inactive plugins', 'cpm' ),
+            __( 'Site name and url', 'cpm' ),
+            __( 'Your name and email address', 'cpm' ),
         );
 
         return $data;

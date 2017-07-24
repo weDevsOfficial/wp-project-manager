@@ -22,7 +22,7 @@ class CPM_Tracker extends WeDevs_Insights {
     protected function data_we_collect() {
         $core_data = parent::data_we_collect();
         $dokan_data = array(
-            'Number of projects and tasks'
+            __( 'Number of projects and tasks', 'cpm' )
         );
 
         $data = array_merge( $core_data, $dokan_data );
