@@ -48,7 +48,7 @@
                         </div>
                         <div  class="cpm-col-3 cpm-todo-comment">
                             <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-                                <span>{{ list.comment_count }} <?php _e( 'Comment', 'cpm' ); ?></span>
+                                <span>{{ list.comment_count }} <?php _e( 'Comments', 'cpm' ); ?></span>
                             </router-link>
                         </div>
                     </div>
