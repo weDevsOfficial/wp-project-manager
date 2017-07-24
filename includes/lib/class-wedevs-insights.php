@@ -279,7 +279,7 @@ class WeDevs_Insights {
             $optout_url = add_query_arg( $this->slug . '_tracker_optout', 'true' );
 
             if ( empty( $this->notice ) ) {
-                $notice = sprintf( __( 'Want to help make <strong>%s</strong> even more awesome? Allow weDevs to collect non-sensitive diagnostic data and usage information.', 'cpm' ), $this->name );
+                $notice = __( 'Want to help make <strong>WP Project Manager</strong> even more awesome?', 'cpm' ) . ' ' . __( 'Allow weDevs to collect non-sensitive diagnostic data and usage information.', 'cpm' );
             } else {
                 $notice = $this->notice;
             }
