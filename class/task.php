@@ -71,7 +71,7 @@ class CPM_Task {
                     'empty_comment'            => __( 'Please write something in comments!', 'cpm' ),
                     'backtotasklist'           => __( 'Back to Task Lists', 'cpm' ),
                     'todolist'                 => __( 'Task Lists', 'cpm' ),
-                    'todolist_n_title'         => __( 'You can list all your Tasks in a single thread using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ),
+                    'todolist_n_title'         => __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ),
                     'when_use_todo'            => __( 'When to use Task Lists?', 'cpm' ),
                     'to_pertition_a_project'   => __( 'To partition a project internals.', 'cpm' ),
                     'to_mark_milestone'        => __( 'To mark milestone points.', 'cpm' ),
