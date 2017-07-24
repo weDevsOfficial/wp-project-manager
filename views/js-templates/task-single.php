@@ -59,9 +59,9 @@
                                                 <span class="cpm-task-title-activity" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
                                             </div>
                                             <div class="cpm-task-title-meta">
-                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" class="dashicons dashicons-lock" title="Click for unlock"></span>
-                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" class="dashicons dashicons-unlock" title="Click for lock"></span>
-                                                <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a>
+                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" class="dashicons dashicons-lock" title="<?php _e( 'Click for unlock', 'cpm' ); ?>"></span>
+                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" class="dashicons dashicons-unlock" title="<?php _e( 'Click for lock', 'cpm' ); ?>"></span>
+                                                <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="<?php _e( 'Edit Task Title', 'cpm' ); ?>"></span></a>
                                             </div>
                                             <div class="clearfix cpm-clear"></div>
                                         </span>
@@ -88,7 +88,7 @@
             :clear-on-select="true"
             :hide-selected="false"
             :show-labels="true"
-            placeholder="Select User" 
+            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
             select-label=""
             selected-label="selected"
             deselect-label=""
@@ -99,7 +99,7 @@
 
             <template  slot="option" scope="props">
                 <div>
-                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="No Man’s Sky">
+                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="<?php _e( 'No Man’s Sky', 'cpm' ); ?>">
                     <div class="option__desc">
                         <span class="option__title">{{ props.option.title }}</span>
                         <!-- <span class="option__small">{{ props.option.desc }}</span> -->
@@ -150,7 +150,7 @@
                                     
                                     <p class="cpm-des-area" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
                                         {{ task.post_content }}
-                                        <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span>
+                                        <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span>
                                     </p>
 
                                     <textarea 
