@@ -39,9 +39,8 @@
                 </div>
             </template>
                 
-        </multiselect>
-
-        
-                  
+        </multiselect>               
     </div>
+
 </div>
+

@@ -4854,6 +4854,25 @@ ul.cpm-files {
     @import "responsive.less";
 }
 
+.cpm-task-modal {
+    .cpm-multiselect-single-task {
+        .multiselect__input {
+            width: 100%;
+        }
+        .multiselect__select {
+            display: none;
+        }
+        .multiselect__tags {
+            padding: 8px 12px 0 8px;
+            .multiselect__tag {
+                display: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+}
+
 .cpm-task-modal .cpm-assigned-user,
 .cpm-task-modal time {
   background: none;
@@ -5249,4 +5268,51 @@ ul.cpm-files {
         }
     }
 }
+
+.cpm-multiselect {
+
+    .multiselect__content {
+        .multiselect__option--highlight:hover {
+            background: none;
+            color: #575d64;
+        }
+        .multiselect__option--highlight {
+            background: none;
+            color: #575d64;
+        }
+        .multiselect__option--selected:hover {
+            background: #f3f3f3;
+            color: #35495e
+        }
+        .multiselect__option--selected {
+            background: #f3f3f3;
+            color: #35495e
+        }
+        .multiselect__option--selected:after {
+            content: "\2713 ";
+        }
+
+        .multiselect__option--highlight:after {
+            background: none;
+            color: #35495e;
+        }
+        img.option__image {
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: top;
+        }
+
+        .option__desc {
+            display: inline-block;
+            width: 73%;
+            white-space: normal;
+            margin: 0 0 0 2px;
+            padding: 0;
+        }
+
+    }
+}
+
+
+
 

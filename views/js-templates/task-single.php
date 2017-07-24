@@ -70,11 +70,49 @@
                                     </h3>
                                     
                                     <div class="cpm-task-meta">
-                                         <span class='cpm-assigned-user' 
-                                            v-for="user in getUsers( task.assigned_to )" 
-                                            v-html="user.user_url">
+                                        <span class="cpm-assigned-user-wrap">
+                                            <span class='cpm-assigned-user' 
+                                                @click.prevent="isEnableMultiSelect()"
+                                                v-for="user in getUsers( task.assigned_to )" 
+                                                v-html="user.user_url">
+
+                                            </span>
+
+    <div @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
+
+        <multiselect 
+            v-model="task_assign" 
+            :options="project_users" 
+            :multiple="true" 
+            :close-on-select="false"
+            :clear-on-select="true"
+            :hide-selected="false"
+            :show-labels="true"
+            placeholder="Select User" 
+            select-label=""
+            selected-label="selected"
+            deselect-label=""
+            :taggable="true"
+            label="name"
+            track-by="id"
+            :allow-empty="true">
+
+            <template  slot="option" scope="props">
+                <div>
+                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="No Man’s Sky">
+                    <div class="option__desc">
+                        <span class="option__title">{{ props.option.title }}</span>
+                        <!-- <span class="option__small">{{ props.option.desc }}</span> -->
+                    </div>
+                </div>
+            </template>
+                
+        </multiselect>               
+    </div>
 
                                         </span>
+
+
                                         <span class="cpm-task-date-wrap cpm-date-window">
                                             <span 
                                                 @click.prevent="isTaskDateEditMode()"

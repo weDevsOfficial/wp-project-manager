@@ -1269,7 +1269,47 @@ var CPM_Task_Single = {
             is_task_title_edit_mode: false,
             is_task_details_edit_mode: false,
             is_task_date_edit_mode: false,
+            is_enable_multi_select: false
         }
+    },
+
+    computed: {
+        project_users: function() {
+            var self = this;
+            this.$store.state.project_users.map(function(user) {
+                user.title = user.name;
+                user.img  = user.avatar_url;
+            });
+            
+            return this.$store.state.project_users;
+        },
+
+        task_assign: {
+            get: function() {
+                var self = this;
+                var filtered_user = this.$store.state.project_users.filter(function(user) {
+                    var has_user = self.task.assigned_to.indexOf(String(user.id) );
+                    if ( has_user != '-1' ) {
+                        return true;
+                    }
+                });
+
+                return filtered_user;
+            },
+
+            set: function(user) {
+                var task = this.task,
+                    assign = [];
+                
+                user.map(function( set_user, key ) {
+                    assign.push(String(set_user.id));
+                });
+                
+                task.assigned_to = assign;
+
+                this.updateTaskElement(task);
+            }
+        },
     },
 
     created: function() {
@@ -1281,6 +1321,18 @@ var CPM_Task_Single = {
 
 
     methods: {
+
+        afterSelect: function(selectedOption, id, event) {
+            //jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+        },
+        isEnableMultiSelect: function() {
+            this.is_enable_multi_select = true;
+
+            Vue.nextTick(function() {
+                jQuery('.multiselect__input').focus();
+            });
+        }, 
+
         fromDate: function(date) {
             if ( date.field == 'datepicker_from' ) {
                 var task = this.task;
@@ -1376,6 +1428,7 @@ var CPM_Task_Single = {
                     });
                     self.is_task_title_edit_mode = false;
                     self.is_task_details_edit_mode = false;
+                    self.is_enable_multi_select = false;
                 }
             });
         },
@@ -1390,8 +1443,9 @@ var CPM_Task_Single = {
 
         windowActivity: function(el) {
             var title_blur      = jQuery(el.target).hasClass('cpm-task-title-activity'),
-                dscription_blur = jQuery(el.target).hasClass('cpm-des-area');
-
+                dscription_blur = jQuery(el.target).hasClass('cpm-des-area'),
+                assign_user    =  jQuery(el.target).closest( '.cpm-assigned-user-wrap' );
+                
             if ( ! title_blur ) {
                 this.is_task_title_edit_mode = false;
             }
@@ -1400,13 +1454,17 @@ var CPM_Task_Single = {
                 this.is_task_details_edit_mode = false;
             }
 
+            if ( ! assign_user.length ) {
+                this.is_enable_multi_select = false;
+            }
+
             this.datePickerDispaly(el);
             
         },
 
         datePickerDispaly: function(el) {
             var date_picker_blur       = jQuery(el.target).closest('.cpm-task-date-wrap').hasClass('cpm-date-window');
-            console.log( date_picker_blur );
+            
             if ( ! date_picker_blur ) {
                 this.is_task_date_edit_mode = false;
             }
