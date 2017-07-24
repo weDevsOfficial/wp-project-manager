@@ -9,7 +9,7 @@ class CPM_Tracker extends WeDevs_Insights {
 
     public function __construct() {
 
-        $notice = __( 'Want to help make <strong>WP Project Manager</strong> even more awesome? Allow weDevs to collect non-sensitive diagnostic data and usage information. Enjoy <strong>15% discount</strong> on upgrades and add-on purchase.', 'dokan' );
+        $notice = __( 'Want to help make <strong>WP Project Manager</strong> even more awesome? Allow weDevs to collect non-sensitive diagnostic data and usage information. Enjoy <strong>15% discount</strong> on upgrades and add-on purchase.', 'cpm' );
 
         parent::__construct( 'wedevs-project-manager', 'WP Project Manager', CPM_PATH . '/cpm.php', $notice );
     }
