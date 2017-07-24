@@ -604,7 +604,7 @@ class WeDevs_Insights {
         <div class="wd-dr-modal" id="<?php echo $this->slug; ?>-wd-dr-modal">
             <div class="wd-dr-modal-wrap">
                 <div class="wd-dr-modal-header">
-                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'domain' ); ?></h3>
+                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'cpm' ); ?></h3>
                 </div>
 
                 <div class="wd-dr-modal-body">
@@ -618,9 +618,9 @@ class WeDevs_Insights {
                 </div>
 
                 <div class="wd-dr-modal-footer">
-                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'domain' ); ?></a>
-                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'domain' ); ?></button>
-                    <button class="button-primary"><?php _e( 'Cancel', 'domain' ); ?></button>
+                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'cpm' ); ?></a>
+                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'cpm' ); ?></button>
+                    <button class="button-primary"><?php _e( 'Cancel', 'cpm' ); ?></button>
                 </div>
             </div>
         </div>
