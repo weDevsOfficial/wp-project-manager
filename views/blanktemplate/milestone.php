@@ -17,7 +17,7 @@ if ( $milestone ) {
         <?php
         if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
             ?>
-            <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+            <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-btn-uppercase"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
 
             <div class="cpm-new-milestone-form">
                 <?php echo cpm_milestone_form( $project_id ); ?>
