@@ -3927,6 +3927,26 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-top: 0px;
   display: inline-block;
 }
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-task-date-wrap {
+  position: relative;
+  margin-right: 10px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-task-date-wrap .cpm-date-edit-btn {
+  display: none;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-task-date-wrap:hover .cpm-date-edit-btn {
+  display: inline-block;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-date-update-wrap {
+  position: absolute;
+  z-index: 99999;
+  width: 600px;
+}
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-date-picker-from,
+.cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-date-picker-to {
+  margin-right: -1px;
+  float: left;
+}
 .cpm .half-modal .cpm-modal-conetnt .cpm-assigned-user img {
   width: 24px;
   height: 24px;

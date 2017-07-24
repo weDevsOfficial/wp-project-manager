@@ -4646,6 +4646,26 @@ ul.cpm-files {
             .cpm-task-meta {
                 margin-top: 0px;
                 display: inline-block;
+
+                .cpm-task-date-wrap {
+                    position: relative;
+                    margin-right: 10px;
+                    .cpm-date-edit-btn {
+                        display: none;
+                    }
+                }
+                .cpm-task-date-wrap:hover .cpm-date-edit-btn {
+                    display: inline-block;
+                }
+                .cpm-date-update-wrap {
+                    position: absolute;
+                    z-index: 99999;
+                    width: 600px;
+                }
+                .cpm-date-picker-from, .cpm-date-picker-to {
+                    margin-right: -1px;
+                    float: left;
+                }
             }
 
             .cpm-assigned-user {

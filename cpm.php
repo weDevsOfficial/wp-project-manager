@@ -176,7 +176,7 @@ class WeDevs_CPM {
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
         add_action( 'plugins_loaded', array( $this, 'cpm_content_filter' ) );
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'admin_scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
         add_action( 'admin_footer', array( $this, 'admin_js_templates' ) );
     }
 

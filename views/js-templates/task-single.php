@@ -75,11 +75,30 @@
                                             v-html="user.user_url">
 
                                         </span>
-                                        
-                                        <span v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
-                                            <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-                                            <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
-                                            <span>{{ dateFormat( task.due_date ) }}</span>
+                                        <span class="cpm-task-date-wrap cpm-date-window">
+                                            <span 
+                                                @click.prevent="isTaskDateEditMode()"
+                                                v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
+                                                <span v-if="task_start_field">
+                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="Edit Task Description"></span> -->
+                                                    {{ dateFormat( task.start_date ) }}
+                                                </span>
+
+                                                <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+                                                <span>
+                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="Edit Task Description"></span> -->
+                                                    {{ dateFormat( task.due_date ) }}
+                                                </span>
+
+                                            </span>
+
+                                            <div class="cpm-date-update-wrap" v-if="is_task_date_edit_mode">
+                                                <div v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
+                                                <div v-cpm-datepicker class="cpm-date-picker-to cpm-inline-date-picker-to"></div>
+                                                <div class="clearfix cpm-clear"></div>
+                                            </div>
+
+                                            
                                         </span>
 
                                         <span class="cpm-task-comment-count">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
@@ -95,34 +114,14 @@
                                         {{ task.post_content }}
                                         <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span>
                                     </p>
-                                        
-                                    
-                                    
+
                                     <textarea 
                                         @blur="updateTaskElement(task)" 
                                         class="cpm-des-area" 
                                         v-if="is_task_details_edit_mode"
                                         v-model="task.post_content">
-                                        
-                                        {{ task.post_content }}
-
+                                            
                                         </textarea>
-
-                                    <!--<span>
-                                        <span class='cpm-assigned-user' 
-                                            v-for="user in getUsers( task.assigned_to )" 
-                                            v-html="user.user_url">
-
-                                        </span>
-                                        <span class=""> 
-                                            <span v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
-                                                <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-                                                <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
-                                                <span>{{ dateFormat( task.due_date ) }}</span>
-                                            </span>
-                                        </span>
-
-                                    </span>--><!--v-if-->
 
                                     <div class="clearfix cpm-clear"></div>
                                 </div>

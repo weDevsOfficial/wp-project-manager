@@ -1268,16 +1268,39 @@ var CPM_Task_Single = {
             loading: true,
             is_task_title_edit_mode: false,
             is_task_details_edit_mode: false,
+            is_task_date_edit_mode: false,
         }
     },
 
     created: function() {
         this.getTask();
         window.addEventListener('click', this.windowActivity);
+        
+        this.$root.$on('cpm_date_picker', this.fromDate);
     },
 
 
     methods: {
+        fromDate: function(date) {
+            if ( date.field == 'datepicker_from' ) {
+                var task = this.task;
+
+                task.start_date = date.date;
+                this.updateTaskElement(task);
+            }
+
+            if ( date.field == 'datepicker_to' ) {
+                var task = this.task;
+
+                var start = new Date( task.start_date ),
+                    due = new Date( date.date );
+
+                if ( start <= due ) {
+                    task.due_date = date.date;
+                    this.updateTaskElement(task);
+                }
+            }
+        },
         updateTaskPrivacy: function(task, status) {
             task.task_privacy = status;
             this.updateTaskElement(task);
@@ -1361,6 +1384,10 @@ var CPM_Task_Single = {
             this.is_task_title_edit_mode = true;
         },
 
+        isTaskDateEditMode: function() {
+            this.is_task_date_edit_mode = true;
+        },
+
         windowActivity: function(el) {
             var title_blur      = jQuery(el.target).hasClass('cpm-task-title-activity'),
                 dscription_blur = jQuery(el.target).hasClass('cpm-des-area');
@@ -1372,7 +1399,17 @@ var CPM_Task_Single = {
             if ( ! dscription_blur ) {
                 this.is_task_details_edit_mode = false;
             }
+
+            this.datePickerDispaly(el);
             
+        },
+
+        datePickerDispaly: function(el) {
+            var date_picker_blur       = jQuery(el.target).closest('.cpm-task-date-wrap').hasClass('cpm-date-window');
+            console.log( date_picker_blur );
+            if ( ! date_picker_blur ) {
+                this.is_task_date_edit_mode = false;
+            }
         }
     },
 }
