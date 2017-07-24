@@ -242,7 +242,7 @@ function cpm_upload_field( $id, $files = array() ) {
             <?php if ( $files ) { ?>
                 <?php
                 foreach ( $files as $file ) {
-                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File', 'cpm' ) );
                     $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
                     $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
