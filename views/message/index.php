@@ -18,7 +18,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
 ?>
   <?php if ( $can_create ) { ?>
         <div>
-            <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
+            <a class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="JavaScript:void(0)" id="cpm-add-message" > <?php _e( 'Add New Discussion', 'cpm' ); ?> </a>
         </div>
         <div class="cpm-new-message-form">
             <h3><?php _e( 'Create a new message', 'cpm' ); ?></h3>

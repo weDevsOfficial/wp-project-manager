@@ -34,7 +34,7 @@
                     :clear-on-select="false"
                     :hide-selected="true"
                     :show-labels="false"
-                    placeholder="Select User" 
+                    placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
                     label="name"
                     track-by="id">
                         

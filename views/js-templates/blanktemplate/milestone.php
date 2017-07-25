@@ -23,7 +23,7 @@
             <ul class="cpm-list">
                 <li> <?php _e( 'To set a target date for the project overall.', 'cpm' ) ?> </li>
                 <li><?php _e( 'To divide a project into several development-time phases.', 'cpm' ) ?> </li>
-                <li><?php _e( 'To co-ordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
+                <li><?php _e( 'To coordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
             </ul>
         </div>
 
