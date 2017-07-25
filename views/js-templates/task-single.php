@@ -46,22 +46,22 @@
                                         <span :class="singleTaskTitle(task) + ' cpm-task-title-wrap'">
                                             <div class="cpm-task-title-text">
                                                 
-                                                <span v-if="is_task_title_edit_mode">
+                                                <span  v-if="is_task_title_edit_mode">
                                                     <input 
                                                         v-model="task.post_title"
                                                         @blur="updateTaskElement(task)" 
                                                         @keyup.enter="updateTaskElement(task)"
                                                         :value="task.post_title" 
-                                                        class="cpm-task-title-activity"
+                                                        class="cpm-task-title-activity cpm-task-title-field"
                                                         type="text">
                                                 </span>
                                                 
-                                                <span class="cpm-task-title-activity" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
+                                                <span class="cpm-task-title-activity cpm-task-title-span" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
                                             </div>
                                             <div class="cpm-task-title-meta">
-                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" class="dashicons dashicons-lock" title="Click for unlock"></span>
-                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" class="dashicons dashicons-unlock" title="Click for lock"></span>
-                                                <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a>
+                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" v-cpm-tiptip class="dashicons dashicons-lock cpm-tiptip" title="<?php _e( 'Make public', 'cpm' ); ?>"></span>
+                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" v-cpm-tiptip class="dashicons dashicons-unlock cpm-tiptip" title="<?php _e( 'Make private', 'cpm' ); ?>"></span>
+                                                <!-- <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a> -->
                                             </div>
                                             <div class="clearfix cpm-clear"></div>
                                         </span>
@@ -148,18 +148,21 @@
                                                 
                                     <!--v-if-->
                                     
-                                    <p class="cpm-des-area" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
+                                    <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
                                         {{ task.post_content }}
-                                        <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span>
+                                        <!-- <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span> -->
                                     </p>
-
+                                    <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea 
-                                        @blur="updateTaskElement(task)" 
-                                        class="cpm-des-area" 
+                                        v-prevent-line-break
+                                        @blur="updateDescription(task, $event)" 
+                                        @keyup.enter="updateDescription(task, $event)"
+                                        class="cpm-des-area cpm-desc-field" 
                                         v-if="is_task_details_edit_mode"
                                         v-model="task.post_content">
                                             
                                         </textarea>
+                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><?php _e('Shift+Enter for line break', 'cpm'); ?>
 
                                     <div class="clearfix cpm-clear"></div>
                                 </div>

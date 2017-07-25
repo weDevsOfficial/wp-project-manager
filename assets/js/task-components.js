@@ -1360,6 +1360,16 @@ var CPM_Task_Single = {
         isTaskDetailsEditMode: function() {
             this.is_task_details_edit_mode = true;
         },
+
+        updateDescription: function(task, event) {
+            if ( event.keyCode == 13 && event.shiftKey ) {
+                return;
+            }
+
+            is_task_details_edit_mode = false,
+            this.updateTaskElement(task);
+        },
+
         closePopup: function() {
             this.$store.commit( 'close_single_task_popup' );
             

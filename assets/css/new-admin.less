@@ -4608,6 +4608,7 @@ ul.cpm-files {
 
             .cpm-task-title {
                 margin-top: 0px;
+                margin-bottom: 15px;
                 display: inline-block;
                 padding-right: 20px;
                 width: 100%;
@@ -4619,10 +4620,23 @@ ul.cpm-files {
                 .cpm-task-title-text, .cpm-task-title-meta {
                     float: left;
                 }
-
+                .cpm-task-title-text:hover .cpm-task-title-span {
+                    background: #eee;
+                }
+                .cpm-task-title-span {
+                    padding: 0 5px;
+                    display: inline-block;
+                }
                 .cpm-task-title-text {
                     max-width: 88%;
                     margin-right: 12px;
+                    .cpm-task-title-field {
+                        display: inline-block;
+                        width: 100%;
+                        padding: 7px 8px 7px 8px;
+                        background: #eee;
+
+                    }
                 }
 
                 .cpm-task-title-meta {
@@ -4645,9 +4659,11 @@ ul.cpm-files {
 
             .cpm-task-meta {
                 margin-top: 0px;
+                margin-left: 5%;
                 display: inline-block;
 
                 .cpm-task-date-wrap {
+                    cursor: pointer;
                     position: relative;
                     margin-right: 10px;
                     .cpm-date-edit-btn {
@@ -4674,7 +4690,37 @@ ul.cpm-files {
                     height: 24px
                 }
             }
+            .task-details:hover .cpm-desc-content {
+                background: #eee;
+            }
+
+            
+
             .task-details {
+                margin-bottom: 15px;
+                margin-top: 15px;
+                margin-left: 4%;
+                width: 62%;
+                text-align: justify;
+
+                .cpm-help-text {
+                    font-size: 10px;
+                    background: #f5f5f5;
+                    width: 30%;
+                    padding: 0 7px;
+                }
+                
+                .cpm-desc-field {
+                    height: 100px;
+                    width: 100%;
+                }
+
+                .cpm-desc-content {
+                    margin: 0;
+                    padding: 6px;
+                    min-height: 100px;
+                }
+       
                 .cpm-task-des-edit-btn {
                     display: none;
                 }
