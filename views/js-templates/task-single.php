@@ -61,7 +61,7 @@
                                             <div class="cpm-task-title-meta">
                                                 <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" v-cpm-tiptip class="dashicons dashicons-lock cpm-tiptip" title="<?php _e( 'Make public', 'cpm' ); ?>"></span>
                                                 <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" v-cpm-tiptip class="dashicons dashicons-unlock cpm-tiptip" title="<?php _e( 'Make private', 'cpm' ); ?>"></span>
-                                                <!-- <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="Edit Task Title"></span></a> -->
+                                                <!-- <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="<?php _e( 'Edit Task Title', 'cpm' ); ?>"></span></a> -->
                                             </div>
                                             <div class="clearfix cpm-clear"></div>
                                         </span>
@@ -118,13 +118,13 @@
                                                 @click.prevent="isTaskDateEditMode()"
                                                 v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
                                                 <span v-if="task_start_field">
-                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="Edit Task Description"></span> -->
+                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
                                                     {{ dateFormat( task.start_date ) }}
                                                 </span>
 
                                                 <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
                                                 <span>
-                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="Edit Task Description"></span> -->
+                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
                                                     {{ dateFormat( task.due_date ) }}
                                                 </span>
 
@@ -150,7 +150,7 @@
                                     
                                     <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
                                         {{ task.post_content }}
-                                        <!-- <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="Edit Task Description"></span> -->
+                                        <!-- <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
                                     </p>
                                     <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea 
