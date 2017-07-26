@@ -2295,6 +2295,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 10px 10px 10px 50px;
   color: #ffffff;
 }
+.cpm .cpm-btn-uppercase {
+  text-transform: uppercase;
+}
 .cpm .cpm-container {
   width: 100%;
   margin: 10px;

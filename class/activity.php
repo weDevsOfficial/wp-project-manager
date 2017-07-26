@@ -225,7 +225,7 @@ class CPM_Activity {
                 __( 'Task "%s" completed by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
         );
 
-        $task_message = sprintf( __( 'Marked task as done', 'cpm' ) );
+        $task_message = __( 'Task marked as done', 'cpm' );
 
         $this->log( $list->post_parent, $message );
         $this->log( $task_id, $task_message );
@@ -243,7 +243,7 @@ class CPM_Activity {
                 __( 'Task "%s" marked as undone by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
         );
 
-        $task_message = sprintf( __( 'Reopened task', 'cpm' ) );
+        $task_message = __( 'Task reopened', 'cpm' );
 
         $this->log( $list->post_parent, $message );
         $this->log( $task_id, $task_message );
@@ -280,7 +280,7 @@ class CPM_Activity {
     }
 
     function comment_update( $comment_id, $project_id ) {
-        $message = sprintf( __( '%s updated comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
+        $message = sprintf( __( '%s updated a comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
 
         $this->log( $project_id, $message );
     }

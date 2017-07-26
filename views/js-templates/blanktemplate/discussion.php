@@ -3,8 +3,7 @@
         <h2 class="cpm-page-title">  <?php _e( 'Discussion', 'cpm' ) ?> </h2>
 
         <p>
-            <?php _e( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
-', 'cpm' ) ?>
+            <?php _e( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'cpm' ) ?>
         </p>
 
 
@@ -13,7 +12,7 @@
         if ( $can_create ) {
             ?>
             <div>
-                <a class="cpm-btn cpm-plus-white cpm-new-message-btn" href="JavaScript:void(0)" id="cpm-add-message-new" > <?php _e( 'ADD NEW DISCUSSION', 'cpm' ); ?> </a>
+                <a class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="JavaScript:void(0)" id="cpm-add-message-new" > <?php _e( 'Add New Discussion', 'cpm' ); ?> </a>
             </div>
             <div class="cpm-new-message-form" id="cpm-new-message-form-content">
                 <h3 ><?php _e( 'Create a new message', 'cpm' ); ?></h3>

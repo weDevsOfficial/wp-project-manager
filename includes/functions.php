@@ -242,7 +242,7 @@ function cpm_upload_field( $id, $files = array() ) {
             <?php if ( $files ) { ?>
                 <?php
                 foreach ( $files as $file ) {
-                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File', 'cpm' ) );
                     $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
                     $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
@@ -1082,7 +1082,7 @@ function cpm_project_actions( $project_id ) {
                 <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
                     <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-yes"></span>
-                        <span><?php _e( 'Completed', 'cpm' ); ?></span>
+                        <span><?php _e( 'Complete', 'cpm' ); ?></span>
                     </a>
                 <?php } else { ?>
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#">

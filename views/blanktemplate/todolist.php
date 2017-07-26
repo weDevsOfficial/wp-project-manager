@@ -3,7 +3,7 @@
         <h2 class="cpm-page-title">  <?php _e( 'Task Lists', 'cpm' ) ?> </h2>
 
         <p>
-            <?php _e( 'You can list all your Tasks in a single thread using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ) ?>
+            <?php _e( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ) ?>
         </p>
 
 

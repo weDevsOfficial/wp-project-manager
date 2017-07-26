@@ -173,7 +173,7 @@ class CPM_Notification {
             $file_name = 'emails/update-project.php';
 
 
-            $subject = sprintf( __( '[%s] Updated Project Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
+            $subject = sprintf( __( '[%s] Project Update Invitation: %s', 'cpm' ), $this->get_site_name(), get_post_field( 'post_title', $project_id ) );
 
             // cutoff at 78th character
             if ( cpm_strlen( $subject ) > 78 ) {

@@ -510,7 +510,7 @@ class CPM_ERP {
             <div class="wrap">
                 <div class="postbox cpm-pro-notice">
                     <h3 class="cpm-text hndle">
-                        <?php _e( 'This feature is only available in the project manager pro Version', 'cpm' ); ?>
+                        <?php _e( 'This feature is only available in the Pro Version.', 'cpm' ); ?>
                     </h3>
                     <div class="inside">
                         <a target="_blank" href="https://wedevs.com/products/plugins/wp-project-manager-pro/" class="button button-primary"><?php _e( 'Upgrade to Pro Version', 'cpm' ); ?></a>

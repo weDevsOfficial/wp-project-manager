@@ -491,7 +491,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
 
                 <?php if ( $comment ) { ?>
                     <input type="hidden" name="comment_id" value="<?php echo $comment->comment_ID; ?>" />
-                    <a href="#" class="cpm-comment-edit-cancel button" data-comment_id="<?php echo $comment_id; ?>"><?php _e( 'Cancel', 'wedevs' ); ?></a>
+                    <a href="#" class="cpm-comment-edit-cancel button" data-comment_id="<?php echo $comment_id; ?>"><?php _e( 'Cancel', 'cpm' ); ?></a>
                 <?php } ?>
 
                 <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
