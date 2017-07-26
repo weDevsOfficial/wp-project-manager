@@ -162,7 +162,7 @@
                                         v-model="task.post_content">
                                             
                                         </textarea>
-                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><?php _e('Shift+Enter for line break', 'cpm'); ?>
+                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><?php _e('Shift+Enter for line break', 'cpm'); ?></div>
 
                                     <div class="clearfix cpm-clear"></div>
                                 </div>
