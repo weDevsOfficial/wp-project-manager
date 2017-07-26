@@ -1,26 +1,41 @@
-
 {
-    "name"        : "tareq1988/wp-project-manager",
-    "description" : "A project management plugin for WordPress",
-    "keywords"    : ["wordpress", "project", "project management"],
-    "type"        : "wordpress-plugin",
-    "homepage"    : "http://wedevs.com/plugin/wp-project-manager/",
-    "license"     : "GPL-2.0+",
-    "authors"     : [
-    {
-        "name"    : "Tareq Hasan",
-        "email"   : "tareq@wedevs.com",
-        "homepage": "http://tareq.wedevs.com/"
-    }
+    "name": "weDevsOfficial/wp-project-manager",
+    "description": "A project management plugin for WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "asaquzzaman",
+            "email": "joy.mishu@gmail.com",
+            "homepage": "http://mishubd.com"
+        },
+        {
+            "name"    : "Tareq Hasan",
+            "email"   : "tareq@wedevs.com",
+            "homepage": "https://tareq.co/"
+        },
+        {
+            "name": "asikur",
+            "email": "md.asikurislam@gmail.com"
+        }
     ],
-    "support"     : {
-        "issues": "https://github.com/tareq1988/wp-project-manager/issues"
+    "require": {
+        "illuminate/database": "^5.4",
+        "illuminate/pagination": "^5.4"
     },
-    "require"     : {
-        "composer/installers"          : "~1.0",
-        "php"                          : ">=5.2"
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
     },
-    "autoload"    : {
-        "classmap": ["cpm.php"]
+    "autoload": {
+        "classmap": [
+            "db"
+        ],
+        "psr-4": {
+            "Wprl\\Core\\": "core/",
+            "CPM\\": "src/"
+        },
+        "files": [
+            "bootstrap/loaders.php"
+        ]
     }
 }
