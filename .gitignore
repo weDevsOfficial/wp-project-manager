@@ -7,8 +7,10 @@ export.sh
 nbproject
 node_modules
 includes/pro
+includes/debug.log
 build
 secret.json
 .netbeans.xml
 npm-debug.log
+
 

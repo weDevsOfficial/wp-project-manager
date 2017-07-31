@@ -4,14 +4,14 @@ $list = $task_obj->get_task_list( $tasklist_id );
 $task = $task_obj->get_task( $task_id );
 
 if( $task->task_privacy == 'yes' && ! cpm_user_can_access( $project_id, 'todo_view_private' ) ) {
-    echo '<h2>' . __( 'You do not have permission to access this page', 'cpm' ) . '</h2>';
+    echo '<h2>' . __( 'You do not have permission to access this page.', 'cpm' ) . '</h2>';
     return;
 }
 
-cpm_get_header( __( 'To-do List', 'cpm' ), $project_id );
+cpm_get_header( __( 'Task List', 'cpm' ), $project_id );
 ?>
 <span class="cpm-breadcrumb">
-    <?php _e( 'To-do List', 'cpm' ) ?> &rarr;
+    <?php _e( 'Task List', 'cpm' ) ?> &rarr;
     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>"><?php echo get_the_title( $list->ID ); ?></a>
 </span>
 

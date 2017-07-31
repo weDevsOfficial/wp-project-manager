@@ -32,8 +32,8 @@
         <?php do_action( 'cpm_comment_form' ); ?>
         
         <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Add New Commment', 'cpm' ); ?>" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Update Commment', 'cpm' ); ?>" id="" />
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Add New Comment', 'cpm' ); ?>" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="<?php _e( 'Update Comment', 'cpm' ); ?>" id="" />
             <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
     </form>

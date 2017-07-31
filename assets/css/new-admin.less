@@ -4598,15 +4598,90 @@ ul.cpm-files {
             height:99vh;
             padding-bottom: 15px;
 
+            .cpm-todo-edit {
+                display: none;
+            }
+
+            .cpm-task-title:hover .cpm-todo-edit {
+                display: inline-block;
+            }
+
             .cpm-task-title {
                 margin-top: 0px;
+                margin-bottom: 15px;
                 display: inline-block;
                 padding-right: 20px;
+                width: 100%;
+
+                .dashicons-lock, .dashicons-unlock {
+                    color: #0073aa;
+                }
+
+                .cpm-task-title-text, .cpm-task-title-meta {
+                    float: left;
+                }
+                .cpm-task-title-text:hover .cpm-task-title-span {
+                    background: #eee;
+                }
+                .cpm-task-title-span {
+                    padding: 0 5px;
+                    display: inline-block;
+                }
+                .cpm-task-title-text {
+                    max-width: 88%;
+                    margin-right: 12px;
+                    .cpm-task-title-field {
+                        display: inline-block;
+                        width: 100%;
+                        padding: 7px 8px 7px 8px;
+                        background: #eee;
+
+                    }
+                }
+
+                .cpm-task-title-meta {
+                    width: 8%;
+                }
+
+                .cpm-mark-done-checkbox {
+                    width: 4%;
+                }
+
+                .cpm-task-title-wrap {
+                    width: 90%;
+                    text-align: justify;
+                }
+
+                .cpm-task-title-wrap, .cpm-mark-done-checkbox {
+                    float: left;
+                }
             }
 
             .cpm-task-meta {
                 margin-top: 0px;
+                margin-left: 5%;
                 display: inline-block;
+
+                .cpm-task-date-wrap {
+                    cursor: pointer;
+                    position: relative;
+                    margin-right: 10px;
+                    .cpm-date-edit-btn {
+                        display: none;
+                    }
+                }
+                .cpm-task-date-wrap:hover .cpm-date-edit-btn {
+                    display: inline-block;
+                }
+                .cpm-date-update-wrap {
+                    position: absolute;
+                    z-index: 99999;
+                    width: 600px;
+                }
+                .cpm-date-picker-from, .cpm-date-picker-to {
+                    margin-right: -1px;
+                    float: left;
+                }
             }
 
             .cpm-assigned-user {
@@ -4615,9 +4690,45 @@ ul.cpm-files {
                     height: 24px
                 }
             }
+            .task-details:hover .cpm-desc-content {
+                background: #eee;
+            }
 
-            .cpm-task-comment {
+            
 
+            .task-details {
+                margin-bottom: 15px;
+                margin-top: 15px;
+                margin-left: 5%;
+                width: 62%;
+                text-align: justify;
+
+                .cpm-help-text {
+                    font-size: 10px;
+                    background: #f5f5f5;
+                    width: 30%;
+                    padding: 0 7px;
+                }
+                
+                .cpm-desc-field {
+                    height: 100px;
+                    width: 100%;
+                }
+
+                .cpm-desc-content {
+                    margin: 0;
+                    padding: 6px;
+                    min-height: 100px;
+                }
+       
+                .cpm-task-des-edit-btn {
+                    display: none;
+                }
+            }
+
+            .task-details:hover .cpm-task-des-edit-btn {
+                display: inline-block;
+                color: #0073aa;
             }
 
         }
@@ -4787,6 +4898,25 @@ ul.cpm-files {
 
     /** End Files **/
     @import "responsive.less";
+}
+
+.cpm-task-modal {
+    .cpm-multiselect-single-task {
+        .multiselect__input {
+            width: 100%;
+        }
+        .multiselect__select {
+            display: none;
+        }
+        .multiselect__tags {
+            padding: 8px 12px 0 8px;
+            .multiselect__tag {
+                display: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
 }
 
 .cpm-task-modal .cpm-assigned-user,
@@ -5184,4 +5314,51 @@ ul.cpm-files {
         }
     }
 }
+
+.cpm-multiselect {
+
+    .multiselect__content {
+        .multiselect__option--highlight:hover {
+            background: none;
+            color: #575d64;
+        }
+        .multiselect__option--highlight {
+            background: none;
+            color: #575d64;
+        }
+        .multiselect__option--selected:hover {
+            background: #f3f3f3;
+            color: #35495e
+        }
+        .multiselect__option--selected {
+            background: #f3f3f3;
+            color: #35495e
+        }
+        .multiselect__option--selected:after {
+            content: "\2713 ";
+        }
+
+        .multiselect__option--highlight:after {
+            background: none;
+            color: #35495e;
+        }
+        img.option__image {
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: top;
+        }
+
+        .option__desc {
+            display: inline-block;
+            width: 73%;
+            white-space: normal;
+            margin: 0 0 0 2px;
+            padding: 0;
+        }
+
+    }
+}
+
+
+
 

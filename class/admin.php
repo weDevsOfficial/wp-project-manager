@@ -37,7 +37,7 @@ class CPM_Admin {
         $sections = array(
             array(
                 'id'    => 'cpm_general',
-                'title' => __( 'General', 'cpm' )
+                'title' => __( 'General Settings', 'cpm' )
             ),
             array(
                 'id'    => 'cpm_mails',
@@ -63,9 +63,9 @@ class CPM_Admin {
         }
         $role_names = $wp_roles->get_names();
 
-        $url_links['backend'] = 'Link to Backend';
+        $url_links['backend'] = __( 'Link to Backend', 'cpm' );
         if ( cpm_is_pro() ) {
-            $url_links['frontend'] = 'Link to Front-end';
+            $url_links['frontend'] = __( 'Link to Front-end', 'cpm' );
         };
 
         $settings_fields['cpm_general'] = apply_filters( 'cpm_settings_field_general', array(
@@ -73,37 +73,37 @@ class CPM_Admin {
                 'name'    => 'upload_limit',
                 'label'   => __( 'File Upload Limit', 'cpm' ),
                 'default' => '2',
-                'desc'    => __( 'File Size in Megabytes. e.g: 2' )
+                'desc'    => __( 'File Size in Megabytes. e.g: 2', 'cpm' )
             ),
             array(
                 'name'    => 'pagination',
-                'label'   => __( 'Show Projects Per Page', 'cpm' ),
+                'label'   => __( 'Projects Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '10',
                 'desc'    => __( '-1 for unlimited', 'cpm' )
             ),
             array(
                 'name'    => 'todolist_show',
-                'label'   => __( 'To-do List Style', 'cpm' ),
+                'label'   => __( 'Task List Style', 'cpm' ),
                 'type'    => 'radio',
                 'default' => 'pagination',
-                'options' => array( 'pagination' => 'Pagination', 'load_more' => 'Load More', 'lazy_load' => 'Lazy Load' )
+                'options' => array( 'pagination' => __( 'Pagination', 'cpm' ), 'load_more' => __( 'Load More...', 'cpm' ), 'lazy_load' => __( 'Lazy Load', 'cpm' ) )
             ),
             array(
                 'name'    => 'show_todo',
-                'label'   => __( 'To-do Lists Per Page', 'cpm' ),
+                'label'   => __( 'Task Lists Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '5',
             ),
             array(
                 'name'    => 'show_incomplete_tasks',
-                'label'   => __( 'Incomplete tasks per page', 'cpm' ),
+                'label'   => __( 'Incomplete Tasks Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '50',
             ),
             array(
                 'name'    => 'show_completed_tasks',
-                'label'   => __( 'Completed tasks per page', 'cpm' ),
+                'label'   => __( 'Completed Tasks Per Page', 'cpm' ),
                 'type'    => 'text',
                 'default' => '50',
             ),
@@ -111,7 +111,7 @@ class CPM_Admin {
                 'name'    => 'project_manage_role',
                 'label'   => __( 'Project Managing Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
-                'desc'    => __( 'Select the user role who can see and manage all projects', 'cpm' ),
+                'desc'    => __( 'Select the user roles who can see and manage all projects.', 'cpm' ),
                 'type'    => 'multicheck',
                 'options' => $role_names,
             ),
@@ -119,7 +119,7 @@ class CPM_Admin {
                 'name'    => 'project_create_role',
                 'label'   => __( 'Project Creation Capability', 'cpm' ),
                 'default' => array( 'editor' => 'editor', 'author' => 'author', 'administrator' => 'administrator' ),
-                'desc'    => __( 'Select the user role who can create projects', 'cpm' ),
+                'desc'    => __( 'Select the user roles who can create projects.', 'cpm' ),
                 'type'    => 'multicheck',
                 'options' => $role_names,
             ),
@@ -156,7 +156,7 @@ class CPM_Admin {
                 'label'   => __( 'Send email via Bcc', 'cpm' ),
                 'type'    => 'checkbox',
                 'default' => 'off',
-                'desc'    => __( 'Enable Bcc' )
+                'desc'    => __( 'Enable Bcc', 'cpm' )
             ),
         ) );
 
@@ -164,7 +164,7 @@ class CPM_Admin {
     }
 
     public static function get_post_type( $post_type ) {
-        $pages_array = array( '-1' => __( '- select -', 'cpm' ) );
+        $pages_array = array( '-1' => __( '- Select -', 'cpm' ) );
         $pages       = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
 
         if ( $pages ) {

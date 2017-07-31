@@ -10,8 +10,8 @@
 
         <div style="width: 600px;">
             <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
-                <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-                    <?php _e( 'UPDATE PROJECT', 'cpm' ); ?>
+                <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center; text-transform: uppercase;">
+                    <?php _e( 'Update Project', 'cpm' ); ?>
                 </div>
             </div>
 
@@ -26,7 +26,7 @@
                 <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
                     <p><?php _e( 'Hello', 'cpm' ); ?></p>
 
-                    <div><?php _e( 'You are assigned in a project update “', 'cpm' ); ?><b><?php echo $data['post_title']; ?></b>” on <?php echo $author->display_name; ?></div>
+                    <div><?php printf( __( 'You are assigned to a project update "%s" by %s.', 'cpm' ), '<b>'.$data['post_title'].'</b>', $author->display_name ) ?></div>
                     <div><?php _e( 'You can see the project by going here:', 'cpm' ); ?>
                         <a style="text-decoration: none; color: #00b1e7;" href="<?php echo cpm_url_project_details( $project_id ); ?>"><?php echo $data['post_title']; ?></a>
 

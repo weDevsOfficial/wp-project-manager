@@ -250,7 +250,7 @@ Vue.component('todo-lists', {
         },
 
         /**
-         * Get milestoes from vuex store
+         * Get milestones from vuex store
          * 
          * @return array
          */
@@ -1265,16 +1265,111 @@ var CPM_Task_Single = {
     data: function() {
         return {
             task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
-            loading: true
+            loading: true,
+            is_task_title_edit_mode: false,
+            is_task_details_edit_mode: false,
+            is_task_date_edit_mode: false,
+            is_enable_multi_select: false
         }
+    },
+
+    computed: {
+        project_users: function() {
+            var self = this;
+            this.$store.state.project_users.map(function(user) {
+                user.title = user.name;
+                user.img  = user.avatar_url;
+            });
+            
+            return this.$store.state.project_users;
+        },
+
+        task_assign: {
+            get: function() {
+                var self = this;
+                var filtered_user = this.$store.state.project_users.filter(function(user) {
+                    var has_user = self.task.assigned_to.indexOf(String(user.id) );
+                    if ( has_user != '-1' ) {
+                        return true;
+                    }
+                });
+
+                return filtered_user;
+            },
+
+            set: function(user) {
+                var task = this.task,
+                    assign = [];
+                
+                user.map(function( set_user, key ) {
+                    assign.push(String(set_user.id));
+                });
+                
+                task.assigned_to = assign;
+
+                this.updateTaskElement(task);
+            }
+        },
     },
 
     created: function() {
         this.getTask();
+        window.addEventListener('click', this.windowActivity);
+        
+        this.$root.$on('cpm_date_picker', this.fromDate);
     },
 
 
     methods: {
+
+        afterSelect: function(selectedOption, id, event) {
+            //jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+        },
+        isEnableMultiSelect: function() {
+            this.is_enable_multi_select = true;
+
+            Vue.nextTick(function() {
+                jQuery('.multiselect__input').focus();
+            });
+        }, 
+
+        fromDate: function(date) {
+            if ( date.field == 'datepicker_from' ) {
+                var task = this.task;
+
+                task.start_date = date.date;
+                this.updateTaskElement(task);
+            }
+
+            if ( date.field == 'datepicker_to' ) {
+                var task = this.task;
+
+                var start = new Date( task.start_date ),
+                    due = new Date( date.date );
+
+                if ( start <= due ) {
+                    task.due_date = date.date;
+                    this.updateTaskElement(task);
+                }
+            }
+        },
+        updateTaskPrivacy: function(task, status) {
+            task.task_privacy = status;
+            this.updateTaskElement(task);
+        },
+        isTaskDetailsEditMode: function() {
+            this.is_task_details_edit_mode = true;
+        },
+
+        updateDescription: function(task, event) {
+            if ( event.keyCode == 13 && event.shiftKey ) {
+                return;
+            }
+
+            is_task_details_edit_mode = false,
+            this.updateTaskElement(task);
+        },
+
         closePopup: function() {
             this.$store.commit( 'close_single_task_popup' );
             
@@ -1312,6 +1407,77 @@ var CPM_Task_Single = {
                     self.loading = false;
                 }
             });
+        },
+
+        updateTaskElement: function(task) {
+            
+            var request_data  = {
+                    task_id: task.ID,
+                    list_id: task.post_parent,
+                    project_id: CPM_Vars.project_id,
+                    task_assign: task.assigned_to,
+                    task_title: task.post_title,
+                    task_text: task.post_content,
+                    task_start: task.start_date,
+                    task_due: task.due_date,
+                    task_privacy: task.task_privacy,
+                    _wpnonce: CPM_Vars.nonce,
+                },
+                self = this;
+
+            wp.ajax.send('cpm_task_update', {
+                data: request_data,
+                success: function(res) {
+                    var list_index = self.getIndex( self.$store.state.lists, task.post_parent, 'ID' ),
+                        task_index = self.getIndex( self.$store.state.lists[0].tasks, task.ID, 'ID' );
+
+                    self.$store.commit('afterUpdateTaskElement', {
+                        list_index: list_index,
+                        task_index: task_index,
+                        task: task
+                    });
+                    self.is_task_title_edit_mode = false;
+                    self.is_task_details_edit_mode = false;
+                    self.is_enable_multi_select = false;
+                }
+            });
+        },
+
+        isTaskTitleEditMode: function() {
+            this.is_task_title_edit_mode = true;
+        },
+
+        isTaskDateEditMode: function() {
+            this.is_task_date_edit_mode = true;
+        },
+
+        windowActivity: function(el) {
+            var title_blur      = jQuery(el.target).hasClass('cpm-task-title-activity'),
+                dscription_blur = jQuery(el.target).hasClass('cpm-des-area'),
+                assign_user    =  jQuery(el.target).closest( '.cpm-assigned-user-wrap' );
+                
+            if ( ! title_blur ) {
+                this.is_task_title_edit_mode = false;
+            }
+            
+            if ( ! dscription_blur ) {
+                this.is_task_details_edit_mode = false;
+            }
+
+            if ( ! assign_user.length ) {
+                this.is_enable_multi_select = false;
+            }
+
+            this.datePickerDispaly(el);
+            
+        },
+
+        datePickerDispaly: function(el) {
+            var date_picker_blur       = jQuery(el.target).closest('.cpm-task-date-wrap').hasClass('cpm-date-window');
+            
+            if ( ! date_picker_blur ) {
+                this.is_task_date_edit_mode = false;
+            }
         }
     },
 }

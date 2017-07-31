@@ -17,7 +17,7 @@ if ( $milestone ) {
         <?php
         if ( cpm_user_can_access( $project_id, 'create_milestone' ) ) {
             ?>
-            <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
+            <a id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white cpm-btn-uppercase"><?php _e( 'Add Milestone', 'cpm' ) ?></a>
 
             <div class="cpm-new-milestone-form">
                 <?php echo cpm_milestone_form( $project_id ); ?>
@@ -26,12 +26,12 @@ if ( $milestone ) {
         <?php } ?>
 
         <div class="cpm-list-content">
-            <h2 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestone', 'cpm' ) ?> </h2>
+            <h2 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestones?', 'cpm' ) ?> </h2>
 
             <ul class="cpm-list">
                 <li> <?php _e( 'To set a target date for the project overall.', 'cpm' ) ?> </li>
                 <li><?php _e( 'To divide a project into several development-time phases.', 'cpm' ) ?> </li>
-                <li><?php _e( 'To co-ordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
+                <li><?php _e( 'To coordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
             </ul>
         </div>
 

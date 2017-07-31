@@ -61,13 +61,13 @@ class CPM_JSON_Projects {
 		$manage_capability = cpm_can_manage_projects();
 
 		if( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned in this project' ), array( 'status' => 404 ) );
+			return new WP_Error( 'assigned_user', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$post = get_post( $id, ARRAY_A );
 
 		if ( empty( $id ) || empty( $post['ID'] ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$project  = cpm()->project->get( $id );
@@ -96,22 +96,22 @@ class CPM_JSON_Projects {
 	public function create_project( $data ) {
 
 		if ( ! cpm_can_create_projects() ) {
-			return new WP_Error( 'project_create_capability', __( 'You do not have permission to create project', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'You do not have permission to create projects.', 'cpm' ) );
 		}
 
 		if ( !isset( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 
 		if ( empty( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 
 		$data['project_notify'] = false;
 		$project_id   = cpm()->project->create( 0, $data );
 
 		if ( ! $project_id ) {
-			return new WP_Error( 'project_create_capability', __( 'Can not create project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_create_capability', __( 'Cannot create project, something wrong!', 'cpm' ) );
 		}
 
 		$get_project = cpm()->project->get( $project_id );
@@ -143,27 +143,27 @@ class CPM_JSON_Projects {
 		$id = intval( $project_id );
 
 		if ( ! $id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 		$manage_capability = cpm_can_manage_projects();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
-			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to edit this project', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to edit this project.', 'cpm' ) );
 		}
 
 		if ( empty( $data['project_name'] ) ) {
-			return new WP_Error( 'project_name', __( 'Project Name Required', 'cpm' ) );
+			return new WP_Error( 'project_name', __( 'Project name is required.', 'cpm' ) );
 		}
 		$data['project_notify'] = false;
 
 		$project_id  = cpm()->project->update( $id, $data );
 
 		if( ! $project_id ) {
-			return new WP_Error( 'project_edit_capability', __( 'Can not edit project, something worong!', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'Cannot edit project, something wrong!', 'cpm' ) );
 		}
 		$get_project = cpm()->project->get( $project_id );
 
@@ -190,31 +190,31 @@ class CPM_JSON_Projects {
 		$id = intval( $project_id );
 
 		if ( ! $id ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid project ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		$manage_capability = cpm_can_manage_projects();
 
 		if ( ! $manage_capability && ! cpm_project_user_role_pre_chache( $id ) ) {
-			return new WP_Error( 'permission', __( 'Sorry! you are not assigned in this project', 'cpm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'permission', __( 'Sorry! You are not assigned to this project.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! cpm_user_can_access( $id ) ) {
-			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to delete this project', 'cpm' ) );
+			return new WP_Error( 'project_edit_capability', __( 'You do not have permission to delete this project.', 'cpm' ) );
 		}
 
 		$post = get_post( $id, ARRAY_A );
 
 		if ( empty( $post['ID'] ) ) {
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.', 'cpm' ), array( 'status' => 404 ) );
 		}
 
 		cpm()->project->delete( $id, $force );
 
 		if ( $force ) {
-			return array( 'message' => __( 'Permanently deleted post' ) );
+			return array( 'message' => __( 'Permanently deleted post', 'cpm' ) );
 		} else {
-			return array( 'message' => __( 'Deleted post' ) );
+			return array( 'message' => __( 'Deleted post', 'cpm' ) );
 		}
 	}
 }

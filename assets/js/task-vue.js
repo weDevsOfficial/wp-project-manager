@@ -112,6 +112,14 @@
                    
                 }
             });
+        },
+
+        disableLineBreak: function(element) {
+            jQuery(element).on( 'keypress', function(e) {
+                if ( e.keyCode == 13 && !e.shiftKey ) {
+                    e.preventDefault();
+                }
+            });
         }
     }
 
@@ -141,6 +149,21 @@
         }
     });
 
+    // Register a global custom directive called v-cpm-sortable
+    Vue.directive('cpm-tiptip', {
+
+        update: function () {
+            jQuery('.cpm-tiptip').tipTip();
+        }
+    });
+
+    // Register a global custom directive called v-cpm-sortable
+    Vue.directive('prevent-line-break', {
+
+        inserted: function (element) {
+            CPM_Task.disableLineBreak(element);
+        }
+    });
     /**
      * Todo list root or main instance
      * 

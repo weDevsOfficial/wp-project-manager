@@ -20,7 +20,7 @@
             :clear-on-select="true"
             :hide-selected="false"
             :show-labels="true"
-            placeholder="Select User" 
+            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
             select-label=""
             selected-label="selected"
             deselect-label=""
@@ -31,7 +31,7 @@
 
             <template  slot="option" scope="props">
                 <div>
-                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="No Man’s Sky">
+                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="<?php _e( 'No Man’s Sky', 'cpm' ); ?>">
                     <div class="option__desc">
                         <span class="option__title">{{ props.option.title }}</span>
                         <!-- <span class="option__small">{{ props.option.desc }}</span> -->
@@ -39,9 +39,8 @@
                 </div>
             </template>
                 
-        </multiselect>
-
-        
-                  
+        </multiselect>               
     </div>
+
 </div>
+

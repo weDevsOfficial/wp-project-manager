@@ -181,12 +181,12 @@ class WeDevs_Insights {
      */
     protected function data_we_collect() {
         $data = array(
-            'Server environment details (php, mysql, server, WordPress versions)',
-            'Number of users in your site',
-            'Site language',
-            'Number of active and inactive plugins',
-            'Site name and url',
-            'Your name and email address',
+            __( 'Server environment details (PHP, MySQL, server, WordPress versions)', 'cpm' ),
+            __( 'Number of users in your site', 'cpm' ),
+            __( 'Site language', 'cpm' ),
+            __( 'Number of active and inactive plugins', 'cpm' ),
+            __( 'Site name and url', 'cpm' ),
+            __( 'Your name and email address', 'cpm' ),
         );
 
         return $data;
@@ -279,19 +279,19 @@ class WeDevs_Insights {
             $optout_url = add_query_arg( $this->slug . '_tracker_optout', 'true' );
 
             if ( empty( $this->notice ) ) {
-                $notice = sprintf( __( 'Want to help make <strong>%s</strong> even more awesome? Allow weDevs to collect non-sensitive diagnostic data and usage information.', 'textdomain' ), $this->name );
+                $notice = __( 'Want to help make <strong>WP Project Manager</strong> even more awesome?', 'cpm' ) . ' ' . __( 'Allow weDevs to collect non-sensitive diagnostic data and usage information.', 'cpm' );
             } else {
                 $notice = $this->notice;
             }
 
-            $notice .= ' (<a class="insights-data-we-collect" href="#">' . __( 'what we collect', 'textdomain' ) . '</a>)';
-            $notice .= '<p class="description" style="display:none;">' . implode( ', ', $this->data_we_collect() ) . '. No sensitive data is tracked.</p>';
+            $notice .= ' (<a class="insights-data-we-collect" href="#">' . __( 'what we collect', 'cpm' ) . '</a>)';
+            $notice .= '<p class="description" style="display:none;">' . implode( ', ', $this->data_we_collect() ) . '. '.__( 'No sensitive data is tracked.', 'cpm' ).'</p>';
 
             echo '<div class="updated"><p>';
                 echo $notice;
                 echo '</p><p class="submit">';
-                echo '&nbsp;<a href="' . esc_url( $optin_url ) . '" class="button-primary button-large">' . __( 'Allow', 'textdomain' ) . '</a>';
-                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'No thanks', 'textdomain' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $optin_url ) . '" class="button-primary button-large">' . __( 'Allow', 'cpm' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'No thanks', 'cpm' ) . '</a>';
             echo '</p></div>';
 
             echo "<script type='text/javascript'>jQuery('.insights-data-we-collect').on('click', function(e) {
@@ -468,7 +468,7 @@ class WeDevs_Insights {
 
         $schedules['weekly'] = array(
             'interval' => DAY_IN_SECONDS * 7,
-            'display'  => __( 'Once Weekly', 'textdomain' )
+            'display'  => __( 'Once Weekly', 'cpm' )
         );
 
         return $schedules;
@@ -507,45 +507,45 @@ class WeDevs_Insights {
         $reasons = array(
             array(
                 'id'          => 'could-not-understand',
-                'text'        => 'I couldn\'t understand how to make it work',
+                'text'        => __( 'I couldn\'t understand how to make it work', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Would you like us to assist you?'
+                'placeholder' => __( 'Would you like us to assist you?', 'cpm' )
             ),
             array(
                 'id'          => 'found-better-plugin',
-                'text'        => 'I found a better plugin',
+                'text'        => __( 'I found a better plugin', 'cpm' ),
                 'type'        => 'text',
-                'placeholder' => 'Which plugin?'
+                'placeholder' => __( 'Which plugin?', 'cpm' )
             ),
             array(
                 'id'          => 'not-have-that-feature',
-                'text'        => 'The plugin is great, but I need specific feature that you don\'t support',
+                'text'        => __( 'The plugin is great, but I need specific feature that you don\'t support', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us more about that feature?'
+                'placeholder' => __( 'Could you tell us more about that feature?', 'cpm' )
             ),
             array(
                 'id'          => 'is-not-working',
-                'text'        => 'The plugin is not working',
+                'text'        => __( 'The plugin is not working', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us a bit more whats not working?'
+                'placeholder' => __( 'Could you tell us a bit more whats not working?', 'cpm' )
             ),
             array(
                 'id'          => 'looking-for-other',
-                'text'        => 'It\'s not what I was looking for',
+                'text'        => __( 'It\'s not what I was looking for', 'cpm' ),
                 'type'        => '',
                 'placeholder' => ''
             ),
             array(
                 'id'          => 'did-not-work-as-expected',
-                'text'        => 'The plugin didn\'t work as expected',
+                'text'        => __( 'The plugin didn\'t work as expected', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'What did you expect?'
+                'placeholder' => __( 'What did you expect?', 'cpm' )
             ),
             array(
                 'id'          => 'other',
-                'text'        => 'Other',
+                'text'        => __( 'Other', 'cpm' ),
                 'type'        => 'textarea',
-                'placeholder' => 'Could you tell us a bit more?'
+                'placeholder' => __( 'Could you tell us a bit more?', 'cpm' )
             ),
         );
 
@@ -604,7 +604,7 @@ class WeDevs_Insights {
         <div class="wd-dr-modal" id="<?php echo $this->slug; ?>-wd-dr-modal">
             <div class="wd-dr-modal-wrap">
                 <div class="wd-dr-modal-header">
-                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'domain' ); ?></h3>
+                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'cpm' ); ?></h3>
                 </div>
 
                 <div class="wd-dr-modal-body">
@@ -618,9 +618,9 @@ class WeDevs_Insights {
                 </div>
 
                 <div class="wd-dr-modal-footer">
-                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'domain' ); ?></a>
-                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'domain' ); ?></button>
-                    <button class="button-primary"><?php _e( 'Canel', 'domain' ); ?></button>
+                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'cpm' ); ?></a>
+                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'cpm' ); ?></button>
+                    <button class="button-primary"><?php _e( 'Cancel', 'cpm' ); ?></button>
                 </div>
             </div>
         </div>

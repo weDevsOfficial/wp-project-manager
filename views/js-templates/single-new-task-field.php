@@ -1,6 +1,6 @@
 
 <div class="cpm-single-new-task-field-wrap cpm-single-new-task-field-wrap-right">
-	<input class="kbc-section-new-task" type="text" placeholder="<?php _e( 'Add New Task', 'kbc' ); ?>">
+	<input class="kbc-section-new-task" type="text" placeholder="<?php _e( 'Add New Task', 'cpm' ); ?>">
 
 	<div class="cpm-settings" @click.prevent="settings"><i class="fa fa-cogs" aria-hidden="true"></i></div>
 

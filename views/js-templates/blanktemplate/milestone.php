@@ -18,12 +18,12 @@
         <?php } ?>
 
         <div class="cpm-list-content">
-            <h2 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestone', 'cpm' ) ?> </h2>
+            <h2 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestones?', 'cpm' ) ?> </h2>
 
             <ul class="cpm-list">
                 <li> <?php _e( 'To set a target date for the project overall.', 'cpm' ) ?> </li>
                 <li><?php _e( 'To divide a project into several development-time phases.', 'cpm' ) ?> </li>
-                <li><?php _e( 'To co-ordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
+                <li><?php _e( 'To coordinate projects and assigned persons timely.', 'cpm' ) ?> </li>
             </ul>
         </div>
 

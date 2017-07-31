@@ -116,7 +116,7 @@ function cpm_tasks_filter_pending( $task ) {
  */
 function cpm_dropdown_users( $selected = array() ) {
 
-    $placeholder = __( 'Select co-workers', 'cpm' );
+    $placeholder = __( 'Select Co-Workers', 'cpm' );
     $sel         = ' selected="selected"';
 
     $users   = get_users();
@@ -194,7 +194,7 @@ function cpm_user_checkboxes( $project_id ) {
         </ul>
         <?php
     } else {
-        echo __( 'No users found', 'cpm' );
+        echo __( 'No users found.', 'cpm' );
     }
 
     return $users;
@@ -242,7 +242,7 @@ function cpm_upload_field( $id, $files = array() ) {
             <?php if ( $files ) { ?>
                 <?php
                 foreach ( $files as $file ) {
-                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File' ) );
+                    $delete   = sprintf( '<a href="#" data-id="%d" class="cpm-delete-file button">%s</a>', $file['id'], __( 'Delete File', 'cpm' ) );
                     $hidden   = sprintf( '<input type="hidden" name="cpm_attachment[]" value="%d" />', $file['id'] );
                     $file_url = sprintf( '<a href="%1$s" target="_blank"><img src="%2$s" alt="%3$s" /></a>', $file['url'], $file['thumb'], esc_attr( $file['name'] ) );
 
@@ -252,7 +252,7 @@ function cpm_upload_field( $id, $files = array() ) {
                 ?>
             <?php } ?>
         </div>
-        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), $id, __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
+        <?php printf( __( 'To attach, %sselect files%s from your computer.', 'cpm' ), sprintf( '<a id="cpm-upload-pickfiles%s" href="#">', $id ), '</a>' ); ?>
     </div>
     <?php
 }
@@ -487,13 +487,13 @@ function cpm_project_summary_info( $info, $project_id ) {
     );
 
     $summary['todo'] = array(
-        'label' => _n( 'To-do list', 'To-do lists', $info->todolist, 'cpm' ),
+        'label' => _n( 'Task List', 'Task Lists', $info->todolist, 'cpm' ),
         'count' => $info->todolist,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-        'label' => _n( 'To-do', 'To-dos', $info->todos, 'cpm' ),
+        'label' => _n( 'Task', 'Tasks', $info->todos, 'cpm' ),
         'count' => $info->todos,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
@@ -1082,7 +1082,7 @@ function cpm_project_actions( $project_id ) {
                 <?php if ( get_post_meta( $project_id, '_project_active', true ) == 'yes' ) { ?>
                     <a class="cpm-archive" data-type="archive" data-project_id="<?php echo $project_id; ?>" href="#">
                         <span class="dashicons dashicons-yes"></span>
-                        <span><?php _e( 'Completed', 'cpm' ); ?></span>
+                        <span><?php _e( 'Complete', 'cpm' ); ?></span>
                     </a>
                 <?php } else { ?>
                     <a class="cpm-archive" data-type="restore" data-project_id="<?php echo $project_id; ?>" href="#">
@@ -1149,8 +1149,8 @@ function cpm_pagination( $total, $limit, $pagenum ) {
     $page_links   = paginate_links( array(
         'base'      => add_query_arg( 'pagenum', '%#%' ),
         'format'    => '',
-        'prev_text' => __( '&laquo;', 'aag' ),
-        'next_text' => __( '&raquo;', 'aag' ),
+        'prev_text' => __( '&laquo;', 'cpm' ),
+        'next_text' => __( '&raquo;', 'cpm' ),
         'add_args'  => false,
         'total'     => $num_of_pages,
         'current'   => $pagenum,
@@ -1304,12 +1304,12 @@ function cpm_ordinal( $number ) {
  */
 function cpm_message() {
     $message = array(
-        'report_frm_field_limit'       => __( 'You can not use this field more than once!', 'cpm' ),
-        'report_total_frm_field_limit' => __( 'You can not create more than 4 action', 'cpm' ),
-        'new_todo'                     => __( 'New Todo List', 'cpm' ),
-        'update_todo'                  => __( 'Update Todo List', 'cpm' ),
+        'report_frm_field_limit'       => __( 'You cannot use this field more than once!', 'cpm' ),
+        'report_total_frm_field_limit' => __( 'You cannot create more than 4 actions!', 'cpm' ),
+        'new_todo'                     => __( 'New Task List', 'cpm' ),
+        'update_todo'                  => __( 'Update Task List', 'cpm' ),
         'comment_placeholder'          => __( 'Write a comment...', 'cpm' ),
-        'confirm'                      => __( 'Are you sure!', 'cpm' ),
+        'confirm'                      => __( 'Are you sure?', 'cpm' ),
     );
 
     return apply_filters( 'cpm_message', $message );
@@ -1495,11 +1495,60 @@ function cpm_has_milestone( $project_id ) {
     return $posts;
 }
 
+/**
+ * Get project id
+ *
+ * @since  1.6.3
+ * 
+ * @return int
+ */
 function cpm_get_project_id() {
-    return empty( $_GET['pid'] ) ? false : absint( $_GET['pid'] );
+    if ( isset( $_GET['pid'] ) ) {
+        return absint( $_GET['pid'] ) ? $_GET['pid'] : false;
+
+    } else if ( isset( $_GET['project_id'] ) ) {
+        return absint( $_GET['project_id'] ) ? $_GET['project_id'] : false;
+    }
+    
+    return false;
+}
+
+/**
+ * Get locale code
+ *
+ * @since 1.6.6
+ *
+ * @return str
+ */
+function cpm_pro_get_locale() {
+    $locale = get_locale();
+
+    // no need to add locale for en_US
+    if ( 'en_US' === $locale ) {
+        return;
+    }
+
+    $explod_locale = explode( '_', $locale );
+
+    // make sure we have two segments - 1.lang, 2.country
+    if ( count( $explod_locale ) < 2 ) {
+        return $locale;
+    }
+
+    $lang = $explod_locale[0];
+    $country = strtolower( $explod_locale[1] );
+
+    if ( $lang === $country ) {
+        $locale = $lang;
+    } else {
+        $locale = $lang . '-' . $country;
+    }
+
+    return $locale;
 }
 
 function cpm_pr( $data ) {
     echo '<pre>'; print_r( $data ); echo '</pre>';
 }
+
 

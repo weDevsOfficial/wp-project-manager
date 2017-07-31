@@ -128,7 +128,7 @@ function cpm_task_html( $task, $project_id, $list_id, $single = false ) {
                 <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                     <?php if ( $can_manage ) { ?>
                         <a class="move"><span class="dashicons dashicons-menu"></span></a>
-                        <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array( 'single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this to-do?', 'cpm' ) ) ); ?>><span class="dashicons dashicons-trash"></span></a>
+                        <a href="#" class="cpm-todo-delete" <?php cpm_data_attr( array( 'single' => $single, 'list_id' => $list_id, 'project_id' => $project_id, 'task_id' => $task->ID, 'confirm' => __( 'Are you sure to delete this task?', 'cpm' ) ) ); ?>><span class="dashicons dashicons-trash"></span></a>
 
                         <?php if ( $task->completed != '1' ) { ?>
                             <a href="#" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
@@ -172,7 +172,7 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
     $action        = 'cpm_task_add';
     $task_title    = $task_content  = $task_due      = $task_start    = '';
     $assigned_to   = '-1';
-    $submit_button = __( 'Add this to-do', 'cpm' );
+    $submit_button = __( 'Add this task', 'cpm' );
 
     //for update form
     if ( ! is_null( $task ) ) {
@@ -204,24 +204,24 @@ function cpm_task_new_form( $list_id, $project_id, $task = null, $single = false
         <?php } ?>
 
         <div class="item task-title">
-            <input type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
+            <input type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new task', 'cpm' ); ?>" value="<?php echo esc_attr( $task_title ); ?>" required>
         </div>
 
         <div class="item content">
-            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"><?php echo esc_textarea( $task_content ); ?></textarea>
+            <textarea name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this task (optional)', 'cpm' ) ?>" rows="2"><?php echo esc_textarea( $task_content ); ?></textarea>
         </div>
 
         <div class="item date">
             <?php if ( cpm_get_option( 'task_start_field', 'cpm_general' ) == 'on' ) { ?>
                 <div class="cpm-task-start-field">
-                    <label><?php _e( 'Start date', 'cpm' ); ?></label>
-                    <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
+                    <label><?php _e( 'Start Date', 'cpm' ); ?></label>
+                    <input  type="text" autocomplete="off" class="date_picker_from" placeholder="<?php esc_attr_e( 'Start Date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_start ); ?>" name="task_start" />
                 </div>
             <?php } ?>
 
             <div class="cpm-task-due-field">
-                <label><?php _e( 'Due date', 'cpm' ); ?></label>
-                <input type="text" autocomplete="off" class="date_picker_to" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
+                <label><?php _e( 'Due Date', 'cpm' ); ?></label>
+                <input type="text" autocomplete="off" class="date_picker_to" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>" value="<?php echo esc_attr( $task_due ); ?>" name="task_due" />
             </div>
         </div>
 
@@ -277,16 +277,16 @@ function cpm_tasklist_form( $project_id, $list = null ) {
         <?php } ?>
 
         <div class="item title">
-            <input type="text" name="tasklist_name" value="<?php echo esc_attr( $list_name ); ?>" placeholder="<?php esc_attr_e( 'To-do list name', 'cpm' ); ?>">
+            <input type="text" name="tasklist_name" value="<?php echo esc_attr( $list_name ); ?>" placeholder="<?php esc_attr_e( 'Task list name', 'cpm' ); ?>">
         </div>
 
         <div class="item content">
-            <textarea name="tasklist_detail" id="" cols="40" rows="2" placeholder="<?php esc_attr_e( 'To-do list detail', 'cpm' ); ?>"><?php echo esc_textarea( $list_detail ); ?></textarea>
+            <textarea name="tasklist_detail" id="" cols="40" rows="2" placeholder="<?php esc_attr_e( 'Task list details', 'cpm' ); ?>"><?php echo esc_textarea( $list_detail ); ?></textarea>
         </div>
 
         <div class="item milestone">
             <select name="tasklist_milestone" id="tasklist_milestone">
-                <option selected="selected" value="-1"><?php _e( '-- milestone --', 'cpm' ); ?></option>
+                <option selected="selected" value="-1"><?php _e( '- Milestone -', 'cpm' ); ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
@@ -330,8 +330,8 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                         <a title="" href="#" class="cpm-list-pin cpm-icon-pin" data-list_id="<?php echo $list->ID; ?>"   ><span class="dashicons dashicons-admin-post"></span></a>
                     </div>
                     <div class="cpm-right">
-                        <a href="#" class="cpm-list-edit cpm-icon-edit" title="<?php esc_attr_e( 'Edit this to-to list', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
-                        <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" title="<?php esc_attr_e( 'Delete this to-do list', 'cpm' ); ?>" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this to-do list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                        <a href="#" class="cpm-list-edit cpm-icon-edit" title="<?php esc_attr_e( 'Edit this task list', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                        <a href="#" class="cpm-list-delete cpm-btn cpm-btn-xs" title="<?php esc_attr_e( 'Delete this task list', 'cpm' ); ?>" data-list_id="<?php echo $list->ID; ?>" data-confirm="<?php esc_attr_e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                     </div>
                     <?php
                 } else {
@@ -396,10 +396,10 @@ function cpm_task_list_html( $list, $project_id, $singlePage = false ) {
                 <div class="cpm-col-3 cpm-todo-comment">
                     <a href="<?php echo cpm_url_single_tasklist( $project_id, $list->ID ); ?>">
                         <?php if ( ( int ) $list->comment_count > 0 ) { ?>
-                            <?php printf( _n( __( '<span>1</span> Comment', 'cpm' ), __( '<span>%d</span> Comments', 'cpm' ), $list->comment_count, 'cpm' ), $list->comment_count ); ?>
+                            <?php printf( _n( '1 Comment', '%d Comments', $list->comment_count, 'cpm' ), $list->comment_count ); ?>
                             <?php
                         } else {
-                            printf( "<span>0 %s</span>", __( 'Comment', 'cpm' ) );
+                            printf( 'No Comments', 'cpm' );
                         }
                         ?>
                     </a>
@@ -458,7 +458,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
     if ( $comment ) {
         $action        = 'cpm_comment_update_old';
         $text          = $comment->comment_content;
-        $submit_button = __( 'Update comment', 'cpm' );
+        $submit_button = __( 'Update Comment', 'cpm' );
     }
 
     ob_start();
@@ -491,7 +491,7 @@ function cpm_comment_form( $project_id, $object_id = 0, $comment = null ) {
 
                 <?php if ( $comment ) { ?>
                     <input type="hidden" name="comment_id" value="<?php echo $comment->comment_ID; ?>" />
-                    <a href="#" class="cpm-comment-edit-cancel button" data-comment_id="<?php echo $comment_id; ?>"><?php _e( 'Cancel', 'wedevs' ); ?></a>
+                    <a href="#" class="cpm-comment-edit-cancel button" data-comment_id="<?php echo $comment_id; ?>"><?php _e( 'Cancel', 'cpm' ); ?></a>
                 <?php } ?>
 
                 <input type="hidden" name="parent_id" value="<?php echo $object_id; ?>" />
@@ -646,7 +646,7 @@ function cpm_message_form( $project_id, $message = null ) {
 
             <div class="item milestone">
                 <select name="milestone" id="milestone">
-                    <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                    <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                     <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
                 </select>
             </div>
@@ -727,7 +727,7 @@ function cpm_discussion_form( $project_id, $message = null ) {
 
         <div class="item milestone">
             <select name="milestone" id="milestone">
-                <option value="0"><?php _e( '-- milestone --', 'cpm' ) ?></option>
+                <option value="0"><?php _e( '- Milestone -', 'cpm' ) ?></option>
                 <?php echo CPM_Milestone::getInstance()->get_dropdown( $project_id, $milestone ); ?>
             </select>
         </div>
@@ -781,7 +781,7 @@ function cpm_discussion_single( $message_id, $project_id ) {
                 <span class="<?php echo $private_class; ?>"></span>
             </span>
             <div class="cpm-small-title">
-                <?php printf( __( 'by %s on %s at %s', 'cmp' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
+                <?php printf( __( 'By %s on %s at %s', 'cpm' ), cpm_url_user( $message->post_author ), date_i18n( 'F d, Y ', strtotime( $message->post_date ) ), date_i18n( ' h:i a', strtotime( $message->post_date ) ) ); ?>
             </div>
         </h3>
 
@@ -841,7 +841,7 @@ function cpm_milestone_form( $project_id, $milestone = null ) {
             </div>
 
             <div class="item due">
-                <input name="milestone_due" autocomplete="off" class="ms-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>">
+                <input name="milestone_due" autocomplete="off" class="ms-datepicker required" type="text" value="<?php echo esc_attr( $due ); ?>" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>">
             </div>
 
             <div class="item detail">
@@ -908,7 +908,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                 <?php if ( cpm_user_can_delete_edit( $project_id, $milestone ) ) { ?>
                     <ul class="cpm-links cpm-right">
                         <li>
-                            <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit milestone', 'cpm' ); ?>"></a>
+                            <a class="cpm-icon-edit dashicons dashicons-edit " <?php cpm_data_attr( array( 'id' => $milestone->ID, 'project_id' => $project_id ) ); ?> href="#" title="<?php esc_attr_e( 'Edit Milestone', 'cpm' ); ?>"></a>
                         </li>
                         <li>
                             <a class="cpm-milestone-delete dashicons dashicons-trash" <?php cpm_data_attr( array( 'project' => $project_id, 'id' => $milestone->ID, 'confirm' => __( 'Are you sure?', 'cpm' ) ) ); ?> title="<?php esc_attr_e( 'Delete milestone', 'cpm' ); ?>" href="#"></a>
@@ -917,7 +917,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
                         <?php if ( $milestone->completed == '0' ) { ?>
                             <li><a class="cpm-milestone-complete dashicons dashicons-yes" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as complete', 'cpm' ); ?>" href="#"></a></li>
                         <?php } else { ?>
-                            <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark un-complete', 'cpm' ); ?>" href="#"></a></li>
+                            <li><a class=" cpm-milestone-open dashicons dashicons-update" data-project="<?php echo $project_id; ?>" data-id="<?php echo esc_attr( $milestone->ID ); ?>" title="<?php esc_attr_e( 'Mark as incomplete', 'cpm' ); ?>" href="#"></a></li>
                         <?php } ?>
                         <li>
                             <span class="<?php echo $milestone_private; ?>"></span>
@@ -952,7 +952,7 @@ function cpm_show_milestone( $milestone, $project_id ) {
             if ( $tasklists ) {
                 ?>
                 <div class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
-                    <h3><?php _e( 'To-do List', 'cpm' ); ?></h3>
+                    <h3><?php _e( 'Task List', 'cpm' ); ?></h3>
 
                     <ul>
                         <?php foreach ( $tasklists as $tasklist ) { ?>
@@ -1073,7 +1073,7 @@ function cpm_project_form( $project = null ) {
             <input type="hidden" name="project_notify" value="no" />
             <label>
                 <input type="checkbox" name="project_notify" id="project-notify" value="yes" />
-                <?php _e( 'Notify Co-workers', 'cpm' ) ?>
+                <?php _e( 'Notify Co-Workers', 'cpm' ) ?>
             </label>
         </div>
 
@@ -1440,7 +1440,7 @@ function cpm_report_action_from( $selected = '-1' ) {
 
     <label class="cpm-report-lebel">
         <select class="cpm-report-action" name="filter[]">
-            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( '--Select--', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( '- Select -', 'cpm' ); ?></option>
             <option value="project" <?php selected( $selected, 'project' ); ?>><?php _e( 'Projects', 'cpm' ); ?></option>
             <option value="co-worker" <?php selected( $selected, 'co-worker' ); ?>><?php _e( 'Co-Worker', 'cpm' ); ?></option>
             <option value="status" <?php selected( $selected, 'status' ); ?>><?php _e( 'Status', 'cpm' ); ?></option>
@@ -1485,7 +1485,7 @@ function cpm_report_co_worker_form( $co_workers = array(), $selected = '' ) {
     <label>
         <select class="cpm-field" name="co_worker" required>
             <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
-            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Workers', 'cpm' ); ?></option>
     <?php
     foreach ( $co_workers as $co_worker ) {
         $user = get_user_by( 'id', $co_worker->user_id );
@@ -1509,7 +1509,7 @@ function cpm_report_co_worker_dropdown( $co_workers = array(), $selected = "" ) 
     <label>
         <select class="cpm-field" name="co_worker" required>
             <option value="" <?php selected( $selected, '' ); ?>><?php _e( 'Select a Co-Worker', 'cpm' ); ?></option>
-            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Worker', 'cpm' ); ?></option>
+            <option value="-1" <?php selected( $selected, '-1' ); ?>><?php _e( 'All Co-Workers', 'cpm' ); ?></option>
     <?php
     foreach ( $co_workers as $user ) {
         ?>

@@ -39,23 +39,23 @@ class CPM_Task {
                 'project_obj'             => $project_obj,
                 'base_url'                => CPM_URL,
                 'static_text'             => array (
-                    'confirm_pin'              => __( 'Sure to confirm pin task list' ),
-                    'confirm_unpin'            => __( 'Sure to confirm un-pin task list' ),
+                    'confirm_pin'              => __( 'Sure to confirm pin task list', 'cpm' ),
+                    'confirm_unpin'            => __( 'Sure to confirm un-pin task list', 'cpm' ),
                     'file_upload'              => __( 'File uploads', 'cpm' ),
                     'attach_file'              => __( 'Attach a File', 'cpm' ),
                     'submit'                   => __( 'Submit', 'cpm' ),
                     'update_btn_text'          => __( 'Update', 'cpm' ),
                     'cancel'                   => __( 'Cancel', 'cpm' ),
-                    'tasklist_submit_btn_text' => __( 'Add Task List' ),
-                    'tasklist_update_btn_text' => __( 'Update Task List' ),
-                    'add_task_btn'             => __( "Add Task" ),
-                    'confirm_update'           => __( "Are you confirm to update task status?" ),
+                    'tasklist_submit_btn_text' => __( 'Add Task List', 'cpm' ),
+                    'tasklist_update_btn_text' => __( 'Update Task List', 'cpm' ),
+                    'add_task_btn'             => __( 'Add Task', 'cpm' ),
+                    'confirm_update'           => __( 'Are you sure to update task status?', 'cpm' ),
                     //
-                    'add_a_new_todo'           => __( "Add a new to-do", 'cpm' ),
-                    'add_todo_details_text'    => __( 'Add extra details about this to-do (optional)', 'cpm' ),
+                    'add_a_new_todo'           => __( "Add a new task", 'cpm' ),
+                    'add_todo_details_text'    => __( 'Add extra details about this task (optional)', 'cpm' ),
                     'title'                    => __( 'Title', 'cpm' ),
                     'start_date'               => __( 'Start Date', 'cpm' ),
-                    'due_date'                 => __( 'Due date', 'cpm' ),
+                    'due_date'                 => __( 'Due Date', 'cpm' ),
                     'to_attach'                => __( 'To attach', 'cpm' ),
                     'select_file'              => __( 'select files', 'cpm' ),
                     'from_computer'            => __( 'from your computer', 'cpm' ),
@@ -69,16 +69,15 @@ class CPM_Task {
                     'add_comment'              => __( 'Add Comment', 'cpm' ),
                     'delete_confirm'           => __( 'Are you sure to delete this file?', 'cpm' ),
                     'empty_comment'            => __( 'Please write something in comments!', 'cpm' ),
-                    'backtotasklist'           => __( 'Back to To-do Lists', 'cpm' ),
-                    'todolist'                 => __( 'To-Do Lists', 'cpm' ),
-                    'todolist_n_title'         => __( 'You can list all your Tasks in a single thread using a To-Do list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ),
-                    'when_use_todo'            => __( 'When to use To-Do lists?', 'cpm' ),
+                    'backtotasklist'           => __( 'Back to Task Lists', 'cpm' ),
+                    'todolist'                 => __( 'Task Lists', 'cpm' ),
+                    'todolist_n_title'         => __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'cpm' ),
+                    'when_use_todo'            => __( 'When to use Task Lists?', 'cpm' ),
                     'to_pertition_a_project'   => __( 'To partition a project internals.', 'cpm' ),
                     'to_mark_milestone'        => __( 'To mark milestone points.', 'cpm' ),
                     'to_assign_people_task'    => __( 'To assign people to tasks.', 'cpm' ),
-                    'add_new_todo_btn'         => __( 'Add New To-do List', 'cpm' ),
-                    ''                         => __( '', 'cpm' ),
-                    ''                         => __( '', 'cpm' ),
+                    'add_new_todo_btn'         => __( 'Add New Task List', 'cpm' ),
+                    //''                         => __( '', 'cpm' ),
                 ),
                 'cpm_task_column_partial' => apply_filters( 'cpm_task_column_partial', ' ' ),
                 'cpm_task_single_after'   => apply_filters( 'cpm_task_single_after', ' ' ),
@@ -118,8 +117,8 @@ class CPM_Task {
                 'view'               => __( 'View Task List', 'cpm' ),
                 'view_item'          => __( 'View Task List', 'cpm' ),
                 'search_items'       => __( 'Search Task List', 'cpm' ),
-                'not_found'          => __( 'No Task List Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Task List Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No task lists found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No task lists found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Task List', 'cpm' ),
             ),
         ) );
@@ -152,8 +151,8 @@ class CPM_Task {
                 'view'               => __( 'View Task', 'cpm' ),
                 'view_item'          => __( 'View Task', 'cpm' ),
                 'search_items'       => __( 'Search Task', 'cpm' ),
-                'not_found'          => __( 'No Task Found', 'cpm' ),
-                'not_found_in_trash' => __( 'No Task Found in Trash', 'cpm' ),
+                'not_found'          => __( 'No tasks found.', 'cpm' ),
+                'not_found_in_trash' => __( 'No tasks found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Task', 'cpm' ),
             ),
         ) );
@@ -217,7 +216,7 @@ class CPM_Task {
     function add_list( $project_id, $postdata, $list_id = 0 ) {
 
         if ( empty( $postdata[ 'tasklist_name' ] ) ) {
-            return new WP_Error( 'tasklist_name', __( 'Task list name required', 'cpm' ) );
+            return new WP_Error( 'tasklist_name', __( 'Task list name is required.', 'cpm' ) );
         }
 
         $is_update        = ( $list_id ) ? true : false;
@@ -277,7 +276,7 @@ class CPM_Task {
     function add_task( $list_id, $postdata, $task_id = 0 ) {
 
         if ( empty( $postdata[ 'task_title' ] ) ) {
-            return new WP_Error( 'task_title', __( 'Task name required', 'cpm' ) );
+            return new WP_Error( 'task_title', __( 'Task name is required.', 'cpm' ) );
         }
 
         $files        = isset( $postdata[ 'cpm_attachment' ] ) ? $postdata[ 'cpm_attachment' ] : array ();
@@ -540,7 +539,7 @@ class CPM_Task {
         foreach ( $lists->posts as $list ) {
             $this->set_list_meta( $list );
         }
-
+        
         return array( 'lists' => $lists->posts, 'count' => $lists->found_posts );
     }
 
@@ -830,6 +829,7 @@ class CPM_Task {
         $task->start_date   = get_post_meta( $task->ID, '_start', true );
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
         $task->comments     = $this->get_task_comments( $task->ID );
+        $task->post_content = wp_strip_all_tags( $task->post_content );
         $task->edit_mode    = false;
 
         $task = apply_filters( 'cpm_set_task_meta', $task );
@@ -1176,5 +1176,4 @@ class CPM_Task {
         cpm_get_js_template( CPM_JS_TMPL . '/task-description.php', 'cpm-task-description' );
         cpm_get_js_template( CPM_JS_TMPL . '/todo-lists-drop-down.php', 'cpm-todo-lists-drop-down' );
     }
-
 }

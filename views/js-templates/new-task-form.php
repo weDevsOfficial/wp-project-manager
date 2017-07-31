@@ -2,24 +2,24 @@
       <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
       
         <div class="item task-title">
-            <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new to-do', 'cpm' ); ?>" value="" required="required">
+            <input v-model="task.post_title" type="text" name="task_title" class="task_title" placeholder="<?php esc_attr_e( 'Add a new task', 'cpm' ); ?>" value="" required="required">
         </div>
 
         <div class="item content">
-            <textarea v-model="task.post_content" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this to-do (optional)', 'cpm' ) ?>" rows="2"></textarea>
+            <textarea v-model="task.post_content" name="task_text" class="todo_content" cols="40" placeholder="<?php esc_attr_e( 'Add extra details about this task (optional)', 'cpm' ) ?>" rows="2"></textarea>
         </div>
 
         <div class="item date">
             
             <div class="cpm-task-start-field" v-if="task_start_field">
-                <label><?php _e( 'Start date', 'cpm' ); ?></label>
-                <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start date', 'cpm' ); ?>" value="" name="task_start" />
+                <label><?php _e( 'Start Date', 'cpm' ); ?></label>
+                <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start Date', 'cpm' ); ?>" value="" name="task_start" />
             </div>
             
 
             <div class="cpm-task-due-field">
-                <label><?php _e( 'Due date', 'cpm' ); ?></label>
-                <input v-model="task.due_date" type="text" v-cpm-datepicker autocomplete="off" class="cpm-date-picker-to" placeholder="<?php esc_attr_e( 'Due date', 'cpm' ); ?>" value="" name="task_due" />
+                <label><?php _e( 'Due Date', 'cpm' ); ?></label>
+                <input v-model="task.due_date" type="text" v-cpm-datepicker autocomplete="off" class="cpm-date-picker-to" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>" value="" name="task_due" />
             </div>
         </div>
 
@@ -34,7 +34,7 @@
                     :clear-on-select="false"
                     :hide-selected="true"
                     :show-labels="false"
-                    placeholder="Select User" 
+                    placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
                     label="name"
                     track-by="id">
                         

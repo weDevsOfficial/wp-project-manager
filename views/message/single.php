@@ -9,7 +9,7 @@ if ( !$message ) {
 }
 
 if( $message->private == 'yes' && ! cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
-    echo '<h2>' . __( 'You do not have permission to access this page', 'cpm' ) . '</h2>';
+    echo '<h2>' . __( 'You do not have permission to access this page.', 'cpm' ) . '</h2>';
     return;
 }
 
@@ -27,7 +27,7 @@ if ( $comments ) {
     $count = 0;
     ?>
 
-    <h3><?php printf( _n( 'One Comment', '%s Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
+    <h3><?php printf( _n( '1 Comment', '%d Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
 
     <ul class="cpm-comment-wrap">
 
@@ -44,7 +44,7 @@ if ( $comments ) {
     </ul>
     <?php
 } else {
-    printf( '<h4>%s</h4>', __( 'No comments found', 'cpm' ) );
+    printf( '<h4>%s</h4>', __( 'No comments found.', 'cpm' ) );
     echo '<ul class="cpm-comment-wrap" style="display: none;"></ul>'; //placeholder for ajax comment append
 }
 ?>

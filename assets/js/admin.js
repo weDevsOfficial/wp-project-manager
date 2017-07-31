@@ -138,10 +138,8 @@
                     } );
                 }
             } );
-
-
-
         },
+
         tinymceInit: function( id ) {
             tinymce.execCommand( 'mceRemoveEditor', true, id );
             tinymce.execCommand( 'mceAddEditor', true, id );

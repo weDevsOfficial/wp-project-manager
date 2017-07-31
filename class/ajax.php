@@ -209,7 +209,7 @@ class CPM_Ajax {
         $project_id = absint( $_POST['project_id'] );
 
         if ( ! $project_id ) {
-            wp_send_json_error( array( 'error' => __( 'Invalid project id', 'cpm' ) ) );
+            wp_send_json_error( array( 'error' => __( 'Invalid project ID.', 'cpm' ) ) );
         }
 
         $permission   = $permission = $this->permissions( $project_id );
@@ -402,11 +402,11 @@ class CPM_Ajax {
     function form_validate( $postdata ) {
 
         if ( empty( $postdata[ 'user_name' ] ) ) {
-            return new WP_Error( 'error', __( 'Username required ', 'cpm' ) );
+            return new WP_Error( 'error', __( 'Username is required.', 'cpm' ) );
         }
 
         if ( empty( $postdata[ 'user_email' ] ) ) {
-            return new WP_Error( 'error', __( 'Email required', 'cpm' ) );
+            return new WP_Error( 'error', __( 'Email is required.', 'cpm' ) );
         }
 
         if ( !is_email( $postdata[ 'user_email' ] ) ) {
@@ -558,7 +558,7 @@ class CPM_Ajax {
                     <td>
                         <input type="radio" <?php checked( 'co_worker', $array[ 'role' ] );
                 ?> id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $array[ 'id' ]; ?>]" value="co_worker">
-                        <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' );
+                        <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-Worker', 'cpm' );
                 ?></label>
                     </td>
                     <?php do_action( 'cpm_update_project_client_field', $array, $name ); ?>
@@ -683,7 +683,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) ); 
         }
         
-        wp_send_json_success( array( 'success' => __( 'The task has been updated successfully..', 'cpm' ),  'task' => $task ) );
+        wp_send_json_success( array( 'success' => __( 'The task has been updated successfully.', 'cpm' ),  'task' => $task ) );
     }
 
     function check_task_access() {
@@ -753,7 +753,7 @@ class CPM_Ajax {
 
             do_action( 'cpm_mark_task_open', $project_id, $task_id );
 
-            wp_send_json_success( array( 'success' => __( 'The task has been re-opened.', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'The task has been reopened.', 'cpm' ) ) );
 
         } else {
             $error = new WP_Error( 'permission', 'You do not have sufficient permission', 'cpm' );
@@ -807,7 +807,7 @@ class CPM_Ajax {
         ];
 
         $error_messages = [
-            'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
+            'tasklist_name.required' => __( 'Task list name is required.', 'cpm' ),
         ];
 
         if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
@@ -838,7 +838,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
         }
 
-        wp_send_json_success( array( 'success' => __( 'A new todo list has been created successfully.', 'cpm' ),  'list' => $response ) );
+        wp_send_json_success( array( 'success' => __( 'A new task list has been created successfully.', 'cpm' ),  'list' => $response ) );
     }
 
     function update_tasklist() {
@@ -856,7 +856,7 @@ class CPM_Ajax {
         ];
 
         $error_messages = [
-            'tasklist_name.required' => __( 'Todo list name is required.', 'cpm' ),
+            'tasklist_name.required' => __( 'Task list name is required.', 'cpm' ),
         ];
 
         if ( !$validator->validate( $posted, $rules, $error_messages ) ) {
@@ -884,7 +884,7 @@ class CPM_Ajax {
             wp_send_json_error( array( 'error' => $list_id->get_error_messages() ) );
         }
 
-        wp_send_json_success( array( 'list' => $list, 'success' => __( 'Todo list has been updated successfully.', 'cpm' ) ) );
+        wp_send_json_success( array( 'list' => $list, 'success' => __( 'Task list has been updated successfully.', 'cpm' ) ) );
     }
 
     function add_new_list_kyes( $list, $project_id ) {
@@ -923,7 +923,7 @@ class CPM_Ajax {
             CPM_Task::getInstance()->delete_list( $_POST[ 'list_id' ], true );
 
             do_action( 'cpm_delete_tasklist_after', $_POST[ 'list_id' ] );
-            wp_send_json_success( array( 'success' => __( 'Todo list has been deleted successfully.', 'cpm' ) ) );
+            wp_send_json_success( array( 'success' => __( 'Task list has been deleted successfully.', 'cpm' ) ) );
         } else {
             $error = new WP_Error( 'permission', 'You do not have permission to add new todo list', 'cpm' );
             wp_send_json_error( array( 'error' => $error->get_error_messages() ) );
@@ -1180,10 +1180,10 @@ class CPM_Ajax {
 
         if ( $comment_id ) {
             $comment = $comment_obj->get( $comment_id );
-            wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ),  'comment' => $comment ) );
+            wp_send_json_success( array( 'success' => __( 'Successfully updated', 'cpm' ),  'comment' => $comment ) );
         
         } else {
-            wp_send_json_error( array( 'error' => __( '', 'cpm' ) ) );
+            wp_send_json_error( array( 'error' => __( 'Error', 'cpm' ) ) );
         }
     }
 
@@ -1234,7 +1234,7 @@ class CPM_Ajax {
         $comment_obj = CPM_Comment::getInstance();
         $comment_obj->update( $data, $comment_id );
 
-        wp_send_json_success( array( 'success' => __( 'Sucessfully updated', 'cpm' ) ) );
+        wp_send_json_success( array( 'success' => __( 'Successfully updated', 'cpm' ) ) );
 
         // $comment = $comment_obj->get( $comment_id );
         // $content = cpm_comment_text( $comment_id );
@@ -1289,7 +1289,7 @@ class CPM_Ajax {
         $comment_id = isset( $_POST[ 'comment_id' ] ) ? intval( $_POST[ 'comment_id' ] ) : 0;
         CPM_Comment::getInstance()->delete( $comment_id, true );
 
-        wp_send_json_success( array( 'success' => __( 'Sucessfully deleted comment', 'cpm' ) ) );
+        wp_send_json_success( array( 'success' => __( 'Successfully deleted comment', 'cpm' ) ) );
     }
 
     function delete_comment_old() {
@@ -1518,7 +1518,7 @@ class CPM_Ajax {
             $user_info = json_encode( $data );
         }else {
             $data[]    = array (
-                'label'      => '<div class="no-user-wrap"><p>' . __( 'No user found!', 'cpm' ) . '</p> <span class="button-primary">' . __( 'Create a new user?', 'cpm' ) . '</span></div>',
+                'label'      => '<div class="no-user-wrap"><p>' . __( 'No users found.', 'cpm' ) . '</p> <span class="button-primary">' . __( 'Create a new user?', 'cpm' ) . '</span></div>',
                 'value'      => 'cpm_create_user',
                 '_user_meta' => '',
             );
@@ -1545,7 +1545,7 @@ class CPM_Ajax {
             $user_info = json_encode( $data );
         }else {
             $data[]    = array (
-                'label' => '<p>' . __( 'No user found!', 'cpm' ) . '</p>',
+                'label' => '<p>' . __( 'No users found.', 'cpm' ) . '</p>',
             );
             $user_info = json_encode( $data );
         }
@@ -1569,7 +1569,7 @@ class CPM_Ajax {
             <td>
 
                 <input type="radio" checked="checked" id="cpm-co-worker-<?php echo $name; ?>" name="role[<?php echo $user_id; ?>]" value="co_worker">
-                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-worker', 'cpm' );
+                <label for="cpm-co-worker-<?php echo $name; ?>"><?php _e( 'Co-Worker', 'cpm' );
         ?></label>
             </td>
             <?php do_action( 'cpm_new_project_client_field', $user_id, $name ); ?>
@@ -1782,6 +1782,7 @@ class CPM_Ajax {
         //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
         
         $task->post_content = cpm_get_content( $task->post_content );
+        $task->post_content = wp_strip_all_tags( $task->post_content );
         $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
         
         wp_send_json_success( array( 'task' => $task ) );

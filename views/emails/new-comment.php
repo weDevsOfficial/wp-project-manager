@@ -50,8 +50,8 @@ switch ( $parent_post->post_type ) {
 
     <div style="width: 600px;">
         <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
-            <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-<?php _e( 'NEW COMMENT', 'cpm' ); ?>
+            <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center; text-transform: uppercase;">
+<?php _e( 'New Comment', 'cpm' ); ?>
             </div>
         </div>
 
@@ -69,12 +69,9 @@ switch ( $parent_post->post_type ) {
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
-           <!--  <strong><?php _e( 'Author : ' ); ?></strong>
-<?php echo $author->display_name; ?>
-            <strong style="margin-left: 10px;"><?php _e( 'Permalink : ' ); ?></strong>
-            <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $comment_url; ?>"><?php _e( 'Comment link', 'cpm' ); ?></a>
-            <strong style="margin-left: 10px;"><?php _e( 'Comment : ' ); ?></strong> -->
-            <?php echo $data['comment_content']; ?>
+           <!--  <strong><?php _e( 'Author:' ); ?></strong> <?php echo $author->display_name; ?>
+            <strong style="margin-left: 10px;"><?php _e( 'Permalink:' ); ?></strong> <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $comment_url; ?>"><?php _e( 'Comment link', 'cpm' ); ?></a>
+            <strong style="margin-left: 10px;"><?php _e( 'Comment:' ); ?></strong> --> <?php echo $data['comment_content']; ?>
         </div>
 
     </div>

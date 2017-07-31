@@ -86,7 +86,7 @@ class CPM_Activity {
         }
         $msg     = get_post( $message_id );
         $message = sprintf(
-                __( 'Message %s created by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
+                __( 'Message "%s" created by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );
@@ -98,7 +98,7 @@ class CPM_Activity {
         }
         $msg     = get_post( $message_id );
         $message = sprintf(
-                __( 'Message %s updated by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
+                __( 'Message "%s" updated by %s', 'cpm' ), $this->message_url( $message_id, $project_id, $msg->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );
@@ -140,7 +140,7 @@ class CPM_Activity {
 
         $list    = get_post( $list_id );
         $message = sprintf(
-                __( 'To-do list %s created by %s', 'cpm' ), $this->list_url( $list_id, $project_id, $list->post_title ), $this->user_url()
+                __( 'Task list "%s" created by %s', 'cpm' ), $this->list_url( $list_id, $project_id, $list->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );
@@ -153,7 +153,7 @@ class CPM_Activity {
 
         $list    = get_post( $list_id );
         $message = sprintf(
-                __( 'To-do list %s updated by %s', 'cpm' ), $this->list_url( $list_id, $project_id, $list->post_title ), $this->user_url()
+                __( 'Task list "%s" updated by %s', 'cpm' ), $this->list_url( $list_id, $project_id, $list->post_title ), $this->user_url()
         );
 
         $this->log( $project_id, $message );
@@ -166,7 +166,7 @@ class CPM_Activity {
 
         $list    = get_post( $list_id );
         $message = sprintf(
-                __( 'To-do list "%s" deleted by %s', 'cpm' ), $list->post_title, $this->user_url()
+                __( 'Task list "%s" deleted by %s', 'cpm' ), $list->post_title, $this->user_url()
         );
 
         $this->log( $list->post_parent, $message );
@@ -190,7 +190,7 @@ class CPM_Activity {
         $task = get_post( $task_id );
 
         $message = sprintf(
-                __( 'To-do %s added on to-do list %s by %s', 'cpm' ), $this->task_url( $task_id, $list_id, $list->post_parent, $task->post_title ), $this->list_url( $list_id, $list->post_parent, $list->post_title ), $this->user_url()
+                __( 'Task "%s" added to task list "%s" by %s', 'cpm' ), $this->task_url( $task_id, $list_id, $list->post_parent, $task->post_title ), $this->list_url( $list_id, $list->post_parent, $list->post_title ), $this->user_url()
         );
 
         $this->log( $list->post_parent, $message );
@@ -206,7 +206,7 @@ class CPM_Activity {
         $task = get_post( $task_id );
 
         $message = sprintf(
-                __( 'To-do %s updated by %s', 'cpm' ), $this->task_url( $task_id, $list_id, $list->post_parent, $task->post_title ), $this->user_url()
+                __( 'Task "%s" updated by %s', 'cpm' ), $this->task_url( $task_id, $list_id, $list->post_parent, $task->post_title ), $this->user_url()
         );
 
         $this->log( $list->post_parent, $message );
@@ -222,10 +222,10 @@ class CPM_Activity {
         $list = get_post( $task->post_parent );
 
         $message = sprintf(
-                __( 'To-do %s completed by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
+                __( 'Task "%s" completed by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
         );
 
-        $task_message = sprintf( __( 'Marked to-do as done', 'cpm' ) );
+        $task_message = __( 'Task marked as done', 'cpm' );
 
         $this->log( $list->post_parent, $message );
         $this->log( $task_id, $task_message );
@@ -240,10 +240,10 @@ class CPM_Activity {
         $list = get_post( $task->post_parent );
 
         $message = sprintf(
-                __( 'To-do %s marked un-done by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
+                __( 'Task "%s" marked as undone by %s', 'cpm' ), $this->task_url( $task_id, $list->ID, $list->post_parent, $task->post_title ), $this->user_url()
         );
 
-        $task_message = sprintf( __( 'Re-opened to-do', 'cpm' ) );
+        $task_message = __( 'Task reopened', 'cpm' );
 
         $this->log( $list->post_parent, $message );
         $this->log( $task_id, $task_message );
@@ -258,7 +258,7 @@ class CPM_Activity {
         $list = get_post( $task->post_parent );
 
         $message = sprintf(
-                __( 'To-do "%s" deleted from to-do list %s by %s', 'cpm' ), $task->post_title, $this->list_url( $list->ID, $list->post_parent, $list->post_title ), $this->user_url()
+                __( 'Task "%s" deleted from task list "%s" by %s', 'cpm' ), $task->post_title, $this->list_url( $list->ID, $list->post_parent, $list->post_title ), $this->user_url()
         );
 
         $this->log( $list->post_parent, $message );
@@ -280,7 +280,7 @@ class CPM_Activity {
     }
 
     function comment_update( $comment_id, $project_id ) {
-        $message = sprintf( __( '%s updated comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
+        $message = sprintf( __( '%s updated a comment on a %s', 'cpm' ), $this->user_url(), "[cpm_comment_url id='$comment_id' project='$project_id']" );
 
         $this->log( $project_id, $message );
     }
@@ -299,7 +299,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" added by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" added by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
@@ -310,7 +310,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" updated by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" updated by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $project_id, $message );
     }
@@ -321,7 +321,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" deleted by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" deleted by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
@@ -332,7 +332,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" marked as complete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" marked as complete by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }
@@ -343,7 +343,7 @@ class CPM_Activity {
         }
 
         $milestone = get_post( $milestone_id );
-        $message   = sprintf( __( 'Milestone "%s" marked as incomplete by %s ', 'cpm' ), $milestone->post_title, $this->user_url() );
+        $message   = sprintf( __( 'Milestone "%s" marked as incomplete by %s', 'cpm' ), $milestone->post_title, $this->user_url() );
 
         $this->log( $_POST['project_id'], $message );
     }

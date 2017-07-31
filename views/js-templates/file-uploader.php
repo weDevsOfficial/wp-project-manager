@@ -12,6 +12,6 @@
  
                        
         </div>
-        <?php printf( '%s, <a id="cpm-upload-pickfiles%s" href="#">%s</a> %s.', __( 'To attach', 'cpm' ), '', __( 'select files', 'cpm' ), __( 'from your computer', 'cpm' ) ); ?>
+        <?php printf( __( 'To attach, %sselect files%s from your computer.', 'cpm' ), sprintf( '<a id="cpm-upload-pickfiles%s" href="#">', '' ), '</a>' ); ?>
     </div>
 </div>
