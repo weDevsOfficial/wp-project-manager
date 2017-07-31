@@ -3971,29 +3971,34 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .half-modal .cpm-modal-conetnt .task-details:hover .cpm-desc-content {
   background: #eee;
 }
-.cpm .half-modal .cpm-modal-conetnt .task-details {
+.cpm .half-modal .cpm-modal-conetnt .task-details,
+.cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details {
   margin-bottom: 15px;
   margin-top: 15px;
   margin-left: 5%;
   width: 62%;
   text-align: justify;
 }
-.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-help-text {
+.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-help-text,
+.cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details .cpm-help-text {
   font-size: 10px;
   background: #f5f5f5;
   width: 30%;
   padding: 0 7px;
 }
-.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-desc-field {
+.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-desc-field,
+.cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details .cpm-desc-field {
   height: 100px;
   width: 100%;
 }
-.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-desc-content {
+.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-desc-content,
+.cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details .cpm-desc-content {
   margin: 0;
   padding: 6px;
   min-height: 100px;
 }
-.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-task-des-edit-btn {
+.cpm .half-modal .cpm-modal-conetnt .task-details .cpm-task-des-edit-btn,
+.cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details .cpm-task-des-edit-btn {
   display: none;
 }
 .cpm .half-modal .cpm-modal-conetnt .task-details:hover .cpm-task-des-edit-btn {
