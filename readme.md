@@ -106,6 +106,19 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+## 1.6.6 - July 31, 2017 ##
+
+ * [new] Task title update from single task page.
+ * [new] Task privacy update from single task page.
+ * [new] Task description update from single task page.
+ * [new] Task start and end date update from single task page.
+ * [new] Add user/co-worker/client from single task page.
+ * [fix] Unable to complete task.
+ * [fix] When complete a task then this completed task shown double in the to-do list.
+ * [fix] Double "New To-Do" button shown.
+ * [update] 'Get porject id' function always return false.
+ * [update] Design change for single task page.
+
 ## 1.6.5 - July 6, 2017 ##
 
  * [fix] Co-worker can not show the list corner menu.
