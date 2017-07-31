@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2017-07-06 05:57:57+00:00\n"
+"POT-Creation-Date: 2017-07-31 03:50:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2086,40 +2086,6 @@ msgstr ""
 
 #: views/project/single.php:23
 msgid "Load More..."
-msgstr ""
-
-#: views/project/wp-mail.php:15
-msgid "This action has been disabled by the administrator."
-msgstr ""
-
-#: views/project/wp-mail.php:34
-msgid "Slow down cowboy, no need to check for new mails so often!"
-msgstr ""
-
-#: views/project/wp-mail.php:54
-msgid "There doesn&#8217;t seem to be any new mail."
-msgstr ""
-
-#: views/project/wp-mail.php:121
-msgid "Author is %s"
-msgstr ""
-
-#: views/project/wp-mail.php:225
-msgid "Author:"
-msgstr ""
-
-#: views/project/wp-mail.php:226
-msgid "Posted title:"
-msgstr ""
-
-#: views/project/wp-mail.php:231
-#. translators: %s: POP3 error
-msgid "Oops: %s"
-msgstr ""
-
-#: views/project/wp-mail.php:239
-#. translators: %s: the message ID
-msgid "Mission complete. Message %s deleted."
 msgstr ""
 
 #: class/project.php:70
