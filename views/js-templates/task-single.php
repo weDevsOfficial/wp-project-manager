@@ -78,7 +78,7 @@
 
                                             </span>
 
-    <div @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
+    <div v-if="task_assign.length" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
 
         <multiselect 
             v-model="task_assign" 
@@ -113,7 +113,7 @@
                                         </span>
 
 
-                                        <span class="cpm-task-date-wrap cpm-date-window">
+                                        <span v-if="(task.start_date != '' || task.due_date != '')" class="cpm-task-date-wrap cpm-date-window">
                                             <span 
                                                 @click.prevent="isTaskDateEditMode()"
                                                 v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
@@ -131,7 +131,7 @@
                                             </span>
 
                                             <div class="cpm-date-update-wrap" v-if="is_task_date_edit_mode">
-                                                <div v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
+                                                <div v-if="task_start_field" v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
                                                 <div v-cpm-datepicker class="cpm-date-picker-to cpm-inline-date-picker-to"></div>
                                                 <div class="clearfix cpm-clear"></div>
                                             </div>

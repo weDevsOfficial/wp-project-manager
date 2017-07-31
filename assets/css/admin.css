@@ -3941,6 +3941,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-top: 0px;
   margin-left: 5%;
   display: inline-block;
+  width: 80%;
 }
 .cpm .half-modal .cpm-modal-conetnt .cpm-task-meta .cpm-task-date-wrap {
   cursor: pointer;
