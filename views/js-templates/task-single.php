@@ -177,7 +177,7 @@
                                     
                                     <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
                                         <span v-if="!task.post_content == ''">{{ task.post_content }}</span>
-                                        <span style="margin-left: -3px;" v-if="task.post_content == ''"><i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp<?php _e( 'Update description', 'cpm' ); ?></span>
+                                        <span style="margin-left: -3px;" v-if="task.post_content == ''"><i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp<?php _e( 'Update Description', 'cpm' ); ?></span>
                                         <!-- <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
                                     </p>
                                                                         <!-- @keyup.enter="updateTaskElement(task)" -->
