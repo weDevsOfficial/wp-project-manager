@@ -69,16 +69,21 @@
                                         <div class="clearfix cpm-clear"></div>
                                     </h3>
                                     
-                                    <div class="cpm-task-meta">
-                                        <span class="cpm-assigned-user-wrap">
-                                            <span class='cpm-assigned-user' 
+                                    <div  class="cpm-task-meta">
+                                        <span  class="cpm-assigned-user-wrap">
+                                            <span v-if="task_assign.length" class='cpm-assigned-user' 
                                                 @click.prevent="isEnableMultiSelect()"
                                                 v-for="user in getUsers( task.assigned_to )" 
                                                 v-html="user.user_url">
 
                                             </span>
+                                            <span v-if="!task_assign.length" class='cpm-assigned-user' 
+                                                @click.prevent="isEnableMultiSelect()"
+                                                >
+                                                <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
+                                            </span>
 
-    <div @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
+    <div v-if="task_assign.length" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
 
         <multiselect 
             v-model="task_assign" 
@@ -113,7 +118,7 @@
                                         </span>
 
 
-                                        <span class="cpm-task-date-wrap cpm-date-window">
+                                        <span v-if="(task.start_date != '' || task.due_date != '')" class="cpm-task-date-wrap cpm-date-window">
                                             <span 
                                                 @click.prevent="isTaskDateEditMode()"
                                                 v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
@@ -131,7 +136,29 @@
                                             </span>
 
                                             <div class="cpm-date-update-wrap" v-if="is_task_date_edit_mode">
-                                                <div v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
+                                                <div v-if="task_start_field" v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
+                                                <div v-cpm-datepicker class="cpm-date-picker-to cpm-inline-date-picker-to"></div>
+                                                <div class="clearfix cpm-clear"></div>
+                                            </div>
+
+                                            
+                                        </span>
+
+                                        <span v-if="(task.start_date == '' && task.due_date == '')" class="cpm-task-date-wrap cpm-date-window">
+                                            <span 
+                                                @click.prevent="isTaskDateEditMode()"
+                                                v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
+                                                <span>
+                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
+                                                    <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
+                                                </span>
+
+            
+
+                                            </span>
+
+                                            <div class="cpm-date-update-wrap" v-if="is_task_date_edit_mode">
+                                                <div v-if="task_start_field" v-cpm-datepicker class="cpm-date-picker-from cpm-inline-date-picker-from"></div>
                                                 <div v-cpm-datepicker class="cpm-date-picker-to cpm-inline-date-picker-to"></div>
                                                 <div class="clearfix cpm-clear"></div>
                                             </div>
@@ -144,15 +171,16 @@
                                 </div>
 
 
-                                <div class="task-details">
+                                <div  class="task-details">
                                                 
                                     <!--v-if-->
                                     
                                     <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
-                                        {{ task.post_content }}
-                                        <!-- <span class="dashicons dashicons-edit cpm-task-des-edit-btn cpm-des-area" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
+                                        <span v-if="!task.post_content == ''">{{ task.post_content }}</span>
+                                        <span style="margin-left: -3px;" v-if="task.post_content == ''"><i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp<?php _e( 'Update Description', 'cpm' ); ?></span>
+
                                     </p>
-                                    <!-- @keyup.enter="updateTaskElement(task)" -->
+                                                                        <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea 
                                         v-prevent-line-break
                                         @blur="updateDescription(task, $event)" 
@@ -162,7 +190,7 @@
                                         v-model="task.post_content">
                                             
                                         </textarea>
-                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><?php _e('Shift+Enter for line break', 'cpm'); ?></div>
+                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><span><?php _e('Shift+Enter for line break', 'cpm'); ?></span></div>
 
                                     <div class="clearfix cpm-clear"></div>
                                 </div>

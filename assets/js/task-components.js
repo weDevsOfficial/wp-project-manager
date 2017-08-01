@@ -1343,11 +1343,14 @@ var CPM_Task_Single = {
 
             if ( date.field == 'datepicker_to' ) {
                 var task = this.task;
-
+ 
                 var start = new Date( task.start_date ),
                     due = new Date( date.date );
 
-                if ( start <= due ) {
+                if ( !this.$store.state.permissions.task_start_field ) {
+                    task.due_date = date.date;
+                    this.updateTaskElement(task);
+                } else if ( start <= due ) {
                     task.due_date = date.date;
                     this.updateTaskElement(task);
                 }
@@ -1359,6 +1362,10 @@ var CPM_Task_Single = {
         },
         isTaskDetailsEditMode: function() {
             this.is_task_details_edit_mode = true;
+
+            Vue.nextTick(function() {
+                jQuery('.cpm-desc-field').focus();
+            });
         },
 
         updateDescription: function(task, event) {
@@ -1421,6 +1428,7 @@ var CPM_Task_Single = {
                     task_start: task.start_date,
                     task_due: task.due_date,
                     task_privacy: task.task_privacy,
+                    single: true,
                     _wpnonce: CPM_Vars.nonce,
                 },
                 self = this;

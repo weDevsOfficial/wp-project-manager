@@ -365,11 +365,12 @@ class CPM_Notification {
         if ( cpm_strlen( $subject ) > 78 ) {
             $subject = substr( $subject, 0, 78 ) . '...';
         }
-        $assign_user =  (!is_array ($_POST['task_assign']) ) ? explode( ',', $_POST['task_assign'] ) : $_POST['task_assign'] ;
+        $assign_user =  (!is_array ($_POST['task_assign']) ) ? explode( ',', $_POST['task_assign'] ) : $_POST['task_assign'];
+
         foreach ( $assign_user as $key => $user_id ) {
             $user = get_user_by( 'id', intval( $user_id ) );
 
-            if ( ! $this->filter_email( $user_id ) ) {
+            if ( ! $user || ! $this->filter_email( $user_id ) ) {
                 continue;
             }
 

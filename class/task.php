@@ -163,6 +163,7 @@ class CPM_Task {
             wp_enqueue_media();
 
             $scripts = array(
+                'cpm-tiptip',
                 'cpm-uploader',
                 'cpm-toastr',
                 'cpm-tiny-mce',
@@ -197,6 +198,7 @@ class CPM_Task {
                 do_action( 'after-'. $script );
             }
 
+            wp_enqueue_style( 'cpm-tiptip' );
             wp_enqueue_style( 'cpm-vue-multiselect' );
             wp_enqueue_style( 'cpm-toastr' );
             wp_enqueue_style( 'cpm-trix' );
@@ -284,7 +286,7 @@ class CPM_Task {
         $is_update    = $task_id ? true : false;
 
         $task_title = trim( $postdata[ 'task_title' ] );
-        $content    = trim( $postdata[ 'task_text' ] );
+        $content    = empty( $postdata[ 'task_text' ] ) ? '' : trim( $postdata[ 'task_text' ] );
         //print_r($postdata[ 'task_assign' ]) ;  exit() ;
         $assigned   = isset( $postdata[ 'task_assign' ] ) ? $postdata[ 'task_assign' ] : array ( '-1' );
         //   $due          = empty( $postdata['task_due'] ) ? '' : cpm_date2mysql( $postdata['task_due'] );
@@ -334,7 +336,7 @@ class CPM_Task {
                 }
             }
 
-            $data['assigned_users'] = $postdata[ 'task_assign' ];
+            $data['assigned_users'] = empty( $postdata[ 'task_assign' ] ) ? array ( '-1' ) : $postdata[ 'task_assign' ];
 
             if ( $is_update ) {
                 $this->new_task_project_item( $list_id, $task_id, $assigned, $task_privacy, $is_update );
