@@ -106,6 +106,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 ## Changelog ##
 
+## 1.6.7 - August 01, 2017 ##
+
+ * [new] Js Tiptip library has been added.
+ * [update] Condition applied when showing calender on setting tast start date.
+ * [update] Date icon has been shown if no date was set.
+ * [update] Description icon has been shown if no description was set.
+ * [update] Co-Worker icon has been shown if no Co-Worker was set in the task.
+ * [fix] Double date picker shown at task date update time.
+ * [fix] Undefined index errors.
+
 ## 1.6.6 - July 31, 2017 ##
 
  * [new] Task title update from single task page.
