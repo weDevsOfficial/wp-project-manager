@@ -153,7 +153,7 @@ class WeDevs_CPM {
 
         //Execute only plugin install time
         register_activation_hook( __FILE__, array( $this, 'install' ) );
-
+        
         //Do some thing after load this plugin
         do_action( 'cpm_loaded' );
     }
