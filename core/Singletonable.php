@@ -1,6 +1,6 @@
 <?php
 
-namespace Wprl\Core;
+namespace CPM\Core;
 
 use Reflection;
 

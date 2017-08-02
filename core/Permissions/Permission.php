@@ -1,6 +1,6 @@
 <?php
 
-namespace Wprl\Core\Permissions;
+namespace CPM\Core\Permissions;
 
 interface Permission {
     /**

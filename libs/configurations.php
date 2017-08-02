@@ -1,6 +1,6 @@
 <?php
 
-use Wprl\Core\Config\Config;
+use CPM\Core\Config\Config;
 
 function config( $key = null ) {
     return Config::get( $key );

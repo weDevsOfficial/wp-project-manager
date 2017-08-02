@@ -1,6 +1,6 @@
 <?php
 
-namespace Wprl\Core\Exceptions;
+namespace CPM\Core\Exceptions;
 
 use Exception;
 

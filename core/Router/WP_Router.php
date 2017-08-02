@@ -1,12 +1,12 @@
 <?php
 
-namespace Wprl\Core\Router;
+namespace CPM\Core\Router;
 
 use WP_REST_Request;
 use WP_REST_Server;
 use WP_Error;
-use Wprl\Core\Validator\Validator;
-use Wprl\Core\Sanitizer\Sanitizer;
+use CPM\Core\Validator\Validator;
+use CPM\Core\Sanitizer\Sanitizer;
 
 class WP_Router {
 	/**
@@ -25,7 +25,16 @@ class WP_Router {
 	 */
 	public static function register( $routes = [] ) {
 		static::$routes = $routes;
+		add_action( 'rest_api_init', function() {
 
+			add_filter( 'rest_url_prefix', function( $prefix ) {
+				$prefix = 'cpm-json';
+
+				return $prefix;
+			} );
+
+
+		} );
 		add_action( 'rest_api_init', array( new WP_Router, 'make_wp_rest_route' ) );
 	}
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Permissions;
+namespace CPM\Core\Permissions;
 
-use Wprl\Core\Permissions\Permission;
+use CPM\Core\Permissions\Permission;
 use WP_REST_Request;
 
 abstract class Abstract_Permission implements Permission {

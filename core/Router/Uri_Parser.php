@@ -1,10 +1,10 @@
 <?php
 
-namespace Wprl\Core\Router;
+namespace CPM\Core\Router;
 
-use Wprl\Core\Exceptions\Invalid_Route_Handler;
-use Wprl\Core\Exceptions\Class_Not_Found;
-use Wprl\Core\Exceptions\Undefined_Method_Call;
+use CPM\Core\Exceptions\Invalid_Route_Handler;
+use CPM\Core\Exceptions\Class_Not_Found;
+use CPM\Core\Exceptions\Undefined_Method_Call;
 
 class Uri_Parser {
     /**

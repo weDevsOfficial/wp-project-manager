@@ -1,6 +1,6 @@
 <?php
 
-namespace Wprl\Core\Database;
+namespace CPM\Core\Database;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 

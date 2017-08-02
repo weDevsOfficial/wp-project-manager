@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Database;
+namespace CPM\Core\Database;
 
-use Wprl\Core\Database\Migration;
+use CPM\Core\Database\Migration;
 
 abstract class Abstract_Migration implements Migration {
     public function run() {
