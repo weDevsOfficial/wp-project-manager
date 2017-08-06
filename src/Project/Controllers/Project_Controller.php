@@ -22,10 +22,10 @@ class Project_Controller {
 		
 		if ( $project ) {
 			$data = [
-				'code' => 'project_created',
+				'code'    => 'project_created',
 				'message' => __( 'A new project has been created successfully.', 'cpm' ),
 				'data' => [
-					'status' => 200,
+					'status'     => 200,
 					'project_id' => $project->id,
 				],
 			];
@@ -34,13 +34,27 @@ class Project_Controller {
 		}
 	
 		$data = [
-			'code' => 'no_author',
+			'code'    => 'no_author',
 			'message' => 'Invalid author',
 			'data' => [
-				'status' => 200,
+				'status'     => 200,
 				'project_id' => $project->id,
 			],
 		];
+
+		// Create the response object
+		$response = new WP_REST_Response( $data );
+
+		// Add a custom status code
+		$response->set_status( 401 );
+
+		return $response;
+	}
+
+	public function update( WP_REST_Request $request ) {
+		$data = $request->get_params();
+
+		var_dump( $data, 'amdskasdfakjds' ); die();
 
 		// Create the response object
 		$response = new WP_REST_Response( $data );

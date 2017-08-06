@@ -67,7 +67,9 @@ abstract class Abstract_Validator implements Validator {
         if ( !$key ) {
             return count( $this->errors );
         }
-
+        if ( empty( $this->errors[$key] ) ) {
+            return false;
+        }
         return count( $this->errors[$key] );
     }
 
