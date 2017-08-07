@@ -176,7 +176,7 @@
                                     <!--v-if-->
                                     
                                     <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
-                                        <span v-if="!task.post_content == ''">{{ task.post_content }}</span>
+                                        <span v-if="!task.post_content == ''" v-html="task.post_content"></span>
                                         <span style="margin-left: -3px;" v-if="task.post_content == ''"><i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp<?php _e( 'Update Description', 'cpm' ); ?></span>
 
                                     </p>

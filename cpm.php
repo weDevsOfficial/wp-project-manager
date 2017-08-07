@@ -213,7 +213,7 @@ class WeDevs_CPM {
      * @since 0.4
      */
     function cpm_content_filter() {
-        //add_filter( 'cpm_get_content', 'wptexturize' );
+        add_filter( 'cpm_get_content', 'wptexturize' );
         add_filter( 'cpm_get_content', 'convert_smilies' );
         add_filter( 'cpm_get_content', 'convert_chars' );
         add_filter( 'cpm_get_content', 'wpautop' );
