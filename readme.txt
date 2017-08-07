@@ -122,6 +122,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.8 - comming soon =
+
+ * [fix] Prevent the loading trix-editor for all WP page.
+
+
 = 1.6.7 - August 01, 2017 =
 
  * [new] Js Tiptip library has been added.
