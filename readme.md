@@ -2,7 +2,9 @@
 
 Navigate to the plugin directory and run the following commands
 
-1. `git clone https://github.com/asikur/wprl.git <plugin-name>`
+1. `git clone https://github.com/asikur/wprl.git <plugin-dir-name>`
+2. `cd <plugin-dir-name>`
+3. Rename `wprl.php` as your plugin dir name.
 2. `composer install` or `composer update`
 3. `wp scaffold plugin-tests <plugin-name>` (wp-cli needs to be installed first)
 4. `bash bin/install-wp-tests.sh wordpress_test <db-user-name> <db-password> <db-host> latest`
