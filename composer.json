@@ -31,7 +31,7 @@
             "db"
         ],
         "psr-4": {
-            "Wprl\\Core\\": "core/",
+            "CPM\\Core\\": "core/",
             "CPM\\": "src/"
         },
         "files": [

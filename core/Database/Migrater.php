@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Database;
+namespace CPM\Core\Database;
 
-use Wprl\Core\Database\Migration_Model;
+use CPM\Core\Database\Migration_Model;
 use Create_Migrations_Table;
 
 class Migrater {

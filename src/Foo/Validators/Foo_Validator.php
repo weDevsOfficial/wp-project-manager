@@ -2,7 +2,7 @@
 
 namespace CPM\Foo\Validators;
 
-use Wprl\Core\Validator\Abstract_Validator;
+use CPM\Core\Validator\Abstract_Validator;
 
 class Foo_Validator extends Abstract_Validator {
     public function messages() {

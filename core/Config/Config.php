@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Config;
+namespace CPM\Core\Config;
 
-use Wprl\Core\Singletonable;
+use CPM\Core\Singletonable;
 
 class Config {
     /**

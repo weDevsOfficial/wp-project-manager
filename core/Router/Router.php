@@ -1,10 +1,10 @@
 <?php
 
-namespace Wprl\Core\Router;
+namespace CPM\Core\Router;
 
-use Wprl\Core\Router\Uri_Parser;
-use Wprl\Core\Singletonable;
-use Wprl\Core\Permissions\Permission;
+use CPM\Core\Router\Uri_Parser;
+use CPM\Core\Singletonable;
+use CPM\Core\Permissions\Permission;
 
 class Router {
 	/**

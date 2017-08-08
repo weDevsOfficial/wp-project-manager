@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Sanitizer;
+namespace CPM\Core\Sanitizer;
 
-use Wprl\Core\Sanitizer\Sanitizer;
+use CPM\Core\Sanitizer\Sanitizer;
 use WP_REST_Request;
 
 abstract class Abstract_Sanitizer implements Sanitizer {
@@ -29,14 +29,15 @@ abstract class Abstract_Sanitizer implements Sanitizer {
      */
     public function sanitize( WP_REST_Request $request, $key ) {
         $this->request = $request;
-        $filters = $this->filters();
+        $filters       = $this->filters();
 
         $filtering_fns = $filters[$key];
-        $fns = $this->get_filtering_fns( $filtering_fns );
-        $value = $this->request->get_param( $key );
+        $fns           = $this->get_filtering_fns( $filtering_fns );
+        $value         = $this->request->get_param( $key );
 
         foreach ( $fns as $fn ) {
             $this->sanitized_data[$key] = $this->call_filtering_fn( $value, $fn );
+            $value = $this->sanitized_data[$key];
         }
 
         return $this->sanitized_data[$key];

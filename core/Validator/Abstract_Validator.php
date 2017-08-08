@@ -1,8 +1,8 @@
 <?php
 
-namespace Wprl\Core\Validator;
+namespace CPM\Core\Validator;
 
-use Wprl\Core\Validator\Validator;
+use CPM\Core\Validator\Validator;
 use WP_REST_Request;
 
 abstract class Abstract_Validator implements Validator {
@@ -66,6 +66,10 @@ abstract class Abstract_Validator implements Validator {
     public function has_error( $key = null ) {
         if ( !$key ) {
             return count( $this->errors );
+        }
+
+        if ( empty( $this->errors[$key] ) ) {
+            return 0;
         }
 
         return count( $this->errors[$key] );

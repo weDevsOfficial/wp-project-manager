@@ -1,7 +1,7 @@
 <?php
 
-use Wprl\Core\Router\Router;
-use Wprl\Core\Permissions\Administrator;
+use CPM\Core\Router\Router;
+use CPM\Core\Permissions\Administrator;
 
 use CPM\Foo\Validators\Foo_Validator;
 use CPM\Foo\Sanitizers\Foo_Sanitizer;

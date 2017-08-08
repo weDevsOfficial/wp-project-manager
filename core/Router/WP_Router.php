@@ -1,12 +1,12 @@
 <?php
 
-namespace Wprl\Core\Router;
+namespace CPM\Core\Router;
 
 use WP_REST_Request;
 use WP_REST_Server;
 use WP_Error;
-use Wprl\Core\Validator\Validator;
-use Wprl\Core\Sanitizer\Sanitizer;
+use CPM\Core\Validator\Validator;
+use CPM\Core\Sanitizer\Sanitizer;
 
 class WP_Router {
 	/**
@@ -128,6 +128,8 @@ class WP_Router {
 			$args[$key] = [
 				'required' => in_array( 'required', explode( '|', $rules[$key] ) ),
 				'validate_callback' => function ( $param, $request, $key ) use ( $validator ) {
+					$validator->request = $request;
+
 					if ( $validator->validate( $request, $key ) ) {
 						return true;
 					}
@@ -163,6 +165,8 @@ class WP_Router {
 
 		foreach ( $keys as $key ) {
 			$args[$key]['sanitize_callback'] = function ( $param, $request, $key ) use ( $sanitizer ) {
+				$sanitizer->request = $request;
+
 				return $sanitizer->sanitize( $request, $key );
 			};
 		}
