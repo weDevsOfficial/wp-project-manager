@@ -10,7 +10,7 @@ use CPM\Project\Models\Project;
 
 class Project_Controller {
 
-	public function index() {
+	public function index( WP_REST_Request $request ) {
 		return Project::all();
         return "Working project index";
 	}
@@ -19,7 +19,7 @@ class Project_Controller {
 		$data = $request->get_params();
 
 		$project = Project::create( array_filter( $data ) );
-		
+
 		if ( $project ) {
 			$data = [
 				'code'    => 'project_created',
@@ -30,9 +30,9 @@ class Project_Controller {
 				],
 			];
 
-			return new WP_REST_Response( $data ); 
+			return new WP_REST_Response( $data );
 		}
-	
+
 		$data = [
 			'code'    => 'no_author',
 			'message' => 'Invalid author',
@@ -54,8 +54,6 @@ class Project_Controller {
 	public function update( WP_REST_Request $request ) {
 		$data = $request->get_params();
 
-		var_dump( $data, 'amdskasdfakjds' ); die();
-
 		// Create the response object
 		$response = new WP_REST_Response( $data );
 
@@ -64,6 +62,4 @@ class Project_Controller {
 
 		return $response;
 	}
-
-
 }

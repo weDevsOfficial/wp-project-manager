@@ -20,6 +20,10 @@ abstract class Abstract_Validator implements Validator {
      */
     protected $errors = [];
 
+    public function __construct( WP_REST_Request $request ) {
+        $this->request = $request;
+    }
+
     /**
      * Perform validation tasks i.e this will check whether all the rules
      * that are applied to a specific data key are satisfied or not.

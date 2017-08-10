@@ -20,6 +20,10 @@ abstract class Abstract_Sanitizer implements Sanitizer {
      */
     protected $sanitized_data = [];
 
+    public function __construct( WP_REST_Request $request ) {
+        $this->request = $request;
+    }
+
     /**
      * Perform data filtering(sanitization) for a specific data field.
      * Filters will be collected from an array returned by the filters
