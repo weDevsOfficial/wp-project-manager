@@ -7,18 +7,18 @@ use CPM\Core\Validator\Abstract_Validator;
 class Foo_Validator extends Abstract_Validator {
     public function messages() {
         return [
-            'title.required' => 'Title field is required.',
+            'title.required'       => 'Title field is required.',
             'description.required' => 'Description field is required.',
-            'email.required' => 'Email field is required.',
-            'email.email' => 'Email field should contain a valid email address.',
+            'email.required'       => 'Email field is required.',
+            'email.email'          => 'Email field should contain a valid email address.',
         ];
     }
 
     public function rules() {
         return [
-            'title' => 'required',
+            'title'       => 'required',
             'description' => 'required',
-            'email' => 'required|email'
+            'email'       => 'required|email'
         ];
     }
 }

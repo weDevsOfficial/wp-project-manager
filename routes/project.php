@@ -11,7 +11,9 @@ use CPM\Project\Validators\Project_Validator;
 
 $router = Router::singleton();
 
-$router->get( 'projects', 'CPM/Project/Controllers/Project_Controller@index' );
+//$router->get( 'projects', 'CPM/Project/Controllers/Project_Controller@index' );
+$router->get( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@show' )
+	->validator( Project_Validator::class );
 
 $router->post( 'projects', 'CPM/Project/Controllers/Project_Controller@save' )
 	->sanitizer( Project_Sanitizer::class )
@@ -19,7 +21,7 @@ $router->post( 'projects', 'CPM/Project/Controllers/Project_Controller@save' )
     //->permission( [Administrator::class] )
 
 $router->put( 'projects', 'CPM/Project/Controllers/Project_Controller@update' )
-	->sanitizer( Project_Sanitizer::class )
+	->sanitizer( Project_Sanitizer::class)
     ->validator( Project_Validator::class );
 
 // $router->get( 'foo/{id}', 'CPM/Foo/Controllers/Foo_Controller@show' );

@@ -25,16 +25,7 @@ class WP_Router {
 	 */
 	public static function register( $routes = [] ) {
 		static::$routes = $routes;
-		add_action( 'rest_api_init', function() {
 
-			add_filter( 'rest_url_prefix', function( $prefix ) {
-				$prefix = 'cpm-json';
-
-				return $prefix;
-			} );
-
-
-		} );
 		add_action( 'rest_api_init', array( new WP_Router, 'make_wp_rest_route' ) );
 	}
 
@@ -47,17 +38,17 @@ class WP_Router {
 		$routes = static::$routes;
 
 		foreach ( $routes as $route ) {
-			$uri = '/' . $route['uri'];
-			$http_verb = $route['http_verb'];
-			$controller = new $route['controller'];
-			$method = $route['method'];
+			$uri         = '/' . $route['uri'];
+			$http_verb   = $route['http_verb'];
+			$controller  = new $route['controller'];
+			$method      = $route['method'];
 			$permissions = $route['permission'];
-			$validator = $route['validator'];
-			$sanitizer = $route['sanitizer'];
-			$namespace = config( 'app.slug' ) . '/v' . config( 'app.version' );
+			$validator   = $route['validator'];
+			$sanitizer   = $route['sanitizer'];
+			$namespace   = config( 'app.slug' ) . '/v' . config( 'app.version' );
 
 			register_rest_route( $namespace, $uri, array(
-				'methods' => $http_verb,
+				'methods'  => $http_verb,
 				'callback' => array( $controller, $method ),
 				'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
 					return $this->check_permission( $request, $permissions );
@@ -103,6 +94,8 @@ class WP_Router {
 	 * wp rest route.)
 	 */
 	private function prepare_args( $validator = null, $sanitizer = null ) {
+		global $wp_rest_server;
+		
 		$validator = $validator ? new $validator() : null;
 		$sanitizer = $sanitizer ? new $sanitizer() : null;
 		$args = [];
@@ -130,6 +123,7 @@ class WP_Router {
 	 * wp rest route.)
 	 */
 	protected function apply_validation( $args, Validator $validator ) {
+		global $wp;
 		$rules = $validator->rules();
 		$keys = array_keys( $rules );
 

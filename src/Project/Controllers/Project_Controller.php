@@ -15,6 +15,10 @@ class Project_Controller {
         return "Working project index";
 	}
 
+	public function show() {
+		return "show";
+	}
+
 	public function save( WP_REST_Request $request ) {
 		$data = $request->get_params();
 
@@ -53,8 +57,6 @@ class Project_Controller {
 
 	public function update( WP_REST_Request $request ) {
 		$data = $request->get_params();
-
-		var_dump( $data, 'amdskasdfakjds' ); die();
 
 		// Create the response object
 		$response = new WP_REST_Response( $data );

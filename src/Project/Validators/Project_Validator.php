@@ -13,9 +13,18 @@ class Project_Validator extends Abstract_Validator {
     }
 
     public function rules() {
-        return [
-            'title'  => 'required',
-            'status' => 'required'
-        ];
+       global $wp_rest_server, $wp_query, $wp; 
+       //$wp_rest_server->serve_request();
+       var_dump($wp); die();
+      // $kk = new \WP_REST_Request();
+
+       //$kk->set_body( $wp_rest_server->get_raw_data() );
+       
+       //echo '<pre>'; print_r( $kk->get_body() ); echo '</pre>';
+       // echo '<pre>'; print_r( $wp_rest_server->get_raw_data() ); echo '</pre>'; die();
+        // return [
+        //     'title'  => 'required',
+        //     'status' => 'required'
+        // ];
     }
 }

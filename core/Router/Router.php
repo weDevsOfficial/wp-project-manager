@@ -133,17 +133,17 @@ class Router {
 		$handler = $uri_parser->class_method_separation( $handler );
 
 		$controller = $uri_parser->get_controller( $handler[0] );
-		$method = $uri_parser->get_method( $controller, $handler[1] );
+		$method     = $uri_parser->get_method( $controller, $handler[1] );
 
 		static::$routes[] = [
-			'http_verb' => $http_verb,
+			'http_verb'    => $http_verb,
 			'original_uri' => $uri,
-			'uri' => $uri_parser->convert_to_wp_uri( $uri ),
-			'controller' => $controller,
-			'method' => $method,
-			'permission' => [],
-			'validator' => null,
-			'sanitizer' => null,
+			'uri'          => $uri_parser->convert_to_wp_uri( $uri ),
+			'controller'   => $controller,
+			'method'       => $method,
+			'permission'   => [],
+			'validator'    => null,
+			'sanitizer'    => null,
 		];
 	}
 
@@ -170,9 +170,8 @@ class Router {
 	 *
 	 * @return object (An object of the router class.)
 	 */
-	public function validator( $validator ) {
+	public function validator( $validator, $method = false ) {
 		$last_index = count( static::$routes ) - 1;
-
 		static::$routes[$last_index]['validator'] = $validator;
 
 		return $this;

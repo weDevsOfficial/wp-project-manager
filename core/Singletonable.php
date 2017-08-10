@@ -70,8 +70,8 @@ trait Singletonable {
      */
     protected function apply_callables( array $callables = [] ) {
         foreach ( $callables as $callable ) {
-            $method = $callable['method'];
-            $params = $callable['params'];
+            $method   = $callable['method'];
+            $params   = $callable['params'];
             $property = $callable['property'];
 
             if ( method_exists( $this, $method ) ) {
@@ -116,3 +116,40 @@ trait Singletonable {
 
     }
 }
+
+//Example: singleton() first param
+// use CPM\Core\Singletonable;
+
+// $obj = test::singleton(['xyz' => 'Hello World!']);
+
+// echo $obj->xyz; //'Hello World!'
+
+// class test {
+//     use Singletonable;
+    
+//     public $xyz;
+// }
+// 
+
+//Example: singleton() second param
+// use CPM\Core\Singletonable;
+
+// $obj = test::singleton(['xyz' => 'Hello World!'], [
+//     'method' => 'kkk',
+//     'params' => 'aaa',
+// ]);
+
+//  echo $obj->xyz;//Hello World!'
+
+//  class test {
+//     use Singletonable;
+    
+//     public $xyz;
+     
+//     //for else condition
+//     public function kkk( $params ) {
+//         // do operation
+        
+//         return //something; 
+//     }
+// }

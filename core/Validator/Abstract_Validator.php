@@ -33,12 +33,12 @@ abstract class Abstract_Validator implements Validator {
      */
     public function validate( WP_REST_Request $request, $key ) {
         $this->request = $request;
-        $rules = $this->rules();
-        $messages = $this->messages();
+        $rules         = $this->rules();
+        $messages      = $this->messages();
 
         $validation_fns = $rules[$key];
-        $fns = $this->get_validation_fns( $validation_fns );
-        $value = $this->request->get_param( $key );
+        $fns            = $this->get_validation_fns( $validation_fns );
+        $value          = $this->request->get_param( $key );
 
         foreach ( $fns as $fn ) {
             if ( !$this->call_validation_fn( $value, $fn ) ) {
