@@ -969,15 +969,26 @@ Vue.component('new-task-form', {
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
             show_spinner: false,
+            date_from: '',
+            date_to: '',
         }
     },
 
     // Initial action for this component
     created: function() {
-        this.$root.$on( 'cpm_date_picker', this.getDatePicker );
+        this.$on( 'cpm_date_picker', this.getDatePicker );
     },
 
     watch: {
+        date_from: function(new_date) {
+            this.task.start_date = new_date;
+        },
+
+        date_to: function(new_date) {
+            this.task.due_date = new_date;
+            console.log( this.task.due_date );
+
+        },
         /**
          * Live check is the task private or not
          * 
@@ -1062,11 +1073,11 @@ Vue.component('new-task-form', {
         getDatePicker: function( data ) {
             
             if ( data.field == 'datepicker_from' ) {
-                this.task.start_date = data.date;
+                //this.task.start_date = data.date;
             }
 
             if ( data.field == 'datepicker_to' ) {
-                this.task.due_date = data.date;
+                //this.task.due_date = data.date;
             }
         },
 
@@ -2452,6 +2463,30 @@ Vue.component( 'cpm-todo-lists-drop-down', {
         }
     }
 });
+
+Vue.component('cpm-datepickter', {
+    template: '<input type="text" :value="value">',
+    props: ['value', 'dependency'],
+    mounted: function() {
+        var self = this,
+            limit_date = ( self.dependency == 'cpm-datepickter-from' ) ? "maxDate" : "minDate";
+
+        jQuery( self.$el ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function( selectedDate ) {
+                jQuery( "."+ self.dependency ).datepicker( "option", limit_date, selectedDate );
+            },
+            onSelect: function(dateText) {
+               self.$emit('input', dateText);
+            }
+        });
+    },
+
+});
+
 
 
 

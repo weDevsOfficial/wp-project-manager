@@ -82,7 +82,7 @@
                                                 >
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
-
+    
     <div v-if="task_assign.length" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task" v-if="is_enable_multi_select">
 
         <multiselect 

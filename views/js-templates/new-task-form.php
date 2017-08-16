@@ -13,13 +13,14 @@
             
             <div class="cpm-task-start-field" v-if="task_start_field">
                 <label><?php _e( 'Start Date', 'cpm' ); ?></label>
-                <input v-model="task.start_date" v-cpm-datepicker  type="text" autocomplete="off" class="cpm-date-picker-from" placeholder="<?php esc_attr_e( 'Start Date', 'cpm' ); ?>" value="" name="task_start" />
+                <cpm-datepickter v-model="task.start_date" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
+                
             </div>
             
 
             <div class="cpm-task-due-field">
                 <label><?php _e( 'Due Date', 'cpm' ); ?></label>
-                <input v-model="task.due_date" type="text" v-cpm-datepicker autocomplete="off" class="cpm-date-picker-to" placeholder="<?php esc_attr_e( 'Due Date', 'cpm' ); ?>" value="" name="task_due" />
+                <cpm-datepickter v-model="task.due_date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
             </div>
         </div>
 
