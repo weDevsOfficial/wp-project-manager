@@ -62,6 +62,9 @@ function load_orm() {
 
     $capsule->addConnection( config('db') );
 
+    // Setup eloquent model events
+    $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher());
+
     // Make this Capsule instance available globally via static methods... (optional)
     $capsule->setAsGlobal();
 
