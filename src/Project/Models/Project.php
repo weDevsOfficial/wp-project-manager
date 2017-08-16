@@ -37,11 +37,10 @@ class Project extends Eloquent {
         parent::boot();
 
         static::saving( function ( $model ) {
-        	dd( $model );
         	$model->created_by = 1;
         	$model->updated_by = 1;
         } );
-
+        
         static::updating( function ( $model ) {
         	$model->updated_by = 1;
         	$model->save();
