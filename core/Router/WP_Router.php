@@ -94,10 +94,13 @@ class WP_Router {
 	 * wp rest route.)
 	 */
 	private function prepare_args( $http_verb, $namespace, $uri, $validator = null, $sanitizer = null ) {
-		$request = $this->prepare_request_object( $http_verb, $namespace, $uri );
+		// $request = $this->prepare_request_object( $http_verb, $namespace, $uri );
 
-		$validator = $validator ? new $validator( $request ) : null;
-		$sanitizer = $sanitizer ? new $sanitizer( $request ) : null;
+		// $validator = $validator ? new $validator( $request ) : null;
+		// $sanitizer = $sanitizer ? new $sanitizer( $request ) : null;
+
+        $validator = $validator ? new $validator() : null;
+        $sanitizer = $sanitizer ? new $sanitizer() : null;
 		$args = [];
 
 		if ( $validator ) {

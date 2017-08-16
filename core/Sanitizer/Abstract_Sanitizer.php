@@ -20,8 +20,10 @@ abstract class Abstract_Sanitizer implements Sanitizer {
      */
     protected $sanitized_data = [];
 
-    public function __construct( WP_REST_Request $request ) {
-        $this->request = $request;
+    public function __construct( WP_REST_Request $request = null ) {
+        if ( $request ) {
+            $this->request = $request;
+        }
     }
 
     /**
