@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs, asaquzzaman, wpasikur, mdmamun-1
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.8
+Tested up to: 4.8.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -122,9 +122,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= 1.6.8 - comming soon =
+= 1.6.8 - August 17, 2017 =
 
- * [fix] Prevent the loading trix-editor for all WP page.
+ * [Fix] Prevent the loading trix-editor for all WP page.
+ * [Fix] Text formating retained got from others editor.
+ * [Fix] Creating second task does change the date of first task.
+ * [new] Add new component cpm-datepicker
 
 
 = 1.6.7 - August 01, 2017 =

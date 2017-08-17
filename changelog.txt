@@ -1,3 +1,10 @@
+= 1.6.8 - August 17, 2017 =
+
+ * [Fix] Prevent the loading trix-editor for all WP page.
+ * [Fix] Text formating retained got from others editor.
+ * [Fix] Creating second task does change the date of first task.
+ * [new] Add new component cpm-datepicker
+
 = 1.6.7 - August 01, 2017 =
 
  * [new] Js Tiptip library has been added.
