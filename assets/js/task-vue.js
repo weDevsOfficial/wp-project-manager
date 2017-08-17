@@ -69,10 +69,7 @@
                     $( ".cpm-date-picker-to" ).datepicker( "option", "minDate", selectedDate );
                 },
                 onSelect: function(dateText) {
-                    var name = $(el).attr('name');
-                    console.log(el);
-                    vnode.context[name] = dateText;
-                    //CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
+                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
                 }
             });
 
@@ -85,10 +82,7 @@
                     $( ".cpm-date-picker-from" ).datepicker( "option", "maxDate", selectedDate );
                 },
                 onSelect: function(dateText) {
-                    var name = $(el).attr('name');
-                    vnode.context[name] = dateText;
-                    console.log(el, vnode.context, binding);
-                    //CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_to', date: dateText } );
+                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_to', date: dateText } );
                 }
             });
 
@@ -145,10 +139,6 @@
         inserted: function (el, binding, vnode) {
             CPM_Task.datepicker( el, binding, vnode );
         },
-        bind: function (el, binding, vnode) {
-          
-            CPM_Task.datepicker( el, binding, vnode );
-        }
     });
 
     // Register a global custom directive called v-cpm-sortable

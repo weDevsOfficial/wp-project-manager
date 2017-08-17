@@ -665,7 +665,7 @@ class CPM_Ajax {
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $task_id    = isset( $posted[ 'task_id' ] ) ? intval( $posted[ 'task_id' ] ) : 0;
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
-        $single     = ( int ) $posted[ 'single' ];
+        $single     = empty( $posted[ 'single' ] ) ? false : $posted[ 'single' ];
         $response   = array ( 'success' => false );
         
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
