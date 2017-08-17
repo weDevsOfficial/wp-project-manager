@@ -7,7 +7,9 @@ use CPM\Category\Models\Category;
 
 class Category_Controller {
     public function index( WP_REST_Request $request ) {
-        return "index";
+        $categories = Category::all();
+
+        return $categories;
     }
 
     public function show( WP_REST_Request $request ) {
