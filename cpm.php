@@ -178,6 +178,20 @@ class WeDevs_CPM {
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
         add_action( 'admin_footer', array( $this, 'admin_js_templates' ) );
+        add_action( 'plugins_loaded', array( $this, 'after_loaded_plugins' ), 11 );
+    }
+
+    /**
+     * Add shortcut links to the plugin action menu
+     *
+     * @since 1.6.9
+     *
+     * @return void
+     */
+    function after_loaded_plugins() {
+        if ( ! cpm_is_pro() ) {
+            include_once CPM_PATH . '/class/loader.php';
+        }
     }
 
     /**
