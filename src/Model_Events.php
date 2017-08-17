@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Model_Events;
+namespace CPM;
 
 trait Model_Events {
     public static function boot() {
