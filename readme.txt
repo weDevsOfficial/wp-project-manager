@@ -129,7 +129,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [Fix] Creating second task does change the date of first task.
  * [new] Add new component cpm-datepicker
 
-
 = 1.6.7 - August 01, 2017 =
 
  * [new] Js Tiptip library has been added.

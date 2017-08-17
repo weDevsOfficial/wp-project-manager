@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2017-08-01 05:16:22+00:00\n"
+"POT-Creation-Date: 2017-08-17 04:22:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -341,7 +341,7 @@ msgstr ""
 msgid "The task has been deleted successfully."
 msgstr ""
 
-#: class/ajax.php:810 class/ajax.php:859 class/task.php:219
+#: class/ajax.php:810 class/ajax.php:859 class/task.php:221
 #: includes/cpm-api/class-cpm-json-lists.php:165
 #: includes/cpm-api/class-cpm-json-lists.php:211
 msgid "Task list name is required."
@@ -383,12 +383,12 @@ msgstr ""
 msgid "Create a new user?"
 msgstr ""
 
-#: class/ajax.php:1900 includes/functions.php:245
+#: class/ajax.php:1897 includes/functions.php:245
 #: views/js-templates/file-uploader.php:9
 msgid "Delete File"
 msgstr ""
 
-#: class/ajax.php:1935
+#: class/ajax.php:1932
 msgid "Successfully reordered"
 msgstr ""
 
@@ -452,102 +452,102 @@ msgstr ""
 msgid "Upgrade to Pro Version"
 msgstr ""
 
-#: class/message.php:26 class/message.php:42
+#: class/message.php:27 class/message.php:43
 msgid "Messages"
 msgstr ""
 
-#: class/message.php:27
+#: class/message.php:28
 msgid "message post type"
 msgstr ""
 
-#: class/message.php:43 class/message.php:44 views/emails/mention.php:13
+#: class/message.php:44 class/message.php:45 views/emails/mention.php:13
 #: views/emails/new-comment.php:14 views/emails/new-message.php:67
 #: views/emails/update-comment.php:14
 msgid "Message"
 msgstr ""
 
-#: class/message.php:45 includes/html.php:611 includes/html.php:697
+#: class/message.php:46 includes/html.php:611 includes/html.php:697
 msgid "Add Message"
 msgstr ""
 
-#: class/message.php:46
+#: class/message.php:47
 msgid "Add New Message"
 msgstr ""
 
-#: class/message.php:47 class/milestone.php:42 class/project.php:51
+#: class/message.php:48 class/milestone.php:43 class/project.php:51
 #: class/task.php:114 class/task.php:148 views/project/header.php:24
 msgid "Edit"
 msgstr ""
 
-#: class/message.php:48
+#: class/message.php:49
 msgid "Edit Message"
 msgstr ""
 
-#: class/message.php:49 views/emails/new-message.php:40
+#: class/message.php:50 views/emails/new-message.php:40
 msgid "New Message"
 msgstr ""
 
-#: class/message.php:50 class/message.php:51 views/emails/new-message.php:77
+#: class/message.php:51 class/message.php:52 views/emails/new-message.php:77
 msgid "View Message"
 msgstr ""
 
-#: class/message.php:52
+#: class/message.php:53
 msgid "Search Messages"
 msgstr ""
 
-#: class/message.php:53
+#: class/message.php:54
 msgid "No messages found."
 msgstr ""
 
-#: class/message.php:54
+#: class/message.php:55
 msgid "No messages found in Trash."
 msgstr ""
 
-#: class/message.php:55
+#: class/message.php:56
 msgid "Parent Message"
 msgstr ""
 
-#: class/milestone.php:21 class/milestone.php:22 class/milestone.php:37
-#: class/milestone.php:38 class/milestone.php:39 includes/functions.php:514
+#: class/milestone.php:22 class/milestone.php:23 class/milestone.php:38
+#: class/milestone.php:39 class/milestone.php:40 includes/functions.php:514
 msgid "Milestone"
 msgstr ""
 
-#: class/milestone.php:40 includes/html.php:815
+#: class/milestone.php:41 includes/html.php:815
 #: views/blanktemplate/milestone.php:20
 #: views/js-templates/blanktemplate/milestone.php:12
 #: views/milestone/index.php:40
 msgid "Add Milestone"
 msgstr ""
 
-#: class/milestone.php:41
+#: class/milestone.php:42
 msgid "Add New Milestone"
 msgstr ""
 
-#: class/milestone.php:43 includes/html.php:911
+#: class/milestone.php:44 includes/html.php:911
 msgid "Edit Milestone"
 msgstr ""
 
-#: class/milestone.php:44
+#: class/milestone.php:45
 msgid "New Milestone"
 msgstr ""
 
-#: class/milestone.php:45 class/milestone.php:46
+#: class/milestone.php:46 class/milestone.php:47
 msgid "View Milestone"
 msgstr ""
 
-#: class/milestone.php:47
+#: class/milestone.php:48
 msgid "Search Milestone"
 msgstr ""
 
-#: class/milestone.php:48
+#: class/milestone.php:49
 msgid "No milestones found."
 msgstr ""
 
-#: class/milestone.php:49
+#: class/milestone.php:50
 msgid "No milestones found in Trash."
 msgstr ""
 
-#: class/milestone.php:50
+#: class/milestone.php:51
 msgid "Parent Milestone"
 msgstr ""
 
@@ -579,7 +579,7 @@ msgstr ""
 msgid "[%s][%s] New Task Assigned: %s"
 msgstr ""
 
-#: class/notification.php:420
+#: class/notification.php:421
 msgid "[%s][%s] New Sub Task Assigned: %s"
 msgstr ""
 
@@ -663,7 +663,7 @@ msgstr ""
 msgid "New Project Category Name"
 msgstr ""
 
-#: class/project.php:80 cpm.php:477
+#: class/project.php:80 cpm.php:476
 msgid "Categories"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 #: includes/html.php:494 includes/html.php:677 includes/html.php:755
 #: includes/html.php:863 includes/html.php:1092
 #: includes/lib/class-wedevs-insights.php:623
-#: views/js-templates/new-task-form.php:52
+#: views/js-templates/new-task-form.php:53
 #: views/js-templates/todo-list-form.php:29
 msgid "Cancel"
 msgstr ""
@@ -761,7 +761,6 @@ msgstr ""
 #: class/task.php:57 includes/html.php:217 includes/html.php:218
 #: includes/integrations/erp/views/task-form.php:59
 #: views/js-templates/new-task-form.php:15
-#: views/js-templates/new-task-form.php:16
 #: views/js-templates/task-start-date.php:4
 #: views/js-templates/task-start-date.php:8
 msgid "Start Date"
@@ -769,8 +768,7 @@ msgstr ""
 
 #: class/task.php:58 includes/html.php:223 includes/html.php:224
 #: includes/html.php:844 includes/integrations/erp/views/task-form.php:71
-#: views/emails/new-task.php:8 views/js-templates/new-task-form.php:21
-#: views/js-templates/new-task-form.php:22
+#: views/emails/new-task.php:8 views/js-templates/new-task-form.php:22
 #: views/js-templates/task-end-date.php:4
 msgid "Due Date"
 msgstr ""
@@ -791,7 +789,7 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
-#: class/task.php:63 views/js-templates/task-single.php:142
+#: class/task.php:63 views/js-templates/task-single.php:169
 #: views/js-templates/todo-list.php:51
 msgid "Comments"
 msgstr ""
@@ -903,7 +901,7 @@ msgstr ""
 msgid "Parent Task List"
 msgstr ""
 
-#: class/task.php:127 class/task.php:144 class/task.php:145 class/task.php:1080
+#: class/task.php:127 class/task.php:144 class/task.php:145 class/task.php:1081
 #: includes/functions.php:496 includes/html.php:1564
 #: views/emails/mention.php:25 views/emails/new-comment.php:26
 #: views/emails/update-comment.php:26 views/project/overview.php:43
@@ -925,7 +923,7 @@ msgid "Edit Task"
 msgstr ""
 
 #: class/task.php:150 views/js-templates/new-task-button.php:2
-#: views/js-templates/new-task-form.php:51
+#: views/js-templates/new-task-form.php:52
 msgid "New Task"
 msgstr ""
 
@@ -951,20 +949,20 @@ msgstr ""
 msgid "Parent Task"
 msgstr ""
 
-#: class/task.php:279 includes/cpm-api/class-cpm-json-tasks.php:171
+#: class/task.php:281 includes/cpm-api/class-cpm-json-tasks.php:171
 #: includes/cpm-api/class-cpm-json-tasks.php:253
 msgid "Task name is required."
 msgstr ""
 
-#: class/task.php:1113
+#: class/task.php:1114
 msgid "Current Task"
 msgstr ""
 
-#: class/task.php:1114
+#: class/task.php:1115
 msgid "Outstanding Task"
 msgstr ""
 
-#: class/task.php:1115
+#: class/task.php:1116
 msgid "Completed Task"
 msgstr ""
 
@@ -1010,7 +1008,7 @@ msgstr ""
 msgid "Pro Version"
 msgstr ""
 
-#: cpm.php:196 cpm.php:479
+#: cpm.php:196 cpm.php:478
 msgid "Add-ons"
 msgstr ""
 
@@ -1018,11 +1016,11 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: cpm.php:474 views/project/index.php:21
+#: cpm.php:473 views/project/index.php:21
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:475 includes/html.php:1444
+#: cpm.php:474 includes/html.php:1444
 msgid "Projects"
 msgstr ""
 
@@ -1265,8 +1263,8 @@ msgid "Select all"
 msgstr ""
 
 #: includes/functions.php:213 views/js-templates/assign-user.php:23
-#: views/js-templates/new-task-form.php:37
-#: views/js-templates/task-single.php:91
+#: views/js-templates/new-task-form.php:38
+#: views/js-templates/task-single.php:96
 #: views/js-templates/todo-lists-drop-down.php:20
 msgid "Select User"
 msgstr ""
@@ -1930,7 +1928,7 @@ msgstr ""
 msgid "Assign User"
 msgstr ""
 
-#: views/js-templates/assign-user.php:34 views/js-templates/task-single.php:102
+#: views/js-templates/assign-user.php:34 views/js-templates/task-single.php:107
 msgid "No Man’s Sky"
 msgstr ""
 
@@ -1943,7 +1941,7 @@ msgstr ""
 msgid "Discuss this task list"
 msgstr ""
 
-#: views/js-templates/new-task-form.php:50
+#: views/js-templates/new-task-form.php:51
 msgid "Update Task"
 msgstr ""
 
@@ -1968,13 +1966,17 @@ msgstr ""
 msgid "Edit Task Title"
 msgstr ""
 
-#: views/js-templates/task-single.php:121
-#: views/js-templates/task-single.php:127
-#: views/js-templates/task-single.php:153
+#: views/js-templates/task-single.php:126
+#: views/js-templates/task-single.php:132
+#: views/js-templates/task-single.php:152
 msgid "Edit Task Description"
 msgstr ""
 
-#: views/js-templates/task-single.php:165
+#: views/js-templates/task-single.php:180
+msgid "Update Description"
+msgstr ""
+
+#: views/js-templates/task-single.php:193
 msgid "Shift+Enter for line break"
 msgstr ""
 
