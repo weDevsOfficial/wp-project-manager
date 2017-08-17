@@ -13,7 +13,6 @@ trait Model_Events {
 
         static::updating( function ( $model ) {
             $model->updated_by = 1;
-            $model->save();
         } );
     }
 }
