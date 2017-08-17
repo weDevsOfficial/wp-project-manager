@@ -13,17 +13,17 @@ class Category_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $id = $request->get_param('id');
-        $category = Category::findOrFail($id);
+        $id = $request->get_param( 'id' );
+        $category = Category::findOrFail( $id );
 
         return $category;
     }
 
     public function store( WP_REST_Request $request ) {
         $data = [
-            'title' => $request->get_param('title'),
-            'description' => $request->get_param('description'),
-            'categorible_type' => $request->get_param('categorible_type')
+            'title' => $request->get_param( 'title' ),
+            'description' => $request->get_param( 'description' ),
+            'categorible_type' => $request->get_param( 'categorible_type' )
         ];
         $data = array_filter( $data );
 
@@ -33,15 +33,15 @@ class Category_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        $id = $request->get_param('id');
+        $id = $request->get_param( 'id' );
 
         $data = [
-            'title' => $request->get_param('title'),
-            'description' => $request->get_param('description'),
-            'categorible_type' => $request->get_param('categorible_type')
+            'title' => $request->get_param( 'title' ),
+            'description' => $request->get_param( 'description' ),
+            'categorible_type' => $request->get_param( 'categorible_type' )
         ];
 
-        $category = Category::findOrFail($id);
+        $category = Category::findOrFail( $id );
         $data = array_filter( $data );
 
         $category->update( $data );
@@ -50,6 +50,8 @@ class Category_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        return "delete";
+        $id = $request->get_param( 'id' );
+        $category = Category::findOrFail( $id );
+        $category->delete();
     }
 }
