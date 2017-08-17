@@ -7,7 +7,7 @@
 
 **Requires at least:** 3.5
 
-**Tested up to:** 4.8
+**Tested up to:** 4.8.1
 
 **Stable tag:** trunk
 
@@ -105,6 +105,13 @@ A. Sure, lots of actions and filters are added by default and will add more of t
 A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
 ## Changelog ##
+
+## 1.6.8 - August 17, 2017 ##
+
+ * [Fix] Prevent the loading trix-editor for all WP page.
+ * [Fix] Text formating retained got from others editor.
+ * [Fix] Creating second task does change the date of first task.
+ * [new] Add new component cpm-datepicker
 
 ## 1.6.7 - August 01, 2017 ##
 

@@ -43,14 +43,13 @@
                     // send data to the server
                     $.post( CPM_Vars.ajaxurl, data, function( response ) {
                         if (response.success) {
-                            console.log(response.data);
                         }
                     } );
                 }
             });
         },
 
-        datepicker: function() {
+        datepicker: function(el, binding, vnode) {
             $( '.cpm-date-field').datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
@@ -135,11 +134,11 @@
     var CPM_Task_Router = new VueRouter(CPM_Task_Routes);
 
 
-    // Register a global custom directive called v-cpm-datepicker
+    //Register a global custom directive called v-cpm-datepicker
     Vue.directive('cpm-datepicker', {
-        inserted: function (el) {
-            CPM_Task.datepicker( el );
-        }
+        inserted: function (el, binding, vnode) {
+            CPM_Task.datepicker( el, binding, vnode );
+        },
     });
 
     // Register a global custom directive called v-cpm-sortable

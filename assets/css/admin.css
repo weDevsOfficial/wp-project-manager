@@ -3983,7 +3983,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .half-modal .cpm-modal-conetnt .cpm-empty-task-details .cpm-help-text {
   font-size: 10px;
   background: #f5f5f5;
-  width: 30%;
+  width: 100%;
   padding: 0 7px;
 }
 .cpm .half-modal .cpm-modal-conetnt .task-details .cpm-desc-field,

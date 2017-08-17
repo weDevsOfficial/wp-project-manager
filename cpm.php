@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.7
+ * Version: 1.6.8
  * License: GPL2
  */
 /**
@@ -49,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.7';
+    public $version = '1.6.8';
 
      /**
      * Plugin Database version
@@ -384,7 +384,7 @@ class WeDevs_CPM {
         wp_enqueue_script( 'jquery-prettyPhoto', plugins_url( 'assets/js/jquery.prettyPhoto.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'jquery-chosen', plugins_url( 'assets/js/chosen.jquery.min.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'cpm_chart', plugins_url( 'assets/js/chart.js', __FILE__ ), array( 'jquery' ), false, true );
-        wp_enqueue_script( 'trix_editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
+        wp_register_script( 'cpm-trix-editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, false );
         wp_enqueue_script( 'plupload-handlers' );
         //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
@@ -447,14 +447,13 @@ class WeDevs_CPM {
         wp_register_style( 'cpm-tiptip', CPM_URL . '/assets/js/tiptip/tipTip.css' );
         wp_register_style( 'cpm-vue-multiselect', CPM_URL . '/assets/css/vue-multiselect/vue-multiselect.min.css' );
 
-        wp_register_style( 'cpm-trix', CPM_URL . '/assets/css/trix/trix.css' );
+        wp_register_style( 'cpm-trix-editor', CPM_URL . '/assets/css/trix/trix.css' );
         wp_register_style( 'cpm-tiny-mce', site_url( '/wp-includes/css/editor.css' ) );
         wp_register_style( 'cpm-toastr', CPM_URL . '/assets/css/toastr/toastr.min.css' );
         wp_enqueue_style( 'atwhocss', plugins_url( 'assets/css/jquery.atwho.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_prettyPhoto', plugins_url( 'assets/css/prettyPhoto.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-ui', plugins_url( 'assets/css/jquery-ui-1.9.1.custom.css', __FILE__ ) );
         wp_enqueue_style( 'jquery-chosen', plugins_url( 'assets/css/chosen.css', __FILE__ ) );
-        wp_enqueue_style( 'trix_editor_style', plugins_url( 'assets/css/trix.css', __FILE__ ) );
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );

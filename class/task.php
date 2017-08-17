@@ -831,11 +831,10 @@ class CPM_Task {
         $task->start_date   = get_post_meta( $task->ID, '_start', true );
         $task->task_privacy = get_post_meta( $task->ID, '_task_privacy', true );
         $task->comments     = $this->get_task_comments( $task->ID );
-        $task->post_content = wp_strip_all_tags( $task->post_content );
+        $task->post_content = cpm_get_content( $task->post_content );
         $task->edit_mode    = false;
 
         $task = apply_filters( 'cpm_set_task_meta', $task );
-       // var_dump( $task ); die();
     }
 
     /**

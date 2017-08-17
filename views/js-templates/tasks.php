@@ -33,7 +33,7 @@
                                 
                                 <span class='cpm-assigned-user' 
                                     v-for="user in getUsers( task.assigned_to )" 
-                                    v-html="user.user_url">
+                                    v-html="user.user_url" :key="user.ID">
 
                                 </span>
 
@@ -112,7 +112,7 @@
                 </div>
             </li>
 
-            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
+            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.ID" :class="'cpm-todo cpm-fade-out-'+task.ID">
                 
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
@@ -133,7 +133,7 @@
 
                                 <span class='cpm-assigned-user' 
                                     v-for="user in getUsers( task.assigned_to )" 
-                                    v-html="user.user_url">
+                                    v-html="user.user_url" :key="user.ID">
 
                                 </span>
 
@@ -235,7 +235,7 @@
                                 
                                 <span class='cpm-assigned-user' 
                                     v-for="user in getUsers( task.assigned_to )" 
-                                    v-html="user.user_url">
+                                    v-html="user.user_url" :key="user.ID">
 
                                 </span>
 
@@ -313,7 +313,7 @@
 
     <div class="cpm-completed-tasks">
         <ul v-cpm-sortable v-if="is_single_list"  v-cpm-sortable class="cpm-todos cpm-todolist-content cpm-todo-completed">
-            <li :data-id="task.ID" :data-order="task.menu_order" v-for="(task, task_index) in getCompletedTask" :class="'cpm-todo cpm-fade-out-'+task.ID">
+            <li :data-id="task.ID" :data-order="task.menu_order" v-for="(task, task_index) in getCompletedTask" :key="task.ID" :class="'cpm-todo cpm-fade-out-'+task.ID">
                 
                 <div class="cpm-todo-wrap clearfix">
                     <div class="cpm-todo-content" >
@@ -334,7 +334,7 @@
 
                                 <span class='cpm-assigned-user' 
                                     v-for="user in getUsers( task.assigned_to )" 
-                                    v-html="user.user_url">
+                                    v-html="user.user_url" :key="user.ID">
 
                                 </span>
 

@@ -67,4 +67,7 @@ class CPM_Free_Loader {
 
 }
 
-new CPM_Free_Loader();
+if ( ! cpm_is_pro() ) {
+    new CPM_Free_Loader();
+}
+

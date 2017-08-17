@@ -11,6 +11,7 @@ class CPM_Message {
 
     public function __construct() {
         add_filter( 'init', array( $this, 'register_post_type' ) );
+        add_action( 'cpm_admin_scripts', array ( $this, 'message_scripts' ) );
     }
 
     public static function getInstance() {
@@ -85,6 +86,28 @@ class CPM_Message {
         }
 
         return $messages;
+    }
+
+    function message_scripts() {
+        if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'message' ) {
+            
+            $scripts = array(
+                'cpm-trix-editor'
+            );
+
+            $scripts = apply_filters( 'cpm_message_scripts', $scripts );
+
+            do_action( 'cpm_before_message_scripts' );
+
+            foreach( $scripts as $script ) {
+                do_action( 'before-'. $script );
+                wp_enqueue_script( $script );
+                wp_enqueue_style( $script );
+                do_action( 'after-'. $script );
+            }
+
+            do_action( 'cpm_after_message_scripts' );
+        }
     }
 
     /**

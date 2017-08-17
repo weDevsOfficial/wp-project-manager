@@ -6,6 +6,7 @@ class CPM_Milestone {
 
     public function __construct() {
         add_filter( 'init', array( $this, 'register_post_type' ) );
+        add_action( 'cpm_admin_scripts', array ( $this, 'milestone_scripts' ) );
     }
 
     public static function getInstance() {
@@ -50,6 +51,28 @@ class CPM_Milestone {
                 'parent'             => __( 'Parent Milestone', 'cpm' ),
             ),
         ) );
+    }
+
+    function milestone_scripts() {
+        if ( isset( $_GET[ 'tab' ] ) AND $_GET[ 'tab' ] == 'milestone' ) {
+            
+            $scripts = array(
+                'cpm-trix-editor'
+            );
+
+            $scripts = apply_filters( 'cpm_milestone_scripts', $scripts );
+
+            do_action( 'cpm_before_milestone_scripts' );
+
+            foreach( $scripts as $script ) {
+                do_action( 'before-'. $script );
+                wp_enqueue_script( $script );
+                wp_enqueue_style( $script );
+                do_action( 'after-'. $script );
+            }
+
+            do_action( 'cpm_after_milestone_scripts' );
+        }
     }
 
     function create( $project_id, $milestone_id = 0 ) {

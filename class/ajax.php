@@ -665,7 +665,7 @@ class CPM_Ajax {
         $project_id = isset( $posted[ 'project_id' ] ) ? intval( $posted[ 'project_id' ] ) : 0;
         $task_id    = isset( $posted[ 'task_id' ] ) ? intval( $posted[ 'task_id' ] ) : 0;
         $type       = isset( $posted[ 'type' ] ) ? $posted[ 'type' ] : 'html';
-        $single     = ( int ) $posted[ 'single' ];
+        $single     = empty( $posted[ 'single' ] ) ? false : $posted[ 'single' ];
         $response   = array ( 'success' => false );
         
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
@@ -1779,12 +1779,9 @@ class CPM_Ajax {
         $task_id    = sanitize_text_field( $_POST[ 'task_id' ] );
         $project_id = sanitize_text_field( $_POST[ 'project_id' ] );
         $task       = $task_obj->get_task( $task_id);
-        //$task       = $task_obj->set_todo_extra_data( $project_id, $task->post_parent, $task);
-        
-        $task->post_content = cpm_get_content( $task->post_content );
-        $task->post_content = wp_strip_all_tags( $task->post_content );
+
         $task->can_del_edit = cpm_user_can_delete_edit( $project_id, $task );
-        
+
         wp_send_json_success( array( 'task' => $task ) );
     }
 
