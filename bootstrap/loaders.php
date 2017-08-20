@@ -60,7 +60,7 @@ function load_routes() {
 function load_orm() {
     $capsule = new Capsule;
 
-    $capsule->addConnection( config('db') );
+    $status = $capsule->addConnection( config('db') );
 
     // Setup eloquent model events
     $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher());

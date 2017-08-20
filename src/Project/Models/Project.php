@@ -4,13 +4,13 @@ namespace CPM\Project\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Project\Project_Status;
+use CPM\Model_Events;
 
 class Project extends Eloquent {
-	use Project_Status;
+	use Project_Status, Model_Events;
 
 	const INCOMPLETE = 'Incomplete';
 	const COMPLETE = 'Complete';
-
 
     protected $table = 'cpm_projects';
 
@@ -31,20 +31,4 @@ class Project extends Eloquent {
     protected $dates = [
     	'est_completion'
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::saving( function ( $model ) {
-        	$model->created_by = 1;
-        	$model->updated_by = 1;
-        } );
-        
-        static::updating( function ( $model ) {
-        	$model->updated_by = 1;
-        	$model->save();
-        } );
-
-    }
 }

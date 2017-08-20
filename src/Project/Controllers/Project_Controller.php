@@ -24,10 +24,8 @@ class Project_Controller {
 	}
 
 	public function save( WP_REST_Request $request ) {
-		$data = $request->get_params();
-// var_dump( $data ); die();
+		$data    = $request->get_params();
 		$project = Project::create( array_filter( $data ) );
-		return $project;
 
 		if ( $project ) {
 			$data = [
