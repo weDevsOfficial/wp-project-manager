@@ -20,4 +20,8 @@ class Todo_List extends Eloquent {
     ];
 
     protected $attributes = ['type' => 'todo-list'];
+
+    public function newQuery( $except_deleted = true ) {
+        return parent::newQuery( $except_deleted )->where( 'type', '=', 'todo-list' );
+    }
 }

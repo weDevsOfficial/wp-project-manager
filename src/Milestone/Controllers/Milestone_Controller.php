@@ -34,7 +34,7 @@ class Milestone_Controller {
             ->where( 'type', 'milestone' )
             ->first();
 
-        $resource = new Item( $category, new Milestone_Transformer );
+        $resource = new Item( $milestone, new Milestone_Transformer );
 
         return $this->get_response( $resource );
     }

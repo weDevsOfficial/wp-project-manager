@@ -77,7 +77,7 @@ class Uri_Parser {
         $pattern = '/\{[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+\}/';
 
         $uri = preg_replace_callback( $pattern, function ( $matches ) {
-            return '(?P<' . trim( $matches[0], '{}' ) . '>.+)';
+            return '(?P<' . trim( $matches[0], '{}' ) . '>\d+)';
         }, $uri );
 
         return $uri;
