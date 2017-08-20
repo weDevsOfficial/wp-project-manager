@@ -4,19 +4,34 @@ namespace CPM\Category\Controllers;
 
 use WP_REST_Request;
 use CPM\Category\Models\Category;
+use League\Fractal;
+use League\Fractal\Resource\Item as Item;
+use League\Fractal\Resource\Collection as Collection;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\Transformer_Manager;
+use CPM\Category\Transformer\Category_Transformer;
 
 class Category_Controller {
-    public function index( WP_REST_Request $request ) {
-        $categories = Category::all();
+    use Transformer_Manager;
 
-        return $categories;
+    public function index( WP_REST_Request $request ) {
+        $categories = Category::paginate();
+
+        $category_collection = $categories->getCollection();
+
+        $resource = new Collection( $category_collection, new Category_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $categories ) );
+
+        return $this->get_response( $resource );
     }
 
     public function show( WP_REST_Request $request ) {
         $id = $request->get_param( 'id' );
         $category = Category::findOrFail( $id );
 
-        return $category;
+        $resource = new Item( $category, new Category_Transformer );
+
+        return $this->get_response( $resource );
     }
 
     public function store( WP_REST_Request $request ) {
@@ -29,7 +44,9 @@ class Category_Controller {
 
         $category = Category::create( $data );
 
-        return $category;
+        $resource = new Item( $category, new Category_Transformer );
+
+        return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -46,7 +63,9 @@ class Category_Controller {
 
         $category->update( $data );
 
-        return $category;
+        $resource = new Item( $category, new Category_Transformer );
+
+        return $this->get_response( $resource );
     }
 
     public function destroy( WP_REST_Request $request ) {
