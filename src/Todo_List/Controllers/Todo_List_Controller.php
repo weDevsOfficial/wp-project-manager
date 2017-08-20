@@ -24,4 +24,20 @@ class Todo_List_Controller {
 
         return $this->get_response( $resource );
     }
+
+    public function store( WP_REST_Request $request ) {
+        $data = [
+            'title' => $request->get_param( 'title' ),
+            'description' => $request->get_param( 'description' ),
+            'order' => $request->get_param( 'order' ),
+            'project_id' => $request->get_param( 'project_id' )
+        ];
+        $data = array_filter( $data );
+
+        $todo_list = Todo_List::create( $data );
+
+        $resource = new Item( $todo_list, new Todo_List_Transformer );
+
+        return $this->get_response( $resource );
+    }
 }
