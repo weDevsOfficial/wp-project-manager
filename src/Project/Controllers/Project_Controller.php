@@ -24,10 +24,8 @@ class Project_Controller {
 	}
 
 	public function save( WP_REST_Request $request ) {
-		$data = $request->get_params();
-// var_dump( $data ); die();
+		$data    = $request->get_params();
 		$project = Project::create( array_filter( $data ) );
-		return $project;
 
 		if ( $project ) {
 			$data = [
@@ -42,18 +40,6 @@ class Project_Controller {
 			return new WP_REST_Response( $data );
 		}
 
-		$data = [
-			'code'    => 'no_author',
-			'message' => 'Invalid author',
-			'data' => [
-				'status'     => 200,
-				'project_id' => $project->id,
-			],
-		];
-
-		// Create the response object
-		$response = new WP_REST_Response( $data );
-
 		// Add a custom status code
 		$response->set_status( 401 );
 
@@ -61,10 +47,22 @@ class Project_Controller {
 	}
 
 	public function update( WP_REST_Request $request ) {
-		$data = $request->get_params();
+		$data    = $request->get_params();
+		$update  = Project::find( $data['id'] )
+						->update( array_filter( $data ) );
 
-		// Create the response object
-		$response = new WP_REST_Response( $data );
+		if ( $update ) {
+			$data = [
+				'code'    => 'project_created',
+				'message' => __( 'Project has been update successfully.', 'cpm' ),
+				'data' => [
+					'status'     => 200,
+					'project_id' => $data['id'],
+				],
+			];
+
+			return new WP_REST_Response( $data );
+		}
 
 		// Add a custom status code
 		$response->set_status( 401 );

@@ -11,7 +11,7 @@ function wp_config( $key ) {
 }
 
 function migrations_table_prefix() {
-    $slug = config( 'app.slug' );
+    $slug 	= config( 'app.slug' );
     $prefix = str_replace( '-', '_', str_replace( ' ', '_', $slug ) );
 
     return $prefix;
