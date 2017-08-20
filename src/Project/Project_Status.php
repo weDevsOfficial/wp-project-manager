@@ -14,18 +14,16 @@ trait Project_Status {
     {
         $value = (int) $value;
         
-       if (array_key_exists($value, self::$status)) {
+        if (array_key_exists($value, self::$status)) {
             return self::$status[(int)$value];
         }
 
-       return self::$status[0];
+        return self::$status[0];
     }
 
     public function setStatusAttribute( $value ) {
-        $status = array_search(
-            strtolower($value), array_map('strtolower', self::$status)
-        );
-        
-       $this->attributes['status'] = $status;
+        if( array_key_exists($value, self::$status) ) {
+            $this->attributes['status'] = $value;
+        }
     }
 }

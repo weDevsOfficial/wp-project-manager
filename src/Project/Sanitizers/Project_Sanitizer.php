@@ -10,6 +10,7 @@ class Project_Sanitizer extends Abstract_Sanitizer {
 			'projectable_type' => 'trimer',
 			'title'            => 'trimer',
 			'des'              => 'trimer',
+			'status'           => 'absolute',
         ];
     }
 }
