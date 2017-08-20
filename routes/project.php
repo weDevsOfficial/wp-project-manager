@@ -5,6 +5,7 @@ use CPM\Core\Permissions\Administrator;
 use CPM\Project\Sanitizers\Project_Sanitizer;
 use CPM\Project\Validators\Create_Project;
 use CPM\Project\Validators\Update_Project;
+use CPM\Project\Sanitizers\Delete_Sanitizer;
 
 $router = Router::singleton();
 
@@ -21,5 +22,6 @@ $router->put( 'projects', 'CPM/Project/Controllers/Project_Controller@update' )
 	->sanitizer( Project_Sanitizer::class)
     ->validator( Update_Project::class );
 
-$router->delete( 'foo/{id}', 'CPM/Foo/Controllers/Foo_Controller@destroy' )
+$router->delete( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@destroy' )
+	->sanitizer( Delete_Sanitizer::class )
     ->permission( [Administrator::class] );

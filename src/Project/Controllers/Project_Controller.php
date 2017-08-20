@@ -69,4 +69,40 @@ class Project_Controller {
 
 		return $response;
 	}
+
+	public function destroy( WP_REST_Request $request ) {
+		$id = $request->get_param('id');
+
+		$project =  Project::find( $id );
+
+		if ( $project ) {
+			$project->delete();
+
+			$data = [
+				'code'    => 'Delete_project',
+				'message' => __( 'Project has been deleted successfully.', 'cpm' ),
+				'data' => [
+					'status'     => 200,
+					'project_id' => $id,
+				],
+			];
+
+			return new WP_REST_Response( $data );
+		}
+
+		if ( ! $project ) {
+			$data = [
+				'code'    => 'Update_project',
+				'message' => __( 'No project found.', 'cpm' ),
+				'data' => [
+					'status'     => 401,
+					'project_id' => $id,
+				],
+			];
+
+			return new WP_REST_Response( $data );
+		}
+
+		return $response;
+	}
 }
