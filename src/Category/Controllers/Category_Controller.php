@@ -15,7 +15,13 @@ class Category_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $categories = Category::paginate();
+        $type = $request->get_param( 'type' );
+
+        if ( $type ) {
+            $categories = Category::where('categorible_type', $type)->paginate();
+        } else {
+            $categories = Category::paginate();
+        }
 
         $category_collection = $categories->getCollection();
 
