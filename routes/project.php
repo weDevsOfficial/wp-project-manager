@@ -9,7 +9,7 @@ use CPM\Project\Sanitizers\Delete_Sanitizer;
 
 $router = Router::singleton();
 
-//$router->get( 'projects', 'CPM/Project/Controllers/Project_Controller@index' );
+$router->get( 'projects', 'CPM/Project/Controllers/Project_Controller@index' );
 $router->get( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@show' );
 	// ->validator( Create_Project::class );
 

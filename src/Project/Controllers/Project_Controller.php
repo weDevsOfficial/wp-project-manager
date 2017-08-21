@@ -7,102 +7,56 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
 use CPM\Project\Models\Project;
+use League\Fractal;
+use League\Fractal\Resource\Item as Item;
+use League\Fractal\Resource\Collection as Collection;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\Transformer_Manager;
+use CPM\Project\Transformer\Project_Transformer;
 
 class Project_Controller {
+	use Transformer_Manager;
 
 	public function index( WP_REST_Request $request ) {
-		return Project::all();
-        return "Working project index";
-	}
+		$projects           = Project::paginate();
+		$project_collection = $projects->getCollection();
+		$resource           = new Collection( $project_collection, new Project_Transformer );
+        
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
+
+        return $this->get_response( $resource );
+    }
 
 	public function show( WP_REST_Request $request ) {
-		$id = $request->get_param('id');
+		$id       = $request->get_param('id');
+		$project  =  Project::find( $id );
+		$resource = new Item( $project, new Project_Transformer );
 
-		$project =  Project::find( $id );
-
-		return $project;
+        return $this->get_response( $resource );
 	}
 
 	public function save( WP_REST_Request $request ) {
-		$data    = $request->get_params();
-		$project = Project::create( array_filter( $data ) );
+		$data     = $request->get_params();
+		$project  = Project::create( array_filter( $data ) );
+		$resource = new Item( $project, new Project_Transformer );
 
-		if ( $project ) {
-			$data = [
-				'code'    => 'project_created',
-				'message' => __( 'A new project has been created successfully.', 'cpm' ),
-				'data' => [
-					'status'     => 200,
-					'project_id' => $project->id,
-				],
-			];
+        return $this->get_response( $resource );
 
-			return new WP_REST_Response( $data );
-		}
-
-		// Add a custom status code
-		$response->set_status( 401 );
-
-		return $response;
 	}
 
 	public function update( WP_REST_Request $request ) {
-		$data    = $request->get_params();
-		$update  = Project::find( $data['id'] )
-						->update( array_filter( $data ) );
+		$data     = $request->get_params();
+		$project  = Project::find( $data['id'] );
+		
+		$project->update( array_filter( $data ) );
+		
+		$resource = new Item( $project, new Project_Transformer );
 
-		if ( $update ) {
-			$data = [
-				'code'    => 'project_created',
-				'message' => __( 'Project has been update successfully.', 'cpm' ),
-				'data' => [
-					'status'     => 200,
-					'project_id' => $data['id'],
-				],
-			];
-
-			return new WP_REST_Response( $data );
-		}
-
-		// Add a custom status code
-		$response->set_status( 401 );
-
-		return $response;
+        return $this->get_response( $resource );
 	}
 
 	public function destroy( WP_REST_Request $request ) {
-		$id = $request->get_param('id');
-
-		$project =  Project::find( $id );
-
-		if ( $project ) {
-			$project->delete();
-
-			$data = [
-				'code'    => 'Delete_project',
-				'message' => __( 'Project has been deleted successfully.', 'cpm' ),
-				'data' => [
-					'status'     => 200,
-					'project_id' => $id,
-				],
-			];
-
-			return new WP_REST_Response( $data );
-		}
-
-		if ( ! $project ) {
-			$data = [
-				'code'    => 'Update_project',
-				'message' => __( 'No project found.', 'cpm' ),
-				'data' => [
-					'status'     => 401,
-					'project_id' => $id,
-				],
-			];
-
-			return new WP_REST_Response( $data );
-		}
-
-		return $response;
+		$id      = $request->get_param('id');
+		$project =  Project::find( $id )->delete();
 	}
 }
