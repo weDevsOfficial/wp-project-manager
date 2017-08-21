@@ -1,19 +1,19 @@
 <?php
 
-namespace CPM\Milestone\Transformer;
+namespace CPM\Project\Transformer;
 
-use CPM\Milestone\Models\Milestone;
+use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
 
-class Milestone_Transformer extends TransformerAbstract
+class Project_Transformer extends TransformerAbstract
 {
-    public function transform( Milestone $item )
+    public function transform( Project $item )
     {
         return [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => $item->description,
-            'order'       => $item->order,
+            'description' => $item->des,
+            'status'      => $item->status,
             'created_by'  => $item->created_by,
             'updated_by'  => $item->updated_by,
         ];

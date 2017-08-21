@@ -16,9 +16,9 @@ class Milestone_Controller {
 
     public function index( WP_REST_Request $request ) {
         $milestones = Milestone::paginate();
-
+        
         $milestone_collection = $milestones->getCollection();
-
+        
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $milestones ) );
 
@@ -26,7 +26,7 @@ class Milestone_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
@@ -39,23 +39,24 @@ class Milestone_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
+        
         $data = [
-            'title' => $request->get_param( 'title' ),
+            'title'       => $request->get_param( 'title' ),
             'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
-            'project_id' => $request->get_param( 'project_id' )
+            'order'       => $request->get_param( 'order' ),
+            'project_id'  => $request->get_param( 'project_id' )
         ];
-        $data = array_filter( $data );
-
+        $data      = array_filter( $data );
+        
         $milestone = Milestone::create( $data );
-
-        $resource = new Item( $milestone, new Milestone_Transformer );
+        
+        $resource  = new Item( $milestone, new Milestone_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
@@ -63,9 +64,9 @@ class Milestone_Controller {
             ->first();
 
         $data = [
-            'title' => $request->get_param( 'title' ),
+            'title'       => $request->get_param( 'title' ),
             'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
+            'order'       => $request->get_param( 'order' ),
         ];
         $data = array_filter( $data );
 
@@ -77,7 +78,7 @@ class Milestone_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
