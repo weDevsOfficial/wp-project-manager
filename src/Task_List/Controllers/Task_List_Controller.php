@@ -26,7 +26,7 @@ class Task_List_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
 
         $task_list = Task_List::where( 'id', $task_list_id )
@@ -40,10 +40,10 @@ class Task_List_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data = [
-            'title' => $request->get_param( 'title' ),
+            'title'       => $request->get_param( 'title' ),
             'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
-            'project_id' => $request->get_param( 'project_id' )
+            'order'       => $request->get_param( 'order' ),
+            'project_id'  => $request->get_param( 'project_id' )
         ];
         $data = array_filter( $data );
 
@@ -55,7 +55,7 @@ class Task_List_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
 
         $task_list = Task_List::where( 'id', $task_list_id )
@@ -63,9 +63,9 @@ class Task_List_Controller {
             ->first();
 
         $data = [
-            'title' => $request->get_param( 'title' ),
+            'title'       => $request->get_param( 'title' ),
             'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
+            'order'       => $request->get_param( 'order' ),
         ];
         $data = array_filter( $data );
 
@@ -77,7 +77,7 @@ class Task_List_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
 
         $task_list = Task_List::where( 'id', $task_list_id )

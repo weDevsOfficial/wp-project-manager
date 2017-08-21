@@ -39,14 +39,9 @@ class Task_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = [
-            'title'       => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order'       => $request->get_param( 'order' ),
-            'project_id'  => $request->get_param( 'project_id' )
-        ];
+        
+        $data = $request->get_params();
         $data = array_filter( $data );
-
         $task = Task::create( $data );
 
         $resource = new Item( $task, new Task_Transformer );
