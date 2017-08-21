@@ -56,7 +56,26 @@ class Discussion_Board_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        return "update";
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+
+        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        $data = [
+            'title' => $request->get_param( 'title' ),
+            'description' => $request->get_param( 'description' ),
+            'order' => $request->get_param( 'order' ),
+        ];
+        $data = array_filter( $data );
+
+        $discussion_board->update( $data );
+
+        $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
+
+        return $this->get_response( $resource );
+
     }
 
     public function destroy( WP_REST_Request $request ) {
