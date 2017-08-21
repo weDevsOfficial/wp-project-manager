@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\task\Controllers;
+namespace CPM\Task\Controllers;
 
 use WP_REST_Request;
-use CPM\task\Models\Task;
+use CPM\Task\Models\Task;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
-use CPM\task\Transformer\Task_Transformer;
+use CPM\Task\Transformer\Task_Transformer;
 
 class Task_Controller {
     use Transformer_Manager;

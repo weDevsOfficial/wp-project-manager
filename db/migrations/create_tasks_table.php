@@ -17,9 +17,9 @@ class Create_Tasks_Table extends Migration {
             $table->tinyInteger( 'complexity' );
             $table->boolean( 'payable' );
             $table->boolean( 'recurrent' );
-            $table->enum( 'priority' );
+            $table->tinyInteger( 'priority' );
             $table->integer( 'order' );
-            $table->enum( 'status' );
+            $table->tinyInteger( 'status' );
 
             $table->integer( 'project_id' );
             $table->integer( 'category_id' );
