@@ -79,6 +79,13 @@ class Discussion_Board_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        return "delete";
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+
+        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        $discussion_board->delete();
     }
 }
