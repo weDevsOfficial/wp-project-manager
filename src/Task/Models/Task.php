@@ -28,4 +28,6 @@ class Task extends Eloquent {
         'parent_id',
         'updated_by'
     ];
+
+    protected $dates = ['start_at', 'due_date']
 }
