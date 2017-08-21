@@ -1,39 +1,39 @@
 <?php
 
-namespace CPM\Todo_List\Controllers;
+namespace CPM\Task_List\Controllers;
 
 use WP_REST_Request;
-use CPM\Todo_List\Models\Todo_List;
+use CPM\Task_List\Models\Task_List;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
-use CPM\Todo_List\Transformer\Todo_List_Transformer;
+use CPM\Task_List\Transformer\Task_List_Transformer;
 
-class Todo_List_Controller {
+class Task_List_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $todo_lists = Todo_List::paginate();
+        $task_lists = Task_List::paginate();
 
-        $todo_list_collection = $todo_lists->getCollection();
+        $task_list_collection = $task_lists->getCollection();
 
-        $resource = new Collection( $todo_list_collection, new Todo_List_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $todo_lists ) );
+        $resource = new Collection( $task_list_collection, new Task_List_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         return $this->get_response( $resource );
     }
 
     public function show( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
-        $todo_list_id = $request->get_param( 'todo_list_id' );
+        $task_list_id = $request->get_param( 'task_list_id' );
 
-        $todo_list = Todo_List::where( 'id', $todo_list_id )
+        $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        $resource = new Item( $todo_list, new Todo_List_Transformer );
+        $resource = new Item( $task_list, new Task_List_Transformer );
 
         return $this->get_response( $resource );
     }
@@ -47,18 +47,18 @@ class Todo_List_Controller {
         ];
         $data = array_filter( $data );
 
-        $todo_list = Todo_List::create( $data );
+        $task_list = Task_List::create( $data );
 
-        $resource = new Item( $todo_list, new Todo_List_Transformer );
+        $resource = new Item( $task_list, new Task_List_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
-        $todo_list_id = $request->get_param( 'todo_list_id' );
+        $task_list_id = $request->get_param( 'task_list_id' );
 
-        $todo_list = Todo_List::where( 'id', $todo_list_id )
+        $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
 
@@ -69,21 +69,21 @@ class Todo_List_Controller {
         ];
         $data = array_filter( $data );
 
-        $todo_list->update( $data );
+        $task_list->update( $data );
 
-        $resource = new Item( $todo_list, new Todo_List_Transformer );
+        $resource = new Item( $task_list, new Task_List_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function destroy( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
-        $todo_list_id = $request->get_param( 'todo_list_id' );
+        $task_list_id = $request->get_param( 'task_list_id' );
 
-        $todo_list = Todo_List::where( 'id', $todo_list_id )
+        $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        $todo_list->delete();
+        $task_list->delete();
     }
 }

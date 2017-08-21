@@ -1,13 +1,13 @@
 <?php
 
-namespace CPM\Todo_List\Transformer;
+namespace CPM\Task_List\Transformer;
 
-use CPM\Todo_List\Models\Todo_List;
+use CPM\Task_List\Models\Task_List;
 use League\Fractal\TransformerAbstract;
 
-class Todo_List_Transformer extends TransformerAbstract
+class Task_List_Transformer extends TransformerAbstract
 {
-    public function transform( Todo_List $item )
+    public function transform( Task_List $item )
     {
         return [
             'id' => (int) $item->id,
