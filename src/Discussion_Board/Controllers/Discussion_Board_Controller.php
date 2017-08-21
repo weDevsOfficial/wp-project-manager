@@ -26,7 +26,17 @@ class Discussion_Board_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        return "show";
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+
+        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
+
+        return $this->get_response( $resource );
+
     }
 
     public function store( WP_REST_Request $request ) {
