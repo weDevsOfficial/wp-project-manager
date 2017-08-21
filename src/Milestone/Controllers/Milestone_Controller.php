@@ -15,7 +15,7 @@ class Milestone_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $milestones = Milestone::where( 'type', 'milestone' )->paginate();
+        $milestones = Milestone::paginate();
 
         $milestone_collection = $milestones->getCollection();
 
@@ -31,7 +31,6 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id )
-            ->where( 'type', 'milestone' )
             ->first();
 
         $resource = new Item( $milestone, new Milestone_Transformer );
@@ -61,7 +60,6 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id )
-            ->where( 'type', 'milestone' )
             ->first();
 
         $data = [
@@ -84,7 +82,6 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id )
-            ->where( 'type', 'milestone' )
             ->first();
 
         $milestone->delete();

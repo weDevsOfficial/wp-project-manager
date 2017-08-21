@@ -20,4 +20,8 @@ class Milestone extends Eloquent {
     ];
 
     protected $attributes = ['type' => 'milestone'];
+
+    public function newQuery( $except_deleted = true ) {
+        return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
+    }
 }
