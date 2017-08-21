@@ -29,5 +29,5 @@ class Task extends Eloquent {
         'updated_by'
     ];
 
-    protected $dates = ['start_at', 'due_date']
+    protected $dates = ['start_at', 'due_date'];
 }

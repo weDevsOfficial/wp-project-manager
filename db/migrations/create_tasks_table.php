@@ -17,9 +17,9 @@ class Create_Tasks_Table extends Migration {
             $table->tinyInteger( 'complexity' )->nullable();
             $table->tinyInteger( 'priority' )->default(1)->comment( '1: High; 2: Medium; 3: Low' );
             $table->integer( 'order' )->default( 0 );
-            $table->boolean( 'payable' )->default( false );
-            $table->boolean( 'recurrent' )->default( fasle );
-            $table->tinyInteger( 'status' )->default( 0 );
+            $table->boolean( 'payable' )->default( 0 )->comment( '0: Not Payable; 1: Payable');
+            $table->boolean( 'recurrent' )->default( 0 )->comment( '0: Not Recurrent Task; 1: Recurrent Task');
+            $table->tinyInteger( 'status' )->default( 0 )->comment( '0: Incomplete; 1: Complete; 2: Pending');
 
             $table->unsignedInteger( 'project_id' );
             $table->unsignedInteger( 'category_id' );
