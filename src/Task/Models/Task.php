@@ -4,9 +4,10 @@ namespace CPM\Task\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\Task\Task_Status;
 
 class Task extends Eloquent {
-    use Model_Events;
+    use Model_Events, Task_Status;
 
     protected $table = 'cpm_tasks';
 

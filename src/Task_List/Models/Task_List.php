@@ -1,11 +1,11 @@
 <?php
 
-namespace CPM\Todo_List\Models;
+namespace CPM\Task_List\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
 
-class Todo_List extends Eloquent {
+class Task_List extends Eloquent {
     use Model_Events;
 
     protected $table = 'cpm_boards';
@@ -19,9 +19,9 @@ class Todo_List extends Eloquent {
         'updated_by',
     ];
 
-    protected $attributes = ['type' => 'todo-list'];
+    protected $attributes = ['type' => 'task-list'];
 
     public function newQuery( $except_deleted = true ) {
-        return parent::newQuery( $except_deleted )->where( 'type', '=', 'todo-list' );
+        return parent::newQuery( $except_deleted )->where( 'type', '=', 'task-list' );
     }
 }

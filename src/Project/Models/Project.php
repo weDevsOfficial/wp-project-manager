@@ -10,7 +10,7 @@ class Project extends Eloquent {
 	use Project_Status, Model_Events;
 
 	const INCOMPLETE = 'Incomplete';
-	const COMPLETE = 'Complete';
+	const COMPLETE   = 'Complete';
 
     protected $table = 'cpm_projects';
 

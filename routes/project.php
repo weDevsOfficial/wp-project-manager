@@ -18,7 +18,7 @@ $router->post( 'projects', 'CPM/Project/Controllers/Project_Controller@save' )
 	->sanitizer( Project_Sanitizer::class )
     ->validator( Create_Project::class );
 
-$router->put( 'projects', 'CPM/Project/Controllers/Project_Controller@update' )
+$router->put( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@update' )
 	->sanitizer( Project_Sanitizer::class)
     ->validator( Update_Project::class );
 
