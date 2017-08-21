@@ -15,7 +15,14 @@ class Discussion_Board_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        return "index";
+        $discussion_boards = Discussion_Board::paginate();
+
+        $discussion_board_collection = $discussion_boards->getCollection();
+
+        $resource = new Collection( $discussion_board_collection, new Discussion_Board_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
+
+        return $this->get_response( $resource );
     }
 
     public function show( WP_REST_Request $request ) {
