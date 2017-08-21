@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class Discussion_Board_Transformer extends TransformerAbstract
 {
-    public function transform( Milestone $item )
+    public function transform( Discussion_Board $item )
     {
         return [
             'id' => (int) $item->id,
