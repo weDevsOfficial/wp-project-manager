@@ -10,65 +10,62 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\File\Transformer\File_Transformer;
+use CPM\Core\File_System\File_System;
 
 class File_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $tasks = File::paginate();
+        $files = File::paginate();
 
-        $task_collection = $tasks->getCollection();
+        $file_collection = $files->getCollection();
 
-        $resource = new Collection( $task_collection, new File_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $tasks ) );
+        $resource = new Collection( $file_collection, new File_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $this->get_response( $resource );
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $task_id    = $request->get_param( 'task_id' );
+        $file_id = $request->get_param( 'file_id' );
+        $file = File::find( $file_id );
 
-        $task = File::where( 'id', $task_id )
-            ->where( 'project_id', $project_id )
-            ->first();
-
-        $resource = new Item( $task, new Task_Transformer );
+        $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function store( WP_REST_Request $request ) {
-        
-        $data = $request->get_params();
-        $data = array_filter( $data );
-        $task = File::create( $data );
+        $attachment_id = File_System::upload( $request->get_file_params() );
+        $request->set_param( 'attachment_id', $attachment_id );
+        $data          = $request->get_params();
 
-        $resource = new Item( $task, new File_Transformer );
+        $data = array_filter( $data );
+        $file = File::create( array_filter( $data ) );
+
+        $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
-        $data = $request->get_params();
 
-        $task = File::find( $data['task_id'] );
-                
-        $task->update( array_filter( $data ) );
-        
-        $resource = new Item( $task, new File_Transformer );
+        $file_id   = $request->get_param( 'file_id' );
+        $file_name = $request->get_param( 'name' );
+        $file      = File::find( $file_id );
+
+        File_System::update( $file->attachment_id, array( 'name' => $file_name ) );
+
+        $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $task_id    = $request->get_param( 'task_id' );
-
-        $task = File::where( 'id', $task_id )
-            ->where( 'project_id', $project_id )
-            ->first();
-
-        $task->delete();
+        $file_id = $request->get_param( 'file_id' );
+        
+        $file = File::find( $file_id );
+        File_System::delete( $file->attachment_id );
+        $file->delete();
     }
 }

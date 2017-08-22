@@ -2,6 +2,8 @@
 
 namespace CPM\Core\File_System;
 
+require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
 Class File_System {
     /**
      * Upload a file and insert as attachment
@@ -11,23 +13,31 @@ Class File_System {
      * @return int|bool
      */
     public static function upload( $files ) {
-        if ( $files['cpm_attachment']['error'] > 0 ) {
+        if ( $files['file']['error'] > 0 ) {
             return false;
         }
 
         $upload = array(
-            'name'     => $files['cpm_attachment']['name'],
-            'type'     => $files['cpm_attachment']['type'],
-            'tmp_name' => $files['cpm_attachment']['tmp_name'],
-            'error'    => $files['cpm_attachment']['error'],
-            'size'     => $files['cpm_attachment']['size']
+            'name'     => $files['file']['name'],
+            'type'     => $files['file']['type'],
+            'tmp_name' => $files['file']['tmp_name'],
+            'error'    => $files['file']['error'],
+            'size'     => $files['file']['size']
         );
+
+        if ( ! function_exists( 'wp_handle_upload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+
+        if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+        }
 
         $uploaded_file = wp_handle_upload( $upload, array( 'test_form' => false ) );
 
         if ( isset( $uploaded_file['file'] ) ) {
             $file_loc  = $uploaded_file['file'];
-            $file_name = basename( $files['cpm_attachment']['name'] );
+            $file_name = basename( $files['file']['name'] );
             $file_type = wp_check_filetype( $file_name );
 
             $attachment = array(
@@ -44,10 +54,10 @@ Class File_System {
 
             do_action( 'cpm_after_upload_file', $attach_id, $attach_data );
 
-            return array( 'success' => true, 'file_id' => $attach_id );
+            return $attach_id;
         }
 
-        return array( 'success' => false, 'error' => $uploaded_file['error'] );
+        return false;
     }
 
     /**
@@ -94,6 +104,24 @@ Class File_System {
     public static function delete_file( $file_id, $force = true ) {
         wp_delete_attachment( $file_id, $force );
         do_action( 'cpm_delete_attachment', $file_id, $force );
+    }
+
+    /**
+     * Update attachment file
+     * 
+     * @param  int  $file_id 
+     * @param  array $attach_data   
+     * 
+     * @return void
+     */
+    public static function update( $attach_id, $attach_data ) {
+        $args = array(
+            'ID'           => $attach_id,
+            'post_title'   => $attach_data['name'],
+        );
+
+        // Update the post into the database
+        wp_update_post( $args );
     }
 
 }

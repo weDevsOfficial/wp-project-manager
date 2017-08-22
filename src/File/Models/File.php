@@ -11,22 +11,13 @@ class File extends Eloquent {
     protected $table = 'cpm_files';
 
     protected $fillable = [
-        'title',
-        'description',
-        'estimation',
-        'start_at',
-        'due_date',
-        'complexity',
-        'payable',
-        'recurrent',
-        'priority',
-        'order',
-        'status',
-        'project_id',
-        'category_id',
+        'fileable_id',
+        'fileable_type',
         'parent_id',
+        'attachment_id',
+        'created_by',
         'updated_by'
     ];
 
-    protected $dates = ['start_at', 'due_date'];
+    protected $dates = ['attached_at'];
 }
