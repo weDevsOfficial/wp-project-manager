@@ -11,7 +11,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\File\Transformer\File_Transformer;
 
-class Task_Controller {
+class File_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {

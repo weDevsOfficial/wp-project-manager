@@ -13,7 +13,7 @@ class Create_Files_Table extends Migration {
             $table->string( 'fileable_type' )->nullable();
             $table->integer( 'uploaded_by' )->nullable();
             $table->integer( 'parent_id' )->nullable();
-            $table->string( 'attachment_id' )->nullable();
+            $table->bigInteger( 'attachment_id' )->nullable();
             $table->dateTime( 'attached_at' )->nullable();
 
             $table->timestamps();
