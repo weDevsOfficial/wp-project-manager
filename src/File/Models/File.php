@@ -4,10 +4,9 @@ namespace CPM\File\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
-use CPM\File\File_Status;
 
 class File extends Eloquent {
-    use Model_Events, File_Status;
+    use Model_Events;
 
     protected $table = 'cpm_files';
 
