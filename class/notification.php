@@ -453,7 +453,6 @@ class CPM_Notification {
 
 
     function send( $to, $subject, $message, $comment_post_id = 0 ) {
-        var_dump( $to );
         $bcc_status   = cpm_get_option( 'email_bcc_enable', 'cpm_mails' );
         $blogname     = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
         $no_reply        = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
