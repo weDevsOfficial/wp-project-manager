@@ -5,6 +5,9 @@ namespace CPM\Task\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
 use CPM\Task\Task_Model_Trait;
+use CPM\Task_List\Models\Task_List;
+use CPM\Common\Models\Board;
+use CPM\Common\Models\Boardable;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
@@ -31,4 +34,21 @@ class Task extends Eloquent {
     ];
 
     protected $dates = ['start_at', 'due_date'];
+
+    protected $attributes = ['priority' => 1];
+
+    public function task_lists() {
+        return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+            ->where('cpm_boardables.board_type', 'task-list')
+            ->where('cpm_boardables.boardable_type', 'task');
+    }
+
+    public function boards() {
+        return $this->belongsToMany( Board::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+            ->where('cpm_boardables.boardable_type', 'task');
+    }
+
+    public function boardables() {
+        return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'task' );
+    }
 }

@@ -13,6 +13,10 @@ trait Transformer_Manager
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
+        if ( isset( $_GET['with'] ) ) {
+            $manager->parseIncludes( $_GET['with'] );
+        }
+
         return $manager->createData( $resource )->toArray();
     }
 
@@ -20,6 +24,10 @@ trait Transformer_Manager
     {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
+
+        if ( isset( $_GET['with'] ) ) {
+            $manager->parseIncludes( $_GET['with'] );
+        }
 
         return json_encode( $manager->createData( $resource )->toArray() );
     }
