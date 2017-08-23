@@ -18,3 +18,4 @@ load_orm();
 migrate_db();
 load_routes();
 register_routes();
+view();

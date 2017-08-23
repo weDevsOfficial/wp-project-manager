@@ -4,6 +4,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use CPM\Core\Router\Router;
 use CPM\Core\Router\WP_Router;
 use CPM\Core\Database\Migrater;
+use CPM\Core\WP\CPM;
 
 function load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
@@ -101,4 +102,8 @@ function register_routes() {
     $routes = Router::get_routes();
 
     WP_Router::register($routes);
+}
+
+function view() {
+    new CPM();
 }
