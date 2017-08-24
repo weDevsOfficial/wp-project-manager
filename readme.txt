@@ -122,6 +122,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.9 - August 24, 2017 =
+
+ * [Fix] CPM free loader class active after loading WP all plugins
+ * [Fix] All co-workers get mail after completed the task
+ * [new] weForms Upsell Class
+
 = 1.6.8 - August 17, 2017 =
 
  * [Fix] Prevent the loading trix-editor for all WP page.

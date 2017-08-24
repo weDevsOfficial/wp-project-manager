@@ -18,7 +18,7 @@ unset( $projects['total_projects'] );
 <div class="cpm-top-bar cpm-no-padding">
     <div class="cpm-row cpm-no-padding">
         <div class="cpm-col-6">
-            <h2><?php _e( 'Project Manager', 'cpm' ); ?></h2>
+            <h3><?php _e( 'Project Manager', 'cpm' ); ?></h3>
         </div>
 
         <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">

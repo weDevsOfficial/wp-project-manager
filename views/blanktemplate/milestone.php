@@ -8,7 +8,7 @@ if ( $milestone ) {
 ?>
 <div class="cpm-blank-template milestone">
     <div class="cpm-content" >
-        <h2 class="cpm-page-title">  <?php _e( 'Milestones', 'cpm' ) ?> </h2>
+        <h3 class="cpm-page-title">  <?php _e( 'Milestones', 'cpm' ) ?> </h3>
 
         <p>
             <?php _e( 'Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.', 'cpm' ) ?>
@@ -26,7 +26,7 @@ if ( $milestone ) {
         <?php } ?>
 
         <div class="cpm-list-content">
-            <h2 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestones?', 'cpm' ) ?> </h2>
+            <h3 class="cpm-page-title cpm-why-for"> <?php _e( 'When to use Milestones?', 'cpm' ) ?> </h3>
 
             <ul class="cpm-list">
                 <li> <?php _e( 'To set a target date for the project overall.', 'cpm' ) ?> </li>
