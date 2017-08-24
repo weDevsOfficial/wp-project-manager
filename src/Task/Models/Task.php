@@ -51,4 +51,8 @@ class Task extends Eloquent {
     public function boardables() {
         return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'task' );
     }
+
+    public function files() {
+        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'task' );
+    }
 }

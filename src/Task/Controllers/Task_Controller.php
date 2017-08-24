@@ -15,9 +15,10 @@ use CPM\Task_List\Models\Task_List;
 use CPM\Project\Models\Project;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Models\Board;
+use CPM\Common\Traits\Request_Filter;
 
 class Task_Controller {
-    use Transformer_Manager;
+    use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
         // $tasks = Task::paginate(3, ['*'], 'page', $request->get_param( 'page' ));
@@ -45,17 +46,19 @@ class Task_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = $request->get_params();
-        $data = array_filter( $data );
+        $data = $this->extract_non_empty_values( $request );
 
         $project_id = $request->get_param( 'project_id' );
         $board_id   = $request->get_param( 'board_id' );
 
-        $board = Board::find( $board_id );
+        $project = Project::find( $project_id );
+        $board   = Board::find( $board_id );
 
-        $task = Task::create( $data );
+        if ( $project ) {
+            $task = Task::create( $data );
+        }
 
-        if ( $board ) {
+        if ( $task && $board ) {
             $boardable = Boardable::create([
                 'board_id'       => $board->id,
                 'board_type'     => $board->type,
@@ -70,11 +73,19 @@ class Task_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        $data = $request->get_params();
-        $data = array_filter( $data );
+        $data = $this->extract_non_empty_values( $request );
 
-        $task = Task::findOrFail( $data['task_id'] );
-        $task->update( $data );
+        $project = Project::find( $data['project_id'] );
+
+        if ( $project ) {
+            $task = Task::where( 'project_id', $project->id )
+                ->where( 'id', $data['task_id'] )
+                ->first();
+        }
+
+        if ( $task ) {
+            $task->update( $data );
+        }
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -90,6 +101,7 @@ class Task_Controller {
             ->first();
 
         $task->boardables()->delete();
+        $task->files()->delete();
 
         $task->delete();
     }
