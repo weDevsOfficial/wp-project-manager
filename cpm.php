@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.8
+ * Version: 1.6.9
  * License: GPL2
  */
 /**
@@ -49,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.8';
+    public $version = '1.6.9';
 
      /**
      * Plugin Database version
@@ -178,6 +178,20 @@ class WeDevs_CPM {
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
         add_action( 'admin_footer', array( $this, 'admin_js_templates' ) );
+        add_action( 'plugins_loaded', array( $this, 'after_loaded_plugins' ), 11 );
+    }
+
+    /**
+     * Add shortcut links to the plugin action menu
+     *
+     * @since 1.6.9
+     *
+     * @return void
+     */
+    function after_loaded_plugins() {
+        if ( ! cpm_is_pro() ) {
+            include_once CPM_PATH . '/class/loader.php';
+        }
     }
 
     /**
@@ -316,6 +330,9 @@ class WeDevs_CPM {
      * @return void
      */
     function includes() {
+        include_once dirname( __FILE__ ) . '/includes/lib/class-weforms-upsell.php';
+        new WeForms_Upsell( 'wedocs' );
+
         $this->version    = CPM_VERSION;
         $this->db_version = CPM_DB_VERSION;
         $this->page()->cpm_function();

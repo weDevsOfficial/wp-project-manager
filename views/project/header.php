@@ -19,11 +19,11 @@ if ( ! $pro_obj->has_permission( $project ) ) {
     <div class="cpm-row cpm-no-padding cpm-border-bottom">
 
         <div class="cpm-col-6 cpm-project-detail">
-            <h2><span class="cpm-project-title"> <?php echo get_the_title( $project_id ); ?> </span>
+            <h3><span class="cpm-project-title"> <?php echo get_the_title( $project_id ); ?> </span>
                 <?php if ( $can_manage ) { ?>
                     <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text"><span class="dashicons dashicons-edit"></span> <span class="text"><?php _e( 'Edit', 'cpm' ); ?></span></a>
                 <?php } ?>
-            </h2>
+            </h3>
 
             <div class="detail">
                 <?php echo cpm_get_content( $project->post_content ); ?>

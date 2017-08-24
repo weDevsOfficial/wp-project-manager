@@ -1,6 +1,6 @@
 <div class="cpm-blank-template discussion" style="display: none">
     <div class="cpm-content" >
-        <h2 class="cpm-page-title">  <?php _e( 'Discussion', 'cpm' ) ?> </h2>
+        <h3 class="cpm-page-title">  <?php _e( 'Discussion', 'cpm' ) ?> </h3>
 
         <p>
             <?php _e( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'cpm' ) ?>
@@ -22,7 +22,7 @@
 
 <?php } ?>
         <div class="cpm-list-content">
-            <h2 class="cpm-why-for cpm-page-title"> <?php _e( 'When to use Discussions?', 'cpm' ) ?> </h2>
+            <h3 class="cpm-why-for cpm-page-title"> <?php _e( 'When to use Discussions?', 'cpm' ) ?> </h3>
 
             <ul class="cpm-list">
                 <li> <?php _e( 'To discuss a work matter privately.', 'cpm' ) ?> </li>

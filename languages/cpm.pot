@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2017-08-17 04:22:44+00:00\n"
+"POT-Creation-Date: 2017-08-24 11:51:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Milestone \"%s\" marked as incomplete by %s"
 msgstr ""
 
-#: class/admin.php:33 class/loader.php:59 class/project.php:719 cpm.php:197
+#: class/admin.php:33 class/loader.php:59 class/project.php:719 cpm.php:211
 msgid "Settings"
 msgstr ""
 
@@ -663,7 +663,7 @@ msgstr ""
 msgid "New Project Category Name"
 msgstr ""
 
-#: class/project.php:80 cpm.php:476
+#: class/project.php:80 cpm.php:493
 msgid "Categories"
 msgstr ""
 
@@ -1004,23 +1004,23 @@ msgstr ""
 msgid " is a date field and should be formated as Y-m-d."
 msgstr ""
 
-#: cpm.php:195
+#: cpm.php:209
 msgid "Pro Version"
 msgstr ""
 
-#: cpm.php:196 cpm.php:478
+#: cpm.php:210 cpm.php:495
 msgid "Add-ons"
 msgstr ""
 
-#: cpm.php:430
+#: cpm.php:447
 msgid "Allowed Files"
 msgstr ""
 
-#: cpm.php:473 views/project/index.php:21
+#: cpm.php:490 views/project/index.php:21
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:474 includes/html.php:1444
+#: cpm.php:491 includes/html.php:1444
 msgid "Projects"
 msgstr ""
 
@@ -1723,6 +1723,19 @@ msgstr ""
 
 #: includes/lib/class-wedevs-insights.php:622
 msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/lib/class-weforms-upsell.php:77
+msgid "Install Now"
+msgstr ""
+
+#: includes/lib/class-weforms-upsell.php:80
+#: includes/lib/class-weforms-upsell.php:81
+msgid "Dismiss this notice."
+msgstr ""
+
+#: includes/lib/class-weforms-upsell.php:353
+msgid "You don't have permission to install the plugins"
 msgstr ""
 
 #: includes/lib/class.settings-api.php:352
