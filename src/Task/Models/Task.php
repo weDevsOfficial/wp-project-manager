@@ -8,6 +8,7 @@ use CPM\Task\Task_Model_Trait;
 use CPM\Task_List\Models\Task_List;
 use CPM\Common\Models\Board;
 use CPM\Common\Models\Boardable;
+use CPM\File\Models\File;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;

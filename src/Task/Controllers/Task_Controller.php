@@ -110,14 +110,34 @@ class Task_Controller {
         $task_id  = $request->get_param( 'task_id' );
         $board_id = $request->get_param( 'board_id' );
 
-        $task  = Task::findOrFail( $task_id );
-        $board = Board::findOrFail( $board_id );
+        $task  = Task::find( $task_id );
+        $board = Board::find( $board_id );
 
-        $boardable = Boardable::create( [
+        $boardable = Boardable::firstOrCreate( [
             'board_id'       => $board->id,
             'board_type'     => $board->type,
             'boardable_id'   => $task->id,
             'boardable_type' => 'task',
         ] );
+
+        $resource = new Item( $task, new Task_Transformer );
+
+        return $this->get_response( $resource );
+    }
+
+    public function detach_from_board( WP_REST_Request $request ) {
+        $task_id  = $request->get_param( 'task_id' );
+        $board_id = $request->get_param( 'board_id' );
+
+        $task  = Task::find( $task_id );
+        $board = Board::find( $board_id );
+
+        $boardable = Boardable::where( 'board_id', $board->id )
+            ->where( 'board_type', $board->type )
+            ->where( 'boardable_id', $task->id )
+            ->where( 'boardable_type', 'task' )
+            ->first();
+
+        $boardable->delete();
     }
 }

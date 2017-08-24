@@ -11,4 +11,5 @@ $router->get( 'projects/{project_id}/tasks/{task_id}', 'CPM/Task/Controllers/Tas
 $router->put( 'projects/{project_id}/tasks/{task_id}', 'CPM/Task/Controllers/Task_Controller@update' );
 $router->delete( 'projects/{project_id}/tasks/{task_id}', 'CPM/Task/Controllers/Task_Controller@destroy' );
 
-// $router->post( 'projects/{project_id}/tasks/{task_id}/boards', 'CPM/Task/Controllers/Task_Controller@attach_to_board' );
+$router->put( 'projects/{project_id}/tasks/{task_id}/boards', 'CPM/Task/Controllers/Task_Controller@attach_to_board' );
+$router->delete( 'projects/{project_id}/tasks/{task_id}/boards', 'CPM/Task/Controllers/Task_Controller@detach_from_board' );
