@@ -6,7 +6,7 @@ use CPM\Core\WP\Menu as Menu;
 use CPM\Core\WP\Regiser_Scripts;
 use CPM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 
-class CPM {
+class CPM_Frontend {
 
 	/**
      * Constructor for the CPM class
@@ -15,15 +15,6 @@ class CPM {
      * within our plugin.
      */
 	public function __construct() {
-		add_action( 'init', array( $this, 'view_bundle' ) );
-	}
-
-	/**
-     * View door
-     *
-     * @return  void
-     */
-	public function view_bundle() {
 		// instantiate classes
         $this->instantiate();
 

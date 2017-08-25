@@ -1,14 +1,11 @@
-
-import './router';
-
-var CPM_Store = {
+export default {
 	
 	state: {
-	
+
 	},
 
 	mutations: {
 
 	}
-
+	
 };

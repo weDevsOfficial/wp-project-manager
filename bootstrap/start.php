@@ -11,11 +11,16 @@
 | loading of any our classes "manually". Feels great to relax.
 |
 */
-require __DIR__.'/../vendor/autoload.php';
 
-load_libs();
-load_orm();
-migrate_db();
-load_routes();
-register_routes();
-view();
+add_action( 'init', function() {
+	require __DIR__.'/../vendor/autoload.php';
+
+	load_libs();
+	load_orm();
+	migrate_db();
+	load_routes();
+	register_routes();
+	view();
+});
+
+

@@ -1,4 +1,4 @@
-var CPM_Router = {
+export default {
     
 	routes: []
-}
+};

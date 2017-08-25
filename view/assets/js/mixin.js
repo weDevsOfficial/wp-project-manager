@@ -1,8 +1,7 @@
-
-import './store';
-
-var CPM_Mixin = {
-	
+export default {
+	create: function() {
+		console.log('asldfasdfk');
+	},
 	methods: {
 
 	}

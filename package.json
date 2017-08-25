@@ -1,0 +1,46 @@
+{
+  "name": "cpmapi",
+  "version": "2.0.0",
+  "description": "Front-end package manager for project manager",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cpm": "webpack",
+    "build": "webpack-dev-server",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weDevsOfficial/wp-project-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weDevsOfficial/wp-project-manager/issues"
+  },
+  "homepage": "https://github.com/weDevsOfficial/wp-project-manager#readme",
+  "devDependencies": {
+    "ajv": "^5.2.2",
+    "ajv-keywords": "^2.1.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "coffee-loader": "^0.8.0",
+    "coffeescript": "^1.12.7",
+    "css-loader": "^0.28.5",
+    "eslint": "^4.5.0",
+    "eslint-loader": "^1.9.0",
+    "file-loader": "^0.11.2",
+    "node-sass": "^4.5.3",
+    "pug": "^2.0.0-rc.3",
+    "sass-loader": "^6.0.6",
+    "uglify-js": "^3.0.28",
+    "vue-loader": "^13.0.4",
+    "vue-template-compiler": "^2.4.2",
+    "watch": "^1.0.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  }
+}

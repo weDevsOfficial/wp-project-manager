@@ -1,26 +1,30 @@
+import Vue from './vue/vue';
+import Vuex from './vue/vuex';
+import VueRouter from './vue/vue-router';
+
+import store from './store';
+import mixin from './mixin';
+import router from './router';
+
+import Projects from './components/projects.vue';
+
 ;(function($) {
-
-	import './mixin';
-	
-	var CPM_Store_Propertie = new Vuex.Store(CPM_Store);
-
 	/**
-	 * Todo list router
+	 * Make sure to call Vue.use(Vuex) first if using a vuex module system
 	 */
-	var CPM_Router_Properties = new VueRouter(CPM_Router);
-
+	Vue.use(Vuex);
+	/**
+	 * Project template render
+	 */
 	var cpm_Vue = new Vue({
-		store: CPM_Store_Propertie,
-
-		router: CPM_Router_Properties,
-		
-		mixin: [CPM_Mixin],
-		
-		components: {
-	
+		store: new Vuex.Store(store),
+		router: new VueRouter(router),
+		mixin: [mixin],
+		template: '<cpm-projects/>',
+		components: { 
+			'cpm-projects': Projects 
 		}
-
-	//cpm-content-wrap class should be wraper for all pages
-	}).$mount('#cpm');
+		
+	}).$mount('#wedevs-cpm');
 
 })(jQuery);
