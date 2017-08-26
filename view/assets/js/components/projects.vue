@@ -1,26 +1,32 @@
 <template>
-	<div id="projects">
-		{{ test }}
-		<p>I am project wrap its working awesome</p>
+	<div id="ttt">
+		i am default template
+		<do-action :hook="'cpm-after-title'"></do-action>
 	</div>
 </template>
 
 <script>
 
-export default {
-	data () {
-		return {
-			test: 'I am testing mode'
-		}
+	import mixin from '../mixin';
+	import do_action from './do-action.vue';
+
+	var this_component = {
+		
+		mixins: [mixin],
+
+		components: {
+			'do-action': do_action
+		},
 	}
-}
+
+	export default this_component;
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	#projects {
-		background: green;
+		
 	}
 
 </style>

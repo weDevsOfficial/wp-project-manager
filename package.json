@@ -7,7 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "cpm": "webpack",
     "build": "webpack-dev-server",
     "watch": "webpack --progress --colors --watch"

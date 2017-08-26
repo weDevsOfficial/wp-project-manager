@@ -1,8 +1,14 @@
 export default {
-	create: function() {
-		console.log('asldfasdfk');
+
+	created: function() {
+		
+
+	   
+
 	},
 	methods: {
-
+		cpm_add_action: function() {
+			console.log('mixin is now rendering');
+		}
 	}
 }

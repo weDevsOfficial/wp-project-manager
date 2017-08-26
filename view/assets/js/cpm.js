@@ -8,23 +8,23 @@ import router from './router';
 
 import Projects from './components/projects.vue';
 
-;(function($) {
-	/**
-	 * Make sure to call Vue.use(Vuex) first if using a vuex module system
-	 */
-	Vue.use(Vuex);
-	/**
-	 * Project template render
-	 */
-	var cpm_Vue = new Vue({
-		store: new Vuex.Store(store),
-		router: new VueRouter(router),
-		mixin: [mixin],
-		template: '<cpm-projects/>',
-		components: { 
-			'cpm-projects': Projects 
-		}
-		
-	}).$mount('#wedevs-cpm');
 
-})(jQuery);
+/**
+ * Make sure to call Vue.use(Vuex) first if using a vuex module system
+ */
+Vue.use(Vuex);
+
+/**
+ * Project template render
+ */
+var CPM_Vue = {
+	el: '#wedevs-cpm',
+	mixins: [mixin],
+	store: new Vuex.Store(store),
+	router: new VueRouter(router),
+	template: '<cpm-projects/>',
+	components: { 'cpm-projects': Projects }
+}
+
+new Vue(CPM_Vue);
+
