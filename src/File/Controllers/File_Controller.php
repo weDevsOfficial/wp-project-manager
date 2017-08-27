@@ -38,11 +38,11 @@ class File_Controller {
     public function store( WP_REST_Request $request ) {
         $attachment_id = File_System::upload( $request->get_file_params() );
         $request->set_param( 'attachment_id', $attachment_id );
-        $data          = $request->get_params();
 
+        $data = $request->get_params();
         $data = array_filter( $data );
-        $file = File::create( array_filter( $data ) );
 
+        $file     = File::create( array_filter( $data ) );
         $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
@@ -63,7 +63,7 @@ class File_Controller {
 
     public function destroy( WP_REST_Request $request ) {
         $file_id = $request->get_param( 'file_id' );
-        
+
         $file = File::find( $file_id );
         File_System::delete( $file->attachment_id );
         $file->delete();
