@@ -13,7 +13,7 @@
 		return components;
 	}
 
-	var temp = {
+	var action = {
 		props: ['hook'],
 
 		components: CPMGetComponents(),
@@ -32,6 +32,6 @@
 		}
 	}
 
-	export default temp;
+	export default action;
 
 </script>
