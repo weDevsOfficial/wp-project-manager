@@ -83,7 +83,7 @@ if ( $attachments ) {
                 <div class="cpm-file-action">
                     <ul>
                         <li class="cpm-go-discussion"> <a href="<?php echo esc_url( $topic_url ) ?>"></a> </li>
-                        <li class="cpm-download-file"> <a href="<?php echo $file_url ?>"> </a> </li>
+                        <li class="cpm-download-file"> <a href="<?php echo $file_url ?>" download> </a> </li>
                         <li class="cpm-comments-count"> <span >  </span> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> <?php echo get_comments_number( $parent->ID ) ?></div></li>
                     </ul>
                 </div>
