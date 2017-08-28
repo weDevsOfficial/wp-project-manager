@@ -4,6 +4,7 @@ namespace CPM\Comment\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\File\Models\File;
 
 class Comment extends Eloquent {
     use Model_Events;
@@ -22,5 +23,9 @@ class Comment extends Eloquent {
 
     public function replies() {
         return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'comment' );
+    }
+
+    public function files() {
+        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'comment' );
     }
 }
