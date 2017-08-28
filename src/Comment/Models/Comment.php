@@ -19,4 +19,8 @@ class Comment extends Eloquent {
         'created_by',
         'updated_by',
     ];
+
+    public function replies() {
+        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'comment' );
+    }
 }

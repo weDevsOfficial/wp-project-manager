@@ -17,7 +17,7 @@ class Comment_Controller {
 
     public function index( WP_REST_Request $request ) {
         $comments = Comment::paginate();
-        $comment_collection= $comments->getCollection();
+        $comment_collection = $comments->getCollection();
 
         $resource = new Collection( $comment_collection, new Comment_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
@@ -27,7 +27,7 @@ class Comment_Controller {
 
     public function show( WP_REST_Request $request ) {
         $comment_id = $request->get_param( 'comment_id' );
-        $comment    = Comment::find( $comment_id );
+        $comment    = Comment::with('replies')->find( $comment_id );
         $resource   = new Item( $comment, new Comment_Transformer );
 
         return $this->get_response( $resource );
