@@ -56,6 +56,8 @@ class Comment_Controller {
         $comment_id = $request->get_param( 'comment_id' );
         $comment    = Comment::find( $comment_id );
 
+        $comment->replies()->delete();
+        $comment->files()->delete();
         $comment->delete();
     }
 }
