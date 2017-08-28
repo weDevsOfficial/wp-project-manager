@@ -331,7 +331,7 @@ class WeDevs_CPM {
      */
     function includes() {
         include_once dirname( __FILE__ ) . '/includes/lib/class-weforms-upsell.php';
-        new WeForms_Upsell( 'wedocs' );
+        new WeForms_Upsell( '407' );
 
         $this->version    = CPM_VERSION;
         $this->db_version = CPM_DB_VERSION;
