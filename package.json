@@ -41,5 +41,8 @@
     "watch": "^1.0.2",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "nprogress": "^0.2.0"
   }
 }

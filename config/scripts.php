@@ -24,6 +24,13 @@ return [
 		'in_footer'  => true
 	],
 
+	'cpm-nprogress' => [
+		'id'         => 'cpm-nprogress',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/nprogress/nprogress.js',
+		'dependency' => ['jquery'],
+		'in_footer'  => true
+	],
+
 	'cpm-vue' => [
 		'id'         => 'cpm-vue',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/vue/vue' . $suffix . '.js',
@@ -45,10 +52,17 @@ return [
 		'in_footer'  => true
 	],
 	
-	'cpm' => [
-		'id'         => 'cpm',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
+	'pm-config' => [
+		'id'         => 'pm-config',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/config.js',
 		'dependency' => array( 'jquery' ),
-		'in_footer'  => true
+		'in_footer'  => false
 	],
+
+	'cpm' => [
+		'id'         => 'pm-scripts',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
+		'dependency' => array( 'jquery', 'cpm-nprogress', ),
+		'in_footer'  => true
+	]
 ];

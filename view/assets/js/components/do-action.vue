@@ -6,7 +6,12 @@
 		var components = {};
 		
 		window.cpm_component_lists.map(function(obj, key) {
-			obj.property.mixins = [mixin];
+			if (obj.property.mixins) {
+				obj.property.mixins.push(mixin);
+			} else {
+				obj.property.mixins = [mixin];
+			}
+
 			components[obj.component] = obj.property;
 		});
 

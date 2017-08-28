@@ -32,7 +32,8 @@ class CPM_Frontend {
 	 */
 	public function init_actions() {
 		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'enqueue' ) );
+		add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'styles' ) );
 	}
 
 	/**
@@ -50,6 +51,7 @@ class CPM_Frontend {
 	 * @return void
 	 */
 	public function instantiate() {
-		Regiser_Scripts::register();
+		Regiser_Scripts::scripts();
+		Regiser_Scripts::styles();
 	}
 }
