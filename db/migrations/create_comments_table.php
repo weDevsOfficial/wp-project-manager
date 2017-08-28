@@ -12,7 +12,7 @@ class Create_Comments_Table extends Migration {
             $table->text( 'content' );
             $table->string( 'mentioned_users' )->nullable();
             $table->unsignedInteger( 'commentable_id' );
-            $table->string( 'commentable_type' )->nullable();
+            $table->string( 'commentable_type' );
 
             $table->unsignedInteger( 'project_id' );
             $table->unsignedInteger( 'created_by' );
