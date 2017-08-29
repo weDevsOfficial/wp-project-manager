@@ -2,10 +2,7 @@
 
 namespace CPM\Project\Controllers;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
 use WP_REST_Request;
-use WP_REST_Response;
-use WP_Error;
 use CPM\Project\Models\Project;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
@@ -18,17 +15,17 @@ class Project_Controller {
 	use Transformer_Manager;
 
 	public function index( WP_REST_Request $request ) {
-		$projects           = Project::paginate();
+		$projects = Project::paginate();
 		$project_collection = $projects->getCollection();
-		$resource           = new Collection( $project_collection, new Project_Transformer );
-        
+		$resource = new Collection( $project_collection, new Project_Transformer );
+
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
 
         return $this->get_response( $resource );
     }
 
 	public function show( WP_REST_Request $request ) {
-		$id       = $request->get_param('id');
+		$id 	  = $request->get_param('id');
 		$project  =  Project::find( $id );
 		$resource = new Item( $project, new Project_Transformer );
 
@@ -41,15 +38,14 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 
         return $this->get_response( $resource );
-
 	}
 
 	public function update( WP_REST_Request $request ) {
 		$data     = $request->get_params();
 		$project  = Project::find( $data['id'] );
-		
+
 		$project->update( array_filter( $data ) );
-		
+
 		$resource = new Item( $project, new Project_Transformer );
 
         return $this->get_response( $resource );
@@ -57,6 +53,26 @@ class Project_Controller {
 
 	public function destroy( WP_REST_Request $request ) {
 		$id      = $request->get_param('id');
-		$project =  Project::find( $id )->delete();
+
+		// Find the requested resource
+		$project =  Project::with([
+			'task_lists',
+			'tasks',
+			'discussion_threads',
+			'milestones',
+			'comments',
+			'files'
+		])->find( $id );
+
+		// Delete related resourcess
+		$project->task_lists()->delete();
+		$project->tasks()->delete();
+		$project->discussion_threads()->delete();
+		$project->milestones()->delete();
+		$project->comments()->delete();
+		$project->files()->delete();
+
+		// Delete the main resource
+		$project->delete();
 	}
 }
