@@ -4,8 +4,13 @@ namespace CPM\Project\Transformer;
 
 use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
+use CPM\Category\Transformer\Category_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
+    protected $defaultIncludes = [
+        'categories'
+    ];
+
     public function transform( Project $item ) {
         return [
             'id'                  => (int) $item->id,
@@ -27,5 +32,11 @@ class Project_Transformer extends TransformerAbstract {
                 'milestones'         => $item->milestones->count(),
             ],
         ];
+    }
+
+    public function includeCategories( Project $item ) {
+        $categories = $item->categories;
+
+        return $this->collection( $categories, new Category_Transformer );
     }
 }

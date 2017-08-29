@@ -11,6 +11,7 @@ use CPM\Discussion_Board\Models\Discussion_Board;
 use CPM\Milestone\Models\Milestone;
 use CPM\File\Models\File;
 use CPM\Comment\Models\Comment;
+use CPM\Category\Models\Category;
 
 class Project extends Eloquent {
 	use Project_Status, Model_Events;
@@ -37,6 +38,10 @@ class Project extends Eloquent {
     protected $dates = [
     	'est_completion_date'
     ];
+
+    public function categories() {
+        return $this->belongsToMany( Category::class, 'cpm_category_project', 'project_id', 'category_id' );
+    }
 
     public function task_lists() {
         return $this->hasMany( Task_List::class, 'project_id' );
