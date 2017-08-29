@@ -10,6 +10,7 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
+use CPM\Common\Models\Boardable;
 
 class Discussion_Board_Controller {
     use Transformer_Manager;
@@ -114,9 +115,29 @@ class Discussion_Board_Controller {
                     'boardable_id' => $user_id,
                     'boardable_type' => 'user'
                 ];
-                Boardable::create( $data );
+                Boardable::firstOrCreate( $data );
             }
         }
 
+        $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
+
+        return $this->get_response( $resource );
+    }
+
+    public function detach_users( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+
+        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        $user_ids = explode( ',', $request->get_param( 'users' ) );
+
+        $discussion_board->users()->whereIn( 'boardable_id', $user_ids )->delete();
+
+        $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
+
+        return $this->get_response( $resource );
     }
 }
