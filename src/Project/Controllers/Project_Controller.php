@@ -79,7 +79,7 @@ class Project_Controller {
 			'discussion_threads',
 			'milestones',
 			'comments',
-			'files'
+			// 'files'
 		])->find( $id );
 
 		// Delete related resourcess
@@ -89,7 +89,7 @@ class Project_Controller {
 		$project->discussion_threads()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();
-		$project->files()->delete();
+		// $project->files()->delete();
 
 		// Delete the main resource
 		$project->delete();

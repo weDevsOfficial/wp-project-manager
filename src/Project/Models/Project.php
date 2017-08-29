@@ -59,9 +59,9 @@ class Project extends Eloquent {
         return $this->hasMany( Milestone::class, 'project_id' );
     }
 
-    public function files() {
-        return $this->hasMany( File::class, 'project_id' );
-    }
+    // public function files() {
+    //     return $this->hasMany( File::class, 'project_id' );
+    // }
 
     public function comments() {
         return $this->hasMany( Comment::class, 'project_id' );
