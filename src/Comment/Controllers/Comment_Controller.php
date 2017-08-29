@@ -16,7 +16,28 @@ class Comment_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $comments = Comment::paginate();
+        $on = $request->get_param( 'on' );
+        $id = $request->get_param( 'id' );
+        $by = $request->get_param( 'by' );
+
+        if ( $on ) {
+            $query = Comment::where('commentable_type', $on);
+        }
+
+        if ( $id ) {
+            $query = $query->where('commentable_id', $id);
+        }
+
+        if ( $by ) {
+            $query = $query->where('created_by', $by);
+        }
+
+        if ( $query ) {
+            $comments = $query->paginate();
+        } else {
+            $comments = Comment::paginate();
+        }
+
         $comment_collection = $comments->getCollection();
 
         $resource = new Collection( $comment_collection, new Comment_Transformer );
