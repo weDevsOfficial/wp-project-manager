@@ -16,9 +16,9 @@ class Milestone_Controller {
 
     public function index( WP_REST_Request $request ) {
         $milestones = Milestone::paginate();
-        
+
         $milestone_collection = $milestones->getCollection();
-        
+
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $milestones ) );
 
@@ -39,7 +39,6 @@ class Milestone_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        
         $data = [
             'title'       => $request->get_param( 'title' ),
             'description' => $request->get_param( 'description' ),
@@ -47,9 +46,9 @@ class Milestone_Controller {
             'project_id'  => $request->get_param( 'project_id' )
         ];
         $data      = array_filter( $data );
-        
+
         $milestone = Milestone::create( $data );
-        
+
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
         return $this->get_response( $resource );
@@ -85,6 +84,7 @@ class Milestone_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
+        $milestone->boardables()->delete();
         $milestone->delete();
     }
 }
