@@ -178,4 +178,24 @@ class Task_Controller {
 
         return $this->get_response( $resource );
     }
+
+    public function detach_users( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $task_id = $request->get_param( 'task_id' );
+        $user_ids = explode( ',', $request->get_param( 'users' ) );
+
+        $project = Project::find( $project_id );
+        $task = Task::where( 'id', $task_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        if ( $task ) {
+            $task->assignees()->whereIn( 'assigned_to', $user_ids )->delete();
+        }
+
+        $resource = new Item( $task, new Task_Transformer );
+
+        return $this->get_response( $resource );
+    }
+
 }
