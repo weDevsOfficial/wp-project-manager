@@ -56,7 +56,7 @@ class Task_Transformer extends TransformerAbstract {
                 'total_comment' => $item->comments->count(),
                 'total_files'   => $item->files->count(),
                 'total_board'   => $item->boards->count(),
-                'total_user'    => 3,
+                'total_assignee'    => $item->assignees->count(),
             ],
         ];
     }
