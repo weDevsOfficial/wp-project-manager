@@ -7,6 +7,7 @@ use League\Fractal\TransformerAbstract;
 use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
+use CPM\Common\Transformers\Assignee_Transformer;
 
 class Task_Transformer extends TransformerAbstract {
     /**
@@ -15,7 +16,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $defaultIncludes = [
-        'task_list'
+        'task_list', 'assignees'
     ];
 
     /**
@@ -92,5 +93,11 @@ class Task_Transformer extends TransformerAbstract {
         $comments = $item->comments;
 
         return $this->collection( $comments, new Comment_Transformer );
+    }
+
+    public function includeAssignees( Task $item ) {
+        $assignees = $item->assignees;
+
+        return $this->collection( $assignees, new Assignee_Transformer );
     }
 }
