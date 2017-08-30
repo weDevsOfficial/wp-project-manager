@@ -1,5 +1,11 @@
-var path    = require('path');
-var webpack = require('webpack');
+const path = require('path');
+//const HTMLWebpackPlugin = require('html-webpack-plugin');
+//const syntaxDynamicImportPlugin = require('babel-plugin-syntax-dynamic-import');
+// const CodeSplitWebpackPlugin =  require('code-split-component/webpack');
+// const proposal =  require('proposal');
+// const webpack = require('webpack');
+// var Promise = require('es6-promise').Promise;
+
 
 module.exports = {
 	entry: './view/assets/js/cpm.js',
@@ -7,7 +13,8 @@ module.exports = {
 	output: {
 		path: path.resolve( __dirname, 'view/assets/js'),
 		filename: 'cpm-bundle.js',
-		publicPath: '/view/assets/js'
+		publicPath: '/api/wp-content/plugins/cpmapi/view/assets/js/',
+		chunkFilename: 'chunk/[id].chunk-bundle.js',
 	},
 
 	module: {
@@ -38,9 +45,9 @@ module.exports = {
 		]
 	},
 
-	plugins: [
-		//new webpack.optimize.UglifyJsPlugin({
-			// ....
-		//})
-	]
+    plugins: [
+	    // new HTMLWebpackPlugin({
+	    //     title: 'Code Splitting'
+	    // }),
+    ]
 }

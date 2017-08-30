@@ -10,6 +10,8 @@ import reports from './components/reports/router';
 import progress from './components/progress/router';
 import settings from './components/settings/router';
 
+
+
 weDevs_PM_Routers.push(project_lists);
 weDevs_PM_Routers.push(categories);
 weDevs_PM_Routers.push(add_ons);
@@ -21,9 +23,14 @@ weDevs_PM_Routers.push(settings);
 
 Vue.use(Router);
 
-export default new Router({
-	routes: weDevs_PM_Routers
+var router = new Router({
+	routes: weDevs_PM_Routers,
 });
 
+router.beforeEach((to, from, next) => {
+  	NProgress.start();
+	next();
+})
 
+export default router;
 

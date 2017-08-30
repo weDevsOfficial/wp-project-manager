@@ -1,5 +1,5 @@
 <template>
-	<div class="wedevs-pm-wrap">
+	<div class="wedevs-pm-wrap cpm wrap">
 		<router-view name="project-lists"></router-view>
 		<router-view name="categories"></router-view>
 		<router-view name="add-ons"></router-view>
@@ -10,6 +10,14 @@
 		<router-view name="settings"></router-view>
 	</div>
 </template>
+
+<!-- Global style -->
+<style>
+	#nprogress .bar {
+		z-index: 99999;
+	}
+
+</style> 
 
 
 <!--<template>
@@ -38,10 +46,5 @@
 // </script> -->
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<!--<style scoped>
-	#projects {
-		
-	}
 
-</style> -->
 

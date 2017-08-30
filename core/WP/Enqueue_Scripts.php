@@ -21,7 +21,9 @@ class Enqueue_Scripts {
 
 	public static function styles() {
 		$styles_id = [
+			'cpm-fontawesome',
 			'cpm-nprogress',
+			'cpm-style',
 		];
 
 		foreach ( $styles_id as $style ) {

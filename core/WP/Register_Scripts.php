@@ -19,7 +19,7 @@ class Regiser_Scripts {
 	}
 
 	public static function styles() {
-		$styles = config('styles');
+		$styles = config('style');
 		
 		foreach ( $styles as $style ) {
 			wp_register_style( 

@@ -26,23 +26,30 @@
     "ajv-keywords": "^2.1.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "coffee-loader": "^0.8.0",
     "coffeescript": "^1.12.7",
     "css-loader": "^0.28.5",
+    "es6-promise": "^4.1.1",
     "eslint": "^4.5.0",
     "eslint-loader": "^1.9.0",
     "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.5.3",
     "pug": "^2.0.0-rc.3",
+    "react": "^15.6.1",
+    "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",
     "uglify-js": "^3.0.28",
     "vue-loader": "^13.0.4",
     "vue-template-compiler": "^2.4.2",
     "watch": "^1.0.2",
-    "webpack": "^3.5.5",
+    "webpack": "^2.7.0",
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
-    "nprogress": "^0.2.0"
+    "code-split-component": "^2.0.0-alpha.5",
+    "nprogress": "^0.2.0",
+    "proposal": "^3.0.0"
   }
 }
