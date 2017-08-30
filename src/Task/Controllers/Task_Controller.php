@@ -93,16 +93,26 @@ class Task_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
+        // Grab user inputs
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
 
+        // Select the task
         $task = Task::where( 'id', $task_id )
             ->where( 'project_id', $project_id )
             ->first();
 
+        // Delete relations assoicated with the task
         $task->boardables()->delete();
         $task->files()->delete();
+        $comments = $task->comments;
+        foreach ($comments as $comment) {
+            $comment->replies()->delete();
+            $comment->files()->delete();
+        }
+        $task->comments()->delete();
 
+        // Delete the task
         $task->delete();
     }
 
