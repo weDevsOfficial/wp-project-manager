@@ -16,6 +16,8 @@ use CPM\Project\Models\Project;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Models\Board;
 use CPM\Common\Traits\Request_Filter;
+use Carbon\Carbon;
+use CPM\Common\Models\Assignee;
 
 class Task_Controller {
     use Transformer_Manager, Request_Filter;
@@ -111,6 +113,7 @@ class Task_Controller {
             $comment->files()->delete();
         }
         $task->comments()->delete();
+        $task->assignees()->delete();
 
         // Delete the task
         $task->delete();
@@ -149,5 +152,30 @@ class Task_Controller {
             ->first();
 
         $boardable->delete();
+    }
+
+    public function attach_users( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $task_id = $request->get_param( 'task_id' );
+        $user_ids = explode( ',', $request->get_param( 'users' ) );
+
+        $project = Project::find( $project_id );
+        $task = Task::where( 'id', $task_id )->where( 'project_id', $project_id )->first();
+
+        if ( $project && $task ) {
+            foreach ( $user_ids as $user_id ) {
+                $data = [
+                    'task_id' => $task->id,
+                    'assigned_to' => $user_id,
+                    'assigned_at' => Carbon::now(),
+                    'project_id' => $project->id,
+                ];
+                Assignee::create( $data );
+            }
+        }
+
+        $resource = new Item( $task, new Task_Transformer );
+
+        return $this->get_response( $resource );
     }
 }
