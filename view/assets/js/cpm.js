@@ -1,3 +1,5 @@
+__webpack_public_path__ = 'http://localhost/api/wp-content/plugins/cpmapi/view/assets/js/';
+
 import Vue from './vue/vue';
 import store from './store';
 import router from './router';

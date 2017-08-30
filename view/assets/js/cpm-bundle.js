@@ -10225,6 +10225,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controllers_vue__ = __webpack_require__(7);
+__webpack_require__.p = 'http://localhost/api/wp-content/plugins/cpmapi/view/assets/js/';
+
 
 
 

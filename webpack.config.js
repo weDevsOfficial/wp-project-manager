@@ -13,7 +13,7 @@ module.exports = {
 	output: {
 		path: path.resolve( __dirname, 'view/assets/js'),
 		filename: 'cpm-bundle.js',
-		publicPath: '/api/wp-content/plugins/cpmapi/view/assets/js/',
+		publicPath: '',
 		chunkFilename: 'chunk/[id].chunk-bundle.js',
 	},
 
