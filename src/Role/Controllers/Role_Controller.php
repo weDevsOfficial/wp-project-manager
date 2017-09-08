@@ -34,7 +34,14 @@ class Role_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        return "store";
+        // Extraction of no empty inputs and create a role
+        $data = $this->extract_non_empty_values( $request );
+        $role = Role::create( $data );
+
+        // Transforming database model instance
+        $resource = new Item( $role, new Role_Transformer );
+
+        return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
