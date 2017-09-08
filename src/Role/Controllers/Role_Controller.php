@@ -26,7 +26,11 @@ class Role_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        return "show";
+        $id       = $request->get_param('id');
+        $role     = Role::find( $id );
+        $resource = new Item( $role, new Role_Transformer );
+
+        return $this->get_response( $resource );
     }
 
     public function store( WP_REST_Request $request ) {
