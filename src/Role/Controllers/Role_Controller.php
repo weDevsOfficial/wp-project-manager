@@ -56,6 +56,9 @@ class Role_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        return "delete";
+        $id = $request->get_param( 'id' );
+        $role = Role::find( $id );
+
+        $role->delete();
     }
 }
