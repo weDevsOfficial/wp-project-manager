@@ -4,6 +4,9 @@ namespace CPM\Milestone\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\Task_List\Models\Task_List;
+use CPM\Task\Models\Task;
+use CPM\Common\Models\Boardable;
 
 class Milestone extends Eloquent {
     use Model_Events;
@@ -23,5 +26,21 @@ class Milestone extends Eloquent {
 
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
+    }
+
+    public function task_lists() {
+        return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+            ->where( 'boardable_type', 'task-list' )
+            ->where( 'board_type', 'milestone' );
+    }
+
+    public function tasks() {
+        return $this->belongsToMany( Task::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+            ->where( 'boardable_type', 'task' )
+            ->where( 'board_type', 'milestone' );
+    }
+
+    public function boardables() {
+        return $this->hasMany( Boardable::class, 'board_id' )->where( 'board_type', 'milestone' );
     }
 }

@@ -6,6 +6,8 @@ use CPM\Task\Models\Task;
 use League\Fractal\TransformerAbstract;
 use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
+use CPM\Comment\Transformers\Comment_Transformer;
+use CPM\Common\Transformers\Assignee_Transformer;
 
 class Task_Transformer extends TransformerAbstract {
     /**
@@ -14,7 +16,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $defaultIncludes = [
-        'task_list'
+        'task_list', 'assignees'
     ];
 
     /**
@@ -23,7 +25,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards'
+        'boards', 'comments'
     ];
 
     /**
@@ -50,6 +52,12 @@ class Task_Transformer extends TransformerAbstract {
             'parent_id'   => $item->category_id,
             'created_by'  => $item->created_by,
             'updated_by'  => $item->updated_by,
+            'meta' => [
+                'total_comment' => $item->comments->count(),
+                'total_files'   => $item->files->count(),
+                'total_board'   => $item->boards->count(),
+                'total_assignee'    => $item->assignees->count(),
+            ],
         ];
     }
 
@@ -79,5 +87,17 @@ class Task_Transformer extends TransformerAbstract {
         $boards = $item->boards;
 
         return $this->collection( $boards, new Board_Transformer );
+    }
+
+    public function includeComments( Task $item ) {
+        $comments = $item->comments;
+
+        return $this->collection( $comments, new Comment_Transformer );
+    }
+
+    public function includeAssignees( Task $item ) {
+        $assignees = $item->assignees;
+
+        return $this->collection( $assignees, new Assignee_Transformer );
     }
 }

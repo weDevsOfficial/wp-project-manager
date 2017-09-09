@@ -9,6 +9,8 @@ use CPM\Task_List\Models\Task_List;
 use CPM\Common\Models\Board;
 use CPM\Common\Models\Boardable;
 use CPM\File\Models\File;
+use CPM\Comment\Models\Comment;
+use CPM\Common\Models\Assignee;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
@@ -55,5 +57,13 @@ class Task extends Eloquent {
 
     public function files() {
         return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'task' );
+    }
+
+    public function comments() {
+        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'task' );
+    }
+
+    public function assignees() {
+        return $this->hasMany( Assignee::class, 'task_id' );
     }
 }

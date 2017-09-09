@@ -76,7 +76,9 @@ class Category_Controller {
 
     public function destroy( WP_REST_Request $request ) {
         $id = $request->get_param( 'id' );
-        $category = Category::findOrFail( $id );
+        $category = Category::find( $id );
+
+        $category->projects()->detach();
         $category->delete();
     }
 }
