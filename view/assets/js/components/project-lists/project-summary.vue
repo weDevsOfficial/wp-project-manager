@@ -1,9 +1,11 @@
 <template>
-	<article class="cpm-project cpm-column-gap-left cpm-sm-col-12">
-			    
+    <div>
+        <pre>{{ projects }}</pre>
+	<article class="cpm-project cpm-column-gap-left cpm-sm-col-12" v-for="project in projects">
+
 	    <a title="eirugkdj" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=project&amp;action=overview&amp;pid=60">
             <div class="project_head">
-                <h5>eirugkdj</h5>
+                <h5>{{ project.title }}</h5>
 
                 <div class="cpm-project-detail"></div>
             </div>
@@ -99,4 +101,20 @@
 				</div>
 			</div>
 	</article>
+    </div>
 </template>
+
+
+<script>
+    export default {
+        computed: {
+            projects () {
+                return this.$store.state.projects;
+            }
+        }
+    }
+
+</script>
+
+
+

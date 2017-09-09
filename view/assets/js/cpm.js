@@ -4,7 +4,8 @@ import Vue from './vue/vue';
 import store from './store';
 import router from './router';
 import mixin from './mixin';
-import Controllers from './components/controllers.vue';
+
+import Controller from './components/controller.vue';
 
 /**
  * Project template render
@@ -14,8 +15,7 @@ var CPM_Vue = {
 	store,
 	router,
 	mixins: [mixin],
-	template: '<cpm-projects/>',
-	components: { 'cpm-projects': Controllers }
+	render: t => t(Controller)
 }
 
 new Vue(CPM_Vue); 

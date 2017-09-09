@@ -1,10 +1,5 @@
 const path = require('path');
-//const HTMLWebpackPlugin = require('html-webpack-plugin');
-//const syntaxDynamicImportPlugin = require('babel-plugin-syntax-dynamic-import');
-// const CodeSplitWebpackPlugin =  require('code-split-component/webpack');
-// const proposal =  require('proposal');
-// const webpack = require('webpack');
-// var Promise = require('es6-promise').Promise;
+
 
 
 module.exports = {

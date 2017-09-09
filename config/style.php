@@ -1,5 +1,4 @@
 <?php
-
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
@@ -23,4 +22,10 @@ return [
 		'dependency' => false,
 		'in_footer'  => true
 	],
+	'cpm-jquery-ui' => [
+		'id'         => 'cpm-jquery-ui',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/jquery-ui/jquery-ui-1.9.1.custom.css',
+		'dependency' => false,
+		'in_footer'  => true
+	]
 ];

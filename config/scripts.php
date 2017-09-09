@@ -62,7 +62,7 @@ return [
 	'cpm' => [
 		'id'         => 'pm-scripts',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
-		'dependency' => array( 'jquery', 'cpm-nprogress', ),
+		'dependency' => array( 'jquery', 'cpm-nprogress', 'jquery-ui-dialog', 'jquery-ui-autocomplete' ),
 		'in_footer'  => true
 	]
 ];

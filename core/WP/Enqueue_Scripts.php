@@ -17,10 +17,18 @@ class Enqueue_Scripts {
 
 			do_action( 'after_loaded' . $script_id );
 		}
+
+		wp_localize_script( 'pm-scripts', 'PM_Vars', array(
+			'ajaxurl'         => admin_url( 'admin-ajax.php' ),
+			'nonce'           => wp_create_nonce( 'cpm_nonce' ),
+			'base_url'        => home_url(),
+			'rest_api_prefix' => rest_get_url_prefix(),
+        ));
 	}
 
 	public static function styles() {
 		$styles_id = [
+			'cpm-jquery-ui',
 			'cpm-fontawesome',
 			'cpm-nprogress',
 			'cpm-style',

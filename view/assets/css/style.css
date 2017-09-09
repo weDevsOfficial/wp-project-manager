@@ -1932,10 +1932,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   font-size: 11px;
   line-height: 14px;
 }
-#cpm-create-user-wrap {
-  height: auto !important;
-  display: none;
-}
 #cpm-create-user-wrap .cpm-error {
   color: red;
   margin-bottom: 10px;
@@ -5751,10 +5747,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: #999999;
   font-size: 11px;
   line-height: 14px;
-}
-#cpm-create-user-wrap {
-  height: auto !important;
-  display: none;
 }
 #cpm-create-user-wrap .cpm-error {
   color: red;
