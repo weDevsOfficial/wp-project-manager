@@ -90,7 +90,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
 
 = Q. Who can create projects? =
-A. Only Editors and Admin's can projects and edit them.
+A. Only Editors and Admin's can create projects and edit them.
 
 = Q. Who can create tasklist, todo, messages or milestone? =
 A. Admins and every co-workers from a project can create these.
