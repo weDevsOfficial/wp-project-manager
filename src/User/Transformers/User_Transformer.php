@@ -4,8 +4,18 @@ namespace CPM\User\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use CPM\User\Models\User;
+use CPM\Role\Transformers\Role_Transformer;
 
 class User_Transformer extends TransformerAbstract {
+    /**
+     * List of resources to automatically include
+     *
+     * @var array
+     */
+    protected $defaultIncludes = [
+        'roles'
+    ];
+
     public function transform( User $user ) {
         $data = [
             'id'           => $user->ID,
@@ -18,5 +28,11 @@ class User_Transformer extends TransformerAbstract {
         ];
 
         return $data;
+    }
+
+    public function includeRoles( User $user ) {
+        $roles = $user->roles;
+
+        return $this->collection( $roles, new Role_Transformer );
     }
 }
