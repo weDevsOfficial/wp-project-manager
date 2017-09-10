@@ -18,10 +18,10 @@
 
 		<div class="cpm-form-item cpm-project-role">
 			<table>
-				<tr v-for="projectUser in projectUsers">
+				<tr v-for="projectUser in project_users">
 		            <td>{{ projectUser.display_name }}</td>
 		            <td>
-		                <select v-model="projectUser.role">
+		                <select v-model="projectUser.roles.data.id">
 		                	<option v-for="role in roles" :value="role.id">{{ role.title }}</option>
 		                </select>
 		            </td>
@@ -66,7 +66,18 @@
 				'project_name': '',
 				'project_cat': '',
 				'project_description': '',
-				'project_notify': false
+				'project_notify': false,
+				'project_users': this.$store.state.project_users
+			}
+		},
+
+		watch: {
+			project_users: {
+				handler (val) {
+					console.log(val);
+				},
+
+				deep: true
 			}
 		},
 

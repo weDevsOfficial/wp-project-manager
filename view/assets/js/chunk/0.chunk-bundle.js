@@ -365,8 +365,19 @@ var new_project_form = {
 			'project_name': '',
 			'project_cat': '',
 			'project_description': '',
-			'project_notify': false
+			'project_notify': false,
+			'project_users': this.$store.state.project_users
 		};
+	},
+
+	watch: {
+		project_users: {
+			handler(val) {
+				console.log(val);
+			},
+
+			deep: true
+		}
 	},
 
 	computed: {
@@ -746,7 +757,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 var Store = {
 	state: {
 		projects: [],
-		project_users: [],
+		project_users: [
+			// {
+			// 	'display_name': 'mishu',
+			// 	'role_name': 'role'
+			// }
+		],
 		roles: []
 	},
 
@@ -756,6 +772,15 @@ var Store = {
 		},
 
 		setProjectUsers(state, users) {
+			if (!users.users.hasOwnProperty('roles')) {
+				users.users.roles = {
+					'data': {
+						'id': 0,
+						'title': '',
+						'description': ''
+					}
+				};
+			}
 			var has_in_array = state.project_users.filter(user => {
 				return user.id === users.users.id;
 			});
@@ -1950,13 +1975,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "cpm-form-item cpm-project-role"
-  }, [_c('table', _vm._l((_vm.projectUsers), function(projectUser) {
+  }, [_c('table', _vm._l((_vm.project_users), function(projectUser) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(projectUser.display_name))]), _vm._v(" "), _c('td', [_c('select', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (projectUser.role),
-        expression: "projectUser.role"
+        value: (projectUser.roles.data.id),
+        expression: "projectUser.roles.data.id"
       }],
       on: {
         "change": function($event) {
@@ -1966,7 +1991,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
             var val = "_value" in o ? o._value : o.value;
             return val
           });
-          projectUser.role = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+          projectUser.roles.data.id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
         }
       }
     }, _vm._l((_vm.roles), function(role) {

@@ -9,7 +9,12 @@ Vue.use(Vuex);
 var Store = {
 	state: {
 		projects: [],
-		project_users: [],
+		project_users: [
+			// {
+			// 	'display_name': 'mishu',
+			// 	'role_name': 'role'
+			// }
+		],
 		roles: []
 	},
 
@@ -19,6 +24,15 @@ var Store = {
 		},
 
 		setProjectUsers (state, users) {
+			if (!users.users.hasOwnProperty('roles')) {
+				users.users.roles = {
+					'data': {
+						'id': 0,
+						'title': '',
+						'description': ''
+					}
+				};
+			}
 			var has_in_array = state.project_users.filter( user => {
 				return user.id === users.users.id;
 			});
