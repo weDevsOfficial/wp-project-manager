@@ -10,3 +10,4 @@ $router->post( 'users', 'CPM/User/Controllers/User_Controller@store' );
 $router->get( 'users/{id}', 'CPM/User/Controllers/User_Controller@show' );
 
 $router->get( 'users/search', 'CPM/User/Controllers/User_Controller@search' );
+$router->put( 'users/{user_id}/roles', 'CPM/User/Controllers/User_Controller@update_role' );

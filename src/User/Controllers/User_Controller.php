@@ -92,4 +92,26 @@ class User_Controller {
 
         return $this->get_response( $resource );
     }
+
+    public function update_role( WP_REST_Request $request ) {
+        $id         = $request->get_param( 'user_id' );
+        $project_id = $request->get_param( 'project_id' );
+        $role_ids   = $request->get_param( 'role_ids' );
+        $role_ids   = explode( ',', $role_ids );
+
+        if ( $project_id ) {
+            foreach ( $role_ids as $role_id ) {
+                $role_project_ids[$role_id] = ['project_id' => $project_id];
+            }
+            $role_ids = $role_project_ids;
+        }
+
+        $user = User::find( $id );
+        $user->roles()->sync( $role_ids );
+
+        // Transforming database model instance
+        $resource = new Item( $user, new User_Transformer );
+
+        return $this->get_response( $resource );
+    }
 }
