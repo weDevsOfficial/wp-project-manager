@@ -11,6 +11,7 @@ use CPM\Transformer_Manager;
 use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
 use CPM\User\Transformers\User_Transformer;
+use Illuminate\Support\Facades\Schema;
 
 class User_Controller {
     use Transformer_Manager, Request_Filter;
@@ -75,7 +76,9 @@ class User_Controller {
     }
 
     public function search( WP_REST_Request $request ) {
-        $query_string = $request->get_param( 'q' );
+        $query_string = $request->get_param( 'query' );
+        $term         = $request->get_param( 'term');
+
         $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
