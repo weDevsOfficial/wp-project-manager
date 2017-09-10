@@ -81,6 +81,7 @@
             next(vm => {
                 vm.getProjects(vm);
                 vm.getRoles(vm);
+                vm.getCategory(vm);
             });
         },
 
@@ -120,6 +121,15 @@
                     url: self.base_url + '/cpm/v2/roles',
                     success: function(res) {
                         self.$store.commit('setRoles', {'roles': res.data});
+                    }
+                });
+            },
+
+            getCategory (self) {
+                self.httpRequest({
+                    url: self.base_url + '/cpm/v2/categories?type=project',
+                    success: function(res) {
+                        self.$store.commit('setCategories', {'categories': res.data});
                     }
                 });
             }

@@ -8,7 +8,8 @@
 
 		<div class="cpm-form-item project-category">
 			<select v-model="project_cat"  name='project_cat' id='project_cat' class='chosen-select' >
-				<option value='-1' selected='selected'>&#8211; Project Category &#8211;</option>
+				<option value="0">&#8211; Project Category &#8211;</option>
+				<option v-for="category in categories" :value="category.id">{{ category.title }}</option>
 			</select>
 		</div>
 
@@ -64,50 +65,61 @@
 		data () {
 			return {
 				'project_name': '',
-				'project_cat': '',
+				'project_cat': '0',
 				'project_description': '',
 				'project_notify': false,
 				'project_users': this.$store.state.project_users
 			}
 		},
 
-		watch: {
-			project_users: {
-				handler (val) {
-					console.log(val);
-				},
-
-				deep: true
-			}
-		},
-
 		computed: {
-			projectUsers () {
-				return this.$store.state.project_users;
-			},
-
 			roles () {
 				return this.$store.state.roles;
+			},
+
+			categories () {
+				return this.$store.state.categories;
 			}
 		},
 
 		methods: {
 			newProject () {
 				var request = {
+					type: 'POST',
+
+					url: this.base_url + '/cpm/v2/projects/'
+
 					data: {
-						'project_name': 'mishu',
-						'project_cat': 'rocky'
+						'title': this.project_name,
+						'categories': [this.project_cat],
+						'description': this.project_description,
+						'notify_users': this.project_notify,
+						'assignees': this.formatUsers(this.project_users)
 					},
+
 					success: function(res) {
-                	
+                		console.log(res);
 	                },
 
 	                error: function(res) {
 	                    
 	                }
 				};
+				
+				this.httpReques(request);
+			},
 
-				this.send('create_new_project', request);
+			formatUsers (users) {
+				var format_users = [];
+				
+				users.map(function(user, index) {
+					format_users.push({
+						'user_id': user.id,
+						'role_id': user.roles.data.id
+					});
+				});
+
+				return format_users;
 			}
 		}
 	}

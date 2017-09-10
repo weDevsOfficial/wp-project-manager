@@ -9,13 +9,9 @@ Vue.use(Vuex);
 var Store = {
 	state: {
 		projects: [],
-		project_users: [
-			// {
-			// 	'display_name': 'mishu',
-			// 	'role_name': 'role'
-			// }
-		],
-		roles: []
+		project_users: [],
+		roles: [],
+		categories: []
 	},
 
 	mutations: {
@@ -27,7 +23,7 @@ var Store = {
 			if (!users.users.hasOwnProperty('roles')) {
 				users.users.roles = {
 					'data': {
-						'id': 0,
+						'id': 3,
 						'title': '',
 						'description': ''
 					}
@@ -44,6 +40,10 @@ var Store = {
 
 		setRoles (state, roles) {
 			state.roles = roles.roles;
+		},
+
+		setCategories (state, categories) {
+			state.categories = categories.categories;
 		}	
 	}
 }
