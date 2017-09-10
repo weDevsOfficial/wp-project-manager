@@ -12,6 +12,7 @@ use CPM\Milestone\Models\Milestone;
 use CPM\File\Models\File;
 use CPM\Comment\Models\Comment;
 use CPM\Category\Models\Category;
+use CPM\User\Models\User;
 
 class Project extends Eloquent {
 	use Project_Status, Model_Events;
@@ -41,6 +42,10 @@ class Project extends Eloquent {
 
     public function categories() {
         return $this->belongsToMany( Category::class, 'cpm_category_project', 'project_id', 'category_id' );
+    }
+
+    public function assignees() {
+        return $this->belongsToMany( User::class, 'cpm_role_user', 'project_id', 'user_id' );
     }
 
     public function task_lists() {

@@ -5,10 +5,11 @@ namespace CPM\Project\Transformer;
 use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
 use CPM\Category\Transformer\Category_Transformer;
+use CPM\User\Transformers\User_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
     protected $defaultIncludes = [
-        'categories'
+        'categories', 'assignees'
     ];
 
     public function transform( Project $item ) {
@@ -38,5 +39,11 @@ class Project_Transformer extends TransformerAbstract {
         $categories = $item->categories;
 
         return $this->collection( $categories, new Category_Transformer );
+    }
+
+    public function includeAssignees( Project $item ) {
+        $assignees = $item->assignees;
+
+        return $this->collection( $assignees, new User_Transformer );
     }
 }
