@@ -80,6 +80,7 @@
         beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getProjects(vm);
+                vm.getRoles(vm);
             });
         },
 
@@ -108,9 +109,17 @@
 
                 self.httpRequest({
                     url: self.base_url + '/cpm/v2/projects/',
-                    
                     success: function(res) {
                         self.$store.commit('setProjects', {'projects': res.data});
+                    }
+                });
+            },
+
+            getRoles (self) {
+                self.httpRequest({
+                    url: self.base_url + '/cpm/v2/roles',
+                    success: function(res) {
+                        self.$store.commit('setRoles', {'roles': res.data});
                     }
                 });
             }

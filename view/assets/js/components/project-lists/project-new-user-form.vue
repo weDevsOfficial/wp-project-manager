@@ -50,8 +50,8 @@
                 var self = this;
 
                 self.httpRequest({
-                    url: self.base_url + '/mishu',
-
+                    url: self.base_url + '/cpm/v2/users',
+                    method: 'POST',
                     data: {
                         username: this.username,
                         first_name: this.first_name,
@@ -60,7 +60,8 @@
                     },
 
                     success: function(res) {
-                        //self.$store.commit('setProjectUsers'. {users: res.users});
+                        self.$store.commit('setProjectUsers', {users: res.data});
+                        jQuery( "#cpm-create-user-wrap" ).dialog( "close" );
                     }
                 });
             }

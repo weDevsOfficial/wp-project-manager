@@ -18,26 +18,14 @@
 
 		<div class="cpm-form-item cpm-project-role">
 			<table>
-				<tr>
-		            <td>Mishu</td>
+				<tr v-for="projectUser in projectUsers">
+		            <td>{{ projectUser.display_name }}</td>
 		            <td>
-
-		                <input type="radio" id="cpm-manager-mishu" name="role[4]" value="manager">
-		                <label for="cpm-manager-mishu">Manager</label>
-
+		                <select v-model="projectUser.role">
+		                	<option v-for="role in roles" :value="role.id">{{ role.title }}</option>
+		                </select>
 		            </td>
-		            <td>
-
-		                <input type="radio" checked="checked" id="cpm-co-worker-mishu" name="role[4]" value="co_worker">
-		                <label for="cpm-co-worker-mishu">Co-Worker</label>
-		            </td>
-		            
-		            <td>
-			            <input type="radio" id="cpm-client-mishu" name="role[4]" value="client">
-			            <label for="cpm-client-mishu">Client</label>
-		        	</td>
-
-		        
+		          
 		            <td>
 		            	<a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title">Delete</span></a>
 		            </td>
@@ -46,13 +34,12 @@
 		</div>
 		
 		<div class="cpm-form-item project-users">
-			<input v-pm-users class="cpm-project-coworker" type="text" name="" placeholder="Type 3 or more characters to search users..." size="45">
+			<input v-pm-users class="cpm-project-coworker" type="text" name="user" placeholder="Type 3 or more characters to search users..." size="45">
 		</div>
 
 		<div class="cpm-form-item project-notify">
-			<input type="hidden" name="project_notify" value="no" />
 			<label>
-				<input type="checkbox" name="project_notify" id="project-notify" value="yes" />
+				<input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
 				Notify Co-Workers            
 			</label>
 		</div>
@@ -78,10 +65,21 @@
 			return {
 				'project_name': '',
 				'project_cat': '',
-				'project_description': ''
+				'project_description': '',
+				'project_notify': false
 			}
 		},
-		
+
+		computed: {
+			projectUsers () {
+				return this.$store.state.project_users;
+			},
+
+			roles () {
+				return this.$store.state.roles;
+			}
+		},
+
 		methods: {
 			newProject () {
 				var request = {

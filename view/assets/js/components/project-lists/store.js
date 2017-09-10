@@ -9,19 +9,8 @@ Vue.use(Vuex);
 var Store = {
 	state: {
 		projects: [],
-		project_users: [
-			{
-				display_name: 'Asaquzzaman',
-				ID: 45,
-				email: 'joy.mishu@gmail.com'
-			},
-
-			{
-				display_name: 'Ashikur',
-				ID: 46,
-				email: 'ashi@gmail.com'
-			}
-		]
+		project_users: [],
+		roles: []
 	},
 
 	mutations: {
@@ -30,7 +19,17 @@ var Store = {
 		},
 
 		setProjectUsers (state, users) {
-			state.project_users = users.users;
+			var has_in_array = state.project_users.filter( user => {
+				return user.id === users.users.id;
+			});
+
+			if( !has_in_array.length ) {
+				state.project_users.push(users.users);
+			}
+		},
+
+		setRoles (state, roles) {
+			state.roles = roles.roles;
 		}	
 	}
 }

@@ -104,7 +104,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
 
 
 
@@ -245,6 +245,7 @@ var action = {
     beforeRouteEnter(to, from, next) {
         next(vm => {
             vm.getProjects(vm);
+            vm.getRoles(vm);
         });
     },
 
@@ -273,9 +274,17 @@ var action = {
 
             self.httpRequest({
                 url: self.base_url + '/cpm/v2/projects/',
-
                 success: function (res) {
                     self.$store.commit('setProjects', { 'projects': res.data });
+                }
+            });
+        },
+
+        getRoles(self) {
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/roles',
+                success: function (res) {
+                    self.$store.commit('setRoles', { 'roles': res.data });
                 }
             });
         }
@@ -346,19 +355,6 @@ var action = {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -368,8 +364,19 @@ var new_project_form = {
 		return {
 			'project_name': '',
 			'project_cat': '',
-			'project_description': ''
+			'project_description': '',
+			'project_notify': false
 		};
+	},
+
+	computed: {
+		projectUsers() {
+			return this.$store.state.project_users;
+		},
+
+		roles() {
+			return this.$store.state.roles;
+		}
 	},
 
 	methods: {
@@ -470,8 +477,8 @@ var project_btn = {
             var self = this;
 
             self.httpRequest({
-                url: self.base_url + '/mishu',
-
+                url: self.base_url + '/cpm/v2/users',
+                method: 'POST',
                 data: {
                     username: this.username,
                     first_name: this.first_name,
@@ -480,7 +487,8 @@ var project_btn = {
                 },
 
                 success: function (res) {
-                    //self.$store.commit('setProjectUsers'. {users: res.users});
+                    self.$store.commit('setProjectUsers', { users: res.data });
+                    jQuery("#cpm-create-user-wrap").dialog("close");
                 }
             });
         }
@@ -613,64 +621,77 @@ var project_btn = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 
 
 var Project = {
-    coWorkerSearch: function () {
+    coWorkerSearch: function (el, binding, vnode) {
+
         var $ = jQuery;
         var cpm_abort;
+        var context = vnode.context;
 
         $(".cpm-project-coworker").autocomplete({
             minLength: 3,
+
             source: function (request, response) {
-                var data = {
-                    action: 'cpm_user_autocomplete',
-                    term: request.term
-                };
+                var data = {},
+                    url = context.base_url + '/cpm/v2/users/search?query=' + request.term;
+
                 if (cpm_abort) {
                     cpm_abort.abort();
                 }
 
-                cpm_abort = $.post(PM_Vars.ajaxurl, data, function (resp) {
+                cpm_abort = $.get(url, data, function (resp) {
 
-                    if (resp.success) {
-                        var nme = eval(resp.data);
-                        response(eval(resp.data));
+                    if (resp.data.length) {
+                        response(resp.data);
                     } else {
-                        response('');
+                        response({
+                            value: '0'
+                        });
                     }
                 });
             },
+
             search: function () {
                 $(this).addClass('cpm-spinner');
             },
+
             open: function () {
                 var self = $(this);
                 self.autocomplete('widget').css('z-index', 999999);
                 self.removeClass('cpm-spinner');
                 return false;
             },
+
             select: function (event, ui) {
-                if (ui.item.value == 'cpm_create_user') {
+
+                if (ui.item.value === '0') {
                     $("form.cpm-user-create-form").find('input[type=text]').val('');
                     $("#cpm-create-user-wrap").dialog("open");
                 } else {
+                    context.$store.commit('setProjectUsers', { users: ui.item });
                     $('.cpm-project-role>table').append(ui.item._user_meta);
                     $("input.cpm-project-coworker").val('');
                 }
                 return false;
             }
+
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
-            return $("<li>").append('<a><div class="no-user-wrap"><p>No users found.</p> <span class="button-primary">Create a new user?</span></div></a>').appendTo(ul);
+            if (item.email) {
+                return $("<li>").append('<a>' + item.display_name + '</a>').appendTo(ul);
+            } else {
+                return $("<li>").append('<a><div class="no-user-wrap"><p>No users found.</p> <span class="button-primary">Create a new user?</span></div></a>').appendTo(ul);
+            }
         };
     }
 
     // Register a global custom directive called v-pm-popup-box
 };__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.directive('pm-users', {
-    inserted: function (el) {
-        Project.coWorkerSearch();
+    inserted: function (el, binding, vnode) {
+        Project.coWorkerSearch(el, binding, vnode);
     }
 });
 
@@ -710,7 +731,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.directive('cpm-user-create-popu
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
@@ -725,15 +746,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 var Store = {
 	state: {
 		projects: [],
-		project_users: [{
-			display_name: 'Asaquzzaman',
-			ID: 45,
-			email: 'joy.mishu@gmail.com'
-		}, {
-			display_name: 'Ashikur',
-			ID: 46,
-			email: 'ashi@gmail.com'
-		}]
+		project_users: [],
+		roles: []
 	},
 
 	mutations: {
@@ -742,7 +756,17 @@ var Store = {
 		},
 
 		setProjectUsers(state, users) {
-			state.project_users = users.users;
+			var has_in_array = state.project_users.filter(user => {
+				return user.id === users.users.id;
+			});
+
+			if (!has_in_array.length) {
+				state.project_users.push(users.users);
+			}
+		},
+
+		setRoles(state, roles) {
+			state.roles = roles.roles;
 		}
 	}
 };
@@ -754,7 +778,7 @@ var Store = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 
 
@@ -1924,7 +1948,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.project_description = $event.target.value
       }
     }
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item cpm-project-role"
+  }, [_c('table', _vm._l((_vm.projectUsers), function(projectUser) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(projectUser.display_name))]), _vm._v(" "), _c('td', [_c('select', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (projectUser.role),
+        expression: "projectUser.role"
+      }],
+      on: {
+        "change": function($event) {
+          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+            return o.selected
+          }).map(function(o) {
+            var val = "_value" in o ? o._value : o.value;
+            return val
+          });
+          projectUser.role = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        }
+      }
+    }, _vm._l((_vm.roles), function(role) {
+      return _c('option', {
+        domProps: {
+          "value": role.id
+        }
+      }, [_vm._v(_vm._s(role.title))])
+    }))]), _vm._v(" "), _vm._m(0, true)])
+  }))]), _vm._v(" "), _c('div', {
     staticClass: "cpm-form-item project-users"
   }, [_c('input', {
     directives: [{
@@ -1934,11 +1986,47 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-project-coworker",
     attrs: {
       "type": "text",
-      "name": "",
+      "name": "user",
       "placeholder": "Type 3 or more characters to search users...",
       "size": "45"
     }
-  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-notify"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.project_notify),
+      expression: "project_notify"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "name": "project_notify",
+      "id": "project-notify",
+      "value": "yes"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.project_notify) ? _vm._i(_vm.project_notify, "yes") > -1 : (_vm.project_notify)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.project_notify,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = "yes",
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.project_notify = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.project_notify = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.project_notify = $$c
+        }
+      }
+    }
+  }), _vm._v("\n\t\t\tNotify Co-Workers            \n\t\t")])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "cpm-loading",
     staticStyle: {
       "display": "none"
@@ -1946,43 +2034,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("Saving...")])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-form-item cpm-project-role"
-  }, [_c('table', [_c('tr', [_c('td', [_vm._v("Mishu")]), _vm._v(" "), _c('td', [_c('input', {
-    attrs: {
-      "type": "radio",
-      "id": "cpm-manager-mishu",
-      "name": "role[4]",
-      "value": "manager"
-    }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "cpm-manager-mishu"
-    }
-  }, [_vm._v("Manager")])]), _vm._v(" "), _c('td', [_c('input', {
-    attrs: {
-      "type": "radio",
-      "checked": "checked",
-      "id": "cpm-co-worker-mishu",
-      "name": "role[4]",
-      "value": "co_worker"
-    }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "cpm-co-worker-mishu"
-    }
-  }, [_vm._v("Co-Worker")])]), _vm._v(" "), _c('td', [_c('input', {
-    attrs: {
-      "type": "radio",
-      "id": "cpm-client-mishu",
-      "name": "role[4]",
-      "value": "client"
-    }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "cpm-client-mishu"
-    }
-  }, [_vm._v("Client")])]), _vm._v(" "), _c('td', [_c('a', {
+  return _c('td', [_c('a', {
     staticClass: "cpm-del-proj-role cpm-assign-del-user",
     attrs: {
       "hraf": "#"
@@ -1991,24 +2043,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "dashicons dashicons-trash"
   }), _vm._v(" "), _c('span', {
     staticClass: "title"
-  }, [_vm._v("Delete")])])])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-form-item project-notify"
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "project_notify",
-      "value": "no"
-    }
-  }), _vm._v(" "), _c('label', [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": "project_notify",
-      "id": "project-notify",
-      "value": "yes"
-    }
-  }), _vm._v("\n\t\t\tNotify Co-Workers            \n\t\t")])])
+  }, [_vm._v("Delete")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "submit"
