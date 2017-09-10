@@ -16,22 +16,22 @@
         		<li class="message">
         			<a title="eirugkdj" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=project&amp;action=overview&amp;pid=60"></a>
         			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=index&amp;pid=60">
-        				<strong><i class="fa fa-circle" aria-hidden="true"></i> 0</strong> Discussions
+        				<strong><i class="fa fa-circle" aria-hidden="true"></i> {{ parseInt(project.meta.total_discussion_threads) }}</strong> Discussions
         			</a>
         		</li>
         		<li class="todo">
         			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=index&amp;pid=60">
-        				<strong><i class="fa fa-circle" aria-hidden="true"></i> 0</strong> Task Lists
+        				<strong><i class="fa fa-circle" aria-hidden="true"></i> {{ parseInt(project.meta.total_task_lists) }}</strong> Task Lists
         			</a>
         		</li>
         		<li class="files">
         			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=files&amp;action=index&amp;pid=60">
-        				<strong><i class="fa fa-circle" aria-hidden="true"></i> 0</strong> Tasks
+        				<strong><i class="fa fa-circle" aria-hidden="true"></i> {{ parseInt(project.meta.total_tasks) }}</strong> Tasks
         			</a>
         		</li>
         		<li class="milestone">
         			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=milestone&amp;action=index&amp;pid=60">
-        				<strong><i class="fa fa-circle" aria-hidden="true"></i> 0</strong> Milestones
+        				<strong><i class="fa fa-circle" aria-hidden="true"></i> {{ parseInt(project.meta.total_milestones) }}</strong> Milestones
         			</a>
         		</li>                        
         		<div class="clearfix"></div>

@@ -14,8 +14,7 @@ var CPM_Vue = {
 	el: '#wedevs-pm',
 	store,
 	router,
-	mixins: [mixin],
-	render: t => t(Controller)
+	render: t => t(Controller),
 }
 
 new Vue(CPM_Vue); 

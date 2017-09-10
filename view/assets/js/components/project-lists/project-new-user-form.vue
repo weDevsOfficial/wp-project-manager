@@ -3,25 +3,25 @@
 
         <div class="cpm-error"></div>
 
-        <form action="" class="cpm-user-create-form">
+        <form action="" class="cpm-user-create-form" @submit.prevent="createUser()">
             <div class="cpm-field-wrap">
                 <label>Username</label>
-                <input type="text" required name="user_name">
+                <input v-model="username" type="text" required name="user_name">
 
             </div>
             <div class="cpm-field-wrap">
                 <label>First Name</label>
-                <input type="text" name="first_name">
+                <input v-model="first_name" type="text" name="first_name">
 
             </div>
             <div class="cpm-field-wrap">
                 <label>Last Name</label>
-                <input type="text" name="last_name">
+                <input v-model="last_name" type="text" name="last_name">
 
             </div>
             <div class="cpm-field-wrap">
                 <label>Email</label>
-                <input type="email" required name="user_email">
+                <input v-model="email" type="email" required name="email">
 
             </div>
             <div>
@@ -31,3 +31,39 @@
         </form>
     </div>
 </template>
+
+<script>
+    
+
+    export default {
+        data () {
+            return {
+                username: '',
+                first_name: '',
+                last_name: '',
+                email: '',
+            }
+        },
+
+        methods: {
+            createUser () {
+                var self = this;
+
+                self.httpRequest({
+                    url: self.base_url + '/mishu',
+
+                    data: {
+                        username: this.username,
+                        first_name: this.first_name,
+                        last_name: this.last_name,
+                        email: this.email,
+                    },
+
+                    success: function(res) {
+                        //self.$store.commit('setProjectUsers'. {users: res.users});
+                    }
+                });
+            }
+        }
+    }
+</script>

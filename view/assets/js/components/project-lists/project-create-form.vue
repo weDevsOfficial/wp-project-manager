@@ -70,11 +70,9 @@
 </template>
 
 <script>
-	import root_mixin from './../../mixin.js';
 	import directive from './directive.js';
 
 	var new_project_form = {
-		mixins: [root_mixin],
 
 		data () {
 			return {

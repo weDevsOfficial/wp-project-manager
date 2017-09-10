@@ -8,12 +8,29 @@ Vue.use(Vuex);
 
 var Store = {
 	state: {
-		projects: []
+		projects: [],
+		project_users: [
+			{
+				display_name: 'Asaquzzaman',
+				ID: 45,
+				email: 'joy.mishu@gmail.com'
+			},
+
+			{
+				display_name: 'Ashikur',
+				ID: 46,
+				email: 'ashi@gmail.com'
+			}
+		]
 	},
 
 	mutations: {
-		getProjects (state, projects) {
+		setProjects (state, projects) {
 			state.projects = projects.projects;
+		},
+
+		setProjectUsers (state, users) {
+			state.project_users = users.users;
 		}	
 	}
 }

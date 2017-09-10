@@ -250,23 +250,20 @@ module.exports = function normalizeComponent (
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var Mixin = {
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
 
 	data() {
 		return {
-			prefix: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix
+			base_url: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix
 		};
 	},
 
-	created: function () {},
-
 	methods: {
-		cpm_add_action: function () {
-			console.log('mixin is now rendering');
-		},
-
-		send: function (property) {
-
+		httpRequest(property) {
 			var before = function (xhr) {
 				xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
 				xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
@@ -277,9 +274,7 @@ var Mixin = {
 			jQuery.ajax(property);
 		}
 	}
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Mixin);
+}));
 
 /***/ }),
 /* 2 */
@@ -10957,7 +10952,6 @@ var CPM_Vue = {
 	el: '#wedevs-pm',
 	store: __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */],
 	router: __WEBPACK_IMPORTED_MODULE_2__router__["a" /* default */],
-	mixins: [__WEBPACK_IMPORTED_MODULE_3__mixin__["a" /* default */]],
 	render: t => t(__WEBPACK_IMPORTED_MODULE_4__components_controller_vue__["a" /* default */])
 };
 

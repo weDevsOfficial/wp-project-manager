@@ -59,8 +59,7 @@
 
 <script>
     import directive from './../../directive';
-    import mixin from './../../mixin';
-
+    
     import project_new_project_btn from './project-new-project-btn.vue';
     import project_filter_by_category from './project-filter-by-category.vue';
     import project_search_by_client from './project-search-by-client.vue';
@@ -77,13 +76,7 @@
     
     export default  {
         store,
-        mixins: [mixin],
-        data () {
-            return {
-                projects: []
-            }
-        },
-
+        
         beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getProjects(vm);
@@ -112,20 +105,12 @@
 
         methods: {
             getProjects (self) {
-                
-                self.send({
-                    data: {
 
-                    },
-                    
-                    url: self.prefix + '/cpm/v2/projects/',
+                self.httpRequest({
+                    url: self.base_url + '/cpm/v2/projects/',
                     
                     success: function(res) {
-                        self.$store.commit('getProjects', {'projects': res.data});
-                    },
-
-                    error: function(res) {
-
+                        self.$store.commit('setProjects', {'projects': res.data});
                     }
                 });
             }
