@@ -31,8 +31,12 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeRoles( User $user ) {
-        $roles = $user->roles;
+        $roles = $user->roles->first();
 
-        return $this->collection( $roles, new Role_Transformer );
+        if ( $roles ) {
+            return $this->item( $roles, new Role_Transformer );
+        }
+
+        return null;
     }
 }
