@@ -11,6 +11,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Project\Transformer\Project_Transformer;
 use CPM\Common\Traits\Request_Filter;
+use CPM\User\Models\User;
 
 class Project_Controller {
 	use Transformer_Manager, Request_Filter;
@@ -36,13 +37,26 @@ class Project_Controller {
 	public function save( WP_REST_Request $request ) {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
-		$project = Project::create( array_filter( $data ) );
+		$project = Project::create( $data );
 
 		// Establishing relationship
 		$category_ids = $request->get_param( 'categories' );
 
 		if ( is_array( $category_ids ) ) {
 			$project->categories()->sync( $category_ids );
+		}
+
+		$assignees = $request->get_param( 'assignees' );
+
+		if ( is_array( $assignees ) ) {
+			foreach ( $assignees as $assignee ) {
+				$user = User::find( $assignee['user_id'] );
+				$user->roles()->sync([
+					$assignee['role_id'] => [
+						'project_id' => $project->id
+					]
+				]);
+			}
 		}
 
 		// Transforming database model instance
