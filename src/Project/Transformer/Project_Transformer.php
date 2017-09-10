@@ -25,11 +25,11 @@ class Project_Transformer extends TransformerAbstract {
             'projectable_type'    => $item->projectable_type,
             'created_by'          => $item->created_by,
             'updated_by'          => $item->updated_by,
-            'extra'               => [
-                'task-lists'         => $item->task_lists->count(),
-                'tasks'              => $item->tasks->count(),
-                'discussion-threads' => $item->discussion_threads->count(),
-                'milestones'         => $item->milestones->count(),
+            'meta'                => [
+                'total_task_lists'         => $item->task_lists->count(),
+                'total_tasks'              => $item->tasks->count(),
+                'total_discussion_threads' => $item->discussion_threads->count(),
+                'total_milestones'         => $item->milestones->count(),
             ],
         ];
     }
