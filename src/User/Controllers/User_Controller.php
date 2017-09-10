@@ -94,11 +94,13 @@ class User_Controller {
     }
 
     public function update_role( WP_REST_Request $request ) {
+        // Extract user inputs
         $id         = $request->get_param( 'user_id' );
         $project_id = $request->get_param( 'project_id' );
         $role_ids   = $request->get_param( 'role_ids' );
         $role_ids   = explode( ',', $role_ids );
 
+        // Associate roles and users
         if ( $project_id ) {
             foreach ( $role_ids as $role_id ) {
                 $role_project_ids[$role_id] = ['project_id' => $project_id];

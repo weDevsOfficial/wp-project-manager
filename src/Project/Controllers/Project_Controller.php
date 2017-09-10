@@ -34,15 +34,15 @@ class Project_Controller {
 	}
 
 	public function save( WP_REST_Request $request ) {
-		// Extraction of no empty user inputs and create project
+		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( array_filter( $data ) );
 
-		// Establishing relationship with categories
-		$category_ids = explode(',', $request->get_param( 'categories' ) );
+		// Establishing relationship
+		$category_ids = $request->get_param( 'categories' );
 
-		if ( !empty( $category_ids ) ) {
-			$project->categories()->attach( $category_ids );
+		if ( is_array( $category_ids ) ) {
+			$project->categories()->sync( $category_ids );
 		}
 
 		// Transforming database model instance
