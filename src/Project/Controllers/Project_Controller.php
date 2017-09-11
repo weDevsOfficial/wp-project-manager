@@ -86,6 +86,7 @@ class Project_Controller {
 		}
 
 		$assignees = $request->get_param( 'assignees' );
+		$project->assignees()->detach();
 
 		if ( is_array( $assignees ) ) {
 			foreach ( $assignees as $assignee ) {
