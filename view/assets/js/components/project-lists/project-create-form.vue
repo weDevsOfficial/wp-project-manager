@@ -1,4 +1,12 @@
 <template>
+<div>
+
+
+
+
+
+
+
 	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject()">
 
 
@@ -54,7 +62,7 @@
 
 		<div class="cpm-loading" style="display: none;">Saving...</div>
 	</form>
-
+</div>
 </template>
 
 <script>
@@ -84,10 +92,12 @@
 
 		methods: {
 			newProject () {
+				var self = this;
+
 				var request = {
 					type: 'POST',
 
-					url: this.base_url + '/cpm/v2/projects/'
+					url: this.base_url + '/cpm/v2/projects/',
 
 					data: {
 						'title': this.project_name,
@@ -98,7 +108,8 @@
 					},
 
 					success: function(res) {
-                		console.log(res);
+                		self.$store.commit('newProject', {'projects': res.data});
+                		jQuery( "#cpm-project-dialog" ).dialog("close");
 	                },
 
 	                error: function(res) {
@@ -106,7 +117,7 @@
 	                }
 				};
 				
-				this.httpReques(request);
+				this.httpRequest(request);
 			},
 
 			formatUsers (users) {

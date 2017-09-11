@@ -6048,8 +6048,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: red;
 }
 .cpm .cpm-plus-white {
-  background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
+  //background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
   color: #ffffff;
+  background: #019dd6;
 }
 .cpm .cpm-container {
   width: 100%;

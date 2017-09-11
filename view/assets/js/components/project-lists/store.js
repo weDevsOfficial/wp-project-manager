@@ -19,6 +19,10 @@ var Store = {
 			state.projects = projects.projects;
 		},
 
+		newProject (state, projects) {
+			state.projects.push(projects.projects);
+		},
+
 		setProjectUsers (state, users) {
 			if (!users.users.hasOwnProperty('roles')) {
 				users.users.roles = {
