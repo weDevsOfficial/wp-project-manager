@@ -412,7 +412,7 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
-        $cpm_dependency = array( 'jquery', 'cpm-vue');
+        $cpm_dependency = array( 'jquery' );
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
