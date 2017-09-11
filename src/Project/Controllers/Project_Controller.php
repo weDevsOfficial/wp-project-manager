@@ -14,10 +14,18 @@ use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
 
 class Project_Controller {
+
 	use Transformer_Manager, Request_Filter;
 
 	public function index( WP_REST_Request $request ) {
-		$projects = Project::paginate();
+		$per_page = $request->get_param( 'per_page' );
+		$per_page = $per_page ? $per_page : 15;
+
+		$page = $request->get_param( 'page' );
+		$page = $page ? $page : 1;
+
+		$projects = Project::paginate( $per_page, ['*'], 'page', $page );
+
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
 
@@ -108,4 +116,5 @@ class Project_Controller {
 		// Delete the main resource
 		$project->delete();
 	}
+
 }
