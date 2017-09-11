@@ -12,6 +12,7 @@ use CPM\Transformer_Manager;
 use CPM\Project\Transformer\Project_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
+use CPM\User\Models\User_Role;
 
 class Project_Controller {
 
@@ -42,29 +43,17 @@ class Project_Controller {
         return $this->get_response( $resource );
 	}
 
-	public function save( WP_REST_Request $request ) {
+	public function store( WP_REST_Request $request ) {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( $data );
 
-		// Establishing relationship
+		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
-
-		if ( is_array( $category_ids ) ) {
-			$project->categories()->sync( $category_ids );
-		}
+		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-
-		if ( is_array( $assignees ) ) {
-			foreach ( $assignees as $assignee ) {
-				$project->assignees()->syncWithoutDetaching([
-					$assignee['user_id'] => [
-						'role_id' => $assignee['role_id']
-					]
-				]);
-			}
-		}
+		$this->assign_user( $project, $assignees );
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
@@ -73,30 +62,19 @@ class Project_Controller {
 	}
 
 	public function update( WP_REST_Request $request ) {
+		// Extract non empty inputs and update project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
 		$project->update( $data );
 
-		// Establishing relationship
+		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
-
-		if ( is_array( $category_ids ) ) {
-			$project->categories()->sync( $category_ids );
-		}
+		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
 		$project->assignees()->detach();
-
-		if ( is_array( $assignees ) ) {
-			foreach ( $assignees as $assignee ) {
-				$project->assignees()->syncWithoutDetaching([
-					$assignee['user_id'] => [
-						'role_id' => $assignee['role_id']
-					]
-				]);
-			}
-		}
+		$this->assign_user( $project, $assignees );
 
 		$resource = new Item( $project, new Project_Transformer );
 
@@ -122,4 +100,13 @@ class Project_Controller {
 		$project->delete();
 	}
 
+	private function assign_user( Project $project, $assignees = [] ) {
+		foreach ( $assignees as $assignee ) {
+			User_Role::firstOrCreate([
+				'user_id'    => $assignee['user_id'],
+				'role_id'    => $assignee['role_id'],
+				'project_id' => $project->id,
+			]);
+		}
+	}
 }

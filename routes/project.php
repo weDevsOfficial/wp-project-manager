@@ -29,6 +29,6 @@ $router = Router::singleton();
 
 $router->get( 'projects', 'CPM/Project/Controllers/Project_Controller@index' );
 $router->get( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@show' );
-$router->post( 'projects', 'CPM/Project/Controllers/Project_Controller@save' );
+$router->post( 'projects', 'CPM/Project/Controllers/Project_Controller@store' );
 $router->put( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@update' );
 $router->delete( 'projects/{id}', 'CPM/Project/Controllers/Project_Controller@destroy' );
