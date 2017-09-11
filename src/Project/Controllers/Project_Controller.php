@@ -53,7 +53,7 @@ class Project_Controller {
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-		$this->assign_user( $project, $assignees );
+		$this->assign_users( $project, $assignees );
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
@@ -74,7 +74,7 @@ class Project_Controller {
 
 		$assignees = $request->get_param( 'assignees' );
 		$project->assignees()->detach();
-		$this->assign_user( $project, $assignees );
+		$this->assign_users( $project, $assignees );
 
 		$resource = new Item( $project, new Project_Transformer );
 
@@ -100,7 +100,7 @@ class Project_Controller {
 		$project->delete();
 	}
 
-	private function assign_user( Project $project, $assignees = [] ) {
+	private function assign_users( Project $project, $assignees = [] ) {
 		foreach ( $assignees as $assignee ) {
 			User_Role::firstOrCreate([
 				'user_id'    => $assignee['user_id'],
