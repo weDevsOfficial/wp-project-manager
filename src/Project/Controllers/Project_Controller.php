@@ -58,10 +58,9 @@ class Project_Controller {
 
 		if ( is_array( $assignees ) ) {
 			foreach ( $assignees as $assignee ) {
-				$user = User::find( $assignee['user_id'] );
-				$user->roles()->sync([
-					$assignee['role_id'] => [
-						'project_id' => $project->id
+				$project->assignees()->syncWithoutDetaching([
+					$assignee['user_id'] => [
+						'role_id' => $assignee['role_id']
 					]
 				]);
 			}
@@ -77,13 +76,25 @@ class Project_Controller {
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
-		$project->update( array_filter( $data ) );
+		$project->update( $data );
 
-		// Establishing relationship with categories
-		$category_ids = explode(',', $request->get_param( 'categories' ) );
+		// Establishing relationship
+		$category_ids = $request->get_param( 'categories' );
 
-		if ( !empty( $category_ids ) ) {
+		if ( is_array( $category_ids ) ) {
 			$project->categories()->sync( $category_ids );
+		}
+
+		$assignees = $request->get_param( 'assignees' );
+
+		if ( is_array( $assignees ) ) {
+			foreach ( $assignees as $assignee ) {
+				$project->assignees()->syncWithoutDetaching([
+					$assignee['user_id'] => [
+						'role_id' => $assignee['role_id']
+					]
+				]);
+			}
 		}
 
 		$resource = new Item( $project, new Project_Transformer );
@@ -95,14 +106,7 @@ class Project_Controller {
 		$id = $request->get_param('id');
 
 		// Find the requested resource
-		$project =  Project::with([
-			'task_lists',
-			'tasks',
-			'discussion_threads',
-			'milestones',
-			'comments',
-			// 'files'
-		])->find( $id );
+		$project =  Project::find( $id );
 
 		// Delete related resourcess
 		$project->categories()->detach();
@@ -111,7 +115,7 @@ class Project_Controller {
 		$project->discussion_threads()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();
-		// $project->files()->delete();
+		$project->assignees()->detach();
 
 		// Delete the main resource
 		$project->delete();
