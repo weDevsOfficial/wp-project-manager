@@ -1,8 +1,8 @@
 //import project_lists from './index.vue';
 
 const project_lists = resolve => {
-    require.ensure(['./index.vue'], () => {
-        resolve(require('./index.vue'));
+    require.ensure(['./lists.vue'], () => {
+        resolve(require('./lists.vue'));
     });
 }
 
@@ -12,5 +12,15 @@ export default {
     	'project-lists': project_lists 
     }, 
     name: 'project_lists',
+
+    children: [
+        {
+            path: '/pages/:current_page_number', 
+            components: { 
+            	'project-lists': project_lists
+            }, 
+            name: 'project_pagination',
+        },
+    ]
 }
     

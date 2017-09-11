@@ -3740,7 +3740,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
     text-align: center;
   }
   .cpm .project-overview .overview-menu ul li {
-    width: 30.19999%;
+    //width: 30.19999%;
     float: left;
     margin-bottom: 20px;
   }
@@ -6676,19 +6676,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding: 0px;
   margin: 0px;
 }
-.cpm .project-overview .overview-menu ul li {
-  float: left;
-  list-style: none;
-  margin: 0px;
-  margin-right: 10px;
-  border: solid 1px #E5E5E5;
-  padding: 20px 10px;
-  text-align: center !important;
-  background: #ffffff;
-  width: 15.5%;
-  margin-bottom: 20px;
-  clear: right;
-}
 .cpm .project-overview .overview-menu ul li a div {
   float: left;
 }
@@ -8103,7 +8090,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
     text-align: center;
   }
   .cpm .project-overview .overview-menu ul li {
-    width: 30.19999%;
+    width: 15.5%;
     float: left;
     display: flex;
     margin-bottom: 20px;

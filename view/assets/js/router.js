@@ -9,7 +9,10 @@ import calendar from './components/calendar/router';
 import reports from './components/reports/router';
 import progress from './components/progress/router';
 import settings from './components/settings/router';
-
+import overview from './components/overview/router';
+import activities from './components/activities/router';
+import {discussions, single_discussion} from './components/discussions/router';
+import {milestones, single_milestone} from './components/milestones/router';
 
 
 weDevs_PM_Routers.push(project_lists);
@@ -20,6 +23,12 @@ weDevs_PM_Routers.push(calendar);
 weDevs_PM_Routers.push(reports);
 weDevs_PM_Routers.push(progress);
 weDevs_PM_Routers.push(settings);
+weDevs_PM_Routers.push(overview);
+weDevs_PM_Routers.push(activities);
+weDevs_PM_Routers.push(discussions);
+weDevs_PM_Routers.push(single_discussion);
+weDevs_PM_Routers.push(milestones);
+weDevs_PM_Routers.push(single_milestone);
 
 Vue.use(Router);
 

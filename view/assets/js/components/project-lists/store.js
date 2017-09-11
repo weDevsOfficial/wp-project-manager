@@ -11,7 +11,8 @@ var Store = {
 		projects: [],
 		project_users: [],
 		roles: [],
-		categories: []
+		categories: [],
+		total_pages: 0
 	},
 
 	mutations: {
@@ -48,6 +49,10 @@ var Store = {
 
 		setCategories (state, categories) {
 			state.categories = categories.categories;
+		},
+
+		setPagination (state, pagination) {
+			state.total_pages = pagination.pagination.total_pages;
 		}	
 	}
 }

@@ -1,12 +1,6 @@
 <template>
 <div>
 
-
-
-
-
-
-
 	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject()">
 
 

@@ -1,6 +1,10 @@
 <template>
 	<div class="wedevs-pm-wrap cpm wrap">
-		<router-view name="project-lists"></router-view>
+		<pm-projects></pm-projects>
+		<pm-overview></pm-overview>
+		<pm-discussions></pm-discussions>
+		<pm-activities></pm-activities>
+		<pm-milestones></pm-milestones>
 		<router-view name="categories"></router-view>
 		<router-view name="add-ons"></router-view>
 		<router-view name="my-tasks"></router-view>
@@ -10,6 +14,25 @@
 		<router-view name="settings"></router-view>
 	</div>
 </template>
+
+<script>
+	import discussions from './discussions/index.vue';
+	import projects from './project-lists/index.vue';
+	import overview from './overview/index.vue';
+	import activities from './activities/index.vue';
+	import milestones from './milestones/index.vue';
+
+	export default {
+		components: {
+			'pm-discussions': discussions,
+			'pm-projects': projects,
+			'pm-overview': overview,
+			'pm-activities': activities,
+			'pm-milestones': milestones
+		}
+		
+	}
+</script>
 
 <!-- Global style -->
 <style>
