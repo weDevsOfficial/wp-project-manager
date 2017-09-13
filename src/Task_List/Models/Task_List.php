@@ -8,6 +8,8 @@ use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
 use CPM\Comment\Models\Comment;
 use CPM\File\Models\File;
+use CPM\User\Models\User;
+use CPM\Milestone\Models\Milestone;
 
 class Task_List extends Eloquent {
     use Model_Events;
@@ -43,8 +45,8 @@ class Task_List extends Eloquent {
         return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'task-list' );
     }
 
-    public function users() {
-        return $this->hasMany( Boardable::class, 'board_id' )
+    public function assignees() {
+        return $this->belongsToMany( User::class, 'cpm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'task-list' )
             ->where( 'boardable_type', 'user' );
     }
@@ -52,4 +54,11 @@ class Task_List extends Eloquent {
     public function files() {
         return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'task-list' );
     }
+
+    public function milestones() {
+        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+            ->where('board_type', 'task-list')
+            ->where('boardable_type', 'milestone');
+    }
+
 }
