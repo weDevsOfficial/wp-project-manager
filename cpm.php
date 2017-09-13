@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.8
+ * Version: 1.6.9
  * License: GPL2
  */
 /**
@@ -49,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.8';
+    public $version = '1.6.9';
 
      /**
      * Plugin Database version
@@ -330,6 +330,9 @@ class WeDevs_CPM {
      * @return void
      */
     function includes() {
+        include_once dirname( __FILE__ ) . '/includes/lib/class-weforms-upsell.php';
+        new WeForms_Upsell( '407' );
+
         $this->version    = CPM_VERSION;
         $this->db_version = CPM_DB_VERSION;
         $this->page()->cpm_function();
@@ -410,7 +413,7 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
-        $cpm_dependency = array( 'jquery', 'cpm-vue');
+        $cpm_dependency = array( 'jquery' );
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
 
         wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );

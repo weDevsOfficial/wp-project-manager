@@ -312,7 +312,7 @@ class CPM_Project {
 
         if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
-            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -400,7 +400,7 @@ class CPM_Project {
 
         if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
-            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -455,8 +455,8 @@ class CPM_Project {
         return $join;
     }
 
-    function get_project_where_user_role( $where, &$wp_query, $user_id = 0 ) {
-        global $wp_query, $wpdb;
+    function get_project_where_user_role( $where, $wp_query, $user_id = 0 ) {
+        global $wpdb;
 
         $table = $wpdb->prefix . 'cpm_user_role';
 

@@ -90,7 +90,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
 
 = Q. Who can create projects? =
-A. Only Editors and Admin's can projects and edit them.
+A. Only Editors and Admin's can create projects and edit them.
 
 = Q. Who can create tasklist, todo, messages or milestone? =
 A. Admins and every co-workers from a project can create these.
@@ -121,6 +121,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= 1.6.9 - August 24, 2017 =
+
+ * [Fix] CPM free loader class active after loading WP all plugins
+ * [Fix] All co-workers get mail after completed the task
+ * [new] weForms Upsell Class
 
 = 1.6.8 - August 17, 2017 =
 

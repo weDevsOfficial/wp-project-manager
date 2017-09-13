@@ -162,14 +162,13 @@ function cpm_user_checkboxes( $project_id ) {
     $users    = $pro_obj->get_users( $project_id );
     $cur_user = get_current_user_id();
 
-    // remove current logged in user from list
-    if ( array_key_exists( $cur_user, $users ) ) {
-
-        $arr_index = array_search( $cur_user, $users );
-        unset( $users[$arr_index] );
-    }
-
     foreach ( $users as $key => $user ) {
+        // remove current logged in user from list
+        if ( $user['id'] == $cur_user ) {
+            unset( $users[$key] );
+            continue;
+        }
+        // prepare to sort users by name
         $sort[$key] = strtolower( $user['name'] );
     }
 
