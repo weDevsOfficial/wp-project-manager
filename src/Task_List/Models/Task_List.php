@@ -56,9 +56,9 @@ class Task_List extends Eloquent {
     }
 
     public function milestones() {
-        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'board_id', 'boardable_id' )
-            ->where('board_type', 'task-list')
-            ->where('boardable_type', 'milestone');
+        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+            ->where( 'board_type', 'milestone' )
+            ->where( 'boardable_type', 'task-list' );
     }
 
 }
