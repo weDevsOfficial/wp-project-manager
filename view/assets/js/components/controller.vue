@@ -5,13 +5,14 @@
 		<pm-discussions></pm-discussions>
 		<pm-activities></pm-activities>
 		<pm-milestones></pm-milestones>
-		<router-view name="categories"></router-view>
-		<router-view name="add-ons"></router-view>
+		<pm-categories></pm-categories>
+		<pm-task-lists></pm-task-lists>
+		<!-- <router-view name="add-ons"></router-view>
 		<router-view name="my-tasks"></router-view>
 		<router-view name="calendar"></router-view>
 		<router-view name="reports"></router-view>
 		<router-view name="progress"></router-view>
-		<router-view name="settings"></router-view>
+		<router-view name="settings"></router-view> -->
 	</div>
 </template>
 
@@ -21,6 +22,8 @@
 	import overview from './overview/index.vue';
 	import activities from './activities/index.vue';
 	import milestones from './milestones/index.vue';
+	import categories from './categories/index.vue';
+	import task_lists from './task-lists/index.vue';
 
 	export default {
 		components: {
@@ -28,7 +31,9 @@
 			'pm-projects': projects,
 			'pm-overview': overview,
 			'pm-activities': activities,
-			'pm-milestones': milestones
+			'pm-milestones': milestones,
+			'pm-categories': categories,
+			'pm-task-lists': task_lists
 		}
 		
 	}

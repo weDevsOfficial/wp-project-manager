@@ -1,4 +1,4 @@
-//import project_lists from './index.vue';
+//import project_lists from './lists.vue';
 
 const project_lists = resolve => {
     require.ensure(['./lists.vue'], () => {

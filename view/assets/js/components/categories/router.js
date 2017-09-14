@@ -1,8 +1,10 @@
-import categories from './index.vue';
+import categories from './categories.vue';
 
 export default { 
     path: '/categories', 
-    components: { 'categories': categories }, 
+    components: { 
+    	'categories': categories 
+    }, 
     name: 'categories',
 }
     

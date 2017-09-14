@@ -10,10 +10,17 @@ return [
 		'in_footer'  => true
 	],
 
+	'cpm-tiny-mce' => [
+		'id'         => 'cpm-tiny-mce',
+		'url'        => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
+		'dependency' => false,
+		'in_footer'  => true
+	],
+
 	'cpm-moment-timezone' => [
 		'id'         => 'cpm-moment-timezone',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment-timezone.min.js',
-		'dependency' => ['jquery'],
+		'dependency' => ['jquery', 'cpm-moment'],
 		'in_footer'  => true
 	],
 
@@ -62,7 +69,16 @@ return [
 	'cpm' => [
 		'id'         => 'pm-scripts',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
-		'dependency' => array( 'jquery', 'cpm-nprogress', 'jquery-ui-dialog', 'jquery-ui-autocomplete' ),
+		'dependency' => [
+			'jquery', 
+			'cpm-nprogress', 
+			'jquery-ui-dialog', 
+			'jquery-ui-autocomplete',
+			'cpm-tiny-mce',
+			'cpm-moment-timezone',
+			'cpm-toastr'
+
+		],
 		'in_footer'  => true
 	]
 ];

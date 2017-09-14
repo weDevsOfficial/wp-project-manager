@@ -21,9 +21,9 @@ var discussions = {
 }
 
 var single_discussion = { 
-    path: '/:project_id/single-discussion/:discussion_id', 
+    path: '/:project_id/discussions/:discussion_id', 
     components: { 
-        'individual-discussions': individual_discussion
+        'individual-discussion': individual_discussion
     }, 
     name: 'individual_discussions' 
 }

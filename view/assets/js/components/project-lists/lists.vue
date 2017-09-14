@@ -74,9 +74,10 @@
     import project_summary from './project-summary.vue';
     import pagination from './../pagination.vue';
     import project_create_form from './project-create-form.vue';
-    import after_project from './../do-action.vue';
     import project_new_user_form from './project-new-user-form.vue';
     import store from './store';
+    import after_project from './../do-action.vue';
+
     
     
     export default  {

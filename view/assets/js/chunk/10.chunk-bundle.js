@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([10],{
 
 /***/ 100:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -566,7 +566,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "comments": _vm.comments,
       "list": _vm.comment_list
     }
-  })], 1) : _vm._e()], 1)])
+  })], 1) : _vm._e()], 1), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "single_task"
+    }
+  })], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -870,6 +874,41 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1614,15 +1653,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }), _vm._v(" "), _c('span', [_c('router-link', {
       attrs: {
         "to": {
-          name: 'list_task_single_under_todo',
+          name: 'single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1), _vm._v(" "), _c('span', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                \t")])], 1), _vm._v(" "), _c('span', {
       class: _vm.privateClass(task)
     }), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
       return _c('span', {
@@ -1937,27 +1977,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
       attrs: {
         "to": {
-          name: 'list_task_single_under_todo',
+          name: 'lists_single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1) : _c('span', [_c('router-link', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                \t")])], 1) : _c('span', [_c('router-link', {
       attrs: {
         "exact": "",
         "to": {
-          name: 'task_single_under_todo_lists',
+          name: 'lists_single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1), _vm._v(" "), _c('span', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                    ")])], 1), _vm._v(" "), _c('span', {
       class: _vm.privateClass(task)
     }), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
       return _c('span', {
@@ -2740,6 +2782,7 @@ if (false) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tasks_vue__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(120);
+//
 //
 //
 //

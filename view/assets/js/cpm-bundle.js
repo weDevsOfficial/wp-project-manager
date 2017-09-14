@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		7: 0
+/******/ 		9: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -145,7 +145,7 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -9406,7 +9406,7 @@ module.exports = function normalizeComponent (
 
   return Vue$3;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(66)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(78)))
 
 /***/ }),
 /* 2 */
@@ -9541,7 +9541,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(65)
+var listToStyles = __webpack_require__(77)
 
 /*
 type StyleObject = {
@@ -9744,149 +9744,6 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_categories_router__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_calendar_router__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_reports_router__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_progress_router__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_settings_router__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_overview_router__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_activities_router__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_discussions_router__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_milestones_router__ = __webpack_require__(29);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__components_categories_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_6__components_calendar_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__components_reports_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_8__components_progress_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_9__components_settings_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_10__components_overview_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_11__components_activities_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_discussions_router__["a" /* discussions */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_discussions_router__["b" /* single_discussion */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_milestones_router__["a" /* milestones */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_milestones_router__["b" /* single_milestone */]);
-
-__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a);
-
-var router = new __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a({
-	routes: weDevs_PM_Routers
-});
-
-router.beforeEach((to, from, next) => {
-	NProgress.start();
-	next();
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
-
-
-
-/**
- * Make sure to call Vue.use(Vuex) first if using a vuex module system
- */
-__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a);
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
-
-	state: {},
-
-	mutations: {}
-
-}));
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_controller_vue__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69f0cae8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_controller_vue__ = __webpack_require__(57);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(64)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_controller_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69f0cae8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_controller_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/controller.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] controller.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-69f0cae8", Component.options)
-  } else {
-    hotAPI.reload("data-v-69f0cae8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -10714,6 +10571,153 @@ if (false) {(function () {
 });
 
 /***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_categories_router__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_calendar_router__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_reports_router__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_progress_router__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_settings_router__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_overview_router__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_activities_router__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_task_lists_router__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_discussions_router__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_milestones_router__ = __webpack_require__(32);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__components_categories_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_6__components_calendar_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__components_reports_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_8__components_progress_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_9__components_settings_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_10__components_overview_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_11__components_activities_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_discussions_router__["a" /* discussions */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_discussions_router__["b" /* single_discussion */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_milestones_router__["a" /* milestones */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_milestones_router__["b" /* single_milestone */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_task_lists_router__["a" /* task_lists */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_task_lists_router__["b" /* single_list */]);
+
+__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a);
+
+var router = new __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a({
+	routes: weDevs_PM_Routers
+});
+
+router.beforeEach((to, from, next) => {
+	NProgress.start();
+	next();
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
+
+
+
+/**
+ * Make sure to call Vue.use(Vuex) first if using a vuex module system
+ */
+__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a);
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
+
+	state: {},
+
+	mutations: {}
+
+}));
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_controller_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69f0cae8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_controller_vue__ = __webpack_require__(67);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(76)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_controller_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_69f0cae8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_controller_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/controller.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] controller.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69f0cae8", Component.options)
+  } else {
+    hotAPI.reload("data-v-69f0cae8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
 /* 9 */,
 /* 10 */,
 /* 11 */,
@@ -10721,38 +10725,8 @@ if (false) {(function () {
 /* 13 */,
 /* 14 */,
 /* 15 */,
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	mixins: [__WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */]],
-	methods: {}
-});
-
-/***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	methods: {}
-});
-
-/***/ }),
+/* 16 */,
+/* 17 */,
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -10775,11 +10749,45 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__discussions_index_vue__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_lists_index_vue__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__overview_index_vue__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__activities_index_vue__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__ = __webpack_require__(113);
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	methods: {}
+});
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	mixins: [__WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */]],
+	methods: {}
+});
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__discussions_index_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_lists_index_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__overview_index_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__activities_index_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__categories_index_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__task_lists_index_vue__ = __webpack_require__(59);
 //
 //
 //
@@ -10797,6 +10805,9 @@ if (false) {(function () {
 //
 //
 //
+//
+
+
 
 
 
@@ -10810,37 +10821,11 @@ if (false) {(function () {
 		'pm-projects': __WEBPACK_IMPORTED_MODULE_1__project_lists_index_vue__["a" /* default */],
 		'pm-overview': __WEBPACK_IMPORTED_MODULE_2__overview_index_vue__["a" /* default */],
 		'pm-activities': __WEBPACK_IMPORTED_MODULE_3__activities_index_vue__["a" /* default */],
-		'pm-milestones': __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__["a" /* default */]
+		'pm-milestones': __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__["a" /* default */],
+		'pm-categories': __WEBPACK_IMPORTED_MODULE_5__categories_index_vue__["a" /* default */],
+		'pm-task-lists': __WEBPACK_IMPORTED_MODULE_6__task_lists_index_vue__["a" /* default */]
 	}
 
-});
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	methods: {}
-});
-
-/***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	methods: {}
 });
 
 /***/ }),
@@ -10876,10 +10861,60 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	methods: {}
+});
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	methods: {}
+});
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixin__ = __webpack_require__(39);
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	store: __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */]
+});
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 //import project_lists from './index.vue';
 
 const activities_route = resolve => {
-    __webpack_require__.e/* require.ensure */(6).then((() => {
+    __webpack_require__.e/* require.ensure */(8).then((() => {
         resolve(__webpack_require__(9));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -10895,11 +10930,11 @@ var activities = {
 /* harmony default export */ __webpack_exports__["a"] = (activities);
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(47);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -10909,11 +10944,11 @@ var activities = {
 });
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(48);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -10923,21 +10958,23 @@ var activities = {
 });
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__categories_vue__ = __webpack_require__(49);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     path: '/categories',
-    components: { 'categories': __WEBPACK_IMPORTED_MODULE_0__index_vue__["a" /* default */] },
+    components: {
+        'categories': __WEBPACK_IMPORTED_MODULE_0__categories_vue__["a" /* default */]
+    },
     name: 'categories'
 });
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10946,13 +10983,13 @@ var activities = {
 //import project_lists from './index.vue';
 
 const discussions_route = resolve => {
-    __webpack_require__.e/* require.ensure */(4).then((() => {
+    __webpack_require__.e/* require.ensure */(6).then((() => {
         resolve(__webpack_require__(10));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 const individual_discussion = resolve => {
-    __webpack_require__.e/* require.ensure */(3).then((() => {
+    __webpack_require__.e/* require.ensure */(5).then((() => {
         resolve(__webpack_require__(11));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -10966,9 +11003,9 @@ var discussions = {
 };
 
 var single_discussion = {
-    path: '/:project_id/single-discussion/:discussion_id',
+    path: '/:project_id/discussions/:discussion_id',
     components: {
-        'individual-discussions': individual_discussion
+        'individual-discussion': individual_discussion
     },
     name: 'individual_discussions'
 };
@@ -10976,7 +11013,7 @@ var single_discussion = {
 
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10985,13 +11022,13 @@ var single_discussion = {
 //import project_lists from './index.vue';
 
 const milestones_route = resolve => {
-    __webpack_require__.e/* require.ensure */(1).then((() => {
+    __webpack_require__.e/* require.ensure */(3).then((() => {
         resolve(__webpack_require__(13));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 const individual_milestone = resolve => {
-    __webpack_require__.e/* require.ensure */(2).then((() => {
+    __webpack_require__.e/* require.ensure */(4).then((() => {
         resolve(__webpack_require__(12));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11015,11 +11052,11 @@ var single_milestone = {
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(53);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -11029,14 +11066,14 @@ var single_milestone = {
 });
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 //import project_lists from './index.vue';
 
 const overview = resolve => {
-    __webpack_require__.e/* require.ensure */(5).then((() => {
+    __webpack_require__.e/* require.ensure */(7).then((() => {
         resolve(__webpack_require__(14));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11050,11 +11087,11 @@ const overview = resolve => {
 });
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(55);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -11064,11 +11101,11 @@ const overview = resolve => {
 });
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//import project_lists from './index.vue';
+//import project_lists from './lists.vue';
 
 const project_lists = resolve => {
     __webpack_require__.e/* require.ensure */(0).then((() => {
@@ -11093,11 +11130,11 @@ const project_lists = resolve => {
 });
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(57);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -11107,11 +11144,11 @@ const project_lists = resolve => {
 });
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_vue__ = __webpack_require__(58);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -11121,17 +11158,1483 @@ const project_lists = resolve => {
 });
 
 /***/ }),
-/* 36 */
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+
+
+/**
+* Global jQuery action for this component
+*/
+window.CPM_Component_jQuery = {
+    /**
+     * JQuery fadeIn
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    faceIn: function (id, callback) {
+        var class_id = typeof id == 'undefined' ? false : '-' + id;
+
+        jQuery('.cpm-fade-in' + class_id).fadeOut(300, function () {
+            if (typeof callback != 'undefined') {
+                callback(callback);
+            }
+        });
+    },
+
+    /**
+     * JQuery fadeOut
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    fadeOut: function (id, callback) {
+        var class_id = typeof id == 'undefined' ? false : String('-' + id);
+
+        jQuery('.cpm-fade-out' + class_id).fadeOut(300, function () {
+            if (typeof callback != 'undefined') {
+                callback(callback);
+            }
+        });
+    },
+
+    /**
+     * JQuery slideUp
+     * 
+     * @param  int   id       
+     * @param  Function callback 
+     * 
+     * @return void            
+     */
+    slide: function (id, callback) {
+        var class_id = '-' + id; //( typeof id == 'undefined' ) ? false : '-'+id;
+
+        jQuery('.cpm-slide' + class_id).slideToggle(300, function () {
+            if (typeof callback != 'undefined') {
+                callback(callback);
+            }
+        });
+    }
+
+    /**
+     * Global object for all components and root
+     */
+};var PM_Task_Mixin = {
+    data: function () {
+        return {
+            list_form_data: {}
+        };
+    },
+
+    computed: {
+        /**
+         * Is current user can create task
+         * 
+         * @return object
+         */
+        canUserCreateTask: function () {
+            return this.$store.state.permissions.create_todo;
+        },
+
+        task_start_field: function () {
+            return this.$store.state.permissions.task_start_field;
+        },
+
+        /**
+         * Check is todo-list single or not
+         * 
+         * @return Boolean
+         */
+        is_single_list: function () {
+            return this.$store.state.is_single_list;
+        },
+
+        /**
+         * Check is task single or not
+         * 
+         * @return Boolean
+         */
+        is_single_task: function () {
+            return this.$store.state.is_single_task;
+        },
+
+        /**
+         * Todo-lists view active mode
+         * 
+         * @return string
+         */
+        active_mode: function () {
+            return this.$store.state.active_mode == '' ? 'list' : this.$store.state.active_mode;
+        }
+
+    },
+
+    /**
+     * Methods for global component
+     */
+    methods: {
+        test: function () {
+            console.log('adskfjalksdflaksdflakdjsflkjd');
+        },
+
+        /**
+         * Single task popup
+         * 
+         * @param  object task
+         *  
+         * @return void      
+         */
+        singleTask: function (task) {
+            this.$store.commit('single_task_popup', { task: task });
+        },
+
+        /**
+         * Handel new todo list form show and hide
+         * 
+         * @param  obj list       
+         * @param  int list_index 
+         * 
+         * @return void            
+         */
+        showHideTodoListForm: function (list, list_index) {
+            if (list.ID) {
+                //this.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
+            } else {
+                    //this.$store.commit( 'newTodoListForm' );
+                }
+
+            var edit_mode = list.ID ? true : false,
+                self = this;
+
+            if (edit_mode) {
+                var is_edit = self.$store.state.lists[list_index].edit_mode;
+
+                if (is_edit) {
+                    CPM_Component_jQuery.slide(list.ID, function () {
+                        self.$store.commit('showHideUpdatelistForm', { list: list, list_index: list_index });
+                    });
+                } else {
+                    self.$store.commit('showHideUpdatelistForm', { list: list, list_index: list_index });
+
+                    __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+
+                        CPM_Component_jQuery.slide(list.ID);
+                    });
+                }
+            } else {
+                var is_edit = self.$store.state.show_list_form;
+
+                if (is_edit) {
+                    CPM_Component_jQuery.slide('list', function () {
+                        self.$store.commit('newTodoListForm');
+                    });
+                } else {
+                    self.$store.commit('newTodoListForm');
+
+                    __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+
+                        CPM_Component_jQuery.slide('list');
+                    });
+                }
+            }
+        },
+
+        /**
+         * Handel new todo or task form show and hide
+         * 
+         * @param  int list_index 
+         * @param  int task_index 
+         * 
+         * @return void            
+         */
+        showHideTaskForm: function (list_index, task_index) {
+
+            if (typeof task_index == 'undefined' || task_index === false) {
+
+                var edit_mode = this.$store.state.lists[list_index].show_task_form,
+                    list_id = this.$store.state.lists[list_index].ID,
+                    self = this;
+
+                if (edit_mode) {
+
+                    CPM_Component_jQuery.slide('undefined', function () {
+                        self.$store.commit('showHideTaskForm', { list_index: list_index, task_index: false });
+                    });
+                } else {
+                    self.$store.commit('showHideTaskForm', { list_index: list_index, task_index: false });
+
+                    __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+                        CPM_Component_jQuery.slide('undefined');
+                    });
+                }
+            } else {
+                var edit_mode = this.$store.state.lists[list_index].tasks[task_index].edit_mode,
+                    list_id = this.$store.state.lists[list_index].ID,
+                    task_id = this.$store.state.lists[list_index].tasks[task_index].ID,
+                    self = this;
+
+                if (edit_mode) {
+
+                    CPM_Component_jQuery.slide(task_id, function () {
+                        self.$store.commit('showHideTaskForm', { list_index: list_index, task_index: task_index });
+                    });
+                } else {
+                    self.$store.commit('showHideTaskForm', { list_index: list_index, task_index: task_index });
+
+                    __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+
+                        CPM_Component_jQuery.slide(task_id);
+                    });
+                }
+            }
+        },
+
+        /**
+         * WP settings date format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateFormat: function (date) {
+            if (date == '') {
+                return;
+            }
+
+            moment.tz.add(PM_Vars.time_zones);
+            moment.tz.link(PM_Vars.time_links);
+
+            var format = 'MMMM DD YYYY';
+
+            if (PM_Vars.wp_date_format == 'Y-m-d') {
+                format = 'YYYY-MM-DD';
+            } else if (PM_Vars.wp_date_format == 'm/d/Y') {
+                format = 'MM/DD/YYYY';
+            } else if (PM_Vars.wp_date_format == 'd/m/Y') {
+                format = 'DD/MM/YYYY';
+            }
+
+            return moment.tz(date, PM_Vars.wp_time_zone).format(String(format));
+        },
+
+        /**
+         * WP settings date format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        shortDateFormat: function (date) {
+            if (date == '') {
+                return;
+            }
+
+            moment.tz.add(PM_Vars.time_zones);
+            moment.tz.link(PM_Vars.time_links);
+
+            var format = 'MMM DD';
+
+            return moment.tz(date, PM_Vars.wp_time_zone).format(String(format));
+        },
+
+        /**
+         * WP settings date time format convert to moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateTimeFormat: function (date) {
+            if (date == '') {
+                return;
+            }
+
+            moment.tz.add(PM_Vars.time_zones);
+            moment.tz.link(PM_Vars.time_links);
+
+            var date_format = 'MMMM DD YYYY',
+                time_format = 'h:mm:ss a';
+
+            if (PM_Vars.wp_date_format == 'Y-m-d') {
+                date_format = 'YYYY-MM-DD';
+            } else if (PM_Vars.wp_date_format == 'm/d/Y') {
+                date_format = 'MM/DD/YYYY';
+            } else if (PM_Vars.wp_date_format == 'd/m/Y') {
+                date_format = 'DD/MM/YYYY';
+            }
+
+            if (PM_Vars.wp_time_format == 'g:i a') {
+                time_format = 'h:m a';
+            } else if (PM_Vars.wp_time_format == 'g:i A') {
+                time_format = 'h:m A';
+            } else if (PM_Vars.wp_time_format == 'H:i') {
+                time_format = 'HH:m';
+            }
+
+            var format = String(date_format + ', ' + time_format);
+
+            return moment.tz(date, PM_Vars.wp_time_zone).format(format);
+        },
+
+        /**
+         * Get index from array object element
+         * 
+         * @param   array 
+         * @param   id    
+         * 
+         * @return  int      
+         */
+        getIndex: function (array, id, slug) {
+            var target = false;
+
+            array.map(function (content, index) {
+                if (content[slug] == id) {
+                    target = index;
+                }
+            });
+
+            return target;
+        },
+
+        /**
+         * ISO_8601 Date format convert to moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateISO8601Format: function (date) {
+            return moment(date).format();
+        },
+
+        /**
+         * Show hide todo-list edit form
+         * 
+         * @param  int comment_id 
+         * 
+         * @return void            
+         */
+        showHideListCommentEditForm: function (comment_id) {
+            var comment_index = this.getIndex(this.$store.state.lists[0].comments, comment_id, 'comment_ID'),
+                self = this;
+
+            var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
+
+            if (edit_mode) {
+                CPM_Component_jQuery.slide(comment_id, function () {
+                    self.$store.commit('showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 });
+                });
+            } else {
+                self.$store.commit('showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 });
+
+                __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+                    CPM_Component_jQuery.slide(comment_id);
+                });
+            }
+        },
+
+        /**
+         * Show hide todo-list edit form
+         * 
+         * @param  int comment_id 
+         * 
+         * @return void            
+         */
+        showHideTaskCommentEditForm: function (task, comment_id) {
+            var list_index = this.getIndex(this.$store.state.lists, task.post_parent, 'ID'),
+                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task.ID, 'ID'),
+                comment_index = this.getIndex(this.task.comments, comment_id, 'comment_ID'),
+                self = this;
+
+            var edit_mode = this.task.comments[comment_index].edit_mode;
+
+            if (edit_mode) {
+                CPM_Component_jQuery.slide(comment_id, function () {
+                    //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );
+                    self.task.comments[comment_index].edit_mode = false;
+                });
+            } else {
+                //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                self.task.comments[comment_index].edit_mode = true;
+
+                __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+                    CPM_Component_jQuery.slide(comment_id);
+                });
+            }
+        },
+
+        /**
+         * Get current project users by role
+         * 
+         * @param  string role 
+         * 
+         * @return array     
+         */
+        get_porject_users_by_role: function (role) {
+            return this.$store.state.project_users.filter(function (user) {
+                return user.role == role ? true : false;
+            });
+        },
+
+        /**
+         * Get current project users by role
+         * 
+         * @param  string role 
+         * 
+         * @return array     
+         */
+        get_porject_users_id_by_role: function (role) {
+            var ids = [];
+
+            this.$store.state.project_users.map(function (user) {
+                if (user.role == role) {
+                    ids.push(user.id);
+                }
+
+                if (typeof role == 'undefined') {
+                    ids.push(user.id);
+                }
+            });
+
+            return ids;
+        },
+
+        /**
+         * Remove comment
+         * 
+         * @param int comment_id 
+         * 
+         * @return void            
+         */
+        deleteComment: function (comment_id, list_id) {
+
+            if (!confirm(PM_Vars.message.confirm)) {
+                return;
+            }
+
+            var self = this,
+                list_index = this.getIndex(this.$store.state.lists, list_id, 'ID'),
+                form_data = {
+                action: 'cpm_comment_delete',
+                comment_id: comment_id,
+                _wpnonce: PM_Vars.nonce
+            };
+            comment_index = this.getIndex(this.$store.state.lists[list_index].comments, comment_id, 'comment_ID');
+
+            // Seding request for insert or update todo list
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+                if (res.success) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut(comment_id, function () {
+                        self.$store.commit('after_delete_comment', {
+                            list_index: list_index,
+                            comment_index: comment_index
+                        });
+                    });
+                }
+            });
+        },
+
+        /**
+         * Remove comment
+         * 
+         * @param int comment_id 
+         * 
+         * @return void            
+         */
+        deleteTaskComment: function (comment_id, task) {
+
+            if (!confirm(PM_Vars.message.confirm)) {
+                return;
+            }
+
+            var self = this,
+                list_index = this.getIndex(this.$store.state.lists, task.post_parent, 'ID'),
+                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task.ID, 'ID'),
+                form_data = {
+                action: 'cpm_comment_delete',
+                comment_id: comment_id,
+                _wpnonce: PM_Vars.nonce
+            };
+            comment_index = this.getIndex(task.comments, comment_id, 'comment_ID');
+
+            // Seding request for insert or update todo list
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+                if (res.success) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut(comment_id, function () {
+                        self.$store.commit('after_delete_task_comment', {
+                            list_index: list_index,
+                            task_index: task_index,
+                            comment_index: comment_index
+                        });
+                    });
+                }
+            });
+        },
+
+        /**
+         * Get user information from task assigned user id
+         *  
+         * @param  array assigned_user 
+         * 
+         * @return obje               
+         */
+        getUsers: function (assigned_user) {
+            if (!assigned_user) {
+                return [];
+            }
+            var filtered_users = [];
+
+            var assigned_to = assigned_user.map(function (id) {
+                return parseInt(id);
+            });
+
+            filtered_users = this.$store.state.project_users.filter(function (user) {
+                return assigned_to.indexOf(parseInt(user.id)) >= 0;
+            });
+
+            return filtered_users;
+        },
+
+        /**
+         * CSS class for task date
+         * 
+         * @param  string start_date 
+         * @param  string due_date   
+         * 
+         * @return string            
+         */
+        taskDateWrap: function (start_date, due_date) {
+            if (start_date == '' && due_date == '') {
+                return false;
+            }
+
+            moment.tz.add(PM_Vars.time_zones);
+            moment.tz.link(PM_Vars.time_links);
+
+            var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
+                due_day = moment.tz(due_date, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
+
+            if (!moment(String(due_day), 'YYYY-MM-DD').isValid() && !moment(String(start_date), 'YYYY-MM-DD').isValid()) {
+                return false;
+            }
+
+            if (moment(String(due_day), 'YYYY-MM-DD').isValid()) {
+                return moment(String(today), 'YYYY-MM-DD').isSameOrBefore(String(due_day)) ? 'cpm-current-date' : 'cpm-due-date';
+            }
+
+            return 'cpm-current-date';
+        },
+
+        completedTaskWrap(start_date, due_date) {
+            if (start_date == '' && due_date == '') {
+                return false;
+            }
+
+            moment.tz.add(PM_Vars.time_zones);
+            moment.tz.link(PM_Vars.time_links);
+
+            var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
+                due_day = moment.tz(due_date, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
+
+            if (!moment(String(due_day), 'YYYY-MM-DD').isValid() && !moment(String(start_date), 'YYYY-MM-DD').isValid()) {
+                return false;
+            }
+
+            return 'cpm-task-done';
+        },
+
+        /**
+         * Showing (-) between task start date and due date
+         * 
+         * @param  string  task_start_field 
+         * @param  string  start_date       
+         * @param  string  due_date         
+         * 
+         * @return Boolean                  
+         */
+        isBetweenDate: function (task_start_field, start_date, due_date) {
+            if (task_start_field && start_date != '' && due_date != '') {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         * Get initial data for todo-list page
+         * 
+         * @param  int project_id 
+         * 
+         * @return void            
+         */
+        getInitialData: function (project_id, callback) {
+
+            var self = this,
+                data = {
+                project_id: project_id,
+                current_page: this.$route.params.page_number,
+                _wpnonce: PM_Vars.nonce,
+                action: 'cpm_initial_todo_list'
+            };
+
+            jQuery.post(PM_Vars.ajaxurl, data, function (res) {
+                if (res.success) {
+                    self.$store.commit('setTaskInitData', res);
+                    if (typeof callback != 'undefined') {
+                        callback(true);
+                    }
+                } else {
+                    if (typeof callback != 'undefined') {
+                        callback(false);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Refresh todo-list page
+         * 
+         * @return void
+         */
+        refreshTodoListPage: function () {
+            // Redirect to first page
+            this.$router.push('/');
+
+            // Condition because $route is watch in CPM_Router_Init component
+            // When watch is not active then its execute 
+            if (!this.$route.params.page_number) {
+                this.getInitialData(this.$store.state.project_id);
+            }
+        },
+
+        /**
+        * Mark task done and undone
+        * 
+        * @param  int  task_id    
+        * @param  Boolean is_checked 
+        * @param  int  task_index 
+        * 
+        * @return void             
+        */
+        taskDoneUndone: function (task, is_checked) {
+
+            var self = this,
+                form_data = {
+                _wpnonce: PM_Vars.nonce,
+                action: is_checked ? 'cpm_task_complete' : 'cpm_task_open',
+                task_id: task.ID,
+                project_id: PM_Vars.project_id
+            },
+                list_index = this.getIndex(this.$store.state.lists, task.post_parent, 'ID'),
+                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task.ID, 'ID');
+
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+
+                if (res.success) {
+                    // Display a success message
+                    toastr.success(res.data.success);
+
+                    self.$store.commit('task_done_undone', { is_done: is_checked, list_index: list_index, task_index: task_index });
+                    self.$root.$emit('cpm_after_task_done_open', { is_done: is_checked, list_index: list_index, task_index: task_index });
+                } else {
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                        self.$store.commit('task_done_undone', { is_done: false, list_index: list_index, task_index: task_index });
+                    });
+                }
+            });
+        },
+
+        isEmptyObject: function (obj) {
+            return Object.keys(obj).length === 0;
+        },
+
+        getTasks: function (list_id, page_number, action, callback) {
+            var form_data = {
+                _wpnonce: PM_Vars.nonce,
+                list_id: list_id,
+                page_number: typeof page_number == 'undefined' ? 0 : page_number,
+                project_id: PM_Vars.project_id
+            },
+                self = this,
+                action = action; //this.$store.state.is_single_list ? 'cpm_get_tasks' : 'cpm_get_incompleted_tasks'
+
+            wp.ajax.send(action, {
+                data: form_data,
+                success: function (res) {
+                    var list_index = self.getIndex(self.$store.state.lists, self.list.ID, 'ID');
+                    self.$store.commit('insert_tasks', { tasks: res, list_index: list_index });
+
+                    if (typeof callback != 'undefined') {
+                        callback(res);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Count completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return int      
+         */
+        countCompletedTasks: function (list) {
+            // if ( ! list.tasks ) {
+            //     return 0;
+            // }
+
+            // var completed_task = 0;
+
+            // list.tasks.filter( function( task ) {
+            //     if ( ( list.count_completed_tasks === 1 ) || list.count_completed_tasks ) {
+            //         completed_task++;
+            //     }
+            // });
+
+            return list.count_completed_tasks;
+        },
+
+        /**
+         * Count incompleted tasks
+         * 
+         * @param  array tasks
+         *  
+         * @return int       
+         */
+        countIncompletedTasks: function (tasks) {
+            if (!tasks) {
+                return 0;
+            }
+
+            var in_completed_task = 0;
+
+            tasks.filter(function (task) {
+                if (task.completed === 0 || !task.completed) {
+                    in_completed_task++;
+                }
+            });
+
+            return in_completed_task;
+        },
+
+        /**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function (list) {
+
+            if (typeof list == 'undefined') {
+                return 0;
+            }
+
+            var total_tasks = parseInt(list.count_incompleted_tasks) + parseInt(list.count_completed_tasks),
+                //tasks.length,
+            completed_tasks = list.count_completed_tasks,
+                //this.countCompletedTasks( list ),
+            progress = 100 * completed_tasks / total_tasks;
+
+            return isNaN(progress) ? 0 : progress.toFixed(0);
+        },
+
+        /**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
+        getProgressStyle: function (list) {
+            if (typeof list == 'undefined') {
+                return 0;
+            }
+            var width = this.getProgressPercent(list);
+
+            return { width: width + '%' };
+        },
+
+        /**
+         * Delete list
+         * 
+         * @param  int list_id 
+         * 
+         * @return void         
+         */
+        deleteList: function (list_id) {
+            if (!confirm(PM_Vars.message.confirm)) {
+                return;
+            }
+
+            var self = this,
+                list_index = this.getIndex(this.$store.state.lists, list_id, 'ID'),
+                form_data = {
+                action: 'cpm_tasklist_delete',
+                list_id: list_id,
+                project_id: PM_Vars.project_id,
+                _wpnonce: PM_Vars.nonce
+            };
+
+            // Seding request for insert or update todo list
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+                if (res.success) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut(list_id, function () {
+
+                        self.refreshTodoListPage();
+
+                        // self.$store.commit( 'after_delete_todo_list', { 
+                        //     list_index: list_index,
+                        // });
+                    });
+                } else {
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                }
+            });
+        },
+
+        privateClass: function (list) {
+            return list.private == 'on' ? 'cpm-lock' : '';
+        },
+
+        updateActiveMode(mode) {
+            var self = this,
+                form_data = {
+                project_id: PM_Vars.project_id,
+                mode: mode,
+                _wpnonce: PM_Vars.nonce
+            };
+
+            wp.ajax.send('cpm_update_active_mode', {
+                data: form_data,
+                success: function (res) {},
+                error: function (res) {}
+            });
+        }
+    }
+};
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin(PM_Task_Mixin));
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return task_lists; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return single_list; });
+const task_lists_route = resolve => {
+    __webpack_require__.e/* require.ensure */(11).then((() => {
+        resolve(__webpack_require__(17));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
+const single_list_route = resolve => {
+    __webpack_require__.e/* require.ensure */(10).then((() => {
+        resolve(__webpack_require__(16));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
+const single_task_route = resolve => {
+    __webpack_require__.e/* require.ensure */(10/* duplicate */).then((() => {
+        resolve(__webpack_require__(16));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
+var task_lists = {
+    path: '/:project_id/task-lists/',
+    components: {
+        'task-lists': task_lists_route
+    },
+    name: 'task_lists',
+
+    children: [{
+        path: '/:project_id/task/:task_id',
+        components: {
+            'single-task': single_list_route
+        },
+        name: 'lists_single_task'
+    }]
+};
+
+var single_list = {
+    path: '/:project_id/task-lists/:list_id',
+    components: {
+        'single-list': single_list_route
+    },
+    name: 'single_list',
+
+    children: [{
+        path: '/:project_id/:list_id/task/:task_id',
+        components: {
+            'single-task': single_list_route
+        },
+        name: 'single_task'
+    }]
+};
+
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
+
+
+
+/**
+ * Make sure to call Vue.use(Vuex) first if using a vuex module system
+ */
+__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a);
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
+    /**
+        * Assign global property
+        * 
+        * @type Object
+        */
+    state: {
+        lists: [{
+            ID: 102,
+            can_del_edit: true,
+            comment_count: "1",
+            comment_status: "closed",
+            count_comments: "1",
+            count_completed_tasks: "1",
+            count_incompleted_tasks: "1",
+            due_date: "",
+            edit_mode: false,
+            filter: "raw",
+            guid: "http://localhost/test/task-list/list-2/",
+            menu_order: 0,
+            milestone: "107",
+            pin_list: false,
+            ping_status: "closed",
+            pinged: "",
+            post_author: "1",
+            post_content: "",
+            post_content_filtered: "",
+            post_date: "2017-09-12 03:48:20",
+            post_date_gmt: "2017-09-12 03:48:20",
+            post_excerpt: "",
+            post_mime_type: "",
+            post_modified: "2017-09-12 04:10:21",
+            post_modified_gmt: "2017-09-12 04:10:21",
+            post_name: "list-2",
+            post_parent: 98,
+            post_password: "",
+            post_status: "publish",
+            post_title: "List 2",
+            post_type: "cpm_task_list",
+            private: "no",
+            show_task_form: false,
+            tasks: [{
+                ID: 104,
+                assigned_to: ["1"],
+                can_del_edit: true,
+                comment_count: "2",
+                comment_status: "closed",
+                comments: [],
+                completed: 0,
+                completed_by: "1",
+                completed_on: "2017-09-12 04:18:10",
+                due_date: "2017-09-04",
+                edit_mode: false,
+                filter: "raw",
+                guid: "http://localhost/test/task/task-2-2/",
+                menu_order: 0,
+                ping_status: "closed",
+                pinged: "",
+                post_author: "1",
+                post_content: "",
+                post_content_filtered: "",
+                post_date: "2017-09-12 03:48:33",
+                post_date_gmt: "2017-09-12 03:48:33",
+                post_excerpt: "",
+                post_mime_type: "",
+                post_modified: "2017-09-12 04:21:06",
+                post_modified_gmt: "2017-09-12 04:21:06",
+                post_name: "task-2-2",
+                post_parent: 102,
+                post_password: "",
+                post_status: "publish",
+                post_title: "Task 2",
+                post_type: "cpm_task",
+                start_date: "",
+                task_privacy: "no",
+                to_ping: ""
+            }, {
+                ID: 108,
+                assigned_to: ["1"],
+                can_del_edit: true,
+                comment_count: "2",
+                comment_status: "closed",
+                comments: [],
+                completed: 1,
+                completed_by: "1",
+                completed_on: "2017-09-12 04:18:10",
+                due_date: "2017-09-04",
+                edit_mode: false,
+                filter: "raw",
+                guid: "http://localhost/test/task/task-2-2/",
+                menu_order: 0,
+                ping_status: "closed",
+                pinged: "",
+                post_author: "1",
+                post_content: "",
+                post_content_filtered: "",
+                post_date: "2017-09-12 03:48:33",
+                post_date_gmt: "2017-09-12 03:48:33",
+                post_excerpt: "",
+                post_mime_type: "",
+                post_modified: "2017-09-12 04:21:06",
+                post_modified_gmt: "2017-09-12 04:21:06",
+                post_name: "task-2-2",
+                post_parent: 102,
+                post_password: "",
+                post_status: "publish",
+                post_title: "Task 2",
+                post_type: "cpm_task",
+                start_date: "",
+                task_privacy: "no",
+                to_ping: ""
+            }],
+            to_ping: ""
+        }],
+        list_total: 0,
+        milestones: [],
+        init: {},
+        is_single_list: true,
+        project_users: [],
+        loading: true,
+        show_list_form: false,
+        project_id: false,
+        permissions: {
+            create_todolist: true
+        },
+        task: {},
+        is_single_task: false,
+        add_filter: {},
+        todo_list_per_page: 5,
+        get_current_user_id: 1,
+        active_mode: 'list',
+        inline_task_users: [],
+        inline_task_start_date: '',
+        inline_task_end_date: '',
+        inline_task_description: '',
+        inline_todo_list_id: 0,
+        inline_display: {
+            users: false,
+            start: false,
+            end: false,
+            lists: false,
+            description: false
+        }
+    },
+
+    /**
+     * Change any global property from here
+     */
+    mutations: {
+
+        /**
+         * Store todo lists page initial property
+         * 
+         * @param object state     
+         * @param object task_init 
+         *
+         * @return void
+         */
+        setTaskInitData: function (state, task_init) {
+            state.lists = [];
+            state.list_total = 0;
+            state.milestones = [];
+            state.init = {};
+            state.project_users = [];
+            state.permissions = {};
+
+            state.loading = true;
+            state.is_single_list = false, __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+                state.lists = task_init.data.lists;
+                state.milestones = task_init.data.milestones;
+                state.init = task_init.data;
+                state.project_users = task_init.data.project_users;
+                state.permissions = task_init.data.permissions;
+                state.list_total = task_init.data.list_total;
+                state.todo_list_per_page = task_init.data.todo_list_per_page;
+                state.active_mode = task_init.data.active_mode;
+                state.loading = false;
+                state.is_single_list = false;
+            });
+        },
+
+        loadingEffect: function (state, loading_status) {
+            state.loading = loading_status;
+        },
+
+        /**
+         * New todo list form showing or hiding
+         * 
+         * @param  object state 
+         * 
+         * @return void       
+         */
+        newTodoListForm: function (state) {
+            state.show_list_form = state.show_list_form ? false : true;;
+        },
+
+        /**
+         * Update todo list form showing or hiding
+         * 
+         * @param  object state 
+         * @param  object list  
+         * 
+         * @return void       
+         */
+        showHideUpdatelistForm: function (state, list) {
+            state.lists[list.list_index].edit_mode = state.lists[list.list_index].edit_mode ? false : true;
+        },
+
+        /**
+         * Showing and hiding task insert and edit form
+         * 
+         * @param  object state 
+         * @param  int index 
+         * 
+         * @return void       
+         */
+        showHideTaskForm: function (state, index) {
+
+            if (typeof index.task_index == 'undefined' || index.task_index === false) {
+                state.lists[index.list_index].show_task_form = state.lists[index.list_index].show_task_form ? false : true;
+            } else {
+                state.lists[index.list_index].tasks[index.task_index].edit_mode = state.lists[index.list_index].tasks[index.task_index].edit_mode ? false : true;
+            }
+        },
+
+        /**
+         * Update state lists property after insert new todo list or update todo list
+         * 
+         * @param  object state 
+         * @param  object res   
+         * 
+         * @return void       
+         */
+        update_todo_list: function (state, res) {
+
+            if (res.is_update) {
+                state.lists.splice(res.index, 1);
+                state.lists.splice(res.index, 0, res.res_list);
+            } else {
+                state.lists.splice(0, 0, res.res_list);
+            }
+        },
+
+        /**
+         * Insert new task to state lists.tasks property. 
+         *  
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void
+         */
+        update_task: function (state, data) {
+            var index = data.list_index;
+            state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) + 1;
+            state.lists[index].tasks.splice(0, 0, data.res.data.task);
+        },
+
+        /**
+         * When goto single todo list page. Empty the state lists array and insert single todo list. 
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void       
+         */
+        update_todo_list_single: function (state, data) {
+
+            state.lists = [];
+            state.milestones = [];
+            state.project_users = [];
+
+            __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+                state.lists.push(data.list);
+                state.milestones = data.milestones;
+                state.project_users = data.project_users;
+                state.permissions = data.permissions;
+                state.is_single_list = true;
+            });
+        },
+
+        /**
+         * Make single task complete and incomplete
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void        
+         */
+        task_done_undone: function (state, data) {
+            if (data.is_done) {
+                state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) - 1;
+                state.lists[data.list_index].count_completed_tasks = parseInt(state.lists[data.list_index].count_completed_tasks) + 1;
+            } else {
+                state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) + 1;
+                state.lists[data.list_index].count_completed_tasks = parseInt(state.lists[data.list_index].count_completed_tasks) - 1;
+            }
+
+            state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
+        },
+
+        /**
+         * After update list-comment store it in state lists
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void        
+         */
+        update_todo_list_comment: function (state, data) {
+            var list_index = false;
+
+            state.lists.filter(function (list, index) {
+                list_index = list.ID == data.list_id ? index : false;
+            });
+
+            if (list_index !== false) {
+                state.lists[list_index].comments.push(data.comment);
+            }
+        },
+
+        /**
+         * Remove comment from list
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void       
+         */
+        after_delete_comment: function (state, data) {
+            state.lists[data.list_index].comments.splice(data.comment_index, 1);
+        },
+
+        /**
+         * Remove comment from task
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void       
+         */
+        after_delete_task_comment: function (state, data) {
+            state.lists[data.list_index].tasks[data.task_index].comments.splice(data.comment_index, 1);
+        },
+
+        /**
+         * Showing todo-list comment edit form
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void
+         */
+        showHideListCommentEditForm: function (state, data) {
+
+            if (data.comment_index !== false) {
+                state.lists[data.list_index].comments[data.comment_index].edit_mode = state.lists[data.list_index].comments[data.comment_index].edit_mode ? false : true;
+            }
+        },
+
+        /**
+         * Showing task comment edit form
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void
+         */
+        showHideTaskCommentEditForm: function (state, data) {
+            if (data.comment_index !== false) {
+                state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode = state.lists[data.list_index].tasks[data.task_index].comments[data.comment_index].edit_mode ? false : true;
+            }
+        },
+
+        /**
+         * Set single task popup data to vuex store
+         * 
+         * @param  object state 
+         * @param  object task  
+         * 
+         * @return void       
+         */
+        single_task_popup: function (state) {
+            //state.task = {};
+            state.is_single_task = true;
+
+            // Vue.nextTick(function() {
+            //     state.task = task.task;
+            //     state.is_single_task = true;
+            // });
+        },
+
+        /**
+         * Make empty store task and make false is_single_task
+         * 
+         * @param  object state 
+         * 
+         * @return void       
+         */
+        close_single_task_popup: function (state) {
+            state.is_single_task = false;
+            //state.task = {};
+        },
+
+        update_task_comment: function (state, comment) {
+            state.lists[comment.list_index].tasks[comment.task_index].comments.push(comment.comment);
+        },
+
+        /**
+         * Remove todo list 
+         * 
+         * @param  object state 
+         * @param  object list  
+         * 
+         * @return return
+         */
+        after_delete_todo_list: function (state, list) {
+            state.lists.splice(list.list_index, 1);
+        },
+
+        /**
+         * After delete task
+         * 
+         * @param  object state 
+         * @param  object task  
+         * 
+         * @return void       
+         */
+        after_delete_task: function (state, task) {
+
+            if (state.lists[task.list_index].tasks[task.task_index].completed == '0') {
+                state.lists[task.list_index].count_incompleted_tasks = parseInt(state.lists[task.list_index].count_incompleted_tasks) - 1;
+            }
+
+            if (state.lists[task.list_index].tasks[task.task_index].completed == '1') {
+                state.lists[task.list_index].count_completed_tasks = parseInt(state.lists[task.list_index].count_completed_tasks) - 1;
+            }
+
+            state.lists[task.list_index].tasks.splice(task.task_index, 1);
+        },
+
+        /**
+         * After get tasks from list id
+         * 
+         * @param  object state 
+         * @param  object task  
+         * 
+         * @return void       
+         */
+        insert_tasks: function (state, task) {
+
+            task.tasks.tasks.forEach(function (task_obj) {
+                //console.log(task);
+                state.lists[task.list_index].tasks.push(task_obj);
+            });
+            //state.lists[task.list_index].tasks = task.tasks.tasks;
+        },
+
+        emptyTodoLists: function (state) {
+            state.lists = [];
+        },
+
+        /**
+         * Chanage view active mode
+         *
+         * @param  object state 
+         * @param  object mode 
+         * 
+         * @return void
+         */
+        change_active_mode: function (state, mode) {
+            state.active_mode = mode.mode;
+        },
+
+        add_inline_task_users: function (state, users) {
+            state.inline_task_users = users.users;
+        },
+
+        add_inline_task_start_date: function (state, date) {
+            state.inline_task_start_date = date.date;
+        },
+
+        add_inline_task_end_date: function (state, date) {
+            state.inline_task_end_date = date.date;
+        },
+
+        add_inline_task_description: function (state, description) {
+            state.inline_task_description = description.description;
+        },
+
+        add_inline_todo_list_id: function (state, list) {
+            state.inline_todo_list_id = list.list_id;
+        },
+
+        inline_display: function (state, inline_display) {
+            state.inline_display = inline_display;
+        },
+
+        loading_effect: function (state, effect) {
+            state.loading = effect.mode;
+        },
+
+        afterUpdateTaskElement: function (state, task) {
+            jQuery.extend(true, state.lists[task.list_index].tasks[task.task_index], task.task);
+            state.lists[task.list_index].tasks[task.task_index].assigned_to = task.task.assigned_to;
+        }
+
+    }
+}));
+
+/***/ }),
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controller_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controller_vue__ = __webpack_require__(8);
 __webpack_require__.p = 'http://localhost/api/wp-content/plugins/cpmapi/view/assets/js/';
 
 
@@ -11154,7 +12657,7 @@ var CPM_Vue = {
 new __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a(CPM_Vue);
 
 /***/ }),
-/* 37 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -13496,7 +14999,7 @@ new __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a(CPM_Vue);
 });
 
 /***/ }),
-/* 38 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -13510,7 +15013,7 @@ exports.push([module.i, "\n#nprogress{pointer-events:none;\n}\n#nprogress .bar{b
 
 
 /***/ }),
-/* 39 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -13524,11 +15027,11 @@ exports.push([module.i, "\n#nprogress .bar {\n\tz-index: 99999;\n}\n\n", ""]);
 
 
 /***/ }),
-/* 40 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d222b08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d222b08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(64);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -13572,12 +15075,12 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 41 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d58fda2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d58fda2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(72);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -13621,12 +15124,12 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 42 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_76a3d58d_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_76a3d58d_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(70);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -13670,12 +15173,12 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 43 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ad9742a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_categories_vue__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_748e6fd3_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_categories_vue__ = __webpack_require__(69);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -13689,8 +15192,56 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ad9742a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_categories_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_748e6fd3_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_categories_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/categories/categories.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] categories.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-748e6fd3", Component.options)
+  } else {
+    hotAPI.reload("data-v-748e6fd3", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ad9742a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(62);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = null
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ad9742a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -13719,11 +15270,11 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 44 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4a19851c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4a19851c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(63);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -13767,743 +15318,11 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f0f3088_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(55);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f0f3088_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/my-tasks/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f0f3088", Component.options)
-  } else {
-    hotAPI.reload("data-v-4f0f3088", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f4c7a08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(58);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = null
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f4c7a08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/overview/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6f4c7a08", Component.options)
-  } else {
-    hotAPI.reload("data-v-6f4c7a08", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_89c60488_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(60);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_89c60488_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/progress/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-89c60488", Component.options)
-  } else {
-    hotAPI.reload("data-v-89c60488", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ae5f14f0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(62);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = null
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ae5f14f0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/project-lists/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ae5f14f0", Component.options)
-  } else {
-    hotAPI.reload("data-v-ae5f14f0", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_615706e6_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(56);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_615706e6_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/reports/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-615706e6", Component.options)
-  } else {
-    hotAPI.reload("data-v-615706e6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a9079c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(51);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(63)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a9079c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/settings/index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-04a9079c", Component.options)
-  } else {
-    hotAPI.reload("data-v-04a9079c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am settings")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-04a9079c", esExports)
-  }
-}
-
-/***/ }),
 /* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am categories")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2ad9742a", esExports)
-  }
-}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "discussions"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "individual-discussion"
-    }
-  })], 1)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4a19851c", esExports)
-  }
-}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "activities"
-    }
-  })], 1)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4d222b08", esExports)
-  }
-}
-
-/***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am my tasks")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4f0f3088", esExports)
-  }
-}
-
-/***/ }),
-/* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am reports")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-615706e6", esExports)
-  }
-}
-
-/***/ }),
-/* 57 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wedevs-pm-wrap cpm wrap"
-  }, [_c('pm-projects'), _vm._v(" "), _c('pm-overview'), _vm._v(" "), _c('pm-discussions'), _vm._v(" "), _c('pm-activities'), _vm._v(" "), _c('pm-milestones'), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "categories"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "add-ons"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "my-tasks"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "calendar"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "reports"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "progress"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "settings"
-    }
-  })], 1)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-69f0cae8", esExports)
-  }
-}
-
-/***/ }),
-/* 58 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "pm-overview"
-    }
-  })], 1)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6f4c7a08", esExports)
-  }
-}
-
-/***/ }),
-/* 59 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am calendar")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-76a3d58d", esExports)
-  }
-}
-
-/***/ }),
-/* 60 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am progress")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-89c60488", esExports)
-  }
-}
-
-/***/ }),
-/* 61 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am add ons")])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8d58fda2", esExports)
-  }
-}
-
-/***/ }),
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "project-lists"
-    }
-  })], 1)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-ae5f14f0", esExports)
-  }
-}
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(38);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("475e7de5", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-04a9079c\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-04a9079c\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(39);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("6b13d87f", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69f0cae8\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./controller.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69f0cae8\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./controller.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports) {
-
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-module.exports = function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d2823fdc_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d2823fdc_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(74);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -14547,7 +15366,652 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 114 */
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f0f3088_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(65);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f0f3088_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/my-tasks/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f0f3088", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f0f3088", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f4c7a08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(68);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = null
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f4c7a08_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/overview/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f4c7a08", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f4c7a08", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_89c60488_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(71);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_89c60488_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/progress/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-89c60488", Component.options)
+  } else {
+    hotAPI.reload("data-v-89c60488", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ae5f14f0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(73);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = null
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ae5f14f0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/project-lists/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ae5f14f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-ae5f14f0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_615706e6_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(66);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_615706e6_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/reports/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-615706e6", Component.options)
+  } else {
+    hotAPI.reload("data-v-615706e6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a9079c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(60);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(75)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a9079c_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/settings/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-04a9079c", Component.options)
+  } else {
+    hotAPI.reload("data-v-04a9079c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_16d82bdc_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(61);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_16d82bdc_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/task-lists/index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-16d82bdc", Component.options)
+  } else {
+    hotAPI.reload("data-v-16d82bdc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am settings")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-04a9079c", esExports)
+  }
+}
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "task-lists"
+    }
+  }), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "single-list"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-16d82bdc", esExports)
+  }
+}
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "categories"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2ad9742a", esExports)
+  }
+}
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "discussions"
+    }
+  }), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "individual-discussion"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4a19851c", esExports)
+  }
+}
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "activities"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4d222b08", esExports)
+  }
+}
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am my tasks")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4f0f3088", esExports)
+  }
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am reports")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-615706e6", esExports)
+  }
+}
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "wedevs-pm-wrap cpm wrap"
+  }, [_c('pm-projects'), _vm._v(" "), _c('pm-overview'), _vm._v(" "), _c('pm-discussions'), _vm._v(" "), _c('pm-activities'), _vm._v(" "), _c('pm-milestones'), _vm._v(" "), _c('pm-categories'), _vm._v(" "), _c('pm-task-lists')], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-69f0cae8", esExports)
+  }
+}
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "pm-overview"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6f4c7a08", esExports)
+  }
+}
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am categories")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-748e6fd3", esExports)
+  }
+}
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am calendar")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-76a3d58d", esExports)
+  }
+}
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am progress")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-89c60488", esExports)
+  }
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("Hi i am add ons")])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-8d58fda2", esExports)
+  }
+}
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('router-view', {
+    attrs: {
+      "name": "project-lists"
+    }
+  })], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-ae5f14f0", esExports)
+  }
+}
+
+/***/ }),
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14572,6 +16036,118 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-d2823fdc", esExports)
   }
 }
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(44);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("475e7de5", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-04a9079c\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-04a9079c\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(45);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("6b13d87f", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69f0cae8\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./controller.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69f0cae8\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./controller.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ })
 /******/ ]);

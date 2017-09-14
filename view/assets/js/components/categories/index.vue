@@ -1,14 +1,5 @@
 <template>
-	<p>Hi i am categories</p>
+	<div>
+		<router-view name="categories"></router-view>
+	</div>
 </template>
-
-<script>
-	import mixin from '../../mixin';
-	
-	export default {
-		mixins: [mixin],
-		methods: {
-
-		}
-	}
-</script>

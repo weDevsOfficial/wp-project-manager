@@ -40,3 +40,10 @@
 	export default action;
 
 </script>
+
+<!-- <template>
+	<div>
+		<cpm-test-component></cpm-test-component>
+		<cpm-again-component></cpm-again-component>
+	</div>
+</template> -->
