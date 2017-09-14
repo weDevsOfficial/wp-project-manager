@@ -11,9 +11,12 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Models\Boardable;
+use CPM\Common\Traits\Request_Filter;
+use CPM\Milestone\Models\Milestone;
 
 class Task_List_Controller {
-    use Transformer_Manager;
+
+    use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
         $task_lists = Task_List::paginate();
@@ -41,18 +44,15 @@ class Task_List_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
-        $project_id = $request->get_param( 'project_id' );
+        $milestone_id = $request->get_param( 'milestone' );
 
+        $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::create( $data );
 
         $milestone_id = $request->get_param( 'milestone' );
-        if ( $milestone_id ) {
-            $boardable = Boardable::create( [
-                'board_id' => $milestone_id,
-                'board_type' => 'milestone',
-                'boardable_id' => $task_list->id,
-                'boardable_type' => 'task-list',
-            ] );
+
+        if ( $milestone ) {
+            $this->attach_milestone( $task_list, $milestone );
         }
 
         $resource = new Item( $task_list, new Task_List_Transformer );
@@ -64,13 +64,17 @@ class Task_List_Controller {
         $data = $this->extract_non_empty_values( $request );
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
+        $milestone_id = $request->get_param( 'milestone' );
 
+        $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        if ( $task_list ) {
-            $task_list->update( $data );
+        $task_list->update( $data );
+
+        if ( $milestone ) {
+            $this->attach_milestone( $task_list, $milestone );
         }
 
         $resource = new Item( $task_list, new Task_List_Transformer );
@@ -88,7 +92,34 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        // Delete relationships
+        // Delete relations
+        $this->detach_all_relations( $task_list );
+
+        // Delete the task list
+        $task_list->delete();
+    }
+
+    private function attach_milestone( Task_List $task_list, Milestone $milestone ) {
+        $baordable = Boardable::where( 'boardable_id', $task_list->id )
+            ->where( 'boardable_type', 'task-list' )
+            ->where( 'board_type', 'milestone' )
+            ->first();
+
+        if ( !$boardable ) {
+            $boardable = Boardable::firstOrCreate([
+                'boardable_id'   => $task_list->id,
+                'boardable_type' => 'task-list',
+                'board_id'       => $milestone->id,
+                'board_type'     => 'milestone'
+            ]);
+        } else {
+            $boardable->update([
+                'board_id' => $milestone->id
+            ]);
+        }
+    }
+
+    private function detach_all_relations( Task_List $task_list ) {
         $task_list->boardables()->delete();
 
         $comments = $task_list->comments;
@@ -100,9 +131,6 @@ class Task_List_Controller {
         $task_list->comments()->delete();
         $task_list->files()->delete();
         $task_list->milestones()->detach();
-
-        // Delete the task list
-        $task_list->delete();
     }
 
     public function attach_users( WP_REST_Request $request ) {
