@@ -40,15 +40,20 @@ class Task_List_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = [
-            'title'       => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order'       => $request->get_param( 'order' ),
-            'project_id'  => $request->get_param( 'project_id' )
-        ];
-        $data = array_filter( $data );
+        $data = $this->extract_non_empty_values( $request );
+        $project_id = $request->get_param( 'project_id' );
 
         $task_list = Task_List::create( $data );
+
+        $milestone_id = $request->get_param( 'milestone' );
+        if ( $milestone_id ) {
+            $boardable = Boardable::create( [
+                'board_id' => $milestone_id,
+                'board_type' => 'milestone',
+                'boardable_id' => $task_list->id,
+                'boardable_type' => 'task-list',
+            ] );
+        }
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -56,6 +61,7 @@ class Task_List_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
+        $data = $this->extract_non_empty_values( $request );
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
 
@@ -63,14 +69,9 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $data = [
-            'title'       => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order'       => $request->get_param( 'order' ),
-        ];
-        $data = array_filter( $data );
-
-        $task_list->update( $data );
+        if ( $task_list ) {
+            $task_list->update( $data );
+        }
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -87,15 +88,18 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        // Delete relationship with a task list
+        // Delete relationships
         $task_list->boardables()->delete();
+
         $comments = $task_list->comments;
         foreach ( $comments as $comment ) {
             $comment->replies()->delete();
             $comment->files()->delete();
         }
+
         $task_list->comments()->delete();
         $task_list->files()->delete();
+        $task_list->milestones()->detach();
 
         // Delete the task list
         $task_list->delete();
