@@ -14,7 +14,24 @@ class CPM_Project {
         add_filter( 'manage_edit-project_category_columns', array( $this, 'manage_edit_project_category_columns' ) );
 
         add_filter( 'parent_file', array( $this, 'fix_category_menu' ) );
+
+        add_action( 'cpm_admin_scripts', array ( $this, 'project_script' ) );
     }
+
+    public function project_script() {
+        if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
+            wp_enqueue_media();
+
+            $scripts = array(
+                'cpm-vue',
+            );
+
+            foreach( $scripts as $script ) {
+                wp_enqueue_script( $script );
+            }
+        }
+    }
+
 
     public static function getInstance() {
         if ( ! self::$_instance ) {
@@ -58,7 +75,7 @@ class CPM_Project {
                 'not_found_in_trash' => __( 'No projects found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Project', 'cpm' ),
             ),
-        ); 
+        );
 
         $args_post_type = apply_filters( 'cpm_register_project_post_type', $args_post_type );
 
@@ -663,7 +680,7 @@ class CPM_Project {
                         'avatar_url' => get_avatar_url( $user->ID, ['default' => 'mm'] ),
                         'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
-                    
+
                     array_push( $user_list, $u) ;
                 }
             }
@@ -857,7 +874,7 @@ class CPM_Project {
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_project_items';
         $private = ( $private == 'yes' ) ? 1 : 0;
-        
+
         $data = array(
             'project_id'      => $project_id,
             'item_type'       => $type,
