@@ -1,11 +1,219 @@
 webpackJsonp([2],{
 
-/***/ 121:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_btn_vue__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_17a13792_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_btn_vue__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasks_vue__ = __webpack_require__(81);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+	beforeRouteEnter(to, from, next) {
+		next(vm => {
+			vm.getLists(vm);
+			// vm.getRoles(vm);
+			// vm.getCategory(vm);
+		});
+	},
+
+	components: {
+		'new-task-list-btn': __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__["a" /* default */],
+		'new-task-list-form': __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__["a" /* default */],
+		'tasks': __WEBPACK_IMPORTED_MODULE_2__tasks_vue__["a" /* default */]
+	},
+
+	// Assign template for this component
+	//template: '#tmpl-cpm-todo-list', 
+
+	// Include global properties and methods
+	// mixins: [CPM_Task_Mixin],
+
+	props: ['current_page_number'],
+
+	/**
+  * Initial data for this component
+  * 
+  * @return obj
+  */
+	data() {
+		return {
+			list: {},
+			index: false,
+			project_id: this.$route.params.project_id,
+			current_page_number: 1
+		};
+	},
+
+	watch: {
+		'$route'(route) {
+			this.current_page_number = route.params.current_page_number;
+			this.getProjects(this);
+		}
+	},
+
+	created() {
+		this.$store.state.is_single_list = false;
+	},
+
+	computed: {
+		/**
+   * Get lists from vuex store
+   * 
+   * @return array
+   */
+		lists() {
+			return this.$store.state.lists;
+		},
+
+		/**
+   * Get milestones from vuex store
+   * 
+   * @return array
+   */
+		milestones() {
+			return this.$store.state.milestones;
+		},
+
+		/**
+   * Get current project id from vuex store
+   * 
+   * @return int
+   */
+		project_id() {
+			return this.$store.state.project_id;
+		},
+
+		/**
+   * Get initial data from vuex store when this component loaded
+   * 
+   * @return obj
+   */
+		init() {
+			return this.$store.state.init;
+		},
+
+		/**
+   * Get task for single task popup
+   * 
+   * @return object
+   */
+		task() {
+			return this.$store.state.task;
+		},
+
+		total() {
+			return Math.ceil(this.$store.state.list_total / this.$store.state.todo_list_per_page);
+		},
+
+		limit() {
+			return this.$store.state.todo_list_per_page;
+		},
+
+		page_number() {
+			return this.$route.params.page_number ? this.$route.params.page_number : 1;
+		}
+	},
+
+	methods: {
+		getLists() {
+
+			var request = {
+				url: this.base_url + '/cpm/v2/projects/' + this.project_id + '/task-lists?per_page=2&page=' + self.current_page_number,
+				success(res) {
+					console.log(res);
+				}
+			};
+			this.httpRequest(request);
+		}
+	}
+});
+
+/***/ }),
+
+/***/ 123:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_btn_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_17a13792_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_btn_vue__ = __webpack_require__(130);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -50,12 +258,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 122:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_form_vue__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7db5bc7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_form_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_form_vue__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7db5bc7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_form_vue__ = __webpack_require__(144);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -100,7 +308,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 127:
+/***/ 130:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -141,7 +349,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 141:
+/***/ 144:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -289,7 +497,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 145:
+/***/ 148:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -418,7 +626,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(_vm.getProgressPercent(list)) + "%")]), _vm._v(" "), _c('div', {
       staticClass: "clearfix"
     })])], 1)])
-  }))], 1)
+  })), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "lists_single_task"
+    }
+  })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -433,13 +645,13 @@ if (false) {
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_lists_vue__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d11df19a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_lists_vue__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_lists_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d11df19a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_lists_vue__ = __webpack_require__(148);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -484,10 +696,45 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 79:
+/***/ 80:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1112,12 +1359,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 80:
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(82);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1162,7 +1409,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 81:
+/***/ 82:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1232,15 +1479,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }), _vm._v(" "), _c('span', [_c('router-link', {
       attrs: {
         "to": {
-          name: 'list_task_single_under_todo',
+          name: 'single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1), _vm._v(" "), _c('span', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                \t")])], 1), _vm._v(" "), _c('span', {
       class: _vm.privateClass(task)
     }), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
       return _c('span', {
@@ -1555,27 +1803,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
       attrs: {
         "to": {
-          name: 'list_task_single_under_todo',
+          name: 'lists_single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1) : _c('span', [_c('router-link', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                \t")])], 1) : _c('span', [_c('router-link', {
       attrs: {
         "exact": "",
         "to": {
-          name: 'task_single_under_todo_lists',
+          name: 'lists_single_task',
           params: {
             list_id: _vm.list.ID,
             task_id: task.ID,
+            project_id: 1,
             task: task
           }
         }
       }
-    }, [_vm._v(_vm._s(task.post_title))])], 1), _vm._v(" "), _c('span', {
+    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.post_title) + "\n\t                                    ")])], 1), _vm._v(" "), _c('span', {
       class: _vm.privateClass(task)
     }), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
       return _c('span', {
@@ -1889,7 +2139,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1936,7 +2186,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2105,207 +2355,6 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
                 // Make enable submit button
                 self.submit_disabled = false;
             });
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasks_vue__ = __webpack_require__(80);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-
-    components: {
-        'new-task-list-btn': __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__["a" /* default */],
-        'new-task-list-form': __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__["a" /* default */],
-        'tasks': __WEBPACK_IMPORTED_MODULE_2__tasks_vue__["a" /* default */]
-    },
-
-    // Assign template for this component
-    //template: '#tmpl-cpm-todo-list', 
-
-    // Include global properties and methods
-    // mixins: [CPM_Task_Mixin],
-
-    props: ['current_page_number'],
-
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            list: {},
-            index: false
-        };
-    },
-
-    watch: {
-        current_page_number: function (page_number) {
-            var per_page = this.$store.state.todo_list_per_page,
-                self = this;
-
-            for (var i = 0; i < per_page; i++) {
-                var request_data = {
-                    per_page: per_page,
-                    current_page: page_number,
-                    project_id: CPM_Vars.project_id,
-                    _wpnonce: CPM_Vars.nonce
-                };
-
-                wp.ajax.send('cpm_get_todo_lists', {
-                    data: request_data,
-                    success: function (res) {
-                        self.$store.commit('new_todo_list', res);
-                    }
-                });
-            }
-        }
-    },
-
-    created() {
-        this.$store.state.is_single_list = false;
-    },
-
-    computed: {
-        /**
-         * Get lists from vuex store
-         * 
-         * @return array
-         */
-        lists: function () {
-            return this.$store.state.lists;
-        },
-
-        /**
-         * Get milestones from vuex store
-         * 
-         * @return array
-         */
-        milestones: function () {
-            return this.$store.state.milestones;
-        },
-
-        /**
-         * Get current project id from vuex store
-         * 
-         * @return int
-         */
-        project_id: function () {
-            return this.$store.state.project_id;
-        },
-
-        /**
-         * Get initial data from vuex store when this component loaded
-         * 
-         * @return obj
-         */
-        init: function () {
-            return this.$store.state.init;
-        },
-
-        /**
-         * Get task for single task popup
-         * 
-         * @return object
-         */
-        task: function () {
-            return this.$store.state.task;
-        },
-
-        total: function () {
-            return Math.ceil(this.$store.state.list_total / this.$store.state.todo_list_per_page);
-        },
-
-        limit: function () {
-            return this.$store.state.todo_list_per_page;
-        },
-
-        page_number: function () {
-            return this.$route.params.page_number ? this.$route.params.page_number : 1;
         }
     }
 });

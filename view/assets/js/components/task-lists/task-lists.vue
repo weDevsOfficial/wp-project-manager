@@ -77,6 +77,14 @@
 	
 	export default {
 
+		beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.getLists(vm);
+                // vm.getRoles(vm);
+                // vm.getCategory(vm);
+            });
+        }, 
+
 		components: {
 			'new-task-list-btn': new_task_list_btn,
 			'new-task-list-form': new_task_list_form,
@@ -100,35 +108,20 @@
 	        return {
 	            list: {},
 	            index: false,
+	            project_id: this.$route.params.project_id,
+	            current_page_number: 1
 	        }
 	    },
 
 	    watch: {
-	        current_page_number ( page_number ) {
-	            var per_page = this.$store.state.todo_list_per_page,
-	                self     = this;
-	            
-	            for (var i = 0; i < per_page; i++) {
-	                var request_data  = {
-	                    per_page: per_page,
-	                    current_page: page_number,
-	                    project_id: CPM_Vars.project_id,
-	                    _wpnonce: CPM_Vars.nonce,
-	                };
-
-	                wp.ajax.send('cpm_get_todo_lists', {
-	                    data: request_data,
-	                    success (res) {
-	                        self.$store.commit( 'new_todo_list', res );
-	                    }
-	                });
-	            }
-	        }
+            '$route' (route) {
+                this.current_page_number = route.params.current_page_number;
+                this.getProjects(this);
+            }
 	    },
 
 	    created () {
 	    	this.$store.state.is_single_list = false;
-	    	this.getLists();
 	    },
 
 	    computed: {
@@ -192,28 +185,14 @@
 
 	    methods: {
 	    	getLists () {
-	    		var self = this,
-	                data = {
-	                    project_id: project_id,
-	                    current_page: this.$route.params.page_number,
-	                    _wpnonce: CPM_Vars.nonce,
-	                    action: 'cpm_initial_todo_list'
-	                }
-	            
-	               
-	            jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
-	                if ( res.success ) {
-	                    self.$store.commit( 'setTaskInitData', res );
-	                    if ( typeof callback != 'undefined'  ) {
-	                        callback(true);
-	                    }
-	                    
-	                } else {
-	                    if ( typeof callback != 'undefined'  ) {
-	                        callback(false);
-	                    }
-	                }
-	            });
+	    
+	            var request = {
+	             	url: this.base_url + '/cpm/v2/projects/'+this.project_id+'/task-lists?per_page=2&page='+ self.current_page_number,
+	             	success (res) {
+	             		console.log(res);
+	             	}
+	            };
+	            this.httpRequest(request);
 	    	}
 	    }
 	}
