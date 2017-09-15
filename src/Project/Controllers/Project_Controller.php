@@ -12,6 +12,7 @@ use CPM\Transformer_Manager;
 use CPM\Project\Transformer\Project_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
+use CPM\User\Models\User_Role;
 
 class Project_Controller {
 
@@ -42,30 +43,17 @@ class Project_Controller {
         return $this->get_response( $resource );
 	}
 
-	public function save( WP_REST_Request $request ) {
+	public function store( WP_REST_Request $request ) {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( $data );
 
-		// Establishing relationship
+		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
-
-		if ( is_array( $category_ids ) ) {
-			$project->categories()->sync( $category_ids );
-		}
+		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-
-		if ( is_array( $assignees ) ) {
-			foreach ( $assignees as $assignee ) {
-				$user = User::find( $assignee['user_id'] );
-				$user->roles()->sync([
-					$assignee['role_id'] => [
-						'project_id' => $project->id
-					]
-				]);
-			}
-		}
+		$this->assign_users( $project, $assignees );
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
@@ -74,17 +62,19 @@ class Project_Controller {
 	}
 
 	public function update( WP_REST_Request $request ) {
+		// Extract non empty inputs and update project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
-		$project->update( array_filter( $data ) );
+		$project->update( $data );
 
-		// Establishing relationship with categories
-		$category_ids = explode(',', $request->get_param( 'categories' ) );
+		// Establishing relationships
+		$category_ids = $request->get_param( 'categories' );
+		$project->categories()->sync( $category_ids );
 
-		if ( !empty( $category_ids ) ) {
-			$project->categories()->sync( $category_ids );
-		}
+		$assignees = $request->get_param( 'assignees' );
+		$project->assignees()->detach();
+		$this->assign_users( $project, $assignees );
 
 		$resource = new Item( $project, new Project_Transformer );
 
@@ -95,14 +85,7 @@ class Project_Controller {
 		$id = $request->get_param('id');
 
 		// Find the requested resource
-		$project =  Project::with([
-			'task_lists',
-			'tasks',
-			'discussion_threads',
-			'milestones',
-			'comments',
-			// 'files'
-		])->find( $id );
+		$project =  Project::find( $id );
 
 		// Delete related resourcess
 		$project->categories()->detach();
@@ -111,10 +94,19 @@ class Project_Controller {
 		$project->discussion_threads()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();
-		// $project->files()->delete();
+		$project->assignees()->detach();
 
 		// Delete the main resource
 		$project->delete();
 	}
 
+	private function assign_users( Project $project, $assignees = [] ) {
+		foreach ( $assignees as $assignee ) {
+			User_Role::firstOrCreate([
+				'user_id'    => $assignee['user_id'],
+				'role_id'    => $assignee['role_id'],
+				'project_id' => $project->id,
+			]);
+		}
+	}
 }
