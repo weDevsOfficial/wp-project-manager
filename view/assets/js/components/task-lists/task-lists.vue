@@ -87,9 +87,6 @@
 		beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getLists(vm);
-
-                // vm.getRoles(vm);
-                // vm.getCategory(vm);
             });
         }, 
 

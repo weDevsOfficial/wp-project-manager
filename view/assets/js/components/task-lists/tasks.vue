@@ -390,9 +390,6 @@
 	    // Get passing data for this component. Remember only array and objects are
 	    props: ['list', 'index'],
 
-	    // Include global properties and methods
-	    //mixins: [CPM_Task_Mixin],
-
 	    /**
 	     * Initial data for this component
 	     * 
@@ -415,6 +412,10 @@
 	        }
 	    },
 
+	    beforeCreate: function () {
+	    	
+		},
+
 	    created: function() {
 
 	        var self = this;
@@ -436,7 +437,7 @@
 	                }
 	            });
 	        } else {
-	            //self.list.tasks = [];
+	            self.list.tasks = [];
 	            //For todo-lists page
 	            this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
 	                self.loading_incomplete_tasks = false;

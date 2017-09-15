@@ -21,8 +21,6 @@
 	                </option>
 	            </select>
 	        </div>
-
-	        <?php do_action( 'cpm_tasklist_form' ); ?>
 	        
 	        <div class="item submit">
 	            <span class="cpm-new-list-spinner"></span>
@@ -52,13 +50,6 @@
 	export default {
 	    // Get passing data for this component. Remember only array and objects are 
 	    props: ['list', 'index'],
-
-	    // created () {
-	    // 	console.log('adlskjasdlfkj');
-	    // },
-	    
-	    // Include global properties and methods
-	    //mixins: cpm_todo_list_mixins( PM_Vars.todo_list_form ),
 
 	    /**
 	     * Initial data for this component

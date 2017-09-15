@@ -1,6 +1,232 @@
 webpackJsonp([1],{
 
-/***/ 102:
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tasks_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(123);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function () {
+        return {
+            list_id: this.$route.params.list_id,
+            list: this.$store.state.lists[0],
+            render_tmpl: false,
+            task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
+            loading: true
+        };
+    },
+
+    /**
+     * Initial action for this component
+     * 
+     * @return void
+     */
+    created: function () {
+        this.loading = false;
+        this.render_tmpl = true;
+        this.$store.state.is_single_list = true;
+        return;
+        var self = this;
+
+        this.$store.commit('emptyTodoLists');
+
+        // Get todo list 
+        this.getList(this.$route.params.list_id, function (res) {
+            self.loading = false;
+        });
+    },
+
+    computed: {
+        /**
+         * Get todo lists from vuex store
+         * 
+         * @return array
+         */
+        lists: function () {
+            return this.$store.state.lists;
+        },
+
+        /**
+         * Get milestones from vuex store
+         * 
+         * @return array
+         */
+        milestones: function () {
+            return this.$store.state.milestones;
+        },
+
+        /**
+         * Get current project id from vuex store
+         * 
+         * @return int
+         */
+        project_id: function () {
+            return this.$store.state.project_id;
+        },
+
+        /**
+         * Get initial data from vuex store when this component loaded
+         * 
+         * @return obj
+         */
+        init: function () {
+            return this.$store.state.init;
+        },
+
+        comments: function () {
+            if (this.$store.state.lists.length) {
+                return this.$store.state.lists[0].comments;
+            }
+
+            return [];
+        },
+
+        comment_list: function () {
+            if (this.$store.state.lists.length) {
+                return this.$store.state.lists[0];
+            }
+
+            return {};
+        }
+
+    },
+
+    methods: {
+        /**
+         * Get todo list for single todo list page
+         * 
+         * @param  int list_id 
+         * 
+         * @return void         
+         */
+        getList: function (list_id, callback) {
+
+            var self = this,
+                form_data = {
+                list_id: list_id,
+                action: 'cpm_get_todo_list_single',
+                project_id: PM_Vars.project_id,
+                _wpnonce: PM_Vars.nonce
+            };
+
+            // Sending request for getting singel todo list 
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+
+                if (res.success) {
+
+                    // After getting todo list, set it to vuex state lists
+                    self.$store.commit('update_todo_list_single', {
+                        list: res.data.list,
+                        permissions: res.data.permissions,
+                        milestones: res.data.milestones,
+                        project_users: res.data.project_users
+                    });
+
+                    self.render_tmpl = true;
+
+                    if (typeof callback != 'undefined') {
+                        callback(res);
+                    }
+                }
+            });
+        }
+    },
+
+    components: {
+        tasks: __WEBPACK_IMPORTED_MODULE_0__tasks_vue__["a" /* default */],
+        'list-comments': __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__["a" /* default */]
+    }
+});
+
+/***/ }),
+
+/***/ 104:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82,11 +308,11 @@ webpackJsonp([1],{
 
 /***/ }),
 
-/***/ 120:
+/***/ 121:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_62344bae_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_file_uploader_vue__ = __webpack_require__(138);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
@@ -132,11 +358,11 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 121:
+/***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comment_form_vue__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comment_form_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_bdbf3e6a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comment_form_vue__ = __webpack_require__(147);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
@@ -182,11 +408,11 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comments_vue__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comments_vue__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4b305a66_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comments_vue__ = __webpack_require__(136);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
@@ -232,11 +458,11 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 125:
+/***/ 126:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_269b1a17_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(132);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
@@ -824,7 +1050,7 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_list_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_list_vue__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6155e00d_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_list_vue__ = __webpack_require__(137);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
@@ -870,7 +1096,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 80:
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1266,9 +1492,6 @@ if (false) {(function () {
     // Get passing data for this component. Remember only array and objects are
     props: ['list', 'index'],
 
-    // Include global properties and methods
-    //mixins: [CPM_Task_Mixin],
-
     /**
      * Initial data for this component
      * 
@@ -1291,6 +1514,8 @@ if (false) {(function () {
         };
     },
 
+    beforeCreate: function () {},
+
     created: function () {
 
         var self = this;
@@ -1312,7 +1537,7 @@ if (false) {(function () {
                 }
             });
         } else {
-            //self.list.tasks = [];
+            self.list.tasks = [];
             //For todo-lists page
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function (res) {
                 self.loading_incomplete_tasks = false;
@@ -1533,12 +1758,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 81:
+/***/ 83:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(85);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1583,7 +1808,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 82:
+/***/ 85:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2313,7 +2538,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 94:
+/***/ 96:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2405,12 +2630,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 95:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__ = __webpack_require__(121);
 //
 //
 //
@@ -2673,11 +2898,11 @@ if (false) {
 
 /***/ }),
 
-/***/ 96:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__ = __webpack_require__(122);
 //
 //
 //
@@ -2771,232 +2996,6 @@ if (false) {
 
     components: {
         'list-comment-form': __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__["a" /* default */]
-    }
-});
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tasks_vue__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(122);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            list_id: this.$route.params.list_id,
-            list: this.$store.state.lists[0],
-            render_tmpl: false,
-            task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
-            loading: true
-        };
-    },
-
-    /**
-     * Initial action for this component
-     * 
-     * @return void
-     */
-    created: function () {
-        this.loading = false;
-        this.render_tmpl = true;
-        this.$store.state.is_single_list = true;
-        return;
-        var self = this;
-
-        this.$store.commit('emptyTodoLists');
-
-        // Get todo list 
-        this.getList(this.$route.params.list_id, function (res) {
-            self.loading = false;
-        });
-    },
-
-    computed: {
-        /**
-         * Get todo lists from vuex store
-         * 
-         * @return array
-         */
-        lists: function () {
-            return this.$store.state.lists;
-        },
-
-        /**
-         * Get milestones from vuex store
-         * 
-         * @return array
-         */
-        milestones: function () {
-            return this.$store.state.milestones;
-        },
-
-        /**
-         * Get current project id from vuex store
-         * 
-         * @return int
-         */
-        project_id: function () {
-            return this.$store.state.project_id;
-        },
-
-        /**
-         * Get initial data from vuex store when this component loaded
-         * 
-         * @return obj
-         */
-        init: function () {
-            return this.$store.state.init;
-        },
-
-        comments: function () {
-            if (this.$store.state.lists.length) {
-                return this.$store.state.lists[0].comments;
-            }
-
-            return [];
-        },
-
-        comment_list: function () {
-            if (this.$store.state.lists.length) {
-                return this.$store.state.lists[0];
-            }
-
-            return {};
-        }
-
-    },
-
-    methods: {
-        /**
-         * Get todo list for single todo list page
-         * 
-         * @param  int list_id 
-         * 
-         * @return void         
-         */
-        getList: function (list_id, callback) {
-
-            var self = this,
-                form_data = {
-                list_id: list_id,
-                action: 'cpm_get_todo_list_single',
-                project_id: PM_Vars.project_id,
-                _wpnonce: PM_Vars.nonce
-            };
-
-            // Sending request for getting singel todo list 
-            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
-
-                if (res.success) {
-
-                    // After getting todo list, set it to vuex state lists
-                    self.$store.commit('update_todo_list_single', {
-                        list: res.data.list,
-                        permissions: res.data.permissions,
-                        milestones: res.data.milestones,
-                        project_users: res.data.project_users
-                    });
-
-                    self.render_tmpl = true;
-
-                    if (typeof callback != 'undefined') {
-                        callback(res);
-                    }
-                }
-            });
-        }
-    },
-
-    components: {
-        tasks: __WEBPACK_IMPORTED_MODULE_0__tasks_vue__["a" /* default */],
-        'list-comments': __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__["a" /* default */]
     }
 });
 
