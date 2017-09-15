@@ -19,8 +19,13 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $task_lists = Task_List::paginate( 10, ['*'], 'page', $page );
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 15;
 
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        $task_lists = Task_List::paginate( $per_page, ['*'], 'page', $page );
         $task_list_collection = $task_lists->getCollection();
 
         $resource = new Collection( $task_list_collection, new Task_List_Transformer );
