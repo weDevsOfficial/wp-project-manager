@@ -11,7 +11,7 @@
 	                <header class="cpm-list-header">
 	                    <h3>
 	                    
-	                        <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
+	                        <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">{{ list.title }}</router-link>
 	                        <span :class="privateClass(list)"></span>
 	                        <div class="cpm-right" v-if="list.can_del_edit">
 	                            <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
@@ -20,7 +20,7 @@
 	                    </h3>
 
 	                    <div class="cpm-entry-detail" >
-	                        {{ list.post_content }}    
+	                        {{ list.description }}    
 	                    </div>
 
 	                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
@@ -39,19 +39,19 @@
 	                       
 	                        <div class="cpm-col-3 cpm-todo-complete">
 	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-	                                <span>{{ list.count_completed_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
+	                                <span>{{ list.meta.total_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
 	                                Completed
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-incomplete">
 	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-	                                <span>{{ list.count_incompleted_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
+	                                <span>{{ list.meta.total_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
 	                                Incomplete
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-comment">
 	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
-	                                <span>{{ list.comment_count }} Comments</span>
+	                                <span>{{ list.meta.total_comments }} Comments</span>
 	                            </router-link>
 	                        </div>
 	                    </div>
@@ -67,12 +67,19 @@
         	</li>
     	</ul>
     	<router-view name="lists_single_task"></router-view>
+    	<pm-pagination 
+            :total_pages="total_pages" 
+            :current_page_number="current_page_number" 
+            component_name='list_pagination'>
+            
+        </pm-pagination> 
 	</div>
 </template>
 
 <script>
 	import new_task_list_btn from './new-task-list-btn.vue';
 	import new_task_list_form from './new-task-list-form.vue';
+	import pagination from './../pagination.vue';
 	import tasks from './tasks.vue';
 	
 	export default {
@@ -80,6 +87,7 @@
 		beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getLists(vm);
+
                 // vm.getRoles(vm);
                 // vm.getCategory(vm);
             });
@@ -88,16 +96,9 @@
 		components: {
 			'new-task-list-btn': new_task_list_btn,
 			'new-task-list-form': new_task_list_form,
+			'pm-pagination': pagination,
 			'tasks': tasks
 		},
-
-		    // Assign template for this component
-	    //template: '#tmpl-cpm-todo-list', 
-
-	    // Include global properties and methods
-	   // mixins: [CPM_Task_Mixin],
-
-	    props: ['current_page_number'],
 
 	    /**
 	     * Initial data for this component
@@ -109,14 +110,14 @@
 	            list: {},
 	            index: false,
 	            project_id: this.$route.params.project_id,
-	            current_page_number: 1
+	            total_pages: 0,
+	            current_page_number: 1,
 	        }
 	    },
 
 	    watch: {
             '$route' (route) {
-                this.current_page_number = route.params.current_page_number;
-                this.getProjects(this);
+                this.getLists(this);
             }
 	    },
 
@@ -144,15 +145,6 @@
 	        },
 
 	        /**
-	         * Get current project id from vuex store
-	         * 
-	         * @return int
-	         */
-	        project_id () {
-	            return this.$store.state.project_id;
-	        },
-
-	        /**
 	         * Get initial data from vuex store when this component loaded
 	         * 
 	         * @return obj
@@ -177,22 +169,25 @@
 	        limit () {
 	            return this.$store.state.todo_list_per_page;
 	        },
-
-	        page_number () {
-	            return this.$route.params.page_number ? this.$route.params.page_number : 1;
-	        }
 	    },
 
 	    methods: {
-	    	getLists () {
-	    
+	    	getLists (self) {
+	    		
 	            var request = {
-	             	url: this.base_url + '/cpm/v2/projects/'+this.project_id+'/task-lists?per_page=2&page='+ self.current_page_number,
+	             	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?per_page=2&page='+ self.setCurrentPageNumber(self),
 	             	success (res) {
-	             		console.log(res);
+	             		self.$store.commit( 'setLists', res.data );
+	             		self.total_pages = res.meta.pagination.total_pages;
 	             	}
 	            };
-	            this.httpRequest(request);
+	            self.httpRequest(request);
+	    	},
+
+	    	setCurrentPageNumber (self) {
+	    		var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+	    		self.current_page_number = current_page_number;
+	    		return current_page_number;
 	    	}
 	    }
 	}

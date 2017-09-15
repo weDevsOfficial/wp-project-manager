@@ -30,7 +30,15 @@ var task_lists = {
                 'single-task': single_list_route
             }, 
             name: 'lists_single_task' 
-        }
+        },
+
+        {
+            path: 'pages/:current_page_number', 
+            components: { 
+                'task-lists': task_lists_route
+            }, 
+            name: 'list_pagination',
+        },
     ]
 }
 

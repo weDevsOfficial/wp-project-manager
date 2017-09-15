@@ -1533,7 +1533,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-pagination-btn prev page-numbers",
     attrs: {
       "to": {
-        name: 'project_pagination',
+        name: _vm.component_name,
         params: {
           current_page_number: (_vm.current_page_number - 1)
         }
@@ -1545,7 +1545,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       class: _vm.pageClass(page) + ' cpm-pagination-btn',
       attrs: {
         "to": {
-          name: 'project_pagination',
+          name: _vm.component_name,
           params: {
             current_page_number: page
           }

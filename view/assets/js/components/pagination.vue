@@ -5,7 +5,7 @@
 			<router-link 
 				v-if="parseInt(current_page_number) > 1" 
 				class="cpm-pagination-btn prev page-numbers" 
-				:to="{ name: 'project_pagination',  params: { current_page_number: ( current_page_number - 1 ) }}">
+				:to="{ name: component_name,  params: { current_page_number: ( current_page_number - 1 ) }}">
 				&laquo;
 			</router-link>
 			
@@ -13,7 +13,7 @@
 				key="page" 
 				v-for="page in total_pages" 
 				:class="pageClass(page) + ' cpm-pagination-btn'" 
-				:to="{ name: 'project_pagination',  params: { current_page_number: page }}">{{ page }}
+				:to="{ name: component_name,  params: { current_page_number: page }}">{{ page }}
 			</router-link>
 			
 			<router-link 

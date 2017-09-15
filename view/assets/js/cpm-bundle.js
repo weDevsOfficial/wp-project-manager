@@ -12077,6 +12077,12 @@ var task_lists = {
             'single-task': single_list_route
         },
         name: 'lists_single_task'
+    }, {
+        path: 'pages/:current_page_number',
+        components: {
+            'task-lists': task_lists_route
+        },
+        name: 'list_pagination'
     }]
 };
 
@@ -12122,113 +12128,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         * @type Object
         */
     state: {
-        lists: [{
-            ID: 102,
-            can_del_edit: true,
-            comment_count: "1",
-            comment_status: "closed",
-            count_comments: "1",
-            count_completed_tasks: "1",
-            count_incompleted_tasks: "1",
-            due_date: "",
-            edit_mode: false,
-            filter: "raw",
-            guid: "http://localhost/test/task-list/list-2/",
-            menu_order: 0,
-            milestone: "107",
-            pin_list: false,
-            ping_status: "closed",
-            pinged: "",
-            post_author: "1",
-            post_content: "",
-            post_content_filtered: "",
-            post_date: "2017-09-12 03:48:20",
-            post_date_gmt: "2017-09-12 03:48:20",
-            post_excerpt: "",
-            post_mime_type: "",
-            post_modified: "2017-09-12 04:10:21",
-            post_modified_gmt: "2017-09-12 04:10:21",
-            post_name: "list-2",
-            post_parent: 98,
-            post_password: "",
-            post_status: "publish",
-            post_title: "List 2",
-            post_type: "cpm_task_list",
-            private: "no",
-            show_task_form: false,
-            tasks: [{
-                ID: 104,
-                assigned_to: ["1"],
-                can_del_edit: true,
-                comment_count: "2",
-                comment_status: "closed",
-                comments: [],
-                completed: 0,
-                completed_by: "1",
-                completed_on: "2017-09-12 04:18:10",
-                due_date: "2017-09-04",
-                edit_mode: false,
-                filter: "raw",
-                guid: "http://localhost/test/task/task-2-2/",
-                menu_order: 0,
-                ping_status: "closed",
-                pinged: "",
-                post_author: "1",
-                post_content: "",
-                post_content_filtered: "",
-                post_date: "2017-09-12 03:48:33",
-                post_date_gmt: "2017-09-12 03:48:33",
-                post_excerpt: "",
-                post_mime_type: "",
-                post_modified: "2017-09-12 04:21:06",
-                post_modified_gmt: "2017-09-12 04:21:06",
-                post_name: "task-2-2",
-                post_parent: 102,
-                post_password: "",
-                post_status: "publish",
-                post_title: "Task 2",
-                post_type: "cpm_task",
-                start_date: "",
-                task_privacy: "no",
-                to_ping: ""
-            }, {
-                ID: 108,
-                assigned_to: ["1"],
-                can_del_edit: true,
-                comment_count: "2",
-                comment_status: "closed",
-                comments: [],
-                completed: 1,
-                completed_by: "1",
-                completed_on: "2017-09-12 04:18:10",
-                due_date: "2017-09-04",
-                edit_mode: false,
-                filter: "raw",
-                guid: "http://localhost/test/task/task-2-2/",
-                menu_order: 0,
-                ping_status: "closed",
-                pinged: "",
-                post_author: "1",
-                post_content: "",
-                post_content_filtered: "",
-                post_date: "2017-09-12 03:48:33",
-                post_date_gmt: "2017-09-12 03:48:33",
-                post_excerpt: "",
-                post_mime_type: "",
-                post_modified: "2017-09-12 04:21:06",
-                post_modified_gmt: "2017-09-12 04:21:06",
-                post_name: "task-2-2",
-                post_parent: 102,
-                post_password: "",
-                post_status: "publish",
-                post_title: "Task 2",
-                post_type: "cpm_task",
-                start_date: "",
-                task_privacy: "no",
-                to_ping: ""
-            }],
-            to_ping: ""
-        }],
+        lists: [],
         list_total: 0,
         milestones: [],
         init: {},
@@ -12288,9 +12188,9 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
                 state.init = task_init.data;
                 state.project_users = task_init.data.project_users;
                 state.permissions = task_init.data.permissions;
-                state.list_total = task_init.data.list_total;
-                state.todo_list_per_page = task_init.data.todo_list_per_page;
-                state.active_mode = task_init.data.active_mode;
+                // state.list_total    = task_init.data.list_total;
+                // state.todo_list_per_page = task_init.data.todo_list_per_page;
+                //state.active_mode = task_init.data.active_mode;
                 state.loading = false;
                 state.is_single_list = false;
             });
@@ -12619,6 +12519,10 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         afterUpdateTaskElement: function (state, task) {
             jQuery.extend(true, state.lists[task.list_index].tasks[task.task_index], task.task);
             state.lists[task.list_index].tasks[task.task_index].assigned_to = task.task.assigned_to;
+        },
+
+        setLists(state, lists) {
+            state.lists = lists;
         }
 
     }

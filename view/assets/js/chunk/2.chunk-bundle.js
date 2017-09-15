@@ -6,7 +6,8 @@ webpackJsonp([2],{
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasks_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_vue__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tasks_vue__ = __webpack_require__(81);
 //
 //
 //
@@ -79,6 +80,13 @@ webpackJsonp([2],{
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -89,6 +97,7 @@ webpackJsonp([2],{
 	beforeRouteEnter(to, from, next) {
 		next(vm => {
 			vm.getLists(vm);
+
 			// vm.getRoles(vm);
 			// vm.getCategory(vm);
 		});
@@ -97,16 +106,9 @@ webpackJsonp([2],{
 	components: {
 		'new-task-list-btn': __WEBPACK_IMPORTED_MODULE_0__new_task_list_btn_vue__["a" /* default */],
 		'new-task-list-form': __WEBPACK_IMPORTED_MODULE_1__new_task_list_form_vue__["a" /* default */],
-		'tasks': __WEBPACK_IMPORTED_MODULE_2__tasks_vue__["a" /* default */]
+		'pm-pagination': __WEBPACK_IMPORTED_MODULE_2__pagination_vue__["a" /* default */],
+		'tasks': __WEBPACK_IMPORTED_MODULE_3__tasks_vue__["a" /* default */]
 	},
-
-	// Assign template for this component
-	//template: '#tmpl-cpm-todo-list', 
-
-	// Include global properties and methods
-	// mixins: [CPM_Task_Mixin],
-
-	props: ['current_page_number'],
 
 	/**
   * Initial data for this component
@@ -118,14 +120,14 @@ webpackJsonp([2],{
 			list: {},
 			index: false,
 			project_id: this.$route.params.project_id,
+			total_pages: 0,
 			current_page_number: 1
 		};
 	},
 
 	watch: {
 		'$route'(route) {
-			this.current_page_number = route.params.current_page_number;
-			this.getProjects(this);
+			this.getLists(this);
 		}
 	},
 
@@ -153,15 +155,6 @@ webpackJsonp([2],{
 		},
 
 		/**
-   * Get current project id from vuex store
-   * 
-   * @return int
-   */
-		project_id() {
-			return this.$store.state.project_id;
-		},
-
-		/**
    * Get initial data from vuex store when this component loaded
    * 
    * @return obj
@@ -185,26 +178,79 @@ webpackJsonp([2],{
 
 		limit() {
 			return this.$store.state.todo_list_per_page;
-		},
-
-		page_number() {
-			return this.$route.params.page_number ? this.$route.params.page_number : 1;
 		}
 	},
 
 	methods: {
-		getLists() {
+		getLists(self) {
 
 			var request = {
-				url: this.base_url + '/cpm/v2/projects/' + this.project_id + '/task-lists?per_page=2&page=' + self.current_page_number,
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists?per_page=2&page=' + self.setCurrentPageNumber(self),
 				success(res) {
-					console.log(res);
+					self.$store.commit('setLists', res.data);
+					self.total_pages = res.meta.pagination.total_pages;
 				}
 			};
-			this.httpRequest(request);
+			self.httpRequest(request);
+		},
+
+		setCurrentPageNumber(self) {
+			var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+			self.current_page_number = current_page_number;
+			return current_page_number;
 		}
 	}
 });
+
+/***/ }),
+
+/***/ 110:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pagination_vue__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_00b52034_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_pagination_vue__ = __webpack_require__(126);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pagination_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_00b52034_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_pagination_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/pagination.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] pagination.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-00b52034", Component.options)
+  } else {
+    hotAPI.reload("data-v-00b52034", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
 
 /***/ }),
 
@@ -305,6 +351,63 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ 126:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.total_pages > 1) ? _c('div', [_c('div', {
+    staticClass: "cpm-pagination-wrap"
+  }, [(parseInt(_vm.current_page_number) > 1) ? _c('router-link', {
+    staticClass: "cpm-pagination-btn prev page-numbers",
+    attrs: {
+      "to": {
+        name: _vm.component_name,
+        params: {
+          current_page_number: (_vm.current_page_number - 1)
+        }
+      }
+    }
+  }, [_vm._v("\n\t\t\t«\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.total_pages), function(page) {
+    return _c('router-link', {
+      key: "page",
+      class: _vm.pageClass(page) + ' cpm-pagination-btn',
+      attrs: {
+        "to": {
+          name: _vm.component_name,
+          params: {
+            current_page_number: page
+          }
+        }
+      }
+    }, [_vm._v(_vm._s(page) + "\n\t\t")])
+  }), _vm._v(" "), (parseInt(_vm.current_page_number) < parseInt(_vm.total_pages)) ? _c('router-link', {
+    staticClass: "cpm-pagination-btn next page-numbers",
+    attrs: {
+      "to": {
+        name: _vm.component_name,
+        params: {
+          current_page_number: (_vm.current_page_number + 1)
+        }
+      }
+    }
+  }, [_vm._v("\n\t\t\t»\n\t\t")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
+    staticClass: "cpm-clearfix"
+  })]) : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-00b52034", esExports)
+  }
+}
 
 /***/ }),
 
@@ -531,7 +634,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }, [_vm._v(_vm._s(list.post_title))]), _vm._v(" "), _c('span', {
+    }, [_vm._v(_vm._s(list.title))]), _vm._v(" "), _c('span', {
       class: _vm.privateClass(list)
     }), _vm._v(" "), (list.can_del_edit) ? _c('div', {
       staticClass: "cpm-right"
@@ -566,7 +669,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "dashicons dashicons-trash"
     })])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
       staticClass: "cpm-entry-detail"
-    }, [_vm._v("\n\t                        " + _vm._s(list.post_content) + "    \n\t                    ")]), _vm._v(" "), (list.edit_mode) ? _c('div', {
+    }, [_vm._v("\n\t                        " + _vm._s(list.description) + "    \n\t                    ")]), _vm._v(" "), (list.edit_mode) ? _c('div', {
       staticClass: "cpm-update-todolist-form"
     }) : _vm._e()]), _vm._v(" "), _c('tasks', {
       attrs: {
@@ -594,7 +697,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }, [_c('span', [_vm._v(_vm._s(list.count_completed_tasks))]), _vm._v(" "), _vm._v("\n\t                                Completed\n\t                            ")])], 1), _vm._v(" "), _c('div', {
+    }, [_c('span', [_vm._v(_vm._s(list.meta.total_tasks))]), _vm._v(" "), _vm._v("\n\t                                Completed\n\t                            ")])], 1), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-3 cpm-todo-incomplete"
     }, [_c('router-link', {
       attrs: {
@@ -605,7 +708,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }, [_c('span', [_vm._v(_vm._s(list.count_incompleted_tasks))]), _vm._v(" "), _vm._v("\n\t                                Incomplete\n\t                            ")])], 1), _vm._v(" "), _c('div', {
+    }, [_c('span', [_vm._v(_vm._s(list.meta.total_tasks))]), _vm._v(" "), _vm._v("\n\t                                Incomplete\n\t                            ")])], 1), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-3 cpm-todo-comment"
     }, [_c('router-link', {
       attrs: {
@@ -616,7 +719,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }, [_c('span', [_vm._v(_vm._s(list.comment_count) + " Comments")])])], 1)]), _vm._v(" "), _c('div', {
+    }, [_c('span', [_vm._v(_vm._s(list.meta.total_comments) + " Comments")])])], 1)]), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-4 cpm-todo-prgress-bar"
     }, [_c('div', {
       staticClass: "bar completed",
@@ -629,6 +732,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })), _vm._v(" "), _c('router-view', {
     attrs: {
       "name": "lists_single_task"
+    }
+  }), _vm._v(" "), _c('pm-pagination', {
+    attrs: {
+      "total_pages": _vm.total_pages,
+      "current_page_number": _vm.current_page_number,
+      "component_name": "list_pagination"
     }
   })], 1)
 }
@@ -2136,6 +2245,57 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-52cdc098", esExports)
   }
 }
+
+/***/ }),
+
+/***/ 88:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    props: ['total_pages', 'current_page_number', 'component_name'],
+
+    methods: {
+        pageClass: function (page) {
+            if (page == this.current_page_number) {
+                return 'page-numbers current';
+            }
+
+            return 'page-numbers';
+        }
+    }
+});
 
 /***/ }),
 
