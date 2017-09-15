@@ -12058,8 +12058,8 @@ const single_list_route = resolve => {
 };
 
 const single_task_route = resolve => {
-    __webpack_require__.e/* require.ensure */(10/* duplicate */).then((() => {
-        resolve(__webpack_require__(16));
+    __webpack_require__.e/* require.ensure */(1).then((() => {
+        resolve(__webpack_require__(152));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 

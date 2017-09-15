@@ -271,6 +271,7 @@
 	    },
 
 	    created: function() {
+	    	console.log('asldkjfhaskdjfh');
 	        this.getTask();
 	        window.addEventListener('click', this.windowActivity);
 	        

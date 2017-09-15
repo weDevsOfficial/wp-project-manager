@@ -96,7 +96,7 @@
 	     * 
 	     * @return obj
 	     */
-	    data: function() {
+	    data () {
 	        return {
 	            list: {},
 	            index: false,
@@ -104,7 +104,7 @@
 	    },
 
 	    watch: {
-	        current_page_number: function( page_number ) {
+	        current_page_number ( page_number ) {
 	            var per_page = this.$store.state.todo_list_per_page,
 	                self     = this;
 	            
@@ -118,7 +118,7 @@
 
 	                wp.ajax.send('cpm_get_todo_lists', {
 	                    data: request_data,
-	                    success: function(res) {
+	                    success (res) {
 	                        self.$store.commit( 'new_todo_list', res );
 	                    }
 	                });
@@ -128,6 +128,7 @@
 
 	    created () {
 	    	this.$store.state.is_single_list = false;
+	    	this.getLists();
 	    },
 
 	    computed: {
@@ -136,7 +137,7 @@
 	         * 
 	         * @return array
 	         */
-	        lists: function () {
+	        lists () {
 	            return this.$store.state.lists;
 	        },
 
@@ -145,7 +146,7 @@
 	         * 
 	         * @return array
 	         */
-	        milestones: function() {
+	        milestones () {
 	            return this.$store.state.milestones;
 	        },
 
@@ -154,7 +155,7 @@
 	         * 
 	         * @return int
 	         */
-	        project_id: function() {
+	        project_id () {
 	            return this.$store.state.project_id;
 	        },
 
@@ -163,7 +164,7 @@
 	         * 
 	         * @return obj
 	         */
-	        init: function() {
+	        init () {
 	            return this.$store.state.init;
 	        },
 
@@ -172,22 +173,49 @@
 	         * 
 	         * @return object
 	         */
-	        task: function() {
+	        task () {
 	            return this.$store.state.task;
 	        },
 
-	        total: function() {
+	        total () {
 	            return Math.ceil( this.$store.state.list_total / this.$store.state.todo_list_per_page );
 	        },
 
-	        limit: function() {
+	        limit () {
 	            return this.$store.state.todo_list_per_page;
 	        },
 
-	        page_number: function() {
+	        page_number () {
 	            return this.$route.params.page_number ? this.$route.params.page_number : 1;
 	        }
 	    },
+
+	    methods: {
+	    	getLists () {
+	    		var self = this,
+	                data = {
+	                    project_id: project_id,
+	                    current_page: this.$route.params.page_number,
+	                    _wpnonce: CPM_Vars.nonce,
+	                    action: 'cpm_initial_todo_list'
+	                }
+	            
+	               
+	            jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
+	                if ( res.success ) {
+	                    self.$store.commit( 'setTaskInitData', res );
+	                    if ( typeof callback != 'undefined'  ) {
+	                        callback(true);
+	                    }
+	                    
+	                } else {
+	                    if ( typeof callback != 'undefined'  ) {
+	                        callback(false);
+	                    }
+	                }
+	            });
+	    	}
+	    }
 	}
 </script>
 

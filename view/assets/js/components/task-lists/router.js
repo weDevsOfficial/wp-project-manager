@@ -11,8 +11,8 @@ const single_list_route = resolve => {
 }
 
 const single_task_route = resolve => {
-    require.ensure(['./single-list.vue'], () => {
-        resolve(require('./single-list.vue'));
+    require.ensure(['./single-task.vue'], () => {
+        resolve(require('./single-task.vue'));
     });
 }
 
