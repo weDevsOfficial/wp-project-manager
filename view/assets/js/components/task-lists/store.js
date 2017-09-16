@@ -410,6 +410,10 @@ export default new Vuex.Store({
 
         setLists (state, lists) {
             state.lists = lists;
+        },
+
+        setMilestones (state, milestones) {
+            state.milestones = milestones;
         }
 
     }

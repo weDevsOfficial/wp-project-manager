@@ -1,23 +1,23 @@
 <template>
 	
-	<div :class="todolistFormClass(list)+' cpm-new-todolist-form'" style="display: none;">
+	<div :class="todolistFormClass(list)+' cpm-new-todolist-form'">
 
 	    <form v-on:submit.prevent="newTodoList()" action="" method="post">
 	        <div class="item title">
-	            <input type="text" required="required" name="tasklist_name" v-model="list.post_title" placeholder="Task list name">
+	            <input type="text" required="required" name="tasklist_name" v-model="list.title" placeholder="Task list name">
 	        </div>
 
 	        <div class="item content">
-	            <textarea name="tasklist_detail" id="" v-model="list.post_content" cols="40" rows="2" placeholder="Task list details"></textarea>
+	            <textarea name="tasklist_detail" id="" v-model="list.description" cols="40" rows="2" placeholder="Task list details"></textarea>
 	        </div>
 
 	        <div class="item milestone">
-	            <select v-model="tasklist_milestone">
+	            <select v-model="list.milestone">
 	                <option value="-1">
 	                    - Milestone -
 	                </option>
-	                <option v-for="milestone in milestones" :value="milestone.ID">
-	                    {{ milestone.post_title }}
+	                <option v-for="milestone in milestones" :value="milestone.id">
+	                    {{ milestone.title }}
 	                </option>
 	            </select>
 	        </div>
@@ -64,6 +64,7 @@
 	            error: [],
 	            success: '',
 	            submit_disabled: false,
+	            project_id: this.$route.params.project_id,
 	        };
 	    },
 
@@ -100,6 +101,8 @@
 	         */
 	        newTodoList: function() {
 
+	        	//console.log(this.list); return;
+
 	            // Prevent sending request when multiple click submit button 
 	            if ( this.submit_disabled ) {
 	                return;
@@ -109,32 +112,40 @@
 	            this.submit_disabled = true;
 
 	            var self      = this,
-	                is_update = typeof this.list.ID == 'undefined' ? false : true;
+	                is_update = typeof this.list.id == 'undefined' ? false : true;
 	               
-	            this.list_form_data.action = typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list';
-	            this.list_form_data.tasklist_name = this.list.post_title;
-	            this.list_form_data.tasklist_detail = this.list.post_content;
-	            this.list_form_data.project_id = this.$store.state.project_id;
-	            this.list_form_data.tasklist_milestone = this.tasklist_milestone;
-	            this.list_form_data.list_id = typeof this.list.ID == 'undefined' ? false : this.list.ID;
-	            this.list_form_data._wpnonce = PM_Vars.nonce;
-	                
-	            
 	            this.show_spinner = true;
 
-	            // Seding request for insert or update todo list
-	            jQuery.post( PM_Vars.ajaxurl, this.list_form_data, function( res ) {
-
-	                if ( res.success ) {
-	                    self.tasklist_milestone = '-1';
-	                    self.show_spinner       = false;
-	                    self.list.post_title    = '';
-	                    self.list.post_content = '';
+	            if ( is_update ) {
+	            	var type = 'PUT';
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id;
+	            	var data = 'title='+self.list.title+'&description='+self.list.description+'&milestone='+self.list.milestone+'&order'+5;
+	            		
+	            } else {
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists';
+	            	var type = 'POST';
+	            	var data = {
+	            		'title': self.list.title,
+	            		'description': self.list.description,
+	            		'milestone': self.list.milestone,
+	            		'order': 5
+	            	};
+	            }
+	            console.log(url, data, type);
+	            var request_data = {
+	            	url: url,
+	            	data: data,
+	            	type: type,
+	            	success (res) {
+						self.list.milestone   = '-1';
+						self.show_spinner     = false;
+						self.list.title       = '';
+						self.list.description = '';
 
 	                    if ( is_update ) {
-	                        var list = res.data.list;
+	                        var list = res.data;
 	                    } else {
-	                        var list = res.data.list.list;
+	                        var list = res.data;
 	                    }
 
 	                    // Display a success message, with a title
@@ -143,20 +154,35 @@
 	                    // Hide the todo list update form
 	                    self.showHideTodoListForm( self.list, self.index );
 
-	                    self.refreshTodoListPage();
-	                    
-	                } else {
-	                    self.show_spinner = false;
+            			// named route
+						self.$router.push({ 
+							name: 'task_lists', 
+							params: { 
+								project_id: self.project_id 
+							}
+						});
+
+						self.submit_disabled = false;
+
+	                    //self.refreshTodoListPage();
+	            	},
+
+	            	error (res) {
+	            		
+	            		self.show_spinner = false;
+	            		self.submit_disabled = false;
 
 	                    // Showing error
 	                    res.data.error.map(function(value, index) {
 	                        toastr.error(value);
 	                    });
-	                }
+	            	},
+	            }
+console.log(request_data);
+	            self.httpRequest(request_data);
+	            
 
-	                // Make enable submit button
-	                self.submit_disabled = false;
-	            });
+
 	        },
 	    }
 	}

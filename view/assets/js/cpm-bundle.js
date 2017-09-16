@@ -11231,7 +11231,8 @@ window.CPM_Component_jQuery = {
 };var PM_Task_Mixin = {
     data: function () {
         return {
-            list_form_data: {}
+            list_form_data: {},
+            project_id: this.$route.params.project_id
         };
     },
 
@@ -12033,6 +12034,10 @@ window.CPM_Component_jQuery = {
                 success: function (res) {},
                 error: function (res) {}
             });
+        },
+
+        showHideTaskFrom(list) {
+            list.show_task_form = list.show_task_form ? false : true;
         }
     }
 };
@@ -12523,6 +12528,10 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
         setLists(state, lists) {
             state.lists = lists;
+        },
+
+        setMilestones(state, milestones) {
+            state.milestones = milestones;
         }
 
     }

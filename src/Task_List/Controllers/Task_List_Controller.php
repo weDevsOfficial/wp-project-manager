@@ -105,7 +105,7 @@ class Task_List_Controller {
     }
 
     private function attach_milestone( Task_List $task_list, Milestone $milestone ) {
-        $baordable = Boardable::where( 'boardable_id', $task_list->id )
+        $boardable = Boardable::where( 'boardable_id', $task_list->id )
             ->where( 'boardable_type', 'task-list' )
             ->where( 'board_type', 'milestone' )
             ->first();

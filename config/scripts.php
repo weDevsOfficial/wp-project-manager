@@ -71,6 +71,7 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
 		'dependency' => [
 			'jquery', 
+			'jquery-ui-datepicker',
 			'cpm-nprogress', 
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',

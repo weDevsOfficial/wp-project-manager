@@ -63,7 +63,7 @@
 	                                <div class="cpm-task-comment">
 	                                        <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}">
 	                                            <span class="cpm-comment-count">
-	                                                {{ task.comments.length }}
+	                                                <!-- {{ task.comments.length }} -->
 	                                            </span>
 	                                        </router-link>
 	                                    <!-- </a> -->
@@ -188,7 +188,7 @@
 	    <div class="cpm-incomplete-tasks">
 	        <ul  class="cpm-todos cpm-todolist-content cpm-incomplete-task">
 
-	            <li v-if="loading_incomplete_tasks" class="nonsortable">
+	         <!--    <li v-if="loading_incomplete_tasks" class="nonsortable">
 	                <div class="cpm-data-load-before" >
 	                    <div class="loadmoreanimation">
 	                        <div class="load-spinner">
@@ -200,7 +200,7 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </li>
+	            </li> -->
 
 	            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
 	                <div class="cpm-todo-wrap clearfix">
@@ -226,7 +226,7 @@
 			                                    	task: task 
 			                                }}">
 
-	                                    	{{ task.post_title }}
+	                                    	{{ task.title }}
 	                                	</router-link>
 	                                
 	                                </span>
@@ -241,7 +241,7 @@
 		                                    		task: task 
 		                                    }}">
 
-	                                    	{{ task.post_title }}
+	                                    	{{ task.title }}
 	                                    </router-link>
 	                                </span>
 
@@ -265,14 +265,14 @@
 	                                    <span v-if="is_single_list">
 	                                        <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}">
 	                                            <span class="cpm-comment-count">
-	                                                {{ task.comments.length }}
+	                                                <!-- {{ task.comments.length }} -->
 	                                            </span>
 	                                        </router-link>
 	                                    </span>
 	                                    <span v-else>
 	                                        <router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}">
 	                                            <span class="cpm-comment-count">
-	                                                {{ task.comments.length }}
+	                                                <!-- {{ task.comments.length }} -->
 	                                            </span>
 	                                        </router-link>
 	                                    </span>
@@ -385,6 +385,8 @@
 </template>
 
 <script>
+	import new_task_form from './new-task-form.vue';
+
 	export default {
 		
 	    // Get passing data for this component. Remember only array and objects are
@@ -469,14 +471,15 @@
 	         * @return array       
 	         */
 	        getIncompleteTasks: function() {
+	        	return this.list.incomplete_tasks.data;
 	        	
-	            if ( ! this.list.tasks ) {
-	                return [];
-	            }
+	            // if ( ! this.list.tasks ) {
+	            //     return [];
+	            // }
 
-	            return this.list.tasks.filter(function( task ) {
-	                return ( task.completed == '0' || !task.completed );
-	            });
+	            // return this.list.tasks.filter(function( task ) {
+	            //     return ( task.completed == '0' || !task.completed );
+	            // });
 	        },
 
 	        /**
@@ -497,9 +500,13 @@
 	        },
 	    },
 
+	    components: {
+	    	'new-task-form': new_task_form,
+	    },
+
 	    methods: {
 	        is_assigned: function(task) {
-	            
+	            return true;
 	            var get_current_user_id = this.$store.state.get_current_user_id,
 	                in_task  = task.assigned_to.indexOf(get_current_user_id);
 	            

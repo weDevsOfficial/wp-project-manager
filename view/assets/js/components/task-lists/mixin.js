@@ -65,7 +65,8 @@ window.CPM_Component_jQuery = {
 var PM_Task_Mixin = {
     data: function() {
         return {
-            list_form_data: {}
+            list_form_data: {},
+            project_id: this.$route.params.project_id,
         }
     },
 
@@ -891,6 +892,10 @@ var PM_Task_Mixin = {
 
                 }
             });
+        },
+
+        showHideTaskFrom (list) {
+            list.show_task_form = list.show_task_form ? false : true;
         }
 	}
 }

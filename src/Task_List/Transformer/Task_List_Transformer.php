@@ -38,6 +38,8 @@ class Task_List_Transformer extends TransformerAbstract {
             'order'       => $item->order,
             'created_by'  => $item->created_by,
             'updated_by'  => $item->updated_by,
+            'edit_mode'   => false,
+            'show_task_form' => false,
             'meta'        => [
                 'total_tasks'            => $item->tasks->count(),
                 'total_complete_tasks'   => $item->tasks->where( 'status', 1)->count(),
@@ -62,7 +64,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
-        $page = $_GET['comment_page'];
+        $page = empty( $_GET['comment_page'] ) ? 1 : $_GET['comment_page'];
 
         $comments = $item->comments()->paginate( 10, ['*'], 'comment_page', $page );
 
@@ -91,7 +93,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeCompleteTasks( Task_List $item ) {
-        $page = $_GET['complete_task_page'];
+        $page = empty( $_GET['complete_task_page'] ) ? 1 : $_GET['complete_task_page'];
 
         $tasks = $item->tasks()
             ->where( 'status', 1 )
@@ -101,12 +103,12 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
-        $page = $_GET['incomplete_task_page'];
+        $page = empty( $_GET['incomplete_task_page'] ) ? 1 : $_GET['incomplete_task_page'];
 
         $tasks = $item->tasks()
             ->where( 'status', 0 )
             ->paginate( 2, ['*'], 'page', $page );
-
+        
         return $this->make_paginated_tasks( $tasks );
     }
 
