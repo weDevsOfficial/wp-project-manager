@@ -101,8 +101,6 @@
 	         */
 	        newTodoList: function() {
 
-	        	//console.log(this.list); return;
-
 	            // Prevent sending request when multiple click submit button 
 	            if ( this.submit_disabled ) {
 	                return;

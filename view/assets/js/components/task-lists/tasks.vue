@@ -1,7 +1,6 @@
 <template>
 	<div>
 	<div v-if="is_single_list" id="cpm-single-todo-list-view">
-
 	    <div class="cpm-incomplete-tasks">
 	        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Incomplete Tasks</a></h3>
 	        <ul  class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
@@ -39,7 +38,7 @@
 			                                    	task: task 
 			                                }}">
 
-	                                    	{{ task.post_title }}
+	                                    	{{ task.title }}
 	                                	</router-link>
 	                                    <!-- <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}">{{ task.post_title }}</router-link> -->
 	                                </span>
@@ -86,7 +85,7 @@
 	                </div>
 	            </li>
 
-	            <li v-if="!getIncompleteTasks.length" class="nonsortable">No tasks found.</li>
+	            <li v-if="!getIncompleteTasks" class="nonsortable">No tasks found.</li>
 	            <li v-if="incomplete_show_load_more_btn" class="nonsortable">
 	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
 	                <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
@@ -121,10 +120,23 @@
 	                                <!-- <span class="cpm-spinner"></span> -->
 	                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
 
-	                                <!-- <span class="task-title">
-	                                    <span class="cpm-todo-text">{{ task.post_title }}</span>
-	                                    <span :class="privateClass( task )"></span>
-	                                </span> -->
+	                                <span class="task-title">
+	                                    
+	                                    	<router-link 
+	                                    	:to="{ 
+		                                    	name: 'single_task', 
+		                                    	params: { 
+			                                    	list_id: list.id, 
+			                                    	task_id: task.id, 
+			                                    	project_id: 1, 
+			                                    	task: task 
+			                                }}">
+
+	                                    	<span class="cpm-todo-text">{{ task.title }}</span>
+	                                	</router-link>
+	                              
+	                                 <span :class="privateClass( task )"></span>
+	                                </span> 
 	                                <span class="task-title">
 	                                    <span v-if="is_single_list"><router-link exact :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
 	                                    <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
@@ -167,7 +179,7 @@
 	                </div>
 	            </li>
 
-	            <li v-if="!getCompletedTask.length" class="nonsortable">No completed tasks.</li>
+	            <li v-if="!getCompletedTask" class="nonsortable">No completed tasks.</li>
 
 	            <li v-if="complete_show_load_more_btn" class="nonsortable">
 	                <a @click.prevent="loadMoreCompleteTasks(list)" href="#">More Tasks</a>
@@ -420,35 +432,35 @@
 
 	    created: function() {
 
-	        var self = this;
-	        if ( this.$store.state.is_single_list ) {
-	            //For sigle todo-list page
-	            this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
-	                var getIncompletedTasks = self.getIncompletedTasks(self.list);
-	                var getCompleteTask     = self.getCompleteTask(self.list);
+	        // var self = this;
+	        // if ( this.$store.state.is_single_list ) {
+	        //     //For sigle todo-list page
+	        //     this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
+	        //         var getIncompletedTasks = self.getIncompletedTasks(self.list);
+	        //         var getCompleteTask     = self.getCompleteTask(self.list);
 
-	                self.loading_completed_tasks = false;
-	                self.loading_incomplete_tasks = false;
+	        //         self.loading_completed_tasks = false;
+	        //         self.loading_incomplete_tasks = false;
 
-	                if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
-	                    self.incomplete_show_load_more_btn = true;
-	                }
+	        //         if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
+	        //             self.incomplete_show_load_more_btn = true;
+	        //         }
 
-	                if ( res.found_completed_tasks > getCompleteTask.length ) {
-	                    self.complete_show_load_more_btn = true;
-	                }
-	            });
-	        } else {
-	            self.list.tasks = [];
-	            //For todo-lists page
-	            this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
-	                self.loading_incomplete_tasks = false;
+	        //         if ( res.found_completed_tasks > getCompleteTask.length ) {
+	        //             self.complete_show_load_more_btn = true;
+	        //         }
+	        //     });
+	        // } else {
+	        //     self.list.tasks = [];
+	        //     //For todo-lists page
+	        //     this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
+	        //         self.loading_incomplete_tasks = false;
 	                
-	                if ( res.found_incompleted_tasks > self.list.tasks.length ) {
-	                    self.incomplete_show_load_more_btn = true;
-	                }
-	            }); 
-	        }
+	        //         if ( res.found_incompleted_tasks > self.list.tasks.length ) {
+	        //             self.incomplete_show_load_more_btn = true;
+	        //         }
+	        //     }); 
+	        // }
 	    },
 
 
@@ -471,6 +483,7 @@
 	         * @return array       
 	         */
 	        getIncompleteTasks: function() {
+	        	if ( this.list.incomplete_tasks )
 	        	return this.list.incomplete_tasks.data;
 	        	
 	            // if ( ! this.list.tasks ) {
@@ -490,13 +503,8 @@
 	         * @return array       
 	         */
 	        getCompletedTask: function() {
-	            if ( ! this.list.tasks ) {
-	                return [];
-	            }
-
-	            return this.list.tasks.filter(function( task ) {
-	                return ( task.completed == '1' || task.completed );
-	            }); 
+	        	if ( this.list.complete_tasks )
+	            return this.list.complete_tasks.data; 
 	        },
 	    },
 

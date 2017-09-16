@@ -56,7 +56,7 @@
 	        return {
 	            files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
 	            content: {
-	                html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
+	                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
 	            },
 	            notify_co_workers: [],
 	            notify_all_co_worker: false,
@@ -89,7 +89,7 @@
 	         */
 	        content: {
 	            handler: function( new_content ) {
-	                this.comment.comment_content = new_content.html;
+	                this.comment.content = new_content.html;
 	            },
 
 	            deep: true
@@ -160,52 +160,61 @@
 	            var self      = this,
 	                is_update = typeof this.comment.comment_ID == 'undefined' ? false : true,
 	                form_data = {
-	                    parent_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
-	                    comment_id: is_update ? this.comment.comment_ID : false,
-	                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new', 
-	                    cpm_message: this.comment.comment_content,
-	                    cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
-	                    project_id: PM_Vars.project_id,
-	                    _wpnonce: PM_Vars.nonce,
+	                	commentable_type: 'task-list',
+	                    content: this.comment.content,
+	                    commentable_id: self.$route.params.list_id,
 	                };
 
 	            // Showing spinner    
 	            this.show_spinner = true;
 
+	            var request_data = {
+	            	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments',
+	            	type: 'POST',
+	            	data: form_data,
+	            	success (res) {
+	            		self.submit_disabled = false;
+	            	},
+	            	error (res) {
+	            		self.submit_disabled = false;
+	            	}
+	            }
+
+	            self.httpRequest(request_data);
 	            // Sending request for add and update comment
-	            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
+	            // jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
 	                
-	                self.show_spinner    = false;
-	                self.submit_disabled = false;
+	            //     self.show_spinner    = false;
+	            //     self.submit_disabled = false;
 	                
-	                if ( res.success ) {
+	            //     if ( res.success ) {
 	                    
-	                    if ( ! is_update ) {
-	                        // After getting todo list, set it to vuex state lists
-	                        self.$store.commit( 'update_todo_list_comment', { 
-	                            list_id: self.list.ID,
-	                            comment: res.data.comment,
-	                        });
+	            //         if ( ! is_update ) {
+	            //             // After getting todo list, set it to vuex state lists
+	            //             self.$store.commit( 'update_todo_list_comment', { 
+	            //                 list_id: self.list.ID,
+	            //                 comment: res.data.comment,
+	            //             });
 
-	                        self.files = [];
-	                        self.content.html = '';
+	            //             self.files = [];
+	            //             self.content.html = '';
 	                        
-	                        self.$root.$emit( 'after_comment' );
+	            //             self.$root.$emit( 'after_comment' );
 	 
-	                    } else {
-	                        self.showHideListCommentEditForm( self.comment.comment_ID );
-	                    }
+	            //         } else {
+	            //             self.showHideListCommentEditForm( self.comment.comment_ID );
+	            //         }
 
-	                    // Display a success toast, with a title
-	                    //toastr.success(res.data.success);
-	                } else {
+	            //         // Display a success toast, with a title
+	            //         //toastr.success(res.data.success);
+	            //     } else {
 
-	                    // Showing error
-	                    res.data.error.map( function( value, index ) {
-	                        toastr.error(value);
-	                    });
-	                } 
-	            });
+	            //         // Showing error
+	            //         res.data.error.map( function( value, index ) {
+	            //             toastr.error(value);
+	            //         });
+	            //     } 
+	            // });
 	        },
 
 	        /**

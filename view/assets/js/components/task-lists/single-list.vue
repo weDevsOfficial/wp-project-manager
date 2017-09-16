@@ -1,34 +1,5 @@
 <template>
 	<div>
-        <br />
-<font size='1'><table class='xdebug-error xe-notice' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Notice: Undefined index: complete_task_page in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Task_List/Transformer/Task_List_Transformer.php on line <i>96</i></th></tr>
-<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
-<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
-<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.2735</td><td bgcolor='#eeeeec' align='right'>362352</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='/Users/mishu/Documents/wedevs/api/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>0</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.2740</td><td bgcolor='#eeeeec' align='right'>364288</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'</font> )</td><td title='/Users/mishu/Documents/wedevs/api/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>17</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>1.3637</td><td bgcolor='#eeeeec' align='right'>24053664</td><td bgcolor='#eeeeec'>wp(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-blog-header.php' bgcolor='#eeeeec'>.../wp-blog-header.php<b>:</b>16</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>1.3637</td><td bgcolor='#eeeeec' align='right'>24053712</td><td bgcolor='#eeeeec'>WP->main(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/functions.php' bgcolor='#eeeeec'>.../functions.php<b>:</b>955</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>1.3637</td><td bgcolor='#eeeeec' align='right'>24053712</td><td bgcolor='#eeeeec'>WP->parse_request(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php' bgcolor='#eeeeec'>.../class-wp.php<b>:</b>733</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>6</td><td bgcolor='#eeeeec' align='center'>1.3652</td><td bgcolor='#eeeeec' align='right'>24078632</td><td bgcolor='#eeeeec'>do_action_ref_array(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php' bgcolor='#eeeeec'>.../class-wp.php<b>:</b>386</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>7</td><td bgcolor='#eeeeec' align='center'>1.3652</td><td bgcolor='#eeeeec' align='right'>24078632</td><td bgcolor='#eeeeec'>WP_Hook->do_action(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php' bgcolor='#eeeeec'>.../plugin.php<b>:</b>515</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>8</td><td bgcolor='#eeeeec' align='center'>1.3652</td><td bgcolor='#eeeeec' align='right'>24078632</td><td bgcolor='#eeeeec'>WP_Hook->apply_filters(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php' bgcolor='#eeeeec'>.../class-wp-hook.php<b>:</b>323</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>9</td><td bgcolor='#eeeeec' align='center'>1.3653</td><td bgcolor='#eeeeec' align='right'>24079760</td><td bgcolor='#eeeeec'>rest_api_loaded(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php' bgcolor='#eeeeec'>.../class-wp-hook.php<b>:</b>298</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>10</td><td bgcolor='#eeeeec' align='center'>1.4603</td><td bgcolor='#eeeeec' align='right'>24563784</td><td bgcolor='#eeeeec'>WP_REST_Server->serve_request(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php' bgcolor='#eeeeec'>.../rest-api.php<b>:</b>271</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>11</td><td bgcolor='#eeeeec' align='center'>1.4627</td><td bgcolor='#eeeeec' align='right'>24567480</td><td bgcolor='#eeeeec'>WP_REST_Server->dispatch(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php' bgcolor='#eeeeec'>.../class-wp-rest-server.php<b>:</b>329</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>12</td><td bgcolor='#eeeeec' align='center'>1.4707</td><td bgcolor='#eeeeec' align='right'>24711912</td><td bgcolor='#eeeeec'>CPM\Task_List\Controllers\Task_List_Controller->show(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php' bgcolor='#eeeeec'>.../class-wp-rest-server.php<b>:</b>947</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>13</td><td bgcolor='#eeeeec' align='center'>1.4882</td><td bgcolor='#eeeeec' align='right'>24803128</td><td bgcolor='#eeeeec'>CPM\Task_List\Controllers\Task_List_Controller->get_response(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Task_List/Controllers/Task_List_Controller.php' bgcolor='#eeeeec'>.../Task_List_Controller.php<b>:</b>47</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>14</td><td bgcolor='#eeeeec' align='center'>1.4976</td><td bgcolor='#eeeeec' align='right'>24989648</td><td bgcolor='#eeeeec'>League\Fractal\Scope->toArray(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Transformer_Manager.php' bgcolor='#eeeeec'>.../Transformer_Manager.php<b>:</b>20</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>15</td><td bgcolor='#eeeeec' align='center'>1.4976</td><td bgcolor='#eeeeec' align='right'>24989648</td><td bgcolor='#eeeeec'>League\Fractal\Scope->executeResourceTransformers(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/Scope.php' bgcolor='#eeeeec'>.../Scope.php<b>:</b>235</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>16</td><td bgcolor='#eeeeec' align='center'>1.4976</td><td bgcolor='#eeeeec' align='right'>24989648</td><td bgcolor='#eeeeec'>League\Fractal\Scope->fireTransformer(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/Scope.php' bgcolor='#eeeeec'>.../Scope.php<b>:</b>346</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>17</td><td bgcolor='#eeeeec' align='center'>1.5944</td><td bgcolor='#eeeeec' align='right'>25431160</td><td bgcolor='#eeeeec'>League\Fractal\Scope->fireIncludedTransformers(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/Scope.php' bgcolor='#eeeeec'>.../Scope.php<b>:</b>411</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>18</td><td bgcolor='#eeeeec' align='center'>1.5944</td><td bgcolor='#eeeeec' align='right'>25431160</td><td bgcolor='#eeeeec'>League\Fractal\TransformerAbstract->processIncludedResources(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/Scope.php' bgcolor='#eeeeec'>.../Scope.php<b>:</b>435</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>19</td><td bgcolor='#eeeeec' align='center'>1.6206</td><td bgcolor='#eeeeec' align='right'>25538192</td><td bgcolor='#eeeeec'>League\Fractal\TransformerAbstract->includeResourceIfAvailable(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php' bgcolor='#eeeeec'>.../TransformerAbstract.php<b>:</b>127</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>20</td><td bgcolor='#eeeeec' align='center'>1.6206</td><td bgcolor='#eeeeec' align='right'>25538192</td><td bgcolor='#eeeeec'>League\Fractal\TransformerAbstract->callIncludeMethod(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php' bgcolor='#eeeeec'>.../TransformerAbstract.php<b>:</b>156</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>21</td><td bgcolor='#eeeeec' align='center'>1.6206</td><td bgcolor='#eeeeec' align='right'>25538696</td><td bgcolor='#eeeeec'><a href='http://www.php.net/function.call-user-func:{/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php:190}' target='_new'>call_user_func:{/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php:190}</a>
-(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php' bgcolor='#eeeeec'>.../TransformerAbstract.php<b>:</b>190</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>22</td><td bgcolor='#eeeeec' align='center'>1.6206</td><td bgcolor='#eeeeec' align='right'>25538696</td><td bgcolor='#eeeeec'>CPM\Task_List\Transformer\Task_List_Transformer->includeCompleteTasks(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/vendor/league/fractal/src/TransformerAbstract.php' bgcolor='#eeeeec'>.../TransformerAbstract.php<b>:</b>190</td></tr>
-</table></font>
         <!-- Spinner before load task -->
       <div v-if="loading" class="cpm-data-load-before" >
             <div class="loadmoreanimation">
@@ -48,38 +19,38 @@
             <div v-if="render_tmpl">
                 <ul class="cpm-todolists">
 
-                    <li v-for="( list, index ) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.ID">
+                    <li :class="'cpm-fade-out-'+list.id">
 
                         <article class="cpm-todolist">
                             <header class="cpm-list-header">
                                 <h3>
-                                    <router-link :to="{ name: 'single-list', params: { list_id: list.ID }}">{{ list.post_title }}</router-link>
+                                    <router-link :to="{ name: 'single-list', params: { list_id: list.ID }}">{{ list.title }}</router-link>
                                     <span :class="privateClass(list)"></span>
                                     <div class="cpm-right">
-                                        <a href="#" @click.prevent="showHideTodoListForm( list, index )" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#" @click.prevent="showEditForm( list )" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.ID )" title="<?php _e( 'Delete this List', 'cpm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                                     </div>
                                 </h3>
 
                                 <div class="cpm-entry-detail">
-                                    {{ list.post_content }}
+                                    {{ list.description }}
                                 </div>
 
                                 <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
                                 <div class="cpm-update-todolist-form" v-if="list.edit_mode">
                                     <!-- New Todo list form -->
-                                    <todo-list-form :list="list" :index="index"></todo-list-form>
+                                    <new-task-list-form :list="list" index="0"></new-task-list-form>
                                 </div>
                             </header>
 
                             <!-- Todos component -->
-                            <tasks :list="list" :index="index"></tasks>
+                            <tasks :list="list" index="0"></tasks>
 
                             <footer class="cpm-row cpm-list-footer">
                                 <div class="cpm-col-6">
 
-                                    <div v-if="canUserCreateTask">
-                                        <new-task-button :task="{}" :list="list" :list_index="index"></new-task-button>
+                                    <div>
+                                        <new-task-button :task="{}" :list="list" list_index="0"></new-task-button>
                                     </div>
 
                                 </div>
@@ -97,7 +68,6 @@
                 <list-comments :comments="comments" :list="comment_list"></list-comments>
             </div>
         </div>
-        <router-view name="single_task"></router-view>
     </div>
 
 </template>
@@ -106,6 +76,8 @@
     
     import tasks from './tasks.vue';
     import list_comments from './list-comments.vue';
+    import new_task_list_form from './new-task-list-form.vue';
+    import new_task_button from './new-task-btn.vue';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -244,11 +216,20 @@
                 //     } 
                 // });
             },
+
+            showEditForm (list ) {
+                console.log(list);
+                list.edit_mode = list.edit_mode ? false : true;
+            },
         },
+
+
 
         components: {
             tasks: tasks,
-            'list-comments': list_comments
+            'list-comments': list_comments,
+            'new-task-list-form': new_task_list_form,
+            'new-task-button': new_task_button
         }
     }
 </script>

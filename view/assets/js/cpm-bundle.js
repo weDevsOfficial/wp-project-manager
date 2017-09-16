@@ -11232,7 +11232,7 @@ window.CPM_Component_jQuery = {
     data: function () {
         return {
             list_form_data: {},
-            project_id: this.$route.params.project_id
+            project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id
         };
     },
 
