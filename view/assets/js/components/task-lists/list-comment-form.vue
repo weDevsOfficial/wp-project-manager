@@ -112,8 +112,8 @@
 	         * @return string
 	         */
 	        editor_id: function() {
-	            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
-	                '' : '-' + this.comment.comment_ID;
+	            var comment_id = ( typeof this.comment.id == 'undefined' ) ? 
+	                '' : '-' + this.comment.id;
 	            return 'cpm-list-editor' + comment_id;
 	        },
 
@@ -158,19 +158,26 @@
 	            this.submit_disabled = true;
 
 	            var self      = this,
-	                is_update = typeof this.comment.comment_ID == 'undefined' ? false : true,
+	                is_update = typeof this.comment.id == 'undefined' ? false : true,
 	                form_data = {
 	                	commentable_type: 'task-list',
 	                    content: this.comment.content,
 	                    commentable_id: self.$route.params.list_id,
 	                };
 
+	            if (is_update) {
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id+'?content='+this.comment.content;
+	            	var type = "PUT";
+	            } else {
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
+	            	var type = "POST";
+	            }
 	            // Showing spinner    
 	            this.show_spinner = true;
 
 	            var request_data = {
-	            	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments',
-	            	type: 'POST',
+	            	url: url,
+	            	type: type,
 	            	data: form_data,
 	            	success (res) {
 	            		self.submit_disabled = false;

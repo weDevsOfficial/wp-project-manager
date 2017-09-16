@@ -51,9 +51,9 @@
 
 	                                </span>
 
-	                                <span :class="taskDateWrap( task.start_date, task.due_date)">
-	                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+	                                <span :class="taskDateWrap( task.start_at, task.due_date)">
+	                                    <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
+	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
 	                                    <span>{{ dateFormat( task.due_date ) }}</span>
 	                                </span>
 	                            </div>
@@ -70,11 +70,11 @@
 
 	                            </div>
 
-
-	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col" v-if="task.can_del_edit">
-	                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+	                            <!-- v-if="task.can_del_edit" -->
+	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
+	                                <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
-	                                <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                <a href="#" @click.prevent="taskEdit(task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 	                            </div>
 	                            <div class="clearfix"></div>
 	                        </div>
@@ -149,9 +149,9 @@
 
 	                                </span>
 
-	                                <span :class="completedTaskWrap( task.start_date, task.due_date )">
-	                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+	                                <span :class="completedTaskWrap( task.start_at, task.due_date )">
+	                                    <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
+	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
 	                                    <span>{{ dateFormat( task.due_date ) }}</span>
 	                                </span>
 	                            </div>
@@ -264,10 +264,10 @@
 	                                    v-html="user.user_url" :key="user.ID">
 
 	                                </span>
-
-	                                <span :class="taskDateWrap( task.start_date, task.due_date)">
-	                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+	                                
+	                                <span :class="taskDateWrap( task.start_at, task.due_date)">
+	                                    <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
+	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
 	                                    <span>{{ dateFormat( task.due_date ) }}</span>
 	                                </span>
 	                            </div>
@@ -292,18 +292,19 @@
 
 	                            </div>
 
-
-	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col" v-if="task.can_del_edit">
+	                            <!-- v-if="task.can_del_edit" -->
+	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
 	                                
 	                                    <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-	                                    <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+	                                    <a href="#" @click.prevent="taskEdit(task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                    <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
-	                                    <a href="#" @click.prevent="taskEdit( task.ID )" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 
 	                            </div>
 	                            <div class="clearfix"></div>
 	                        </div>
 	                    </div>
+
 	                    <div class="cpm-todo-form" v-if="task.edit_mode">
 	                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
 	                    </div>
@@ -349,9 +350,9 @@
 
 	                                </span>
 
-	                                <span :class="completedTaskWrap( task.start_date, task.due_date )">
-	                                    <span v-if="task_start_field">{{ dateFormat( task.start_date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
+	                                <span :class="completedTaskWrap( task.start_at, task.due_date )">
+	                                    <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
+	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
 	                                    <span>{{ dateFormat( task.due_date ) }}</span>
 	                                </span>
 	                            </div>
@@ -367,7 +368,7 @@
 
 
 	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-	                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+	                                <a href="#" @click.prevent="deleteTask( task )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                            </div>
 	                            <div class="clearfix"></div>
 	                        </div>
@@ -549,23 +550,7 @@
 	                return ( task.completed == '1' || task.completed );
 	            }); 
 	        },
-	        /**
-	         * Show task edit form
-	         * 
-	         * @param  int task_index 
-	         * 
-	         * @return void            
-	         */
-	        taskEdit: function( task_id ) {
-
-	            var self = this,
-	                lists = this.$store.state.lists,
-	                list_index = this.getIndex( lists, this.list.ID, 'ID' )
-	                task_index = this.getIndex( self.list.tasks, task_id, 'ID' );
-	            
-	                self.showHideTaskForm( list_index, task_index );
-	        },
-
+	       
 	        /**
 	         * Class for showing task private incon
 	         * 

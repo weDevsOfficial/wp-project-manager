@@ -1,5 +1,6 @@
 <template>
 	<div :class="'cpm-task-edit-form cpm-slide-'+task.id">
+
 	      <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
 	      
 	        <div class="item task-title">
@@ -14,7 +15,7 @@
 	            
 	            <div class="cpm-task-start-field" v-if="task_start_field">
 	                <label>Start Date</label>
-	                <cpm-datepickter v-model="task.start_date" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
+	                <cpm-datepickter v-model="task.start_at" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
 	                
 	            </div>
 	            
@@ -48,7 +49,7 @@
 	            <span class="cpm-new-task-spinner"></span>
 	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="Update Task"></span>
 	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="New Task"></span>
-	            <a @click.prevent="showHideTaskFrom(list)" class="button todo-cancel" href="#">Cancel</a>
+	            <a @click.prevent="taskEdit(task)" class="button todo-cancel" href="#">Cancel</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
@@ -94,7 +95,7 @@
 
 	    watch: {
 	        date_from: function(new_date) {
-	            this.task.start_date = new_date;
+	            this.task.start_at = new_date;
 	        },
 
 	        date_to: function(new_date) {
@@ -184,7 +185,7 @@
 	        getDatePicker: function( data ) {
 	            
 	            if ( data.field == 'datepicker_from' ) {
-	                //this.task.start_date = data.date;
+	                //this.task.start_at = data.date;
 	            }
 
 	            if ( data.field == 'datepicker_to' ) {
@@ -236,24 +237,30 @@
 	                is_update = typeof this.task.id == 'undefined' ? false : true,
 	                
 	                form_data = {
-	                	project_id: self.project_id,
 	                    board_id: this.list.id,
 	                    assign: this.task.assigned_to,
 	                    title: this.task.title,
 	                    description: this.task.description,
-	                    start_at: this.task.start_date,
+	                    start_at: this.task.start_at,
 	                    due_date: this.task.due_date,
 	                    task_privacy: this.task.task_privacy,
 	                    list_id: this.list.id,
-	                    task_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
 	                };
 	            
 	            // Showing loading option 
 	            this.show_spinner = true;
 
+	            if (is_update) {
+	            	var url = 'http://localhost/api/wp-json/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+	            	var type = 'PUT'; 
+	            } else {
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
+	            	var type = 'POST';
+	            }
+
 	            var request_data = {
-	            	url: self.base_url + '/cpm/v2/projects/1/tasks',
-	            	type: 'POST',
+	            	url: url,
+	            	type: type,
 	            	data: form_data,
 	            	success (res) {
 
@@ -262,28 +269,9 @@
 	                    // Display a success toast, with a title
 	                    toastr.success(res.data.success);
 
-	                    if ( form_data.task_id ) {
-	                        self.list.tasks.map(function( task, index ) {
-	                            if ( task.ID == form_data.task_id ) {
-	                                self.showHideTaskFrom( self.list );
-	                            }
-	                        }); 
-	                        
-	                    } else {
-	                        // Hide the todo list update form
-	                        self.showHideTaskFrom( self.list );  
-	                        self.task_privacy = false;  
-	                    }
-	                    
-	                    if ( ! form_data.task_id ) {
-	                    	self.list.push(res.data);
-	                        //var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
-	                        // Update vuex state lists after insert or update task 
-	                       // self.$store.commit( 'update_task', { res: res, list_index: list_index, is_update: is_update } );    
-	                    }
+	                   
 	                    self.submit_disabled = false;
-	                    
-	                    //self.$forceUpdate();
+	                    self.taskEdit(self.task, self.list);
 	            	},
 
 	            	error (res) {
@@ -296,7 +284,7 @@
 	                    self.submit_disabled = false;
 	            	}
 	            }
-
+	            
 	            self.httpRequest(request_data);
 	        }
 	    }

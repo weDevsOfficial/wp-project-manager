@@ -371,25 +371,25 @@ var PM_Task_Mixin = {
          * 
          * @return void            
          */
-        showHideListCommentEditForm: function( comment_id ) {
-            var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
-                self = this;
+        // showHideListCommentEditForm: function( comment_id ) {
+        //     var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
+        //         self = this;
 
-            var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
+        //     var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
 
-            if ( edit_mode ) {
-                CPM_Component_jQuery.slide( comment_id, function() {
-                    self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-                });
+        //     if ( edit_mode ) {
+        //         CPM_Component_jQuery.slide( comment_id, function() {
+        //             self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
+        //         });
             
-            } else {
-                self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
+        //     } else {
+        //         self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
                 
-                Vue.nextTick( function() {
-                    CPM_Component_jQuery.slide( comment_id );
-                } );
-            }
-        },
+        //         Vue.nextTick( function() {
+        //             CPM_Component_jQuery.slide( comment_id );
+        //         } );
+        //     }
+        // },
 
         /**
          * Show hide todo-list edit form
@@ -896,7 +896,24 @@ var PM_Task_Mixin = {
 
         showHideTaskFrom (list) {
             list.show_task_form = list.show_task_form ? false : true;
-        }
+        },
+
+        /**
+         * Show task edit form
+         * 
+         * @param  int task_index 
+         * 
+         * @return void            
+         */
+        taskEdit: function( task, list) {
+            var list = list || false;
+            task.edit_mode = task.edit_mode ? false : true;
+
+            if (list) {
+                list.show_task_form = false; 
+            }
+        },
+
 	}
 }
 

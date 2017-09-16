@@ -1,5 +1,6 @@
 <template>
 	<div>
+        <pm-header></pm-header>
         <!-- Spinner before load task -->
       <div v-if="loading" class="cpm-data-load-before" >
             <div class="loadmoreanimation">
@@ -14,7 +15,19 @@
         </div>
  
         <div v-else>
-            <router-link class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist" to="/"><i class="fa fa-angle-left"></i>Back to Task Lists</router-link>
+
+            <router-link  
+                class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist"
+                :to="{ 
+                    name: 'task_lists', 
+                    params: { 
+                        project_id: project_id,
+                    }
+                }">
+
+                <i class="fa fa-angle-left"></i>Back to Task Lists
+            </router-link>
+            
 
             <div v-if="render_tmpl">
                 <ul class="cpm-todolists">
@@ -24,7 +37,7 @@
                         <article class="cpm-todolist">
                             <header class="cpm-list-header">
                                 <h3>
-                                    <router-link :to="{ name: 'single-list', params: { list_id: list.ID }}">{{ list.title }}</router-link>
+                                    {{ list.title }}
                                     <span :class="privateClass(list)"></span>
                                     <div class="cpm-right">
                                         <a href="#" @click.prevent="showEditForm( list )" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
@@ -65,7 +78,7 @@
                     </li>
                 </ul>
                 <router-view name="single_task"></router-view>
-                <list-comments :comments="comments" :list="comment_list"></list-comments>
+                <list-comments :comments="comments" :list="list"></list-comments>
             </div>
         </div>
     </div>
@@ -78,6 +91,7 @@
     import list_comments from './list-comments.vue';
     import new_task_list_form from './new-task-list-form.vue';
     import new_task_button from './new-task-btn.vue';
+    import header from './../header.vue';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -96,7 +110,8 @@
                 list: {},
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
-                loading: true
+                loading: true,
+                comments: []
             }
         },
 
@@ -149,21 +164,21 @@
                 return this.$store.state.init;
             },
 
-            comments: function() {
-                if ( this.$store.state.lists.length ) {
-                    return this.$store.state.lists[0].comments;
-                }
+            // comments: function() {
+            //     if ( this.$store.state.lists.length ) {
+            //         return this.$store.state.lists[0].comments;
+            //     }
 
-                return [];
-            },
+            //     return [];
+            // },
 
-            comment_list: function() {
-                if ( this.$store.state.lists.length ) {
-                    return this.$store.state.lists[0];
-                }
+            // comment_list: function() {
+            //     if ( this.$store.state.lists.length ) {
+            //         return this.$store.state.lists[0];
+            //     }
 
-                return {};
-            }
+            //     return {};
+            // }
 
         },
 
@@ -180,9 +195,10 @@
                 
                 var list_id = self.$route.params.list_id;
                 var request = {
-                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks',
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
                     success (res) {
                         self.list = res.data;
+                        self.comments = res.data.comments.data;
                     }
                 };
                 self.httpRequest(request);
@@ -229,7 +245,8 @@
             tasks: tasks,
             'list-comments': list_comments,
             'new-task-list-form': new_task_list_form,
-            'new-task-button': new_task_button
+            'new-task-button': new_task_button,
+            'pm-header': header
         }
     }
 </script>

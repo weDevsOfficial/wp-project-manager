@@ -176,11 +176,8 @@
 	                    });
 	            	},
 	            }
-console.log(request_data);
+
 	            self.httpRequest(request_data);
-	            
-
-
 	        },
 	    }
 	}

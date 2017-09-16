@@ -1,5 +1,8 @@
 <template>
+	<div>
+		<pm-header></pm-header>
 	<div id="cpm-task-el" class="cpm-task-container wrap">
+		
 		<new-task-list-btn></new-task-list-btn>
 		<new-task-list-form :list="{}" :index="0"></new-task-list-form>
 		<!-- <pre>{{ lists }}</pre> -->
@@ -77,6 +80,7 @@
             
         </pm-pagination> 
 	</div>
+</div>
 </template>
 
 <script>
@@ -84,6 +88,7 @@
 	import new_task_list_form from './new-task-list-form.vue';
 	import new_task_button from './new-task-btn.vue';
 	import pagination from './../pagination.vue';
+	import header from './../header.vue';
 	import tasks from './tasks.vue';
 	
 	export default {
@@ -100,6 +105,7 @@
 			'new-task-list-form': new_task_list_form,
 			'new-task-button': new_task_button,
 			'pm-pagination': pagination,
+			'pm-header': header,
 			'tasks': tasks
 		},
 

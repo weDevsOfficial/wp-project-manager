@@ -84,7 +84,7 @@ class Task_Controller {
                 ->where( 'id', $data['task_id'] )
                 ->first();
         }
-
+ 
         if ( $task ) {
             $task->update( $data );
         }

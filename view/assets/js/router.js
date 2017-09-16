@@ -11,6 +11,7 @@ import progress from './components/progress/router';
 import settings from './components/settings/router';
 import overview from './components/overview/router';
 import activities from './components/activities/router';
+import files from './components/files/router';
 import {task_lists, single_list} from './components/task-lists/router';
 import {discussions, single_discussion} from './components/discussions/router';
 import {milestones, single_milestone} from './components/milestones/router';
@@ -32,6 +33,7 @@ weDevs_PM_Routers.push(milestones);
 weDevs_PM_Routers.push(single_milestone);
 weDevs_PM_Routers.push(task_lists);
 weDevs_PM_Routers.push(single_list);
+weDevs_PM_Routers.push(files);
 
 Vue.use(Router);
 

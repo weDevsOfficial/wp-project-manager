@@ -7,12 +7,13 @@
 		<pm-milestones></pm-milestones>
 		<pm-categories></pm-categories>
 		<pm-task-lists></pm-task-lists>
-		<!-- <router-view name="add-ons"></router-view>
+		<pm-files></pm-files>
+		<router-view name="add-ons"></router-view>
 		<router-view name="my-tasks"></router-view>
 		<router-view name="calendar"></router-view>
 		<router-view name="reports"></router-view>
 		<router-view name="progress"></router-view>
-		<router-view name="settings"></router-view> -->
+		<router-view name="settings"></router-view>
 	</div>
 </template>
 
@@ -24,6 +25,7 @@
 	import milestones from './milestones/index.vue';
 	import categories from './categories/index.vue';
 	import task_lists from './task-lists/index.vue';
+	import files from './files/index.vue';
 
 	export default {
 		components: {
@@ -33,7 +35,8 @@
 			'pm-activities': activities,
 			'pm-milestones': milestones,
 			'pm-categories': categories,
-			'pm-task-lists': task_lists
+			'pm-task-lists': task_lists,
+			'pm-files': files
 		}
 		
 	}

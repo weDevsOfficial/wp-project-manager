@@ -52,6 +52,7 @@ class Task_Transformer extends TransformerAbstract {
             'parent_id'   => $item->category_id,
             'created_by'  => $item->created_by,
             'updated_by'  => $item->updated_by,
+            'edit_mode'   => false,
             'meta' => [
                 'total_comment' => $item->comments->count(),
                 'total_files'   => $item->files->count(),

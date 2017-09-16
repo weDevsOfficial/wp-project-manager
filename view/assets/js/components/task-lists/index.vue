@@ -8,8 +8,12 @@
 <script>
 	import store from './store';
 	import mixin from './mixin';
+	import header from './../header.vue';
 
 	export default {
-		store
+		store,
+		components: {
+			'pm-header': header
+		}
 	}
 </script>

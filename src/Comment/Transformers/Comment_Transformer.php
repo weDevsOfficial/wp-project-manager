@@ -21,6 +21,7 @@ class Comment_Transformer extends TransformerAbstract {
             'id'         => (int) $item->id,
             'content'    => $item->content,
             'created_by' => $item->created_by,
+            'edit_mode'  => false,
         ];
     }
 
