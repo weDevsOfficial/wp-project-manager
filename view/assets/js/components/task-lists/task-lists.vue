@@ -4,7 +4,7 @@
 	<div id="cpm-task-el" class="cpm-task-container wrap">
 		
 		<new-task-list-btn></new-task-list-btn>
-		<new-task-list-form v-if="is_active_list_form" :list="{}"></new-task-list-form>
+		<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
 		
 		<ul class="cpm-todolists">
         
@@ -30,7 +30,7 @@
 	                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
 	                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
 	                        <!-- New Todo list form -->
-	                        <new-task-list-form :list="list"></new-task-list-form>
+	                        <new-task-list-form section="lists" :list="list"></new-task-list-form>
 	                    </div>
 	                </header>
 
@@ -74,7 +74,7 @@
     	</ul>
     	<router-view name="lists_single_task"></router-view>
     	<pm-pagination 
-            :total_pages="total_pages" 
+            :total_pages="total_list_page" 
             :current_page_number="current_page_number" 
             component_name='list_pagination'>
             
@@ -118,7 +118,6 @@
 	            list: {},
 	            index: false,
 	            project_id: this.$route.params.project_id,
-	            total_pages: 0,
 	            current_page_number: 1,
 	        }
 	    },
@@ -180,25 +179,18 @@
 
 	        is_active_list_form () {
 	        	return this.$store.state.is_active_list_form;
+	        },
+
+	        total_list_page () {
+	        	return this.$store.state.total_list_page;
 	        }
 	    },
 
 	    methods: {
 
-	    	// getMilestones (self) {
-	    	// 	var request = {
-	     //         	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
-	     //         	success (res) {
-	     //         		self.$store.commit( 'setMilestones', res.data );
-	     //         	}
-	     //        };
-	     //        self.httpRequest(request);
-	    	// },
-
 	    	showEditForm (list, index) {
 	    		list.edit_mode = list.edit_mode ? false : true;
 	    	}
-
 	    }
 	}
 </script>

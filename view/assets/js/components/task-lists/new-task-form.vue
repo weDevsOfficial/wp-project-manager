@@ -49,7 +49,7 @@
 	            <span class="cpm-new-task-spinner"></span>
 	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="Update Task"></span>
 	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="New Task"></span>
-	            <a @click.prevent="showHideTaskFrom(list)" class="button todo-cancel" href="#">Cancel</a>
+	            <a @click.prevent="showHideTaskFrom(false, list, task)" class="button todo-cancel" href="#">Cancel</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
@@ -62,7 +62,7 @@
 	
 	export default {
 	    // Get passing data for this component. Remember only array and objects are
-	    props: ['list', 'list_index', 'task', 'task_index'],
+	    props: ['list', 'task'],
 
 
 
@@ -251,7 +251,7 @@
 	            this.show_spinner = true;
 
 	            if (is_update) {
-	            	var url = 'http://localhost/api/wp-json/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
 	            	var type = 'PUT'; 
 	            } else {
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
@@ -268,8 +268,7 @@
 
 	                    // Display a success toast, with a title
 	                    toastr.success(res.data.success);
-
-	                   
+                   
 	                    self.submit_disabled = false;
 	                    self.showHideTaskFrom(self.list, self.task);
 	            	},

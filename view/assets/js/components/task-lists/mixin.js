@@ -690,33 +690,30 @@ var PM_Task_Mixin = {
          * @return void             
          */
         taskDoneUndone: function( task, is_checked ) {
+            var self = this;
+            var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+task.id;
+            var type = 'PUT'; 
+
+            var form_data = {
+                'status': is_checked ? 1 : 0
+            }
             
-            var self = this,
-                form_data = {
-                    _wpnonce: PM_Vars.nonce,
-                    action: is_checked ? 'cpm_task_complete' : 'cpm_task_open',
-                    task_id: task.ID,
-                    project_id: PM_Vars.project_id
+            var request_data = {
+                url: url,
+                type: type,
+                data: form_data,
+                success (res) {
+                    if ( self.$store.state.is_single_list ) {
+                        var condition = 'incomplete_tasks,complete_tasks,comments';
+                        self.getList(self, self.list.id, condition);
+                    } else {
+                        self.getList(self, self.list.id );
+                    }
                 },
-                list_index = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
-                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' );
-
-            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-
-                if ( res.success ) {
-                    // Display a success message
-                    toastr.success(res.data.success);
-
-                    self.$store.commit( 'task_done_undone', { is_done: is_checked, list_index: list_index, task_index: task_index } );
-                    self.$root.$emit('cpm_after_task_done_open', { is_done: is_checked, list_index: list_index, task_index: task_index });
-                } else {
-                    // Showing error
-                    res.data.error.map( function( value, index ) {
-                        toastr.error(value);
-                        self.$store.commit( 'task_done_undone', { is_done: false, list_index: list_index, task_index: task_index } );
-                    });
-                }
-            });
+            }
+            
+            self.httpRequest(request_data);
+               
         },
 
         isEmptyObject: function(obj) {
@@ -902,27 +899,41 @@ var PM_Task_Mixin = {
          * 
          * @return void            
          */
-        showHideTaskFrom: function(list, task) {
+        showHideTaskFrom: function(status, list, task) {
             var list = list || false;
             var task = task || false;
             
             if ( task ) {
-               task.edit_mode = task.edit_mode ? false : true; 
+                if ( status === 'toggle' ) {
+                    task.edit_mode = task.edit_mode ? false : true; 
+                } else {
+                    task.edit_mode = status;
+                }
             }
             
             if (list) {
-                list.show_task_form = list.show_task_form ? false : true; 
+                if ( status === 'toggle' ) {
+                    list.show_task_form = list.show_task_form ? false : true; 
+                } else {
+                    list.show_task_form = status;
+                }
+                
             }
         },
 
         showHideListForm (status, list) {
-            var list = list || false;
-            
-            if ( list ) {
-                list.edit_mode = list.edit_mode ? false : true;
-            }
+            var list   = list || false,
+                list   = jQuery.isEmptyObject(list) ? false : list;
 
-            this.$store.commit('updateListFormStatus', status);
+            if ( list ) {
+                if ( status === 'toggle' ) {
+                    list.edit_mode = list.edit_mode ? false : true;
+                } else {
+                    list.edit_mode = status;
+                }
+            } else {
+                this.$store.commit('showHideListFormStatus', status);
+            }
         },
 
         getMilestones (self) {
@@ -934,6 +945,7 @@ var PM_Task_Mixin = {
             };
             self.httpRequest(request);
         },
+
         getLists (self) {
             var request = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
@@ -943,16 +955,17 @@ var PM_Task_Mixin = {
                     });
                     
                     self.$store.commit('setLists', res.data);
-                    
-                    self.total_pages = res.meta.pagination.total_pages;
+                    self.$store.commit('setTotalListPage', res.meta.pagination.total_pages);
                 }
             };
             self.httpRequest(request);
         },
 
-        getList (self, list_id, callback) {
+        getList (self, list_id, condition, callback) {
+            var condition = condition || 'incomplete_tasks';
+            
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
                 success (res) {
                     self.addMetaList(res.data);
                     self.$store.commit('setList', res.data);
@@ -975,7 +988,6 @@ var PM_Task_Mixin = {
             self.current_page_number = current_page_number;
             return current_page_number;
         },
-
 	}
 }
 

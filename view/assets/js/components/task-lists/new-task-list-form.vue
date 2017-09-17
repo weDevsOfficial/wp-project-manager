@@ -49,7 +49,7 @@
 
 	export default {
 	    // Get passing data for this component. Remember only array and objects are 
-	    props: ['list'],
+	    props: ['list', 'section'],
 
 	    /**
 	     * Initial data for this component
@@ -149,22 +149,37 @@
 
 	                    // Display a success message, with a title
 	                    toastr.success(res.data.success);
+	                    self.submit_disabled = false;
 
-	                    if ( self.$route.params.current_page_number > 1 && !is_update ) {
-	                    	// named route
-							self.$router.push({ 
-								name: 'task_lists', 
-								params: { 
-									project_id: self.project_id 
-								}
-							});
-							
-	                    } else if (is_update) {
-	                    	self.getList(self, self.list.id);
+	                    if (is_update) {
+	                    	self.showHideListForm(false, self.list);
+	                    } else {
+	                    	self.showHideListForm(false);
 	                    }
+							
+
+	                    if ( self.section === 'lists' ) {
+	                    	self.listsAfterNewList(self, res, is_update);
+	                    }
+
+	                    if ( self.section === 'single' ) {
+	                    	self.singleAfterNewList(self, res, is_update);
+	                    }
+
+	      //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
+	      //               	// named route
+							// self.$router.push({ 
+							// 	name: 'task_lists', 
+							// 	params: { 
+							// 		project_id: self.project_id 
+							// 	}
+							// });
+							
+	      //               } else if (is_update) {
+	      //               	self.getList(self, self.list.id);
+	      //               }
             			
-						self.submit_disabled = false;
-						self.showHideListForm(false, self.list);
+						
 	            	},
 
 	            	error (res) {
@@ -181,6 +196,33 @@
 
 	            self.httpRequest(request_data);
 	        },
+
+	        listsAfterNewList (self, res, is_update) {
+	        	if ( is_update ) {
+	        		self.getList(self, self.list.id);
+	        		return;
+	        	}
+
+				if ( self.$route.params.current_page_number > 1 ) {
+					// named route
+					self.$router.push({ 
+						name: 'task_lists', 
+						params: { 
+							project_id: self.project_id 
+						}
+					});
+					
+				} else {
+					self.getLists(self);
+				}
+	        },
+
+	        singleAfterNewList (self, res, is_update) {
+	        	if ( is_update ) {
+	        		var condition = 'incomplete_tasks,complete_tasks,comments';
+	        		self.getList(self, self.list.id, condition);
+	        	}
+	        }
 	    }
 	}
 </script>

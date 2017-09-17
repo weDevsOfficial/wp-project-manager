@@ -121,7 +121,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideTaskFrom(_vm.list)
+        _vm.showHideTaskFrom('toggle', _vm.list)
       }
     }
   }, [_vm._v("New Task")])])
@@ -200,8 +200,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "disabled": !_vm.is_assigned(task),
@@ -210,26 +210,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -297,7 +297,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskFrom(_vm.list, task)
+          _vm.showHideTaskFrom('toggle', false, task)
         }
       }
     }, [_c('span', {
@@ -309,9 +309,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getIncompleteTasks) ? _c('li', {
@@ -359,8 +357,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "type": "checkbox",
@@ -368,26 +366,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed, task_index)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -481,9 +479,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getCompletedTask) ? _c('li', {
@@ -513,9 +509,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('new-task-form', {
     attrs: {
       "task": {},
-      "task_index": _vm.task_index,
-      "list": _vm.list,
-      "list_index": _vm.index
+      "list": _vm.list
     }
   })], 1) : _vm._e()]) : _c('div', [_c('div', {
     staticClass: "cpm-incomplete-tasks"
@@ -540,8 +534,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "disabled": !_vm.is_assigned(task),
@@ -550,26 +544,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -651,7 +645,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskFrom(_vm.list, _vm.list, task)
+          _vm.showHideTaskFrom('toggle', false, task)
         }
       }
     }, [_c('span', {
@@ -676,9 +670,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getIncompleteTasks.length) ? _c('li', {
@@ -688,9 +680,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('new-task-form', {
     attrs: {
       "task": {},
-      "task_index": _vm.task_index,
-      "list": _vm.list,
-      "list_index": _vm.index
+      "list": _vm.list
     }
   })], 1) : _vm._e(), _vm._v(" "), (_vm.incomplete_show_load_more_btn) ? _c('li', {
     staticClass: "nonsortable"
@@ -734,8 +724,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "type": "checkbox",
@@ -743,26 +733,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed, task_index)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -838,9 +828,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getCompletedTask.length) ? _c('li', {
@@ -1043,7 +1031,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideTaskFrom(_vm.list)
+        _vm.showHideTaskFrom(false, _vm.list, _vm.task)
       }
     }
   }, [_vm._v("Cancel")]), _vm._v(" "), _c('span', {
@@ -1393,7 +1381,6 @@ if (false) {
 			list: {},
 			index: false,
 			project_id: this.$route.params.project_id,
-			total_pages: 0,
 			current_page_number: 1
 		};
 	},
@@ -1455,25 +1442,18 @@ if (false) {
 
 		is_active_list_form() {
 			return this.$store.state.is_active_list_form;
+		},
+
+		total_list_page() {
+			return this.$store.state.total_list_page;
 		}
 	},
 
 	methods: {
 
-		// getMilestones (self) {
-		// 	var request = {
-		//         	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
-		//         	success (res) {
-		//         		self.$store.commit( 'setMilestones', res.data );
-		//         	}
-		//        };
-		//        self.httpRequest(request);
-		// },
-
 		showEditForm(list, index) {
 			list.edit_mode = list.edit_mode ? false : true;
 		}
-
 	}
 });
 
@@ -1542,7 +1522,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideListForm(true)
+        _vm.showHideListForm('toggle')
       }
     }
   }, [(!_vm.show_list_form) ? _c('i', {
@@ -1582,6 +1562,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('new-task-list-btn'), _vm._v(" "), (_vm.is_active_list_form) ? _c('new-task-list-form', {
     attrs: {
+      "section": "lists",
       "list": {}
     }
   }) : _vm._e(), _vm._v(" "), _c('ul', {
@@ -1642,6 +1623,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "cpm-update-todolist-form"
     }, [_c('new-task-list-form', {
       attrs: {
+        "section": "lists",
         "list": list
       }
     })], 1) : _vm._e()]), _vm._v(" "), _c('tasks', {
@@ -1706,7 +1688,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('pm-pagination', {
     attrs: {
-      "total_pages": _vm.total_pages,
+      "total_pages": _vm.total_list_page,
       "current_page_number": _vm.current_page_number,
       "component_name": "list_pagination"
     }
@@ -1959,7 +1941,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'list_index', 'task', 'task_index'],
+    props: ['list', 'task'],
 
     /**
      * Initial data for this component
@@ -2144,7 +2126,7 @@ if (false) {(function () {
             this.show_spinner = true;
 
             if (is_update) {
-                var url = 'http://localhost/api/wp-json/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
                 var type = 'PUT';
             } else {
                 var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
@@ -2239,7 +2221,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     // Get passing data for this component. Remember only array and objects are 
-    props: ['list'],
+    props: ['list', 'section'],
 
     /**
      * Initial data for this component
@@ -2337,21 +2319,35 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 
                     // Display a success message, with a title
                     toastr.success(res.data.success);
+                    self.submit_disabled = false;
 
-                    if (self.$route.params.current_page_number > 1 && !is_update) {
-                        // named route
-                        self.$router.push({
-                            name: 'task_lists',
-                            params: {
-                                project_id: self.project_id
-                            }
-                        });
-                    } else if (is_update) {
-                        self.getList(self, self.list.id);
+                    if (is_update) {
+                        self.showHideListForm(false, self.list);
+                    } else {
+                        self.showHideListForm(false);
                     }
 
-                    self.submit_disabled = false;
-                    self.showHideListForm(false, self.list);
+                    if (self.section === 'lists') {
+                        self.listsAfterNewList(self, res, is_update);
+                    }
+
+                    if (self.section === 'single') {
+                        self.singleAfterNewList(self, res, is_update);
+                    }
+
+                    //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
+                    //               	// named route
+                    // self.$router.push({ 
+                    // 	name: 'task_lists', 
+                    // 	params: { 
+                    // 		project_id: self.project_id 
+                    // 	}
+                    // });
+
+                    //               } else if (is_update) {
+                    //               	self.getList(self, self.list.id);
+                    //               }
+
                 },
 
                 error(res) {
@@ -2367,6 +2363,32 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
             };
 
             self.httpRequest(request_data);
+        },
+
+        listsAfterNewList(self, res, is_update) {
+            if (is_update) {
+                self.getList(self, self.list.id);
+                return;
+            }
+
+            if (self.$route.params.current_page_number > 1) {
+                // named route
+                self.$router.push({
+                    name: 'task_lists',
+                    params: {
+                        project_id: self.project_id
+                    }
+                });
+            } else {
+                self.getLists(self);
+            }
+        },
+
+        singleAfterNewList(self, res, is_update) {
+            if (is_update) {
+                var condition = 'incomplete_tasks,complete_tasks,comments';
+                self.getList(self, self.list.id, condition);
+            }
         }
     }
 });
@@ -2783,7 +2805,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 /* harmony default export */ __webpack_exports__["a"] = ({
 
     // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'index'],
+    props: ['list'],
 
     /**
      * Initial data for this component
@@ -2860,15 +2882,13 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
          * @return array       
          */
         getIncompleteTasks: function () {
-            if (this.list.incomplete_tasks) return this.list.incomplete_tasks.data;
+            if (this.list.incomplete_tasks) {
+                this.list.incomplete_tasks.data.map(function (task, index) {
+                    task.status = false;
+                });
 
-            // if ( ! this.list.tasks ) {
-            //     return [];
-            // }
-
-            // return this.list.tasks.filter(function( task ) {
-            //     return ( task.completed == '0' || !task.completed );
-            // });
+                return this.list.incomplete_tasks.data;
+            }
         },
 
         /**
@@ -2879,7 +2899,13 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
          * @return array       
          */
         getCompletedTask: function () {
-            if (this.list.complete_tasks) return this.list.complete_tasks.data;
+            if (this.list.complete_tasks) {
+                this.list.complete_tasks.data.map(function (task, index) {
+                    task.status = true;
+                });
+
+                return this.list.complete_tasks.data;
+            }
         }
     },
 

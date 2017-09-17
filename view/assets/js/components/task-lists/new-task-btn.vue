@@ -1,6 +1,6 @@
 <template>
 	<div :class="newTaskBtnClass()">
-		<a @click.prevent="showHideTaskFrom(list)" href="#">New Task</a>
+		<a @click.prevent="showHideTaskFrom('toggle', list)" href="#">New Task</a>
 	</div>
 </template>
 

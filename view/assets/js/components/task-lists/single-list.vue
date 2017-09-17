@@ -39,7 +39,7 @@
                                     {{ list.title }}
                                     <span :class="privateClass(list)"></span>
                                     <div class="cpm-right">
-                                        <a href="#" @click.prevent="showHideListForm(false, list)" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="<?php _e( 'Delete this List', 'cpm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                                     </div>
                                 </h3>
@@ -51,7 +51,7 @@
                                 <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
                                 <div class="cpm-update-todolist-form" v-if="list.edit_mode">
                                     <!-- New Todo list form -->
-                                    <new-task-list-form :list="list" index="0"></new-task-list-form>
+                                    <new-task-list-form :list="list" section="single"></new-task-list-form>
                                 </div>
                             </header>
 
@@ -111,7 +111,7 @@
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
                 loading: true,
-                comments: []
+                //comments: []
             }
         },
 
@@ -124,7 +124,7 @@
         created: function() {
             // this.loading = false;
             // this.render_tmpl = true;
-            // this.$store.state.is_single_list = true;
+            this.$store.state.is_single_list = true;
             // return;
             // var self = this;
             
@@ -151,6 +151,10 @@
              */
             milestones: function() {
                 return this.$store.state.milestones;
+            },
+
+            comments () {
+                return this.$store.state.lists[0].comments.data;
             },
 
             /**
@@ -190,10 +194,10 @@
              * @return void         
              */
             getIndividualList: function(self) {
-
-                self.getList(self, self.$route.params.list_id, function(res) {
+                var condition = 'incomplete_tasks,complete_tasks,comments';
+                
+                self.getList(self, self.$route.params.list_id, condition, function(res) {
                     self.loading = false;
-
                 });
                 // var request = {
                 //     url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',

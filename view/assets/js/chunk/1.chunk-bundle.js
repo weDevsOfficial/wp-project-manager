@@ -64,7 +64,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideTaskFrom(_vm.list)
+        _vm.showHideTaskFrom('toggle', _vm.list)
       }
     }
   }, [_vm._v("New Task")])])
@@ -143,8 +143,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "disabled": !_vm.is_assigned(task),
@@ -153,26 +153,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -240,7 +240,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskFrom(_vm.list, task)
+          _vm.showHideTaskFrom('toggle', false, task)
         }
       }
     }, [_c('span', {
@@ -252,9 +252,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getIncompleteTasks) ? _c('li', {
@@ -302,8 +300,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "type": "checkbox",
@@ -311,26 +309,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed, task_index)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -424,9 +422,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getCompletedTask) ? _c('li', {
@@ -456,9 +452,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('new-task-form', {
     attrs: {
       "task": {},
-      "task_index": _vm.task_index,
-      "list": _vm.list,
-      "list_index": _vm.index
+      "list": _vm.list
     }
   })], 1) : _vm._e()]) : _c('div', [_c('div', {
     staticClass: "cpm-incomplete-tasks"
@@ -483,8 +477,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "disabled": !_vm.is_assigned(task),
@@ -493,26 +487,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -594,7 +588,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskFrom(_vm.list, _vm.list, task)
+          _vm.showHideTaskFrom('toggle', false, task)
         }
       }
     }, [_c('span', {
@@ -619,9 +613,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getIncompleteTasks.length) ? _c('li', {
@@ -631,9 +623,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('new-task-form', {
     attrs: {
       "task": {},
-      "task_index": _vm.task_index,
-      "list": _vm.list,
-      "list_index": _vm.index
+      "list": _vm.list
     }
   })], 1) : _vm._e(), _vm._v(" "), (_vm.incomplete_show_load_more_btn) ? _c('li', {
     staticClass: "nonsortable"
@@ -677,8 +667,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (task.completed),
-        expression: "task.completed"
+        value: (task.status),
+        expression: "task.status"
       }],
       attrs: {
         "type": "checkbox",
@@ -686,26 +676,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": ""
       },
       domProps: {
-        "checked": Array.isArray(task.completed) ? _vm._i(task.completed, "") > -1 : (task.completed)
+        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
       },
       on: {
         "click": function($event) {
-          _vm.taskDoneUndone(task, task.completed, task_index)
+          _vm.taskDoneUndone(task, task.status)
         },
         "__c": function($event) {
-          var $$a = task.completed,
+          var $$a = task.status,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = "",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (task.completed = $$a.concat($$v))
+              $$i < 0 && (task.status = $$a.concat($$v))
             } else {
-              $$i > -1 && (task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            task.completed = $$c
+            task.status = $$c
           }
         }
       }
@@ -781,9 +771,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('new-task-form', {
       attrs: {
         "task": task,
-        "task_index": task_index,
-        "list": _vm.list,
-        "list_index": _vm.index
+        "list": _vm.list
       }
     })], 1) : _vm._e()])])
   }), _vm._v(" "), (!_vm.getCompletedTask.length) ? _c('li', {
@@ -986,7 +974,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideTaskFrom(_vm.list)
+        _vm.showHideTaskFrom(false, _vm.list, _vm.task)
       }
     }
   }, [_vm._v("Cancel")]), _vm._v(" "), _c('span', {
@@ -1301,235 +1289,237 @@ if (false) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    // Get passing data for this component. 
-    props: ['comment', 'list'],
+																							// Get passing data for this component. 
+																							props: ['comment', 'list'],
 
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
-            content: {
-                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
-            },
-            notify_co_workers: [],
-            notify_all_co_worker: false,
-            show_spinner: false,
-            submit_disabled: false
-        };
-    },
+																							/**
+                        * Initial data for this component
+                        * 
+                        * @return obj
+                        */
+																							data: function () {
+																																														return {
+																																																																					files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
+																																																																					content: {
+																																																																																												html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
+																																																																					},
+																																																																					notify_co_workers: [],
+																																																																					notify_all_co_worker: false,
+																																																																					show_spinner: false,
+																																																																					submit_disabled: false
+																																														};
+																							},
 
-    /**
-     * Observe onchange value
-     */
-    watch: {
-        /**
-         * Observed comment file change
-         * 
-         * @param  array new_files 
-         * 
-         * @return void           
-         */
-        files: function (new_files) {
-            this.comment.files = new_files;
-        },
+																							/**
+                        * Observe onchange value
+                        */
+																							watch: {
+																																														/**
+                                               * Observed comment file change
+                                               * 
+                                               * @param  array new_files 
+                                               * 
+                                               * @return void           
+                                               */
+																																														files: function (new_files) {
+																																																																					this.comment.files = new_files;
+																																														},
 
-        /**
-         * Observe onchange comment message
-         *
-         * @param string new_content 
-         * 
-         * @type void
-         */
-        content: {
-            handler: function (new_content) {
-                this.comment.content = new_content.html;
-            },
+																																														/**
+                                               * Observe onchange comment message
+                                               *
+                                               * @param string new_content 
+                                               * 
+                                               * @type void
+                                               */
+																																														content: {
+																																																																					handler: function (new_content) {
+																																																																																												this.comment.content = new_content.html;
+																																																																					},
 
-            deep: true
-        }
+																																																																					deep: true
+																																														}
 
-    },
+																							},
 
-    components: {
-        'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
-        'file-uploader': __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__["a" /* default */]
-    },
+																							components: {
+																																														'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
+																																														'file-uploader': __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__["a" /* default */]
+																							},
 
-    /**
-     * Unassigned varable value
-     */
-    computed: {
-        /**
-         * Editor ID
-         * 
-         * @return string
-         */
-        editor_id: function () {
-            var comment_id = typeof this.comment.id == 'undefined' ? '' : '-' + this.comment.id;
-            return 'cpm-list-editor' + comment_id;
-        },
+																							/**
+                        * Unassigned varable value
+                        */
+																							computed: {
+																																														/**
+                                               * Editor ID
+                                               * 
+                                               * @return string
+                                               */
+																																														editor_id: function () {
+																																																																					var comment_id = typeof this.comment.id == 'undefined' ? '' : '-' + this.comment.id;
+																																																																					return 'cpm-list-editor' + comment_id;
+																																														},
 
-        /**
-         * Get current projects co-worker
-         * 
-         * @return object
-         */
-        co_workers: function () {
-            return this.get_porject_users_by_role('co_worker');
-        },
+																																														/**
+                                               * Get current projects co-worker
+                                               * 
+                                               * @return object
+                                               */
+																																														co_workers: function () {
+																																																																					return this.get_porject_users_by_role('co_worker');
+																																														},
 
-        /**
-         * Check has co-worker in project or not
-         * 
-         * @return boolean
-         */
-        hasCoWorker: function () {
-            var co_worker = this.get_porject_users_by_role('co_worker');
+																																														/**
+                                               * Check has co-worker in project or not
+                                               * 
+                                               * @return boolean
+                                               */
+																																														hasCoWorker: function () {
+																																																																					var co_worker = this.get_porject_users_by_role('co_worker');
 
-            if (co_worker.length) {
-                return true;
-            }
+																																																																					if (co_worker.length) {
+																																																																																												return true;
+																																																																					}
 
-            return false;
-        }
-    },
+																																																																					return false;
+																																														}
+																							},
 
-    methods: {
-        /**
-         * Insert and update todo-list comment
-         * 
-         * @return void
-         */
-        updateComment: function () {
-            // Prevent sending request when multiple click submit button 
-            if (this.submit_disabled) {
-                return;
-            }
+																							methods: {
+																																														/**
+                                               * Insert and update todo-list comment
+                                               * 
+                                               * @return void
+                                               */
+																																														updateComment: function () {
+																																																																					// Prevent sending request when multiple click submit button 
+																																																																					if (this.submit_disabled) {
+																																																																																												return;
+																																																																					}
 
-            // Make disable submit button
-            this.submit_disabled = true;
+																																																																					// Make disable submit button
+																																																																					this.submit_disabled = true;
 
-            var self = this,
-                is_update = typeof this.comment.id == 'undefined' ? false : true,
-                form_data = {
-                commentable_type: 'task-list',
-                content: this.comment.content,
-                commentable_id: self.$route.params.list_id
-            };
+																																																																					var self = this,
+																																																																					    is_update = typeof this.comment.id == 'undefined' ? false : true,
+																																																																					    form_data = {
+																																																																																												commentable_type: 'task-list',
+																																																																																												content: this.comment.content,
+																																																																																												commentable_id: self.$route.params.list_id
+																																																																					};
 
-            if (is_update) {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + this.comment.id + '?content=' + this.comment.content;
-                var type = "PUT";
-            } else {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments';
-                var type = "POST";
-            }
-            // Showing spinner    
-            this.show_spinner = true;
+																																																																					if (is_update) {
+																																																																																												var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + this.comment.id + '?content=' + this.comment.content;
+																																																																																												var type = "PUT";
+																																																																					} else {
+																																																																																												var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments';
+																																																																																												var type = "POST";
+																																																																					}
+																																																																					// Showing spinner    
+																																																																					this.show_spinner = true;
 
-            var request_data = {
-                url: url,
-                type: type,
-                data: form_data,
-                success(res) {
-                    self.submit_disabled = false;
-                },
-                error(res) {
-                    self.submit_disabled = false;
-                }
-            };
+																																																																					var request_data = {
+																																																																																												url: url,
+																																																																																												type: type,
+																																																																																												data: form_data,
+																																																																																												success(res) {
+																																																																																																																			var condition = 'incomplete_tasks,complete_tasks,comments';
+																																																																																																																			self.getList(self, self.list.id, condition);
+																																																																																																																			self.submit_disabled = false;
+																																																																																												},
+																																																																																												error(res) {
+																																																																																																																			self.submit_disabled = false;
+																																																																																												}
+																																																																					};
 
-            self.httpRequest(request_data);
-            // Sending request for add and update comment
-            // jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
+																																																																					self.httpRequest(request_data);
+																																																																					// Sending request for add and update comment
+																																																																					// jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
 
-            //     self.show_spinner    = false;
-            //     self.submit_disabled = false;
+																																																																					//     self.show_spinner    = false;
+																																																																					//     self.submit_disabled = false;
 
-            //     if ( res.success ) {
+																																																																					//     if ( res.success ) {
 
-            //         if ( ! is_update ) {
-            //             // After getting todo list, set it to vuex state lists
-            //             self.$store.commit( 'update_todo_list_comment', { 
-            //                 list_id: self.list.ID,
-            //                 comment: res.data.comment,
-            //             });
+																																																																					//         if ( ! is_update ) {
+																																																																					//             // After getting todo list, set it to vuex state lists
+																																																																					//             self.$store.commit( 'update_todo_list_comment', { 
+																																																																					//                 list_id: self.list.ID,
+																																																																					//                 comment: res.data.comment,
+																																																																					//             });
 
-            //             self.files = [];
-            //             self.content.html = '';
+																																																																					//             self.files = [];
+																																																																					//             self.content.html = '';
 
-            //             self.$root.$emit( 'after_comment' );
+																																																																					//             self.$root.$emit( 'after_comment' );
 
-            //         } else {
-            //             self.showHideListCommentEditForm( self.comment.comment_ID );
-            //         }
+																																																																					//         } else {
+																																																																					//             self.showHideListCommentEditForm( self.comment.comment_ID );
+																																																																					//         }
 
-            //         // Display a success toast, with a title
-            //         //toastr.success(res.data.success);
-            //     } else {
+																																																																					//         // Display a success toast, with a title
+																																																																					//         //toastr.success(res.data.success);
+																																																																					//     } else {
 
-            //         // Showing error
-            //         res.data.error.map( function( value, index ) {
-            //             toastr.error(value);
-            //         });
-            //     } 
-            // });
-        },
+																																																																					//         // Showing error
+																																																																					//         res.data.error.map( function( value, index ) {
+																																																																					//             toastr.error(value);
+																																																																					//         });
+																																																																					//     } 
+																																																																					// });
+																																														},
 
-        /**
-         * Get files id array from file object
-         * 
-         * @param  object files 
-         * 
-         * @return array       
-         */
-        filtersOnlyFileID: function (files) {
-            if (typeof files == 'undefined') {
-                return [];
-            }
+																																														/**
+                                               * Get files id array from file object
+                                               * 
+                                               * @param  object files 
+                                               * 
+                                               * @return array       
+                                               */
+																																														filtersOnlyFileID: function (files) {
+																																																																					if (typeof files == 'undefined') {
+																																																																																												return [];
+																																																																					}
 
-            return files.map(function (file) {
-                return file.id;
-            });
-        },
+																																																																					return files.map(function (file) {
+																																																																																												return file.id;
+																																																																					});
+																																														},
 
-        /**
-         * Check select all check box enable or disabled. for notify users
-         * 
-         * @param  int user_id 
-         * 
-         * @return void         
-         */
-        notify_coo_workers: function (user_id) {
-            var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
-                notify_co_worker_length = this.notify_co_workers.length;
+																																														/**
+                                               * Check select all check box enable or disabled. for notify users
+                                               * 
+                                               * @param  int user_id 
+                                               * 
+                                               * @return void         
+                                               */
+																																														notify_coo_workers: function (user_id) {
+																																																																					var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
+																																																																					    notify_co_worker_length = this.notify_co_workers.length;
 
-            if (co_worker_length != notify_co_worker_length) {
-                this.notify_all_co_worker = false;
-            }
+																																																																					if (co_worker_length != notify_co_worker_length) {
+																																																																																												this.notify_all_co_worker = false;
+																																																																					}
 
-            if (co_worker_length === notify_co_worker_length) {
-                this.notify_all_co_worker = true;
-            }
-        },
+																																																																					if (co_worker_length === notify_co_worker_length) {
+																																																																																												this.notify_all_co_worker = true;
+																																																																					}
+																																														},
 
-        /**
-         * Is notification send all co-worker or not
-         */
-        notify_all_coo_worker: function () {
+																																														/**
+                                               * Is notification send all co-worker or not
+                                               */
+																																														notify_all_coo_worker: function () {
 
-            if (this.notify_all_co_worker) {
-                this.notify_co_workers = [];
-                this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
-            } else {
-                this.notify_co_workers = [];
-            }
-        }
-    }
+																																																																					if (this.notify_all_co_worker) {
+																																																																																												this.notify_co_workers = [];
+																																																																																												this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
+																																																																					} else {
+																																																																																												this.notify_co_workers = [];
+																																																																					}
+																																														}
+																							}
 });
 
 /***/ }),
@@ -1763,8 +1753,8 @@ if (false) {
             //list: {},
             render_tmpl: false,
             task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
-            loading: true,
-            comments: []
+            loading: true
+            //comments: []
         };
     },
 
@@ -1776,7 +1766,7 @@ if (false) {
     created: function () {
         // this.loading = false;
         // this.render_tmpl = true;
-        // this.$store.state.is_single_list = true;
+        this.$store.state.is_single_list = true;
         // return;
         // var self = this;
 
@@ -1803,6 +1793,10 @@ if (false) {
          */
         milestones: function () {
             return this.$store.state.milestones;
+        },
+
+        comments() {
+            return this.$store.state.lists[0].comments.data;
         },
 
         /**
@@ -1842,8 +1836,9 @@ if (false) {
          * @return void         
          */
         getIndividualList: function (self) {
+            var condition = 'incomplete_tasks,complete_tasks,comments';
 
-            self.getList(self, self.$route.params.list_id, function (res) {
+            self.getList(self, self.$route.params.list_id, condition, function (res) {
                 self.loading = false;
             });
             // var request = {
@@ -2394,7 +2389,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideListForm(false, _vm.list)
+        _vm.showHideListForm('toggle', _vm.list)
       }
     }
   }, [_c('span', {
@@ -2422,7 +2417,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('new-task-list-form', {
     attrs: {
       "list": _vm.list,
-      "index": "0"
+      "section": "single"
     }
   })], 1) : _vm._e()]), _vm._v(" "), _c('tasks', {
     attrs: {
@@ -2889,7 +2884,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'list_index', 'task', 'task_index'],
+    props: ['list', 'task'],
 
     /**
      * Initial data for this component
@@ -3074,7 +3069,7 @@ if (false) {(function () {
             this.show_spinner = true;
 
             if (is_update) {
-                var url = 'http://localhost/api/wp-json/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
                 var type = 'PUT';
             } else {
                 var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
@@ -3169,7 +3164,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     // Get passing data for this component. Remember only array and objects are 
-    props: ['list'],
+    props: ['list', 'section'],
 
     /**
      * Initial data for this component
@@ -3267,21 +3262,35 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 
                     // Display a success message, with a title
                     toastr.success(res.data.success);
+                    self.submit_disabled = false;
 
-                    if (self.$route.params.current_page_number > 1 && !is_update) {
-                        // named route
-                        self.$router.push({
-                            name: 'task_lists',
-                            params: {
-                                project_id: self.project_id
-                            }
-                        });
-                    } else if (is_update) {
-                        self.getList(self, self.list.id);
+                    if (is_update) {
+                        self.showHideListForm(false, self.list);
+                    } else {
+                        self.showHideListForm(false);
                     }
 
-                    self.submit_disabled = false;
-                    self.showHideListForm(false, self.list);
+                    if (self.section === 'lists') {
+                        self.listsAfterNewList(self, res, is_update);
+                    }
+
+                    if (self.section === 'single') {
+                        self.singleAfterNewList(self, res, is_update);
+                    }
+
+                    //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
+                    //               	// named route
+                    // self.$router.push({ 
+                    // 	name: 'task_lists', 
+                    // 	params: { 
+                    // 		project_id: self.project_id 
+                    // 	}
+                    // });
+
+                    //               } else if (is_update) {
+                    //               	self.getList(self, self.list.id);
+                    //               }
+
                 },
 
                 error(res) {
@@ -3297,6 +3306,32 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
             };
 
             self.httpRequest(request_data);
+        },
+
+        listsAfterNewList(self, res, is_update) {
+            if (is_update) {
+                self.getList(self, self.list.id);
+                return;
+            }
+
+            if (self.$route.params.current_page_number > 1) {
+                // named route
+                self.$router.push({
+                    name: 'task_lists',
+                    params: {
+                        project_id: self.project_id
+                    }
+                });
+            } else {
+                self.getLists(self);
+            }
+        },
+
+        singleAfterNewList(self, res, is_update) {
+            if (is_update) {
+                var condition = 'incomplete_tasks,complete_tasks,comments';
+                self.getList(self, self.list.id, condition);
+            }
         }
     }
 });
@@ -3713,7 +3748,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 /* harmony default export */ __webpack_exports__["a"] = ({
 
     // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'index'],
+    props: ['list'],
 
     /**
      * Initial data for this component
@@ -3790,15 +3825,13 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
          * @return array       
          */
         getIncompleteTasks: function () {
-            if (this.list.incomplete_tasks) return this.list.incomplete_tasks.data;
+            if (this.list.incomplete_tasks) {
+                this.list.incomplete_tasks.data.map(function (task, index) {
+                    task.status = false;
+                });
 
-            // if ( ! this.list.tasks ) {
-            //     return [];
-            // }
-
-            // return this.list.tasks.filter(function( task ) {
-            //     return ( task.completed == '0' || !task.completed );
-            // });
+                return this.list.incomplete_tasks.data;
+            }
         },
 
         /**
@@ -3809,7 +3842,13 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
          * @return array       
          */
         getCompletedTask: function () {
-            if (this.list.complete_tasks) return this.list.complete_tasks.data;
+            if (this.list.complete_tasks) {
+                this.list.complete_tasks.data.map(function (task, index) {
+                    task.status = true;
+                });
+
+                return this.list.complete_tasks.data;
+            }
         }
     },
 

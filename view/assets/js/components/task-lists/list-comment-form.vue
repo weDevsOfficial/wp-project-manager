@@ -180,6 +180,8 @@
 	            	type: type,
 	            	data: form_data,
 	            	success (res) {
+	            		var condition = 'incomplete_tasks,complete_tasks,comments';
+                        self.getList(self, self.list.id, condition);
 	            		self.submit_disabled = false;
 	            	},
 	            	error (res) {

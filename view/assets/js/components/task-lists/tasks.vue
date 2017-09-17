@@ -25,7 +25,7 @@
 	                    <div class="cpm-todo-content" >
 	                        <div class="cpm-incomplete-todo">
 	                            <div class="cpm-col-6">
-	                                <input :disabled="!is_assigned(task)" v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
+	                                <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
 
 	                                <span>
 	                                	<router-link 
@@ -74,13 +74,13 @@
 	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
 	                                <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
-	                                <a href="#" @click.prevent="showHideTaskFrom(list, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 	                            </div>
 	                            <div class="clearfix"></div>
 	                        </div>
 	                    </div>
 	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	                        <new-task-form :task="task"  :list="list"></new-task-form>
 	                    </div>
 	                </div>
 	            </li>
@@ -118,7 +118,7 @@
 	                        <div>
 	                            <div class="cpm-col-6">
 	                                <!-- <span class="cpm-spinner"></span> -->
-	                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
+	                                <input v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
 
 	                                <span class="task-title">
 	                                    
@@ -173,7 +173,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	                        <new-task-form :task="task" :list="list"></new-task-form>
 	                    </div>
 
 	                </div>
@@ -189,7 +189,7 @@
 	    </div>
 
 	    <div v-if="list.show_task_form" class="cpm-todo-form">
-	        <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	        <new-task-form :task="{}" :list="list"></new-task-form>
 	    </div>
 
 	</div>
@@ -220,7 +220,7 @@
 	                        <div>
 	                            <div class="cpm-col-7">
 	                                <!-- <span class="cpm-spinner"></span> -->
-	                               <input :disabled="!is_assigned(task)" v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"  value="" name="" >
+	                               <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
 
 	                                <!-- <a class="task-title" href="#">
 	                                    <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>
@@ -296,7 +296,7 @@
 	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
 	                                
 	                                    <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-	                                    <a href="#" @click.prevent="showHideTaskFrom(list, list, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                    <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 	                                    <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
 
@@ -306,7 +306,7 @@
 	                    </div>
 
 	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	                        <new-task-form :task="task" :list="list"></new-task-form>
 	                    </div>
 	                </div>
 	            </li>
@@ -314,7 +314,7 @@
 	            <li v-if="!getIncompleteTasks.length" class="nonsortable">No tasks found.</li>
 
 	            <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
-	                <new-task-form :task="{}" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	                <new-task-form :task="{}"  :list="list"></new-task-form>
 	            </li>
 	            <li v-if="incomplete_show_load_more_btn" class="nonsortable">
 	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
@@ -332,7 +332,7 @@
 	                        <div>
 	                            <div class="cpm-col-7">
 	                                <!-- <span class="cpm-spinner"></span> -->
-	                                <input v-model="task.completed" @click="taskDoneUndone( task, task.completed, task_index )" class="" type="checkbox"  value="" name="" >
+	                                <input v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
 
 	                                <!-- <span class="task-title">
 	                                    <span class="cpm-todo-text">{{ task.post_title }}</span>
@@ -380,7 +380,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task" :task_index="task_index" :list="list" :list_index="index"></new-task-form>
+	                        <new-task-form :task="task" :list="list"></new-task-form>
 	                    </div>
 
 	                </div>
@@ -403,7 +403,7 @@
 	export default {
 		
 	    // Get passing data for this component. Remember only array and objects are
-	    props: ['list', 'index'],
+	    props: ['list'],
 
 	    /**
 	     * Initial data for this component
@@ -484,16 +484,13 @@
 	         * @return array       
 	         */
 	        getIncompleteTasks: function() {
-	        	if ( this.list.incomplete_tasks )
-	        	return this.list.incomplete_tasks.data;
-	        	
-	            // if ( ! this.list.tasks ) {
-	            //     return [];
-	            // }
+	        	if ( this.list.incomplete_tasks ) {
+	        		this.list.incomplete_tasks.data.map(function(task, index) {
+	        			task.status = false;
+	        		});
 
-	            // return this.list.tasks.filter(function( task ) {
-	            //     return ( task.completed == '0' || !task.completed );
-	            // });
+	        		return this.list.incomplete_tasks.data;
+	        	}
 	        },
 
 	        /**
@@ -504,8 +501,13 @@
 	         * @return array       
 	         */
 	        getCompletedTask: function() {
-	        	if ( this.list.complete_tasks )
-	            return this.list.complete_tasks.data; 
+	        	if ( this.list.complete_tasks ) {
+	        		this.list.complete_tasks.data.map(function(task, index) {
+	        			task.status = true;
+	        		});
+
+	        		return this.list.complete_tasks.data;
+	        	}
 	        },
 	    },
 

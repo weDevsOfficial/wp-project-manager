@@ -62,9 +62,11 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
-        $page = empty( $_GET['comment_page'] ) ? 1 : $_GET['comment_page'];
+        $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
-        $comments = $item->comments()->paginate( 10, ['*'], 'comment_page', $page );
+        $comments = $item->comments()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'comment_page', $page );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -91,22 +93,24 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeCompleteTasks( Task_List $item ) {
-        $page = empty( $_GET['complete_task_page'] ) ? 1 : $_GET['complete_task_page'];
+        $page = isset( $_GET['complete_task_page'] ) ? $_GET['complete_task_page'] : 1;
 
         $tasks = $item->tasks()
             ->where( 'status', 1 )
+            ->orderBy( 'created_at', 'DESC' )
             ->paginate( 2, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
-        $page = empty( $_GET['incomplete_task_page'] ) ? 1 : $_GET['incomplete_task_page'];
+        $page = isset( $_GET['incomplete_task_page'] ) ? $_GET['incomplete_task_page'] : 1;
 
         $tasks = $item->tasks()
             ->where( 'status', 0 )
+            ->orderBy( 'created_at', 'DESC' )
             ->paginate( 2, ['*'], 'page', $page );
-        
+
         return $this->make_paginated_tasks( $tasks );
     }
 

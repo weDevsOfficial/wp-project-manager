@@ -42,7 +42,8 @@ export default new Vuex.Store({
             end: false,
             lists: false,
             description: false
-        }
+        },
+        total_list_page: 0
     },
 
     /**
@@ -437,8 +438,16 @@ export default new Vuex.Store({
             state.milestones = milestones;
         },
 
-        updateListFormStatus (state, status) {
-            state.is_active_list_form = status;
+        showHideListFormStatus (state, status) {
+            if ( status === 'toggle' ) {
+                state.is_active_list_form = state.is_active_list_form ? false : true;
+            } else {
+                state.is_active_list_form = status;
+            }
+        },
+
+        setTotalListPage (state, total) {
+            state.total_list_page = total;
         }
 
     }
