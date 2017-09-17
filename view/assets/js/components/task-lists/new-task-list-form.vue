@@ -25,7 +25,7 @@
 	        <div class="item submit">
 	            <span class="cpm-new-list-spinner"></span>
 	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="submit_btn_text">
-	            <a @click.prevent="showHideListForm()" class="button list-cancel" href="#">Cancel</a>
+	            <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">Cancel</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
@@ -142,34 +142,29 @@
 	            	data: data,
 	            	type: type,
 	            	success (res) {
-						self.list.milestone   = '-1';
+						self.milestone_id   = '-1';
 						self.show_spinner     = false;
 						self.list.title       = '';
 						self.list.description = '';
 
-	                    if ( is_update ) {
-	                        var list = res.data;
-	                    } else {
-	                        var list = res.data;
-	                    }
-
 	                    // Display a success message, with a title
 	                    toastr.success(res.data.success);
 
-	                    // Hide the todo list update form
-	                    self.showHideTodoListForm( self.list, self.index );
-
-            			// named route
-						self.$router.push({ 
-							name: 'task_lists', 
-							params: { 
-								project_id: self.project_id 
-							}
-						});
-
+	                    if ( self.$route.params.current_page_number > 1 && !is_update ) {
+	                    	// named route
+							self.$router.push({ 
+								name: 'task_lists', 
+								params: { 
+									project_id: self.project_id 
+								}
+							});
+							
+	                    } else if (is_update) {
+	                    	self.getList(self, self.list.id);
+	                    }
+            			
 						self.submit_disabled = false;
-
-	                    //self.refreshTodoListPage();
+						self.showHideListForm(false, self.list);
 	            	},
 
 	            	error (res) {

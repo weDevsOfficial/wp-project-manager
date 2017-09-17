@@ -297,7 +297,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.taskEdit(task)
+          _vm.showHideTaskFrom(_vm.list, task)
         }
       }
     }, [_c('span', {
@@ -651,7 +651,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.taskEdit(task)
+          _vm.showHideTaskFrom(_vm.list, _vm.list, task)
         }
       }
     }, [_c('span', {
@@ -1043,7 +1043,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.taskEdit(_vm.task)
+        _vm.showHideTaskFrom(_vm.list)
       }
     }
   }, [_vm._v("Cancel")]), _vm._v(" "), _c('span', {
@@ -1188,7 +1188,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideListForm()
+        _vm.showHideListForm(false, _vm.list)
       }
     }
   }, [_vm._v("Cancel")]), _vm._v(" "), _c('span', {
@@ -1394,8 +1394,7 @@ if (false) {
 			index: false,
 			project_id: this.$route.params.project_id,
 			total_pages: 0,
-			current_page_number: 1,
-			lists: []
+			current_page_number: 1
 		};
 	},
 
@@ -1415,9 +1414,9 @@ if (false) {
    * 
    * @return array
    */
-		// lists () {
-		//     return this.$store.state.lists;
-		// },
+		lists() {
+			return this.$store.state.lists;
+		},
 
 		/**
    * Get milestones from vuex store
@@ -1460,37 +1459,16 @@ if (false) {
 	},
 
 	methods: {
-		getLists(self) {
 
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists?with=incomplete_tasks&per_page=2&page=' + self.setCurrentPageNumber(self),
-				success(res) {
-					res.data.map(function (list, index) {
-						list.edit_mode = false;
-					});
-					self.lists = res.data;
-
-					self.total_pages = res.meta.pagination.total_pages;
-				}
-			};
-			self.httpRequest(request);
-		},
-
-		setCurrentPageNumber(self) {
-			var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-			self.current_page_number = current_page_number;
-			return current_page_number;
-		},
-
-		getMilestones(self) {
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
-				success(res) {
-					self.$store.commit('setMilestones', res.data);
-				}
-			};
-			self.httpRequest(request);
-		},
+		// getMilestones (self) {
+		// 	var request = {
+		//         	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+		//         	success (res) {
+		//         		self.$store.commit( 'setMilestones', res.data );
+		//         	}
+		//        };
+		//        self.httpRequest(request);
+		// },
 
 		showEditForm(list, index) {
 			list.edit_mode = list.edit_mode ? false : true;
@@ -1564,7 +1542,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.showHideListForm()
+        _vm.showHideListForm(true)
       }
     }
   }, [(!_vm.show_list_form) ? _c('i', {
@@ -1612,7 +1590,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('li', {
       key: list.id,
       class: 'cpm-fade-out-' + list.id
-    }, [_c('pre', [_vm._v(_vm._s(list))]), _vm._v(" "), _c('article', {
+    }, [_c('article', {
       staticClass: "cpm-todolist"
     }, [_c('header', {
       staticClass: "cpm-list-header"
@@ -2178,14 +2156,14 @@ if (false) {(function () {
                 type: type,
                 data: form_data,
                 success(res) {
-
+                    self.getList(self, self.list.id);
                     self.show_spinner = false;
 
                     // Display a success toast, with a title
                     toastr.success(res.data.success);
 
                     self.submit_disabled = false;
-                    self.taskEdit(self.task, self.list);
+                    self.showHideTaskFrom(self.list, self.task);
                 },
 
                 error(res) {
@@ -2248,155 +2226,149 @@ if (false) {(function () {
 
 
 var cpm_todo_list_mixins = function (mixins, mixin_parent) {
-	if (!mixins || !mixins.length) {
-		return [];
-	}
-	if (!mixin_parent) {
-		mixin_parent = window;
-	}
-	return mixins.map(function (mixin) {
-		return mixin_parent[mixin];
-	});
+    if (!mixins || !mixins.length) {
+        return [];
+    }
+    if (!mixin_parent) {
+        mixin_parent = window;
+    }
+    return mixins.map(function (mixin) {
+        return mixin_parent[mixin];
+    });
 };
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	// Get passing data for this component. Remember only array and objects are 
-	props: ['list'],
+    // Get passing data for this component. Remember only array and objects are 
+    props: ['list'],
 
-	/**
-  * Initial data for this component
-  * 
-  * @return obj
-  */
-	data: function () {
-		return {
-			submit_btn_text: 'Submit',
-			tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
-			show_spinner: false,
-			error: [],
-			success: '',
-			submit_disabled: false,
-			project_id: this.$route.params.project_id,
-			milestone_id: '-1'
-		};
-	},
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function () {
+        return {
+            submit_btn_text: 'Submit',
+            tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
+            show_spinner: false,
+            error: [],
+            success: '',
+            submit_disabled: false,
+            project_id: this.$route.params.project_id,
+            milestone_id: '-1'
+        };
+    },
 
-	created() {
-		if (typeof this.list.milestone !== 'undefined') {
-			this.milestone_id = this.list.milestone.data.id;
-		}
-	},
+    created() {
+        if (typeof this.list.milestone !== 'undefined') {
+            this.milestone_id = this.list.milestone.data.id;
+        }
+    },
 
-	computed: {
+    computed: {
 
-		/**
-   * Get current project milestones 
-   * 
-   * @return array
-   */
-		milestones: function () {
-			return this.$store.state.milestones;
-		}
-	},
+        /**
+         * Get current project milestones 
+         * 
+         * @return array
+         */
+        milestones: function () {
+            return this.$store.state.milestones;
+        }
+    },
 
-	methods: {
+    methods: {
 
-		/**
-   * Get todo list form class
-   * 
-   * @param  obej list 
-   * 
-   * @return string     
-   */
-		todolistFormClass: function (list) {
-			return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-' + list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
-		},
+        /**
+         * Get todo list form class
+         * 
+         * @param  obej list 
+         * 
+         * @return string     
+         */
+        todolistFormClass: function (list) {
+            return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-' + list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
+        },
 
-		/**
-   * Insert and update todo list
-   * 
-   * @return void
-   */
-		newTodoList: function () {
+        /**
+         * Insert and update todo list
+         * 
+         * @return void
+         */
+        newTodoList: function () {
 
-			// Prevent sending request when multiple click submit button 
-			if (this.submit_disabled) {
-				return;
-			}
+            // Prevent sending request when multiple click submit button 
+            if (this.submit_disabled) {
+                return;
+            }
 
-			// Make disable submit button
-			this.submit_disabled = true;
+            // Make disable submit button
+            this.submit_disabled = true;
 
-			var self = this,
-			    is_update = typeof this.list.id == 'undefined' ? false : true;
+            var self = this,
+                is_update = typeof this.list.id == 'undefined' ? false : true;
 
-			this.show_spinner = true;
+            this.show_spinner = true;
 
-			if (is_update) {
-				var type = 'PUT';
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + self.list.id;
-				var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.milestone_id + '&order' + 5;
-			} else {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists';
-				var type = 'POST';
-				var data = {
-					'title': self.list.title,
-					'description': self.list.description,
-					'milestone': self.milestone_id,
-					'order': 5
-				};
-			}
+            if (is_update) {
+                var type = 'PUT';
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + self.list.id;
+                var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.milestone_id + '&order' + 5;
+            } else {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists';
+                var type = 'POST';
+                var data = {
+                    'title': self.list.title,
+                    'description': self.list.description,
+                    'milestone': self.milestone_id,
+                    'order': 5
+                };
+            }
 
-			var request_data = {
-				url: url,
-				data: data,
-				type: type,
-				success(res) {
-					self.list.milestone = '-1';
-					self.show_spinner = false;
-					self.list.title = '';
-					self.list.description = '';
+            var request_data = {
+                url: url,
+                data: data,
+                type: type,
+                success(res) {
+                    self.milestone_id = '-1';
+                    self.show_spinner = false;
+                    self.list.title = '';
+                    self.list.description = '';
 
-					if (is_update) {
-						var list = res.data;
-					} else {
-						var list = res.data;
-					}
+                    // Display a success message, with a title
+                    toastr.success(res.data.success);
 
-					// Display a success message, with a title
-					toastr.success(res.data.success);
+                    if (self.$route.params.current_page_number > 1 && !is_update) {
+                        // named route
+                        self.$router.push({
+                            name: 'task_lists',
+                            params: {
+                                project_id: self.project_id
+                            }
+                        });
+                    } else if (is_update) {
+                        self.getList(self, self.list.id);
+                    }
 
-					// Hide the todo list update form
-					self.showHideTodoListForm(self.list, self.index);
+                    self.submit_disabled = false;
+                    self.showHideListForm(false, self.list);
+                },
 
-					// named route
-					self.$router.push({
-						name: 'task_lists',
-						params: {
-							project_id: self.project_id
-						}
-					});
+                error(res) {
 
-					self.submit_disabled = false;
+                    self.show_spinner = false;
+                    self.submit_disabled = false;
 
-					//self.refreshTodoListPage();
-				},
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                }
+            };
 
-				error(res) {
-
-					self.show_spinner = false;
-					self.submit_disabled = false;
-
-					// Showing error
-					res.data.error.map(function (value, index) {
-						toastr.error(value);
-					});
-				}
-			};
-
-			self.httpRequest(request_data);
-		}
-	}
+            self.httpRequest(request_data);
+        }
+    }
 });
 
 /***/ }),

@@ -49,7 +49,7 @@
 	            <span class="cpm-new-task-spinner"></span>
 	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="Update Task"></span>
 	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="New Task"></span>
-	            <a @click.prevent="taskEdit(task)" class="button todo-cancel" href="#">Cancel</a>
+	            <a @click.prevent="showHideTaskFrom(list)" class="button todo-cancel" href="#">Cancel</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
@@ -263,7 +263,7 @@
 	            	type: type,
 	            	data: form_data,
 	            	success (res) {
-
+	            		self.getList(self, self.list.id);
 	            		self.show_spinner = false;
 
 	                    // Display a success toast, with a title
@@ -271,7 +271,7 @@
 
 	                   
 	                    self.submit_disabled = false;
-	                    self.taskEdit(self.task, self.list);
+	                    self.showHideTaskFrom(self.list, self.task);
 	            	},
 
 	            	error (res) {

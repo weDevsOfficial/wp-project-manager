@@ -5,11 +5,11 @@
 		
 		<new-task-list-btn></new-task-list-btn>
 		<new-task-list-form v-if="is_active_list_form" :list="{}"></new-task-list-form>
-		<!-- <pre>{{ lists }}</pre> -->
+		
 		<ul class="cpm-todolists">
         
         	<li v-for="(list, index) in lists" :key="list.id"  :class="'cpm-fade-out-'+list.id">
-        		<pre>{{ list }}</pre>
+
 	            <article class="cpm-todolist">
 	                <header class="cpm-list-header">
 	                    <h3>
@@ -120,7 +120,6 @@
 	            project_id: this.$route.params.project_id,
 	            total_pages: 0,
 	            current_page_number: 1,
-	            lists: [],
 	        }
 	    },
 
@@ -140,9 +139,9 @@
 	         * 
 	         * @return array
 	         */
-	        // lists () {
-	        //     return this.$store.state.lists;
-	        // },
+	        lists () {
+	            return this.$store.state.lists;
+	        },
 
 	        /**
 	         * Get milestones from vuex store
@@ -185,37 +184,16 @@
 	    },
 
 	    methods: {
-	    	getLists (self) {
-	    		
-	            var request = {
-	             	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
-	             	success (res) {
-	             		res.data.map(function(list,index) {
-	             			list.edit_mode  = false;
-	             		});
-	             		self.lists = res.data;
-	             		
-	             		self.total_pages = res.meta.pagination.total_pages;
-	             	}
-	            };
-	            self.httpRequest(request);
-	    	},
 
-	    	setCurrentPageNumber (self) {
-	    		var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-	    		self.current_page_number = current_page_number;
-	    		return current_page_number;
-	    	},
-
-	    	getMilestones (self) {
-	    		var request = {
-	             	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
-	             	success (res) {
-	             		self.$store.commit( 'setMilestones', res.data );
-	             	}
-	            };
-	            self.httpRequest(request);
-	    	},
+	    	// getMilestones (self) {
+	    	// 	var request = {
+	     //         	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+	     //         	success (res) {
+	     //         		self.$store.commit( 'setMilestones', res.data );
+	     //         	}
+	     //        };
+	     //        self.httpRequest(request);
+	    	// },
 
 	    	showEditForm (list, index) {
 	    		list.edit_mode = list.edit_mode ? false : true;

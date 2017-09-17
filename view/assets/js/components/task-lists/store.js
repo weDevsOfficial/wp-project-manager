@@ -411,13 +411,34 @@ export default new Vuex.Store({
         setLists (state, lists) {
             state.lists = lists;
         },
+        setList (state, list) {
+            var target = false;
+
+            state.lists.map(function(content, index) {
+                if ( content.id == list.id ) {
+                    target = index;
+                }
+            });
+            
+            if ( target !== false ) {
+                state.lists.splice(target, 1);
+                state.lists.splice( target, 0, list );
+            } else {
+                state.lists.push(list);
+            }
+           
+        },
+
+        updateLists (state, lists) {
+            state.lists.push(lists);
+        },
 
         setMilestones (state, milestones) {
             state.milestones = milestones;
         },
 
-        updateListFormStatus (state) {
-            state.is_active_list_form = state.is_active_list_form ? false : true;
+        updateListFormStatus (state, status) {
+            state.is_active_list_form = status;
         }
 
     }

@@ -74,7 +74,7 @@
 	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
 	                                <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
-	                                <a href="#" @click.prevent="taskEdit(task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                <a href="#" @click.prevent="showHideTaskFrom(list, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 	                            </div>
 	                            <div class="clearfix"></div>
 	                        </div>
@@ -296,7 +296,7 @@
 	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
 	                                
 	                                    <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-	                                    <a href="#" @click.prevent="taskEdit(task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
+	                                    <a href="#" @click.prevent="showHideTaskFrom(list, list, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
 	                                    <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
 	                                    
 

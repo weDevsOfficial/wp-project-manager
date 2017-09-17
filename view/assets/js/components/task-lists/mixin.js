@@ -895,10 +895,6 @@ var PM_Task_Mixin = {
             });
         },
 
-        showHideTaskFrom (list) {
-            list.show_task_form = list.show_task_form ? false : true;
-        },
-
         /**
          * Show task edit form
          * 
@@ -906,18 +902,79 @@ var PM_Task_Mixin = {
          * 
          * @return void            
          */
-        taskEdit: function( task, list) {
+        showHideTaskFrom: function(list, task) {
             var list = list || false;
-            task.edit_mode = task.edit_mode ? false : true;
-
+            var task = task || false;
+            
+            if ( task ) {
+               task.edit_mode = task.edit_mode ? false : true; 
+            }
+            
             if (list) {
-                list.show_task_form = false; 
+                list.show_task_form = list.show_task_form ? false : true; 
             }
         },
 
-        showHideListForm () {
-            this.$store.commit('updateListFormStatus');
-        }
+        showHideListForm (status, list) {
+            var list = list || false;
+            
+            if ( list ) {
+                list.edit_mode = list.edit_mode ? false : true;
+            }
+
+            this.$store.commit('updateListFormStatus', status);
+        },
+
+        getMilestones (self) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$store.commit( 'setMilestones', res.data );
+                }
+            };
+            self.httpRequest(request);
+        },
+        getLists (self) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
+                success (res) {
+                    res.data.map(function(list,index) {
+                        self.addMetaList(list);
+                    });
+                    
+                    self.$store.commit('setLists', res.data);
+                    
+                    self.total_pages = res.meta.pagination.total_pages;
+                }
+            };
+            self.httpRequest(request);
+        },
+
+        getList (self, list_id, callback) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
+                success (res) {
+                    self.addMetaList(res.data);
+                    self.$store.commit('setList', res.data);
+
+                    if ( callback ) {
+                        callback(res);
+                    }
+                }
+            };
+            self.httpRequest(request);
+        },
+
+        addMetaList (list) {
+            list.edit_mode  = false;
+            list.show_task_form = false;
+        },
+
+        setCurrentPageNumber (self) {
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
 
 	}
 }

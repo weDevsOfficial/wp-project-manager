@@ -28,8 +28,7 @@
                 <i class="fa fa-angle-left"></i>Back to Task Lists
             </router-link>
             
-
-            <div v-if="render_tmpl">
+            <div>
                 <ul class="cpm-todolists">
 
                     <li :class="'cpm-fade-out-'+list.id">
@@ -40,8 +39,8 @@
                                     {{ list.title }}
                                     <span :class="privateClass(list)"></span>
                                     <div class="cpm-right">
-                                        <a href="#" @click.prevent="showEditForm( list )" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.ID )" title="<?php _e( 'Delete this List', 'cpm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" @click.prevent="showHideListForm(false, list)" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="<?php _e( 'Delete this List', 'cpm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                                     </div>
                                 </h3>
 
@@ -96,7 +95,8 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getList(vm);
+                vm.getIndividualList(vm);
+                vm.getMilestones(vm);
             });
         },
         /**
@@ -107,7 +107,7 @@
         data: function() {
             return {
                 list_id: this.$route.params.list_id,
-                list: {},
+                //list: {},
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
                 loading: true,
@@ -122,18 +122,16 @@
          * @return void
          */
         created: function() {
-            this.loading = false;
-            this.render_tmpl = true;
-            this.$store.state.is_single_list = true;
-            return;
-            var self = this;
+            // this.loading = false;
+            // this.render_tmpl = true;
+            // this.$store.state.is_single_list = true;
+            // return;
+            // var self = this;
             
-            this.$store.commit('emptyTodoLists');
+            // this.$store.commit('emptyTodoLists');
             
-            // Get todo list 
-            this.getList( this.$route.params.list_id, function(res) {
-                self.loading = false;
-            });
+            // // Get todo list 
+           // this.getList();
         },
 
         computed: {
@@ -142,8 +140,8 @@
              * 
              * @return array
              */
-            lists: function () {
-                return this.$store.state.lists;
+            list: function () {
+                return this.$store.state.lists[0];
             },
 
             /**
@@ -191,17 +189,20 @@
              * 
              * @return void         
              */
-            getList: function(self) {
-                
-                var list_id = self.$route.params.list_id;
-                var request = {
-                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
-                    success (res) {
-                        self.list = res.data;
-                        self.comments = res.data.comments.data;
-                    }
-                };
-                self.httpRequest(request);
+            getIndividualList: function(self) {
+
+                self.getList(self, self.$route.params.list_id, function(res) {
+                    self.loading = false;
+
+                });
+                // var request = {
+                //     url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
+                //     success (res) {
+                //         self.list = res.data;
+                //         self.comments = res.data.comments.data;
+                //     }
+                // };
+                // self.httpRequest(request);
                 
                 // var self      = this,
                 //     form_data = {
@@ -234,7 +235,6 @@
             },
 
             showEditForm (list ) {
-                console.log(list);
                 list.edit_mode = list.edit_mode ? false : true;
             },
         },
