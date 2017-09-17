@@ -67,6 +67,7 @@ var PM_Task_Mixin = {
         return {
             list_form_data: {},
             project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
+            task_list_form: false
         }
     },
 
@@ -913,6 +914,10 @@ var PM_Task_Mixin = {
                 list.show_task_form = false; 
             }
         },
+
+        showHideListForm () {
+            this.$store.commit('updateListFormStatus');
+        }
 
 	}
 }

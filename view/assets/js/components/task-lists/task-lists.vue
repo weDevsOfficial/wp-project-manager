@@ -4,7 +4,7 @@
 	<div id="cpm-task-el" class="cpm-task-container wrap">
 		
 		<new-task-list-btn></new-task-list-btn>
-		<new-task-list-form :list="{}" :index="0"></new-task-list-form>
+		<new-task-list-form v-if="is_active_list_form" :list="{}"></new-task-list-form>
 		<!-- <pre>{{ lists }}</pre> -->
 		<ul class="cpm-todolists">
         
@@ -44,19 +44,19 @@
 	                        </div>
 	                       
 	                        <div class="cpm-col-3 cpm-todo-complete">
-	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
 	                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
 	                                Completed
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-incomplete">
-	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
 	                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
 	                                Incomplete
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-comment">
-	                            <router-link :to="{ name: 'list_single', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
 	                                <span>{{ list.meta.total_comments }} Comments</span>
 	                            </router-link>
 	                        </div>
@@ -99,7 +99,6 @@
                 vm.getMilestones(vm);
             });
         }, 
-
 		components: {
 			'new-task-list-btn': new_task_list_btn,
 			'new-task-list-form': new_task_list_form,
@@ -179,6 +178,10 @@
 	        limit () {
 	            return this.$store.state.todo_list_per_page;
 	        },
+
+	        is_active_list_form () {
+	        	return this.$store.state.is_active_list_form;
+	        }
 	    },
 
 	    methods: {

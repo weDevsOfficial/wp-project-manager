@@ -20,7 +20,7 @@ export default new Vuex.Store({
         is_single_list: true,
         project_users: [],
         loading: true,
-        show_list_form: false,
+        is_active_list_form: false,
         project_id: false,
         permissions: {
         	create_todolist: true
@@ -414,6 +414,10 @@ export default new Vuex.Store({
 
         setMilestones (state, milestones) {
             state.milestones = milestones;
+        },
+
+        updateListFormStatus (state) {
+            state.is_active_list_form = state.is_active_list_form ? false : true;
         }
 
     }

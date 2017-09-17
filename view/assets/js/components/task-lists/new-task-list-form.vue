@@ -25,7 +25,7 @@
 	        <div class="item submit">
 	            <span class="cpm-new-list-spinner"></span>
 	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="submit_btn_text">
-	            <a @click.prevent="showHideTodoListForm( list, index )" class="button list-cancel" href="#">Cancel</a>
+	            <a @click.prevent="showHideListForm()" class="button list-cancel" href="#">Cancel</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
@@ -49,7 +49,7 @@
 
 	export default {
 	    // Get passing data for this component. Remember only array and objects are 
-	    props: ['list', 'index'],
+	    props: ['list'],
 
 	    /**
 	     * Initial data for this component
@@ -66,6 +66,10 @@
 	            submit_disabled: false,
 	            project_id: this.$route.params.project_id,
 	        };
+	    },
+
+	    created () {
+	    	this.list.milestone = typeof this.list.milestone === 'undefined' ? '-1' : this.list.milestone;
 	    },
 
 	    computed: {
@@ -129,7 +133,7 @@
 	            		'order': 5
 	            	};
 	            }
-	            console.log(url, data, type);
+	            
 	            var request_data = {
 	            	url: url,
 	            	data: data,
