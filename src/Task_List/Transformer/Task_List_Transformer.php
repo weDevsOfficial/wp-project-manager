@@ -62,7 +62,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
-        $page = $_GET['comment_page'];
+        $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
         $comments = $item->comments()->paginate( 10, ['*'], 'comment_page', $page );
 
@@ -91,7 +91,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeCompleteTasks( Task_List $item ) {
-        $page = $_GET['complete_task_page'];
+        $page = isset( $_GET['complete_task_page'] ) ? $_GET['complete_task_page'] : 1;
 
         $tasks = $item->tasks()
             ->where( 'status', 1 )
@@ -101,7 +101,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
-        $page = $_GET['incomplete_task_page'];
+        $page = isset( $_GET['incomplete_task_page'] ) ? $_GET['incomplete_task_page'] : 1;
 
         $tasks = $item->tasks()
             ->where( 'status', 0 )
