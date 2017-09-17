@@ -1085,8 +1085,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.list.milestone),
-      expression: "list.milestone"
+      value: (_vm.milestone_id),
+      expression: "milestone_id"
     }],
     on: {
       "change": function($event) {
@@ -1096,7 +1096,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.list.milestone = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.milestone_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -1650,7 +1650,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__new_task_list_form_vue__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_task_btn_vue__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_vue__ = __webpack_require__(9);
 //
 //
 //
@@ -3185,12 +3185,15 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 			error: [],
 			success: '',
 			submit_disabled: false,
-			project_id: this.$route.params.project_id
+			project_id: this.$route.params.project_id,
+			milestone_id: '-1'
 		};
 	},
 
 	created() {
-		this.list.milestone = typeof this.list.milestone === 'undefined' ? '-1' : this.list.milestone;
+		if (typeof this.list.milestone !== 'undefined') {
+			this.milestone_id = this.list.milestone.data.id;
+		}
 	},
 
 	computed: {
@@ -3241,14 +3244,14 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 			if (is_update) {
 				var type = 'PUT';
 				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + self.list.id;
-				var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.list.milestone + '&order' + 5;
+				var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.milestone_id + '&order' + 5;
 			} else {
 				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists';
 				var type = 'POST';
 				var data = {
 					'title': self.list.title,
 					'description': self.list.description,
-					'milestone': self.list.milestone,
+					'milestone': self.milestone_id,
 					'order': 5
 				};
 			}

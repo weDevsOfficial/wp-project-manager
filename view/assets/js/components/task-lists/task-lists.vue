@@ -8,8 +8,8 @@
 		<!-- <pre>{{ lists }}</pre> -->
 		<ul class="cpm-todolists">
         
-        	<li v-for="(list, index) in lists" :key="list.ID"  :class="'cpm-fade-out-'+list.id">
-        	
+        	<li v-for="(list, index) in lists" :key="list.id"  :class="'cpm-fade-out-'+list.id">
+        		<pre>{{ list }}</pre>
 	            <article class="cpm-todolist">
 	                <header class="cpm-list-header">
 	                    <h3>
@@ -18,8 +18,8 @@
 	                        <span :class="privateClass(list)"></span>
 	                        <!-- v-if="list.can_del_edit" -->
 	                        <div class="cpm-right">
-	                            <a href="#" @click.prevent="showEditForm(list, index)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-	                            <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.ID )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
+	                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+	                            <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
 	                        </div>
 	                    </h3>
 
@@ -30,12 +30,12 @@
 	                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
 	                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
 	                        <!-- New Todo list form -->
-	                        <new-task-list-form :list="list" :index="0"></new-task-list-form>
+	                        <new-task-list-form :list="list"></new-task-list-form>
 	                    </div>
 	                </header>
 
 	                <!-- Todos component -->
-	              	<tasks :list="list" :index="index"></tasks>
+	              	<tasks :list="list"></tasks>
 
 	                <footer class="cpm-row cpm-list-footer">
 	                    <div class="cpm-col-6">
@@ -44,19 +44,19 @@
 	                        </div>
 	                       
 	                        <div class="cpm-col-3 cpm-todo-complete">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
 	                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
 	                                Completed
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-incomplete">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
 	                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
 	                                Incomplete
 	                            </router-link>
 	                        </div>
 	                        <div  class="cpm-col-3 cpm-todo-comment">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.ID }}">
+	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
 	                                <span>{{ list.meta.total_comments }} Comments</span>
 	                            </router-link>
 	                        </div>
@@ -190,8 +190,11 @@
 	            var request = {
 	             	url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
 	             	success (res) {
+	             		res.data.map(function(list,index) {
+	             			list.edit_mode  = false;
+	             		});
 	             		self.lists = res.data;
-	             		//self.$store.commit( 'setLists', res.data );
+	             		
 	             		self.total_pages = res.meta.pagination.total_pages;
 	             	}
 	            };

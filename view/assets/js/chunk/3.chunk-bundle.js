@@ -4,7 +4,7 @@ webpackJsonp([3],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(9);
 //
 //
 //
@@ -284,7 +284,7 @@ webpackJsonp([3],{
 /***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+exports = module.exports = __webpack_require__(4)(undefined);
 // imports
 
 
@@ -911,7 +911,7 @@ var content = __webpack_require__(132);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(6)("a3f53e9e", content, false);
+var update = __webpack_require__(5)("a3f53e9e", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

@@ -12,7 +12,7 @@
 	        </div>
 
 	        <div class="item milestone">
-	            <select v-model="list.milestone">
+	            <select v-model="milestone_id">
 	                <option value="-1">
 	                    - Milestone -
 	                </option>
@@ -65,11 +65,14 @@
 	            success: '',
 	            submit_disabled: false,
 	            project_id: this.$route.params.project_id,
+	            milestone_id: '-1'
 	        };
 	    },
 
 	    created () {
-	    	this.list.milestone = typeof this.list.milestone === 'undefined' ? '-1' : this.list.milestone;
+	    	if ( typeof this.list.milestone !== 'undefined' ) {
+	    		this.milestone_id = this.list.milestone.data.id;
+	    	}
 	    },
 
 	    computed: {
@@ -121,7 +124,7 @@
 	            if ( is_update ) {
 	            	var type = 'PUT';
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id;
-	            	var data = 'title='+self.list.title+'&description='+self.list.description+'&milestone='+self.list.milestone+'&order'+5;
+	            	var data = 'title='+self.list.title+'&description='+self.list.description+'&milestone='+self.milestone_id+'&order'+5;
 	            		
 	            } else {
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists';
@@ -129,7 +132,7 @@
 	            	var data = {
 	            		'title': self.list.title,
 	            		'description': self.list.description,
-	            		'milestone': self.list.milestone,
+	            		'milestone': self.milestone_id,
 	            		'order': 5
 	            	};
 	            }
