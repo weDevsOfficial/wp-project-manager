@@ -25,7 +25,9 @@ class Task_List_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $task_lists = Task_List::paginate( $per_page, ['*'], 'page', $page );
+        $task_lists = Task_List::orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
+
         $task_list_collection = $task_lists->getCollection();
 
         $resource = new Collection( $task_list_collection, new Task_List_Transformer );
