@@ -416,7 +416,17 @@ class WeDevs_CPM {
         $cpm_dependency = array( 'jquery' );
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
 
-        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
+        if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
+            $scripts = array(
+                'cpm-vue',
+            );
+
+            foreach( $scripts as $script ) {
+                wp_enqueue_script( $script );
+            }
+            wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
+        }
+
         //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
 
         $project_id = cpm_get_project_id();
