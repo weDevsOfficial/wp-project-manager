@@ -6,12 +6,11 @@
 </template>
 
 <script>
-    import header from './../header.vue';
-
+    import store from './store';
+    import mixin from './mixin';
+    
     export default {
-        components: {
-            'pm-header': header
-        }
+        store,
     }
 
 </script>
