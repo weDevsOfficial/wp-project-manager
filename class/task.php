@@ -163,6 +163,8 @@ class CPM_Task {
             wp_enqueue_media();
 
             $scripts = array(
+                'cpm_admin',
+                'cpm-vue',
                 'cpm-tiptip',
                 'cpm-uploader',
                 'cpm-toastr',
@@ -170,7 +172,6 @@ class CPM_Task {
                 'cpm-moment',
                 'cpm-moment-timezone',
                 'cpm-tiny-mce-component',
-                'cpm-vue',
                 'cpm-vuex',
                 'cpm-vue-router',
                 'cpm-task-store',
@@ -515,7 +516,7 @@ class CPM_Task {
      */
     function get_task_lists( $project_id, $privacy = false, $show_all = false, $pagenum = 1, $defaults = array() ) {
         global $wpdb;
-        
+
         $args = array (
             'post_type'           => 'cpm_task_list',
             'order'               => 'DESC',
@@ -541,7 +542,7 @@ class CPM_Task {
         foreach ( $lists->posts as $list ) {
             $this->set_list_meta( $list );
         }
-        
+
         return array( 'lists' => $lists->posts, 'count' => $lists->found_posts );
     }
 
@@ -734,7 +735,7 @@ class CPM_Task {
         foreach ( $tasks->posts as $key => $task ) {
             $this->set_task_meta( $task );
         }
-        
+
         return $tasks->posts;
     }
 
