@@ -16,11 +16,11 @@ var cpm_todo_list_mixins = function(mixins, mixin_parent) {
 window.CPM_Component_jQuery = {
     /**
      * JQuery fadeIn
-     * 
-     * @param  int   id       
-     * @param  Function callback 
-     * 
-     * @return void            
+     *
+     * @param  int   id
+     * @param  Function callback
+     *
+     * @return void
      */
     faceIn: function( id, callback ) {
         var class_id = ( typeof id == 'undefined' ) ? false : '-'+id;
@@ -34,15 +34,15 @@ window.CPM_Component_jQuery = {
 
     /**
      * JQuery fadeOut
-     * 
-     * @param  int   id       
-     * @param  Function callback 
-     * 
-     * @return void            
+     *
+     * @param  int   id
+     * @param  Function callback
+     *
+     * @return void
      */
     fadeOut: function( id, callback ) {
         var class_id = ( typeof id == 'undefined' ) ? false : String( '-'+id );
-        
+
         jQuery('.cpm-fade-out' + class_id).fadeOut(300, function() {
             if ( typeof callback != 'undefined' ) {
                 callback( callback );
@@ -52,11 +52,11 @@ window.CPM_Component_jQuery = {
 
     /**
      * JQuery slideUp
-     * 
-     * @param  int   id       
-     * @param  Function callback 
-     * 
-     * @return void            
+     *
+     * @param  int   id
+     * @param  Function callback
+     *
+     * @return void
      */
     slide: function( id, callback ) {
         var class_id = '-'+id;//( typeof id == 'undefined' ) ? false : '-'+id;
@@ -75,17 +75,17 @@ window.CPM_Component_jQuery = {
 Vue.component('todo-list-form', {
 
     // Assign template for this component
-    template: '#tmpl-cpm-todo-list-form', 
-    
-    // Get passing data for this component. Remember only array and objects are 
+    template: '#tmpl-cpm-todo-list-form',
+
+    // Get passing data for this component. Remember only array and objects are
     props: [ 'list', 'index' ],
-    
+
     // Include global properties and methods
     mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_form ),
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -100,10 +100,10 @@ Vue.component('todo-list-form', {
     },
 
     computed: {
-    
+
         /**
-         * Get current project milestones 
-         * 
+         * Get current project milestones
+         *
          * @return array
          */
         milestones: function() {
@@ -116,10 +116,10 @@ Vue.component('todo-list-form', {
 
         /**
          * Get todo list form class
-         * 
-         * @param  obej list 
-         * 
-         * @return string     
+         *
+         * @param  obej list
+         *
+         * @return string
          */
         todolistFormClass: function( list ) {
             return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-'+ list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
@@ -127,12 +127,12 @@ Vue.component('todo-list-form', {
 
         /**
          * Insert and update todo list
-         * 
+         *
          * @return void
          */
         newTodoList: function() {
 
-            // Prevent sending request when multiple click submit button 
+            // Prevent sending request when multiple click submit button
             if ( this.submit_disabled ) {
                 return;
             }
@@ -142,7 +142,7 @@ Vue.component('todo-list-form', {
 
             var self      = this,
                 is_update = typeof this.list.ID == 'undefined' ? false : true;
-               
+
             this.list_form_data.action = typeof this.list.ID == 'undefined' ? 'cpm_add_list' : 'cpm_update_list';
             this.list_form_data.tasklist_name = this.list.post_title;
             this.list_form_data.tasklist_detail = this.list.post_content;
@@ -150,8 +150,8 @@ Vue.component('todo-list-form', {
             this.list_form_data.tasklist_milestone = this.tasklist_milestone;
             this.list_form_data.list_id = typeof this.list.ID == 'undefined' ? false : this.list.ID;
             this.list_form_data._wpnonce = CPM_Vars.nonce;
-                
-            
+
+
             this.show_spinner = true;
 
             // Seding request for insert or update todo list
@@ -176,7 +176,7 @@ Vue.component('todo-list-form', {
                     self.showHideTodoListForm( self.list, self.index );
 
                     self.refreshTodoListPage();
-                    
+
                 } else {
                     self.show_spinner = false;
 
@@ -197,7 +197,7 @@ Vue.component('todo-list-form', {
 Vue.component('todo-lists', {
 
     // Assign template for this component
-    template: '#tmpl-cpm-todo-list', 
+    template: '#tmpl-cpm-todo-list',
 
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
@@ -206,7 +206,7 @@ Vue.component('todo-lists', {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -220,7 +220,7 @@ Vue.component('todo-lists', {
         current_page_number: function( page_number ) {
             var per_page = this.$store.state.todo_list_per_page,
                 self     = this;
-            
+
             for (var i = 0; i < per_page; i++) {
                 var request_data  = {
                     per_page: per_page,
@@ -242,7 +242,7 @@ Vue.component('todo-lists', {
     computed: {
         /**
          * Get lists from vuex store
-         * 
+         *
          * @return array
          */
         lists: function () {
@@ -251,7 +251,7 @@ Vue.component('todo-lists', {
 
         /**
          * Get milestones from vuex store
-         * 
+         *
          * @return array
          */
         milestones: function() {
@@ -260,7 +260,7 @@ Vue.component('todo-lists', {
 
         /**
          * Get current project id from vuex store
-         * 
+         *
          * @return int
          */
         project_id: function() {
@@ -269,7 +269,7 @@ Vue.component('todo-lists', {
 
         /**
          * Get initial data from vuex store when this component loaded
-         * 
+         *
          * @return obj
          */
         init: function() {
@@ -278,7 +278,7 @@ Vue.component('todo-lists', {
 
         /**
          * Get task for single task popup
-         * 
+         *
          * @return object
          */
         task: function() {
@@ -304,8 +304,8 @@ Vue.component('todo-lists', {
 Vue.component('tasks', {
 
     // Assign template for this component
-    template: '#tmpl-cpm-tasks', 
-    
+    template: '#tmpl-cpm-tasks',
+
     // Get passing data for this component. Remember only array and objects are
     props: ['list', 'index'],
 
@@ -314,7 +314,7 @@ Vue.component('tasks', {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -359,11 +359,11 @@ Vue.component('tasks', {
             //For todo-lists page
             this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
                 self.loading_incomplete_tasks = false;
-                
+
                 if ( res.found_incompleted_tasks > self.list.tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 }
-            }); 
+            });
         }
     },
 
@@ -372,7 +372,7 @@ Vue.component('tasks', {
     computed: {
         /**
          * Check, Has task from this props list
-         * 
+         *
          * @return boolen
          */
         taskLength: function() {
@@ -381,10 +381,10 @@ Vue.component('tasks', {
 
         /**
          * Get incomplete tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
+         *
+         * @param  array tasks
+         *
+         * @return array
          */
         getIncompleteTasks: function() {
             if ( ! this.list.tasks ) {
@@ -398,10 +398,10 @@ Vue.component('tasks', {
 
         /**
          * Get completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
+         *
+         * @param  array tasks
+         *
+         * @return array
          */
         getCompletedTask: function() {
             if ( ! this.list.tasks ) {
@@ -410,16 +410,16 @@ Vue.component('tasks', {
 
             return this.list.tasks.filter(function( task ) {
                 return ( task.completed == '1' || task.completed );
-            }); 
+            });
         },
     },
 
     methods: {
         is_assigned: function(task) {
-            
+
             var get_current_user_id = this.$store.state.get_current_user_id,
                 in_task  = task.assigned_to.indexOf(get_current_user_id);
-            
+
             if ( task.can_del_edit || ( in_task != '-1' ) ) {
                 return true;
             }
@@ -428,10 +428,10 @@ Vue.component('tasks', {
         },
         /**
          * Get incomplete tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
+         *
+         * @param  array tasks
+         *
+         * @return array
          */
         getIncompletedTasks: function(lists) {
             return lists.tasks.filter(function( task ) {
@@ -441,22 +441,22 @@ Vue.component('tasks', {
 
         /**
          * Get completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
+         *
+         * @param  array tasks
+         *
+         * @return array
          */
         getCompleteTask: function(lists) {
             return lists.tasks.filter(function( task ) {
                 return ( task.completed == '1' || task.completed );
-            }); 
+            });
         },
         /**
          * Show task edit form
-         * 
-         * @param  int task_index 
-         * 
-         * @return void            
+         *
+         * @param  int task_index
+         *
+         * @return void
          */
         taskEdit: function( task_id ) {
 
@@ -464,16 +464,16 @@ Vue.component('tasks', {
                 lists = this.$store.state.lists,
                 list_index = this.getIndex( lists, this.list.ID, 'ID' )
                 task_index = this.getIndex( self.list.tasks, task_id, 'ID' );
-            
+
                 self.showHideTaskForm( list_index, task_index );
         },
 
         /**
          * Class for showing task private incon
-         * 
-         * @param  obje task 
-         * 
-         * @return string      
+         *
+         * @param  obje task
+         *
+         * @return string
          */
         privateClass: function( task ) {
             return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
@@ -481,7 +481,7 @@ Vue.component('tasks', {
 
         /**
          * Delete task
-         * 
+         *
          * @return void
          */
         deleteTask: function( list_id, task_id ) {
@@ -503,9 +503,9 @@ Vue.component('tasks', {
                 if ( res.success ) {
                     // Display a success message, with a title
                     //toastr.success(res.data.success);
-                    
+
                     CPM_Component_jQuery.fadeOut( task_id, function() {
-                        self.$store.commit( 'after_delete_task', { 
+                        self.$store.commit( 'after_delete_task', {
                             list_index: list_index,
                             task_index: task_index,
                         });
@@ -532,13 +532,13 @@ Vue.component('tasks', {
 
             var page_number = incompleted_tasks.length,
                 self   = this;
-            
+
             this.getTasks( list.ID, page_number, 'cpm_get_incompleted_tasks', function(res) {
                 self.task_loading_status = false;
                 self.more_incomplete_task_spinner = false;
 
                 var incompleted_tasks = self.getIncompletedTasks( self.list );
-                
+
                 if ( res.found_incompleted_tasks > incompleted_tasks.length ) {
                     self.incomplete_show_load_more_btn = true;
                 } else {
@@ -560,13 +560,13 @@ Vue.component('tasks', {
 
             var page_number = completed_tasks.length,
                 self   = this;
-            
+
             this.getTasks( list.ID, page_number, 'cpm_get_completed_tasks', function(res) {
                 self.task_loading_status = false;
                 self.more_completed_task_spinner = false;
 
                 var completed_tasks = self.getCompleteTask( self.list );
-                
+
                 if ( res.found_completed_tasks > completed_tasks.length ) {
                     self.complete_show_load_more_btn = true;
                 } else {
@@ -586,12 +586,12 @@ Vue.component('cpm-task-comment-form', {
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
-    // Get passing data for this component. 
+    // Get passing data for this component.
     props: ['comment', 'task'],
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -613,10 +613,10 @@ Vue.component('cpm-task-comment-form', {
     watch: {
         /**
          * Observed comment file change
-         * 
-         * @param  array new_files 
-         * 
-         * @return void           
+         *
+         * @param  array new_files
+         *
+         * @return void
          */
         files: function( new_files ) {
             this.comment.files = new_files;
@@ -625,8 +625,8 @@ Vue.component('cpm-task-comment-form', {
         /**
          * Observe onchange comment message
          *
-         * @param string new_content 
-         * 
+         * @param string new_content
+         *
          * @type void
          */
         content: {
@@ -645,11 +645,11 @@ Vue.component('cpm-task-comment-form', {
     computed: {
         /**
          * Editor ID
-         * 
+         *
          * @return string
          */
         editor_id: function() {
-            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
+            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ?
                 '' : '-' + this.comment.comment_ID;
 
             return 'cpm-task-editor' + comment_id;
@@ -657,7 +657,7 @@ Vue.component('cpm-task-comment-form', {
 
         /**
          * Get current projects co-worker
-         * 
+         *
          * @return object
          */
         co_workers: function() {
@@ -671,7 +671,7 @@ Vue.component('cpm-task-comment-form', {
          */
         hasCoWorker: function() {
             var co_workers = this.co_worker_lists();
-            
+
             if ( co_workers.length ) {
                 return true;
             }
@@ -683,26 +683,26 @@ Vue.component('cpm-task-comment-form', {
     methods: {
         /**
          * Get current projects co-worker
-         * 
+         *
          * @return object
          */
         co_worker_lists: function() {
             var self = this;
             var project_users = this.get_porject_users_by_role('co_worker');
-            
+
             var filtered_users = project_users.filter(function(user) {
                 return self.task.assigned_to.indexOf(String(user.id)) != '-1';
-            }); 
+            });
 
             return filtered_users;
         },
         /**
          * Insert and update todo-task comment
-         * 
+         *
          * @return void
          */
         updateComment: function() {
-            // Prevent sending request when multiple click submit button 
+            // Prevent sending request when multiple click submit button
             if ( this.submit_disabled ) {
                 return;
             }
@@ -714,31 +714,31 @@ Vue.component('cpm-task-comment-form', {
                 list_index = this.getIndex( this.$store.state.lists, this.task.post_parent, 'ID' ),
                 task_index = this.getIndex( this.$store.state.lists[list_index].tasks, this.task.ID, 'ID' ),
                 is_update  = typeof this.comment.comment_ID == 'undefined' ? false : true,
-                
+
                 form_data = {
                     parent_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
                     comment_id: is_update ? this.comment.comment_ID : false,
-                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new', 
+                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new',
                     cpm_message: this.comment.comment_content,
                     cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
                 };
 
-            // Showing spinner    
+            // Showing spinner
             this.show_spinner = true;
 
             // Sending request for add and update comment
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
-                
+
                 self.show_spinner    = false;
                 self.submit_disabled = false;
-                
+
                 if ( res.success ) {
-                    
+
                     if ( ! is_update ) {
                         // After getting todo task, set it to vuex state tasks
-                        self.$store.commit( 'update_task_comment', { 
+                        self.$store.commit( 'update_task_comment', {
                             task_index: task_index,
                             list_index: list_index,
                             comment: res.data.comment,
@@ -748,9 +748,9 @@ Vue.component('cpm-task-comment-form', {
 
                         self.files = [];
                         self.content.html = '';
-                        
+
                         self.$root.$emit( 'after_comment' );
- 
+
                     } else {
                         self.showHideTaskCommentEditForm( self.task, self.comment.comment_ID);
                     }
@@ -763,16 +763,16 @@ Vue.component('cpm-task-comment-form', {
                     res.data.error.map( function( value, index ) {
                         toastr.error(value);
                     });
-                } 
+                }
             });
         },
 
         /**
          * Get files id array from file object
-         * 
-         * @param  object files 
-         * 
-         * @return array       
+         *
+         * @param  object files
+         *
+         * @return array
          */
         filtersOnlyFileID: function( files ) {
             if ( typeof files == 'undefined' ) {
@@ -786,15 +786,15 @@ Vue.component('cpm-task-comment-form', {
 
         /**
          * Check select all check box enable or disabled. for notify users
-         * 
-         * @param  int user_id 
-         * 
-         * @return void         
+         *
+         * @param  int user_id
+         *
+         * @return void
          */
         notify_coo_workers: function( user_id ) {
             var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
                 notify_co_worker_length = this.notify_co_workers.length;
-            
+
             if ( co_worker_length != notify_co_worker_length ) {
                 this.notify_all_co_worker = false;
             }
@@ -828,7 +828,7 @@ Vue.component('todo-list-default-tmpl', {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -842,7 +842,7 @@ Vue.component('todo-list-default-tmpl', {
 
         /**
          * Get lists from vuex store
-         * 
+         *
          * @return array
          */
         lists: function() {
@@ -851,7 +851,7 @@ Vue.component('todo-list-default-tmpl', {
 
         /**
          * Check todo-list create premission for current user
-         * 
+         *
          * @return boolean
          */
         create_todolist: function() {
@@ -864,7 +864,7 @@ Vue.component('todo-list-default-tmpl', {
 
         /**
          * Show new todo-list form
-         * 
+         *
          * @return boolean
          */
         show_list_form: function() {
@@ -873,7 +873,7 @@ Vue.component('todo-list-default-tmpl', {
     }
 });
 
-// New todo list btn 
+// New todo list btn
 Vue.component('new-todo-list-button', {
 
     // Assign template for this component
@@ -884,7 +884,7 @@ Vue.component('new-todo-list-button', {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -901,7 +901,7 @@ Vue.component('new-todo-list-button', {
     computed: {
         /**
          * Show new todo-list form
-         * 
+         *
          * @return boolean
          */
         show_list_form: function() {
@@ -910,7 +910,7 @@ Vue.component('new-todo-list-button', {
     }
 });
 
-// New task btn 
+// New task btn
 Vue.component('new-task-button', {
 
     // Assign template for this component
@@ -925,7 +925,7 @@ Vue.component('new-task-button', {
     methods: {
         /**
          * Select new todo-list button class for +,- icon
-         * 
+         *
          * @return string
          */
         newTaskBtnClass: function() {
@@ -934,10 +934,10 @@ Vue.component('new-task-button', {
 
         /**
          * Show new task form
-         * 
-         * @param  int list_index 
-         * 
-         * @return void            
+         *
+         * @param  int list_index
+         *
+         * @return void
          */
         showNewTaskForm: function( list_index ) {
             this.showHideTaskForm( list_index );
@@ -945,7 +945,7 @@ Vue.component('new-task-button', {
     }
 });
 
-// New task form 
+// New task form
 Vue.component('new-task-form', {
 
     // Assign template for this component
@@ -959,7 +959,7 @@ Vue.component('new-task-form', {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -991,10 +991,10 @@ Vue.component('new-task-form', {
         },
         /**
          * Live check is the task private or not
-         * 
-         * @param  boolean val 
-         * 
-         * @return void     
+         *
+         * @param  boolean val
+         *
+         * @return void
          */
         task_privacy: function( val ) {
             if ( val ) {
@@ -1008,7 +1008,7 @@ Vue.component('new-task-form', {
     computed: {
         /**
          * Check current user can view the todo or not
-         * 
+         *
          * @return boolean
          */
         todo_view_private: function() {
@@ -1047,12 +1047,12 @@ Vue.component('new-task-form', {
                 }
 
                 return filtered_users;
-            }, 
+            },
 
             /**
              * Set selected users at task insert or edit time
-             * 
-             * @param array selected_users 
+             *
+             * @param array selected_users
              */
             set: function ( selected_users ) {
                 this.task.assigned_to = selected_users.map(function (user) {
@@ -1065,13 +1065,13 @@ Vue.component('new-task-form', {
     methods: {
         /**
          * Set tast start and end date at task insert or edit time
-         * 
-         * @param  string data 
-         * 
-         * @return void   
+         *
+         * @param  string data
+         *
+         * @return void
          */
         getDatePicker: function( data ) {
-            
+
             if ( data.field == 'datepicker_from' ) {
                 //this.task.start_date = data.date;
             }
@@ -1083,11 +1083,11 @@ Vue.component('new-task-form', {
 
         /**
          * Show or hieding task insert and edit form
-         *  
-         * @param  int list_index 
-         * @param  int task_id    
-         * 
-         * @return void           
+         *
+         * @param  int list_index
+         * @param  int task_id
+         *
+         * @return void
          */
         hideNewTaskForm: function(list_index, task_id) {
             var self = this,
@@ -1104,26 +1104,26 @@ Vue.component('new-task-form', {
                     self.showHideTaskForm( list_index, index );
                     self.task = jQuery.extend( self.task, self.before_edit );
                 }
-            }); 
+            });
         },
 
         /**
          * Insert and edit task
-         * 
+         *
          * @return void
          */
         newTask: function() {
-            // Exit from this function, If submit button disabled 
+            // Exit from this function, If submit button disabled
             if ( this.submit_disabled ) {
                 return;
             }
-            
+
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
 
             var self      = this,
                 is_update = typeof this.task.ID == 'undefined' ? false : true,
-                
+
                 form_data = {
                     action: typeof this.task.ID == 'undefined' ? 'cpm_task_add' : 'cpm_task_update',
                     project_id: CPM_Vars.project_id,
@@ -1137,15 +1137,15 @@ Vue.component('new-task-form', {
                     task_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
                     _wpnonce: CPM_Vars.nonce,
                 };
-            
-            // Showing loading option 
+
+            // Showing loading option
             this.show_spinner = true;
 
             // Sending request for insert or update task
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
-                    
+
                     self.show_spinner = false;
 
                     // Display a success toast, with a title
@@ -1156,23 +1156,23 @@ Vue.component('new-task-form', {
                             if ( task.ID == form_data.task_id ) {
                                 self.showHideTaskForm( self.list_index, index );
                             }
-                        }); 
-                        
+                        });
+
                     } else {
                         // Hide the todo list update form
-                        self.showHideTaskForm( self.list_index );  
-                        self.task_privacy = false;  
+                        self.showHideTaskForm( self.list_index );
+                        self.task_privacy = false;
                     }
-                    
+
                     if ( ! form_data.task_id ) {
                         var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
-                        // Update vuex state lists after insert or update task 
-                        self.$store.commit( 'update_task', { res: res, list_index: list_index, is_update: is_update } );    
+                        // Update vuex state lists after insert or update task
+                        self.$store.commit( 'update_task', { res: res, list_index: list_index, is_update: is_update } );
                     }
-                    
+
                 } else {
                     self.show_spinner = false;
-                    
+
                     // Showing error
                     res.data.error.map( function( value, index ) {
                         toastr.error(value);
@@ -1195,11 +1195,11 @@ var CPM_Router_Init = {
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
-        return { 
+        return {
             text: {
                 new_todo: CPM_Vars.message.new_todo
             },
@@ -1229,18 +1229,18 @@ var CPM_Router_Init = {
         hasTodoLists: function() {
             if ( ! this.$store.state.lists.length ) {
                 return false;
-            } 
-            
+            }
+
             return true;
         }
 
     },
 
-    // Initial doing 
+    // Initial doing
     created: function() {
         var self = this;
         this.$store.commit('emptyTodoLists');
-        
+
         this.getInitialData( this.$store.state.project_id, function(status) {
             self.loading = false;
         } );
@@ -1291,7 +1291,7 @@ var CPM_Task_Single = {
                 user.title = user.name;
                 user.img  = user.avatar_url;
             });
-            
+
             return this.$store.state.project_users;
         },
 
@@ -1311,11 +1311,11 @@ var CPM_Task_Single = {
             set: function(user) {
                 var task = this.task,
                     assign = [];
-                
+
                 user.map(function( set_user, key ) {
                     assign.push(String(set_user.id));
                 });
-                
+
                 task.assigned_to = assign;
 
                 this.updateTaskElement(task);
@@ -1326,7 +1326,7 @@ var CPM_Task_Single = {
     created: function() {
         this.getTask();
         window.addEventListener('click', this.windowActivity);
-        
+
         this.$root.$on('cpm_date_picker', this.fromDate);
     },
 
@@ -1334,7 +1334,7 @@ var CPM_Task_Single = {
     methods: {
 
         afterSelect: function(selectedOption, id, event) {
-            //jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+            //jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove();
         },
         isEnableMultiSelect: function() {
             this.is_enable_multi_select = true;
@@ -1342,7 +1342,7 @@ var CPM_Task_Single = {
             Vue.nextTick(function() {
                 jQuery('.multiselect__input').focus();
             });
-        }, 
+        },
 
         fromDate: function(date) {
             if ( date.field == 'datepicker_from' ) {
@@ -1354,7 +1354,7 @@ var CPM_Task_Single = {
 
             if ( date.field == 'datepicker_to' ) {
                 var task = this.task;
- 
+
                 var start = new Date( task.start_date ),
                     due = new Date( date.date );
 
@@ -1390,7 +1390,7 @@ var CPM_Task_Single = {
 
         closePopup: function() {
             this.$store.commit( 'close_single_task_popup' );
-            
+
             if ( this.$route.name == 'list_task_single_under_todo'  ) {
                 var list_id = this.task.post_parent,
                     push_url = '/list/'+list_id;
@@ -1409,7 +1409,7 @@ var CPM_Task_Single = {
                 this.loading = false;
                 return;
             }
-        
+
             var request_data  = {
                 task_id: this.$route.params.task_id,
                 project_id: CPM_Vars.project_id,
@@ -1428,7 +1428,7 @@ var CPM_Task_Single = {
         },
 
         updateTaskElement: function(task) {
-            
+
             var request_data  = {
                     task_id: task.ID,
                     list_id: task.post_parent,
@@ -1474,11 +1474,11 @@ var CPM_Task_Single = {
             var title_blur      = jQuery(el.target).hasClass('cpm-task-title-activity'),
                 dscription_blur = jQuery(el.target).hasClass('cpm-des-area'),
                 assign_user    =  jQuery(el.target).closest( '.cpm-assigned-user-wrap' );
-                
+
             if ( ! title_blur ) {
                 this.is_task_title_edit_mode = false;
             }
-            
+
             if ( ! dscription_blur ) {
                 this.is_task_details_edit_mode = false;
             }
@@ -1488,12 +1488,12 @@ var CPM_Task_Single = {
             }
 
             this.datePickerDispaly(el);
-            
+
         },
 
         datePickerDispaly: function(el) {
             var date_picker_blur       = jQuery(el.target).closest('.cpm-task-date-wrap').hasClass('cpm-date-window');
-            
+
             if ( ! date_picker_blur ) {
                 this.is_task_date_edit_mode = false;
             }
@@ -1501,17 +1501,17 @@ var CPM_Task_Single = {
     },
 }
 
-var CPM_List_Single = { 
+var CPM_List_Single = {
 
     // Assign template for this component
-    template: '#tmpl-cpm-todo-list-single',  
+    template: '#tmpl-cpm-todo-list-single',
 
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -1527,15 +1527,15 @@ var CPM_List_Single = {
 
     /**
      * Initial action for this component
-     * 
+     *
      * @return void
      */
     created: function() {
         var self = this;
-        
+
         this.$store.commit('emptyTodoLists');
-        
-        // Get todo list 
+
+        // Get todo list
         this.getList( this.$route.params.list_id, function(res) {
             self.loading = false;
         });
@@ -1544,7 +1544,7 @@ var CPM_List_Single = {
     computed: {
         /**
          * Get todo lists from vuex store
-         * 
+         *
          * @return array
          */
         lists: function () {
@@ -1553,7 +1553,7 @@ var CPM_List_Single = {
 
         /**
          * Get milestones from vuex store
-         * 
+         *
          * @return array
          */
         milestones: function() {
@@ -1562,7 +1562,7 @@ var CPM_List_Single = {
 
         /**
          * Get current project id from vuex store
-         * 
+         *
          * @return int
          */
         project_id: function() {
@@ -1571,7 +1571,7 @@ var CPM_List_Single = {
 
         /**
          * Get initial data from vuex store when this component loaded
-         * 
+         *
          * @return obj
          */
         init: function() {
@@ -1599,13 +1599,13 @@ var CPM_List_Single = {
     methods: {
         /**
          * Get todo list for single todo list page
-         * 
-         * @param  int list_id 
-         * 
-         * @return void         
+         *
+         * @param  int list_id
+         *
+         * @return void
          */
         getList: function( list_id, callback ) {
-            
+
             var self      = this,
                 form_data = {
                     list_id: list_id,
@@ -1614,13 +1614,13 @@ var CPM_List_Single = {
                     _wpnonce: CPM_Vars.nonce,
                 };
 
-            // Sending request for getting singel todo list 
+            // Sending request for getting singel todo list
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
 
                 if ( res.success ) {
 
                     // After getting todo list, set it to vuex state lists
-                    self.$store.commit( 'update_todo_list_single', { 
+                    self.$store.commit( 'update_todo_list_single', {
                         list: res.data.list,
                         permissions: res.data.permissions,
                         milestones: res.data.milestones,
@@ -1632,7 +1632,7 @@ var CPM_List_Single = {
                     if ( typeof callback != 'undefined'  ) {
                         callback(res);
                     }
-                } 
+                }
             });
         },
     }
@@ -1643,7 +1643,7 @@ Vue.component('cpm-text-editor', {
     // Assign template for this component
     template: '<textarea :id="editor_id" v-model="content.html"></textarea></div>',
 
-    mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
+    mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),
 
     // Get passing data for this component.
     props: ['editor_id', 'content'],
@@ -1657,14 +1657,14 @@ Vue.component('cpm-text-editor', {
 
             // Remove the editor
             tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
-            
+
             // Instantiate the editor
             var settings = {
                 selector: 'textarea#' +self.editor_id,
                 menubar: false,
                 placeholder: CPM_Vars.message.comment_placeholder,
                 branding: false,
-                
+
                 setup: function (editor) {
                     editor.on('change', function () {
                         self.content.html = editor.getContent();
@@ -1703,9 +1703,9 @@ Vue.component('cpm-text-editor', {
 
 
             tinymce.init(settings);
-            
+
         });
-       
+
         //tinymce.execCommand( 'mceRemoveEditor', true, id );
         //tinymce.execCommand( 'mceAddEditor', true, id );
         //tinymce.execCommand( 'mceAddControl', true, id );
@@ -1737,19 +1737,19 @@ Vue.component('cpm-file-uploader', {
         Vue.nextTick(function() {
             new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self );
         });
-        
+
     },
 
     methods: {
         /**
-         * Set the uploaded file 
-         * 
-         * @param  object file_res 
-         * 
-         * @return void          
+         * Set the uploaded file
+         *
+         * @param  object file_res
+         *
+         * @return void
          */
         fileUploaded: function( file_res ) {
-            
+
             if ( typeof this.files == 'undefined' ) {
                 this.files = [];
             }
@@ -1758,11 +1758,11 @@ Vue.component('cpm-file-uploader', {
         },
 
         /**
-         * Delete file 
-         * 
-         * @param  object file_id 
-         * 
-         * @return void          
+         * Delete file
+         *
+         * @param  object file_id
+         *
+         * @return void
          */
         deletefile: function(file_id) {
             if ( ! confirm(CPM_Vars.message.confirm) ) {
@@ -1793,12 +1793,12 @@ Vue.component('cpm-list-comment-form', {
     // Include global properties and methods
     mixins: [CPM_Task_Mixin],
 
-    // Get passing data for this component. 
+    // Get passing data for this component.
     props: ['comment', 'list'],
 
     /**
      * Initial data for this component
-     * 
+     *
      * @return obj
      */
     data: function() {
@@ -1820,10 +1820,10 @@ Vue.component('cpm-list-comment-form', {
     watch: {
         /**
          * Observed comment file change
-         * 
-         * @param  array new_files 
-         * 
-         * @return void           
+         *
+         * @param  array new_files
+         *
+         * @return void
          */
         files: function( new_files ) {
             this.comment.files = new_files;
@@ -1832,8 +1832,8 @@ Vue.component('cpm-list-comment-form', {
         /**
          * Observe onchange comment message
          *
-         * @param string new_content 
-         * 
+         * @param string new_content
+         *
          * @type void
          */
         content: {
@@ -1852,11 +1852,11 @@ Vue.component('cpm-list-comment-form', {
     computed: {
         /**
          * Editor ID
-         * 
+         *
          * @return string
          */
         editor_id: function() {
-            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ? 
+            var comment_id = ( typeof this.comment.comment_ID == 'undefined' ) ?
                 '' : '-' + this.comment.comment_ID;
 
             return 'cpm-list-editor' + comment_id;
@@ -1864,7 +1864,7 @@ Vue.component('cpm-list-comment-form', {
 
         /**
          * Get current projects co-worker
-         * 
+         *
          * @return object
          */
         co_workers: function() {
@@ -1873,7 +1873,7 @@ Vue.component('cpm-list-comment-form', {
 
         /**
          * Check has co-worker in project or not
-         * 
+         *
          * @return boolean
          */
         hasCoWorker: function() {
@@ -1890,11 +1890,11 @@ Vue.component('cpm-list-comment-form', {
     methods: {
         /**
          * Insert and update todo-list comment
-         * 
+         *
          * @return void
          */
         updateComment: function() {
-            // Prevent sending request when multiple click submit button 
+            // Prevent sending request when multiple click submit button
             if ( this.submit_disabled ) {
                 return;
             }
@@ -1907,36 +1907,36 @@ Vue.component('cpm-list-comment-form', {
                 form_data = {
                     parent_id: typeof this.list.ID == 'undefined' ? false : this.list.ID,
                     comment_id: is_update ? this.comment.comment_ID : false,
-                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new', 
+                    action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new',
                     cpm_message: this.comment.comment_content,
                     cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
                 };
 
-            // Showing spinner    
+            // Showing spinner
             this.show_spinner = true;
 
             // Sending request for add and update comment
             jQuery.post( CPM_Vars.ajaxurl, form_data, function( res ) {
-                
+
                 self.show_spinner    = false;
                 self.submit_disabled = false;
-                
+
                 if ( res.success ) {
-                    
+
                     if ( ! is_update ) {
                         // After getting todo list, set it to vuex state lists
-                        self.$store.commit( 'update_todo_list_comment', { 
+                        self.$store.commit( 'update_todo_list_comment', {
                             list_id: self.list.ID,
                             comment: res.data.comment,
                         });
 
                         self.files = [];
                         self.content.html = '';
-                        
+
                         self.$root.$emit( 'after_comment' );
- 
+
                     } else {
                         self.showHideListCommentEditForm( self.comment.comment_ID );
                     }
@@ -1949,16 +1949,16 @@ Vue.component('cpm-list-comment-form', {
                     res.data.error.map( function( value, index ) {
                         toastr.error(value);
                     });
-                } 
+                }
             });
         },
 
         /**
          * Get files id array from file object
-         * 
-         * @param  object files 
-         * 
-         * @return array       
+         *
+         * @param  object files
+         *
+         * @return array
          */
         filtersOnlyFileID: function( files ) {
             if ( typeof files == 'undefined' ) {
@@ -1972,15 +1972,15 @@ Vue.component('cpm-list-comment-form', {
 
         /**
          * Check select all check box enable or disabled. for notify users
-         * 
-         * @param  int user_id 
-         * 
-         * @return void         
+         *
+         * @param  int user_id
+         *
+         * @return void
          */
         notify_coo_workers: function( user_id ) {
             var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
                 notify_co_worker_length = this.notify_co_workers.length;
-            
+
             if ( co_worker_length != notify_co_worker_length ) {
                 this.notify_all_co_worker = false;
             }
@@ -2009,7 +2009,7 @@ Vue.component('cpm-list-comments', {
     // Assign template for this component
     template: '#tmpl-cpm-list-comments',
 
-    // Get passing data for this component. 
+    // Get passing data for this component.
     props: ['comments', 'list'],
 
     // Include global properties and methods
@@ -2026,18 +2026,18 @@ Vue.component('cpm-list-comments', {
 
     methods: {
         current_user_can_edit_delete: function( comment, list ) {
-            
+
             if ( list.can_del_edit ) {
                 return true;
             }
-            
+
             if ( (comment.user_id == this.$store.state.get_current_user_id ) && (comment.comment_type == '') ) {
                 return true;
             }
 
             return false;
         }
-          
+
     }
 });
 
@@ -2045,7 +2045,7 @@ Vue.component('cpm-task-comments', {
     // Assign template for this component
     template: '#tmpl-cpm-task-comments',
 
-    // Get passing data for this component. 
+    // Get passing data for this component.
     props: ['comments', 'task'],
 
     // Include global properties and methods
@@ -2071,18 +2071,18 @@ Vue.component('cpm-task-comments', {
             if ( comment.comment_type == 'cpm_activity' ) {
                 return false;
             }
-            
+
             if ( task.can_del_edit ) {
                 return true;
             }
-            
+
             if ( (comment.user_id == this.currnet_user_id ) && (comment.comment_type == '') ) {
                 return true;
             }
 
             return false;
         }
-        
+
     }
 });
 
@@ -2103,7 +2103,7 @@ Vue.component( 'cpm-list-corner-menu', {
 
             var self = this;
             this.$store.commit('emptyTodoLists');
-            
+
             this.getInitialData( this.$store.state.project_id, function(status) {
                 self.$store.commit('loading_effect', {mode: false});
             } );
@@ -2140,7 +2140,7 @@ Vue.component( 'cpm-single-new-task-field', {
 
     methods: {
         settings: function() {
-            
+
         }
     }
 });
@@ -2148,7 +2148,7 @@ Vue.component( 'cpm-single-new-task-field', {
 // Quick task create procedure. Task create with ony one text field
 Vue.component( 'cpm-assign-user-drop-down', {
     template: '#tmpl-cpm-assign-user-drop-down',
-    
+
     data: function() {
         return {
             //enable_multi_select: false,
@@ -2165,8 +2165,8 @@ Vue.component( 'cpm-assign-user-drop-down', {
 
     computed: {
         project_users: function() {
-            
-            
+
+
             this.$store.state.project_users.map(function(user) {
                 user.title = user.name;
                 user.img  = user.avatar_url;
@@ -2208,11 +2208,11 @@ Vue.component( 'cpm-assign-user-drop-down', {
 
             Vue.nextTick(function() {
                 jQuery('.cpm-multiselect').find('.multiselect__input').focus();
-            }); 
+            });
         },
 
         afterSelect: function(selectedOption, id, event) {
-            jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
+            jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove();
         },
     }
 });
@@ -2262,10 +2262,10 @@ Vue.component( 'cpm-task-start-date', {
                 start: display_status,
                 lists: false,
                 description: false
-            }); 
-            
+            });
+
             Vue.nextTick(function() {
-               jQuery('.cpm-single-task-field-start-wrap').find('.cpm-single-task-field-start-field').focus(); 
+               jQuery('.cpm-single-task-field-start-wrap').find('.cpm-single-task-field-start-field').focus();
             });
         },
 
@@ -2325,7 +2325,7 @@ Vue.component( 'cpm-task-end-date', {
             });
 
             Vue.nextTick(function() {
-                jQuery('.cpm-single-task-field-end-wrap').find('.cpm-single-task-field-end-field').focus(); 
+                jQuery('.cpm-single-task-field-end-wrap').find('.cpm-single-task-field-end-field').focus();
             });
         },
 
@@ -2368,7 +2368,7 @@ Vue.component( 'cpm-task-description', {
 
     methods: {
         showTaskDescriptionField: function() {
-            this.enable_description_field = this.enable_description_field ? false : true;  
+            this.enable_description_field = this.enable_description_field ? false : true;
         }
     }
 });
@@ -2400,7 +2400,7 @@ Vue.component( 'cpm-todo-lists-drop-down', {
                 var list_id = this.$store.state.inline_todo_list_id,
                     lists = this.dropDownListsArray(),
                     return_val = {};
-                
+
                 lists.map(function(list) {
                     if ( list.id == list_id ) {
                         return_val = list;
@@ -2416,12 +2416,12 @@ Vue.component( 'cpm-todo-lists-drop-down', {
                         }
                     }
                 }
-                
+
                 return return_val;
             },
 
             set: function(list) {
-                
+
                 this.$store.commit('add_inline_todo_list_id', {list_id: list.id});
             }
         },
@@ -2445,7 +2445,7 @@ Vue.component( 'cpm-todo-lists-drop-down', {
             });
 
             Vue.nextTick(function() {
-                jQuery('.cpm-todo-lists-drop-down-wrap').find('.multiselect__input').focus(); 
+                jQuery('.cpm-todo-lists-drop-down-wrap').find('.multiselect__input').focus();
             });
         },
 
