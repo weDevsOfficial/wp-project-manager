@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 
 	state: {
-		is_discuss_form_active: false
+		is_discuss_form_active: false,
+		milestones: []
 	},
 	
 	mutations: {
@@ -19,6 +20,10 @@ export default new Vuex.Store({
             } else {
                 state.is_discuss_form_active = status;
             }
+		},
+
+		setMilestones (state, milestones) {
+			state.milestones = milestones;
 		}
 	}
 });

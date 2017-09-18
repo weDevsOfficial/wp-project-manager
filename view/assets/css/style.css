@@ -930,7 +930,6 @@ ul.cpm-activity ul li:before {
 -------------------------------------------------- */
 .cpm-new-message-form {
   margin: 0px;
-  display: none;
   background: #fff;
   padding: 15px 20px;
   margin-bottom: 25px;

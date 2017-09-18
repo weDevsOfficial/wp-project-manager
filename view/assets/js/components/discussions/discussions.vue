@@ -7,10 +7,10 @@
                 Add New Discussion 
             </a>
         </div>
-        <div class="cpm-new-message-for">
+        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
             <h3>Create a new message</h3>
 
-            <new-discuss-form v-if="is_discuss_form_active"></new-discuss-form>
+            <new-discuss-form></new-discuss-form>
 
         </div>
 
@@ -170,6 +170,12 @@
     import new_discuss_form from './new-discuss-form.vue';
 
     export default {
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.getDiscuss(vm);
+                vm.getMilestones(vm);
+            });
+        },
         components: {
             'pm-header': header,
             'new-discuss-form': new_discuss_form
@@ -177,6 +183,95 @@
         computed: {
             is_discuss_form_active () {
                 return this.$store.state.is_discuss_form_active;
+            }
+        },
+        methods: {
+            getMilestones (self) {
+                var request = {
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                    success (res) {
+                        self.$store.commit( 'setMilestones', res.data );
+                    }
+                };
+                self.httpRequest(request);
+            },
+
+            getDiscuss (self) {
+                var request = {
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                    success (res) {
+                        self.$store.commit( 'setMilestones', res.data );
+                    }
+                };
+                self.httpRequest(request);
+            },
+
+            /**
+             * Insert and edit task
+             * 
+             * @return void
+             */
+            newDiscuss: function() {
+                // Exit from this function, If submit button disabled 
+                if ( this.submit_disabled ) {
+                    return;
+                }
+                
+                // Disable submit button for preventing multiple click
+                this.submit_disabled = true;
+
+                var self      = this,
+                    is_update = typeof this.task.id == 'undefined' ? false : true,
+                    
+                    form_data = {
+                        board_id: this.list.id,
+                        assign: this.task.assigned_to,
+                        title: this.task.title,
+                        description: this.task.description,
+                        start_at: this.task.start_at,
+                        due_date: this.task.due_date,
+                        task_privacy: this.task.task_privacy,
+                        list_id: this.list.id,
+                    };
+                
+                // Showing loading option 
+                this.show_spinner = true;
+
+                if (is_update) {
+                    var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+                    var type = 'PUT'; 
+                } else {
+                    var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
+                    var type = 'POST';
+                }
+
+                var request_data = {
+                    url: url,
+                    type: type,
+                    data: form_data,
+                    success (res) {
+                        self.getList(self, self.list.id);
+                        self.show_spinner = false;
+
+                        // Display a success toast, with a title
+                        toastr.success(res.data.success);
+                   
+                        self.submit_disabled = false;
+                        self.showHideTaskFrom(self.list, self.task);
+                    },
+
+                    error (res) {
+                        self.show_spinner = false;
+                        
+                        // Showing error
+                        res.data.error.map( function( value, index ) {
+                            toastr.error(value);
+                        });
+                        self.submit_disabled = false;
+                    }
+                }
+                
+                self.httpRequest(request_data);
             }
         }
     }

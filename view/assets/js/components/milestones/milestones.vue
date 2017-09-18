@@ -267,8 +267,25 @@
     import header from './../header.vue';
 
     export default {
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.getMilestones(vm);
+            });
+        },
         components: {
             'pm-header': header
+        },
+
+        methods: {
+            getMilestones (self) {
+                var request = {
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                    success (res) {
+                        self.$store.commit( 'setMilestones', res.data );
+                    }
+                };
+                self.httpRequest(request);
+            },
         }
     }
 

@@ -6,20 +6,19 @@
 	        </div>
 
 	        <div class="item detail">
-	            <input id="message_detail" type="hidden" name="message_detail" value="">
+	        	<text-editor :editor_id="editor_id" :content="content"></text-editor>
 	        </div>
 
 	        <div class="item milestone">
-	            <select name="milestone" id="milestone">
-	                <option value="0">- Milestone -</option>
-	            </select>
-	        </div>
-
-	        <div class="cpm-make-privacy">
-	            <label>
-					<input type="checkbox" value="yes" name="message_privacy">
-	                Private                
-	            </label>
+        		<select v-model="milestone_id">
+			        <option value="-1">
+			            - Milestone -
+			        </option>
+			        <option v-for="milestone in milestones" :value="milestone.id">
+			            {{ milestone.title }}
+			        </option>
+			    </select>
+	        	
 	        </div>
 	            
 	        <div class="cpm-attachment-area">
@@ -65,3 +64,30 @@
     	</form>
 	</div>
 </template>
+
+<script>
+	import editor from './../text-editor.vue';
+	import milestones from './../milestones.vue';
+
+	export default { 
+		data () {
+			return {
+				editor_id: 'akagaefaer',
+				content: {
+					html: '',
+				},
+				milestone_id: 4
+			}
+		},
+
+		components: {
+			'text-editor': editor,
+			'milestones': milestones
+		},
+		computed: {
+			milestones () {
+				return this.$store.state.milestones;
+			}
+		}
+	}	
+</script>
