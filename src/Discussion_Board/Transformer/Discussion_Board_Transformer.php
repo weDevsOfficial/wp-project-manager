@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 use CPM\Common\Transformers\Boardable_User_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\File\Transformer\File_Transformer;
-use CPM\Common\Transformers\User_Transformer;
+use CPM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
@@ -36,13 +36,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeUsers( Discussion_Board $item ) {
-        $users = $item->users->map( function ( $item, $key ) {
-            $data = [
-                'id' => $item->boardable_id
-            ];
-
-            return $data;
-        });
+        $users = $item->users;
 
         return $this->collection( $users, new User_Transformer );
     }
