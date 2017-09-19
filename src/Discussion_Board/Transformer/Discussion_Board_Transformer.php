@@ -8,7 +8,7 @@ use CPM\Common\Transformers\Boardable_User_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\File\Transformer\File_Transformer;
 use CPM\Common\Transformers\User_Transformer;
-
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
     protected $defaultIncludes = [
@@ -48,14 +48,32 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Discussion_Board $item ) {
-        $comments = $item->comments;
+        $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
-        return $this->collection( $comments, new Comment_Transformer );
+        $comments = $item->comments()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'comment_page', $page );
+
+        $comment_collection = $comments->getCollection();
+        $resource = $this->collection( $comment_collection, new Comment_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
+
+        return $resource;
     }
 
     public function includeFiles( Discussion_Board $item ) {
-        $files = $item->files;
+        $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        return $this->collection( $files, new File_Transformer );
+        $files = $item->files()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'comment_page', $page );
+
+        $file_collection = $files->getCollection();
+        $resource = $this->collection( $file_collection, new File_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+
+        return $resource;
     }
 }
