@@ -103,7 +103,7 @@ class Discussion_Board_Controller {
         }
         $discussion_board->comments()->delete();
         $discussion_board->files()->delete();
-        $discussion_board->users()->delete();
+        $discussion_board->users()->detach();
 
         $discussion_board->delete();
     }
