@@ -10,7 +10,7 @@
         <div class="cpm-new-message-form" v-if="is_discuss_form_active">
             <h3>Create a new message</h3>
 
-            <new-discuss-form></new-discuss-form>
+            <new-discuss-form :discuss="{}"></new-discuss-form>
 
         </div>
 
@@ -19,16 +19,16 @@
             <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
                 <div class="cpm-box-title">Discussion List</div>
                 <ul class="dicussion-list">        
-                    <li class="cpm-col-12">
+                    <li class="cpm-col-12" v-for="discuss in discussion" key="discuss.id">
 
                         <div class="cpm-col-9" itemref="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97">
                         	
                         	<router-link 
             					class="cpm-pagination-btn prev page-numbers" 
-            					:to="{ name: 'individual_discussions',  params: { discussion_id: 3 }}">
+            					:to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
             					<img alt="admin" src="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm" srcset="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm 2x" class="avatar avatar-48 photo" height="48" width="48">
             					<div>
-                                   srthsrth                    
+                                   {{ discuss.title }}                    
                             	</div>
                             	
             				</router-link>
@@ -45,6 +45,7 @@
 
                         <div class="cpm-col-1">
                             <span class="cpm-message-action cpm-right">
+                                <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="cpm-msg-edit dashicons dashicons-edit"></a>
                                 <a href="" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
                                     <span class="dashicons dashicons-trash"></span>
                                 </a>
@@ -58,7 +59,7 @@
                         </div>
 
                         <div class="clear"></div>
-
+                        <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
                     </li>
              
                 </ul>    
@@ -183,6 +184,10 @@
         computed: {
             is_discuss_form_active () {
                 return this.$store.state.is_discuss_form_active;
+            },
+
+            discussion () {
+                return this.$store.state.discuss;
             }
         },
         methods: {
@@ -195,84 +200,6 @@
                 };
                 self.httpRequest(request);
             },
-
-            getDiscuss (self) {
-                var request = {
-                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
-                    success (res) {
-                        self.$store.commit( 'setMilestones', res.data );
-                    }
-                };
-                self.httpRequest(request);
-            },
-
-            /**
-             * Insert and edit task
-             * 
-             * @return void
-             */
-            newDiscuss: function() {
-                // Exit from this function, If submit button disabled 
-                if ( this.submit_disabled ) {
-                    return;
-                }
-                
-                // Disable submit button for preventing multiple click
-                this.submit_disabled = true;
-
-                var self      = this,
-                    is_update = typeof this.task.id == 'undefined' ? false : true,
-                    
-                    form_data = {
-                        board_id: this.list.id,
-                        assign: this.task.assigned_to,
-                        title: this.task.title,
-                        description: this.task.description,
-                        start_at: this.task.start_at,
-                        due_date: this.task.due_date,
-                        task_privacy: this.task.task_privacy,
-                        list_id: this.list.id,
-                    };
-                
-                // Showing loading option 
-                this.show_spinner = true;
-
-                if (is_update) {
-                    var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
-                    var type = 'PUT'; 
-                } else {
-                    var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
-                    var type = 'POST';
-                }
-
-                var request_data = {
-                    url: url,
-                    type: type,
-                    data: form_data,
-                    success (res) {
-                        self.getList(self, self.list.id);
-                        self.show_spinner = false;
-
-                        // Display a success toast, with a title
-                        toastr.success(res.data.success);
-                   
-                        self.submit_disabled = false;
-                        self.showHideTaskFrom(self.list, self.task);
-                    },
-
-                    error (res) {
-                        self.show_spinner = false;
-                        
-                        // Showing error
-                        res.data.error.map( function( value, index ) {
-                            toastr.error(value);
-                        });
-                        self.submit_disabled = false;
-                    }
-                }
-                
-                self.httpRequest(request_data);
-            }
         }
     }
 

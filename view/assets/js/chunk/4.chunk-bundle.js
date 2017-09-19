@@ -1,34 +1,351 @@
 webpackJsonp([4],{
 
-/***/ 10:
+/***/ 117:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(88);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //vm.getMilestones(vm);
+        });
+    },
+    components: {
+        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */]
+    },
+
+    methods: {
+        getMilestones(self) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
+                success(res) {
+                    //self.$store.commit( 'setMilestones', res.data );
+                }
+            };
+            self.httpRequest(request);
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 137:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a0fcd1a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__ = __webpack_require__(163);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(186)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a0fcd1a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "view/assets/js/components/discussions/discussions.vue"
+Component.options.__file = "view/assets/js/components/milestones/milestones.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] discussions.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] milestones.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -37,9 +354,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13e4976b", Component.options)
+    hotAPI.createRecord("data-v-2a0fcd1a", Component.options)
   } else {
-    hotAPI.reload("data-v-13e4976b", Component.options)
+    hotAPI.reload("data-v-2a0fcd1a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -51,363 +368,14 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 110:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__ = __webpack_require__(136);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.getDiscuss(vm);
-            vm.getMilestones(vm);
-        });
-    },
-    components: {
-        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */],
-        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */]
-    },
-    computed: {
-        is_discuss_form_active() {
-            return this.$store.state.is_discuss_form_active;
-        }
-    },
-    methods: {
-        getMilestones(self) {
-            var request = {
-                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
-                success(res) {
-                    self.$store.commit('setMilestones', res.data);
-                }
-            };
-            self.httpRequest(request);
-        },
-
-        getDiscuss(self) {
-            var request = {
-                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
-                success(res) {
-                    self.$store.commit('setMilestones', res.data);
-                }
-            };
-            self.httpRequest(request);
-        },
-
-        /**
-         * Insert and edit task
-         * 
-         * @return void
-         */
-        newDiscuss: function () {
-            // Exit from this function, If submit button disabled 
-            if (this.submit_disabled) {
-                return;
-            }
-
-            // Disable submit button for preventing multiple click
-            this.submit_disabled = true;
-
-            var self = this,
-                is_update = typeof this.task.id == 'undefined' ? false : true,
-                form_data = {
-                board_id: this.list.id,
-                assign: this.task.assigned_to,
-                title: this.task.title,
-                description: this.task.description,
-                start_at: this.task.start_at,
-                due_date: this.task.due_date,
-                task_privacy: this.task.task_privacy,
-                list_id: this.list.id
-            };
-
-            // Showing loading option 
-            this.show_spinner = true;
-
-            if (is_update) {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
-                var type = 'PUT';
-            } else {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
-                var type = 'POST';
-            }
-
-            var request_data = {
-                url: url,
-                type: type,
-                data: form_data,
-                success(res) {
-                    self.getList(self, self.list.id);
-                    self.show_spinner = false;
-
-                    // Display a success toast, with a title
-                    toastr.success(res.data.success);
-
-                    self.submit_disabled = false;
-                    self.showHideTaskFrom(self.list, self.task);
-                },
-
-                error(res) {
-                    self.show_spinner = false;
-
-                    // Showing error
-                    res.data.error.map(function (value, index) {
-                        toastr.error(value);
-                    });
-                    self.submit_disabled = false;
-                }
-            };
-
-            self.httpRequest(request_data);
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 136:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__ = __webpack_require__(162);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/discussions/new-discuss-form.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] new-discuss-form.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-602b6da4", Component.options)
-  } else {
-    hotAPI.reload("data-v-602b6da4", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 154:
+/***/ 163:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('div', [_c('a', {
-    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
-    attrs: {
-      "href": "",
-      "id": "cpm-add-message"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideDiscussForm('toggle')
-      }
-    }
-  }, [_vm._v(" \n                Add New Discussion \n            ")])]), _vm._v(" "), (_vm.is_discuss_form_active) ? _c('div', {
-    staticClass: "cpm-new-message-form"
-  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('new-discuss-form')], 1) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_c('pm-header'), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "cpm-row cpm-message-page"
   }, [_c('div', {
     staticClass: "cpm-message-list cpm-col-12 cpm-sm-col-12"
@@ -441,69 +409,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "height": "48",
       "width": "48"
     }
-  }), _vm._v(" "), _c('div', [_vm._v("\n                                   srthsrth                    \n                            \t")])]), _vm._v(" "), _vm._m(0)], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', [_vm._v("\n                       srthsrth                    \n                \t")])]), _vm._v(" "), _vm._m(2)], 1), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "cpm-col-2 cpm-last-col cpm-right comment-count",
     attrs: {
       "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
     }
-  }, [_vm._v("\n                             4 Comments            \n                        ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                 4 Comments            ")]), _vm._v(" "), _c('div', {
     staticClass: "clear"
-  })])])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)])]), _vm._v(" "), _c('div', {
     staticClass: "clear"
-  })]), _vm._v(" "), _vm._m(2)], 1)
+  })]), _vm._v(" "), _vm._m(6)], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dicussion-meta"
-  }, [_vm._v("\n                                By \n                                "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("\n                                \tadmin\n                                ")]), _vm._v(" \n                                on September 11, 2017 01:34 pm                    \n                            ")])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-col-1"
-  }, [_c('span', {
-    staticClass: "cpm-message-action cpm-right"
-  }, [_c('a', {
-    staticClass: "delete-message",
-    attrs: {
-      "href": "",
-      "title": "Delete this message",
-      "data-msg_id": "97",
-      "data-project_id": "60",
-      "data-confirm": "Are you sure to delete this message?"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "cpm-unlock"
-  })])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-blank-template discussion",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-content"
-  }, [_c('h2', {
-    staticClass: "cpm-page-title"
-  }, [_vm._v("  Discussion ")]), _vm._v(" "), _c('p', [_vm._v("\n                    Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.        ")]), _vm._v(" "), _c('div', [_c('a', {
+  return _c('div', [_c('a', {
     staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
     attrs: {
       "href": "",
-      "id": "cpm-add-message-new"
+      "id": "cpm-add-message"
     }
-  }, [_vm._v(" Add New Discussion ")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-new-message-form",
-    attrs: {
-      "id": "cpm-new-message-form-content"
-    }
+  }, [_vm._v(" Add New Discussion ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-new-message-form"
   }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('form', {
     staticClass: "cpm-message-form"
-  }, [_c('div', {
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "id": "_wpnonce",
+      "name": "_wpnonce",
+      "value": "da9995404a"
+    }
+  }), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_wp_http_referer",
+      "value": "/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "item title"
   }, [_c('input', {
     attrs: {
@@ -542,24 +485,61 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "value": "yes",
       "name": "message_privacy"
     }
-  }), _vm._v("\n                                Private                \n                            ")])]), _vm._v(" "), _c('div', {
+  }), _vm._v("\n                    Private                ")])]), _vm._v(" "), _c('div', {
     staticClass: "cpm-attachment-area"
   }, [_c('div', {
+    staticStyle: {
+      "position": "relative"
+    },
     attrs: {
       "id": "cpm-upload-container-nd"
     }
   }, [_c('div', {
     staticClass: "cpm-upload-filelist"
-  }), _vm._v("\n                                To attach, \n                                "), _c('a', {
+  }), _vm._v("\n        To attach, "), _c('a', {
+    staticStyle: {
+      "position": "relative",
+      "z-index": "1"
+    },
     attrs: {
       "id": "cpm-upload-pickfiles-nd",
       "href": "#"
     }
-  }, [_vm._v("select files")]), _vm._v(" from your computer.    \n                            ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("select files")]), _vm._v(" from your computer.    "), _c('div', {
+    staticClass: "moxie-shim moxie-shim-html5",
+    staticStyle: {
+      "position": "absolute",
+      "top": "0px",
+      "left": "0px",
+      "width": "0px",
+      "height": "0px",
+      "overflow": "hidden",
+      "z-index": "0"
+    },
+    attrs: {
+      "id": "html5_1bpoid5a01j4s5vi1olihdq11kd3_container"
+    }
+  }, [_c('input', {
+    staticStyle: {
+      "font-size": "999px",
+      "opacity": "0",
+      "position": "absolute",
+      "top": "0px",
+      "left": "0px",
+      "width": "100%",
+      "height": "100%"
+    },
+    attrs: {
+      "id": "html5_1bpoid5a01j4s5vi1olihdq11kd3",
+      "type": "file",
+      "multiple": "",
+      "accept": ""
+    }
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "notify-users"
   }, [_c('h2', {
     staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                                Notify users            \n                                "), _c('label', {
+  }, [_vm._v(" Notify users            "), _c('label', {
     staticClass: "cpm-small-title",
     attrs: {
       "for": "select-all"
@@ -571,7 +551,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "name": "select-all",
       "id": "select-all"
     }
-  }), _vm._v(" \n                                    Select all\n                                ")])]), _vm._v(" "), _c('ul', {
+  }), _vm._v(" Select all")])]), _vm._v(" "), _c('ul', {
     staticClass: "cpm-user-list"
   }, [_c('li', [_c('label', {
     attrs: {
@@ -584,11 +564,317 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "id": "cpm_notify_1",
       "value": "1"
     }
-  }), _vm._v(" \n                                        Admin\n                                    ")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Admin")])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   })])]), _vm._v(" "), _c('div', {
     staticClass: "submit"
   }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "action",
+      "value": "cpm_message_new"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "project_id",
+      "value": "60"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "message_id",
+      "value": "nd"
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "create_message",
+      "id": "create_message",
+      "value": "Add Message"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "message-cancel button-secondary",
+    attrs: {
+      "href": ""
+    }
+  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dicussion-meta"
+  }, [_vm._v("\n                    By \n                    "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("\n                    \tadmin\n                    ")]), _vm._v(" \n                    on September 11, 2017 01:34 pm                    \n                ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-col-1"
+  }, [_c('span', {
+    staticClass: "cpm-message-action cpm-right"
+  }, [_c('a', {
+    staticClass: "delete-message",
+    attrs: {
+      "href": "",
+      "title": "Delete this message",
+      "data-msg_id": "97",
+      "data-project_id": "60",
+      "data-confirm": "Are you sure to delete this message?"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-unlock"
+  })])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "cpm-col-12"
+  }, [_c('div', {
+    staticClass: "cpm-col-9",
+    attrs: {
+      "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=96"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })]), _vm._v(" "), _c('div', [_vm._v("\n                       kafd                    ")]), _vm._v(" "), _c('div', {
+    staticClass: "dicussion-meta"
+  }, [_vm._v("\n                        By "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")]), _vm._v(" on September 11, 2017 01:34 pm                    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-1"
+  }, [_c('span', {
+    staticClass: "cpm-message-action cpm-right"
+  }, [_c('a', {
+    staticClass: "delete-message",
+    attrs: {
+      "href": "",
+      "title": "Delete this message",
+      "data-msg_id": "96",
+      "data-project_id": "60",
+      "data-confirm": "Are you sure to delete this message?"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-unlock"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-2 cpm-last-col cpm-right comment-count",
+    attrs: {
+      "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=96"
+    }
+  }, [_vm._v("\n                 0 Comments            ")]), _vm._v(" "), _c('div', {
+    staticClass: "clear"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "cpm-col-12"
+  }, [_c('div', {
+    staticClass: "cpm-col-9",
+    attrs: {
+      "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=95"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })]), _vm._v(" "), _c('div', [_vm._v("\n                       message 1                    ")]), _vm._v(" "), _c('div', {
+    staticClass: "dicussion-meta"
+  }, [_vm._v("\n                        By "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")]), _vm._v(" on September 11, 2017 01:33 pm                    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-1"
+  }, [_c('span', {
+    staticClass: "cpm-message-action cpm-right"
+  }, [_c('a', {
+    staticClass: "delete-message",
+    attrs: {
+      "href": "",
+      "title": "Delete this message",
+      "data-msg_id": "95",
+      "data-project_id": "60",
+      "data-confirm": "Are you sure to delete this message?"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-unlock"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-2 cpm-last-col cpm-right comment-count",
+    attrs: {
+      "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=95"
+    }
+  }, [_vm._v("\n                 0 Comments            ")]), _vm._v(" "), _c('div', {
+    staticClass: "clear"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-blank-template discussion",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-content"
+  }, [_c('h2', {
+    staticClass: "cpm-page-title"
+  }, [_vm._v("  Discussion ")]), _vm._v(" "), _c('p', [_vm._v("\n            Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.        ")]), _vm._v(" "), _c('div', [_c('a', {
+    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
+    attrs: {
+      "href": "",
+      "id": "cpm-add-message-new"
+    }
+  }, [_vm._v(" Add New Discussion ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-new-message-form",
+    attrs: {
+      "id": "cpm-new-message-form-content"
+    }
+  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('form', {
+    staticClass: "cpm-message-form"
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "id": "_wpnonce",
+      "name": "_wpnonce",
+      "value": "da9995404a"
+    }
+  }), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_wp_http_referer",
+      "value": "/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "item title"
+  }, [_c('input', {
+    attrs: {
+      "name": "message_title",
+      "required": "required",
+      "type": "text",
+      "id": "message_title",
+      "value": "",
+      "placeholder": "Enter message title"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item detail"
+  }, [_c('input', {
+    attrs: {
+      "id": "message_detail",
+      "type": "hidden",
+      "name": "message_detail",
+      "value": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item milestone"
+  }, [_c('select', {
+    attrs: {
+      "name": "milestone",
+      "id": "milestone"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0"
+    }
+  }, [_vm._v("- Milestone -")])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-make-privacy"
+  }, [_c('label', [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "value": "yes",
+      "name": "message_privacy"
+    }
+  }), _vm._v("\n                    Private                ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-attachment-area"
+  }, [_c('div', {
+    attrs: {
+      "id": "cpm-upload-container-nd"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-upload-filelist"
+  }), _vm._v("\n        To attach, "), _c('a', {
+    attrs: {
+      "id": "cpm-upload-pickfiles-nd",
+      "href": "#"
+    }
+  }, [_vm._v("select files")]), _vm._v(" from your computer.    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "notify-users"
+  }, [_c('h2', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v(" Notify users            "), _c('label', {
+    staticClass: "cpm-small-title",
+    attrs: {
+      "for": "select-all"
+    }
+  }, [_c('input', {
+    staticClass: "cpm-toggle-checkbox",
+    attrs: {
+      "type": "checkbox",
+      "name": "select-all",
+      "id": "select-all"
+    }
+  }), _vm._v(" Select all")])]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-user-list"
+  }, [_c('li', [_c('label', {
+    attrs: {
+      "for": "cpm_notify_1"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": "notify_user[]",
+      "id": "cpm_notify_1",
+      "value": "1"
+    }
+  }), _vm._v(" Admin")])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "submit"
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "action",
+      "value": "cpm_message_new"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "project_id",
+      "value": "60"
+    }
+  }), _vm._v(" "), _c('input', {
     attrs: {
       "type": "hidden",
       "name": "message_id",
@@ -626,565 +912,35 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-13e4976b", esExports)
+     require("vue-hot-reload-api").rerender("data-v-2a0fcd1a", esExports)
   }
 }
-
-/***/ }),
-
-/***/ 162:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('form', {
-    staticClass: "cpm-message-form"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "item detail"
-  }, [_c('text-editor', {
-    attrs: {
-      "editor_id": _vm.editor_id,
-      "content": _vm.content
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "item milestone"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.milestone_id),
-      expression: "milestone_id"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.milestone_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "-1"
-    }
-  }, [_vm._v("\n\t\t\t            - Milestone -\n\t\t\t        ")]), _vm._v(" "), _vm._l((_vm.milestones), function(milestone) {
-    return _c('option', {
-      domProps: {
-        "value": milestone.id
-      }
-    }, [_vm._v("\n\t\t\t            " + _vm._s(milestone.title) + "\n\t\t\t        ")])
-  })], 2)]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "create_message",
-      "id": "create_message",
-      "value": "Add Message"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "message-cancel button-secondary",
-    attrs: {
-      "href": ""
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideDiscussForm(false, {})
-      }
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])])])
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "item title"
-  }, [_c('input', {
-    attrs: {
-      "name": "message_title",
-      "required": "required",
-      "type": "text",
-      "id": "message_title",
-      "value": "",
-      "placeholder": "Enter message title"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-attachment-area"
-  }, [_c('div', {
-    staticStyle: {
-      "position": "relative"
-    },
-    attrs: {
-      "id": "cpm-upload-container-nd"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-upload-filelist"
-  }), _vm._v("\n\t\t        \tTo attach, \n\t\t        \t"), _c('a', {
-    staticStyle: {
-      "position": "relative",
-      "z-index": "1"
-    },
-    attrs: {
-      "id": "cpm-upload-pickfiles-nd",
-      "href": "#"
-    }
-  }, [_vm._v("select files")]), _vm._v(" \n\t\t        \tfrom your computer.    \n\t\t        \t"), _c('div', {
-    staticClass: "moxie-shim moxie-shim-html5",
-    staticStyle: {
-      "position": "absolute",
-      "top": "0px",
-      "left": "0px",
-      "width": "0px",
-      "height": "0px",
-      "overflow": "hidden",
-      "z-index": "0"
-    },
-    attrs: {
-      "id": "html5_1bpoid5a01j4s5vi1olihdq11kd3_container"
-    }
-  }, [_c('input', {
-    staticStyle: {
-      "font-size": "999px",
-      "opacity": "0",
-      "position": "absolute",
-      "top": "0px",
-      "left": "0px",
-      "width": "100%",
-      "height": "100%"
-    },
-    attrs: {
-      "id": "html5_1bpoid5a01j4s5vi1olihdq11kd3",
-      "type": "file",
-      "multiple": "",
-      "accept": ""
-    }
-  })])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n\t        \t\tNotify users            \n\t        \t\t"), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "name": "select-all",
-      "id": "select-all"
-    }
-  }), _vm._v(" \n\t        \t\t\tSelect all\n\t        \t\t")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_c('li', [_c('label', {
-    attrs: {
-      "for": "cpm_notify_1"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": "notify_user[]",
-      "id": "cpm_notify_1",
-      "value": "1"
-    }
-  }), _vm._v(" \n\t\t            \t\tAdmin\n\t\t            \t")])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])
-}]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-602b6da4", esExports)
-  }
-}
-
-/***/ }),
-
-/***/ 181:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(183);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_vue__ = __webpack_require__(186);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	data() {
-		return {
-			editor_id: 'akagaefaer',
-			content: {
-				html: ''
-			},
-			milestone_id: 4
-		};
-	},
-
-	components: {
-		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
-		'milestones': __WEBPACK_IMPORTED_MODULE_1__milestones_vue__["a" /* default */]
-	},
-	computed: {
-		milestones() {
-			return this.$store.state.milestones;
-		}
-	}
-});
-
-/***/ }),
-
-/***/ 182:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-
-    //mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
-
-    // Get passing data for this component.
-    props: ['editor_id', 'content'],
-
-    // Initial action for this component
-    created: function () {
-        var self = this;
-        this.$root.$on('after_comment', this.afterComment);
-        // After ready dom
-        __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
-            // Remove the editor
-            tinymce.execCommand('mceRemoveEditor', true, self.editor_id);
-
-            // Instantiate the editor
-            var settings = {
-                selector: 'textarea#' + self.editor_id,
-                menubar: false,
-                placeholder: 'Write a comment...',
-                branding: false,
-
-                setup: function (editor) {
-                    editor.on('change', function () {
-                        self.content.html = editor.getContent();
-                    });
-                    editor.on('keyup', function (event) {
-                        self.content.html = editor.getContent();
-                    });
-                    editor.on('NodeChange', function () {
-                        self.content.html = editor.getContent();
-                    });
-                },
-
-                external_plugins: {
-                    'placeholder': PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js'
-                },
-
-                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
-                font_formats: 'Arial=arial,helvetica,sans-serif;' + 'Comic Sans MS=comic sans ms,sans-serif;' + 'Courier New=courier new,courier;' + 'Georgia=georgia,palatino;' + 'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;' + 'Tahoma=tahoma,arial,helvetica,sans-serif;' + 'Times New Roman=times new roman,times;' + 'Trebuchet MS=trebuchet ms,geneva;' + 'Verdana=verdana,geneva;',
-                plugins: 'placeholder textcolor colorpicker wplink wordpress',
-                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
-                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
-                toolbar3: 'fontselect fontsizeselect removeformat undo redo'
-            };
-
-            if (self.tinyMCE_settings) {
-                settings = jQuery.extend(settings, self.tinyMCE_settings);
-            }
-
-            tinymce.init(settings);
-        });
-
-        //tinymce.execCommand( 'mceRemoveEditor', true, id );
-        //tinymce.execCommand( 'mceAddEditor', true, id );
-        //tinymce.execCommand( 'mceAddControl', true, id );
-    },
-
-    methods: {
-        afterComment: function () {
-            tinyMCE.get(this.editor_id).setContent('');
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 183:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_483c3c1e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(184);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_483c3c1e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/text-editor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] text-editor.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-483c3c1e", Component.options)
-  } else {
-    hotAPI.reload("data-v-483c3c1e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 184:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.content.html),
-      expression: "content.html"
-    }],
-    attrs: {
-      "id": _vm.editor_id
-    },
-    domProps: {
-      "value": (_vm.content.html)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.content.html = $event.target.value
-      }
-    }
-  })])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-483c3c1e", esExports)
-  }
-}
-
-/***/ }),
-
-/***/ 185:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['milestones']
-});
 
 /***/ }),
 
 /***/ 186:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_57dc70cf_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__ = __webpack_require__(187);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_57dc70cf_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/milestones.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] milestones.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-57dc70cf", Component.options)
-  } else {
-    hotAPI.reload("data-v-57dc70cf", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 187:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', [_c('option', {
-    attrs: {
-      "value": "-1"
-    }
-  }, [_vm._v("\n            - Milestone -\n        ")]), _vm._v(" "), _vm._l((_vm.milestones), function(milestone) {
-    return _c('option', {
-      domProps: {
-        "value": milestone.id
-      }
-    }, [_vm._v("\n            " + _vm._s(milestone.title) + "\n        ")])
-  })], 2)
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-57dc70cf", esExports)
-  }
+// load the styles
+var content = __webpack_require__(137);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(6)("a3f53e9e", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2a0fcd1a\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./milestones.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2a0fcd1a\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./milestones.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
 
 /***/ }),

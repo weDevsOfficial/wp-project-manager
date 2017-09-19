@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<form class="cpm-message-form">
+		<form class="cpm-message-form" @submit.prevent="newDiscuss()">
 	        <div class="item title">
-	            <input name="message_title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
+	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
 	        </div>
 
 	        <div class="item detail">
@@ -10,7 +10,7 @@
 	        </div>
 
 	        <div class="item milestone">
-        		<select v-model="milestone_id">
+        		<select v-model="discuss.milestone_id">
 			        <option value="-1">
 			            - Milestone -
 			        </option>
@@ -70,14 +70,33 @@
 	import milestones from './../milestones.vue';
 
 	export default { 
+		props: ['discuss'],
 		data () {
 			return {
-				editor_id: 'akagaefaer',
+				submit_disabled: false,
+				show_spinner: false,
 				content: {
-					html: '',
-				},
+	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
+	            },
 				milestone_id: 4
 			}
+		},
+
+		watch: {
+			/**
+	         * Observe onchange comment message
+	         *
+	         * @param string new_content 
+	         * 
+	         * @type void
+	         */
+	        content: {
+	            handler: function( new_content ) {
+	                this.discuss.description = new_content.html;
+	            },
+
+	            deep: true
+	        },
 		},
 
 		components: {
@@ -87,7 +106,20 @@
 		computed: {
 			milestones () {
 				return this.$store.state.milestones;
-			}
+			},
+			/**
+	         * Editor ID
+	         * 
+	         * @return string
+	         */
+	        editor_id: function() {
+	            var discuss_id = ( typeof this.discuss.id === 'undefined' ) ? '' : '-' + this.discuss.id;
+	            return 'cpm-discuss-editor' + discuss_id;
+	        },
+		},
+		methods: {
+
 		}
+	
 	}	
 </script>
