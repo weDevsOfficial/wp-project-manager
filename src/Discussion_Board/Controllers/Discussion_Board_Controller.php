@@ -103,13 +103,13 @@ class Discussion_Board_Controller {
         }
         $discussion_board->comments()->delete();
         $discussion_board->files()->delete();
-        $discussion_board->users()->detach();
+        $discussion_board->users()->delete();
 
         $discussion_board->delete();
     }
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
-        $boardable = Boardable::where( 'boardable_id', $board->id )
+        $baordable = Boardable::where( 'boardable_id', $board->id )
             ->where( 'boardable_type', 'discussion-board' )
             ->where( 'board_type', 'milestone' )
             ->first();

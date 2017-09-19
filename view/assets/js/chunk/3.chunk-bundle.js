@@ -478,6 +478,7 @@ if (false) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__comment_form_vue__ = __webpack_require__(189);
 //
 //
 //
@@ -580,107 +581,7 @@ if (false) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -695,16 +596,25 @@ if (false) {
     },
     computed: {
         discuss() {
-            if (this.$store.state.discussion.length) {
-                return this.$store.state.discussion[0];
+            return this.$store.state.discuss;
+        },
+        comments() {
+            return this.$store.state.comments.data;
+        },
+
+        commentsTotal() {
+
+            if (!jQuery.isEmptyObject(this.$store.state.comments.meta)) {
+                return this.$store.state.comments.meta.pagination.total;
             }
 
-            return {};
+            return 0;
         }
     },
     components: {
         'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */],
-        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */]
+        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */],
+        'comment-form': __WEBPACK_IMPORTED_MODULE_2__comment_form_vue__["a" /* default */]
     }
 });
 
@@ -782,7 +692,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2389")]), _c('td', {
+  }, [_vm._v("0.2636")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -806,7 +716,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2392")]), _c('td', {
+  }, [_vm._v("0.2638")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -834,7 +744,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5908")]), _c('td', {
+  }, [_vm._v("0.6099")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -858,7 +768,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5908")]), _c('td', {
+  }, [_vm._v("0.6099")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -882,7 +792,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5908")]), _c('td', {
+  }, [_vm._v("0.6099")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -906,7 +816,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6105")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -930,7 +840,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6105")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -954,7 +864,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6105")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -978,7 +888,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6105")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -1002,7 +912,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6208")]), _c('td', {
+  }, [_vm._v("0.6439")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
@@ -1026,12 +936,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6219")]), _c('td', {
+  }, [_vm._v("0.6451")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("24570536")]), _c('td', {
+  }, [_vm._v("24570664")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -1050,12 +960,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6234")]), _c('td', {
+  }, [_vm._v("0.6471")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("24714976")]), _c('td', {
+  }, [_vm._v("24715104")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -1074,12 +984,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6420")]), _c('td', {
+  }, [_vm._v("0.6622")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("25143048")]), _c('td', {
+  }, [_vm._v("25143456")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -1127,7 +1037,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "discuss": _vm.discuss
     }
-  }) : _vm._e()], 1)])])]), _vm._v(" "), _vm._m(1)], 1)
+  }) : _vm._e()], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-area cpm-box-shadow"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.commentsTotal) + " Comments")]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-comment-wrap"
+  }, _vm._l((_vm.comments), function(comment) {
+    return _c('li', {
+      staticClass: "cpm-comment clearfix even",
+      attrs: {
+        "id": "cpm-comment-309"
+      }
+    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+      staticClass: "cpm-comment-container"
+    }, [_vm._m(2, true), _vm._v(" "), _c('div', {
+      staticClass: "cpm-comment-content"
+    }, [_c('div', {
+      domProps: {
+        "innerHTML": _vm._s(comment.content)
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "cpm-comment-edit-form"
+    })])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-form-wrap"
+  }, [_vm._m(3), _vm._v(" "), _c('comment-form', {
+    attrs: {
+      "comment": {},
+      "discuss": _vm.discuss
+    }
+  })], 1)])], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1140,15 +1078,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_vm._v("\n                            admin\n                        ")]), _vm._v(" on September 11, 2017  at  01:34 pm            \n                    ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "cpm-comment-area cpm-box-shadow"
-  }, [_c('h3', [_vm._v("4 Comments")]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-comment-wrap"
-  }, [_c('li', {
-    staticClass: "cpm-comment clearfix even",
-    attrs: {
-      "id": "cpm-comment-309"
-    }
-  }, [_c('div', {
     staticClass: "cpm-avatar "
   }, [_c('a', {
     attrs: {
@@ -1164,9 +1093,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "height": "48",
       "width": "48"
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-container"
-  }, [_c('div', {
+  })])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "cpm-comment-meta"
   }, [_c('span', {
     staticClass: "cpm-author"
@@ -1175,7 +1104,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
       "title": "admin"
     }
-  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
+  }, [_vm._v("\n                                    admin\n                                ")])]), _vm._v("\n                            On            \n                            "), _c('span', {
     staticClass: "cpm-date"
   }, [_c('time', {
     attrs: {
@@ -1204,208 +1133,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-id": "309",
       "data-confirm": "Are you sure to delete this comment?"
     }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-content"
-  }, [_c('div', [_vm._v("awgraraet")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-edit-form"
-  })])]), _vm._v(" "), _c('li', {
-    staticClass: "cpm-comment clearfix odd",
-    attrs: {
-      "id": "cpm-comment-311"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-avatar "
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_c('img', {
-    staticClass: "avatar avatar-48 photo",
-    attrs: {
-      "alt": "admin",
-      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-      "height": "48",
-      "width": "48"
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-container"
-  }, [_c('div', {
-    staticClass: "cpm-comment-meta"
-  }, [_c('span', {
-    staticClass: "cpm-author"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
-    staticClass: "cpm-date"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:41+00:00",
-      "title": "2017-09-11T13:34:41+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-action"
-  }, [_c('span', {
-    staticClass: "cpm-edit-link"
-  }, [_c('a', {
-    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
-    attrs: {
-      "href": "#",
-      "data-comment_id": "311",
-      "data-project_id": "60",
-      "data-object_id": "97"
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "cpm-delete-link"
-  }, [_c('a', {
-    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-id": "311",
-      "data-confirm": "Are you sure to delete this comment?"
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-content"
-  }, [_c('div', [_vm._v("ssehse")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-edit-form"
-  })])]), _vm._v(" "), _c('li', {
-    staticClass: "cpm-comment clearfix even",
-    attrs: {
-      "id": "cpm-comment-313"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-avatar "
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_c('img', {
-    staticClass: "avatar avatar-48 photo",
-    attrs: {
-      "alt": "admin",
-      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-      "height": "48",
-      "width": "48"
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-container"
-  }, [_c('div', {
-    staticClass: "cpm-comment-meta"
-  }, [_c('span', {
-    staticClass: "cpm-author"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
-    staticClass: "cpm-date"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:47+00:00",
-      "title": "2017-09-11T13:34:47+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-action"
-  }, [_c('span', {
-    staticClass: "cpm-edit-link"
-  }, [_c('a', {
-    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
-    attrs: {
-      "href": "#",
-      "data-comment_id": "313",
-      "data-project_id": "60",
-      "data-object_id": "97"
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "cpm-delete-link"
-  }, [_c('a', {
-    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-id": "313",
-      "data-confirm": "Are you sure to delete this comment?"
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-content"
-  }, [_c('div', [_vm._v("szefbsrmyydtj th sr tjdryj dy")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-edit-form"
-  })])]), _vm._v(" "), _c('li', {
-    staticClass: "cpm-comment clearfix odd",
-    attrs: {
-      "id": "cpm-comment-315"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-avatar "
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_c('img', {
-    staticClass: "avatar avatar-48 photo",
-    attrs: {
-      "alt": "admin",
-      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-      "height": "48",
-      "width": "48"
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-container"
-  }, [_c('div', {
-    staticClass: "cpm-comment-meta"
-  }, [_c('span', {
-    staticClass: "cpm-author"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
-    staticClass: "cpm-date"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:52+00:00",
-      "title": "2017-09-11T13:34:52+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-action"
-  }, [_c('span', {
-    staticClass: "cpm-edit-link"
-  }, [_c('a', {
-    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
-    attrs: {
-      "href": "#",
-      "data-comment_id": "315",
-      "data-project_id": "60",
-      "data-object_id": "97"
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "cpm-delete-link"
-  }, [_c('a', {
-    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-id": "315",
-      "data-confirm": "Are you sure to delete this comment?"
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-content"
-  }, [_c('div', [_vm._v("drgsrt hsrt jrj dyj")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-edit-form"
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-form-wrap"
-  }, [_c('div', {
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "cpm-avatar"
   }, [_c('a', {
     attrs: {
@@ -1421,18 +1151,202 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "height": "48",
       "width": "48"
     }
-  })])]), _vm._v(" "), _c('form', {
-    staticClass: "cpm-comment-form "
+  })])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-38b28927", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 188:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(108);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+				props: ['comment', 'discuss'],
+				data() {
+								return {
+												content: {
+																html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
+												},
+												submit_disabled: false,
+												show_spinner: false
+								};
+				},
+
+				watch: {
+								/**
+         * Observe onchange comment message
+         *
+         * @param string new_content 
+         * 
+         * @type void
+         */
+								content: {
+												handler: function (new_content) {
+																this.comment.content = new_content.html;
+												},
+
+												deep: true
+								}
+				},
+
+				components: {
+								'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */]
+				},
+
+				computed: {
+								/**
+               * Editor ID
+               * 
+               * @return string
+               */
+								editor_id: function () {
+												var comment_id = typeof this.comment.commentable_id === 'undefined' ? '' : '-' + this.comment.commentable_id;
+												return 'cpm-comment-editor' + comment_id;
+								}
+				}
+});
+
+/***/ }),
+
+/***/ 189:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_comment_form_vue__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0877f902_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_comment_form_vue__ = __webpack_require__(190);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_comment_form_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0877f902_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_comment_form_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/discussions/comment-form.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] comment-form.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0877f902", Component.options)
+  } else {
+    hotAPI.reload("data-v-0877f902", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 190:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('form', {
+    staticClass: "cpm-comment-form",
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.newComment()
+      }
+    }
   }, [_c('div', {
     staticClass: "item message cpm-sm-col-12 "
-  }, [_c('input', {
+  }, [_c('text-editor', {
     attrs: {
-      "id": "cpm-comment-editor-cm",
-      "type": "hidden",
-      "name": "cpm_message",
-      "value": ""
+      "editor_id": _vm.editor_id,
+      "content": _vm.content
     }
-  })]), _vm._v(" "), _c('div', {
+  })], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "cpm-attachment-area"
   }, [_c('div', {
     staticStyle: {
@@ -1443,7 +1357,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('div', {
     staticClass: "cpm-upload-filelist"
-  }), _vm._v("\n        To attach, "), _c('a', {
+  }), _vm._v("\n                To attach, \n                "), _c('a', {
     staticStyle: {
       "position": "relative",
       "z-index": "1"
@@ -1452,7 +1366,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "id": "cpm-upload-pickfiles-cm",
       "href": "#"
     }
-  }, [_vm._v("select files")]), _vm._v(" from your computer.    "), _c('div', {
+  }, [_vm._v("select files")]), _vm._v(" \n                from your computer.    \n                "), _c('div', {
     staticClass: "moxie-shim moxie-shim-html5",
     staticStyle: {
       "position": "absolute",
@@ -1482,11 +1396,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "multiple": "",
       "accept": ""
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "notify-users"
   }, [_c('h2', {
     staticClass: "cpm-box-title"
-  }, [_vm._v(" Notify users            "), _c('label', {
+  }, [_vm._v(" \n                Notify users            \n                "), _c('label', {
     staticClass: "cpm-small-title",
     attrs: {
       "for": "select-all"
@@ -1498,7 +1414,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "name": "select-all",
       "id": "select-all"
     }
-  }), _vm._v(" Select all")])]), _vm._v(" "), _c('ul', {
+  }), _vm._v(" \n                    Select all\n                ")])]), _vm._v(" "), _c('ul', {
     staticClass: "cpm-user-list"
   }, [_c('li', [_c('label', {
     attrs: {
@@ -1511,9 +1427,11 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "id": "cpm_notify_1",
       "value": "1"
     }
-  }), _vm._v(" Admin")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" \n                        Admin\n                    ")])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
-  })])]), _vm._v(" "), _c('div', {
+  })])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "submit"
   }, [_c('input', {
     staticClass: "button-primary",
@@ -1523,30 +1441,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "value": "Add this comment",
       "id": ""
     }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "parent_id",
-      "value": "97"
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "project_id",
-      "value": "60"
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "action",
-      "value": "cpm_comment_new_old"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])])])])
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -1554,7 +1449,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-38b28927", esExports)
+     require("vue-hot-reload-api").rerender("data-v-0877f902", esExports)
   }
 }
 
