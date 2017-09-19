@@ -1,510 +1,11 @@
 webpackJsonp([3],{
 
-/***/ 10:
+/***/ 100:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__ = __webpack_require__(159);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/discussions/discussions.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] discussions.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13e4976b", Component.options)
-  } else {
-    hotAPI.reload("data-v-13e4976b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 110:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__ = __webpack_require__(139);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.getDiscuss(vm);
-            vm.getMilestones(vm);
-        });
-    },
-    components: {
-        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */],
-        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */]
-    },
-    computed: {
-        is_discuss_form_active() {
-            return this.$store.state.is_discuss_form_active;
-        },
-
-        discussion() {
-            return this.$store.state.discuss;
-        }
-    },
-    methods: {
-        getMilestones(self) {
-            var request = {
-                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
-                success(res) {
-                    self.$store.commit('setMilestones', res.data);
-                }
-            };
-            self.httpRequest(request);
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 112:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(156);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_vue__ = __webpack_require__(141);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['discuss'],
-	data() {
-		return {
-			submit_disabled: false,
-			show_spinner: false,
-			content: {
-				html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description
-			},
-			milestone_id: 4
-		};
-	},
-
-	watch: {
-		/**
-         * Observe onchange comment message
-         *
-         * @param string new_content 
-         * 
-         * @type void
-         */
-		content: {
-			handler: function (new_content) {
-				this.discuss.description = new_content.html;
-			},
-
-			deep: true
-		}
-	},
-
-	components: {
-		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
-		'milestones': __WEBPACK_IMPORTED_MODULE_1__milestones_vue__["a" /* default */]
-	},
-	computed: {
-		milestones() {
-			return this.$store.state.milestones;
-		},
-		/**
-         * Editor ID
-         * 
-         * @return string
-         */
-		editor_id: function () {
-			var discuss_id = typeof this.discuss.id === 'undefined' ? '' : '-' + this.discuss.id;
-			return 'cpm-discuss-editor' + discuss_id;
-		}
-	},
-	methods: {}
-
-});
-
-/***/ }),
-
-/***/ 115:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['milestones']
-});
-
-/***/ }),
-
-/***/ 132:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-
-    //mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
-
-    // Get passing data for this component.
-    props: ['editor_id', 'content'],
-
-    // Initial action for this component
-    created: function () {
-        var self = this;
-        this.$root.$on('after_comment', this.afterComment);
-        // After ready dom
-        __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
-            // Remove the editor
-            tinymce.execCommand('mceRemoveEditor', true, self.editor_id);
-
-            // Instantiate the editor
-            var settings = {
-                selector: 'textarea#' + self.editor_id,
-                menubar: false,
-                placeholder: 'Write a comment...',
-                branding: false,
-
-                setup: function (editor) {
-                    editor.on('change', function () {
-                        self.content.html = editor.getContent();
-                    });
-                    editor.on('keyup', function (event) {
-                        self.content.html = editor.getContent();
-                    });
-                    editor.on('NodeChange', function () {
-                        self.content.html = editor.getContent();
-                    });
-                },
-
-                external_plugins: {
-                    'placeholder': PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js'
-                },
-
-                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
-                font_formats: 'Arial=arial,helvetica,sans-serif;' + 'Comic Sans MS=comic sans ms,sans-serif;' + 'Courier New=courier new,courier;' + 'Georgia=georgia,palatino;' + 'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;' + 'Tahoma=tahoma,arial,helvetica,sans-serif;' + 'Times New Roman=times new roman,times;' + 'Trebuchet MS=trebuchet ms,geneva;' + 'Verdana=verdana,geneva;',
-                plugins: 'placeholder textcolor colorpicker wplink wordpress',
-                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
-                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
-                toolbar3: 'fontselect fontsizeselect removeformat undo redo'
-            };
-
-            if (self.tinyMCE_settings) {
-                settings = jQuery.extend(settings, self.tinyMCE_settings);
-            }
-
-            tinymce.init(settings);
-        });
-
-        //tinymce.execCommand( 'mceRemoveEditor', true, id );
-        //tinymce.execCommand( 'mceAddEditor', true, id );
-        //tinymce.execCommand( 'mceAddControl', true, id );
-    },
-
-    methods: {
-        afterComment: function () {
-            tinyMCE.get(this.editor_id).setContent('');
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 139:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__ = __webpack_require__(115);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -549,12 +50,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 141:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_57dc70cf_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_milestones_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_57dc70cf_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_milestones_vue__ = __webpack_require__(114);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -599,12 +100,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 156:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_483c3c1e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_483c3c1e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(112);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -649,275 +150,58 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 159:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('div', [_c('a', {
-    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
-    attrs: {
-      "href": "",
-      "id": "cpm-add-message"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideDiscussForm('toggle')
-      }
-    }
-  }, [_vm._v(" \n                Add New Discussion \n            ")])]), _vm._v(" "), (_vm.is_discuss_form_active) ? _c('div', {
-    staticClass: "cpm-new-message-form"
-  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('new-discuss-form', {
-    attrs: {
-      "discuss": {}
-    }
-  })], 1) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "cpm-row cpm-message-page"
-  }, [_c('div', {
-    staticClass: "cpm-message-list cpm-col-12 cpm-sm-col-12"
-  }, [_c('div', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v("Discussion List")]), _vm._v(" "), _c('ul', {
-    staticClass: "dicussion-list"
-  }, _vm._l((_vm.discussion), function(discuss) {
-    return _c('li', {
-      key: "discuss.id",
-      staticClass: "cpm-col-12"
-    }, [_c('div', {
-      staticClass: "cpm-col-9",
-      attrs: {
-        "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
-      }
-    }, [_c('router-link', {
-      staticClass: "cpm-pagination-btn prev page-numbers",
-      attrs: {
-        "to": {
-          name: 'individual_discussions',
-          params: {
-            discussion_id: discuss.id
-          }
-        }
-      }
-    }, [_c('img', {
-      staticClass: "avatar avatar-48 photo",
-      attrs: {
-        "alt": "admin",
-        "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-        "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-        "height": "48",
-        "width": "48"
-      }
-    }), _vm._v(" "), _c('div', [_vm._v("\n                                   " + _vm._s(discuss.title) + "                    \n                            \t")])]), _vm._v(" "), _vm._m(0, true)], 1), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-1"
-    }, [_c('span', {
-      staticClass: "cpm-message-action cpm-right"
-    }, [_c('a', {
-      staticClass: "cpm-msg-edit dashicons dashicons-edit",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.showHideDiscussForm('toggle', discuss)
-        }
-      }
-    }), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('span', {
-      staticClass: "cpm-unlock"
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-2 cpm-last-col cpm-right comment-count",
-      attrs: {
-        "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
-      }
-    }, [_vm._v("\n                             4 Comments            \n                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "clear"
-    }), _vm._v(" "), (discuss.edit_mode) ? _c('new-discuss-form', {
-      attrs: {
-        "discuss": discuss
-      }
-    }) : _vm._e()], 1)
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _vm._v(" "), _vm._m(2)], 1)
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dicussion-meta"
-  }, [_vm._v("\n                                By \n                                "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("\n                                \tadmin\n                                ")]), _vm._v(" \n                                on September 11, 2017 01:34 pm                    \n                            ")])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "delete-message",
-    attrs: {
-      "href": "",
-      "title": "Delete this message",
-      "data-msg_id": "97",
-      "data-project_id": "60",
-      "data-confirm": "Are you sure to delete this message?"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-blank-template discussion",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-content"
-  }, [_c('h2', {
-    staticClass: "cpm-page-title"
-  }, [_vm._v("  Discussion ")]), _vm._v(" "), _c('p', [_vm._v("\n                    Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.        ")]), _vm._v(" "), _c('div', [_c('a', {
-    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
-    attrs: {
-      "href": "",
-      "id": "cpm-add-message-new"
-    }
-  }, [_vm._v(" Add New Discussion ")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-new-message-form",
-    attrs: {
-      "id": "cpm-new-message-form-content"
-    }
-  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('form', {
-    staticClass: "cpm-message-form"
-  }, [_c('div', {
-    staticClass: "item title"
-  }, [_c('input', {
-    attrs: {
-      "name": "message_title",
-      "required": "required",
-      "type": "text",
-      "id": "message_title",
-      "value": "",
-      "placeholder": "Enter message title"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item detail"
-  }, [_c('input', {
-    attrs: {
-      "id": "message_detail",
-      "type": "hidden",
-      "name": "message_detail",
-      "value": ""
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item milestone"
-  }, [_c('select', {
-    attrs: {
-      "name": "milestone",
-      "id": "milestone"
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "0"
-    }
-  }, [_vm._v("- Milestone -")])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-make-privacy"
-  }, [_c('label', [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "value": "yes",
-      "name": "message_privacy"
-    }
-  }), _vm._v("\n                                Private                \n                            ")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-attachment-area"
-  }, [_c('div', {
-    attrs: {
-      "id": "cpm-upload-container-nd"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-upload-filelist"
-  }), _vm._v("\n                                To attach, \n                                "), _c('a', {
-    attrs: {
-      "id": "cpm-upload-pickfiles-nd",
-      "href": "#"
-    }
-  }, [_vm._v("select files")]), _vm._v(" from your computer.    \n                            ")])]), _vm._v(" "), _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                                Notify users            \n                                "), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "name": "select-all",
-      "id": "select-all"
-    }
-  }), _vm._v(" \n                                    Select all\n                                ")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_c('li', [_c('label', {
-    attrs: {
-      "for": "cpm_notify_1"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": "notify_user[]",
-      "id": "cpm_notify_1",
-      "value": "1"
-    }
-  }), _vm._v(" \n                                        Admin\n                                    ")])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "message_id",
-      "value": "nd"
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "create_message",
-      "id": "create_message",
-      "value": "Add Message"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "message-cancel button-secondary",
-    attrs: {
-      "href": ""
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-list-content"
-  }, [_c('h2', {
-    staticClass: "cpm-why-for cpm-page-title"
-  }, [_vm._v(" When to use Discussions? ")]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-list"
-  }, [_c('li', [_vm._v(" To discuss a work matter privately. ")]), _vm._v(" "), _c('li', [_vm._v(" To exchange files privately.  ")]), _vm._v(" "), _c('li', [_vm._v(" To discuss in a group.  ")]), _vm._v(" "), _c('li', [_vm._v(" To create an open discussion visible to all.  ")])])])])])
-}]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_individual_discussions_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38b28927_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_individual_discussions_vue__ = __webpack_require__(167);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_individual_discussions_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38b28927_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_individual_discussions_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/discussions/individual-discussions.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] individual-discussions.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
   module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-13e4976b", esExports)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-38b28927", Component.options)
+  } else {
+    hotAPI.reload("data-v-38b28927", Component.options)
   }
-}
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+
 
 /***/ }),
 
-/***/ 166:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -956,7 +240,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 168:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -986,7 +270,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 169:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1183,6 +467,1094 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-602b6da4", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 120:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__ = __webpack_require__(100);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    beforeRouteEnter(to, from, next) {
+
+        next(vm => {
+            vm.getDiscuss(vm);
+            vm.getMilestones(vm);
+        });
+    },
+    computed: {
+        discuss() {
+            if (this.$store.state.discussion.length) {
+                return this.$store.state.discussion[0];
+            }
+
+            return {};
+        }
+    },
+    components: {
+        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */],
+        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */]
+    }
+});
+
+/***/ }),
+
+/***/ 167:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "wrap cpm cpm-front-end"
+  }, [_c('pm-header'), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-notice",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Notice: Undefined variable: boardable in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Discussion_Board/Controllers/Discussion_Board_Controller.php on line "), _c('i', [_vm._v("117")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2389")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("359784")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2392")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361720")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5908")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24056456")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5908")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24056504")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5908")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24056504")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24081528")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24081528")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24081528")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24082656")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6208")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24566680")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6219")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24570536")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->dispatch(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("329")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6234")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("24714976")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("CPM\\Discussion_Board\\Controllers\\Discussion_Board_Controller->update(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("947")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6420")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("25143048")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("CPM\\Discussion_Board\\Controllers\\Discussion_Board_Controller->attach_milestone(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Discussion_Board/Controllers/Discussion_Board_Controller.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../Discussion_Board_Controller.php"), _c('b', [_vm._v(":")]), _vm._v("83")])])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "cpm-signle-message"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-single"
+  }, [_c('h3', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v("\n                    " + _vm._s(_vm.discuss.title) + "          \n                    "), _c('span', {
+    staticClass: "cpm-right cpm-edit-link"
+  }, [_c('a', {
+    staticClass: "cpm-msg-edit dashicons dashicons-edit",
+    attrs: {
+      "href": "#",
+      "data-msg_id": "97",
+      "data-project_id": "60"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showHideDiscussForm('toggle', _vm.discuss)
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "cpm-not-private"
+  })]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-entry-detail"
+  }, [_c('div', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.discuss.description)
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-msg-edit-form"
+  }, [_c('div', {
+    staticClass: "cpm-message-form-wrap"
+  }, [(_vm.discuss.edit_mode) ? _c('new-discuss-form', {
+    attrs: {
+      "discuss": _vm.discuss
+    }
+  }) : _vm._e()], 1)])])]), _vm._v(" "), _vm._m(1)], 1)
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-small-title"
+  }, [_vm._v("\n                        By \n                        "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("\n                            admin\n                        ")]), _vm._v(" on September 11, 2017  at  01:34 pm            \n                    ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-comment-area cpm-box-shadow"
+  }, [_c('h3', [_vm._v("4 Comments")]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-comment-wrap"
+  }, [_c('li', {
+    staticClass: "cpm-comment clearfix even",
+    attrs: {
+      "id": "cpm-comment-309"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-avatar "
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-container"
+  }, [_c('div', {
+    staticClass: "cpm-comment-meta"
+  }, [_c('span', {
+    staticClass: "cpm-author"
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
+    staticClass: "cpm-date"
+  }, [_c('time', {
+    attrs: {
+      "datetime": "2017-09-11T13:34:37+00:00",
+      "title": "2017-09-11T13:34:37+00:00"
+    }
+  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-action"
+  }, [_c('span', {
+    staticClass: "cpm-edit-link"
+  }, [_c('a', {
+    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
+    attrs: {
+      "href": "#",
+      "data-comment_id": "309",
+      "data-project_id": "60",
+      "data-object_id": "97"
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-delete-link"
+  }, [_c('a', {
+    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
+    attrs: {
+      "href": "#",
+      "data-project_id": "60",
+      "data-id": "309",
+      "data-confirm": "Are you sure to delete this comment?"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-content"
+  }, [_c('div', [_vm._v("awgraraet")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-edit-form"
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "cpm-comment clearfix odd",
+    attrs: {
+      "id": "cpm-comment-311"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-avatar "
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-container"
+  }, [_c('div', {
+    staticClass: "cpm-comment-meta"
+  }, [_c('span', {
+    staticClass: "cpm-author"
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
+    staticClass: "cpm-date"
+  }, [_c('time', {
+    attrs: {
+      "datetime": "2017-09-11T13:34:41+00:00",
+      "title": "2017-09-11T13:34:41+00:00"
+    }
+  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-action"
+  }, [_c('span', {
+    staticClass: "cpm-edit-link"
+  }, [_c('a', {
+    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
+    attrs: {
+      "href": "#",
+      "data-comment_id": "311",
+      "data-project_id": "60",
+      "data-object_id": "97"
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-delete-link"
+  }, [_c('a', {
+    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
+    attrs: {
+      "href": "#",
+      "data-project_id": "60",
+      "data-id": "311",
+      "data-confirm": "Are you sure to delete this comment?"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-content"
+  }, [_c('div', [_vm._v("ssehse")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-edit-form"
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "cpm-comment clearfix even",
+    attrs: {
+      "id": "cpm-comment-313"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-avatar "
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-container"
+  }, [_c('div', {
+    staticClass: "cpm-comment-meta"
+  }, [_c('span', {
+    staticClass: "cpm-author"
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
+    staticClass: "cpm-date"
+  }, [_c('time', {
+    attrs: {
+      "datetime": "2017-09-11T13:34:47+00:00",
+      "title": "2017-09-11T13:34:47+00:00"
+    }
+  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-action"
+  }, [_c('span', {
+    staticClass: "cpm-edit-link"
+  }, [_c('a', {
+    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
+    attrs: {
+      "href": "#",
+      "data-comment_id": "313",
+      "data-project_id": "60",
+      "data-object_id": "97"
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-delete-link"
+  }, [_c('a', {
+    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
+    attrs: {
+      "href": "#",
+      "data-project_id": "60",
+      "data-id": "313",
+      "data-confirm": "Are you sure to delete this comment?"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-content"
+  }, [_c('div', [_vm._v("szefbsrmyydtj th sr tjdryj dy")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-edit-form"
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "cpm-comment clearfix odd",
+    attrs: {
+      "id": "cpm-comment-315"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-avatar "
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-container"
+  }, [_c('div', {
+    staticClass: "cpm-comment-meta"
+  }, [_c('span', {
+    staticClass: "cpm-author"
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")])]), _vm._v("\n                On                "), _c('span', {
+    staticClass: "cpm-date"
+  }, [_c('time', {
+    attrs: {
+      "datetime": "2017-09-11T13:34:52+00:00",
+      "title": "2017-09-11T13:34:52+00:00"
+    }
+  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-action"
+  }, [_c('span', {
+    staticClass: "cpm-edit-link"
+  }, [_c('a', {
+    staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
+    attrs: {
+      "href": "#",
+      "data-comment_id": "315",
+      "data-project_id": "60",
+      "data-object_id": "97"
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "cpm-delete-link"
+  }, [_c('a', {
+    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
+    attrs: {
+      "href": "#",
+      "data-project_id": "60",
+      "data-id": "315",
+      "data-confirm": "Are you sure to delete this comment?"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-content"
+  }, [_c('div', [_vm._v("drgsrt hsrt jrj dyj")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-edit-form"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-comment-form-wrap"
+  }, [_c('div', {
+    staticClass: "cpm-avatar"
+  }, [_c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_c('img', {
+    staticClass: "avatar avatar-48 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+      "height": "48",
+      "width": "48"
+    }
+  })])]), _vm._v(" "), _c('form', {
+    staticClass: "cpm-comment-form "
+  }, [_c('div', {
+    staticClass: "item message cpm-sm-col-12 "
+  }, [_c('input', {
+    attrs: {
+      "id": "cpm-comment-editor-cm",
+      "type": "hidden",
+      "name": "cpm_message",
+      "value": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-attachment-area"
+  }, [_c('div', {
+    staticStyle: {
+      "position": "relative"
+    },
+    attrs: {
+      "id": "cpm-upload-container-cm"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-upload-filelist"
+  }), _vm._v("\n        To attach, "), _c('a', {
+    staticStyle: {
+      "position": "relative",
+      "z-index": "1"
+    },
+    attrs: {
+      "id": "cpm-upload-pickfiles-cm",
+      "href": "#"
+    }
+  }, [_vm._v("select files")]), _vm._v(" from your computer.    "), _c('div', {
+    staticClass: "moxie-shim moxie-shim-html5",
+    staticStyle: {
+      "position": "absolute",
+      "top": "0px",
+      "left": "66px",
+      "width": "66px",
+      "height": "16px",
+      "overflow": "hidden",
+      "z-index": "0"
+    },
+    attrs: {
+      "id": "html5_1bpoq08n61p7o669iciir2tmm3_container"
+    }
+  }, [_c('input', {
+    staticStyle: {
+      "font-size": "999px",
+      "opacity": "0",
+      "position": "absolute",
+      "top": "0px",
+      "left": "0px",
+      "width": "100%",
+      "height": "100%"
+    },
+    attrs: {
+      "id": "html5_1bpoq08n61p7o669iciir2tmm3",
+      "type": "file",
+      "multiple": "",
+      "accept": ""
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "notify-users"
+  }, [_c('h2', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v(" Notify users            "), _c('label', {
+    staticClass: "cpm-small-title",
+    attrs: {
+      "for": "select-all"
+    }
+  }, [_c('input', {
+    staticClass: "cpm-toggle-checkbox",
+    attrs: {
+      "type": "checkbox",
+      "name": "select-all",
+      "id": "select-all"
+    }
+  }), _vm._v(" Select all")])]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-user-list"
+  }, [_c('li', [_c('label', {
+    attrs: {
+      "for": "cpm_notify_1"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": "notify_user[]",
+      "id": "cpm_notify_1",
+      "value": "1"
+    }
+  }), _vm._v(" Admin")])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "submit"
+  }, [_c('input', {
+    staticClass: "button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "cpm_new_comment",
+      "value": "Add this comment",
+      "id": ""
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "parent_id",
+      "value": "97"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "project_id",
+      "value": "60"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "action",
+      "value": "cpm_comment_new_old"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])])])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-38b28927", esExports)
   }
 }
 
@@ -1652,6 +2024,241 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-46bc394e", esExports)
   }
 }
+
+/***/ }),
+
+/***/ 90:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_vue__ = __webpack_require__(101);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: ['discuss'],
+	data() {
+		return {
+			submit_disabled: false,
+			show_spinner: false,
+			content: {
+				html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description
+			},
+			milestone_id: 4
+		};
+	},
+
+	watch: {
+		/**
+         * Observe onchange comment message
+         *
+         * @param string new_content 
+         * 
+         * @type void
+         */
+		content: {
+			handler: function (new_content) {
+				this.discuss.description = new_content.html;
+			},
+
+			deep: true
+		}
+	},
+
+	components: {
+		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
+		'milestones': __WEBPACK_IMPORTED_MODULE_1__milestones_vue__["a" /* default */]
+	},
+	computed: {
+		milestones() {
+			return this.$store.state.milestones;
+		},
+		/**
+         * Editor ID
+         * 
+         * @return string
+         */
+		editor_id: function () {
+			var discuss_id = typeof this.discuss.id === 'undefined' ? '' : '-' + this.discuss.id;
+			return 'cpm-discuss-editor' + discuss_id;
+		}
+	},
+	methods: {}
+
+});
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: ['milestones']
+});
+
+/***/ }),
+
+/***/ 98:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    //mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
+
+    // Get passing data for this component.
+    props: ['editor_id', 'content'],
+
+    // Initial action for this component
+    created: function () {
+        var self = this;
+        this.$root.$on('after_comment', this.afterComment);
+        // After ready dom
+        __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+            // Remove the editor
+            tinymce.execCommand('mceRemoveEditor', true, self.editor_id);
+
+            // Instantiate the editor
+            var settings = {
+                selector: 'textarea#' + self.editor_id,
+                menubar: false,
+                placeholder: 'Write a comment...',
+                branding: false,
+
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('keyup', function (event) {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('NodeChange', function () {
+                        self.content.html = editor.getContent();
+                    });
+                },
+
+                external_plugins: {
+                    'placeholder': PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js'
+                },
+
+                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+                font_formats: 'Arial=arial,helvetica,sans-serif;' + 'Comic Sans MS=comic sans ms,sans-serif;' + 'Courier New=courier new,courier;' + 'Georgia=georgia,palatino;' + 'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;' + 'Tahoma=tahoma,arial,helvetica,sans-serif;' + 'Times New Roman=times new roman,times;' + 'Trebuchet MS=trebuchet ms,geneva;' + 'Verdana=verdana,geneva;',
+                plugins: 'placeholder textcolor colorpicker wplink wordpress',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+                toolbar3: 'fontselect fontsizeselect removeformat undo redo'
+            };
+
+            if (self.tinyMCE_settings) {
+                settings = jQuery.extend(settings, self.tinyMCE_settings);
+            }
+
+            tinymce.init(settings);
+        });
+
+        //tinymce.execCommand( 'mceRemoveEditor', true, id );
+        //tinymce.execCommand( 'mceAddEditor', true, id );
+        //tinymce.execCommand( 'mceAddControl', true, id );
+    },
+
+    methods: {
+        afterComment: function () {
+            tinyMCE.get(this.editor_id).setContent('');
+        }
+    }
+});
 
 /***/ })
 

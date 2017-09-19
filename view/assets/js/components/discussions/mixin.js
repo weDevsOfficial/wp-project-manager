@@ -17,9 +17,22 @@ export default Vue.mixin({
 			}
 		},
 
-		getDiscuss (self) {
+		getDiscussion (self) {
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards',
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments',
+	            success (res) {
+	            	res.data.map(function(discuss, index) {
+			    		self.addMeta(discuss);
+			    	});
+	                self.$store.commit( 'setDiscussion', res.data );
+	            }
+	        };
+	        self.httpRequest(request);
+	    },
+
+	    getDiscuss (self) {
+	        var request = {
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?with=comments',
 	            success (res) {
 	            	self.addMeta(res.data);
 	                self.$store.commit( 'setDiscuss', res.data );
@@ -28,10 +41,8 @@ export default Vue.mixin({
 	        self.httpRequest(request);
 	    },
 
-	    addMeta (discussion) {
-	    	discussion.map(function(discuss, index) {
-	    		discuss.edit_mode = false;
-	    	});
+	    addMeta (discuss) {
+	    	discuss.edit_mode = false;
 	    },
 
 	    /**
@@ -62,10 +73,10 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        if (is_update) {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id+'?with=comments';
+	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id;
 	            var type = 'PUT'; 
 	        } else {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments';
+	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards';
 	            var type = 'POST';
 	        }
 
@@ -74,7 +85,7 @@ export default Vue.mixin({
 	            type: type,
 	            data: form_data,
 	            success (res) {
-	                self.getDiscuss(self);
+	                self.getDiscussion(self);
 	                self.show_spinner = false;
 
 	                // Display a success toast, with a title
@@ -94,8 +105,17 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	            }
 	        }
-	        
+
 	        self.httpRequest(request_data);
-	    }
+	    },
+        getMilestones (self) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$store.commit( 'setMilestones', res.data );
+                }
+            };
+            self.httpRequest(request);
+        },
 	},
 });

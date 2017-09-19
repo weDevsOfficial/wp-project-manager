@@ -4,23 +4,26 @@
     <pm-header></pm-header>
 
 
-<div id="cpm-signle-message"> 
+    <div id="cpm-signle-message"> 
     <div class="cpm-single">
 
-        <h3 class="cpm-box-title">srthsrth            <span class="cpm-right cpm-edit-link">
-                                    <a href="#" data-msg_id="97" data-project_id="60" class="cpm-msg-edit dashicons dashicons-edit"></a>
-                                <span class="cpm-not-private"></span>
+        <h3 class="cpm-box-title">srthsrth            
+            <span class="cpm-right cpm-edit-link">
+                <a href="#"  class="cpm-msg-edit dashicons dashicons-edit"></a>
+                <span class="cpm-not-private"></span>
             </span>
             <div class="cpm-small-title">
-                By <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a> on September 11, 2017  at  01:34 pm            </div>
+                By 
+                <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">
+                    admin
+                </a> 
+                on September 11, 2017  at  01:34 pm            
+            </div>
         </h3>
-
-
 
         <div class="cpm-entry-detail">
             <div>drth aer gsrthsrth srth srt</div>
-
-                    </div>
+        </div>
 
         <span class="cpm-msg-edit-form"></span>
 
@@ -184,6 +187,12 @@
     import header from './../header.vue';
 
     export default {
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.getDiscuss(vm);
+                vm.getMilestones(vm);
+            });
+        },
         components: {
             'pm-header': header
         }

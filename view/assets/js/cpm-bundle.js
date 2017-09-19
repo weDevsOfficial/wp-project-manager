@@ -11030,9 +11030,22 @@ var activities = {
 			}
 		},
 
+		getDiscussion(self) {
+			var request = {
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards?with=comments',
+				success(res) {
+					res.data.map(function (discuss, index) {
+						self.addMeta(discuss);
+					});
+					self.$store.commit('setDiscussion', res.data);
+				}
+			};
+			self.httpRequest(request);
+		},
+
 		getDiscuss(self) {
 			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards',
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards/' + self.$route.params.discussion_id + '?with=comments',
 				success(res) {
 					self.addMeta(res.data);
 					self.$store.commit('setDiscuss', res.data);
@@ -11041,10 +11054,8 @@ var activities = {
 			self.httpRequest(request);
 		},
 
-		addMeta(discussion) {
-			discussion.map(function (discuss, index) {
-				discuss.edit_mode = false;
-			});
+		addMeta(discuss) {
+			discuss.edit_mode = false;
 		},
 
 		/**
@@ -11074,10 +11085,10 @@ var activities = {
 			this.show_spinner = true;
 
 			if (is_update) {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards/' + this.discuss.id + '?with=comments';
+				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards/' + this.discuss.id;
 				var type = 'PUT';
 			} else {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards?with=comments';
+				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards';
 				var type = 'POST';
 			}
 
@@ -11086,7 +11097,7 @@ var activities = {
 				type: type,
 				data: form_data,
 				success(res) {
-					self.getDiscuss(self);
+					self.getDiscussion(self);
 					self.show_spinner = false;
 
 					// Display a success toast, with a title
@@ -11108,6 +11119,15 @@ var activities = {
 			};
 
 			self.httpRequest(request_data);
+		},
+		getMilestones(self) {
+			var request = {
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones',
+				success(res) {
+					self.$store.commit('setMilestones', res.data);
+				}
+			};
+			self.httpRequest(request);
 		}
 	}
 }));
@@ -11122,13 +11142,13 @@ var activities = {
 //import project_lists from './index.vue';
 
 const discussions_route = resolve => {
-    __webpack_require__.e/* require.ensure */(3).then((() => {
+    __webpack_require__.e/* require.ensure */(4).then((() => {
         resolve(__webpack_require__(10));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 const individual_discussion = resolve => {
-    __webpack_require__.e/* require.ensure */(8).then((() => {
+    __webpack_require__.e/* require.ensure */(3).then((() => {
         resolve(__webpack_require__(11));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11173,7 +11193,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 	state: {
 		is_discuss_form_active: false,
 		milestones: [],
-		discuss: []
+		discussion: []
 	},
 
 	mutations: {
@@ -11189,8 +11209,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 			state.milestones = milestones;
 		},
 
+		setDiscussion(state, discussion) {
+			state.discussion = discussion;
+		},
+
 		setDiscuss(state, discuss) {
-			state.discuss = discuss;
+			state.discussion.push(discuss);
 		}
 	}
 }));
@@ -11203,7 +11227,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 //import project_lists from './index.vue';
 
 const files = resolve => {
-    __webpack_require__.e/* require.ensure */(7).then((() => {
+    __webpack_require__.e/* require.ensure */(8).then((() => {
         resolve(__webpack_require__(12));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11226,13 +11250,13 @@ const files = resolve => {
 //import project_lists from './index.vue';
 
 const milestones_route = resolve => {
-    __webpack_require__.e/* require.ensure */(4).then((() => {
+    __webpack_require__.e/* require.ensure */(5).then((() => {
         resolve(__webpack_require__(14));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 const individual_milestone = resolve => {
-    __webpack_require__.e/* require.ensure */(6).then((() => {
+    __webpack_require__.e/* require.ensure */(7).then((() => {
         resolve(__webpack_require__(13));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11277,7 +11301,7 @@ var single_milestone = {
 //import project_lists from './index.vue';
 
 const overview = resolve => {
-    __webpack_require__.e/* require.ensure */(5).then((() => {
+    __webpack_require__.e/* require.ensure */(6).then((() => {
         resolve(__webpack_require__(15));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

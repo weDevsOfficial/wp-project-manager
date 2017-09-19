@@ -11,7 +11,7 @@ export default new Vuex.Store({
 	state: {
 		is_discuss_form_active: false,
 		milestones: [],
-		discuss: []
+		discussion: []
 	},
 	
 	mutations: {
@@ -27,8 +27,12 @@ export default new Vuex.Store({
 			state.milestones = milestones;
 		},
 
+		setDiscussion (state, discussion) {
+			state.discussion = discussion;
+		},
+
 		setDiscuss (state, discuss) {
-			state.discuss = discuss;
+			state.discussion.push(discuss);
 		}
 	}
 });

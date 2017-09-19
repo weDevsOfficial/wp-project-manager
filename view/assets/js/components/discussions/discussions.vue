@@ -173,7 +173,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getDiscuss(vm);
+                vm.getDiscussion(vm);
                 vm.getMilestones(vm);
             });
         },
@@ -187,19 +187,11 @@
             },
 
             discussion () {
-                return this.$store.state.discuss;
+                return this.$store.state.discussion;
             }
         },
         methods: {
-            getMilestones (self) {
-                var request = {
-                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
-                    success (res) {
-                        self.$store.commit( 'setMilestones', res.data );
-                    }
-                };
-                self.httpRequest(request);
-            },
+ 
         }
     }
 
