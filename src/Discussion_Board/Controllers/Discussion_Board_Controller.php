@@ -11,12 +11,22 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
 use CPM\Common\Models\Boardable;
+use CPM\Common\Traits\Request_Filter;
+use CPM\Milestone\Models\Milestone;
 
 class Discussion_Board_Controller {
-    use Transformer_Manager;
+
+    use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $discussion_boards = Discussion_Board::paginate();
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 15;
+
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        $discussion_boards = Discussion_Board::orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
 
         $discussion_board_collection = $discussion_boards->getCollection();
 
@@ -40,15 +50,15 @@ class Discussion_Board_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = [
-            'title' => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
-            'project_id' => $request->get_param( 'project_id' )
-        ];
-        $data = array_filter( $data );
+        $data = $this->extract_non_empty_values( $request );
+        $milestone_id = $request->get_param( 'milestone' );
 
+        $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
+
+        if ( $milestone ) {
+            $this->attach_milestone( $discussion_board, $milestone );
+        }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
@@ -56,21 +66,22 @@ class Discussion_Board_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
+        $data = $this->extract_non_empty_values( $request );
+
         $project_id = $request->get_param( 'project_id' );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $milestone_id = $request->get_param( 'milestone' );
 
+        $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        $data = [
-            'title' => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order' => $request->get_param( 'order' ),
-        ];
-        $data = array_filter( $data );
-
         $discussion_board->update( $data );
+
+        if ( $milestone ) {
+            $this->attach_milestone( $discussion_board, $milestone );
+        }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
@@ -95,6 +106,26 @@ class Discussion_Board_Controller {
         $discussion_board->users()->delete();
 
         $discussion_board->delete();
+    }
+
+    private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
+        $baordable = Boardable::where( 'boardable_id', $board->id )
+            ->where( 'boardable_type', 'discussion-board' )
+            ->where( 'board_type', 'milestone' )
+            ->first();
+
+        if ( !$boardable ) {
+            $boardable = Boardable::firstOrCreate([
+                'boardable_id'   => $board->id,
+                'boardable_type' => 'discussion-board',
+                'board_id'       => $milestone->id,
+                'board_type'     => 'milestone'
+            ]);
+        } else {
+            $boardable->update([
+                'board_id' => $milestone->id
+            ]);
+        }
     }
 
     public function attach_users( WP_REST_Request $request ) {

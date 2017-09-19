@@ -7,6 +7,8 @@ use CPM\Model_Events;
 use CPM\Comment\Models\Comment;
 use CPM\File\Models\File;
 use CPM\Common\Models\Boardable;
+use CPM\User\Models\User;
+use CPM\Milestone\Models\Milestone;
 
 class Discussion_Board extends Eloquent {
     use Model_Events;
@@ -37,8 +39,15 @@ class Discussion_Board extends Eloquent {
     }
 
     public function users() {
-        return $this->hasMany( Boardable::class, 'board_id' )
+        return $this->belongsToMany( User::class, 'cpm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion-board' )
             ->where( 'boardable_type', 'user' );
     }
+
+    public function milestones() {
+        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+            ->where( 'board_type', 'milestone' )
+            ->where( 'boardable_type', 'discussion-board' );
+    }
+
 }
