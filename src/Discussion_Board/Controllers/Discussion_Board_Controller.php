@@ -109,7 +109,7 @@ class Discussion_Board_Controller {
     }
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
-        $baordable = Boardable::where( 'boardable_id', $board->id )
+        $boardable = Boardable::where( 'boardable_id', $board->id )
             ->where( 'boardable_type', 'discussion-board' )
             ->where( 'board_type', 'milestone' )
             ->first();
