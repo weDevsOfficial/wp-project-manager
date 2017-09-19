@@ -9,10 +9,11 @@ use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\File\Transformer\File_Transformer;
 use CPM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\Milestone\Transformer\Milestone_Transformer;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
     protected $defaultIncludes = [
-        'users'
+        'users', 'milestone'
     ];
 
     protected $availableIncludes = [
@@ -69,5 +70,15 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $resource;
+    }
+
+    public function includeMilestone( Discussion_Board $item ) {
+        $milestone = $item->milestones->first();
+
+        if ( $milestone ) {
+            return $this->item( $milestone, new Milestone_Transformer );
+        }
+
+        return null;
     }
 }

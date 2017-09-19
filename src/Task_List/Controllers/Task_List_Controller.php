@@ -56,8 +56,6 @@ class Task_List_Controller {
         $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::create( $data );
 
-        $milestone_id = $request->get_param( 'milestone' );
-
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );
         }
