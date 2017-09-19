@@ -13,10 +13,18 @@ use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
 use CPM\Common\Models\Boardable;
 
 class Discussion_Board_Controller {
+
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $discussion_boards = Discussion_Board::paginate();
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 15;
+
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        $discussion_boards = Discussion_Board::orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
 
         $discussion_board_collection = $discussion_boards->getCollection();
 
