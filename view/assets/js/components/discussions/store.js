@@ -13,7 +13,8 @@ export default new Vuex.Store({
 		milestones: [],
 		discussion: [],
 		discuss: {},
-		comments: []
+		// comments: [],
+		// meta: {}
 	},
 	
 	mutations: {
@@ -30,15 +31,22 @@ export default new Vuex.Store({
 		},
 
 		setDiscussion (state, discussion) {
+			
 			state.discussion = discussion;
 		},
 
 		setDiscuss (state, discuss) {
-			state.discuss = discuss;
+			state.discussion = [];
+			state.discussion.push(discuss);
 		},
 
-		setComments (state, discussion) {
-			state.comments = discussion.comments;
-		}
+		// setComments (state, discussion) {
+		// 	state.comments = discussion.comments.data;
+		// },
+
+		// setCommentsMeta (state, discussion) {
+			
+		// 	state.meta = discussion.comments.meta.pagination;
+		// }
 	}
 });

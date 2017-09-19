@@ -17,6 +17,14 @@ export default Vue.mixin({
 			}
 		},
 
+		showHideCommentForm (status, comment) {
+			if ( status === 'toggle' ) {
+		        comment.edit_mode = comment.edit_mode ? false : true;
+		    } else {
+		        comment.edit_mode = status;
+		    }
+		},
+
 		getDiscussion (self) {
 	        var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments',
@@ -25,7 +33,6 @@ export default Vue.mixin({
 			    		self.addMeta(discuss);
 			    	});
 	                self.$store.commit( 'setDiscussion', res.data );
-	                self.$store.commit( 'setComments', res.data );
 	            }
 	        };
 	        self.httpRequest(request);
@@ -37,7 +44,8 @@ export default Vue.mixin({
 	            success (res) {
 	            	self.addMeta(res.data);
 	                self.$store.commit( 'setDiscuss', res.data );
-	                self.$store.commit( 'setComments', res.data );
+	                //self.$store.commit( 'setComments', res.data );
+	                //self.$store.commit( 'setCommentsMeta', res.data );
 	            }
 	        };
 	        self.httpRequest(request);
@@ -45,6 +53,10 @@ export default Vue.mixin({
 
 	    addMeta (discuss) {
 	    	discuss.edit_mode = false;
+
+	    	discuss.comments.data.map(function(comment, index) {
+	    		comment.edit_mode = false;
+	    	});
 	    },
 
 	    /**
@@ -63,7 +75,7 @@ export default Vue.mixin({
 
 	        var self      = this,
 	            is_update = typeof this.discuss.id == 'undefined' ? false : true,
-	            
+	            is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true,
 	            form_data = {
 	                title: this.discuss.title,
 	                description: this.discuss.description,
@@ -87,14 +99,25 @@ export default Vue.mixin({
 	            type: type,
 	            data: form_data,
 	            success (res) {
-	                self.getDiscussion(self);
+	            	if ( is_single ) {
+	            		self.getDiscuss(self);
+	            	} else {
+	            		self.getDiscussion(self);
+	            	}
+	                
 	                self.show_spinner = false;
 
 	                // Display a success toast, with a title
 	                toastr.success(res.data.success);
 	           
 	                self.submit_disabled = false;
-	                self.showHideDiscussForm(false);
+	                
+	                if (is_update) {
+
+	                	self.showHideDiscussForm(false, self.discuss);
+	                } else {
+	                	self.showHideDiscussForm(false);
+	                }
 	            },
 
 	            error (res) {
@@ -159,7 +182,8 @@ export default Vue.mixin({
 	                toastr.success(res.data.success);
 	           
 	                self.submit_disabled = false;
-	                //self.showHideDiscussForm(false);
+
+	                self.showHideCommentForm(false, self.comment);
 	            },
 
 	            error (res) {

@@ -2,25 +2,7 @@
 	<div class="wrap cpm cpm-front-end">
 
         <pm-header></pm-header>
-<br />
-<font size='1'><table class='xdebug-error xe-notice' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Notice: Undefined variable: boardable in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Discussion_Board/Controllers/Discussion_Board_Controller.php on line <i>117</i></th></tr>
-<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
-<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
-<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.2636</td><td bgcolor='#eeeeec' align='right'>359784</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='/Users/mishu/Documents/wedevs/api/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>0</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.2638</td><td bgcolor='#eeeeec' align='right'>361720</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'</font> )</td><td title='/Users/mishu/Documents/wedevs/api/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>17</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.6099</td><td bgcolor='#eeeeec' align='right'>24056456</td><td bgcolor='#eeeeec'>wp(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-blog-header.php' bgcolor='#eeeeec'>.../wp-blog-header.php<b>:</b>16</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.6099</td><td bgcolor='#eeeeec' align='right'>24056504</td><td bgcolor='#eeeeec'>WP->main(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/functions.php' bgcolor='#eeeeec'>.../functions.php<b>:</b>955</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>0.6099</td><td bgcolor='#eeeeec' align='right'>24056504</td><td bgcolor='#eeeeec'>WP->parse_request(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php' bgcolor='#eeeeec'>.../class-wp.php<b>:</b>733</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>6</td><td bgcolor='#eeeeec' align='center'>0.6105</td><td bgcolor='#eeeeec' align='right'>24081528</td><td bgcolor='#eeeeec'>do_action_ref_array(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php' bgcolor='#eeeeec'>.../class-wp.php<b>:</b>386</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>7</td><td bgcolor='#eeeeec' align='center'>0.6105</td><td bgcolor='#eeeeec' align='right'>24081528</td><td bgcolor='#eeeeec'>WP_Hook->do_action(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php' bgcolor='#eeeeec'>.../plugin.php<b>:</b>515</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>8</td><td bgcolor='#eeeeec' align='center'>0.6105</td><td bgcolor='#eeeeec' align='right'>24081528</td><td bgcolor='#eeeeec'>WP_Hook->apply_filters(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php' bgcolor='#eeeeec'>.../class-wp-hook.php<b>:</b>323</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>9</td><td bgcolor='#eeeeec' align='center'>0.6105</td><td bgcolor='#eeeeec' align='right'>24082656</td><td bgcolor='#eeeeec'>rest_api_loaded(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php' bgcolor='#eeeeec'>.../class-wp-hook.php<b>:</b>298</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>10</td><td bgcolor='#eeeeec' align='center'>0.6439</td><td bgcolor='#eeeeec' align='right'>24566680</td><td bgcolor='#eeeeec'>WP_REST_Server->serve_request(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php' bgcolor='#eeeeec'>.../rest-api.php<b>:</b>271</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>11</td><td bgcolor='#eeeeec' align='center'>0.6451</td><td bgcolor='#eeeeec' align='right'>24570664</td><td bgcolor='#eeeeec'>WP_REST_Server->dispatch(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php' bgcolor='#eeeeec'>.../class-wp-rest-server.php<b>:</b>329</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>12</td><td bgcolor='#eeeeec' align='center'>0.6471</td><td bgcolor='#eeeeec' align='right'>24715104</td><td bgcolor='#eeeeec'>CPM\Discussion_Board\Controllers\Discussion_Board_Controller->update(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php' bgcolor='#eeeeec'>.../class-wp-rest-server.php<b>:</b>947</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>13</td><td bgcolor='#eeeeec' align='center'>0.6622</td><td bgcolor='#eeeeec' align='right'>25143456</td><td bgcolor='#eeeeec'>CPM\Discussion_Board\Controllers\Discussion_Board_Controller->attach_milestone(  )</td><td title='/Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Discussion_Board/Controllers/Discussion_Board_Controller.php' bgcolor='#eeeeec'>.../Discussion_Board_Controller.php<b>:</b>83</td></tr>
-</table></font>
+
         <div id="cpm-signle-message"> 
             <div class="cpm-single">
 
@@ -50,7 +32,7 @@
 
         <div class="cpm-comment-area cpm-box-shadow">
 
-            <h3>{{ commentsTotal }} Comments</h3>
+            <h3> {{ commentsTotal }} Comments</h3>
 
             <ul class="cpm-comment-wrap">
 
@@ -74,7 +56,7 @@
 
                             <div class="cpm-comment-action">
                                 <span class="cpm-edit-link">
-                                    <a href="#" class="cpm-edit-comment-link dashicons dashicons-edit " data-comment_id="309" data-project_id="60" data-object_id="97"></a>
+                                    <a @click.prevent="showHideCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit " data-comment_id="309" data-project_id="60" data-object_id="97"></a>
                                 </span>
 
                                 <span class="cpm-delete-link">
@@ -86,7 +68,9 @@
                             <div v-html="comment.content"></div>
                         </div>
 
-                        <div class="cpm-comment-edit-form"></div>
+                        <div class="cpm-comment-edit-form">
+                            <comment-form v-if="comment.edit_mode" :comment="comment" :discuss="discuss"></comment-form>
+                        </div>
                     </div>
 
                 </li>
@@ -115,19 +99,25 @@
         },
         computed: {
             discuss () {
-                return this.$store.state.discuss;
+                if ( this.$store.state.discussion.length ) {
+                    return this.$store.state.discussion[0];
+                }
+
+                return {};
             },
             comments () {
-                return this.$store.state.comments.data;
+                if ( this.$store.state.discussion.length ) {
+                    return this.$store.state.discussion[0].comments.data;
+                }
+                return [];
             },
 
             commentsTotal () {
-               
-                if ( ! jQuery.isEmptyObject( this.$store.state.comments.meta ) ) {
-                    return this.$store.state.comments.meta.pagination.total;
+                if ( this.$store.state.discussion.length ) {
+                    return this.$store.state.discussion[0].comments.meta.pagination.total;
                 }
-
                 return 0;
+                
             }
         },
         components: {

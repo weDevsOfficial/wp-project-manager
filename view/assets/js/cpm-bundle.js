@@ -11030,6 +11030,14 @@ var activities = {
 			}
 		},
 
+		showHideCommentForm(status, comment) {
+			if (status === 'toggle') {
+				comment.edit_mode = comment.edit_mode ? false : true;
+			} else {
+				comment.edit_mode = status;
+			}
+		},
+
 		getDiscussion(self) {
 			var request = {
 				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards?with=comments',
@@ -11038,7 +11046,6 @@ var activities = {
 						self.addMeta(discuss);
 					});
 					self.$store.commit('setDiscussion', res.data);
-					self.$store.commit('setComments', res.data);
 				}
 			};
 			self.httpRequest(request);
@@ -11050,7 +11057,8 @@ var activities = {
 				success(res) {
 					self.addMeta(res.data);
 					self.$store.commit('setDiscuss', res.data);
-					self.$store.commit('setComments', res.data);
+					//self.$store.commit( 'setComments', res.data );
+					//self.$store.commit( 'setCommentsMeta', res.data );
 				}
 			};
 			self.httpRequest(request);
@@ -11058,6 +11066,10 @@ var activities = {
 
 		addMeta(discuss) {
 			discuss.edit_mode = false;
+
+			discuss.comments.data.map(function (comment, index) {
+				comment.edit_mode = false;
+			});
 		},
 
 		/**
@@ -11076,6 +11088,7 @@ var activities = {
 
 			var self = this,
 			    is_update = typeof this.discuss.id == 'undefined' ? false : true,
+			    is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true,
 			    form_data = {
 				title: this.discuss.title,
 				description: this.discuss.description,
@@ -11099,14 +11112,25 @@ var activities = {
 				type: type,
 				data: form_data,
 				success(res) {
-					self.getDiscussion(self);
+					if (is_single) {
+						self.getDiscuss(self);
+					} else {
+						self.getDiscussion(self);
+					}
+
 					self.show_spinner = false;
 
 					// Display a success toast, with a title
 					toastr.success(res.data.success);
 
 					self.submit_disabled = false;
-					self.showHideDiscussForm(false);
+
+					if (is_update) {
+
+						self.showHideDiscussForm(false, self.discuss);
+					} else {
+						self.showHideDiscussForm(false);
+					}
 				},
 
 				error(res) {
@@ -11170,7 +11194,8 @@ var activities = {
 					toastr.success(res.data.success);
 
 					self.submit_disabled = false;
-					//self.showHideDiscussForm(false);
+
+					self.showHideCommentForm(false, self.comment);
 				},
 
 				error(res) {
@@ -11251,8 +11276,9 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		is_discuss_form_active: false,
 		milestones: [],
 		discussion: [],
-		discuss: {},
-		comments: []
+		discuss: {}
+		// comments: [],
+		// meta: {}
 	},
 
 	mutations: {
@@ -11269,16 +11295,15 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		},
 
 		setDiscussion(state, discussion) {
+
 			state.discussion = discussion;
 		},
 
 		setDiscuss(state, discuss) {
-			state.discuss = discuss;
-		},
-
-		setComments(state, discussion) {
-			state.comments = discussion.comments;
+			state.discussion = [];
+			state.discussion.push(discuss);
 		}
+
 	}
 }));
 
