@@ -13189,7 +13189,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controller_vue__ = __webpack_require__(8);
-__webpack_require__.p = 'http://localhost/api/wp-content/plugins/cpmapi/view/assets/js/';
+__webpack_require__.p = PM_Vars.base_url + '/wp-content/plugins/cpmapi/view/assets/js/';
 
 
 

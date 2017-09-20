@@ -1,4 +1,4 @@
-__webpack_public_path__ = 'http://localhost/api/wp-content/plugins/cpmapi/view/assets/js/';
+__webpack_public_path__ = PM_Vars.base_url + '/wp-content/plugins/cpmapi/view/assets/js/';
 
 import Vue from './vue/vue';
 import store from './store';
