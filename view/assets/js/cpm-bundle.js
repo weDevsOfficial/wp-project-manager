@@ -12686,7 +12686,7 @@ var task_lists = {
     children: [{
         path: '/:project_id/task/:task_id',
         components: {
-            'single-task': single_list_route
+            'single-task': single_task_route
         },
         name: 'lists_single_task'
     }, {
@@ -12708,7 +12708,7 @@ var single_list = {
     children: [{
         path: '/:project_id/:list_id/task/:task_id',
         components: {
-            'single-task': single_list_route
+            'single-task': single_task_route
         },
         name: 'single_task'
     }]
@@ -13010,13 +13010,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
          * @return void       
          */
         single_task_popup: function (state) {
-            //state.task = {};
-            state.is_single_task = true;
-
-            // Vue.nextTick(function() {
-            //     state.task = task.task;
-            //     state.is_single_task = true;
-            // });
+            state.task = task.task;
         },
 
         /**

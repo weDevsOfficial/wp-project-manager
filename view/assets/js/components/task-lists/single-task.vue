@@ -27,8 +27,8 @@
 	        </div>
 	    </div>
     
-    	<div v-if="is_single_task">
-        <div v-if="task" class="modal-mask half-modal cpm-task-modal modal-transition" style="">
+    	
+        <div class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px;">
@@ -36,10 +36,8 @@
                         <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
-
                     <div class="modal-body cpm-todolist">
                         <div class="cpm-col-12 cpm-todo">
-                        
                             <div class="cpm-modal-conetnt">
                                 <div class="cmp-task-header">
                                     <h3 class="cpm-task-title"> 
@@ -57,13 +55,18 @@
                                                         type="text">
                                                 </span>
                                                 
-                                                <span class="cpm-task-title-activity cpm-task-title-span" v-if="!is_task_title_edit_mode" @click.prevent="isTaskTitleEditMode()">{{ task.post_title }}</span>
+                                                <span 
+                                                	class="cpm-task-title-activity cpm-task-title-span" 
+                                                	v-if="!is_task_title_edit_mode" 
+                                                	@click.prevent="isTaskTitleEditMode()">
+                                                	{{ task.title }}
+                                                </span>
                                             </div>
-                                            <div class="cpm-task-title-meta">
+                                           <!--  <div class="cpm-task-title-meta">
                                                 <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" v-cpm-tiptip class="dashicons dashicons-lock cpm-tiptip" title="<?php _e( 'Make public', 'cpm' ); ?>"></span>
                                                 <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" v-cpm-tiptip class="dashicons dashicons-unlock cpm-tiptip" title="<?php _e( 'Make private', 'cpm' ); ?>"></span>
-                                                <!-- <a v-if="!is_task_title_edit_mode" href="#" class="cpm-todo-edit" @click.prevent="isTaskTitleEditMode()"><span class="dashicons dashicons-edit cpm-task-title-activity" title="<?php _e( 'Edit Task Title', 'cpm' ); ?>"></span></a> -->
-                                            </div>
+                                                
+                                            </div> -->
                                             <div class="clearfix cpm-clear"></div>
                                         </span>
 
@@ -72,49 +75,50 @@
                                     
                                     <div  class="cpm-task-meta">
                                         <span  class="cpm-assigned-user-wrap">
-                                            <span v-if="task_assign.length" class='cpm-assigned-user' 
+                                            <span v-if="task_users" class='cpm-assigned-user' 
                                                 @click.prevent="isEnableMultiSelect()"
-                                                v-for="user in getUsers( task.assigned_to )" 
+                                                v-for="user in task_users" 
                                                 v-html="user.user_url">
 
                                             </span>
-                                            <span v-if="!task_assign.length" class='cpm-assigned-user' 
+
+                                            <span v-if="!task_users.length" class='cpm-assigned-user' 
                                                 @click.prevent="isEnableMultiSelect()"
                                                 >
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
-    
-	    <div v-if="task_assign.length && is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
+										    
+											    <div v-if="task_users.length && is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
 
-	        <multiselect 
-	            v-model="task_assign" 
-	            :options="project_users" 
-	            :multiple="true" 
-	            :close-on-select="false"
-	            :clear-on-select="true"
-	            :hide-selected="false"
-	            :show-labels="true"
-	            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
-	            select-label=""
-	            selected-label="selected"
-	            deselect-label=""
-	            :taggable="true"
-	            label="name"
-	            track-by="id"
-	            :allow-empty="true">
+											        <multiselect 
+											            v-model="task_assign" 
+											            :options="project_users" 
+											            :multiple="true" 
+											            :close-on-select="false"
+											            :clear-on-select="true"
+											            :hide-selected="false"
+											            :show-labels="true"
+											            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
+											            select-label=""
+											            selected-label="selected"
+											            deselect-label=""
+											            :taggable="true"
+											            label="name"
+											            track-by="id"
+											            :allow-empty="true">
 
-	            <template  slot="option" scope="props">
-	                <div>
-	                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="<?php _e( 'No Man’s Sky', 'cpm' ); ?>">
-	                    <div class="option__desc">
-	                        <span class="option__title">{{ props.option.title }}</span>
-	                        <!-- <span class="option__small">{{ props.option.desc }}</span> -->
-	                    </div>
-	                </div>
-	            </template>
-	                
-	        </multiselect>               
-	    </div>
+											            <template  slot="option" scope="props">
+											                <div>
+											                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="<?php _e( 'No Man’s Sky', 'cpm' ); ?>">
+											                    <div class="option__desc">
+											                        <span class="option__title">{{ props.option.title }}</span>
+											                        <!-- <span class="option__small">{{ props.option.desc }}</span> -->
+											                    </div>
+											                </div>
+											            </template>
+											                
+											        </multiselect>               
+											    </div>
 
 	                                        </span>
 
@@ -167,59 +171,69 @@
 	                                            
 	                                        </span>
 
-	                                        <span class="cpm-task-comment-count">{{ task.comments.length }} <?php _e( 'Comments', 'cpm' ); ?></span>
-	                                    </div>
+	                                        <span class="cpm-task-comment-count">{{ comments.length }} Comments</span>
 	                                </div>
-
-
-	                                <div  class="task-details">
-	                                                
-	                                    <!--v-if-->
-	                                    
-	                                    <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
-	                                        <span v-if="!task.post_content == ''" v-html="task.post_content"></span>
-	                                        <span style="margin-left: -3px;" v-if="task.post_content == ''"><i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp<?php _e( 'Update Description', 'cpm' ); ?></span>
-
-	                                    </p>
-	                                                                        <!-- @keyup.enter="updateTaskElement(task)" -->
-	                                    <textarea 
-	                                        v-prevent-line-break
-	                                        @blur="updateDescription(task, $event)" 
-	                                        @keyup.enter="updateDescription(task, $event)"
-	                                        class="cpm-des-area cpm-desc-field" 
-	                                        v-if="is_task_details_edit_mode"
-	                                        v-model="task.post_content">
-	                                            
-	                                        </textarea>
-	                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text"><span><?php _e('Shift+Enter for line break', 'cpm'); ?></span></div>
-
-	                                    <div class="clearfix cpm-clear"></div>
-	                                </div>
-	                                
-	                                <?php do_action( 'after_task_details' ); ?>    
-
-	                                <div class="cpm-todo-wrap clearfix">
-	                                    <div class="cpm-task-comment">
-	                                        <div class="comment-content">
-	                                            <cpm-task-comments :comments="task.comments" :task="task"></cpm-task-comments>
-	                                        </div>
-	                                    </div>
-	                                </div>          
 	                            </div>
-	                            <div class="clearfix"></div>
+
+
+                                <div  class="task-details">
+                                                
+                                    <!--v-if-->
+                                    
+                                    <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
+                                        <span v-if="!task.description == ''" v-html="task.description"></span>
+                                        <span style="margin-left: -3px;" v-if="task.description == ''">
+                                        	<i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
+                                        	&nbsp;Update Description
+                                        </span>
+
+                                    </p>
+                                                                        <!-- @keyup.enter="updateTaskElement(task)" -->
+                                    <textarea 
+                                        v-prevent-line-break
+                                        @blur="updateDescription(task, $event)" 
+                                        @keyup.enter="updateDescription(task, $event)"
+                                        class="cpm-des-area cpm-desc-field" 
+                                        v-if="is_task_details_edit_mode"
+                                        v-model="task.description">
+                                            
+                                    </textarea>
+                                    <div v-if="is_task_details_edit_mode" class="cpm-help-text">
+                                    	<span></span>
+                                    </div>
+
+                                    <div class="clearfix cpm-clear"></div>
+                                </div>
+	                                
+                                <div class="cpm-todo-wrap clearfix">
+                                    <div class="cpm-task-comment">
+                                        <div class="comment-content">
+                                            <task-comments :comments="comments" :task="task"></task-comments>
+                                        </div>
+                                    </div>
+                                </div>          
 	                        </div>
+	                        <div class="clearfix"></div>
 	                    </div>
-	                    <div class="clearfix"></div>
 	                </div>
+	                <div class="clearfix"></div>
 	            </div>
 	        </div>
 	    </div>
+	    
 	</div>
 
 </template>
 
 <script>
+	import comments from './task-comments.vue';
+
 	export default {
+		beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.getTask(vm);
+            });
+        },
 	    data: function() {
 	        return {
 	            task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
@@ -227,7 +241,9 @@
 	            is_task_title_edit_mode: false,
 	            is_task_details_edit_mode: false,
 	            is_task_date_edit_mode: false,
-	            is_enable_multi_select: false
+	            is_enable_multi_select: false,
+	            task_id: this.$route.params.task_id,
+	            task: {}
 	        }
 	    },
 
@@ -240,6 +256,19 @@
 	            });
 	            
 	            return this.$store.state.project_users;
+	        },
+	        task_users () {
+	        	if (jQuery.isEmptyObject(this.task.data)) {
+	        		return [];
+	        	}
+	        	return this.task.data.assignees.data;
+	        },
+
+	        comments () {
+	        	if (jQuery.isEmptyObject(this.task.data)) {
+	        		return [];
+	        	}
+	        	return this.task.data.comments.data;
 	        },
 
 	        task_assign: {
@@ -270,9 +299,11 @@
 	        },
 	    },
 
+	    components: {
+	    	'task-comments': comments
+	    },
+
 	    created: function() {
-	    	console.log('asldkjfhaskdjfh');
-	        this.getTask();
 	        window.addEventListener('click', this.windowActivity);
 	        
 	        this.$root.$on('cpm_date_picker', this.fromDate);
@@ -280,6 +311,16 @@
 
 
 	    methods: {
+	    	getTask: function(self) {
+	            var request = {
+	           		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
+	           		success (res) {
+	           			self.task = res.data;	           		}
+	            }
+
+	            self.httpRequest(request);
+	        },
+
 
 	        afterSelect: function(selectedOption, id, event) {
 	            //jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
@@ -352,29 +393,6 @@
 	            return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
 	        },
 
-	        getTask: function() {
-	            if ( ! this.$route.params.task_id ) {
-	                this.loading = false;
-	                return;
-	            }
-	        
-	            var request_data  = {
-	                task_id: this.$route.params.task_id,
-	                project_id: PM_Vars.project_id,
-	                _wpnonce: PM_Vars.nonce,
-	            },
-	            self = this;
-
-	            wp.ajax.send('cpm_get_task', {
-	                data: request_data,
-	                success: function(res) {
-	                    self.task = res.task;
-	                    self.$store.commit('single_task_popup');
-	                    self.loading = false;
-	                }
-	            });
-	        },
-
 	        updateTaskElement: function(task) {
 	            
 	            var request_data  = {
@@ -383,7 +401,7 @@
 	                    project_id: PM_Vars.project_id,
 	                    task_assign: task.assigned_to,
 	                    task_title: task.post_title,
-	                    task_text: task.post_content,
+	                    task_text: task.description,
 	                    task_start: task.start_date,
 	                    task_due: task.due_date,
 	                    task_privacy: task.task_privacy,

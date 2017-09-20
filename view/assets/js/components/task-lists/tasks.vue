@@ -32,8 +32,8 @@
 	                                    	:to="{ 
 		                                    	name: 'single_task', 
 		                                    	params: { 
-			                                    	list_id: list.ID, 
-			                                    	task_id: task.ID, 
+			                                    	list_id: list.id, 
+			                                    	task_id: task.id, 
 			                                    	project_id: 1, 
 			                                    	task: task 
 			                                }}">
@@ -137,11 +137,7 @@
 	                              
 	                                 <span :class="privateClass( task )"></span>
 	                                </span> 
-	                                <span class="task-title">
-	                                    <span v-if="is_single_list"><router-link exact :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
-	                                    <span v-else><router-link exact :to="{ name: 'task_single_under_todo_lists', params: { list_id: list.ID, task_id: task.ID, task: task }}""><span class="cpm-todo-text">{{ task.post_title }}</span></router-link></span>
-	                                    <span :class="privateClass( task )"></span>
-	                                </span>
+	                              
 
 	                                <span class='cpm-assigned-user' 
 	                                    v-for="user in getUsers( task.assigned_to )" 
@@ -232,9 +228,9 @@
 	                                    	:to="{ 
 		                                    	name: 'lists_single_task', 
 		                                    	params: { 
-			                                    	list_id: list.ID, 
-			                                    	task_id: task.ID, 
-			                                    	project_id: 1, 
+			                                    	list_id: list.id, 
+			                                    	task_id: task.id, 
+			                                    	project_id: project_id, 
 			                                    	task: task 
 			                                }}">
 
@@ -247,10 +243,8 @@
 	                                    	:to="{ 
 		                                    	name: 'lists_single_task', 
 		                                    	params: { 
-		                                    		list_id: list.ID, 
-		                                    		task_id: task.ID, 
-		                                    		project_id: 1,
-		                                    		task: task 
+			                                    	task_id: task.id, 
+			                                    	project_id: project_id, 
 		                                    }}">
 
 	                                    	{{ task.title }}
@@ -423,7 +417,7 @@
 	           more_incomplete_task_spinner: false,
 	           more_completed_task_spinner: false,
 	           loading_completed_tasks: true,
-	           loading_incomplete_tasks: true
+	           loading_incomplete_tasks: true,
 	        }
 	    },
 

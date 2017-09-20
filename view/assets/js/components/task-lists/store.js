@@ -285,13 +285,7 @@ export default new Vuex.Store({
          * @return void       
          */
         single_task_popup: function( state ) {
-            //state.task = {};
-            state.is_single_task = true;
-
-            // Vue.nextTick(function() {
-            //     state.task = task.task;
-            //     state.is_single_task = true;
-            // });
+            state.task = task.task;
         },
 
         /**

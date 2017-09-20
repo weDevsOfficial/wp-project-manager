@@ -952,12 +952,6 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1985,8 +1979,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "to": {
           name: 'single_task',
           params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
+            list_id: _vm.list.id,
+            task_id: task.id,
             project_id: 1,
             task: task
           }
@@ -2154,39 +2148,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "cpm-todo-text"
     }, [_vm._v(_vm._s(task.title))])]), _vm._v(" "), _c('span', {
       class: _vm.privateClass(task)
-    })], 1), _vm._v(" "), _c('span', {
-      staticClass: "task-title"
-    }, [(_vm.is_single_list) ? _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'list_task_single_under_todo',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-todo-text"
-    }, [_vm._v(_vm._s(task.post_title))])])], 1) : _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'task_single_under_todo_lists',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-todo-text"
-    }, [_vm._v(_vm._s(task.post_title))])])], 1), _vm._v(" "), _c('span', {
-      class: _vm.privateClass(task)
-    })]), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
+    })], 1), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
       return _c('span', {
         key: user.ID,
         staticClass: "cpm-assigned-user",
@@ -2319,9 +2281,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "to": {
           name: 'lists_single_task',
           params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            project_id: 1,
+            list_id: _vm.list.id,
+            task_id: task.id,
+            project_id: _vm.project_id,
             task: task
           }
         }
@@ -2332,10 +2294,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "to": {
           name: 'lists_single_task',
           params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            project_id: 1,
-            task: task
+            task_id: task.id,
+            project_id: _vm.project_id,
           }
         }
       }
@@ -3480,17 +3440,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(_vm.getProgressPercent(list)) + "%")]), _vm._v(" "), _c('div', {
       staticClass: "clearfix"
     })])], 1)])
-  })), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "lists_single_task"
-    }
-  }), _vm._v(" "), _c('pm-pagination', {
+  })), _vm._v(" "), _c('pm-pagination', {
     attrs: {
       "total_pages": _vm.total_list_page,
       "current_page_number": _vm.current_page_number,
       "component_name": "list_pagination"
     }
-  })], 1)], 1)
+  })], 1), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "single-task"
+    }
+  })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

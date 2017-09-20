@@ -1,86 +1,86 @@
 <template>
 	<div>
 		<pm-header></pm-header>
-	<div id="cpm-task-el" class="cpm-task-container wrap">
-		
-		<new-task-list-btn></new-task-list-btn>
-		<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
-		
-		<ul class="cpm-todolists">
-        
-        	<li v-for="(list, index) in lists" :key="list.id"  :class="'cpm-fade-out-'+list.id">
+		<div id="cpm-task-el" class="cpm-task-container wrap">
+			
+			<new-task-list-btn></new-task-list-btn>
+			<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+			
+			<ul class="cpm-todolists">
+	        
+	        	<li v-for="(list, index) in lists" :key="list.id"  :class="'cpm-fade-out-'+list.id">
 
-	            <article class="cpm-todolist">
-	                <header class="cpm-list-header">
-	                    <h3>
-	                    
-	                        <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">{{ list.title }}</router-link>
-	                        <span :class="privateClass(list)"></span>
-	                        <!-- v-if="list.can_del_edit" -->
-	                        <div class="cpm-right">
-	                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-	                            <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
-	                        </div>
-	                    </h3>
+		            <article class="cpm-todolist">
+		                <header class="cpm-list-header">
+		                    <h3>
+		                    
+		                        <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">{{ list.title }}</router-link>
+		                        <span :class="privateClass(list)"></span>
+		                        <!-- v-if="list.can_del_edit" -->
+		                        <div class="cpm-right">
+		                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+		                            <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
+		                        </div>
+		                    </h3>
 
-	                    <div class="cpm-entry-detail" >
-	                        {{ list.description }}    
-	                    </div>
-	                    
-	                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
-	                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
-	                        <!-- New Todo list form -->
-	                        <new-task-list-form section="lists" :list="list"></new-task-list-form>
-	                    </div>
-	                </header>
+		                    <div class="cpm-entry-detail" >
+		                        {{ list.description }}    
+		                    </div>
+		                    
+		                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
+		                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
+		                        <!-- New Todo list form -->
+		                        <new-task-list-form section="lists" :list="list"></new-task-list-form>
+		                    </div>
+		                </header>
 
-	                <!-- Todos component -->
-	              	<tasks :list="list"></tasks>
+		                <!-- Todos component -->
+		              	<tasks :list="list"></tasks>
 
-	                <footer class="cpm-row cpm-list-footer">
-	                    <div class="cpm-col-6">
-	                        <div>
-	                        	<new-task-button :task="{}" :list="list"></new-task-button>
-	                        </div>
-	                       
-	                        <div class="cpm-col-3 cpm-todo-complete">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
-	                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
-	                                Completed
-	                            </router-link>
-	                        </div>
-	                        <div  class="cpm-col-3 cpm-todo-incomplete">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
-	                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
-	                                Incomplete
-	                            </router-link>
-	                        </div>
-	                        <div  class="cpm-col-3 cpm-todo-comment">
-	                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
-	                                <span>{{ list.meta.total_comments }} Comments</span>
-	                            </router-link>
-	                        </div>
-	                    </div>
+		                <footer class="cpm-row cpm-list-footer">
+		                    <div class="cpm-col-6">
+		                        <div>
+		                        	<new-task-button :task="{}" :list="list"></new-task-button>
+		                        </div>
+		                       
+		                        <div class="cpm-col-3 cpm-todo-complete">
+		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
+		                                Completed
+		                            </router-link>
+		                        </div>
+		                        <div  class="cpm-col-3 cpm-todo-incomplete">
+		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
+		                                Incomplete
+		                            </router-link>
+		                        </div>
+		                        <div  class="cpm-col-3 cpm-todo-comment">
+		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                                <span>{{ list.meta.total_comments }} Comments</span>
+		                            </router-link>
+		                        </div>
+		                    </div>
 
-	                    <div class="cpm-col-4 cpm-todo-prgress-bar">
-	                        <div :style="getProgressStyle( list )" class="bar completed"></div>
-	                    </div>
-	                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list ) }}%</div>
-	                    <div class="clearfix"></div>
-	                </footer>
-	            </article>
-        	
-        	</li>
-    	</ul>
-    	<router-view name="lists_single_task"></router-view>
-    	<pm-pagination 
-            :total_pages="total_list_page" 
-            :current_page_number="current_page_number" 
-            component_name='list_pagination'>
-            
-        </pm-pagination> 
+		                    <div class="cpm-col-4 cpm-todo-prgress-bar">
+		                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+		                    </div>
+		                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list ) }}%</div>
+		                    <div class="clearfix"></div>
+		                </footer>
+		            </article>
+	        	
+	        	</li>
+	    	</ul>
+	    	<pm-pagination 
+	            :total_pages="total_list_page" 
+	            :current_page_number="current_page_number" 
+	            component_name='list_pagination'>
+	            
+	        </pm-pagination> 
+		</div>
+		<router-view name="single-task"></router-view>
 	</div>
-</div>
 </template>
 
 <script>

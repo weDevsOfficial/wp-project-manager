@@ -27,7 +27,7 @@ var task_lists = {
         {
             path: '/:project_id/task/:task_id', 
             components: { 
-                'single-task': single_list_route
+                'single-task': single_task_route
             }, 
             name: 'lists_single_task' 
         },
@@ -53,7 +53,7 @@ var single_list = {
         {
             path: '/:project_id/:list_id/task/:task_id', 
             components: { 
-                'single-task': single_list_route
+                'single-task': single_task_route
             }, 
             name: 'single_task' 
         }
