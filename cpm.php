@@ -418,14 +418,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
 
         if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
-            // $scripts = array(
-            //     'cpm-vue',
-            // );
-
-            // foreach( $scripts as $script ) {
-            //     wp_enqueue_script( $script );
-            // }
-
+            wp_enqueue_script( 'cpm-vue' );
             wp_enqueue_script( 'cpm_admin' );
         }
 
