@@ -15,22 +15,22 @@ class CPM_Project {
 
         add_filter( 'parent_file', array( $this, 'fix_category_menu' ) );
 
-        add_action( 'cpm_admin_scripts', array ( $this, 'project_script' ) );
+        //add_action( 'cpm_admin_scripts', array ( $this, 'project_script' ) );
     }
 
-    public function project_script() {
-        if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
-            wp_enqueue_media();
+   // public function project_script() {
+        // if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
+        //     wp_enqueue_media();
 
-            $scripts = array(
-                'cpm-vue',
-            );
+        //     $scripts = array(
+        //         'cpm-vue',
+        //     );
 
-            foreach( $scripts as $script ) {
-                wp_enqueue_script( $script );
-            }
-        }
-    }
+        //     foreach( $scripts as $script ) {
+        //         wp_enqueue_script( $script );
+        //     }
+        // }
+   // }
 
 
     public static function getInstance() {

@@ -413,18 +413,18 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
-        $cpm_dependency = array( 'jquery' );
+        $cpm_dependency = array( 'jquery', 'cpm_uploader_old', 'jquery-ui-datepicker' );
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
         wp_register_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
 
         if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
-            $scripts = array(
-                'cpm-vue',
-            );
+            // $scripts = array(
+            //     'cpm-vue',
+            // );
 
-            foreach( $scripts as $script ) {
-                wp_enqueue_script( $script );
-            }
+            // foreach( $scripts as $script ) {
+            //     wp_enqueue_script( $script );
+            // }
 
             wp_enqueue_script( 'cpm_admin' );
         }
@@ -468,7 +468,7 @@ class WeDevs_CPM {
         //wp_register_script( 'cpm-vue-focus', CPM_URL . '/assets/js/vue/vue.focus.min.js', array ( 'cpm-vue' ), false, true );
         wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-mixin', CPM_URL . '/assets/js/task-component-mixin.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery', 'cpm_admin' ), false, true );
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-toastr', 'cpm-task-store', 'cpm-task-mixin' ), false, true );
         wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
