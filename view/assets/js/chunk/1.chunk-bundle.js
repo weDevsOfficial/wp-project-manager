@@ -1,6 +1,1257 @@
 webpackJsonp([1],{
 
-/***/ 100:
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    props: ['value', 'dependency'],
+    mounted: function () {
+        var self = this,
+            limit_date = self.dependency == 'cpm-datepickter-from' ? "maxDate" : "minDate";
+
+        jQuery(self.$el).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function (selectedDate) {
+                jQuery("." + self.dependency).datepicker("option", limit_date, selectedDate);
+            },
+            onSelect: function (dateText) {
+                self.$emit('input', dateText);
+            }
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    // Get passing data for this component. Remember only array and objects are
+    props: ['list', 'task'],
+
+    methods: {
+        /**
+         * Select new todo-list button class for +,- icon
+         * 
+         * @return string
+         */
+        newTaskBtnClass: function () {
+            return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_picker_vue__ = __webpack_require__(109);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    // Get passing data for this component. Remember only array and objects are
+    props: ['list', 'task'],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function () {
+        return {
+            project_users: this.$store.state.project_users,
+            task_privacy: this.task.task_privacy == 'yes' ? true : false,
+            submit_disabled: false,
+            before_edit: jQuery.extend(true, {}, this.task),
+            show_spinner: false,
+            date_from: '',
+            date_to: ''
+        };
+    },
+
+    components: {
+        'multiselect': __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min___default.a,
+        'cpm-datepickter': __WEBPACK_IMPORTED_MODULE_1__date_picker_vue__["a" /* default */]
+    },
+
+    // Initial action for this component
+    created: function () {
+        this.$on('cpm_date_picker', this.getDatePicker);
+    },
+
+    watch: {
+        date_from: function (new_date) {
+            this.task.start_at = new_date;
+        },
+
+        date_to: function (new_date) {
+            this.task.due_date = new_date;
+        },
+        /**
+         * Live check is the task private or not
+         * 
+         * @param  boolean val 
+         * 
+         * @return void     
+         */
+        task_privacy: function (val) {
+            if (val) {
+                this.task.task_privacy = 'yes';
+            } else {
+                this.task.task_privacy = 'no';
+            }
+        }
+    },
+
+    computed: {
+        /**
+         * Check current user can view the todo or not
+         * 
+         * @return boolean
+         */
+        todo_view_private: function () {
+            if (!this.$store.state.init.hasOwnProperty('premissions')) {
+                return true;
+            }
+
+            if (this.$store.state.init.premissions.hasOwnProperty('todo_view_private')) {
+                return this.$store.state.init.premissions.tdolist_view_private;
+            }
+
+            return true;
+        },
+
+        /**
+         * Get and Set task users
+         */
+        task_assign: {
+            /**
+             * Filter only current task assgin user from vuex state project_users
+             *
+             * @return array
+             */
+            get: function () {
+                var filtered_users = [];
+
+                if (this.task.assigned_to && this.task.assigned_to.length) {
+                    var assigned_to = this.task.assigned_to.map(function (id) {
+                        return parseInt(id);
+                    });
+
+                    filtered_users = this.project_users.filter(function (user) {
+                        return assigned_to.indexOf(parseInt(user.id)) >= 0;
+                    });
+                }
+
+                return filtered_users;
+            },
+
+            /**
+             * Set selected users at task insert or edit time
+             * 
+             * @param array selected_users 
+             */
+            set: function (selected_users) {
+                this.task.assigned_to = selected_users.map(function (user) {
+                    return user.id;
+                });
+            }
+        }
+    },
+
+    methods: {
+        /**
+         * Set tast start and end date at task insert or edit time
+         * 
+         * @param  string data 
+         * 
+         * @return void   
+         */
+        getDatePicker: function (data) {
+
+            if (data.field == 'datepicker_from') {
+                //this.task.start_at = data.date;
+            }
+
+            if (data.field == 'datepicker_to') {
+                //this.task.due_date = data.date;
+            }
+        },
+
+        /**
+         * Show or hieding task insert and edit form
+         *  
+         * @param  int list_index 
+         * @param  int task_id    
+         * 
+         * @return void           
+         */
+        hideNewTaskForm: function (list_index, task_id) {
+            var self = this,
+                task_index = this.getIndex(this.list.tasks, task_id, 'ID'),
+                list_index = this.getIndex(this.$store.state.lists, this.list.ID, 'ID');
+
+            if (typeof task_id == 'undefined') {
+                self.showHideTaskFrom(self.list);
+                return;
+            }
+
+            this.list.tasks.map(function (task, index) {
+                if (task.ID == task_id) {
+                    self.showHideTaskFrom(self.list);
+                    self.task = jQuery.extend(self.task, self.before_edit);
+                }
+            });
+        },
+
+        /**
+         * Insert and edit task
+         * 
+         * @return void
+         */
+        newTask: function () {
+            // Exit from this function, If submit button disabled 
+            if (this.submit_disabled) {
+                return;
+            }
+
+            // Disable submit button for preventing multiple click
+            this.submit_disabled = true;
+
+            var self = this,
+                is_update = typeof this.task.id == 'undefined' ? false : true,
+                form_data = {
+                board_id: this.list.id,
+                assign: this.task.assigned_to,
+                title: this.task.title,
+                description: this.task.description,
+                start_at: this.task.start_at,
+                due_date: this.task.due_date,
+                task_privacy: this.task.task_privacy,
+                list_id: this.list.id
+            };
+
+            // Showing loading option 
+            this.show_spinner = true;
+
+            if (is_update) {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
+                var type = 'PUT';
+            } else {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
+                var type = 'POST';
+            }
+
+            var request_data = {
+                url: url,
+                type: type,
+                data: form_data,
+                success(res) {
+                    self.getList(self, self.list.id);
+                    self.show_spinner = false;
+
+                    // Display a success toast, with a title
+                    toastr.success(res.data.success);
+
+                    self.submit_disabled = false;
+                    self.showHideTaskFrom(self.list, self.task);
+                },
+
+                error(res) {
+                    self.show_spinner = false;
+
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                    self.submit_disabled = false;
+                }
+            };
+
+            self.httpRequest(request_data);
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var cpm_todo_list_mixins = function (mixins, mixin_parent) {
+    if (!mixins || !mixins.length) {
+        return [];
+    }
+    if (!mixin_parent) {
+        mixin_parent = window;
+    }
+    return mixins.map(function (mixin) {
+        return mixin_parent[mixin];
+    });
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    // Get passing data for this component. Remember only array and objects are 
+    props: ['list', 'section'],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function () {
+        return {
+            submit_btn_text: 'Submit',
+            tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
+            show_spinner: false,
+            error: [],
+            success: '',
+            submit_disabled: false,
+            project_id: this.$route.params.project_id,
+            milestone_id: '-1'
+        };
+    },
+
+    created() {
+        if (typeof this.list.milestone !== 'undefined') {
+            this.milestone_id = this.list.milestone.data.id;
+        }
+    },
+
+    computed: {
+
+        /**
+         * Get current project milestones 
+         * 
+         * @return array
+         */
+        milestones: function () {
+            return this.$store.state.milestones;
+        }
+    },
+
+    methods: {
+
+        /**
+         * Get todo list form class
+         * 
+         * @param  obej list 
+         * 
+         * @return string     
+         */
+        todolistFormClass: function (list) {
+            return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-' + list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
+        },
+
+        /**
+         * Insert and update todo list
+         * 
+         * @return void
+         */
+        newTodoList: function () {
+
+            // Prevent sending request when multiple click submit button 
+            if (this.submit_disabled) {
+                return;
+            }
+
+            // Make disable submit button
+            this.submit_disabled = true;
+
+            var self = this,
+                is_update = typeof this.list.id == 'undefined' ? false : true;
+
+            this.show_spinner = true;
+
+            if (is_update) {
+                var type = 'PUT';
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + self.list.id;
+                var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.milestone_id + '&order' + 5;
+            } else {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists';
+                var type = 'POST';
+                var data = {
+                    'title': self.list.title,
+                    'description': self.list.description,
+                    'milestone': self.milestone_id,
+                    'order': 5
+                };
+            }
+
+            var request_data = {
+                url: url,
+                data: data,
+                type: type,
+                success(res) {
+                    self.milestone_id = '-1';
+                    self.show_spinner = false;
+                    self.list.title = '';
+                    self.list.description = '';
+
+                    // Display a success message, with a title
+                    toastr.success(res.data.success);
+                    self.submit_disabled = false;
+
+                    if (is_update) {
+                        self.showHideListForm(false, self.list);
+                    } else {
+                        self.showHideListForm(false);
+                    }
+
+                    if (self.section === 'lists') {
+                        self.listsAfterNewList(self, res, is_update);
+                    }
+
+                    if (self.section === 'single') {
+                        self.singleAfterNewList(self, res, is_update);
+                    }
+
+                    //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
+                    //               	// named route
+                    // self.$router.push({ 
+                    // 	name: 'task_lists', 
+                    // 	params: { 
+                    // 		project_id: self.project_id 
+                    // 	}
+                    // });
+
+                    //               } else if (is_update) {
+                    //               	self.getList(self, self.list.id);
+                    //               }
+
+                },
+
+                error(res) {
+
+                    self.show_spinner = false;
+                    self.submit_disabled = false;
+
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                }
+            };
+
+            self.httpRequest(request_data);
+        },
+
+        listsAfterNewList(self, res, is_update) {
+            if (is_update) {
+                self.getList(self, self.list.id);
+                return;
+            }
+
+            if (self.$route.params.current_page_number > 1) {
+                // named route
+                self.$router.push({
+                    name: 'task_lists',
+                    params: {
+                        project_id: self.project_id
+                    }
+                });
+            } else {
+                self.getLists(self);
+            }
+        },
+
+        singleAfterNewList(self, res, is_update) {
+            if (is_update) {
+                var condition = 'incomplete_tasks,complete_tasks,comments';
+                self.getList(self, self.list.id, condition);
+            }
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__ = __webpack_require__(111);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    // Get passing data for this component. Remember only array and objects are
+    props: ['list'],
+
+    /**
+     * Initial data for this component
+     * 
+     * @return obj
+     */
+    data: function () {
+        return {
+            showTaskForm: false,
+            task: {},
+            tasks: this.list.tasks,
+            task_index: 'undefined', // Using undefined for slideToggle class
+            task_loading_status: false,
+            incomplete_show_load_more_btn: false,
+            complete_show_load_more_btn: false,
+            currnet_user_id: this.$store.state.get_current_user_id,
+            more_incomplete_task_spinner: false,
+            more_completed_task_spinner: false,
+            loading_completed_tasks: true,
+            loading_incomplete_tasks: true
+        };
+    },
+
+    beforeCreate: function () {},
+
+    created: function () {
+
+        // var self = this;
+        // if ( this.$store.state.is_single_list ) {
+        //     //For sigle todo-list page
+        //     this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
+        //         var getIncompletedTasks = self.getIncompletedTasks(self.list);
+        //         var getCompleteTask     = self.getCompleteTask(self.list);
+
+        //         self.loading_completed_tasks = false;
+        //         self.loading_incomplete_tasks = false;
+
+        //         if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
+        //             self.incomplete_show_load_more_btn = true;
+        //         }
+
+        //         if ( res.found_completed_tasks > getCompleteTask.length ) {
+        //             self.complete_show_load_more_btn = true;
+        //         }
+        //     });
+        // } else {
+        //     self.list.tasks = [];
+        //     //For todo-lists page
+        //     this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
+        //         self.loading_incomplete_tasks = false;
+
+        //         if ( res.found_incompleted_tasks > self.list.tasks.length ) {
+        //             self.incomplete_show_load_more_btn = true;
+        //         }
+        //     }); 
+        // }
+    },
+
+    computed: {
+        /**
+         * Check, Has task from this props list
+         * 
+         * @return boolen
+         */
+        taskLength: function () {
+            return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
+        },
+
+        /**
+         * Get incomplete tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getIncompleteTasks: function () {
+            if (this.list.incomplete_tasks) {
+                this.list.incomplete_tasks.data.map(function (task, index) {
+                    task.status = false;
+                });
+
+                return this.list.incomplete_tasks.data;
+            }
+        },
+
+        /**
+         * Get completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getCompletedTask: function () {
+            if (this.list.complete_tasks) {
+                this.list.complete_tasks.data.map(function (task, index) {
+                    task.status = true;
+                });
+
+                return this.list.complete_tasks.data;
+            }
+        }
+    },
+
+    components: {
+        'new-task-form': __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__["a" /* default */]
+    },
+
+    methods: {
+        is_assigned: function (task) {
+            return true;
+            var get_current_user_id = this.$store.state.get_current_user_id,
+                in_task = task.assigned_to.indexOf(get_current_user_id);
+
+            if (task.can_del_edit || in_task != '-1') {
+                return true;
+            }
+
+            return false;
+        },
+        /**
+         * Get incomplete tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getIncompletedTasks: function (lists) {
+            return lists.tasks.filter(function (task) {
+                return task.completed == '0' || !task.completed;
+            });
+        },
+
+        /**
+         * Get completed tasks
+         * 
+         * @param  array tasks 
+         * 
+         * @return array       
+         */
+        getCompleteTask: function (lists) {
+            return lists.tasks.filter(function (task) {
+                return task.completed == '1' || task.completed;
+            });
+        },
+
+        /**
+         * Class for showing task private incon
+         * 
+         * @param  obje task 
+         * 
+         * @return string      
+         */
+        privateClass: function (task) {
+            return task.task_privacy == 'yes' ? 'cpm-lock' : 'cpm-unlock';
+        },
+
+        /**
+         * Delete task
+         * 
+         * @return void
+         */
+        deleteTask: function (list_id, task_id) {
+            if (!confirm(PM_Vars.message.confirm)) {
+                return;
+            }
+
+            var self = this,
+                list_index = this.getIndex(this.$store.state.lists, list_id, 'ID'),
+                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task_id, 'ID'),
+                form_data = {
+                action: 'cpm_task_delete',
+                task_id: task_id,
+                _wpnonce: PM_Vars.nonce
+            };
+
+            // Seding request for insert or update todo list
+            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
+                if (res.success) {
+                    // Display a success message, with a title
+                    //toastr.success(res.data.success);
+
+                    CPM_Component_jQuery.fadeOut(task_id, function () {
+                        self.$store.commit('after_delete_task', {
+                            list_index: list_index,
+                            task_index: task_index
+                        });
+                    });
+                } else {
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                }
+            });
+        },
+
+        loadMoreIncompleteTasks: function (list) {
+            if (this.task_loading_status) {
+                return;
+            }
+
+            this.task_loading_status = true;
+            this.more_incomplete_task_spinner = true;
+
+            var incompleted_tasks = this.getIncompletedTasks(this.list);
+
+            var page_number = incompleted_tasks.length,
+                self = this;
+
+            this.getTasks(list.ID, page_number, 'cpm_get_incompleted_tasks', function (res) {
+                self.task_loading_status = false;
+                self.more_incomplete_task_spinner = false;
+
+                var incompleted_tasks = self.getIncompletedTasks(self.list);
+
+                if (res.found_incompleted_tasks > incompleted_tasks.length) {
+                    self.incomplete_show_load_more_btn = true;
+                } else {
+                    self.incomplete_show_load_more_btn = false;
+                }
+            });
+        },
+
+        loadMoreCompleteTasks: function (list) {
+            if (this.task_loading_status) {
+                return;
+            }
+
+            this.task_loading_status = true;
+            this.more_completed_task_spinner = true;
+
+            var completed_tasks = this.getCompleteTask(this.list);
+
+            var page_number = completed_tasks.length,
+                self = this;
+
+            this.getTasks(list.ID, page_number, 'cpm_get_completed_tasks', function (res) {
+                self.task_loading_status = false;
+                self.more_completed_task_spinner = false;
+
+                var completed_tasks = self.getCompleteTask(self.list);
+
+                if (res.found_completed_tasks > completed_tasks.length) {
+                    self.complete_show_load_more_btn = true;
+                } else {
+                    self.complete_show_load_more_btn = false;
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function (e, t) {
@@ -278,12 +1529,12 @@ webpackJsonp([1],{
 
 /***/ }),
 
-/***/ 104:
+/***/ 109:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_picker_vue__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47f218d2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_date_picker_vue__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_picker_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47f218d2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_date_picker_vue__ = __webpack_require__(116);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -328,12 +1579,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 105:
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_btn_vue__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a5b5807_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_btn_vue__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_btn_vue__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a5b5807_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_btn_vue__ = __webpack_require__(115);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -378,12 +1629,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 106:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_form_vue__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7b80aaae_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_form_vue__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_form_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7b80aaae_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_form_vue__ = __webpack_require__(119);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -428,12 +1679,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 107:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_form_vue__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7db5bc7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_form_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_task_list_form_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7db5bc7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_task_list_form_vue__ = __webpack_require__(120);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -478,12 +1729,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 108:
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tasks_vue__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52cdc098_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tasks_vue__ = __webpack_require__(117);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -528,7 +1779,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 110:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -560,7 +1811,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 111:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -587,7 +1838,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 113:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1303,7 +2554,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 116:
+/***/ 119:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1478,7 +2729,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 117:
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1623,7 +2874,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 132:
+/***/ 136:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1715,12 +2966,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 133:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__ = __webpack_require__(162);
 //
 //
 //
@@ -2002,11 +3253,11 @@ if (false) {
 
 /***/ }),
 
-/***/ 134:
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__ = __webpack_require__(163);
 //
 //
 //
@@ -2110,15 +3361,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 136:
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tasks_vue__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__new_task_list_form_vue__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_task_btn_vue__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_vue__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tasks_vue__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__list_comments_vue__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__new_task_list_form_vue__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_task_btn_vue__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_vue__ = __webpack_require__(91);
 //
 //
 //
@@ -2374,7 +3625,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 143:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2456,12 +3707,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 157:
+/***/ 162:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_62344bae_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_file_uploader_vue__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_62344bae_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_file_uploader_vue__ = __webpack_require__(180);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2506,12 +3757,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 158:
+/***/ 163:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comment_form_vue__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_bdbf3e6a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comment_form_vue__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comment_form_vue__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_bdbf3e6a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comment_form_vue__ = __webpack_require__(189);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2556,12 +3807,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 159:
+/***/ 164:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comments_vue__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4b305a66_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comments_vue__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_list_comments_vue__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4b305a66_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_list_comments_vue__ = __webpack_require__(178);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2606,12 +3857,12 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 161:
+/***/ 166:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_269b1a17_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_text_editor_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_269b1a17_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_text_editor_vue__ = __webpack_require__(174);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2656,52 +3907,13 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 168:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.content.html),
-      expression: "content.html"
-    }],
-    attrs: {
-      "id": _vm.editor_id
-    },
-    domProps: {
-      "value": (_vm.content.html)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.content.html = $event.target.value
-      }
-    }
-  })])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-269b1a17", esExports)
-  }
-}
-
-/***/ }),
-
 /***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_list_vue__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6155e00d_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_list_vue__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_list_vue__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6155e00d_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_list_vue__ = __webpack_require__(179);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2746,7 +3958,46 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 172:
+/***/ 174:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.content.html),
+      expression: "content.html"
+    }],
+    attrs: {
+      "id": _vm.editor_id
+    },
+    domProps: {
+      "value": (_vm.content.html)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.content.html = $event.target.value
+      }
+    }
+  })])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-269b1a17", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 178:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2878,7 +4129,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 173:
+/***/ 179:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3012,7 +4263,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 174:
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3071,7 +4322,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 183:
+/***/ 189:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3230,7 +4481,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 90:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3423,12 +4674,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 88:
+/***/ 91:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__ = __webpack_require__(92);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3473,7 +4724,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 89:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3694,1257 +4945,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-46bc394e", esExports)
   }
 }
-
-/***/ }),
-
-/***/ 94:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    props: ['value', 'dependency'],
-    mounted: function () {
-        var self = this,
-            limit_date = self.dependency == 'cpm-datepickter-from' ? "maxDate" : "minDate";
-
-        jQuery(self.$el).datepicker({
-            dateFormat: 'yy-mm-dd',
-            changeYear: true,
-            changeMonth: true,
-            numberOfMonths: 1,
-            onClose: function (selectedDate) {
-                jQuery("." + self.dependency).datepicker("option", limit_date, selectedDate);
-            },
-            onSelect: function (dateText) {
-                self.$emit('input', dateText);
-            }
-        });
-    }
-});
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'task'],
-
-    methods: {
-        /**
-         * Select new todo-list button class for +,- icon
-         * 
-         * @return string
-         */
-        newTaskBtnClass: function () {
-            return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 96:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_picker_vue__ = __webpack_require__(104);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'task'],
-
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            project_users: this.$store.state.project_users,
-            task_privacy: this.task.task_privacy == 'yes' ? true : false,
-            submit_disabled: false,
-            before_edit: jQuery.extend(true, {}, this.task),
-            show_spinner: false,
-            date_from: '',
-            date_to: ''
-        };
-    },
-
-    components: {
-        'multiselect': __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min___default.a,
-        'cpm-datepickter': __WEBPACK_IMPORTED_MODULE_1__date_picker_vue__["a" /* default */]
-    },
-
-    // Initial action for this component
-    created: function () {
-        this.$on('cpm_date_picker', this.getDatePicker);
-    },
-
-    watch: {
-        date_from: function (new_date) {
-            this.task.start_at = new_date;
-        },
-
-        date_to: function (new_date) {
-            this.task.due_date = new_date;
-        },
-        /**
-         * Live check is the task private or not
-         * 
-         * @param  boolean val 
-         * 
-         * @return void     
-         */
-        task_privacy: function (val) {
-            if (val) {
-                this.task.task_privacy = 'yes';
-            } else {
-                this.task.task_privacy = 'no';
-            }
-        }
-    },
-
-    computed: {
-        /**
-         * Check current user can view the todo or not
-         * 
-         * @return boolean
-         */
-        todo_view_private: function () {
-            if (!this.$store.state.init.hasOwnProperty('premissions')) {
-                return true;
-            }
-
-            if (this.$store.state.init.premissions.hasOwnProperty('todo_view_private')) {
-                return this.$store.state.init.premissions.tdolist_view_private;
-            }
-
-            return true;
-        },
-
-        /**
-         * Get and Set task users
-         */
-        task_assign: {
-            /**
-             * Filter only current task assgin user from vuex state project_users
-             *
-             * @return array
-             */
-            get: function () {
-                var filtered_users = [];
-
-                if (this.task.assigned_to && this.task.assigned_to.length) {
-                    var assigned_to = this.task.assigned_to.map(function (id) {
-                        return parseInt(id);
-                    });
-
-                    filtered_users = this.project_users.filter(function (user) {
-                        return assigned_to.indexOf(parseInt(user.id)) >= 0;
-                    });
-                }
-
-                return filtered_users;
-            },
-
-            /**
-             * Set selected users at task insert or edit time
-             * 
-             * @param array selected_users 
-             */
-            set: function (selected_users) {
-                this.task.assigned_to = selected_users.map(function (user) {
-                    return user.id;
-                });
-            }
-        }
-    },
-
-    methods: {
-        /**
-         * Set tast start and end date at task insert or edit time
-         * 
-         * @param  string data 
-         * 
-         * @return void   
-         */
-        getDatePicker: function (data) {
-
-            if (data.field == 'datepicker_from') {
-                //this.task.start_at = data.date;
-            }
-
-            if (data.field == 'datepicker_to') {
-                //this.task.due_date = data.date;
-            }
-        },
-
-        /**
-         * Show or hieding task insert and edit form
-         *  
-         * @param  int list_index 
-         * @param  int task_id    
-         * 
-         * @return void           
-         */
-        hideNewTaskForm: function (list_index, task_id) {
-            var self = this,
-                task_index = this.getIndex(this.list.tasks, task_id, 'ID'),
-                list_index = this.getIndex(this.$store.state.lists, this.list.ID, 'ID');
-
-            if (typeof task_id == 'undefined') {
-                self.showHideTaskFrom(self.list);
-                return;
-            }
-
-            this.list.tasks.map(function (task, index) {
-                if (task.ID == task_id) {
-                    self.showHideTaskFrom(self.list);
-                    self.task = jQuery.extend(self.task, self.before_edit);
-                }
-            });
-        },
-
-        /**
-         * Insert and edit task
-         * 
-         * @return void
-         */
-        newTask: function () {
-            // Exit from this function, If submit button disabled 
-            if (this.submit_disabled) {
-                return;
-            }
-
-            // Disable submit button for preventing multiple click
-            this.submit_disabled = true;
-
-            var self = this,
-                is_update = typeof this.task.id == 'undefined' ? false : true,
-                form_data = {
-                board_id: this.list.id,
-                assign: this.task.assigned_to,
-                title: this.task.title,
-                description: this.task.description,
-                start_at: this.task.start_at,
-                due_date: this.task.due_date,
-                task_privacy: this.task.task_privacy,
-                list_id: this.list.id
-            };
-
-            // Showing loading option 
-            this.show_spinner = true;
-
-            if (is_update) {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
-                var type = 'PUT';
-            } else {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
-                var type = 'POST';
-            }
-
-            var request_data = {
-                url: url,
-                type: type,
-                data: form_data,
-                success(res) {
-                    self.getList(self, self.list.id);
-                    self.show_spinner = false;
-
-                    // Display a success toast, with a title
-                    toastr.success(res.data.success);
-
-                    self.submit_disabled = false;
-                    self.showHideTaskFrom(self.list, self.task);
-                },
-
-                error(res) {
-                    self.show_spinner = false;
-
-                    // Showing error
-                    res.data.error.map(function (value, index) {
-                        toastr.error(value);
-                    });
-                    self.submit_disabled = false;
-                }
-            };
-
-            self.httpRequest(request_data);
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 97:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-var cpm_todo_list_mixins = function (mixins, mixin_parent) {
-    if (!mixins || !mixins.length) {
-        return [];
-    }
-    if (!mixin_parent) {
-        mixin_parent = window;
-    }
-    return mixins.map(function (mixin) {
-        return mixin_parent[mixin];
-    });
-};
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    // Get passing data for this component. Remember only array and objects are 
-    props: ['list', 'section'],
-
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            submit_btn_text: 'Submit',
-            tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
-            show_spinner: false,
-            error: [],
-            success: '',
-            submit_disabled: false,
-            project_id: this.$route.params.project_id,
-            milestone_id: '-1'
-        };
-    },
-
-    created() {
-        if (typeof this.list.milestone !== 'undefined') {
-            this.milestone_id = this.list.milestone.data.id;
-        }
-    },
-
-    computed: {
-
-        /**
-         * Get current project milestones 
-         * 
-         * @return array
-         */
-        milestones: function () {
-            return this.$store.state.milestones;
-        }
-    },
-
-    methods: {
-
-        /**
-         * Get todo list form class
-         * 
-         * @param  obej list 
-         * 
-         * @return string     
-         */
-        todolistFormClass: function (list) {
-            return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-' + list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
-        },
-
-        /**
-         * Insert and update todo list
-         * 
-         * @return void
-         */
-        newTodoList: function () {
-
-            // Prevent sending request when multiple click submit button 
-            if (this.submit_disabled) {
-                return;
-            }
-
-            // Make disable submit button
-            this.submit_disabled = true;
-
-            var self = this,
-                is_update = typeof this.list.id == 'undefined' ? false : true;
-
-            this.show_spinner = true;
-
-            if (is_update) {
-                var type = 'PUT';
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + self.list.id;
-                var data = 'title=' + self.list.title + '&description=' + self.list.description + '&milestone=' + self.milestone_id + '&order' + 5;
-            } else {
-                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists';
-                var type = 'POST';
-                var data = {
-                    'title': self.list.title,
-                    'description': self.list.description,
-                    'milestone': self.milestone_id,
-                    'order': 5
-                };
-            }
-
-            var request_data = {
-                url: url,
-                data: data,
-                type: type,
-                success(res) {
-                    self.milestone_id = '-1';
-                    self.show_spinner = false;
-                    self.list.title = '';
-                    self.list.description = '';
-
-                    // Display a success message, with a title
-                    toastr.success(res.data.success);
-                    self.submit_disabled = false;
-
-                    if (is_update) {
-                        self.showHideListForm(false, self.list);
-                    } else {
-                        self.showHideListForm(false);
-                    }
-
-                    if (self.section === 'lists') {
-                        self.listsAfterNewList(self, res, is_update);
-                    }
-
-                    if (self.section === 'single') {
-                        self.singleAfterNewList(self, res, is_update);
-                    }
-
-                    //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
-                    //               	// named route
-                    // self.$router.push({ 
-                    // 	name: 'task_lists', 
-                    // 	params: { 
-                    // 		project_id: self.project_id 
-                    // 	}
-                    // });
-
-                    //               } else if (is_update) {
-                    //               	self.getList(self, self.list.id);
-                    //               }
-
-                },
-
-                error(res) {
-
-                    self.show_spinner = false;
-                    self.submit_disabled = false;
-
-                    // Showing error
-                    res.data.error.map(function (value, index) {
-                        toastr.error(value);
-                    });
-                }
-            };
-
-            self.httpRequest(request_data);
-        },
-
-        listsAfterNewList(self, res, is_update) {
-            if (is_update) {
-                self.getList(self, self.list.id);
-                return;
-            }
-
-            if (self.$route.params.current_page_number > 1) {
-                // named route
-                self.$router.push({
-                    name: 'task_lists',
-                    params: {
-                        project_id: self.project_id
-                    }
-                });
-            } else {
-                self.getLists(self);
-            }
-        },
-
-        singleAfterNewList(self, res, is_update) {
-            if (is_update) {
-                var condition = 'incomplete_tasks,complete_tasks,comments';
-                self.getList(self, self.list.id, condition);
-            }
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__ = __webpack_require__(106);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-
-    // Get passing data for this component. Remember only array and objects are
-    props: ['list'],
-
-    /**
-     * Initial data for this component
-     * 
-     * @return obj
-     */
-    data: function () {
-        return {
-            showTaskForm: false,
-            task: {},
-            tasks: this.list.tasks,
-            task_index: 'undefined', // Using undefined for slideToggle class
-            task_loading_status: false,
-            incomplete_show_load_more_btn: false,
-            complete_show_load_more_btn: false,
-            currnet_user_id: this.$store.state.get_current_user_id,
-            more_incomplete_task_spinner: false,
-            more_completed_task_spinner: false,
-            loading_completed_tasks: true,
-            loading_incomplete_tasks: true
-        };
-    },
-
-    beforeCreate: function () {},
-
-    created: function () {
-
-        // var self = this;
-        // if ( this.$store.state.is_single_list ) {
-        //     //For sigle todo-list page
-        //     this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
-        //         var getIncompletedTasks = self.getIncompletedTasks(self.list);
-        //         var getCompleteTask     = self.getCompleteTask(self.list);
-
-        //         self.loading_completed_tasks = false;
-        //         self.loading_incomplete_tasks = false;
-
-        //         if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
-        //             self.incomplete_show_load_more_btn = true;
-        //         }
-
-        //         if ( res.found_completed_tasks > getCompleteTask.length ) {
-        //             self.complete_show_load_more_btn = true;
-        //         }
-        //     });
-        // } else {
-        //     self.list.tasks = [];
-        //     //For todo-lists page
-        //     this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
-        //         self.loading_incomplete_tasks = false;
-
-        //         if ( res.found_incompleted_tasks > self.list.tasks.length ) {
-        //             self.incomplete_show_load_more_btn = true;
-        //         }
-        //     }); 
-        // }
-    },
-
-    computed: {
-        /**
-         * Check, Has task from this props list
-         * 
-         * @return boolen
-         */
-        taskLength: function () {
-            return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
-        },
-
-        /**
-         * Get incomplete tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
-         */
-        getIncompleteTasks: function () {
-            if (this.list.incomplete_tasks) {
-                this.list.incomplete_tasks.data.map(function (task, index) {
-                    task.status = false;
-                });
-
-                return this.list.incomplete_tasks.data;
-            }
-        },
-
-        /**
-         * Get completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
-         */
-        getCompletedTask: function () {
-            if (this.list.complete_tasks) {
-                this.list.complete_tasks.data.map(function (task, index) {
-                    task.status = true;
-                });
-
-                return this.list.complete_tasks.data;
-            }
-        }
-    },
-
-    components: {
-        'new-task-form': __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__["a" /* default */]
-    },
-
-    methods: {
-        is_assigned: function (task) {
-            return true;
-            var get_current_user_id = this.$store.state.get_current_user_id,
-                in_task = task.assigned_to.indexOf(get_current_user_id);
-
-            if (task.can_del_edit || in_task != '-1') {
-                return true;
-            }
-
-            return false;
-        },
-        /**
-         * Get incomplete tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
-         */
-        getIncompletedTasks: function (lists) {
-            return lists.tasks.filter(function (task) {
-                return task.completed == '0' || !task.completed;
-            });
-        },
-
-        /**
-         * Get completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return array       
-         */
-        getCompleteTask: function (lists) {
-            return lists.tasks.filter(function (task) {
-                return task.completed == '1' || task.completed;
-            });
-        },
-
-        /**
-         * Class for showing task private incon
-         * 
-         * @param  obje task 
-         * 
-         * @return string      
-         */
-        privateClass: function (task) {
-            return task.task_privacy == 'yes' ? 'cpm-lock' : 'cpm-unlock';
-        },
-
-        /**
-         * Delete task
-         * 
-         * @return void
-         */
-        deleteTask: function (list_id, task_id) {
-            if (!confirm(PM_Vars.message.confirm)) {
-                return;
-            }
-
-            var self = this,
-                list_index = this.getIndex(this.$store.state.lists, list_id, 'ID'),
-                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task_id, 'ID'),
-                form_data = {
-                action: 'cpm_task_delete',
-                task_id: task_id,
-                _wpnonce: PM_Vars.nonce
-            };
-
-            // Seding request for insert or update todo list
-            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
-                if (res.success) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-
-                    CPM_Component_jQuery.fadeOut(task_id, function () {
-                        self.$store.commit('after_delete_task', {
-                            list_index: list_index,
-                            task_index: task_index
-                        });
-                    });
-                } else {
-                    // Showing error
-                    res.data.error.map(function (value, index) {
-                        toastr.error(value);
-                    });
-                }
-            });
-        },
-
-        loadMoreIncompleteTasks: function (list) {
-            if (this.task_loading_status) {
-                return;
-            }
-
-            this.task_loading_status = true;
-            this.more_incomplete_task_spinner = true;
-
-            var incompleted_tasks = this.getIncompletedTasks(this.list);
-
-            var page_number = incompleted_tasks.length,
-                self = this;
-
-            this.getTasks(list.ID, page_number, 'cpm_get_incompleted_tasks', function (res) {
-                self.task_loading_status = false;
-                self.more_incomplete_task_spinner = false;
-
-                var incompleted_tasks = self.getIncompletedTasks(self.list);
-
-                if (res.found_incompleted_tasks > incompleted_tasks.length) {
-                    self.incomplete_show_load_more_btn = true;
-                } else {
-                    self.incomplete_show_load_more_btn = false;
-                }
-            });
-        },
-
-        loadMoreCompleteTasks: function (list) {
-            if (this.task_loading_status) {
-                return;
-            }
-
-            this.task_loading_status = true;
-            this.more_completed_task_spinner = true;
-
-            var completed_tasks = this.getCompleteTask(this.list);
-
-            var page_number = completed_tasks.length,
-                self = this;
-
-            this.getTasks(list.ID, page_number, 'cpm_get_completed_tasks', function (res) {
-                self.task_loading_status = false;
-                self.more_completed_task_spinner = false;
-
-                var completed_tasks = self.getCompleteTask(self.list);
-
-                if (res.found_completed_tasks > completed_tasks.length) {
-                    self.complete_show_load_more_btn = true;
-                } else {
-                    self.complete_show_load_more_btn = false;
-                }
-            });
-        }
-    }
-});
 
 /***/ })
 

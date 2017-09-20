@@ -1732,7 +1732,6 @@ ul.cpm-activity ul li:before {
 -------------------------------------------------- */
 .cpm-new-milestone-form {
   margin: 25px 0 15px 10px;
-  display: none;
 }
 .cpm-milestone-form-wrap {
   position: relative;

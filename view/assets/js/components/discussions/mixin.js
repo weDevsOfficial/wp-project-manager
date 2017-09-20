@@ -163,7 +163,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        if (is_update) {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id;
+	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
 	            var type = 'PUT'; 
 	        } else {
 	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
