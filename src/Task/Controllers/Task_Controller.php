@@ -24,9 +24,9 @@ class Task_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $per_page = $request->get( 'per_page' );
+        $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 5;
-        $page = $request->get( 'page' );
+        $page = $request->get_param( 'page' );
 
         $tasks = Task::orderBy( 'created_at', 'DESC')
             ->paginate( $per_page, ['*'], 'page', $page );
