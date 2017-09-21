@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use CPM\Common\Models\Assignee;
 
 class Task_Controller {
+
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {

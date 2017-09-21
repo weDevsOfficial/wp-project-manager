@@ -7,6 +7,7 @@ use CPM\Model_Events;
 use CPM\Task_List\Models\Task_List;
 use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
+use CPM\Common\Models\Meta;
 
 class Milestone extends Eloquent {
     use Model_Events;
