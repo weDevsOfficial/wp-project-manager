@@ -12,7 +12,7 @@ class Create_Meta_Table extends Migration {
             $table->unsignedInteger( 'entity_id' );
             $table->string( 'entity_type' );
             $table->string( 'meta_key' );
-            $table->string( 'meta_value' );
+            $table->string( 'meta_value' )->nullable();
 
             $table->timestamps();
         });

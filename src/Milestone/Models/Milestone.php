@@ -8,6 +8,8 @@ use CPM\Task_List\Models\Task_List;
 use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Models\Meta;
+use Carbon\Carbon;
+use CPM\Discussion_Board\Models\Discussion_Board;
 
 class Milestone extends Eloquent {
     use Model_Events;
@@ -29,6 +31,19 @@ class Milestone extends Eloquent {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
     }
 
+    public function getAchieveDateAttribute() {
+        $achieve_date = $this->metas->where( 'meta_key', 'achieve_date' )->first();
+
+        if ( $achieve_date ) {
+            $timezone = get_wp_timezone();
+            $timezone = tzcode_to_tzstring( $timezone );
+
+            return new Carbon( $achieve_date->meta_value, $timezone );
+        }
+
+        return $achieve_date;
+    }
+
     public function metas() {
         return $this->hasMany( Meta::class, 'entity_id' )
             ->where( 'entity_type', 'milestone' );
@@ -48,5 +63,11 @@ class Milestone extends Eloquent {
 
     public function boardables() {
         return $this->hasMany( Boardable::class, 'board_id' )->where( 'board_type', 'milestone' );
+    }
+
+    public function discussion_boards() {
+        return $this->belongsToMany( Discussion_Board::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+            ->where( 'board_type', 'milestone' )
+            ->where( 'boardable_type', 'discussion-board' );
     }
 }

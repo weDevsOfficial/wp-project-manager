@@ -8,6 +8,7 @@ use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Transformers\Assignee_Transformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Task_Transformer extends TransformerAbstract {
     /**
@@ -85,15 +86,33 @@ class Task_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeBoards( Task $item ) {
-        $boards = $item->boards;
+        $page = isset( $_GET['board_page'] ) ? $_GET['board_page'] : 1;
 
-        return $this->collection( $boards, new Board_Transformer );
+        $boards = $item->boards()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'board_page', $page );
+
+        $board_collection = $boards->getCollection();
+        $resource = $this->collection( $board_collection, new Board_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $boards ) );
+
+        return $resource;
     }
 
     public function includeComments( Task $item ) {
-        $comments = $item->comments;
+        $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
-        return $this->collection( $comments, new Comment_Transformer );
+        $comments = $item->comments()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'comment_page', $page );
+
+        $comment_collection = $comments->getCollection();
+        $resource = $this->collection( $comment_collection, new Comment_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
+
+        return $resource;
     }
 
     public function includeAssignees( Task $item ) {
