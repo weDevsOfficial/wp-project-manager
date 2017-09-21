@@ -15,7 +15,13 @@ class Milestone_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $milestones = Milestone::paginate();
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 15;
+
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        $milestones = Milestone::paginate( $per_page, ['*'], 'page', $page );
 
         $milestone_collection = $milestones->getCollection();
 

@@ -28,6 +28,11 @@ class Milestone extends Eloquent {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
     }
 
+    public function metas() {
+        return $this->hasMany( Meta::class, 'entity_id' )
+            ->where( 'entity_type', 'milestone' );
+    }
+
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task-list' )
