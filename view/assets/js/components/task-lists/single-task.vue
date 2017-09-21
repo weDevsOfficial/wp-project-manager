@@ -402,13 +402,13 @@
 						description: task.description,
 						estimation: task.estimation,
 						start_at: task.start_at ? task.start_at.date : '',
-						due_date: '2017-09-22', //task.due_date ? task.due_date.date : '',
+						due_date: task.due_date ? task.due_date.date : '',
 						complexity: task.complexity,
 						priority: task.priority,
 						order: task.order,
 						payable: task.payable,
 						recurrent: task.recurrent,
-						status: 0,
+						status: task.status,
 						category_id: task.category_id
 	                },
 	                self = this,
@@ -419,21 +419,12 @@
 	            	data: update_data,
 	            	type: 'PUT',
 	            	success (res) {
-	            		console.log(res);
-	            		// var list_index = self.getIndex( self.$store.state.lists, task.post_parent, 'ID' ),
-	              //           task_index = self.getIndex( self.$store.state.lists[0].tasks, task.ID, 'ID' );
-
-	              //       self.$store.commit('afterUpdateTaskElement', {
-	              //           list_index: list_index,
-	              //           task_index: task_index,
-	              //           task: task
-	              //       });
-	              //       self.is_task_title_edit_mode = false;
-	              //       self.is_task_details_edit_mode = false;
-	              //       self.is_enable_multi_select = false;
+	                    self.is_task_title_edit_mode = false;
+	                    self.is_task_details_edit_mode = false;
+	                    self.is_enable_multi_select = false;
 	            	}
 	            }
-	            console.log(request_data);
+	            
 	            this.httpRequest(request_data);
 	        },
 
