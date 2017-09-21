@@ -120,6 +120,7 @@ class Milestone_Controller {
             ->first();
 
         $milestone->boardables()->delete();
+        $milestone->metas()->delete();
         $milestone->delete();
     }
 }

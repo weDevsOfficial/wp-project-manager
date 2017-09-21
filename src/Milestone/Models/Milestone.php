@@ -9,6 +9,7 @@ use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Models\Meta;
 use Carbon\Carbon;
+use CPM\Discussion_Board\Models\Discussion_Board;
 
 class Milestone extends Eloquent {
     use Model_Events;
@@ -62,5 +63,11 @@ class Milestone extends Eloquent {
 
     public function boardables() {
         return $this->hasMany( Boardable::class, 'board_id' )->where( 'board_type', 'milestone' );
+    }
+
+    public function discussion_boards() {
+        return $this->belongsToMany( Discussion_Board::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+            ->where( 'board_type', 'milestone' )
+            ->where( 'boardable_type', 'discussion-board' );
     }
 }
