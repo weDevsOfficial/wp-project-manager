@@ -61,22 +61,10 @@ trait Task_Model_Trait {
     }
 
     public function setStartAtAttribute( $date ) {
-        $timezone = get_wp_timezone();
-        $timezone = tzcode_to_tzstring( $timezone );
-        $time = strtotime( $date );
-
-        if ( $time ) {
-            $this->attributes['start_at'] = new Carbon( $date, $timezone );
-        }
+        $this->attributes['start_at'] = make_carbon_date( $date );
     }
 
     public function setDueDateAttribute( $date ) {
-        $timezone = get_wp_timezone();
-        $timezone = tzcode_to_tzstring( $timezone );
-        $time = strtotime( $date );
-
-        if ( $time ) {
-            $this->attributes['due_date'] = new Carbon( $date, $timezone );
-        }
+        $this->attributes['due_date'] = make_carbon_date( $date );
     }
 }
