@@ -84,8 +84,7 @@
                                             </span>
 
                                             <span v-if="!task_users.length" class='cpm-assigned-user' 
-                                                @click.prevent="isEnableMultiSelect()"
-                                                >
+                                                @click.prevent="isEnableMultiSelect()">
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
 										    
@@ -124,19 +123,19 @@
 	                                        </span>
 
 
-	                                        <span v-if="(task.start_date != '' || task.due_date != '')" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(task.start_at || task.due_date )" class="cpm-task-date-wrap cpm-date-window">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
-	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
+	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_at, task.due_date.date) : taskDateWrap( task.start_at, task.due_date.date)">
 	                                                <span v-if="task_start_field">
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
-	                                                    {{ dateFormat( task.start_date ) }}
+	                                                    {{ dateFormat( task.start_at ) }}
 	                                                </span>
 
-	                                                <span v-if="isBetweenDate( task_start_field, task.start_date, task.due_date )">&ndash;</span>
-	                                                <span>
+	                                                <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date.date )">&ndash;</span>
+	                                                <span v-if="task.due_date">
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
-	                                                    {{ dateFormat( task.due_date ) }}
+	                                                    {{ dateFormat( task.due_date.date ) }}
 	                                                </span>
 
 	                                            </span>
@@ -150,10 +149,10 @@
 	                                            
 	                                        </span>
 
-	                                        <span v-if="(task.start_date == '' && task.due_date == '')" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(task.start_at == '' && task.due_date.date == '')" class="cpm-task-date-wrap cpm-date-window">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
-	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_date, task.due_date) : taskDateWrap( task.start_date, task.due_date)">
+	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_at, task.due_date.date) : taskDateWrap( task.start_at, task.due_date.date)">
 	                                                <span>
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
 	                                                    <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
@@ -331,30 +330,30 @@
 	        isEnableMultiSelect: function() {
 	            this.is_enable_multi_select = true;
 
-	            Vue.nextTick(function() {
+	            //Vue.nextTick(function() {
 	                jQuery('.multiselect__input').focus();
-	            });
+	            //});
 	        }, 
 
 	        fromDate: function(date) {
 	            if ( date.field == 'datepicker_from' ) {
 	                var task = this.task;
 
-	                task.start_date = date.date;
+	                task.start_at = date.date;
 	                this.updateTaskElement(task);
 	            }
 
 	            if ( date.field == 'datepicker_to' ) {
 	                var task = this.task;
 	 
-	                var start = new Date( task.start_date ),
+	                var start = new Date( task.start_at ),
 	                    due = new Date( date.date );
 
 	                if ( !this.$store.state.permissions.task_start_field ) {
-	                    task.due_date = date.date;
+	                    task.due_date.date = date.date;
 	                    this.updateTaskElement(task);
 	                } else if ( start <= due ) {
-	                    task.due_date = date.date;
+	                    task.due_date.date = date.date;
 	                    this.updateTaskElement(task);
 	                }
 	            }
@@ -376,7 +375,7 @@
 	                return;
 	            }
 
-	            is_task_details_edit_mode = false,
+	            this.is_task_details_edit_mode = false,
 	            this.updateTaskElement(task);
 	        },
 
@@ -422,9 +421,10 @@
 	                    self.is_task_title_edit_mode = false;
 	                    self.is_task_details_edit_mode = false;
 	                    self.is_enable_multi_select = false;
+	                    console.log(self.is_task_title_edit_mode);
 	            	}
 	            }
-	            
+	            console.log(request_data);
 	            this.httpRequest(request_data);
 	        },
 

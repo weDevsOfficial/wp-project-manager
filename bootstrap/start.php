@@ -12,15 +12,15 @@
 |
 */
 
-add_action( 'init', function() {
-	require __DIR__.'/../vendor/autoload.php';
+add_action( 'init', function() { 
+    require __DIR__.'/../vendor/autoload.php';
 
-	load_libs();
-	load_orm();
-	migrate_db();
-	load_routes();
-	register_routes();
-	view();
+    load_libs();
+    load_orm();
+    migrate_db();
+    load_routes();
+    register_routes();
+    view();
+
+    do_action( 'cpm_loaded' );
 });
-
-

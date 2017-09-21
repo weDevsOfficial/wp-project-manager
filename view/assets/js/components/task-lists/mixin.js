@@ -249,7 +249,8 @@ var PM_Task_Mixin = {
          * @return string      
          */
         dateFormat: function( date ) {
-            if ( date == '' ) {
+
+            if ( !date ) {
                 return;
             }
 
