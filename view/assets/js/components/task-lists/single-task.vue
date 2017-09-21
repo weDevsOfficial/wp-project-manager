@@ -1,5 +1,6 @@
 <template>
 	<div>
+
 	    <!-- Spinner before load task -->
 	    <div v-if="loading" class="modal-mask half-modal cpm-task-modal modal-transition">
 	        <div class="modal-wrapper">
@@ -47,10 +48,10 @@
                                                 
                                                 <span  v-if="is_task_title_edit_mode">
                                                     <input 
-                                                        v-model="task.post_title"
+                                                        v-model="task.title"
                                                         @blur="updateTaskElement(task)" 
                                                         @keyup.enter="updateTaskElement(task)"
-                                                        :value="task.post_title" 
+                                                        :value="task.title" 
                                                         class="cpm-task-title-activity cpm-task-title-field"
                                                         type="text">
                                                 </span>
@@ -181,8 +182,8 @@
                                     <!--v-if-->
                                     
                                     <p class="cpm-des-area cpm-desc-content" v-if="!is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()">
-                                        <span v-if="!task.description == ''" v-html="task.description"></span>
-                                        <span style="margin-left: -3px;" v-if="task.description == ''">
+                                        <span v-if="task.description !== ''" v-html="task.description"></span>
+                                        <span style="margin-left: -3px;" v-if="!task.description">
                                         	<i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                         	&nbsp;Update Description
                                         </span>
@@ -199,9 +200,9 @@
                                             
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode" class="cpm-help-text">
-                                    	<span></span>
+                                    	<span>Shift+Enter for line break</span>
                                     </div>
-
+                                    
                                     <div class="clearfix cpm-clear"></div>
                                 </div>
 	                                
@@ -315,7 +316,9 @@
 	            var request = {
 	           		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
 	           		success (res) {
-	           			self.task = res.data;	           		}
+
+	           			self.task = res.data;	           		
+	           		}
 	            }
 
 	            self.httpRequest(request);
@@ -363,9 +366,9 @@
 	        isTaskDetailsEditMode: function() {
 	            this.is_task_details_edit_mode = true;
 
-	            Vue.nextTick(function() {
+	            //Vue.nextTick(function() {
 	                jQuery('.cpm-desc-field').focus();
-	            });
+	            //});
 	        },
 
 	        updateDescription: function(task, event) {
@@ -378,15 +381,14 @@
 	        },
 
 	        closePopup: function() {
-	            this.$store.commit( 'close_single_task_popup' );
-	            
-	            if ( this.$route.name == 'list_task_single_under_todo'  ) {
-	                var list_id = this.task.post_parent,
-	                    push_url = '/list/'+list_id;
-	                this.$router.push(push_url);
-	            } else {
-	                this.$router.push('/');
-	            }
+	        	var self = this;
+	            // named route
+				self.$router.push({ 
+					name: 'task_lists', 
+					params: { 
+						project_id: self.project_id 
+					}
+				});
 	        },
 
 	        singleTaskTitle: function(task) {
@@ -395,37 +397,44 @@
 
 	        updateTaskElement: function(task) {
 	            
-	            var request_data  = {
-	                    task_id: task.ID,
-	                    list_id: task.post_parent,
-	                    project_id: PM_Vars.project_id,
-	                    task_assign: task.assigned_to,
-	                    task_title: task.post_title,
-	                    task_text: task.description,
-	                    task_start: task.start_date,
-	                    task_due: task.due_date,
-	                    task_privacy: task.task_privacy,
-	                    single: true,
-	                    _wpnonce: PM_Vars.nonce,
+	            var update_data  = {
+	                    title: task.title,
+						description: task.description,
+						estimation: task.estimation,
+						start_at: task.start_at ? task.start_at.date : '',
+						due_date: '2017-09-22', //task.due_date ? task.due_date.date : '',
+						complexity: task.complexity,
+						priority: task.priority,
+						order: task.order,
+						payable: task.payable,
+						recurrent: task.recurrent,
+						status: 0,
+						category_id: task.category_id
 	                },
-	                self = this;
+	                self = this,
+	                url = this.base_url + '/cpm/v2/projects/'+this.project_id+'/tasks/'+task.id;
 
-	            wp.ajax.send('cpm_task_update', {
-	                data: request_data,
-	                success: function(res) {
-	                    var list_index = self.getIndex( self.$store.state.lists, task.post_parent, 'ID' ),
-	                        task_index = self.getIndex( self.$store.state.lists[0].tasks, task.ID, 'ID' );
+	            var request_data = {
+	            	url: url,
+	            	data: update_data,
+	            	type: 'PUT',
+	            	success (res) {
+	            		console.log(res);
+	            		// var list_index = self.getIndex( self.$store.state.lists, task.post_parent, 'ID' ),
+	              //           task_index = self.getIndex( self.$store.state.lists[0].tasks, task.ID, 'ID' );
 
-	                    self.$store.commit('afterUpdateTaskElement', {
-	                        list_index: list_index,
-	                        task_index: task_index,
-	                        task: task
-	                    });
-	                    self.is_task_title_edit_mode = false;
-	                    self.is_task_details_edit_mode = false;
-	                    self.is_enable_multi_select = false;
-	                }
-	            });
+	              //       self.$store.commit('afterUpdateTaskElement', {
+	              //           list_index: list_index,
+	              //           task_index: task_index,
+	              //           task: task
+	              //       });
+	              //       self.is_task_title_edit_mode = false;
+	              //       self.is_task_details_edit_mode = false;
+	              //       self.is_enable_multi_select = false;
+	            	}
+	            }
+	            console.log(request_data);
+	            this.httpRequest(request_data);
 	        },
 
 	        isTaskTitleEditMode: function() {

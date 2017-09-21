@@ -10944,6 +10944,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixin__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive__ = __webpack_require__(206);
 //
 //
 //
@@ -10951,6 +10952,7 @@ if (false) {(function () {
 //
 //
 //
+
 
 
 
@@ -10967,7 +10969,7 @@ if (false) {(function () {
 //import project_lists from './index.vue';
 
 const activities_route = resolve => {
-    __webpack_require__.e/* require.ensure */(9).then((() => {
+    __webpack_require__.e/* require.ensure */(10).then((() => {
         resolve(__webpack_require__(9));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11337,7 +11339,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 //import project_lists from './index.vue';
 
 const files = resolve => {
-    __webpack_require__.e/* require.ensure */(8).then((() => {
+    __webpack_require__.e/* require.ensure */(9).then((() => {
         resolve(__webpack_require__(12));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11498,7 +11500,7 @@ const milestones_route = resolve => {
 };
 
 const individual_milestone = resolve => {
-    __webpack_require__.e/* require.ensure */(7).then((() => {
+    __webpack_require__.e/* require.ensure */(8).then((() => {
         resolve(__webpack_require__(13));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11591,7 +11593,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 //import project_lists from './index.vue';
 
 const overview = resolve => {
-    __webpack_require__.e/* require.ensure */(6).then((() => {
+    __webpack_require__.e/* require.ensure */(7).then((() => {
         resolve(__webpack_require__(15));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -12671,7 +12673,7 @@ const single_list_route = resolve => {
 };
 
 const single_task_route = resolve => {
-    __webpack_require__.e/* require.ensure */(10).then((() => {
+    __webpack_require__.e/* require.ensure */(6).then((() => {
         resolve(__webpack_require__(18));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -16793,6 +16795,154 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+
+
+/**
+ * Required jQuery methods 
+ * 
+ * @type Object
+ */
+var PM_Task = {
+
+    disableLineBreak: function (element) {
+        jQuery(element).on('keypress', function (e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    // Register a global custom directive called v-cpm-sortable
+};__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.directive('prevent-line-break', {
+
+    inserted: function (element) {
+        PM_Task.disableLineBreak(element);
+    }
+});
 
 /***/ })
 /******/ ]);

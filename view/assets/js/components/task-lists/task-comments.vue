@@ -1,7 +1,7 @@
 <template>
 	<div class="cpm-task-comment-wrap">
 
-        <h3 class="cpm-comment-title"><?php _e( 'Discuss this task', 'cpm' ); ?></h3>
+        <h3 class="cpm-comment-title">Discuss this task</h3>
 
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">
@@ -50,7 +50,7 @@
 
                 <div class="cpm-avatar"><img :src="getCurrentUserAvatar" height="48" width="48"/></div>
                 <div class="cpm-new-doc-comment-form">
-                    <task-comment-form :comment="{}" :task="task"></task-comment-form>
+                    <task-comment-form :comment="{}"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
             </div>
         </div>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+	import comment_form from './task-comment-form.vue';
 	export default {
 		// Get passing data for this component.
 	    props: ['comments'],
@@ -75,6 +76,10 @@
 	        getCurrentUserAvatar: function() {
 	            return '';
 	        },
+	    },
+
+	    components: {
+	    	'task-comment-form': comment_form
 	    },
 
 	    methods: {
