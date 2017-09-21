@@ -22,4 +22,4 @@ add_action( 'init', function() {
     register_routes();
 
     do_action( 'cpm_loaded' );
-})
+});
