@@ -2,7 +2,6 @@
 	<div class="cpm-task-comment-wrap">
 
         <h3 class="cpm-comment-title">Discuss this task</h3>
-
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">
 
@@ -11,14 +10,14 @@
                 <div class="cpm-comment-container">
                     <div class="cpm-comment-meta">
                         <span class="cpm-author" v-html="comment.comment_user"></span>
-                        <span><?php _e( 'On', 'cpm' ); ?></span>
+                        <span>On</span>
                         <span class="cpm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
-                        
-                        <div v-if="current_user_can_edit_delete(comment, task)" class="cpm-comment-action">
+                        <!-- v-if="current_user_can_edit_delete(comment, task)" -->
+                        <div  class="cpm-comment-action">
                             <span class="cpm-edit-link">
-                                <a href="#" @click.prevent="showHideTaskCommentEditForm( task, comment.id )" class="dashicons dashicons-edit"></a>
+                                <a href="#" @click.prevent="showHideTaskCommentForm( 'toggle', comment )" class="dashicons dashicons-edit"></a>
                             </span>
 
                             <span class="cpm-delete-link">
@@ -27,7 +26,7 @@
                         </div>
                     </div>
                     <div class="cpm-comment-content">
-                        <div v-html="comment.comment_content"></div>
+                        <div v-html="comment.content"></div>
                         <ul class="cpm-attachments">
                             <li v-for="file in comment.files">
                                 <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
@@ -38,9 +37,9 @@
                     </div>
 
                     <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
-                        <div :class="'cpm-slide-'+comment.id" style="display: none;">
-                            <cpm-task-comment-form :comment="comment" :task="task"></cpm-task-comment-form>
-                        </div>
+                        <!-- <div :class="'cpm-slide-'+comment.id" style="display: none;"> -->
+                            <task-comment-form :comment="comment"></task-comment-form>
+                        <!-- </div> -->
                     </div>
                 </div>
             </li>

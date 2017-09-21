@@ -37,6 +37,8 @@
                         <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
+
+
                     <div class="modal-body cpm-todolist">
                         <div class="cpm-col-12 cpm-todo">
                             <div class="cpm-modal-conetnt">
@@ -208,7 +210,7 @@
                                 <div class="cpm-todo-wrap clearfix">
                                     <div class="cpm-task-comment">
                                         <div class="comment-content">
-                                            <task-comments :comments="comments" :task="task"></task-comments>
+                                            <task-comments :comments="comments"></task-comments>
                                         </div>
                                     </div>
                                 </div>          
@@ -236,18 +238,19 @@
         },
 	    data: function() {
 	        return {
-	            task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
 	            loading: true,
 	            is_task_title_edit_mode: false,
 	            is_task_details_edit_mode: false,
 	            is_task_date_edit_mode: false,
 	            is_enable_multi_select: false,
 	            task_id: this.$route.params.task_id,
-	            task: {}
 	        }
 	    },
 
 	    computed: {
+	    	task () {
+	    		return this.$store.state.task;
+	    	},
 	        project_users: function() {
 	            var self = this;
 	            this.$store.state.project_users.map(function(user) {
@@ -258,17 +261,18 @@
 	            return this.$store.state.project_users;
 	        },
 	        task_users () {
-	        	if (jQuery.isEmptyObject(this.task.data)) {
+	        	if (jQuery.isEmptyObject(this.$store.state.task)) {
 	        		return [];
 	        	}
-	        	return this.task.data.assignees.data;
+	        	return this.$store.state.task.assignees.data;
 	        },
 
 	        comments () {
-	        	if (jQuery.isEmptyObject(this.task.data)) {
+	        	if (jQuery.isEmptyObject(this.$store.state.task)) {
 	        		return [];
 	        	}
-	        	return this.task.data.comments.data;
+	     
+	        	return this.$store.state.task.comments.data;
 	        },
 
 	        task_assign: {
@@ -311,17 +315,17 @@
 
 
 	    methods: {
-	    	getTask: function(self) {
-	            var request = {
-	           		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
-	           		success (res) {
+	    	// getTask: function(self) {
+	     //        var request = {
+	     //       		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
+	     //       		success (res) {
 
-	           			self.task = res.data;	           		
-	           		}
-	            }
+	     //       			self.task = res.data;	           		
+	     //       		}
+	     //        }
 
-	            self.httpRequest(request);
-	        },
+	     //        self.httpRequest(request);
+	     //    },
 
 
 	        afterSelect: function(selectedOption, id, event) {
@@ -421,10 +425,9 @@
 	                    self.is_task_title_edit_mode = false;
 	                    self.is_task_details_edit_mode = false;
 	                    self.is_enable_multi_select = false;
-	                    console.log(self.is_task_title_edit_mode);
 	            	}
 	            }
-	            console.log(request_data);
+	           
 	            this.httpRequest(request_data);
 	        },
 

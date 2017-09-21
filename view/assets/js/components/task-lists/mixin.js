@@ -744,6 +744,24 @@ var PM_Task_Mixin = {
             });
         },
 
+        getTask: function(self) {
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
+                success (res) {
+                    self.addTaskMeta(res.data);
+                    self.$store.commit('setTask', res.data);
+                }
+            }
+
+            self.httpRequest(request);
+        },
+
+        addTaskMeta (task) {
+            task.comments.data.map(function(comment, index) {
+                comment.edit_mode = false;
+            });
+        },  
+
         /**
          * Count completed tasks
          * 
@@ -988,6 +1006,14 @@ var PM_Task_Mixin = {
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;
+        },
+
+        showHideTaskCommentForm (status, comment) {
+            if ( status === 'toggle' ) {
+                comment.edit_mode = comment.edit_mode ? false : true;
+            } else {
+                comment.edit_mode = status;
+            }
         },
 	}
 }

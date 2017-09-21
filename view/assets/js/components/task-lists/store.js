@@ -442,6 +442,10 @@ export default new Vuex.Store({
 
         setTotalListPage (state, total) {
             state.total_list_page = total;
+        },
+
+        setTask (state, task) {
+            state.task = task;
         }
 
     }

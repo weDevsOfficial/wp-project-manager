@@ -3,6 +3,12 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
+	'cpm-timepicker' => [
+		'id'         => 'cpm-timepicker',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/jquery-ui/jquery-ui-timepicker.js',
+		'dependency' => ['jquery'],
+		'in_footer'  => true
+	],
 	'cpm-moment' => [
 		'id'         => 'cpm-moment',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment.min.js',
@@ -72,6 +78,7 @@ return [
 		'dependency' => [
 			'jquery', 
 			'jquery-ui-datepicker',
+			'cpm-timepicker',
 			'cpm-nprogress', 
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',

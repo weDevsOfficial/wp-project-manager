@@ -233,6 +233,7 @@ webpackJsonp([6],{
 //
 //
 //
+//
 
 
 
@@ -244,18 +245,19 @@ webpackJsonp([6],{
 	},
 	data: function () {
 		return {
-			task: typeof this.$route.params.task == 'undefined' ? false : this.$route.params.task,
 			loading: true,
 			is_task_title_edit_mode: false,
 			is_task_details_edit_mode: false,
 			is_task_date_edit_mode: false,
 			is_enable_multi_select: false,
-			task_id: this.$route.params.task_id,
-			task: {}
+			task_id: this.$route.params.task_id
 		};
 	},
 
 	computed: {
+		task() {
+			return this.$store.state.task;
+		},
 		project_users: function () {
 			var self = this;
 			this.$store.state.project_users.map(function (user) {
@@ -266,17 +268,18 @@ webpackJsonp([6],{
 			return this.$store.state.project_users;
 		},
 		task_users() {
-			if (jQuery.isEmptyObject(this.task.data)) {
+			if (jQuery.isEmptyObject(this.$store.state.task)) {
 				return [];
 			}
-			return this.task.data.assignees.data;
+			return this.$store.state.task.assignees.data;
 		},
 
 		comments() {
-			if (jQuery.isEmptyObject(this.task.data)) {
+			if (jQuery.isEmptyObject(this.$store.state.task)) {
 				return [];
 			}
-			return this.task.data.comments.data;
+
+			return this.$store.state.task.comments.data;
 		},
 
 		task_assign: {
@@ -318,17 +321,18 @@ webpackJsonp([6],{
 	},
 
 	methods: {
-		getTask: function (self) {
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task_id + '?with=boards,comments',
-				success(res) {
+		// getTask: function(self) {
+		//        var request = {
+		//       		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
+		//       		success (res) {
 
-					self.task = res.data;
-				}
-			};
+		//       			self.task = res.data;	           		
+		//       		}
+		//        }
 
-			self.httpRequest(request);
-		},
+		//        self.httpRequest(request);
+		//    },
+
 
 		afterSelect: function (selectedOption, id, event) {
 			//jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
@@ -336,9 +340,9 @@ webpackJsonp([6],{
 		isEnableMultiSelect: function () {
 			this.is_enable_multi_select = true;
 
-			Vue.nextTick(function () {
-				jQuery('.multiselect__input').focus();
-			});
+			//Vue.nextTick(function() {
+			jQuery('.multiselect__input').focus();
+			//});
 		},
 
 		fromDate: function (date) {
@@ -428,7 +432,7 @@ webpackJsonp([6],{
 					self.is_enable_multi_select = false;
 				}
 			};
-			console.log(request_data);
+
 			this.httpRequest(request_data);
 		},
 
@@ -519,49 +523,107 @@ webpackJsonp([6],{
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ['comment'],
-  data() {
-    return {
-      submit_disabled: false,
-      show_spinner: false,
-      hasCoWorker: false,
-      content: {
-        html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
-      }
-    };
-  },
-  components: {
-    'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */]
-  },
+	props: ['comment'],
+	data() {
+		return {
+			submit_disabled: false,
+			show_spinner: false,
+			hasCoWorker: false,
+			content: {
+				html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
+			},
+			task_id: this.$route.params.task_id
+		};
+	},
+	components: {
+		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */]
+	},
 
-  watch: {
-    /**
-           * Observe onchange comment message
-           *
-           * @param string new_content 
-           * 
-           * @type void
-           */
-    content: {
-      handler: function (new_content) {
-        this.comment.content = new_content.html;
-      },
+	watch: {
+		/**
+         * Observe onchange comment message
+         *
+         * @param string new_content 
+         * 
+         * @type void
+         */
+		content: {
+			handler: function (new_content) {
+				this.comment.content = new_content.html;
+			},
 
-      deep: true
-    }
-  },
+			deep: true
+		}
+	},
 
-  computed: {
-    /**
-           * Editor ID
-           * 
-           * @return string
-           */
-    editor_id: function () {
-      var comment_id = typeof this.comment.id === 'undefined' ? '' : '-' + this.comment.id;
-      return 'cpm-comment-editor' + comment_id;
-    }
-  }
+	computed: {
+		/**
+         * Editor ID
+         * 
+         * @return string
+         */
+		editor_id: function () {
+			var comment_id = typeof this.comment.id === 'undefined' ? '' : '-' + this.comment.id;
+			return 'cpm-comment-editor' + comment_id;
+		}
+	},
+	methods: {
+		updateComment() {
+			// Exit from this function, If submit button disabled 
+			if (this.submit_disabled) {
+				return;
+			}
+
+			// Disable submit button for preventing multiple click
+			this.submit_disabled = true;
+			var self = this,
+			    is_update = typeof self.comment.id == 'undefined' ? false : true,
+			    form_data = {
+				content: self.comment.content,
+				commentable_id: self.task_id,
+				commentable_type: 'task'
+			};
+
+			// Showing loading option 
+			this.show_spinner = true;
+
+			if (is_update) {
+				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + this.comment.id;
+				var type = 'PUT';
+			} else {
+				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments';
+				var type = 'POST';
+			}
+
+			var request_data = {
+				url: url,
+				type: type,
+				data: form_data,
+				success(res) {
+					self.getTask(self);
+					self.show_spinner = false;
+
+					// Display a success toast, with a title
+					toastr.success(res.data.success);
+
+					self.submit_disabled = false;
+					self.showHideTaskCommentForm(false, self.comment);
+				},
+
+				error(res) {
+					self.show_spinner = false;
+
+					// Showing error
+					res.data.error.map(function (value, index) {
+						toastr.error(value);
+					});
+					self.submit_disabled = false;
+				}
+			};
+
+			self.httpRequest(request_data);
+		}
+	}
 });
 
 /***/ }),
@@ -571,7 +633,6 @@ webpackJsonp([6],{
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__ = __webpack_require__(171);
-//
 //
 //
 //
@@ -1115,8 +1176,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "comment-content"
   }, [_c('task-comments', {
     attrs: {
-      "comments": _vm.comments,
-      "task": _vm.task
+      "comments": _vm.comments
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
@@ -1402,14 +1462,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "innerHTML": _vm._s(comment.comment_user)
       }
-    }), _vm._v(" "), _c('span', [_vm._v("<?php _e( 'On', 'cpm' ); ?>")]), _vm._v(" "), _c('span', {
+    }), _vm._v(" "), _c('span', [_vm._v("On")]), _vm._v(" "), _c('span', {
       staticClass: "cpm-date"
     }, [_c('time', {
       attrs: {
         "datetime": _vm.dateISO8601Format(comment.comment_date),
         "title": _vm.dateISO8601Format(comment.comment_date)
       }
-    }, [_vm._v(_vm._s(_vm.dateTimeFormat(comment.comment_date)))])]), _vm._v(" "), (_vm.current_user_can_edit_delete(comment, _vm.task)) ? _c('div', {
+    }, [_vm._v(_vm._s(_vm.dateTimeFormat(comment.comment_date)))])]), _vm._v(" "), _c('div', {
       staticClass: "cpm-comment-action"
     }, [_c('span', {
       staticClass: "cpm-edit-link"
@@ -1421,7 +1481,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskCommentEditForm(_vm.task, comment.id)
+          _vm.showHideTaskCommentForm('toggle', comment)
         }
       }
     })]), _vm._v(" "), _c('span', {
@@ -1440,11 +1500,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.deleteTaskComment(comment.id, _vm.task)
         }
       }
-    })])]) : _vm._e()]), _vm._v(" "), _c('div', {
+    })])])]), _vm._v(" "), _c('div', {
       staticClass: "cpm-comment-content"
     }, [_c('div', {
       domProps: {
-        "innerHTML": _vm._s(comment.comment_content)
+        "innerHTML": _vm._s(comment.content)
       }
     }), _vm._v(" "), _c('ul', {
       staticClass: "cpm-attachments"
@@ -1463,17 +1523,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })])])
     }))]), _vm._v(" "), (comment.edit_mode) ? _c('div', {
       staticClass: "cpm-comment-edit-form"
-    }, [_c('div', {
-      class: 'cpm-slide-' + comment.id,
-      staticStyle: {
-        "display": "none"
-      }
-    }, [_c('cpm-task-comment-form', {
+    }, [_c('task-comment-form', {
       attrs: {
-        "comment": comment,
-        "task": _vm.task
+        "comment": comment
       }
-    })], 1)]) : _vm._e()])])
+    })], 1) : _vm._e()])])
   })), _vm._v(" "), _c('div', {
     staticClass: "single-todo-comments"
   }, [_c('div', {
