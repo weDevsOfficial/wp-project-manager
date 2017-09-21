@@ -5,7 +5,7 @@ namespace CPM\Common\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
 
-class Assignee extends Eloquent {
+class Meta extends Eloquent {
 
     protected $table = 'cpm_meta';
 
