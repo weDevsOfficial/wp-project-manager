@@ -6,27 +6,15 @@ use CPM\Milestone\Models\Milestone;
 use League\Fractal\TransformerAbstract;
 use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Task\Transformer\Task_Transformer;
+use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Milestone_Transformer extends TransformerAbstract {
     protected $availableIncludes = [
-        'task_lists', 'tasks'
+        'discussion_boards', 'task_lists'
     ];
 
     public function transform( Milestone $item ) {
-        $task_lists = $item->task_lists;
-        $total_task_list = $task_lists->count();
-        $tasks = $item->tasks;
-
-        foreach ( $task_lists as $task_list ) {
-            $tasks = $tasks->merge( $task_list->tasks );
-        }
-
-        if ( $tasks->count() ) {
-            $tasks = $tasks->unique( 'id' )->values();
-        }
-
-        $total_task = $tasks->count();
-
         return [
             'id'          => (int) $item->id,
             'title'       => $item->title,
@@ -36,30 +24,39 @@ class Milestone_Transformer extends TransformerAbstract {
             'created_by'  => $item->created_by,
             'updated_by'  => $item->updated_by,
             'meta' => [
-                'total_task_list' => $total_task_list,
-                'total_task'      => $total_task,
+                'total_task_list' => $item->task_lists->count(),
+                'total_discussion_board' => $item->discussion_boards->count(),
             ],
         ];
     }
 
     public function includeTaskLists( Milestone $item ) {
-        $task_lists = $item->task_lists;
+        $page = isset( $_GET['task_list_page'] ) ? $_GET['task_list_page'] : 1;
 
-        return $this->collection( $task_lists, new Task_List_Transformer );
+        $task_lists = $item->task_lists()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'task_list_page', $page );
+
+        $task_list_collection = $task_lists->getCollection();
+        $resource = $this->collection( $task_list_collection, new Task_List_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
+
+        return $resource;
     }
 
-    public function includeTasks( Milestone $item ) {
-        $task_lists = $item->task_lists;
-        $tasks = $item->tasks;
+    public function includeDiscussionBoards( Milestone $item ) {
+        $page = isset( $_GET['discussion_page'] ) ? $_GET['discussion_page'] : 1;
 
-        foreach ( $task_lists as $task_list ) {
-            $tasks = $tasks->merge( $task_list->tasks );
-        }
+        $discussion_boards = $item->discussion_boards()
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( 10, ['*'], 'discussion_page', $page );
 
-        if ( $tasks->count() ) {
-            $tasks = $tasks->unique( 'id' )->values();
-        }
+        $discussion_board_collection = $discussion_boards->getCollection();
+        $resource = $this->collection( $discussion_board_collection, new Discussion_Board_Transformer );
 
-        return $this->collection( $tasks, new Task_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
+
+        return $resource;
     }
 }
