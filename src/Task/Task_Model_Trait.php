@@ -30,14 +30,12 @@ trait Task_Model_Trait {
 
     public function setStatusAttribute( $value ) {
         $value = strtolower( $value );
-        $key = array_search( $value, self::$status );
+        $key   = array_search( $value, self::$status );
 
-        if ( in_array( $value, self::$status ) ) {
-            $this->attributes['status'] = $key;
-        } elseif ( array_key_exists( $value, self::$status ) ) {
+        if ( array_key_exists( $value, self::$status ) ) {
             $this->attributes['status'] = $value;
         } else {
-            $this->attributes['status'] = 0;
+            $this->attributes['status'] = $key;
         }
     }
 
@@ -53,14 +51,12 @@ trait Task_Model_Trait {
 
     public function setPriorityAttribute( $value ) {
         $value = strtolower( $value );
-        $key = array_search( $value, self::$priorities );
+        $key   = array_search( $value, self::$priorities );
 
-        if ( in_array( $value, self::$priorities ) ) {
-            $this->attributes['priority'] = $key;
-        } elseif ( array_key_exists( $value, self::$priorities ) ) {
+        if ( array_key_exists( $value, self::$priorities ) ) {
             $this->attributes['priority'] = $value;
         } else {
-            $this->attributes['priority'] = 0;
+            $this->attributes['priority'] = $key;
         }
     }
 
