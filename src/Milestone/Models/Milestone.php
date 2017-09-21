@@ -8,6 +8,7 @@ use CPM\Task_List\Models\Task_List;
 use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Models\Meta;
+use Carbon\Carbon;
 
 class Milestone extends Eloquent {
     use Model_Events;
@@ -27,6 +28,19 @@ class Milestone extends Eloquent {
 
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
+    }
+
+    public function getAchieveDateAttribute() {
+        $achieve_date = $this->metas->where( 'meta_key', 'achieve_date' )->first();
+
+        if ( $achieve_date ) {
+            $timezone = get_wp_timezone();
+            $timezone = tzcode_to_tzstring( $timezone );
+
+            return new Carbon( $achieve_date->meta_value, $timezone );
+        }
+
+        return $achieve_date;
     }
 
     public function metas() {

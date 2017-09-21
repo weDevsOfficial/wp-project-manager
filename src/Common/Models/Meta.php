@@ -12,7 +12,7 @@ class Meta extends Eloquent {
     protected $fillable = [
         'entity_id',
         'entity_type',
-        'key',
-        'value'
+        'meta_key',
+        'meta_value'
     ];
 }

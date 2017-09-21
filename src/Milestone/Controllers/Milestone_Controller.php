@@ -10,9 +10,12 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Milestone\Transformer\Milestone_Transformer;
+use CPM\Common\Traits\Request_Filter;
+use CPM\Common\Models\Meta;
 
 class Milestone_Controller {
-    use Transformer_Manager;
+
+    use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
         $per_page = $request->get_param( 'per_page' );
@@ -45,18 +48,29 @@ class Milestone_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = [
-            'title'       => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'order'       => $request->get_param( 'order' ),
-            'project_id'  => $request->get_param( 'project_id' )
-        ];
-        $data      = array_filter( $data );
+        // Grab non empty user input
+        $data = $this->extract_non_empty_values( $request );
 
+        // Milestone achieve date
+        $achieve_date = $request->get_param( 'achieve_date' );
+
+        // Create a milestone
         $milestone = Milestone::create( $data );
 
+        // Set 'achieve_date' as milestone meta data
+        if ( $achieve_date ) {
+            $meta = Meta::firstOrCreate( [
+                'entity_id'   => $milestone->id,
+                'entity_type' => 'milestone',
+                'meta_key'    => 'achieve_date',
+                'meta_value'  => make_carbon_date( $achieve_date )
+            ] );
+        }
+
+        // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
+        // Return transformed data
         return $this->get_response( $resource );
     }
 
