@@ -2,6 +2,8 @@
 
 namespace CPM\Task;
 
+use Carbon\Carbon;
+
 trait Task_Model_Trait {
     // Allowed status for a task
     private static $status = [
@@ -59,6 +61,24 @@ trait Task_Model_Trait {
             $this->attributes['priority'] = $value;
         } else {
             $this->attributes['priority'] = 0;
+        }
+    }
+
+    public function setStartAtAttribute( $date ) {
+        $timezone = get_wp_timezone();
+        $timezone = tzcode_to_tzstring( $timezone );
+
+        if ( $date ) {
+            $this->attributes['start_at'] = new Carbon( $date, $timezone );
+        }
+    }
+
+    public function setDueDateAttribute( $date ) {
+        $timezone = get_wp_timezone();
+        $timezone = tzcode_to_tzstring( $timezone );
+
+        if ( $date ) {
+            $this->attributes['due_date'] = new Carbon( $date, $timezone );
         }
     }
 }
