@@ -27,6 +27,7 @@ trait Task_Model_Trait {
     }
 
     public function setStatusAttribute( $value ) {
+        $value = strtolower( $value );
         $key = array_search( $value, self::$status );
 
         if ( in_array( $value, self::$status ) ) {
@@ -49,6 +50,7 @@ trait Task_Model_Trait {
     }
 
     public function setPriorityAttribute( $value ) {
+        $value = strtolower( $value );
         $key = array_search( $value, self::$priorities );
 
         if ( in_array( $value, self::$priorities ) ) {
