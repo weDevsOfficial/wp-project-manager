@@ -33,7 +33,7 @@
 				}
 			});
 
-			return h('div', {}, components);
+			return h('span', {}, components);
 		}
 	}
 

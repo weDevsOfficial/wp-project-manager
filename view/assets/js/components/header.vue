@@ -112,6 +112,7 @@
                         <div>{{ item.count }}</div>
                     </router-link>
                 </li>      
+                <do-action hook="pm-header"></do-action>
             </ul>
         </div>
 
@@ -121,6 +122,7 @@
 
 <script>
     import router from './../router';
+    import do_action from './do-action.vue';
 
     export default {
         data () {
@@ -193,6 +195,10 @@
                     }
                 ]
             }
+        },
+
+        components: {
+            'do-action': do_action
         }
     }
 </script>
