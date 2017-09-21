@@ -7,6 +7,7 @@ use CPM\Model_Events;
 use CPM\Task_List\Models\Task_List;
 use CPM\Task\Models\Task;
 use CPM\Common\Models\Boardable;
+use CPM\Common\Models\Meta;
 
 class Milestone extends Eloquent {
     use Model_Events;
@@ -26,6 +27,11 @@ class Milestone extends Eloquent {
 
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
+    }
+
+    public function metas() {
+        return $this->hasMany( Meta::class, 'entity_id' )
+            ->where( 'entity_type', 'milestone' );
     }
 
     public function task_lists() {
