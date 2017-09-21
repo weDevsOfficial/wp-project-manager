@@ -5,15 +5,15 @@ namespace CPM\Task;
 trait Task_Model_Trait {
     // Allowed status for a task
     private static $status = [
-        0 => 'Incomplete',
-        1 => 'Complete',
-        2 => 'Pending',
+        0 => 'incomplete',
+        1 => 'complete',
+        2 => 'pending',
     ];
 
     private static $priorities = [
-        1 => 'High',
-        2 => 'Medium',
-        3 => 'Low',
+        1 => 'high',
+        2 => 'medium',
+        3 => 'low',
     ];
 
     public function getStatusAttribute( $value ) {
@@ -27,12 +27,15 @@ trait Task_Model_Trait {
     }
 
     public function setStatusAttribute( $value ) {
+        $value = strtolower( $value );
         $key = array_search( $value, self::$status );
 
-        if( array_key_exists( $value, self::$status ) ) {
-            $this->attributes['status'] = $value;
-        } elseif ( $key ) {
+        if ( in_array( $value, self::$status ) ) {
             $this->attributes['status'] = $key;
+        } elseif ( array_key_exists( $value, self::$status ) ) {
+            $this->attributes['status'] = $value;
+        } else {
+            $this->attributes['status'] = 0;
         }
     }
 
@@ -47,12 +50,15 @@ trait Task_Model_Trait {
     }
 
     public function setPriorityAttribute( $value ) {
+        $value = strtolower( $value );
         $key = array_search( $value, self::$priorities );
 
-        if( array_key_exists( $value, self::$priorities ) ) {
-            $this->attributes['priority'] = $value;
-        } elseif ( $key ) {
+        if ( in_array( $value, self::$priorities ) ) {
             $this->attributes['priority'] = $key;
+        } elseif ( array_key_exists( $value, self::$priorities ) ) {
+            $this->attributes['priority'] = $value;
+        } else {
+            $this->attributes['priority'] = 0;
         }
     }
 }
