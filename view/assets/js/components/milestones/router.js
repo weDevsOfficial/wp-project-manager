@@ -18,6 +18,16 @@ var milestones = {
         'milestones': milestones_route 
     }, 
     name: 'milestones',
+
+    children: [
+        {
+            path: 'pages/:current_page_number', 
+            components: { 
+                'milestones': milestones_route
+            }, 
+            name: 'milestone_pagination',
+        },
+    ]
 }
 
 var single_milestone = { 

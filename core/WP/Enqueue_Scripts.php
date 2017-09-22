@@ -25,6 +25,8 @@ class Enqueue_Scripts {
 			do_action( 'after_loaded' . $script_id );
 		}
 
+		$upload_size = 10 * 1024 * 1024;//intval( \cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
+
 		wp_localize_script( 'pm-scripts', 'PM_Vars', array(
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 			'nonce'                    => wp_create_nonce( 'cpm_nonce' ),
@@ -37,6 +39,16 @@ class Enqueue_Scripts {
 			'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
 			'assets_url'			   => config('frontend.assets_url'),
 			'wp_time_zone'             => get_wp_timezone(),
+			'plupload'      => array(
+                'browse_button'       => 'cpm-upload-pickfiles',
+                'container'           => 'cpm-upload-container',
+                'max_file_size'       => $upload_size . 'b',
+                'url'                 => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
+                'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
+                'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
+                'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
+                'resize'              => array( 'width' => ( int ) get_option( 'large_size_w' ), 'height' => ( int ) get_option( 'large_size_h' ), 'quality' => 100 )
+            )
         ));
 	}
 

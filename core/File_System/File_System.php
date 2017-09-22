@@ -5,6 +5,30 @@ namespace CPM\Core\File_System;
 require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 Class File_System {
+
+    public static function ajax_upload_file() {
+        check_ajax_referer( 'cpm_ajax_upload', 'nonce' );
+        
+        $attachment_id  = self::upload( $_FILES );
+
+        if ( intval( $attachment_id ) ) {
+            $file = self::get_file( $attachment_id );
+
+            wp_send_json_success([ 
+                'file' => [ 
+                    'name'  => esc_attr( $file['name'] ),
+                    'id'    => $file['id'],
+                    'url'   => $file['url'],
+                    'thumb' => $file['thumb'],
+                    'type'  => $file['type']
+                ]
+            ]);
+
+        } else {
+            wp_send_json_error( array( 'error' => 'Something wrong!' ) );
+        }
+    }
+
     /**
      * Upload a file and insert as attachment
      *
@@ -13,16 +37,16 @@ Class File_System {
      * @return int|bool
      */
     public static function upload( $files ) {
-        if ( $files['file']['error'] > 0 ) {
+        if ( $files['cpm_attachment']['error'] > 0 ) {
             return false;
         }
-
+        
         $upload = array(
-            'name'     => $files['file']['name'],
-            'type'     => $files['file']['type'],
-            'tmp_name' => $files['file']['tmp_name'],
-            'error'    => $files['file']['error'],
-            'size'     => $files['file']['size']
+            'name'     => $files['cpm_attachment']['name'],
+            'type'     => $files['cpm_attachment']['type'],
+            'tmp_name' => $files['cpm_attachment']['tmp_name'],
+            'error'    => $files['cpm_attachment']['error'],
+            'size'     => $files['cpm_attachment']['size']
         );
 
         if ( ! function_exists( 'wp_handle_upload' ) ) {
@@ -32,12 +56,12 @@ Class File_System {
         if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/image.php' );
         }
-
+        
         $uploaded_file = wp_handle_upload( $upload, array( 'test_form' => false ) );
 
         if ( isset( $uploaded_file['file'] ) ) {
             $file_loc  = $uploaded_file['file'];
-            $file_name = basename( $files['file']['name'] );
+            $file_name = basename( $files['cpm_attachment']['name'] );
             $file_type = wp_check_filetype( $file_name );
 
             $attachment = array(
@@ -51,9 +75,7 @@ Class File_System {
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
 
             wp_update_attachment_metadata( $attach_id, $attach_data );
-
-            do_action( 'cpm_after_upload_file', $attach_id, $attach_data );
-
+            
             return $attach_id;
         }
 

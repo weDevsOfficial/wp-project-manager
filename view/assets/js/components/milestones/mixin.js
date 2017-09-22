@@ -28,7 +28,7 @@ export default Vue.mixin({
 
 	    getMilestone (self) {
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?with=comments',
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?with=discussion_boards,task_lists',
 	            success (res) {
 	            	self.addMeta(res.data);
 	                self.$store.commit( 'setMilestone', res.data );
@@ -37,19 +37,30 @@ export default Vue.mixin({
 	        self.httpRequest(request);
 	    },
 
-	    getMilestones (self) {
+	    getSelfMilestones (self) {
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=2&page='+ self.setCurrentPageNumber(self),
                 success (res) {
-                    self.$store.commit( 'setMilestones', res.data );
+                	res.data.map(function(milestone, index) {
+			    		self.addMeta(milestone);
+			    	});
+                    self.$store.commit( 'setSelfMilestones', res.data );
+                    self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
                 }
             };
+
             self.httpRequest(request);
         },
 
 	    addMeta (milestone) {
 	    	milestone.edit_mode = false;
 	    },
+
+	    setCurrentPageNumber (self) {
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
 
 	    /**
 	     * Insert and edit task
@@ -91,7 +102,7 @@ export default Vue.mixin({
 	            data: form_data,
 	            success (res) {
 	            	
-	            	self.getMilestones(self);
+	            	self.getSelfMilestones(self);
 	            	
 	                self.show_spinner = false;
 
@@ -106,6 +117,14 @@ export default Vue.mixin({
 	                } else {
 	                	self.showHideMilestoneForm(false);
 	                }
+
+                	if ( self.section === 'milestones' ) {
+                    	self.afterNewMilestone(self, res, is_update);
+                    }
+
+                    if ( self.section === 'single' ) {
+                    	//self.afterNewSingleMilestone(self, res, is_update);
+                    }
 	            },
 
 	            error (res) {
@@ -120,6 +139,24 @@ export default Vue.mixin({
 	        }
 
 	        self.httpRequest(request_data);
+	    },
+
+	    afterNewMilestone (self, res, is_update) {
+
+			if ( self.$route.params.current_page_number > 1 ) {
+				// named route
+				self.$router.push({ 
+					name: 'milestones', 
+					params: { 
+						project_id: self.project_id 
+					}
+				});
+				
+			} else {
+				self.getSelfMilestones(self);
+			}
 	    }
+
 	},
 });
+

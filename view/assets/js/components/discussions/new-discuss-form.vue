@@ -21,17 +21,7 @@
 	        	
 	        </div>
 	            
-	        <div class="cpm-attachment-area">
-	            <div id="cpm-upload-container-nd" style="position: relative;">
-		        	<div class="cpm-upload-filelist"></div>
-		        	To attach, 
-		        	<a id="cpm-upload-pickfiles-nd" href="#" style="position: relative; z-index: 1;">select files</a> 
-		        	from your computer.    
-		        	<div id="html5_1bpoid5a01j4s5vi1olihdq11kd3_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;">
-		        	<input id="html5_1bpoid5a01j4s5vi1olihdq11kd3" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" multiple="" accept="">
-		        	</div>
-		        </div>
-	        </div>
+	       <file-uploader :files="files"></file-uploader>
 
 	        <div class="notify-users">
 	            
@@ -67,7 +57,7 @@
 
 <script>
 	import editor from './../text-editor.vue';
-	import milestones from './../milestones.vue';
+	import uploader from './../file-uploader.vue';
 
 	export default { 
 		props: ['discuss'],
@@ -78,7 +68,8 @@
 				content: {
 	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
 	            },
-				milestone_id: 4
+				milestone_id: 4,
+				files: []
 			}
 		},
 
@@ -101,7 +92,7 @@
 
 		components: {
 			'text-editor': editor,
-			'milestones': milestones
+			'file-uploader': uploader
 		},
 		computed: {
 			milestones () {

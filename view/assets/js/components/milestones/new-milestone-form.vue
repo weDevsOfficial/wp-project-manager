@@ -26,7 +26,7 @@
 	import date_picker from './date-picker.vue';
 
 	export default { 
-		props: ['milestone'],
+		props: ['milestone', 'section'],
 		data () {
 			return {
 				submit_disabled: false,

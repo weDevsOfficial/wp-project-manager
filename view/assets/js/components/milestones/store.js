@@ -12,6 +12,7 @@ export default new Vuex.Store({
 		is_milestone_form_active: false,
 		milestones: [],
 		milestone: {},
+		total_milestone_page: 0
 		// comments: [],
 		// meta: {}
 	},
@@ -25,7 +26,7 @@ export default new Vuex.Store({
             }
 		},
 
-		setMilestones (state, milestones) {
+		setSelfMilestones (state, milestones) {
 			state.milestones = milestones;
 		},
 
@@ -34,9 +35,9 @@ export default new Vuex.Store({
 			state.milestones.push(milestone);
 		},
 
-		// setComments (state, discussion) {
-		// 	state.comments = discussion.comments.data;
-		// },
+		setTotalMilestonePage (state, total) {
+			state.total_milestone_page = total;
+		},
 
 		// setCommentsMeta (state, discussion) {
 			
