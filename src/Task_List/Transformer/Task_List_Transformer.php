@@ -73,9 +73,16 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task_List $item ) {
-        $files = $item->files;
+        $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        return $this->collection( $files, new File_Transformer );
+        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+
+        $file_collection = $files->getCollection();
+        $resource = $this->collection( $file_collection, new File_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+
+        return $resource;
     }
 
     public function includeMilestone( Task_List $item ) {

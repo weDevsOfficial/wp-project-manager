@@ -62,7 +62,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
 
         $files = $item->files()
             ->orderBy( 'created_at', 'DESC' )
-            ->paginate( 10, ['*'], 'comment_page', $page );
+            ->paginate( 10, ['*'], 'file_page', $page );
 
         $file_collection = $files->getCollection();
         $resource = $this->collection( $file_collection, new File_Transformer );
