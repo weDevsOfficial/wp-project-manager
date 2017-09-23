@@ -101,6 +101,8 @@ class Project_Controller {
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {
+		$assignees = is_array( $assignees ) ? $assignees : []; 
+		
 		foreach ( $assignees as $assignee ) {
 			User_Role::firstOrCreate([
 				'user_id'    => $assignee['user_id'],

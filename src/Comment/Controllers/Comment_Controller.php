@@ -11,6 +11,8 @@ use CPM\Transformer_Manager;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Comment\Models\Comment;
+use CPM\Core\File_System\File_System;
+use CPM\File\Models\File;
 
 class Comment_Controller {
     use Transformer_Manager, Request_Filter;
@@ -58,6 +60,18 @@ class Comment_Controller {
         $data     = $this->extract_non_empty_values( $request );
         $comment  = Comment::create( $data );
         $resource = new Item( $comment, new Comment_Transformer );
+
+        $files = $request->get_file_params();
+
+        if ( $files ) {
+            $attachment_id = File_System::upload( $files );
+
+            File::create([
+                'fileable_id' => $comment->id,
+                'fileable_type' => 'comment',
+                'attachment_id' => $attachment_id,
+            ]);
+        }
 
         return $this->get_response( $resource );
     }

@@ -197,9 +197,13 @@
             }
         },
 
+        created () {
+            this.getProject();
+        },
+
         components: {
             'do-action': do_action
-        }
+        },
     }
 </script>
 

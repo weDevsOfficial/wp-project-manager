@@ -11,12 +11,20 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\File\Transformer\File_Transformer;
 use CPM\Core\File_System\File_System;
+use CPM\Common\Traits\Request_Filter;
 
 class File_Controller {
-    use Transformer_Manager;
+
+    use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $files = File::paginate();
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 15;
+
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        $files = File::paginate( $per_page, ['*'], 'page', $page );
 
         $file_collection = $files->getCollection();
 
@@ -36,20 +44,20 @@ class File_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $attachment_id = File_System::upload( $request->get_file_params() );
+        $files = $request->get_file_params();
+
+        $attachment_id = File_System::upload( $files );
         $request->set_param( 'attachment_id', $attachment_id );
 
-        $data = $request->get_params();
-        $data = array_filter( $data );
+        $data = $this->extract_non_empty_values( $request );
 
-        $file     = File::create( array_filter( $data ) );
+        $file     = File::create( $data );
         $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
     }
 
-    public function update( WP_REST_Request $request ) {
-
+    public function rename( WP_REST_Request $request ) {
         $file_id   = $request->get_param( 'file_id' );
         $file_name = $request->get_param( 'name' );
         $file      = File::find( $file_id );

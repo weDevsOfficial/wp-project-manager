@@ -1,7 +1,6 @@
 <template>
 	<div :class="'cpm-task-edit-form cpm-slide-'+task.id">
-
-	      <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
+	    <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
 	      
 	        <div class="item task-title">
 	            <input v-model="task.title" type="text" name="task_title" class="task_title" placeholder="Add a new task" value="" required="required">
@@ -27,7 +26,6 @@
 	        </div>
 
 	        <div class="item user">
-	            
 	            <div>
 	                <multiselect 
 	                    v-model="task_assign" 
@@ -38,7 +36,7 @@
 	                    :hide-selected="true"
 	                    :show-labels="false"
 	                    placeholder="Select User"
-	                    label="name"
+	                    label="display_name"
 	                    track-by="id">
 	                        
 	                </multiselect>
@@ -73,7 +71,6 @@
 	     */
 	    data: function() {
 	        return {
-	            project_users: this.$store.state.project_users,
 	            task_privacy: ( this.task.task_privacy == 'yes' ) ? true : false,
 	            submit_disabled: false,
 	            before_edit: jQuery.extend( true, {}, this.task ),
@@ -118,6 +115,9 @@
 	    },
 
 	    computed: {
+	    	project_users () {
+	    		return this.$root.$store.state.project_users;
+	    	},
 	        /**
 	         * Check current user can view the todo or not
 	         * 
@@ -232,7 +232,7 @@
 	            
 	            // Disable submit button for preventing multiple click
 	            this.submit_disabled = true;
-
+	            
 	            var self      = this,
 	                is_update = typeof this.task.id == 'undefined' ? false : true,
 	                

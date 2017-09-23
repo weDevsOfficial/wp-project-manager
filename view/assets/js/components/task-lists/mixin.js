@@ -66,7 +66,6 @@ var PM_Task_Mixin = {
     data: function() {
         return {
             list_form_data: {},
-            project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
             task_list_form: false
         }
     },

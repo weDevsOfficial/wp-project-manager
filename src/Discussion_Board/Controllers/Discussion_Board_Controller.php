@@ -13,6 +13,7 @@ use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Milestone\Models\Milestone;
+use CPM\File\Models\File;
 
 class Discussion_Board_Controller {
 
@@ -50,12 +51,21 @@ class Discussion_Board_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = $this->extract_non_empty_values( $request );
+        $data         = $this->extract_non_empty_values( $request );
         $milestone_id = $request->get_param( 'milestone' );
+        $files        = $request->get_param( 'files' );
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
+        foreach ( $files as $file) {
+             File::create([
+                'fileable_id'   => $discussion_board->id,
+                'fileable_type' => 'discussion-board',
+                'attachment_id' => $file['id'],
+            ]);
+        }
+       
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );
         }

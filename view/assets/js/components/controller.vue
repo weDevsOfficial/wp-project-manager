@@ -40,7 +40,7 @@
 			'pm-categories': categories,
 			'pm-task-lists': task_lists,
 			'pm-files': files,
-			'do-action': do_action
+			'do-action': do_action,
 		}
 		
 	}

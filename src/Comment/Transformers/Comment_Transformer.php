@@ -5,6 +5,7 @@ namespace CPM\Comment\Transformers;
 use CPM\Comment\Models\Comment;
 use League\Fractal\TransformerAbstract;
 use CPM\File\Transformer\File_Transformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Comment_Transformer extends TransformerAbstract {
     /**
@@ -13,7 +14,11 @@ class Comment_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'replies', 'files'
+        'replies'
+    ];
+
+    protected $defaultIncludes = [
+        'files'
     ];
 
     public function transform( Comment $item ) {
@@ -21,7 +26,9 @@ class Comment_Transformer extends TransformerAbstract {
             'id'         => (int) $item->id,
             'content'    => $item->content,
             'created_by' => $item->created_by,
-            'edit_mode'  => false,
+            'meta' => [
+                'total_replies' => $item->replies->count(),
+            ]
         ];
     }
 
@@ -32,9 +39,16 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies( Comment $item ) {
-        $replies = $item->replies;
+        $page = isset( $_GET['reply_page'] ) ? $_GET['reply_page'] : 1;
 
-        return $this->collection( $replies, new Comment_Transformer );
+        $replies = $item->replies()->paginate( 10, ['*'], 'reply_page', $page );
+
+        $reply_collection = $replies->getCollection();
+        $resource = $this->collection( $reply_collection, new Comment_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $replies ) );
+
+        return $resource;
     }
 
     /**
@@ -44,8 +58,15 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeFiles( Comment $item ) {
-        $files = $item->files;
+        $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        return $this->collection( $files, new File_Transformer );
+        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+
+        $file_collection = $files->getCollection();
+        $resource = $this->collection( $file_collection, new File_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+
+        return $resource;
     }
 }

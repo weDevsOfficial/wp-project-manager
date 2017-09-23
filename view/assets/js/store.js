@@ -9,11 +9,18 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	
 	state: {
-
+		projec: {},
+		project_users: []
 	},
 
 	mutations: {
+		setProject (state, project) {
+			state.project = project;
+		},
 
+		setProjectUsers (state, users) {
+			state.project_users = users;
+		}
 	}
 	
 });

@@ -2,6 +2,11 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
+	'cpm-vue-multiselect' => [
+		'id'         => 'cpm-vue-multiselect',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/vue-multiselect/vue-multiselect.min.css',
+		'dependency' => false,
+	],
 	'cpm-nprogress' => [
 		'id'         => 'cpm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/nprogress/nprogress.css',
@@ -26,6 +31,7 @@ return [
 		'id'         => 'cpm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/style.css',
 		'dependency' => [
+			'cpm-vue-multiselect',
 			'cpm-nprogress',
 			'cpm-fontawesome',
 			'cpm-jquery-ui',
