@@ -9,11 +9,10 @@ class Create_Files_Table extends Migration {
         Capsule::schema()->create( 'cpm_files', function( $table ) {
             $table->bigIncrements( 'id' );
 
-            $table->integer( 'fileable_id' );
+            $table->integer( 'fileable_id' )->nullable();
             $table->string( 'fileable_type' )->nullable();
-            $table->integer( 'parent_id' )->nullable();
+            $table->integer( 'directory' )->nullable();
             $table->bigInteger( 'attachment_id' )->nullable();
-            $table->dateTime( 'attached_at' )->nullable();
             $table->integer( 'created_by' )->nullable();
             $table->integer( 'updated_by' )->nullable();
 
