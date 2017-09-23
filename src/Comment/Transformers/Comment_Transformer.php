@@ -14,7 +14,11 @@ class Comment_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'replies', 'files'
+        'replies'
+    ];
+
+    protected $defaultIncludes = [
+        'files'
     ];
 
     public function transform( Comment $item ) {
@@ -22,6 +26,9 @@ class Comment_Transformer extends TransformerAbstract {
             'id'         => (int) $item->id,
             'content'    => $item->content,
             'created_by' => $item->created_by,
+            'meta' => [
+                'total_replies' => $item->replies->count(),
+            ]
         ];
     }
 
