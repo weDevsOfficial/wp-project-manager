@@ -68,7 +68,7 @@
 				content: {
 	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
 	            },
-				milestone_id: 4,
+				milestone_id: this.discuss.milestone_id,
 				files: []
 			}
 		},

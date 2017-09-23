@@ -80,9 +80,10 @@ export default Vue.mixin({
 	                title: this.discuss.title,
 	                description: this.discuss.description,
 	                order: '',
-	                milestone: 4
+	                milestone: this.milestone_id,
+	                files: this.files
 	            };
-	        
+
 	        // Showing loading option 
 	        this.show_spinner = true;
 
