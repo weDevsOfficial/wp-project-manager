@@ -45,9 +45,8 @@ class File_Controller {
 
     public function store( WP_REST_Request $request ) {
         $files = $request->get_file_params();
-        $file = $files['file'];
 
-        $attachment_id = File_System::upload( $file );
+        $attachment_id = File_System::upload( $files );
         $request->set_param( 'attachment_id', $attachment_id );
 
         $data = $this->extract_non_empty_values( $request );
@@ -58,7 +57,7 @@ class File_Controller {
         return $this->get_response( $resource );
     }
 
-    public function update( WP_REST_Request $request ) {
+    public function rename( WP_REST_Request $request ) {
         $file_id   = $request->get_param( 'file_id' );
         $file_name = $request->get_param( 'name' );
         $file      = File::find( $file_id );

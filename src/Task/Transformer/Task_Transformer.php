@@ -8,6 +8,7 @@ use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Transformers\Assignee_Transformer;
+use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class Task_Transformer extends TransformerAbstract {
@@ -26,7 +27,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards', 'comments'
+        'boards', 'comments', 'files'
     ];
 
     /**
@@ -118,5 +119,18 @@ class Task_Transformer extends TransformerAbstract {
         $assignees = $item->assignees;
 
         return $this->collection( $assignees, new Assignee_Transformer );
+    }
+
+    public function includeFiles( Task $item ) {
+        $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
+
+        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+
+        $file_collection = $files->getCollection();
+        $resource = $this->collection( $file_collection, new File_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+
+        return $resource;
     }
 }

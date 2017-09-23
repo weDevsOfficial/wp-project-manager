@@ -9,7 +9,7 @@ Class File_System {
      * Upload a file and insert as attachment
      *
      * @param int $post_id
-     * 
+     *
      * @return int|bool
      */
     public static function upload( $files ) {
@@ -64,7 +64,7 @@ Class File_System {
      * Get an attachment file
      *
      * @param int $attachment_id
-     * 
+     *
      * @return array
      */
     public static function get_file( $attachment_id ) {
@@ -95,23 +95,23 @@ Class File_System {
 
     /**
      * Delete attachment file
-     * 
-     * @param  int  $file_id 
-     * @param  boolean $force   
-     * 
+     *
+     * @param  int  $file_id
+     * @param  boolean $force
+     *
      * @return void
      */
-    public static function delete_file( $file_id, $force = true ) {
+    public static function delete( $file_id, $force = true ) {
         wp_delete_attachment( $file_id, $force );
         do_action( 'cpm_delete_attachment', $file_id, $force );
     }
 
     /**
      * Update attachment file
-     * 
-     * @param  int  $file_id 
-     * @param  array $attach_data   
-     * 
+     *
+     * @param  int  $file_id
+     * @param  array $attach_data
+     *
      * @return void
      */
     public static function update( $attach_id, $attach_data ) {
