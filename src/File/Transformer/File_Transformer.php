@@ -14,7 +14,7 @@ class File_Transformer extends TransformerAbstract
             'id'            => (int) $item->id,
             'fileable_id'   => $item->fileable_id,
             'fileable_type' => $item->fileable_type,
-            'parent_id'     => $item->parent_id,
+            'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
             'attached_at'   => $item->attached_at,
             'created_by'    => $item->created_by,
