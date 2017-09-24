@@ -13,10 +13,13 @@ use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Milestone\Models\Milestone;
+use CPM\File\Models\File;
+use CPM\Core\File_System\File_System;
+use CPM\Common\Traits\File_Attachment;
 
 class Discussion_Board_Controller {
 
-    use Transformer_Manager, Request_Filter;
+    use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
         $per_page = $request->get_param( 'per_page' );
@@ -51,13 +54,20 @@ class Discussion_Board_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
-        $milestone_id = $request->get_param( 'milestone' );
+        $media_data = $request->get_file_params();
+
+        $milestone_id = $data['milestone'];
+        $files = $media_data['files'];
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );
+        }
+
+        if ( $files ) {
+            $this->attach_files( $discussion_board, $files );
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
