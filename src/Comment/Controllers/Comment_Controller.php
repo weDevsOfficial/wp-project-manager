@@ -86,19 +86,37 @@ class Comment_Controller {
 
     public function update( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
-        $comment_id = $request->get_param( 'comment_id' );
-        $comment    = Comment::find( $comment_id );
+        $media_data = $request->get_file_params();
+        $files      = $media_data['files'];
+
+        $comment = Comment::with('files')->find( $data['comment_id'] );
         $comment->update( $data );
+
+        if ( $files ) {
+            $this->detach_files( $comment );
+            $this->attach_multiple_file( $comment, $files );
+        }
 
         $resource = new Item( $comment, new Comment_Transformer );
 
         return $this->get_response( $resource );
     }
 
+    private function detach_files( Comment $comment ) {
+        $attachment_ids = $comment->files->pluck('attachment_id');
+
+        foreach ($attachment_ids as $attachment_id) {
+            File_System::delete( $attachment_id );
+        }
+
+        $comment->files()->delete();
+    }
+
     public function destroy( WP_REST_Request $request ) {
         $comment_id = $request->get_param( 'comment_id' );
         $comment    = Comment::find( $comment_id );
 
+        $this->detach_files( $comment );
         $comment->replies()->delete();
         $comment->files()->delete();
         $comment->delete();
