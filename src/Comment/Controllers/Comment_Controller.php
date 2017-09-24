@@ -57,23 +57,31 @@ class Comment_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data     = $this->extract_non_empty_values( $request );
-        $comment  = Comment::create( $data );
-        $resource = new Item( $comment, new Comment_Transformer );
+        $data       = $this->extract_non_empty_values( $request );
+        $media_data = $request->get_file_params();
+        $files      = $media_data['files'];
 
-        $files = $request->get_file_params();
+        $comment = Comment::create( $data );
 
         if ( $files ) {
-            $attachment_id = File_System::upload( $files );
+            $this->attach_multiple_file( $comment, $files );
+        }
 
+        $resource = new Item( $comment, new Comment_Transformer );
+
+        return $this->get_response( $resource );
+    }
+
+    private function attach_multiple_file( Comment $comment, $files ) {
+        $attachment_ids = File_System::multiple_upload( $files );
+
+        foreach ( $attachment_ids as $attachment_id ) {
             File::create([
-                'fileable_id' => $comment->id,
+                'fileable_id'   => $comment->id,
                 'fileable_type' => 'comment',
                 'attachment_id' => $attachment_id,
             ]);
         }
-
-        return $this->get_response( $resource );
     }
 
     public function update( WP_REST_Request $request ) {
