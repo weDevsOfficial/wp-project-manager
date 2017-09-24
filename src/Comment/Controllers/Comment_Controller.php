@@ -13,9 +13,11 @@ use CPM\Common\Traits\Request_Filter;
 use CPM\Comment\Models\Comment;
 use CPM\Core\File_System\File_System;
 use CPM\File\Models\File;
+use CPM\Common\Traits\File_Attachment;
 
 class Comment_Controller {
-    use Transformer_Manager, Request_Filter;
+
+    use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
         $on = $request->get_param( 'on' );
@@ -64,24 +66,12 @@ class Comment_Controller {
         $comment = Comment::create( $data );
 
         if ( $files ) {
-            $this->attach_multiple_file( $comment, $files );
+            $this->attach_files( $comment, $files );
         }
 
         $resource = new Item( $comment, new Comment_Transformer );
 
         return $this->get_response( $resource );
-    }
-
-    private function attach_multiple_file( Comment $comment, $files ) {
-        $attachment_ids = File_System::multiple_upload( $files );
-
-        foreach ( $attachment_ids as $attachment_id ) {
-            File::create([
-                'fileable_id'   => $comment->id,
-                'fileable_type' => 'comment',
-                'attachment_id' => $attachment_id,
-            ]);
-        }
     }
 
     public function update( WP_REST_Request $request ) {
@@ -94,22 +84,12 @@ class Comment_Controller {
 
         if ( $files ) {
             $this->detach_files( $comment );
-            $this->attach_multiple_file( $comment, $files );
+            $this->attach_files( $comment, $files );
         }
 
         $resource = new Item( $comment, new Comment_Transformer );
 
         return $this->get_response( $resource );
-    }
-
-    private function detach_files( Comment $comment ) {
-        $attachment_ids = $comment->files->pluck('attachment_id');
-
-        foreach ($attachment_ids as $attachment_id) {
-            File_System::delete( $attachment_id );
-        }
-
-        $comment->files()->delete();
     }
 
     public function destroy( WP_REST_Request $request ) {
