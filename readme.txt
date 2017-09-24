@@ -14,7 +14,7 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 Best Project Management Tool for WordPress
 
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
 The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
