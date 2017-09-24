@@ -116,10 +116,10 @@ class Discussion_Board_Controller {
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();
-            $comment->files()->delete();
+            $this->detach_files( $comment );
         }
         $discussion_board->comments()->delete();
-        $discussion_board->files()->delete();
+        $this->detach_files( $discussion_board );
         $discussion_board->users()->detach();
 
         $discussion_board->delete();
