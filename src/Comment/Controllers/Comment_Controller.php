@@ -75,16 +75,28 @@ class Comment_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
+        // Grab non-empty inputs
         $data       = $this->extract_non_empty_values( $request );
+
+        // Grab file data inputs
         $media_data = $request->get_file_params();
+
+        // An array of files
         $files      = $media_data['files'];
 
+        // An array of file ids that needs to be deleted
+        $files_to_delete = $data['files_to_delete'];
+
         $comment = Comment::with('files')->find( $data['comment_id'] );
+
         $comment->update( $data );
 
         if ( $files ) {
-            $this->detach_files( $comment );
             $this->attach_files( $comment, $files );
+        }
+
+        if ( $files_to_delete ) {
+            $this->detach_files( $comment, $files_to_delete );
         }
 
         $resource = new Item( $comment, new Comment_Transformer );
