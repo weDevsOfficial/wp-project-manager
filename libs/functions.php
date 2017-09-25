@@ -52,16 +52,12 @@ function format_date( $date ) {
     $time_format = get_option( 'time_format' );
     $timezone    = get_wp_timezone();
 
-    if ( $date ) {
-        return [
-            'date'      => $date->format( $date_format ),
-            'time'      => $date->format( $time_format ),
-            'timezone'  => tzcode_to_tzstring( $timezone ),
-            'timestamp' => strtotime( $date )
-        ];
-    }
-
-    return $date;
+    return [
+        'date'      => $date ? $date->format( $date_format ) : null,
+        'time'      => $date ? $date->format( $time_format ) : null,
+        'timezone'  => tzcode_to_tzstring( $timezone ),
+        'timestamp' => $date ? strtotime( $date ) : null
+    ];
 }
 
 function make_carbon_date( $date ) {
