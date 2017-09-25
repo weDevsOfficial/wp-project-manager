@@ -10287,6 +10287,78 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_categories_router__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_calendar_router__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_reports_router__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_progress_router__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_settings_router__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_overview_router__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_activities_router__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_files_router__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_discussions_router__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_milestones_router__ = __webpack_require__(45);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__components_categories_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_6__components_calendar_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__components_reports_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_8__components_progress_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_9__components_settings_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_10__components_overview_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_11__components_activities_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_discussions_router__["a" /* discussions */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_discussions_router__["b" /* single_discussion */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_15__components_milestones_router__["a" /* milestones */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_15__components_milestones_router__["b" /* single_milestone */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__["a" /* task_lists */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__["b" /* single_list */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_files_router__["a" /* default */]);
+
+__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a);
+
+var router = new __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a({
+	routes: weDevs_PM_Routers
+});
+
+router.beforeEach((to, from, next) => {
+	NProgress.start();
+	next();
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 /*
@@ -10368,7 +10440,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10587,78 +10659,6 @@ function applyToTag (styleElement, obj) {
   }
 }
 
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_categories_router__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_calendar_router__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_reports_router__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_progress_router__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_settings_router__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_overview_router__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_activities_router__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_files_router__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_discussions_router__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_milestones_router__ = __webpack_require__(45);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__components_categories_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_6__components_calendar_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__components_reports_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_8__components_progress_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_9__components_settings_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_10__components_overview_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_11__components_activities_router__["a" /* default */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_discussions_router__["a" /* discussions */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_14__components_discussions_router__["b" /* single_discussion */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_15__components_milestones_router__["a" /* milestones */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_15__components_milestones_router__["b" /* single_milestone */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__["a" /* task_lists */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_13__components_task_lists_router__["b" /* single_list */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_12__components_files_router__["a" /* default */]);
-
-__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a);
-
-var router = new __WEBPACK_IMPORTED_MODULE_1__vue_vue_router___default.a({
-	routes: weDevs_PM_Routers
-});
-
-router.beforeEach((to, from, next) => {
-	NProgress.start();
-	next();
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
 /* 7 */
@@ -12159,6 +12159,7 @@ window.CPM_Component_jQuery = {
     data: function () {
         return {
             list_form_data: {},
+            project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id,
             task_list_form: false
         };
     },
@@ -12334,8 +12335,7 @@ window.CPM_Component_jQuery = {
          * @return string      
          */
         dateFormat: function (date) {
-
-            if (!date) {
+            if (date == '') {
                 return;
             }
 
@@ -12649,17 +12649,21 @@ window.CPM_Component_jQuery = {
          * @return string            
          */
         taskDateWrap: function (start_date, due_date) {
-            if (start_date == '' && due_date == '') {
+            if (!start_date && !due_date) {
                 return false;
             }
+
+            var start_date = new Date(start_date.date);
+            var due_date = new Date(1506147822 * 1000);
+            console.log(due_date);
 
             moment.tz.add(PM_Vars.time_zones);
             moment.tz.link(PM_Vars.time_links);
 
             var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
-                due_day = moment.tz(due_date, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
-
-            if (!moment(String(due_day), 'YYYY-MM-DD').isValid() && !moment(String(start_date), 'YYYY-MM-DD').isValid()) {
+                due_day = moment.tz(1506147822, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
+            console.log(due_day);
+            if (!moment(due_day, 'YYYY-MM-DD').isValid() && !moment(start_date, 'YYYY-MM-DD').isValid()) {
                 return false;
             }
 
@@ -12811,24 +12815,6 @@ window.CPM_Component_jQuery = {
                         callback(res);
                     }
                 }
-            });
-        },
-
-        getTask: function (self) {
-            var request = {
-                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task_id + '?with=boards,comments',
-                success(res) {
-                    self.addTaskMeta(res.data);
-                    self.$store.commit('setTask', res.data);
-                }
-            };
-
-            self.httpRequest(request);
-        },
-
-        addTaskMeta(task) {
-            task.comments.data.map(function (comment, index) {
-                comment.edit_mode = false;
             });
         },
 
@@ -13073,14 +13059,6 @@ window.CPM_Component_jQuery = {
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;
-        },
-
-        showHideTaskCommentForm(status, comment) {
-            if (status === 'toggle') {
-                comment.edit_mode = comment.edit_mode ? false : true;
-            } else {
-                comment.edit_mode = status;
-            }
         }
     }
 };
@@ -13171,10 +13149,10 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
     /**
-        * Assign global property
-        * 
-        * @type Object
-        */
+     * Assign global property
+     * 
+     * @type Object
+     */
     state: {
         lists: [],
         list_total: 0,
@@ -13602,10 +13580,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
         setTotalListPage(state, total) {
             state.total_list_page = total;
-        },
-
-        setTask(state, task) {
-            state.task = task;
         }
 
     }
@@ -13620,7 +13594,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controller_vue__ = __webpack_require__(8);
 __webpack_require__.p = PM_Vars.base_url + '/wp-content/plugins/cpmapi/view/assets/js/';
@@ -15990,7 +15964,7 @@ new __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a(CPM_Vue);
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(5)(undefined);
 // imports
 
 
@@ -16004,7 +15978,7 @@ exports.push([module.i, "\n#nprogress{pointer-events:none;\n}\n#nprogress .bar{b
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(5)(undefined);
 // imports
 
 
@@ -17138,7 +17112,7 @@ var content = __webpack_require__(59);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("475e7de5", content, false);
+var update = __webpack_require__(6)("475e7de5", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -17164,7 +17138,7 @@ var content = __webpack_require__(60);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("6b13d87f", content, false);
+var update = __webpack_require__(6)("6b13d87f", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

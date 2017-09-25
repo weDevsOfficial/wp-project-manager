@@ -67,9 +67,12 @@
             up.refresh(); // Reposition Flash/Silverlight
             // up.start();
         },
+        BeforeUpload: function(uploader, file ) {
+            console.log(uploader, file );
+        },
 
         upload: function (uploader) {
-            this.uploader.start();
+            //this.uploader.start();
         },
 
         progress: function (up, file) {

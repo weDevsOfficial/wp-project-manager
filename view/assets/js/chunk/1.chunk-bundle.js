@@ -2236,7 +2236,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })
     }), _vm._v(" "), _c('span', {
       class: _vm.taskDateWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.start_at)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at, task.due_date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.due_date)))])])], 2), _vm._v(" "), _c('div', {
+    })], 2), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-4 cpm-todo-action-center"
     }, [_c('div', {
       staticClass: "cpm-task-comment"
@@ -3416,6 +3416,8 @@ if (false) {
 //
 //
 //
+//
+//
 
 
 
@@ -3472,7 +3474,7 @@ if (false) {
          * @return array
          */
         list: function () {
-            return this.$store.state.lists[0];
+            return this.$store.state.list;
         },
 
         /**
@@ -3485,7 +3487,7 @@ if (false) {
         },
 
         comments() {
-            return this.$store.state.lists[0].comments.data;
+            return this.$store.state.list.comments.data;
         },
 
         /**
@@ -4445,7 +4447,7 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__do_action_vue__ = __webpack_require__(9);
 //
 //

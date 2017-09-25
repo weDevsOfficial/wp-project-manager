@@ -3,7 +3,7 @@
 namespace CPM\Core\WP;
 
 use CPM\Core\WP\Menu as Menu;
-use CPM\Core\WP\Regiser_Scripts;
+use CPM\Core\WP\Register_Scripts;
 use CPM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 //use CPM\Project\Project_Ajax;
 use CPM\Core\File_System\File_System as File_System;
@@ -54,7 +54,7 @@ class CPM_Frontend {
 	 * @return void
 	 */
 	public function instantiate() {
-		Regiser_Scripts::scripts();
-		Regiser_Scripts::styles();
+		Register_Scripts::scripts();
+		Register_Scripts::styles();
 	}
 }

@@ -66,6 +66,7 @@ var PM_Task_Mixin = {
     data: function() {
         return {
             list_form_data: {},
+            project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
             task_list_form: false
         }
     },
@@ -116,7 +117,7 @@ var PM_Task_Mixin = {
     /**
      * Methods for global component
      */
-	methods: {
+    methods: {
         test: function() {
             console.log('adskfjalksdflaksdflakdjsflkjd');
         },
@@ -248,8 +249,7 @@ var PM_Task_Mixin = {
          * @return string      
          */
         dateFormat: function( date ) {
-
-            if ( !date ) {
+            if ( date == '' ) {
                 return;
             }
 
@@ -575,17 +575,21 @@ var PM_Task_Mixin = {
          * @return string            
          */
         taskDateWrap: function( start_date, due_date ) {
-            if ( start_date == '' && due_date == '' ) {
+            if ( !start_date  && !due_date ) {
                 return false;
             }
 
+            var start_date = new Date(start_date.date);
+            var due_date = new Date(1506147822*1000);
+console.log(due_date);
+
             moment.tz.add(PM_Vars.time_zones);
             moment.tz.link(PM_Vars.time_links);
-            
+
             var today   = moment.tz( PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
-                due_day = moment.tz( due_date, PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
-            
-            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
+                due_day = moment.tz( 1506147822, PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
+            console.log(due_day);
+            if ( ! moment( due_day, 'YYYY-MM-DD' ).isValid() && ! moment( start_date, 'YYYY-MM-DD' ).isValid()) {
                 return false;
             }
             
@@ -742,24 +746,6 @@ var PM_Task_Mixin = {
                 }
             });
         },
-
-        getTask: function(self) {
-            var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
-                success (res) {
-                    self.addTaskMeta(res.data);
-                    self.$store.commit('setTask', res.data);
-                }
-            }
-
-            self.httpRequest(request);
-        },
-
-        addTaskMeta (task) {
-            task.comments.data.map(function(comment, index) {
-                comment.edit_mode = false;
-            });
-        },  
 
         /**
          * Count completed tasks
@@ -1006,15 +992,7 @@ var PM_Task_Mixin = {
             self.current_page_number = current_page_number;
             return current_page_number;
         },
-
-        showHideTaskCommentForm (status, comment) {
-            if ( status === 'toggle' ) {
-                comment.edit_mode = comment.edit_mode ? false : true;
-            } else {
-                comment.edit_mode = status;
-            }
-        },
-	}
+    }
 }
 
 export default Vue.mixin(PM_Task_Mixin);

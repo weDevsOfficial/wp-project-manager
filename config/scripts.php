@@ -17,7 +17,7 @@ return [
 	],
 	'cpm-moment' => [
 		'id'         => 'cpm-moment',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment.min.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
@@ -31,7 +31,7 @@ return [
 
 	'cpm-moment-timezone' => [
 		'id'         => 'cpm-moment-timezone',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment-timezone.min.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment-timezone.js',
 		'dependency' => ['jquery', 'cpm-moment'],
 		'in_footer'  => true
 	],
@@ -83,6 +83,7 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
 		'dependency' => [
 			'jquery', 
+			'cpm-moment-timezone',
 			'cpm-upload',
 			'jquery-ui-datepicker',
 			'cpm-timepicker',
@@ -90,7 +91,6 @@ return [
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',
 			'cpm-tiny-mce',
-			'cpm-moment-timezone',
 			'cpm-toastr'
 
 		],

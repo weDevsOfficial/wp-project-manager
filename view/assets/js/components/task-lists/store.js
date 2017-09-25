@@ -7,7 +7,7 @@ import Vuex from './../../vue/vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	/**
+    /**
      * Assign global property
      * 
      * @type Object
@@ -23,7 +23,7 @@ export default new Vuex.Store({
         is_active_list_form: false,
         project_id: false,
         permissions: {
-        	create_todolist: true
+            create_todolist: true
         },
         task: {},
         is_single_task: false,
@@ -120,7 +120,7 @@ export default new Vuex.Store({
          * @return void       
          */
         showHideTaskForm: function( state, index ) {
-          	
+            
             if ( ( typeof index.task_index == 'undefined' ) || ( index.task_index === false ) ) {
                 state.lists[index.list_index].show_task_form = state.lists[index.list_index].show_task_form ? false : true; 
             } else {
@@ -442,10 +442,6 @@ export default new Vuex.Store({
 
         setTotalListPage (state, total) {
             state.total_list_page = total;
-        },
-
-        setTask (state, task) {
-            state.task = task;
         }
 
     }

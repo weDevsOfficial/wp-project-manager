@@ -76,7 +76,9 @@
                         </article>
                     </li>
                 </ul>
+
                 <router-view name="single_task"></router-view>
+
                 <list-comments :comments="comments" :list="list"></list-comments>
             </div>
         </div>
@@ -141,7 +143,7 @@
              * @return array
              */
             list: function () {
-                return this.$store.state.lists[0];
+                return this.$store.state.list;
             },
 
             /**
@@ -154,7 +156,7 @@
             },
 
             comments () {
-                return this.$store.state.lists[0].comments.data;
+                return this.$store.state.list.comments.data;
             },
 
             /**

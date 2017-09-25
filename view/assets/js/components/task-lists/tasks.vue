@@ -260,9 +260,9 @@
 	                                </span>
 	                                
 	                                <span :class="taskDateWrap( task.start_at, task.due_date)">
-	                                    <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
+	                                    <!-- <span v-if="task_start_field">{{ dateFormat( task.start_at ) }}</span>
 	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
-	                                    <span>{{ dateFormat( task.due_date ) }}</span>
+	                                    <span>{{ dateFormat( task.due_date ) }}</span> -->
 	                                </span>
 	                            </div>
 

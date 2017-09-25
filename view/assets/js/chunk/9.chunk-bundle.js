@@ -118,8 +118,30 @@ if (false) {(function () {
 			if (file.fileable_type === 'discussion-board') {
 				return 'Discuss';
 			}
+		},
+
+		contentURL(file) {
+			var self = this;
+			switch (file.fileable_type) {
+
+				case 'discussion-board':
+					return '#/' + self.project_id + '/discussions/' + file.fileable_id;
+					break;
+
+				case 'task-list':
+					return '#/' + self.project_id + '/task-lists/' + file.fileable_id;
+					break;
+
+				case 'task':
+					return '#/' + self.project_id + '/task/' + file.fileable_id;
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
+
 });
 
 /***/ }),
@@ -131,7 +153,7 @@ if (false) {(function () {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('div', {
+  }, [_c('pm-header'), _vm._v(" "), _c('pre', [_vm._v(_vm._s(_vm.files))]), _vm._v(" "), _c('div', {
     staticClass: "cpm-files-page"
   }, [_c('ul', {
     staticClass: "cpm-files"
@@ -164,24 +186,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_vm._v("\n\t                    \tadmin\n\t                \t")])]), _vm._v(" "), _c('div', {
       staticClass: "cpm-file-action"
-    }, [_c('ul', [_vm._m(0, true), _vm._v(" "), _c('li', {
+    }, [_c('ul', [_c('li', {
+      staticClass: "cpm-go-discussion"
+    }, [_c('a', {
+      attrs: {
+        "href": _vm.contentURL(file)
+      }
+    })]), _vm._v(" "), _c('li', {
       staticClass: "cpm-download-file"
     }, [_c('a', {
       attrs: {
         "href": file.file.url
       }
-    })]), _vm._v(" "), _vm._m(1, true)])])])])
+    })]), _vm._v(" "), _vm._m(0, true)])])])])
   }))])], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "cpm-go-discussion"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=98#/list/102"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "cpm-comments-count"
   }, [_c('span'), _vm._v(" "), _c('div', {
@@ -204,7 +224,7 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__do_action_vue__ = __webpack_require__(9);
 //
 //

@@ -2,7 +2,7 @@
 
 namespace CPM\Core\WP;
 
-class Regiser_Scripts {
+class Register_Scripts {
 	
 	public static function scripts() {
 		$scripts = config('scripts');

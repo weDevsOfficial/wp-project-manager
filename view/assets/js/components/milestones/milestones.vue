@@ -122,7 +122,8 @@
             
         </pm-pagination> 
 
-       <!--  <pm-do-action hook="component-lazy-load"></pm-do-action> -->
+
+        <pm-do-action hook="component-lazy-load"></pm-do-action>
     </div>
 </template>
 

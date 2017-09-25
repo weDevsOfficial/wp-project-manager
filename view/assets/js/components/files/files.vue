@@ -1,7 +1,7 @@
 <template>
 	<div class="wrap cpm cpm-front-end">
 		<pm-header></pm-header>
-
+		<pre>{{ files }}</pre>
 		<div class="cpm-files-page">
 			<ul class="cpm-files">        
 				<li v-for="file in files">
@@ -24,7 +24,7 @@
 
 		                <div class="cpm-file-action">
 		                    <ul>
-		                        <li class="cpm-go-discussion"> <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=98#/list/102"></a> </li>
+		                        <li class="cpm-go-discussion"> <a :href="contentURL(file)"></a> </li>
 		                        <li class="cpm-download-file"> <a :href="file.file.url"> </a> </li>
 		                        <li class="cpm-comments-count"> <span>  </span> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> 1</div></li>
 		                    </ul>
@@ -60,8 +60,31 @@
 				if (file.fileable_type === 'discussion-board') {
 					return 'Discuss';
 				}
+			},
+
+			contentURL(file) {
+				var self = this;
+				switch(file.fileable_type) {
+					
+					case 'discussion-board':
+						return '#/'+self.project_id+'/discussions/'+file.fileable_id;
+						break;
+
+					case 'task-list':
+						return '#/'+self.project_id+'/task-lists/'+file.fileable_id;
+						break;
+
+					case 'task':
+						return '#/'+self.project_id+'/task/'+file.fileable_id;
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
+
+
 	}
 
 </script>
