@@ -18,6 +18,10 @@ Class File_System {
     }
 
     public static function multiple_upload( $file ) {
+        if ( ! function_exists( 'wp_handle_upload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+
         $number_of_files = count( $file['name'] );
         $attachment_ids = [];
 
@@ -30,7 +34,7 @@ Class File_System {
                 'size'     => $file['size'][$i],
             ];
 
-            $uploaded_file = self::upload( $file_to_upload );
+            $uploaded_file = wp_handle_upload( $file_to_upload, array( 'test_form' => false ) );
             $attachment_ids[] = self::attachment_id( $uploaded_file );
         }
 
