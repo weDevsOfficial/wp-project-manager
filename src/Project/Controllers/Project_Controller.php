@@ -92,7 +92,7 @@ class Project_Controller {
 		$project->categories()->detach();
 		$project->task_lists()->delete();
 		$project->tasks()->delete();
-		$project->discussion_threads()->delete();
+		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();
 		$project->assignees()->detach();
