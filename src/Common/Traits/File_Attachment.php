@@ -36,6 +36,10 @@ trait File_Attachment {
             File_System::delete( $attachment_id );
         }
 
-        $entity->files()->delete();
+        if ( empty( $file_ids ) ) {
+            $entity->files()->delete();
+        } else {
+            $entity->files()->whereIn( 'id', $file_ids )->delete();
+        }
     }
 }

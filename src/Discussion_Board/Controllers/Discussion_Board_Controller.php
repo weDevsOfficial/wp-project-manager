@@ -83,6 +83,7 @@ class Discussion_Board_Controller {
         $discussion_board_id = $data['discussion_board_id'];
         $milestone_id = $data['milestone'];
         $files = $media_data['files'];
+        $files_to_delete = $data['files_to_delete'];
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
@@ -96,8 +97,11 @@ class Discussion_Board_Controller {
         }
 
         if ( $files ) {
-            $this->detach_files( $discussion_board );
             $this->attach_files( $discussion_board, $files );
+        }
+
+        if ( $files_to_delete ) {
+            $this->detach_files( $discussion_board, $files_to_delete );
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
