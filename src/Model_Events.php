@@ -13,19 +13,19 @@ trait Model_Events {
         static::creating( function ( $model ) {
             $model->created_by = 1;
             $model->updated_by = 1;
-        } );
+        });
 
         static::created( function ( $model ) {
             Activity_Log::entry( $model, 'created' );
-        } );
+        });
 
         static::updating( function ( $model ) {
             $model->updated_by = 1;
-        } );
+        });
 
-        static::updated ( function ( $model ) {
+        static::updated( function ( $model ) {
             Activity_Log::entry( $model, 'updated' );
-        } );
+        });
     }
 
     public function set_fillable_attributes( $attribute_values ) {
