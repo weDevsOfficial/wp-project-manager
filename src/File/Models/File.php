@@ -4,6 +4,7 @@ namespace CPM\File\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\User\Models\User;
 
 class File extends Eloquent {
     use Model_Events;
@@ -18,6 +19,4 @@ class File extends Eloquent {
         'created_by',
         'updated_by'
     ];
-
-    protected $dates = ['attached_at'];
 }
