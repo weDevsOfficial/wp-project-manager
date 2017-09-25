@@ -66,7 +66,8 @@ class Project_Controller {
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
-		$project->update( $data );
+		$project->set_fillable_attributes( $data );
+		$project->save();
 
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
