@@ -14,10 +14,12 @@ use CPM\Common\Models\Boardable;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Milestone\Models\Milestone;
 use CPM\File\Models\File;
+use CPM\Core\File_System\File_System;
+use CPM\Common\Traits\File_Attachment;
 
 class Discussion_Board_Controller {
 
-    use Transformer_Manager, Request_Filter;
+    use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
         $per_page = $request->get_param( 'per_page' );
@@ -51,23 +53,21 @@ class Discussion_Board_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data         = $this->extract_non_empty_values( $request );
-        $milestone_id = $request->get_param( 'milestone' );
-        $files        = $request->get_param( 'files' );
+        $data = $this->extract_non_empty_values( $request );
+        $media_data = $request->get_file_params();
+
+        $milestone_id = $data['milestone'];
+        $files = $media_data['files'];
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
-        foreach ( $files as $file) {
-             File::create([
-                'fileable_id'   => $discussion_board->id,
-                'fileable_type' => 'discussion-board',
-                'attachment_id' => $file['id'],
-            ]);
-        }
-       
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );
+        }
+
+        if ( $files ) {
+            $this->attach_files( $discussion_board, $files );
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
@@ -77,10 +77,13 @@ class Discussion_Board_Controller {
 
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
+        $media_data = $request->get_file_params();
 
-        $project_id = $request->get_param( 'project_id' );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
-        $milestone_id = $request->get_param( 'milestone' );
+        $project_id = $data['project_id'];
+        $discussion_board_id = $data['discussion_board_id'];
+        $milestone_id = $data['milestone'];
+        $files = $media_data['files'];
+        $files_to_delete = $data['files_to_delete'];
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
@@ -91,6 +94,14 @@ class Discussion_Board_Controller {
 
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );
+        }
+
+        if ( $files ) {
+            $this->attach_files( $discussion_board, $files );
+        }
+
+        if ( $files_to_delete ) {
+            $this->detach_files( $discussion_board, $files_to_delete );
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
@@ -109,11 +120,11 @@ class Discussion_Board_Controller {
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();
-            $comment->files()->delete();
+            $this->detach_files( $comment );
         }
         $discussion_board->comments()->delete();
-        $discussion_board->files()->delete();
-        $discussion_board->users()->delete();
+        $this->detach_files( $discussion_board );
+        $discussion_board->users()->detach();
 
         $discussion_board->delete();
     }

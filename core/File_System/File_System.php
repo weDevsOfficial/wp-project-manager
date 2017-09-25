@@ -6,89 +6,65 @@ require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 Class File_System {
 
-    public static function ajax_upload_file() {
-        check_ajax_referer( 'cpm_ajax_upload', 'nonce' );
-        
-        $attachment_id  = self::upload( $_FILES );
-
-        if ( intval( $attachment_id ) ) {
-            $file = self::get_file( $attachment_id );
-
-            wp_send_json_success([ 
-                'file' => [ 
-                    'name'  => esc_attr( $file['name'] ),
-                    'id'    => $file['id'],
-                    'url'   => $file['url'],
-                    'thumb' => $file['thumb'],
-                    'type'  => $file['type']
-                ]
-            ]);
-
-        } else {
-            wp_send_json_error( array( 'error' => 'Something wrong!' ) );
-        }
-    }
-
-    /**
-     * Upload a file and insert as attachment
-     *
-     * @param int $post_id
-     *
-     * @return int|bool
-     */
-    public static function upload( $files ) {
-        if ( $files['cpm_attachment']['error'] > 0 ) {
-            return false;
-        }
-        
-        $upload = array(
-            'name'     => $files['cpm_attachment']['name'],
-            'type'     => $files['cpm_attachment']['type'],
-            'tmp_name' => $files['cpm_attachment']['tmp_name'],
-            'error'    => $files['cpm_attachment']['error'],
-            'size'     => $files['cpm_attachment']['size']
-        );
-
+    public static function upload( $file ) {
         if ( ! function_exists( 'wp_handle_upload' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/file.php' );
         }
 
+        $uploaded_file = wp_handle_upload( $file, array( 'test_form' => false ) );
+        $attachment_id = self::attachment_id( $uploaded_file );
+
+        return $attachment_id;
+    }
+
+    public static function multiple_upload( $file ) {
+        if ( ! function_exists( 'wp_handle_upload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+
+        $number_of_files = count( $file['name'] );
+        $attachment_ids = [];
+
+        for( $i = 0; $i < $number_of_files; $i++ ) {
+            $file_to_upload = [
+                'name'     => $file['name'][$i],
+                'type'     => $file['type'][$i],
+                'tmp_name' => $file['tmp_name'][$i],
+                'error'    => $file['error'][$i],
+                'size'     => $file['size'][$i],
+            ];
+
+            $uploaded_file = wp_handle_upload( $file_to_upload, array( 'test_form' => false ) );
+            $attachment_ids[] = self::attachment_id( $uploaded_file );
+        }
+
+        return array_filter( $attachment_ids );
+    }
+
+    private function attachment_id( $uploaded_file ) {
         if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/image.php' );
         }
-        
-        $uploaded_file = wp_handle_upload( $upload, array( 'test_form' => false ) );
 
-        if ( isset( $uploaded_file['file'] ) ) {
-            $file_loc  = $uploaded_file['file'];
-            $file_name = basename( $files['cpm_attachment']['name'] );
-            $file_type = wp_check_filetype( $file_name );
+        $file_location = $uploaded_file['file'];
+        $file_name = basename( $uploaded_file['file'] );
+        $file_type = wp_check_filetype( $file_name );
 
-            $attachment = array(
-                'post_mime_type' => $file_type['type'],
-                'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
-                'post_content'   => '',
-                'post_status'    => 'inherit'
-            );
+        $attachment_data = array(
+            'post_mime_type' => $file_type['type'],
+            'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
+            'post_content'   => '',
+            'post_status'    => 'inherit'
+        );
 
-            $attach_id   = wp_insert_attachment( $attachment, $file_loc );
-            $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
+        $attachment_id = wp_insert_attachment( $attachment_data, $file_location );
+        $attachment_metadata = wp_generate_attachment_metadata( $attachment_id, $file_location );
 
-            wp_update_attachment_metadata( $attach_id, $attach_data );
-            
-            return $attach_id;
-        }
+        wp_update_attachment_metadata( $attachment_id, $attachment_metadata );
 
-        return false;
+        return $attachment_id;
     }
 
-    /**
-     * Get an attachment file
-     *
-     * @param int $attachment_id
-     *
-     * @return array
-     */
     public static function get_file( $attachment_id ) {
         $file = get_post( $attachment_id );
 
@@ -100,7 +76,6 @@ Class File_System {
             );
 
             if ( wp_attachment_is_image( $attachment_id ) ) {
-
                 $thumb             = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
                 $response['thumb'] = $thumb[0];
                 $response['type']  = 'image';
@@ -115,36 +90,17 @@ Class File_System {
         return false;
     }
 
-    /**
-     * Delete attachment file
-     *
-     * @param  int  $file_id
-     * @param  boolean $force
-     *
-     * @return void
-     */
     public static function delete( $file_id, $force = true ) {
         wp_delete_attachment( $file_id, $force );
-        do_action( 'cpm_delete_attachment', $file_id, $force );
     }
 
-    /**
-     * Update attachment file
-     *
-     * @param  int  $file_id
-     * @param  array $attach_data
-     *
-     * @return void
-     */
     public static function update( $attach_id, $attach_data ) {
         $args = array(
-            'ID'           => $attach_id,
-            'post_title'   => $attach_data['name'],
+            'ID'         => $attach_id,
+            'post_title' => $attach_data['name'],
         );
 
-        // Update the post into the database
         wp_update_post( $args );
     }
 
 }
-

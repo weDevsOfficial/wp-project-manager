@@ -13,11 +13,11 @@ use CPM\Milestone\Transformer\Milestone_Transformer;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
     protected $defaultIncludes = [
-        'users', 'milestone'
+        'users', 'milestone', 'files'
     ];
 
     protected $availableIncludes = [
-        'comments', 'files'
+        'comments'
     ];
 
     public function transform( Discussion_Board $item ) {
