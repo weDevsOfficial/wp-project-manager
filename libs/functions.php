@@ -56,7 +56,7 @@ function format_date( $date ) {
         return [
             'date' => $date->format( $date_format ),
             'time' => $date->format( $time_format ),
-            'timezone' => $timezone,
+            'timezone' => tzcode_to_tzstring( $timezone ),
         ];
     }
 
