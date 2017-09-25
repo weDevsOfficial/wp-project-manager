@@ -25,8 +25,12 @@ trait File_Attachment {
         }
     }
 
-    private function detach_files( $entity ) {
-        $attachment_ids = $entity->files->pluck('attachment_id');
+    private function detach_files( $entity, $file_ids = [] ) {
+        if ( empty( $file_ids ) ) {
+            $attachment_ids = $entity->files->pluck('attachment_id');
+        } else {
+            $attachment_ids = $entity->files->whereIn( 'id', $file_ids )->pluck( 'attachment_id' );
+        }
 
         foreach ($attachment_ids as $attachment_id) {
             File_System::delete( $attachment_id );
