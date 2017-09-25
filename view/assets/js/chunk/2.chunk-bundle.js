@@ -2081,7 +2081,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })
     }), _vm._v(" "), _c('span', {
       class: _vm.taskDateWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.start_at)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at, task.due_date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.due_date)))])])], 2), _vm._v(" "), _c('div', {
+    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at, task.due_date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date || '')))])])], 2), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-5 cpm-todo-action-center"
     }, [_c('div', {
       staticClass: "cpm-task-comment"
@@ -2241,7 +2241,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })
     }), _vm._v(" "), _c('span', {
       class: _vm.completedTaskWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.start_at)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at, task.due_date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.due_date)))])])], 2), _vm._v(" "), _c('div', {
+    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at.date, task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-5"
     }, [_c('span', {
       staticClass: "cpm-comment-count"
@@ -2394,7 +2394,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })
     }), _vm._v(" "), _c('span', {
       class: _vm.taskDateWrap(task.start_at, task.due_date)
-    })], 2), _vm._v(" "), _c('div', {
+    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at.date, task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-4 cpm-todo-action-center"
     }, [_c('div', {
       staticClass: "cpm-task-comment"
@@ -2588,7 +2588,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       })
     }), _vm._v(" "), _c('span', {
       class: _vm.completedTaskWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.start_at)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at, task.due_date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(task.due_date)))])])], 2), _vm._v(" "), _c('div', {
+    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at.date, task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-4"
     }, [_c('span', {
       staticClass: "cpm-comment-count"

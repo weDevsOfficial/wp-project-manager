@@ -12335,7 +12335,7 @@ window.CPM_Component_jQuery = {
          * @return string      
          */
         dateFormat: function (date) {
-            if (date == '') {
+            if (!date) {
                 return;
             }
 
@@ -12653,17 +12653,13 @@ window.CPM_Component_jQuery = {
                 return false;
             }
 
-            var start_date = new Date(start_date.date);
-            var due_date = new Date(1506147822 * 1000);
-            console.log(due_date);
-
             moment.tz.add(PM_Vars.time_zones);
             moment.tz.link(PM_Vars.time_links);
 
             var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
-                due_day = moment.tz(1506147822, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
-            console.log(due_day);
-            if (!moment(due_day, 'YYYY-MM-DD').isValid() && !moment(start_date, 'YYYY-MM-DD').isValid()) {
+                due_day = moment.tz(due_date.timestamp * 1000, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
+
+            if (!moment(due_day, 'YYYY-MM-DD').isValid() && !moment(start_date.timestamp * 1000, 'YYYY-MM-DD').isValid()) {
                 return false;
             }
 
@@ -12702,7 +12698,7 @@ window.CPM_Component_jQuery = {
          * @return Boolean                  
          */
         isBetweenDate: function (task_start_field, start_date, due_date) {
-            if (task_start_field && start_date != '' && due_date != '') {
+            if (task_start_field && !start_date && !due_date) {
                 return true;
             }
 
@@ -13040,7 +13036,11 @@ window.CPM_Component_jQuery = {
                 url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + list_id + '?with=' + condition,
                 success(res) {
                     self.addMetaList(res.data);
-                    self.$store.commit('setList', res.data);
+                    self.$store.commit('setListForSingleListPage', res.data);
+
+                    if (typeof res.data.comments !== 'undefined') {
+                        self.$store.commit('setListComments', res.data.comments.data);
+                    }
 
                     if (callback) {
                         callback(res);
@@ -13155,6 +13155,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
      */
     state: {
         lists: [],
+        list: {},
+        list_comments: [],
         list_total: 0,
         milestones: [],
         init: {},
@@ -13560,6 +13562,14 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
             } else {
                 state.lists.push(list);
             }
+        },
+
+        setListComments(state, comments) {
+            state.list_comments = comments;
+        },
+
+        setListForSingleListPage(state, list) {
+            state.list = list;
         },
 
         updateLists(state, lists) {

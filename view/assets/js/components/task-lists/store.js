@@ -14,6 +14,8 @@ export default new Vuex.Store({
      */
     state: {
         lists: [],
+        list: {},
+        list_comments: [],
         list_total: 0,
         milestones: [],
         init: {},
@@ -422,6 +424,14 @@ export default new Vuex.Store({
                 state.lists.push(list);
             }
            
+        },
+
+        setListComments (state, comments) {
+            state.list_comments = comments;
+        },
+
+        setListForSingleListPage (state, list) {
+            state.list = list;
         },
 
         updateLists (state, lists) {

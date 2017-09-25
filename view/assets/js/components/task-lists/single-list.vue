@@ -156,7 +156,7 @@
             },
 
             comments () {
-                return this.$store.state.list.comments.data;
+                return this.$store.state.list_comments;
             },
 
             /**
