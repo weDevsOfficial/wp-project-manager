@@ -12342,6 +12342,9 @@ window.CPM_Component_jQuery = {
             moment.tz.add(PM_Vars.time_zones);
             moment.tz.link(PM_Vars.time_links);
 
+            date = new Date(date);
+            date = moment(date).format('YYYY-MM-DD');
+
             var format = 'MMMM DD YYYY';
 
             if (PM_Vars.wp_date_format == 'Y-m-d') {
@@ -12352,7 +12355,7 @@ window.CPM_Component_jQuery = {
                 format = 'DD/MM/YYYY';
             }
 
-            return moment.tz(date, PM_Vars.wp_time_zone).format(String(format));
+            return moment.tz(date, PM_Vars.wp_time_zone).format(format);
         },
 
         /**
@@ -12648,8 +12651,15 @@ window.CPM_Component_jQuery = {
          * 
          * @return string            
          */
-        taskDateWrap: function (start_date, due_date) {
-            if (!start_date && !due_date) {
+        taskDateWrap: function (due_date) {
+            if (!due_date) {
+                return false;
+            }
+
+            due_date = new Date(due_date);
+            due_date = moment(due_date).format('YYYY-MM-DD');
+
+            if (!moment(due_date).isValid()) {
                 return false;
             }
 
@@ -12657,17 +12667,9 @@ window.CPM_Component_jQuery = {
             moment.tz.link(PM_Vars.time_links);
 
             var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
-                due_day = moment.tz(due_date.timestamp * 1000, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
+                due_day = moment.tz(due_date, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
 
-            if (!moment(due_day, 'YYYY-MM-DD').isValid() && !moment(start_date.timestamp * 1000, 'YYYY-MM-DD').isValid()) {
-                return false;
-            }
-
-            if (moment(String(due_day), 'YYYY-MM-DD').isValid()) {
-                return moment(String(today), 'YYYY-MM-DD').isSameOrBefore(String(due_day)) ? 'cpm-current-date' : 'cpm-due-date';
-            }
-
-            return 'cpm-current-date';
+            return moment(today).isSameOrBefore(due_day) ? 'cpm-current-date' : 'cpm-due-date';
         },
 
         completedTaskWrap(start_date, due_date) {

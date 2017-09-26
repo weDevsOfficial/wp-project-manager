@@ -304,15 +304,15 @@ webpackJsonp([1],{
                 is_update = typeof this.task.id == 'undefined' ? false : true,
                 form_data = {
                 board_id: this.list.id,
-                assign: this.task.assigned_to,
+                assignees: this.task.assigned_to,
                 title: this.task.title,
                 description: this.task.description,
-                start_at: this.task.start_at,
-                due_date: this.task.due_date,
+                start_at: this.task.start_at.date,
+                due_date: this.task.due_date.date,
                 task_privacy: this.task.task_privacy,
                 list_id: this.list.id
             };
-
+            console.log(form_data);return;
             // Showing loading option 
             this.show_spinner = true;
 
@@ -591,6 +591,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__incompleted_tasks_vue__ = __webpack_require__(210);
 //
 //
 //
@@ -820,170 +821,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -1095,7 +933,8 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
     },
 
     components: {
-        'new-task-form': __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__["a" /* default */]
+        'new-task-form': __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__["a" /* default */],
+        'incompleted-tasks': __WEBPACK_IMPORTED_MODULE_1__incompleted_tasks_vue__["a" /* default */]
     },
 
     methods: {
@@ -1845,7 +1684,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-incomplete-tasks"
   }, [_vm._m(0), _vm._v(" "), _c('ul', {
     staticClass: "cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task"
-  }, [_vm._l((_vm.getIncompleteTasks), function(task, task_index) {
+  }, [(_vm.loading_incomplete_tasks) ? _c('li', {
+    staticClass: "nonsortable"
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), _vm._l((_vm.getIncompleteTasks), function(task, task_index) {
     return _c('li', {
       key: task.ID,
       staticClass: "cpm-todo",
@@ -1940,7 +1781,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('span', {
       staticClass: "cpm-comment-count"
-    })])], 1)]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n\t                                                " + _vm._s(task.comments.length) + "\n\t                                            ")])])], 1)]), _vm._v(" "), _c('div', {
       staticClass: "cpm-col-1 cpm-todo-action-right cpm-last-col"
     }, [_c('a', {
       staticClass: "cpm-todo-delete",
@@ -2002,9 +1843,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-incomplete-task-spinner cpm-spinner"
   })]) : _vm._e()], 2)]), _vm._v(" "), _c('div', {
     staticClass: "cpm-completed-tasks"
-  }, [_vm._m(1), _vm._v(" "), _c('ul', {
+  }, [_vm._m(2), _vm._v(" "), _c('ul', {
     staticClass: "cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed"
-  }, [_vm._l((_vm.getCompletedTask), function(task, task_index) {
+  }, [(_vm.loading_completed_tasks) ? _c('li', {
+    staticClass: "nonsortable"
+  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), _vm._l((_vm.getCompletedTask), function(task, task_index) {
     return _c('li', {
       key: task.ID,
       staticClass: "cpm-todo",
@@ -2019,7 +1862,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "cpm-todo-content"
     }, [_c('div', [_c('div', {
       staticClass: "cpm-col-6"
-    }, [_c('input', {
+    }, [_c('span', {
+      staticClass: "cpm-spinner"
+    }), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -2158,153 +2003,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-id": task.ID,
         "data-order": task.menu_order
       }
-    }, [_c('div', {
-      staticClass: "cpm-todo-wrap clearfix"
-    }, [_c('div', {
-      staticClass: "cpm-todo-content"
-    }, [_c('div', [_c('div', {
-      staticClass: "cpm-col-7"
-    }, [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (task.status),
-        expression: "task.status"
-      }],
-      attrs: {
-        "disabled": !_vm.is_assigned(task),
-        "type": "checkbox",
-        "value": "",
-        "name": ""
-      },
-      domProps: {
-        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
-      },
-      on: {
-        "click": function($event) {
-          _vm.taskDoneUndone(task, task.status)
-        },
-        "__c": function($event) {
-          var $$a = task.status,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = "",
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (task.status = $$a.concat($$v))
-            } else {
-              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            task.status = $$c
-          }
-        }
-      }
-    }), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
-      attrs: {
-        "to": {
-          name: 'lists_single_task',
-          params: {
-            list_id: _vm.list.id,
-            task_id: task.id,
-            project_id: _vm.project_id,
-            task: task
-          }
-        }
-      }
-    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.title) + "\n\t                                \t")])], 1) : _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'lists_single_task',
-          params: {
-            task_id: task.id,
-            project_id: _vm.project_id,
-          }
-        }
-      }
-    }, [_vm._v("\n\n\t                                    \t" + _vm._s(task.title) + "\n\t                                    ")])], 1), _vm._v(" "), _c('span', {
-      class: _vm.privateClass(task)
-    }), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
-      return _c('span', {
-        key: user.ID,
-        staticClass: "cpm-assigned-user",
-        domProps: {
-          "innerHTML": _vm._s(user.user_url)
-        }
-      })
-    }), _vm._v(" "), _c('span', {
-      class: _vm.taskDateWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at.date, task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-4 cpm-todo-action-center"
-    }, [_c('div', {
-      staticClass: "cpm-task-comment"
-    }, [(_vm.is_single_list) ? _c('span', [_c('router-link', {
-      attrs: {
-        "to": {
-          name: 'list_task_single_under_todo',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-comment-count"
-    })])], 1) : _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'task_single_under_todo_lists',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-comment-count"
-    })])], 1)])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-1 cpm-todo-action-right cpm-last-col"
-    }, [_c('a', {
-      staticClass: "cpm-todo-edit",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.showHideTaskFrom('toggle', false, task)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-edit"
-    })]), _vm._v(" "), _c('a', {
-      staticClass: "cpm-todo-delete",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteTask(task)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "clearfix"
-    })])]), _vm._v(" "), (task.edit_mode) ? _c('div', {
-      staticClass: "cpm-todo-form"
-    }, [_c('new-task-form', {
+    }, [_c('incompleted-tasks', {
       attrs: {
         "task": task,
         "list": _vm.list
       }
-    })], 1) : _vm._e()])])
+    })], 1)
   }), _vm._v(" "), (!_vm.getIncompleteTasks.length) ? _c('li', {
     staticClass: "nonsortable"
   }, [_vm._v("No tasks found.")]) : _vm._e(), _vm._v(" "), (_vm.list.show_task_form) ? _c('li', {
@@ -2334,173 +2038,52 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "more_incomplete_task_spinner"
     }],
     staticClass: "cpm-incomplete-task-spinner cpm-spinner"
-  })]) : _vm._e()], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-completed-tasks"
-  }, [(_vm.is_single_list) ? _c('ul', {
-    staticClass: "cpm-todos cpm-todolist-content cpm-todo-completed"
-  }, [_vm._l((_vm.getCompletedTask), function(task, task_index) {
-    return _c('li', {
-      key: task.ID,
-      class: 'cpm-todo cpm-fade-out-' + task.ID,
-      attrs: {
-        "data-id": task.ID,
-        "data-order": task.menu_order
-      }
-    }, [_c('div', {
-      staticClass: "cpm-todo-wrap clearfix"
-    }, [_c('div', {
-      staticClass: "cpm-todo-content"
-    }, [_c('div', [_c('div', {
-      staticClass: "cpm-col-7"
-    }, [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (task.status),
-        expression: "task.status"
-      }],
-      attrs: {
-        "type": "checkbox",
-        "value": "",
-        "name": ""
-      },
-      domProps: {
-        "checked": Array.isArray(task.status) ? _vm._i(task.status, "") > -1 : (task.status)
-      },
-      on: {
-        "click": function($event) {
-          _vm.taskDoneUndone(task, task.status)
-        },
-        "__c": function($event) {
-          var $$a = task.status,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = "",
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (task.status = $$a.concat($$v))
-            } else {
-              $$i > -1 && (task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            task.status = $$c
-          }
-        }
-      }
-    }), _vm._v(" "), _c('span', {
-      staticClass: "task-title"
-    }, [(_vm.is_single_list) ? _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'list_task_single_under_todo',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-todo-text"
-    }, [_vm._v(_vm._s(task.post_title))])])], 1) : _c('span', [_c('router-link', {
-      attrs: {
-        "exact": "",
-        "to": {
-          name: 'task_single_under_todo_lists',
-          params: {
-            list_id: _vm.list.ID,
-            task_id: task.ID,
-            task: task
-          }
-        }
-      }
-    }, [_c('span', {
-      staticClass: "cpm-todo-text"
-    }, [_vm._v(_vm._s(task.post_title))])])], 1), _vm._v(" "), _c('span', {
-      class: _vm.privateClass(task)
-    })]), _vm._v(" "), _vm._l((_vm.getUsers(task.assigned_to)), function(user) {
-      return _c('span', {
-        key: user.ID,
-        staticClass: "cpm-assigned-user",
-        domProps: {
-          "innerHTML": _vm._s(user.user_url)
-        }
-      })
-    }), _vm._v(" "), _c('span', {
-      class: _vm.completedTaskWrap(task.start_at, task.due_date)
-    }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s((task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, task.start_at.date, task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s((task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-4"
-    }, [_c('span', {
-      staticClass: "cpm-comment-count"
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      }
-    }, [_vm._v("\n\t                                        " + _vm._s(task.comment_count) + "\n\t                                    ")])])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-col-1 cpm-todo-action-right cpm-last-col"
-    }, [_c('a', {
-      staticClass: "cpm-todo-delete",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteTask(task)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "clearfix"
-    })]), _vm._v(" "), _vm._m(2, true)]), _vm._v(" "), (task.edit_mode) ? _c('div', {
-      staticClass: "cpm-todo-form"
-    }, [_c('new-task-form', {
-      attrs: {
-        "task": task,
-        "list": _vm.list
-      }
-    })], 1) : _vm._e()])])
-  }), _vm._v(" "), (!_vm.getCompletedTask.length) ? _c('li', {
-    staticClass: "nonsortable"
-  }, [_vm._v("No completed tasks.")]) : _vm._e(), _vm._v(" "), (_vm.complete_show_load_more_btn) ? _c('li', {
-    staticClass: "nonsortable"
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.loadMoreCompleteTasks(_vm.list)
-      }
-    }
-  }, [_vm._v("More Tasks")]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.more_completed_task_spinner),
-      expression: "more_completed_task_spinner"
-    }],
-    staticClass: "cpm-completed-task-spinner cpm-spinner"
-  })]) : _vm._e()], 2) : _vm._e()])])])
+  })]) : _vm._e()], 2)])])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h3', {
     staticClass: "cpm-task-list-title cpm-tag-gray"
   }, [_c('a', [_vm._v("Incomplete Tasks")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-data-load-before"
+  }, [_c('div', {
+    staticClass: "loadmoreanimation"
+  }, [_c('div', {
+    staticClass: "load-spinner"
+  }, [_c('div', {
+    staticClass: "rect1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect5"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h3', {
     staticClass: "cpm-task-list-title cpm-tag-gray"
   }, [_c('a', [_vm._v("Completed Tasks")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "cpm-col-12"
+    staticClass: "cpm-data-load-before"
   }, [_c('div', {
-    staticClass: "cpm-todo-details"
-  })])
+    staticClass: "loadmoreanimation"
+  }, [_c('div', {
+    staticClass: "load-spinner"
+  }, [_c('div', {
+    staticClass: "rect1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "rect5"
+  })])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -2594,11 +2177,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "dependency": "cpm-datepickter-to"
     },
     model: {
-      value: (_vm.task.start_at),
+      value: (_vm.task.start_at.date),
       callback: function($$v) {
-        _vm.task.start_at = $$v
+        _vm.task.start_at.date = $$v
       },
-      expression: "task.start_at"
+      expression: "task.start_at.date"
     }
   })], 1) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "cpm-task-due-field"
@@ -2608,11 +2191,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "dependency": "cpm-datepickter-from"
     },
     model: {
-      value: (_vm.task.due_date),
+      value: (_vm.task.due_date.date),
       callback: function($$v) {
-        _vm.task.due_date = $$v
+        _vm.task.due_date.date = $$v
       },
-      expression: "task.due_date"
+      expression: "task.due_date.date"
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "item user"
@@ -4440,6 +4023,348 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-bdbf3e6a", esExports)
   }
 }
+
+/***/ }),
+
+/***/ 210:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_incompleted_tasks_vue__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b392a95e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_incompleted_tasks_vue__ = __webpack_require__(211);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_incompleted_tasks_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b392a95e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_incompleted_tasks_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/task-lists/incompleted-tasks.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] incompleted-tasks.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b392a95e", Component.options)
+  } else {
+    hotAPI.reload("data-v-b392a95e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 211:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-todo-wrap clearfix"
+  }, [_c('div', {
+    staticClass: "cpm-todo-content"
+  }, [_c('div', [_c('div', {
+    staticClass: "cpm-col-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.task.status),
+      expression: "task.status"
+    }],
+    attrs: {
+      "disabled": !_vm.is_assigned(_vm.task),
+      "type": "checkbox",
+      "value": "",
+      "name": ""
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.task.status) ? _vm._i(_vm.task.status, "") > -1 : (_vm.task.status)
+    },
+    on: {
+      "click": function($event) {
+        _vm.taskDoneUndone(_vm.task, _vm.task.status)
+      },
+      "__c": function($event) {
+        var $$a = _vm.task.status,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = "",
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.task.status = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.task.status = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "task-title",
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "cpm-todo-text",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.singleTask(_vm.task)
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.task.post_title) + " ")]), _vm._v(" "), _c('span', {
+    class: _vm.privateClass(_vm.task)
+  })]), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'lists_single_task',
+        params: {
+          list_id: _vm.list.id,
+          task_id: _vm.task.id,
+          project_id: _vm.project_id,
+          task: _vm.task
+        }
+      }
+    }
+  }, [_vm._v("\n\n                    \t" + _vm._s(_vm.task.title) + "\n                \t")])], 1) : _c('span', [_c('router-link', {
+    attrs: {
+      "exact": "",
+      "to": {
+        name: 'lists_single_task',
+        params: {
+          task_id: _vm.task.id,
+          project_id: _vm.project_id,
+        }
+      }
+    }
+  }, [_vm._v("\n\n                    \t" + _vm._s(_vm.task.title) + "\n                    ")])], 1), _vm._v(" "), _c('span', {
+    class: _vm.privateClass(_vm.task)
+  }), _vm._v(" "), _vm._l((_vm.getUsers(_vm.task.assigned_to)), function(user) {
+    return _c('span', {
+      key: user.ID,
+      staticClass: "cpm-assigned-user",
+      domProps: {
+        "innerHTML": _vm._s(user.user_url)
+      }
+    })
+  }), _vm._v(" "), _c('span', {
+    class: _vm.taskDateWrap(_vm.task.due_date.date)
+  }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(_vm.task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at.date, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(_vm.task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-4 cpm-todo-action-center"
+  }, [_c('div', {
+    staticClass: "cpm-task-comment"
+  }, [_c('span', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'lists_single_task',
+        params: {
+          list_id: _vm.list.id,
+          task_id: _vm.task.id
+        }
+      }
+    }
+  }, [_c('span', {
+    staticClass: "cpm-comment-count"
+  }, [_vm._v("\n                                " + _vm._s(_vm.task.meta.total_comment) + "\n                            ")])])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-1 cpm-todo-action-right cpm-last-col"
+  }, [_c('a', {
+    staticClass: "cpm-todo-edit",
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showHideTaskFrom('toggle', false, _vm.task)
+      }
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-edit"
+  })]), _vm._v(" "), _c('a', {
+    staticClass: "cpm-todo-delete",
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.deleteTask(_vm.task)
+      }
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])]), _vm._v(" "), (_vm.task.edit_mode) ? _c('div', {
+    staticClass: "cpm-todo-form"
+  }, [_c('new-task-form', {
+    attrs: {
+      "task": _vm.task,
+      "list": _vm.list
+    }
+  })], 1) : _vm._e()])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b392a95e", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 214:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__ = __webpack_require__(117);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    props: ['task', 'list'],
+    components: {
+        'new-task-form': __WEBPACK_IMPORTED_MODULE_0__new_task_form_vue__["a" /* default */]
+    },
+    methods: {
+        is_assigned: function (task) {
+            return true;
+            var get_current_user_id = this.$store.state.get_current_user_id,
+                in_task = task.assigned_to.indexOf(get_current_user_id);
+
+            if (task.can_del_edit || in_task != '-1') {
+                return true;
+            }
+
+            return false;
+        }
+    }
+});
 
 /***/ }),
 

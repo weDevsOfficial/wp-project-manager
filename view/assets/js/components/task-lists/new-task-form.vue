@@ -14,14 +14,14 @@
 	            
 	            <div class="cpm-task-start-field" v-if="task_start_field">
 	                <label>Start Date</label>
-	                <cpm-datepickter v-model="task.start_at" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
+	                <cpm-datepickter v-model="task.start_at.date" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
 	                
 	            </div>
 	            
 
 	            <div class="cpm-task-due-field">
 	                <label>Due Date</label>
-	                <cpm-datepickter v-model="task.due_date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
+	                <cpm-datepickter v-model="task.due_date.date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
 	            </div>
 	        </div>
 
@@ -238,15 +238,15 @@
 	                
 	                form_data = {
 	                    board_id: this.list.id,
-	                    assign: this.task.assigned_to,
+	                    assignees: this.task.assigned_to,
 	                    title: this.task.title,
 	                    description: this.task.description,
-	                    start_at: this.task.start_at,
-	                    due_date: this.task.due_date,
+	                    start_at: this.task.start_at.date,
+	                    due_date: this.task.due_date.date,
 	                    task_privacy: this.task.task_privacy,
 	                    list_id: this.list.id,
 	                };
-	            
+	            console.log(form_data); return;
 	            // Showing loading option 
 	            this.show_spinner = true;
 
