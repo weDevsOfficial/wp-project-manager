@@ -53,7 +53,10 @@ class Project_Controller {
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-		$this->assign_users( $project, $assignees );
+
+		if ( is_array( $assignees ) ) {
+			$this->assign_users( $project, $assignees );
+		}
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
@@ -74,8 +77,11 @@ class Project_Controller {
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-		$project->assignees()->detach();
-		$this->assign_users( $project, $assignees );
+
+		if ( is_array( $assignees ) ) {
+			$project->assignees()->detach();
+			$this->assign_users( $project, $assignees );
+		}
 
 		$resource = new Item( $project, new Project_Transformer );
 
