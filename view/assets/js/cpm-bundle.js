@@ -11880,7 +11880,7 @@ const overview = resolve => {
 //import project_lists from './lists.vue';
 
 const project_lists = resolve => {
-    __webpack_require__.e/* require.ensure */(0).then((() => {
+    __webpack_require__.e/* require.ensure */(1).then((() => {
         resolve(__webpack_require__(17));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -13081,7 +13081,7 @@ const task_lists_route = resolve => {
 };
 
 const single_list_route = resolve => {
-    __webpack_require__.e/* require.ensure */(1).then((() => {
+    __webpack_require__.e/* require.ensure */(0).then((() => {
         resolve(__webpack_require__(18));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

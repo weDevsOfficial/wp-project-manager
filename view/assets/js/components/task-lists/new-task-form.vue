@@ -246,7 +246,7 @@
 	                    task_privacy: this.task.task_privacy,
 	                    list_id: this.list.id,
 	                };
-	            console.log(form_data); return;
+	            
 	            // Showing loading option 
 	            this.show_spinner = true;
 
