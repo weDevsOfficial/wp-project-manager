@@ -137,7 +137,17 @@ class CPM_ERP {
         }
         printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34, 'mm' ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
     }
-
+    /**
+     * Get all User of a project of a Depert ment
+     * 
+     * @param  [object] $project_users [description]
+     * @param  [int] $project       [description]
+     * @param  [string] $table         [description]
+     *
+     * @since  0.1
+     * 
+     * @return [type]                [description]
+     */
     function get_group_user( $project_users, $project, $table ) {
         global $wpdb;
 
@@ -147,29 +157,23 @@ class CPM_ERP {
             $project_id = $project;
         }
 
-        $role           = [ ];
-        $cpm_department = $wpdb->get_row( "SELECT * FROM {$table} WHERE project_id = $project_id AND component = 'erp-hrm'" );
-        $cpm_users      = $wpdb->get_results( "SELECT * FROM {$table} WHERE project_id = $project_id" );
+        $department_id = get_post_meta($project_id, '_erp_hr_dept_id');
 
-        $department_id = isset( $cpm_department->user_id ) ? $cpm_department->user_id : false;
+        $role           = [ ];
+
 
         if ( ! $department_id ) {
             return $project_users;
         }
 
-        $department = \WeDevs\ERP\HRM\Models\Department::find( $department_id );
-
-        if ( ! $department ) {
+        $department = new \WeDevs\ERP\HRM\Department( intval( $department_id ) );
+                
+        if ( ! $department || $department->status != 1 ) {
             return $project_users;
         }
 
-        if ( $department->status != 1 ) {
-            return $project_users;
-        }
-
-        foreach ( $cpm_users as $key => $cpm_user ) {
-            $role[$cpm_user->user_id] = $cpm_user->role;
-        }
+        $lead       = $department->get_lead();
+        $lead_id    = isset( $lead->id ) ? $lead->id : 0;
 
         $args = [
             'department' => $department_id,
@@ -181,7 +185,7 @@ class CPM_ERP {
         foreach ( $active_employees as $key => $active_employee ) {
             $dept            = new stdClass;
             $dept->user_id   = $active_employee->id;
-            $dept->role      = ! isset( $role[$active_employee->id] ) ? $cpm_department->role : $role[$active_employee->id];
+            $dept->role      = isset( $lead_id ) && ($lead_id == $active_employee->id) ? 'manager' : 'co-worker';
             $dept->coponent  = 'erp-hrm';
             $dept->title     = $department->title;
             $project_users[] = $dept;
@@ -190,10 +194,6 @@ class CPM_ERP {
         return $project_users;
     }
 
-    function get_user_query( $query, $project, $table ) {
-        $query .= " AND component = ''";
-        return $query;
-    }
 
     function set_current_user_department() {
 
@@ -550,6 +550,7 @@ class CPM_ERP {
         $dept_id    = intval( $posted['department'] );
         $department = new \WeDevs\ERP\HRM\Department( $dept_id );
         $lead       = $department->get_lead();
+        $employees  = erp_hr_get_employees( array( 'department' => $dept_id ) );
 
         if ( $lead ) {
 
@@ -559,6 +560,10 @@ class CPM_ERP {
 
                 $this->assign_department_employee_project_role( $project_id, $lead->id, 'manager' );
             }
+        }
+
+        foreach ($employees as $key => $employee) {
+            # code...
         }
 
         $this->assign_department_employee_project_role( $project_id, $dept_id );
@@ -650,7 +655,7 @@ class CPM_ERP {
                         continue;
                     }
 
-                    $this->hrm_users[$project_id][$employee->ID] = $project_users[]                             = ( object ) array(
+                    $this->hrm_users[$project_id][$employee->ID] = $project_users[] = ( object ) array(
                                 'project_id' => $project_id,
                                 'user_id'    => $employee->ID,
                                 'role'       => $project_user->role
