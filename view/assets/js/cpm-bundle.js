@@ -10247,42 +10247,61 @@ module.exports = function normalizeComponent (
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
 
-  data() {
-    return {
-      base_url: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix,
-      project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id
-    };
-  },
-
-  methods: {
-    httpRequest(property) {
-      var before = function (xhr) {
-        xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
-        xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
-      };
-
-      property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
-
-      jQuery.ajax(property);
+    data() {
+        return {
+            base_url: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix,
+            project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id
+        };
     },
 
-    getProject(project_id) {
-      var self = this;
-      var project_id = project_id || self.project_id;
+    methods: {
+        httpRequest(property) {
+            var before = function (xhr) {
+                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
+                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+            };
 
-      if (typeof self.project_id === 'undefined') {
-        return;
-      }
+            property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
 
-      self.httpRequest({
-        url: self.base_url + '/cpm/v2/projects/' + self.project_id,
-        success: function (res) {
-          self.$root.$store.commit('setProject', res.data);
-          self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+            jQuery.ajax(property);
+        },
+
+        getProject(project_id) {
+            var self = this;
+            var project_id = project_id || self.project_id;
+
+            if (typeof self.project_id === 'undefined') {
+                return;
+            }
+
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id,
+                success: function (res) {
+                    self.$root.$store.commit('setProject', res.data);
+                    self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+                }
+            });
+        },
+        /**
+        * Get index from array object element
+        *
+        * @param   itemList
+        * @param   id
+        *
+        * @return  int
+        */
+        getIndex: function (itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function (item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
         }
-      });
     }
-  }
 }));
 
 /***/ }),
@@ -13188,7 +13207,18 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
             lists: false,
             description: false
         },
-        total_list_page: 0
+        total_list_page: 0,
+        getIndex: function (itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function (item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        }
     },
 
     /**
@@ -13297,10 +13327,21 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
          * 
          * @return void
          */
-        update_task: function (state, data) {
-            var index = data.list_index;
-            state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) + 1;
-            state.lists[index].tasks.splice(0, 0, data.res.data.task);
+        afterUpdateTask: function (state, data) {
+            var list_index = state.getIndex(state.lists, data.list_id, 'id');
+
+            if (data.task.status === 'incomplete') {
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
+
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1, data.task);
+            }
+        },
+
+        afterNewTask(state, data) {
+            var list_index = state.getIndex(state.lists, data.list_id, 'id');
+            if (data.task.status === 'incomplete') {
+                state.lists[list_index].incomplete_tasks.data.splice(0, 0, data.task);
+            }
         },
 
         /**

@@ -40,11 +40,11 @@
                     </span>
 
                     <span :class="privateClass( task )"></span>
-                    
-                    <span class='cpm-assigned-user' 
-                        v-for="user in getUsers( task.assigned_to )" 
-                        v-html="user.user_url" :key="user.ID">
 
+                    <span class='cpm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
+                        <a href="#" :title="user.display_name">
+                        	<img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
+                        </a>
                     </span>
                     
                     <span :class="taskDateWrap(task.due_date.date)">

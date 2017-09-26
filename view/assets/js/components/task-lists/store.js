@@ -45,7 +45,18 @@ export default new Vuex.Store({
             lists: false,
             description: false
         },
-        total_list_page: 0
+        total_list_page: 0,
+        getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
     },
 
     /**
@@ -156,10 +167,25 @@ export default new Vuex.Store({
          * 
          * @return void
          */
-        update_task: function( state, data ) {
-            var index = data.list_index;
-            state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) + 1;
-            state.lists[index].tasks.splice( 0, 0, data.res.data.task );
+        afterUpdateTask: function( state, data ) {
+            var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+
+            if ( data.task.status === 'incomplete' ) {
+                var task_index = state.getIndex( 
+                        state.lists[list_index].incomplete_tasks.data, 
+                        data.task.id, 
+                        'id' 
+                );
+                
+                state.lists[list_index].incomplete_tasks.data.splice( task_index, 1, data.task );
+            }
+        },
+
+        afterNewTask (state, data) {
+            var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+            if ( data.task.status === 'incomplete' ) {
+                state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
+            }
         },
 
         /**

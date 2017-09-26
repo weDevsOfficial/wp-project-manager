@@ -36,7 +36,26 @@
                     self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
                 }
             });
-        }
+        },
+                /**
+         * Get index from array object element
+         *
+         * @param   itemList
+         * @param   id
+         *
+         * @return  int
+         */
+        getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
 	}
 });
 

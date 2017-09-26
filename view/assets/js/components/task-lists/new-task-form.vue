@@ -1,6 +1,6 @@
 <template>
 	<div :class="'cpm-task-edit-form cpm-slide-'+task.id">
-	    <form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
+		<form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
 	      
 	        <div class="item task-title">
 	            <input v-model="task.title" type="text" name="task_title" class="task_title" placeholder="Add a new task" value="" required="required">
@@ -51,6 +51,7 @@
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	    </form>
+
 	</div>
 </template>
 
@@ -77,6 +78,7 @@
 	            show_spinner: false,
 	            date_from: '',
 	            date_to: '',
+	            assigned_to: []
 	        }
 	    },
 
@@ -85,9 +87,14 @@
 	    	'cpm-datepickter': date_picker
 	    },
 
+	    beforeMount () {
+	    	this.setDefaultValue();
+	    },
+
 	    // Initial action for this component
 	    created: function() {
 	        this.$on( 'cpm_date_picker', this.getDatePicker );
+	        
 	    },
 
 	    watch: {
@@ -145,20 +152,19 @@
 	             * @return array
 	             */
 	            get: function () {
-	                var filtered_users = [];
+	                // var filtered_users = [];
 
-	                if ( this.task.assigned_to && this.task.assigned_to.length ) {
-	                    var assigned_to = this.task.assigned_to.map(function (id) {
-	                        return parseInt(id);
-	                    });
+	                // if ( this.task.assigned_to && this.task.assigned_to.length ) {
+	                //     var assigned_to = this.task.assigned_to.map(function (id) {
+	                //         return parseInt(id);
+	                //     });
 
 
-	                    filtered_users = this.project_users.filter(function (user) {
-	                        return (assigned_to.indexOf(parseInt(user.id)) >= 0);
-	                    });
-	                }
-
-	                return filtered_users;
+	                //     filtered_users = this.project_users.filter(function (user) {
+	                //         return (assigned_to.indexOf(parseInt(user.id)) >= 0);
+	                //     });
+	                // }
+	                return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
 	            }, 
 
 	            /**
@@ -167,7 +173,7 @@
 	             * @param array selected_users 
 	             */
 	            set: function ( selected_users ) {
-	                this.task.assigned_to = selected_users.map(function (user) {
+	                this.assigned_to = selected_users.map(function (user) {
 	                    return user.id;
 	                });
 	            }
@@ -175,6 +181,27 @@
 	    },
 
 	    methods: {
+	    	setDefaultValue () {
+	    		if (typeof this.task.assignees !== 'undefined') {
+	    			var self = this;
+		    		this.task.assignees.data.map(function(user) {
+		    			self.assigned_to.push(user.id);
+		    		});
+	    		}
+	    		
+
+	    		if (typeof this.task.start_at === 'undefined') {
+	    			this.task.start_at = {
+	    				date: ''
+	    			};
+	    		}
+
+	    		if (typeof this.task.due_date === 'undefined') {
+	    			this.task.due_date = {
+	    				date: ''
+	    			};
+	    		}
+	    	},
 	        /**
 	         * Set tast start and end date at task insert or edit time
 	         * 
@@ -238,7 +265,7 @@
 	                
 	                form_data = {
 	                    board_id: this.list.id,
-	                    assignees: this.task.assigned_to,
+	                    assignees: this.assigned_to,
 	                    title: this.task.title,
 	                    description: this.task.description,
 	                    start_at: this.task.start_at.date,
@@ -249,7 +276,7 @@
 	            
 	            // Showing loading option 
 	            this.show_spinner = true;
-
+	            
 	            if (is_update) {
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
 	            	var type = 'PUT'; 
@@ -263,14 +290,25 @@
 	            	type: type,
 	            	data: form_data,
 	            	success (res) {
-	            		self.getList(self, self.list.id);
+	            		if (is_update) {
+	            			self.$store.commit('afterUpdateTask', {
+	            				list_id: self.list.id,
+	            				task: res.data
+	            			});
+	            		} else {
+	            			self.$store.commit('afterNewTask', {
+	            				list_id: self.list.id,
+	            				task: res.data
+	            			});
+	            		}
+	            		
 	            		self.show_spinner = false;
 
 	                    // Display a success toast, with a title
 	                    toastr.success(res.data.success);
                    
 	                    self.submit_disabled = false;
-	                    self.showHideTaskFrom(self.list, self.task);
+	                    self.showHideTaskFrom(false, self.list, self.task);
 	            	},
 
 	            	error (res) {

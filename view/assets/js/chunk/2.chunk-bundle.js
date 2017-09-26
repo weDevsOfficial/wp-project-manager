@@ -458,6 +458,7 @@ if (false) {
 //
 //
 //
+//
 
 
 
@@ -478,13 +479,18 @@ if (false) {
             before_edit: jQuery.extend(true, {}, this.task),
             show_spinner: false,
             date_from: '',
-            date_to: ''
+            date_to: '',
+            assigned_to: []
         };
     },
 
     components: {
         'multiselect': __WEBPACK_IMPORTED_MODULE_0__vue_multiselect_vue_multiselect_min___default.a,
         'cpm-datepickter': __WEBPACK_IMPORTED_MODULE_1__date_picker_vue__["a" /* default */]
+    },
+
+    beforeMount() {
+        this.setDefaultValue();
     },
 
     // Initial action for this component
@@ -547,19 +553,19 @@ if (false) {
              * @return array
              */
             get: function () {
-                var filtered_users = [];
+                // var filtered_users = [];
 
-                if (this.task.assigned_to && this.task.assigned_to.length) {
-                    var assigned_to = this.task.assigned_to.map(function (id) {
-                        return parseInt(id);
-                    });
+                // if ( this.task.assigned_to && this.task.assigned_to.length ) {
+                //     var assigned_to = this.task.assigned_to.map(function (id) {
+                //         return parseInt(id);
+                //     });
 
-                    filtered_users = this.project_users.filter(function (user) {
-                        return assigned_to.indexOf(parseInt(user.id)) >= 0;
-                    });
-                }
 
-                return filtered_users;
+                //     filtered_users = this.project_users.filter(function (user) {
+                //         return (assigned_to.indexOf(parseInt(user.id)) >= 0);
+                //     });
+                // }
+                return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
             },
 
             /**
@@ -568,7 +574,7 @@ if (false) {
              * @param array selected_users 
              */
             set: function (selected_users) {
-                this.task.assigned_to = selected_users.map(function (user) {
+                this.assigned_to = selected_users.map(function (user) {
                     return user.id;
                 });
             }
@@ -576,6 +582,26 @@ if (false) {
     },
 
     methods: {
+        setDefaultValue() {
+            if (typeof this.task.assignees !== 'undefined') {
+                var self = this;
+                this.task.assignees.data.map(function (user) {
+                    self.assigned_to.push(user.id);
+                });
+            }
+
+            if (typeof this.task.start_at === 'undefined') {
+                this.task.start_at = {
+                    date: ''
+                };
+            }
+
+            if (typeof this.task.due_date === 'undefined') {
+                this.task.due_date = {
+                    date: ''
+                };
+            }
+        },
         /**
          * Set tast start and end date at task insert or edit time
          * 
@@ -638,7 +664,7 @@ if (false) {
                 is_update = typeof this.task.id == 'undefined' ? false : true,
                 form_data = {
                 board_id: this.list.id,
-                assignees: this.task.assigned_to,
+                assignees: this.assigned_to,
                 title: this.task.title,
                 description: this.task.description,
                 start_at: this.task.start_at.date,
@@ -663,14 +689,25 @@ if (false) {
                 type: type,
                 data: form_data,
                 success(res) {
-                    self.getList(self, self.list.id);
+                    if (is_update) {
+                        self.$store.commit('afterUpdateTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    } else {
+                        self.$store.commit('afterNewTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    }
+
                     self.show_spinner = false;
 
                     // Display a success toast, with a title
                     toastr.success(res.data.success);
 
                     self.submit_disabled = false;
-                    self.showHideTaskFrom(self.list, self.task);
+                    self.showHideTaskFrom(false, self.list, self.task);
                 },
 
                 error(res) {
@@ -2839,14 +2876,23 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("\n\n                    \t" + _vm._s(_vm.task.title) + "\n                    ")])], 1), _vm._v(" "), _c('span', {
     class: _vm.privateClass(_vm.task)
-  }), _vm._v(" "), _vm._l((_vm.getUsers(_vm.task.assigned_to)), function(user) {
+  }), _vm._v(" "), _vm._l((_vm.task.assignees.data), function(user) {
     return _c('span', {
       key: user.ID,
-      staticClass: "cpm-assigned-user",
-      domProps: {
-        "innerHTML": _vm._s(user.user_url)
+      staticClass: "cpm-assigned-user"
+    }, [_c('a', {
+      attrs: {
+        "href": "#",
+        "title": user.display_name
       }
-    })
+    }, [_c('img', {
+      attrs: {
+        "src": user.avatar_url,
+        "alt": user.display_name,
+        "height": "48",
+        "width": "48"
+      }
+    })])])
   }), _vm._v(" "), _c('span', {
     class: _vm.taskDateWrap(_vm.task.due_date.date)
   }, [(_vm.task_start_field) ? _c('span', [_vm._v(_vm._s(_vm.dateFormat(_vm.task.start_at.date)))]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at.date, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.dateFormat(_vm.task.due_date.date)))])])], 2), _vm._v(" "), _c('div', {
