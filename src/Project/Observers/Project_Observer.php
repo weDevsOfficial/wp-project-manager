@@ -52,6 +52,4 @@ class Project_Observer extends Model_Observer {
             'resource_type' => 'project',
         ]);
     }
-
-    protected
 }
