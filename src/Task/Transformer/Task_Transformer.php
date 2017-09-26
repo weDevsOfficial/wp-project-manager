@@ -10,6 +10,8 @@ use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Transformers\Assignee_Transformer;
 use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\User\Models\User;
+use CPM\User\Transformers\User_Transformer;
 
 class Task_Transformer extends TransformerAbstract {
     /**
@@ -117,9 +119,10 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeAssignees( Task $item ) {
-        $assignees = $item->assignees;
+        $user_ids = $item->assignees->pluck('assigned_to');
+        $users = User::whereIn( 'id', $user_ids )->get();
 
-        return $this->collection( $assignees, new Assignee_Transformer );
+        return $this->collection( $users, new User_Transformer );
     }
 
     public function includeFiles( Task $item ) {
