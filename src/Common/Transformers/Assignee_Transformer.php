@@ -4,7 +4,7 @@ namespace CPM\Common\Transformers;
 
 use CPM\Common\Models\Assignee;
 use League\Fractal\TransformerAbstract;
-use CPM\Common\Transformers\User_Transformer;
+use CPM\User\Transformers\User_Transformer;
 
 class Assignee_Transformer extends TransformerAbstract {
     protected $defaultIncludes = [
@@ -15,16 +15,14 @@ class Assignee_Transformer extends TransformerAbstract {
         return [
             'id'           => (int) $item->id,
             'status'       => $item->status,
-            'assigned_at'  => $item->assigned_at,
-            'started_at'   => $item->started_at,
-            'completed_at' => $item->completed_at,
+            'assigned_at'  => format_date( $item->assigned_at ),
+            'started_at'   => format_date( $item->started_at ),
+            'completed_at' => format_date( $item->completed_at ),
         ];
     }
 
     public function includeUser( Assignee $item ) {
-        $user = [
-            'id' => $item->assigned_to,
-        ];
+        $user = $item->assigned_user;
 
         return $this->item( $user, new User_Transformer );
     }
