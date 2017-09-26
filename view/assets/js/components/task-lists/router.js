@@ -1,6 +1,6 @@
 const task_lists_route = resolve => {
-    require.ensure(['./task-lists.vue'], () => {
-        resolve(require('./task-lists.vue'));
+    require.ensure(['./lists.vue'], () => {
+        resolve(require('./lists.vue'));
     });
 }
 

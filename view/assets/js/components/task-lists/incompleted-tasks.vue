@@ -4,7 +4,7 @@
         	
             <div>
                 <div class="cpm-col-7">
-                   <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
+                   <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
 
                     <a class="task-title" href="#">
                         <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>

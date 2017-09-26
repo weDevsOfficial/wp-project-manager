@@ -1,11 +1,10 @@
 <template>
-	<div>
-	<div v-if="is_single_list" id="cpm-single-todo-list-view">
+	<div  id="cpm-single-todo-list-view">
 	    <div class="cpm-incomplete-tasks">
 	        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Incomplete Tasks</a></h3>
 	        <ul  class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task">
 
-	            <li v-if="loading_incomplete_tasks" class="nonsortable">
+	         <!--    <li v-if="loading_incomplete_tasks" class="nonsortable">
 	                <div class="cpm-data-load-before" >
 	                    <div class="loadmoreanimation">
 	                        <div class="load-spinner">
@@ -17,70 +16,10 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </li>
+	            </li> -->
 
 	            <li class="cpm-todo" :data-id="task.ID" :data-order="task.menu_order" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
-
-	                <div class="cpm-todo-wrap clearfix">
-	                    <div class="cpm-todo-content" >
-	                        <div class="cpm-incomplete-todo">
-	                            <div class="cpm-col-6">
-	                                <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
-
-	                                <span>
-	                                	<router-link 
-	                                    	:to="{ 
-		                                    	name: 'single_task', 
-		                                    	params: { 
-			                                    	list_id: list.id, 
-			                                    	task_id: task.id, 
-			                                    	project_id: 1, 
-			                                    	task: task 
-			                                }}">
-
-	                                    	{{ task.title }}
-	                                	</router-link>
-	                                </span>
-	                                
-	                                <span :class="privateClass( task )"></span>
-	                                
-	                                <span class='cpm-assigned-user' 
-	                                    v-for="user in getUsers( task.assigned_to )" 
-	                                    v-html="user.user_url" :key="user.ID">
-
-	                                </span>
-
-	                                <span :class="taskDateWrap( task.start_at, task.due_date)">
-	                                    <span v-if="task_start_field">{{ ( task.start_at.date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date )">&ndash;</span>
-	                                    <span>{{ ( task.due_date.date || '' ) }}</span>
-	                                </span>
-	                            </div>
-
-	                            <div class="cpm-col-5 cpm-todo-action-center">
-	                                <div class="cpm-task-comment">
-	                                        <router-link :to="{ name: 'list_task_single_under_todo', params: { list_id: list.ID, task_id: task.ID, task: task }}">
-	                                            <span class="cpm-comment-count">
-	                                                {{ task.comments.length }}
-	                                            </span>
-	                                        </router-link>
-	                                    
-	                                </div>
-
-	                            </div>
-
-	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-	                                <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-	                                    
-	                                <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
-	                            </div>
-	                            <div class="clearfix"></div>
-	                        </div>
-	                    </div>
-	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task"  :list="list"></new-task-form>
-	                    </div>
-	                </div>
+	            	<incompleted-tasks :task="task" :list="list"></incompleted-tasks>
 	            </li>
 
 	            <li v-if="!getIncompleteTasks" class="nonsortable">No tasks found.</li>
@@ -95,7 +34,7 @@
 	        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
 	        <ul  class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed">
 
-	            <li v-if="loading_completed_tasks" class="nonsortable">
+	          <!--   <li v-if="loading_completed_tasks" class="nonsortable">
 	                <div class="cpm-data-load-before" >
 	                    <div class="loadmoreanimation">
 	                        <div class="load-spinner">
@@ -107,70 +46,11 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </li>
+	            </li> -->
 
 	            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.ID" :class="'cpm-todo cpm-fade-out-'+task.ID">
 	                
-	                <div class="cpm-todo-wrap clearfix">
-	                    <div class="cpm-todo-content" >
-	                        <div>
-	                            <div class="cpm-col-6">
-	                                <span class="cpm-spinner"></span>
-	                                <input v-model="task.status" @click="taskDoneUndone( task, task.status )" class="" type="checkbox"  value="" name="" >
-
-	                                <span class="task-title">
-	                                    
-	                                    	<router-link 
-	                                    	:to="{ 
-		                                    	name: 'single_task', 
-		                                    	params: { 
-			                                    	list_id: list.id, 
-			                                    	task_id: task.id, 
-			                                    	project_id: 1, 
-			                                    	task: task 
-			                                }}">
-
-	                                    	<span class="cpm-todo-text">{{ task.title }}</span>
-	                                	</router-link>
-	                              
-	                                 <span :class="privateClass( task )"></span>
-	                                </span> 
-	                              
-
-	                                <span class='cpm-assigned-user' 
-	                                    v-for="user in getUsers( task.assigned_to )" 
-	                                    v-html="user.user_url" :key="user.ID">
-
-	                                </span>
-
-	                                <span :class="completedTaskWrap( task.start_at, task.due_date )">
-	                                    <span v-if="task_start_field">{{ ( task.start_at.date ) }}</span>
-	                                    <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-	                                    <span>{{ ( task.due_date.date ) }}</span>
-	                                </span>
-	                            </div>
-
-	                            <div class="cpm-col-5">
-	                                
-	                                <span class="cpm-comment-count">
-	                                    <a href="#">
-	                                        {{ task.comment_count }}
-	                                    </a>
-	                                </span>
-	                            </div>
-
-
-	                            <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-	                                <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-	                            </div>
-	                            <div class="clearfix"></div>
-	                        </div>
-	                    </div>
-	                    <div class="cpm-todo-form" v-if="task.edit_mode">
-	                        <new-task-form :task="task" :list="list"></new-task-form>
-	                    </div>
-
-	                </div>
+	                <completed-tasks :task="task" :list="list"></completed-tasks>
 	            </li>
 
 	            <li v-if="!getCompletedTask" class="nonsortable">No completed tasks.</li>
@@ -185,51 +65,13 @@
 	    <div v-if="list.show_task_form" class="cpm-todo-form">
 	        <new-task-form :task="{}" :list="list"></new-task-form>
 	    </div>
-
 	</div>
-
-	<div v-else>
-	    
-	    <div class="cpm-incomplete-tasks">
-	        <ul  class="cpm-todos cpm-todolist-content cpm-incomplete-task">
-
-	           <!--  <li v-if="loading_incomplete_tasks" class="nonsortable">
-	                <div class="cpm-data-load-before" >
-	                    <div class="loadmoreanimation">
-	                        <div class="load-spinner">
-	                            <div class="rect1"></div>
-	                            <div class="rect2"></div>
-	                            <div class="rect3"></div>
-	                            <div class="rect4"></div>
-	                            <div class="rect5"></div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </li>
- -->
-	            <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
-	                <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
-	            </li>
-
-	            <li v-if="!getIncompleteTasks.length" class="nonsortable">No tasks found.</li>
-
-	            <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
-	                <new-task-form :task="{}"  :list="list"></new-task-form>
-	            </li>
-	            <li v-if="incomplete_show_load_more_btn" class="nonsortable">
-	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
-	                <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
-	            </li>
-	        </ul> 
-	    </div>
-	</div>
-</div>
-
 </template>
 
 <script>
 	import new_task_form from './new-task-form.vue';
 	import incompleted_tasks from './incompleted-tasks.vue';
+	import completed_tasks from './completed-tasks.vue';
 
 	export default {
 		
@@ -257,45 +99,6 @@
 	           loading_incomplete_tasks: true,
 	        }
 	    },
-
-	    beforeCreate: function () {
-	    	
-		},
-
-	    created: function() {
-
-	        // var self = this;
-	        // if ( this.$store.state.is_single_list ) {
-	        //     //For sigle todo-list page
-	        //     this.getTasks(this.list.ID, 0, 'cpm_get_tasks', function(res) {
-	        //         var getIncompletedTasks = self.getIncompletedTasks(self.list);
-	        //         var getCompleteTask     = self.getCompleteTask(self.list);
-
-	        //         self.loading_completed_tasks = false;
-	        //         self.loading_incomplete_tasks = false;
-
-	        //         if ( res.found_incompleted_tasks > getIncompletedTasks.length ) {
-	        //             self.incomplete_show_load_more_btn = true;
-	        //         }
-
-	        //         if ( res.found_completed_tasks > getCompleteTask.length ) {
-	        //             self.complete_show_load_more_btn = true;
-	        //         }
-	        //     });
-	        // } else {
-	        //     self.list.tasks = [];
-	        //     //For todo-lists page
-	        //     this.getTasks(this.list.ID, 0, 'cpm_get_incompleted_tasks', function(res) {
-	        //         self.loading_incomplete_tasks = false;
-	                
-	        //         if ( res.found_incompleted_tasks > self.list.tasks.length ) {
-	        //             self.incomplete_show_load_more_btn = true;
-	        //         }
-	        //     }); 
-	        // }
-	    },
-
-
 
 	    computed: {
 	        /**
@@ -344,7 +147,8 @@
 
 	    components: {
 	    	'new-task-form': new_task_form,
-	    	'incompleted-tasks': incompleted_tasks
+	    	'incompleted-tasks': incompleted_tasks,
+	    	'completed-tasks': completed_tasks
 	    },
 
 	    methods: {
@@ -495,5 +299,8 @@
 	    }
 	}
 </script>
+
+
+
 
 

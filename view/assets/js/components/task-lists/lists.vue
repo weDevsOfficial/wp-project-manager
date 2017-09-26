@@ -35,7 +35,7 @@
 		                </header>
 
 		                <!-- Todos component -->
-		              	<tasks :list="list"></tasks>
+		              	<list-tasks :list="list"></list-tasks>
 
 		                <footer class="cpm-row cpm-list-footer">
 		                    <div class="cpm-col-6">
@@ -89,7 +89,7 @@
 	import new_task_button from './new-task-btn.vue';
 	import pagination from './../pagination.vue';
 	import header from './../header.vue';
-	import tasks from './tasks.vue';
+	import tasks from './list-tasks.vue';
 	
 	export default {
 
@@ -105,7 +105,7 @@
 			'new-task-button': new_task_button,
 			'pm-pagination': pagination,
 			'pm-header': header,
-			'tasks': tasks
+			'list-tasks': tasks
 		},
 
 	    /**

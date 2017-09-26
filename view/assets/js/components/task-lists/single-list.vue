@@ -56,7 +56,7 @@
                             </header>
 
                             <!-- Todos component -->
-                            <tasks :list="list" index="0"></tasks>
+                            <single-list-tasks :list="list" index="0"></single-list-tasks>
 
                             <footer class="cpm-row cpm-list-footer">
                                 <div class="cpm-col-6">
@@ -88,7 +88,7 @@
 
 <script>
     
-    import tasks from './tasks.vue';
+    import single_list_tasks from './single-list-tasks.vue';
     import list_comments from './list-comments.vue';
     import new_task_list_form from './new-task-list-form.vue';
     import new_task_button from './new-task-btn.vue';
@@ -143,7 +143,9 @@
              * @return array
              */
             list: function () {
-                return this.$store.state.list;
+                if( this.$store.state.lists.length) {
+                    return this.$store.state.lists[0];
+                }
             },
 
             /**
@@ -156,7 +158,10 @@
             },
 
             comments () {
-                return this.$store.state.list_comments;
+                if( this.$store.state.lists.length) {
+                    return this.$store.state.lists[0].comments.data;
+                }
+                
             },
 
             /**
@@ -248,7 +253,7 @@
 
 
         components: {
-            tasks: tasks,
+            'single-list-tasks': single_list_tasks,
             'list-comments': list_comments,
             'new-task-list-form': new_task_list_form,
             'new-task-button': new_task_button,

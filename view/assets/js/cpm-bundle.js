@@ -9410,6 +9410,74 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
+
+    data() {
+        return {
+            base_url: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix,
+            project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id
+        };
+    },
+
+    methods: {
+        httpRequest(property) {
+            var before = function (xhr) {
+                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
+                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+            };
+
+            property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
+
+            jQuery.ajax(property);
+        },
+
+        getProject(project_id) {
+            var self = this;
+            var project_id = project_id || self.project_id;
+
+            if (typeof self.project_id === 'undefined') {
+                return;
+            }
+
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id,
+                success: function (res) {
+                    self.$root.$store.commit('setProject', res.data);
+                    self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+                }
+            });
+        },
+        /**
+        * Get index from array object element
+        *
+        * @param   itemList
+        * @param   id
+        *
+        * @return  int
+        */
+        getIndex: function (itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function (item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        }
+    }
+}));
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -10237,74 +10305,6 @@ module.exports = function normalizeComponent (
 });
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
-
-    data() {
-        return {
-            base_url: PM_Vars.base_url + '/' + PM_Vars.rest_api_prefix,
-            project_id: typeof this.$route === 'undefined' ? false : this.$route.params.project_id
-        };
-    },
-
-    methods: {
-        httpRequest(property) {
-            var before = function (xhr) {
-                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
-                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
-            };
-
-            property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
-
-            jQuery.ajax(property);
-        },
-
-        getProject(project_id) {
-            var self = this;
-            var project_id = project_id || self.project_id;
-
-            if (typeof self.project_id === 'undefined') {
-                return;
-            }
-
-            self.httpRequest({
-                url: self.base_url + '/cpm/v2/projects/' + self.project_id,
-                success: function (res) {
-                    self.$root.$store.commit('setProject', res.data);
-                    self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
-                }
-            });
-        },
-        /**
-        * Get index from array object element
-        *
-        * @param   itemList
-        * @param   id
-        *
-        * @return  int
-        */
-        getIndex: function (itemList, id, slug) {
-            var index = false;
-
-            itemList.forEach(function (item, key) {
-                if (item[slug] == id) {
-                    index = key;
-                }
-            });
-
-            return index;
-        }
-    }
-}));
-
-/***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -10686,7 +10686,7 @@ function applyToTag (styleElement, obj) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
 
 
@@ -10831,7 +10831,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
 //
 //
 //
@@ -10863,7 +10863,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
 //
 //
 //
@@ -10964,7 +10964,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(2);
 
 
 
@@ -11454,7 +11454,7 @@ var single_discussion = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
 
 
@@ -11552,7 +11552,7 @@ const files = resolve => {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
 
 
@@ -11796,7 +11796,7 @@ var single_milestone = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
 
 
@@ -12691,8 +12691,15 @@ window.CPM_Component_jQuery = {
             return moment(today).isSameOrBefore(due_day) ? 'cpm-current-date' : 'cpm-due-date';
         },
 
-        completedTaskWrap(start_date, due_date) {
-            if (start_date == '' && due_date == '') {
+        completedTaskWrap(due_date) {
+            if (!due_date) {
+                return false;
+            }
+
+            due_date = new Date(due_date);
+            due_date = moment(due_date).format('YYYY-MM-DD');
+
+            if (!moment(due_date).isValid()) {
                 return false;
             }
 
@@ -12702,11 +12709,7 @@ window.CPM_Component_jQuery = {
             var today = moment.tz(PM_Vars.wp_time_zone).format('YYYY-MM-DD'),
                 due_day = moment.tz(due_date, PM_Vars.wp_time_zone).format('YYYY-MM-DD');
 
-            if (!moment(String(due_day), 'YYYY-MM-DD').isValid() && !moment(String(start_date), 'YYYY-MM-DD').isValid()) {
-                return false;
-            }
-
-            return 'cpm-task-done';
+            return moment(today).isSameOrBefore(due_day) ? false : 'cpm-task-done';
         },
 
         /**
@@ -12782,7 +12785,7 @@ window.CPM_Component_jQuery = {
         * 
         * @return void             
         */
-        taskDoneUndone: function (task, is_checked) {
+        taskDoneUndone: function (task, is_checked, list) {
             var self = this;
             var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + task.id;
             var type = 'PUT';
@@ -12796,12 +12799,18 @@ window.CPM_Component_jQuery = {
                 type: type,
                 data: form_data,
                 success(res) {
+                    self.$store.commit('afterTaskDoneUndone', {
+                        status: is_checked,
+                        task: res.data,
+                        list_id: list.id,
+                        task_id: task.id
+                    });
                     if (self.$store.state.is_single_list) {
-                        var condition = 'incomplete_tasks,complete_tasks,comments';
-                        self.getList(self, self.list.id, condition);
+                        // var condition = 'incomplete_tasks,complete_tasks,comments';
+                        // self.getList(self, self.list.id, condition);
                     } else {
-                        self.getList(self, self.list.id);
-                    }
+                            //self.getList(self, self.list.id );
+                        }
                 }
             };
 
@@ -13057,11 +13066,12 @@ window.CPM_Component_jQuery = {
                 url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + list_id + '?with=' + condition,
                 success(res) {
                     self.addMetaList(res.data);
-                    self.$store.commit('setListForSingleListPage', res.data);
 
-                    if (typeof res.data.comments !== 'undefined') {
-                        self.$store.commit('setListComments', res.data.comments.data);
-                    }
+                    self.$store.commit('setLists', [res.data]);
+
+                    // if ( typeof res.data.comments !== 'undefined' ) {
+                    //     self.$store.commit('setListComments', res.data.comments.data);
+                    // }
 
                     if (callback) {
                         callback(res);
@@ -13095,7 +13105,7 @@ window.CPM_Component_jQuery = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return single_list; });
 const task_lists_route = resolve => {
     __webpack_require__.e/* require.ensure */(2).then((() => {
-        resolve(__webpack_require__(20));
+        resolve(__webpack_require__(216));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
@@ -13158,7 +13168,7 @@ var single_list = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_vuex__);
 
 
@@ -13375,16 +13385,28 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
          * 
          * @return void        
          */
-        task_done_undone: function (state, data) {
-            if (data.is_done) {
-                state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) - 1;
-                state.lists[data.list_index].count_completed_tasks = parseInt(state.lists[data.list_index].count_completed_tasks) + 1;
-            } else {
-                state.lists[data.list_index].count_incompleted_tasks = parseInt(state.lists[data.list_index].count_incompleted_tasks) + 1;
-                state.lists[data.list_index].count_completed_tasks = parseInt(state.lists[data.list_index].count_completed_tasks) - 1;
+        afterTaskDoneUndone: function (state, data) {
+            var list_index = state.getIndex(state.lists, data.list_id, 'id');
+
+            if (data.status === true) {
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task_id, 'id');
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+
+                if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
+
+                    state.lists[list_index].complete_tasks.data.splice(0, 0, data.task);
+                }
             }
 
-            state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
+            if (data.status === false) {
+                var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task_id, 'id');
+                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
+
+                if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
+
+                    state.lists[list_index].incomplete_tasks.data.splice(0, 0, data.task);
+                }
+            }
         },
 
         /**
@@ -13648,7 +13670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_controller_vue__ = __webpack_require__(8);
 __webpack_require__.p = PM_Vars.base_url + '/wp-content/plugins/cpmapi/view/assets/js/';
 

@@ -219,16 +219,28 @@ export default new Vuex.Store({
          * 
          * @return void        
          */
-        task_done_undone: function( state, data ) {
-            if ( data.is_done ) {
-                state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) - 1;
-                state.lists[data.list_index].count_completed_tasks = parseInt( state.lists[data.list_index].count_completed_tasks ) + 1;
-            } else {
-                state.lists[data.list_index].count_incompleted_tasks = parseInt( state.lists[data.list_index].count_incompleted_tasks ) + 1;
-                state.lists[data.list_index].count_completed_tasks = parseInt( state.lists[data.list_index].count_completed_tasks ) - 1;
+        afterTaskDoneUndone: function( state, data ) {
+            var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+            
+            if (data.status === true) {
+                var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+                
+                if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
+
+                    state.lists[list_index].complete_tasks.data.splice(0,0,data.task);
+                } 
             }
 
-            state.lists[data.list_index].tasks[data.task_index].completed = data.is_done ? 1 : 0;
+            if (data.status === false) {
+                var task_index = state.getIndex( state.lists[list_index].complete_tasks.data, data.task_id, 'id' );
+                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
+                
+                if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
+
+                    state.lists[list_index].incomplete_tasks.data.splice(0,0,data.task);
+                } 
+            }
         },
 
         /**

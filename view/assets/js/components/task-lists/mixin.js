@@ -599,8 +599,15 @@ var PM_Task_Mixin = {
             return moment(today).isSameOrBefore(due_day) ? 'cpm-current-date' : 'cpm-due-date';
         },
 
-        completedTaskWrap( start_date, due_date ) {
-            if ( start_date == '' && due_date == '' ) {
+        completedTaskWrap( due_date ) {
+            if ( !due_date ) {
+                return false;
+            }
+
+            due_date = new Date(due_date);
+            due_date = moment(due_date).format('YYYY-MM-DD');
+
+            if ( ! moment( due_date ).isValid() ) {
                 return false;
             }
 
@@ -609,12 +616,8 @@ var PM_Task_Mixin = {
 
             var today   = moment.tz( PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
                 due_day = moment.tz( due_date, PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
-
-            if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
-                return false;
-            }
-
-            return 'cpm-task-done';
+            
+            return moment(today).isSameOrBefore(due_day) ? false : 'cpm-task-done';
         },
 
         /**
@@ -692,7 +695,7 @@ var PM_Task_Mixin = {
          * 
          * @return void             
          */
-        taskDoneUndone: function( task, is_checked ) {
+        taskDoneUndone: function( task, is_checked, list ) {
             var self = this;
             var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+task.id;
             var type = 'PUT'; 
@@ -706,11 +709,17 @@ var PM_Task_Mixin = {
                 type: type,
                 data: form_data,
                 success (res) {
+                    self.$store.commit('afterTaskDoneUndone', {
+                        status: is_checked,
+                        task: res.data,
+                        list_id: list.id,
+                        task_id: task.id
+                    });
                     if ( self.$store.state.is_single_list ) {
-                        var condition = 'incomplete_tasks,complete_tasks,comments';
-                        self.getList(self, self.list.id, condition);
+                        // var condition = 'incomplete_tasks,complete_tasks,comments';
+                        // self.getList(self, self.list.id, condition);
                     } else {
-                        self.getList(self, self.list.id );
+                        //self.getList(self, self.list.id );
                     }
                 },
             }
@@ -971,11 +980,12 @@ var PM_Task_Mixin = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
                 success (res) {
                     self.addMetaList(res.data);
-                    self.$store.commit('setListForSingleListPage', res.data);
+                    
+                    self.$store.commit('setLists', [res.data]);
 
-                    if ( typeof res.data.comments !== 'undefined' ) {
-                        self.$store.commit('setListComments', res.data.comments.data);
-                    }
+                    // if ( typeof res.data.comments !== 'undefined' ) {
+                    //     self.$store.commit('setListComments', res.data.comments.data);
+                    // }
                     
                     if ( callback ) {
                         callback(res);
