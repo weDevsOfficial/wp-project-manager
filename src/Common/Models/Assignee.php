@@ -4,6 +4,7 @@ namespace CPM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\User\Models\User;
 
 class Assignee extends Eloquent {
     use Model_Events;
@@ -25,4 +26,8 @@ class Assignee extends Eloquent {
     protected $dates = [
         'assigned_at', 'started_at', 'completed_at'
     ];
+
+    public function assigned_user() {
+        return $this->belongsTo( User::class, 'assigned_to' );
+    }
 }

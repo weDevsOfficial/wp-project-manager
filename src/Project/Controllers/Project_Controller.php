@@ -53,7 +53,10 @@ class Project_Controller {
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-		$this->assign_users( $project, $assignees );
+
+		if ( is_array( $assignees ) ) {
+			$this->assign_users( $project, $assignees );
+		}
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
@@ -66,15 +69,19 @@ class Project_Controller {
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
-		$project->update( $data );
+		$project->set_fillable_attributes( $data );
+		$project->save();
 
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
-		$project->assignees()->detach();
-		$this->assign_users( $project, $assignees );
+
+		if ( is_array( $assignees ) ) {
+			$project->assignees()->detach();
+			$this->assign_users( $project, $assignees );
+		}
 
 		$resource = new Item( $project, new Project_Transformer );
 
@@ -91,7 +98,7 @@ class Project_Controller {
 		$project->categories()->detach();
 		$project->task_lists()->delete();
 		$project->tasks()->delete();
-		$project->discussion_threads()->delete();
+		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();
 		$project->assignees()->detach();

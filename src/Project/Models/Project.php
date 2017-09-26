@@ -56,7 +56,7 @@ class Project extends Eloquent {
         return $this->hasMany( Task::class, 'project_id' );
     }
 
-    public function discussion_threads() {
+    public function discussion_boards() {
         return $this->hasMany( Discussion_Board::class, 'project_id' );
     }
 

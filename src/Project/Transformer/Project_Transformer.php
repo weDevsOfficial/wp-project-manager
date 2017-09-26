@@ -29,7 +29,7 @@ class Project_Transformer extends TransformerAbstract {
             'meta'                => [
                 'total_task_lists'         => $item->task_lists->count(),
                 'total_tasks'              => $item->tasks->count(),
-                'total_discussion_threads' => $item->discussion_threads->count(),
+                'total_discussion_boards' => $item->discussion_boards->count(),
                 'total_milestones'         => $item->milestones->count(),
             ],
         ];

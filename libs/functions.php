@@ -63,7 +63,7 @@ function format_date( $date ) {
 function make_carbon_date( $date ) {
     $timezone = get_wp_timezone();
     $timezone = tzcode_to_tzstring( $timezone );
-    $time = strtotime( $date );
+    $time = $date ? strtotime( $date ) : null;
 
     if ( $time ) {
         return new \Carbon\Carbon( $date, $timezone );

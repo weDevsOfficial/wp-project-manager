@@ -57,6 +57,7 @@ class Task_Controller {
 
         $project_id = $request->get_param( 'project_id' );
         $board_id   = $request->get_param( 'board_id' );
+        $assignees  = $data['assignees'];
 
         $project = Project::find( $project_id );
         $board   = Board::find( $board_id );
@@ -74,13 +75,35 @@ class Task_Controller {
             ]);
         }
 
+        if ( is_array( $assignees ) && $task ) {
+            $this->attach_assignees( $task, $assignees );
+        }
+
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );
     }
 
+    private function attach_assignees( Task $task, $assignees = [] ) {
+        foreach ( $assignees as $user_id ) {
+            $data = [
+                'task_id'     => $task->id,
+                'assigned_to' => $user_id,
+                'project_id'  => $task->project_id,
+            ];
+
+            $assignee = Assignee::firstOrCreate( $data );
+
+            if ( !$assignee->assigned_at ) {
+                $assignee->assigned_at = Carbon::now();
+                $assignee->save();
+            }
+        }
+    }
+
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
+        $assignees = $data['assignees'];
 
         $project = Project::find( $data['project_id'] );
 
@@ -92,6 +115,11 @@ class Task_Controller {
  
         if ( $task ) {
             $task->update( $data );
+        }
+
+        if ( is_array( $assignees ) && $task ) {
+            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+            $this->attach_assignees( $task, $assignees );
         }
 
         $resource = new Item( $task, new Task_Transformer );
