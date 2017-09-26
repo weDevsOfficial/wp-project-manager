@@ -7,10 +7,12 @@ class Create_Activities_Table extends Migration {
     public function schema() {
         Capsule::schema()->create( 'cpm_activities', function( $table ) {
             $table->increments( 'id' );
-            $table->string( 'act' );
             $table->unsignedInteger( 'actor' );
+            $table->string( 'act' );
+            $table->string( 'action' );
             $table->unsignedInteger( 'resource_id' )->nullable();
             $table->string( 'resource_type' )->nullable();
+            $table->string( 'meta' );
             $table->timestamps();
         } );
     }
