@@ -12,7 +12,7 @@ class Create_Activities_Table extends Migration {
             $table->string( 'action' );
             $table->unsignedInteger( 'resource_id' )->nullable();
             $table->string( 'resource_type' )->nullable();
-            $table->string( 'meta' );
+            $table->string( 'meta' )->nullable();
             $table->timestamps();
         } );
     }

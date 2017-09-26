@@ -9,9 +9,11 @@ class Activity extends Eloquent {
     protected $table = 'cpm_activities';
 
     protected $fillable = [
-        'act',
         'actor',
+        'act',
+        'action',
         'resource_id',
         'resource_type',
+        'meta'
     ];
 }

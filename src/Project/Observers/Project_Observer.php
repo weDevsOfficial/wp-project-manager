@@ -11,8 +11,9 @@ class Project_Observer extends Model_Observer {
 
     public function created( $resource ) {
         Activity::create([
+            'actor'         => $resource->created_by,
             'act'           => 'has created a project',
-            'actor'         => 1,
+            'action'        => 'create-project',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
         ]);
@@ -29,8 +30,9 @@ class Project_Observer extends Model_Observer {
     protected function title( Project $item, $old_value ) {
         $act = 'has changed project title "' . $old_value . '" to "' . $item->title . '"';
         Activity::create([
-            'act'           => $act,
             'actor'         => $item->updated_by,
+            'act'           => $act,
+            'action'        => 'update-project-title',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
         ]);
