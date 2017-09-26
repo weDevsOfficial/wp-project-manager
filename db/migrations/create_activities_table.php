@@ -8,7 +8,6 @@ class Create_Activities_Table extends Migration {
         Capsule::schema()->create( 'cpm_activities', function( $table ) {
             $table->increments( 'id' );
             $table->unsignedInteger( 'actor' );
-            $table->string( 'act' );
             $table->string( 'action' );
             $table->unsignedInteger( 'resource_id' )->nullable();
             $table->string( 'resource_type' )->nullable();

@@ -10,7 +10,6 @@ class Activity extends Eloquent {
 
     protected $fillable = [
         'actor',
-        'act',
         'action',
         'resource_id',
         'resource_type',
