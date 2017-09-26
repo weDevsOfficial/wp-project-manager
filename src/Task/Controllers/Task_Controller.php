@@ -57,7 +57,7 @@ class Task_Controller {
 
         $project_id = $request->get_param( 'project_id' );
         $board_id   = $request->get_param( 'board_id' );
-        $assignees  = $data['assignees'];
+        $assignees  = $request->get_param( 'assignees' );
 
         $project = Project::find( $project_id );
         $board   = Board::find( $board_id );
@@ -103,7 +103,7 @@ class Task_Controller {
 
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
-        $assignees = $data['assignees'];
+        $assignees = $request->get_param( 'assignees' );
 
         $project = Project::find( $data['project_id'] );
 
