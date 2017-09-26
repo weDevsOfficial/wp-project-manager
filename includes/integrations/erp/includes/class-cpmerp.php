@@ -85,7 +85,7 @@ class CPM_ERP {
         add_filter( 'cpm_get_users', array( $this, 'get_group_user' ), 10, 3 );
         add_filter( 'cpm_users_exclude_from_project', array( $this, 'users_exclude_from_project' ), 10, 2 );
 
-        if ( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'erp-hr-employee' || $_GET['page'] == 'erp-hr-my-profile') ) {
             add_filter( 'cpm_my_task_user_id', array( $this, 'get_my_task_user_id' ) );
             add_filter( 'cpm_my_task_title', array( $this, 'my_task_title' ) );
             add_filter( 'cpm_db_project_users', array( $this, 'db_project_users' ), 10, 3 );
@@ -331,11 +331,17 @@ class CPM_ERP {
      * @return boolean
      */
     function url_user_activity() {
+
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'useractivity',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=useractivity' );
-
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -345,11 +351,18 @@ class CPM_ERP {
      *
      * @return boolean
      */
-    function url_user_overview() {
+    function url_user_overview($url) {
+     
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'overview',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=overview' );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -360,10 +373,17 @@ class CPM_ERP {
      * @return string
      */
     function url_current_task() {
-        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=current' );
-        return $url;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'current',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
+
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -375,9 +395,15 @@ class CPM_ERP {
      */
     function url_complete_task() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'complete',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=complete' );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -421,10 +447,17 @@ class CPM_ERP {
      * @return string
      */
     function url_outstanding_task( $url ) {
-        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=outstanding' );
-        return $url;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'outstanding',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
+
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -438,9 +471,16 @@ class CPM_ERP {
      */
     function employee_task_url( $url ) {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'outstanding',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page'],
+            'user_id' => $id
+        );
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&user_id=' . $id );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );        
     }
 
     /**
