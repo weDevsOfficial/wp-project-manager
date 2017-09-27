@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://wedevs.com/support/forum/plugin-support/wp-"
 "project-manager/\n"
 "POT-Creation-Date: 2016-08-23 11:45+0600\n"
-"PO-Revision-Date: 2016-08-23 11:45+0600\n"
+"PO-Revision-Date: 2017-09-27 15:30+0600\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: es_ES\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e;_n\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
@@ -134,39 +134,40 @@ msgstr "Líminte de Subida de Archivos"
 
 #: class/admin.php:76
 msgid "File Size in Megabytes. e.g: 2"
-msgstr ""
+msgstr "Tamaño del archivo en Megabytes. por ejemplo: 2"
 
 #: class/admin.php:80
 msgid "Show Projects Per Page"
-msgstr ""
+msgstr "Mostrar proyectos por página"
 
 #: class/admin.php:83
 msgid "-1 for unlimited"
-msgstr ""
+msgstr "-1 para ilimitado"
 
 #: class/admin.php:87
 msgid "To-do List Style"
-msgstr ""
+msgstr "Estilo de lista de tareas pendientes"
 
 #: class/admin.php:94
 msgid "Show To-do Lists Per Page"
-msgstr ""
+msgstr "Mostrar listas de tareas pendientes por página"
 
 #: class/admin.php:100
 msgid "Project Managing Capability"
-msgstr ""
+msgstr "Capacidad de gestión de proyectos"
 
 #: class/admin.php:102
 msgid "Select the user role who can see and manage all projects"
 msgstr ""
+"Seleccione el rol de usuario que puede ver y administrar todos los proyectos"
 
 #: class/admin.php:108
 msgid "Project Creation Capability"
-msgstr ""
+msgstr "Capacidad de creación de proyectos"
 
 #: class/admin.php:110
 msgid "Select the user role who can create projects"
-msgstr ""
+msgstr "Seleccione el rol de usuario que puede crear proyectos"
 
 #: class/admin.php:119
 msgid "From Email"
@@ -174,12 +175,14 @@ msgstr ""
 
 #: class/admin.php:126
 msgid "Links in the Email"
-msgstr ""
+msgstr "Enlaces en el correo electrónico"
 
 #: class/admin.php:128
 msgid ""
 "Select where do you want to take the user. Notification emails contain links."
 msgstr ""
+"Seleccione dónde desea llevar al usuario. Los correos electrónicos de "
+"notificación contienen enlaces."
 
 #: class/admin.php:134
 msgid "E-Mail Type"
@@ -195,11 +198,11 @@ msgstr "Texto Plano"
 
 #: class/admin.php:144
 msgid "Send email via Bcc"
-msgstr ""
+msgstr "Enviar correo electrónico a través de Bcc"
 
 #: class/admin.php:147
 msgid "Enable Bcc"
-msgstr ""
+msgstr "Habilitar Bcc"
 
 #: class/admin.php:155
 msgid "- select -"
@@ -207,51 +210,51 @@ msgstr ""
 
 #: class/ajax.php:128
 msgid "No project found !"
-msgstr ""
+msgstr "No se ha encontrado ningún proyecto."
 
 #: class/ajax.php:144 class/ajax.php:212
 msgid "Project: "
-msgstr ""
+msgstr "Proyecto:"
 
 #: class/ajax.php:220
 msgid "Task List: "
-msgstr ""
+msgstr "Lista de tareas:"
 
 #: class/ajax.php:229
 msgid "Task: "
-msgstr ""
+msgstr "Tarea"
 
 #: class/ajax.php:237
 msgid "Message: "
-msgstr ""
+msgstr "Mensaje:"
 
 #: class/ajax.php:245
 msgid "Milestone: "
-msgstr ""
+msgstr "Hito:"
 
 #: class/ajax.php:255
 msgid "No item found !"
-msgstr ""
+msgstr "No se ha encontrado ningún artículo!"
 
 #: class/ajax.php:344 class/ajax.php:395
 msgid "Access Denied"
-msgstr ""
+msgstr "Acceso denegado"
 
 #: class/ajax.php:351
 msgid "Username required "
-msgstr ""
+msgstr "Nombre de usuario (requerido"
 
 #: class/ajax.php:355
 msgid "Email required"
-msgstr ""
+msgstr "Correo electronico (requerido"
 
 #: class/ajax.php:359
 msgid "Invalid email"
-msgstr ""
+msgstr "Email inválido"
 
 #: class/ajax.php:363
 msgid "Username already exist"
-msgstr ""
+msgstr "El nombre de usuario ya existe"
 
 #: class/ajax.php:367
 msgid "Email already exist"
@@ -264,16 +267,16 @@ msgstr ""
 
 #: class/ajax.php:382 includes/pro/class/ajax.php:65
 msgid "Project ID required"
-msgstr ""
+msgstr "Se requiere un ID de proyecto"
 
 #: class/ajax.php:488 class/ajax.php:1343
 msgid "Manager"
-msgstr ""
+msgstr "Gerente"
 
 #: class/ajax.php:494 class/ajax.php:1350
 #: includes/pro/views/project/settings.php:28
 msgid "Co-worker"
-msgstr ""
+msgstr "Compañero de trabajo"
 
 #: class/ajax.php:499 class/ajax.php:1355 includes/functions.php:1106
 msgid "Delete"
@@ -290,7 +293,7 @@ msgstr "Añadir comentario"
 
 #: class/ajax.php:1299 class/ajax.php:1326
 msgid "No user found!"
-msgstr ""
+msgstr "Usuario no encontrado"
 
 #: class/ajax.php:1299
 msgid "Create a new user?"
@@ -503,39 +506,39 @@ msgstr "Poryecto Padre"
 
 #: class/project.php:68
 msgid "Search Project Categories"
-msgstr ""
+msgstr "Buscar categorías de proyectos"
 
 #: class/project.php:69
 msgid "All Project Categories"
-msgstr ""
+msgstr "Todas las categorías de proyectos"
 
 #: class/project.php:70
 msgid "Parent Project Category"
-msgstr ""
+msgstr "Categoría del proyecto principal"
 
 #: class/project.php:71
 msgid "Parent Project Category:"
-msgstr ""
+msgstr "Categoría del proyecto principal"
 
 #: class/project.php:72
 msgid "Edit Project Category"
-msgstr ""
+msgstr "Editar categoría de proyecto"
 
 #: class/project.php:73
 msgid "Update Project Category"
-msgstr ""
+msgstr "Actualizar categoría de proyecto"
 
 #: class/project.php:74
 msgid "Add New Project Category"
-msgstr ""
+msgstr "Agregar nueva categoría de proyecto"
 
 #: class/project.php:75
 msgid "New Project Category Name"
-msgstr ""
+msgstr "Nombre de la nueva categoría de proyecto"
 
 #: class/project.php:76 cpm.php:366
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: class/project.php:587 includes/pro/frontend/frontend.php:220
 #: includes/pro/views/task/my-task.php:64 views/project/overview.php:8
@@ -545,16 +548,16 @@ msgstr ""
 #: class/project.php:592 includes/pro/frontend/frontend.php:306
 #: views/project/single.php:5
 msgid "Activities"
-msgstr ""
+msgstr "Ocupaciones"
 
 #: class/project.php:597 views/message/index.php:10 views/message/single.php:16
 msgid "Discussions"
-msgstr ""
+msgstr "Discusiones"
 
 #: class/project.php:602 includes/pro/frontend/frontend.php:265
 #: views/task/index.php:26 views/task/single.php:10
 msgid "To-do Lists"
-msgstr ""
+msgstr "Listas de tareas pendientes"
 
 #: class/project.php:607 views/blanktemplate/milestone.php:3
 #: views/milestone/index.php:2
@@ -659,16 +662,16 @@ msgstr "Tarea Padre"
 
 #: class/task.php:758 includes/pro/views/task/my-task.php:71
 msgid "Current Task"
-msgstr ""
+msgstr "Tarea actual"
 
 #: class/task.php:759 includes/pro/views/task/my-task.php:75
 msgid "Outstanding Task"
-msgstr ""
+msgstr "Tarea sobresaliente"
 
 #: class/task.php:760 includes/pro/class/report.php:174
 #: includes/pro/views/task/my-task.php:78
 msgid "Completed Task"
-msgstr ""
+msgstr "Tarea completada"
 
 #: class/tracker.php:12
 msgid ""
@@ -685,15 +688,15 @@ msgstr ""
 
 #: class/upgrade.php:51
 msgid "Run the Update"
-msgstr ""
+msgstr "Ejecutar la actualización"
 
 #: cpm.php:123
 msgid "Pro Version"
-msgstr ""
+msgstr "Versión Pro"
 
 #: cpm.php:124 cpm.php:368
 msgid "Add-ons"
-msgstr ""
+msgstr "Complementos"
 
 #: cpm.php:339
 msgid "Allowed Files"
@@ -709,15 +712,15 @@ msgstr "Proyectos"
 
 #: includes/add-ons.php:2
 msgid "WP Project Manager Pro - add-ons"
-msgstr ""
+msgstr "WP Project Manager Pro - complementos"
 
 #: includes/add-ons.php:41
 msgid "Installed"
-msgstr ""
+msgstr "Instalado"
 
 #: includes/add-ons.php:43
 msgid "View Details"
-msgstr ""
+msgstr "Ver detalles"
 
 #: includes/add-ons.php:51
 msgid "Error fetching add-ons. Please try again later!"
@@ -979,34 +982,34 @@ msgstr ""
 #: includes/pro/loader.php:434 includes/pro/loader.php:501
 #: includes/pro/views/task/my-task.php:19
 msgid "My Tasks"
-msgstr ""
+msgstr "Mis tareas"
 
 #: includes/free/loader.php:17 includes/pro/frontend/frontend.php:60
 #: includes/pro/loader.php:435 includes/pro/views/calendar/index.php:2
 msgid "Calendar"
-msgstr ""
+msgstr "Calendario"
 
 #: includes/free/loader.php:18 includes/pro/loader.php:439
 msgid "Reports"
-msgstr ""
+msgstr "Reportes"
 
 #: includes/free/loader.php:19 includes/pro/loader.php:442
 #: includes/pro/views/progress/progress.php:8
 msgid "Progress"
-msgstr ""
+msgstr "Progreso"
 
 #: includes/free/loader.php:35
 msgid "This feature is only available in the Pro Version"
-msgstr ""
+msgstr "Esta función sólo está disponible en la versión Pro"
 
 #: includes/free/loader.php:37
 #: includes/integrations/erp/includes/class-cpmerp.php:516
 msgid "Upgrade to Pro Version"
-msgstr ""
+msgstr "Actualizar a la versión Pro"
 
 #: includes/functions.php:38
 msgid "Search by Client..."
-msgstr ""
+msgstr "Búsqueda por cliente ..."
 
 #: includes/functions.php:39
 msgid "Search All..."
@@ -1018,7 +1021,7 @@ msgstr ""
 
 #: includes/functions.php:68
 msgid "- Project Category -"
-msgstr ""
+msgstr "- Categoría del proyecto -"
 
 #: includes/functions.php:117
 msgid "Select co-workers"
@@ -1038,26 +1041,26 @@ msgstr "No se encontraron usuarios"
 
 #: includes/functions.php:206
 msgid "Select User"
-msgstr ""
+msgstr "Seleccionar usuario"
 
 #: includes/functions.php:248 includes/pro/class/files.php:117
 msgid "To attach"
-msgstr ""
+msgstr "Adjuntar"
 
 #: includes/functions.php:248 includes/pro/class/files.php:118
 msgid "select files"
-msgstr ""
+msgstr "Selecciona archivos"
 
 #: includes/functions.php:248 includes/pro/class/files.php:119
 msgid "from your computer"
-msgstr ""
+msgstr "desde tu computadora"
 
 #: includes/functions.php:477 includes/html.php:985
 #: views/blanktemplate/discussion.php:3
 msgid "Discussion"
 msgid_plural "Discussions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Discusión"
+msgstr[1] "Discusiones"
 
 #: includes/functions.php:483
 msgid "To-do list"
@@ -1075,14 +1078,14 @@ msgstr[1] ""
 #: includes/functions.php:495 includes/html.php:402
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Comentario"
+msgstr[1] "Comentarios"
 
 #: includes/functions.php:501
 msgid "File"
 msgid_plural "Files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Archivo"
+msgstr[1] "Archivos"
 
 #: includes/functions.php:576
 msgid "file access denied"
@@ -1095,20 +1098,20 @@ msgstr ""
 #: includes/functions.php:774 includes/functions.php:778
 #: includes/functions.php:782 includes/functions.php:786
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 #: includes/functions.php:775 includes/functions.php:779
 #: includes/functions.php:783 includes/functions.php:787
 msgid "View Private"
-msgstr ""
+msgstr "Ver Privado"
 
 #: includes/functions.php:790
 msgid "Upload or create doc"
-msgstr ""
+msgstr "Cargar o crear documentos"
 
 #: includes/functions.php:791
 msgid "View Private files or docs"
-msgstr ""
+msgstr "Ver archivos o documentos privados"
 
 #: includes/functions.php:1104
 msgid "Delete project"
@@ -1132,11 +1135,11 @@ msgstr "Completado"
 
 #: includes/functions.php:1119
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: includes/functions.php:1129
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicar"
 
 #: includes/functions.php:1181
 msgid "&laquo;"
@@ -1181,7 +1184,7 @@ msgstr ""
 #: includes/html.php:217 includes/html.php:218
 #: includes/integrations/erp/views/task-form.php:59
 msgid "Start date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #: includes/html.php:223 includes/html.php:224 includes/html.php:847
 #: includes/integrations/erp/views/task-form.php:71
@@ -1228,12 +1231,12 @@ msgstr "¿Seguro que quieres eliminar esta Lista de Tareas?"
 
 #: includes/html.php:371
 msgid "Add a task"
-msgstr ""
+msgstr "Añadir una tarea"
 
 #: includes/html.php:393 includes/pro/class/report.php:551
 #: includes/pro/class/report.php:552
 msgid "Incomplete"
-msgstr ""
+msgstr "Incompleto"
 
 #: includes/html.php:454
 msgid "Add this comment"
@@ -1456,7 +1459,7 @@ msgstr ""
 
 #: includes/integrations/erp/views/task-form.php:37
 msgid "Task Title"
-msgstr ""
+msgstr "Tarea Título"
 
 #: includes/integrations/erp/views/task-form.php:47
 msgid "Task Content"
@@ -2040,7 +2043,7 @@ msgstr ""
 
 #: includes/pro/loader.php:517 includes/pro/views/task/overview.php:68
 msgid "My Calender"
-msgstr ""
+msgstr "Mi calendario"
 
 #: includes/pro/views/admin/user-profile.php:13
 msgid "Enable project manager Daily Digest"
@@ -2083,7 +2086,7 @@ msgstr "Cargar Más..."
 #: includes/pro/views/project/project_list.php:26
 #: views/emails/new-project.php:13 views/project/index.php:34
 msgid "NEW PROJECT"
-msgstr ""
+msgstr "NUEVO PROYECTO"
 
 #: includes/pro/views/project/project_list.php:64 views/project/index.php:72
 msgid "Active <span class=\"count\">%d</span>"
