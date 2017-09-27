@@ -12,7 +12,7 @@ abstract class Model_Observer {
         }
     }
 
-    private function call_attribute_methods( $resource ) {
+    public function call_attribute_methods( $resource ) {
         $fillable_attributes = $resource->getFillable();
         $old = $resource->getOriginal();
         $new = $resource->getAttributes();
