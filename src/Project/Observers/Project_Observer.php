@@ -19,11 +19,7 @@ class Project_Observer extends Model_Observer {
     }
 
     public function updated( $resource ) {
-        foreach ( $resource->getOriginal() as $key => $value ) {
-            if ( $resource->$key != $value  && method_exists( $this, $key ) ) {
-                $this->$key( $resource, $value );
-            }
-        }
+        $this->call_attribute_methods( $resource );
     }
 
     protected function title( Project $item, $old_value ) {
@@ -32,6 +28,10 @@ class Project_Observer extends Model_Observer {
             'action'        => 'update-project-title',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => $old_value,
+                'new' => $item->title
+            ])
         ]);
     }
 
@@ -41,6 +41,10 @@ class Project_Observer extends Model_Observer {
             'action'        => 'update-project-description',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => $old_value,
+                'new' => $item->description
+            ])
         ]);
     }
 
@@ -50,6 +54,62 @@ class Project_Observer extends Model_Observer {
             'action'        => 'update-project-status',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => Project::$status[$old_value],
+                'new' => $item->status
+            ])
+        ]);
+    }
+
+    protected function budget( Project $item, $old_value ) {
+        Activity::create([
+            'actor'         => $item->updated_by,
+            'action'        => 'update-project-budget',
+            'resource_id'   => $item->id,
+            'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => $old_value,
+                'new' => $item->budget
+            ])
+        ]);
+    }
+
+    protected function pay_rate( Project $item, $old_value ) {
+        Activity::create([
+            'actor'         => $item->updated_by,
+            'action'        => 'update-project-pay-rate',
+            'resource_id'   => $item->id,
+            'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => $old_value,
+                'new' => $item->pay_rate
+            ])
+        ]);
+    }
+
+    protected function est_completion_date( Project $item, $old_value ) {
+        Activity::create([
+            'actor'         => $item->updated_by,
+            'action'        => 'update-project-est-completion-date',
+            'resource_id'   => $item->id,
+            'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => format_date( make_carbon_date( $old_value ) ),
+                'new' => format_date( $item->est_completion_date )
+            ])
+        ]);
+    }
+
+    protected function color_code( Project $item, $old_value ) {
+        Activity::create([
+            'actor'         => $item->updated_by,
+            'action'        => 'update-project-color-code',
+            'resource_id'   => $item->id,
+            'resource_type' => 'project',
+            'meta'          => serialize([
+                'old' => $old_value,
+                'new' => $item->color_code
+            ])
         ]);
     }
 }

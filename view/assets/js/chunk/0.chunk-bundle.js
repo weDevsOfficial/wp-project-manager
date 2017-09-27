@@ -4107,7 +4107,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Notice: Undefined index: files_to_delete in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php on line "), _c('i', [_vm._v("88")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Notice: Undefined index: files in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php on line "), _c('i', [_vm._v("85")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -4148,12 +4148,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4172,12 +4172,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4200,12 +4200,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4224,12 +4224,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4248,12 +4248,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4272,12 +4272,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4296,12 +4296,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4320,12 +4320,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4344,12 +4344,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4368,12 +4368,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4392,12 +4392,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5924")]), _c('td', {
+  }, [_vm._v("0.6802")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22549128")]), _c('td', {
+  }, [_vm._v("22549880")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4416,12 +4416,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5940")]), _c('td', {
+  }, [_vm._v("0.6832")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22693560")]), _c('td', {
+  }, [_vm._v("22694312")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4454,7 +4454,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php on line "), _c('i', [_vm._v("1266")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:85) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php on line "), _c('i', [_vm._v("1266")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -4495,12 +4495,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4519,12 +4519,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4547,12 +4547,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4571,12 +4571,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4595,12 +4595,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4619,12 +4619,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4643,12 +4643,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4667,12 +4667,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4691,12 +4691,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4715,12 +4715,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4739,12 +4739,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6307")]), _c('td', {
+  }, [_vm._v("0.7202")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461768")]), _c('td', {
+  }, [_vm._v("23462536")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4763,12 +4763,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6307")]), _c('td', {
+  }, [_vm._v("0.7202")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461768")]), _c('td', {
+  }, [_vm._v("23462536")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4787,12 +4787,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6307")]), _c('td', {
+  }, [_vm._v("0.7203")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23462144")]), _c('td', {
+  }, [_vm._v("23462912")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4830,7 +4830,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("551")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:85) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("551")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -4871,12 +4871,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4895,12 +4895,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4923,12 +4923,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4947,12 +4947,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4971,12 +4971,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -4995,12 +4995,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5019,12 +5019,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5043,12 +5043,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5067,12 +5067,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5091,12 +5091,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5115,12 +5115,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461792")]), _c('td', {
+  }, [_vm._v("23462560")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5139,12 +5139,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23462192")]), _c('td', {
+  }, [_vm._v("23462960")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5163,12 +5163,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6383")]), _c('td', {
+  }, [_vm._v("0.7279")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463696")]), _c('td', {
+  }, [_vm._v("23464464")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5187,12 +5187,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6384")]), _c('td', {
+  }, [_vm._v("0.7281")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463824")]), _c('td', {
+  }, [_vm._v("23464592")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5230,7 +5230,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("552")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:85) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("552")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -5271,12 +5271,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5295,12 +5295,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5323,12 +5323,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5347,12 +5347,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5371,12 +5371,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5395,12 +5395,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5419,12 +5419,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5443,12 +5443,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5467,12 +5467,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5491,12 +5491,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5515,12 +5515,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461792")]), _c('td', {
+  }, [_vm._v("23462560")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5539,12 +5539,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23462192")]), _c('td', {
+  }, [_vm._v("23462960")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5563,12 +5563,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6383")]), _c('td', {
+  }, [_vm._v("0.7279")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463696")]), _c('td', {
+  }, [_vm._v("23464464")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5587,12 +5587,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6405")]), _c('td', {
+  }, [_vm._v("0.7301")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463744")]), _c('td', {
+  }, [_vm._v("23464512")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5630,7 +5630,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("553")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:85) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("553")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -5671,12 +5671,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5695,12 +5695,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5723,12 +5723,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5747,12 +5747,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5771,12 +5771,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5795,12 +5795,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5819,12 +5819,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5843,12 +5843,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5867,12 +5867,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5891,12 +5891,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5915,12 +5915,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461792")]), _c('td', {
+  }, [_vm._v("23462560")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5939,12 +5939,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23462192")]), _c('td', {
+  }, [_vm._v("23462960")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5963,12 +5963,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6383")]), _c('td', {
+  }, [_vm._v("0.7279")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463696")]), _c('td', {
+  }, [_vm._v("23464464")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -5987,12 +5987,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6424")]), _c('td', {
+  }, [_vm._v("0.7322")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463744")]), _c('td', {
+  }, [_vm._v("23464512")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6030,7 +6030,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "color": "#fce94f",
       "font-size": "x-large"
     }
-  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("554")])])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:85) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("554")])])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "align": "left",
       "bgcolor": "#e9b96e",
@@ -6071,12 +6071,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2258")]), _c('td', {
+  }, [_vm._v("0.2018")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("361648")]), _c('td', {
+  }, [_vm._v("361808")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6095,12 +6095,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.2261")]), _c('td', {
+  }, [_vm._v("0.2020")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("363584")]), _c('td', {
+  }, [_vm._v("363744")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6123,12 +6123,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033584")]), _c('td', {
+  }, [_vm._v("22034320")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6147,12 +6147,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6171,12 +6171,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5592")]), _c('td', {
+  }, [_vm._v("0.6199")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22033632")]), _c('td', {
+  }, [_vm._v("22034368")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6195,12 +6195,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6219,12 +6219,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6243,12 +6243,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22058520")]), _c('td', {
+  }, [_vm._v("22059256")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6267,12 +6267,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5598")]), _c('td', {
+  }, [_vm._v("0.6214")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22059648")]), _c('td', {
+  }, [_vm._v("22060384")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6291,12 +6291,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.5913")]), _c('td', {
+  }, [_vm._v("0.6775")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("22542336")]), _c('td', {
+  }, [_vm._v("22543072")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6315,12 +6315,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23461792")]), _c('td', {
+  }, [_vm._v("23462560")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6339,12 +6339,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6381")]), _c('td', {
+  }, [_vm._v("0.7278")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23462192")]), _c('td', {
+  }, [_vm._v("23462960")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6363,12 +6363,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6383")]), _c('td', {
+  }, [_vm._v("0.7279")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463696")]), _c('td', {
+  }, [_vm._v("23464464")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }
@@ -6387,12 +6387,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "bgcolor": "#eeeeec",
       "align": "center"
     }
-  }, [_vm._v("0.6439")]), _c('td', {
+  }, [_vm._v("0.7338")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec",
       "align": "right"
     }
-  }, [_vm._v("23463744")]), _c('td', {
+  }, [_vm._v("23464512")]), _c('td', {
     attrs: {
       "bgcolor": "#eeeeec"
     }

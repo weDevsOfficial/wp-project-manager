@@ -1,19 +1,19 @@
-<?php 
+<?php
 
 namespace CPM\Project;
 
-trait Project_Status {	
+trait Project_Status {
     // Allowed project statuses and their keys
-    private static $status = [
-        0 => 'Incomplete',
-        1 => 'Complete',
-        2 => 'Pending',
+    public static $status = [
+        0 => 'incomplete',
+        1 => 'complete',
+        2 => 'pending',
+        3 => 'archived'
     ];
 
-    public function getStatusAttribute( $value )
-    {
+    public function getStatusAttribute( $value ) {
         $value = (int) $value;
-        
+
         if (array_key_exists($value, self::$status)) {
             return self::$status[(int)$value];
         }
@@ -22,8 +22,18 @@ trait Project_Status {
     }
 
     public function setStatusAttribute( $value ) {
-        if( array_key_exists($value, self::$status) ) {
+        $value = strtolower( $value );
+        $key   = array_search( $value, self::$status );
+
+        if ( array_key_exists( $value, self::$status ) ) {
             $this->attributes['status'] = $value;
+        } else {
+            $this->attributes['status'] = $key;
         }
     }
+
+    public function setEstCompletionDateAttribute( $date ) {
+        $this->attributes['est_completion_date'] = make_carbon_date( $date );
+    }
+
 }

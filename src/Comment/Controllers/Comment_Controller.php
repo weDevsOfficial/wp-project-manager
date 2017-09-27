@@ -61,7 +61,7 @@ class Comment_Controller {
     public function store( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
-        $files      = false; //$media_data['files'];
+        $files      = $media_data['files'];
 
         $comment = Comment::create( $data );
 
@@ -76,16 +76,16 @@ class Comment_Controller {
 
     public function update( WP_REST_Request $request ) {
         // Grab non-empty inputs
-        $data       = $this->extract_non_empty_values( $request );
+        $data = $this->extract_non_empty_values( $request );
 
         // Grab file data inputs
         $media_data = $request->get_file_params();
 
         // An array of files
-        $files      = false; //$media_data['files'];
+        $files = $media_data['files'];
 
         // An array of file ids that needs to be deleted
-        $files_to_delete = $data['files_to_delete'];
+        $files_to_delete = $request->get_param( 'files_to_delete' );
 
         $comment = Comment::with('files')->find( $data['comment_id'] );
 
