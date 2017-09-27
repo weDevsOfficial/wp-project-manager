@@ -56,8 +56,8 @@ class Discussion_Board_Controller {
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
 
-        $milestone_id = $data['milestone'];
-        $files = $media_data['files'];
+        $milestone_id = $request->get_param( 'milestone' );
+        $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
@@ -79,11 +79,11 @@ class Discussion_Board_Controller {
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
 
-        $project_id = $data['project_id'];
-        $discussion_board_id = $data['discussion_board_id'];
-        $milestone_id = $data['milestone'];
-        $files = $media_data['files'];
-        $files_to_delete = $data['files_to_delete'];
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $milestone_id = $request->get_param( 'milestone' );
+        $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
+        $files_to_delete = $request->get_param( 'files_to_delete' );
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
@@ -157,9 +157,9 @@ class Discussion_Board_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = $request->get_param( 'users' );
 
-        if ( !empty( $user_ids ) ) {
+        if ( is_array( $user_ids ) ) {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $discussion_board->id,
@@ -184,9 +184,11 @@ class Discussion_Board_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = $request->get_param( 'users' );
 
-        $discussion_board->users()->whereIn( 'boardable_id', $user_ids )->delete();
+        if ( is_array( $user_ids ) ) {
+            $discussion_board->users()->whereIn( 'boardable_id', $user_ids )->detach();
+        }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
