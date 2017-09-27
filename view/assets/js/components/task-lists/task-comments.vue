@@ -17,7 +17,7 @@
                         <!-- v-if="current_user_can_edit_delete(comment, task)" -->
                         <div  class="cpm-comment-action">
                             <span class="cpm-edit-link">
-                                <a href="#" @click.prevent="showHideTaskCommentForm( 'toggle', comment )" class="dashicons dashicons-edit"></a>
+                                <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
                             </span>
 
                             <span class="cpm-delete-link">
@@ -25,20 +25,21 @@
                             </span>
                         </div>
                     </div>
+
                     <div class="cpm-comment-content">
                         <div v-html="comment.content"></div>
-                        <ul class="cpm-attachments">
+                       <!--  <ul class="cpm-attachments">
                             <li v-for="file in comment.files">
                                 <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
                                     <img :src="file.thumb">
                                 </a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
 
                     <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
                         <!-- <div :class="'cpm-slide-'+comment.id" style="display: none;"> -->
-                            <task-comment-form :comment="comment"></task-comment-form>
+                            <task-comment-form :comment="comment" :comments="comments"></task-comment-form>
                         <!-- </div> -->
                     </div>
                 </div>
@@ -49,7 +50,7 @@
 
                 <div class="cpm-avatar"><img :src="getCurrentUserAvatar" height="48" width="48"/></div>
                 <div class="cpm-new-doc-comment-form">
-                    <task-comment-form :comment="{}"></task-comment-form>
+                    <task-comment-form :comment="{}" :comments="comments"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
             </div>
         </div>
@@ -82,6 +83,9 @@
 	    },
 
 	    methods: {
+            showHideTaskCommentForm (comment) {
+                comment.edit_mode = comment.edit_mode ? false : true;
+            },
 	        current_user_can_edit_delete: function( comment, task ) {
 	            if ( comment.comment_type == 'cpm_activity' ) {
 	                return false;

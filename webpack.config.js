@@ -10,6 +10,7 @@ module.exports = {
 		filename: 'cpm-bundle.js',
 		publicPath: '',
 		chunkFilename: 'chunk/[id].chunk-bundle.js',
+		//jsonpFunction: 'wedevspmwebpack'
 	},
 
 	module: {

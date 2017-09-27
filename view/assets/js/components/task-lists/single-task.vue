@@ -29,7 +29,7 @@
 	    </div>
     
     	
-        <div class="modal-mask half-modal cpm-task-modal modal-transition" style="">
+        <div v-if="!loading" class="modal-mask half-modal cpm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px;">
@@ -44,7 +44,9 @@
                             <div class="cpm-modal-conetnt">
                                 <div class="cmp-task-header">
                                     <h3 class="cpm-task-title"> 
-                                        <span class="cpm-mark-done-checkbox"><input v-model="task.completed" @click="taskDoneUndone( task, task.completed )" class="" type="checkbox"></span>
+                                        <span class="cpm-mark-done-checkbox">
+                                        	<input v-model="task.status" @click="singleTaskDoneUndone()" class="" type="checkbox">
+                                        </span>
                                         <span :class="singleTaskTitle(task) + ' cpm-task-title-wrap'">
                                             <div class="cpm-task-title-text">
                                                 
@@ -59,7 +61,7 @@
                                                 </span>
                                                 
                                                 <span 
-                                                	class="cpm-task-title-activity cpm-task-title-span" 
+                                                	:class="lineThrough(task) + ' cpm-task-title-activity cpm-task-title-span'" 
                                                 	v-if="!is_task_title_edit_mode" 
                                                 	@click.prevent="isTaskTitleEditMode()">
                                                 	{{ task.title }}
@@ -77,20 +79,23 @@
                                     </h3>
                                     
                                     <div  class="cpm-task-meta">
-                                        <span  class="cpm-assigned-user-wrap">
-                                            <span v-if="task_users" class='cpm-assigned-user' 
-                                                @click.prevent="isEnableMultiSelect()"
-                                                v-for="user in task_users" 
-                                                v-html="user.user_url">
 
+                                        <span  class="cpm-assigned-user-wrap">
+                                            <span v-if="task.assignees.data.length" class='cpm-assigned-user' 
+                                                @click.prevent="isEnableMultiSelect()"
+                                                v-for="user in task.assignees.data">
+                                                
+                                                <a href="#" :title="user.display_name">
+                                                	<img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                                </a>
                                             </span>
 
-                                            <span v-if="!task_users.length" class='cpm-assigned-user' 
+                                            <span v-if="!task.assignees.data.length" class='cpm-assigned-user' 
                                                 @click.prevent="isEnableMultiSelect()">
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
 										    
-											    <div v-if="task_users.length && is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
+											    <div v-if="task.assignees.data.length && is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
 
 											        <multiselect 
 											            v-model="task_assign" 
@@ -125,16 +130,16 @@
 	                                        </span>
 
 
-	                                        <span v-if="(task.start_at || task.due_date )" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(task.start_at.date || task.due_date.date )" class="cpm-task-date-wrap cpm-date-window">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
-	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_at, task.due_date.date) : taskDateWrap( task.start_at, task.due_date.date)">
+	                                                v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
 	                                                <span v-if="task_start_field">
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
-	                                                    {{ dateFormat( task.start_at ) }}
+	                                                    {{ dateFormat( task.start_at.date ) }}
 	                                                </span>
 
-	                                                <span v-if="isBetweenDate( task_start_field, task.start_at, task.due_date.date )">&ndash;</span>
+	                                                <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
 	                                                <span v-if="task.due_date">
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
 	                                                    {{ dateFormat( task.due_date.date ) }}
@@ -151,10 +156,10 @@
 	                                            
 	                                        </span>
 
-	                                        <span v-if="(task.start_at == '' && task.due_date.date == '')" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(task.start_at.date == '' && task.due_date.date == '')" class="cpm-task-date-wrap cpm-date-window">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
-	                                                v-bind:class="task.completed ? completedTaskWrap(task.start_at, task.due_date.date) : taskDateWrap( task.start_at, task.due_date.date)">
+	                                                v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
 	                                                <span>
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
 	                                                    <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
@@ -173,7 +178,7 @@
 	                                            
 	                                        </span>
 
-	                                        <span class="cpm-task-comment-count">{{ comments.length }} Comments</span>
+	                                        <span class="cpm-task-comment-count">{{ task.comments.data.length }} Comments</span>
 	                                </div>
 	                            </div>
 
@@ -210,7 +215,7 @@
                                 <div class="cpm-todo-wrap clearfix">
                                     <div class="cpm-task-comment">
                                         <div class="comment-content">
-                                            <task-comments :comments="comments"></task-comments>
+                                            <task-comments :comments="task.comments.data"></task-comments>
                                         </div>
                                     </div>
                                 </div>          
@@ -244,13 +249,15 @@
 	            is_task_date_edit_mode: false,
 	            is_enable_multi_select: false,
 	            task_id: this.$route.params.task_id,
+	            list: {},
+	            task: {}
 	        }
 	    },
 
 	    computed: {
-	    	task () {
-	    		return this.$store.state.task;
-	    	},
+	    	// task () {
+	    	// 	return this.$store.state.task;
+	    	// },
 	        project_users: function() {
 	            var self = this;
 	            this.$store.state.project_users.map(function(user) {
@@ -267,13 +274,13 @@
 	        	return this.$store.state.task.assignees.data;
 	        },
 
-	        comments () {
-	        	if (jQuery.isEmptyObject(this.$store.state.task)) {
-	        		return [];
-	        	}
+	        // comments () {
+	        // 	if (jQuery.isEmptyObject(this.$store.state.task)) {
+	        // 		return [];
+	        // 	}
 	     
-	        	return this.$store.state.task.comments.data;
-	        },
+	        // 	return this.$store.state.task.comments.data;
+	        // },
 
 	        task_assign: {
 	            get: function() {
@@ -315,18 +322,61 @@
 
 
 	    methods: {
+	    	lineThrough (task) {
+	    		if ( task.status ) {
+	    			return 'pm-line-through';
+	    		}
+	    	},
+	    	singleTaskDoneUndone: function() {
+
+	            var self = this;
+	            var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task.id;
+	            var type = 'PUT'; 
+
+	            var form_data = {
+	                'status': self.task.status ? 1 : 0
+	            }
+	            
+	            var request_data = {
+	                url: url,
+	                type: type,
+	                data: form_data,
+	                success (res) {
+	                    
+	                },
+	            }
+	            
+	            self.httpRequest(request_data);
+	               
+	        },
 	    	getTask: function(self) {
 	    		
 	            var request = {
 	           		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
 	           		success (res) {
-	           			
-	           			self.$store.commit('setSingleTask', res);
+	           			self.addMeta(res.data);
+	           			self.list = res.data.boards.data[0];
+	           			//self.$store.commit('setSingleTask', res.data);
+	           			self.task = res.data;
+	           			self.loading = false;
 
+	           			console.log(res.data);
 	           		}
 	            }
 
 	            self.httpRequest(request);
+	        },
+
+	        addMeta (task) {
+	        	if (task.status === 'complete') {
+	        		task.status = true;
+	        	} else {
+	        		task.status = false;
+	        	}
+
+	        	task.comments.data.map(function(comment) {
+	        		comment.edit_mode = false;
+	        	});
 	        },
 
 
@@ -472,3 +522,9 @@
 	    }
 	}
 </script>
+
+<style>
+	.pm-line-through {
+		text-decoration: line-through;
+	}
+</style>

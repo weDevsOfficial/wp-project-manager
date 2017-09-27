@@ -509,14 +509,8 @@ export default new Vuex.Store({
             state.lists_meta = meta;
         },
         setSingleTask (state, data) {
-            var list_id = data.data.boards.data[0].id,
-                list_index = state.getIndex(state.lists, list_id, 'id');
-            console.log(data);
-            if (list_index === false) {
-
-            }
-
+            state.task = data;
+ 
         }
-
     }
 });

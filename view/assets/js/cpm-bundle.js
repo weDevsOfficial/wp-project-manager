@@ -12230,9 +12230,7 @@ window.CPM_Component_jQuery = {
      * Methods for global component
      */
     methods: {
-        test: function () {
-            console.log('adskfjalksdflaksdflakdjsflkjd');
-        },
+        test: function () {},
 
         /**
          * Single task popup
@@ -13635,12 +13633,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
             state.lists_meta = meta;
         },
         setSingleTask(state, data) {
-            var list_id = data.data.boards.data[0].id,
-                list_index = state.getIndex(state.lists, list_id, 'id');
-            console.log(data);
-            if (list_index === false) {}
+            state.task = data;
         }
-
     }
 }));
 

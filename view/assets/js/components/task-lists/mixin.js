@@ -119,7 +119,7 @@ var PM_Task_Mixin = {
      */
     methods: {
         test: function() {
-            console.log('adskfjalksdflaksdflakdjsflkjd');
+            
         },
 
         /**

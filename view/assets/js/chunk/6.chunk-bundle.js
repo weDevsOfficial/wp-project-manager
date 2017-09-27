@@ -355,6 +355,11 @@ if (false) {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -371,14 +376,16 @@ if (false) {
 			is_task_details_edit_mode: false,
 			is_task_date_edit_mode: false,
 			is_enable_multi_select: false,
-			task_id: this.$route.params.task_id
+			task_id: this.$route.params.task_id,
+			list: {},
+			task: {}
 		};
 	},
 
 	computed: {
-		task() {
-			return this.$store.state.task;
-		},
+		// task () {
+		// 	return this.$store.state.task;
+		// },
 		project_users: function () {
 			var self = this;
 			this.$store.state.project_users.map(function (user) {
@@ -395,13 +402,13 @@ if (false) {
 			return this.$store.state.task.assignees.data;
 		},
 
-		comments() {
-			if (jQuery.isEmptyObject(this.$store.state.task)) {
-				return [];
-			}
+		// comments () {
+		// 	if (jQuery.isEmptyObject(this.$store.state.task)) {
+		// 		return [];
+		// 	}
 
-			return this.$store.state.task.comments.data;
-		},
+		// 	return this.$store.state.task.comments.data;
+		// },
 
 		task_assign: {
 			get: function () {
@@ -442,17 +449,58 @@ if (false) {
 	},
 
 	methods: {
+		lineThrough(task) {
+			if (task.status) {
+				return 'pm-line-through';
+			}
+		},
+		singleTaskDoneUndone: function () {
+
+			var self = this;
+			var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task.id;
+			var type = 'PUT';
+
+			var form_data = {
+				'status': self.task.status ? 1 : 0
+			};
+
+			var request_data = {
+				url: url,
+				type: type,
+				data: form_data,
+				success(res) {}
+			};
+
+			self.httpRequest(request_data);
+		},
 		getTask: function (self) {
 
 			var request = {
 				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task_id + '?with=boards,comments',
 				success(res) {
+					self.addMeta(res.data);
+					self.list = res.data.boards.data[0];
+					//self.$store.commit('setSingleTask', res.data);
+					self.task = res.data;
+					self.loading = false;
 
-					self.$store.commit('setSingleTask', res);
+					console.log(res.data);
 				}
 			};
 
 			self.httpRequest(request);
+		},
+
+		addMeta(task) {
+			if (task.status === 'complete') {
+				task.status = true;
+			} else {
+				task.status = false;
+			}
+
+			task.comments.data.map(function (comment) {
+				comment.edit_mode = false;
+			});
 		},
 
 		afterSelect: function (selectedOption, id, event) {
@@ -644,7 +692,7 @@ if (false) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['comment'],
+	props: ['comment', 'comments'],
 	data() {
 		return {
 			submit_disabled: false,
@@ -689,6 +737,7 @@ if (false) {
 		}
 	},
 	methods: {
+
 		updateComment() {
 			// Exit from this function, If submit button disabled 
 			if (this.submit_disabled) {
@@ -721,14 +770,23 @@ if (false) {
 				type: type,
 				data: form_data,
 				success(res) {
-					self.getTask(self);
+
+					self.addMeta(res.data);
 					self.show_spinner = false;
+
+					if (is_update) {
+						var index = self.getIndex(self.comments, self.comment.id, 'id');
+						self.comments.splice(index, 1, res.data);
+					} else {
+						self.comments.splice(0, 0, res.data);
+					}
 
 					// Display a success toast, with a title
 					toastr.success(res.data.success);
 
 					self.submit_disabled = false;
-					self.showHideTaskCommentForm(false, self.comment);
+
+					//self.showHideTaskCommentForm(false, self.comment);
 				},
 
 				error(res) {
@@ -743,6 +801,10 @@ if (false) {
 			};
 
 			self.httpRequest(request_data);
+		},
+
+		addMeta(comment) {
+			comment.edit_mode = false;
 		}
 	}
 });
@@ -812,49 +874,53 @@ if (false) {
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    // Get passing data for this component.
-    props: ['comments'],
+	// Get passing data for this component.
+	props: ['comments'],
 
-    data: function () {
-        return {
-            currnet_user_id: 1
-        };
-    },
+	data: function () {
+		return {
+			currnet_user_id: 1
+		};
+	},
 
-    computed: {
-        /**
-         * Get current user avatar
-         */
-        getCurrentUserAvatar: function () {
-            return '';
-        }
-    },
+	computed: {
+		/**
+   * Get current user avatar
+   */
+		getCurrentUserAvatar: function () {
+			return '';
+		}
+	},
 
-    components: {
-        'task-comment-form': __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__["a" /* default */]
-    },
+	components: {
+		'task-comment-form': __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__["a" /* default */]
+	},
 
-    methods: {
-        current_user_can_edit_delete: function (comment, task) {
-            if (comment.comment_type == 'cpm_activity') {
-                return false;
-            }
+	methods: {
+		showHideTaskCommentForm(comment) {
+			comment.edit_mode = comment.edit_mode ? false : true;
+		},
+		current_user_can_edit_delete: function (comment, task) {
+			if (comment.comment_type == 'cpm_activity') {
+				return false;
+			}
 
-            if (task.can_del_edit) {
-                return true;
-            }
+			if (task.can_del_edit) {
+				return true;
+			}
 
-            if (comment.user_id == this.currnet_user_id && comment.comment_type == '') {
-                return true;
-            }
+			if (comment.user_id == this.currnet_user_id && comment.comment_type == '') {
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-    }
+	}
 });
 
 /***/ }),
@@ -985,7 +1051,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "dashicons dashicons-no"
-  })])]), _vm._v(" "), _vm._m(0)])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _vm._m(0)])])]) : _vm._e(), _vm._v(" "), (!_vm.loading) ? _c('div', {
     staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
   }, [_c('div', {
     staticClass: "modal-wrapper"
@@ -1021,33 +1087,33 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.task.completed),
-      expression: "task.completed"
+      value: (_vm.task.status),
+      expression: "task.status"
     }],
     attrs: {
       "type": "checkbox"
     },
     domProps: {
-      "checked": Array.isArray(_vm.task.completed) ? _vm._i(_vm.task.completed, null) > -1 : (_vm.task.completed)
+      "checked": Array.isArray(_vm.task.status) ? _vm._i(_vm.task.status, null) > -1 : (_vm.task.status)
     },
     on: {
       "click": function($event) {
-        _vm.taskDoneUndone(_vm.task, _vm.task.completed)
+        _vm.singleTaskDoneUndone()
       },
       "__c": function($event) {
-        var $$a = _vm.task.completed,
+        var $$a = _vm.task.status,
           $$el = $event.target,
           $$c = $$el.checked ? (true) : (false);
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && (_vm.task.completed = $$a.concat($$v))
+            $$i < 0 && (_vm.task.status = $$a.concat($$v))
           } else {
-            $$i > -1 && (_vm.task.completed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            $$i > -1 && (_vm.task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
           }
         } else {
-          _vm.task.completed = $$c
+          _vm.task.status = $$c
         }
       }
     }
@@ -1084,7 +1150,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })]) : _vm._e(), _vm._v(" "), (!_vm.is_task_title_edit_mode) ? _c('span', {
-    staticClass: "cpm-task-title-activity cpm-task-title-span",
+    class: _vm.lineThrough(_vm.task) + ' cpm-task-title-activity cpm-task-title-span',
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -1099,20 +1165,30 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-task-meta"
   }, [_c('span', {
     staticClass: "cpm-assigned-user-wrap"
-  }, [_vm._l((_vm.task_users), function(user) {
-    return (_vm.task_users) ? _c('span', {
+  }, [_vm._l((_vm.task.assignees.data), function(user) {
+    return (_vm.task.assignees.data.length) ? _c('span', {
       staticClass: "cpm-assigned-user",
-      domProps: {
-        "innerHTML": _vm._s(user.user_url)
-      },
       on: {
         "click": function($event) {
           $event.preventDefault();
           _vm.isEnableMultiSelect()
         }
       }
-    }) : _vm._e()
-  }), _vm._v(" "), (!_vm.task_users.length) ? _c('span', {
+    }, [_c('a', {
+      attrs: {
+        "href": "#",
+        "title": user.display_name
+      }
+    }, [_c('img', {
+      staticClass: "avatar avatar-48 photo",
+      attrs: {
+        "alt": user.display_name,
+        "src": user.avatar_url,
+        "height": "48",
+        "width": "48"
+      }
+    })])]) : _vm._e()
+  }), _vm._v(" "), (!_vm.task.assignees.data.length) ? _c('span', {
     staticClass: "cpm-assigned-user",
     on: {
       "click": function($event) {
@@ -1128,7 +1204,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.task_users.length && _vm.is_enable_multi_select) ? _c('div', {
+  })]) : _vm._e(), _vm._v(" "), (_vm.task.assignees.data.length && _vm.is_enable_multi_select) ? _c('div', {
     staticClass: "cpm-multiselect cpm-multiselect-single-task",
     on: {
       "click": function($event) {
@@ -1178,17 +1254,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       },
       expression: "task_assign"
     }
-  })], 1) : _vm._e()], 2), _vm._v(" "), ((_vm.task.start_at || _vm.task.due_date)) ? _c('span', {
+  })], 1) : _vm._e()], 2), _vm._v(" "), ((_vm.task.start_at.date || _vm.task.due_date.date)) ? _c('span', {
     staticClass: "cpm-task-date-wrap cpm-date-window"
   }, [_c('span', {
-    class: _vm.task.completed ? _vm.completedTaskWrap(_vm.task.start_at, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at, _vm.task.due_date.date),
+    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
     on: {
       "click": function($event) {
         $event.preventDefault();
         _vm.isTaskDateEditMode()
       }
     }
-  }, [(_vm.task_start_field) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.start_at)) + "\n\t                                                ")]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), (_vm.task.due_date) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.due_date.date)) + "\n\t                                                ")]) : _vm._e()]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
+  }, [(_vm.task_start_field) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.start_at.date)) + "\n\t                                                ")]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at.date, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), (_vm.task.due_date) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.due_date.date)) + "\n\t                                                ")]) : _vm._e()]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
     staticClass: "cpm-date-update-wrap"
   }, [(_vm.task_start_field) ? _c('div', {
     directives: [{
@@ -1204,10 +1280,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-date-picker-to cpm-inline-date-picker-to"
   }), _vm._v(" "), _c('div', {
     staticClass: "clearfix cpm-clear"
-  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.task.start_at == '' && _vm.task.due_date.date == '')) ? _c('span', {
+  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.task.start_at.date == '' && _vm.task.due_date.date == '')) ? _c('span', {
     staticClass: "cpm-task-date-wrap cpm-date-window"
   }, [_c('span', {
-    class: _vm.task.completed ? _vm.completedTaskWrap(_vm.task.start_at, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at, _vm.task.due_date.date),
+    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -1232,7 +1308,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "clearfix cpm-clear"
   })]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('span', {
     staticClass: "cpm-task-comment-count"
-  }, [_vm._v(_vm._s(_vm.comments.length) + " Comments")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.task.comments.data.length) + " Comments")])])]), _vm._v(" "), _c('div', {
     staticClass: "task-details"
   }, [(!_vm.is_task_details_edit_mode) ? _c('p', {
     staticClass: "cpm-des-area cpm-desc-content",
@@ -1297,13 +1373,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "comment-content"
   }, [_c('task-comments', {
     attrs: {
-      "comments": _vm.comments
+      "comments": _vm.task.comments.data
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   })])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
-  })])])])])
+  })])])]) : _vm._e()])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1511,13 +1587,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_task_vue__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ea2cd18_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_task_vue__ = __webpack_require__(187);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(220)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -1602,7 +1682,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskCommentForm('toggle', comment)
+          _vm.showHideTaskCommentForm(comment)
         }
       }
     })]), _vm._v(" "), _c('span', {
@@ -1627,26 +1707,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "innerHTML": _vm._s(comment.content)
       }
-    }), _vm._v(" "), _c('ul', {
-      staticClass: "cpm-attachments"
-    }, _vm._l((comment.files), function(file) {
-      return _c('li', [_c('a', {
-        staticClass: "cpm-colorbox-img",
-        attrs: {
-          "href": file.url,
-          "title": "file.name",
-          "target": "_blank"
-        }
-      }, [_c('img', {
-        attrs: {
-          "src": file.thumb
-        }
-      })])])
-    }))]), _vm._v(" "), (comment.edit_mode) ? _c('div', {
+    })]), _vm._v(" "), (comment.edit_mode) ? _c('div', {
       staticClass: "cpm-comment-edit-form"
     }, [_c('task-comment-form', {
       attrs: {
-        "comment": comment
+        "comment": comment,
+        "comments": _vm.comments
       }
     })], 1) : _vm._e()])])
   })), _vm._v(" "), _c('div', {
@@ -1665,7 +1731,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-new-doc-comment-form"
   }, [_c('task-comment-form', {
     attrs: {
-      "comment": {}
+      "comment": {},
+      "comments": _vm.comments
     }
   })], 1)])])])
 }
@@ -1678,6 +1745,48 @@ if (false) {
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-625bbd46", esExports)
   }
+}
+
+/***/ }),
+
+/***/ 219:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.pm-line-through {\n\ttext-decoration: line-through;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 220:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(219);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(6)("053cffa4", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0ea2cd18\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./single-task.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0ea2cd18\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./single-task.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
 
 /***/ }),

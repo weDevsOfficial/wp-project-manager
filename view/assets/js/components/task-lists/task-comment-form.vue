@@ -40,7 +40,7 @@
 	import editor from './../text-editor.vue';
 
 	export default {
-		props: ['comment'],
+		props: ['comment', 'comments'],
 		data () {
 			return {
 				submit_disabled: false,
@@ -85,6 +85,7 @@
 	        },
 		},
 		methods: {
+
 			updateComment () {
 	        	// Exit from this function, If submit button disabled 
 		        if ( this.submit_disabled ) {
@@ -118,14 +119,24 @@
 		            type: type,
 		            data: form_data,
 		            success (res) {
-		                self.getTask(self);
+
+		                self.addMeta(res.data);
 		                self.show_spinner = false;
+
+		                if (is_update) {
+		                	var index = self.getIndex( self.comments, self.comment.id, 'id' );
+		                	self.comments.splice(index, 1, res.data);
+		                } else {
+		                	self.comments.splice(0, 0, res.data);
+		                }
 
 		                // Display a success toast, with a title
 		                toastr.success(res.data.success);
 		           
 		                self.submit_disabled = false;
-		                self.showHideTaskCommentForm(false, self.comment);
+		              
+
+		                //self.showHideTaskCommentForm(false, self.comment);
 		            },
 
 		            error (res) {
@@ -140,7 +151,11 @@
 		        }
 
 		        self.httpRequest(request_data);
-	        }
+	        },
+
+	       	addMeta (comment) {
+	        	comment.edit_mode = false;
+	        },
 		}
 	}
 </script>
