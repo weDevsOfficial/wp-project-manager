@@ -156,33 +156,33 @@
 	         * 
 	         * @return obj
 	         */
-	        init () {
-	            return this.$store.state.init;
-	        },
+	        // init () {
+	        //     return this.$store.state.init;
+	        // },
 
 	        /**
 	         * Get task for single task popup
 	         * 
 	         * @return object
 	         */
-	        task () {
-	            return this.$store.state.task;
-	        },
+	        // task () {
+	        //     return this.$store.state.task;
+	        // },
 
-	        total () {
-	            return Math.ceil( this.$store.state.list_total / this.$store.state.todo_list_per_page );
-	        },
+	        // total () {
+	        //     return Math.ceil( this.$store.state.list_total / this.$store.state.todo_list_per_page );
+	        // },
 
-	        limit () {
-	            return this.$store.state.todo_list_per_page;
-	        },
+	        // limit () {
+	        //     return this.$store.state.todo_list_per_page;
+	        // },
 
 	        is_active_list_form () {
 	        	return this.$store.state.is_active_list_form;
 	        },
 
 	        total_list_page () {
-	        	return this.$store.state.total_list_page;
+	        	return this.$store.state.lists_meta.total_pages;
 	        }
 	    },
 

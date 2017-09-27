@@ -28,13 +28,13 @@
                     </div>
                     <div class="cpm-comment-content">
                         <div v-html="comment.content"></div>
-                        <ul class="cpm-attachments">
+                        <!-- <ul class="cpm-attachments">
                             <li v-for="file in comment.files" :key="file.id">
                                 <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
                                     <img :src="file.thumb">
                                 </a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
 
                     <div class="cpm-comment-edit-form" v-if="comment.edit_mode">

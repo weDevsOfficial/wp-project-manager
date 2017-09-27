@@ -179,9 +179,20 @@
 	            	url: url,
 	            	type: type,
 	            	data: form_data,
-	            	success (res) {
-	            		var condition = 'incomplete_tasks,complete_tasks,comments';
-                        self.getList(self, self.list.id, condition);
+	            	success (res) { 
+	            		self.addListCommentMeta(res.data);
+                        if (is_update) {
+                        	self.$store.commit('listUpdateComment', {
+                        		list_id: self.$route.params.list_id,
+                        		comment_id: self.comment.id,
+                        		comment: res.data
+                        	});
+                        } else {
+                        	self.$store.commit('listNewComment', {
+                        		list_id: self.$route.params.list_id,
+                        		comment: res.data
+                        	});
+                        }
 	            		self.submit_disabled = false;
 	            	},
 	            	error (res) {
@@ -190,40 +201,7 @@
 	            }
 
 	            self.httpRequest(request_data);
-	            // Sending request for add and update comment
-	            // jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-	                
-	            //     self.show_spinner    = false;
-	            //     self.submit_disabled = false;
-	                
-	            //     if ( res.success ) {
-	                    
-	            //         if ( ! is_update ) {
-	            //             // After getting todo list, set it to vuex state lists
-	            //             self.$store.commit( 'update_todo_list_comment', { 
-	            //                 list_id: self.list.ID,
-	            //                 comment: res.data.comment,
-	            //             });
 
-	            //             self.files = [];
-	            //             self.content.html = '';
-	                        
-	            //             self.$root.$emit( 'after_comment' );
-	 
-	            //         } else {
-	            //             self.showHideListCommentEditForm( self.comment.comment_ID );
-	            //         }
-
-	            //         // Display a success toast, with a title
-	            //         //toastr.success(res.data.success);
-	            //     } else {
-
-	            //         // Showing error
-	            //         res.data.error.map( function( value, index ) {
-	            //             toastr.error(value);
-	            //         });
-	            //     } 
-	            // });
 	        },
 
 	        /**

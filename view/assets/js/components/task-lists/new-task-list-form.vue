@@ -146,7 +146,8 @@
 						self.show_spinner     = false;
 						self.list.title       = '';
 						self.list.description = '';
-
+						
+						self.addMetaList(res.data);
 	                    // Display a success message, with a title
 	                    toastr.success(res.data.success);
 	                    self.submit_disabled = false;
@@ -158,28 +159,9 @@
 	                    }
 							
 
-	                    if ( self.section === 'lists' ) {
-	                    	self.listsAfterNewList(self, res, is_update);
-	                    }
-
-	                    if ( self.section === 'single' ) {
-	                    	self.singleAfterNewList(self, res, is_update);
-	                    }
-
-	      //               if ( self.$route.params.current_page_number > 1 && !is_update ) {
-	      //               	// named route
-							// self.$router.push({ 
-							// 	name: 'task_lists', 
-							// 	params: { 
-							// 		project_id: self.project_id 
-							// 	}
-							// });
-							
-	      //               } else if (is_update) {
-	      //               	self.getList(self, self.list.id);
-	      //               }
-            			
-						
+	                    //if ( self.section === 'lists' ) {
+	                    	self.afterNewList(self, res, is_update);
+	                   // }
 	            	},
 
 	            	error (res) {
@@ -197,24 +179,13 @@
 	            self.httpRequest(request_data);
 	        },
 
-	        listsAfterNewList (self, res, is_update) {
-	        	if ( is_update ) {
-	        		self.getList(self, self.list.id);
-	        		return;
+	        afterNewList (self, res, is_update) {
+	        	if (is_update) {
+					self.$store.commit('afterUpdateList', res.data);
+	        	} else {
+	        		self.$store.commit('afterNewList', res.data);
+					self.$store.commit('afterNewListupdateListsMeta');
 	        	}
-
-				if ( self.$route.params.current_page_number > 1 ) {
-					// named route
-					self.$router.push({ 
-						name: 'task_lists', 
-						params: { 
-							project_id: self.project_id 
-						}
-					});
-					
-				} else {
-					self.getLists(self);
-				}
 	        },
 
 	        singleAfterNewList (self, res, is_update) {

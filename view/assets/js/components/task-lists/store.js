@@ -16,7 +16,7 @@ export default new Vuex.Store({
         lists: [],
         list: {},
         list_comments: [],
-        list_total: 0,
+        lists_meta: {},
         milestones: [],
         init: {},
         is_single_list: true,
@@ -251,16 +251,25 @@ export default new Vuex.Store({
          * 
          * @return void        
          */
-        update_todo_list_comment: function( state, data ) {
-            var list_index = false;
+        listNewComment: function( state, data ) {
+            var list_index = state.getIndex( state.lists, data.list_id, 'id' );
 
-            state.lists.filter( function( list, index ) {
-                list_index = ( list.ID == data.list_id ) ? index : false;
-            });
+            state.lists[list_index].comments.data.splice(0,0,data.comment);
+        },
 
-            if ( list_index !== false ) {
-                state.lists[list_index].comments.push( data.comment );
-            }
+        /**
+         * After update list-comment store it in state lists
+         * 
+         * @param  object state 
+         * @param  object data  
+         * 
+         * @return void        
+         */
+        listUpdateComment: function( state, data ) {
+            var list_index = state.getIndex( state.lists, data.list_id, 'id' ),
+                comment_index = state.getIndex( state.lists[list_index].comments.data, data.comment_id, 'id' );
+
+            state.lists[list_index].comments.data.splice(comment_index,1,data.comment);
         },
 
         /**
@@ -446,23 +455,49 @@ export default new Vuex.Store({
         setLists (state, lists) {
             state.lists = lists;
         },
-        setList (state, list) {
-            var target = false;
+        afterNewList (state, list) {
+            var per_page = state.lists_meta.per_page,
+                length   = state.lists.length;
 
-            state.lists.map(function(content, index) {
-                if ( content.id == list.id ) {
-                    target = index;
-                }
-            });
-            
-            if ( target !== false ) {
-                state.lists.splice(target, 1);
-                state.lists.splice( target, 0, list );
+            if (per_page <= length) {
+                state.lists.splice(0,0,list);
+                state.lists.pop();
             } else {
-                state.lists.push(list);
+                state.lists.splice(0,0,list);
             }
-           
         },
+        afterUpdateList (state, list) {
+            var list_index = state.getIndex(state.lists, list.id, 'id');
+            state.lists.splice(list_index,1,list);
+        },
+        afterNewListupdateListsMeta (state) {
+            state.lists_meta.total = state.lists_meta.total + 1;
+            state.lists_meta.total_pages = Math.ceil( state.lists_meta.total / state.lists_meta.per_page );
+        },
+        afterDeleteList (state, list_id) {
+            var list_index = state.getIndex(state.lists, list_id, 'id');
+            state.lists.splice(list_index,1);
+
+            // state.lists_meta.total = state.lists_meta.total - 1;
+            // state.lists_meta.total_pages = Math.ceil( state.lists_meta.total / state.lists_meta.per_page );
+        },
+        // setList (state, list) {
+        //     var target = false;
+
+        //     state.lists.map(function(content, index) {
+        //         if ( content.id == list.id ) {
+        //             target = index;
+        //         }
+        //     });
+            
+        //     if ( target !== false ) {
+        //         state.lists.splice(target, 1);
+        //         state.lists.splice( target, 0, list );
+        //     } else {
+        //         state.lists.push(list);
+        //     }
+           
+        // },
 
         setListComments (state, comments) {
             state.list_comments = comments;
@@ -470,10 +505,6 @@ export default new Vuex.Store({
 
         setListForSingleListPage (state, list) {
             state.list = list;
-        },
-
-        updateLists (state, lists) {
-            state.lists.push(lists);
         },
 
         setMilestones (state, milestones) {
@@ -490,6 +521,10 @@ export default new Vuex.Store({
 
         setTotalListPage (state, total) {
             state.total_list_page = total;
+        },
+
+        setListsMeta (state, meta) {
+            state.lists_meta = meta;
         }
 
     }

@@ -845,40 +845,30 @@ var PM_Task_Mixin = {
          * @return void         
          */
         deleteList: function( list_id ) {
-            if ( ! confirm( PM_Vars.message.confirm ) ) {
+            if ( ! confirm( 'Are you sure!' ) ) {
                 return;
             }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/1/task-lists/' + list_id,
+                type: 'DELETE',
+                success: function(res) {
+                    self.$store.commit('afterDeleteList', list_id);
 
-            var self       = this,
-                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
-                form_data  = {
-                    action: 'cpm_tasklist_delete',
-                    list_id: list_id,
-                    project_id: PM_Vars.project_id,
-                    _wpnonce: PM_Vars.nonce,
-                };
-
-            // Seding request for insert or update todo list
-            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-                if ( res.success ) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-                    
-                    CPM_Component_jQuery.fadeOut( list_id, function() {
-                        
-                        self.refreshTodoListPage();
-                        
-                        // self.$store.commit( 'after_delete_todo_list', { 
-                        //     list_index: list_index,
-                        // });
-                    });
-                } else {
-                    // Showing error
-                    res.data.error.map( function( value, index ) {
-                        toastr.error(value);
-                    });
+                    if (!self.$store.state.lists.length) {
+                        self.$router.push({
+                            name: 'task_lists', 
+                            params: { 
+                                project_id: self.project_id 
+                            }
+                        });
+                    } else {
+                        self.getLists(self);
+                    }
                 }
-            });
+            }
+
+            self.httpRequest(request_data);
         },
 
         privateClass: function(list) {
@@ -967,7 +957,7 @@ var PM_Task_Mixin = {
                     });
                     
                     self.$store.commit('setLists', res.data);
-                    self.$store.commit('setTotalListPage', res.meta.pagination.total_pages);
+                    self.$store.commit('setListsMeta', res.meta.pagination);
                 }
             };
             self.httpRequest(request);
@@ -980,12 +970,15 @@ var PM_Task_Mixin = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
                 success (res) {
                     self.addMetaList(res.data);
+                    if ( typeof res.data.comments !== 'undefined' ) {
+                        res.data.comments.data.map(function(comment) {
+                            self.addListCommentMeta(comment);
+                        });
+                    }
                     
                     self.$store.commit('setLists', [res.data]);
 
-                    // if ( typeof res.data.comments !== 'undefined' ) {
-                    //     self.$store.commit('setListComments', res.data.comments.data);
-                    // }
+                    
                     
                     if ( callback ) {
                         callback(res);
@@ -1004,6 +997,10 @@ var PM_Task_Mixin = {
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;
+        },
+
+        addListCommentMeta (comment) {
+            comment.edit_mode = false;
         },
     }
 }

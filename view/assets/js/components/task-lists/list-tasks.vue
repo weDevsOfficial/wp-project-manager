@@ -92,6 +92,8 @@
 
 	        		return this.list.incomplete_tasks.data;
 	        	}
+
+	        	return [];
 	        },
 
 	        /**
