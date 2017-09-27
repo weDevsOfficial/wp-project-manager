@@ -85,7 +85,7 @@ class CPM_ERP {
         add_filter( 'cpm_get_users', array( $this, 'get_group_user' ), 10, 3 );
         add_filter( 'cpm_users_exclude_from_project', array( $this, 'users_exclude_from_project' ), 10, 2 );
 
-        if ( isset( $_GET['page'] ) && $_GET['page'] == 'erp-hr-employee' ) {
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'erp-hr-employee' || $_GET['page'] == 'erp-hr-my-profile') ) {
             add_filter( 'cpm_my_task_user_id', array( $this, 'get_my_task_user_id' ) );
             add_filter( 'cpm_my_task_title', array( $this, 'my_task_title' ) );
             add_filter( 'cpm_db_project_users', array( $this, 'db_project_users' ), 10, 3 );
@@ -137,7 +137,17 @@ class CPM_ERP {
         }
         printf( '<li>%s <a href="%s">%s</a><span>%s (%s)</span></li>', get_avatar( 0, 34, 'mm' ), $link, ucfirst( $title ), ucfirst( $title ), __( 'Department', 'hrm' ) );
     }
-
+    /**
+     * Get all User of a project of a Depert ment
+     * 
+     * @param  [object] $project_users [description]
+     * @param  [int] $project       [description]
+     * @param  [string] $table         [description]
+     *
+     * @since  0.1
+     * 
+     * @return [type]                [description]
+     */
     function get_group_user( $project_users, $project, $table ) {
         global $wpdb;
 
@@ -147,29 +157,23 @@ class CPM_ERP {
             $project_id = $project;
         }
 
-        $role           = [ ];
-        $cpm_department = $wpdb->get_row( "SELECT * FROM {$table} WHERE project_id = $project_id AND component = 'erp-hrm'" );
-        $cpm_users      = $wpdb->get_results( "SELECT * FROM {$table} WHERE project_id = $project_id" );
+        $department_id = get_post_meta($project_id, '_erp_hr_dept_id');
 
-        $department_id = isset( $cpm_department->user_id ) ? $cpm_department->user_id : false;
+        $role           = [ ];
+
 
         if ( ! $department_id ) {
             return $project_users;
         }
 
-        $department = \WeDevs\ERP\HRM\Models\Department::find( $department_id );
-
-        if ( ! $department ) {
+        $department = new \WeDevs\ERP\HRM\Department( intval( $department_id ) );
+                
+        if ( ! $department || $department->status != 1 ) {
             return $project_users;
         }
 
-        if ( $department->status != 1 ) {
-            return $project_users;
-        }
-
-        foreach ( $cpm_users as $key => $cpm_user ) {
-            $role[$cpm_user->user_id] = $cpm_user->role;
-        }
+        $lead       = $department->get_lead();
+        $lead_id    = isset( $lead->id ) ? $lead->id : 0;
 
         $args = [
             'department' => $department_id,
@@ -181,7 +185,7 @@ class CPM_ERP {
         foreach ( $active_employees as $key => $active_employee ) {
             $dept            = new stdClass;
             $dept->user_id   = $active_employee->id;
-            $dept->role      = ! isset( $role[$active_employee->id] ) ? $cpm_department->role : $role[$active_employee->id];
+            $dept->role      = isset( $lead_id ) && ($lead_id == $active_employee->id) ? 'manager' : 'co-worker';
             $dept->coponent  = 'erp-hrm';
             $dept->title     = $department->title;
             $project_users[] = $dept;
@@ -190,10 +194,6 @@ class CPM_ERP {
         return $project_users;
     }
 
-    function get_user_query( $query, $project, $table ) {
-        $query .= " AND component = ''";
-        return $query;
-    }
 
     function set_current_user_department() {
 
@@ -331,11 +331,17 @@ class CPM_ERP {
      * @return boolean
      */
     function url_user_activity() {
+
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'useractivity',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=useractivity' );
-
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -345,11 +351,18 @@ class CPM_ERP {
      *
      * @return boolean
      */
-    function url_user_overview() {
+    function url_user_overview($url) {
+     
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'overview',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=overview' );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -360,10 +373,17 @@ class CPM_ERP {
      * @return string
      */
     function url_current_task() {
-        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=current' );
-        return $url;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'current',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
+
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -375,9 +395,15 @@ class CPM_ERP {
      */
     function url_complete_task() {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'complete',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=complete' );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -421,10 +447,17 @@ class CPM_ERP {
      * @return string
      */
     function url_outstanding_task( $url ) {
-        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
 
-        $url = admin_url( 'admin.php?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&subtab=outstanding' );
-        return $url;
+        $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'outstanding',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page']
+        );
+
+        return add_query_arg( $args, admin_url( 'admin.php' ) );
     }
 
     /**
@@ -438,9 +471,16 @@ class CPM_ERP {
      */
     function employee_task_url( $url ) {
         $id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+        $args = array(
+            'tab' => 'employee_task',
+            'subtab' => 'outstanding',
+            'action' => 'view',
+            'id' => $id,
+            'page' => $_GET['page'],
+            'user_id' => $id
+        );
 
-        $url = admin_url( 'admin.php/?page=erp-hr-employee&action=view&id=' . $id . '&tab=employee_task&user_id=' . $id );
-        return $url;
+        return add_query_arg( $args, admin_url( 'admin.php' ) );        
     }
 
     /**
@@ -478,6 +518,28 @@ class CPM_ERP {
 
         return $user_id;
     }
+    /**
+     * Show the task tab only current user and manager
+     *
+     * @since  0.1
+     * 
+     * @return [boolean] [description]
+     */
+    function cpm_can_show_task ( ) {
+        $user_id = get_current_user_id();
+        $id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : false ;
+
+        if( cpm_can_manage_projects() ){
+            return true;
+        }
+        
+        if( $id && $user_id != $id ){
+            return false;
+        }
+
+        return true;
+
+    }
 
     /**
      * Include my task tab in employee profile
@@ -489,6 +551,11 @@ class CPM_ERP {
      * @return array
      */
     function profile_tab( $profile_tab ) {
+        
+        if( !$this->cpm_can_show_task() ){
+            return $profile_tab;
+        }
+
         $profile_tab['employee_task'] = array(
             'title'    => __( 'Tasks', 'cpm' ),
             'callback' => array( $this, 'employee_task' )
@@ -550,6 +617,7 @@ class CPM_ERP {
         $dept_id    = intval( $posted['department'] );
         $department = new \WeDevs\ERP\HRM\Department( $dept_id );
         $lead       = $department->get_lead();
+        $employees  = erp_hr_get_employees( array( 'department' => $dept_id ) );
 
         if ( $lead ) {
 
@@ -650,7 +718,7 @@ class CPM_ERP {
                         continue;
                     }
 
-                    $this->hrm_users[$project_id][$employee->ID] = $project_users[]                             = ( object ) array(
+                    $this->hrm_users[$project_id][$employee->ID] = $project_users[] = ( object ) array(
                                 'project_id' => $project_id,
                                 'user_id'    => $employee->ID,
                                 'role'       => $project_user->role
@@ -836,10 +904,10 @@ class CPM_ERP {
 
         $projects_id = $wpdb->get_results(
                 "SELECT project_id
-			FROM $table
-			WHERE user_id = '$dept_id'
-			AND ( role = 'co-worker' OR role = 'client' )
-			AND component = 'erp-hrm'"
+            FROM $table
+            WHERE user_id = '$dept_id'
+            AND ( role = 'co-worker' OR role = 'client' )
+            AND component = 'erp-hrm'"
         );
 
         foreach ( $projects_id as $key => $project ) {
