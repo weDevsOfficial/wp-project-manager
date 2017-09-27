@@ -146,7 +146,7 @@
 						self.show_spinner     = false;
 						self.list.title       = '';
 						self.list.description = '';
-						
+
 						self.addMetaList(res.data);
 	                    // Display a success message, with a title
 	                    toastr.success(res.data.success);
@@ -158,10 +158,8 @@
 	                    	self.showHideListForm(false);
 	                    }
 							
+	                    self.afterNewList(self, res, is_update);
 
-	                    //if ( self.section === 'lists' ) {
-	                    	self.afterNewList(self, res, is_update);
-	                   // }
 	            	},
 
 	            	error (res) {

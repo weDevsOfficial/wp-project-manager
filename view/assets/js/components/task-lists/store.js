@@ -468,7 +468,8 @@ export default new Vuex.Store({
         },
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            state.lists.splice(list_index,1,list);
+            var merge_list = jQuery.extend(true, state.lists[list_index], list);
+            state.lists.splice(list_index,1,merge_list);
         },
         afterNewListupdateListsMeta (state) {
             state.lists_meta.total = state.lists_meta.total + 1;
@@ -477,27 +478,7 @@ export default new Vuex.Store({
         afterDeleteList (state, list_id) {
             var list_index = state.getIndex(state.lists, list_id, 'id');
             state.lists.splice(list_index,1);
-
-            // state.lists_meta.total = state.lists_meta.total - 1;
-            // state.lists_meta.total_pages = Math.ceil( state.lists_meta.total / state.lists_meta.per_page );
         },
-        // setList (state, list) {
-        //     var target = false;
-
-        //     state.lists.map(function(content, index) {
-        //         if ( content.id == list.id ) {
-        //             target = index;
-        //         }
-        //     });
-            
-        //     if ( target !== false ) {
-        //         state.lists.splice(target, 1);
-        //         state.lists.splice( target, 0, list );
-        //     } else {
-        //         state.lists.push(list);
-        //     }
-           
-        // },
 
         setListComments (state, comments) {
             state.list_comments = comments;

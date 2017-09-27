@@ -3,7 +3,6 @@
         <div class="cpm-todo-content" >
             <div>
                 <div class="cpm-col-6">
-                    <span class="cpm-spinner"></span>
                     <input v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">

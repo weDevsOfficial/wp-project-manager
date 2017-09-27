@@ -118,7 +118,6 @@ if (false) {(function () {
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -825,9 +824,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
                         self.showHideListForm(false);
                     }
 
-                    //if ( self.section === 'lists' ) {
                     self.afterNewList(self, res, is_update);
-                    // }
                 },
 
                 error(res) {
@@ -1958,9 +1955,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-todo-content"
   }, [_c('div', [_c('div', {
     staticClass: "cpm-col-6"
-  }, [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('input', {
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2210,6 +2205,127 @@ if (false) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2351,6 +2467,7 @@ if (false) {
 																																																																																												data: form_data,
 																																																																																												success(res) {
 																																																																																																																			self.addListCommentMeta(res.data);
+																																																																																																																			self.showHideListCommentEditForm(self.comment);
 																																																																																																																			if (is_update) {
 																																																																																																																																										self.$store.commit('listUpdateComment', {
 																																																																																																																																																																	list_id: self.$route.params.list_id,
@@ -2495,41 +2612,36 @@ if (false) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 
-											// Get passing data for this component. 
-											props: ['comments', 'list'],
+    // Get passing data for this component. 
+    props: ['comments', 'list'],
 
-											computed: {
-																						/**
-                       * Get current user avatar
-                       */
-																						getCurrentUserAvatar: function () {
-																																	return PM_Vars.current_user_avatar_url;
-																						}
-											},
+    computed: {
+        /**
+         * Get current user avatar
+         */
+        getCurrentUserAvatar: function () {
+            return PM_Vars.current_user_avatar_url;
+        }
+    },
 
-											methods: {
-																						current_user_can_edit_delete: function (comment, list) {
+    methods: {
+        current_user_can_edit_delete: function (comment, list) {
 
-																																	if (list.can_del_edit) {
-																																												return true;
-																																	}
+            if (list.can_del_edit) {
+                return true;
+            }
 
-																																	if (comment.user_id == this.$store.state.get_current_user_id && comment.comment_type == '') {
-																																												return true;
-																																	}
+            if (comment.user_id == this.$store.state.get_current_user_id && comment.comment_type == '') {
+                return true;
+            }
 
-																																	return false;
-																						},
+            return false;
+        }
+    },
 
-																						showHideListCommentEditForm(comment) {
-																																	comment.edit_mode = comment.edit_mode ? false : true;
-																						}
-
-											},
-
-											components: {
-																						'list-comment-form': __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__["a" /* default */]
-											}
+    components: {
+        'list-comment-form': __WEBPACK_IMPORTED_MODULE_0__list_comment_form_vue__["a" /* default */]
+    }
 
 });
 
@@ -3971,7 +4083,2330 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "cpm-comment-form"
-  }, [_c('form', {
+  }, [_c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-notice",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Notice: Undefined index: files_to_delete in /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php on line "), _c('i', [_vm._v("88")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5924")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22549128")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->dispatch(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("329")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5940")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22693560")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("CPM\\Comment\\Controllers\\Comment_Controller->update(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("947")])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-warning",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php on line "), _c('i', [_vm._v("1266")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6307")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461768")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->send_headers(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("361")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6307")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461768")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->send_header(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("1279")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6307")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23462144")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://www.php.net/function.header",
+      "target": "_new"
+    }
+  }, [_vm._v("header")]), _vm._v("\n(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("1266")])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-warning",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("551")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461792")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("380")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23462192")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("203")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6383")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463696")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_send_cors_headers(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("300")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("14")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6384")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463824")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://www.php.net/function.header",
+      "target": "_new"
+    }
+  }, [_vm._v("header")]), _vm._v("\n(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("551")])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-warning",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("552")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461792")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("380")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23462192")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("203")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6383")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463696")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_send_cors_headers(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("300")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("14")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6405")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463744")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://www.php.net/function.header",
+      "target": "_new"
+    }
+  }, [_vm._v("header")]), _vm._v("\n(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("552")])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-warning",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("553")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461792")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("380")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23462192")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("203")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6383")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463696")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_send_cors_headers(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("300")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("14")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6424")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463744")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://www.php.net/function.header",
+      "target": "_new"
+    }
+  }, [_vm._v("header")]), _vm._v("\n(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("553")])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('font', {
+    attrs: {
+      "size": "1"
+    }
+  }, [_c('table', {
+    staticClass: "xdebug-error xe-warning",
+    attrs: {
+      "dir": "ltr",
+      "border": "1",
+      "cellspacing": "0",
+      "cellpadding": "1"
+    }
+  }, [_c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#f57900",
+      "colspan": "5"
+    }
+  }, [_c('span', {
+    staticStyle: {
+      "background-color": "#cc0000",
+      "color": "#fce94f",
+      "font-size": "x-large"
+    }
+  }, [_vm._v("( ! )")]), _vm._v(" Warning: Cannot modify header information - headers already sent by (output started at /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi/src/Comment/Controllers/Comment_Controller.php:88) in /Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php on line "), _c('i', [_vm._v("554")])])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#e9b96e",
+      "colspan": "5"
+    }
+  }, [_vm._v("Call Stack")])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "align": "center",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("#")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Time")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Memory")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Function")]), _c('th', {
+    attrs: {
+      "align": "left",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("Location")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("1")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2258")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("361648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("{main}(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("0")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("2")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.2261")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("363584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("require( "), _c('font', {
+    attrs: {
+      "color": "#00bb00"
+    }
+  }, [_vm._v("'/Users/mishu/Documents/wedevs/api/wp-blog-header.php'")]), _vm._v(" )")], 1), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/index.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../index.php"), _c('b', [_vm._v(":")]), _vm._v("17")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("3")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033584")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("wp(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-blog-header.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../wp-blog-header.php"), _c('b', [_vm._v(":")]), _vm._v("16")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("4")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->main(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/functions.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../functions.php"), _c('b', [_vm._v(":")]), _vm._v("955")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("5")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5592")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22033632")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP->parse_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("733")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("6")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("do_action_ref_array(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp.php"), _c('b', [_vm._v(":")]), _vm._v("386")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("7")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->do_action(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("515")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("8")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22058520")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("323")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("9")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5598")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22059648")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_api_loaded(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("298")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("10")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.5913")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("22542336")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_REST_Server->serve_request(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("271")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("11")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23461792")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api/class-wp-rest-server.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-rest-server.php"), _c('b', [_vm._v(":")]), _vm._v("380")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("12")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6381")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23462192")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("WP_Hook->apply_filters(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/plugin.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../plugin.php"), _c('b', [_vm._v(":")]), _vm._v("203")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("13")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6383")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463696")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v("rest_send_cors_headers(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/class-wp-hook.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../class-wp-hook.php"), _c('b', [_vm._v(":")]), _vm._v("300")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("14")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "center"
+    }
+  }, [_vm._v("0.6439")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec",
+      "align": "right"
+    }
+  }, [_vm._v("23463744")]), _c('td', {
+    attrs: {
+      "bgcolor": "#eeeeec"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "http://www.php.net/function.header",
+      "target": "_new"
+    }
+  }, [_vm._v("header")]), _vm._v("\n(  )")]), _c('td', {
+    attrs: {
+      "title": "/Users/mishu/Documents/wedevs/api/wp-includes/rest-api.php",
+      "bgcolor": "#eeeeec"
+    }
+  }, [_vm._v(".../rest-api.php"), _c('b', [_vm._v(":")]), _vm._v("554")])])])]), _vm._v(" "), _c('form', {
     staticClass: "cpm-comment-form-vue",
     on: {
       "submit": function($event) {
@@ -3990,7 +6425,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "notify-users"
   }, [_c('h2', {
     staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                    Notify users            \n                    "), _c('label', {
+  }, [_vm._v(" \n\t                    Notify users            \n\t                    "), _c('label', {
     staticClass: "cpm-small-title",
     attrs: {
       "for": "select-all"
@@ -4032,7 +6467,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }
-  }), _vm._v(" \n                        Select all\n                    ")])]), _vm._v(" "), _c('ul', {
+  }), _vm._v(" \n\t                        Select all\n\t                    ")])]), _vm._v(" "), _c('ul', {
     staticClass: "cpm-user-list"
   }, [_vm._l((_vm.co_workers), function(co_worker) {
     return _c('li', {
@@ -4079,7 +6514,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }), _vm._v(" \n                            " + _vm._s(co_worker.name) + "\n                        ")])])
+    }), _vm._v(" \n\t                            " + _vm._s(co_worker.name) + "\n\t                        ")])])
   }), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   })], 2)]) : _vm._e(), _vm._v(" "), _c('div', {
@@ -4108,7 +6543,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "show_spinner"
     }],
     staticClass: "cpm-spinner"
-  })])])])
+  })])])], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

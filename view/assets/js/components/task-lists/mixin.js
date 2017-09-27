@@ -375,33 +375,6 @@ var PM_Task_Mixin = {
          * 
          * @return void            
          */
-        // showHideListCommentEditForm: function( comment_id ) {
-        //     var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
-        //         self = this;
-
-        //     var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
-
-        //     if ( edit_mode ) {
-        //         CPM_Component_jQuery.slide( comment_id, function() {
-        //             self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-        //         });
-            
-        //     } else {
-        //         self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-                
-        //         Vue.nextTick( function() {
-        //             CPM_Component_jQuery.slide( comment_id );
-        //         } );
-        //     }
-        // },
-
-        /**
-         * Show hide todo-list edit form
-         * 
-         * @param  int comment_id 
-         * 
-         * @return void            
-         */
         showHideTaskCommentEditForm: function( task, comment_id ) {
             var list_index    = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
                 task_index    = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
@@ -763,18 +736,7 @@ var PM_Task_Mixin = {
          * @return int      
          */
         countCompletedTasks: function( list ) {
-            // if ( ! list.tasks ) {
-            //     return 0;
-            // }
-            
-            // var completed_task = 0;
-            
-            // list.tasks.filter( function( task ) {
-            //     if ( ( list.count_completed_tasks === 1 ) || list.count_completed_tasks ) {
-            //         completed_task++;
-            //     }
-            // });
-
+   
             return list.count_completed_tasks;
         },
 
@@ -978,8 +940,6 @@ var PM_Task_Mixin = {
                     
                     self.$store.commit('setLists', [res.data]);
 
-                    
-                    
                     if ( callback ) {
                         callback(res);
                     }
@@ -1002,6 +962,9 @@ var PM_Task_Mixin = {
         addListCommentMeta (comment) {
             comment.edit_mode = false;
         },
+        showHideListCommentEditForm (comment) {
+            comment.edit_mode = comment.edit_mode ? false : true; 
+        }
     }
 }
 

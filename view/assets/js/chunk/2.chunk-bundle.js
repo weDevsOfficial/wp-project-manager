@@ -276,7 +276,6 @@ if (false) {
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -983,9 +982,7 @@ var cpm_todo_list_mixins = function (mixins, mixin_parent) {
                         self.showHideListForm(false);
                     }
 
-                    //if ( self.section === 'lists' ) {
                     self.afterNewList(self, res, is_update);
-                    // }
                 },
 
                 error(res) {
@@ -2116,9 +2113,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "cpm-todo-content"
   }, [_c('div', [_c('div', {
     staticClass: "cpm-col-6"
-  }, [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('input', {
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",

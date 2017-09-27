@@ -86,11 +86,6 @@
 
 	            return false;
 	        },
-
-            showHideListCommentEditForm (comment) {
-                comment.edit_mode = comment.edit_mode ? false : true; 
-            }
-	          
 	    },
 
 	    components: {

@@ -12474,33 +12474,6 @@ window.CPM_Component_jQuery = {
          * 
          * @return void            
          */
-        // showHideListCommentEditForm: function( comment_id ) {
-        //     var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
-        //         self = this;
-
-        //     var edit_mode = self.$store.state.lists[0].comments[comment_index].edit_mode;
-
-        //     if ( edit_mode ) {
-        //         CPM_Component_jQuery.slide( comment_id, function() {
-        //             self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-        //         });
-
-        //     } else {
-        //         self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-
-        //         Vue.nextTick( function() {
-        //             CPM_Component_jQuery.slide( comment_id );
-        //         } );
-        //     }
-        // },
-
-        /**
-         * Show hide todo-list edit form
-         * 
-         * @param  int comment_id 
-         * 
-         * @return void            
-         */
         showHideTaskCommentEditForm: function (task, comment_id) {
             var list_index = this.getIndex(this.$store.state.lists, task.post_parent, 'ID'),
                 task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task.ID, 'ID'),
@@ -12852,17 +12825,6 @@ window.CPM_Component_jQuery = {
          * @return int      
          */
         countCompletedTasks: function (list) {
-            // if ( ! list.tasks ) {
-            //     return 0;
-            // }
-
-            // var completed_task = 0;
-
-            // list.tasks.filter( function( task ) {
-            //     if ( ( list.count_completed_tasks === 1 ) || list.count_completed_tasks ) {
-            //         completed_task++;
-            //     }
-            // });
 
             return list.count_completed_tasks;
         },
@@ -13085,6 +13047,9 @@ window.CPM_Component_jQuery = {
 
         addListCommentMeta(comment) {
             comment.edit_mode = false;
+        },
+        showHideListCommentEditForm(comment) {
+            comment.edit_mode = comment.edit_mode ? false : true;
         }
     }
 };
@@ -13629,7 +13594,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         },
         afterUpdateList(state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            state.lists.splice(list_index, 1, list);
+            var merge_list = jQuery.extend(true, state.lists[list_index], list);
+            state.lists.splice(list_index, 1, merge_list);
         },
         afterNewListupdateListsMeta(state) {
             state.lists_meta.total = state.lists_meta.total + 1;
@@ -13638,27 +13604,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         afterDeleteList(state, list_id) {
             var list_index = state.getIndex(state.lists, list_id, 'id');
             state.lists.splice(list_index, 1);
-
-            // state.lists_meta.total = state.lists_meta.total - 1;
-            // state.lists_meta.total_pages = Math.ceil( state.lists_meta.total / state.lists_meta.per_page );
         },
-        // setList (state, list) {
-        //     var target = false;
-
-        //     state.lists.map(function(content, index) {
-        //         if ( content.id == list.id ) {
-        //             target = index;
-        //         }
-        //     });
-
-        //     if ( target !== false ) {
-        //         state.lists.splice(target, 1);
-        //         state.lists.splice( target, 0, list );
-        //     } else {
-        //         state.lists.push(list);
-        //     }
-
-        // },
 
         setListComments(state, comments) {
             state.list_comments = comments;
