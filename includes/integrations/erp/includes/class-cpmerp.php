@@ -518,6 +518,28 @@ class CPM_ERP {
 
         return $user_id;
     }
+    /**
+     * Show the task tab only current user and manager
+     *
+     * @since  0.1
+     * 
+     * @return [boolean] [description]
+     */
+    function cpm_can_show_task ( ) {
+        $user_id = get_current_user_id();
+        $id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : false ;
+
+        if( cpm_can_manage_projects() ){
+            return true;
+        }
+        
+        if( $id && $user_id != $id ){
+            return false;
+        }
+
+        return true;
+
+    }
 
     /**
      * Include my task tab in employee profile
@@ -529,6 +551,11 @@ class CPM_ERP {
      * @return array
      */
     function profile_tab( $profile_tab ) {
+        
+        if( !$this->cpm_can_show_task() ){
+            return $profile_tab;
+        }
+
         $profile_tab['employee_task'] = array(
             'title'    => __( 'Tasks', 'cpm' ),
             'callback' => array( $this, 'employee_task' )
@@ -600,10 +627,6 @@ class CPM_ERP {
 
                 $this->assign_department_employee_project_role( $project_id, $lead->id, 'manager' );
             }
-        }
-
-        foreach ($employees as $key => $employee) {
-            # code...
         }
 
         $this->assign_department_employee_project_role( $project_id, $dept_id );
