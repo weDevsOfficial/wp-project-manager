@@ -19,15 +19,7 @@ class Project_Observer extends Model_Observer {
     }
 
     public function updated( $resource ) {
-        $fillable_attributes = $resource->getFillable();
-        $old = $resource->getOriginal();
-        $new = $resource->getAttributes();
-
-        foreach ( $fillable_attributes as $attribute ) {
-            if ( $old[$attribute] != $new[$attribute]  && method_exists( $this, $attribute ) ) {
-                $this->$attribute( $resource, $old[$attribute] );
-            }
-        }
+        $this->call_attribute_methods( $resource );
     }
 
     protected function title( Project $item, $old_value ) {
