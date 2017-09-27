@@ -17,8 +17,10 @@ use CPM\User\Models\User;
 class Project extends Eloquent {
 	use Project_Status, Model_Events;
 
-	const INCOMPLETE = 'Incomplete';
-	const COMPLETE   = 'Complete';
+	const INCOMPLETE = 0;
+	const COMPLETE   = 1;
+    const PENDING    = 2;
+    const ARCHIVED   = 3;
 
     protected $table = 'cpm_projects';
 

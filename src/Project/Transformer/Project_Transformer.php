@@ -20,7 +20,7 @@ class Project_Transformer extends TransformerAbstract {
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
-            'est_completion_date' => $item->est_completion_date,
+            'est_completion_date' => format_date( $item->est_completion_date ),
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
