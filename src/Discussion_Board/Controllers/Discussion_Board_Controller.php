@@ -187,7 +187,7 @@ class Discussion_Board_Controller {
         $user_ids = $request->get_param( 'users' );
 
         if ( is_array( $user_ids ) ) {
-            $discussion_board->users()->whereIn( 'boardable_id', $user_ids )->detach();
+            $discussion_board->users()->detach( $user_ids );
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
