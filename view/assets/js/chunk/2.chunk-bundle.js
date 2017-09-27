@@ -429,11 +429,6 @@ if (false) {
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -1975,22 +1970,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "task-title",
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "cpm-todo-text",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.singleTask(_vm.task)
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.task.post_title) + " ")]), _vm._v(" "), _c('span', {
-    class: _vm.privateClass(_vm.task)
-  })]), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
+  }), _vm._v(" "), (_vm.is_single_list) ? _c('span', [_c('router-link', {
     attrs: {
       "to": {
         name: 'lists_single_task',

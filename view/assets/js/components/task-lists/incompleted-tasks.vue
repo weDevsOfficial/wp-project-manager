@@ -6,11 +6,6 @@
                 <div class="cpm-col-7">
                    <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
 
-                    <a class="task-title" href="#">
-                        <span @click.prevent="singleTask( task )" class="cpm-todo-text">{{ task.post_title }} </span>
-                        <span :class="privateClass( task )"></span>
-                    </a>
-
                     <span v-if="is_single_list">
                         <router-link 
                         	:to="{ 

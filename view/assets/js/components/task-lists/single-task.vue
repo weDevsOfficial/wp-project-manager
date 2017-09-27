@@ -315,17 +315,19 @@
 
 
 	    methods: {
-	    	// getTask: function(self) {
-	     //        var request = {
-	     //       		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
-	     //       		success (res) {
+	    	getTask: function(self) {
+	    		
+	            var request = {
+	           		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
+	           		success (res) {
+	           			
+	           			self.$store.commit('setSingleTask', res);
 
-	     //       			self.task = res.data;	           		
-	     //       		}
-	     //        }
+	           		}
+	            }
 
-	     //        self.httpRequest(request);
-	     //    },
+	            self.httpRequest(request);
+	        },
 
 
 	        afterSelect: function(selectedOption, id, event) {

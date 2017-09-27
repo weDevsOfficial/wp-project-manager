@@ -129,7 +129,7 @@ var PM_Task_Mixin = {
          *  
          * @return void      
          */
-        singleTask: function( task ) {
+        singleTask: function( task, list ) {
             this.$store.commit( 'single_task_popup', { task: task } );
         },
 

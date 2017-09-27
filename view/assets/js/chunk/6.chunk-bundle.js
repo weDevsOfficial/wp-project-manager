@@ -442,18 +442,18 @@ if (false) {
 	},
 
 	methods: {
-		// getTask: function(self) {
-		//        var request = {
-		//       		url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
-		//       		success (res) {
+		getTask: function (self) {
 
-		//       			self.task = res.data;	           		
-		//       		}
-		//        }
+			var request = {
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task_id + '?with=boards,comments',
+				success(res) {
 
-		//        self.httpRequest(request);
-		//    },
+					self.$store.commit('setSingleTask', res);
+				}
+			};
 
+			self.httpRequest(request);
+		},
 
 		afterSelect: function (selectedOption, id, event) {
 			//jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 

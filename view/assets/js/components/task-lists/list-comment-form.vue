@@ -181,7 +181,7 @@
 	            	data: form_data,
 	            	success (res) { 
 	            		self.addListCommentMeta(res.data);
-	            		self.showHideListCommentEditForm (self.comment);
+	            		
                         if (is_update) {
                         	self.$store.commit('listUpdateComment', {
                         		list_id: self.$route.params.list_id,

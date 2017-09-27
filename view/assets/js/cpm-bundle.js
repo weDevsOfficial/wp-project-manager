@@ -12241,7 +12241,7 @@ window.CPM_Component_jQuery = {
          *  
          * @return void      
          */
-        singleTask: function (task) {
+        singleTask: function (task, list) {
             this.$store.commit('single_task_popup', { task: task });
         },
 
@@ -13460,6 +13460,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
          * @return void       
          */
         single_task_popup: function (state) {
+            console.log('aldkjadsk');
             state.task = task.task;
         },
 
@@ -13632,6 +13633,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
         setListsMeta(state, meta) {
             state.lists_meta = meta;
+        },
+        setSingleTask(state, data) {
+            var list_id = data.data.boards.data[0].id,
+                list_index = state.getIndex(state.lists, list_id, 'id');
+            console.log(data);
+            if (list_index === false) {}
         }
 
     }
