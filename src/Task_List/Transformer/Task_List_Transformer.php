@@ -39,8 +39,8 @@ class Task_List_Transformer extends TransformerAbstract {
             'updated_by'  => $item->updated_by,
             'meta'        => [
                 'total_tasks'            => $item->tasks->count(),
-                'total_complete_tasks'   => $item->tasks->where( 'status', 1)->count(),
-                'total_incomplete_tasks' => $item->tasks->where( 'status', 0)->count(),
+                'total_complete_tasks'   => $item->tasks->where( 'status', 'complete')->count(),
+                'total_incomplete_tasks' => $item->tasks->where( 'status', 'incomplete')->count(),
                 'total_comments'         => $item->comments->count(),
                 'totla_files'            => $item->files->count(),
                 'total_assignees'        => $item->assignees->count(),
