@@ -1157,53 +1157,73 @@ if (false) {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	// Get passing data for this component.
-	props: ['comments'],
+				// Get passing data for this component.
+				props: ['comments'],
 
-	data: function () {
-		return {
-			currnet_user_id: 1,
-			avatar_url: PM_Vars.avatar_url
-		};
-	},
+				data: function () {
+								return {
+												currnet_user_id: 1,
+												avatar_url: PM_Vars.avatar_url
+								};
+				},
 
-	computed: {
-		/**
-   * Get current user avatar
-   */
-		getCurrentUserAvatar: function () {
-			return '';
-		}
-	},
+				computed: {
+								/**
+         * Get current user avatar
+         */
+								getCurrentUserAvatar: function () {
+												return '';
+								}
+				},
 
-	components: {
-		'task-comment-form': __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__["a" /* default */]
-	},
+				components: {
+								'task-comment-form': __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__["a" /* default */]
+				},
 
-	methods: {
-		showHideTaskCommentForm(comment) {
-			comment.edit_mode = comment.edit_mode ? false : true;
-		},
-		current_user_can_edit_delete: function (comment, task) {
-			if (comment.comment_type == 'cpm_activity') {
-				return false;
-			}
+				methods: {
+								showHideTaskCommentForm(comment) {
+												comment.edit_mode = comment.edit_mode ? false : true;
+								},
+								current_user_can_edit_delete: function (comment, task) {
+												if (comment.comment_type == 'cpm_activity') {
+																return false;
+												}
 
-			if (task.can_del_edit) {
-				return true;
-			}
+												if (task.can_del_edit) {
+																return true;
+												}
 
-			if (comment.user_id == this.currnet_user_id && comment.comment_type == '') {
-				return true;
-			}
+												if (comment.user_id == this.currnet_user_id && comment.comment_type == '') {
+																return true;
+												}
 
-			return false;
-		}
+												return false;
+								},
 
-	}
+								deleteTaskComment(id) {
+												if (!confirm('Are you sure!')) {
+																return;
+												}
+												var self = this;
+
+												var request_data = {
+																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + id,
+																type: 'DELETE',
+																success(res) {
+																				var index = self.getIndex(self.comments, id, 'id');
+
+																				self.comments.splice(index, 1);
+																}
+												};
+												this.httpRequest(request_data);
+								}
+
+				}
 });
 
 /***/ }),
@@ -1948,11 +1968,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       key: comment.id,
       class: 'cpm-comment clearfix even cpm-fade-out-' + comment.id
     }, [_c('div', {
-      staticClass: "cpm-avatar",
-      domProps: {
-        "innerHTML": _vm._s(comment.avatar)
+      staticClass: "cpm-avatar"
+    }, [_c('img', {
+      staticClass: "avatar avatar-96 photo",
+      attrs: {
+        "alt": comment.creator.data.display_name,
+        "src": comment.creator.data.avatar_url,
+        "height": "96",
+        "width": "96"
       }
-    }), _vm._v(" "), _c('div', {
+    })]), _vm._v(" "), _c('div', {
       staticClass: "cpm-comment-container"
     }, [_c('div', {
       staticClass: "cpm-comment-meta"
@@ -1996,7 +2021,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.deleteTaskComment(comment.id, _vm.task)
+          _vm.deleteTaskComment(comment.id)
         }
       }
     })])])]), _vm._v(" "), _c('div', {

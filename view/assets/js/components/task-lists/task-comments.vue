@@ -5,7 +5,9 @@
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">
 
-                <div class="cpm-avatar" v-html="comment.avatar"></div>
+                <div class="cpm-avatar">
+                    <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96">
+                </div>
 
                 <div class="cpm-comment-container">
                     <div class="cpm-comment-meta">
@@ -21,14 +23,14 @@
                             </span>
 
                             <span class="cpm-delete-link">
-                                <a href="#" @click.prevent="deleteTaskComment( comment.id, task )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
+                                <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
                             </span>
                         </div>
                     </div>
 
                     <div class="cpm-comment-content">
                         <div v-html="comment.content"></div>
-                       <!--  <ul class="cpm-attachments">
+                        <!-- <ul class="cpm-attachments">
                             <li v-for="file in comment.files">
                                 <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
                                     <img :src="file.thumb">
@@ -101,7 +103,25 @@
 	            }
 
 	            return false;
-	        }
+	        },
+
+            deleteTaskComment (id) {
+                if ( !confirm('Are you sure!') ) {
+                    return;
+                }
+                var self = this;
+
+                var request_data = {
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/' + id,
+                    type: 'DELETE',
+                    success (res) {
+                        var index = self.getIndex(self.comments, id, 'id');
+
+                        self.comments.splice(index, 1);
+                    }
+                }
+                this.httpRequest(request_data);
+            }
 
 	    }
 	}
