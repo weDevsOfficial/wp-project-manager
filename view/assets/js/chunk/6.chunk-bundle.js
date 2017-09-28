@@ -121,535 +121,62 @@ if (false) {
 
 /***/ }),
 
-/***/ 153:
+/***/ 107:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__task_comments_vue__ = __webpack_require__(182);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d9a1383_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_file_uploader_vue__ = __webpack_require__(124);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
 
+/* template */
 
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_file_uploader_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d9a1383_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_file_uploader_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/file-uploader.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] file-uploader.vue: functional components are not supported with templates, they should use render functions.")}
 
-/* harmony default export */ __webpack_exports__["a"] = ({
-	beforeRouteEnter(to, from, next) {
-		next(vm => {
-			vm.getTask(vm);
-		});
-	},
-	data: function () {
-		return {
-			loading: true,
-			is_task_title_edit_mode: false,
-			is_task_details_edit_mode: false,
-			is_task_date_edit_mode: false,
-			is_enable_multi_select: false,
-			task_id: this.$route.params.task_id,
-			list: {},
-			task: {}
-		};
-	},
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4d9a1383", Component.options)
+  } else {
+    hotAPI.reload("data-v-4d9a1383", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
-	computed: {
-		// task () {
-		// 	return this.$store.state.task;
-		// },
-		project_users: function () {
-			var self = this;
-			this.$store.state.project_users.map(function (user) {
-				user.title = user.name;
-				user.img = user.avatar_url;
-			});
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
-			return this.$store.state.project_users;
-		},
-		task_users() {
-			if (jQuery.isEmptyObject(this.$store.state.task)) {
-				return [];
-			}
-			return this.$store.state.task.assignees.data;
-		},
-
-		// comments () {
-		// 	if (jQuery.isEmptyObject(this.$store.state.task)) {
-		// 		return [];
-		// 	}
-
-		// 	return this.$store.state.task.comments.data;
-		// },
-
-		task_assign: {
-			get: function () {
-				var self = this;
-				var filtered_user = this.$store.state.project_users.filter(function (user) {
-					var has_user = self.task.assigned_to.indexOf(String(user.id));
-					if (has_user != '-1') {
-						return true;
-					}
-				});
-
-				return filtered_user;
-			},
-
-			set: function (user) {
-				var task = this.task,
-				    assign = [];
-
-				user.map(function (set_user, key) {
-					assign.push(String(set_user.id));
-				});
-
-				task.assigned_to = assign;
-
-				this.updateTaskElement(task);
-			}
-		}
-	},
-
-	components: {
-		'task-comments': __WEBPACK_IMPORTED_MODULE_0__task_comments_vue__["a" /* default */]
-	},
-
-	created: function () {
-		window.addEventListener('click', this.windowActivity);
-
-		this.$root.$on('cpm_date_picker', this.fromDate);
-	},
-
-	methods: {
-		lineThrough(task) {
-			if (task.status) {
-				return 'pm-line-through';
-			}
-		},
-		singleTaskDoneUndone: function () {
-
-			var self = this;
-			var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task.id;
-			var type = 'PUT';
-
-			var form_data = {
-				'status': self.task.status ? 1 : 0
-			};
-
-			var request_data = {
-				url: url,
-				type: type,
-				data: form_data,
-				success(res) {}
-			};
-
-			self.httpRequest(request_data);
-		},
-		getTask: function (self) {
-
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + self.task_id + '?with=boards,comments',
-				success(res) {
-					self.addMeta(res.data);
-					self.list = res.data.boards.data[0];
-					//self.$store.commit('setSingleTask', res.data);
-					self.task = res.data;
-					self.loading = false;
-
-					console.log(res.data);
-				}
-			};
-
-			self.httpRequest(request);
-		},
-
-		addMeta(task) {
-			if (task.status === 'complete') {
-				task.status = true;
-			} else {
-				task.status = false;
-			}
-
-			task.comments.data.map(function (comment) {
-				comment.edit_mode = false;
-			});
-		},
-
-		afterSelect: function (selectedOption, id, event) {
-			//jQuery('.cpm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
-		},
-		isEnableMultiSelect: function () {
-			this.is_enable_multi_select = true;
-
-			//Vue.nextTick(function() {
-			jQuery('.multiselect__input').focus();
-			//});
-		},
-
-		fromDate: function (date) {
-			if (date.field == 'datepicker_from') {
-				var task = this.task;
-
-				task.start_at = date.date;
-				this.updateTaskElement(task);
-			}
-
-			if (date.field == 'datepicker_to') {
-				var task = this.task;
-
-				var start = new Date(task.start_at),
-				    due = new Date(date.date);
-
-				if (!this.$store.state.permissions.task_start_field) {
-					task.due_date.date = date.date;
-					this.updateTaskElement(task);
-				} else if (start <= due) {
-					task.due_date.date = date.date;
-					this.updateTaskElement(task);
-				}
-			}
-		},
-		updateTaskPrivacy: function (task, status) {
-			task.task_privacy = status;
-			this.updateTaskElement(task);
-		},
-		isTaskDetailsEditMode: function () {
-			this.is_task_details_edit_mode = true;
-
-			//Vue.nextTick(function() {
-			jQuery('.cpm-desc-field').focus();
-			//});
-		},
-
-		updateDescription: function (task, event) {
-			if (event.keyCode == 13 && event.shiftKey) {
-				return;
-			}
-
-			this.is_task_details_edit_mode = false, this.updateTaskElement(task);
-		},
-
-		closePopup: function () {
-			var self = this;
-			// named route
-			self.$router.push({
-				name: 'task_lists',
-				params: {
-					project_id: self.project_id
-				}
-			});
-		},
-
-		singleTaskTitle: function (task) {
-			return task.completed ? 'cpm-task-complete' : 'cpm-task-incomplete';
-		},
-
-		updateTaskElement: function (task) {
-
-			var update_data = {
-				title: task.title,
-				description: task.description,
-				estimation: task.estimation,
-				start_at: task.start_at ? task.start_at.date : '',
-				due_date: task.due_date ? task.due_date.date : '',
-				complexity: task.complexity,
-				priority: task.priority,
-				order: task.order,
-				payable: task.payable,
-				recurrent: task.recurrent,
-				status: task.status,
-				category_id: task.category_id
-			},
-			    self = this,
-			    url = this.base_url + '/cpm/v2/projects/' + this.project_id + '/tasks/' + task.id;
-
-			var request_data = {
-				url: url,
-				data: update_data,
-				type: 'PUT',
-				success(res) {
-					self.is_task_title_edit_mode = false;
-					self.is_task_details_edit_mode = false;
-					self.is_enable_multi_select = false;
-				}
-			};
-
-			this.httpRequest(request_data);
-		},
-
-		isTaskTitleEditMode: function () {
-			this.is_task_title_edit_mode = true;
-		},
-
-		isTaskDateEditMode: function () {
-			this.is_task_date_edit_mode = true;
-		},
-
-		windowActivity: function (el) {
-			var title_blur = jQuery(el.target).hasClass('cpm-task-title-activity'),
-			    dscription_blur = jQuery(el.target).hasClass('cpm-des-area'),
-			    assign_user = jQuery(el.target).closest('.cpm-assigned-user-wrap');
-
-			if (!title_blur) {
-				this.is_task_title_edit_mode = false;
-			}
-
-			if (!dscription_blur) {
-				this.is_task_details_edit_mode = false;
-			}
-
-			if (!assign_user.length) {
-				this.is_enable_multi_select = false;
-			}
-
-			this.datePickerDispaly(el);
-		},
-
-		datePickerDispaly: function (el) {
-			var date_picker_blur = jQuery(el.target).closest('.cpm-task-date-wrap').hasClass('cpm-date-window');
-
-			if (!date_picker_blur) {
-				this.is_task_date_edit_mode = false;
-			}
-		}
-	}
-});
 
 /***/ }),
 
-/***/ 154:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__ = __webpack_require__(107);
 //
 //
 //
@@ -688,24 +215,41 @@ if (false) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['comment', 'comments'],
+	props: ['discuss'],
 	data() {
 		return {
 			submit_disabled: false,
 			show_spinner: false,
-			hasCoWorker: false,
 			content: {
-				html: typeof this.comment.content == 'undefined' ? '' : this.comment.content
+				html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description
 			},
-			task_id: this.$route.params.task_id
+			milestone_id: this.discuss.milestone_id,
+			files: []
 		};
-	},
-	components: {
-		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */]
 	},
 
 	watch: {
@@ -718,104 +262,43 @@ if (false) {
          */
 		content: {
 			handler: function (new_content) {
-				this.comment.content = new_content.html;
+				this.discuss.description = new_content.html;
 			},
 
 			deep: true
 		}
 	},
 
+	components: {
+		'text-editor': __WEBPACK_IMPORTED_MODULE_0__text_editor_vue__["a" /* default */],
+		'file-uploader': __WEBPACK_IMPORTED_MODULE_1__file_uploader_vue__["a" /* default */]
+	},
 	computed: {
+		milestones() {
+			return this.$store.state.milestones;
+		},
 		/**
          * Editor ID
          * 
          * @return string
          */
 		editor_id: function () {
-			var comment_id = typeof this.comment.id === 'undefined' ? '' : '-' + this.comment.id;
-			return 'cpm-comment-editor' + comment_id;
+			var discuss_id = typeof this.discuss.id === 'undefined' ? '' : '-' + this.discuss.id;
+			return 'cpm-discuss-editor' + discuss_id;
 		}
 	},
-	methods: {
+	methods: {}
 
-		updateComment() {
-			// Exit from this function, If submit button disabled 
-			if (this.submit_disabled) {
-				return;
-			}
-
-			// Disable submit button for preventing multiple click
-			this.submit_disabled = true;
-			var self = this,
-			    is_update = typeof self.comment.id == 'undefined' ? false : true,
-			    form_data = {
-				content: self.comment.content,
-				commentable_id: self.task_id,
-				commentable_type: 'task'
-			};
-
-			// Showing loading option 
-			this.show_spinner = true;
-
-			if (is_update) {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + this.comment.id;
-				var type = 'PUT';
-			} else {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments';
-				var type = 'POST';
-			}
-
-			var request_data = {
-				url: url,
-				type: type,
-				data: form_data,
-				success(res) {
-
-					self.addMeta(res.data);
-					self.show_spinner = false;
-
-					if (is_update) {
-						var index = self.getIndex(self.comments, self.comment.id, 'id');
-						self.comments.splice(index, 1, res.data);
-					} else {
-						self.comments.splice(0, 0, res.data);
-					}
-
-					// Display a success toast, with a title
-					toastr.success(res.data.success);
-
-					self.submit_disabled = false;
-
-					//self.showHideTaskCommentForm(false, self.comment);
-				},
-
-				error(res) {
-					self.show_spinner = false;
-
-					// Showing error
-					res.data.error.map(function (value, index) {
-						toastr.error(value);
-					});
-					self.submit_disabled = false;
-				}
-			};
-
-			self.httpRequest(request_data);
-		},
-
-		addMeta(comment) {
-			comment.edit_mode = false;
-		}
-	}
 });
 
 /***/ }),
 
-/***/ 155:
+/***/ 109:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_vue__);
 //
 //
 //
@@ -836,782 +319,101 @@ if (false) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	// Get passing data for this component.
-	props: ['comments'],
+				props: ['files'],
 
-	data: function () {
-		return {
-			currnet_user_id: 1
-		};
-	},
+				// Initial action for this component
+				created: function () {
+								//this.$on( 'cpm_file_upload_hook', this.fileUploaded );
 
-	computed: {
-		/**
-   * Get current user avatar
-   */
-		getCurrentUserAvatar: function () {
-			return '';
-		}
-	},
+								var self = this;
 
-	components: {
-		'task-comment-form': __WEBPACK_IMPORTED_MODULE_0__task_comment_form_vue__["a" /* default */]
-	},
+								// Instantiate file upload, After dom ready
+								__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+												new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self);
+								});
+				},
 
-	methods: {
-		showHideTaskCommentForm(comment) {
-			comment.edit_mode = comment.edit_mode ? false : true;
-		},
-		current_user_can_edit_delete: function (comment, task) {
-			if (comment.comment_type == 'cpm_activity') {
-				return false;
-			}
+				methods: {
+								/**
+         * Set the uploaded file
+         *
+         * @param  object file_res
+         *
+         * @return void
+         */
+								fileUploaded: function (file_res) {
 
-			if (task.can_del_edit) {
-				return true;
-			}
+												if (typeof this.files == 'undefined') {
+																this.files = [];
+												}
 
-			if (comment.user_id == this.currnet_user_id && comment.comment_type == '') {
-				return true;
-			}
+												this.files.push(file_res.res.file);
+								},
 
-			return false;
-		}
+								/**
+         * Delete file
+         *
+         * @param  object file_id
+         *
+         * @return void
+         */
+								deletefile: function (file_id) {
+												if (!confirm(CPM_Vars.message.confirm)) {
+																return;
+												}
 
-	}
+												var request_data = {
+																file_id: file_id,
+																_wpnonce: CPM_Vars.nonce
+												},
+												    self = this;
+
+												wp.ajax.send('cpm_delete_file', {
+																data: request_data,
+																success: function (res) {
+																				var file_index = self.getIndex(self.files, file_id, 'id');
+																				self.files.splice(file_index, 1);
+																}
+												});
+								}
+				}
 });
 
 /***/ }),
 
-/***/ 181:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_comment_form_vue__ = __webpack_require__(154);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_408f3278_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_comment_form_vue__ = __webpack_require__(195);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_comment_form_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_408f3278_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_comment_form_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/task-lists/task-comment-form.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] task-comment-form.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-408f3278", Component.options)
-  } else {
-    hotAPI.reload("data-v-408f3278", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 182:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_comments_vue__ = __webpack_require__(155);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_625bbd46_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_comments_vue__ = __webpack_require__(202);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_task_comments_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_625bbd46_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_task_comments_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/task-lists/task-comments.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] task-comments.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-625bbd46", Component.options)
-  } else {
-    hotAPI.reload("data-v-625bbd46", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 187:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.loading) ? _c('div', {
-    staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
-  }, [_c('div', {
-    staticClass: "modal-wrapper"
-  }, [_c('div', {
-    staticClass: "modal-container",
-    staticStyle: {
-      "width": "700px",
-      "height": "20000px"
-    }
-  }, [_c('span', {
-    staticClass: "close-vue-modal"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.closePopup()
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-no"
-  })])]), _vm._v(" "), _vm._m(0)])])]) : _vm._e(), _vm._v(" "), (!_vm.loading) ? _c('div', {
-    staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
-  }, [_c('div', {
-    staticClass: "modal-wrapper"
-  }, [_c('div', {
-    staticClass: "modal-container",
-    staticStyle: {
-      "width": "700px"
-    }
-  }, [_c('span', {
-    staticClass: "close-vue-modal"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.closePopup()
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-no"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-body cpm-todolist"
-  }, [_c('div', {
-    staticClass: "cpm-col-12 cpm-todo"
-  }, [_c('div', {
-    staticClass: "cpm-modal-conetnt"
-  }, [_c('div', {
-    staticClass: "cmp-task-header"
-  }, [_c('h3', {
-    staticClass: "cpm-task-title"
-  }, [_c('span', {
-    staticClass: "cpm-mark-done-checkbox"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.status),
-      expression: "task.status"
-    }],
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.task.status) ? _vm._i(_vm.task.status, null) > -1 : (_vm.task.status)
-    },
-    on: {
-      "click": function($event) {
-        _vm.singleTaskDoneUndone()
-      },
-      "__c": function($event) {
-        var $$a = _vm.task.status,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.task.status = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.task.status = $$c
-        }
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    class: _vm.singleTaskTitle(_vm.task) + ' cpm-task-title-wrap'
-  }, [_c('div', {
-    staticClass: "cpm-task-title-text"
-  }, [(_vm.is_task_title_edit_mode) ? _c('span', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.title),
-      expression: "task.title"
-    }],
-    staticClass: "cpm-task-title-activity cpm-task-title-field",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm.task.title,
-      "value": (_vm.task.title)
-    },
-    on: {
-      "blur": function($event) {
-        _vm.updateTaskElement(_vm.task)
-      },
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.updateTaskElement(_vm.task)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.title = $event.target.value
-      }
-    }
-  })]) : _vm._e(), _vm._v(" "), (!_vm.is_task_title_edit_mode) ? _c('span', {
-    class: _vm.lineThrough(_vm.task) + ' cpm-task-title-activity cpm-task-title-span',
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskTitleEditMode()
-      }
-    }
-  }, [_vm._v("\n                                                \t" + _vm._s(_vm.task.title) + "\n                                                ")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-task-meta"
-  }, [_c('span', {
-    staticClass: "cpm-assigned-user-wrap"
-  }, [_vm._l((_vm.task.assignees.data), function(user) {
-    return (_vm.task.assignees.data.length) ? _c('span', {
-      staticClass: "cpm-assigned-user",
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.isEnableMultiSelect()
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "#",
-        "title": user.display_name
-      }
-    }, [_c('img', {
-      staticClass: "avatar avatar-48 photo",
-      attrs: {
-        "alt": user.display_name,
-        "src": user.avatar_url,
-        "height": "48",
-        "width": "48"
-      }
-    })])]) : _vm._e()
-  }), _vm._v(" "), (!_vm.task.assignees.data.length) ? _c('span', {
-    staticClass: "cpm-assigned-user",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isEnableMultiSelect()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-user",
-    staticStyle: {
-      "font-size": "20px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.task.assignees.data.length && _vm.is_enable_multi_select) ? _c('div', {
-    staticClass: "cpm-multiselect cpm-multiselect-single-task",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.afterSelect($event)
-      }
-    }
-  }, [_c('multiselect', {
-    attrs: {
-      "options": _vm.project_users,
-      "multiple": true,
-      "close-on-select": false,
-      "clear-on-select": true,
-      "hide-selected": false,
-      "show-labels": true,
-      "placeholder": "<?php _e( 'Select User', 'cpm' ); ?>",
-      "select-label": "",
-      "selected-label": "selected",
-      "deselect-label": "",
-      "taggable": true,
-      "label": "name",
-      "track-by": "id",
-      "allow-empty": true
-    },
-    scopedSlots: _vm._u([{
-      key: "option",
-      fn: function(props) {
-        return [_c('div', [_c('img', {
-          staticClass: "option__image",
-          attrs: {
-            "height": "16",
-            "width": "16",
-            "src": props.option.img,
-            "alt": "<?php _e( 'No Man’s Sky', 'cpm' ); ?>"
-          }
-        }), _vm._v(" "), _c('div', {
-          staticClass: "option__desc"
-        }, [_c('span', {
-          staticClass: "option__title"
-        }, [_vm._v(_vm._s(props.option.title))])])])]
-      }
-    }]),
-    model: {
-      value: (_vm.task_assign),
-      callback: function($$v) {
-        _vm.task_assign = $$v
-      },
-      expression: "task_assign"
-    }
-  })], 1) : _vm._e()], 2), _vm._v(" "), ((_vm.task.start_at.date || _vm.task.due_date.date)) ? _c('span', {
-    staticClass: "cpm-task-date-wrap cpm-date-window"
-  }, [_c('span', {
-    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDateEditMode()
-      }
-    }
-  }, [(_vm.task_start_field) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.start_at.date)) + "\n\t                                                ")]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at.date, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), (_vm.task.due_date) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.due_date.date)) + "\n\t                                                ")]) : _vm._e()]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
-    staticClass: "cpm-date-update-wrap"
-  }, [(_vm.task_start_field) ? _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-from cpm-inline-date-picker-from"
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-to cpm-inline-date-picker-to"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.task.start_at.date == '' && _vm.task.due_date.date == '')) ? _c('span', {
-    staticClass: "cpm-task-date-wrap cpm-date-window"
-  }, [_c('span', {
-    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDateEditMode()
-      }
-    }
-  }, [_vm._m(1)]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
-    staticClass: "cpm-date-update-wrap"
-  }, [(_vm.task_start_field) ? _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-from cpm-inline-date-picker-from"
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-to cpm-inline-date-picker-to"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('span', {
-    staticClass: "cpm-task-comment-count"
-  }, [_vm._v(_vm._s(_vm.task.comments.data.length) + " Comments")])])]), _vm._v(" "), _c('div', {
-    staticClass: "task-details"
-  }, [(!_vm.is_task_details_edit_mode) ? _c('p', {
-    staticClass: "cpm-des-area cpm-desc-content",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDetailsEditMode()
-      }
-    }
-  }, [(_vm.task.description !== '') ? _c('span', {
-    domProps: {
-      "innerHTML": _vm._s(_vm.task.description)
-    }
-  }) : _vm._e(), _vm._v(" "), (!_vm.task.description) ? _c('span', {
-    staticStyle: {
-      "margin-left": "-3px"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil",
-    staticStyle: {
-      "font-size": "16px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("\n                                        \t Update Description\n                                        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.is_task_details_edit_mode) ? _c('textarea', {
-    directives: [{
-      name: "prevent-line-break",
-      rawName: "v-prevent-line-break"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.description),
-      expression: "task.description"
-    }],
-    staticClass: "cpm-des-area cpm-desc-field",
-    domProps: {
-      "value": (_vm.task.description)
-    },
-    on: {
-      "blur": function($event) {
-        _vm.updateDescription(_vm.task, $event)
-      },
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.updateDescription(_vm.task, $event)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.description = $event.target.value
-      }
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.is_task_details_edit_mode) ? _c('div', {
-    staticClass: "cpm-help-text"
-  }, [_c('span', [_vm._v("Shift+Enter for line break")])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-todo-wrap clearfix"
-  }, [_c('div', {
-    staticClass: "cpm-task-comment"
-  }, [_c('div', {
-    staticClass: "comment-content"
-  }, [_c('task-comments', {
-    attrs: {
-      "comments": _vm.task.comments.data
-    }
-  })], 1)])])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])]) : _vm._e()])
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-body cpm-todolist"
-  }, [_c('div', {
-    staticClass: "cpm-data-load-before"
-  }, [_c('div', {
-    staticClass: "loadmoreanimation"
-  }, [_c('div', {
-    staticClass: "load-spinner"
-  }, [_c('div', {
-    staticClass: "rect1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect5"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "fa fa-calendar",
-    staticStyle: {
-      "font-size": "20px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])
-}]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0ea2cd18", esExports)
-  }
-}
-
-/***/ }),
-
-/***/ 195:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "cpm-comment-form-vue",
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.updateComment()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "item message cpm-sm-col-12 "
-  }, [_c('text-editor', {
-    attrs: {
-      "editor_id": _vm.editor_id,
-      "content": _vm.content
-    }
-  })], 1), _vm._v(" "), (_vm.hasCoWorker) ? _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                    Notify users            \n                    "), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.notify_all_co_worker),
-      expression: "notify_all_co_worker"
-    }],
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "id": "select-all"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.notify_all_co_worker) ? _vm._i(_vm.notify_all_co_worker, null) > -1 : (_vm.notify_all_co_worker)
-    },
-    on: {
-      "change": function($event) {
-        $event.preventDefault();
-        _vm.notify_all_coo_worker()
-      },
-      "__c": function($event) {
-        var $$a = _vm.notify_all_co_worker,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.notify_all_co_worker = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.notify_all_co_worker = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.notify_all_co_worker = $$c
-        }
-      }
-    }
-  }), _vm._v(" \n                        Select all\n                    ")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_vm._l((_vm.co_workers), function(co_worker) {
-    return _c('li', [_c('label', {
-      attrs: {
-        "for": 'cpm_notify_' + co_worker.id
-      }
-    }, [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.notify_co_workers),
-        expression: "notify_co_workers"
-      }],
-      attrs: {
-        "type": "checkbox",
-        "name": "notify_co_workers[]",
-        "id": 'cpm_notify_' + co_worker.id
-      },
-      domProps: {
-        "value": co_worker.id,
-        "checked": Array.isArray(_vm.notify_co_workers) ? _vm._i(_vm.notify_co_workers, co_worker.id) > -1 : (_vm.notify_co_workers)
-      },
-      on: {
-        "change": function($event) {
-          $event.preventDefault();
-          _vm.notify_coo_workers(co_worker.id)
-        },
-        "__c": function($event) {
-          var $$a = _vm.notify_co_workers,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = co_worker.id,
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (_vm.notify_co_workers = $$a.concat($$v))
-            } else {
-              $$i > -1 && (_vm.notify_co_workers = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            _vm.notify_co_workers = $$c
-          }
-        }
-      }
-    }), _vm._v(" \n                            " + _vm._s(co_worker.name) + "\n                        ")])])
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })], 2)]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [(!_vm.comment.edit_mode) ? _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "disabled": _vm.submit_disabled,
-      "type": "submit",
-      "value": "Add New Comment",
-      "id": ""
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.comment.edit_mode) ? _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "disabled": _vm.submit_disabled,
-      "type": "submit",
-      "value": "Update Comment",
-      "id": ""
-    }
-  }) : _vm._e(), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show_spinner),
-      expression: "show_spinner"
-    }],
-    staticClass: "cpm-spinner"
-  })])])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-408f3278", esExports)
-  }
-}
-
-/***/ }),
-
-/***/ 20:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_task_vue__ = __webpack_require__(153);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ea2cd18_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_task_vue__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__ = __webpack_require__(189);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(220)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_single_task_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ea2cd18_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_single_task_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_discussions_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13e4976b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_discussions_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "view/assets/js/components/task-lists/single-task.vue"
+Component.options.__file = "view/assets/js/components/discussions/discussions.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] single-task.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] discussions.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1620,9 +422,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0ea2cd18", Component.options)
+    hotAPI.createRecord("data-v-13e4976b", Component.options)
   } else {
-    hotAPI.reload("data-v-0ea2cd18", Component.options)
+    hotAPI.reload("data-v-13e4976b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -1634,107 +436,101 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 202:
+/***/ 116:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__ = __webpack_require__(125);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_new_discuss_form_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_602b6da4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_new_discuss_form_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/discussions/new-discuss-form.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] new-discuss-form.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-602b6da4", Component.options)
+  } else {
+    hotAPI.reload("data-v-602b6da4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "cpm-task-comment-wrap"
-  }, [_c('h3', {
-    staticClass: "cpm-comment-title"
-  }, [_vm._v("Discuss this task")]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-comment-wrap"
-  }, _vm._l((_vm.comments), function(comment) {
-    return _c('li', {
-      key: comment.id,
-      class: 'cpm-comment clearfix even cpm-fade-out-' + comment.id
-    }, [_c('div', {
-      staticClass: "cpm-avatar",
-      domProps: {
-        "innerHTML": _vm._s(comment.avatar)
-      }
-    }), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-container"
-    }, [_c('div', {
-      staticClass: "cpm-comment-meta"
-    }, [_c('span', {
-      staticClass: "cpm-author",
-      domProps: {
-        "innerHTML": _vm._s(comment.comment_user)
-      }
-    }), _vm._v(" "), _c('span', [_vm._v("On")]), _vm._v(" "), _c('span', {
-      staticClass: "cpm-date"
-    }, [_c('time', {
-      attrs: {
-        "datetime": _vm.dateISO8601Format(comment.comment_date),
-        "title": _vm.dateISO8601Format(comment.comment_date)
-      }
-    }, [_vm._v(_vm._s(_vm.dateTimeFormat(comment.comment_date)))])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-action"
-    }, [_c('span', {
-      staticClass: "cpm-edit-link"
+    staticClass: "cpm-attachment-area"
+  }, [_c('div', {
+    attrs: {
+      "id": "cpm-upload-container"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-upload-filelist"
+  }, _vm._l((_vm.files), function(file) {
+    return _c('div', {
+      key: file.id,
+      staticClass: "cpm-uploaded-item"
     }, [_c('a', {
-      staticClass: "dashicons dashicons-edit",
+      attrs: {
+        "href": file.url,
+        "target": "_blank"
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": file.thumb,
+        "alt": file.name
+      }
+    })]), _vm._v(" "), _c('a', {
+      staticClass: "button",
       attrs: {
         "href": "#"
       },
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideTaskCommentForm(comment)
+          _vm.deletefile(file.id)
         }
       }
-    })]), _vm._v(" "), _c('span', {
-      staticClass: "cpm-delete-link"
-    }, [_c('a', {
-      staticClass: "dashicons dashicons-trash",
-      attrs: {
-        "href": "#",
-        "data-project_id": "111",
-        "data-id": "82",
-        "data-confirm": "Are you sure to delete this comment?"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteTaskComment(comment.id, _vm.task)
-        }
-      }
-    })])])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-content"
-    }, [_c('div', {
-      domProps: {
-        "innerHTML": _vm._s(comment.content)
-      }
-    })]), _vm._v(" "), (comment.edit_mode) ? _c('div', {
-      staticClass: "cpm-comment-edit-form"
-    }, [_c('task-comment-form', {
-      attrs: {
-        "comment": comment,
-        "comments": _vm.comments
-      }
-    })], 1) : _vm._e()])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "single-todo-comments"
-  }, [_c('div', {
-    staticClass: "cpm-comment-form-wrap"
-  }, [_c('div', {
-    staticClass: "cpm-avatar"
-  }, [_c('img', {
+    }, [_vm._v("Delete File")])])
+  })), _vm._v("\n        To attach, "), _c('a', {
     attrs: {
-      "src": _vm.getCurrentUserAvatar,
-      "height": "48",
-      "width": "48"
+      "id": "cpm-upload-pickfiles",
+      "href": "#"
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-new-doc-comment-form"
-  }, [_c('task-comment-form', {
-    attrs: {
-      "comment": {},
-      "comments": _vm.comments
-    }
-  })], 1)])])])
+  }, [_vm._v("select files")]), _vm._v(" from your computer.\n    ")])])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1743,50 +539,1115 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-625bbd46", esExports)
+     require("vue-hot-reload-api").rerender("data-v-4d9a1383", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 219:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 125:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
-// imports
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('form', {
+    staticClass: "cpm-message-form",
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.newDiscuss()
+      }
+    }
+  }, [_c('div', {
+    staticClass: "item title"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.discuss.title),
+      expression: "discuss.title"
+    }],
+    attrs: {
+      "name": "title",
+      "required": "required",
+      "type": "text",
+      "id": "message_title",
+      "value": "",
+      "placeholder": "Enter message title"
+    },
+    domProps: {
+      "value": (_vm.discuss.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.discuss.title = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item detail"
+  }, [_c('text-editor', {
+    attrs: {
+      "editor_id": _vm.editor_id,
+      "content": _vm.content
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "item milestone"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.discuss.milestone_id),
+      expression: "discuss.milestone_id"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.discuss.milestone_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "-1"
+    }
+  }, [_vm._v("\n\t\t\t            - Milestone -\n\t\t\t        ")]), _vm._v(" "), _vm._l((_vm.milestones), function(milestone) {
+    return _c('option', {
+      domProps: {
+        "value": milestone.id
+      }
+    }, [_vm._v("\n\t\t\t            " + _vm._s(milestone.title) + "\n\t\t\t        ")])
+  })], 2)]), _vm._v(" "), _c('file-uploader', {
+    attrs: {
+      "files": _vm.files
+    }
+  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "submit"
+  }, [_c('input', {
+    staticClass: "button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "create_message",
+      "id": "create_message",
+      "value": "Add Message"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "message-cancel button-secondary",
+    attrs: {
+      "href": ""
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showHideDiscussForm(false, _vm.discuss)
+      }
+    }
+  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])], 1)])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "notify-users"
+  }, [_c('h2', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v(" \n\t        \t\tNotify users            \n\t        \t\t"), _c('label', {
+    staticClass: "cpm-small-title",
+    attrs: {
+      "for": "select-all"
+    }
+  }, [_c('input', {
+    staticClass: "cpm-toggle-checkbox",
+    attrs: {
+      "type": "checkbox",
+      "name": "select-all",
+      "id": "select-all"
+    }
+  }), _vm._v(" \n\t        \t\t\tSelect all\n\t        \t\t")])]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-user-list"
+  }, [_c('li', [_c('label', {
+    attrs: {
+      "for": "cpm_notify_1"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": "notify_user[]",
+      "id": "cpm_notify_1",
+      "value": "1"
+    }
+  }), _vm._v(" \n\t\t            \t\tAdmin\n\t\t            \t")])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-602b6da4", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 132:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__ = __webpack_require__(116);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-// module
-exports.push([module.i, "\n.pm-line-through {\n\ttext-decoration: line-through;\n}\n", ""]);
 
-// exports
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.getDiscussion(vm);
+            vm.getMilestones(vm);
+        });
+    },
+    components: {
+        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */],
+        'new-discuss-form': __WEBPACK_IMPORTED_MODULE_1__new_discuss_form_vue__["a" /* default */]
+    },
+    computed: {
+        is_discuss_form_active() {
+            return this.$store.state.is_discuss_form_active;
+        },
+
+        discussion() {
+            return this.$store.state.discussion;
+        }
+    },
+    methods: {}
+});
+
+/***/ }),
+
+/***/ 189:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "wrap cpm cpm-front-end"
+  }, [_c('pm-header'), _vm._v(" "), _c('div', [_c('a', {
+    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
+    attrs: {
+      "href": "",
+      "id": "cpm-add-message"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showHideDiscussForm('toggle')
+      }
+    }
+  }, [_vm._v(" \n                Add New Discussion \n            ")])]), _vm._v(" "), (_vm.is_discuss_form_active) ? _c('div', {
+    staticClass: "cpm-new-message-form"
+  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('new-discuss-form', {
+    attrs: {
+      "discuss": {}
+    }
+  })], 1) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "cpm-row cpm-message-page"
+  }, [_c('div', {
+    staticClass: "cpm-message-list cpm-col-12 cpm-sm-col-12"
+  }, [_c('div', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v("Discussion List")]), _vm._v(" "), _c('ul', {
+    staticClass: "dicussion-list"
+  }, _vm._l((_vm.discussion), function(discuss) {
+    return _c('li', {
+      key: "discuss.id",
+      staticClass: "cpm-col-12"
+    }, [_c('div', {
+      staticClass: "cpm-col-9",
+      attrs: {
+        "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
+      }
+    }, [_c('router-link', {
+      staticClass: "cpm-pagination-btn prev page-numbers",
+      attrs: {
+        "to": {
+          name: 'individual_discussions',
+          params: {
+            discussion_id: discuss.id
+          }
+        }
+      }
+    }, [_c('img', {
+      staticClass: "avatar avatar-48 photo",
+      attrs: {
+        "alt": "admin",
+        "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+        "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+        "height": "48",
+        "width": "48"
+      }
+    }), _vm._v(" "), _c('div', [_vm._v("\n                                   " + _vm._s(discuss.title) + "                    \n                            \t")])]), _vm._v(" "), _vm._m(0, true)], 1), _vm._v(" "), _c('div', {
+      staticClass: "cpm-col-1"
+    }, [_c('span', {
+      staticClass: "cpm-message-action cpm-right"
+    }, [_c('a', {
+      staticClass: "cpm-msg-edit dashicons dashicons-edit",
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.showHideDiscussForm('toggle', discuss)
+        }
+      }
+    }), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('span', {
+      staticClass: "cpm-unlock"
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "cpm-col-2 cpm-last-col cpm-right comment-count",
+      attrs: {
+        "itemref": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
+      }
+    }, [_vm._v("\n                             4 Comments            \n                        ")]), _vm._v(" "), _c('div', {
+      staticClass: "clear"
+    }), _vm._v(" "), (discuss.edit_mode) ? _c('new-discuss-form', {
+      attrs: {
+        "discuss": discuss
+      }
+    }) : _vm._e()], 1)
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "clear"
+  })]), _vm._v(" "), _vm._m(2)], 1)
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dicussion-meta"
+  }, [_vm._v("\n                                By \n                                "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("\n                                \tadmin\n                                ")]), _vm._v(" \n                                on September 11, 2017 01:34 pm                    \n                            ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "delete-message",
+    attrs: {
+      "href": "",
+      "title": "Delete this message",
+      "data-msg_id": "97",
+      "data-project_id": "60",
+      "data-confirm": "Are you sure to delete this message?"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-blank-template discussion",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-content"
+  }, [_c('h2', {
+    staticClass: "cpm-page-title"
+  }, [_vm._v("  Discussion ")]), _vm._v(" "), _c('p', [_vm._v("\n                    Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.        ")]), _vm._v(" "), _c('div', [_c('a', {
+    staticClass: "cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase",
+    attrs: {
+      "href": "",
+      "id": "cpm-add-message-new"
+    }
+  }, [_vm._v(" Add New Discussion ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-new-message-form",
+    attrs: {
+      "id": "cpm-new-message-form-content"
+    }
+  }, [_c('h3', [_vm._v("Create a new message")]), _vm._v(" "), _c('form', {
+    staticClass: "cpm-message-form"
+  }, [_c('div', {
+    staticClass: "item title"
+  }, [_c('input', {
+    attrs: {
+      "name": "message_title",
+      "required": "required",
+      "type": "text",
+      "id": "message_title",
+      "value": "",
+      "placeholder": "Enter message title"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item detail"
+  }, [_c('input', {
+    attrs: {
+      "id": "message_detail",
+      "type": "hidden",
+      "name": "message_detail",
+      "value": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item milestone"
+  }, [_c('select', {
+    attrs: {
+      "name": "milestone",
+      "id": "milestone"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0"
+    }
+  }, [_vm._v("- Milestone -")])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-make-privacy"
+  }, [_c('label', [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "value": "yes",
+      "name": "message_privacy"
+    }
+  }), _vm._v("\n                                Private                \n                            ")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-attachment-area"
+  }, [_c('div', {
+    attrs: {
+      "id": "cpm-upload-container-nd"
+    }
+  }, [_c('div', {
+    staticClass: "cpm-upload-filelist"
+  }), _vm._v("\n                                To attach, \n                                "), _c('a', {
+    attrs: {
+      "id": "cpm-upload-pickfiles-nd",
+      "href": "#"
+    }
+  }, [_vm._v("select files")]), _vm._v(" from your computer.    \n                            ")])]), _vm._v(" "), _c('div', {
+    staticClass: "notify-users"
+  }, [_c('h2', {
+    staticClass: "cpm-box-title"
+  }, [_vm._v(" \n                                Notify users            \n                                "), _c('label', {
+    staticClass: "cpm-small-title",
+    attrs: {
+      "for": "select-all"
+    }
+  }, [_c('input', {
+    staticClass: "cpm-toggle-checkbox",
+    attrs: {
+      "type": "checkbox",
+      "name": "select-all",
+      "id": "select-all"
+    }
+  }), _vm._v(" \n                                    Select all\n                                ")])]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-user-list"
+  }, [_c('li', [_c('label', {
+    attrs: {
+      "for": "cpm_notify_1"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": "notify_user[]",
+      "id": "cpm_notify_1",
+      "value": "1"
+    }
+  }), _vm._v(" \n                                        Admin\n                                    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "submit"
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "message_id",
+      "value": "nd"
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "create_message",
+      "id": "create_message",
+      "value": "Add Message"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "message-cancel button-secondary",
+    attrs: {
+      "href": ""
+    }
+  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-list-content"
+  }, [_c('h2', {
+    staticClass: "cpm-why-for cpm-page-title"
+  }, [_vm._v(" When to use Discussions? ")]), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-list"
+  }, [_c('li', [_vm._v(" To discuss a work matter privately. ")]), _vm._v(" "), _c('li', [_vm._v(" To exchange files privately.  ")]), _vm._v(" "), _c('li', [_vm._v(" To discuss in a group.  ")]), _vm._v(" "), _c('li', [_vm._v(" To create an open discussion visible to all.  ")])])])])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-13e4976b", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 96:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__do_action_vue__ = __webpack_require__(9);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data() {
+        return {
+            menu: [{
+                route: {
+                    name: 'pm_overview',
+                    project_id: this.project_id
+                },
+
+                name: 'Overview',
+                count: 0,
+                class: 'overview cpm-sm-col-12'
+            }, {
+                route: {
+                    name: 'activities',
+                    project_id: this.project_id
+                },
+
+                name: 'Activities',
+                count: 10,
+                class: 'activity cpm-sm-col-12'
+            }, {
+                route: {
+                    name: 'discussions',
+                    project_id: this.project_id
+                },
+
+                name: 'Discussions',
+                count: 40,
+                class: 'message cpm-sm-col-12'
+            }, {
+                route: {
+                    name: 'task_lists',
+                    project_id: this.project_id
+                },
+
+                name: 'Task Lists',
+                count: 30,
+                class: 'to-do-list cpm-sm-col-12 active'
+            }, {
+                route: {
+                    name: 'milestones',
+                    project_id: this.project_id
+                },
+
+                name: 'Milestones',
+                count: 25,
+                class: 'milestone cpm-sm-col-12'
+            }, {
+                route: {
+                    name: 'pm_files',
+                    project_id: this.project_id
+                },
+
+                name: 'Files',
+                count: 50,
+                class: 'files cpm-sm-col-12'
+            }]
+        };
+    },
+
+    created() {
+        this.getProject();
+    },
+
+    components: {
+        'do-action': __WEBPACK_IMPORTED_MODULE_1__do_action_vue__["a" /* default */]
+    }
+});
+
+/***/ }),
+
+/***/ 97:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__ = __webpack_require__(98);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/header.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] header.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-46bc394e", Component.options)
+  } else {
+    hotAPI.reload("data-v-46bc394e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
 
 /***/ }),
 
-/***/ 220:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 98:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(219);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(6)("053cffa4", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0ea2cd18\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./single-task.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0ea2cd18\",\"scoped\":false,\"hasInlineConfig\":false}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./single-task.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "cpm-row cpm-project-group"
+  }, [_c('ul', [_vm._l((_vm.menu), function(item) {
+    return _c('li', [_c('router-link', {
+      class: item.class,
+      attrs: {
+        "to": item.route
+      }
+    }, [_c('span', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(item.count))])])], 1)
+  }), _vm._v(" "), _c('do-action', {
+    attrs: {
+      "hook": "pm-header"
+    }
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cpm-row cpm-no-padding cpm-border-bottom"
+  }, [_c('div', {
+    staticClass: "cpm-col-6 cpm-project-detail"
+  }, [_c('h3', [_c('span', {
+    staticClass: "cpm-project-title"
+  }, [_vm._v(" eirugkdj ")]), _vm._v(" "), _c('a', {
+    staticClass: "cpm-icon-edit cpm-project-edit-link small-text",
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-edit"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "text"
+  }, [_vm._v("Edit")])])]), _vm._v(" "), _c('div', {
+    staticClass: "detail"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only"
+  }, [_c('div', {
+    staticClass: "cpm-single-project-search-wrap"
+  }, [_c('input', {
+    attrs: {
+      "type": "text",
+      "data-project_id": "60",
+      "placeholder": "Search...",
+      "id": "cpm-single-project-search"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-project-action"
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
+  }), _vm._v(" "), _c('ul', {
+    staticClass: "cpm-settings"
+  }, [_c('li', [_c('span', {
+    staticClass: "cpm-spinner"
+  }), _vm._v(" "), _c('a', {
+    staticClass: "cpm-project-delete-link",
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+      "title": "Delete project",
+      "data-confirm": "Are you sure to delete this project?",
+      "data-project_id": "60"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-trash"
+  }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "cpm-spinner"
+  }), _vm._v(" "), _c('a', {
+    staticClass: "cpm-archive",
+    attrs: {
+      "data-type": "archive",
+      "data-project_id": "60",
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-yes"
+  }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "cpm-spinner"
+  }), _vm._v(" "), _c('a', {
+    staticClass: "cpm-duplicate-project",
+    attrs: {
+      "href": "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60",
+      "data-project_id": "60"
+    }
+  }, [_c('span', {
+    staticClass: "dashicons dashicons-admin-page"
+  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "cpm-edit-project",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('form', {
+    staticClass: "cpm-project-form",
+    attrs: {
+      "action": "",
+      "method": "post"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "id": "_wpnonce",
+      "name": "_wpnonce",
+      "value": "9dd08c1e0f"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_wp_http_referer",
+      "value": "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-name"
+  }, [_c('input', {
+    attrs: {
+      "type": "text",
+      "name": "project_name",
+      "id": "project_name",
+      "placeholder": "Name of the project",
+      "value": "eirugkdj",
+      "size": "45"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-category"
+  }, [_c('select', {
+    staticClass: "chosen-select",
+    attrs: {
+      "name": "project_cat",
+      "id": "project_cat"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "-1",
+      "selected": "selected"
+    }
+  }, [_vm._v("– Project Category –")])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-detail"
+  }, [_c('textarea', {
+    staticClass: "cpm-project-description",
+    attrs: {
+      "name": "project_description",
+      "id": "",
+      "cols": "50",
+      "rows": "3",
+      "placeholder": "Some details about the project (optional)"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item cpm-project-role"
+  }, [_c('table')]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-users"
+  }, [_c('input', {
+    staticClass: "cpm-project-coworker",
+    attrs: {
+      "type": "text",
+      "name": "",
+      "placeholder": "Type 3 or more characters to search users...",
+      "size": "45"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-form-item project-notify"
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "project_notify",
+      "value": "no"
+    }
+  }), _vm._v(" "), _c('label', [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": "project_notify",
+      "id": "project-notify",
+      "value": "yes"
+    }
+  }), _vm._v("\n                        Notify Co-Workers            \n                    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "submit"
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "project_id",
+      "value": "60"
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "action",
+      "value": "cpm_project_update"
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "cpm-pro-update-spinner"
+  }), _vm._v(" "), _c('input', {
+    staticClass: "button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "add_project",
+      "id": "add_project",
+      "value": "Update Project"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "button project-cancel",
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-loading",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_vm._v("Saving...")])])])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-46bc394e", esExports)
+  }
 }
 
 /***/ }),

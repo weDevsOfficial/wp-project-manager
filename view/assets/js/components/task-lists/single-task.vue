@@ -37,8 +37,6 @@
                         <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
-
-
                     <div class="modal-body cpm-todolist">
                         <div class="cpm-col-12 cpm-todo">
                             <div class="cpm-modal-conetnt">
@@ -95,42 +93,41 @@
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
 										    
-											    <div v-if="task.assignees.data.length && is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
+										    <div v-if="is_enable_multi_select" @click.prevent="afterSelect" class="cpm-multiselect cpm-multiselect-single-task">
 
-											        <multiselect 
-											            v-model="task_assign" 
-											            :options="project_users" 
-											            :multiple="true" 
-											            :close-on-select="false"
-											            :clear-on-select="true"
-											            :hide-selected="false"
-											            :show-labels="true"
-											            placeholder="<?php _e( 'Select User', 'cpm' ); ?>"
-											            select-label=""
-											            selected-label="selected"
-											            deselect-label=""
-											            :taggable="true"
-											            label="name"
-											            track-by="id"
-											            :allow-empty="true">
+										        <multiselect 
+										            v-model="task_assign" 
+										            :options="project_users" 
+										            :multiple="true" 
+										            :close-on-select="false"
+										            :clear-on-select="true"
+										            :hide-selected="false"
+										            :show-labels="true"
+										            placeholder="Select User"
+										            select-label=""
+										            selected-label="selected"
+										            deselect-label=""
+										            :taggable="true"
+										            label="display_name"
+										            track-by="id"
+										            :allow-empty="true">
 
-											            <template  slot="option" scope="props">
-											                <div>
-											                    <img height="16" width="16" class="option__image" :src="props.option.img" alt="<?php _e( 'No Man’s Sky', 'cpm' ); ?>">
-											                    <div class="option__desc">
-											                        <span class="option__title">{{ props.option.title }}</span>
-											                        <!-- <span class="option__small">{{ props.option.desc }}</span> -->
-											                    </div>
-											                </div>
-											            </template>
-											                
-											        </multiselect>               
-											    </div>
+										            <template  slot="option" scope="props">
+										                <div>
+										                    <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+										                    <div class="option__desc">
+										                        <span class="option__title">{{ props.option.display_name }}</span>
+										                        <!-- <span class="option__small">{{ props.option.desc }}</span> -->
+										                    </div>
+										                </div>
+										            </template>
+										                
+										        </multiselect>               
+										    </div>
 
 	                                        </span>
 
-
-	                                        <span v-if="(task.start_at.date || task.due_date.date )" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' cpm-task-date-wrap cpm-date-window'">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
 	                                                v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
@@ -156,7 +153,7 @@
 	                                            
 	                                        </span>
 
-	                                        <span v-if="(task.start_at.date == '' && task.due_date.date == '')" class="cpm-task-date-wrap cpm-date-window">
+	                                        <span v-if="(!task.start_at.date && !task.due_date.date)" class="cpm-task-date-wrap cpm-date-window">
 	                                            <span 
 	                                                @click.prevent="isTaskDateEditMode()"
 	                                                v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
@@ -164,9 +161,6 @@
 	                                                    <!-- <span class="dashicons cpm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'cpm' ); ?>"></span> -->
 	                                                    <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
 	                                                </span>
-
-	            
-
 	                                            </span>
 
 	                                            <div class="cpm-date-update-wrap" v-if="is_task_date_edit_mode">
@@ -195,7 +189,7 @@
                                         </span>
 
                                     </p>
-                                                                        <!-- @keyup.enter="updateTaskElement(task)" -->
+                                    <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea 
                                         v-prevent-line-break
                                         @blur="updateDescription(task, $event)" 
@@ -233,7 +227,9 @@
 </template>
 
 <script>
+	import Vue from './../../vue/vue';
 	import comments from './task-comments.vue';
+	import Multiselect from './../../vue-multiselect/vue-multiselect.min';
 
 	export default {
 		beforeRouteEnter (to, from, next) {
@@ -250,7 +246,8 @@
 	            is_enable_multi_select: false,
 	            task_id: this.$route.params.task_id,
 	            list: {},
-	            task: {}
+	            task: {},
+	            assigned_to: []
 	        }
 	    },
 
@@ -259,13 +256,7 @@
 	    	// 	return this.$store.state.task;
 	    	// },
 	        project_users: function() {
-	            var self = this;
-	            this.$store.state.project_users.map(function(user) {
-	                user.title = user.name;
-	                user.img  = user.avatar_url;
-	            });
-	            
-	            return this.$store.state.project_users;
+	            return this.$root.$store.state.project_users;
 	        },
 	        task_users () {
 	        	if (jQuery.isEmptyObject(this.$store.state.task)) {
@@ -282,36 +273,42 @@
 	        // 	return this.$store.state.task.comments.data;
 	        // },
 
+	        /**
+	         * Get and Set task users
+	         */
 	        task_assign: {
-	            get: function() {
-	                var self = this;
-	                var filtered_user = this.$store.state.project_users.filter(function(user) {
-	                    var has_user = self.task.assigned_to.indexOf(String(user.id) );
-	                    if ( has_user != '-1' ) {
-	                        return true;
-	                    }
+	            /**
+	             * Filter only current task assgin user from vuex state project_users
+	             *
+	             * @return array
+	             */
+	            get: function () {
+	                this.assigned_to = this.task.assignees.data.map(function (user) {
+	                    return user.id;
+	                });
+	                return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
+	            }, 
+
+	            /**
+	             * Set selected users at task insert or edit time
+	             * 
+	             * @param array selected_users 
+	             */
+	            set: function ( selected_users ) {
+	                this.assigned_to = selected_users.map(function (user) {
+	                    return user.id;
 	                });
 
-	                return filtered_user;
-	            },
+	                this.task.assignees.data = selected_users;
 
-	            set: function(user) {
-	                var task = this.task,
-	                    assign = [];
-	                
-	                user.map(function( set_user, key ) {
-	                    assign.push(String(set_user.id));
-	                });
-	                
-	                task.assigned_to = assign;
-
-	                this.updateTaskElement(task);
+	                this.updateTaskElement(this.task);
 	            }
 	        },
 	    },
 
 	    components: {
-	    	'task-comments': comments
+	    	'task-comments': comments,
+	    	'multiselect': Multiselect
 	    },
 
 	    created: function() {
@@ -386,9 +383,9 @@
 	        isEnableMultiSelect: function() {
 	            this.is_enable_multi_select = true;
 
-	            //Vue.nextTick(function() {
+	            Vue.nextTick(function() {
 	                jQuery('.multiselect__input').focus();
-	            //});
+	            });
 	        }, 
 
 	        fromDate: function(date) {
@@ -421,9 +418,9 @@
 	        isTaskDetailsEditMode: function() {
 	            this.is_task_details_edit_mode = true;
 
-	            //Vue.nextTick(function() {
+	            Vue.nextTick(function() {
 	                jQuery('.cpm-desc-field').focus();
-	            //});
+	            });
 	        },
 
 	        updateDescription: function(task, event) {
@@ -453,18 +450,19 @@
 	        updateTaskElement: function(task) {
 	            
 	            var update_data  = {
-	                    title: task.title,
-						description: task.description,
-						estimation: task.estimation,
-						start_at: task.start_at ? task.start_at.date : '',
-						due_date: task.due_date ? task.due_date.date : '',
-						complexity: task.complexity,
-						priority: task.priority,
-						order: task.order,
-						payable: task.payable,
-						recurrent: task.recurrent,
-						status: task.status,
-						category_id: task.category_id
+	                    'title': task.title,
+						'description': task.description,
+						'estimation': task.estimation,
+						'start_at': task.start_at ? task.start_at.date : '',
+						'due_date': task.due_date ? task.due_date.date : '',
+						'complexity': task.complexity,
+						'priority': task.priority,
+						'order': task.order,
+						'payable': task.payable,
+						'recurrent': task.recurrent,
+						'status': task.status,
+						'category_id': task.category_id,
+						'assignees': this.assigned_to
 	                },
 	                self = this,
 	                url = this.base_url + '/cpm/v2/projects/'+this.project_id+'/tasks/'+task.id;
@@ -479,7 +477,7 @@
 	                    self.is_enable_multi_select = false;
 	            	}
 	            }
-	           
+	           console.log(request_data);
 	            this.httpRequest(request_data);
 	        },
 
@@ -527,4 +525,10 @@
 	.pm-line-through {
 		text-decoration: line-through;
 	}
+	.cpm-multiselect-single-task {
+		position: absolute;
+	}
 </style>
+
+
+

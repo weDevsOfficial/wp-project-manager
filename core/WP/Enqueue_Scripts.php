@@ -39,6 +39,8 @@ class Enqueue_Scripts {
 			'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
 			'assets_url'			   => config('frontend.assets_url'),
 			'wp_time_zone'             => tzcode_to_tzstring( get_wp_timezone() ),
+			'current_user'             => wp_get_current_user(),
+			'avatar_url'               => get_avatar_url( get_current_user_id() ),
 			'plupload'      => array(
                 'browse_button'       => 'cpm-upload-pickfiles',
                 'container'           => 'cpm-upload-container',

@@ -11418,7 +11418,7 @@ var activities = {
 //import project_lists from './index.vue';
 
 const discussions_route = resolve => {
-    __webpack_require__.e/* require.ensure */(5).then((() => {
+    __webpack_require__.e/* require.ensure */(6).then((() => {
         resolve(__webpack_require__(11));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -13074,7 +13074,7 @@ const single_list_route = resolve => {
 };
 
 const single_task_route = resolve => {
-    __webpack_require__.e/* require.ensure */(6).then((() => {
+    __webpack_require__.e/* require.ensure */(5).then((() => {
         resolve(__webpack_require__(20));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

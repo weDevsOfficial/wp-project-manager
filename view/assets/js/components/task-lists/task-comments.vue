@@ -48,7 +48,7 @@
         <div class="single-todo-comments">
             <div class="cpm-comment-form-wrap">
 
-                <div class="cpm-avatar"><img :src="getCurrentUserAvatar" height="48" width="48"/></div>
+                <div class="cpm-avatar"><img :src="avatar_url" height="48" width="48"/></div>
                 <div class="cpm-new-doc-comment-form">
                     <task-comment-form :comment="{}" :comments="comments"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
@@ -65,7 +65,8 @@
 
 	    data: function() {
 	        return {
-	            currnet_user_id: 1
+	            currnet_user_id: 1,
+                avatar_url: PM_Vars.avatar_url
 	        }
 	    },
 
