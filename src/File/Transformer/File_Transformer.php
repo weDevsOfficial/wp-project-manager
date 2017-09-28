@@ -6,11 +6,11 @@ use CPM\File\Models\File;
 use League\Fractal\TransformerAbstract;
 use CPM\Core\File_System\File_System;
 use CPM\User\Transformers\User_Transformer;
-use CPM\Common\Traits\Resource_Editor;
+use CPM\Common\Traits\Resource_Editors;
 
 class File_Transformer extends TransformerAbstract {
 
-    use Resource_Editor;
+    use Resource_Editors;
 
     protected $defaultIncludes = [
         'creator', 'updater'

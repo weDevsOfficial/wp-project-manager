@@ -7,8 +7,12 @@ use League\Fractal\TransformerAbstract;
 use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\User\Transformers\User_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Comment_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
     /**
      * List of resources to automatically include
      *
@@ -68,11 +72,5 @@ class Comment_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $resource;
-    }
-
-    public function includeCreator( Comment $item ) {
-        $creator = $item->creator;
-
-        return $this->item( $creator, new User_Transformer );
     }
 }

@@ -4,7 +4,7 @@ namespace CPM\Common\Traits;
 
 use CPM\User\Transformers\User_Transformer;
 
-trait Resource_Editor {
+trait Resource_Editors {
 
     public function includeCreator( $item ) {
         $creator = $item->creator;

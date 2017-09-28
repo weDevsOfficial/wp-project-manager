@@ -12,15 +12,19 @@ use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\User\Models\User;
 use CPM\User\Transformers\User_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Task_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
     /**
      * List of resources to automatically include
      *
      * @var array
      */
     protected $defaultIncludes = [
-        'task_list', 'assignees'
+        'creator', 'updater', 'task_list', 'assignees'
     ];
 
     /**
@@ -54,13 +58,11 @@ class Task_Transformer extends TransformerAbstract {
             'project_id'  => $item->project_id,
             'category_id' => $item->category_id,
             'parent_id'   => $item->category_id,
-            'created_by'  => $item->created_by,
-            'updated_by'  => $item->updated_by,
-            'meta' => [
-                'total_comment' => $item->comments->count(),
-                'total_files'   => $item->files->count(),
-                'total_board'   => $item->boards->count(),
-                'total_assignee'    => $item->assignees->count(),
+            'meta'        => [
+                'total_comment'  => $item->comments->count(),
+                'total_files'    => $item->files->count(),
+                'total_board'    => $item->boards->count(),
+                'total_assignee' => $item->assignees->count(),
             ],
         ];
     }

@@ -8,23 +8,29 @@ use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Task\Transformer\Task_Transformer;
 use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\Common\Traits\Resource_Editors;
 
 class Milestone_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
+    protected $defaultIncludes = [
+        'creator', 'updater'
+    ];
+
     protected $availableIncludes = [
         'discussion_boards', 'task_lists'
     ];
 
     public function transform( Milestone $item ) {
         return [
-            'id'          => (int) $item->id,
-            'title'       => $item->title,
-            'description' => $item->description,
-            'order'       => $item->order,
-            'achieve_date'=> format_date( $item->achieve_date ),
-            'created_by'  => $item->created_by,
-            'updated_by'  => $item->updated_by,
-            'meta' => [
-                'total_task_list' => $item->task_lists->count(),
+            'id'           => (int) $item->id,
+            'title'        => $item->title,
+            'description'  => $item->description,
+            'order'        => $item->order,
+            'achieve_date' => format_date( $item->achieve_date ),
+            'meta'         => [
+                'total_task_list'        => $item->task_lists->count(),
                 'total_discussion_board' => $item->discussion_boards->count(),
             ],
         ];

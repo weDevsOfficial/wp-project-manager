@@ -6,10 +6,14 @@ use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
 use CPM\Category\Transformer\Category_Transformer;
 use CPM\User\Transformers\User_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Project_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
     protected $defaultIncludes = [
-        'categories', 'assignees'
+        'creator', 'updater', 'categories', 'assignees'
     ];
 
     public function transform( Project $item ) {
@@ -24,8 +28,6 @@ class Project_Transformer extends TransformerAbstract {
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
-            'created_by'          => $item->created_by,
-            'updated_by'          => $item->updated_by,
             'meta'                => [
                 'total_task_lists'         => $item->task_lists->count(),
                 'total_tasks'              => $item->tasks->count(),

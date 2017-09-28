@@ -4,9 +4,11 @@ namespace CPM\Category\Transformer;
 
 use CPM\Category\Models\Category;
 use League\Fractal\TransformerAbstract;
-use CPM\User\Transformers\User_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Category_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
 
     protected $defaultIncludes = [
         'creator', 'updater',
@@ -19,17 +21,5 @@ class Category_Transformer extends TransformerAbstract {
             'description' => $item->description,
             'categorible_type' => $item->categorible_type,
         ];
-    }
-
-    public function includeCreator( Category $item ) {
-        $creator = $item->creator;
-
-        return $this->item( $creator, new User_Transformer );
-    }
-
-    public function includeUpdater ( Category $item ) {
-        $updater = $item->updater;
-
-        return $this->item( $updater, new User_Transformer );
     }
 }

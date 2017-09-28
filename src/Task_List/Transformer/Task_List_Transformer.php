@@ -10,11 +10,14 @@ use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\File\Transformer\File_Transformer;
 use CPM\Milestone\Transformer\Milestone_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\Common\Traits\Resource_Editors;
 
 class Task_List_Transformer extends TransformerAbstract {
 
+    use Resource_Editors;
+
     protected $defaultIncludes = [
-        'milestone'
+        'creator', 'udater', 'milestone'
     ];
 
     protected $availableIncludes = [
