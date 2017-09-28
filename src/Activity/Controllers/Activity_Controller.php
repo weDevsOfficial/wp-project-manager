@@ -16,6 +16,11 @@ class Activity_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
+        // return trans( 'activities.update-project-title', [
+        //     'old' => 'old title',
+        //     'new' => 'new title'
+        // ]);
+
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 

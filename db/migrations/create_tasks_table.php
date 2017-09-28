@@ -22,7 +22,7 @@ class Create_Tasks_Table extends Migration {
             $table->tinyInteger( 'status' )->default( 0 )->comment( '0: Incomplete; 1: Complete; 2: Pending');
 
             $table->unsignedInteger( 'project_id' );
-            $table->unsignedInteger( 'category_id' );
+            $table->unsignedInteger( 'category_id' )->default( 0 );
             $table->unsignedInteger( 'parent_id' )->default( 0 );
 
             $table->unsignedInteger( 'created_by' );
