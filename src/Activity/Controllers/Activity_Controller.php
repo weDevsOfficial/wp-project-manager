@@ -9,12 +9,13 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Activity\Models\Activity;
+use CPM\Activity\Transformers\Activity_Transformer;
 
 class Activity_Controller {
 
     use Transformer_Manager;
 
-    public function index() {
+    public function index( WP_REST_Request $request ) {
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 

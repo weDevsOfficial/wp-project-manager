@@ -11,8 +11,9 @@ class Project_Observer extends Model_Observer {
 
     public function created( $resource ) {
         Activity::create([
-            'actor'         => $resource->created_by,
+            'actor_id'      => $resource->created_by,
             'action'        => 'create-project',
+            'action_type'   => 'creation',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
         ]);
@@ -24,8 +25,9 @@ class Project_Observer extends Model_Observer {
 
     protected function title( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-title',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -37,8 +39,9 @@ class Project_Observer extends Model_Observer {
 
     protected function description( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-description',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -50,8 +53,9 @@ class Project_Observer extends Model_Observer {
 
     protected function status( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-status',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -63,8 +67,9 @@ class Project_Observer extends Model_Observer {
 
     protected function budget( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-budget',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -76,8 +81,9 @@ class Project_Observer extends Model_Observer {
 
     protected function pay_rate( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-pay-rate',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -89,8 +95,9 @@ class Project_Observer extends Model_Observer {
 
     protected function est_completion_date( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-est-completion-date',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([
@@ -102,8 +109,9 @@ class Project_Observer extends Model_Observer {
 
     protected function color_code( Project $item, $old_value ) {
         Activity::create([
-            'actor'         => $item->updated_by,
+            'actor_id'      => $item->updated_by,
             'action'        => 'update-project-color-code',
+            'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => serialize([

@@ -10,10 +10,14 @@ use CPM\File\Transformer\File_Transformer;
 use CPM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Milestone\Transformer\Milestone_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
     protected $defaultIncludes = [
-        'users', 'milestone', 'files'
+        'creator', 'updater', 'users', 'milestone', 'files'
     ];
 
     protected $availableIncludes = [
@@ -22,16 +26,14 @@ class Discussion_Board_Transformer extends TransformerAbstract {
 
     public function transform( Discussion_Board $item ) {
         return [
-            'id' => (int) $item->id,
-            'title' => $item->title,
+            'id'          => (int) $item->id,
+            'title'       => $item->title,
             'description' => $item->description,
-            'order' => $item->order,
-            'created_by' => $item->created_by,
-            'updated_by' => $item->updated_by,
-            'meta' => [
+            'order'       => $item->order,
+            'meta'        => [
                 'total_comments' => $item->comments->count(),
-                'total_users' => $item->users->count(),
-                'total_files' => $item->files->count(),
+                'total_users'    => $item->users->count(),
+                'total_files'    => $item->files->count(),
             ],
         ];
     }

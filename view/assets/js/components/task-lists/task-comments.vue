@@ -1,6 +1,6 @@
 <template>
 	<div class="cpm-task-comment-wrap">
-
+        
         <h3 class="cpm-comment-title">Discuss this task</h3>
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">

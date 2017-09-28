@@ -103,16 +103,15 @@ class Task_Controller {
 
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
+        $project_id = $request->get_param( 'project_id' );
+        $task_id = $request->get_param( 'task_id' );
         $assignees = $request->get_param( 'assignees' );
 
-        $project = Project::find( $data['project_id'] );
+        $task = Task::where( 'project_id', $project_id )
+            ->where( 'id', $task_id )
+            ->first();
 
-        if ( $project ) {
-            $task = Task::where( 'project_id', $project->id )
-                ->where( 'id', $data['task_id'] )
-                ->first();
-        }
- 
+
         if ( $task ) {
             $task->update( $data );
         }
@@ -190,12 +189,12 @@ class Task_Controller {
     public function attach_users( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $task_id = $request->get_param( 'task_id' );
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = $request->get_param( 'users' );
 
         $project = Project::find( $project_id );
         $task = Task::where( 'id', $task_id )->where( 'project_id', $project_id )->first();
 
-        if ( $project && $task ) {
+        if ( $project && $task && is_array( $user_ids ) ) {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'task_id' => $task->id,
@@ -215,14 +214,14 @@ class Task_Controller {
     public function detach_users( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $task_id = $request->get_param( 'task_id' );
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = $request->get_param( 'users' );
 
         $project = Project::find( $project_id );
         $task = Task::where( 'id', $task_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        if ( $task ) {
+        if ( $task && is_array( $user_ids ) ) {
             $task->assignees()->whereIn( 'assigned_to', $user_ids )->delete();
         }
 

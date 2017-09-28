@@ -6,8 +6,13 @@ use CPM\Comment\Models\Comment;
 use League\Fractal\TransformerAbstract;
 use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\User\Transformers\User_Transformer;
+use CPM\Common\Traits\Resource_Editors;
 
 class Comment_Transformer extends TransformerAbstract {
+
+    use Resource_Editors;
+
     /**
      * List of resources to automatically include
      *
@@ -18,15 +23,14 @@ class Comment_Transformer extends TransformerAbstract {
     ];
 
     protected $defaultIncludes = [
-        'files'
+        'files', 'creator'
     ];
 
     public function transform( Comment $item ) {
         return [
-            'id'         => (int) $item->id,
-            'content'    => $item->content,
-            'created_by' => $item->created_by,
-            'meta' => [
+            'id'      => (int) $item->id,
+            'content' => $item->content,
+            'meta'    => [
                 'total_replies' => $item->replies->count(),
             ]
         ];

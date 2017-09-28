@@ -1,6 +1,7 @@
 <template>
 	<div>
 
+
 	    <!-- Spinner before load task -->
 	    <div v-if="loading" class="modal-mask half-modal cpm-task-modal modal-transition">
 	        <div class="modal-wrapper">
@@ -8,6 +9,7 @@
 	                <span class="close-vue-modal">
 	                    <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
 	                </span>
+
 
 	                <div class="modal-body cpm-todolist">
 	                    
