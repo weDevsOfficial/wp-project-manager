@@ -12785,9 +12785,9 @@ window.CPM_Component_jQuery = {
                 return 0;
             }
 
-            var total_tasks = parseInt(list.count_incompleted_tasks) + parseInt(list.count_completed_tasks),
+            var total_tasks = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks),
                 //tasks.length,
-            completed_tasks = list.count_completed_tasks,
+            completed_tasks = list.meta.total_complete_tasks,
                 //this.countCompletedTasks( list ),
             progress = 100 * completed_tasks / total_tasks;
 
@@ -13251,6 +13251,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
             if (data.task.status === 'incomplete') {
                 state.lists[list_index].incomplete_tasks.data.splice(0, 0, data.task);
             }
+
+            state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
         },
 
         /**
@@ -13295,6 +13297,9 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
                     state.lists[list_index].complete_tasks.data.splice(0, 0, data.task);
                 }
+
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
             if (data.status === false) {
@@ -13305,6 +13310,9 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
                     state.lists[list_index].incomplete_tasks.data.splice(0, 0, data.task);
                 }
+
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
             }
         },
 
@@ -13445,9 +13453,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
             if (data.task.status === false || data.task.status === 'incomplete') {
                 var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             } else {
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
             }
         },
 

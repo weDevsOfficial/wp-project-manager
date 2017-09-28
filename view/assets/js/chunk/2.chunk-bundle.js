@@ -2576,6 +2576,25 @@ if (false) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2923,7 +2942,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    }, [_vm._v(_vm._s(list.title))]), _vm._v(" "), _c('span', {
+    }, [_vm._v("\n\t                    \t" + _vm._s(list.title) + "\n\t                    \t\n\t                    \t")]), _vm._v(" "), _c('span', {
       class: _vm.privateClass(list)
     }), _vm._v(" "), _c('div', {
       staticClass: "cpm-right"

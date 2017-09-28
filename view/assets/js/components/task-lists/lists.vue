@@ -14,7 +14,14 @@
 		                <header class="cpm-list-header">
 		                    <h3>
 		                    
-		                        <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">{{ list.title }}</router-link>
+		                        <router-link :to="{ 
+		                        	name: 'single_list', 
+		                        	params: { 
+		                        		list_id: list.id 
+		                        	}}">
+		                    	{{ list.title }}
+		                    	
+		                    	</router-link>
 		                        <span :class="privateClass(list)"></span>
 		                        <!-- v-if="list.can_del_edit" -->
 		                        <div class="cpm-right">
@@ -44,19 +51,31 @@
 		                        </div>
 		                       
 		                        <div class="cpm-col-3 cpm-todo-complete">
-		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                            <router-link :to="{ 
+			                        	name: 'single_list', 
+			                        	params: { 
+			                        		list_id: list.id 
+			                        	}}">
 		                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
 		                                Completed
 		                            </router-link>
 		                        </div>
 		                        <div  class="cpm-col-3 cpm-todo-incomplete">
-		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                            <router-link :to="{ 
+			                        	name: 'single_list', 
+			                        	params: { 
+			                        		list_id: list.id 
+			                        	}}">
 		                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
 		                                Incomplete
 		                            </router-link>
 		                        </div>
 		                        <div  class="cpm-col-3 cpm-todo-comment">
-		                            <router-link :to="{ name: 'single_list', params: { list_id: list.id }}">
+		                            <router-link :to="{ 
+			                        	name: 'single_list', 
+			                        	params: { 
+			                        		list_id: list.id 
+			                        	}}">
 		                                <span>{{ list.meta.total_comments }} Comments</span>
 		                            </router-link>
 		                        </div>

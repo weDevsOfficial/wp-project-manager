@@ -696,8 +696,8 @@ var PM_Task_Mixin = {
                 return 0;
             }
             
-            var total_tasks     = parseInt(list.count_incompleted_tasks) + parseInt(list.count_completed_tasks), //tasks.length,
-                completed_tasks = list.count_completed_tasks, //this.countCompletedTasks( list ),
+            var total_tasks     = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks), //tasks.length,
+                completed_tasks = list.meta.total_complete_tasks, //this.countCompletedTasks( list ),
                 progress        = ( 100 * completed_tasks ) / total_tasks;
 
             return isNaN( progress ) ? 0 : progress.toFixed(0);

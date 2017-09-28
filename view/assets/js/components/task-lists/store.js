@@ -186,6 +186,8 @@ export default new Vuex.Store({
             if ( data.task.status === 'incomplete' ) {
                 state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
             }
+
+            state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
         },
 
         /**
@@ -230,6 +232,9 @@ export default new Vuex.Store({
 
                     state.lists[list_index].complete_tasks.data.splice(0,0,data.task);
                 } 
+
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
             if (data.status === false) {
@@ -240,6 +245,9 @@ export default new Vuex.Store({
 
                     state.lists[list_index].incomplete_tasks.data.splice(0,0,data.task);
                 } 
+
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
             }
         },
 
@@ -380,9 +388,11 @@ export default new Vuex.Store({
             if ( data.task.status === false || data.task.status === 'incomplete' ) {
                 var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             } else {
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
             }
             
         },
