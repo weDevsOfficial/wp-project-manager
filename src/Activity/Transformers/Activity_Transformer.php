@@ -15,6 +15,7 @@ class Activity_Transformer extends TransformerAbstract {
     public function transform( Activity $item ) {
         return [
             'id'           => (int) $item->id,
+            'message'      => trans( "activities.{$item->action}", unserialize( $item->meta ) ),
             'action'       => $item->action,
             'action_type'  => $item->action_type,
             'meta'         => unserialize( $item->meta ),

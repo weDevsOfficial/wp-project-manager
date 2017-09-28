@@ -16,18 +16,13 @@ class Activity_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        // return trans( 'activities.update-project-title', [
-        //     'old' => 'old title',
-        //     'new' => 'new title'
-        // ]);
-
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $activities = Activity::paginate( $per_page, ['*'], 'page', $page );
+        $activities = Activity::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
 
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );
