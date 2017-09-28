@@ -17,7 +17,7 @@ class Task_List_Transformer extends TransformerAbstract {
     use Resource_Editors;
 
     protected $defaultIncludes = [
-        'creator', 'udater', 'milestone'
+        'creator', 'updater', 'milestone'
     ];
 
     protected $availableIncludes = [
