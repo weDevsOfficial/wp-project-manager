@@ -6,6 +6,7 @@ use CPM\Comment\Models\Comment;
 use League\Fractal\TransformerAbstract;
 use CPM\File\Transformer\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use CPM\User\Transformers\User_Transformer;
 
 class Comment_Transformer extends TransformerAbstract {
     /**
@@ -18,15 +19,14 @@ class Comment_Transformer extends TransformerAbstract {
     ];
 
     protected $defaultIncludes = [
-        'files'
+        'files', 'creator'
     ];
 
     public function transform( Comment $item ) {
         return [
-            'id'         => (int) $item->id,
-            'content'    => $item->content,
-            'created_by' => $item->created_by,
-            'meta' => [
+            'id'      => (int) $item->id,
+            'content' => $item->content,
+            'meta'    => [
                 'total_replies' => $item->replies->count(),
             ]
         ];
@@ -68,5 +68,11 @@ class Comment_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $resource;
+    }
+
+    public function includeCreator( Comment $item ) {
+        $creator = $item->creator;
+
+        return $this->item( $creator, new User_Transformer );
     }
 }
