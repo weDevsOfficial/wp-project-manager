@@ -726,6 +726,7 @@ if (false) {
 
             return false;
         }
+
     }
 });
 
@@ -2053,7 +2054,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.deleteTask(_vm.task)
+        _vm.deleteTask(_vm.task, _vm.list)
       }
     }
   }, [_c('span', {
@@ -2175,7 +2176,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.deleteTask(_vm.task.post_parent, _vm.task.ID)
+        _vm.deleteTask(_vm.task, _vm.list)
       }
     }
   }, [_c('span', {

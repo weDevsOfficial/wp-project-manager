@@ -48,7 +48,7 @@
 
 
                 <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-                    <a href="#" @click.prevent="deleteTask( task.post_parent, task.ID )" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                    <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
             </div>

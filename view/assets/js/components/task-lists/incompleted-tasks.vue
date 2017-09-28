@@ -76,7 +76,7 @@
                     
                         <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
                         <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
-                        <a href="#" @click.prevent="deleteTask(task)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                        <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                         
 
                 </div>
@@ -109,6 +109,7 @@
 
 	            return false;
 	        },
+
 	    }
 	}
 </script>

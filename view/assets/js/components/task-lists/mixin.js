@@ -438,86 +438,6 @@ var PM_Task_Mixin = {
         },
 
         /**
-         * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
-         */
-        deleteComment: function( comment_id, list_id ) {
-            
-            if ( ! confirm( PM_Vars.message.confirm ) ) {
-                return;
-            }
-
-            var self       = this,
-                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
-                form_data  = {
-                    action: 'cpm_comment_delete',
-                    comment_id: comment_id,
-                    _wpnonce: PM_Vars.nonce,
-                };
-                comment_index = this.getIndex( this.$store.state.lists[list_index].comments, comment_id, 'comment_ID' );
-
-            // Seding request for insert or update todo list
-            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-                if ( res.success ) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-
-                    CPM_Component_jQuery.fadeOut( comment_id, function() {
-                        self.$store.commit( 'after_delete_comment', { 
-                            list_index: list_index,
-                            comment_index: comment_index
-                        });
-                    });
-                    
-                    
-                }
-            });
-        },
-
-        /**
-         * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
-         */
-        deleteTaskComment: function( comment_id, task ) {
-            
-            if ( ! confirm( PM_Vars.message.confirm ) ) {
-                return;
-            }
-
-            var self       = this,
-                list_index = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
-                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
-                form_data  = {
-                    action: 'cpm_comment_delete',
-                    comment_id: comment_id,
-                    _wpnonce: PM_Vars.nonce,
-                };
-                comment_index = this.getIndex( task.comments, comment_id, 'comment_ID' );
-
-            // Seding request for insert or update todo list
-            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-                if ( res.success ) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-
-                    CPM_Component_jQuery.fadeOut( comment_id, function() {
-                        self.$store.commit( 'after_delete_task_comment', { 
-                            list_index: list_index,
-                            task_index: task_index,
-                            comment_index: comment_index
-                        });
-                    });
-                }
-            });
-        },
-
-        /**
          * Get user information from task assigned user id
          *  
          * @param  array assigned_user 
@@ -964,6 +884,25 @@ var PM_Task_Mixin = {
         },
         showHideListCommentEditForm (comment) {
             comment.edit_mode = comment.edit_mode ? false : true; 
+        },
+
+        deleteTask (task, list) {
+            if ( !confirm('Are you sure!') ) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/' + task.id,
+                type: 'DELETE',
+                success (res) {
+                    self.$store.commit('afterDeleteTask', {
+                       'task': task,
+                       'list': list 
+                    });
+                }
+            }
+
+            this.httpRequest(request_data);
         }
     }
 }

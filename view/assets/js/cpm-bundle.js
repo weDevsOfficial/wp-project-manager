@@ -12532,84 +12532,6 @@ window.CPM_Component_jQuery = {
         },
 
         /**
-         * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
-         */
-        deleteComment: function (comment_id, list_id) {
-
-            if (!confirm(PM_Vars.message.confirm)) {
-                return;
-            }
-
-            var self = this,
-                list_index = this.getIndex(this.$store.state.lists, list_id, 'ID'),
-                form_data = {
-                action: 'cpm_comment_delete',
-                comment_id: comment_id,
-                _wpnonce: PM_Vars.nonce
-            };
-            comment_index = this.getIndex(this.$store.state.lists[list_index].comments, comment_id, 'comment_ID');
-
-            // Seding request for insert or update todo list
-            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
-                if (res.success) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-
-                    CPM_Component_jQuery.fadeOut(comment_id, function () {
-                        self.$store.commit('after_delete_comment', {
-                            list_index: list_index,
-                            comment_index: comment_index
-                        });
-                    });
-                }
-            });
-        },
-
-        /**
-         * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
-         */
-        deleteTaskComment: function (comment_id, task) {
-
-            if (!confirm(PM_Vars.message.confirm)) {
-                return;
-            }
-
-            var self = this,
-                list_index = this.getIndex(this.$store.state.lists, task.post_parent, 'ID'),
-                task_index = this.getIndex(this.$store.state.lists[list_index].tasks, task.ID, 'ID'),
-                form_data = {
-                action: 'cpm_comment_delete',
-                comment_id: comment_id,
-                _wpnonce: PM_Vars.nonce
-            };
-            comment_index = this.getIndex(task.comments, comment_id, 'comment_ID');
-
-            // Seding request for insert or update todo list
-            jQuery.post(PM_Vars.ajaxurl, form_data, function (res) {
-                if (res.success) {
-                    // Display a success message, with a title
-                    //toastr.success(res.data.success);
-
-                    CPM_Component_jQuery.fadeOut(comment_id, function () {
-                        self.$store.commit('after_delete_task_comment', {
-                            list_index: list_index,
-                            task_index: task_index,
-                            comment_index: comment_index
-                        });
-                    });
-                }
-            });
-        },
-
-        /**
          * Get user information from task assigned user id
          *  
          * @param  array assigned_user 
@@ -13048,6 +12970,25 @@ window.CPM_Component_jQuery = {
         },
         showHideListCommentEditForm(comment) {
             comment.edit_mode = comment.edit_mode ? false : true;
+        },
+
+        deleteTask(task, list) {
+            if (!confirm('Are you sure!')) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + task.id,
+                type: 'DELETE',
+                success(res) {
+                    self.$store.commit('afterDeleteTask', {
+                        'task': task,
+                        'list': list
+                    });
+                }
+            };
+
+            this.httpRequest(request_data);
         }
     }
 };
@@ -13498,17 +13439,16 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
          * 
          * @return void       
          */
-        after_delete_task: function (state, task) {
+        afterDeleteTask: function (state, data) {
+            var list_index = state.getIndex(state.lists, data.list.id, 'id');
 
-            if (state.lists[task.list_index].tasks[task.task_index].completed == '0') {
-                state.lists[task.list_index].count_incompleted_tasks = parseInt(state.lists[task.list_index].count_incompleted_tasks) - 1;
+            if (data.task.status === false || data.task.status === 'incomplete') {
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+            } else {
+                var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
             }
-
-            if (state.lists[task.list_index].tasks[task.task_index].completed == '1') {
-                state.lists[task.list_index].count_completed_tasks = parseInt(state.lists[task.list_index].count_completed_tasks) - 1;
-            }
-
-            state.lists[task.list_index].tasks.splice(task.task_index, 1);
         },
 
         /**

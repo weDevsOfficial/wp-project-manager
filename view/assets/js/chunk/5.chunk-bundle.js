@@ -883,7 +883,7 @@ if (false) {
 					self.is_enable_multi_select = false;
 				}
 			};
-			console.log(request_data);
+
 			this.httpRequest(request_data);
 		},
 

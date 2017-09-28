@@ -374,17 +374,17 @@ export default new Vuex.Store({
          * 
          * @return void       
          */
-        after_delete_task: function( state, task ) {
-            
-            if ( state.lists[task.list_index].tasks[task.task_index].completed == '0' ) {
-               state.lists[task.list_index].count_incompleted_tasks = parseInt( state.lists[task.list_index].count_incompleted_tasks ) - 1;
-            }  
+        afterDeleteTask: function( state, data ) {
+            var list_index = state.getIndex(state.lists, data.list.id, 'id');
 
-            if ( state.lists[task.list_index].tasks[task.task_index].completed == '1' ) {
-                state.lists[task.list_index].count_completed_tasks = parseInt( state.lists[task.list_index].count_completed_tasks ) - 1;
+            if ( data.task.status === false || data.task.status === 'incomplete' ) {
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
+            } else {
+                var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
             }
-
-            state.lists[task.list_index].tasks.splice( task.task_index, 1 );
+            
         },
 
         /**
