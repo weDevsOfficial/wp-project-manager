@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'name'    => 'Project Manager',
-    'slug'    => 'cpm',
-    'version' => '2',
+    'name'        => 'Project Manager',
+    'slug'        => 'cpm',
+    'version'     => '2',
+    'text_domain' => 'cpm'
 ];

@@ -23,6 +23,23 @@ function load_configurations() {
     return $config;
 }
 
+function load_lang() {
+    $files = glob( __DIR__ . "/../lang/*.php" );
+
+    if ( $files === false ) {
+        throw new RuntimeException( "Failed to glob for lang files" );
+    }
+
+    foreach ( $files as $file ) {
+        $lang[basename( $file, '.php' )] = include $file;
+    }
+
+    unset( $file );
+    unset( $files );
+
+    return $lang;
+}
+
 function load_libs() {
     $files = glob( __DIR__ . "/../libs/*.php" );
 

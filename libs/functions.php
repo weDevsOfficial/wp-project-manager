@@ -1,5 +1,11 @@
 <?php
 
+use CPM\Core\Lang\Lang;
+
+function trans( $key, $values = [] ) {
+    return Lang::trans( $key, $values );
+}
+
 function get_wp_timezone() {
     $current_offset = get_option('gmt_offset');
     $wp_timezone = get_option('timezone_string');
