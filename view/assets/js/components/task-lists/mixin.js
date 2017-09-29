@@ -732,7 +732,7 @@ var PM_Task_Mixin = {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/1/task-lists/' + list_id,
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/' + list_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteList', list_id);

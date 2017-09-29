@@ -4,6 +4,7 @@
         <div class="item message cpm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
+        
         <file-uploader :files="files"></file-uploader>
         <div class="notify-users">
             

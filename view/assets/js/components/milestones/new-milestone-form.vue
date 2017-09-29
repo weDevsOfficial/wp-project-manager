@@ -4,7 +4,7 @@
         <div class="item milestone-title">
             <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" placeholder="Milestone name">
         </div>
-
+        
         <div class="item due">
             <cpm-datepickter v-model="milestone.date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
         </div>

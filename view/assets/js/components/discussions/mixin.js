@@ -80,7 +80,7 @@ export default Vue.mixin({
 	                title: this.discuss.title,
 	                description: this.discuss.description,
 	                order: '',
-	                milestone: this.milestone_id,
+	                milestone: this.discuss.milestone_id,
 	                files: this.files
 	            };
 
@@ -131,7 +131,6 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	            }
 	        }
-
 	        self.httpRequest(request_data);
 	    },
         getMilestones (self) {
@@ -158,6 +157,7 @@ export default Vue.mixin({
 	                content: self.comment.content,
 	                commentable_id: self.discuss.id,
 	                commentable_type: 'discussion-board',
+	                FILES: self.files
 	            };
 	        
 	        // Showing loading option 

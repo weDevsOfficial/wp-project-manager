@@ -13,7 +13,7 @@ trait File_Attachment {
         $entity_type = $reflector->getShortName();
         $entity_type = str_replace( '_', '-', $entity_type );
         $entity_type = strtolower( $entity_type );
-
+        
         $attachment_ids = File_System::multiple_upload( $files );
 
         foreach ( $attachment_ids as $attachment_id ) {

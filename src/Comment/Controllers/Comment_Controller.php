@@ -61,8 +61,9 @@ class Comment_Controller {
     public function store( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
+        
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
+echo '<pre>'; print_r( $files ); echo '</pre>'; die();
         $comment = Comment::create( $data );
 
         if ( $files ) {

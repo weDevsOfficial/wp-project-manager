@@ -27,7 +27,7 @@
             multipart_params: [],
             multiple_queues: false,
             urlstream_upload: true,
-            file_data_name: 'cpm_attachment',
+            file_data_name: 'files',
             max_file_size: PM_Vars.plupload.max_file_size,
             url: PM_Vars.plupload.url,
             flash_swf_url: PM_Vars.plupload.flash_swf_url,
@@ -39,10 +39,10 @@
         //attach event handlers
         this.uploader.bind('Init', $.proxy(this, 'init'));
         this.uploader.bind('FilesAdded', $.proxy(this, 'added'));
-        this.uploader.bind('QueueChanged', $.proxy(this, 'upload'));
-        this.uploader.bind('UploadProgress', $.proxy(this, 'progress'));
-        this.uploader.bind('Error', $.proxy(this, 'error'));
-        this.uploader.bind('FileUploaded', $.proxy(this, 'uploaded'));
+        // this.uploader.bind('QueueChanged', $.proxy(this, 'upload'));
+        // this.uploader.bind('UploadProgress', $.proxy(this, 'progress'));
+        // this.uploader.bind('Error', $.proxy(this, 'error'));
+        // this.uploader.bind('FileUploaded', $.proxy(this, 'uploaded'));
 
         this.uploader.init();
 
@@ -55,20 +55,27 @@
         },
 
         added: function (up, files) {
+            
             var $container = $('#' + this.container).find('.cpm-upload-filelist');
-
+            self = this;
             $.each(files, function(i, file) {
-                $container.append(
-                    '<div class="upload-item" id="' + file.id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original">' +
-                    file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-                    '</div></div>');
+
+                file.formatSize = plupload.formatSize(file.size);
+
+                var preloader = new mOxie.Image();
+
+                preloader.onload = function() {
+                    file.thumb = preloader.getAsDataURL();
+                    self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
+                };
+
+                preloader.load( file.getSource() );
             });
 
-            up.refresh(); // Reposition Flash/Silverlight
-            // up.start();
+            up.destroy();
         },
         BeforeUpload: function(uploader, file ) {
-            console.log(uploader, file );
+            
         },
 
         upload: function (uploader) {
@@ -77,7 +84,6 @@
 
         progress: function (up, file) {
             var item = $('#' + file.id);
-
             $('.bar', item).width( (200 * file.loaded) / file.size );
             $('.percent', item).html( file.percent + '%' );
         },

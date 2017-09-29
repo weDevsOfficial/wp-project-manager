@@ -39,10 +39,10 @@ export default Vue.mixin({
 
 	    getSelfMilestones (self) {
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=2&page='+ self.setCurrentPageNumber(self),
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
                 success (res) {
                 	res.data.map(function(milestone, index) {
-			    		self.addMeta(milestone);
+			    		self.addMeta(milestone, index);
 			    	});
                     self.$store.commit( 'setSelfMilestones', res.data );
                     self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
@@ -52,8 +52,17 @@ export default Vue.mixin({
             self.httpRequest(request);
         },
 
-	    addMeta (milestone) {
+	    addMeta (milestone, index) {
+	    	var test = [null, '2017-09-30 02:23:41'];
 	    	milestone.edit_mode = false;
+	    	milestone.due_date = {
+	    		date: test[index],
+	    		completed: false,
+	    	};
+
+	    	if (index == 2) {
+	    		milestone.completed = true;
+	    	}
 	    },
 
 	    setCurrentPageNumber (self) {
@@ -155,7 +164,69 @@ export default Vue.mixin({
 			} else {
 				self.getSelfMilestones(self);
 			}
-	    }
+	    },
+	   	/**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function( list ) {
+            
+            if (typeof list ==  'undefined') {
+                return 0;
+            }
+            
+            var total_tasks     = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks), //tasks.length,
+                completed_tasks = list.meta.total_complete_tasks, //this.countCompletedTasks( list ),
+                progress        = ( 100 * completed_tasks ) / total_tasks;
+
+            return isNaN( progress ) ? 0 : progress.toFixed(0);
+        },
+
+        /**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
+        getProgressStyle: function( list ) {
+            if ( typeof list == 'undefined' ) {
+                return 0;
+            }
+            var width = this.getProgressPercent( list );
+
+            return { width: width+'%' };
+        },
+
+        deleteMilestone (milestone_id) {
+        	if ( ! confirm( 'Are you sure!' ) ) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/' + milestone_id,
+                type: 'DELETE',
+                success: function(res) {
+                    self.$store.commit('afterDeleteMilestone', milestone_id);
+
+                    if (!self.$store.state.milestones.length) {
+                        self.$router.push({
+                            name: 'milestones', 
+                            params: { 
+                                project_id: self.project_id 
+                            }
+                        });
+                    } else {
+                        self.getSelfMilestones(self);
+                    }
+                }
+            }
+
+            self.httpRequest(request_data);
+        }
 
 	},
 });

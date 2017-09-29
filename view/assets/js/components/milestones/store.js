@@ -12,9 +12,18 @@ export default new Vuex.Store({
 		is_milestone_form_active: false,
 		milestones: [],
 		milestone: {},
-		total_milestone_page: 0
-		// comments: [],
-		// meta: {}
+		total_milestone_page: 0,
+		getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
 	},
 	
 	mutations: {
@@ -39,9 +48,9 @@ export default new Vuex.Store({
 			state.total_milestone_page = total;
 		},
 
-		// setCommentsMeta (state, discussion) {
-			
-		// 	state.meta = discussion.comments.meta.pagination;
-		// }
+		afterDeleteMilestone (state, milestone_id) {
+			var milestone_index = state.getIndex(state.milestones, milestone_id, 'id');
+            state.milestones.splice(milestone_index,1);
+		}
 	}
 });

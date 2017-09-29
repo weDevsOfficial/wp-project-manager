@@ -11286,7 +11286,7 @@ var activities = {
 				title: this.discuss.title,
 				description: this.discuss.description,
 				order: '',
-				milestone: this.milestone_id,
+				milestone: this.discuss.milestone_id,
 				files: this.files
 			};
 
@@ -11337,7 +11337,6 @@ var activities = {
 					self.submit_disabled = false;
 				}
 			};
-
 			self.httpRequest(request_data);
 		},
 		getMilestones(self) {
@@ -11362,7 +11361,8 @@ var activities = {
 			    form_data = {
 				content: self.comment.content,
 				commentable_id: self.discuss.id,
-				commentable_type: 'discussion-board'
+				commentable_type: 'discussion-board',
+				FILES: self.files
 			};
 
 			// Showing loading option 
@@ -11585,161 +11585,234 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 
 /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
-	methods: {
-		showHideMilestoneForm(status, milestone) {
-			var milestone = milestone || false,
-			    milestone = jQuery.isEmptyObject(milestone) ? false : milestone;
+				methods: {
+								showHideMilestoneForm(status, milestone) {
+												var milestone = milestone || false,
+												    milestone = jQuery.isEmptyObject(milestone) ? false : milestone;
 
-			if (milestone) {
-				if (status === 'toggle') {
-					milestone.edit_mode = milestone.edit_mode ? false : true;
-				} else {
-					milestone.edit_mode = status;
+												if (milestone) {
+																if (status === 'toggle') {
+																				milestone.edit_mode = milestone.edit_mode ? false : true;
+																} else {
+																				milestone.edit_mode = status;
+																}
+												} else {
+																this.$store.commit('showHideMilestoneForm', status);
+												}
+								},
+
+								showHideCommentForm(status, comment) {
+												if (status === 'toggle') {
+																comment.edit_mode = comment.edit_mode ? false : true;
+												} else {
+																comment.edit_mode = status;
+												}
+								},
+
+								getMilestone(self) {
+												var request = {
+																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones/' + self.$route.params.discussion_id + '?with=discussion_boards,task_lists',
+																success(res) {
+																				self.addMeta(res.data);
+																				self.$store.commit('setMilestone', res.data);
+																}
+												};
+												self.httpRequest(request);
+								},
+
+								getSelfMilestones(self) {
+												var request = {
+																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones?with=discussion_boards,task_lists&per_page=4&page=' + self.setCurrentPageNumber(self),
+																success(res) {
+																				res.data.map(function (milestone, index) {
+																								self.addMeta(milestone, index);
+																				});
+																				self.$store.commit('setSelfMilestones', res.data);
+																				self.$store.commit('setTotalMilestonePage', res.meta.pagination.total_pages);
+																}
+												};
+
+												self.httpRequest(request);
+								},
+
+								addMeta(milestone, index) {
+												var test = [null, '2017-09-30 02:23:41'];
+												milestone.edit_mode = false;
+												milestone.due_date = {
+																date: test[index],
+																completed: false
+												};
+
+												if (index == 2) {
+																milestone.completed = true;
+												}
+								},
+
+								setCurrentPageNumber(self) {
+												var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+												self.current_page_number = current_page_number;
+												return current_page_number;
+								},
+
+								/**
+         * Insert and edit task
+         * 
+         * @return void
+         */
+								newMilestone: function () {
+												// Exit from this function, If submit button disabled 
+												if (this.submit_disabled) {
+																return;
+												}
+
+												// Disable submit button for preventing multiple click
+												this.submit_disabled = true;
+
+												var self = this,
+												    is_update = typeof this.milestone.id == 'undefined' ? false : true,
+												    form_data = {
+																title: this.milestone.title,
+																description: this.milestone.description,
+																order: '',
+																milestone: 4
+												};
+
+												// Showing loading option 
+												this.show_spinner = true;
+
+												if (is_update) {
+																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones/' + this.milestone.id;
+																var type = 'PUT';
+												} else {
+																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones';
+																var type = 'POST';
+												}
+
+												var request_data = {
+																url: url,
+																type: type,
+																data: form_data,
+																success(res) {
+
+																				self.getSelfMilestones(self);
+
+																				self.show_spinner = false;
+
+																				// Display a success toast, with a title
+																				toastr.success(res.data.success);
+
+																				self.submit_disabled = false;
+
+																				if (is_update) {
+
+																								self.showHideMilestoneForm(false, self.milestone);
+																				} else {
+																								self.showHideMilestoneForm(false);
+																				}
+
+																				if (self.section === 'milestones') {
+																								self.afterNewMilestone(self, res, is_update);
+																				}
+
+																				if (self.section === 'single') {
+																								//self.afterNewSingleMilestone(self, res, is_update);
+																				}
+																},
+
+																error(res) {
+																				self.show_spinner = false;
+
+																				// Showing error
+																				res.data.error.map(function (value, index) {
+																								toastr.error(value);
+																				});
+																				self.submit_disabled = false;
+																}
+												};
+
+												self.httpRequest(request_data);
+								},
+
+								afterNewMilestone(self, res, is_update) {
+
+												if (self.$route.params.current_page_number > 1) {
+																// named route
+																self.$router.push({
+																				name: 'milestones',
+																				params: {
+																								project_id: self.project_id
+																				}
+																});
+												} else {
+																self.getSelfMilestones(self);
+												}
+								},
+								/**
+            * Get task completed percentage from todo list
+            * 
+            * @param  array tasks
+            *  
+            * @return float       
+            */
+								getProgressPercent: function (list) {
+
+												if (typeof list == 'undefined') {
+																return 0;
+												}
+
+												var total_tasks = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks),
+												    //tasks.length,
+												completed_tasks = list.meta.total_complete_tasks,
+												    //this.countCompletedTasks( list ),
+												progress = 100 * completed_tasks / total_tasks;
+
+												return isNaN(progress) ? 0 : progress.toFixed(0);
+								},
+
+								/**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
+								getProgressStyle: function (list) {
+												if (typeof list == 'undefined') {
+																return 0;
+												}
+												var width = this.getProgressPercent(list);
+
+												return { width: width + '%' };
+								},
+
+								deleteMilestone(milestone_id) {
+												if (!confirm('Are you sure!')) {
+																return;
+												}
+												var self = this;
+												var request_data = {
+																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones/' + milestone_id,
+																type: 'DELETE',
+																success: function (res) {
+																				self.$store.commit('afterDeleteMilestone', milestone_id);
+
+																				if (!self.$store.state.milestones.length) {
+																								self.$router.push({
+																												name: 'milestones',
+																												params: {
+																																project_id: self.project_id
+																												}
+																								});
+																				} else {
+																								self.getSelfMilestones(self);
+																				}
+																}
+												};
+
+												self.httpRequest(request_data);
+								}
+
 				}
-			} else {
-				this.$store.commit('showHideMilestoneForm', status);
-			}
-		},
-
-		showHideCommentForm(status, comment) {
-			if (status === 'toggle') {
-				comment.edit_mode = comment.edit_mode ? false : true;
-			} else {
-				comment.edit_mode = status;
-			}
-		},
-
-		getMilestone(self) {
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones/' + self.$route.params.discussion_id + '?with=discussion_boards,task_lists',
-				success(res) {
-					self.addMeta(res.data);
-					self.$store.commit('setMilestone', res.data);
-				}
-			};
-			self.httpRequest(request);
-		},
-
-		getSelfMilestones(self) {
-			var request = {
-				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones?with=discussion_boards,task_lists&per_page=2&page=' + self.setCurrentPageNumber(self),
-				success(res) {
-					res.data.map(function (milestone, index) {
-						self.addMeta(milestone);
-					});
-					self.$store.commit('setSelfMilestones', res.data);
-					self.$store.commit('setTotalMilestonePage', res.meta.pagination.total_pages);
-				}
-			};
-
-			self.httpRequest(request);
-		},
-
-		addMeta(milestone) {
-			milestone.edit_mode = false;
-		},
-
-		setCurrentPageNumber(self) {
-			var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-			self.current_page_number = current_page_number;
-			return current_page_number;
-		},
-
-		/**
-   * Insert and edit task
-   * 
-   * @return void
-   */
-		newMilestone: function () {
-			// Exit from this function, If submit button disabled 
-			if (this.submit_disabled) {
-				return;
-			}
-
-			// Disable submit button for preventing multiple click
-			this.submit_disabled = true;
-
-			var self = this,
-			    is_update = typeof this.milestone.id == 'undefined' ? false : true,
-			    form_data = {
-				title: this.milestone.title,
-				description: this.milestone.description,
-				order: '',
-				milestone: 4
-			};
-
-			// Showing loading option 
-			this.show_spinner = true;
-
-			if (is_update) {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones/' + this.milestone.id;
-				var type = 'PUT';
-			} else {
-				var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/milestones';
-				var type = 'POST';
-			}
-
-			var request_data = {
-				url: url,
-				type: type,
-				data: form_data,
-				success(res) {
-
-					self.getSelfMilestones(self);
-
-					self.show_spinner = false;
-
-					// Display a success toast, with a title
-					toastr.success(res.data.success);
-
-					self.submit_disabled = false;
-
-					if (is_update) {
-
-						self.showHideMilestoneForm(false, self.milestone);
-					} else {
-						self.showHideMilestoneForm(false);
-					}
-
-					if (self.section === 'milestones') {
-						self.afterNewMilestone(self, res, is_update);
-					}
-
-					if (self.section === 'single') {
-						//self.afterNewSingleMilestone(self, res, is_update);
-					}
-				},
-
-				error(res) {
-					self.show_spinner = false;
-
-					// Showing error
-					res.data.error.map(function (value, index) {
-						toastr.error(value);
-					});
-					self.submit_disabled = false;
-				}
-			};
-
-			self.httpRequest(request_data);
-		},
-
-		afterNewMilestone(self, res, is_update) {
-
-			if (self.$route.params.current_page_number > 1) {
-				// named route
-				self.$router.push({
-					name: 'milestones',
-					params: {
-						project_id: self.project_id
-					}
-				});
-			} else {
-				self.getSelfMilestones(self);
-			}
-		}
-
-	}
 }));
 
 /***/ }),
@@ -11752,7 +11825,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 //import project_lists from './index.vue';
 
 const milestones_route = resolve => {
-    __webpack_require__.e/* require.ensure */(3).then((() => {
+    __webpack_require__.e/* require.ensure */(2).then((() => {
         resolve(__webpack_require__(15));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11812,9 +11885,18 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		is_milestone_form_active: false,
 		milestones: [],
 		milestone: {},
-		total_milestone_page: 0
-		// comments: [],
-		// meta: {}
+		total_milestone_page: 0,
+		getIndex: function (itemList, id, slug) {
+			var index = false;
+
+			itemList.forEach(function (item, key) {
+				if (item[slug] == id) {
+					index = key;
+				}
+			});
+
+			return index;
+		}
 	},
 
 	mutations: {
@@ -11837,8 +11919,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 		setTotalMilestonePage(state, total) {
 			state.total_milestone_page = total;
-		}
+		},
 
+		afterDeleteMilestone(state, milestone_id) {
+			var milestone_index = state.getIndex(state.milestones, milestone_id, 'id');
+			state.milestones.splice(milestone_index, 1);
+		}
 	}
 }));
 
@@ -12823,7 +12909,7 @@ window.CPM_Component_jQuery = {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/1/task-lists/' + list_id,
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + list_id,
                 type: 'DELETE',
                 success: function (res) {
                     self.$store.commit('afterDeleteList', list_id);
@@ -13003,7 +13089,7 @@ window.CPM_Component_jQuery = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return task_lists; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return single_list; });
 const task_lists_route = resolve => {
-    __webpack_require__.e/* require.ensure */(2).then((() => {
+    __webpack_require__.e/* require.ensure */(3).then((() => {
         resolve(__webpack_require__(18));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

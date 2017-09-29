@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<!-- <pre>{{ discuss }}</pre> -->
 		<form class="cpm-message-form" @submit.prevent="newDiscuss()">
 	        <div class="item title">
 	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
@@ -10,7 +11,7 @@
 	        </div>
 
 	        <div class="item milestone">
-        		<select v-model="discuss.milestone_id">
+        		<select v-model="milestone_id">
 			        <option value="-1">
 			            - Milestone -
 			        </option>
@@ -68,12 +69,15 @@
 				content: {
 	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
 	            },
-				milestone_id: this.discuss.milestone_id,
+	            milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
 				files: []
 			}
 		},
 
 		watch: {
+			milestone_id (milestone_id) {
+				this.discuss.milestone_id = milestone_id;
+			},
 			/**
 	         * Observe onchange comment message
 	         *
