@@ -58,7 +58,7 @@ class Milestone extends Eloquent {
             $status = $status_meta->meta_value;
         }
 
-        if ( $this->achieve_date && $this->achieve_date < Carbon::now() ) {
+        if ( $this->achieve_date && ( $this->achieve_date < Carbon::now() ) && $status != 'complete' ) {
             $status = 'overdue';
         }
 
