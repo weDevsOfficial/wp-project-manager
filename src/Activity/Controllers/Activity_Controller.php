@@ -22,7 +22,7 @@ class Activity_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $activities = Activity::paginate( $per_page, ['*'], 'page', $page );
+        $activities = Activity::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
 
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );

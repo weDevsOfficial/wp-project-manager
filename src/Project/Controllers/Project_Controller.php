@@ -25,7 +25,7 @@ class Project_Controller {
 		$page = $request->get_param( 'page' );
 		$page = $page ? $page : 1;
 
-		$projects = Project::paginate( $per_page, ['*'], 'page', $page );
+		$projects = Project::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
 
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );

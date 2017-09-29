@@ -78,6 +78,7 @@ class Milestone_Controller {
         // Grab non empty user data
         $data = $this->extract_non_empty_values( $request );
         $achieve_date = $request->get_param( 'achieve_date' );
+        $status = $request->get_param( 'status' );
 
         // Set project id from url parameter
         $project_id   = $request->get_param( 'project_id' );
@@ -103,6 +104,18 @@ class Milestone_Controller {
 
             $meta->update([
                 'meta_value' => make_carbon_date( $achieve_date )
+            ]);
+        }
+
+        if ( $milestone && in_array( $status, Milestone::$status ) ) {
+            $meta = Meta::firstOrCreate([
+                'entity_id'   => $milestone->id,
+                'entity_type' => 'milestone',
+                'meta_key'    => 'status',
+            ]);
+
+            $meta->update([
+                'meta_value' => $status
             ]);
         }
 

@@ -27,6 +27,12 @@ class Milestone extends Eloquent {
 
     protected $attributes = ['type' => 'milestone'];
 
+    public static $status = [
+        'incomplete',
+        'complete',
+        'overdue'
+    ];
+
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
     }
@@ -42,6 +48,21 @@ class Milestone extends Eloquent {
         }
 
         return $achieve_date;
+    }
+
+    public function getStatusAttribute() {
+        $status_meta = $this->metas->where( 'meta_key', 'status' )->first();
+        $status = 'incomplete';
+
+        if ( $status_meta ) {
+            $status = $status_meta->meta_value;
+        }
+
+        if ( $this->achieve_date && ( $this->achieve_date < Carbon::now() ) && $status != 'complete' ) {
+            $status = 'overdue';
+        }
+
+        return $status;
     }
 
     public function metas() {

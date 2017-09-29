@@ -30,6 +30,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
             'title'       => $item->title,
             'description' => $item->description,
             'order'       => $item->order,
+            'created_at'  => format_date( $item->created_at ),
             'meta'        => [
                 'total_comments' => $item->comments->count(),
                 'total_users'    => $item->users->count(),
