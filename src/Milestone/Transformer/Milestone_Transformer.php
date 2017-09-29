@@ -29,6 +29,7 @@ class Milestone_Transformer extends TransformerAbstract {
             'description'  => $item->description,
             'order'        => $item->order,
             'achieve_date' => format_date( $item->achieve_date ),
+            'status'       => $item->status,
             'meta'         => [
                 'total_task_list'        => $item->task_lists->count(),
                 'total_discussion_board' => $item->discussion_boards->count(),
