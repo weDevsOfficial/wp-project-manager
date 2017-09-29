@@ -27,12 +27,13 @@ export default Vue.mixin({
 
 		getDiscussion (self) {
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments',
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments&per_page=2&page='+ self.setCurrentPageNumber(self),
 	            success (res) {
 	            	res.data.map(function(discuss, index) {
 			    		self.addMeta(discuss);
 			    	});
 	                self.$store.commit( 'setDiscussion', res.data );
+	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
 	            }
 	        };
 	        self.httpRequest(request);
@@ -58,6 +59,12 @@ export default Vue.mixin({
 	    		comment.edit_mode = false;
 	    	});
 	    },
+
+	   	setCurrentPageNumber (self) {
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
 
 	    /**
 	     * Insert and edit task
@@ -199,6 +206,33 @@ export default Vue.mixin({
 	        }
 
 	        self.httpRequest(request_data);
+        },
+
+        deleteDiscuss (discuss_id) {
+        	if ( ! confirm( 'Are you sure!' ) ) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/' + discuss_id,
+                type: 'DELETE',
+                success: function(res) {
+                    self.$store.commit('afterDeleteDiscuss', discuss_id);
+
+                    if (!self.$store.state.discussion.length) {
+                        self.$router.push({
+                            name: 'discussions', 
+                            params: { 
+                                project_id: self.project_id 
+                            }
+                        });
+                    } else {
+                        self.getDiscussion(self);
+                    }
+                }
+            }
+            //self.$store.commit('afterDeleteDiscuss', discuss_id);
+            self.httpRequest(request_data);
         }
 	},
 });

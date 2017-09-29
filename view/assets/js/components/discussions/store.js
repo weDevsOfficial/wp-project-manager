@@ -13,8 +13,18 @@ export default new Vuex.Store({
 		milestones: [],
 		discussion: [],
 		discuss: {},
-		// comments: [],
-		// meta: {}
+		meta: {},
+		getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
 	},
 	
 	mutations: {
@@ -40,13 +50,12 @@ export default new Vuex.Store({
 			state.discussion.push(discuss);
 		},
 
-		// setComments (state, discussion) {
-		// 	state.comments = discussion.comments.data;
-		// },
-
-		// setCommentsMeta (state, discussion) {
-			
-		// 	state.meta = discussion.comments.meta.pagination;
-		// }
+		afterDeleteDiscuss (state, discuss_id) {
+			var discuss_index = state.getIndex(state.discussion, discuss_id, 'id');
+            state.discussion.splice(discuss_index,1);
+		},
+		setDiscussionMeta (state, meta) {
+			state.meta = meta;
+		}
 	}
 });

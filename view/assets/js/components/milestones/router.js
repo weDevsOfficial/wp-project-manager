@@ -6,12 +6,6 @@ const milestones_route = resolve => {
     });
 }
 
-const individual_milestone = resolve => {
-    require.ensure(['./individual-milestones.vue'], () => {
-        resolve(require('./individual-milestones.vue'));
-    });
-}
-
 var milestones = {
     path: '/:project_id/milestones/', 
     components: { 
@@ -30,14 +24,6 @@ var milestones = {
     ]
 }
 
-var single_milestone = { 
-    path: '/:project_id/single-milestone/:milestone_id', 
-    components: { 
-        'individual-milestone': individual_milestone
-    }, 
-    name: 'individual_milestone' 
-}
-
-export { milestones, single_milestone };
+export { milestones };
 
  

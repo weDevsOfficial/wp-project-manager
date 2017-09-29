@@ -7,7 +7,7 @@
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
                     <span class="time-left">
-                    	(7 days late - 
+                    	(7 days left - 
                     	<time datetime="2017-09-22T05:23:41+00:00" title="2017-09-22T05:23:41+00:00">
                     		September 22, 2017
                     	</time>

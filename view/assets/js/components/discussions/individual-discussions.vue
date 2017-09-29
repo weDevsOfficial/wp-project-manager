@@ -12,10 +12,11 @@
                         <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#" data-msg_id="97" data-project_id="60" class="cpm-msg-edit dashicons dashicons-edit"></a>
                         <span class="cpm-not-private"></span>
                     </span>
+
                     <div class="cpm-small-title">
                         By 
-                        <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">
-                            admin
+                        <a href="#" :title="discuss.creator.data.display_name">
+                            {{ discuss.creator.data.display_name }}
                         </a> on September 11, 2017  at  01:34 pm            
                     </div>
                 </h3>
@@ -32,7 +33,7 @@
 
         <div class="cpm-comment-area cpm-box-shadow">
 
-            <h3> {{ commentsTotal }} Comments</h3>
+            <h3> {{ discuss.meta.total_comments }} Comments</h3>
 
             <ul class="cpm-comment-wrap">
 

@@ -18,6 +18,16 @@ var discussions = {
         'discussions': discussions_route 
     }, 
     name: 'discussions',
+
+    children: [
+        {
+            path: 'pages/:current_page_number', 
+            components: { 
+                'discussions': discussions_route 
+            }, 
+            name: 'discussion_pagination',
+        },
+    ]
 }
 
 var single_discussion = { 
