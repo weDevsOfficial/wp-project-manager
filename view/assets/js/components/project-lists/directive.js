@@ -47,7 +47,24 @@ var Project = {
                     $( "form.cpm-user-create-form" ).find( 'input[type=text]' ).val( '' );
                     $( "#cpm-create-user-wrap" ).dialog( "open" );
                 } else {
-                    context.$store.commit('setProjectUsers', {users: ui.item});
+
+                    var has_user = context.project_users.find(function(user) {
+                        return ui.item.id === user.id ? true : false;
+                    });
+                    
+                    if (!has_user) {
+                        if(!ui.item.hasOwnProperty('roles')) {
+                             ui.item.roles = {
+                                data: {
+                                    description: "Co-Worker for project manager",
+                                    id:1,
+                                    title:"Co-Worker"
+                                }
+                            } 
+                        }
+                        context.project_users.push(ui.item);
+                    }
+                    
                     $( '.cpm-project-role>table' ).append( ui.item._user_meta );
                     $( "input.cpm-project-coworker" ).val( '' );
                 }

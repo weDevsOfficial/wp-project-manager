@@ -9,10 +9,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	
 	state: {
+		projects: [],
 		project: {},
 		project_users: [],
 		categories: [],
-		roles: []
+		roles: [],
+		is_project_form_active: false,
 	},
 
 	mutations: {
@@ -28,7 +30,17 @@ export default new Vuex.Store({
 		},
 		setRoles (state, roles) {
 			state.roles = roles;
-		}
+		},
+		newProject (state, projects) {
+			state.projects.push(projects.projects);
+		},
+		showHideProjectForm (state, status) {
+			if ( status === 'toggle' ) {
+                state.is_project_form_active = state.is_project_form_active ? false : true;
+            } else {
+                state.is_project_form_active = status;
+            }
+		},
 	}
 	
 });

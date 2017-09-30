@@ -34,8 +34,9 @@
 
 <script>
     
-
     export default {
+        props: ['project_users'],
+
         data () {
             return {
                 username: '',
@@ -60,7 +61,16 @@
                     },
 
                     success: function(res) {
-                        self.$store.commit('setProjectUsers', {users: res.data});
+                        if(!res.data.hasOwnProperty('roles')) {
+                             res.data.roles = {
+                                data: {
+                                    description: "Co-Worker for project manager",
+                                    id:1,
+                                    title:"Co-Worker"
+                                }
+                            } 
+                        }
+                        self.project_users.push(res.data);
                         jQuery( "#cpm-create-user-wrap" ).dialog( "close" );
                     }
                 });

@@ -58,16 +58,21 @@
 			<input type="hidden" name="action" value="cpm_project_new">
 			<span class="cpm-pro-update-spinner"></span>
 			<input type="submit" name="add_project" id="add_project" class="button-primary" value="Add New Project">
-			<a class="button project-cancel" href="#">Cancel</a>
+			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">Cancel</a>
 		</div>
 
 		<div class="cpm-loading" style="display: none;">Saving...</div>
 	</form>
+
+    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" title="Create a new user">
+        <project-new-user-form :project_users="project_users"></project-new-user-form>
+    </div>
 </div>
 </template>
 
 <script>
 	import directive from './directive.js';
+	import project_new_user_form from './project-new-user-form.vue';
 
 	var new_project_form = {
 
@@ -77,14 +82,16 @@
 
 			return {
 				'project_name': '',
-				'project_cat': '0',
+				'project_cat': 0,
 				'project_description': '',
 				'project_notify': false,
-				//'project_users': this.$store.state.project_users,
+				'project_users': [],
 
 			}
 		},
-
+		components: {
+			'project-new-user-form': project_new_user_form,
+		},
 		computed: {
 			roles () {
 				return this.$root.$store.state.roles;
@@ -96,6 +103,7 @@
 
 			project () {
 				if (this.is_update) {
+					this.project_users = this.$root.$store.state.project_users;
 					return this.$root.$store.state.project;
 				}
 				
@@ -104,7 +112,6 @@
 
 			project_category: {
 				get () {
-
 					if (this.is_update) {
 						var project = this.$root.$store.state.project;
 					
@@ -113,11 +120,14 @@
 								&& 
 							project.categories.data.length 
 						) {
+
+							this.project_cat = project.categories.data[0].id;
+							
 							return project.categories.data[0].id;
 						}
 					}
 
-					return 0;
+					return this.project_cat;
 				},
 
 				set (cat) {
@@ -125,43 +135,44 @@
 				}
 			},
 
-			project_users () {
-				if (this.is_update) {
-					return this.$root.$store.state.project_users;
-				}
-
-				return [];
-			}
 		},
 
 		methods: {
 			newProject () {
-				console.log(this.project_users); return;
 				var self = this;
 
-				var request = {
-					type: 'POST',
+				if (this.is_update) {
+					var type = 'PUT';
+					var	url = this.base_url + '/cpm/v2/projects/'+ this.project.id;
+				} else {
+					var type = 'POST';
+					var	url = this.base_url + '/cpm/v2/projects/';
+				}
 
-					url: this.base_url + '/cpm/v2/projects/',
+				var request = {
+					type: type,
+
+					url: url,
 
 					data: {
-						'title': this.project_name,
+						'title': this.project.title,
 						'categories': [this.project_cat],
-						'description': this.project_description,
+						'description': this.project.description,
 						'notify_users': this.project_notify,
 						'assignees': this.formatUsers(this.project_users)
 					},
 
 					success: function(res) {
-                		self.$store.commit('newProject', {'projects': res.data});
+                		self.$root.$store.commit('newProject', {'projects': res.data});
                 		jQuery( "#cpm-project-dialog" ).dialog("close");
+                		self.showHideProjectForm(false);
 	                },
 
 	                error: function(res) {
 	                    
 	                }
 				};
-				
+		
 				this.httpRequest(request);
 			},
 
@@ -179,18 +190,13 @@
 			},
 
 			deleteUser (del_user) {
-				
 				this.project_users = this.project_users.filter(function(user) {
 					if (user.id === del_user.id) {
 						return false;
 					} else {
 						return user;
 					}
-
-					
 				});
-
-				//console.log(this.project_users, project_users);
 			}
 		}
 	}

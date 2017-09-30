@@ -6,7 +6,7 @@
             <div class="cpm-col-6 cpm-project-detail">
                 <h3>
                     <span class="cpm-project-title"> eirugkdj </span>
-                     <a href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
+                     <a @click.prevent="showHideProjectForm('toggle')" href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
                         <span class="text">Edit</span>
                      </a>
@@ -52,7 +52,7 @@
 
             <div class="clearfix"></div>
 
-            <div class="cpm-edit-project">
+            <div class="cpm-edit-project" v-if="is_project_edit_mode">
                 <edit-project :is_update="true"></edit-project>
             </div>
         </div>
@@ -153,6 +153,12 @@
             }
         },
 
+        computed: {
+            is_project_edit_mode () {
+                return this.$root.$store.state.is_project_form_active;
+            }
+        },
+
         created () {
             this.getProject();
             this.getProjectCategories();
@@ -163,6 +169,10 @@
             'do-action': do_action,
             'edit-project': edit_project
         },
+
+        methods: {
+
+        }
     }
 </script>
 

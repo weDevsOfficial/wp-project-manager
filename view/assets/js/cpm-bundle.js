@@ -10290,6 +10290,7 @@ module.exports = function normalizeComponent (
             self.httpRequest({
                 url: self.base_url + '/cpm/v2/projects/' + self.project_id,
                 success: function (res) {
+                    self.addProjectMeta(res.data);
                     self.$root.$store.commit('setProject', res.data);
                     self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
 
@@ -10298,6 +10299,10 @@ module.exports = function normalizeComponent (
                     }
                 }
             });
+        },
+
+        addProjectMeta(project) {
+            project.edit_mode = false;
         },
 
         getProjectCategories(callback) {
@@ -10367,6 +10372,10 @@ module.exports = function normalizeComponent (
             });
 
             return index;
+        },
+
+        showHideProjectForm(status) {
+            this.$store.commit('showHideProjectForm', status);
         }
     }
 }));
@@ -10765,10 +10774,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
 
 	state: {
+		projects: [],
 		project: {},
 		project_users: [],
 		categories: [],
-		roles: []
+		roles: [],
+		is_project_form_active: false
 	},
 
 	mutations: {
@@ -10784,6 +10795,16 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		},
 		setRoles(state, roles) {
 			state.roles = roles;
+		},
+		newProject(state, projects) {
+			state.projects.push(projects.projects);
+		},
+		showHideProjectForm(state, status) {
+			if (status === 'toggle') {
+				state.is_project_form_active = state.is_project_form_active ? false : true;
+			} else {
+				state.is_project_form_active = status;
+			}
 		}
 	}
 
@@ -12101,7 +12122,7 @@ const overview = resolve => {
 //import project_lists from './lists.vue';
 
 const project_lists = resolve => {
-    __webpack_require__.e/* require.ensure */(2).then((() => {
+    __webpack_require__.e/* require.ensure */(3).then((() => {
         resolve(__webpack_require__(16));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -13205,7 +13226,7 @@ window.CPM_Component_jQuery = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return task_lists; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return single_list; });
 const task_lists_route = resolve => {
-    __webpack_require__.e/* require.ensure */(3).then((() => {
+    __webpack_require__.e/* require.ensure */(2).then((() => {
         resolve(__webpack_require__(17));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

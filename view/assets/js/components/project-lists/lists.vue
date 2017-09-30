@@ -51,12 +51,8 @@
         </div>
 
         <div id="cpm-project-dialog" v-pm-popup-box style="z-index:999;" title="Start a new project">
-            <project-create-form></project-create-form>
+            <project-create-form :project="{}"></project-create-form>
             <!-- <do-action :hook="'cpm-after-project-list'"></do-action> -->
-        </div>
-
-        <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" title="Create a new user">
-            <project-new-user-form></project-new-user-form>
         </div>
         
     </div>
@@ -74,7 +70,6 @@
     import project_summary from './project-summary.vue';
     import pagination from './../pagination.vue';
     import project_create_form from './project-create-form.vue';
-    import project_new_user_form from './project-new-user-form.vue';
     import store from './store';
     import after_project from './../do-action.vue';
 
@@ -86,8 +81,8 @@
         beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getProjects(vm);
-                vm.getRoles(vm);
-                vm.getCategory(vm);
+                vm.getRoles();
+                vm.getProjectCategories();
             });
         },  
 
@@ -124,7 +119,6 @@
             'project-summary': project_summary,
             'pm-pagination': pagination,
             'project-create-form': project_create_form,
-            'project-new-user-form': project_new_user_form,
             'do-action': after_project
         },
 
@@ -139,23 +133,23 @@
                 });
             },
 
-            getRoles (self) {
-                self.httpRequest({
-                    url: self.base_url + '/cpm/v2/roles',
-                    success: function(res) {
-                        self.$store.commit('setRoles', {'roles': res.data});
-                    }
-                });
-            },
+            // getRoles (self) {
+            //     self.httpRequest({
+            //         url: self.base_url + '/cpm/v2/roles',
+            //         success: function(res) {
+            //             self.$store.commit('setRoles', {'roles': res.data});
+            //         }
+            //     });
+            // },
 
-            getCategory (self) {
-                self.httpRequest({
-                    url: self.base_url + '/cpm/v2/categories?type=project',
-                    success: function(res) {
-                        self.$store.commit('setCategories', {'categories': res.data});
-                    }
-                });
-            }
+            // getCategory (self) {
+            //     self.httpRequest({
+            //         url: self.base_url + '/cpm/v2/categories?type=project',
+            //         success: function(res) {
+            //             self.$store.commit('setCategories', {'categories': res.data});
+            //         }
+            //     });
+            // }
         }
     }
 

@@ -45,6 +45,7 @@
             self.httpRequest({
                 url: self.base_url + '/cpm/v2/projects/'+ self.project_id,
                 success: function(res) {
+                    self.addProjectMeta(res.data);
                     self.$root.$store.commit('setProject', res.data);
                     self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
 
@@ -53,6 +54,10 @@
                     }
                 }
             });
+        },
+
+        addProjectMeta (project) {
+            project.edit_mode = false;
         },
 
         getProjectCategories (callback) {
@@ -123,6 +128,10 @@
 
             return index;
         },
+
+        showHideProjectForm (status) {
+            this.$store.commit('showHideProjectForm', status);
+        }
 	}
 });
 
