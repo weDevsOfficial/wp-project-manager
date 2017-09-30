@@ -9,8 +9,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	
 	state: {
-		projec: {},
-		project_users: []
+		project: {},
+		project_users: [],
+		categories: [],
+		roles: []
 	},
 
 	mutations: {
@@ -20,6 +22,12 @@ export default new Vuex.Store({
 
 		setProjectUsers (state, users) {
 			state.project_users = users;
+		},
+		setCategories (state, categories) {
+			state.categories = categories;
+		},
+		setRoles (state, roles) {
+			state.roles = roles;
 		}
 	}
 	

@@ -10266,12 +10266,25 @@ module.exports = function normalizeComponent (
             jQuery.ajax(property);
         },
 
-        getProject(project_id) {
+        getProject(project_id, callback) {
             var self = this;
+
+            var callback = callback || false;
             var project_id = project_id || self.project_id;
 
             if (typeof self.project_id === 'undefined') {
                 return;
+            }
+
+            var project = self.$root.$store.state.project;
+
+            if (!jQuery.isEmptyObject(project)) {
+                if (project.id === self.project_id) {
+                    if (callback) {
+                        callback(project);
+                    }
+                    return project;
+                }
             }
 
             self.httpRequest({
@@ -10279,17 +10292,71 @@ module.exports = function normalizeComponent (
                 success: function (res) {
                     self.$root.$store.commit('setProject', res.data);
                     self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+
+                    if (callback) {
+                        callback(res.data);
+                    }
+                }
+            });
+        },
+
+        getProjectCategories(callback) {
+            var callback = callback || false;
+            var self = this;
+
+            var categories = self.$root.$store.state.categories;
+
+            if (categories.length) {
+                if (callback) {
+                    callback(categories);
+                }
+                return categories;
+            }
+
+            this.httpRequest({
+                url: self.base_url + '/cpm/v2/categories?type=project',
+                success: function (res) {
+                    self.$root.$store.commit('setCategories', res.data);
+
+                    if (callback) {
+                        callback(res.data);
+                    }
+                }
+            });
+        },
+
+        getRoles(callback) {
+            var callback = callback || false;
+            var self = this;
+
+            var roles = self.$root.$store.state.roles;
+
+            if (roles.length) {
+                if (callback) {
+                    callback(roles);
+                }
+                return roles;
+            }
+
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/roles',
+                success: function (res) {
+                    self.$root.$store.commit('setRoles', res.data);
+
+                    if (callback) {
+                        callback(res.data);
+                    }
                 }
             });
         },
         /**
-        * Get index from array object element
-        *
-        * @param   itemList
-        * @param   id
-        *
-        * @return  int
-        */
+         * Get index from array object element
+         *
+         * @param   itemList
+         * @param   id
+         *
+         * @return  int
+         */
         getIndex: function (itemList, id, slug) {
             var index = false;
 
@@ -10698,8 +10765,10 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
 
 	state: {
-		projec: {},
-		project_users: []
+		project: {},
+		project_users: [],
+		categories: [],
+		roles: []
 	},
 
 	mutations: {
@@ -10709,6 +10778,12 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 		setProjectUsers(state, users) {
 			state.project_users = users;
+		},
+		setCategories(state, categories) {
+			state.categories = categories;
+		},
+		setRoles(state, roles) {
+			state.roles = roles;
 		}
 	}
 
@@ -11449,13 +11524,13 @@ var activities = {
 //import project_lists from './index.vue';
 
 const discussions_route = resolve => {
-    __webpack_require__.e/* require.ensure */(6).then((() => {
+    __webpack_require__.e/* require.ensure */(4).then((() => {
         resolve(__webpack_require__(11));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 const individual_discussion = resolve => {
-    __webpack_require__.e/* require.ensure */(4).then((() => {
+    __webpack_require__.e/* require.ensure */(5).then((() => {
         resolve(__webpack_require__(12));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -11880,7 +11955,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 //import project_lists from './index.vue';
 
 const milestones_route = resolve => {
-    __webpack_require__.e/* require.ensure */(11).then((() => {
+    __webpack_require__.e/* require.ensure */(1).then((() => {
         resolve(__webpack_require__(14));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -13142,7 +13217,7 @@ const single_list_route = resolve => {
 };
 
 const single_task_route = resolve => {
-    __webpack_require__.e/* require.ensure */(5).then((() => {
+    __webpack_require__.e/* require.ensure */(6).then((() => {
         resolve(__webpack_require__(19));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

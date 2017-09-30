@@ -1,22 +1,26 @@
 <template>
 <div>
-
+	<!-- <pre>{{ project }}</pre> -->
+	
 	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject()">
 
 
 		<div class="cpm-form-item project-name">
-			<input type="text" v-model="project_name" name="project_name" id="project_name" placeholder="Name of the project" value="" size="45" />
+			<!-- v-model="project_name" -->
+			<input type="text" v-model="project.title" name="project_name" id="project_name" placeholder="Name of the project" value="" size="45" />
 		</div>
 
 		<div class="cpm-form-item project-category">
-			<select v-model="project_cat"  name='project_cat' id='project_cat' class='chosen-select' >
+			<!-- v-model="project_cat" -->
+			<select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' >
 				<option value="0">&#8211; Project Category &#8211;</option>
 				<option v-for="category in categories" :value="category.id">{{ category.title }}</option>
 			</select>
 		</div>
 
 		<div class="cpm-form-item project-detail">
-			<textarea v-model="project_description" name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="Some details about the project (optional)"></textarea>
+			<!-- v-model="project_description" -->
+			<textarea v-model="project.description" name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="Some details about the project (optional)"></textarea>
 		</div>
 
 		<div class="cpm-form-item cpm-project-role">
@@ -30,7 +34,10 @@
 		            </td>
 		          
 		            <td>
-		            	<a hraf="#" class="cpm-del-proj-role cpm-assign-del-user"><span class="dashicons dashicons-trash"></span> <span class="title">Delete</span></a>
+		            	<a @click.prevent="deleteUser(projectUser)" hraf="#" class="cpm-del-proj-role cpm-assign-del-user">
+		            		<span class="dashicons dashicons-trash"></span> 
+		            		<span class="title">Delete</span>
+		            	</a>
 		            </td>
 	        	</tr>
 			</table>
@@ -64,28 +71,72 @@
 
 	var new_project_form = {
 
+		props: ['is_update'],
+
 		data () {
+
 			return {
 				'project_name': '',
 				'project_cat': '0',
 				'project_description': '',
 				'project_notify': false,
-				'project_users': this.$store.state.project_users
+				//'project_users': this.$store.state.project_users,
+
 			}
 		},
 
 		computed: {
 			roles () {
-				return this.$store.state.roles;
+				return this.$root.$store.state.roles;
 			},
 
 			categories () {
-				return this.$store.state.categories;
+				return this.$root.$store.state.categories;
+			},
+
+			project () {
+				if (this.is_update) {
+					return this.$root.$store.state.project;
+				}
+				
+				return {};
+			},
+
+			project_category: {
+				get () {
+
+					if (this.is_update) {
+						var project = this.$root.$store.state.project;
+					
+						if ( 
+							typeof project.categories !== 'undefined' 
+								&& 
+							project.categories.data.length 
+						) {
+							return project.categories.data[0].id;
+						}
+					}
+
+					return 0;
+				},
+
+				set (cat) {
+					this.project_cat = cat;
+				}
+			},
+
+			project_users () {
+				if (this.is_update) {
+					return this.$root.$store.state.project_users;
+				}
+
+				return [];
 			}
 		},
 
 		methods: {
 			newProject () {
+				console.log(this.project_users); return;
 				var self = this;
 
 				var request = {
@@ -125,6 +176,21 @@
 				});
 
 				return format_users;
+			},
+
+			deleteUser (del_user) {
+				
+				this.project_users = this.project_users.filter(function(user) {
+					if (user.id === del_user.id) {
+						return false;
+					} else {
+						return user;
+					}
+
+					
+				});
+
+				//console.log(this.project_users, project_users);
 			}
 		}
 	}

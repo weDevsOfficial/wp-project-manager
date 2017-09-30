@@ -52,53 +52,8 @@
 
             <div class="clearfix"></div>
 
-            <div class="cpm-edit-project" style="display:none;">
-                <form action="" method="post" class="cpm-project-form">
-
-                    <input type="hidden" id="_wpnonce" name="_wpnonce" value="9dd08c1e0f">
-                    <input type="hidden" name="_wp_http_referer" value="/test/wp-admin/admin.php?page=cpm_projects&amp;tab=project&amp;action=overview&amp;pid=60">
-                    
-                    <div class="cpm-form-item project-name">
-                        <input type="text" name="project_name" id="project_name" placeholder="Name of the project" value="eirugkdj" size="45">
-                    </div>
-
-                    <div class="cpm-form-item project-category">
-                        <select name="project_cat" id="project_cat" class="chosen-select">
-                            <option value="-1" selected="selected">– Project Category –</option>
-                        </select>
-                    </div>
-
-                    <div class="cpm-form-item project-detail">
-                        <textarea name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="Some details about the project (optional)"></textarea>
-                    </div>
-                    <div class="cpm-form-item cpm-project-role">
-                        <table></table>
-                    </div>
-                    <div class="cpm-form-item project-users">
-                        <input class="cpm-project-coworker" type="text" name="" placeholder="Type 3 or more characters to search users..." size="45">
-                    </div>
-
-                    <div class="cpm-form-item project-notify">
-                        <input type="hidden" name="project_notify" value="no">
-                        <label>
-                            <input type="checkbox" name="project_notify" id="project-notify" value="yes">
-                            Notify Co-Workers            
-                        </label>
-                    </div>
-
-
-                    
-                    <div class="submit">
-                        <input type="hidden" name="project_id" value="60">
-                        <input type="hidden" name="action" value="cpm_project_update">
-                        <span class="cpm-pro-update-spinner"></span>
-                        <input type="submit" name="add_project" id="add_project" class="button-primary" value="Update Project">
-                        <a class="button project-cancel" href="#">Cancel</a>
-                    </div>
-
-                    <div class="cpm-loading" style="display: none;">Saving...</div>
-
-                </form>
+            <div class="cpm-edit-project">
+                <edit-project :is_update="true"></edit-project>
             </div>
         </div>
 
@@ -123,6 +78,7 @@
 <script>
     import router from './../router';
     import do_action from './do-action.vue';
+    import edit_project from './project-lists/project-create-form.vue';
 
     export default {
         data () {
@@ -193,16 +149,19 @@
                         count: 50,
                         class: 'files cpm-sm-col-12'
                     }
-                ]
+                ],
             }
         },
 
         created () {
             this.getProject();
+            this.getProjectCategories();
+            this.getRoles(); 
         },
 
         components: {
-            'do-action': do_action
+            'do-action': do_action,
+            'edit-project': edit_project
         },
     }
 </script>

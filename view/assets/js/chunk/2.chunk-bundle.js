@@ -1,62 +1,11 @@
 webpackJsonp([2],{
 
-/***/ 102:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    props: ['total_pages', 'current_page_number', 'component_name'],
-
-    methods: {
-        pageClass: function (page) {
-            if (page == this.current_page_number) {
-                return 'page-numbers current';
-            }
-
-            return 'page-numbers';
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 104:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pagination_vue__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_00b52034_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_pagination_vue__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pagination_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_00b52034_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_pagination_vue__ = __webpack_require__(103);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -101,7 +50,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 105:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -170,7 +119,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__project_header_menu_vue__ = __webpack_require__(179);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__project_view_vue__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__project_summary_vue__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pagination_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pagination_vue__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__project_create_form_vue__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__project_new_user_form_vue__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__store__ = __webpack_require__(166);
@@ -402,33 +351,80 @@ if (false) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
 var new_project_form = {
 
+	props: ['is_update'],
+
 	data() {
+
 		return {
 			'project_name': '',
 			'project_cat': '0',
 			'project_description': '',
-			'project_notify': false,
-			'project_users': this.$store.state.project_users
+			'project_notify': false
+			//'project_users': this.$store.state.project_users,
+
 		};
 	},
 
 	computed: {
 		roles() {
-			return this.$store.state.roles;
+			return this.$root.$store.state.roles;
 		},
 
 		categories() {
-			return this.$store.state.categories;
+			return this.$root.$store.state.categories;
+		},
+
+		project() {
+			if (this.is_update) {
+				return this.$root.$store.state.project;
+			}
+
+			return {};
+		},
+
+		project_category: {
+			get() {
+
+				if (this.is_update) {
+					var project = this.$root.$store.state.project;
+
+					if (typeof project.categories !== 'undefined' && project.categories.data.length) {
+						return project.categories.data[0].id;
+					}
+				}
+
+				return 0;
+			},
+
+			set(cat) {
+				this.project_cat = cat;
+			}
+		},
+
+		project_users() {
+			if (this.is_update) {
+				return this.$root.$store.state.project_users;
+			}
+
+			return [];
 		}
 	},
 
 	methods: {
 		newProject() {
+			console.log(this.project_users);return;
 			var self = this;
 
 			var request = {
@@ -466,6 +462,19 @@ var new_project_form = {
 			});
 
 			return format_users;
+		},
+
+		deleteUser(del_user) {
+
+			this.project_users = this.project_users.filter(function (user) {
+				if (user.id === del_user.id) {
+					return false;
+				} else {
+					return user;
+				}
+			});
+
+			//console.log(this.project_users, project_users);
 		}
 	}
 };
@@ -1760,8 +1769,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.project_name),
-      expression: "project_name"
+      value: (_vm.project.title),
+      expression: "project.title"
     }],
     attrs: {
       "type": "text",
@@ -1772,12 +1781,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "size": "45"
     },
     domProps: {
-      "value": (_vm.project_name)
+      "value": (_vm.project.title)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.project_name = $event.target.value
+        _vm.project.title = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -1786,8 +1795,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.project_cat),
-      expression: "project_cat"
+      value: (_vm.project_category),
+      expression: "project_category"
     }],
     staticClass: "chosen-select",
     attrs: {
@@ -1802,7 +1811,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.project_cat = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.project_category = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -1821,8 +1830,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.project_description),
-      expression: "project_description"
+      value: (_vm.project.description),
+      expression: "project.description"
     }],
     staticClass: "cpm-project-description",
     attrs: {
@@ -1833,12 +1842,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "placeholder": "Some details about the project (optional)"
     },
     domProps: {
-      "value": (_vm.project_description)
+      "value": (_vm.project.description)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.project_description = $event.target.value
+        _vm.project.description = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -1868,7 +1877,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "value": role.id
         }
       }, [_vm._v(_vm._s(role.title))])
-    }))]), _vm._v(" "), _vm._m(0, true)])
+    }))]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "cpm-del-proj-role cpm-assign-del-user",
+      attrs: {
+        "hraf": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteUser(projectUser)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "dashicons dashicons-trash"
+    }), _vm._v(" "), _c('span', {
+      staticClass: "title"
+    }, [_vm._v("Delete")])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "cpm-form-item project-users"
   }, [_c('input', {
@@ -1919,7 +1943,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }
-  }), _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }), _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "cpm-loading",
     staticStyle: {
       "display": "none"
@@ -1927,17 +1951,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("Saving...")])])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [_c('a', {
-    staticClass: "cpm-del-proj-role cpm-assign-del-user",
-    attrs: {
-      "hraf": "#"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "title"
-  }, [_vm._v("Delete")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "submit"
   }, [_c('input', {
@@ -2329,6 +2342,57 @@ if(false) {
  // When the module is disposed, remove the <style> tags
  module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    props: ['total_pages', 'current_page_number', 'component_name'],
+
+    methods: {
+        pageClass: function (page) {
+            if (page == this.current_page_number) {
+                return 'page-numbers current';
+            }
+
+            return 'page-numbers';
+        }
+    }
+});
 
 /***/ })
 

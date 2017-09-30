@@ -37,7 +37,8 @@
                                 <a href="#" :title="discuss.creator.data.display_name">
                                 	{{ discuss.creator.data.display_name }}
                                 </a> 
-                                on September 11, 2017 01:34 pm                    
+                                on 
+                                {{ discuss.created_at.date }}                  
                             </div>
 
                         </div>
