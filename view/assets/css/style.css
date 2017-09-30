@@ -617,6 +617,7 @@ ul.cpm-nav li a {
 .cpm-user-ui-dialog {
   left: 39% !important;
   top: 29% !important;
+  z-index: 99999;
 }
 .cpm-project-head {
   overflow: hidden;

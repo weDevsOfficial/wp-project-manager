@@ -14,7 +14,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.newProject()
+        _vm.newProject();
       }
     }
   }, [_c('div', {
@@ -3986,7 +3986,6 @@ if (false) {
 //
 //
 //
-//
 
 
 
@@ -4051,41 +4050,6 @@ var new_project_form = {
 	},
 
 	methods: {
-		newProject() {
-			var self = this;
-
-			if (this.is_update) {
-				var type = 'PUT';
-				var url = this.base_url + '/cpm/v2/projects/' + this.project.id;
-			} else {
-				var type = 'POST';
-				var url = this.base_url + '/cpm/v2/projects/';
-			}
-
-			var request = {
-				type: type,
-
-				url: url,
-
-				data: {
-					'title': this.project.title,
-					'categories': [this.project_cat],
-					'description': this.project.description,
-					'notify_users': this.project_notify,
-					'assignees': this.formatUsers(this.project_users)
-				},
-
-				success: function (res) {
-					self.$root.$store.commit('newProject', { 'projects': res.data });
-					jQuery("#cpm-project-dialog").dialog("close");
-					self.showHideProjectForm(false);
-				},
-
-				error: function (res) {}
-			};
-
-			this.httpRequest(request);
-		},
 
 		formatUsers(users) {
 			var format_users = [];

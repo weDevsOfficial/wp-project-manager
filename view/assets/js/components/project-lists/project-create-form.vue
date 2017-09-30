@@ -1,8 +1,7 @@
 <template>
 <div>
-	<!-- <pre>{{ project }}</pre> -->
-	
-	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject()">
+
+	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject();">
 
 
 		<div class="cpm-form-item project-name">
@@ -138,43 +137,6 @@
 		},
 
 		methods: {
-			newProject () {
-				var self = this;
-
-				if (this.is_update) {
-					var type = 'PUT';
-					var	url = this.base_url + '/cpm/v2/projects/'+ this.project.id;
-				} else {
-					var type = 'POST';
-					var	url = this.base_url + '/cpm/v2/projects/';
-				}
-
-				var request = {
-					type: type,
-
-					url: url,
-
-					data: {
-						'title': this.project.title,
-						'categories': [this.project_cat],
-						'description': this.project.description,
-						'notify_users': this.project_notify,
-						'assignees': this.formatUsers(this.project_users)
-					},
-
-					success: function(res) {
-                		self.$root.$store.commit('newProject', {'projects': res.data});
-                		jQuery( "#cpm-project-dialog" ).dialog("close");
-                		self.showHideProjectForm(false);
-	                },
-
-	                error: function(res) {
-	                    
-	                }
-				};
-		
-				this.httpRequest(request);
-			},
 
 			formatUsers (users) {
 				var format_users = [];

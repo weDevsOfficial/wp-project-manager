@@ -21,6 +21,61 @@
 			jQuery.ajax(property);
 		},
 
+        newProject () {
+            var self = this;
+
+            if (this.is_update) {
+                var type = 'PUT';
+                var url = this.base_url + '/cpm/v2/projects/'+ this.project.id;
+            } else {
+                var type = 'POST';
+                var url = this.base_url + '/cpm/v2/projects/';
+            }
+
+            var request = {
+                type: type,
+
+                url: url,
+
+                data: {
+                    'title': this.project.title,
+                    'categories': [this.project_cat],
+                    'description': this.project.description,
+                    'notify_users': this.project_notify,
+                    'assignees': this.formatUsers(this.project_users)
+                },
+
+                success: function(res) {
+                    self.$root.$store.commit('newProject', res.data);
+                    self.showHideProjectForm(false);
+                    jQuery( "#cpm-project-dialog" ).dialog("close");
+                },
+
+                error: function(res) {
+                    
+                }
+            };
+    
+            this.httpRequest(request);
+        },
+
+        getProjects () {
+            var self = this;
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self),
+                success: function(res) {
+                    self.$root.$store.commit('setProjects', {'projects': res.data});
+                    self.$root.$store.commit('setProjectMeta', res.meta );
+                }
+            });
+        },
+
+        setCurrentPageNumber (self) {
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
+
 		getProject (project_id, callback) {
 			var self = this;
             
@@ -130,7 +185,7 @@
         },
 
         showHideProjectForm (status) {
-            this.$store.commit('showHideProjectForm', status);
+            this.$root.$store.commit('showHideProjectForm', status);
         }
 	}
 });

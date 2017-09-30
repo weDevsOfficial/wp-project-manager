@@ -16,9 +16,6 @@ var Store = {
 	},
 
 	mutations: {
-		setProjects (state, projects) {
-			state.projects = projects.projects;
-		},
 
 		newProject (state, projects) {
 			state.projects.push(projects.projects);

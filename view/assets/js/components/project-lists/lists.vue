@@ -105,7 +105,7 @@
             },
 
             total_pages () {
-                return this.$store.state.total_pages;
+                return this.$root.$store.state.project_meta.total_pages;
             },
         },
         
@@ -123,15 +123,7 @@
         },
 
         methods: {
-            getProjects (self) {
-                self.httpRequest({
-                    url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.current_page_number,
-                    success: function(res) {
-                        self.$store.commit('setProjects', {'projects': res.data});
-                        self.$store.commit('setPagination', {'pagination': res.meta.pagination});
-                    }
-                });
-            },
+ 
 
             // getRoles (self) {
             //     self.httpRequest({

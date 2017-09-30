@@ -14,7 +14,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.newProject()
+        _vm.newProject();
       }
     }
   }, [_c('div', {
@@ -672,7 +672,7 @@ if (false) {
         },
 
         total_pages() {
-            return this.$store.state.total_pages;
+            return this.$root.$store.state.project_meta.total_pages;
         }
     },
 
@@ -690,16 +690,24 @@ if (false) {
     },
 
     methods: {
-        getProjects(self) {
-            self.httpRequest({
-                url: self.base_url + '/cpm/v2/projects?per_page=2&page=' + self.current_page_number,
-                success: function (res) {
-                    self.$store.commit('setProjects', { 'projects': res.data });
-                    self.$store.commit('setPagination', { 'pagination': res.meta.pagination });
-                }
-            });
-        }
 
+        // getRoles (self) {
+        //     self.httpRequest({
+        //         url: self.base_url + '/cpm/v2/roles',
+        //         success: function(res) {
+        //             self.$store.commit('setRoles', {'roles': res.data});
+        //         }
+        //     });
+        // },
+
+        // getCategory (self) {
+        //     self.httpRequest({
+        //         url: self.base_url + '/cpm/v2/categories?type=project',
+        //         success: function(res) {
+        //             self.$store.commit('setCategories', {'categories': res.data});
+        //         }
+        //     });
+        // }
     }
 });
 
@@ -829,8 +837,36 @@ var project_btn = {
 /* harmony default export */ __webpack_exports__["a"] = ({
     computed: {
         projects() {
-            return this.$store.state.projects;
+            return this.$root.$store.state.projects;
         }
+    },
+
+    methods: {
+        deleteProject(id) {
+            if (!confirm('Are you sure!')) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/' + id,
+                type: 'DELETE',
+                success: function (res) {
+                    self.$root.$store.commit('afterDeleteProject', id);
+
+                    if (!self.$root.$store.state.projects.length) {
+                        self.$router.push({
+                            name: 'project_lists'
+                        });
+                    } else {
+                        self.getProjects();
+                    }
+                }
+            };
+
+            self.httpRequest(request_data);
+        },
+
+        projectComplete(project) {}
     }
 });
 
@@ -917,9 +953,6 @@ var Store = {
 	},
 
 	mutations: {
-		setProjects(state, projects) {
-			state.projects = projects.projects;
-		},
 
 		newProject(state, projects) {
 			state.projects.push(projects.projects);
@@ -1507,7 +1540,53 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "width": "48"
         }
       })
-    }))]), _vm._v(" "), _vm._m(1, true)], 1)
+    }))]), _vm._v(" "), _c('div', {
+      staticClass: "cpm-project-action-icon"
+    }, [_c('div', {
+      staticClass: "cpm-project-action"
+    }, [_c('span', {
+      staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
+    }), _vm._v(" "), _c('ul', {
+      staticClass: "cpm-settings",
+      staticStyle: {
+        "display": "block"
+      }
+    }, [_c('li', [_c('span', {
+      staticClass: "cpm-spinner"
+    }), _vm._v(" "), _c('a', {
+      staticClass: "cpm-project-delete-link",
+      attrs: {
+        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+        "title": "Delete project",
+        "data-confirm": "Are you sure to delete this project?",
+        "data-project_id": "60"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteProject(project.id)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "dashicons dashicons-trash"
+    }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "cpm-spinner"
+    }), _vm._v(" "), _c('a', {
+      staticClass: "cpm-archive",
+      attrs: {
+        "data-type": "archive",
+        "data-project_id": "60",
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.projectComplete(project)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "dashicons dashicons-yes"
+    }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _vm._m(1, true)])])])], 1)
   }))
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1520,41 +1599,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-project-action-icon"
-  }, [_c('div', {
-    staticClass: "cpm-project-action"
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
-  }), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-settings",
-    staticStyle: {
-      "display": "block"
-    }
-  }, [_c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-project-delete-link",
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
-      "title": "Delete project",
-      "data-confirm": "Are you sure to delete this project?",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-archive",
-    attrs: {
-      "data-type": "archive",
-      "data-project_id": "60",
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-yes"
-  }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _c('li', [_c('span', {
+  return _c('li', [_c('span', {
     staticClass: "cpm-spinner"
   }), _vm._v(" "), _c('a', {
     staticClass: "cpm-duplicate-project",
@@ -1564,7 +1609,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('span', {
     staticClass: "dashicons dashicons-admin-page"
-  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])])])])
+  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -1977,7 +2022,6 @@ if(false) {
 //
 //
 //
-//
 
 
 
@@ -2042,41 +2086,6 @@ var new_project_form = {
 	},
 
 	methods: {
-		newProject() {
-			var self = this;
-
-			if (this.is_update) {
-				var type = 'PUT';
-				var url = this.base_url + '/cpm/v2/projects/' + this.project.id;
-			} else {
-				var type = 'POST';
-				var url = this.base_url + '/cpm/v2/projects/';
-			}
-
-			var request = {
-				type: type,
-
-				url: url,
-
-				data: {
-					'title': this.project.title,
-					'categories': [this.project_cat],
-					'description': this.project.description,
-					'notify_users': this.project_notify,
-					'assignees': this.formatUsers(this.project_users)
-				},
-
-				success: function (res) {
-					self.$root.$store.commit('newProject', { 'projects': res.data });
-					jQuery("#cpm-project-dialog").dialog("close");
-					self.showHideProjectForm(false);
-				},
-
-				error: function (res) {}
-			};
-
-			this.httpRequest(request);
-		},
 
 		formatUsers(users) {
 			var format_users = [];

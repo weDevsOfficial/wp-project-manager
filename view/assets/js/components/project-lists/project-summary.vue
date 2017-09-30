@@ -62,14 +62,14 @@
     				<ul class="cpm-settings" style="display: block;">
     				    <li>
     				        <span class="cpm-spinner"></span>
-    				        <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
+    				        <a @click.prevent="deleteProject(project.id)" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
     				            <span class="dashicons dashicons-trash"></span>
     				            <span>Delete</span>
     				        </a>
     				    </li>
     				    <li>
     				        <span class="cpm-spinner"></span>
-    				            <a class="cpm-archive" data-type="archive" data-project_id="60" href="#">
+    				            <a @click.prevent="projectComplete(project)" class="cpm-archive" data-type="archive" data-project_id="60" href="#">
     				                <span class="dashicons dashicons-yes"></span>
     				                <span>Complete</span>
     				            </a>
@@ -94,7 +94,37 @@
     export default {
         computed: {
             projects () {
-                return this.$store.state.projects;
+                return this.$root.$store.state.projects;
+            }
+        },
+
+        methods: {
+            deleteProject (id) {
+                if ( ! confirm( 'Are you sure!' ) ) {
+                    return;
+                }
+                var self = this;
+                var request_data = {
+                    url: self.base_url + '/cpm/v2/projects/' + id,
+                    type: 'DELETE',
+                    success: function(res) {
+                        self.$root.$store.commit('afterDeleteProject', id);
+
+                        if (!self.$root.$store.state.projects.length) {
+                            self.$router.push({
+                                name: 'project_lists', 
+                            });
+                        } else {
+                            self.getProjects();
+                        }
+                    }
+                }
+
+                self.httpRequest(request_data);
+            },
+
+            projectComplete (project) {
+
             }
         }
     }
