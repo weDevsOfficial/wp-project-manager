@@ -2,7 +2,6 @@
     <div>
 
     	<article class="cpm-project cpm-column-gap-left cpm-sm-col-12" v-for="project in projects">
-
             <router-link 
                 :title="project.title"
                 :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
@@ -56,10 +55,10 @@
         
             <div class="cpm-project-action-icon">
     	        <div class="cpm-project-action">
-    				<span class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+    				<span @click.prevent="settingsShowHide(project)" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
 
-    				<ul class="cpm-settings" style="display: block;">
+    				<ul v-if="project.settings_hide" class="cpm-settings">
     				    <li>
     				        <span class="cpm-spinner"></span>
     				        <a @click.prevent="deleteProject(project.id)" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
@@ -69,22 +68,22 @@
     				    </li>
     				    <li>
     				        <span class="cpm-spinner"></span>
-    				            <a @click.prevent="projectComplete(project)" class="cpm-archive" data-type="archive" data-project_id="60" href="#">
-    				                <span class="dashicons dashicons-yes"></span>
-    				                <span>Complete</span>
-    				            </a>
-    				                    </li>
+				            <a @click.prevent="projectComplete(project)" class="cpm-archive" data-type="archive" data-project_id="60" href="#">
+				                <span class="dashicons dashicons-yes"></span>
+				                <span>Complete</span>
+				            </a>
+    				    </li>
 
-    				                    <li>
-    				            <span class="cpm-spinner"></span>
-    				            <a class="cpm-duplicate-project" href="/test/wp-admin/admin.php?page=cpm_projects" data-project_id="60">
-    				                <span class="dashicons dashicons-admin-page"></span>
-    				                <span>Duplicate</span>
-    				            </a>
-    				        </li>
-    				    </ul>
-    				</div>
+    				    <li>
+				            <span class="cpm-spinner"></span>
+				            <a class="cpm-duplicate-project" href="/test/wp-admin/admin.php?page=cpm_projects" data-project_id="60">
+				                <span class="dashicons dashicons-admin-page"></span>
+				                <span>Duplicate</span>
+				            </a>
+    				    </li>
+    				</ul>
     			</div>
+    		</div>
     	</article>
     </div>
 </template>
@@ -92,6 +91,11 @@
 
 <script>
     export default {
+        data () {
+            return {
+                is_active_settings: false
+            }
+        },
         computed: {
             projects () {
                 return this.$root.$store.state.projects;
@@ -123,8 +127,8 @@
                 self.httpRequest(request_data);
             },
 
-            projectComplete (project) {
-
+            settingsShowHide (project) {
+                project.settings_hide = project.settings_hide ? false : true;
             }
         }
     }

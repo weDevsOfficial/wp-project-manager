@@ -31,7 +31,7 @@ class Project_Controller {
 		$resource = new Collection( $project_collection, new Project_Transformer );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
-
+        
         return $this->get_response( $resource );
     }
 

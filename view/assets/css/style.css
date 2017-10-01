@@ -3636,7 +3636,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background: #fff;
   box-shadow: 0 0 3px 1px #eee;
   border: 1px solid #ddd;
-  display: none;
   position: absolute;
   right: 2px;
   top: 140%;

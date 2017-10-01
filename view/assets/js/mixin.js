@@ -64,6 +64,9 @@
             self.httpRequest({
                 url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self),
                 success: function(res) {
+                    res.data.map(function(project) {
+                        self.addProjectMeta(project);
+                    });
                     self.$root.$store.commit('setProjects', {'projects': res.data});
                     self.$root.$store.commit('setProjectMeta', res.meta );
                 }
@@ -113,6 +116,7 @@
 
         addProjectMeta (project) {
             project.edit_mode = false;
+            project.settings_hide = false;
         },
 
         getProjectCategories (callback) {

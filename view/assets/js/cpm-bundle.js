@@ -10307,6 +10307,9 @@ module.exports = function normalizeComponent (
             self.httpRequest({
                 url: self.base_url + '/cpm/v2/projects?per_page=2&page=' + self.setCurrentPageNumber(self),
                 success: function (res) {
+                    res.data.map(function (project) {
+                        self.addProjectMeta(project);
+                    });
                     self.$root.$store.commit('setProjects', { 'projects': res.data });
                     self.$root.$store.commit('setProjectMeta', res.meta);
                 }
@@ -10356,6 +10359,7 @@ module.exports = function normalizeComponent (
 
         addProjectMeta(project) {
             project.edit_mode = false;
+            project.settings_hide = false;
         },
 
         getProjectCategories(callback) {
@@ -10474,7 +10478,9 @@ module.exports = function normalizeComponent (
 
 
 
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* default */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["a" /* active */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["b" /* all */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__components_project_lists_router__["c" /* completed */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__components_categories_router__["a" /* default */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_4__components_add_ons_router__["a" /* default */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_5__components_my_tasks_router__["a" /* default */]);
@@ -12207,15 +12213,30 @@ const overview = resolve => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return active; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return all; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return completed; });
 //import project_lists from './lists.vue';
 
 const project_lists = resolve => {
-    __webpack_require__.e/* require.ensure */(3).then((() => {
-        resolve(__webpack_require__(16));
+    __webpack_require__.e/* require.ensure */(12).then((() => {
+        resolve(__webpack_require__(244));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+const all_projects = resolve => {
+    __webpack_require__.e/* require.ensure */(11).then((() => {
+        resolve(__webpack_require__(252));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
+const completed_projects = resolve => {
+    __webpack_require__.e/* require.ensure */(3).then((() => {
+        resolve(__webpack_require__(253));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
+var active = {
     path: '/',
     components: {
         'project-lists': project_lists
@@ -12229,7 +12250,41 @@ const project_lists = resolve => {
         },
         name: 'project_pagination'
     }]
-});
+};
+
+var all = {
+    path: '/all',
+    components: {
+        'all-projects': all_projects
+    },
+    name: 'all_projects',
+
+    children: [{
+        path: 'pages/:current_page_number',
+        components: {
+            'all-projects': all_projects
+        },
+        name: 'all_project_pagination'
+    }]
+};
+
+var completed = {
+    path: '/completed',
+    components: {
+        'completed-projects': completed_projects
+    },
+    name: 'completed_projects',
+
+    children: [{
+        path: 'pages/:current_page_number',
+        components: {
+            'completed-projects': completed_projects
+        },
+        name: 'completed_project_pagination'
+    }]
+};
+
+
 
 /***/ }),
 /* 50 */
@@ -17351,6 +17406,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', [_c('router-view', {
     attrs: {
       "name": "project-lists"
+    }
+  }), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "completed-projects"
+    }
+  }), _vm._v(" "), _c('router-view', {
+    attrs: {
+      "name": "all-projects"
     }
   })], 1)
 }

@@ -1,7 +1,7 @@
 import Vue from './vue/vue';
 import Router from './vue/vue-router';
 
-import project_lists from './components/project-lists/router';
+import {active, all, completed} from './components/project-lists/router';
 import categories from './components/categories/router';
 import add_ons from './components/add-ons/router';
 import my_tasks from './components/my-tasks/router';
@@ -17,7 +17,9 @@ import {discussions, single_discussion} from './components/discussions/router';
 import {milestones} from './components/milestones/router';
 
 
-weDevs_PM_Routers.push(project_lists);
+weDevs_PM_Routers.push(active);
+weDevs_PM_Routers.push(all);
+weDevs_PM_Routers.push(completed);
 weDevs_PM_Routers.push(categories);
 weDevs_PM_Routers.push(add_ons);
 weDevs_PM_Routers.push(my_tasks);
