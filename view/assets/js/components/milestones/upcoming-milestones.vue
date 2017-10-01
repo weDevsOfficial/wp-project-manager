@@ -7,9 +7,9 @@
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
                     <span class="time-left">
-                    	(7 days left - 
-                    	<time datetime="2017-09-22T05:23:41+00:00" title="2017-09-22T05:23:41+00:00">
-                    		September 22, 2017
+                    	({{ humanDate(milestone) }} left - 
+                    	<time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
+                    		{{ getDueDate(milestone) }}
                     	</time>
                     	)
                     </span>
@@ -75,10 +75,10 @@
 
                 return this.$store.state.milestones.filter(function(milestone) {
 
-                    if ( milestone.completed === true ) {
+                    if ( milestone.status === 'complete' ) {
                         return false;
                     }
-                    var due_date = milestone.due_date.date;
+                    var due_date = milestone.achieve_date.date;
                     
                     if ( !due_date ) {
                         return false;

@@ -65,7 +65,7 @@
         computed: {
             completedMilestones () {
                 return this.$store.state.milestones.filter(function(milestone) {
-                    return milestone.completed ? milestone : false;
+                    return milestone.status === 'complete' ? milestone : false;
                 });
             },
         }

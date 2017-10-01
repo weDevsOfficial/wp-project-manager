@@ -8,7 +8,10 @@
     </li>
 
     <li>
-        <a class=" cpm-milestone-open dashicons dashicons-update" data-project="98" data-id="107" title="Mark as incomplete" href="#"></a>
+        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class=" cpm-milestone-open dashicons dashicons-update" data-project="98" data-id="107" title="Mark as incomplete" href="#"></a>
+    </li>
+    <li>
+        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="cpm-milestone-complete dashicons dashicons-yes" data-project="98" data-id="107" title="Mark as complete" href="#"></a>
     </li>
     <li>
         <span class="cpm-unlock"></span>
@@ -18,6 +21,18 @@
 
 <script>
 	export default {
-		props: ['milestone']
+		props: ['milestone'],
+
+        data () {
+            return {
+                due_date: this.milestone.achieve_date.date,
+            }
+        },
+
+        computed: {
+            is_complete () {
+                return this.milestone.status === 'complete' ? true : false;
+            }
+        }
 	}
 </script>

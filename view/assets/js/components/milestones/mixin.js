@@ -53,16 +53,7 @@ export default Vue.mixin({
         },
 
 	    addMeta (milestone, index) {
-	    	var test = [null, '2017-09-30 02:23:41'];
 	    	milestone.edit_mode = false;
-	    	milestone.due_date = {
-	    		date: test[index],
-	    		completed: false,
-	    	};
-
-	    	if (index == 2) {
-	    		milestone.completed = true;
-	    	}
 	    },
 
 	    setCurrentPageNumber (self) {
@@ -91,8 +82,8 @@ export default Vue.mixin({
 	                title: this.milestone.title,
 	                description: this.milestone.description,
 	                achieve_date: this.due_date,
+	                status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
 	                order: '',
-	                milestone: 4
 	            };
 	        
 	        // Showing loading option 
@@ -147,7 +138,7 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	            }
 	        }
-
+	        
 	        self.httpRequest(request_data);
 	    },
 
@@ -227,6 +218,37 @@ export default Vue.mixin({
             }
 
             self.httpRequest(request_data);
+        },
+
+        humanDate (milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                due_date = new Date(due_date),
+                due_date = moment(due_date).format();
+
+            return moment(due_date).fromNow(true);
+        },
+        momentFormat (milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                due_date = new Date(due_date),
+                due_date = moment(due_date).format();
+
+            return due_date;
+        },
+        getDueDate (milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+            var due_date = this.dateFormat(due_date);
+
+            return due_date;
+        },
+
+        milestoneMarkDone (milestone) {
+        	milestone.status = 'complete';
+        	this.newMilestone();
+        },
+
+        milestoneMarkUndone (milestone) {
+        	milestone.status = 'incomplete';
+        	this.newMilestone();
         }
 
 	},
