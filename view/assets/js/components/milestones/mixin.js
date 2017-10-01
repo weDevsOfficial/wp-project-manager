@@ -90,6 +90,7 @@ export default Vue.mixin({
 	            form_data = {
 	                title: this.milestone.title,
 	                description: this.milestone.description,
+	                achieve_date: this.due_date,
 	                order: '',
 	                milestone: 4
 	            };

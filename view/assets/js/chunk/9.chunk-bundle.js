@@ -1,12 +1,11 @@
 webpackJsonp([9],{
 
-/***/ 10:
+/***/ 100:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_activities_vue__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7c1aa333_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_activities_vue__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_create_form_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_792d7af7_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_create_form_vue__ = __webpack_require__(102);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -20,15 +19,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_activities_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7c1aa333_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_activities_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_create_form_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_792d7af7_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_create_form_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "view/assets/js/components/activities/activities.vue"
+Component.options.__file = "view/assets/js/components/project-lists/project-create-form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] activities.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] project-create-form.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -37,21 +36,71 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7c1aa333", Component.options)
+    hotAPI.createRecord("data-v-792d7af7", Component.options)
   } else {
-    hotAPI.reload("data-v-7c1aa333", Component.options)
+    hotAPI.reload("data-v-792d7af7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
   })
 })()}
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
 
 /***/ }),
 
-/***/ 100:
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_new_user_form_vue__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7bb6591b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_new_user_form_vue__ = __webpack_require__(103);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_new_user_form_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7bb6591b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_new_user_form_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/project-lists/project-new-user-form.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] project-new-user-form.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7bb6591b", Component.options)
+  } else {
+    hotAPI.reload("data-v-7bb6591b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -310,7 +359,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 101:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -444,13 +493,13 @@ if (false) {
 
 /***/ }),
 
-/***/ 102:
+/***/ 104:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__do_action_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__project_lists_project_create_form_vue__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__project_lists_project_create_form_vue__ = __webpack_require__(100);
 //
 //
 //
@@ -616,12 +665,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 103:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_header_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_46bc394e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_header_vue__ = __webpack_require__(106);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -666,7 +715,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 104:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -786,11 +835,148 @@ if (false) {
 
 /***/ }),
 
-/***/ 140:
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(103);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_overview_vue__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ebe1519a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_overview_vue__ = __webpack_require__(243);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_overview_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ebe1519a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_overview_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "view/assets/js/components/overview/overview.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] overview.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ebe1519a", Component.options)
+  } else {
+    hotAPI.reload("data-v-ebe1519a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 180:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_vue__ = __webpack_require__(105);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -808,436 +994,134 @@ if (false) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    components: {
-        'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */]
-    }
+	components: {
+		'pm-header': __WEBPACK_IMPORTED_MODULE_0__header_vue__["a" /* default */]
+	}
 });
 
 /***/ }),
 
-/***/ 224:
+/***/ 243:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('a', {
-    staticClass: "button cpm-load-more",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-start": "21",
-      "data-total": "48"
-    }
-  }, [_vm._v("Load More...")])], 1)
+  }, [_c('pm-header'), _vm._v(" "), _vm._m(0)], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "cpm_activity_list"
-  }, [_c('ul', {
-    staticClass: "cpm-activity-list"
-  }, [_c('li', {
-    staticClass: "cpm-row"
+  return _c('div', {
+    staticClass: "project-overview"
   }, [_c('div', {
-    staticClass: "cpm-activity-date cpm-col-1 cpm-sm-col-12"
-  }, [_c('span', [_vm._v(" 11 ")]), _vm._v(" "), _c('br'), _vm._v(" September   ")]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"
-  }, [_c('ul', [_c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
+    staticClass: "cpm-col-10 cpm-sm-col-12"
+  }, [_c('div', {
+    staticClass: "overview-menu"
+  }, [_c('ul', [_c('li', {
+    staticClass: "message"
   }, [_c('a', {
     attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
     }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-315"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:52+00:00",
-      "title": "2017-09-11T13:34:52+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
+  }, [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("0")]), _vm._v(" \n\t\t         \t\t\t\tDiscussions\n\t\t         \t\t\t")])])]), _vm._v(" "), _c('li', {
+    staticClass: "todo"
   }, [_c('a', {
     attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=index&pid=60"
     }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-313"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:47+00:00",
-      "title": "2017-09-11T13:34:47+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
+  }, [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("1")]), _vm._v(" \n\t\t         \t\t\t\tTask List\n\t\t         \t\t\t")])])]), _vm._v(" "), _c('li', {
+    staticClass: "todos"
   }, [_c('a', {
     attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=index&pid=60"
     }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-311"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:41+00:00",
-      "title": "2017-09-11T13:34:41+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
+  }, [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("1")]), _vm._v(" \n\t\t\t         \t\t\tTask\n\t\t\t         \t\t")])])]), _vm._v(" "), _c('li', {
+    staticClass: "comments"
+  }, [_c('a', [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("0")]), _vm._v(" \n\t\t\t\t         \t\tComments\n\t\t\t\t         \t")])])]), _vm._v(" "), _c('li', {
+    staticClass: "files"
   }, [_c('a', {
     attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=files&action=index&pid=60"
     }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
+  }, [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("0")]), _vm._v(" \n\t\t\t\t\t    \t\t\tFiles\n\t\t\t\t\t    \t")])])]), _vm._v(" "), _c('li', {
+    staticClass: "milestone"
+  }, [_c('a', {
     attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-309"
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=milestone&action=index&pid=60"
     }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:37+00:00",
-      "title": "2017-09-11T13:34:37+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
-    }
-  }, [_vm._v("srthsrth")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:23+00:00",
-      "title": "2017-09-11T13:34:23+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=96"
-    }
-  }, [_vm._v("kafd")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:01+00:00",
-      "title": "2017-09-11T13:34:01+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=95"
-    }
-  }, [_vm._v("message 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:33:26+00:00",
-      "title": "2017-09-11T13:33:26+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:33 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:50+00:00",
-      "title": "2017-09-11T10:09:50+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:49+00:00",
-      "title": "2017-09-11T10:09:49+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:48+00:00",
-      "title": "2017-09-11T10:09:48+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:44:05+00:00",
-      "title": "2017-09-11T08:44:05+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:44 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:32+00:00",
-      "title": "2017-09-11T08:43:32+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" added to task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
-    }
-  }, [_vm._v("List 1")]), _vm._v("\" by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:24+00:00",
-      "title": "2017-09-11T08:43:24+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
-    }
-  }, [_vm._v("List 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:15+00:00",
-      "title": "2017-09-11T08:43:15+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"laskdf\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:32+00:00",
-      "title": "2017-09-11T08:42:32+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"skgfkd\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:27+00:00",
-      "title": "2017-09-11T08:42:27+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"list 1\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:21+00:00",
-      "title": "2017-09-11T08:42:21+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/81"
-    }
-  }, [_vm._v("skgfkd")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:11+00:00",
-      "title": "2017-09-11T06:21:11+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/80"
-    }
-  }, [_vm._v("laskdf")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:06+00:00",
-      "title": "2017-09-11T06:21:06+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/79"
-    }
-  }, [_vm._v("list 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:00+00:00",
-      "title": "2017-09-11T06:21:00+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })])])])]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "icon"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "count"
+  }, [_c('span', [_vm._v("0")]), _vm._v(" \n\t\t\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t\t")])])]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
-  })])])
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-chart",
+    attrs: {
+      "id": "cpm-chart"
+    }
+  }, [_c('h3', [_vm._v("Last 30 days")]), _vm._v(" "), _c('div', {
+    staticClass: "inside"
+  }, [_c('div', {
+    staticClass: "cpm-chart-legend cpm-text-right"
+  }, [_c('span', {
+    staticClass: "to-do"
+  }, [_vm._v("Task")]), _vm._v(" "), _c('span', {
+    staticClass: "activity"
+  }, [_vm._v("Activity")])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('canvas', {
+    staticStyle: {
+      "width": "819px",
+      "height": "328px"
+    },
+    attrs: {
+      "width": "1638",
+      "height": "656"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "cpm-col-2 cpm-sm-col-12 cpm-right-part cpm-last-col"
+  }, [_c('h3', {
+    staticClass: "cpm-border-bottom"
+  }, [_vm._v(" Users ")]), _vm._v(" "), _c('ul', {
+    staticClass: "user_list"
+  }, [_c('li', [_c('img', {
+    staticClass: "avatar avatar-34 photo",
+    attrs: {
+      "alt": "admin",
+      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=34&r=g&d=mm",
+      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=34&r=g&d=mm 2x",
+      "height": "34",
+      "width": "34"
+    }
+  }), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+      "title": "admin"
+    }
+  }, [_vm._v("admin")]), _c('span', [_vm._v("Manager")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -1245,18 +1129,18 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7c1aa333", esExports)
+     require("vue-hot-reload-api").rerender("data-v-ebe1519a", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 95:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__directive_js__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_new_user_form_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__directive_js__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_new_user_form_vue__ = __webpack_require__(101);
 //
 //
 //
@@ -1422,7 +1306,7 @@ var new_project_form = {
 
 /***/ }),
 
-/***/ 96:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1508,7 +1392,7 @@ var new_project_form = {
 
 /***/ }),
 
-/***/ 97:
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1633,106 +1517,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.directive('cpm-user-create-popu
         });
     }
 });
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_create_form_vue__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_792d7af7_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_create_form_vue__ = __webpack_require__(100);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_create_form_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_792d7af7_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_create_form_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/project-lists/project-create-form.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] project-create-form.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-792d7af7", Component.options)
-  } else {
-    hotAPI.reload("data-v-792d7af7", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_new_user_form_vue__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7bb6591b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_new_user_form_vue__ = __webpack_require__(101);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_new_user_form_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7bb6591b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_new_user_form_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "view/assets/js/components/project-lists/project-new-user-form.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] project-new-user-form.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7bb6591b", Component.options)
-  } else {
-    hotAPI.reload("data-v-7bb6591b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
 
 /***/ })
 

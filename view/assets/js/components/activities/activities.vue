@@ -15,6 +15,11 @@
     import header from './../header.vue';
 
     export default {
+        beforeRouteEnter(to, from, next) {
+            next (vm => {
+                vm.getActivities();
+            }); 
+        },
         components: {
             'pm-header': header
         }

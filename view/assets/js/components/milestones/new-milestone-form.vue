@@ -6,7 +6,7 @@
         </div>
         
         <div class="item due">
-            <cpm-datepickter v-model="milestone.date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
+            <cpm-datepickter v-model="due_date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
         </div>
 
         <div class="item detail">
@@ -34,7 +34,8 @@
 				content: {
 	                html: typeof this.milestone.description == 'undefined' ? '' : this.milestone.description,
 	            },
-				milestone_id: 4
+				milestone_id: 4,
+				due_date: typeof this.milestone.achieve_date === 'undefined' ? '' : this.milestone.achieve_date.date
 			}
 		},
 

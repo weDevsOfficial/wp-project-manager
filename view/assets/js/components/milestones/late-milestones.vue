@@ -7,11 +7,10 @@
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
                     <span class="time-left">
-                    	(7 days late - 
-                    	<time datetime="2017-09-22T05:23:41+00:00" title="2017-09-22T05:23:41+00:00">
-                    		September 22, 2017
-                    	</time>
-                    	)
+                    	({{ humanDate(milestone) }} late - 
+                    	<time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
+                    		{{ getDueDate(milestone) }}
+                    	</time>)
                     </span>
                     
                     <action :milestone="milestone"></action>
@@ -74,10 +73,11 @@
 
                 return this.$store.state.milestones.filter(function(milestone) {
                     
-                    if ( milestone.completed === true ) {
+                    if ( milestone.status === 'complete' ) {
                         return false;
                     }
-                    var due_date = milestone.due_date.date;
+
+                    var due_date = milestone.achieve_date.date;
                     
                     if ( !due_date ) {
                         return milestone;
@@ -97,6 +97,29 @@
                     return moment(due_day).isBefore(today) ? milestone : false;
                 });
             },
+        },
+
+        methods: {
+            humanDate (milestone) {
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                    due_date = new Date(due_date),
+                    due_date = moment(due_date).format();
+
+                return moment(due_date).fromNow(true);
+            },
+            momentFormat (milestone) {
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                    due_date = new Date(due_date),
+                    due_date = moment(due_date).format();
+
+                return due_date;
+            },
+            getDueDate (milestone) {
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                var due_date = this.dateFormat(due_date);
+
+                return due_date;
+            }
         }
 	}
 </script>
