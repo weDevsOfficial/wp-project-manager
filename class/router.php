@@ -46,7 +46,7 @@ class CPM_Router {
         include_once CPM_PATH . '/includes/html.php';
         include_once CPM_PATH . '/includes/shortcodes.php';
         include_once CPM_PATH . '/includes/lib/class-wedevs-insights.php';
-        include_once CPM_PATH . '/includes/integrations/erp/cpm-erp.php';
+        
     }
 
     /**
