@@ -21,6 +21,7 @@ trait File_Attachment {
                 'fileable_id'   => $entity->id,
                 'fileable_type' => $entity_type,
                 'attachment_id' => $attachment_id,
+                'project_id'    => $entity->project_id,
             ]);
         }
     }
