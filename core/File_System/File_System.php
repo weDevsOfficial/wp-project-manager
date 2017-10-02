@@ -41,7 +41,7 @@ Class File_System {
         return array_filter( $attachment_ids );
     }
 
-    private function attachment_id( $uploaded_file ) {
+    public static function attachment_id( $uploaded_file ) {
         if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/image.php' );
         }
