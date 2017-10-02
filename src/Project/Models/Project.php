@@ -15,6 +15,7 @@ use CPM\Category\Models\Category;
 use CPM\User\Models\User;
 
 class Project extends Eloquent {
+
 	use Project_Status, Model_Events;
 
 	const INCOMPLETE = 0;
@@ -66,9 +67,9 @@ class Project extends Eloquent {
         return $this->hasMany( Milestone::class, 'project_id' );
     }
 
-    // public function files() {
-    //     return $this->hasMany( File::class, 'project_id' );
-    // }
+    public function files() {
+        return $this->hasMany( File::class, 'project_id' );
+    }
 
     public function comments() {
         return $this->hasMany( Comment::class, 'project_id' );
