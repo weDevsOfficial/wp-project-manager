@@ -13,6 +13,7 @@ use CPM\Project\Transformer\Project_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
 use CPM\User\Models\User_Role;
+use CPM\Category\Models\Category;
 
 class Project_Controller {
 
@@ -20,12 +21,15 @@ class Project_Controller {
 
 	public function index( WP_REST_Request $request ) {
 		$per_page = $request->get_param( 'per_page' );
+		$page     = $request->get_param( 'page' );
+		$status   = $request->get_param( 'status' );
+		$category = $request->get_param( 'category' );
+
 		$per_page = $per_page ? $per_page : 15;
+		$page     = $page ? $page : 1;
 
-		$page = $request->get_param( 'page' );
-		$page = $page ? $page : 1;
-
-		$projects = Project::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
+		$projects = $this->fetch_projects( $category, $status );
+		$projects = $projects->paginate( $per_page, ['*'], 'page', $page );
 
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
@@ -33,6 +37,25 @@ class Project_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
 
         return $this->get_response( $resource );
+    }
+
+    private function fetch_projects( $category, $status ) {
+    	$category = Category::where( 'categorible_type', 'project' )
+    		->where( 'id', $category )
+    		->first();
+
+    	if ( $category ) {
+    		$projects = $category->projects()->orderBy( 'created_at', 'DESC' );
+    	} else {
+    		$projects = Project::orderBy( 'created_at', 'DESC' );
+    	}
+
+    	if ( in_array( $status, Project::$status ) ) {
+			$status   = array_search( $status, Project::$status );
+			$projects = $projects->where( 'status', $status );
+		}
+
+		return $projects;
     }
 
 	public function show( WP_REST_Request $request ) {
