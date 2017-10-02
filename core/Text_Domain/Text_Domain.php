@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Core\Lang;
+namespace CPM\Core\Text_Domain;
 
 use CPM\Core\Singletonable;
 
-class Lang {
+class Text_Domain {
     /**
      * Code associated with making a class singleton.
      */
@@ -15,18 +15,18 @@ class Lang {
      *
      * @var array
      */
-    protected static $text_domain = [];
+    protected static $texts = [];
 
     /**
      * Load lang files from the lang directory and store these
      * values in lang static property.
      */
     protected function load() {
-        self::$text_domain = load_lang();
+        self::$texts = load_texts();
     }
 
-    public static function trans( $key = null, $args = [] ) {
-        $lang = Lang::singleton(
+    public static function get_text( $key = null, $args = [] ) {
+        Text_Domain::singleton(
             array(),
             array([
                 'method' => 'load',
@@ -35,11 +35,12 @@ class Lang {
             ])
         );
 
-        $text = self::$text_domain;
+        $texts = self::$texts;
+        $text  = $texts;
 
         if ( $key ) {
             $keys = explode( '.', $key );
-            $text = self::get_value_from_array( $text, $keys );
+            $text = self::get_value_from_array( $texts, $keys );
         }
 
         return self::named_vsprintf( $text, $args );
