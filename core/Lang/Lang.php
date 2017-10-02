@@ -25,7 +25,7 @@ class Lang {
         self::$text_domain = load_lang();
     }
 
-    public static function trans( $key, $values = [] ) {
+    public static function trans( $key = null, $args = [] ) {
         $lang = Lang::singleton(
             array(),
             array([
@@ -39,23 +39,37 @@ class Lang {
 
         if ( $key ) {
             $keys = explode( '.', $key );
+            $text = self::get_value_from_array( $text, $keys );
+        }
 
-            foreach ( $keys as $key ) {
-                $text = $text[$key];
+        return self::named_vsprintf( $text, $args );
+    }
+
+    private static function get_value_from_array( $array = [], $keys = [] ) {
+        $value = $array;
+
+        foreach ( $keys as $key ) {
+            $value = $value[$key];
+        }
+
+        return $value;
+    }
+
+    private static function named_vsprintf( $text, $args ) {
+        $format = $text[0];
+        $values = [];
+
+        if ( array_key_exists( 1, $text ) ) {
+            $params = $text[1];
+
+            foreach ( $params as $key => $param ) {
+                $keys  = explode( '.', $param );
+                $value = self::get_value_from_array( $args, $keys );
+
+                $values[$key] = $value;
             }
         }
 
-        return self::named_vsprintf( $text, $values );
-    }
-
-    public static function named_vsprintf( $format, $args ) {
-        $names  = preg_match_all( '/%\((.*?)\)/', $format[0], $matches, PREG_SET_ORDER );
-
-        $values = array();
-        foreach ( $matches as $match ) {
-            $values[] = $args[$match[1]];
-        }
-
-        return vsprintf( $format[1], $values );
+        return vsprintf( $format, $values );
     }
 }
