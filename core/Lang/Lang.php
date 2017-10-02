@@ -15,18 +15,18 @@ class Lang {
      *
      * @var array
      */
-    protected static $lang = [];
+    protected static $text_domain = [];
 
     /**
      * Load lang files from the lang directory and store these
      * values in lang static property.
      */
     protected function load() {
-        self::$lang = load_lang();
+        self::$text_domain = load_lang();
     }
 
     public static function trans( $key, $values = [] ) {
-        Lang::singleton(
+        $lang = Lang::singleton(
             array(),
             array([
                 'method' => 'load',
@@ -35,19 +35,27 @@ class Lang {
             ])
         );
 
-        $lang = self::$lang;
+        $text = self::$text_domain;
 
         if ( $key ) {
             $keys = explode( '.', $key );
 
             foreach ( $keys as $key ) {
-                $lang = $lang[$key];
+                $text = $text[$key];
             }
         }
 
-        extract( $values );
-        eval( "\$lang = \"$lang\";" );
+        return self::named_vsprintf( $text, $values );
+    }
 
-        return $lang;
+    public static function named_vsprintf( $format, $args ) {
+        $names  = preg_match_all( '/%\((.*?)\)/', $format[0], $matches, PREG_SET_ORDER );
+
+        $values = array();
+        foreach ( $matches as $match ) {
+            $values[] = $args[$match[1]];
+        }
+
+        return vsprintf( $format[1], $values );
     }
 }
