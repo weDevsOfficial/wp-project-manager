@@ -16,6 +16,7 @@ class File extends Eloquent {
         'fileable_type',
         'directory',
         'attachment_id',
+        'project_id',
         'created_by',
         'updated_by'
     ];

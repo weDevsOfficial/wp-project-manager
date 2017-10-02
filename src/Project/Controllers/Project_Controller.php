@@ -14,10 +14,11 @@ use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
 use CPM\User\Models\User_Role;
 use CPM\Category\Models\Category;
+use CPM\Common\Traits\File_Attachment;
 
 class Project_Controller {
 
-	use Transformer_Manager, Request_Filter;
+	use Transformer_Manager, Request_Filter, File_Attachment;
 
 	public function index( WP_REST_Request $request ) {
 		$per_page = $request->get_param( 'per_page' );
@@ -155,6 +156,7 @@ class Project_Controller {
 		$project->milestones()->delete();
 		$project->comments()->delete();
 		$project->assignees()->detach();
+		$this->detach_files( $project );
 
 		// Delete the main resource
 		$project->delete();
@@ -169,4 +171,6 @@ class Project_Controller {
 			]);
 		}
 	}
+
+
 }
