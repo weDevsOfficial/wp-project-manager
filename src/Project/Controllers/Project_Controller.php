@@ -28,18 +28,53 @@ class Project_Controller {
 		$per_page = $per_page ? $per_page : 15;
 		$page     = $page ? $page : 1;
 
-		$projects = $this->fetch_projects( $category, $status );
-		$projects = $projects->paginate( $per_page, ['*'], 'page', $page );
+		$projects = $this->fetch_projects( $category, $status, $per_page, $page );
 
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
+
+		$resource->setMeta( $this->projects_meta( $category ) );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
 
         return $this->get_response( $resource );
     }
 
-    private function fetch_projects( $category, $status ) {
+    private function projects_meta( $category ) {
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$total_projects   = $eloquent_sql->count();
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$total_incomplete = $eloquent_sql->where( 'status', Project::INCOMPLETE )->count();
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$total_complete   = $eloquent_sql->where( 'status', Project::COMPLETE )->count();
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$total_pending    = $eloquent_sql->where( 'status', Project::PENDING )->count();
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
+
+		$meta  = [
+			'total_projects'   => $total_projects,
+			'total_incomplete' => $total_incomplete,
+			'total_complete'   => $total_complete,
+			'total_pending'    => $total_pending,
+			'totla_archived'   => $total_archived,
+		];
+
+		return $meta;
+    }
+
+    private function fetch_projects( $category, $status, $per_page = 15, $page = 1 ) {
+    	$projects = $this->fetch_projects_by_category( $category );
+
+    	if ( in_array( $status, Project::$status ) ) {
+			$status   = array_search( $status, Project::$status );
+			$projects = $projects->where( 'status', $status );
+		}
+
+		return $projects->paginate( $per_page, ['*'], 'page', $page );
+    }
+
+    private function fetch_projects_by_category( $category = null ) {
     	$category = Category::where( 'categorible_type', 'project' )
     		->where( 'id', $category )
     		->first();
@@ -50,12 +85,7 @@ class Project_Controller {
     		$projects = Project::orderBy( 'created_at', 'DESC' );
     	}
 
-    	if ( in_array( $status, Project::$status ) ) {
-			$status   = array_search( $status, Project::$status );
-			$projects = $projects->where( 'status', $status );
-		}
-
-		return $projects;
+    	return $projects;
     }
 
 	public function show( WP_REST_Request $request ) {
