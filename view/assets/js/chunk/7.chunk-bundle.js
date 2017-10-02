@@ -1556,6 +1556,11 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -1570,7 +1575,8 @@ if (false) {(function () {
 				html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description
 			},
 			milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
-			files: []
+			files: [],
+			pfiles: []
 		};
 	},
 
@@ -1612,7 +1618,11 @@ if (false) {(function () {
 			return 'cpm-discuss-editor' + discuss_id;
 		}
 	},
-	methods: {}
+	methods: {
+		filesChange($event, $files) {
+			this.pfiles = $files;
+		}
+	}
 
 });
 
@@ -1826,6 +1836,10 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('form', {
     staticClass: "cpm-message-form",
+    attrs: {
+      "id": "myForm",
+      "enctype": "multipart/form-data"
+    },
     on: {
       "submit": function($event) {
         $event.preventDefault();
@@ -1898,6 +1912,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })], 2)]), _vm._v(" "), _c('file-uploader', {
     attrs: {
       "files": _vm.files
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "file",
+      "name": "myfiles",
+      "multiple": ""
+    },
+    on: {
+      "change": function($event) {
+        _vm.filesChange($event.target.name, $event.target.files)
+      }
     }
   }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "submit"

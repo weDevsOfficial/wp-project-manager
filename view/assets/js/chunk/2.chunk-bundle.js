@@ -2256,7 +2256,8 @@ if (false) {(function () {
                 start_at: this.task.start_at.date,
                 due_date: this.task.due_date.date,
                 task_privacy: this.task.task_privacy,
-                list_id: this.list.id
+                list_id: this.list.id,
+                order: this.task.order
             };
 
             // Showing loading option 

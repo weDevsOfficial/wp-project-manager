@@ -11548,19 +11548,23 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																return;
 												}
 
+												var data = new FormData();
+
 												// Disable submit button for preventing multiple click
 												this.submit_disabled = true;
 
 												var self = this,
 												    is_update = typeof this.discuss.id == 'undefined' ? false : true,
-												    is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true,
-												    form_data = {
-																title: this.discuss.title,
-																description: this.discuss.description,
-																order: '',
-																milestone: this.discuss.milestone_id,
-																files: this.files
-												};
+												    is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true;
+
+												data.append('title', this.discuss.title);
+												data.append('description', this.discuss.description);
+												data.append('milestone', this.discuss.milestone_id);
+												data.append('order', 0);
+
+												this.files.map(function (file) {
+																data.append('files[]', new File([file], file.name, { type: "image/png" }));
+												});
 
 												// Showing loading option 
 												this.show_spinner = true;
@@ -11576,7 +11580,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												var request_data = {
 																url: url,
 																type: type,
-																data: form_data,
+																data: data,
+																cache: false,
+																contentType: false,
+																processData: false,
+																async: false,
 																success(res) {
 																				if (is_single) {
 																								self.getDiscuss(self);
@@ -11609,6 +11617,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																				self.submit_disabled = false;
 																}
 												};
+												//console.log(request_data);
 												self.httpRequest(request_data);
 								},
 								getMilestones(self) {

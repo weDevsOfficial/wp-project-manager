@@ -39,7 +39,7 @@
         //attach event handlers
         this.uploader.bind('Init', $.proxy(this, 'init'));
         this.uploader.bind('FilesAdded', $.proxy(this, 'added'));
-        // this.uploader.bind('QueueChanged', $.proxy(this, 'upload'));
+        this.uploader.bind('QueueChanged', $.proxy(this, 'upload'));
         // this.uploader.bind('UploadProgress', $.proxy(this, 'progress'));
         // this.uploader.bind('Error', $.proxy(this, 'error'));
         // this.uploader.bind('FileUploaded', $.proxy(this, 'uploaded'));
@@ -54,32 +54,36 @@
 
         },
 
+
+
         added: function (up, files) {
             
             var $container = $('#' + this.container).find('.cpm-upload-filelist');
             self = this;
             $.each(files, function(i, file) {
-
+                
                 file.formatSize = plupload.formatSize(file.size);
 
                 var preloader = new mOxie.Image();
-
+                
                 preloader.onload = function() {
                     file.thumb = preloader.getAsDataURL();
+
                     self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
                 };
 
                 preloader.load( file.getSource() );
             });
 
-            up.destroy();
+           // up.destroy();
         },
         BeforeUpload: function(uploader, file ) {
             
         },
 
         upload: function (uploader) {
-            //this.uploader.start();
+            //console.log(uploader);
+           // this.uploader.start();
         },
 
         progress: function (up, file) {

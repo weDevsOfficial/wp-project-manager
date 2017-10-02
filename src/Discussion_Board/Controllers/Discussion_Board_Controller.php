@@ -55,7 +55,7 @@ class Discussion_Board_Controller {
     public function store( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
-
+    
         $milestone_id = $request->get_param( 'milestone' );
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 

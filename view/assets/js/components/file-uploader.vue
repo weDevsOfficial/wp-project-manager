@@ -52,6 +52,7 @@
 			    }
 
 			    this.files.push( file_res.res.file );
+			    
 			},
 
 			/**

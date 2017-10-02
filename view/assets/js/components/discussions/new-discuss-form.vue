@@ -1,7 +1,8 @@
 <template>
 	<div>
+		
 		<!-- <pre>{{ discuss }}</pre> -->
-		<form class="cpm-message-form" @submit.prevent="newDiscuss()">
+		<form id="myForm" class="cpm-message-form" @submit.prevent="newDiscuss()" enctype='multipart/form-data'>
 	        <div class="item title">
 	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
 	        </div>
@@ -23,6 +24,8 @@
 	        </div>
 	            
 	       <file-uploader :files="files"></file-uploader>
+	       
+	       <input type="file" name="myfiles" multiple @change="filesChange($event.target.name, $event.target.files)">
 
 	        <div class="notify-users">
 	            
@@ -53,12 +56,16 @@
 	        </div>
 	        <div class="cpm-loading" style="display: none;">Saving...</div>
     	</form>
+
 	</div>
+
 </template>
 
 <script>
 	import editor from './../text-editor.vue';
 	import uploader from './../file-uploader.vue';
+
+
 
 	export default { 
 		props: ['discuss'],
@@ -70,7 +77,8 @@
 	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
 	            },
 	            milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
-				files: []
+				files: [],
+				pfiles: []
 			}
 		},
 
@@ -113,7 +121,9 @@
 	        },
 		},
 		methods: {
-
+			filesChange ($event, $files) {
+				this.pfiles = $files;
+			}
 		}
 	
 	}	
