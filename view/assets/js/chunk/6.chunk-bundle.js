@@ -1725,6 +1725,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: ['discuss'],
+
 	data() {
 		return {
 			submit_disabled: false,
@@ -1733,7 +1734,7 @@ if (false) {(function () {
 				html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description
 			},
 			milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
-			files: [],
+			files: typeof this.discuss.files === 'undefined' ? [] : this.discuss.files.data,
 			pfiles: []
 		};
 	},
@@ -1812,6 +1813,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -1820,7 +1822,7 @@ if (false) {(function () {
 
 				// Initial action for this component
 				created: function () {
-								//this.$on( 'cpm_file_upload_hook', this.fileUploaded );
+								//this.files = typeof files.data ===
 
 								var self = this;
 
@@ -1941,7 +1943,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "cpm-upload-filelist"
-  }, _vm._l((_vm.files), function(file) {
+  }, [_c('pre', [_vm._v(_vm._s(_vm.files))]), _vm._v(" "), _vm._l((_vm.files), function(file) {
     return _c('div', {
       key: file.id,
       staticClass: "cpm-uploaded-item"
@@ -1967,7 +1969,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v("Delete File")])])
-  })), _vm._v("\n        To attach, "), _c('a', {
+  })], 2), _vm._v("\n        To attach, "), _c('a', {
     attrs: {
       "id": "cpm-upload-pickfiles",
       "href": "#"
@@ -2074,7 +2076,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(" "), _c('input', {
     attrs: {
       "type": "file",
-      "name": "myfiles",
+      "name": "pfiles",
       "multiple": ""
     },
     on: {

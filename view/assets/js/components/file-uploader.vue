@@ -2,6 +2,7 @@
 	<div class="cpm-attachment-area">
 	    <div id="cpm-upload-container">
 	        <div class="cpm-upload-filelist">
+	        	<pre>{{ files }}</pre>
 	        	<div class="cpm-uploaded-item" v-for="file in files" :key="file.id">
 	        		<a :href="file.url" target="_blank">
 	        			<img :src="file.thumb" :alt="file.name">
@@ -26,7 +27,7 @@
 
 	    // Initial action for this component
 	    created: function() {
-	        //this.$on( 'cpm_file_upload_hook', this.fileUploaded );
+	        //this.files = typeof files.data ===
 
 	        var self = this;
 

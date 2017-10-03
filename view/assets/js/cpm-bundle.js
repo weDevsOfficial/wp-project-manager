@@ -11537,6 +11537,18 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												return current_page_number;
 								},
 
+								dataURLtoFile(dataurl, filename) {
+												var arr = dataurl.split(','),
+												    mime = arr[0].match(/:(.*?);/)[1],
+												    bstr = atob(arr[1]),
+												    n = bstr.length,
+												    u8arr = new Uint8Array(n);
+												while (n--) {
+																u8arr[n] = bstr.charCodeAt(n);
+												}
+												return new File([u8arr], filename, { type: mime });
+								},
+
 								/**
          * Insert and edit task
          * 
@@ -11547,7 +11559,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												if (this.submit_disabled) {
 																return;
 												}
-
+												//console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
 												var data = new FormData();
 
 												// Disable submit button for preventing multiple click
@@ -11562,8 +11574,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												data.append('milestone', this.discuss.milestone_id);
 												data.append('order', 0);
 
+												data.append('files[]', this.pfiles[0]);
+
 												this.files.map(function (file) {
-																data.append('files[]', new File([file], file.name, { type: "image/png" }));
+																var decode = self.dataURLtoFile(file.thumb, file.name);
+																data.append('files[]', decode);
 												});
 
 												// Showing loading option 
@@ -11584,7 +11599,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																cache: false,
 																contentType: false,
 																processData: false,
-																async: false,
 																success(res) {
 																				if (is_single) {
 																								self.getDiscuss(self);

@@ -23,9 +23,9 @@
 	        	
 	        </div>
 	            
-	       <file-uploader :files="files"></file-uploader>
-	       
-	       <input type="file" name="myfiles" multiple @change="filesChange($event.target.name, $event.target.files)">
+	        <file-uploader :files="files"></file-uploader>
+
+	        <input type="file" name="pfiles" @change="filesChange($event.target.name, $event.target.files)" multiple>
 
 	        <div class="notify-users">
 	            
@@ -69,6 +69,7 @@
 
 	export default { 
 		props: ['discuss'],
+		
 		data () {
 			return {
 				submit_disabled: false,
@@ -77,7 +78,7 @@
 	                html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
 	            },
 	            milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
-				files: [],
+				files: typeof this.discuss.files === 'undefined' ? [] : this.discuss.files.data,
 				pfiles: []
 			}
 		},
