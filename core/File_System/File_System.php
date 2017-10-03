@@ -70,7 +70,6 @@ Class File_System {
 
         if ( $file ) {
             $response = array(
-                'id'   => $attachment_id,
                 'name' => get_the_title( $attachment_id ),
                 'url'  => wp_get_attachment_url( $attachment_id ),
             );

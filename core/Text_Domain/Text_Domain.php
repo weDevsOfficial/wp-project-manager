@@ -72,6 +72,5 @@ class Text_Domain {
         }
 
         return call_user_func_array( 'sprintf', $values );
-        // return vsprintf( $format, ...$values );
     }
 }
