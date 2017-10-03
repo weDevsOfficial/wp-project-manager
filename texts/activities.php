@@ -2,7 +2,7 @@
 
 return [
     'create-project'                     => [
-        __( 'has created a project titled "%s".', 'cpm' ), ['title']
+        __( 'has created a project', 'cpm' ),
     ],
     'update-project-title'               => [
         __( 'has updated project title from "%s" to "%s".', 'cpm' ), ['old', 'new']
