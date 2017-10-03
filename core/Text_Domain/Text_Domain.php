@@ -57,8 +57,8 @@ class Text_Domain {
     }
 
     private static function named_vsprintf( $text, $args ) {
-        $format = $text[0];
         $values = [];
+        $values[0] = $text[0];
 
         if ( array_key_exists( 1, $text ) ) {
             $params = $text[1];
@@ -67,10 +67,11 @@ class Text_Domain {
                 $keys  = explode( '.', $param );
                 $value = self::get_value_from_array( $args, $keys );
 
-                $values[$key] = $value;
+                $values[$key + 1] = $value;
             }
         }
 
-        return vsprintf( $format, $values );
+        return call_user_func_array( 'sprintf', $values );
+        // return vsprintf( $format, ...$values );
     }
 }
