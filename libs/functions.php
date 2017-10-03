@@ -1,9 +1,9 @@
 <?php
 
-use CPM\Core\Lang\Lang;
+use CPM\Core\Text_Domain\Text_Domain;
 
-function trans( $key, $values = [] ) {
-    return Lang::trans( $key, $values );
+function get_text( $key, $values = [] ) {
+    return Text_Domain::get_text( $key, $values );
 }
 
 function get_wp_timezone() {

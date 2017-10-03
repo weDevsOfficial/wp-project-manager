@@ -13,6 +13,7 @@ class Create_Activities_Table extends Migration {
             $table->unsignedInteger( 'resource_id' )->nullable();
             $table->string( 'resource_type' )->nullable();
             $table->text( 'meta' )->nullable();
+            $table->unsignedInteger( 'project_id' );
             $table->timestamps();
         } );
     }

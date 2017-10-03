@@ -15,7 +15,8 @@ class Activity extends Eloquent {
         'action_type',
         'resource_id',
         'resource_type',
-        'meta'
+        'meta',
+        'project_id'
     ];
 
     public function actor() {

@@ -17,14 +17,16 @@ class File_Transformer extends TransformerAbstract {
     ];
 
     public function transform( File $item ) {
-        return [
+        $file = File_System::get_file( $item->attachment_id );
+        $model_data = [
             'id'            => (int) $item->id,
             'fileable_id'   => $item->fileable_id,
             'fileable_type' => $item->fileable_type,
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
             'attached_at'   => format_date( $item->created_at ),
-            'file'          => File_System::get_file( $item->attachment_id ),
         ];
+
+        return array_merge( $model_data, $file );
     }
 }

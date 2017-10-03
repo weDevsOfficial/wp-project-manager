@@ -23,8 +23,8 @@ function load_configurations() {
     return $config;
 }
 
-function load_lang() {
-    $files = glob( __DIR__ . "/../lang/*.php" );
+function load_texts() {
+    $files = glob( __DIR__ . "/../texts/*.php" );
 
     if ( $files === false ) {
         throw new RuntimeException( "Failed to glob for lang files" );
