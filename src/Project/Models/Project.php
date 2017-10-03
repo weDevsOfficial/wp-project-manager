@@ -13,6 +13,7 @@ use CPM\File\Models\File;
 use CPM\Comment\Models\Comment;
 use CPM\Category\Models\Category;
 use CPM\User\Models\User;
+use CPM\Activity\Models\Activity;
 
 class Project extends Eloquent {
 
@@ -73,5 +74,9 @@ class Project extends Eloquent {
 
     public function comments() {
         return $this->hasMany( Comment::class, 'project_id' );
+    }
+
+    public function activities() {
+        return $this->hasMany( Activity::class, 'project_id' );
     }
 }

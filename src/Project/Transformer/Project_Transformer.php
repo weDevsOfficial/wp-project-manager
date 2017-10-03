@@ -19,8 +19,8 @@ class Project_Transformer extends TransformerAbstract {
     public function transform( Project $item ) {
         return [
             'id'                  => (int) $item->id,
-            'title'               => $item->title,
-            'description'         => $item->description,
+            'title'               => (string) $item->title,
+            'description'         => (string) $item->description,
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
@@ -29,10 +29,13 @@ class Project_Transformer extends TransformerAbstract {
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'meta'                => [
-                'total_task_lists'         => $item->task_lists->count(),
-                'total_tasks'              => $item->tasks->count(),
-                'total_discussion_boards' => $item->discussion_boards->count(),
-                'total_milestones'         => $item->milestones->count(),
+                'total_task_lists'        => $item->task_lists()->count(),
+                'total_tasks'             => $item->tasks()->count(),
+                'total_discussion_boards' => $item->discussion_boards()->count(),
+                'total_milestones'        => $item->milestones()->count(),
+                'total_comments'          => $item->comments()->count(),
+                'total_files'             => $item->files()->count(),
+                'total_activities'        => $item->activities()->count(),
             ],
         ];
     }

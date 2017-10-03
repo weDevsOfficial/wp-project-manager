@@ -16,13 +16,16 @@ class Activity_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $per_page = $request->get_param( 'per_page' );
-        $per_page = $per_page ? $per_page : 15;
+        $per_page   = $request->get_param( 'per_page' );
+        $page       = $request->get_param( 'page' );
+        $project_id = $request->get_param( 'project_id' );
 
-        $page = $request->get_param( 'page' );
-        $page = $page ? $page : 1;
+        $per_page   = $per_page ? $per_page : 15;
+        $page       = $page ? $page : 1;
 
-        $activities = Activity::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
+        $activities = Activity::where( 'project_id', $project_id )
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
 
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );
