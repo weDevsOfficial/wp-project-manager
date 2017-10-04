@@ -158,7 +158,7 @@
             },
 
             comments () {
-                if( this.$store.state.lists.length) {
+                if( this.$store.state.lists.length ) {
                     return this.$store.state.lists[0].comments.data;
                 }
                 

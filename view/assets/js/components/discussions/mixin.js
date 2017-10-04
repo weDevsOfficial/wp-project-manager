@@ -17,7 +17,7 @@ export default Vue.mixin({
 			}
 		},
 
-		showHideCommentForm (status, comment) {
+		showHideDiscussCommentForm (status, comment) {
 			if ( status === 'toggle' ) {
 		        comment.edit_mode = comment.edit_mode ? false : true;
 		    } else {
@@ -30,7 +30,7 @@ export default Vue.mixin({
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments&per_page=2&page='+ self.setCurrentPageNumber(self),
 	            success (res) {
 	            	res.data.map(function(discuss, index) {
-			    		self.addMeta(discuss);
+			    		self.addDiscussMeta(discuss);
 			    	});
 	                self.$store.commit( 'setDiscussion', res.data );
 	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
@@ -43,7 +43,7 @@ export default Vue.mixin({
 	        var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?with=comments',
 	            success (res) {
-	            	self.addMeta(res.data);
+	            	self.addDiscussMeta(res.data);
 	                self.$store.commit( 'setDiscuss', res.data );
 	                //self.$store.commit( 'setComments', res.data );
 	                //self.$store.commit( 'setCommentsMeta', res.data );
@@ -52,7 +52,7 @@ export default Vue.mixin({
 	        self.httpRequest(request);
 	    },
 
-	    addMeta (discuss) {
+	    addDiscussMeta (discuss) {
 	    	discuss.edit_mode = false;
 
 	    	discuss.comments.data.map(function(comment, index) {
@@ -161,7 +161,6 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	            }
 	        }
-	        console.log(request_data);
 	        self.httpRequest(request_data);
 	    },
         getMilestones (self) {
@@ -196,7 +195,7 @@ export default Vue.mixin({
 
 	        if (is_update) {
 	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
-	            var type = 'PUT'; 
+	            var type = 'POST'; 
 	        } else {
 	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
 	            var type = 'POST';
@@ -209,6 +208,7 @@ export default Vue.mixin({
 	            success (res) {
 	                self.getDiscuss(self);
 	                self.show_spinner = false;
+	                self.$root.$emit( 'after_comment' );
 
 	                // Display a success toast, with a title
 	                toastr.success(res.data.success);

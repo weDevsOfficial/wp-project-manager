@@ -1186,143 +1186,9 @@ var project_btn = {
 /***/ }),
 
 /***/ 120:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            is_active_settings: false
-        };
-    },
-    computed: {
-        projects() {
-            return this.$root.$store.state.projects;
-        }
-    },
-
-    methods: {
-        deleteProject(id) {
-            if (!confirm('Are you sure!')) {
-                return;
-            }
-            var self = this;
-            var request_data = {
-                url: self.base_url + '/cpm/v2/projects/' + id,
-                type: 'DELETE',
-                success: function (res) {
-                    self.$root.$store.commit('afterDeleteProject', id);
-
-                    if (!self.$root.$store.state.projects.length) {
-                        self.$router.push({
-                            name: 'project_lists'
-                        });
-                    } else {
-                        self.getProjects();
-                    }
-                }
-            };
-
-            self.httpRequest(request_data);
-        },
-
-        settingsShowHide(project) {
-            project.settings_hide = project.settings_hide ? false : true;
-        }
-    }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (203:8)\n\n\u001b[0m \u001b[90m 201 | \u001b[39m        }\n \u001b[90m 202 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 203 | \u001b[39m        projectCompleteStatus (project) {\n \u001b[90m     | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 204 | \u001b[39m            \u001b[36mreturn\u001b[39m ((\u001b[35m100\u001b[39m \u001b[33m*\u001b[39m $progress[\u001b[32m'completed'\u001b[39m]) \u001b[33m/\u001b[39m  $progress[\u001b[32m'total'\u001b[39m]) \u001b[33m+\u001b[39m \u001b[32m'%'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 205 | \u001b[39m        }\n \u001b[90m 206 | \u001b[39m    }\u001b[0m\n");
 
 /***/ }),
 
@@ -1721,6 +1587,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_summary_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_summary_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_summary_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_20571c28_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_summary_vue__ = __webpack_require__(134);
 var disposed = false
 function injectStyle (ssrContext) {
@@ -1739,7 +1606,7 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_summary_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_project_summary_vue__["default"],
   __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_20571c28_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_project_summary_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
@@ -1910,56 +1777,103 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "cpm-project-meta"
     }, [_c('ul', [_c('li', {
       staticClass: "message"
-    }, [_c('a', {
+    }, [_c('router-link', {
       attrs: {
-        "title": "eirugkdj",
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60"
-      }
-    }), _vm._v(" "), _c('a', {
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
+        "to": {
+          name: 'discussions',
+          params: {
+            project_id: project.id
+          }
+        }
       }
     }, [_c('strong', [_c('i', {
       staticClass: "fa fa-circle",
       attrs: {
         "aria-hidden": "true"
       }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_discussion_threads)))]), _vm._v(" Discussions\n            \t\t\t")])]), _vm._v(" "), _c('li', {
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_discussion_boards)) + "\n                            ")]), _vm._v(" \n                                Discussions\n\n            \t\t\t")])], 1), _vm._v(" "), _c('li', {
       staticClass: "todo"
-    }, [_c('a', {
+    }, [_c('router-link', {
       attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=index&pid=60"
+        "to": {
+          name: 'task_lists',
+          params: {
+            project_id: project.id
+          }
+        }
       }
     }, [_c('strong', [_c('i', {
       staticClass: "fa fa-circle",
       attrs: {
         "aria-hidden": "true"
       }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_task_lists)))]), _vm._v(" Task Lists\n            \t\t\t")])]), _vm._v(" "), _c('li', {
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_task_lists)) + "\n                            ")]), _vm._v(" \n                                Task Lists\n            \t\t\t")])], 1), _vm._v(" "), _c('li', {
       staticClass: "files"
-    }, [_c('a', {
+    }, [_c('router-link', {
       attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=files&action=index&pid=60"
+        "to": {
+          name: 'task_lists',
+          params: {
+            project_id: project.id
+          }
+        }
       }
     }, [_c('strong', [_c('i', {
       staticClass: "fa fa-circle",
       attrs: {
         "aria-hidden": "true"
       }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_tasks)))]), _vm._v(" Tasks\n            \t\t\t")])]), _vm._v(" "), _c('li', {
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_tasks)) + "\n                            ")]), _vm._v(" \n                                Tasks\n            \t\t\t")])], 1), _vm._v(" "), _c('li', {
+      staticClass: "milestone"
+    }, [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'milestones',
+          params: {
+            project_id: project.id
+          }
+        }
+      }
+    }, [_c('strong', [_c('i', {
+      staticClass: "fa fa-circle",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_milestones)) + "\n                            ")]), _vm._v(" \n                                Milestones\n            \t\t\t")])], 1), _vm._v(" "), _c('li', {
+      staticClass: "files"
+    }, [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'task_lists',
+          params: {
+            project_id: project.id
+          }
+        }
+      }
+    }, [_c('strong', [_c('i', {
+      staticClass: "fa fa-circle",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_files)) + "\n                            ")]), _vm._v(" \n                                Files\n                        ")])], 1), _vm._v(" "), _c('li', {
       staticClass: "milestone"
     }, [_c('a', {
       attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=milestone&action=index&pid=60"
+        "href": "#"
       }
     }, [_c('strong', [_c('i', {
       staticClass: "fa fa-circle",
       attrs: {
         "aria-hidden": "true"
       }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_milestones)))]), _vm._v(" Milestones\n            \t\t\t")])]), _vm._v(" "), _c('div', {
+    }), _vm._v("\n                                " + _vm._s(parseInt(project.meta.total_comments)) + "\n                            ")]), _vm._v(" \n                                Comments\n                        ")])]), _vm._v(" "), _c('div', {
       staticClass: "clearfix"
-    })])]), _vm._v(" "), _vm._m(0, true), _vm._v(" "), _c('div', {
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "cpm-progress cpm-progress-info"
+    }, [_c('div', {
+      staticClass: "bar completed",
+      style: (_vm.projectCompleteStatus(project))
+    })]), _vm._v(" "), _c('div', {
       staticClass: "cpm-progress-percentage"
     }), _vm._v(" "), _c('footer', {
       staticClass: "cpm-project-people"
@@ -1994,7 +1908,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }), _vm._v(" "), _c('a', {
       staticClass: "cpm-project-delete-link",
       attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+        "href": "#",
         "title": "Delete project",
         "data-confirm": "Are you sure to delete this project?",
         "data-project_id": "60"
@@ -2024,25 +1938,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('span', {
       staticClass: "dashicons dashicons-yes"
-    }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _vm._m(1, true)]) : _vm._e()])])], 1)
+    }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _vm._m(0, true)]) : _vm._e()])])], 1)
   }))
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-progress cpm-progress-info"
-  }, [_c('div', {
-    staticClass: "bar completed",
-    staticStyle: {
-      "width": "50%"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('span', {
     staticClass: "cpm-spinner"
   }), _vm._v(" "), _c('a', {
     staticClass: "cpm-duplicate-project",
     attrs: {
-      "href": "/test/wp-admin/admin.php?page=cpm_projects",
+      "href": "#",
       "data-project_id": "60"
     }
   }, [_c('span', {

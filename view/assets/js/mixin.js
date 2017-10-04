@@ -68,7 +68,7 @@
                         self.addProjectMeta(project);
                     });
                     self.$root.$store.commit('setProjects', {'projects': res.data});
-                    self.$root.$store.commit('setProjectMeta', res.meta );
+                    self.$root.$store.commit('setProjectsMeta', res.meta );
                 }
             });
         },

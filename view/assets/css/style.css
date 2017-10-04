@@ -2288,9 +2288,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
   color: red;
 }
 .cpm .cpm-plus-white {
-  background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
+  //background: #019dd6 url('../images/plus_white.svg') no-repeat 10% 50%;
+  background: #019dd6;
   background-size: 25px;
-  padding: 10px 10px 10px 50px;
+  //padding: 10px 10px 10px 50px;
   color: #ffffff;
 }
 .cpm .cpm-container {
@@ -2641,10 +2642,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
   width: 41%;
   margin: 0;
   list-style: none;
-  padding-left: 25px;
+  //padding-left: 25px;
   font-size: 13px;
   color: #888888;
   line-height: 35px;
+  padding-bottom: 15px;
 }
 .cpm .cpm-project-grid .cpm-project .cpm-progress {
   position: absolute;
@@ -2679,22 +2681,22 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background-repeat: no-repeat;
 }
 .cpm li.message {
-  background-image: url('../images/bullet_green.png');
+  //background-image: url('../images/bullet_green.png');
 }
 .cpm li.todo {
-  background-image: url('../images/to-do-list.png');
+  //background-image: url('../images/to-do-list.png');
 }
 .cpm li.todos {
-  background-image: url('../images/to-do-list.png');
+  //background-image: url('../images/to-do-list.png');
 }
 .cpm li.comments {
-  background-image: url('../images/comment.png');
+  //background-image: url('../images/comment.png');
 }
 .cpm li.files {
-  background-image: url('../images/docs.png');
+  //background-image: url('../images/docs.png');
 }
 .cpm li.milestone {
-  background-image: url('../images/milestones.png');
+  //background-image: url('../images/milestones.png');
 }
 .cpm .cpm-project-list {
   margin: 0px ;
@@ -4329,10 +4331,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
     width: 41% ;
     list-style: none;
     background: url('../images/bullet_green.png') no-repeat 0% 55%;
-    padding-left: 25px;
+    //padding-left: 25px;
     font-size: 13px;
     color: #888888;
     line-height: 35px;
+    padding-bottom: 15px;
   }
   .cpm .cpm-project-grid .cpm-project .cpm-progress,
   .cpm .cpm-project-list .cpm-project .cpm-progress {

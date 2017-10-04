@@ -10311,7 +10311,7 @@ module.exports = function normalizeComponent (
                         self.addProjectMeta(project);
                     });
                     self.$root.$store.commit('setProjects', { 'projects': res.data });
-                    self.$root.$store.commit('setProjectMeta', res.meta);
+                    self.$root.$store.commit('setProjectsMeta', res.meta);
                 }
             });
         },
@@ -10854,7 +10854,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		categories: [],
 		roles: [],
 		is_project_form_active: false,
-		project_meta: {},
+		projects_meta: {},
 		getIndex: function (itemList, id, slug) {
 			var index = false;
 
@@ -10886,7 +10886,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 			state.roles = roles;
 		},
 		newProject(state, projects) {
-			var per_page = state.project_meta.per_page,
+			var per_page = state.projects_meta.per_page,
 			    length = state.projects.length;
 
 			if (per_page <= length) {
@@ -10896,9 +10896,9 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 				state.projects.splice(0, 0, projects);
 			}
 
-			//update project_meta
-			state.project_meta.total = state.project_meta.total + 1;
-			state.project_meta.total_pages = Math.ceil(state.project_meta.total / state.project_meta.per_page);
+			//update projects_meta
+			state.projects_meta.total = state.projects_meta.total + 1;
+			state.projects_meta.total_pages = Math.ceil(state.projects_meta.total / state.projects_meta.per_page);
 		},
 		showHideProjectForm(state, status) {
 			if (status === 'toggle') {
@@ -10907,8 +10907,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 				state.is_project_form_active = status;
 			}
 		},
-		setProjectMeta(state, pagination) {
-			state.project_meta = pagination.pagination;
+		setProjectsMeta(state, pagination) {
+			state.projects_meta = pagination.pagination;
 		},
 
 		afterDeleteProject(state, project_id) {
@@ -11503,7 +11503,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												}
 								},
 
-								showHideCommentForm(status, comment) {
+								showHideDiscussCommentForm(status, comment) {
 												if (status === 'toggle') {
 																comment.edit_mode = comment.edit_mode ? false : true;
 												} else {
@@ -11516,7 +11516,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards?with=comments&per_page=2&page=' + self.setCurrentPageNumber(self),
 																success(res) {
 																				res.data.map(function (discuss, index) {
-																								self.addMeta(discuss);
+																								self.addDiscussMeta(discuss);
 																				});
 																				self.$store.commit('setDiscussion', res.data);
 																				self.$store.commit('setDiscussionMeta', res.meta.pagination);
@@ -11529,7 +11529,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												var request = {
 																url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards/' + self.$route.params.discussion_id + '?with=comments',
 																success(res) {
-																				self.addMeta(res.data);
+																				self.addDiscussMeta(res.data);
 																				self.$store.commit('setDiscuss', res.data);
 																				//self.$store.commit( 'setComments', res.data );
 																				//self.$store.commit( 'setCommentsMeta', res.data );
@@ -11538,7 +11538,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												self.httpRequest(request);
 								},
 
-								addMeta(discuss) {
+								addDiscussMeta(discuss) {
 												discuss.edit_mode = false;
 
 												discuss.comments.data.map(function (comment, index) {
@@ -11649,7 +11649,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																				self.submit_disabled = false;
 																}
 												};
-												console.log(request_data);
 												self.httpRequest(request_data);
 								},
 								getMilestones(self) {
@@ -11683,7 +11682,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 												if (is_update) {
 																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments/' + this.comment.id;
-																var type = 'PUT';
+																var type = 'POST';
 												} else {
 																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/comments';
 																var type = 'POST';
@@ -11696,6 +11695,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																success(res) {
 																				self.getDiscuss(self);
 																				self.show_spinner = false;
+																				self.$root.$emit('after_comment');
 
 																				// Display a success toast, with a title
 																				toastr.success(res.data.success);

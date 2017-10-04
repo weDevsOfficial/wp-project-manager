@@ -2024,7 +2024,6 @@ if (false) {
 //
 //
 //
-//
 
 
 
@@ -2192,7 +2191,7 @@ if (false) {
                 return this.$store.state.discussion[0];
             }
 
-            return {};
+            return false;
         },
         comments() {
             if (this.$store.state.discussion.length) {
@@ -2363,7 +2362,7 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('div', {
+  }, [_c('pm-header'), _vm._v(" "), (_vm.discuss) ? _c('div', {
     attrs: {
       "id": "cpm-signle-message"
     }
@@ -2409,7 +2408,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "discuss": _vm.discuss
     }
-  }) : _vm._e()], 1)])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()], 1)])])]) : _vm._e(), _vm._v(" "), (_vm.discuss) ? _c('div', {
     staticClass: "cpm-comment-area cpm-box-shadow"
   }, [_c('h3', [_vm._v(" " + _vm._s(_vm.discuss.meta.total_comments) + " Comments")]), _vm._v(" "), _c('ul', {
     staticClass: "cpm-comment-wrap"
@@ -2438,7 +2437,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.showHideCommentForm('toggle', comment)
+          _vm.showHideDiscussCommentForm('toggle', comment)
         }
       }
     })]), _vm._v(" "), _vm._m(3, true)])]), _vm._v(" "), _c('div', {
@@ -2462,7 +2461,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "comment": {},
       "discuss": _vm.discuss
     }
-  })], 1)])], 1)
+  })], 1)]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {

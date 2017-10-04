@@ -3,7 +3,7 @@
 
         <pm-header></pm-header>
 
-        <div id="cpm-signle-message"> 
+        <div v-if="discuss" id="cpm-signle-message"> 
             <div class="cpm-single">
 
                 <h3 class="cpm-box-title">
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="cpm-comment-area cpm-box-shadow">
+        <div v-if="discuss" class="cpm-comment-area cpm-box-shadow">
 
             <h3> {{ discuss.meta.total_comments }} Comments</h3>
 
@@ -57,7 +57,7 @@
 
                             <div class="cpm-comment-action">
                                 <span class="cpm-edit-link">
-                                    <a @click.prevent="showHideCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit " data-comment_id="309" data-project_id="60" data-object_id="97"></a>
+                                    <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit " data-comment_id="309" data-project_id="60" data-object_id="97"></a>
                                 </span>
 
                                 <span class="cpm-delete-link">
@@ -104,7 +104,7 @@
                     return this.$store.state.discussion[0];
                 }
 
-                return {};
+                return false;
             },
             comments () {
                 if ( this.$store.state.discussion.length ) {

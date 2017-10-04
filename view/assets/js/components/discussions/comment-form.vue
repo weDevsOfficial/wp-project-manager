@@ -1,6 +1,5 @@
 <template>
 	<form class="cpm-comment-form" @submit.prevent="newComment()">
-
         <div class="item message cpm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>

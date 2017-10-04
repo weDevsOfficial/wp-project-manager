@@ -17,32 +17,98 @@
     	    <div class="cpm-project-meta">
             	<ul>
             		<li class="message">
-            			<a title="eirugkdj" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=project&amp;action=overview&amp;pid=60"></a>
-            			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=index&amp;pid=60">
-            				<strong><i class="fa fa-circle" aria-hidden="true"></i>{{ parseInt(project.meta.total_discussion_threads) }}</strong> Discussions
-            			</a>
+            			<router-link :to="{
+                            name: 'discussions',
+                            params: {
+                                project_id: project.id
+                            }}">
+
+            				<strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_discussion_boards) }}
+                            </strong> 
+                                Discussions
+
+            			</router-link>
             		</li>
+
             		<li class="todo">
-            			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=index&amp;pid=60">
-            				<strong><i class="fa fa-circle" aria-hidden="true"></i>{{ parseInt(project.meta.total_task_lists) }}</strong> Task Lists
-            			</a>
+            			<router-link :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: project.id
+                            }}">
+
+            				<strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_task_lists) }}
+                            </strong> 
+                                Task Lists
+            			</router-link>
             		</li>
+
             		<li class="files">
-            			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=files&amp;action=index&amp;pid=60">
-            				<strong><i class="fa fa-circle" aria-hidden="true"></i>{{ parseInt(project.meta.total_tasks) }}</strong> Tasks
-            			</a>
+            			<router-link :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: project.id
+                            }}">
+
+            				<strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_tasks) }}
+                            </strong> 
+                                Tasks
+            			</router-link>
             		</li>
+
             		<li class="milestone">
-            			<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=milestone&amp;action=index&amp;pid=60">
-            				<strong><i class="fa fa-circle" aria-hidden="true"></i>{{ parseInt(project.meta.total_milestones) }}</strong> Milestones
-            			</a>
-            		</li>                        
+            			<router-link :to="{
+                            name: 'milestones',
+                            params: {
+                                project_id: project.id
+                            }}">
+
+            				<strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_milestones) }}
+                            </strong> 
+                                Milestones
+            			</router-link>
+            		</li>   
+
+                    <li class="files">
+                        <router-link :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: project.id
+                            }}">
+
+                            <strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_files) }}
+                            </strong> 
+                                Files
+                        </router-link>
+                    </li>
+
+                    <li class="milestone">
+                        <a href="#">
+
+                            <strong>
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                                {{ parseInt(project.meta.total_comments) }}
+                            </strong> 
+                                Comments
+                        </a>
+                    </li>
+
             		<div class="clearfix"></div>
             	</ul>
             </div>
 
     	     <div class="cpm-progress cpm-progress-info">
-    	        <div style="width:50%" class="bar completed"></div>
+    	        <div :style="projectCompleteStatus(project)" class="bar completed"></div>
     	    </div>
 
             <div class="cpm-progress-percentage"></div>
@@ -61,7 +127,7 @@
     				<ul v-if="project.settings_hide" class="cpm-settings">
     				    <li>
     				        <span class="cpm-spinner"></span>
-    				        <a @click.prevent="deleteProject(project.id)" href="http://localhost/test/wp-admin/admin.php?page=cpm_projects" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
+    				        <a @click.prevent="deleteProject(project.id)" href="#" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
     				            <span class="dashicons dashicons-trash"></span>
     				            <span>Delete</span>
     				        </a>
@@ -76,7 +142,7 @@
 
     				    <li>
 				            <span class="cpm-spinner"></span>
-				            <a class="cpm-duplicate-project" href="/test/wp-admin/admin.php?page=cpm_projects" data-project_id="60">
+				            <a class="cpm-duplicate-project" href="#" data-project_id="60">
 				                <span class="dashicons dashicons-admin-page"></span>
 				                <span>Duplicate</span>
 				            </a>
@@ -99,6 +165,9 @@
         computed: {
             projects () {
                 return this.$root.$store.state.projects;
+            },
+            meta () {
+                return this.$root.$store.state.projects_meta;
             }
         },
 
@@ -129,6 +198,10 @@
 
             settingsShowHide (project) {
                 project.settings_hide = project.settings_hide ? false : true;
+            }
+
+            projectCompleteStatus (project) {
+                return ((100 * $progress['completed']) /  $progress['total']) + '%';
             }
         }
     }
