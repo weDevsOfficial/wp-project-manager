@@ -38,7 +38,7 @@
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects('status=incomplete');
+                vm.getProjects('status=complete');
                 vm.getRoles();
                 vm.getProjectCategories();
             });

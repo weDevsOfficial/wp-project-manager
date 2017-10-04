@@ -1145,12 +1145,22 @@ if (false) {
     data() {
         return {
             all: '',
-            completed: ''
+            complete: '',
+            active: ''
         };
     },
     computed: {
-        active() {
+        activated() {
             return this.$root.$store.state.projects_meta.total_incomplete;
+        },
+        completed() {
+            return this.$root.$store.state.projects_meta.total_complete;
+        },
+        allof() {
+            var incomplete = this.$root.$store.state.projects_meta.total_incomplete;
+            var complete = this.$root.$store.state.projects_meta.total_complete;
+
+            return incomplete + complete;
         }
     },
     created() {
@@ -1159,7 +1169,7 @@ if (false) {
         if (route_name === 'all_projects') {
             this.all = 'active';
         } else if (route_name === 'completed_projects') {
-            this.completed = 'active';
+            this.complete = 'active';
         } else {
             this.active = 'active';
         }
@@ -1353,11 +1363,19 @@ var project_btn = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            is_active_settings: false
+            is_active_settings: false,
+            is_update: false,
+            project: {}
         };
     },
     computed: {
@@ -1400,6 +1418,30 @@ var project_btn = {
 
         projectCompleteStatus(project) {
             //return ((100 * $progress['completed']) /  $progress['total']) + '%';
+        },
+        projectMarkAsDoneUndone(project) {
+            var self = this;
+            var project = {
+                id: project.id,
+                status: project.status === 'complete' ? 'incomplete' : 'complete'
+            };
+
+            this.updateProject(project, function (project) {
+                switch (self.$route.name) {
+
+                    case 'project_lists':
+                        self.getProjects('status=incomplete');
+                        break;
+
+                    case 'completed_projects':
+                        self.getProjects('status=complete');
+                        break;
+
+                    default:
+                        self.getProjects();
+                        break;
+                }
+            });
         }
     }
 });
@@ -2029,7 +2071,7 @@ if (false) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', _vm._l((_vm.projects), function(project) {
+  return _c('div', [(!_vm.projects.length) ? _c('div', [_vm._v("No project found")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.projects), function(project) {
     return _c('article', {
       staticClass: "cpm-project cpm-column-gap-left cpm-sm-col-12"
     }, [_c('router-link', {
@@ -2206,13 +2248,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.projectComplete(project)
+          _vm.projectMarkAsDoneUndone(project)
         }
       }
-    }, [_c('span', {
+    }, [(project.status === 'incomplete') ? _c('span', {
       staticClass: "dashicons dashicons-yes"
-    }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _vm._m(0, true)]) : _vm._e()])])], 1)
-  }))
+    }) : _vm._e(), _vm._v(" "), (project.status === 'incomplete') ? _c('span', [_vm._v("Complete")]) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', {
+      staticClass: "dashicons dashicons-undo"
+    }) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', [_vm._v("Restore")]) : _vm._e()])]), _vm._v(" "), _vm._m(0, true)]) : _vm._e()])])], 1)
+  })], 2)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('span', {
@@ -2343,8 +2387,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("\n            Active \n            "), _c('span', {
     staticClass: "count"
-  }, [_vm._v(_vm._s(_vm.active))])])], 1), _vm._v(" "), _c('li', {
-    class: _vm.completed + ' cpm-sm-col-4'
+  }, [_vm._v(_vm._s(_vm.activated))])])], 1), _vm._v(" "), _c('li', {
+    class: _vm.complete + ' cpm-sm-col-4'
   }, [_c('router-link', {
     attrs: {
       "to": {
@@ -2353,7 +2397,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("\n            Completed \n            "), _c('span', {
     staticClass: "count"
-  }, [_vm._v("0")])])], 1), _vm._v(" "), _c('li', {
+  }, [_vm._v(_vm._s(_vm.completed))])])], 1), _vm._v(" "), _c('li', {
     class: _vm.all + ' cpm-sm-col-4'
   }, [_c('router-link', {
     attrs: {
@@ -2363,7 +2407,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("\n            All\n            "), _c('span', {
     staticClass: "count"
-  }, [_vm._v("10")])])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.allof))])])], 1), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   })])
 }

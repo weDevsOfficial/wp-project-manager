@@ -42,13 +42,46 @@
                     'categories': [this.project_cat],
                     'description': this.project.description,
                     'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.project_users)
+                    'assignees': this.formatUsers(this.project_users),
+                    'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
                 },
 
                 success: function(res) {
-                    self.$root.$store.commit('newProject', res.data);
+                    if (!this.is_update) {
+                        self.$root.$store.commit('newProject', res.data);
+                    }
                     self.showHideProjectForm(false);
                     jQuery( "#cpm-project-dialog" ).dialog("close");
+                },
+
+                error: function(res) {
+                    
+                }
+            };
+    
+            this.httpRequest(request);
+        },
+
+        updateProject (project, callback) {
+            var self = this;
+
+            var request = {
+                type: 'PUT',
+
+                url: this.base_url + '/cpm/v2/projects/'+ project.id,
+
+                data: project,
+
+                success: function(res) {
+                    
+                    self.$root.$store.commit('updateProject', res.data);
+                   
+                    self.showHideProjectForm(false);
+                    jQuery( "#cpm-project-dialog" ).dialog("close");
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback(res.data);
+                    }
                 },
 
                 error: function(res) {

@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <div v-if="!projects.length">No project found</div>
+
     	<article class="cpm-project cpm-column-gap-left cpm-sm-col-12" v-for="project in projects">
             <router-link 
                 :title="project.title"
@@ -134,9 +136,13 @@
     				    </li>
     				    <li>
     				        <span class="cpm-spinner"></span>
-				            <a @click.prevent="projectComplete(project)" class="cpm-archive" data-type="archive" data-project_id="60" href="#">
-				                <span class="dashicons dashicons-yes"></span>
-				                <span>Complete</span>
+				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="cpm-archive" data-type="archive" data-project_id="60" href="#">
+				                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
+				                <span v-if="project.status === 'incomplete'">Complete</span>
+
+                                <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
+                                <span v-if="project.status === 'complete'">Restore</span>
+                                
 				            </a>
     				    </li>
 
@@ -159,7 +165,9 @@
     export default {
         data () {
             return {
-                is_active_settings: false
+                is_active_settings: false,
+                is_update: false,
+                project: {}
             }
         },
         computed: {
@@ -202,6 +210,30 @@
 
             projectCompleteStatus (project) {
                 //return ((100 * $progress['completed']) /  $progress['total']) + '%';
+            },
+            projectMarkAsDoneUndone (project) {
+                var self = this;
+                var project = {
+                    id: project.id,
+                    status: project.status === 'complete' ? 'incomplete' : 'complete'
+                };
+
+                this.updateProject(project, function(project) {
+                    switch (self.$route.name) {
+                        
+                        case 'project_lists':
+                            self.getProjects('status=incomplete');
+                            break;
+
+                        case 'completed_projects':
+                            self.getProjects('status=complete');
+                            break;
+
+                        default:
+                            self.getProjects();
+                            break;
+                    }
+                });
             }
         }
     }

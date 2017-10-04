@@ -4,21 +4,21 @@
         <li :class="active+ ' cpm-sm-col-4'">
             <router-link :to="{name: 'project_lists'}">
                 Active 
-                <span class="count">{{ active }}</span>
+                <span class="count">{{ activated }}</span>
             </router-link>
         </li>
 
-        <li :class="completed+' cpm-sm-col-4'">
+        <li :class="complete+' cpm-sm-col-4'">
             <router-link :to="{name: 'completed_projects'}">
                 Completed 
-                <span class="count">0</span> 
+                <span class="count">{{ completed }}</span> 
             </router-link> 
         </li>
 
         <li :class="all + ' cpm-sm-col-4'">
             <router-link :to="{name: 'all_projects'}">
                 All
-                <span class="count">10</span>
+                <span class="count">{{ allof }}</span>
             </router-link>
         </li>
         <div class="clearfix"></div>
@@ -30,12 +30,22 @@
         data () {
             return {
                 all: '',
-                completed: ''
+                complete: '',
+                active: ''
             }
         },
         computed: {
-            active () {
+            activated () {
                 return this.$root.$store.state.projects_meta.total_incomplete;
+            },
+            completed () {
+                return this.$root.$store.state.projects_meta.total_complete;
+            },
+            allof () {
+                var incomplete = this.$root.$store.state.projects_meta.total_incomplete; 
+                var complete   = this.$root.$store.state.projects_meta.total_complete;
+
+                return incomplete + complete;
             }
         },
         created () {
@@ -44,7 +54,7 @@
             if (route_name === 'all_projects') {
                 this.all = 'active';
             } else if (route_name === 'completed_projects') {
-                this.completed = 'active';
+                this.complete = 'active';
             } else {
                 this.active = 'active';
             }

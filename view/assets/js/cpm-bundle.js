@@ -10287,13 +10287,44 @@ module.exports = function normalizeComponent (
                     'categories': [this.project_cat],
                     'description': this.project.description,
                     'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.project_users)
+                    'assignees': this.formatUsers(this.project_users),
+                    'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status
                 },
 
                 success: function (res) {
-                    self.$root.$store.commit('newProject', res.data);
+                    if (!this.is_update) {
+                        self.$root.$store.commit('newProject', res.data);
+                    }
                     self.showHideProjectForm(false);
                     jQuery("#cpm-project-dialog").dialog("close");
+                },
+
+                error: function (res) {}
+            };
+
+            this.httpRequest(request);
+        },
+
+        updateProject(project, callback) {
+            var self = this;
+
+            var request = {
+                type: 'PUT',
+
+                url: this.base_url + '/cpm/v2/projects/' + project.id,
+
+                data: project,
+
+                success: function (res) {
+
+                    self.$root.$store.commit('updateProject', res.data);
+
+                    self.showHideProjectForm(false);
+                    jQuery("#cpm-project-dialog").dialog("close");
+
+                    if (typeof callback !== 'undefined') {
+                        callback(res.data);
+                    }
                 },
 
                 error: function (res) {}
@@ -10903,6 +10934,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 			//update pagination
 			state.pagination.total = state.pagination.total + 1;
+			state.projects_meta.total_incomplete = state.projects_meta.total_incomplete + 1;
 			state.pagination.total_pages = Math.ceil(state.pagination.total / state.pagination.per_page);
 		},
 		showHideProjectForm(state, status) {
@@ -10920,6 +10952,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		afterDeleteProject(state, project_id) {
 			var project_index = state.getIndex(state.projects, project_id, 'id');
 			state.projects.splice(project_index, 1);
+		},
+
+		updateProject(state, project) {
+			var index = state.getIndex(state.projects, project.id, 'id');
+			jQuery.extend(true, state.projects[index], project);
 		}
 	}
 

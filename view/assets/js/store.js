@@ -60,6 +60,7 @@ export default new Vuex.Store({
 
             //update pagination
            	state.pagination.total = state.pagination.total + 1;
+           	state.projects_meta.total_incomplete = state.projects_meta.total_incomplete + 1;
             state.pagination.total_pages = Math.ceil( state.pagination.total / state.pagination.per_page );
 		},
 		showHideProjectForm (state, status) {
@@ -77,7 +78,12 @@ export default new Vuex.Store({
 		afterDeleteProject (state, project_id) {
 			var project_index = state.getIndex(state.projects, project_id, 'id');
             state.projects.splice(project_index,1);
-		}
+		},
+
+		updateProject (state, project) {
+			var index = state.getIndex(state.projects, project.id, 'id');
+			jQuery.extend(true, state.projects[index], project);
+		},
 	}
 	
 });
