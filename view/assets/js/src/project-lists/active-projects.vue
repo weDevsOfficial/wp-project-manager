@@ -62,7 +62,7 @@
             },
 
             total_pages () {
-                return this.$root.$store.state.projects_meta.total_pages;
+                return this.$root.$store.state.pagination.total_pages;
             },
         },
         

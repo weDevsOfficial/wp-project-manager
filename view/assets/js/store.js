@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		roles: [],
 		is_project_form_active: false,
 		projects_meta: {},
+		pagination: {},
 		getIndex: function ( itemList, id, slug) {
             var index = false;
 
@@ -47,7 +48,7 @@ export default new Vuex.Store({
 			state.roles = roles;
 		},
 		newProject (state, projects) {
-			var per_page = state.projects_meta.per_page,
+			var per_page = state.pagination.per_page,
                 length   = state.projects.length;
 
             if (per_page <= length) {
@@ -57,9 +58,9 @@ export default new Vuex.Store({
                 state.projects.splice(0,0,projects);
             }
 
-            //update projects_meta
-           	state.projects_meta.total = state.projects_meta.total + 1;
-            state.projects_meta.total_pages = Math.ceil( state.projects_meta.total / state.projects_meta.per_page );
+            //update pagination
+           	state.pagination.total = state.pagination.total + 1;
+            state.pagination.total_pages = Math.ceil( state.pagination.total / state.pagination.per_page );
 		},
 		showHideProjectForm (state, status) {
 			if ( status === 'toggle' ) {
@@ -68,8 +69,9 @@ export default new Vuex.Store({
                 state.is_project_form_active = status;
             }
 		},
-		setProjectsMeta (state, pagination) {
-			state.projects_meta = pagination.pagination;
+		setProjectsMeta (state, data) {
+			state.projects_meta = data;
+			state.pagination = data.pagination;
 		},
 
 		afterDeleteProject (state, project_id) {

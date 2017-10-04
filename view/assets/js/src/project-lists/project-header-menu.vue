@@ -30,15 +30,14 @@
         data () {
             return {
                 all: '',
-                active: '',
                 completed: ''
             }
         },
-        // computed: {
-        //     active () {
-        //         return this.$store.state.projects_meta.total_incomplete;
-        //     }
-        // },
+        computed: {
+            active () {
+                return this.$root.$store.state.projects_meta.total_incomplete;
+            }
+        },
         created () {
             var route_name = this.$route.name;
             

@@ -1145,15 +1145,14 @@ if (false) {
     data() {
         return {
             all: '',
-            active: '',
             completed: ''
         };
     },
-    // computed: {
-    //     active () {
-    //         return this.$store.state.projects_meta.total_incomplete;
-    //     }
-    // },
+    computed: {
+        active() {
+            return this.$root.$store.state.projects_meta.total_incomplete;
+        }
+    },
     created() {
         var route_name = this.$route.name;
 
@@ -2580,7 +2579,7 @@ if (false) {(function () {
         },
 
         total_pages() {
-            return this.$root.$store.state.projects_meta.total_pages;
+            return this.$root.$store.state.pagination.total_pages;
         }
     },
 
