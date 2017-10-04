@@ -28,7 +28,7 @@ class Task_Controller {
         $per_page = $per_page ? $per_page : 5;
         $page = $request->get_param( 'page' );
 
-        $tasks = Task::orderBy( 'created_at', 'DESC')
+        $tasks = Task::orderBy( 'order', 'ASC')
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $task_collection = $tasks->getCollection();

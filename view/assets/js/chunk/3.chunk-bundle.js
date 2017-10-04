@@ -489,247 +489,318 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('form', {
-    staticClass: "cpm-project-form",
-    attrs: {
-      "action": "",
-      "method": "post"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.newProject();
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-form-item project-name"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.title),
-      expression: "project.title"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "project_name",
-      "id": "project_name",
-      "placeholder": "Name of the project",
-      "value": "",
-      "size": "45"
-    },
-    domProps: {
-      "value": (_vm.project.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.title = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-category"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_category),
-      expression: "project_category"
-    }],
-    staticClass: "chosen-select",
-    attrs: {
-      "name": "project_cat",
-      "id": "project_cat"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.project_category = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "0"
-    }
-  }, [_vm._v("– Project Category –")]), _vm._v(" "), _vm._l((_vm.categories), function(category) {
-    return _c('option', {
-      domProps: {
-        "value": category.id
-      }
-    }, [_vm._v(_vm._s(category.title))])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-detail"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.description),
-      expression: "project.description"
-    }],
-    staticClass: "cpm-project-description",
-    attrs: {
-      "name": "project_description",
-      "id": "",
-      "cols": "50",
-      "rows": "3",
-      "placeholder": "Some details about the project (optional)"
-    },
-    domProps: {
-      "value": (_vm.project.description)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.description = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item cpm-project-role"
-  }, [_c('table', _vm._l((_vm.project_users), function(projectUser) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(projectUser.display_name))]), _vm._v(" "), _c('td', [_c('select', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (projectUser.roles.data.id),
-        expression: "projectUser.roles.data.id"
-      }],
-      on: {
-        "change": function($event) {
-          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-            return o.selected
-          }).map(function(o) {
-            var val = "_value" in o ? o._value : o.value;
-            return val
-          });
-          projectUser.roles.data.id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-        }
-      }
-    }, _vm._l((_vm.roles), function(role) {
-      return _c('option', {
-        domProps: {
-          "value": role.id
-        }
-      }, [_vm._v(_vm._s(role.title))])
-    }))]), _vm._v(" "), _c('td', [_c('a', {
-      staticClass: "cpm-del-proj-role cpm-assign-del-user",
-      attrs: {
-        "hraf": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteUser(projectUser)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    }), _vm._v(" "), _c('span', {
-      staticClass: "title"
-    }, [_vm._v("Delete")])])])])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-users"
-  }, [_c('input', {
-    directives: [{
-      name: "pm-users",
-      rawName: "v-pm-users"
-    }],
-    staticClass: "cpm-project-coworker",
-    attrs: {
-      "type": "text",
-      "name": "user",
-      "placeholder": "Type 3 or more characters to search users...",
-      "size": "45"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-notify"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_notify),
-      expression: "project_notify"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "name": "project_notify",
-      "id": "project-notify",
-      "value": "yes"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.project_notify) ? _vm._i(_vm.project_notify, "yes") > -1 : (_vm.project_notify)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.project_notify,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = "yes",
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.project_notify = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.project_notify = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "cpm-project-form",
+        attrs: { action: "", method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.newProject()
           }
-        } else {
-          _vm.project_notify = $$c
         }
-      }
-    }
-  }), _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "action",
-      "value": "cpm_project_new"
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "cpm-pro-update-spinner"
-  }), _vm._v(" "), _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "add_project",
-      "id": "add_project",
-      "value": "Add New Project"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "button project-cancel",
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideProjectForm(false)
-      }
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-user-create-popup-box",
-      rawName: "v-cpm-user-create-popup-box"
-    }],
-    attrs: {
-      "id": "cpm-create-user-wrap",
-      "title": "Create a new user"
-    }
-  }, [_c('project-new-user-form', {
-    attrs: {
-      "project_users": _vm.project_users
-    }
-  })], 1)])
+      },
+      [
+        _c("div", { staticClass: "cpm-form-item project-name" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.title,
+                expression: "project.title"
+              }
+            ],
+            attrs: {
+              type: "text",
+              name: "project_name",
+              id: "project_name",
+              placeholder: "Name of the project",
+              value: "",
+              size: "45"
+            },
+            domProps: { value: _vm.project.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.title = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-category" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_category,
+                  expression: "project_category"
+                }
+              ],
+              staticClass: "chosen-select",
+              attrs: { name: "project_cat", id: "project_cat" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.project_category = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [
+                _vm._v("– Project Category –")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.categories, function(category) {
+                return _c("option", { domProps: { value: category.id } }, [
+                  _vm._v(_vm._s(category.title))
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-detail" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.description,
+                expression: "project.description"
+              }
+            ],
+            staticClass: "cpm-project-description",
+            attrs: {
+              name: "project_description",
+              id: "",
+              cols: "50",
+              rows: "3",
+              placeholder: "Some details about the project (optional)"
+            },
+            domProps: { value: _vm.project.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.description = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item cpm-project-role" }, [
+          _c(
+            "table",
+            _vm._l(_vm.project_users, function(projectUser) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(projectUser.display_name))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: projectUser.roles.data.id,
+                          expression: "projectUser.roles.data.id"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          projectUser.roles.data.id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role) {
+                      return _c("option", { domProps: { value: role.id } }, [
+                        _vm._v(_vm._s(role.title))
+                      ])
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "cpm-del-proj-role cpm-assign-del-user",
+                      attrs: { hraf: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(projectUser)
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { staticClass: "dashicons dashicons-trash" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "title" }, [_vm._v("Delete")])
+                    ]
+                  )
+                ])
+              ])
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-users" }, [
+          _c("input", {
+            directives: [{ name: "pm-users", rawName: "v-pm-users" }],
+            staticClass: "cpm-project-coworker",
+            attrs: {
+              type: "text",
+              name: "user",
+              placeholder: "Type 3 or more characters to search users...",
+              size: "45"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-notify" }, [
+          _c("label", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_notify,
+                  expression: "project_notify"
+                }
+              ],
+              attrs: {
+                type: "checkbox",
+                name: "project_notify",
+                id: "project-notify",
+                value: "yes"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.project_notify)
+                  ? _vm._i(_vm.project_notify, "yes") > -1
+                  : _vm.project_notify
+              },
+              on: {
+                __c: function($event) {
+                  var $$a = _vm.project_notify,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = "yes",
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.project_notify = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.project_notify = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.project_notify = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "submit" }, [
+          _c("input", {
+            attrs: { type: "hidden", name: "action", value: "cpm_project_new" }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "cpm-pro-update-spinner" }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "button-primary",
+            attrs: {
+              type: "submit",
+              name: "add_project",
+              id: "add_project",
+              value: "Add New Project"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "button project-cancel",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.showHideProjectForm(false)
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-loading", staticStyle: { display: "none" } },
+          [_vm._v("Saving...")]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "cpm-user-create-popup-box",
+            rawName: "v-cpm-user-create-popup-box"
+          }
+        ],
+        attrs: { id: "cpm-create-user-wrap", title: "Create a new user" }
+      },
+      [
+        _c("project-new-user-form", {
+          attrs: { project_users: _vm.project_users }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -748,124 +819,146 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-create-user-form-wrap"
-  }, [_c('div', {
-    staticClass: "cpm-error"
-  }), _vm._v(" "), _c('form', {
-    staticClass: "cpm-user-create-form",
-    attrs: {
-      "action": ""
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createUser()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Username")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.username),
-      expression: "username"
-    }],
-    attrs: {
-      "type": "text",
-      "required": "",
-      "name": "user_name"
-    },
-    domProps: {
-      "value": (_vm.username)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.username = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("First Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.first_name),
-      expression: "first_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "first_name"
-    },
-    domProps: {
-      "value": (_vm.first_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.first_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Last Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.last_name),
-      expression: "last_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "last_name"
-    },
-    domProps: {
-      "value": (_vm.last_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.last_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Email")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.email),
-      expression: "email"
-    }],
-    attrs: {
-      "type": "email",
-      "required": "",
-      "name": "email"
-    },
-    domProps: {
-      "value": (_vm.email)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.email = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _vm._m(0)])])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-create-user-form-wrap" }, [
+    _c("div", { staticClass: "cpm-error" }),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "cpm-user-create-form",
+        attrs: { action: "" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.createUser()
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Username")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.username,
+                expression: "username"
+              }
+            ],
+            attrs: { type: "text", required: "", name: "user_name" },
+            domProps: { value: _vm.username },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.username = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("First Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.first_name,
+                expression: "first_name"
+              }
+            ],
+            attrs: { type: "text", name: "first_name" },
+            domProps: { value: _vm.first_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.first_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Last Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.last_name,
+                expression: "last_name"
+              }
+            ],
+            attrs: { type: "text", name: "last_name" },
+            domProps: { value: _vm.last_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.last_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
+              }
+            ],
+            attrs: { type: "email", required: "", name: "email" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "value": "Create User",
-      "name": "create_user"
-    }
-  }), _vm._v(" "), _c('span')])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button-primary",
+        attrs: { type: "submit", value: "Create User", name: "create_user" }
+      }),
+      _vm._v(" "),
+      _c("span")
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -983,45 +1076,75 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.total_pages > 1) ? _c('div', [_c('div', {
-    staticClass: "cpm-pagination-wrap"
-  }, [(parseInt(_vm.current_page_number) > 1) ? _c('router-link', {
-    staticClass: "cpm-pagination-btn prev page-numbers",
-    attrs: {
-      "to": {
-        name: _vm.component_name,
-        params: {
-          current_page_number: (_vm.current_page_number - 1)
-        }
-      }
-    }
-  }, [_vm._v("\n\t\t\t«\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.total_pages), function(page) {
-    return _c('router-link', {
-      key: "page",
-      class: _vm.pageClass(page) + ' cpm-pagination-btn',
-      attrs: {
-        "to": {
-          name: _vm.component_name,
-          params: {
-            current_page_number: page
-          }
-        }
-      }
-    }, [_vm._v(_vm._s(page) + "\n\t\t")])
-  }), _vm._v(" "), (parseInt(_vm.current_page_number) < parseInt(_vm.total_pages)) ? _c('router-link', {
-    staticClass: "cpm-pagination-btn next page-numbers",
-    attrs: {
-      "to": {
-        name: _vm.component_name,
-        params: {
-          current_page_number: (_vm.current_page_number + 1)
-        }
-      }
-    }
-  }, [_vm._v("\n\t\t\t»\n\t\t")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
-    staticClass: "cpm-clearfix"
-  })]) : _vm._e()
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.total_pages > 1
+    ? _c("div", [
+        _c(
+          "div",
+          { staticClass: "cpm-pagination-wrap" },
+          [
+            parseInt(_vm.current_page_number) > 1
+              ? _c(
+                  "router-link",
+                  {
+                    staticClass: "cpm-pagination-btn prev page-numbers",
+                    attrs: {
+                      to: {
+                        name: _vm.component_name,
+                        params: {
+                          current_page_number: _vm.current_page_number - 1
+                        }
+                      }
+                    }
+                  },
+                  [_vm._v("\n\t\t\t«\n\t\t")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.total_pages, function(page) {
+              return _c(
+                "router-link",
+                {
+                  key: "page",
+                  class: _vm.pageClass(page) + " cpm-pagination-btn",
+                  attrs: {
+                    to: {
+                      name: _vm.component_name,
+                      params: { current_page_number: page }
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(page) + "\n\t\t")]
+              )
+            }),
+            _vm._v(" "),
+            parseInt(_vm.current_page_number) < parseInt(_vm.total_pages)
+              ? _c(
+                  "router-link",
+                  {
+                    staticClass: "cpm-pagination-btn next page-numbers",
+                    attrs: {
+                      to: {
+                        name: _vm.component_name,
+                        params: {
+                          current_page_number: _vm.current_page_number + 1
+                        }
+                      }
+                    }
+                  },
+                  [_vm._v("\n\t\t\t»\n\t\t")]
+                )
+              : _vm._e()
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-clearfix" })
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1823,55 +1946,51 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
   return _vm._m(0)
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "cpm-project-filters",
-    attrs: {
-      "action": "",
-      "method": "get",
-      "id": "cpm-project-filters"
-    }
-  }, [_c('select', {
-    attrs: {
-      "name": "project_cat",
-      "id": "project_cat"
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "-1",
-      "selected": "selected"
-    }
-  }, [_vm._v("– Project Category –")])]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "p",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "status",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "page",
-      "value": "cpm_projects"
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: " cpm-btn-submit cpm-btn-blue",
-    attrs: {
-      "type": "submit",
-      "name": "submit",
-      "id": "project-filter-submit",
-      "value": "Filter"
-    }
-  })])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "form",
+      {
+        staticClass: "cpm-project-filters",
+        attrs: { action: "", method: "get", id: "cpm-project-filters" }
+      },
+      [
+        _c("select", { attrs: { name: "project_cat", id: "project_cat" } }, [
+          _c("option", { attrs: { value: "-1", selected: "selected" } }, [
+            _vm._v("– Project Category –")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", { attrs: { type: "hidden", name: "p", value: "" } }),
+        _vm._v(" "),
+        _c("input", { attrs: { type: "hidden", name: "status", value: "" } }),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "hidden", name: "page", value: "cpm_projects" }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: " cpm-btn-submit cpm-btn-blue",
+          attrs: {
+            type: "submit",
+            name: "submit",
+            id: "project-filter-submit",
+            value: "Filter"
+          }
+        })
+      ]
+    )
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1888,167 +2007,281 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', _vm._l((_vm.projects), function(project) {
-    return _c('article', {
-      staticClass: "cpm-project cpm-column-gap-left cpm-sm-col-12"
-    }, [_c('router-link', {
-      attrs: {
-        "title": project.title,
-        "to": {
-          name: 'pm_overview',
-          params: {
-            project_id: project.id
-          }
-        }
-      }
-    }, [_c('div', {
-      staticClass: "project_head"
-    }, [_c('h5', [_vm._v(_vm._s(project.title))]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-project-detail"
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-project-meta"
-    }, [_c('ul', [_c('li', {
-      staticClass: "message"
-    }, [_c('a', {
-      attrs: {
-        "title": "eirugkdj",
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60"
-      }
-    }), _vm._v(" "), _c('a', {
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
-      }
-    }, [_c('strong', [_c('i', {
-      staticClass: "fa fa-circle",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_discussion_threads)))]), _vm._v(" Discussions\n            \t\t\t")])]), _vm._v(" "), _c('li', {
-      staticClass: "todo"
-    }, [_c('a', {
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=index&pid=60"
-      }
-    }, [_c('strong', [_c('i', {
-      staticClass: "fa fa-circle",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_task_lists)))]), _vm._v(" Task Lists\n            \t\t\t")])]), _vm._v(" "), _c('li', {
-      staticClass: "files"
-    }, [_c('a', {
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=files&action=index&pid=60"
-      }
-    }, [_c('strong', [_c('i', {
-      staticClass: "fa fa-circle",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_tasks)))]), _vm._v(" Tasks\n            \t\t\t")])]), _vm._v(" "), _c('li', {
-      staticClass: "milestone"
-    }, [_c('a', {
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=milestone&action=index&pid=60"
-      }
-    }, [_c('strong', [_c('i', {
-      staticClass: "fa fa-circle",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }), _vm._v(_vm._s(parseInt(project.meta.total_milestones)))]), _vm._v(" Milestones\n            \t\t\t")])]), _vm._v(" "), _c('div', {
-      staticClass: "clearfix"
-    })])]), _vm._v(" "), _vm._m(0, true), _vm._v(" "), _c('div', {
-      staticClass: "cpm-progress-percentage"
-    }), _vm._v(" "), _c('footer', {
-      staticClass: "cpm-project-people"
-    }, [_c('div', {
-      staticClass: "cpm-scroll"
-    }, _vm._l((project.assignees.data), function(user) {
-      return _c('img', {
-        staticClass: "avatar avatar-48 photo",
-        attrs: {
-          "alt": user.display_name,
-          "src": user.avatar_url,
-          "height": "48",
-          "width": "48"
-        }
-      })
-    }))]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-project-action-icon"
-    }, [_c('div', {
-      staticClass: "cpm-project-action"
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-admin-generic cpm-settings-bind",
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.settingsShowHide(project)
-        }
-      }
-    }), _vm._v(" "), (project.settings_hide) ? _c('ul', {
-      staticClass: "cpm-settings"
-    }, [_c('li', [_c('span', {
-      staticClass: "cpm-spinner"
-    }), _vm._v(" "), _c('a', {
-      staticClass: "cpm-project-delete-link",
-      attrs: {
-        "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
-        "title": "Delete project",
-        "data-confirm": "Are you sure to delete this project?",
-        "data-project_id": "60"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteProject(project.id)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
-      staticClass: "cpm-spinner"
-    }), _vm._v(" "), _c('a', {
-      staticClass: "cpm-archive",
-      attrs: {
-        "data-type": "archive",
-        "data-project_id": "60",
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.projectComplete(project)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-yes"
-    }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _vm._m(1, true)]) : _vm._e()])])], 1)
-  }))
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.projects, function(project) {
+      return _c(
+        "article",
+        { staticClass: "cpm-project cpm-column-gap-left cpm-sm-col-12" },
+        [
+          _c(
+            "router-link",
+            {
+              attrs: {
+                title: project.title,
+                to: { name: "pm_overview", params: { project_id: project.id } }
+              }
+            },
+            [
+              _c("div", { staticClass: "project_head" }, [
+                _c("h5", [_vm._v(_vm._s(project.title))]),
+                _vm._v(" "),
+                _c("div", { staticClass: "cpm-project-detail" })
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "cpm-project-meta" }, [
+            _c("ul", [
+              _c("li", { staticClass: "message" }, [
+                _c("a", {
+                  attrs: {
+                    title: "eirugkdj",
+                    href:
+                      "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=index&pid=60"
+                    }
+                  },
+                  [
+                    _c("strong", [
+                      _c("i", {
+                        staticClass: "fa fa-circle",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v(
+                        _vm._s(parseInt(project.meta.total_discussion_threads))
+                      )
+                    ]),
+                    _vm._v(" Discussions\n            \t\t\t")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "todo" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=index&pid=60"
+                    }
+                  },
+                  [
+                    _c("strong", [
+                      _c("i", {
+                        staticClass: "fa fa-circle",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v(_vm._s(parseInt(project.meta.total_task_lists)))
+                    ]),
+                    _vm._v(" Task Lists\n            \t\t\t")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "files" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=files&action=index&pid=60"
+                    }
+                  },
+                  [
+                    _c("strong", [
+                      _c("i", {
+                        staticClass: "fa fa-circle",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v(_vm._s(parseInt(project.meta.total_tasks)))
+                    ]),
+                    _vm._v(" Tasks\n            \t\t\t")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "milestone" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=milestone&action=index&pid=60"
+                    }
+                  },
+                  [
+                    _c("strong", [
+                      _c("i", {
+                        staticClass: "fa fa-circle",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v(_vm._s(parseInt(project.meta.total_milestones)))
+                    ]),
+                    _vm._v(" Milestones\n            \t\t\t")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "clearfix" })
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0, true),
+          _vm._v(" "),
+          _c("div", { staticClass: "cpm-progress-percentage" }),
+          _vm._v(" "),
+          _c("footer", { staticClass: "cpm-project-people" }, [
+            _c(
+              "div",
+              { staticClass: "cpm-scroll" },
+              _vm._l(project.assignees.data, function(user) {
+                return _c("img", {
+                  staticClass: "avatar avatar-48 photo",
+                  attrs: {
+                    alt: user.display_name,
+                    src: user.avatar_url,
+                    height: "48",
+                    width: "48"
+                  }
+                })
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "cpm-project-action-icon" }, [
+            _c("div", { staticClass: "cpm-project-action" }, [
+              _c("span", {
+                staticClass:
+                  "dashicons dashicons-admin-generic cpm-settings-bind",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.settingsShowHide(project)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              project.settings_hide
+                ? _c("ul", { staticClass: "cpm-settings" }, [
+                    _c("li", [
+                      _c("span", { staticClass: "cpm-spinner" }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "cpm-project-delete-link",
+                          attrs: {
+                            href:
+                              "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+                            title: "Delete project",
+                            "data-confirm":
+                              "Are you sure to delete this project?",
+                            "data-project_id": "60"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.deleteProject(project.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            staticClass: "dashicons dashicons-trash"
+                          }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Delete")])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("span", { staticClass: "cpm-spinner" }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "cpm-archive",
+                          attrs: {
+                            "data-type": "archive",
+                            "data-project_id": "60",
+                            href: "#"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.projectComplete(project)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            staticClass: "dashicons dashicons-yes"
+                          }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Complete")])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                : _vm._e()
+            ])
+          ])
+        ],
+        1
+      )
+    })
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-progress cpm-progress-info"
-  }, [_c('div', {
-    staticClass: "bar completed",
-    staticStyle: {
-      "width": "50%"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-duplicate-project",
-    attrs: {
-      "href": "/test/wp-admin/admin.php?page=cpm_projects",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-page"
-  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cpm-progress cpm-progress-info" }, [
+      _c("div", { staticClass: "bar completed", staticStyle: { width: "50%" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("span", { staticClass: "cpm-spinner" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "cpm-duplicate-project",
+          attrs: {
+            href: "/test/wp-admin/admin.php?page=cpm_projects",
+            "data-project_id": "60"
+          }
+        },
+        [
+          _c("span", { staticClass: "dashicons dashicons-admin-page" }),
+          _vm._v(" "),
+          _c("span", [_vm._v("Duplicate")])
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -2065,16 +2298,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('input', {
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("input", {
     staticClass: "ui-autocomplete-input",
     attrs: {
-      "type": "text",
-      "id": "cpm-all-search",
-      "name": "searchitem",
-      "placeholder": "Search All...",
-      "value": "",
-      "autocomplete": "off"
+      type: "text",
+      id: "cpm-all-search",
+      name: "searchitem",
+      placeholder: "Search All...",
+      value: "",
+      autocomplete: "off"
     }
   })
 }
@@ -2095,34 +2331,48 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
   return _vm._m(0)
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "cpm-project-view "
-  }, [_c('li', [_c('a', {
-    staticClass: "change-view",
-    attrs: {
-      "href": "javascript:void(0)",
-      "dir": "list",
-      "alt": "List View"
-    }
-  }, [_c('span', {
-    staticClass: " dashicons dashicons-menu"
-  })])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "change-view",
-    attrs: {
-      "href": "javascript:void(0)",
-      "dir": "grid",
-      "alt": "Grid View"
-    }
-  }, [_c('span', {
-    staticClass: "active dashicons dashicons-screenoptions"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "cpm-project-view " }, [
+      _c("li", [
+        _c(
+          "a",
+          {
+            staticClass: "change-view",
+            attrs: { href: "javascript:void(0)", dir: "list", alt: "List View" }
+          },
+          [_c("span", { staticClass: " dashicons dashicons-menu" })]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c(
+          "a",
+          {
+            staticClass: "change-view",
+            attrs: { href: "javascript:void(0)", dir: "grid", alt: "Grid View" }
+          },
+          [
+            _c("span", {
+              staticClass: "active dashicons dashicons-screenoptions"
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -2139,16 +2389,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('input', {
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("input", {
     staticClass: "ui-autocomplete-input",
     attrs: {
-      "type": "text",
-      "id": "cpm-search-client",
-      "name": "searchitem",
-      "placeholder": "Search by Client...",
-      "value": "",
-      "autocomplete": "off"
+      type: "text",
+      id: "cpm-search-client",
+      name: "searchitem",
+      placeholder: "Search by Client...",
+      value: "",
+      autocomplete: "off"
     }
   })
 }
@@ -2169,40 +2422,98 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-top-bar cpm-no-padding"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "cpm-row cpm-no-padding cpm-priject-search-bar"
-  }, [_c('div', {
-    staticClass: "cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"
-  }, [_c('project-new-project-btn')], 1), _vm._v(" "), _c('div', {
-    staticClass: "cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  "
-  }, [_c('div', {
-    staticClass: "cpm-col-5 cpm-sm-col-12"
-  }, [_c('project-filter-by-category')], 1), _vm._v(" "), _c('div', {
-    staticClass: "cpm-col-7 cpm-sm-col-12 cpm-project-search"
-  }, [_c('project-search-by-client'), _vm._v(" "), _c('project-search-all')], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-row cpm-project-group"
-  }, [_c('project-header-menu'), _vm._v(" "), _c('div', {
-    staticClass: "cpm-col-4 cpm-last-col cpm-text-right show_desktop_only"
-  }, [_c('project-view')], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-top-bar cpm-no-padding" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "cpm-row cpm-no-padding cpm-priject-search-bar" },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin"
+          },
+          [_c("project-new-project-btn")],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  "
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "cpm-col-5 cpm-sm-col-12" },
+              [_c("project-filter-by-category")],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "cpm-col-7 cpm-sm-col-12 cpm-project-search" },
+              [
+                _c("project-search-by-client"),
+                _vm._v(" "),
+                _c("project-search-all")
+              ],
+              1
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" })
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "cpm-row cpm-project-group" },
+      [
+        _c("project-header-menu"),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "cpm-col-4 cpm-last-col cpm-text-right show_desktop_only"
+          },
+          [_c("project-view")],
+          1
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "clearfix" })
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-row cpm-no-padding"
-  }, [_c('div', {
-    staticClass: "cpm-col-6"
-  }, [_c('h3', [_vm._v("Project Manager")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cpm-row cpm-no-padding" }, [
+      _c("div", { staticClass: "cpm-col-6" }, [
+        _c("h3", [_vm._v("Project Manager")])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass:
+          "cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only"
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -2219,25 +2530,30 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "cpm-btn cpm-plus-white cpm-btn-uppercase",
-    attrs: {
-      "href": "#",
-      "id": "cpm-create-project"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.is_popup_active()
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    {
+      staticClass: "cpm-btn cpm-plus-white cpm-btn-uppercase",
+      attrs: { href: "#", id: "cpm-create-project" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.is_popup_active()
+        }
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus-circle",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" New Project\n    ")])
+    },
+    [
+      _c("i", {
+        staticClass: "fa fa-plus-circle",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" New Project\n    ")
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2256,42 +2572,53 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "list-inline  cpm-col-8 cpm-project-group-ul"
-  }, [_c('li', {
-    class: _vm.all + ' cpm-sm-col-4'
-  }, [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'all_projects'
-      }
-    }
-  }, [_vm._v("\n            All\n            "), _c('span', {
-    staticClass: "count"
-  }, [_vm._v("10")])])], 1), _vm._v(" "), _c('li', {
-    class: _vm.active + ' cpm-sm-col-4'
-  }, [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'project_lists'
-      }
-    }
-  }, [_vm._v("\n            Active \n            "), _c('span', {
-    staticClass: "count"
-  }, [_vm._v("10")])])], 1), _vm._v(" "), _c('li', {
-    class: _vm.completed + ' cpm-sm-col-4'
-  }, [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'completed_projects'
-      }
-    }
-  }, [_vm._v("\n            Completed \n            "), _c('span', {
-    staticClass: "count"
-  }, [_vm._v("0")])])], 1), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "ul",
+    { staticClass: "list-inline  cpm-col-8 cpm-project-group-ul" },
+    [
+      _c(
+        "li",
+        { class: _vm.all + " cpm-sm-col-4" },
+        [
+          _c("router-link", { attrs: { to: { name: "all_projects" } } }, [
+            _vm._v("\n            All\n            "),
+            _c("span", { staticClass: "count" }, [_vm._v("10")])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "li",
+        { class: _vm.active + " cpm-sm-col-4" },
+        [
+          _c("router-link", { attrs: { to: { name: "project_lists" } } }, [
+            _vm._v("\n            Active \n            "),
+            _c("span", { staticClass: "count" }, [_vm._v("10")])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "li",
+        { class: _vm.completed + " cpm-sm-col-4" },
+        [
+          _c("router-link", { attrs: { to: { name: "completed_projects" } } }, [
+            _vm._v("\n            Completed \n            "),
+            _c("span", { staticClass: "count" }, [_vm._v("0")])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2495,34 +2822,49 @@ exports.push([module.i, "\n.cpm-project-meta .message .fa-circle {\n    color: #
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wrap cpm cpm-front-end"
-  }, [_c('project-header'), _vm._v(" "), _c('div', {
-    staticClass: "cpm-projects cpm-row cpm-project-grid cpm-no-padding cpm-no-margin"
-  }, [_c('project-summary'), _vm._v(" "), _c('pm-pagination', {
-    attrs: {
-      "total_pages": _vm.total_pages,
-      "current_page_number": _vm.current_page_number,
-      "component_name": "completed_project_pagination"
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "pm-popup-box",
-      rawName: "v-pm-popup-box"
-    }],
-    staticStyle: {
-      "z-index": "999"
-    },
-    attrs: {
-      "id": "cpm-project-dialog",
-      "title": "Start a new project"
-    }
-  }, [_c('project-create-form', {
-    attrs: {
-      "project": {}
-    }
-  })], 1)], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "wrap cpm cpm-front-end" },
+    [
+      _c("project-header"),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "cpm-projects cpm-row cpm-project-grid cpm-no-padding cpm-no-margin"
+        },
+        [
+          _c("project-summary"),
+          _vm._v(" "),
+          _c("pm-pagination", {
+            attrs: {
+              total_pages: _vm.total_pages,
+              current_page_number: _vm.current_page_number,
+              component_name: "completed_project_pagination"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [{ name: "pm-popup-box", rawName: "v-pm-popup-box" }],
+          staticStyle: { "z-index": "999" },
+          attrs: { id: "cpm-project-dialog", title: "Start a new project" }
+        },
+        [_c("project-create-form", { attrs: { project: {} } })],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

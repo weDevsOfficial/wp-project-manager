@@ -1,8 +1,7 @@
 <template>
 
 	<div class="cpm-incomplete-tasks">
-	    <ul  class="cpm-todos cpm-todolist-content cpm-incomplete-task">
-
+	    <ul  class="cpm-todos cpm-todolist-content cpm-incomplete-task" v-cpm-sortable>
 	       <!--  <li v-if="loading_incomplete_tasks" class="nonsortable">
 	            <div class="cpm-data-load-before" >
 	                <div class="loadmoreanimation">
@@ -17,18 +16,19 @@
 	            </div>
 	        </li>
 	-->
-	        <li :data-id="task.ID" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.ID" :class="'cpm-fade-out-'+task.ID">
-	            <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
+	        <li :data-id="task.id" :data-order="task.order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'cpm-fade-out-'+task.id">
+
+	            <incompleted-tasks :task="task" :list="list"></incompleted-tasks>      	
 	        </li>
 
 	        <li v-if="!getIncompleteTasks.length" class="nonsortable">No tasks found.</li>
 
+	        <li v-if="loadMoreButton" class="nonsortable">
+	            <a @click.prevent="loadMoreIncompleteTasks" href="#">More Tasks</a>
+	            <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
+	        </li>
 	        <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
 	            <new-task-form :task="{}"  :list="list"></new-task-form>
-	        </li>
-	        <li v-if="incomplete_show_load_more_btn" class="nonsortable">
-	            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
-	            <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
 	        </li>
 	    </ul> 
 	</div>
@@ -57,13 +57,13 @@
 	           tasks: this.list.tasks,
 	           task_index: 'undefined', // Using undefined for slideToggle class
 	           task_loading_status: false,
-	           incomplete_show_load_more_btn: false,
 	           complete_show_load_more_btn: false,
 	           currnet_user_id: this.$store.state.get_current_user_id,
 	           more_incomplete_task_spinner: false,
 	           more_completed_task_spinner: false,
 	           loading_completed_tasks: true,
 	           loading_incomplete_tasks: true,
+	           completed_tasks_next_page_number:null
 	        }
 	    },
 
@@ -112,6 +112,16 @@
 	        		return this.list.complete_tasks.data;
 	        	}
 	        },
+
+	        loadMoreButton: function(){
+	        	var pagination = this.list.incomplete_tasks.meta.pagination
+	        	if(pagination.current_page < pagination.total_pages){
+	        		this.completed_tasks_next_page_number = pagination.current_page+1;
+	        		return true;
+	        	}
+
+	        	return false;
+	        }
 	    },
 
 	    components: {
@@ -209,62 +219,25 @@
 	            });
 	        },
 
-	        loadMoreIncompleteTasks: function(list) {
-	            if ( this.task_loading_status ) {
+	        loadMoreIncompleteTasks: function() {
+
+				if ( this.task_loading_status ) {
 	                return;
 	            }
-
+	            
 	            this.task_loading_status = true;
 	            this.more_incomplete_task_spinner = true;
+	            var condition = 'incomplete_tasks&incomplete_task_page='+this.completed_tasks_next_page_number;
 
-
-	            var incompleted_tasks = this.getIncompletedTasks( this.list );
-
-	            var page_number = incompleted_tasks.length,
-	                self   = this;
+	            self   = this;
 	            
-	            this.getTasks( list.ID, page_number, 'cpm_get_incompleted_tasks', function(res) {
+	            this.getTasks(this.list.id, condition, function(res) {
 	                self.task_loading_status = false;
 	                self.more_incomplete_task_spinner = false;
-
-	                var incompleted_tasks = self.getIncompletedTasks( self.list );
-	                
-	                if ( res.found_incompleted_tasks > incompleted_tasks.length ) {
-	                    self.incomplete_show_load_more_btn = true;
-	                } else {
-	                    self.incomplete_show_load_more_btn = false;
-	                }
+	                                
 	            });
 
-	        },
-
-	        loadMoreCompleteTasks: function(list) {
-	            if ( this.task_loading_status ) {
-	                return;
-	            }
-
-	            this.task_loading_status = true;
-	            this.more_completed_task_spinner = true;
-
-	            var completed_tasks = this.getCompleteTask( this.list );
-
-	            var page_number = completed_tasks.length,
-	                self   = this;
-	            
-	            this.getTasks( list.ID, page_number, 'cpm_get_completed_tasks', function(res) {
-	                self.task_loading_status = false;
-	                self.more_completed_task_spinner = false;
-
-	                var completed_tasks = self.getCompleteTask( self.list );
-	                
-	                if ( res.found_completed_tasks > completed_tasks.length ) {
-	                    self.complete_show_load_more_btn = true;
-	                } else {
-	                    self.complete_show_load_more_btn = false;
-	                }
-	            });
-
-	        }
+	        } 
 	    }
 	}
 </script>

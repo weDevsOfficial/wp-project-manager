@@ -540,247 +540,318 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('form', {
-    staticClass: "cpm-project-form",
-    attrs: {
-      "action": "",
-      "method": "post"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.newProject();
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-form-item project-name"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.title),
-      expression: "project.title"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "project_name",
-      "id": "project_name",
-      "placeholder": "Name of the project",
-      "value": "",
-      "size": "45"
-    },
-    domProps: {
-      "value": (_vm.project.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.title = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-category"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_category),
-      expression: "project_category"
-    }],
-    staticClass: "chosen-select",
-    attrs: {
-      "name": "project_cat",
-      "id": "project_cat"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.project_category = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "0"
-    }
-  }, [_vm._v("– Project Category –")]), _vm._v(" "), _vm._l((_vm.categories), function(category) {
-    return _c('option', {
-      domProps: {
-        "value": category.id
-      }
-    }, [_vm._v(_vm._s(category.title))])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-detail"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.description),
-      expression: "project.description"
-    }],
-    staticClass: "cpm-project-description",
-    attrs: {
-      "name": "project_description",
-      "id": "",
-      "cols": "50",
-      "rows": "3",
-      "placeholder": "Some details about the project (optional)"
-    },
-    domProps: {
-      "value": (_vm.project.description)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.description = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item cpm-project-role"
-  }, [_c('table', _vm._l((_vm.project_users), function(projectUser) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(projectUser.display_name))]), _vm._v(" "), _c('td', [_c('select', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (projectUser.roles.data.id),
-        expression: "projectUser.roles.data.id"
-      }],
-      on: {
-        "change": function($event) {
-          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-            return o.selected
-          }).map(function(o) {
-            var val = "_value" in o ? o._value : o.value;
-            return val
-          });
-          projectUser.roles.data.id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-        }
-      }
-    }, _vm._l((_vm.roles), function(role) {
-      return _c('option', {
-        domProps: {
-          "value": role.id
-        }
-      }, [_vm._v(_vm._s(role.title))])
-    }))]), _vm._v(" "), _c('td', [_c('a', {
-      staticClass: "cpm-del-proj-role cpm-assign-del-user",
-      attrs: {
-        "hraf": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteUser(projectUser)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    }), _vm._v(" "), _c('span', {
-      staticClass: "title"
-    }, [_vm._v("Delete")])])])])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-users"
-  }, [_c('input', {
-    directives: [{
-      name: "pm-users",
-      rawName: "v-pm-users"
-    }],
-    staticClass: "cpm-project-coworker",
-    attrs: {
-      "type": "text",
-      "name": "user",
-      "placeholder": "Type 3 or more characters to search users...",
-      "size": "45"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-notify"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_notify),
-      expression: "project_notify"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "name": "project_notify",
-      "id": "project-notify",
-      "value": "yes"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.project_notify) ? _vm._i(_vm.project_notify, "yes") > -1 : (_vm.project_notify)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.project_notify,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = "yes",
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.project_notify = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.project_notify = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "cpm-project-form",
+        attrs: { action: "", method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.newProject()
           }
-        } else {
-          _vm.project_notify = $$c
         }
-      }
-    }
-  }), _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "action",
-      "value": "cpm_project_new"
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "cpm-pro-update-spinner"
-  }), _vm._v(" "), _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "add_project",
-      "id": "add_project",
-      "value": "Add New Project"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "button project-cancel",
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideProjectForm(false)
-      }
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-user-create-popup-box",
-      rawName: "v-cpm-user-create-popup-box"
-    }],
-    attrs: {
-      "id": "cpm-create-user-wrap",
-      "title": "Create a new user"
-    }
-  }, [_c('project-new-user-form', {
-    attrs: {
-      "project_users": _vm.project_users
-    }
-  })], 1)])
+      },
+      [
+        _c("div", { staticClass: "cpm-form-item project-name" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.title,
+                expression: "project.title"
+              }
+            ],
+            attrs: {
+              type: "text",
+              name: "project_name",
+              id: "project_name",
+              placeholder: "Name of the project",
+              value: "",
+              size: "45"
+            },
+            domProps: { value: _vm.project.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.title = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-category" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_category,
+                  expression: "project_category"
+                }
+              ],
+              staticClass: "chosen-select",
+              attrs: { name: "project_cat", id: "project_cat" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.project_category = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [
+                _vm._v("– Project Category –")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.categories, function(category) {
+                return _c("option", { domProps: { value: category.id } }, [
+                  _vm._v(_vm._s(category.title))
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-detail" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.description,
+                expression: "project.description"
+              }
+            ],
+            staticClass: "cpm-project-description",
+            attrs: {
+              name: "project_description",
+              id: "",
+              cols: "50",
+              rows: "3",
+              placeholder: "Some details about the project (optional)"
+            },
+            domProps: { value: _vm.project.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.description = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item cpm-project-role" }, [
+          _c(
+            "table",
+            _vm._l(_vm.project_users, function(projectUser) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(projectUser.display_name))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: projectUser.roles.data.id,
+                          expression: "projectUser.roles.data.id"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          projectUser.roles.data.id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role) {
+                      return _c("option", { domProps: { value: role.id } }, [
+                        _vm._v(_vm._s(role.title))
+                      ])
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "cpm-del-proj-role cpm-assign-del-user",
+                      attrs: { hraf: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(projectUser)
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { staticClass: "dashicons dashicons-trash" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "title" }, [_vm._v("Delete")])
+                    ]
+                  )
+                ])
+              ])
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-users" }, [
+          _c("input", {
+            directives: [{ name: "pm-users", rawName: "v-pm-users" }],
+            staticClass: "cpm-project-coworker",
+            attrs: {
+              type: "text",
+              name: "user",
+              placeholder: "Type 3 or more characters to search users...",
+              size: "45"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-notify" }, [
+          _c("label", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_notify,
+                  expression: "project_notify"
+                }
+              ],
+              attrs: {
+                type: "checkbox",
+                name: "project_notify",
+                id: "project-notify",
+                value: "yes"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.project_notify)
+                  ? _vm._i(_vm.project_notify, "yes") > -1
+                  : _vm.project_notify
+              },
+              on: {
+                __c: function($event) {
+                  var $$a = _vm.project_notify,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = "yes",
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.project_notify = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.project_notify = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.project_notify = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "submit" }, [
+          _c("input", {
+            attrs: { type: "hidden", name: "action", value: "cpm_project_new" }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "cpm-pro-update-spinner" }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "button-primary",
+            attrs: {
+              type: "submit",
+              name: "add_project",
+              id: "add_project",
+              value: "Add New Project"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "button project-cancel",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.showHideProjectForm(false)
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-loading", staticStyle: { display: "none" } },
+          [_vm._v("Saving...")]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "cpm-user-create-popup-box",
+            rawName: "v-cpm-user-create-popup-box"
+          }
+        ],
+        attrs: { id: "cpm-create-user-wrap", title: "Create a new user" }
+      },
+      [
+        _c("project-new-user-form", {
+          attrs: { project_users: _vm.project_users }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -799,124 +870,146 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-create-user-form-wrap"
-  }, [_c('div', {
-    staticClass: "cpm-error"
-  }), _vm._v(" "), _c('form', {
-    staticClass: "cpm-user-create-form",
-    attrs: {
-      "action": ""
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createUser()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Username")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.username),
-      expression: "username"
-    }],
-    attrs: {
-      "type": "text",
-      "required": "",
-      "name": "user_name"
-    },
-    domProps: {
-      "value": (_vm.username)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.username = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("First Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.first_name),
-      expression: "first_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "first_name"
-    },
-    domProps: {
-      "value": (_vm.first_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.first_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Last Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.last_name),
-      expression: "last_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "last_name"
-    },
-    domProps: {
-      "value": (_vm.last_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.last_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Email")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.email),
-      expression: "email"
-    }],
-    attrs: {
-      "type": "email",
-      "required": "",
-      "name": "email"
-    },
-    domProps: {
-      "value": (_vm.email)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.email = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _vm._m(0)])])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-create-user-form-wrap" }, [
+    _c("div", { staticClass: "cpm-error" }),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "cpm-user-create-form",
+        attrs: { action: "" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.createUser()
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Username")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.username,
+                expression: "username"
+              }
+            ],
+            attrs: { type: "text", required: "", name: "user_name" },
+            domProps: { value: _vm.username },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.username = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("First Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.first_name,
+                expression: "first_name"
+              }
+            ],
+            attrs: { type: "text", name: "first_name" },
+            domProps: { value: _vm.first_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.first_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Last Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.last_name,
+                expression: "last_name"
+              }
+            ],
+            attrs: { type: "text", name: "last_name" },
+            domProps: { value: _vm.last_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.last_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
+              }
+            ],
+            attrs: { type: "email", required: "", name: "email" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "value": "Create User",
-      "name": "create_user"
-    }
-  }), _vm._v(" "), _c('span')])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button-primary",
+        attrs: { type: "submit", value: "Create User", name: "create_user" }
+      }),
+      _vm._v(" "),
+      _c("span")
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1155,110 +1248,192 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head"
-  }, [_c('div', {
-    staticClass: "cpm-row cpm-no-padding cpm-border-bottom"
-  }, [_c('div', {
-    staticClass: "cpm-col-6 cpm-project-detail"
-  }, [_c('h3', [_c('span', {
-    staticClass: "cpm-project-title"
-  }, [_vm._v(" eirugkdj ")]), _vm._v(" "), _c('a', {
-    staticClass: "cpm-icon-edit cpm-project-edit-link small-text",
-    attrs: {
-      "href": "#"
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head"
     },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideProjectForm('toggle')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-edit"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "text"
-  }, [_vm._v("Edit")])])]), _vm._v(" "), _c('div', {
-    staticClass: "detail"
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  }), _vm._v(" "), (_vm.is_project_edit_mode) ? _c('div', {
-    staticClass: "cpm-edit-project"
-  }, [_c('edit-project', {
-    attrs: {
-      "is_update": true
-    }
-  })], 1) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-row cpm-project-group"
-  }, [_c('ul', [_vm._l((_vm.menu), function(item) {
-    return _c('li', [_c('router-link', {
-      class: item.class,
-      attrs: {
-        "to": item.route
-      }
-    }, [_c('span', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(item.count))])])], 1)
-  }), _vm._v(" "), _c('do-action', {
-    attrs: {
-      "hook": "pm-header"
-    }
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
+    [
+      _c("div", { staticClass: "cpm-row cpm-no-padding cpm-border-bottom" }, [
+        _c("div", { staticClass: "cpm-col-6 cpm-project-detail" }, [
+          _c("h3", [
+            _c("span", { staticClass: "cpm-project-title" }, [
+              _vm._v(" eirugkdj ")
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "cpm-icon-edit cpm-project-edit-link small-text",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.showHideProjectForm("toggle")
+                  }
+                }
+              },
+              [
+                _c("span", { staticClass: "dashicons dashicons-edit" }),
+                _vm._v(" "),
+                _c("span", { staticClass: "text" }, [_vm._v("Edit")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "detail" })
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" }),
+        _vm._v(" "),
+        _vm.is_project_edit_mode
+          ? _c(
+              "div",
+              { staticClass: "cpm-edit-project" },
+              [_c("edit-project", { attrs: { is_update: true } })],
+              1
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cpm-row cpm-project-group" }, [
+        _c(
+          "ul",
+          [
+            _vm._l(_vm.menu, function(item) {
+              return _c(
+                "li",
+                [
+                  _c(
+                    "router-link",
+                    { class: item.class, attrs: { to: item.route } },
+                    [
+                      _c("span", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("div", [_vm._v(_vm._s(item.count))])
+                    ]
+                  )
+                ],
+                1
+              )
+            }),
+            _vm._v(" "),
+            _c("do-action", { attrs: { hook: "pm-header" } })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ]
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only"
-  }, [_c('div', {
-    staticClass: "cpm-single-project-search-wrap"
-  }, [_c('input', {
-    attrs: {
-      "type": "text",
-      "data-project_id": "60",
-      "placeholder": "Search...",
-      "id": "cpm-single-project-search"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-project-action"
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
-  }), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-settings"
-  }, [_c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-project-delete-link",
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
-      "title": "Delete project",
-      "data-confirm": "Are you sure to delete this project?",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-archive",
-    attrs: {
-      "data-type": "archive",
-      "data-project_id": "60",
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-yes"
-  }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-duplicate-project",
-    attrs: {
-      "href": "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-page"
-  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])])])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only"
+      },
+      [
+        _c("div", { staticClass: "cpm-single-project-search-wrap" }, [
+          _c("input", {
+            attrs: {
+              type: "text",
+              "data-project_id": "60",
+              placeholder: "Search...",
+              id: "cpm-single-project-search"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-project-action" }, [
+          _c("span", {
+            staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
+          }),
+          _vm._v(" "),
+          _c("ul", { staticClass: "cpm-settings" }, [
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-project-delete-link",
+                  attrs: {
+                    href:
+                      "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+                    title: "Delete project",
+                    "data-confirm": "Are you sure to delete this project?",
+                    "data-project_id": "60"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-trash" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Delete")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-archive",
+                  attrs: {
+                    "data-type": "archive",
+                    "data-project_id": "60",
+                    href: "#"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-yes" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Complete")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-duplicate-project",
+                  attrs: {
+                    href:
+                      "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60",
+                    "data-project_id": "60"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-admin-page" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Duplicate")])
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1309,426 +1484,866 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('a', {
-    staticClass: "button cpm-load-more",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-start": "21",
-      "data-total": "48"
-    }
-  }, [_vm._v("Load More...")])], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "wrap cpm cpm-front-end" },
+    [
+      _c("pm-header"),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "button cpm-load-more",
+          attrs: {
+            href: "#",
+            "data-project_id": "60",
+            "data-start": "21",
+            "data-total": "48"
+          }
+        },
+        [_vm._v("Load More...")]
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "cpm_activity_list"
-  }, [_c('ul', {
-    staticClass: "cpm-activity-list"
-  }, [_c('li', {
-    staticClass: "cpm-row"
-  }, [_c('div', {
-    staticClass: "cpm-activity-date cpm-col-1 cpm-sm-col-12"
-  }, [_c('span', [_vm._v(" 11 ")]), _vm._v(" "), _c('br'), _vm._v(" September   ")]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"
-  }, [_c('ul', [_c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-315"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:52+00:00",
-      "title": "2017-09-11T13:34:52+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-313"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:47+00:00",
-      "title": "2017-09-11T13:34:47+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-311"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:41+00:00",
-      "title": "2017-09-11T13:34:41+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")]), _vm._v(" commented on a "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-309"
-    }
-  }, [_vm._v("discussion")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:37+00:00",
-      "title": "2017-09-11T13:34:37+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
-    }
-  }, [_vm._v("srthsrth")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:23+00:00",
-      "title": "2017-09-11T13:34:23+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=96"
-    }
-  }, [_vm._v("kafd")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:01+00:00",
-      "title": "2017-09-11T13:34:01+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Message \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=95"
-    }
-  }, [_vm._v("message 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:33:26+00:00",
-      "title": "2017-09-11T13:33:26+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:33 pm")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:50+00:00",
-      "title": "2017-09-11T10:09:50+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:49+00:00",
-      "title": "2017-09-11T10:09:49+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T10:09:48+00:00",
-      "title": "2017-09-11T10:09:48+00:00"
-    }
-  }, [_vm._v("September 11, 2017 10:09 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:44:05+00:00",
-      "title": "2017-09-11T08:44:05+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:44 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" updated by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:32+00:00",
-      "title": "2017-09-11T08:43:32+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
-    }
-  }, [_vm._v("task 1")]), _vm._v("\" added to task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
-    }
-  }, [_vm._v("List 1")]), _vm._v("\" by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:24+00:00",
-      "title": "2017-09-11T08:43:24+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
-    }
-  }, [_vm._v("List 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:43:15+00:00",
-      "title": "2017-09-11T08:43:15+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:43 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"laskdf\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:32+00:00",
-      "title": "2017-09-11T08:42:32+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"skgfkd\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:27+00:00",
-      "title": "2017-09-11T08:42:27+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \"list 1\" deleted by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T08:42:21+00:00",
-      "title": "2017-09-11T08:42:21+00:00"
-    }
-  }, [_vm._v("September 11, 2017 8:42 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/81"
-    }
-  }, [_vm._v("skgfkd")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:11+00:00",
-      "title": "2017-09-11T06:21:11+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/80"
-    }
-  }, [_vm._v("laskdf")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:06+00:00",
-      "title": "2017-09-11T06:21:06+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })]), _c('li', [_c('div', {
-    staticClass: "cpm-col-8 cpm-sm-col-12"
-  }, [_vm._v("Task list \""), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/79"
-    }
-  }, [_vm._v("list 1")]), _vm._v("\" created by "), _c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("admin")])]), _c('div', {
-    staticClass: "date cpm-col-4 cpm-sm-col-12"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T06:21:00+00:00",
-      "title": "2017-09-11T06:21:00+00:00"
-    }
-  }, [_vm._v("September 11, 2017 6:21 am")])]), _vm._v(" "), _c('div', {
-    staticClass: "clear"
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "cpm_activity_list" }, [
+      _c("ul", { staticClass: "cpm-activity-list" }, [
+        _c("li", { staticClass: "cpm-row" }, [
+          _c(
+            "div",
+            { staticClass: "cpm-activity-date cpm-col-1 cpm-sm-col-12" },
+            [
+              _c("span", [_vm._v(" 11 ")]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" September   ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"
+            },
+            [
+              _c("ul", [
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    ),
+                    _vm._v(" commented on a "),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-315"
+                        }
+                      },
+                      [_vm._v("discussion")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:52+00:00",
+                          title: "2017-09-11T13:34:52+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    ),
+                    _vm._v(" commented on a "),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-313"
+                        }
+                      },
+                      [_vm._v("discussion")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:47+00:00",
+                          title: "2017-09-11T13:34:47+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    ),
+                    _vm._v(" commented on a "),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-311"
+                        }
+                      },
+                      [_vm._v("discussion")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:41+00:00",
+                          title: "2017-09-11T13:34:41+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    ),
+                    _vm._v(" commented on a "),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97#cpm-comment-309"
+                        }
+                      },
+                      [_vm._v("discussion")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:37+00:00",
+                          title: "2017-09-11T13:34:37+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Message "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=97"
+                        }
+                      },
+                      [_vm._v("srthsrth")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:23+00:00",
+                          title: "2017-09-11T13:34:23+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Message "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=96"
+                        }
+                      },
+                      [_vm._v("kafd")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:34:01+00:00",
+                          title: "2017-09-11T13:34:01+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:34 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Message "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=message&action=single&pid=60&mid=95"
+                        }
+                      },
+                      [_vm._v("message 1")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T13:33:26+00:00",
+                          title: "2017-09-11T13:33:26+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 1:33 pm")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" updated by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T10:09:50+00:00",
+                          title: "2017-09-11T10:09:50+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 10:09 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" updated by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T10:09:49+00:00",
+                          title: "2017-09-11T10:09:49+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 10:09 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" updated by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T10:09:48+00:00",
+                          title: "2017-09-11T10:09:48+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 10:09 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" updated by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:44:05+00:00",
+                          title: "2017-09-11T08:44:05+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:44 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" updated by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:43:32+00:00",
+                          title: "2017-09-11T08:43:32+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:43 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=task_single&pid=60#/task/94"
+                        }
+                      },
+                      [_vm._v("task 1")]
+                    ),
+                    _vm._v('" added to task list "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
+                        }
+                      },
+                      [_vm._v("List 1")]
+                    ),
+                    _vm._v('" by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:43:24+00:00",
+                          title: "2017-09-11T08:43:24+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:43 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/93"
+                        }
+                      },
+                      [_vm._v("List 1")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:43:15+00:00",
+                          title: "2017-09-11T08:43:15+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:43 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "laskdf" deleted by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:42:32+00:00",
+                          title: "2017-09-11T08:42:32+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:42 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "skgfkd" deleted by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:42:27+00:00",
+                          title: "2017-09-11T08:42:27+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:42 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "list 1" deleted by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T08:42:21+00:00",
+                          title: "2017-09-11T08:42:21+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 8:42 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/81"
+                        }
+                      },
+                      [_vm._v("skgfkd")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T06:21:11+00:00",
+                          title: "2017-09-11T06:21:11+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 6:21 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/80"
+                        }
+                      },
+                      [_vm._v("laskdf")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T06:21:06+00:00",
+                          title: "2017-09-11T06:21:06+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 6:21 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ]),
+                _c("li", [
+                  _c("div", { staticClass: "cpm-col-8 cpm-sm-col-12" }, [
+                    _vm._v('Task list "'),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_projects&tab=task&action=single&pid=60#/list/79"
+                        }
+                      },
+                      [_vm._v("list 1")]
+                    ),
+                    _vm._v('" created by '),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+                          title: "admin"
+                        }
+                      },
+                      [_vm._v("admin")]
+                    )
+                  ]),
+                  _c("div", { staticClass: "date cpm-col-4 cpm-sm-col-12" }, [
+                    _c(
+                      "time",
+                      {
+                        attrs: {
+                          datetime: "2017-09-11T06:21:00+00:00",
+                          title: "2017-09-11T06:21:00+00:00"
+                        }
+                      },
+                      [_vm._v("September 11, 2017 6:21 am")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clear" })
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

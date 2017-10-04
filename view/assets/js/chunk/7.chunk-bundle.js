@@ -489,247 +489,318 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('form', {
-    staticClass: "cpm-project-form",
-    attrs: {
-      "action": "",
-      "method": "post"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.newProject();
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-form-item project-name"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.title),
-      expression: "project.title"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "project_name",
-      "id": "project_name",
-      "placeholder": "Name of the project",
-      "value": "",
-      "size": "45"
-    },
-    domProps: {
-      "value": (_vm.project.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.title = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-category"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_category),
-      expression: "project_category"
-    }],
-    staticClass: "chosen-select",
-    attrs: {
-      "name": "project_cat",
-      "id": "project_cat"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.project_category = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "0"
-    }
-  }, [_vm._v("– Project Category –")]), _vm._v(" "), _vm._l((_vm.categories), function(category) {
-    return _c('option', {
-      domProps: {
-        "value": category.id
-      }
-    }, [_vm._v(_vm._s(category.title))])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-detail"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project.description),
-      expression: "project.description"
-    }],
-    staticClass: "cpm-project-description",
-    attrs: {
-      "name": "project_description",
-      "id": "",
-      "cols": "50",
-      "rows": "3",
-      "placeholder": "Some details about the project (optional)"
-    },
-    domProps: {
-      "value": (_vm.project.description)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.project.description = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item cpm-project-role"
-  }, [_c('table', _vm._l((_vm.project_users), function(projectUser) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(projectUser.display_name))]), _vm._v(" "), _c('td', [_c('select', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (projectUser.roles.data.id),
-        expression: "projectUser.roles.data.id"
-      }],
-      on: {
-        "change": function($event) {
-          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-            return o.selected
-          }).map(function(o) {
-            var val = "_value" in o ? o._value : o.value;
-            return val
-          });
-          projectUser.roles.data.id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-        }
-      }
-    }, _vm._l((_vm.roles), function(role) {
-      return _c('option', {
-        domProps: {
-          "value": role.id
-        }
-      }, [_vm._v(_vm._s(role.title))])
-    }))]), _vm._v(" "), _c('td', [_c('a', {
-      staticClass: "cpm-del-proj-role cpm-assign-del-user",
-      attrs: {
-        "hraf": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteUser(projectUser)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "dashicons dashicons-trash"
-    }), _vm._v(" "), _c('span', {
-      staticClass: "title"
-    }, [_vm._v("Delete")])])])])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-users"
-  }, [_c('input', {
-    directives: [{
-      name: "pm-users",
-      rawName: "v-pm-users"
-    }],
-    staticClass: "cpm-project-coworker",
-    attrs: {
-      "type": "text",
-      "name": "user",
-      "placeholder": "Type 3 or more characters to search users...",
-      "size": "45"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-form-item project-notify"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.project_notify),
-      expression: "project_notify"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "name": "project_notify",
-      "id": "project-notify",
-      "value": "yes"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.project_notify) ? _vm._i(_vm.project_notify, "yes") > -1 : (_vm.project_notify)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.project_notify,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = "yes",
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.project_notify = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.project_notify = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "cpm-project-form",
+        attrs: { action: "", method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.newProject()
           }
-        } else {
-          _vm.project_notify = $$c
         }
-      }
-    }
-  }), _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "action",
-      "value": "cpm_project_new"
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "cpm-pro-update-spinner"
-  }), _vm._v(" "), _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "add_project",
-      "id": "add_project",
-      "value": "Add New Project"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "button project-cancel",
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideProjectForm(false)
-      }
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-user-create-popup-box",
-      rawName: "v-cpm-user-create-popup-box"
-    }],
-    attrs: {
-      "id": "cpm-create-user-wrap",
-      "title": "Create a new user"
-    }
-  }, [_c('project-new-user-form', {
-    attrs: {
-      "project_users": _vm.project_users
-    }
-  })], 1)])
+      },
+      [
+        _c("div", { staticClass: "cpm-form-item project-name" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.title,
+                expression: "project.title"
+              }
+            ],
+            attrs: {
+              type: "text",
+              name: "project_name",
+              id: "project_name",
+              placeholder: "Name of the project",
+              value: "",
+              size: "45"
+            },
+            domProps: { value: _vm.project.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.title = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-category" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_category,
+                  expression: "project_category"
+                }
+              ],
+              staticClass: "chosen-select",
+              attrs: { name: "project_cat", id: "project_cat" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.project_category = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [
+                _vm._v("– Project Category –")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.categories, function(category) {
+                return _c("option", { domProps: { value: category.id } }, [
+                  _vm._v(_vm._s(category.title))
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-detail" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.description,
+                expression: "project.description"
+              }
+            ],
+            staticClass: "cpm-project-description",
+            attrs: {
+              name: "project_description",
+              id: "",
+              cols: "50",
+              rows: "3",
+              placeholder: "Some details about the project (optional)"
+            },
+            domProps: { value: _vm.project.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.project.description = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item cpm-project-role" }, [
+          _c(
+            "table",
+            _vm._l(_vm.project_users, function(projectUser) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(projectUser.display_name))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: projectUser.roles.data.id,
+                          expression: "projectUser.roles.data.id"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          projectUser.roles.data.id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role) {
+                      return _c("option", { domProps: { value: role.id } }, [
+                        _vm._v(_vm._s(role.title))
+                      ])
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "cpm-del-proj-role cpm-assign-del-user",
+                      attrs: { hraf: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(projectUser)
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { staticClass: "dashicons dashicons-trash" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "title" }, [_vm._v("Delete")])
+                    ]
+                  )
+                ])
+              ])
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-users" }, [
+          _c("input", {
+            directives: [{ name: "pm-users", rawName: "v-pm-users" }],
+            staticClass: "cpm-project-coworker",
+            attrs: {
+              type: "text",
+              name: "user",
+              placeholder: "Type 3 or more characters to search users...",
+              size: "45"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-form-item project-notify" }, [
+          _c("label", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project_notify,
+                  expression: "project_notify"
+                }
+              ],
+              attrs: {
+                type: "checkbox",
+                name: "project_notify",
+                id: "project-notify",
+                value: "yes"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.project_notify)
+                  ? _vm._i(_vm.project_notify, "yes") > -1
+                  : _vm.project_notify
+              },
+              on: {
+                __c: function($event) {
+                  var $$a = _vm.project_notify,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = "yes",
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.project_notify = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.project_notify = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.project_notify = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v("\n\t\t\t\tNotify Co-Workers            \n\t\t\t")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "submit" }, [
+          _c("input", {
+            attrs: { type: "hidden", name: "action", value: "cpm_project_new" }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "cpm-pro-update-spinner" }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "button-primary",
+            attrs: {
+              type: "submit",
+              name: "add_project",
+              id: "add_project",
+              value: "Add New Project"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "button project-cancel",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.showHideProjectForm(false)
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-loading", staticStyle: { display: "none" } },
+          [_vm._v("Saving...")]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "cpm-user-create-popup-box",
+            rawName: "v-cpm-user-create-popup-box"
+          }
+        ],
+        attrs: { id: "cpm-create-user-wrap", title: "Create a new user" }
+      },
+      [
+        _c("project-new-user-form", {
+          attrs: { project_users: _vm.project_users }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -748,124 +819,146 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-create-user-form-wrap"
-  }, [_c('div', {
-    staticClass: "cpm-error"
-  }), _vm._v(" "), _c('form', {
-    staticClass: "cpm-user-create-form",
-    attrs: {
-      "action": ""
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createUser()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Username")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.username),
-      expression: "username"
-    }],
-    attrs: {
-      "type": "text",
-      "required": "",
-      "name": "user_name"
-    },
-    domProps: {
-      "value": (_vm.username)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.username = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("First Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.first_name),
-      expression: "first_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "first_name"
-    },
-    domProps: {
-      "value": (_vm.first_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.first_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Last Name")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.last_name),
-      expression: "last_name"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "last_name"
-    },
-    domProps: {
-      "value": (_vm.last_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.last_name = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-field-wrap"
-  }, [_c('label', [_vm._v("Email")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.email),
-      expression: "email"
-    }],
-    attrs: {
-      "type": "email",
-      "required": "",
-      "name": "email"
-    },
-    domProps: {
-      "value": (_vm.email)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.email = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _vm._m(0)])])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-create-user-form-wrap" }, [
+    _c("div", { staticClass: "cpm-error" }),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "cpm-user-create-form",
+        attrs: { action: "" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.createUser()
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Username")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.username,
+                expression: "username"
+              }
+            ],
+            attrs: { type: "text", required: "", name: "user_name" },
+            domProps: { value: _vm.username },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.username = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("First Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.first_name,
+                expression: "first_name"
+              }
+            ],
+            attrs: { type: "text", name: "first_name" },
+            domProps: { value: _vm.first_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.first_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Last Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.last_name,
+                expression: "last_name"
+              }
+            ],
+            attrs: { type: "text", name: "last_name" },
+            domProps: { value: _vm.last_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.last_name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-field-wrap" }, [
+          _c("label", [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
+              }
+            ],
+            attrs: { type: "email", required: "", name: "email" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "value": "Create User",
-      "name": "create_user"
-    }
-  }), _vm._v(" "), _c('span')])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button-primary",
+        attrs: { type: "submit", value: "Create User", name: "create_user" }
+      }),
+      _vm._v(" "),
+      _c("span")
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1104,110 +1197,192 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head"
-  }, [_c('div', {
-    staticClass: "cpm-row cpm-no-padding cpm-border-bottom"
-  }, [_c('div', {
-    staticClass: "cpm-col-6 cpm-project-detail"
-  }, [_c('h3', [_c('span', {
-    staticClass: "cpm-project-title"
-  }, [_vm._v(" eirugkdj ")]), _vm._v(" "), _c('a', {
-    staticClass: "cpm-icon-edit cpm-project-edit-link small-text",
-    attrs: {
-      "href": "#"
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head"
     },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideProjectForm('toggle')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-edit"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "text"
-  }, [_vm._v("Edit")])])]), _vm._v(" "), _c('div', {
-    staticClass: "detail"
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  }), _vm._v(" "), (_vm.is_project_edit_mode) ? _c('div', {
-    staticClass: "cpm-edit-project"
-  }, [_c('edit-project', {
-    attrs: {
-      "is_update": true
-    }
-  })], 1) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-row cpm-project-group"
-  }, [_c('ul', [_vm._l((_vm.menu), function(item) {
-    return _c('li', [_c('router-link', {
-      class: item.class,
-      attrs: {
-        "to": item.route
-      }
-    }, [_c('span', [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(item.count))])])], 1)
-  }), _vm._v(" "), _c('do-action', {
-    attrs: {
-      "hook": "pm-header"
-    }
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])
+    [
+      _c("div", { staticClass: "cpm-row cpm-no-padding cpm-border-bottom" }, [
+        _c("div", { staticClass: "cpm-col-6 cpm-project-detail" }, [
+          _c("h3", [
+            _c("span", { staticClass: "cpm-project-title" }, [
+              _vm._v(" eirugkdj ")
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "cpm-icon-edit cpm-project-edit-link small-text",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.showHideProjectForm("toggle")
+                  }
+                }
+              },
+              [
+                _c("span", { staticClass: "dashicons dashicons-edit" }),
+                _vm._v(" "),
+                _c("span", { staticClass: "text" }, [_vm._v("Edit")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "detail" })
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" }),
+        _vm._v(" "),
+        _vm.is_project_edit_mode
+          ? _c(
+              "div",
+              { staticClass: "cpm-edit-project" },
+              [_c("edit-project", { attrs: { is_update: true } })],
+              1
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cpm-row cpm-project-group" }, [
+        _c(
+          "ul",
+          [
+            _vm._l(_vm.menu, function(item) {
+              return _c(
+                "li",
+                [
+                  _c(
+                    "router-link",
+                    { class: item.class, attrs: { to: item.route } },
+                    [
+                      _c("span", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("div", [_vm._v(_vm._s(item.count))])
+                    ]
+                  )
+                ],
+                1
+              )
+            }),
+            _vm._v(" "),
+            _c("do-action", { attrs: { hook: "pm-header" } })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ]
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only"
-  }, [_c('div', {
-    staticClass: "cpm-single-project-search-wrap"
-  }, [_c('input', {
-    attrs: {
-      "type": "text",
-      "data-project_id": "60",
-      "placeholder": "Search...",
-      "id": "cpm-single-project-search"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-project-action"
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
-  }), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-settings"
-  }, [_c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-project-delete-link",
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
-      "title": "Delete project",
-      "data-confirm": "Are you sure to delete this project?",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-trash"
-  }), _vm._v(" "), _c('span', [_vm._v("Delete")])])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-archive",
-    attrs: {
-      "data-type": "archive",
-      "data-project_id": "60",
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-yes"
-  }), _vm._v(" "), _c('span', [_vm._v("Complete")])])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "cpm-spinner"
-  }), _vm._v(" "), _c('a', {
-    staticClass: "cpm-duplicate-project",
-    attrs: {
-      "href": "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60",
-      "data-project_id": "60"
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-admin-page"
-  }), _vm._v(" "), _c('span', [_vm._v("Duplicate")])])])])])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only"
+      },
+      [
+        _c("div", { staticClass: "cpm-single-project-search-wrap" }, [
+          _c("input", {
+            attrs: {
+              type: "text",
+              "data-project_id": "60",
+              placeholder: "Search...",
+              id: "cpm-single-project-search"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cpm-project-action" }, [
+          _c("span", {
+            staticClass: "dashicons dashicons-admin-generic cpm-settings-bind"
+          }),
+          _vm._v(" "),
+          _c("ul", { staticClass: "cpm-settings" }, [
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-project-delete-link",
+                  attrs: {
+                    href:
+                      "http://localhost/test/wp-admin/admin.php?page=cpm_projects",
+                    title: "Delete project",
+                    "data-confirm": "Are you sure to delete this project?",
+                    "data-project_id": "60"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-trash" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Delete")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-archive",
+                  attrs: {
+                    "data-type": "archive",
+                    "data-project_id": "60",
+                    href: "#"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-yes" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Complete")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("span", { staticClass: "cpm-spinner" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "cpm-duplicate-project",
+                  attrs: {
+                    href:
+                      "/test/wp-admin/admin.php?page=cpm_projects&tab=project&action=overview&pid=60",
+                    "data-project_id": "60"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "dashicons dashicons-admin-page" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Duplicate")])
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1356,27 +1531,32 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.content.html),
-      expression: "content.html"
-    }],
-    attrs: {
-      "id": _vm.editor_id
-    },
-    domProps: {
-      "value": (_vm.content.html)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.content.html = $event.target.value
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("textarea", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.content.html,
+          expression: "content.html"
+        }
+      ],
+      attrs: { id: _vm.editor_id },
+      domProps: { value: _vm.content.html },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.content.html = $event.target.value
+        }
       }
-    }
-  })])
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1764,47 +1944,45 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-attachment-area"
-  }, [_c('div', {
-    attrs: {
-      "id": "cpm-upload-container"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-upload-filelist"
-  }, _vm._l((_vm.files), function(file) {
-    return _c('div', {
-      key: file.id,
-      staticClass: "cpm-uploaded-item"
-    }, [_c('a', {
-      attrs: {
-        "href": file.url,
-        "target": "_blank"
-      }
-    }, [_c('img', {
-      attrs: {
-        "src": file.thumb,
-        "alt": file.name
-      }
-    })]), _vm._v(" "), _c('a', {
-      staticClass: "button",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deletefile(file.id)
-        }
-      }
-    }, [_vm._v("Delete File")])])
-  })), _vm._v("\n        To attach, "), _c('a', {
-    attrs: {
-      "id": "cpm-upload-pickfiles",
-      "href": "#"
-    }
-  }, [_vm._v("select files")]), _vm._v(" from your computer.\n    ")])])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-attachment-area" }, [
+    _c("div", { attrs: { id: "cpm-upload-container" } }, [
+      _c(
+        "div",
+        { staticClass: "cpm-upload-filelist" },
+        _vm._l(_vm.files, function(file) {
+          return _c("div", { key: file.id, staticClass: "cpm-uploaded-item" }, [
+            _c("a", { attrs: { href: file.url, target: "_blank" } }, [
+              _c("img", { attrs: { src: file.thumb, alt: file.name } })
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "button",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.deletefile(file.id)
+                  }
+                }
+              },
+              [_vm._v("Delete File")]
+            )
+          ])
+        })
+      ),
+      _vm._v("\n        To attach, "),
+      _c("a", { attrs: { id: "cpm-upload-pickfiles", href: "#" } }, [
+        _vm._v("select files")
+      ]),
+      _vm._v(" from your computer.\n    ")
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1823,144 +2001,193 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('form', {
-    staticClass: "cpm-message-form",
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.newDiscuss()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "item title"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.discuss.title),
-      expression: "discuss.title"
-    }],
-    attrs: {
-      "name": "title",
-      "required": "required",
-      "type": "text",
-      "id": "message_title",
-      "value": "",
-      "placeholder": "Enter message title"
-    },
-    domProps: {
-      "value": (_vm.discuss.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.discuss.title = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item detail"
-  }, [_c('text-editor', {
-    attrs: {
-      "editor_id": _vm.editor_id,
-      "content": _vm.content
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "item milestone"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.milestone_id),
-      expression: "milestone_id"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.milestone_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "-1"
-    }
-  }, [_vm._v("\n\t\t\t            - Milestone -\n\t\t\t        ")]), _vm._v(" "), _vm._l((_vm.milestones), function(milestone) {
-    return _c('option', {
-      domProps: {
-        "value": milestone.id
-      }
-    }, [_vm._v("\n\t\t\t            " + _vm._s(milestone.title) + "\n\t\t\t        ")])
-  })], 2)]), _vm._v(" "), _c('file-uploader', {
-    attrs: {
-      "files": _vm.files
-    }
-  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "create_message",
-      "id": "create_message",
-      "value": "Add Message"
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "message-cancel button-secondary",
-    attrs: {
-      "href": ""
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideDiscussForm(false, _vm.discuss)
-      }
-    }
-  }, [_vm._v("Cancel")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])], 1)])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "cpm-message-form",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.newDiscuss()
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "item title" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.discuss.title,
+                expression: "discuss.title"
+              }
+            ],
+            attrs: {
+              name: "title",
+              required: "required",
+              type: "text",
+              id: "message_title",
+              value: "",
+              placeholder: "Enter message title"
+            },
+            domProps: { value: _vm.discuss.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.discuss.title = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "item detail" },
+          [
+            _c("text-editor", {
+              attrs: { editor_id: _vm.editor_id, content: _vm.content }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "item milestone" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.milestone_id,
+                  expression: "milestone_id"
+                }
+              ],
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.milestone_id = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "-1" } }, [
+                _vm._v("\n\t\t\t            - Milestone -\n\t\t\t        ")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.milestones, function(milestone) {
+                return _c("option", { domProps: { value: milestone.id } }, [
+                  _vm._v(
+                    "\n\t\t\t            " +
+                      _vm._s(milestone.title) +
+                      "\n\t\t\t        "
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("file-uploader", { attrs: { files: _vm.files } }),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "submit" }, [
+          _c("input", {
+            staticClass: "button-primary",
+            attrs: {
+              type: "submit",
+              name: "create_message",
+              id: "create_message",
+              value: "Add Message"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "message-cancel button-secondary",
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.showHideDiscussForm(false, _vm.discuss)
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-loading", staticStyle: { display: "none" } },
+          [_vm._v("Saving...")]
+        )
+      ],
+      1
+    )
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n\t        \t\tNotify users            \n\t        \t\t"), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "name": "select-all",
-      "id": "select-all"
-    }
-  }), _vm._v(" \n\t        \t\t\tSelect all\n\t        \t\t")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_c('li', [_c('label', {
-    attrs: {
-      "for": "cpm_notify_1"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": "notify_user[]",
-      "id": "cpm_notify_1",
-      "value": "1"
-    }
-  }), _vm._v(" \n\t\t            \t\tAdmin\n\t\t            \t")])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "notify-users" }, [
+      _c("h2", { staticClass: "cpm-box-title" }, [
+        _vm._v(" \n\t        \t\tNotify users            \n\t        \t\t"),
+        _c(
+          "label",
+          { staticClass: "cpm-small-title", attrs: { for: "select-all" } },
+          [
+            _c("input", {
+              staticClass: "cpm-toggle-checkbox",
+              attrs: { type: "checkbox", name: "select-all", id: "select-all" }
+            }),
+            _vm._v(" \n\t        \t\t\tSelect all\n\t        \t\t")
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "cpm-user-list" }, [
+        _c("li", [
+          _c("label", { attrs: { for: "cpm_notify_1" } }, [
+            _c("input", {
+              attrs: {
+                type: "checkbox",
+                name: "notify_user[]",
+                id: "cpm_notify_1",
+                value: "1"
+              }
+            }),
+            _vm._v(" \n\t\t            \t\tAdmin\n\t\t            \t")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -2261,79 +2488,105 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "cpm-comment-form",
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.newComment()
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass: "cpm-comment-form",
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          _vm.newComment()
+        }
       }
-    }
-  }, [_c('div', {
-    staticClass: "item message cpm-sm-col-12 "
-  }, [_c('text-editor', {
-    attrs: {
-      "editor_id": _vm.editor_id,
-      "content": _vm.content
-    }
-  })], 1), _vm._v(" "), _c('file-uploader', {
-    attrs: {
-      "files": _vm.files
-    }
-  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
-    staticClass: "cpm-loading",
-    staticStyle: {
-      "display": "none"
-    }
-  }, [_vm._v("Saving...")])], 1)
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "item message cpm-sm-col-12 " },
+        [
+          _c("text-editor", {
+            attrs: { editor_id: _vm.editor_id, content: _vm.content }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("file-uploader", { attrs: { files: _vm.files } }),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "cpm-loading", staticStyle: { display: "none" } },
+        [_vm._v("Saving...")]
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                Notify users            \n                "), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "name": "select-all",
-      "id": "select-all"
-    }
-  }), _vm._v(" \n                    Select all\n                ")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_c('li', [_c('label', {
-    attrs: {
-      "for": "cpm_notify_1"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": "notify_user[]",
-      "id": "cpm_notify_1",
-      "value": "1"
-    }
-  }), _vm._v(" \n                        Admin\n                    ")])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "submit"
-  }, [_c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "cpm_new_comment",
-      "value": "Add this comment",
-      "id": ""
-    }
-  })])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "notify-users" }, [
+      _c("h2", { staticClass: "cpm-box-title" }, [
+        _vm._v(" \n                Notify users            \n                "),
+        _c(
+          "label",
+          { staticClass: "cpm-small-title", attrs: { for: "select-all" } },
+          [
+            _c("input", {
+              staticClass: "cpm-toggle-checkbox",
+              attrs: { type: "checkbox", name: "select-all", id: "select-all" }
+            }),
+            _vm._v(" \n                    Select all\n                ")
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "cpm-user-list" }, [
+        _c("li", [
+          _c("label", { attrs: { for: "cpm_notify_1" } }, [
+            _c("input", {
+              attrs: {
+                type: "checkbox",
+                name: "notify_user[]",
+                id: "cpm_notify_1",
+                value: "1"
+              }
+            }),
+            _vm._v(" \n                        Admin\n                    ")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "submit" }, [
+      _c("input", {
+        staticClass: "button-primary",
+        attrs: {
+          type: "submit",
+          name: "cpm_new_comment",
+          value: "Add this comment",
+          id: ""
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -2350,177 +2603,296 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "cpm-signle-message"
-    }
-  }, [_c('div', {
-    staticClass: "cpm-single"
-  }, [_c('h3', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v("\n                    " + _vm._s(_vm.discuss.title) + "          \n                    "), _c('span', {
-    staticClass: "cpm-right cpm-edit-link"
-  }, [_c('a', {
-    staticClass: "cpm-msg-edit dashicons dashicons-edit",
-    attrs: {
-      "href": "#",
-      "data-msg_id": "97",
-      "data-project_id": "60"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showHideDiscussForm('toggle', _vm.discuss)
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "cpm-not-private"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-small-title"
-  }, [_vm._v("\n                        By \n                        "), _c('a', {
-    attrs: {
-      "href": "#",
-      "title": _vm.discuss.creator.data.display_name
-    }
-  }, [_vm._v("\n                            " + _vm._s(_vm.discuss.creator.data.display_name) + "\n                        ")]), _vm._v(" on September 11, 2017  at  01:34 pm            \n                    ")])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-entry-detail"
-  }, [_c('div', {
-    domProps: {
-      "innerHTML": _vm._s(_vm.discuss.description)
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "cpm-msg-edit-form"
-  }, [_c('div', {
-    staticClass: "cpm-message-form-wrap"
-  }, [(_vm.discuss.edit_mode) ? _c('new-discuss-form', {
-    attrs: {
-      "discuss": _vm.discuss
-    }
-  }) : _vm._e()], 1)])])]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-area cpm-box-shadow"
-  }, [_c('h3', [_vm._v(" " + _vm._s(_vm.discuss.meta.total_comments) + " Comments")]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-comment-wrap"
-  }, _vm._l((_vm.comments), function(comment) {
-    return _c('li', {
-      staticClass: "cpm-comment clearfix even",
-      attrs: {
-        "id": "cpm-comment-309"
-      }
-    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-container"
-    }, [_c('div', {
-      staticClass: "cpm-comment-meta"
-    }, [_vm._m(1, true), _vm._v("\n                            On            \n                            "), _vm._m(2, true), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-action"
-    }, [_c('span', {
-      staticClass: "cpm-edit-link"
-    }, [_c('a', {
-      staticClass: "cpm-edit-comment-link dashicons dashicons-edit ",
-      attrs: {
-        "href": "#",
-        "data-comment_id": "309",
-        "data-project_id": "60",
-        "data-object_id": "97"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.showHideCommentForm('toggle', comment)
-        }
-      }
-    })]), _vm._v(" "), _vm._m(3, true)])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-content"
-    }, [_c('div', {
-      domProps: {
-        "innerHTML": _vm._s(comment.content)
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-edit-form"
-    }, [(comment.edit_mode) ? _c('comment-form', {
-      attrs: {
-        "comment": comment,
-        "discuss": _vm.discuss
-      }
-    }) : _vm._e()], 1)])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "cpm-comment-form-wrap"
-  }, [_vm._m(4), _vm._v(" "), _c('comment-form', {
-    attrs: {
-      "comment": {},
-      "discuss": _vm.discuss
-    }
-  })], 1)])], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "wrap cpm cpm-front-end" },
+    [
+      _c("pm-header"),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "cpm-signle-message" } }, [
+        _c("div", { staticClass: "cpm-single" }, [
+          _c("h3", { staticClass: "cpm-box-title" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.discuss.title) +
+                "          \n                    "
+            ),
+            _c("span", { staticClass: "cpm-right cpm-edit-link" }, [
+              _c("a", {
+                staticClass: "cpm-msg-edit dashicons dashicons-edit",
+                attrs: {
+                  href: "#",
+                  "data-msg_id": "97",
+                  "data-project_id": "60"
+                },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.showHideDiscussForm("toggle", _vm.discuss)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "cpm-not-private" })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "cpm-small-title" }, [
+              _vm._v("\n                        By \n                        "),
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: "#",
+                    title: _vm.discuss.creator.data.display_name
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(_vm.discuss.creator.data.display_name) +
+                      "\n                        "
+                  )
+                ]
+              ),
+              _vm._v(
+                " on September 11, 2017  at  01:34 pm            \n                    "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "cpm-entry-detail" }, [
+            _c("div", {
+              domProps: { innerHTML: _vm._s(_vm.discuss.description) }
+            })
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "cpm-msg-edit-form" }, [
+            _c(
+              "div",
+              { staticClass: "cpm-message-form-wrap" },
+              [
+                _vm.discuss.edit_mode
+                  ? _c("new-discuss-form", { attrs: { discuss: _vm.discuss } })
+                  : _vm._e()
+              ],
+              1
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cpm-comment-area cpm-box-shadow" }, [
+        _c("h3", [
+          _vm._v(" " + _vm._s(_vm.discuss.meta.total_comments) + " Comments")
+        ]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "cpm-comment-wrap" },
+          _vm._l(_vm.comments, function(comment) {
+            return _c(
+              "li",
+              {
+                staticClass: "cpm-comment clearfix even",
+                attrs: { id: "cpm-comment-309" }
+              },
+              [
+                _vm._m(0, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "cpm-comment-container" }, [
+                  _c("div", { staticClass: "cpm-comment-meta" }, [
+                    _vm._m(1, true),
+                    _vm._v(
+                      "\n                            On            \n                            "
+                    ),
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "cpm-comment-action" }, [
+                      _c("span", { staticClass: "cpm-edit-link" }, [
+                        _c("a", {
+                          staticClass:
+                            "cpm-edit-comment-link dashicons dashicons-edit ",
+                          attrs: {
+                            href: "#",
+                            "data-comment_id": "309",
+                            "data-project_id": "60",
+                            "data-object_id": "97"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.showHideCommentForm("toggle", comment)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(3, true)
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "cpm-comment-content" }, [
+                    _c("div", {
+                      domProps: { innerHTML: _vm._s(comment.content) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "cpm-comment-edit-form" },
+                    [
+                      comment.edit_mode
+                        ? _c("comment-form", {
+                            attrs: { comment: comment, discuss: _vm.discuss }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ])
+              ]
+            )
+          })
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-comment-form-wrap" },
+          [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("comment-form", { attrs: { comment: {}, discuss: _vm.discuss } })
+          ],
+          1
+        )
+      ])
+    ],
+    1
+  )
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-avatar "
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_c('img', {
-    staticClass: "avatar avatar-48 photo",
-    attrs: {
-      "alt": "admin",
-      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-      "height": "48",
-      "width": "48"
-    }
-  })])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "cpm-author"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_vm._v("\n                                    admin\n                                ")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "cpm-date"
-  }, [_c('time', {
-    attrs: {
-      "datetime": "2017-09-11T13:34:37+00:00",
-      "title": "2017-09-11T13:34:37+00:00"
-    }
-  }, [_vm._v("September 11, 2017 1:34 pm")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "cpm-delete-link"
-  }, [_c('a', {
-    staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
-    attrs: {
-      "href": "#",
-      "data-project_id": "60",
-      "data-id": "309",
-      "data-confirm": "Are you sure to delete this comment?"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-avatar"
-  }, [_c('a', {
-    attrs: {
-      "href": "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
-      "title": "admin"
-    }
-  }, [_c('img', {
-    staticClass: "avatar avatar-48 photo",
-    attrs: {
-      "alt": "admin",
-      "src": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
-      "srcset": "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
-      "height": "48",
-      "width": "48"
-    }
-  })])])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cpm-avatar " }, [
+      _c(
+        "a",
+        {
+          attrs: {
+            href:
+              "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+            title: "admin"
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "avatar avatar-48 photo",
+            attrs: {
+              alt: "admin",
+              src:
+                "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+              srcset:
+                "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+              height: "48",
+              width: "48"
+            }
+          })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "cpm-author" }, [
+      _c(
+        "a",
+        {
+          attrs: {
+            href:
+              "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+            title: "admin"
+          }
+        },
+        [
+          _vm._v(
+            "\n                                    admin\n                                "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "cpm-date" }, [
+      _c(
+        "time",
+        {
+          attrs: {
+            datetime: "2017-09-11T13:34:37+00:00",
+            title: "2017-09-11T13:34:37+00:00"
+          }
+        },
+        [_vm._v("September 11, 2017 1:34 pm")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "cpm-delete-link" }, [
+      _c("a", {
+        staticClass: "cpm-delete-comment-link dashicons dashicons-trash",
+        attrs: {
+          href: "#",
+          "data-project_id": "60",
+          "data-id": "309",
+          "data-confirm": "Are you sure to delete this comment?"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cpm-avatar" }, [
+      _c(
+        "a",
+        {
+          attrs: {
+            href:
+              "http://localhost/test/wp-admin/admin.php?page=cpm_task&user_id=1",
+            title: "admin"
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "avatar avatar-48 photo",
+            attrs: {
+              alt: "admin",
+              src:
+                "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm",
+              srcset:
+                "//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&r=g&d=mm 2x",
+              height: "48",
+              width: "48"
+            }
+          })
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

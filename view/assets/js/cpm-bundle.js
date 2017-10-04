@@ -12432,39 +12432,44 @@ var CPM_Task = {
         this.sortable();
     },
 
-    sortable: function () {
+    sortable: function (el, binding, vnode) {
         var $ = jQuery;
+        var component = vnode.context;
 
-        $('.cpm-todos').sortable({
+        $(el).sortable({
             cancel: '.nonsortable,form',
+            placeholder: "ui-state-highlight",
             update: function (event, ui) {
                 var newOrder = {},
                     oldOrder = [];
-
+                console.log(component.list.id);
                 // finding new order sequence and old orders
                 $(this).find('li.cpm-todo').each(function (e) {
-                    newOrder[$(this).attr('data-id')] = $(this).index() + 1;
-                    oldOrder.push(parseInt($(this).attr('data-order')));
+                    var order = $(this).index(),
+                        task_id = $(this).data('id');
+
+                    var task_index = component.getIndex(component.list.incomplete_tasks.data, task_id, 'id');
+                    if (task_index === false) {
+                        var task_index = component.getIndex(component.list.complete_tasks.data, task_id, 'id');
+                    }
+
+                    component.list.incomplete_tasks.data[task_index].order = order;
+
+                    var task = component.list.incomplete_tasks.data[task_index];
+                    component.task = task;
+                    component.newTask();
+
+                    console.log(task);
                 });
 
                 // setting new order
-                for (var prop in newOrder) {
-                    if (!newOrder.hasOwnProperty(prop)) continue;
+                // for(var prop in newOrder) {
+                //     if(!newOrder.hasOwnProperty(prop)) continue;
 
-                    newOrder[prop] = oldOrder[newOrder] ? oldOrder[newOrder] : newOrder[prop];
-                }
+                //     newOrder[prop] = oldOrder[newOrder] ? oldOrder[newOrder] : newOrder[prop];
+                //     component.createOrUpdateTask({order:newOrder[prop]}, prop)
 
-                // prepare data for server
-                var data = {
-                    action: 'cpm_update_task_order',
-                    orders: newOrder,
-                    _wpnonce: CPM_Vars.nonce
-                };
-
-                // send data to the server
-                $.post(CPM_Vars.ajaxurl, data, function (response) {
-                    if (response.success) {}
-                });
+                // }
             }
         });
     },
@@ -12547,9 +12552,10 @@ var CPM_Task = {
 
 // Register a global custom directive called v-cpm-sortable
 __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.directive('cpm-sortable', {
-    inserted: function () {
-        CPM_Task.sortable();
+    bind: function (el, binding, vnode) {
+        CPM_Task.sortable(el, binding, vnode);
     }
+
 });
 
 // Register a global custom directive called v-cpm-sortable
@@ -13156,6 +13162,7 @@ window.CPM_Component_jQuery = {
                 type: type,
                 data: form_data,
                 success(res) {
+                    console.log(res.data);
                     self.$store.commit('afterTaskDoneUndone', {
                         status: is_checked,
                         task: res.data,
@@ -13178,27 +13185,20 @@ window.CPM_Component_jQuery = {
             return Object.keys(obj).length === 0;
         },
 
-        getTasks: function (list_id, page_number, action, callback) {
-            var form_data = {
-                _wpnonce: PM_Vars.nonce,
-                list_id: list_id,
-                page_number: typeof page_number == 'undefined' ? 0 : page_number,
-                project_id: PM_Vars.project_id
-            },
-                self = this,
-                action = action; //this.$store.state.is_single_list ? 'cpm_get_tasks' : 'cpm_get_incompleted_tasks'
+        getTasks: function (list_id, condition, callback) {
+            self = this;
+            var condition = condition || 'incomplete_tasks';
 
-            wp.ajax.send(action, {
-                data: form_data,
-                success: function (res) {
-                    var list_index = self.getIndex(self.$store.state.lists, self.list.ID, 'ID');
-                    self.$store.commit('insert_tasks', { tasks: res, list_index: list_index });
-
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/task-lists/' + list_id + '?with=' + condition,
+                success(res) {
+                    self.$store.commit('setTasks', res.data);
                     if (typeof callback != 'undefined') {
                         callback(res);
                     }
                 }
-            });
+            };
+            this.httpRequest(request);
         },
 
         /**
@@ -13408,7 +13408,7 @@ window.CPM_Component_jQuery = {
                         });
                     }
 
-                    self.$store.commit('setLists', [res.data]);
+                    self.$store.commit('setList', res.data);
 
                     if (callback) {
                         callback(res);
@@ -13453,6 +13453,85 @@ window.CPM_Component_jQuery = {
             };
 
             this.httpRequest(request_data);
+        },
+
+        /**
+         * Insert and edit task
+         * 
+         * @return void
+         */
+        newTask() {
+            // Exit from this function, If submit button disabled 
+            if (this.submit_disabled) {
+                return;
+            }
+
+            // Disable submit button for preventing multiple click
+            this.submit_disabled = true;
+
+            var self = this,
+                is_update = typeof this.task.id == 'undefined' ? false : true,
+                form_data = {
+                board_id: this.list.id,
+                assignees: this.assigned_to,
+                title: this.task.title,
+                description: this.task.description,
+                start_at: this.task.start_at.date,
+                due_date: this.task.due_date.date,
+                task_privacy: this.task.task_privacy,
+                list_id: this.list.id,
+                order: this.task.order
+            };
+
+            // Showing loading option 
+            this.show_spinner = true;
+
+            if (is_update) {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks/' + this.task.id;
+                var type = 'PUT';
+            } else {
+                var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/tasks';
+                var type = 'POST';
+            }
+
+            var request_data = {
+                url: url,
+                type: type,
+                data: form_data,
+                success(res) {
+                    if (is_update) {
+                        self.$store.commit('afterUpdateTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    } else {
+                        self.$store.commit('afterNewTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    }
+
+                    self.show_spinner = false;
+
+                    // Display a success toast, with a title
+                    toastr.success(res.data.success);
+
+                    self.submit_disabled = false;
+                    self.showHideTaskFrom(false, self.list, self.task);
+                },
+
+                error(res) {
+                    self.show_spinner = false;
+
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                    self.submit_disabled = false;
+                }
+            };
+
+            self.httpRequest(request_data);
         }
     }
 };
@@ -13992,7 +14071,21 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         },
 
         setLists(state, lists) {
-            state.lists = lists;
+
+            if (state.lists.length > 0) {
+                lists.forEach(function (list) {
+
+                    var list_index = state.getIndex(state.lists, list.id, 'id');
+                    if (list_index === false) {
+                        state.lists.push(list);
+                    }
+                });
+            } else {
+                state.lists = lists;
+            }
+        },
+        setList(state, list) {
+            state.list = list;
         },
         afterNewList(state, list) {
             var per_page = state.lists_meta.per_page,
@@ -14048,6 +14141,13 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
         },
         setSingleTask(state, data) {
             state.task = data;
+        },
+        setTasks(state, data) {
+            var list_index = state.getIndex(state.lists, data.id, 'id');
+            data.incomplete_tasks.data.forEach(function (task) {
+                state.lists[list_index].incomplete_tasks.data.push(task);
+            });
+            state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
         }
     }
 }));
@@ -17196,8 +17296,11 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am settings")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am settings")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17215,16 +17318,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "task-lists"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "single-list"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("router-view", { attrs: { name: "task-lists" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "single-list" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17242,12 +17348,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "categories"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("router-view", { attrs: { name: "categories" } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17265,16 +17370,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "discussions"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "individual-discussion"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("router-view", { attrs: { name: "discussions" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "individual-discussion" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17292,12 +17400,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "activities"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("router-view", { attrs: { name: "activities" } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17315,8 +17422,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am my tasks")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am my tasks")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17334,8 +17444,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am reports")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am reports")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17353,38 +17466,46 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "wedevs-pm-wrap cpm wrap"
-  }, [_c('pm-projects'), _vm._v(" "), _c('pm-overview'), _vm._v(" "), _c('pm-discussions'), _vm._v(" "), _c('pm-activities'), _vm._v(" "), _c('pm-milestones'), _vm._v(" "), _c('pm-categories'), _vm._v(" "), _c('pm-task-lists'), _vm._v(" "), _c('pm-files'), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "add-ons"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "my-tasks"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "calendar"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "reports"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "progress"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "settings"
-    }
-  }), _vm._v(" "), _c('do-action', {
-    attrs: {
-      "hook": "index-component"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "wedevs-pm-wrap cpm wrap" },
+    [
+      _c("pm-projects"),
+      _vm._v(" "),
+      _c("pm-overview"),
+      _vm._v(" "),
+      _c("pm-discussions"),
+      _vm._v(" "),
+      _c("pm-activities"),
+      _vm._v(" "),
+      _c("pm-milestones"),
+      _vm._v(" "),
+      _c("pm-categories"),
+      _vm._v(" "),
+      _c("pm-task-lists"),
+      _vm._v(" "),
+      _c("pm-files"),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "add-ons" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "my-tasks" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "calendar" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "reports" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "progress" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "settings" } }),
+      _vm._v(" "),
+      _c("do-action", { attrs: { hook: "index-component" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17402,12 +17523,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "pm-overview"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("router-view", { attrs: { name: "pm-overview" } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17425,8 +17545,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am categories")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am categories")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17444,8 +17567,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am calendar")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am calendar")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17463,8 +17589,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am progress")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am progress")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17482,8 +17611,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("Hi i am add ons")])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("p", [_vm._v("Hi i am add ons")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17501,20 +17633,21 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "project-lists"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "completed-projects"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "all-projects"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("router-view", { attrs: { name: "project-lists" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "completed-projects" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "all-projects" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17532,16 +17665,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "milestones"
-    }
-  }), _vm._v(" "), _c('router-view', {
-    attrs: {
-      "name": "individual-milestone"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("router-view", { attrs: { name: "milestones" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "individual-milestone" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17559,12 +17695,11 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-view', {
-    attrs: {
-      "name": "pm-files"
-    }
-  })], 1)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("router-view", { attrs: { name: "pm-files" } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

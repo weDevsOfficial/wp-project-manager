@@ -136,27 +136,32 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.content.html),
-      expression: "content.html"
-    }],
-    attrs: {
-      "id": _vm.editor_id
-    },
-    domProps: {
-      "value": (_vm.content.html)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.content.html = $event.target.value
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("textarea", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.content.html,
+          expression: "content.html"
+        }
+      ],
+      attrs: { id: _vm.editor_id },
+      domProps: { value: _vm.content.html },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.content.html = $event.target.value
+        }
       }
-    }
-  })])
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -814,8 +819,6 @@ if (false) {
 					//self.$store.commit('setSingleTask', res.data);
 					self.task = res.data;
 					self.loading = false;
-
-					console.log(res.data);
 				}
 			};
 
@@ -1452,389 +1455,745 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.loading) ? _c('div', {
-    staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
-  }, [_c('div', {
-    staticClass: "modal-wrapper"
-  }, [_c('div', {
-    staticClass: "modal-container",
-    staticStyle: {
-      "width": "700px",
-      "height": "20000px"
-    }
-  }, [_c('span', {
-    staticClass: "close-vue-modal"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.closePopup()
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-no"
-  })])]), _vm._v(" "), _vm._m(0)])])]) : _vm._e(), _vm._v(" "), (!_vm.loading) ? _c('div', {
-    staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
-  }, [_c('div', {
-    staticClass: "modal-wrapper"
-  }, [_c('div', {
-    staticClass: "modal-container",
-    staticStyle: {
-      "width": "700px"
-    }
-  }, [_c('span', {
-    staticClass: "close-vue-modal"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.closePopup()
-      }
-    }
-  }, [_c('span', {
-    staticClass: "dashicons dashicons-no"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-body cpm-todolist"
-  }, [_c('div', {
-    staticClass: "cpm-col-12 cpm-todo"
-  }, [_c('div', {
-    staticClass: "cpm-modal-conetnt"
-  }, [_c('div', {
-    staticClass: "cmp-task-header"
-  }, [_c('h3', {
-    staticClass: "cpm-task-title"
-  }, [_c('span', {
-    staticClass: "cpm-mark-done-checkbox"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.status),
-      expression: "task.status"
-    }],
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.task.status) ? _vm._i(_vm.task.status, null) > -1 : (_vm.task.status)
-    },
-    on: {
-      "click": function($event) {
-        _vm.singleTaskDoneUndone()
-      },
-      "__c": function($event) {
-        var $$a = _vm.task.status,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.task.status = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.task.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.task.status = $$c
-        }
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    class: _vm.singleTaskTitle(_vm.task) + ' cpm-task-title-wrap'
-  }, [_c('div', {
-    staticClass: "cpm-task-title-text"
-  }, [(_vm.is_task_title_edit_mode) ? _c('span', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.title),
-      expression: "task.title"
-    }],
-    staticClass: "cpm-task-title-activity cpm-task-title-field",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm.task.title,
-      "value": (_vm.task.title)
-    },
-    on: {
-      "blur": function($event) {
-        _vm.updateTaskElement(_vm.task)
-      },
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.updateTaskElement(_vm.task)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.title = $event.target.value
-      }
-    }
-  })]) : _vm._e(), _vm._v(" "), (!_vm.is_task_title_edit_mode) ? _c('span', {
-    class: _vm.lineThrough(_vm.task) + ' cpm-task-title-activity cpm-task-title-span',
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskTitleEditMode()
-      }
-    }
-  }, [_vm._v("\n                                                \t" + _vm._s(_vm.task.title) + "\n                                                ")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-task-meta"
-  }, [_c('span', {
-    staticClass: "cpm-assigned-user-wrap"
-  }, [_vm._l((_vm.task.assignees.data), function(user) {
-    return (_vm.task.assignees.data.length) ? _c('span', {
-      staticClass: "cpm-assigned-user",
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.isEnableMultiSelect()
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "#",
-        "title": user.display_name
-      }
-    }, [_c('img', {
-      staticClass: "avatar avatar-48 photo",
-      attrs: {
-        "alt": user.display_name,
-        "src": user.avatar_url,
-        "height": "48",
-        "width": "48"
-      }
-    })])]) : _vm._e()
-  }), _vm._v(" "), (!_vm.task.assignees.data.length) ? _c('span', {
-    staticClass: "cpm-assigned-user",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isEnableMultiSelect()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-user",
-    staticStyle: {
-      "font-size": "20px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.is_enable_multi_select) ? _c('div', {
-    staticClass: "cpm-multiselect cpm-multiselect-single-task",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.afterSelect($event)
-      }
-    }
-  }, [_c('multiselect', {
-    attrs: {
-      "options": _vm.project_users,
-      "multiple": true,
-      "close-on-select": false,
-      "clear-on-select": true,
-      "hide-selected": false,
-      "show-labels": true,
-      "placeholder": "Select User",
-      "select-label": "",
-      "selected-label": "selected",
-      "deselect-label": "",
-      "taggable": true,
-      "label": "display_name",
-      "track-by": "id",
-      "allow-empty": true
-    },
-    scopedSlots: _vm._u([{
-      key: "option",
-      fn: function(props) {
-        return [_c('div', [_c('img', {
-          staticClass: "option__image",
-          attrs: {
-            "height": "16",
-            "width": "16",
-            "src": props.option.avatar_url,
-            "alt": "No Man’s Sky"
-          }
-        }), _vm._v(" "), _c('div', {
-          staticClass: "option__desc"
-        }, [_c('span', {
-          staticClass: "option__title"
-        }, [_vm._v(_vm._s(props.option.display_name))])])])]
-      }
-    }]),
-    model: {
-      value: (_vm.task_assign),
-      callback: function($$v) {
-        _vm.task_assign = $$v
-      },
-      expression: "task_assign"
-    }
-  })], 1) : _vm._e()], 2), _vm._v(" "), ((_vm.task.start_at.date || _vm.task.due_date.date)) ? _c('span', {
-    class: _vm.taskDateWrap(_vm.task.due_date.date) + ' cpm-task-date-wrap cpm-date-window'
-  }, [_c('span', {
-    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDateEditMode()
-      }
-    }
-  }, [(_vm.task_start_field) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.start_at.date)) + "\n\t                                                ")]) : _vm._e(), _vm._v(" "), (_vm.isBetweenDate(_vm.task_start_field, _vm.task.start_at.date, _vm.task.due_date.date)) ? _c('span', [_vm._v("–")]) : _vm._e(), _vm._v(" "), (_vm.task.due_date) ? _c('span', [_vm._v("\n\t                                                    " + _vm._s(_vm.dateFormat(_vm.task.due_date.date)) + "\n\t                                                ")]) : _vm._e()]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
-    staticClass: "cpm-date-update-wrap"
-  }, [(_vm.task_start_field) ? _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-from cpm-inline-date-picker-from"
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-to cpm-inline-date-picker-to"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((!_vm.task.start_at.date && !_vm.task.due_date.date)) ? _c('span', {
-    staticClass: "cpm-task-date-wrap cpm-date-window"
-  }, [_c('span', {
-    class: _vm.task.status ? _vm.completedTaskWrap(_vm.task.start_at.date, _vm.task.due_date.date) : _vm.taskDateWrap(_vm.task.start_at.date, _vm.task.due_date.date),
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDateEditMode()
-      }
-    }
-  }, [_vm._m(1)]), _vm._v(" "), (_vm.is_task_date_edit_mode) ? _c('div', {
-    staticClass: "cpm-date-update-wrap"
-  }, [(_vm.task_start_field) ? _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-from cpm-inline-date-picker-from"
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "cpm-datepicker",
-      rawName: "v-cpm-datepicker"
-    }],
-    staticClass: "cpm-date-picker-to cpm-inline-date-picker-to"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('span', {
-    staticClass: "cpm-task-comment-count"
-  }, [_vm._v(_vm._s(_vm.task.comments.data.length) + " Comments")])])]), _vm._v(" "), _c('div', {
-    staticClass: "task-details"
-  }, [(!_vm.is_task_details_edit_mode) ? _c('p', {
-    staticClass: "cpm-des-area cpm-desc-content",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.isTaskDetailsEditMode()
-      }
-    }
-  }, [(_vm.task.description !== '') ? _c('span', {
-    domProps: {
-      "innerHTML": _vm._s(_vm.task.description)
-    }
-  }) : _vm._e(), _vm._v(" "), (!_vm.task.description) ? _c('span', {
-    staticStyle: {
-      "margin-left": "-3px"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil",
-    staticStyle: {
-      "font-size": "16px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("\n                                        \t Update Description\n                                        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.is_task_details_edit_mode) ? _c('textarea', {
-    directives: [{
-      name: "prevent-line-break",
-      rawName: "v-prevent-line-break"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.description),
-      expression: "task.description"
-    }],
-    staticClass: "cpm-des-area cpm-desc-field",
-    domProps: {
-      "value": (_vm.task.description)
-    },
-    on: {
-      "blur": function($event) {
-        _vm.updateDescription(_vm.task, $event)
-      },
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.updateDescription(_vm.task, $event)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.description = $event.target.value
-      }
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.is_task_details_edit_mode) ? _c('div', {
-    staticClass: "cpm-help-text"
-  }, [_c('span', [_vm._v("Shift+Enter for line break")])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "clearfix cpm-clear"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-todo-wrap clearfix"
-  }, [_c('div', {
-    staticClass: "cpm-task-comment"
-  }, [_c('div', {
-    staticClass: "comment-content"
-  }, [_c('task-comments', {
-    attrs: {
-      "comments": _vm.task.comments.data
-    }
-  })], 1)])])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })])])]) : _vm._e()])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.loading
+      ? _c(
+          "div",
+          {
+            staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
+          },
+          [
+            _c("div", { staticClass: "modal-wrapper" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-container",
+                  staticStyle: { width: "700px", height: "20000px" }
+                },
+                [
+                  _c("span", { staticClass: "close-vue-modal" }, [
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.closePopup()
+                          }
+                        }
+                      },
+                      [_c("span", { staticClass: "dashicons dashicons-no" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]
+              )
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.loading
+      ? _c(
+          "div",
+          {
+            staticClass: "modal-mask half-modal cpm-task-modal modal-transition"
+          },
+          [
+            _c("div", { staticClass: "modal-wrapper" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-container",
+                  staticStyle: { width: "700px" }
+                },
+                [
+                  _c("span", { staticClass: "close-vue-modal" }, [
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.closePopup()
+                          }
+                        }
+                      },
+                      [_c("span", { staticClass: "dashicons dashicons-no" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body cpm-todolist" }, [
+                    _c("div", { staticClass: "cpm-col-12 cpm-todo" }, [
+                      _c("div", { staticClass: "cpm-modal-conetnt" }, [
+                        _c("div", { staticClass: "cmp-task-header" }, [
+                          _c("h3", { staticClass: "cpm-task-title" }, [
+                            _c(
+                              "span",
+                              { staticClass: "cpm-mark-done-checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.task.status,
+                                      expression: "task.status"
+                                    }
+                                  ],
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    checked: Array.isArray(_vm.task.status)
+                                      ? _vm._i(_vm.task.status, null) > -1
+                                      : _vm.task.status
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.singleTaskDoneUndone()
+                                    },
+                                    __c: function($event) {
+                                      var $$a = _vm.task.status,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.task.status = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.task.status = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.task.status = $$c
+                                      }
+                                    }
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                class:
+                                  _vm.singleTaskTitle(_vm.task) +
+                                  " cpm-task-title-wrap"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "cpm-task-title-text" },
+                                  [
+                                    _vm.is_task_title_edit_mode
+                                      ? _c("span", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.task.title,
+                                                expression: "task.title"
+                                              }
+                                            ],
+                                            staticClass:
+                                              "cpm-task-title-activity cpm-task-title-field",
+                                            attrs: { type: "text" },
+                                            domProps: {
+                                              value: _vm.task.title,
+                                              value: _vm.task.title
+                                            },
+                                            on: {
+                                              blur: function($event) {
+                                                _vm.updateTaskElement(_vm.task)
+                                              },
+                                              keyup: function($event) {
+                                                if (
+                                                  !("button" in $event) &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "enter",
+                                                    13
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                _vm.updateTaskElement(_vm.task)
+                                              },
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.task.title =
+                                                  $event.target.value
+                                              }
+                                            }
+                                          })
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    !_vm.is_task_title_edit_mode
+                                      ? _c(
+                                          "span",
+                                          {
+                                            class:
+                                              _vm.lineThrough(_vm.task) +
+                                              " cpm-task-title-activity cpm-task-title-span",
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                _vm.isTaskTitleEditMode()
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                                \t" +
+                                                _vm._s(_vm.task.title) +
+                                                "\n                                                "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "clearfix cpm-clear" })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "clearfix cpm-clear" })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "cpm-task-meta" }, [
+                            _c(
+                              "span",
+                              { staticClass: "cpm-assigned-user-wrap" },
+                              [
+                                _vm._l(_vm.task.assignees.data, function(user) {
+                                  return _vm.task.assignees.data.length
+                                    ? _c(
+                                        "span",
+                                        {
+                                          staticClass: "cpm-assigned-user",
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              _vm.isEnableMultiSelect()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              attrs: {
+                                                href: "#",
+                                                title: user.display_name
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticClass:
+                                                  "avatar avatar-48 photo",
+                                                attrs: {
+                                                  alt: user.display_name,
+                                                  src: user.avatar_url,
+                                                  height: "48",
+                                                  width: "48"
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
+                                }),
+                                _vm._v(" "),
+                                !_vm.task.assignees.data.length
+                                  ? _c(
+                                      "span",
+                                      {
+                                        staticClass: "cpm-assigned-user",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.isEnableMultiSelect()
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-user",
+                                          staticStyle: { "font-size": "20px" },
+                                          attrs: { "aria-hidden": "true" }
+                                        })
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.is_enable_multi_select
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "cpm-multiselect cpm-multiselect-single-task",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.afterSelect($event)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("multiselect", {
+                                          attrs: {
+                                            options: _vm.project_users,
+                                            multiple: true,
+                                            "close-on-select": false,
+                                            "clear-on-select": true,
+                                            "hide-selected": false,
+                                            "show-labels": true,
+                                            placeholder: "Select User",
+                                            "select-label": "",
+                                            "selected-label": "selected",
+                                            "deselect-label": "",
+                                            taggable: true,
+                                            label: "display_name",
+                                            "track-by": "id",
+                                            "allow-empty": true
+                                          },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "option",
+                                              fn: function(props) {
+                                                return [
+                                                  _c("div", [
+                                                    _c("img", {
+                                                      staticClass:
+                                                        "option__image",
+                                                      attrs: {
+                                                        height: "16",
+                                                        width: "16",
+                                                        src:
+                                                          props.option
+                                                            .avatar_url,
+                                                        alt: "No Man’s Sky"
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "option__desc"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "option__title"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                props.option
+                                                                  .display_name
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ])
+                                                ]
+                                              }
+                                            }
+                                          ]),
+                                          model: {
+                                            value: _vm.task_assign,
+                                            callback: function($$v) {
+                                              _vm.task_assign = $$v
+                                            },
+                                            expression: "task_assign"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _vm.task.start_at.date || _vm.task.due_date.date
+                              ? _c(
+                                  "span",
+                                  {
+                                    class:
+                                      _vm.taskDateWrap(_vm.task.due_date.date) +
+                                      " cpm-task-date-wrap cpm-date-window"
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      {
+                                        class: _vm.task.status
+                                          ? _vm.completedTaskWrap(
+                                              _vm.task.start_at.date,
+                                              _vm.task.due_date.date
+                                            )
+                                          : _vm.taskDateWrap(
+                                              _vm.task.start_at.date,
+                                              _vm.task.due_date.date
+                                            ),
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.isTaskDateEditMode()
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm.task_start_field
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n\t                                                    " +
+                                                  _vm._s(
+                                                    _vm.dateFormat(
+                                                      _vm.task.start_at.date
+                                                    )
+                                                  ) +
+                                                  "\n\t                                                "
+                                              )
+                                            ])
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.isBetweenDate(
+                                          _vm.task_start_field,
+                                          _vm.task.start_at.date,
+                                          _vm.task.due_date.date
+                                        )
+                                          ? _c("span", [_vm._v("–")])
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.task.due_date
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n\t                                                    " +
+                                                  _vm._s(
+                                                    _vm.dateFormat(
+                                                      _vm.task.due_date.date
+                                                    )
+                                                  ) +
+                                                  "\n\t                                                "
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.is_task_date_edit_mode
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "cpm-date-update-wrap"
+                                          },
+                                          [
+                                            _vm.task_start_field
+                                              ? _c("div", {
+                                                  directives: [
+                                                    {
+                                                      name: "cpm-datepicker",
+                                                      rawName:
+                                                        "v-cpm-datepicker"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "cpm-date-picker-from cpm-inline-date-picker-from"
+                                                })
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              directives: [
+                                                {
+                                                  name: "cpm-datepicker",
+                                                  rawName: "v-cpm-datepicker"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "cpm-date-picker-to cpm-inline-date-picker-to"
+                                            }),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              staticClass: "clearfix cpm-clear"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.task.start_at.date && !_vm.task.due_date.date
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "cpm-task-date-wrap cpm-date-window"
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      {
+                                        class: _vm.task.status
+                                          ? _vm.completedTaskWrap(
+                                              _vm.task.start_at.date,
+                                              _vm.task.due_date.date
+                                            )
+                                          : _vm.taskDateWrap(
+                                              _vm.task.start_at.date,
+                                              _vm.task.due_date.date
+                                            ),
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.isTaskDateEditMode()
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(1)]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.is_task_date_edit_mode
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "cpm-date-update-wrap"
+                                          },
+                                          [
+                                            _vm.task_start_field
+                                              ? _c("div", {
+                                                  directives: [
+                                                    {
+                                                      name: "cpm-datepicker",
+                                                      rawName:
+                                                        "v-cpm-datepicker"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "cpm-date-picker-from cpm-inline-date-picker-from"
+                                                })
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              directives: [
+                                                {
+                                                  name: "cpm-datepicker",
+                                                  rawName: "v-cpm-datepicker"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "cpm-date-picker-to cpm-inline-date-picker-to"
+                                            }),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              staticClass: "clearfix cpm-clear"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "cpm-task-comment-count" },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.task.comments.data.length) +
+                                    " Comments"
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "task-details" }, [
+                          !_vm.is_task_details_edit_mode
+                            ? _c(
+                                "p",
+                                {
+                                  staticClass: "cpm-des-area cpm-desc-content",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.isTaskDetailsEditMode()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm.task.description !== ""
+                                    ? _c("span", {
+                                        domProps: {
+                                          innerHTML: _vm._s(
+                                            _vm.task.description
+                                          )
+                                        }
+                                      })
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.task.description
+                                    ? _c(
+                                        "span",
+                                        {
+                                          staticStyle: { "margin-left": "-3px" }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-pencil",
+                                            staticStyle: {
+                                              "font-size": "16px"
+                                            },
+                                            attrs: { "aria-hidden": "true" }
+                                          }),
+                                          _vm._v(
+                                            "\n                                        \t Update Description\n                                        "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.is_task_details_edit_mode
+                            ? _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "prevent-line-break",
+                                    rawName: "v-prevent-line-break"
+                                  },
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.task.description,
+                                    expression: "task.description"
+                                  }
+                                ],
+                                staticClass: "cpm-des-area cpm-desc-field",
+                                domProps: { value: _vm.task.description },
+                                on: {
+                                  blur: function($event) {
+                                    _vm.updateDescription(_vm.task, $event)
+                                  },
+                                  keyup: function($event) {
+                                    if (
+                                      !("button" in $event) &&
+                                      _vm._k($event.keyCode, "enter", 13)
+                                    ) {
+                                      return null
+                                    }
+                                    _vm.updateDescription(_vm.task, $event)
+                                  },
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.task.description = $event.target.value
+                                  }
+                                }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.is_task_details_edit_mode
+                            ? _c("div", { staticClass: "cpm-help-text" }, [
+                                _c("span", [
+                                  _vm._v("Shift+Enter for line break")
+                                ])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "clearfix cpm-clear" })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "cpm-todo-wrap clearfix" }, [
+                          _c("div", { staticClass: "cpm-task-comment" }, [
+                            _c(
+                              "div",
+                              { staticClass: "comment-content" },
+                              [
+                                _c("task-comments", {
+                                  attrs: { comments: _vm.task.comments.data }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "clearfix" })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clearfix" })
+                ]
+              )
+            ])
+          ]
+        )
+      : _vm._e()
+  ])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-body cpm-todolist"
-  }, [_c('div', {
-    staticClass: "cpm-data-load-before"
-  }, [_c('div', {
-    staticClass: "loadmoreanimation"
-  }, [_c('div', {
-    staticClass: "load-spinner"
-  }, [_c('div', {
-    staticClass: "rect1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "rect5"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "fa fa-calendar",
-    staticStyle: {
-      "font-size": "20px"
-    },
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])
-}]
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body cpm-todolist" }, [
+      _c("div", { staticClass: "cpm-data-load-before" }, [
+        _c("div", { staticClass: "loadmoreanimation" }, [
+          _c("div", { staticClass: "load-spinner" }, [
+            _c("div", { staticClass: "rect1" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "rect2" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "rect3" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "rect4" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "rect5" })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", {
+        staticClass: "fa fa-calendar",
+        staticStyle: { "font-size": "20px" },
+        attrs: { "aria-hidden": "true" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1851,143 +2210,209 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "cpm-comment-form-vue",
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.updateComment()
-      }
-    }
-  }, [_c('div', {
-    staticClass: "item message cpm-sm-col-12 "
-  }, [_c('text-editor', {
-    attrs: {
-      "editor_id": _vm.editor_id,
-      "content": _vm.content
-    }
-  })], 1), _vm._v(" "), (_vm.hasCoWorker) ? _c('div', {
-    staticClass: "notify-users"
-  }, [_c('h2', {
-    staticClass: "cpm-box-title"
-  }, [_vm._v(" \n                    Notify users            \n                    "), _c('label', {
-    staticClass: "cpm-small-title",
-    attrs: {
-      "for": "select-all"
-    }
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.notify_all_co_worker),
-      expression: "notify_all_co_worker"
-    }],
-    staticClass: "cpm-toggle-checkbox",
-    attrs: {
-      "type": "checkbox",
-      "id": "select-all"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.notify_all_co_worker) ? _vm._i(_vm.notify_all_co_worker, null) > -1 : (_vm.notify_all_co_worker)
-    },
-    on: {
-      "change": function($event) {
-        $event.preventDefault();
-        _vm.notify_all_coo_worker()
-      },
-      "__c": function($event) {
-        var $$a = _vm.notify_all_co_worker,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.notify_all_co_worker = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.notify_all_co_worker = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.notify_all_co_worker = $$c
-        }
-      }
-    }
-  }), _vm._v(" \n                        Select all\n                    ")])]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-user-list"
-  }, [_vm._l((_vm.co_workers), function(co_worker) {
-    return _c('li', [_c('label', {
-      attrs: {
-        "for": 'cpm_notify_' + co_worker.id
-      }
-    }, [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.notify_co_workers),
-        expression: "notify_co_workers"
-      }],
-      attrs: {
-        "type": "checkbox",
-        "name": "notify_co_workers[]",
-        "id": 'cpm_notify_' + co_worker.id
-      },
-      domProps: {
-        "value": co_worker.id,
-        "checked": Array.isArray(_vm.notify_co_workers) ? _vm._i(_vm.notify_co_workers, co_worker.id) > -1 : (_vm.notify_co_workers)
-      },
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass: "cpm-comment-form-vue",
       on: {
-        "change": function($event) {
-          $event.preventDefault();
-          _vm.notify_coo_workers(co_worker.id)
-        },
-        "__c": function($event) {
-          var $$a = _vm.notify_co_workers,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = co_worker.id,
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (_vm.notify_co_workers = $$a.concat($$v))
-            } else {
-              $$i > -1 && (_vm.notify_co_workers = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            _vm.notify_co_workers = $$c
-          }
+        submit: function($event) {
+          $event.preventDefault()
+          _vm.updateComment()
         }
       }
-    }), _vm._v(" \n                            " + _vm._s(co_worker.name) + "\n                        ")])])
-  }), _vm._v(" "), _c('div', {
-    staticClass: "clearfix"
-  })], 2)]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "submit"
-  }, [(!_vm.comment.edit_mode) ? _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "disabled": _vm.submit_disabled,
-      "type": "submit",
-      "value": "Add New Comment",
-      "id": ""
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.comment.edit_mode) ? _c('input', {
-    staticClass: "button-primary",
-    attrs: {
-      "disabled": _vm.submit_disabled,
-      "type": "submit",
-      "value": "Update Comment",
-      "id": ""
-    }
-  }) : _vm._e(), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show_spinner),
-      expression: "show_spinner"
-    }],
-    staticClass: "cpm-spinner"
-  })])])
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "item message cpm-sm-col-12 " },
+        [
+          _c("text-editor", {
+            attrs: { editor_id: _vm.editor_id, content: _vm.content }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.hasCoWorker
+        ? _c("div", { staticClass: "notify-users" }, [
+            _c("h2", { staticClass: "cpm-box-title" }, [
+              _vm._v(
+                " \n                    Notify users            \n                    "
+              ),
+              _c(
+                "label",
+                {
+                  staticClass: "cpm-small-title",
+                  attrs: { for: "select-all" }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.notify_all_co_worker,
+                        expression: "notify_all_co_worker"
+                      }
+                    ],
+                    staticClass: "cpm-toggle-checkbox",
+                    attrs: { type: "checkbox", id: "select-all" },
+                    domProps: {
+                      checked: Array.isArray(_vm.notify_all_co_worker)
+                        ? _vm._i(_vm.notify_all_co_worker, null) > -1
+                        : _vm.notify_all_co_worker
+                    },
+                    on: {
+                      change: function($event) {
+                        $event.preventDefault()
+                        _vm.notify_all_coo_worker()
+                      },
+                      __c: function($event) {
+                        var $$a = _vm.notify_all_co_worker,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              (_vm.notify_all_co_worker = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.notify_all_co_worker = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.notify_all_co_worker = $$c
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(
+                    " \n                        Select all\n                    "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "cpm-user-list" },
+              [
+                _vm._l(_vm.co_workers, function(co_worker) {
+                  return _c("li", [
+                    _c(
+                      "label",
+                      { attrs: { for: "cpm_notify_" + co_worker.id } },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.notify_co_workers,
+                              expression: "notify_co_workers"
+                            }
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            name: "notify_co_workers[]",
+                            id: "cpm_notify_" + co_worker.id
+                          },
+                          domProps: {
+                            value: co_worker.id,
+                            checked: Array.isArray(_vm.notify_co_workers)
+                              ? _vm._i(_vm.notify_co_workers, co_worker.id) > -1
+                              : _vm.notify_co_workers
+                          },
+                          on: {
+                            change: function($event) {
+                              $event.preventDefault()
+                              _vm.notify_coo_workers(co_worker.id)
+                            },
+                            __c: function($event) {
+                              var $$a = _vm.notify_co_workers,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = co_worker.id,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    (_vm.notify_co_workers = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.notify_co_workers = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.notify_co_workers = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(
+                          " \n                            " +
+                            _vm._s(co_worker.name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "clearfix" })
+              ],
+              2
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "submit" }, [
+        !_vm.comment.edit_mode
+          ? _c("input", {
+              staticClass: "button-primary",
+              attrs: {
+                disabled: _vm.submit_disabled,
+                type: "submit",
+                value: "Add New Comment",
+                id: ""
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.comment.edit_mode
+          ? _c("input", {
+              staticClass: "button-primary",
+              attrs: {
+                disabled: _vm.submit_disabled,
+                type: "submit",
+                value: "Update Comment",
+                id: ""
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _c("span", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.show_spinner,
+              expression: "show_spinner"
+            }
+          ],
+          staticClass: "cpm-spinner"
+        })
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2006,108 +2431,137 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cpm-task-comment-wrap"
-  }, [_c('h3', {
-    staticClass: "cpm-comment-title"
-  }, [_vm._v("Discuss this task")]), _vm._v(" "), _c('ul', {
-    staticClass: "cpm-comment-wrap"
-  }, _vm._l((_vm.comments), function(comment) {
-    return _c('li', {
-      key: comment.id,
-      class: 'cpm-comment clearfix even cpm-fade-out-' + comment.id
-    }, [_c('div', {
-      staticClass: "cpm-avatar"
-    }, [_c('img', {
-      staticClass: "avatar avatar-96 photo",
-      attrs: {
-        "alt": comment.creator.data.display_name,
-        "src": comment.creator.data.avatar_url,
-        "height": "96",
-        "width": "96"
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-container"
-    }, [_c('div', {
-      staticClass: "cpm-comment-meta"
-    }, [_c('span', {
-      staticClass: "cpm-author",
-      domProps: {
-        "innerHTML": _vm._s(comment.comment_user)
-      }
-    }), _vm._v(" "), _c('span', [_vm._v("On")]), _vm._v(" "), _c('span', {
-      staticClass: "cpm-date"
-    }, [_c('time', {
-      attrs: {
-        "datetime": _vm.dateISO8601Format(comment.comment_date),
-        "title": _vm.dateISO8601Format(comment.comment_date)
-      }
-    }, [_vm._v(_vm._s(_vm.dateTimeFormat(comment.comment_date)))])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-action"
-    }, [_c('span', {
-      staticClass: "cpm-edit-link"
-    }, [_c('a', {
-      staticClass: "dashicons dashicons-edit",
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.showHideTaskCommentForm(comment)
-        }
-      }
-    })]), _vm._v(" "), _c('span', {
-      staticClass: "cpm-delete-link"
-    }, [_c('a', {
-      staticClass: "dashicons dashicons-trash",
-      attrs: {
-        "href": "#",
-        "data-project_id": "111",
-        "data-id": "82",
-        "data-confirm": "Are you sure to delete this comment?"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteTaskComment(comment.id)
-        }
-      }
-    })])])]), _vm._v(" "), _c('div', {
-      staticClass: "cpm-comment-content"
-    }, [_c('div', {
-      domProps: {
-        "innerHTML": _vm._s(comment.content)
-      }
-    })]), _vm._v(" "), (comment.edit_mode) ? _c('div', {
-      staticClass: "cpm-comment-edit-form"
-    }, [_c('task-comment-form', {
-      attrs: {
-        "comment": comment,
-        "comments": _vm.comments
-      }
-    })], 1) : _vm._e()])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "single-todo-comments"
-  }, [_c('div', {
-    staticClass: "cpm-comment-form-wrap"
-  }, [_c('div', {
-    staticClass: "cpm-avatar"
-  }, [_c('img', {
-    attrs: {
-      "src": _vm.avatar_url,
-      "height": "48",
-      "width": "48"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "cpm-new-doc-comment-form"
-  }, [_c('task-comment-form', {
-    attrs: {
-      "comment": {},
-      "comments": _vm.comments
-    }
-  })], 1)])])])
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cpm-task-comment-wrap" }, [
+    _c("h3", { staticClass: "cpm-comment-title" }, [
+      _vm._v("Discuss this task")
+    ]),
+    _vm._v(" "),
+    _c(
+      "ul",
+      { staticClass: "cpm-comment-wrap" },
+      _vm._l(_vm.comments, function(comment) {
+        return _c(
+          "li",
+          {
+            key: comment.id,
+            class: "cpm-comment clearfix even cpm-fade-out-" + comment.id
+          },
+          [
+            _c("div", { staticClass: "cpm-avatar" }, [
+              _c("img", {
+                staticClass: "avatar avatar-96 photo",
+                attrs: {
+                  alt: comment.creator.data.display_name,
+                  src: comment.creator.data.avatar_url,
+                  height: "96",
+                  width: "96"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "cpm-comment-container" }, [
+              _c("div", { staticClass: "cpm-comment-meta" }, [
+                _c("span", {
+                  staticClass: "cpm-author",
+                  domProps: { innerHTML: _vm._s(comment.comment_user) }
+                }),
+                _vm._v(" "),
+                _c("span", [_vm._v("On")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "cpm-date" }, [
+                  _c(
+                    "time",
+                    {
+                      attrs: {
+                        datetime: _vm.dateISO8601Format(comment.comment_date),
+                        title: _vm.dateISO8601Format(comment.comment_date)
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.dateTimeFormat(comment.comment_date)))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "cpm-comment-action" }, [
+                  _c("span", { staticClass: "cpm-edit-link" }, [
+                    _c("a", {
+                      staticClass: "dashicons dashicons-edit",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.showHideTaskCommentForm(comment)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "cpm-delete-link" }, [
+                    _c("a", {
+                      staticClass: "dashicons dashicons-trash",
+                      attrs: {
+                        href: "#",
+                        "data-project_id": "111",
+                        "data-id": "82",
+                        "data-confirm": "Are you sure to delete this comment?"
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteTaskComment(comment.id)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "cpm-comment-content" }, [
+                _c("div", { domProps: { innerHTML: _vm._s(comment.content) } })
+              ]),
+              _vm._v(" "),
+              comment.edit_mode
+                ? _c(
+                    "div",
+                    { staticClass: "cpm-comment-edit-form" },
+                    [
+                      _c("task-comment-form", {
+                        attrs: { comment: comment, comments: _vm.comments }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ])
+          ]
+        )
+      })
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "single-todo-comments" }, [
+      _c("div", { staticClass: "cpm-comment-form-wrap" }, [
+        _c("div", { staticClass: "cpm-avatar" }, [
+          _c("img", {
+            attrs: { src: _vm.avatar_url, height: "48", width: "48" }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cpm-new-doc-comment-form" },
+          [
+            _c("task-comment-form", {
+              attrs: { comment: {}, comments: _vm.comments }
+            })
+          ],
+          1
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
