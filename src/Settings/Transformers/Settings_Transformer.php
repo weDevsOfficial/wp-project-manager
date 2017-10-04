@@ -10,7 +10,7 @@ class Settings_Transformer extends TransformerAbstract {
 
     use Resource_Editors;
 
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'creator', 'updater'
     ];
 
