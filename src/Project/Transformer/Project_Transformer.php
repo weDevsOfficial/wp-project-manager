@@ -7,6 +7,7 @@ use League\Fractal\TransformerAbstract;
 use CPM\Category\Transformer\Category_Transformer;
 use CPM\User\Transformers\User_Transformer;
 use CPM\Common\Traits\Resource_Editors;
+use Carbon\Carbon;
 
 class Project_Transformer extends TransformerAbstract {
 
@@ -37,7 +38,39 @@ class Project_Transformer extends TransformerAbstract {
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
             ],
+            'graph_data' => $this->date_wise_tasks_activities( $item ),
         ];
+    }
+
+    private function date_wise_tasks_activities( Project $item ) {
+        $today = Carbon::today();
+        $one_month_ago = (Carbon::today())->subMonth();
+        $graph_data = [];
+
+        $tasks = $item->tasks->where( 'updated_at', '>=', $one_month_ago )
+            ->map( function( $item, $key ) {
+                $date = $item->updated_at->toDateString();
+                $item->updated_at = make_carbon_date( $date );
+
+                return $item;
+            });
+
+        $activities = $item->activities->where( 'updated_at', '>=', $one_month_ago )
+            ->map( function( $item, $key ) {
+                $date = $item->updated_at->toDateString();
+                $item->updated_at = make_carbon_date( $date );
+
+                return $item;
+            });
+
+        for ( $dt = $one_month_ago; $today->diffInDays( $dt ); $dt->addDay() ) {
+            $graph_data[strtotime( $dt->toDateTimeString() )] = [
+                'tasks' => $tasks->where( 'updated_at', $dt )->count(),
+                'activities' => $activities->where( 'updated_at', $dt )->count()
+            ];
+        }
+
+        return $graph_data;
     }
 
     public function includeCategories( Project $item ) {

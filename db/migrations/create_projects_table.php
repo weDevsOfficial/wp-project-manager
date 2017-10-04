@@ -11,7 +11,8 @@ class Create_Projects_Table extends Migration {
 
             $table->string( 'title' );
             $table->text( 'description' )->nullable();
-            $table->tinyInteger( 'status' )->default(2);
+            $table->tinyInteger( 'status' )->default(0)
+                ->comment('0: incomplete; 1: complete; 2: pending; 3: archived');
             $table->float( 'budget' )->nullable();
             $table->float( 'pay_rate' )->nullable();
             $table->timestamp( 'est_completion_date' )->nullable();

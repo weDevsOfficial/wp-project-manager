@@ -28,12 +28,16 @@ trait Model_Events {
         });
     }
 
-    public function set_fillable_attributes( $attribute_values ) {
+    public function update_model( $attribute_values ) {
+        $fillable = $this->getFillable();
+
         foreach ( $attribute_values as $key => $value ) {
-            if ( in_array( $key, $this->getFillable() ) ) {
+            if ( in_array( $key, $fillable ) ) {
                 $this->$key = $value;
             }
         }
+
+        $this->save();
     }
 
     public function creator() {
