@@ -118,7 +118,7 @@
                 vm.getMilestones(vm);
             });
         }, 
-		components: {
+    	components: {
 			'new-task-list-btn': new_task_list_btn,
 			'new-task-list-form': new_task_list_form,
 			'new-task-button': new_task_button,
@@ -213,6 +213,3 @@
 	    }
 	}
 </script>
-
-
-

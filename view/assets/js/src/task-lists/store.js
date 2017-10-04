@@ -464,8 +464,27 @@ export default new Vuex.Store({
         },
 
         setLists (state, lists) {
-            state.lists = lists;
+
+            if(state.lists.length > 0){
+                lists.forEach(function(list){
+                    
+                    var list_index = state.getIndex(state.lists, list.id, 'id');
+                    if(list_index === false){
+                         state.lists.push(list);
+                    }
+                    
+                })
+            }else{
+                state.lists =lists;
+            }
+           
+
+            
         },
+        setList(state, list){
+            state.list =list;
+        },
+
         afterNewList (state, list) {
             var per_page = state.lists_meta.per_page,
                 length   = state.lists.length;
@@ -521,6 +540,13 @@ export default new Vuex.Store({
         setSingleTask (state, data) {
             state.task = data;
  
+        },
+        setTasks(state, data){
+            var list_index = state.getIndex(state.lists, data.id, 'id');
+            data.incomplete_tasks.data.forEach(function(task){
+                state.lists[list_index].incomplete_tasks.data.push(task)
+            });
+            state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
         }
     }
 });

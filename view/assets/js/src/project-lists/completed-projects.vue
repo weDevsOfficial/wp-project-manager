@@ -7,7 +7,7 @@
             <pm-pagination 
                 :total_pages="total_pages" 
                 :current_page_number="current_page_number" 
-                component_name='all_project_pagination'>
+                component_name='completed_project_pagination'>
                 
             </pm-pagination> 
         </div>
@@ -23,6 +23,7 @@
 <script>
     import directive from './../../directive';
     
+
     import project_summary from './project-summary.vue';
     import pagination from './../pagination.vue';
     import project_create_form from './project-create-form.vue';
@@ -30,12 +31,14 @@
     import after_project from './../do-action.vue';
     import header from './header.vue';
 
+    
+    
     export default  {
         store,
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects(vm);
+                vm.getProjects('status=incomplete');
                 vm.getRoles();
                 vm.getProjectCategories();
             });
@@ -60,7 +63,7 @@
             },
 
             total_pages () {
-                return this.$root.$store.state.project_meta.total_pages;
+                return this.$root.$store.state.projects_meta.total_pages;
             },
         },
         
@@ -71,7 +74,6 @@
             'project-create-form': project_create_form,
             'do-action': after_project
         },
-
     }
 
 </script>

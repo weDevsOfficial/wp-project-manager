@@ -5,7 +5,7 @@ import store from './store';
 import router from './router';
 import mixin from './mixin';
 
-import Controller from './components/controller.vue';
+import Controller from './src/controller.vue';
 
 /**
  * Project template render

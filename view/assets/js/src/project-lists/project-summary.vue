@@ -198,10 +198,10 @@
 
             settingsShowHide (project) {
                 project.settings_hide = project.settings_hide ? false : true;
-            }
+            },
 
             projectCompleteStatus (project) {
-                return ((100 * $progress['completed']) /  $progress['total']) + '%';
+                //return ((100 * $progress['completed']) /  $progress['total']) + '%';
             }
         }
     }

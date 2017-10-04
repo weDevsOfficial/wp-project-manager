@@ -1,5 +1,5 @@
 <template>
-	<div>
+    <div>
         <pm-header></pm-header>
         <!-- Spinner before load task -->
       <div v-if="loading" class="cpm-data-load-before" >
@@ -31,7 +31,7 @@
             <div>
                 <ul class="cpm-todolists">
 
-                    <li :class="'cpm-fade-out-'+list.id">
+                    <li :class="'cpm-fade-out-'+list_id">
 
                         <article class="cpm-todolist">
                             <header class="cpm-list-header">
@@ -134,6 +134,7 @@
             
             // // Get todo list 
            // this.getList();
+           
         },
 
         computed: {
@@ -143,8 +144,8 @@
              * @return array
              */
             list: function () {
-                if( this.$store.state.lists.length) {
-                    return this.$store.state.lists[0];
+                if( this.$store.state.list) {
+                    return this.$store.state.list;
                 }
             },
 

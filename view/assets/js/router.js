@@ -1,20 +1,20 @@
 import Vue from './vue/vue';
 import Router from './vue/vue-router';
 
-import {active, all, completed} from './components/project-lists/router';
-import categories from './components/categories/router';
-import add_ons from './components/add-ons/router';
-import my_tasks from './components/my-tasks/router';
-import calendar from './components/calendar/router';
-import reports from './components/reports/router';
-import progress from './components/progress/router';
-import settings from './components/settings/router';
-import overview from './components/overview/router';
-import activities from './components/activities/router';
-import files from './components/files/router';
-import {task_lists, single_list} from './components/task-lists/router';
-import {discussions, single_discussion} from './components/discussions/router';
-import {milestones} from './components/milestones/router';
+import {active, all, completed} from './src/project-lists/router';
+import categories from './src/categories/router';
+import add_ons from './src/add-ons/router';
+import my_tasks from './src/my-tasks/router';
+import calendar from './src/calendar/router';
+import reports from './src/reports/router';
+import progress from './src/progress/router';
+import settings from './src/settings/router';
+import overview from './src/overview/router';
+import activities from './src/activities/router';
+import files from './src/files/router';
+import {task_lists, single_list} from './src/task-lists/router';
+import {discussions, single_discussion} from './src/discussions/router';
+import {milestones} from './src/milestones/router';
 
 
 weDevs_PM_Routers.push(active);

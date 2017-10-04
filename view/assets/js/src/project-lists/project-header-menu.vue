@@ -1,22 +1,25 @@
 <template>
     <ul class="list-inline  cpm-col-8 cpm-project-group-ul">
-        <li :class="all + ' cpm-sm-col-4'">
-            <router-link :to="{name: 'all_projects'}">
-                All
-                <span class="count">10</span>
-            </router-link>
-        </li>
+        
         <li :class="active+ ' cpm-sm-col-4'">
             <router-link :to="{name: 'project_lists'}">
                 Active 
-                <span class="count">10</span>
+                <span class="count">{{ active }}</span>
             </router-link>
         </li>
+
         <li :class="completed+' cpm-sm-col-4'">
             <router-link :to="{name: 'completed_projects'}">
                 Completed 
                 <span class="count">0</span> 
             </router-link> 
+        </li>
+
+        <li :class="all + ' cpm-sm-col-4'">
+            <router-link :to="{name: 'all_projects'}">
+                All
+                <span class="count">10</span>
+            </router-link>
         </li>
         <div class="clearfix"></div>
     </ul>
@@ -31,6 +34,11 @@
                 completed: ''
             }
         },
+        // computed: {
+        //     active () {
+        //         return this.$store.state.projects_meta.total_incomplete;
+        //     }
+        // },
         created () {
             var route_name = this.$route.name;
             

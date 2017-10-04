@@ -37,7 +37,7 @@
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects(vm);
+                vm.getProjects('status=incomplete');
                 vm.getRoles();
                 vm.getProjectCategories();
             });
@@ -62,7 +62,7 @@
             },
 
             total_pages () {
-                return this.$root.$store.state.project_meta.total_pages;
+                return this.$root.$store.state.projects_meta.total_pages;
             },
         },
         

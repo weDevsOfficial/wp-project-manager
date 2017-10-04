@@ -59,10 +59,12 @@
             this.httpRequest(request);
         },
 
-        getProjects () {
+        getProjects (condition) {
+            var condition = condition || '';
             var self = this;
-            self.httpRequest({
-                url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self),
+
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self) +'&'+ condition,
                 success: function(res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
@@ -70,7 +72,9 @@
                     self.$root.$store.commit('setProjects', {'projects': res.data});
                     self.$root.$store.commit('setProjectsMeta', res.meta );
                 }
-            });
+            };
+
+            self.httpRequest(request_data);
         },
 
         setCurrentPageNumber (self) {
