@@ -190,6 +190,22 @@
 
         showHideProjectForm (status) {
             this.$root.$store.commit('showHideProjectForm', status);
+        },
+
+        deleteFile (file_id, callback) {
+            var self = this;
+
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/files/' + file_id,
+                type: 'DELETE',
+                success: function(res) {
+                    
+
+                    if (typeof callback !== 'undefined') {
+                        callback(res.data);
+                    }
+                }
+            });
         }
 	}
 });

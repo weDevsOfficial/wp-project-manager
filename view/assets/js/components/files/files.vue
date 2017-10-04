@@ -1,7 +1,6 @@
 <template>
 	<div class="wrap cpm cpm-front-end">
 		<pm-header></pm-header>
-		<pre>{{ files }}</pre>
 		<div class="cpm-files-page">
 			<ul class="cpm-files">        
 				<li v-for="file in files">

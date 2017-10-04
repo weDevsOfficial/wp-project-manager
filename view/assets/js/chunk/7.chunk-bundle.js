@@ -1577,6 +1577,7 @@ if (false) {(function () {
 			},
 			milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
 			files: typeof this.discuss.files === 'undefined' ? [] : this.discuss.files.data,
+			deleted_files: [],
 			pfiles: []
 		};
 	},
@@ -1655,69 +1656,61 @@ if (false) {(function () {
 //
 //
 //
-//
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-				props: ['files'],
+	props: ['files', 'delete'],
 
-				// Initial action for this component
-				created: function () {
-								//this.files = typeof files.data ===
+	// Initial action for this component
+	created: function () {
+		//this.files = typeof files.data ===
 
-								var self = this;
+		var self = this;
 
-								// Instantiate file upload, After dom ready
-								__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
-												new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self);
-								});
-				},
+		// Instantiate file upload, After dom ready
+		__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.nextTick(function () {
+			new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self);
+		});
+	},
 
-				methods: {
-								/**
-         * Set the uploaded file
-         *
-         * @param  object file_res
-         *
-         * @return void
-         */
-								fileUploaded: function (file_res) {
+	methods: {
+		/**
+   * Set the uploaded file
+   *
+   * @param  object file_res
+   *
+   * @return void
+   */
+		fileUploaded: function (file_res) {
 
-												if (typeof this.files == 'undefined') {
-																this.files = [];
-												}
+			if (typeof this.files == 'undefined') {
+				this.files = [];
+			}
 
-												this.files.push(file_res.res.file);
-								},
+			this.files.push(file_res.res.file);
+		},
 
-								/**
-         * Delete file
-         *
-         * @param  object file_id
-         *
-         * @return void
-         */
-								deletefile: function (file_id) {
-												if (!confirm(CPM_Vars.message.confirm)) {
-																return;
-												}
+		/**
+   * Delete file
+   *
+   * @param  object file_id
+   *
+   * @return void
+   */
+		deletefile: function (file_id) {
+			if (!confirm('Are you sure!')) {
+				return;
+			}
+			var self = this;
+			var index = self.getIndex(self.files, file_id, 'id');
 
-												var request_data = {
-																file_id: file_id,
-																_wpnonce: CPM_Vars.nonce
-												},
-												    self = this;
-
-												wp.ajax.send('cpm_delete_file', {
-																data: request_data,
-																success: function (res) {
-																				var file_index = self.getIndex(self.files, file_id, 'id');
-																				self.files.splice(file_index, 1);
-																}
-												});
-								}
-				}
+			if (index !== false) {
+				self.files.splice(index, 1);
+				this.delete.push(file_id);
+			}
+		}
+	}
 });
 
 /***/ }),
@@ -1785,7 +1778,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "cpm-upload-filelist"
-  }, [_c('pre', [_vm._v(_vm._s(_vm.files))]), _vm._v(" "), _vm._l((_vm.files), function(file) {
+  }, _vm._l((_vm.files), function(file) {
     return _c('div', {
       key: file.id,
       staticClass: "cpm-uploaded-item"
@@ -1811,7 +1804,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v("Delete File")])])
-  })], 2), _vm._v("\n        To attach, "), _c('a', {
+  })), _vm._v("\n        To attach, "), _c('a', {
     attrs: {
       "id": "cpm-upload-pickfiles",
       "href": "#"
@@ -1913,18 +1906,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v("\n\t\t\t            " + _vm._s(milestone.title) + "\n\t\t\t        ")])
   })], 2)]), _vm._v(" "), _c('file-uploader', {
     attrs: {
-      "files": _vm.files
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "file",
-      "name": "pfiles",
-      "multiple": ""
-    },
-    on: {
-      "change": function($event) {
-        _vm.filesChange($event.target.name, $event.target.files)
-      }
+      "files": _vm.files,
+      "delete": _vm.deleted_files
     }
   }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "submit"

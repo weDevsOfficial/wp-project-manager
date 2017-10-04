@@ -2,7 +2,6 @@
 	<div class="cpm-attachment-area">
 	    <div id="cpm-upload-container">
 	        <div class="cpm-upload-filelist">
-	        	<pre>{{ files }}</pre>
 	        	<div class="cpm-uploaded-item" v-for="file in files" :key="file.id">
 	        		<a :href="file.url" target="_blank">
 	        			<img :src="file.thumb" :alt="file.name">
@@ -23,7 +22,7 @@
 	import Vue from './../vue/vue';
 
 	export default {
-		props: ['files'],
+		props: ['files', 'delete'],
 
 	    // Initial action for this component
 	    created: function() {
@@ -64,23 +63,16 @@
 			 * @return void
 			 */
 			deletefile: function(file_id) {
-			    if ( ! confirm(CPM_Vars.message.confirm) ) {
+			    if ( ! confirm('Are you sure!') ) {
 			        return;
 			    }
+			    var self = this;
+			    var index = self.getIndex(self.files, file_id, 'id');
 
-			    var request_data  = {
-			        file_id: file_id,
-			        _wpnonce: CPM_Vars.nonce,
-			    },
-			    self = this;
-
-			    wp.ajax.send('cpm_delete_file', {
-			        data: request_data,
-			        success: function(res) {
-			           var file_index = self.getIndex( self.files, file_id, 'id' );
-			           self.files.splice(file_index,1);
-			        }
-			    });
+		    	if (index !== false) {
+		    		self.files.splice(index, 1);
+		    		this.delete.push(file_id);
+		    	}  
 			}
 		}
 	}

@@ -77,7 +77,6 @@ class Discussion_Board_Controller {
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
-
         $project_id = $request->get_param( 'project_id' );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
         $milestone_id = $request->get_param( 'milestone' );

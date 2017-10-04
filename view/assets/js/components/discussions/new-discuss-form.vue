@@ -23,9 +23,9 @@
 	        	
 	        </div>
 	            
-	        <file-uploader :files="files"></file-uploader>
+	        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
-	        <input type="file" name="pfiles" @change="filesChange($event.target.name, $event.target.files)" multiple>
+	        <!-- <input type="file" name="pfiles" @change="filesChange($event.target.name, $event.target.files)" multiple> -->
 
 	        <div class="notify-users">
 	            
@@ -79,6 +79,7 @@
 	            },
 	            milestone_id: typeof this.discuss.milestone === 'undefined' ? '-1' : this.discuss.milestone.data.id,
 				files: typeof this.discuss.files === 'undefined' ? [] : this.discuss.files.data,
+				deleted_files: [],
 				pfiles: []
 			}
 		},

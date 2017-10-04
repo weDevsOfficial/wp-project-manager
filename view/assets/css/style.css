@@ -59,7 +59,7 @@
   position: relative;
 }
 .cpm .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   height: 16px;
   display: inline-block;
   width: 16px;
@@ -563,7 +563,7 @@ ul.cpm-nav li a {
   font-size: 12px;
 }
 .cpm-ui-dialog .cpm-project-form .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
   visibility: visible;
 }
 .cpm-ui-dialog .cpm-project-form .chosen-container {
@@ -669,7 +669,7 @@ ul.cpm-nav li a {
   margin-bottom: 15px;
 }
 .cpm-project-head .cpm-edit-project .cpm-project-form .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
   visibility: visible;
 }
 .cpm-project-head .cpm-edit-project a.cpm-assign-del-user {
@@ -687,7 +687,7 @@ ul.cpm-nav li a {
   margin-bottom: 10px;
 }
 .cpm-project-head .cpm-edit-project .cpm-pro-update-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
   left: -18px;
@@ -1016,7 +1016,7 @@ ul.cpm-activity ul li:before {
   opacity: 1;
 }
 .cpm-messages-table .cpm-messages-spinner {
-  background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
 }
 .cpm-single {
   background-color: #f9f9f9;
@@ -1027,7 +1027,7 @@ ul.cpm-activity ul li:before {
   border-radius: 3px;
 }
 .cpm-single .cpm-single-spinner {
-  background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
 }
 .cpm-single .cpm-entry-title {
   background-color: #f4f4f4;
@@ -1071,7 +1071,7 @@ ul.cpm-activity ul li:before {
   border: none;
 }
 .cpm-comment-wrap .cpm-comment-spinner {
-  background: url("images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
 }
 .cpm-comment-wrap li.cpm-comment {
   margin: 0;
@@ -1573,7 +1573,7 @@ ul.cpm-activity ul li:before {
   margin: 0;
 }
 .cpm-todolists .cpm-new-task-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
   left: 0;
@@ -1715,7 +1715,7 @@ ul.cpm-activity ul li:before {
 }
 .cpm-new-todolist-form .cpm-new-list-spinner,
 .cpm-list-edit-form .cpm-new-list-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: none;
   height: 16px;
   left: -18px;
@@ -1744,7 +1744,7 @@ ul.cpm-activity ul li:before {
   width: 20%;
 }
 .cpm-milestones .cpm-milestones-spinner {
-  background: url("images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("../images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
   display: inline-block;
 }
 .cpm-milestones .title {
@@ -1847,7 +1847,7 @@ input.error {
   border: 1px solid red;
 }
 a.cpm-icon-delete-spinner {
-  background: url("images/loading.gif") no-repeat scroll;
+  background: url("../images/loading.gif") no-repeat scroll;
 }
 a.cpm-icon-delete {
   display: inline-block;
@@ -2011,7 +2011,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin-bottom: 10px;
 }
 #cpm-create-user-wrap .cpm-user-create-form .cpm-spinner {
-  background: url("images/loading.gif") no-repeat scroll;
+  background: url("../images/loading.gif") no-repeat scroll;
   display: inline-block;
   height: 17px;
   margin-left: 10px;

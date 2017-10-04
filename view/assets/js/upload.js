@@ -50,6 +50,10 @@
 
     CPM_Uploader.prototype = {
 
+        init: function (up, params) {
+
+        },
+
         added: function (up, files) {
 
             var $container = $('#' + this.container).find('.cpm-upload-filelist');
@@ -73,6 +77,11 @@
         },
         BeforeUpload: function(uploader, file ) {
             
+        },
+
+        upload: function (uploader) {
+            //console.log(uploader);
+           // this.uploader.start();
         },
 
         progress: function (up, file) {

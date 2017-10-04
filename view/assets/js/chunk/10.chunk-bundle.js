@@ -1314,7 +1314,6 @@ if (false) {(function () {
 //
 //
 //
-//
 
 
 
@@ -1373,7 +1372,7 @@ if (false) {(function () {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "wrap cpm cpm-front-end"
-  }, [_c('pm-header'), _vm._v(" "), _c('pre', [_vm._v(_vm._s(_vm.files))]), _vm._v(" "), _c('div', {
+  }, [_c('pm-header'), _vm._v(" "), _c('div', {
     staticClass: "cpm-files-page"
   }, [_c('ul', {
     staticClass: "cpm-files"

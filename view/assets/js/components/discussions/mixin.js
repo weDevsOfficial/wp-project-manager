@@ -99,12 +99,16 @@ export default Vue.mixin({
             data.append('description', this.discuss.description);
             data.append('milestone', this.discuss.milestone_id);
             data.append('order', 0);
-
-            data.append('files[]', this.pfiles[0]);
+            this.deleted_files.map(function(del_file) {
+            	data.append('files_to_delete[]', del_file);
+            });
+            
 
             this.files.map(function(file) {
-            	var decode = self.dataURLtoFile(file.thumb, file.name);
-				data.append( 'files[]', decode );
+            	if ( typeof file.attachment_id === 'undefined' ) {
+            		var decode = self.dataURLtoFile(file.thumb, file.name);
+					data.append( 'files[]', decode );
+            	}
 			});
 
 	        // Showing loading option 
@@ -112,7 +116,7 @@ export default Vue.mixin({
 
 	        if (is_update) {
 	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id;
-	            var type = 'PUT'; 
+	            var type = 'POST'; 
 	        } else {
 	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards';
 	            var type = 'POST';
@@ -157,7 +161,7 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	            }
 	        }
-	        //console.log(request_data);
+	        console.log(request_data);
 	        self.httpRequest(request_data);
 	    },
         getMilestones (self) {

@@ -10433,6 +10433,21 @@ module.exports = function normalizeComponent (
 
         showHideProjectForm(status) {
             this.$root.$store.commit('showHideProjectForm', status);
+        },
+
+        deleteFile(file_id, callback) {
+            var self = this;
+
+            self.httpRequest({
+                url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/files/' + file_id,
+                type: 'DELETE',
+                success: function (res) {
+
+                    if (typeof callback !== 'undefined') {
+                        callback(res.data);
+                    }
+                }
+            });
         }
     }
 }));
@@ -11573,12 +11588,15 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 												data.append('description', this.discuss.description);
 												data.append('milestone', this.discuss.milestone_id);
 												data.append('order', 0);
-
-												data.append('files[]', this.pfiles[0]);
+												this.deleted_files.map(function (del_file) {
+																data.append('files_to_delete[]', del_file);
+												});
 
 												this.files.map(function (file) {
-																var decode = self.dataURLtoFile(file.thumb, file.name);
-																data.append('files[]', decode);
+																if (typeof file.attachment_id === 'undefined') {
+																				var decode = self.dataURLtoFile(file.thumb, file.name);
+																				data.append('files[]', decode);
+																}
 												});
 
 												// Showing loading option 
@@ -11586,7 +11604,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 												if (is_update) {
 																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards/' + this.discuss.id;
-																var type = 'PUT';
+																var type = 'POST';
 												} else {
 																var url = self.base_url + '/cpm/v2/projects/' + self.project_id + '/discussion-boards';
 																var type = 'POST';
@@ -11631,7 +11649,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 																				self.submit_disabled = false;
 																}
 												};
-												//console.log(request_data);
+												console.log(request_data);
 												self.httpRequest(request_data);
 								},
 								getMilestones(self) {
