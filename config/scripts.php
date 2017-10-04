@@ -91,7 +91,8 @@ return [
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',
 			'cpm-tiny-mce',
-			'cpm-toastr'
+			'cpm-toastr',
+			'jquery-ui-sortable'
 
 		],
 		'in_footer'  => true

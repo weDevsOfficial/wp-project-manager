@@ -358,8 +358,6 @@
 	           			//self.$store.commit('setSingleTask', res.data);
 	           			self.task = res.data;
 	           			self.loading = false;
-
-	           			console.log(res.data);
 	           		}
 	            }
 
