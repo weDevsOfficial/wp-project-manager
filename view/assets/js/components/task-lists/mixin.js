@@ -625,27 +625,21 @@ var PM_Task_Mixin = {
             return Object.keys(obj).length === 0;
         },
 
-        getTasks: function(list_id, page_number, action, callback) {
-            var form_data = {
-                    _wpnonce: PM_Vars.nonce,
-                    list_id: list_id,
-                    page_number: typeof page_number == 'undefined' ? 0 : page_number,
-                    project_id: PM_Vars.project_id
-                },
-                self = this,
-                action =  action; //this.$store.state.is_single_list ? 'cpm_get_tasks' : 'cpm_get_incompleted_tasks'
+        getTasks: function(list_id, condition, callback) {
+            self = this;
+            var condition = condition || 'incomplete_tasks';
 
-            wp.ajax.send( action, {
-                data: form_data,
-                success: function(res) {
-                    var list_index = self.getIndex( self.$store.state.lists, self.list.ID, 'ID' );
-                    self.$store.commit( 'insert_tasks', {tasks: res, list_index: list_index} );
-
+            var request = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
+                success (res) {
+                    self.$store.commit('setTasks', res.data);
                     if ( typeof callback != 'undefined' ) {
                         callback(res);
                     }
                 }
-            });
+            };
+            this.httpRequest(request);
+            
         },
 
         /**
@@ -858,7 +852,7 @@ var PM_Task_Mixin = {
                         });
                     }
                     
-                    self.$store.commit('setLists', [res.data]);
+                    self.$store.commit('setList', res.data);
 
                     if ( callback ) {
                         callback(res);
@@ -903,6 +897,86 @@ var PM_Task_Mixin = {
             }
 
             this.httpRequest(request_data);
+        },
+
+        /**
+         * Insert and edit task
+         * 
+         * @return void
+         */
+        newTask() {
+            // Exit from this function, If submit button disabled 
+            if ( this.submit_disabled ) {
+                return;
+            }
+            
+            // Disable submit button for preventing multiple click
+            this.submit_disabled = true;
+            
+            var self      = this,
+                is_update = typeof this.task.id == 'undefined' ? false : true,
+                
+                form_data = {
+                    board_id: this.list.id,
+                    assignees: this.assigned_to,
+                    title: this.task.title,
+                    description: this.task.description,
+                    start_at: this.task.start_at.date,
+                    due_date: this.task.due_date.date,
+                    task_privacy: this.task.task_privacy,
+                    list_id: this.list.id,
+                    order: this.task.order
+                };
+            
+            // Showing loading option 
+            this.show_spinner = true;
+            
+            if (is_update) {
+                var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+                var type = 'PUT'; 
+            } else {
+                var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
+                var type = 'POST';
+            }
+
+            var request_data = {
+                url: url,
+                type: type,
+                data: form_data,
+                success (res) {
+                    if (is_update) {
+                        self.$store.commit('afterUpdateTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    } else {
+                        self.$store.commit('afterNewTask', {
+                            list_id: self.list.id,
+                            task: res.data
+                        });
+                    }
+                    
+                    self.show_spinner = false;
+
+                    // Display a success toast, with a title
+                    toastr.success(res.data.success);
+               
+                    self.submit_disabled = false;
+                    self.showHideTaskFrom(false, self.list, self.task);
+                },
+
+                error (res) {
+                    self.show_spinner = false;
+                    
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                    self.submit_disabled = false;
+                }
+            }
+            
+            self.httpRequest(request_data);
         }
     }
 }

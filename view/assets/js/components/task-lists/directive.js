@@ -11,40 +11,38 @@ var CPM_Task = {
         this.sortable();
     },
 
-    sortable: function () {
+    sortable: function (el, binding, vnode) {
         var $ = jQuery;
+        var component = vnode.context;
+        
 
-        $('.cpm-todos').sortable({
+        $(el).sortable({
             cancel: '.nonsortable,form',
+            placeholder: "ui-state-highlight",
             update: function(event, ui) {
                 var newOrder = {},
                     oldOrder = [];
-
+                    console.log(component.list.id);
                 // finding new order sequence and old orders
                 $(this).find('li.cpm-todo').each( function(e) {
-                    newOrder[$(this).attr('data-id')] = $(this).index() + 1;
-                    oldOrder.push(parseInt($(this).attr('data-order')));
-                });
+                    var order = $(this).index(),
+                        task_id = $(this).data('id');
+                    
+                    var task_index = component.getIndex(component.list.incomplete_tasks.data, task_id,'id');
+                    if (task_index === false) {
+                        var task_index = component.getIndex(component.list.complete_tasks.data, task_id,'id');
 
-                // setting new order
-                for(var prop in newOrder) {
-                    if(!newOrder.hasOwnProperty(prop)) continue;
-
-                    newOrder[prop] = oldOrder[newOrder] ? oldOrder[newOrder] : newOrder[prop];
-                }
-
-                // prepare data for server
-                var data = {
-                    action: 'cpm_update_task_order',
-                    orders: newOrder,
-                    _wpnonce: CPM_Vars.nonce
-                };
-
-                // send data to the server
-                $.post( CPM_Vars.ajaxurl, data, function( response ) {
-                    if (response.success) {
                     }
-                } );
+                    
+                    component.list.incomplete_tasks.data[task_index].order = order;
+
+                    var task = component.list.incomplete_tasks.data[task_index];
+                    component.task = task;
+                    component.newTask();
+
+                    console.log(task);
+
+                }); 
             }
         });
     },
@@ -132,8 +130,8 @@ Vue.directive('cpm-datepicker', {
 
 // Register a global custom directive called v-cpm-sortable
 Vue.directive('cpm-sortable', {
-    inserted: function () {
-        CPM_Task.sortable();
+    inserted: function (el, binding, vnode) {
+        CPM_Task.sortable(el, binding, vnode);
     }
 });
 

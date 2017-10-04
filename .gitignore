@@ -1,5 +1,7 @@
 /node_modules/
 /vendor/
+/view/assets/js/chunk/
+/view/assets/js/cpm-bundle.js
 /.idea
 .env
 .DS_Store
@@ -10,4 +12,5 @@
 phpcs.ruleset.xml
 phpunit.xml.dist
 composer.lock
+package-lock.json
 /tmp/
