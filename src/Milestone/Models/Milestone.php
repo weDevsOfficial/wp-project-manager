@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use CPM\Discussion_Board\Models\Discussion_Board;
 
 class Milestone extends Eloquent {
+
     use Model_Events;
 
     protected $table = 'cpm_boards';

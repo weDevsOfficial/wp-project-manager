@@ -16,6 +16,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'creation',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
+            'meta'          => serialize([
+                'id'    => $resource->id,
+                'title' => $resource->title,
+            ]),
             'project_id'    => $resource->id,
         ]);
     }
@@ -35,7 +39,7 @@ class Project_Observer extends Model_Observer {
                 'old' => $old_value,
                 'new' => $item->title
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -50,7 +54,7 @@ class Project_Observer extends Model_Observer {
                 'old' => $old_value,
                 'new' => $item->description
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -65,7 +69,7 @@ class Project_Observer extends Model_Observer {
                 'old' => Project::$status[$old_value],
                 'new' => $item->status
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -80,7 +84,7 @@ class Project_Observer extends Model_Observer {
                 'old' => $old_value,
                 'new' => $item->budget
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -95,7 +99,7 @@ class Project_Observer extends Model_Observer {
                 'old' => $old_value,
                 'new' => $item->pay_rate
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -110,7 +114,7 @@ class Project_Observer extends Model_Observer {
                 'old' => format_date( make_carbon_date( $old_value ) ),
                 'new' => format_date( $item->est_completion_date )
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 
@@ -125,7 +129,7 @@ class Project_Observer extends Model_Observer {
                 'old' => $old_value,
                 'new' => $item->color_code
             ]),
-            'project_id'    => $resource->project_id,
+            'project_id'    => $item->id,
         ]);
     }
 }

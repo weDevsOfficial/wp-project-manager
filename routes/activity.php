@@ -5,4 +5,4 @@ use CPM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
 
-$router->get( 'activities', 'CPM/Activity/Controllers/Activity_Controller@index' );
+$router->get( 'projects/{project_id}/activities', 'CPM/Activity/Controllers/Activity_Controller@index' );
