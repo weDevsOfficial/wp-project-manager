@@ -12,6 +12,7 @@ use CPM\Transformer_Manager;
 use CPM\Milestone\Transformer\Milestone_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Common\Models\Meta;
+use Carbon\Carbon;
 
 class Milestone_Controller {
 
@@ -79,7 +80,7 @@ class Milestone_Controller {
         // Grab non empty user data
         $data         = $this->extract_non_empty_values( $request );
         $achieve_date = $request->get_param( 'achieve_date' );
-        $achieved_at  = $request->get_param( 'achieved_at' );
+        $status       = $request->get_param( 'status' );
 
         // Set project id from url parameter
         $project_id   = $request->get_param( 'project_id' );
@@ -108,7 +109,11 @@ class Milestone_Controller {
             $meta->save();
         }
 
-        if ( $achieved_at ) {
+        if ( $milestone && in_array( $status, Milestone::$status ) ) {
+            $status = array_search( $status, Milestone::$status );
+
+            $meta_value = ( $status == Milestone::COMPLETE ) ? Carbon::today() : null;
+
             $meta = Meta::firstOrCreate([
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
@@ -116,7 +121,7 @@ class Milestone_Controller {
                 'project_id'  => $milestone->project_id,
             ]);
 
-            $meta->meta_value = make_carbon_date( $achieved_at );
+            $meta->meta_value = $meta_value;
             $meta->save();
         }
 

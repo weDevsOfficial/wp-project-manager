@@ -43,29 +43,29 @@ class Milestone extends Eloquent {
     }
 
     public function getAchieveDateAttribute() {
-        $achieve_date = $this->metas->where( 'meta_key', 'achieve_date' )->first();
+        $meta = $this->metas->where( 'meta_key', 'achieve_date' )->first();
 
-        if ( $achieve_date ) {
+        if ( $meta && $meta->meta_value ) {
             $timezone = get_wp_timezone();
             $timezone = tzcode_to_tzstring( $timezone );
 
-            return new Carbon( $achieve_date->meta_value, $timezone );
+            return new Carbon( $meta->meta_value, $timezone );
         }
 
-        return $achieve_date;
+        return null;
     }
 
     public function getAchievedAtAttribute() {
-        $achieved_at  = $this->metas->where( 'meta_key', 'achieved_at' )->first();
+        $meta  = $this->metas->where( 'meta_key', 'achieved_at' )->first();
 
-        if ( $achieved_at ) {
+        if ( $meta && $meta->meta_value ) {
             $timezone = get_wp_timezone();
             $timezone = tzcode_to_tzstring( $timezone );
 
-            return new Carbon( $achieved_at->meta_value, $timezone );
+            return new Carbon( $meta->meta_value, $timezone );
         }
 
-        return $achieved_at;
+        return null;
     }
 
     public function getStatusAttribute() {
@@ -76,7 +76,7 @@ class Milestone extends Eloquent {
 
         if ( $achieved_at ) {
             $status = self::COMPLETE;
-        } elseif ( $achieve_date & $achieve_date->diffInDays( $today, false ) > 0 ) {
+        } elseif ( $achieve_date && $achieve_date->diffInDays( $today, false ) > 0 ) {
             $status = self::OVERDUE;
         }
 
