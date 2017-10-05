@@ -17,6 +17,10 @@ class Milestone extends Eloquent {
 
     protected $table = 'cpm_boards';
 
+    const INCOMPLETE = 0;
+    const COMPLETE   = 1;
+    const OVERDUE    = 2;
+
     protected $fillable = [
         'title',
         'description',
@@ -29,9 +33,9 @@ class Milestone extends Eloquent {
     protected $attributes = ['type' => 'milestone'];
 
     public static $status = [
-        'incomplete',
-        'complete',
-        'overdue'
+        0 => 'incomplete',
+        1 => 'complete',
+        2 => 'overdue'
     ];
 
     public function newQuery( $except_deleted = true ) {
@@ -51,19 +55,32 @@ class Milestone extends Eloquent {
         return $achieve_date;
     }
 
+    public function getAchievedAtAttribute() {
+        $achieved_at  = $this->metas->where( 'meta_key', 'achieved_at' )->first();
+
+        if ( $achieved_at ) {
+            $timezone = get_wp_timezone();
+            $timezone = tzcode_to_tzstring( $timezone );
+
+            return new Carbon( $achieved_at->meta_value, $timezone );
+        }
+
+        return $achieved_at;
+    }
+
     public function getStatusAttribute() {
-        $status_meta = $this->metas->where( 'meta_key', 'status' )->first();
-        $status = 'incomplete';
+        $achieved_at  = $this->achieved_at;
+        $achieve_date = $this->achieve_date;
+        $today        = Carbon::today();
+        $status       = self::INCOMPLETE;
 
-        if ( $status_meta ) {
-            $status = $status_meta->meta_value;
+        if ( $achieved_at ) {
+            $status = self::COMPLETE;
+        } elseif ( $achieve_date & $achieve_date->diffInDays( $today, false ) > 0 ) {
+            $status = self::OVERDUE;
         }
 
-        if ( $this->achieve_date && ( $this->achieve_date < Carbon::now() ) && $status != 'complete' ) {
-            $status = 'overdue';
-        }
-
-        return $status;
+        return self::$status[$status];
     }
 
     public function metas() {

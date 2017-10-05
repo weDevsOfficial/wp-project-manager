@@ -55,7 +55,7 @@ class Milestone_Controller {
         $achieve_date = $request->get_param( 'achieve_date' );
 
         // Create a milestone
-        $milestone = Milestone::create( $data );
+        $milestone    = Milestone::create( $data );
 
         // Set 'achieve_date' as milestone meta data
         if ( $achieve_date ) {
@@ -77,9 +77,9 @@ class Milestone_Controller {
 
     public function update( WP_REST_Request $request ) {
         // Grab non empty user data
-        $data = $this->extract_non_empty_values( $request );
+        $data         = $this->extract_non_empty_values( $request );
         $achieve_date = $request->get_param( 'achieve_date' );
-        $status = $request->get_param( 'status' );
+        $achieved_at  = $request->get_param( 'achieved_at' );
 
         // Set project id from url parameter
         $project_id   = $request->get_param( 'project_id' );
@@ -88,7 +88,7 @@ class Milestone_Controller {
         $milestone_id = $request->get_param( 'milestone_id' );
 
         // Find milestone associated with project id and milestone id
-        $milestone = Milestone::where( 'id', $milestone_id )
+        $milestone    = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id )
             ->first();
 
@@ -104,22 +104,20 @@ class Milestone_Controller {
                 'project_id'  => $milestone->project_id,
             ]);
 
-            $meta->update([
-                'meta_value' => make_carbon_date( $achieve_date )
-            ]);
+            $meta->meta_value = make_carbon_date( $achieve_date );
+            $meta->save();
         }
 
-        if ( $milestone && in_array( $status, Milestone::$status ) ) {
+        if ( $achieved_at ) {
             $meta = Meta::firstOrCreate([
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
-                'meta_key'    => 'status',
+                'meta_key'    => 'achieved_at',
                 'project_id'  => $milestone->project_id,
             ]);
 
-            $meta->update([
-                'meta_value' => $status
-            ]);
+            $meta->meta_value = make_carbon_date( $achieved_at );
+            $meta->save();
         }
 
         $resource = new Item( $milestone, new Milestone_Transformer );
