@@ -5,7 +5,6 @@
 
         <div v-if="discuss" id="cpm-signle-message"> 
             <div class="cpm-single">
-
                 <h3 class="cpm-box-title">
                     {{discuss.title}}          
                     <span class="cpm-right cpm-edit-link">
@@ -22,6 +21,15 @@
                 </h3>
                 <div class="cpm-entry-detail">
                     <div v-html="discuss.description"></div>
+
+                    <ul class="cpm-attachments" v-if="files.length">
+                        <li v-for="file in files">
+                            <a class="cpm-colorbox-img" :href="file.url" :title="file.name" target="_blank">
+                                <img :src="file.thumb" :alt="file.name">
+                            </a>
+                        </li>
+                    </ul>
+
                 </div>
                 <span class="cpm-msg-edit-form">
                     <div class="cpm-message-form-wrap">
@@ -105,6 +113,12 @@
                 }
 
                 return false;
+            },
+            files(){
+                if ( this.$store.state.discussion.length ) {
+                    return this.$store.state.discussion[0].files.data;
+                }
+                return [];
             },
             comments () {
                 if ( this.$store.state.discussion.length ) {
