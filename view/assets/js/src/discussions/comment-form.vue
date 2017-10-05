@@ -4,7 +4,7 @@
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
         
-        <file-uploader :files="files"></file-uploader>
+        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
         <div class="notify-users">
             
             <h2 class="cpm-box-title"> 
@@ -46,7 +46,8 @@
                 },
                 submit_disabled: false,
 				show_spinner: false,
-                files: []
+                deleted_files: [],
+                files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             }
         },
 

@@ -181,15 +181,27 @@ export default Vue.mixin({
 	        // Disable submit button for preventing multiple click
 	        this.submit_disabled = true;
 	        var self      = this,
-	            is_update = typeof self.comment.id == 'undefined' ? false : true,
-	            
-	            form_data = {
-	                content: self.comment.content,
-	                commentable_id: self.discuss.id,
-	                commentable_type: 'discussion-board',
-	                FILES: self.files
-	            };
-	        
+	            is_update = typeof self.comment.id == 'undefined' ? false : true;
+
+	            console.log(self.comment.content );
+            var data = new FormData();
+
+            data.append('content', self.comment.content );
+            data.append('commentable_id', self.discuss.id );
+            data.append('commentable_type', 'discussion-board');
+
+            this.deleted_files.map(function(del_file) {
+            	data.append('files_to_delete[]', del_file);
+            });
+            
+
+            this.files.map(function(file) {
+            	if ( typeof file.attachment_id === 'undefined' ) {
+            		var decode = self.dataURLtoFile(file.thumb, file.name);
+					data.append( 'files[]', decode );
+            	}
+			});
+	                    
 	        // Showing loading option 
 	        this.show_spinner = true;
 
@@ -204,7 +216,10 @@ export default Vue.mixin({
 	        var request_data = {
 	            url: url,
 	            type: type,
-	            data: form_data,
+	            data: data,
+	            cache: false,
+        		contentType: false,
+        		processData: false,
 	            success (res) {
 	                self.getDiscuss(self);
 	                self.show_spinner = false;
@@ -253,6 +268,26 @@ export default Vue.mixin({
                     } else {
                         self.getDiscussion(self);
                     }
+                }
+            }
+            //self.$store.commit('afterDeleteDiscuss', discuss_id);
+            self.httpRequest(request_data);
+        },
+
+        deleteComment(comment_id){
+        	if ( ! confirm( 'Are you sure to delete this comment?' ) ) {
+                return;
+            }
+
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+ comment_id,
+                type: 'DELETE',
+                success: function(res) {
+                    self.$store.commit('afterDeleteComment', {
+                    	comment_id: comment_id,
+                    	discuss_id: self.discuss.id
+                    } ); 
                 }
             }
             //self.$store.commit('afterDeleteDiscuss', discuss_id);

@@ -45,17 +45,17 @@
 
             <ul class="cpm-comment-wrap">
 
-                <li v-for="comment in comments" class="cpm-comment clearfix even" id="cpm-comment-309">
+                <li v-for="comment in comments" class="cpm-comment clearfix even" :id="'cpm-comment-' + comment.id" key="comment.id">
                     <div class="cpm-avatar ">
-                        <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">
-                            <img alt="admin" src="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm" srcset="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm 2x" class="avatar avatar-48 photo" height="48" width="48">
+                        <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                            <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                         </a>
                     </div>
                     <div class="cpm-comment-container">
                         <div class="cpm-comment-meta">
                             <span class="cpm-author">
-                                <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">
-                                    admin
+                                <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                                    {{ comment.creator.data.display_name }}
                                 </a>
                             </span>
                             On            
@@ -69,25 +69,37 @@
                                 </span>
 
                                 <span class="cpm-delete-link">
-                                    <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" data-project_id="60" data-id="309" data-confirm="Are you sure to delete this comment?"></a>
+                                    <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" @click.prevent="deleteComment(comment.id)"></a>
                                 </span>
                             </div>
                         </div>
                         <div class="cpm-comment-content">
                             <div v-html="comment.content"></div>
+
+                            <ul class="cpm-attachments" v-if="comment.files.data.length">
+                                <li v-for="commnetFile in comment.files.data">
+                                    <a class="cpm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
+                                        <img :src="commnetFile.thumb" :alt="commnetFile.name">
+                                    </a>
+                                </li>
+                            </ul>
+
                         </div>
 
                         <div class="cpm-comment-edit-form">
-                            <comment-form v-if="comment.edit_mode" :comment="comment" :discuss="discuss"></comment-form>
+                           <comment-form v-if="comment.edit_mode" :comment="comment" :discuss="discuss"></comment-form> 
                         </div>
                     </div>
-
                 </li>
             </ul>
             
             <div class="cpm-comment-form-wrap">
-                <div class="cpm-avatar"><a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin"><img alt="admin" src="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm" srcset="//www.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=48&amp;r=g&amp;d=mm 2x" class="avatar avatar-48 photo" height="48" width="48"></a></div>
-                <comment-form :comment="{}" :discuss="discuss"></comment-form>
+                <div class="cpm-avatar">
+                    <a :href="userTaskProfileUrl( current_user.ID )" :title="current_user.data.display_name">
+                        <img :alt="current_user.data.display_name" :src="avatar_url" :srcset="avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                    </a>
+                </div>
+                <comment-form :comment="{}" :discuss="discuss"></comment-form> 
             </div>
         </div>
     </div>
