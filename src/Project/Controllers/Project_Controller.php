@@ -156,6 +156,8 @@ class Project_Controller {
 		$project->comments()->delete();
 		$project->assignees()->detach();
 		$this->detach_files( $project );
+		$project->settings()->delete();
+		$project->meta()->delete();
 
 		// Delete the main resource
 		$project->delete();
