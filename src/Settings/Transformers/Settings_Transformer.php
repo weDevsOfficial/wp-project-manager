@@ -16,9 +16,10 @@ class Settings_Transformer extends TransformerAbstract {
 
     public function transform( Settings $item ) {
         return [
-            'id'    => (int) $item->id,
-            'key'   => $item->key,
-            'value' => $item->value,
+            'id'         => (int) $item->id,
+            'key'        => $item->key,
+            'value'      => $item->value,
+            'created_at' => format_date( $item->created_at ),
         ];
     }
 }

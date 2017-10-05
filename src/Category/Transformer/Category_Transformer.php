@@ -20,6 +20,7 @@ class Category_Transformer extends TransformerAbstract {
             'title' => $item->title,
             'description' => $item->description,
             'categorible_type' => $item->categorible_type,
+            'created_at' => format_date( $item->created_at ),
         ];
     }
 }

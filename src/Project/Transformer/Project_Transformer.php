@@ -30,6 +30,7 @@ class Project_Transformer extends TransformerAbstract {
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
+            'created_at'          => format_date( $item->created_at ),
             'meta'                => [
                 'total_task_lists'        => $item->task_lists()->count(),
                 'total_tasks'             => $item->tasks()->count(),
@@ -41,7 +42,7 @@ class Project_Transformer extends TransformerAbstract {
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
             ],
-            'graph_data' => $this->date_wise_tasks_activities( $item ),
+            'graph_data'         => $this->date_wise_tasks_activities( $item ),
         ];
     }
 
