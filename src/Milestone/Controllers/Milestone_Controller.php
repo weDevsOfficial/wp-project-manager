@@ -28,9 +28,10 @@ class Milestone_Controller {
 
         $milestones = Milestone::with( 'metas' )
             ->join( 'cpm_meta', 'cpm_meta.entity_id', '=', 'cpm_boards.id' )
+            ->where( 'cpm_boards.type', 'milestone' )
+            ->where( 'cpm_boards.project_id', $project_id )
             ->where( 'cpm_meta.entity_type', 'milestone' )
             ->where( 'cpm_meta.meta_key', 'achieve_date' )
-            ->where( 'cpm_boards.project_id', $project_id )
             ->orderBy( 'cpm_meta.meta_value', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
