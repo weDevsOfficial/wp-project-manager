@@ -63,7 +63,8 @@ class Milestone_Controller {
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
                 'meta_key'    => 'achieve_date',
-                'meta_value'  => make_carbon_date( $achieve_date )
+                'meta_value'  => make_carbon_date( $achieve_date ),
+                'project_id'  => $milestone->project_id,
             ]);
         }
 
@@ -100,6 +101,7 @@ class Milestone_Controller {
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
                 'meta_key'    => 'achieve_date',
+                'project_id'  => $milestone->project_id,
             ]);
 
             $meta->update([
@@ -112,6 +114,7 @@ class Milestone_Controller {
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
                 'meta_key'    => 'status',
+                'project_id'  => $milestone->project_id,
             ]);
 
             $meta->update([
