@@ -183,8 +183,13 @@ export default new Vuex.Store({
 
         afterNewTask (state, data) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+            
             if ( data.task.status === 'incomplete' ) {
-                state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
+                if(typeof state.lists[list_index].incomplete_tasks !== 'undefined'){
+                    state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
+                }else{
+                    state.lists[list_index].incomplete_tasks = { data: data.task };
+                }                
             }
 
             state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;

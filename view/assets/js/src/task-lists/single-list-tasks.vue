@@ -147,6 +147,11 @@
 	        	}
 	        },
 	        incompletedLoadMoreButton: function(){
+
+	        	if(typeof this.list.incomplete_tasks  == 'undefined'){
+	        		return false;
+	        	}
+	        	
 	        	var pagination = this.list.incomplete_tasks.meta.pagination
 	        	if(pagination.current_page < pagination.total_pages){
 	        		this.incompleted_tasks_next_page_number = pagination.current_page+1;
@@ -156,6 +161,9 @@
 	        	return false;
 	        },
 	        completedLoadMoreButton: function(){
+	        	if(typeof this.list.complete_tasks  == 'undefined'){
+	        		return false;
+	        	}
 	        	var pagination = this.list.complete_tasks.meta.pagination
 	        	if(pagination.current_page < pagination.total_pages){
 	        		this.completed_tasks_next_page_number = pagination.current_page+1;
