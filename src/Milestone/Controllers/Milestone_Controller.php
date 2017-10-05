@@ -19,13 +19,20 @@ class Milestone_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $milestones = Milestone::paginate( $per_page, ['*'], 'page', $page );
+        $milestones = Milestone::with( 'metas' )
+            ->join( 'cpm_meta', 'cpm_meta.entity_id', '=', 'cpm_boards.id' )
+            ->where( 'cpm_meta.entity_type', 'milestone' )
+            ->where( 'cpm_meta.meta_key', 'achieve_date' )
+            ->where( 'cpm_boards.project_id', $project_id )
+            ->orderBy( 'cpm_meta.meta_value', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
 
         $milestone_collection = $milestones->getCollection();
 
