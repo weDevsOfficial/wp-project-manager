@@ -20,26 +20,32 @@ class Comment_Controller {
     use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
+        $per_page = $request->get_param( 'per_page' );
+        $page     = $request->get_param( 'page' );
+
+        $per_page = $per_page ? $per_page : 15;
+        $page     = $page ? $page : 1;
+
         $on = $request->get_param( 'on' );
         $id = $request->get_param( 'id' );
         $by = $request->get_param( 'by' );
 
         if ( $on ) {
-            $query = Comment::where('commentable_type', $on);
+            $query = Comment::where( 'commentable_type', $on );
         }
 
         if ( $id ) {
-            $query = $query->where('commentable_id', $id);
+            $query = $query->where( 'commentable_id', $id );
         }
 
         if ( $by ) {
-            $query = $query->where('created_by', $by);
+            $query = $query->where( 'created_by', $by );
         }
 
         if ( $query ) {
-            $comments = $query->paginate();
+            $comments = $query->orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
         } else {
-            $comments = Comment::paginate();
+            $comments = Comment::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
         }
 
         $comment_collection = $comments->getCollection();
