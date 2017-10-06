@@ -245,7 +245,7 @@
             });
         },
 
-         /**
+        /**
          * Set extra element in httpRequest query
          */
         getQueryParams (add_query) {
@@ -317,7 +317,20 @@
             });
             
             return route_query;
-        }
+        },
+
+        /**
+         * ISO_8601 Date format convert to moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        pmDateISO8601Format: function( date, time ) {
+            var date = new Date(date +' '+ time);
+            
+            return moment( date).format();
+        },
 	}
 });
 

@@ -5,6 +5,10 @@
 </template>
 
 <script>
-	import store from './store';
 	import mixin from './mixin';
+	import store from './store';
+
+	export default {
+        store,
+    }
 </script>

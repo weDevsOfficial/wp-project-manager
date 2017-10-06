@@ -74,8 +74,6 @@
 
         methods: {
             projectQuery () {
-                
-                var query_params = this.getQueryParams();
                 this.getProjects();
             }
         }

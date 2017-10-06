@@ -38,7 +38,7 @@
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects('status=complete');
+                vm.projectQuery();
                 vm.getRoles();
                 vm.getProjectCategories();
             });
@@ -53,7 +53,7 @@
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;
-                this.getProjects('status=complete');
+                this.projectQuery();
             }
         },
 
@@ -63,7 +63,7 @@
             },
 
             total_pages () {
-                return this.$root.$store.state.projects_meta.total_pages;
+                return this.$root.$store.state.pagination.total_pages;
             },
         },
         
@@ -74,6 +74,17 @@
             'project-create-form': project_create_form,
             'do-action': after_project
         },
+
+        methods: {
+            projectQuery () {
+                
+                var add_query = {
+                    status: 'complete'
+                }
+                var query_params = this.getQueryParams(add_query);
+                this.getProjects(query_params);
+            }
+        }
     }
 
 </script>

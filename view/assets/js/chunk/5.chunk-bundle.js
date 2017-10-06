@@ -1449,6 +1449,8 @@ var project_btn = {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
@@ -2329,6 +2331,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }) : _vm._e(), _vm._v(" "), (project.status === 'incomplete') ? _c('span', [_vm._v("Complete")]) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', {
       staticClass: "dashicons dashicons-undo"
     }) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', [_vm._v("Restore")]) : _vm._e()])]), _vm._v(" "), _vm._m(0, true)]) : _vm._e()])])], 1)
+  }), _vm._v(" "), _c('div', {
+    staticClass: "cpm-clearfix"
   })], 2)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -1449,6 +1449,8 @@ var project_btn = {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
@@ -2329,6 +2331,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }) : _vm._e(), _vm._v(" "), (project.status === 'incomplete') ? _c('span', [_vm._v("Complete")]) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', {
       staticClass: "dashicons dashicons-undo"
     }) : _vm._e(), _vm._v(" "), (project.status === 'complete') ? _c('span', [_vm._v("Restore")]) : _vm._e()])]), _vm._v(" "), _vm._m(0, true)]) : _vm._e()])])], 1)
+  }), _vm._v(" "), _c('div', {
+    staticClass: "cpm-clearfix"
   })], 2)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2669,7 +2673,7 @@ if (false) {(function () {
 
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            vm.getProjects('status=complete');
+            vm.projectQuery();
             vm.getRoles();
             vm.getProjectCategories();
         });
@@ -2684,7 +2688,7 @@ if (false) {(function () {
     watch: {
         '$route'(route) {
             this.current_page_number = route.params.current_page_number;
-            this.getProjects('status=complete');
+            this.projectQuery();
         }
     },
 
@@ -2694,7 +2698,7 @@ if (false) {(function () {
         },
 
         total_pages() {
-            return this.$root.$store.state.projects_meta.total_pages;
+            return this.$root.$store.state.pagination.total_pages;
         }
     },
 
@@ -2704,6 +2708,17 @@ if (false) {(function () {
         'pm-pagination': __WEBPACK_IMPORTED_MODULE_2__pagination_vue__["a" /* default */],
         'project-create-form': __WEBPACK_IMPORTED_MODULE_3__project_create_form_vue__["a" /* default */],
         'do-action': __WEBPACK_IMPORTED_MODULE_5__do_action_vue__["a" /* default */]
+    },
+
+    methods: {
+        projectQuery() {
+
+            var add_query = {
+                status: 'complete'
+            };
+            var query_params = this.getQueryParams(add_query);
+            this.getProjects(query_params);
+        }
     }
 });
 

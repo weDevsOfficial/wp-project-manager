@@ -2,18 +2,21 @@ import Vue from './../../vue/vue';
 
 export default Vue.mixin({
 	methods: {
-		getActivities () {
-			var self = this;
+		getActivities (condition, callback) {
+			var self = this,
+				condition = self.generateActivityCondition(condition) || '';
+
 			var request = {
-	            url: self.base_url + '/cpm/v2/activities?per_page=3&page='+ self.setCurrentPageNumber(self),
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/activities?'+condition,
 	            success (res) {
-	            	res.data.map(function(discuss, index) {
-			    		//self.addMeta(discuss);
-			    	});
-	                //self.$store.commit( 'setDiscussion', res.data );
-	                //self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
+	                self.$store.commit( 'setActivities', res.data );
+
+	                if ( typeof callback !== 'undefined' ) {
+	                	callback(res);
+	                }
 	            }
 	        };
+
 	        self.httpRequest(request);
 		},
 
@@ -22,5 +25,15 @@ export default Vue.mixin({
             self.current_page_number = current_page_number;
             return current_page_number;
         },
+
+        generateActivityCondition (conditions) {
+        	var query = '';
+
+        	jQuery.each(conditions, function(condition, key) {
+        		query = query + condition +'='+ key +'&';
+        	});
+
+        	return query.slice(0, -1);
+        }
 	},
 });

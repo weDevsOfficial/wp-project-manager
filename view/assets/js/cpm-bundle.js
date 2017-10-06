@@ -10486,8 +10486,8 @@ module.exports = function normalizeComponent (
         },
 
         /**
-        * Set extra element in httpRequest query
-        */
+         * Set extra element in httpRequest query
+         */
         getQueryParams(add_query) {
 
             var self = this,
@@ -10550,6 +10550,19 @@ module.exports = function normalizeComponent (
             });
 
             return route_query;
+        },
+
+        /**
+         * ISO_8601 Date format convert to moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        pmDateISO8601Format: function (date, time) {
+            var date = new Date(date + ' ' + time);
+
+            return moment(date).format();
         }
     }
 }));
@@ -11146,8 +11159,8 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixin__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(39);
 //
 //
 //
@@ -11157,6 +11170,10 @@ if (false) {(function () {
 
 
 
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	store: __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */]
+});
 
 /***/ }),
 /* 23 */
@@ -11506,18 +11523,21 @@ new __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a(CPM_Vue);
 
 /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.mixin({
 	methods: {
-		getActivities() {
-			var self = this;
+		getActivities(condition, callback) {
+			var self = this,
+			    condition = self.generateActivityCondition(condition) || '';
+
 			var request = {
-				url: self.base_url + '/cpm/v2/activities?per_page=3&page=' + self.setCurrentPageNumber(self),
+				url: self.base_url + '/cpm/v2/projects/' + self.project_id + '/activities?' + condition,
 				success(res) {
-					res.data.map(function (discuss, index) {
-						//self.addMeta(discuss);
-					});
-					//self.$store.commit( 'setDiscussion', res.data );
-					//self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
+					self.$store.commit('setActivities', res.data);
+
+					if (typeof callback !== 'undefined') {
+						callback(res);
+					}
 				}
 			};
+
 			self.httpRequest(request);
 		},
 
@@ -11525,6 +11545,16 @@ new __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a(CPM_Vue);
 			var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
 			self.current_page_number = current_page_number;
 			return current_page_number;
+		},
+
+		generateActivityCondition(conditions) {
+			var query = '';
+
+			jQuery.each(conditions, function (condition, key) {
+				query = query + condition + '=' + key + '&';
+			});
+
+			return query.slice(0, -1);
 		}
 	}
 }));
@@ -11569,11 +11599,19 @@ var activities = {
  */
 __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a);
 
-/* unused harmony default export */ var _unused_webpack_default_export = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
 
-	state: {},
+	state: {
+		activities: []
+	},
 
-	mutations: {}
+	mutations: {
+		setActivities(state, activities) {
+			var new_activity = state.activities.concat(activities);
+
+			state.activities = new_activity;
+		}
+	}
 }));
 
 /***/ }),
@@ -16717,7 +16755,7 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["default"],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
   __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f0a1cfd0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,

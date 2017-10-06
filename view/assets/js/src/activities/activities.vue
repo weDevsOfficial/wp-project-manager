@@ -3,11 +3,35 @@
 
     <pm-header></pm-header>
 
+    <ul v-if="activities.length" class="cpm-activity-list">
+        <li v-for="group in activities" :key="group.id" class="cpm-row"> 
+            <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12">
+                <span>{{ actiivtyGroupDate(group.date) }}</span> 
+                 
+            </div> 
+            <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> 
+                <ul>
+                    <li v-for="activity in group.activities" >
+                        <div class="cpm-col-8 cpm-sm-col-12">
+                            <a href="#">
+                                {{ activity.actor.data.display_name }}
+                            </a> 
+                            <span v-html="activity.message"></span>
+                        </div>
+                        <div class="date cpm-col-4 cpm-sm-col-12">
+                            <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
+                                {{ activity.committed_at.date }} {{ activity.committed_at.time }}
+                            </time>
+                        </div> 
+                        <div class="clear"></div> 
+                    </li>
+                </ul>
+            </div>
+        </li>
 
-    <ul class="cpm_activity_list">
-    <ul class="cpm-activity-list"><li class="cpm-row"> <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12"><span> 11 </span> <br> September   </div> <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> <ul><li><div class="cpm-col-8 cpm-sm-col-12"><a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a> commented on a <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97#cpm-comment-315">discussion</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:52+00:00" title="2017-09-11T13:34:52+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12"><a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a> commented on a <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97#cpm-comment-313">discussion</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:47+00:00" title="2017-09-11T13:34:47+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12"><a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a> commented on a <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97#cpm-comment-311">discussion</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:41+00:00" title="2017-09-11T13:34:41+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12"><a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a> commented on a <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97#cpm-comment-309">discussion</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:37+00:00" title="2017-09-11T13:34:37+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Message "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=97">srthsrth</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:23+00:00" title="2017-09-11T13:34:23+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Message "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=96">kafd</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:34:01+00:00" title="2017-09-11T13:34:01+00:00">September 11, 2017 1:34 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Message "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=message&amp;action=single&amp;pid=60&amp;mid=95">message 1</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T13:33:26+00:00" title="2017-09-11T13:33:26+00:00">September 11, 2017 1:33 pm</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" updated by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T10:09:50+00:00" title="2017-09-11T10:09:50+00:00">September 11, 2017 10:09 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" updated by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T10:09:49+00:00" title="2017-09-11T10:09:49+00:00">September 11, 2017 10:09 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" updated by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T10:09:48+00:00" title="2017-09-11T10:09:48+00:00">September 11, 2017 10:09 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" updated by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:44:05+00:00" title="2017-09-11T08:44:05+00:00">September 11, 2017 8:44 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" updated by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:43:32+00:00" title="2017-09-11T08:43:32+00:00">September 11, 2017 8:43 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=task_single&amp;pid=60#/task/94">task 1</a>" added to task list "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=60#/list/93">List 1</a>" by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:43:24+00:00" title="2017-09-11T08:43:24+00:00">September 11, 2017 8:43 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=60#/list/93">List 1</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:43:15+00:00" title="2017-09-11T08:43:15+00:00">September 11, 2017 8:43 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "laskdf" deleted by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:42:32+00:00" title="2017-09-11T08:42:32+00:00">September 11, 2017 8:42 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "skgfkd" deleted by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:42:27+00:00" title="2017-09-11T08:42:27+00:00">September 11, 2017 8:42 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "list 1" deleted by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T08:42:21+00:00" title="2017-09-11T08:42:21+00:00">September 11, 2017 8:42 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=60#/list/81">skgfkd</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T06:21:11+00:00" title="2017-09-11T06:21:11+00:00">September 11, 2017 6:21 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=60#/list/80">laskdf</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T06:21:06+00:00" title="2017-09-11T06:21:06+00:00">September 11, 2017 6:21 am</time></div> <div class="clear"></div> </li><li><div class="cpm-col-8 cpm-sm-col-12">Task list "<a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects&amp;tab=task&amp;action=single&amp;pid=60#/list/79">list 1</a>" created by <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">admin</a></div><div class="date cpm-col-4 cpm-sm-col-12"><time datetime="2017-09-11T06:21:00+00:00" title="2017-09-11T06:21:00+00:00">September 11, 2017 6:21 am</time></div> <div class="clear"></div> </li></ul> </div></li> <div class="clearfix"></div> </ul></ul>
+    </ul>
 
-    <a href="#" data-project_id="60" data-start="21" data-total="48" class="button cpm-load-more">Load More...</a>
+    <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">Load More...</a>
 </div>
 </template>
 
@@ -17,11 +41,92 @@
     export default {
         beforeRouteEnter(to, from, next) {
             next (vm => {
-                vm.getActivities();
+                vm.activityQuery();
             }); 
+        },
+        data () {
+            return {
+                page: 1,
+                total_activity: 0,
+                per_page: 2
+            }
+        },
+        computed: {
+            activities () {
+                var records = this.$store.state.activities,
+                    self = this;
+
+                var activities = _.chain(records)
+                    .groupBy(self.occurrenceDay)
+                    .map(self.groupToDay)
+                    .sortBy('day')
+                    .value();
+
+                return activities;
+            },
+
+            loaded_activities () {
+                return this.$store.state.activities.length;
+            }
         },
         components: {
             'pm-header': header
+        },
+
+        methods: {
+            occurrenceDay (occurrence){
+                var date = new Date(occurrence.committed_at.date);
+                var date = moment(date).format('YYYY-MM-DD');
+
+                return moment(date).startOf('day').format('YYYY-MM-DD');
+            },
+
+            groupToDay(group, day){
+                return {
+                    date: day,
+                    activities: group
+                }
+            },
+
+            /**
+             * WP settings date format convert to moment date format with time zone
+             * 
+             * @param  string date 
+             * 
+             * @return string      
+             */
+            actiivtyGroupDate: function( date ) {
+                if ( !date ) {
+                    return;
+                }
+
+                moment.tz.add(PM_Vars.time_zones);
+                moment.tz.link(PM_Vars.time_links);
+
+                date = new Date(date);
+                date = moment(date).format('YYYY-MM-DD');
+                
+                var format = 'MMMM DD';
+
+                return moment.tz( date, PM_Vars.wp_time_zone ).format(format);
+            },
+
+            loadMore () {
+                this.page = this.page + 1;
+                this.activityQuery();
+            },
+
+            activityQuery () {
+                var condition = {
+                    per_page: this.per_page,
+                    page: this.page
+                },
+                self = this;
+
+                this.getActivities(condition, function(res) {
+                    self.total_activity = res.meta.pagination.total;
+                });
+            }
         }
     }
 

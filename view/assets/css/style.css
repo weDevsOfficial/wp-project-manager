@@ -166,7 +166,7 @@
   border: 1px solid #E4E4E4;
 }
 .cpm .cpm-pagination-wrap {
-  float: right;
+  //float: right;
 }
 .cpm .cpm-pagination-wrap a {
   box-shadow: none;

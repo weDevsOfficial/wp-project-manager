@@ -9,10 +9,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 
 	state: {
-
+		activities: [],
 	},
 	
 	mutations: {
-
+		setActivities (state, activities) {
+			var new_activity = state.activities.concat(activities);
+			
+			state.activities = new_activity;
+		}
 	}
 });
