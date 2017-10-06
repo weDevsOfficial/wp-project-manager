@@ -32,7 +32,7 @@ class Milestone_Controller {
             ->where( 'cpm_boards.project_id', $project_id )
             ->where( 'cpm_meta.entity_type', 'milestone' )
             ->where( 'cpm_meta.meta_key', 'achieve_date' )
-            ->orderBy( 'cpm_meta.meta_value', 'DESC' )
+            ->orderBy( 'cpm_meta.meta_value', 'ASC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $milestone_collection = $milestones->getCollection();
@@ -67,15 +67,13 @@ class Milestone_Controller {
         $milestone    = Milestone::create( $data );
 
         // Set 'achieve_date' as milestone meta data
-        if ( $achieve_date ) {
-            Meta::create([
-                'entity_id'   => $milestone->id,
-                'entity_type' => 'milestone',
-                'meta_key'    => 'achieve_date',
-                'meta_value'  => make_carbon_date( $achieve_date ),
-                'project_id'  => $milestone->project_id,
-            ]);
-        }
+        Meta::create([
+            'entity_id'   => $milestone->id,
+            'entity_type' => 'milestone',
+            'meta_key'    => 'achieve_date',
+            'meta_value'  => $achieve_date ? make_carbon_date( $achieve_date ) : null,
+            'project_id'  => $milestone->project_id,
+        ]);
 
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
