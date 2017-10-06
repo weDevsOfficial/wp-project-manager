@@ -164,7 +164,7 @@
 
             if ( categories.length ) {
                 if (callback) {
-                    callback(categories);
+                    //callback(categories);
                 }
                 return categories;
             }
@@ -243,6 +243,80 @@
                     }
                 }
             });
+        },
+
+         /**
+         * Set extra element in httpRequest query
+         */
+        getQueryParams (add_query) {
+
+            var self = this,
+                query_str = '';
+
+             jQuery.each(add_query, function(key, val) {
+                
+                if (Array.isArray(val)) {
+
+                    val.map(function(el, index) {
+                        query_str = query_str + key +'='+ el + '&'; 
+                    });
+                } else {
+                    query_str = query_str + key +'='+ val + '&'; 
+                }
+                
+            });
+                
+
+            jQuery.each(this.$route.query, function(key, val) {
+                
+                if (Array.isArray(val)) {
+
+                    val.map(function(el, index) {
+                        query_str = query_str + key +'='+ el + '&'; 
+                    });
+                } else {
+                    query_str = query_str + key +'='+ val + '&'; 
+                }
+                
+            });
+
+            var query_str = query_str.slice(0, -1);
+
+            return query_str;
+        },
+
+        /**
+         * Set extra element in this.$route.query
+         */
+        setQuery (add_query) {
+            var self = this,
+                route_query = {};
+
+
+            jQuery.each(self.$route.query, function(key, val) {
+                if (Array.isArray(val)) {
+                    route_query[key] = [];
+                    
+                    val.map(function(el, index) {
+                        route_query[key].push(el);
+                    });
+                
+                } else if (val) {
+                    route_query[key] = [val];
+                }
+                
+            });
+
+            jQuery.each(add_query, function(key, val) {
+                if (val) {
+                    route_query[key] = [val];
+                } else {
+                    delete route_query[key];
+                }
+                
+            });
+            
+            return route_query;
         }
 	}
 });

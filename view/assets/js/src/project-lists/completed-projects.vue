@@ -53,7 +53,7 @@
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;
-                this.getProjects(this);
+                this.getProjects('status=complete');
             }
         },
 

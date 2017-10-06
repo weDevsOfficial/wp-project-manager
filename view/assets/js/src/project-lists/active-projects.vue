@@ -37,7 +37,7 @@
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects('status=incomplete');
+                vm.projectQuery();
                 vm.getRoles();
                 vm.getProjectCategories();
             });
@@ -49,10 +49,14 @@
             }
         },
 
+        created () {
+            
+        },
+
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;
-                this.getProjects(this);
+                this.projectQuery();
             }
         },
 
@@ -73,6 +77,17 @@
             'project-create-form': project_create_form,
             'do-action': after_project
         },
+
+        methods: {
+            projectQuery () {
+                
+                var add_query = {
+                    status: 'incomplete'
+                }
+                var query_params = this.getQueryParams(add_query);
+                this.getProjects(query_params);
+            }
+        }
     }
 
 </script>

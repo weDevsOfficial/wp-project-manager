@@ -35,7 +35,7 @@
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getProjects(vm);
+                vm.projectQuery();
                 vm.getRoles();
                 vm.getProjectCategories();
             });
@@ -50,7 +50,7 @@
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;
-                this.getProjects(this);
+                this.projectQuery();
             }
         },
 
@@ -72,8 +72,14 @@
             'do-action': after_project
         },
 
+        methods: {
+            projectQuery () {
+                
+                var query_params = this.getQueryParams();
+                this.getProjects();
+            }
+        }
     }
-
 </script>
 
 <style>
