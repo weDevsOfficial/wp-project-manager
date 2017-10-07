@@ -4,6 +4,7 @@ namespace CPM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Model_Events;
+use CPM\Milestone\Models\Milestone;
 
 class Meta extends Eloquent {
 
@@ -20,4 +21,9 @@ class Meta extends Eloquent {
         'created_by',
         'updated_by',
     ];
+
+    public function milestone() {
+        return $this->belongsTo( Milestone::class, 'entity_id' );
+
+    }
 }

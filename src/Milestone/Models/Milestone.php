@@ -42,35 +42,9 @@ class Milestone extends Eloquent {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
     }
 
-    public function getAchieveDateAttribute() {
-        $meta = $this->metas->where( 'meta_key', 'achieve_date' )->first();
-
-        if ( $meta && $meta->meta_value ) {
-            $timezone = get_wp_timezone();
-            $timezone = tzcode_to_tzstring( $timezone );
-
-            return new Carbon( $meta->meta_value, $timezone );
-        }
-
-        return null;
-    }
-
-    public function getAchievedAtAttribute() {
-        $meta  = $this->metas->where( 'meta_key', 'achieved_at' )->first();
-
-        if ( $meta && $meta->meta_value ) {
-            $timezone = get_wp_timezone();
-            $timezone = tzcode_to_tzstring( $timezone );
-
-            return new Carbon( $meta->meta_value, $timezone );
-        }
-
-        return null;
-    }
-
     public function getStatusAttribute() {
-        $achieved_at  = $this->achieved_at;
-        $achieve_date = $this->achieve_date;
+        $achieved_at  = $this->achieved_at ? make_carbon_date( $this->achieved_at->meta_value ) : null;
+        $achieve_date = $this->achieve_date ? make_carbon_date( $this->achieve_date->meta_value ) : null;
         $today        = Carbon::today();
         $status       = self::INCOMPLETE;
 
@@ -86,6 +60,18 @@ class Milestone extends Eloquent {
     public function metas() {
         return $this->hasMany( Meta::class, 'entity_id' )
             ->where( 'entity_type', 'milestone' );
+    }
+
+    public function achieve_date() {
+        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+            ->where( 'entity_type', 'milestone' )
+            ->where( 'meta_key', 'achieve_date' );
+    }
+
+    public function achieved_at() {
+        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+            ->where( 'entity_type', 'milestone' )
+            ->where( 'meta_key', 'achieved_at' );
     }
 
     public function task_lists() {

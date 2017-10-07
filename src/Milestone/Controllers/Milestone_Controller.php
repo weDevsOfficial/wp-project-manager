@@ -13,6 +13,7 @@ use CPM\Milestone\Transformer\Milestone_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Common\Models\Meta;
 use Carbon\Carbon;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Milestone_Controller {
 
@@ -26,21 +27,31 @@ class Milestone_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $milestones = Milestone::with( 'metas' )
-            ->join( 'cpm_meta', 'cpm_meta.entity_id', '=', 'cpm_boards.id' )
-            ->where( 'cpm_boards.type', 'milestone' )
-            ->where( 'cpm_boards.project_id', $project_id )
-            ->where( 'cpm_meta.entity_type', 'milestone' )
-            ->where( 'cpm_meta.meta_key', 'achieve_date' )
-            ->orderBy( 'cpm_meta.meta_value', 'ASC' )
+        $metas = Meta::with('milestone.achieve_date', 'milestone.achieved_at')
+            ->where( 'entity_type', 'milestone' )
+            ->where( 'meta_key', 'achieved_at' )
+            ->addSelect('*')
+            ->addSelect( DB::raw('TO_SECONDS(meta_value) as achieved_at') )
+            ->orderBy( 'achieved_at' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
-        $milestone_collection = $milestones->getCollection();
+        $meta_collection = $metas->getCollection();
+        $milestone_collection = $this->get_milestone_collection( $meta_collection );
 
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $milestones ) );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $metas ) );
 
         return $this->get_response( $resource );
+    }
+
+    private function get_milestone_collection( $metas = [] ) {
+        $milestones = [];
+
+        foreach ($metas as $meta) {
+            $milestones[] = $meta->milestone;
+        }
+
+        return $milestones;
     }
 
     public function show( WP_REST_Request $request ) {
@@ -72,6 +83,13 @@ class Milestone_Controller {
             'entity_type' => 'milestone',
             'meta_key'    => 'achieve_date',
             'meta_value'  => $achieve_date ? make_carbon_date( $achieve_date ) : null,
+            'project_id'  => $milestone->project_id,
+        ]);
+
+        Meta::create([
+            'entity_id'   => $milestone->id,
+            'entity_type' => 'milestone',
+            'meta_key'    => 'achieved_at',
             'project_id'  => $milestone->project_id,
         ]);
 
