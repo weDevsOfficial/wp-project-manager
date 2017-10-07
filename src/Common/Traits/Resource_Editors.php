@@ -8,7 +8,6 @@ trait Resource_Editors {
 
     public function includeCreator( $item ) {
         $creator = $item->creator;
-
         return $this->item( $creator, new User_Transformer );
     }
 
