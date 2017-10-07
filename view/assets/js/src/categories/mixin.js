@@ -62,6 +62,10 @@ export default Vue.mixin({
             var request_data = {
                 url: self.base_url + '/cpm/v2/categories',
                 success: function(res) {
+                	res.data.map(function(category, index) {
+                		self.addCategoryMeta(category);
+                	});
+                	
                     self.$store.commit('setCategories', res.data);
                 }
             };
@@ -71,6 +75,14 @@ export default Vue.mixin({
 
 		getCategory () {
 
+		},
+
+		addCategoryMeta (category) {
+			category.edit_mode = false;
+		},
+
+		showHideCategoryEditForm (category) {
+			category.edit_mode = category.edit_mode ? false : true;
 		}
 	},
 });

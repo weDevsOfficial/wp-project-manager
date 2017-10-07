@@ -61,7 +61,7 @@
 							
 							<br class="clear">
 						</div>
-						<pre>{{ categories }}</pre>
+						
 						<table class="wp-list-table widefat fixed striped tags">
 							<thead>
 								<tr>
@@ -88,23 +88,28 @@
 							</thead>
 
 							<tbody id="the-list" data-wp-lists="list:tag">
-								<tr id="tag-1" v-for="categori in categories" key="categori.id">
-									<th scope="row" class="check-column">
+								<tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)">
+									<th v-if="!category.edit_mode" scope="row" class="check-column">
 										<input type="checkbox" name="delete_tags[]" value="48" id="cb-select-48">
 									</th>
-									<td class="name column-name has-row-actions column-primary" data-colname="Name">
+									<td v-if="!category.edit_mode" class="name column-name has-row-actions column-primary" data-colname="Name">
 										<strong>
-											<a class="row-title" href="">{{ categori.title }}</a>
+											<a class="row-title" href="">{{ category.title }}</a>
 										</strong>
 									
 										<div class="row-actions">
 											<span class="edit">
-												<a href="#">Edit</a> 
+												<a @click.prevent="showHideCategoryEditForm(category)" href="#">Edit</a> 
 											</span>
 										</div>
+										
 									</td>
-									<td class="description column-description" data-colname="Description">{{ categori.description }}</td>
-									<td class="description column-description" data-colname="Description">{{ categori.categorible_type }}</td>
+									<td v-if="!category.edit_mode" class="description column-description" data-colname="Description">{{ category.description }}</td>
+									<td v-if="!category.edit_mode" class="description column-description" data-colname="Description">{{ category.categorible_type }}</td>
+
+									<td v-if="category.edit_mode" colspan="4">
+										<edit-category-form :category="category"></edit-category-form>
+									</td>
 								</tr>	
 							</tbody>
 
@@ -154,12 +159,16 @@
 </template>
 
 <script>
-	
+	import edit_category_form from './edit-category-form.vue';
 	export default {
 		beforeRouteEnter(to, from, next) {
 			next(vm => {
 				vm.getCategories();
 			});
+		},
+
+		components: {
+			'edit-category-form': edit_category_form
 		},
 
 		data () {
@@ -177,7 +186,11 @@
 		},
 
 		methods: {
-
+			catTrClass (category) {
+				if (category.edit_mode) {
+					return 'inline-edit-row inline-editor';
+				}
+			}
 		}
 	}
 </script>
