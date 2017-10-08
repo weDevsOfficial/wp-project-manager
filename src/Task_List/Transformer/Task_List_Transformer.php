@@ -35,7 +35,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
-            'order'       => $item->order,
+            'order'       => (int) $item->order,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => [
                 'total_tasks'            => $item->tasks()->count(),

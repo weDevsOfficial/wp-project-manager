@@ -34,7 +34,6 @@ class Task extends Eloquent {
         'recurrent',
         'status',
         'project_id',
-        'category_id',
         'parent_id',
         'created_by',
         'updated_by'
@@ -42,7 +41,9 @@ class Task extends Eloquent {
 
     protected $dates = ['start_at', 'due_date'];
 
-    protected $attributes = ['priority' => 1];
+    protected $attributes = [
+        'priority' => 1,
+    ];
 
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'boardable_id', 'board_id' )
@@ -69,5 +70,14 @@ class Task extends Eloquent {
 
     public function assignees() {
         return $this->hasMany( Assignee::class, 'task_id' );
+    }
+
+    public static function get_latest_order() {
+        $task = self::orderBy( 'order', 'DESC' )->first();
+
+        if ( $task ) {
+            return $task->order;
+        }
+        return 1;
     }
 }
