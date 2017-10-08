@@ -62,6 +62,16 @@ class Milestone extends Eloquent {
             $status = self::OVERDUE;
         }
 
+        $meta = Meta::firstOrCreate([
+            'entity_id'   => $this->id,
+            'entity_type' => 'milestone',
+            'meta_key'    => 'status',
+            'project_id'  => $this->project_id,
+        ]);
+
+        $meta->meta_value = $status;
+        $meta->save();
+
         return self::$status[$status];
     }
 
