@@ -24,6 +24,5 @@ class Meta extends Eloquent {
 
     public function milestone() {
         return $this->belongsTo( Milestone::class, 'entity_id' );
-
     }
 }
