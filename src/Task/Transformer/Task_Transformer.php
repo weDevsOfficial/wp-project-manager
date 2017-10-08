@@ -58,6 +58,7 @@ class Task_Transformer extends TransformerAbstract {
             'project_id'  => $item->project_id,
             'category_id' => $item->category_id,
             'parent_id'   => $item->category_id,
+            'created_at'  => format_date( $item->created_at ),
             'meta'        => [
                 'total_comment'  => $item->comments->count(),
                 'total_files'    => $item->files->count(),

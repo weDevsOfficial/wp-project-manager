@@ -21,8 +21,7 @@ export default new Vuex.Store({
 
             return index;
         },
-	},
-	
+	}, 
 	mutations: {
 		afterNewCategories (state, categories) {
 			state.categories.push(categories);
@@ -35,6 +34,10 @@ export default new Vuex.Store({
 		afterUpdateCategories (state, category) {
 			var category_index = state.getIndex(state.categories, category.id, 'id');
             state.categories.splice(category_index,1, category);
+		},
+		afterDeleteCategory (state, id) {
+			var category_index = state.getIndex(state.categories, id, 'id');
+            state.categories.splice(category_index,1);
 		}
 	}
 });

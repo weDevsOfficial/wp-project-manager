@@ -11,6 +11,7 @@ use CPM\File\Transformer\File_Transformer;
 use CPM\Milestone\Transformer\Milestone_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Common\Traits\Resource_Editors;
+use CPM\Task\Models\Task;
 
 class Task_List_Transformer extends TransformerAbstract {
 
@@ -35,15 +36,14 @@ class Task_List_Transformer extends TransformerAbstract {
             'title'       => $item->title,
             'description' => $item->description,
             'order'       => $item->order,
-            'created_by'  => $item->created_by,
-            'updated_by'  => $item->updated_by,
+            'created_at'  => format_date( $item->created_at ),
             'meta'        => [
-                'total_tasks'            => $item->tasks->count(),
-                'total_complete_tasks'   => $item->tasks->where( 'status', 'complete')->count(),
-                'total_incomplete_tasks' => $item->tasks->where( 'status', 'incomplete')->count(),
-                'total_comments'         => $item->comments->count(),
-                'totla_files'            => $item->files->count(),
-                'total_assignees'        => $item->assignees->count(),
+                'total_tasks'            => $item->tasks()->count(),
+                'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
+                'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
+                'total_comments'         => $item->comments()->count(),
+                'totla_files'            => $item->files()->count(),
+                'total_assignees'        => $item->assignees()->count(),
             ]
         ];
     }

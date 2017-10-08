@@ -17,6 +17,10 @@ class Milestone extends Eloquent {
 
     protected $table = 'cpm_boards';
 
+    const OVERDUE    = 0;
+    const INCOMPLETE = 1;
+    const COMPLETE   = 2;
+
     protected $fillable = [
         'title',
         'description',
@@ -29,9 +33,9 @@ class Milestone extends Eloquent {
     protected $attributes = ['type' => 'milestone'];
 
     public static $status = [
-        'incomplete',
-        'complete',
-        'overdue'
+        0 => 'overdue',
+        1 => 'incomplete',
+        2 => 'complete',
     ];
 
     public function newQuery( $except_deleted = true ) {
@@ -39,36 +43,53 @@ class Milestone extends Eloquent {
     }
 
     public function getAchieveDateAttribute() {
-        $achieve_date = $this->metas->where( 'meta_key', 'achieve_date' )->first();
+        return make_carbon_date( $this->achieve_date_field->meta_value );
+    }
 
-        if ( $achieve_date ) {
-            $timezone = get_wp_timezone();
-            $timezone = tzcode_to_tzstring( $timezone );
-
-            return new Carbon( $achieve_date->meta_value, $timezone );
-        }
-
-        return $achieve_date;
+    public function getAchievedAtAttribute() {
+        return $this->status_field->meta_value == self::COMPLETE ? $this->status_field->updated_at : null;
     }
 
     public function getStatusAttribute() {
-        $status_meta = $this->metas->where( 'meta_key', 'status' )->first();
-        $status = 'incomplete';
+        $status       = self::INCOMPLETE;
+        $today        = Carbon::today();
+        $achieved_at  = $this->achieved_at;
+        $achieve_date = $this->achieve_date;
 
-        if ( $status_meta ) {
-            $status = $status_meta->meta_value;
+        if ( $achieved_at ) {
+            $status = self::COMPLETE;
+        } elseif ( $achieve_date && $achieve_date->diffInDays( $today, false ) > 0 ) {
+            $status = self::OVERDUE;
         }
 
-        if ( $this->achieve_date && ( $this->achieve_date < Carbon::now() ) && $status != 'complete' ) {
-            $status = 'overdue';
-        }
+        $meta = Meta::firstOrCreate([
+            'entity_id'   => $this->id,
+            'entity_type' => 'milestone',
+            'meta_key'    => 'status',
+            'project_id'  => $this->project_id,
+        ]);
 
-        return $status;
+        $meta->meta_value = $status;
+        $meta->save();
+
+        return self::$status[$status];
     }
 
     public function metas() {
         return $this->hasMany( Meta::class, 'entity_id' )
             ->where( 'entity_type', 'milestone' );
+    }
+
+    public function achieve_date_field() {
+        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+            ->where( 'entity_type', 'milestone' )
+            ->where( 'meta_key', 'achieve_date' );
+    }
+
+    public function status_field() {
+        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+            ->where( 'entity_type', 'milestone' )
+            ->where( 'meta_key', 'status' );
     }
 
     public function task_lists() {

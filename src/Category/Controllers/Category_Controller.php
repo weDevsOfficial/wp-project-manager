@@ -10,8 +10,10 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
 use CPM\Category\Transformer\Category_Transformer;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Category_Controller {
+
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
@@ -80,5 +82,14 @@ class Category_Controller {
 
         $category->projects()->detach();
         $category->delete();
+    }
+
+    public function bulk_destroy( WP_REST_Request $request ) {
+        $category_ids = $request->get_param( 'category_ids' );
+        
+        if ( is_array( $category_ids ) ) {
+            DB::table('cpm_category_project')->whereIn( 'category_id', $category_ids )->delete();
+            Category::whereIn( 'id', $category_ids )->delete();
+        }
     }
 }

@@ -12064,6 +12064,37 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 			};
 
 			self.httpRequest(request_data);
+		},
+
+		deleteCategories(ids) {
+			if (!confirm('Are you sure!')) {
+				return;
+			}
+			var self = this;
+			var request_data = {
+				url: self.base_url + '/cpm/v2/categories/bulk-delete/',
+				data: {
+					'category_ids': ids
+				},
+				type: 'DELETE',
+				success: function (res) {
+					ids.map(function (id, index) {
+						self.$store.commit('afterDeleteCategory', id);
+					});
+
+					// if (!self.$store.state.discussion.length) {
+					//     self.$router.push({
+					//         name: 'discussions', 
+					//         params: { 
+					//             project_id: self.project_id 
+					//         }
+					//     });
+					// } else {
+					//     self.getDiscussion(self);
+					// }
+				}
+				//self.$store.commit('afterDeleteDiscuss', discuss_id);
+			};self.httpRequest(request_data);
 		}
 	}
 }));
@@ -12117,7 +12148,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 			return index;
 		}
 	},
-
 	mutations: {
 		afterNewCategories(state, categories) {
 			state.categories.push(categories);
@@ -12130,6 +12160,10 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 		afterUpdateCategories(state, category) {
 			var category_index = state.getIndex(state.categories, category.id, 'id');
 			state.categories.splice(category_index, 1, category);
+		},
+		afterDeleteCategory(state, id) {
+			var category_index = state.getIndex(state.categories, id, 'id');
+			state.categories.splice(category_index, 1);
 		}
 	}
 }));
