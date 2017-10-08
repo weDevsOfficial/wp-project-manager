@@ -30,6 +30,7 @@ class Milestone_Controller {
         $metas = Meta::with( 'milestone.achieve_date_field', 'milestone.status_field' )
             ->where( 'entity_type', 'milestone' )
             ->where( 'meta_key', 'status' )
+            ->where( 'project_id', $project_id )
             ->orderBy( 'meta_value', 'ASC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
