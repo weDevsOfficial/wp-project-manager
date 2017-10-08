@@ -26,7 +26,8 @@ export default Vue.mixin({
 	            data: form_data,
 	            
 	            success (res) {
-	            	
+	            	self.addCategoryMeta(res.data);
+	           		
 	           		self.show_spinner = false;
 
 	                // Display a success toast, with a title
@@ -52,9 +53,6 @@ export default Vue.mixin({
 	        self.httpRequest(request_data);
 		},
 
-		updateCategory () {
-
-		},
 
 		getCategories () {
 			var self = this;
@@ -83,6 +81,52 @@ export default Vue.mixin({
 
 		showHideCategoryEditForm (category) {
 			category.edit_mode = category.edit_mode ? false : true;
+		},
+		updateCategory (category) {
+			// Exit from this function, If submit button disabled 
+	        if ( this.submit_disabled ) {
+	            return;
+	        }
+	        
+	        // Disable submit button for preventing multiple click
+	        this.submit_disabled = true;
+
+	        var self      = this,
+	            form_data = category;
+	        
+	        // Showing loading option 
+	        this.show_spinner = true;
+
+	        var request_data = {
+	            url: self.base_url + '/cpm/v2/categories/' + category.id,
+	            type: 'PUT',
+	            data: form_data,
+	            
+	            success (res) {
+	            	self.addCategoryMeta(res.data);
+	           		self.show_spinner = false;
+
+	                // Display a success toast, with a title
+	                toastr.success(res.data.success);
+	           
+	                self.submit_disabled = false;
+
+	                self.$store.commit('afterUpdateCategories', res.data);
+
+	            },
+
+	            error (res) {
+	            	self.show_spinner = false;
+	                
+	                // Showing error
+	                res.data.error.map( function( value, index ) {
+	                    toastr.error(value);
+	                });
+	                self.submit_disabled = false;
+	            }
+	        }
+	        
+	        self.httpRequest(request_data);
 		}
 	},
 });

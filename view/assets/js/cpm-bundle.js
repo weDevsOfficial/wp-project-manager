@@ -11373,6 +11373,15 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -11390,7 +11399,10 @@ if (false) {(function () {
 		return {
 			title: '',
 			description: '',
-			submit_disabled: false
+			submit_disabled: false,
+			delete_items: [],
+			bulk_action: '-1',
+			select_all: false
 		};
 	},
 
@@ -11401,9 +11413,25 @@ if (false) {(function () {
 	},
 
 	methods: {
+
+		selectAll() {
+			var self = this;
+			this.$store.state.categories.map(function (category, index) {
+				self.delete_items.push(category.id);
+			});
+		},
 		catTrClass(category) {
 			if (category.edit_mode) {
 				return 'inline-edit-row inline-editor';
+			}
+		},
+
+		selfDeleted() {
+			var self = this;
+			switch (this.bulk_action) {
+				case 'delete':
+					self.deleteCategories(this.delete_items);
+					break;
 			}
 		}
 	}
@@ -11446,7 +11474,25 @@ if (false) {(function () {
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['category']
+	props: ['category'],
+
+	data() {
+		return {
+			submit_disabled: false
+		};
+	},
+
+	methods: {
+		updateSelfCategory() {
+			var data = {
+				id: this.category.id,
+				title: this.category.title,
+				description: this.category.description
+			};
+
+			this.updateCategory(data);
+		}
+	}
 });
 
 /***/ }),
@@ -11922,6 +11968,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 				data: form_data,
 
 				success(res) {
+					self.addCategoryMeta(res.data);
 
 					self.show_spinner = false;
 
@@ -11946,8 +11993,6 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 			self.httpRequest(request_data);
 		},
-
-		updateCategory() {},
 
 		getCategories() {
 			var self = this;
@@ -11974,6 +12019,51 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 		showHideCategoryEditForm(category) {
 			category.edit_mode = category.edit_mode ? false : true;
+		},
+		updateCategory(category) {
+			// Exit from this function, If submit button disabled 
+			if (this.submit_disabled) {
+				return;
+			}
+
+			// Disable submit button for preventing multiple click
+			this.submit_disabled = true;
+
+			var self = this,
+			    form_data = category;
+
+			// Showing loading option 
+			this.show_spinner = true;
+
+			var request_data = {
+				url: self.base_url + '/cpm/v2/categories/' + category.id,
+				type: 'PUT',
+				data: form_data,
+
+				success(res) {
+					self.addCategoryMeta(res.data);
+					self.show_spinner = false;
+
+					// Display a success toast, with a title
+					toastr.success(res.data.success);
+
+					self.submit_disabled = false;
+
+					self.$store.commit('afterUpdateCategories', res.data);
+				},
+
+				error(res) {
+					self.show_spinner = false;
+
+					// Showing error
+					res.data.error.map(function (value, index) {
+						toastr.error(value);
+					});
+					self.submit_disabled = false;
+				}
+			};
+
+			self.httpRequest(request_data);
 		}
 	}
 }));
@@ -12014,7 +12104,18 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1__vue_vuex___default.a.Store({
 
 	state: {
-		categories: []
+		categories: [],
+		getIndex: function (itemList, id, slug) {
+			var index = false;
+
+			itemList.forEach(function (item, key) {
+				if (item[slug] == id) {
+					index = key;
+				}
+			});
+
+			return index;
+		}
 	},
 
 	mutations: {
@@ -12024,6 +12125,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1
 
 		setCategories(state, categories) {
 			state.categories = categories;
+		},
+
+		afterUpdateCategories(state, category) {
+			var category_index = state.getIndex(state.categories, category.id, 'id');
+			state.categories.splice(category_index, 1, category);
 		}
 	}
 }));
@@ -18078,6 +18184,16 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "form-wrap"
+  }, [_c('form', {
+    attrs: {
+      "action": ""
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateSelfCategory()
+      }
+    }
   }, [_c('fieldset', [_c('legend', {
     staticClass: "inline-edit-legend"
   }, [_vm._v("Quick Edit")]), _vm._v(" "), _c('div', {
@@ -18141,14 +18257,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.showHideCategoryEditForm(_vm.category)
       }
     }
-  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("Cancel")]), _vm._v(" "), _c('input', {
     staticClass: "save button button-primary alignright",
     attrs: {
-      "type": "button"
+      "type": "submit",
+      "value": "Update Category"
     }
-  }, [_vm._v("Update Category")]), _vm._v(" "), _c('br', {
+  }), _vm._v(" "), _c('br', {
     staticClass: "clear"
-  })])])
+  })])])])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -18365,7 +18482,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "id": "ajax-response"
     }
-  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "wp-clearfix",
     attrs: {
       "id": "col-container"
@@ -18450,7 +18567,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.description = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('p')]), _vm._v(" "), _vm._m(1)])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('p')]), _vm._v(" "), _vm._m(0)])])])]), _vm._v(" "), _c('div', {
     attrs: {
       "id": "col-right"
     }
@@ -18460,10 +18577,108 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "id": "posts-filter",
       "method": "post"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.selfDeleted()
+      }
     }
-  }, [_vm._m(2), _vm._v(" "), _c('table', {
+  }, [_c('div', {
+    staticClass: "tablenav top"
+  }, [_c('div', {
+    staticClass: "alignleft actions bulkactions"
+  }, [_c('label', {
+    staticClass: "screen-reader-text",
+    attrs: {
+      "for": "bulk-action-selector-top"
+    }
+  }, [_vm._v("Select bulk action")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.bulk_action),
+      expression: "bulk_action"
+    }],
+    attrs: {
+      "name": "action"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.bulk_action = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "-1"
+    }
+  }, [_vm._v("Bulk Actions")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "delete"
+    }
+  }, [_vm._v("Delete")])]), _vm._v(" "), _c('input', {
+    staticClass: "button action",
+    attrs: {
+      "type": "submit",
+      "id": "doaction",
+      "value": "Apply"
+    }
+  })]), _vm._v(" "), _c('br', {
+    staticClass: "clear"
+  })]), _vm._v(" "), _c('table', {
     staticClass: "wp-list-table widefat fixed striped tags"
-  }, [_vm._m(3), _vm._v(" "), _c('tbody', {
+  }, [_c('thead', [_c('tr', [_c('td', {
+    staticClass: "manage-column column-cb check-column",
+    attrs: {
+      "id": "cb"
+    }
+  }, [_c('label', {
+    staticClass: "screen-reader-text",
+    attrs: {
+      "for": "cb-select-all-1"
+    }
+  }, [_vm._v("Select All")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.select_all),
+      expression: "select_all"
+    }],
+    attrs: {
+      "id": "cb-select-all-1",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.select_all) ? _vm._i(_vm.select_all, null) > -1 : (_vm.select_all)
+    },
+    on: {
+      "change": function($event) {
+        _vm.selectAll()
+      },
+      "__c": function($event) {
+        var $$a = _vm.select_all,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.select_all = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.select_all = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.select_all = $$c
+        }
+      }
+    }
+  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('tbody', {
     attrs: {
       "id": "the-list",
       "data-wp-lists": "list:tag"
@@ -18481,11 +18696,37 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "scope": "row"
       }
     }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.delete_items),
+        expression: "delete_items"
+      }],
       attrs: {
         "type": "checkbox",
-        "name": "delete_tags[]",
-        "value": "48",
         "id": "cb-select-48"
+      },
+      domProps: {
+        "value": category.id,
+        "checked": Array.isArray(_vm.delete_items) ? _vm._i(_vm.delete_items, category.id) > -1 : (_vm.delete_items)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = _vm.delete_items,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = category.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.delete_items = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.delete_items = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.delete_items = $$c
+          }
+        }
       }
     })]) : _vm._e(), _vm._v(" "), (!category.edit_mode) ? _c('td', {
       staticClass: "name column-name has-row-actions column-primary",
@@ -18516,12 +18757,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "data-colname": "Description"
       }
-    }, [_vm._v(_vm._s(category.description))]) : _vm._e(), _vm._v(" "), (!category.edit_mode) ? _c('td', {
-      staticClass: "description column-description",
-      attrs: {
-        "data-colname": "Description"
-      }
-    }, [_vm._v(_vm._s(category.categorible_type))]) : _vm._e(), _vm._v(" "), (category.edit_mode) ? _c('td', {
+    }, [_vm._v(_vm._s(category.description))]) : _vm._e(), _vm._v(" "), (category.edit_mode) ? _c('td', {
       attrs: {
         "colspan": "4"
       }
@@ -18530,174 +18766,68 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "category": category
       }
     })], 1) : _vm._e()])
-  })), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)])])])])])
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "search-form wp-clearfix",
-    attrs: {
-      "method": "get"
-    }
-  }, [_c('p', {
-    staticClass: "search-box"
-  }, [_c('label', {
-    staticClass: "screen-reader-text",
-    attrs: {
-      "for": "tag-search-input"
-    }
-  }, [_vm._v("Search Categories:")]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "search",
-      "id": "tag-search-input",
-      "name": "s",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "button",
-    attrs: {
-      "type": "submit",
-      "id": "search-submit",
-      "value": "Search Categories"
-    }
-  })])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticClass: "submit"
-  }, [_c('input', {
-    staticClass: "button button-primary",
-    attrs: {
-      "type": "submit",
-      "name": "submit",
-      "id": "submit",
-      "value": "Add New Category"
-    }
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tablenav top"
-  }, [_c('div', {
-    staticClass: "alignleft actions bulkactions"
-  }, [_c('label', {
-    staticClass: "screen-reader-text",
-    attrs: {
-      "for": "bulk-action-selector-top"
-    }
-  }, [_vm._v("Select bulk action")]), _vm._v(" "), _c('select', {
-    attrs: {
-      "name": "action",
-      "id": "bulk-action-selector-top"
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "-1"
-    }
-  }, [_vm._v("Bulk Actions")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "delete"
-    }
-  }, [_vm._v("Delete")])]), _vm._v(" "), _c('input', {
-    staticClass: "button action",
-    attrs: {
-      "type": "submit",
-      "id": "doaction",
-      "value": "Apply"
-    }
-  })]), _vm._v(" "), _c('br', {
-    staticClass: "clear"
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('td', {
-    staticClass: "manage-column column-cb check-column",
-    attrs: {
-      "id": "cb"
-    }
-  }, [_c('label', {
-    staticClass: "screen-reader-text",
-    attrs: {
-      "for": "cb-select-all-1"
-    }
-  }, [_vm._v("Select All")]), _vm._v(" "), _c('input', {
-    attrs: {
-      "id": "cb-select-all-1",
-      "type": "checkbox"
-    }
-  })]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-name column-primary sortable desc",
-    attrs: {
-      "scope": "col",
-      "id": "name"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', [_vm._v("Name")])])]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-description sortable desc",
-    attrs: {
-      "scope": "col",
-      "id": "description"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_c('span', [_vm._v("Description")])])]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-description sortable desc",
-    attrs: {
-      "scope": "col",
-      "id": "description"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_c('span', [_vm._v("Type")])])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tfoot', [_c('tr', [_c('td', {
+  })), _vm._v(" "), _c('tfoot', [_c('tr', [_c('td', {
     staticClass: "manage-column column-cb check-column"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.select_all),
+      expression: "select_all"
+    }],
     attrs: {
       "id": "cb-select-all-2",
       "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.select_all) ? _vm._i(_vm.select_all, null) > -1 : (_vm.select_all)
+    },
+    on: {
+      "change": function($event) {
+        _vm.selectAll()
+      },
+      "__c": function($event) {
+        var $$a = _vm.select_all,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.select_all = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.select_all = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.select_all = $$c
+        }
+      }
     }
-  })]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-name column-primary sortable desc",
-    attrs: {
-      "scope": "col"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', [_vm._v("Name")])])]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-description sortable desc",
-    attrs: {
-      "scope": "col"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', [_vm._v("Description")])])]), _vm._v(" "), _c('th', {
-    staticClass: "manage-column column-description sortable desc",
-    attrs: {
-      "scope": "col",
-      "id": "description"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_c('span', [_vm._v("Type")])])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)])])]), _vm._v(" "), _c('div', {
     staticClass: "tablenav bottom"
   }, [_c('div', {
     staticClass: "alignleft actions bulkactions"
   }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.bulk_action),
+      expression: "bulk_action"
+    }],
     attrs: {
-      "name": "action2",
+      "name": "action",
       "id": "bulk-action-selector-bottom"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.bulk_action = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -18716,7 +18846,66 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   })]), _vm._v(" "), _c('br', {
     staticClass: "clear"
+  })])])])])])])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', {
+    staticClass: "submit"
+  }, [_c('input', {
+    staticClass: "button button-primary",
+    attrs: {
+      "type": "submit",
+      "name": "submit",
+      "id": "submit",
+      "value": "Add New Category"
+    }
   })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('th', {
+    staticClass: "manage-column column-name column-primary sortable desc",
+    attrs: {
+      "scope": "col",
+      "id": "name"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', [_vm._v("Name")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('th', {
+    staticClass: "manage-column column-description sortable desc",
+    attrs: {
+      "scope": "col",
+      "id": "description"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', [_vm._v("Description")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('th', {
+    staticClass: "manage-column column-name column-primary sortable desc",
+    attrs: {
+      "scope": "col"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', [_vm._v("Name")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('th', {
+    staticClass: "manage-column column-description sortable desc",
+    attrs: {
+      "scope": "col"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', [_vm._v("Description")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

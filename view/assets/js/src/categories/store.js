@@ -10,6 +10,17 @@ export default new Vuex.Store({
 
 	state: {
 		categories: [],
+		getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
 	},
 	
 	mutations: {
@@ -19,6 +30,11 @@ export default new Vuex.Store({
 
 		setCategories (state, categories) {
 			state.categories = categories;
+		},
+
+		afterUpdateCategories (state, category) {
+			var category_index = state.getIndex(state.categories, category.id, 'id');
+            state.categories.splice(category_index,1, category);
 		}
 	}
 });
