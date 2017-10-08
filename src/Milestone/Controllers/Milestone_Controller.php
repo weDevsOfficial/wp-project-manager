@@ -27,12 +27,10 @@ class Milestone_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $metas = Meta::with('milestone.achieve_date', 'milestone.achieved_at')
+        $metas = Meta::with( 'milestone.achieve_date_field', 'milestone.status_field' )
             ->where( 'entity_type', 'milestone' )
-            ->where( 'meta_key', 'achieved_at' )
-            ->addSelect('*')
-            ->addSelect( DB::raw('TO_SECONDS(meta_value) as achieved_at') )
-            ->orderBy( 'achieved_at' )
+            ->where( 'meta_key', 'status' )
+            ->orderBy( 'meta_value', 'ASC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $meta_collection = $metas->getCollection();
@@ -89,7 +87,8 @@ class Milestone_Controller {
         Meta::create([
             'entity_id'   => $milestone->id,
             'entity_type' => 'milestone',
-            'meta_key'    => 'achieved_at',
+            'meta_key'    => 'status',
+            'meta_value'  => Milestone::INCOMPLETE,
             'project_id'  => $milestone->project_id,
         ]);
 
@@ -135,17 +134,14 @@ class Milestone_Controller {
 
         if ( $milestone && in_array( $status, Milestone::$status ) ) {
             $status = array_search( $status, Milestone::$status );
-
-            $meta_value = ( $status == Milestone::COMPLETE ) ? Carbon::today() : null;
-
-            $meta = Meta::firstOrCreate([
+            $meta   = Meta::firstOrCreate([
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
-                'meta_key'    => 'achieved_at',
+                'meta_key'    => 'status',
                 'project_id'  => $milestone->project_id,
             ]);
 
-            $meta->meta_value = $meta_value;
+            $meta->meta_value = $status;
             $meta->save();
         }
 

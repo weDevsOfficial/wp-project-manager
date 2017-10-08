@@ -17,9 +17,9 @@ class Milestone extends Eloquent {
 
     protected $table = 'cpm_boards';
 
-    const INCOMPLETE = 0;
-    const COMPLETE   = 1;
-    const OVERDUE    = 2;
+    const OVERDUE    = 0;
+    const INCOMPLETE = 1;
+    const COMPLETE   = 2;
 
     protected $fillable = [
         'title',
@@ -33,20 +33,28 @@ class Milestone extends Eloquent {
     protected $attributes = ['type' => 'milestone'];
 
     public static $status = [
-        0 => 'incomplete',
-        1 => 'complete',
-        2 => 'overdue'
+        0 => 'overdue',
+        1 => 'incomplete',
+        2 => 'complete',
     ];
 
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'milestone' );
     }
 
+    public function getAchieveDateAttribute() {
+        return make_carbon_date( $this->achieve_date_field->meta_value );
+    }
+
+    public function getAchievedAtAttribute() {
+        return $this->status_field->meta_value == self::COMPLETE ? $this->status_field->updated_at : null;
+    }
+
     public function getStatusAttribute() {
-        $achieved_at  = $this->achieved_at ? make_carbon_date( $this->achieved_at->meta_value ) : null;
-        $achieve_date = $this->achieve_date ? make_carbon_date( $this->achieve_date->meta_value ) : null;
-        $today        = Carbon::today();
         $status       = self::INCOMPLETE;
+        $today        = Carbon::today();
+        $achieved_at  = $this->achieved_at;
+        $achieve_date = $this->achieve_date;
 
         if ( $achieved_at ) {
             $status = self::COMPLETE;
@@ -62,16 +70,16 @@ class Milestone extends Eloquent {
             ->where( 'entity_type', 'milestone' );
     }
 
-    public function achieve_date() {
+    public function achieve_date_field() {
         return $this->belongsTo( Meta::class, 'id', 'entity_id' )
             ->where( 'entity_type', 'milestone' )
             ->where( 'meta_key', 'achieve_date' );
     }
 
-    public function achieved_at() {
+    public function status_field() {
         return $this->belongsTo( Meta::class, 'id', 'entity_id' )
             ->where( 'entity_type', 'milestone' )
-            ->where( 'meta_key', 'achieved_at' );
+            ->where( 'meta_key', 'status' );
     }
 
     public function task_lists() {

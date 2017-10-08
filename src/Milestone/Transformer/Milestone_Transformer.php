@@ -23,16 +23,13 @@ class Milestone_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Milestone $item ) {
-        $achieve_date = $item->achieve_date ? make_carbon_date( $item->achieve_date->meta_value ) : null;
-        $achieved_at  = $item->achieved_at ? make_carbon_date( $item->achieved_at->meta_value ) : null;
-
         return [
             'id'           => (int) $item->id,
             'title'        => $item->title,
             'description'  => $item->description,
             'order'        => (int) $item->order,
-            'achieve_date' => format_date( $achieve_date ),
-            'achieved_at'  => format_date( $achieved_at ),
+            'achieve_date' => format_date( $item->achieve_date ),
+            'achieved_at'  => format_date( $item->achieved_at ),
             'status'       => $item->status,
             'created_at'   => format_date( $item->created_at ),
             'meta'         => [
