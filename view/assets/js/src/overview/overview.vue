@@ -101,6 +101,12 @@
 	import header from './../header.vue';
 
 	export default {
+		beforeRouteEnter (to, from, next) {
+			console.log('asjkdfhaskjd');
+			next(vm => {
+				vm.getOverViews('with=overview_graph');
+			});
+		},
 		components: {
 			'pm-header': header
 		}
