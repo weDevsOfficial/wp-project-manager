@@ -29,7 +29,6 @@ class Task extends Eloquent {
         'due_date',
         'complexity',
         'priority',
-        'order',
         'payable',
         'recurrent',
         'status',
@@ -70,14 +69,5 @@ class Task extends Eloquent {
 
     public function assignees() {
         return $this->hasMany( Assignee::class, 'task_id' );
-    }
-
-    public static function get_latest_order() {
-        $task = self::orderBy( 'order', 'DESC' )->first();
-
-        if ( $task ) {
-            return $task->order;
-        }
-        return 1;
     }
 }

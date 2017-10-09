@@ -40,10 +40,11 @@ class Task_List_Controller {
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
 
-        $task_list = Task_List::where( 'id', $task_list_id )
+        $task_list = Task_List::with( 'tasks' )
+            ->where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        // return $task_list->tasks()->orderBy( 'cpm_boardables.order', 'DESC' )->get();
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         return $this->get_response( $resource );

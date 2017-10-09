@@ -13,6 +13,7 @@ class Create_Boardables_Table extends Migration {
             $table->string('board_type');
             $table->unsignedInteger( 'boardable_id' );
             $table->string( 'boardable_type' );
+            $table->integer( 'order' )->default(0);
 
             $table->unsignedInteger( 'created_by' );
             $table->unsignedInteger( 'updated_by' );

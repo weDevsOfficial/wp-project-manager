@@ -54,12 +54,6 @@ class Task_List_Transformer extends TransformerAbstract {
         return $this->collection( $assignees, new User_Transformer );
     }
 
-    public function includeTasks( Task_List $item ) {
-        $tasks = $item->tasks;
-
-        return $this->collection( $tasks, new Task_Transformer );
-    }
-
     public function includeComments( Task_List $item ) {
         $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
@@ -98,12 +92,23 @@ class Task_List_Transformer extends TransformerAbstract {
         return null;
     }
 
+    public function includeTasks( Task_List $item ) {
+        $page = isset( $_GET['task_page'] ) ? $_GET['task_page'] : 1;
+
+        $tasks = $item->tasks()
+            ->orderBy( 'cpm_boardables.order', 'DESC' )
+            ->paginate( 15, ['*'], 'page', $page );
+
+        return $this->make_paginated_tasks( $tasks );
+    }
+
+
     public function includeCompleteTasks( Task_List $item ) {
         $page = isset( $_GET['complete_task_page'] ) ? $_GET['complete_task_page'] : 1;
 
         $tasks = $item->tasks()
             ->where( 'status', 1 )
-            ->orderBy( 'created_at', 'DESC' )
+            ->orderBy( 'cpm_boardables.order', 'DESC' )
             ->paginate( 2, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -114,7 +119,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
         $tasks = $item->tasks()
             ->where( 'status', 0 )
-            ->orderBy( 'created_at', 'DESC' )
+            ->orderBy( 'cpm_boardables.order', 'DESC' )
             ->paginate( 2, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );

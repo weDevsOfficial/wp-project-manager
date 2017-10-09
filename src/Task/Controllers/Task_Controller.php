@@ -54,7 +54,6 @@ class Task_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data          = $this->extract_non_empty_values( $request );
-        $data['order'] = Task::get_latest_order() + 1;
         $project_id    = $request->get_param( 'project_id' );
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
@@ -67,11 +66,13 @@ class Task_Controller {
         }
 
         if ( $task && $board ) {
-            $boardable = Boardable::create([
+            $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
+            $boardable    = Boardable::create([
                 'board_id'       => $board->id,
                 'board_type'     => $board->type,
                 'boardable_id'   => $task->id,
                 'boardable_type' => 'task',
+                'order'          => $latest_order + 1,
             ]);
         }
 
@@ -157,12 +158,14 @@ class Task_Controller {
         $task  = Task::find( $task_id );
         $board = Board::find( $board_id );
 
-        $boardable = Boardable::firstOrCreate( [
+        $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
+        $boardable    = Boardable::firstOrCreate([
             'board_id'       => $board->id,
             'board_type'     => $board->type,
             'boardable_id'   => $task->id,
             'boardable_type' => 'task',
-        ] );
+            'order'          => $latest_order + 1,
+        ]);
 
         $resource = new Item( $task, new Task_Transformer );
 
