@@ -6,6 +6,7 @@
 </template>
 
 <script>
+	import directive from './directive';
     import store from './store';
     import mixin from './mixin';
     

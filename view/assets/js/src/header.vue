@@ -125,7 +125,7 @@
 
                         name: 'Task Lists',
                         count: 30,
-                        class: 'to-do-list cpm-sm-col-12 active'
+                        class: 'to-do-list cpm-sm-col-12'
                     },
 
                     {
@@ -175,4 +175,11 @@
         }
     }
 </script>
+
+<style>
+    .cpm-project-header .router-link-active {
+        border-bottom: solid 2px #019dd6 !important;
+        color: #000000 !important;
+    }
+</style>
 

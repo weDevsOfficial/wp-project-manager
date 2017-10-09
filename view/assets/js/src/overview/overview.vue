@@ -1,7 +1,7 @@
 <template>
 	<div class="wrap cpm cpm-front-end">
 		<pm-header></pm-header>
-		<pre>{{ graph }}</pre>
+
 		<div class="project-overview">
 			<div class="cpm-col-10 cpm-sm-col-12">
 			    <div class="overview-menu">
@@ -91,15 +91,9 @@
 
 			    	<h3>Last 30 days</h3>
 
-			    	<div class="inside">
-						<div class="cpm-chart-legend cpm-text-right">
-							<span class="to-do">Task</span> 
-							<span class="activity">Activity</span>
-						</div>
-
-						<div class="clearfix"></div>
-				    	<canvas width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
-					</div><!-- .inside -->
+			    	
+				    <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
+				
 			    </div>
 			</div>
 
