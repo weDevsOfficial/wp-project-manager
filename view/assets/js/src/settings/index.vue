@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<settings-header></settings-header>
 		<router-view name="general"></router-view>
 		<router-view name="email"></router-view>
 	</div>
@@ -9,13 +8,9 @@
 <script>
     import store from './store';
     import mixin from './mixin';
-    import header from './header.vue';
-    
+
     export default {
         store,
-        components: {
-			'settings-header': header
-		}
     }
 
 </script>
