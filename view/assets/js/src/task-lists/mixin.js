@@ -852,7 +852,7 @@ var PM_Task_Mixin = {
                         });
                     }
                     
-                    self.$store.commit('setLists', res.data);
+                    self.$store.commit('setList', res.data);
 
                     if ( callback ) {
                         callback(res);
