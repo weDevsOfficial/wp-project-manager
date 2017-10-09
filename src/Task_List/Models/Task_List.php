@@ -38,7 +38,8 @@ class Task_List extends Eloquent {
     public function tasks() {
         return $this->belongsToMany( Task::class, 'cpm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
-            ->where( 'board_type', 'task-list' );
+            ->where( 'board_type', 'task-list' )
+            ->withPivot( 'order' );
     }
 
     public function comments() {

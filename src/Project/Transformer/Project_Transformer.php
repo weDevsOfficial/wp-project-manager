@@ -18,6 +18,10 @@ class Project_Transformer extends TransformerAbstract {
         'creator', 'updater', 'categories', 'assignees'
     ];
 
+    protected $availableIncludes = [
+        'overview_graph'
+    ];
+
     public function transform( Project $item ) {
         return [
             'id'                  => (int) $item->id,
@@ -42,11 +46,11 @@ class Project_Transformer extends TransformerAbstract {
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
             ],
-            'graph_data'         => $this->date_wise_tasks_activities( $item ),
+            // 'graph_data'         => $this->date_wise_tasks_activities( $item ),
         ];
     }
 
-    private function date_wise_tasks_activities( Project $item ) {
+    public function includeGraphData( Project $item ) {
         $today = Carbon::today();
         $one_month_ago = (Carbon::today())->subMonth();
         $graph_data = [];
@@ -69,13 +73,13 @@ class Project_Transformer extends TransformerAbstract {
 
         for ( $dt = $one_month_ago; $today->diffInDays( $dt ); $dt->addDay() ) {
             $graph_data[] = [
-                'timestamp'  => strtotime( $dt->toDateTimeString() ),
+                'date_time'  => format_date( $dt ),
                 'tasks'      => $tasks->where( 'updated_at', $dt )->count(),
                 'activities' => $activities->where( 'updated_at', $dt )->count()
             ];
         }
 
-        return $graph_data;
+        return $this->collection( $graph_data, new Overview_Graph_Transformer );
     }
 
     public function includeCategories( Project $item ) {
