@@ -31,9 +31,15 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeRoles( User $user ) {
-        $project_id = $user->pivot->project_id;
+        $request_uri = $_SERVER['REQUEST_URI'];
+        $project_uri = preg_match_all('/projects\/[0-9]+/', $request_uri, $matches, PREG_SET_ORDER);
 
-        $roles = $user->roles->where( 'pivot.project_id', $project_id );
+        if ( empty( $matches ) ) {
+            $roles = $user->roles->unique( 'id' )->all();
+        } else {
+            $project_id = (int) str_replace('projects/', '', $matches[0][0]);
+            $roles = $user->roles->where( 'pivot.project_id', $project_id );
+        }
 
         return $this->collection( $roles, new Role_Transformer );
     }

@@ -2,7 +2,6 @@
 
 namespace CPM\Project\Transformer;
 
-use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
 use Carbon\Carbon;
 
