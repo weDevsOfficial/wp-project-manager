@@ -6,6 +6,8 @@
  		return {
  			base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
  			project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
+            current_user: PM_Vars.current_user,
+            avatar_url: PM_Vars.avatar_url,
  		}
  	},
 
@@ -245,6 +247,10 @@
             });
         },
 
+
+        userTaskProfileUrl ( user_id ) {
+            return PM_Vars.ajaxurl + '?page=cpm_task#/user/' + user_id;
+        },
         /**
          * Set extra element in httpRequest query
          */

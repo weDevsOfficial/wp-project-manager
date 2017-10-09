@@ -144,8 +144,8 @@
              * @return array
              */
             list: function () {
-                if( this.$store.state.list) {
-                    return this.$store.state.list;
+                if( this.$store.state.lists.length) {
+                    return this.$store.state.lists[0];
                 }
             },
 

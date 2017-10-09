@@ -56,6 +56,12 @@ export default new Vuex.Store({
 		},
 		setDiscussionMeta (state, meta) {
 			state.meta = meta;
+		},
+		afterDeleteComment(state, data ) {
+			console.log(data)
+			console.log(state.discussion[0].comments)
+			var comment_index = state.getIndex(state.discussion[0].comments.data, data.comment_id, 'id');
+			state.discussion[0].comments.data.splice( comment_index, 1 );
 		}
 	}
 });
