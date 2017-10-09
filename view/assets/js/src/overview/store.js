@@ -11,6 +11,7 @@ export default new Vuex.Store({
 	state: {
 		meta: {},
 		assignees: [],
+		graph: [],
 		getIndex: function ( itemList, id, slug) {
             var index = false;
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
 		setOverViews (state, over_views) {
 			state.meta = over_views.meta;
 			state.assignees = over_views.assignees.data;
+			state.graph = over_views.overview_graph.data;
 		},
 	}
 });
