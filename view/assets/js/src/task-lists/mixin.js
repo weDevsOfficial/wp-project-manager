@@ -851,7 +851,6 @@ var PM_Task_Mixin = {
                             self.addListCommentMeta(comment);
                         });
                     }
-                    
                     self.$store.commit('setList', res.data);
 
                     if ( callback ) {
