@@ -157,6 +157,8 @@
     			</div>
     		</div>
     	</article>
+
+        <div class="cpm-clearfix"></div>
     </div>
 </template>
 

@@ -20,10 +20,6 @@
                 <div class="cpm-col-5 cpm-sm-col-12">
                     <project-filter-by-category></project-filter-by-category>
                 </div>
-                <div class="cpm-col-7 cpm-sm-col-12 cpm-project-search">
-                    <project-search-by-client></project-search-by-client>
-                    <project-search-all></project-search-all>
-                </div>
             </div>
             <div class="clearfix"> </div>
         </div>

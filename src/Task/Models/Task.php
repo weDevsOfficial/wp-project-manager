@@ -17,6 +17,10 @@ class Task extends Eloquent {
 
     protected $table = 'cpm_tasks';
 
+    const INCOMPLETE = 0;
+    const COMPLETE   = 1;
+    const PENDING    = 2;
+
     protected $fillable = [
         'title',
         'description',

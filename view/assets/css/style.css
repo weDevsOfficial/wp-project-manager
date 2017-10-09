@@ -106,7 +106,7 @@
   color: #999;
 }
 .cpm h2 .nav-tab {
-  font-size: 18px;
+  //font-size: 18px;
   line-height: 20px;
 }
 .cpm .nav-tab.nav-tab-active {
@@ -166,7 +166,7 @@
   border: 1px solid #E4E4E4;
 }
 .cpm .cpm-pagination-wrap {
-  float: right;
+  //float: right;
 }
 .cpm .cpm-pagination-wrap a {
   box-shadow: none;

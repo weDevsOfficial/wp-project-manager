@@ -50,7 +50,9 @@ class Enqueue_Scripts {
                 'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
                 'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
                 'resize'              => array( 'width' => ( int ) get_option( 'large_size_w' ), 'height' => ( int ) get_option( 'large_size_h' ), 'quality' => 100 )
-            )
+            ),
+            'roles' => get_wp_roles(),
+            'settings' => pm_get_settings() 
         ));
 	}
 

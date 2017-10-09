@@ -83,6 +83,7 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
 		'dependency' => [
 			'jquery', 
+			'underscore',
 			'cpm-moment-timezone',
 			'cpm-upload',
 			'jquery-ui-datepicker',

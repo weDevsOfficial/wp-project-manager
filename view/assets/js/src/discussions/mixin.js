@@ -99,6 +99,7 @@ export default Vue.mixin({
             data.append('description', this.discuss.description);
             data.append('milestone', this.discuss.milestone_id);
             data.append('order', 0);
+            
             this.deleted_files.map(function(del_file) {
             	data.append('files_to_delete[]', del_file);
             });

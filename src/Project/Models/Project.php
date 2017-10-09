@@ -14,6 +14,8 @@ use CPM\Comment\Models\Comment;
 use CPM\Category\Models\Category;
 use CPM\User\Models\User;
 use CPM\Activity\Models\Activity;
+use CPM\Settings\Models\Settings;
+use CPM\Common\Models\Meta;
 
 class Project extends Eloquent {
 
@@ -78,5 +80,13 @@ class Project extends Eloquent {
 
     public function activities() {
         return $this->hasMany( Activity::class, 'project_id' );
+    }
+
+    public function settings() {
+        return $this->hasMany( Settings::class, 'project_id' );
+    }
+
+    public function meta() {
+        return $this->hasMany( Meta::class, 'project_id' );
     }
 }
