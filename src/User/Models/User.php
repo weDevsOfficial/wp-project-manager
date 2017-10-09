@@ -26,6 +26,7 @@ class User extends Eloquent {
     protected $dates = ['user_registered'];
 
     public function roles() {
-        return $this->belongsToMany( Role::class, 'cpm_role_user', 'user_id', 'role_id' );
+        return $this->belongsToMany( Role::class, 'cpm_role_user', 'user_id', 'role_id' )
+            ->withPivot('project_id', 'role_id');
     }
 }

@@ -31,12 +31,10 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeRoles( User $user ) {
-        $roles = $user->roles->first();
+        $project_id = $user->pivot->project_id;
 
-        if ( $roles ) {
-            return $this->item( $roles, new Role_Transformer );
-        }
+        $roles = $user->roles->where( 'pivot.project_id', $project_id );
 
-        return null;
+        return $this->collection( $roles, new Role_Transformer );
     }
 }

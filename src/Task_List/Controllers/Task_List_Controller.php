@@ -44,7 +44,7 @@ class Task_List_Controller {
             ->where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
-        // return $task_list->tasks()->orderBy( 'cpm_boardables.order', 'DESC' )->get();
+
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         return $this->get_response( $resource );
