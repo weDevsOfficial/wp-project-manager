@@ -18,7 +18,7 @@ export default Vue.mixin({
 					}
                 }
             };
-
+            
             self.httpRequest(request);
 		},
 
@@ -35,13 +35,18 @@ export default Vue.mixin({
 			return data;
 		},
 
-		getSetting (key, with_obj) {
-			var with_obj = with_obj || false;
-			var settings = JSON.parse(PM_Vars.settings);
+		getSettings (key, pre_define ) {
+			var pre_define   = pre_define || false,
+				settings  = JSON.parse(PM_Vars.settings),
+				send_data = false
 
 			settings.data.map(function(setting, index) {
-				console.log(settings, index);
+				if (setting.key === key) {
+					send_data = setting.value;
+				}
 			});
+
+			return send_data === false ? pre_define : send_data;
 		}
 	},
 });

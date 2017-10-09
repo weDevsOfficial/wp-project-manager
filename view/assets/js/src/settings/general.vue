@@ -122,20 +122,16 @@
     export default {
         data () {
             return {
-                upload_limit: 2,
-                project_per_page: 5,
-                list_per_page: 10,
-                incomplete_tasks_per_page: 10,
-                complete_tasks_per_page: 10,
+                upload_limit: this.getSettings('upload_limit', 2),
+                project_per_page: this.getSettings('project_per_page', 10),
+                list_per_page: this.getSettings('list_per_page', 10),
+                incomplete_tasks_per_page: this.getSettings('incomplete_tasks_per_page', 10),
+                complete_tasks_per_page: this.getSettings('complete_tasks_per_page', 10),
                 roles: PM_Vars.roles,
-                managing_capability: [],
-                project_create_capability: [],
+                managing_capability: this.getSettings('managing_capability', []),
+                project_create_capability: this.getSettings('project_create_capability', []),
 
             }
-        },
-
-        created() {
-            this.setData(JSON.parse(PM_Vars.settings));
         },
 
         components: {
@@ -154,13 +150,11 @@
                     project_create_capability: this.project_create_capability
                 };
 
+
                 this.saveSettings(data, function(res) {
 
                 });
             },
-            setData (settings) {
-                console.log(settings);
-            }
         }
     }
 </script>
