@@ -46,11 +46,10 @@ class Project_Transformer extends TransformerAbstract {
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
             ],
-            // 'graph_data'         => $this->date_wise_tasks_activities( $item ),
         ];
     }
 
-    public function includeGraphData( Project $item ) {
+    public function includeOverviewGraph( Project $item ) {
         $today = Carbon::today();
         $one_month_ago = (Carbon::today())->subMonth();
         $graph_data = [];
