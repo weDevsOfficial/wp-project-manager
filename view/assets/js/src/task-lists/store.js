@@ -482,12 +482,10 @@ export default new Vuex.Store({
             }else{
                 state.lists =lists;
             }
-           
-
             
         },
         setList(state, list){
-            state.list =list;
+            state.lists = [list];
         },
 
         afterNewList (state, list) {
@@ -548,10 +546,18 @@ export default new Vuex.Store({
         },
         setTasks(state, data){
             var list_index = state.getIndex(state.lists, data.id, 'id');
-            data.incomplete_tasks.data.forEach(function(task){
-                state.lists[list_index].incomplete_tasks.data.push(task)
-            });
-            state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
+            if(typeof data.incomplete_tasks !== 'undefined' ){
+                data.incomplete_tasks.data.forEach(function(task){
+                    state.lists[list_index].incomplete_tasks.data.push(task)
+                });
+                state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
+            }else{
+                data.complete_tasks.data.forEach(function(task){
+                    state.lists[list_index].complete_tasks.data.push(task)
+                });
+                state.lists[list_index].complete_tasks.meta = data.complete_tasks.meta;
+            }
+            
         }
     }
 });
