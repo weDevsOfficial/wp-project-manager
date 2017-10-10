@@ -46,6 +46,7 @@ export default Vue.mixin({
 			    	});
                     self.$store.commit( 'setSelfMilestones', res.data );
                     self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
+                    NProgress.done();
                 }
             };
 

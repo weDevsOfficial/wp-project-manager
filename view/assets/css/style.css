@@ -2909,9 +2909,15 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background-image: url('../images/settings_hover.svg');
 }
 .cpm .cpm-project-header ul li a:hover,
+.cpm .cpm-project-header ul li .router-link-exact-active,
 .cpm .cpm-project-header ul li .active {
   border-bottom: solid 2px #019dd6;
   color: #000000;
+}
+.pm-settings-nav-menu-wrap .router-link-exact-active {
+  margin-bottom: -1px;
+  border-bottom: 1px solid #f1f1f1;
+  background: #f1f1f1;
 }
 .cpm .cpm-project-header ul li a:hover span,
 .cpm .cpm-project-header ul li .active span {
