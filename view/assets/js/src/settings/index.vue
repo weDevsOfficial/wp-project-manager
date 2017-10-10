@@ -15,11 +15,3 @@
 
 </script>
 
-<style>
-	.router-link-exact-active {
-		margin-bottom: -1px;
-		border-bottom: 1px solid #f1f1f1;
-    	background: #f1f1f1;
-	}
-	    
-</style>

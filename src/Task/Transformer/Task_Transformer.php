@@ -51,7 +51,6 @@ class Task_Transformer extends TransformerAbstract {
             'due_date'    => format_date( $item->due_date ),
             'complexity'  => $item->complexity,
             'priority'    => $item->priority,
-            'order'       => $item->order,
             'payable'     => $item->payable,
             'recurrent'   => $item->recurrent,
             'status'      => $item->status,

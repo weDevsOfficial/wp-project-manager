@@ -51,7 +51,8 @@ class Project extends Eloquent {
     }
 
     public function assignees() {
-        return $this->belongsToMany( User::class, 'cpm_role_user', 'project_id', 'user_id' );
+        return $this->belongsToMany( User::class, 'cpm_role_user', 'project_id', 'user_id' )
+            ->withPivot( 'project_id', 'role_id' );
     }
 
     public function task_lists() {

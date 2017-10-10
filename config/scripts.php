@@ -3,6 +3,12 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
+	'cpm-chart' => [
+		'id'         => 'cpm-chart',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/chart/chart.min.js',
+		'dependency' => ['jquery'],
+		'in_footer'  => true
+	],
 	'cpm-upload' => [
 		'id'         => 'cpm-upload',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/upload.js',
@@ -93,7 +99,8 @@ return [
 			'jquery-ui-autocomplete',
 			'cpm-tiny-mce',
 			'cpm-toastr',
-			'jquery-ui-sortable'
+			'jquery-ui-sortable',
+			'cpm-chart'
 
 		],
 		'in_footer'  => true

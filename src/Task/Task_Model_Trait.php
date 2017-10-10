@@ -3,6 +3,7 @@
 namespace CPM\Task;
 
 use Carbon\Carbon;
+use Illuminate\Database\Capsule\Manager as DB;
 
 trait Task_Model_Trait {
     // Allowed status for a task

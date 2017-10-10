@@ -3004,7 +3004,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .project-overview .cpm-chart h3 {
   font-size: 14px;
   line-height: 1.4;
-  border-bottom: 1px solid #eee;
+  //border-bottom: 1px solid #eee;
   padding: 8px 12px;
   margin: 0;
 }
