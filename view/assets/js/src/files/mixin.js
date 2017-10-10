@@ -7,6 +7,7 @@ export default Vue.mixin({
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/files',
 	            success (res) {
 	                self.$store.commit( 'setFiles', res.data );
+	                NProgress.done();
 	            }
 	        };
 	        self.httpRequest(request);

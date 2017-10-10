@@ -14,6 +14,7 @@ export default Vue.mixin({
 	                if ( typeof callback !== 'undefined' ) {
 	                	callback(res);
 	                }
+	                NProgress.done();
 	            }
 	        };
 
