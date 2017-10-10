@@ -42,7 +42,6 @@ var Project = {
             },
 
             select: function( event, ui ) {
-                
                 if ( ui.item.value === '0' ) {
                     $( "form.cpm-user-create-form" ).find( 'input[type=text]' ).val( '' );
                     $( "#cpm-create-user-wrap" ).dialog( "open" );
@@ -53,16 +52,14 @@ var Project = {
                     });
                     
                     if (!has_user) {
-                        if(!ui.item.hasOwnProperty('roles')) {
-                             ui.item.roles = {
-                                data: {
-                                    description: "Co-Worker for project manager",
-                                    id:1,
-                                    title:"Co-Worker"
-                                }
-                            } 
-                        }
-                        context.project_users.push(ui.item);
+                        context.addUserMeta(ui.item);
+                        context.$root.$store.commit(
+                            'setNewUser',
+                            {
+                                project_id: context.project_id,
+                                user: ui.item
+                            }
+                        );
                     }
                     
                     $( '.cpm-project-role>table' ).append( ui.item._user_meta );

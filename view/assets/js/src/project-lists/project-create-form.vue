@@ -1,8 +1,7 @@
 <template>
 <div>
 
-	<form action="" method="post" class="cpm-project-form" @submit.prevent="newProject();">
-
+	<form action="" method="post" class="cpm-project-form" @submit.prevent="selfNewProject();">
 
 		<div class="cpm-form-item project-name">
 			<!-- v-model="project_name" -->
@@ -24,10 +23,10 @@
 
 		<div class="cpm-form-item cpm-project-role">
 			<table>
-				<tr v-for="projectUser in project_users">
+				<tr v-for="projectUser in project_users" key="projectUser.id">
 		            <td>{{ projectUser.display_name }}</td>
 		            <td>
-		                <select v-model="projectUser.roles.data.id">
+		                <select  v-model="projectUser.roles.data[0].id">
 		                	<option v-for="role in roles" :value="role.id">{{ role.title }}</option>
 		                </select>
 		            </td>
@@ -64,7 +63,7 @@
 	</form>
 
     <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" title="Create a new user">
-        <project-new-user-form :project_users="project_users"></project-new-user-form>
+        <project-new-user-form></project-new-user-form>
     </div>
 </div>
 </template>
@@ -84,7 +83,7 @@
 				'project_cat': 0,
 				'project_description': '',
 				'project_notify': false,
-				'project_users': [],
+				'assignees': [],
 
 			}
 		},
@@ -101,18 +100,32 @@
 			},
 
 			project () {
-				if (this.is_update) {
-					this.project_users = this.$root.$store.state.project_users;
-					return this.$root.$store.state.project;
-				}
-				
+				var projects = this.$root.$store.state.projects;
+                var index = this.getIndex(projects, this.project_id, 'id');
+                
+                if ( index !== false ) {
+                    return projects[index];
+                } 
 				return {};
 			},
 
+			project_users () {
+				var projects = this.$root.$store.state.projects;
+                var index = this.getIndex(projects, this.project_id, 'id');
+                
+                if ( index !== false ) {
+                	return projects[index].assignees.data;
+                } 
+				return [];
+			},
+				
+	
 			project_category: {
 				get () {
 					if (this.is_update) {
-						var project = this.$root.$store.state.project;
+						var projects = this.$root.$store.state.projects;
+	               		var index = this.getIndex(projects, this.project_id, 'id');
+	               		var project = projects[index];
 					
 						if ( 
 							typeof project.categories !== 'undefined' 
@@ -138,27 +151,39 @@
 
 		methods: {
 
-			formatUsers (users) {
-				var format_users = [];
-				
-				users.map(function(user, index) {
-					format_users.push({
-						'user_id': user.id,
-						'role_id': user.roles.data.id
-					});
-				});
-
-				return format_users;
+			deleteUser (del_user) {
+				this.$root.$store.commit(
+					'afterDeleteUserFromProject', 
+					{
+						project_id: this.project_id,
+						user_id: del_user.id
+					}
+				);
 			},
 
-			deleteUser (del_user) {
-				this.project_users = this.project_users.filter(function(user) {
-					if (user.id === del_user.id) {
-						return false;
-					} else {
-						return user;
-					}
-				});
+			selfNewProject () {
+				if (this.is_update) {
+					this.updateSelfProject();
+				} else {
+					this.newProject();
+				}
+			},
+
+			updateSelfProject () {
+				var data = {
+					'id': this.project.id,
+					'title': this.project.title,
+                    'categories': [this.project_cat],
+                    'description': this.project.description,
+                    'notify_users': this.project_notify,
+                    'assignees': this.formatUsers(this.project_users),
+                    'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
+                },
+                self = this;
+
+                self.updateProject(data, function(res) {
+                	
+                });	
 			}
 		}
 	}

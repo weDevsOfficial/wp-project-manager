@@ -26,18 +26,10 @@
         newProject () {
             var self = this;
 
-            if (this.is_update) {
-                var type = 'PUT';
-                var url = this.base_url + '/cpm/v2/projects/'+ this.project.id;
-            } else {
-                var type = 'POST';
-                var url = this.base_url + '/cpm/v2/projects/';
-            }
-
             var request = {
-                type: type,
+                type: 'POST',
 
-                url: url,
+                url: this.base_url + '/cpm/v2/projects/',
 
                 data: {
                     'title': this.project.title,
@@ -49,9 +41,7 @@
                 },
 
                 success: function(res) {
-                    if (!this.is_update) {
-                        self.$root.$store.commit('newProject', res.data);
-                    }
+                    self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     jQuery( "#cpm-project-dialog" ).dialog("close");
                 },
@@ -60,8 +50,21 @@
                     
                 }
             };
-    
+
             this.httpRequest(request);
+        },
+
+        formatUsers (users) {
+            var format_users = [];
+            
+            users.map(function(user, index) {
+                format_users.push({
+                    'user_id': user.id,
+                    'role_id': user.roles.data[0].id
+                });
+            });
+
+            return format_users;
         },
 
         updateProject (project, callback) {
@@ -90,7 +93,7 @@
                     
                 }
             };
-    
+            
             this.httpRequest(request);
         },
 
@@ -363,6 +366,18 @@
 
             self.httpRequest(request_data);
         },
+
+        addUserMeta (user) {
+            if(!user.roles.data.length) {
+                user.roles = {
+                    data: [{
+                        description: "Co-Worker for project manager",
+                        id:2,
+                        title:"Co-Worker"
+                    }]
+                }
+            } 
+        }
 	}
 });
 

@@ -82,7 +82,18 @@ export default new Vuex.Store({
 
 		updateProject (state, project) {
 			var index = state.getIndex(state.projects, project.id, 'id');
+			//console.log(state.projects[index]);
+			// console.log(state.projects[index], project);
+
+			//state.projects[index] = project;
 			jQuery.extend(true, state.projects[index], project);
+			//console.log(state.projects[index], project);
+			// jQuery.each(state.projects[index], function(key, value) {
+			// 	//console.log(state.projects[index][key], project[key]);
+			// 	jQuery.extend(true, state.projects[index][key], project[key]);
+			// });
+
+			// //console.log(state.projects[index]);
 		},
 
 		showHideProjectDropDownAction (state, data) {
@@ -93,6 +104,19 @@ export default new Vuex.Store({
 			} else {
 				state.projects[index].settings_hide = data.status;
 			}
+		},
+
+		afterDeleteUserFromProject (state, data) {
+			var index = state.getIndex(state.projects, data.project_id, 'id');
+			var users = state.projects[index].assignees.data;
+			var user_index = state.getIndex(users, data.user_id, 'id');
+
+			state.projects[index].assignees.data.splice(user_index, 1);
+		},
+
+		setNewUser (state, data) {
+			var index = state.getIndex(state.projects, data.project_id, 'id');
+			state.projects[index].assignees.data.push(data.user);
 		}
 	}
 	

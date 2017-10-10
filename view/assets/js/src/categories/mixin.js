@@ -15,6 +15,7 @@ export default Vue.mixin({
 	            form_data = {
 	                title: this.title,
 	                description: this.description,
+	                categorible_type: 'project'
 	            };
 	        
 	        // Showing loading option 
