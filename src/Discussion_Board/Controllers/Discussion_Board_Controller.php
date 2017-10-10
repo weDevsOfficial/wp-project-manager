@@ -90,7 +90,7 @@ class Discussion_Board_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $discussion_board->update( $data );
+        $discussion_board->update_model( $data );
 
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );

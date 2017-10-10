@@ -11,7 +11,7 @@ return [
         __( 'task list', 'cpm' ),
     ],
     'task' => [
-        __( 'kaj', 'cpm' ),
+        __( 'task', 'cpm' ),
     ],
     'milestone' => [
         __( 'milestone', 'cpm' ),
