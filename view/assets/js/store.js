@@ -84,6 +84,14 @@ export default new Vuex.Store({
 			var index = state.getIndex(state.projects, project.id, 'id');
 			jQuery.extend(true, state.projects[index], project);
 		},
+
+		showHideProjectDropDownAction (state, status) {
+			if (status === 'toggle') {
+				state.project.settings_hide = state.project.settings_hide ? false : true;
+			} else {
+				state.project.settings_hide = status;
+			}
+		}
 	}
 	
 });

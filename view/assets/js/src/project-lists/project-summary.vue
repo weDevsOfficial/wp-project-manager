@@ -182,29 +182,6 @@
         },
 
         methods: {
-            deleteProject (id) {
-                if ( ! confirm( 'Are you sure!' ) ) {
-                    return;
-                }
-                var self = this;
-                var request_data = {
-                    url: self.base_url + '/cpm/v2/projects/' + id,
-                    type: 'DELETE',
-                    success: function(res) {
-                        self.$root.$store.commit('afterDeleteProject', id);
-
-                        if (!self.$root.$store.state.projects.length) {
-                            self.$router.push({
-                                name: 'project_lists', 
-                            });
-                        } else {
-                            self.getProjects();
-                        }
-                    }
-                }
-
-                self.httpRequest(request_data);
-            },
 
             settingsShowHide (project) {
                 project.settings_hide = project.settings_hide ? false : true;

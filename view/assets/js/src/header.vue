@@ -1,6 +1,5 @@
 <template>
     <div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head">
-
         <div class="cpm-row cpm-no-padding cpm-border-bottom">
 
             <div class="cpm-col-6 cpm-project-detail">
@@ -16,34 +15,26 @@
             </div>
 
             <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
-                <div class="cpm-single-project-search-wrap">
-                    <input type="text" data-project_id="60" placeholder="Search..." id="cpm-single-project-search">
-                </div>
                     
                 <div class="cpm-project-action">
-                    <span class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+                    <span @click.prevent="showProjectAction()" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
-                    <ul class="cpm-settings">
+                    <ul v-if="project.settings_hide" class="cpm-settings">
                         <li>
                             <span class="cpm-spinner"></span>
-                            <a href="http://localhost/test/wp-admin/admin.php?page=cpm_projects" class="cpm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
+                            <a href="#" @click.prevent="deleteProject(project.id)">
                                 <span class="dashicons dashicons-trash"></span>
                                 <span>Delete</span>
                             </a>
                         </li>
                         <li>
                             <span class="cpm-spinner"></span>
-                                <a class="cpm-archive" data-type="archive" data-project_id="60" href="#">
-                                    <span class="dashicons dashicons-yes"></span>
-                                    <span>Complete</span>
-                                </a>
-                        </li>
+                            <a @click.prevent="selfProjectMarkDone(project)" href="#">
+                                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
+                                <span v-if="project.status === 'incomplete'">Complete</span>
 
-                        <li>
-                            <span class="cpm-spinner"></span>
-                            <a class="cpm-duplicate-project" href="/test/wp-admin/admin.php?page=cpm_projects&amp;tab=project&amp;action=overview&amp;pid=60" data-project_id="60">
-                                <span class="dashicons dashicons-admin-page"></span>
-                                <span>Duplicate</span>
+                                <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
+                                <span v-if="project.status === 'complete'">Restore</span>
                             </a>
                         </li>
                     </ul>
@@ -156,6 +147,10 @@
         computed: {
             is_project_edit_mode () {
                 return this.$root.$store.state.is_project_form_active;
+            },
+
+            project () {
+                return this.$root.$store.state.project;
             }
         },
 
@@ -171,7 +166,33 @@
         },
 
         methods: {
+            showProjectAction () {
+                this.$root.$store.commit('showHideProjectDropDownAction', 'toggle');
+            },
 
+            selfProjectMarkDone (project) {
+                var project = {
+                        id: project.id,
+                        status: project.status === 'complete' ? 'incomplete' : 'complete'
+                    },
+                    self = this;
+
+                this.updateProject(project, function(project) {
+                    if ( project.status === 'complete' ) {
+                        self.$router.push({
+                            name: 'completed_projects'
+                        });
+
+                        
+                    }
+
+                    if ( project.status === 'incomplete' ) {
+                        self.$router.push({
+                            name: 'project_lists'
+                        });
+                    }
+                });
+            }
         }
     }
 </script>
