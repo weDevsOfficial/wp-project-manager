@@ -129,29 +129,30 @@
 				return;
 			}
 
-            var project = self.$root.$store.state.project;
+            var projects = self.$root.$store.state.projects,
+                index = self.getIndex(projects, project_id, 'id');
 
-            if ( !jQuery.isEmptyObject(project) ) {
-                if (project.id === self.project_id) {
-                    if (callback) {
-                        callback(project);
-                    }
-                    return project;
+            if ( index !== false ) {
+                self.addProjectMeta(projects[index]);
+                self.$root.$store.commit('setProject', projects[index]);
+                self.$root.$store.commit('setProjectUsers', projects[index].assignees.data);
+                if (callback) {
+                    callback(res.data);
                 }
+            } else {
+                self.httpRequest({
+                    url: self.base_url + '/cpm/v2/projects/'+ self.project_id,
+                    success: function(res) {
+                        self.addProjectMeta(res.data);
+                        self.$root.$store.commit('setProject', res.data);
+                        self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+
+                        if (callback) {
+                            callback(res.data);
+                        }
+                    }
+                });
             }
-            
-            self.httpRequest({
-                url: self.base_url + '/cpm/v2/projects/'+ self.project_id,
-                success: function(res) {
-                    self.addProjectMeta(res.data);
-                    self.$root.$store.commit('setProject', res.data);
-                    self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
-
-                    if (callback) {
-                        callback(res.data);
-                    }
-                }
-            });
         },
 
         addProjectMeta (project) {

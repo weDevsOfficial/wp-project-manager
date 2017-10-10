@@ -4,7 +4,7 @@
 
             <div class="cpm-col-6 cpm-project-detail">
                 <h3>
-                    <span class="cpm-project-title"> eirugkdj </span>
+                    <span class="cpm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
                         <span class="text">Edit</span>
@@ -73,8 +73,38 @@
 
     export default {
         data () {
-            return {
-                menu: [
+            return {}
+        },
+
+        computed: {
+            is_project_edit_mode () {
+                return this.$root.$store.state.is_project_form_active;
+            },
+
+            project () {
+                var projects = this.$root.$store.state.projects;
+
+                var index = this.getIndex(projects, this.project_id, 'id');
+                
+                if ( index !== false ) {
+                    return projects[index];
+                }
+
+                return {};
+            },
+
+            menu () {
+                var projects = this.$root.$store.state.projects;
+                var index = this.getIndex(projects, this.project_id, 'id');
+                var project = {};
+                
+                if ( index !== false ) {
+                    project = projects[index];
+                } else {
+                    return [];
+                }
+
+                return [
                     {
                         route: {
                             name: 'pm_overview',
@@ -82,7 +112,7 @@
                         },
 
                         name: 'Overview',
-                        count: 0,
+                        count: '',
                         class: 'overview cpm-sm-col-12'
                     },
 
@@ -93,7 +123,7 @@
                         },
 
                         name: 'Activities',
-                        count: 10,
+                        count: project.meta.total_activities,
                         class: 'activity cpm-sm-col-12'
                     },
 
@@ -104,7 +134,7 @@
                         },
 
                         name: 'Discussions',
-                        count: 40,
+                        count: project.meta.total_discussion_boards,
                         class: 'message cpm-sm-col-12'
                     },
 
@@ -115,7 +145,7 @@
                         },
 
                         name: 'Task Lists',
-                        count: 30,
+                        count: project.meta.total_task_lists,
                         class: 'to-do-list cpm-sm-col-12'
                     },
 
@@ -126,7 +156,7 @@
                         },
 
                         name: 'Milestones',
-                        count: 25,
+                        count: project.meta.total_milestones,
                         class: 'milestone cpm-sm-col-12'
                     },
 
@@ -137,20 +167,10 @@
                         },
 
                         name: 'Files',
-                        count: 50,
+                        count: project.meta.total_files,
                         class: 'files cpm-sm-col-12'
                     }
-                ],
-            }
-        },
-
-        computed: {
-            is_project_edit_mode () {
-                return this.$root.$store.state.is_project_form_active;
-            },
-
-            project () {
-                return this.$root.$store.state.project;
+                ];
             }
         },
 
@@ -167,7 +187,13 @@
 
         methods: {
             showProjectAction () {
-                this.$root.$store.commit('showHideProjectDropDownAction', 'toggle');
+                this.$root.$store.commit(
+                    'showHideProjectDropDownAction', 
+                    {
+                        status: 'toggle', 
+                        project_id: this.project_id
+                    }
+                );
             },
 
             selfProjectMarkDone (project) {
@@ -178,19 +204,13 @@
                     self = this;
 
                 this.updateProject(project, function(project) {
-                    if ( project.status === 'complete' ) {
-                        self.$router.push({
-                            name: 'completed_projects'
-                        });
-
-                        
-                    }
-
-                    if ( project.status === 'incomplete' ) {
-                        self.$router.push({
-                            name: 'project_lists'
-                        });
-                    }
+                    self.$root.$store.commit(
+                        'showHideProjectDropDownAction', 
+                        {
+                            status: false, 
+                            project_id: self.project_id
+                        }
+                    );
                 });
             }
         }

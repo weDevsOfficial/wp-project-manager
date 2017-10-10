@@ -35,7 +35,7 @@ export default new Vuex.Store({
 			state.projects = projects.projects;
 		},
 		setProject (state, project) {
-			state.project = project;
+			state.projects.push(project);
 		},
 
 		setProjectUsers (state, users) {
@@ -85,11 +85,13 @@ export default new Vuex.Store({
 			jQuery.extend(true, state.projects[index], project);
 		},
 
-		showHideProjectDropDownAction (state, status) {
-			if (status === 'toggle') {
-				state.project.settings_hide = state.project.settings_hide ? false : true;
+		showHideProjectDropDownAction (state, data) {
+			var index = state.getIndex(state.projects, data.project_id, 'id');
+			
+			if (data.status === 'toggle') {
+				state.projects[index].settings_hide = state.projects[index].settings_hide ? false : true;
 			} else {
-				state.project.settings_hide = status;
+				state.projects[index].settings_hide = data.status;
 			}
 		}
 	}
