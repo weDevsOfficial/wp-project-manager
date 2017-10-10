@@ -4,8 +4,8 @@
         <div class="item message cpm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
-        
-        <!-- <file-uploader :files="files"></file-uploader> -->
+
+         <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
         <div v-if="hasCoWorker" class="notify-users">
                         
@@ -38,6 +38,7 @@
 
 <script>
 	import editor from './../text-editor.vue';
+	import uploader from './../file-uploader.vue';
 
 	export default {
 		props: ['comment', 'comments'],
@@ -50,10 +51,13 @@
 	                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
 	            },
 	            task_id: this.$route.params.task_id,
+	            files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
+				deleted_files: []
 			}
 		},
 		components: {
-			'text-editor': editor
+			'text-editor': editor,
+			'file-uploader': uploader
 		},
 
 		watch: {
@@ -91,24 +95,40 @@
 		        if ( this.submit_disabled ) {
 		            return;
 		        }
-		        
+
+		         //console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
+				var data = new FormData();
+				
 		        // Disable submit button for preventing multiple click
 		        this.submit_disabled = true;
-		        var self      = this,
-		            is_update = typeof self.comment.id == 'undefined' ? false : true,
-		            
-		            form_data = {
-		                content: self.comment.content,
-		                commentable_id: self.task_id,
-		                commentable_type: 'task',
-		            };
-		        
 		        // Showing loading option 
 		        this.show_spinner = true;
 
+
+		        var self      = this,
+		            is_update = typeof this.comment.id == 'undefined' ? false : true;
+		            
+	            data.append('content', self.comment.content);
+	            data.append('commentable_id', self.task_id);
+	            data.append('commentable_type', 'task');
+	            
+	            
+	            this.deleted_files.map(function(del_file) {
+	            	data.append('files_to_delete[]', del_file);
+	            });
+	            
+
+	            this.files.map(function(file) {
+	            	if ( typeof file.attachment_id === 'undefined' ) {
+	            		var decode = self.dataURLtoFile(file.thumb, file.name);
+						data.append( 'files[]', decode );
+	            	}
+				});
+  
+		        
 		        if (is_update) {
 		            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
-		            var type = 'PUT'; 
+		            var type = 'POST'; 
 		        } else {
 		            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
 		            var type = 'POST';
@@ -117,7 +137,10 @@
 		        var request_data = {
 		            url: url,
 		            type: type,
-		            data: form_data,
+		            data: data,
+		            cache: false,
+        			contentType: false,
+        			processData: false,
 		            success (res) {
 
 		                self.addMeta(res.data);
@@ -134,8 +157,6 @@
 		                toastr.success(res.data.success);
 		           
 		                self.submit_disabled = false;
-		              
-
 		                //self.showHideTaskCommentForm(false, self.comment);
 		            },
 

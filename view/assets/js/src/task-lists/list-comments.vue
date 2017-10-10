@@ -6,7 +6,9 @@
         <ul class="cpm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">
 
-                <div class="cpm-avatar" v-html="comment.avatar"></div>
+               <div class="cpm-avatar">
+                     <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                </div>
 
                 <div class="cpm-comment-container">
                     <div class="cpm-comment-meta">
@@ -22,19 +24,19 @@
                             </span>
 
                             <span class="cpm-delete-link">
-                                <a href="#" @click.prevent="deleteComment( comment.id, list.ID )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
+                                <a href="#" @click.prevent="deleteListComment( comment.id )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
                             </span>
                         </div>
                     </div>
                     <div class="cpm-comment-content">
                         <div v-html="comment.content"></div>
-                        <!-- <ul class="cpm-attachments">
-                            <li v-for="file in comment.files" :key="file.id">
-                                <a class="cpm-colorbox-img" :href="file.url" title="file.name" target="_blank">
-                                    <img :src="file.thumb">
+                        <ul class="cpm-attachments" v-if="comment.files.data.length">
+                            <li v-for="commnetFile in comment.files.data">
+                                <a class="cpm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
+                                    <img :src="commnetFile.thumb" :alt="commnetFile.name">
                                 </a>
                             </li>
-                        </ul> -->
+                        </ul>
                     </div>
 
                     <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
@@ -86,6 +88,23 @@
 
 	            return false;
 	        },
+            deleteListComment (id) {
+                if ( !confirm('Are you sure!') ) {
+                    return;
+                }
+                var self = this;
+
+                var request_data = {
+                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/' + id,
+                    type: 'DELETE',
+                    success (res) {
+                        var index = self.getIndex(self.comments, id, 'id');
+
+                        self.comments.splice(index, 1);
+                    }
+                }
+                this.httpRequest(request_data);
+            }
 	    },
 
 	    components: {
