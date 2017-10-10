@@ -34,6 +34,8 @@ export default Vue.mixin({
 			    	});
 	                self.$store.commit( 'setDiscussion', res.data );
 	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
+
+	                NProgress.done();
 	            }
 	        };
 	        self.httpRequest(request);
@@ -47,6 +49,8 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscuss', res.data );
 	                //self.$store.commit( 'setComments', res.data );
 	                //self.$store.commit( 'setCommentsMeta', res.data );
+	                
+	                NProgress.done();
 	            }
 	        };
 	        self.httpRequest(request);

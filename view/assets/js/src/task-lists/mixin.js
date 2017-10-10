@@ -834,6 +834,7 @@ var PM_Task_Mixin = {
                     
                     self.$store.commit('setLists', res.data);
                     self.$store.commit('setListsMeta', res.meta.pagination);
+                    NProgress.done();
                 }
             };
             self.httpRequest(request);
@@ -856,6 +857,7 @@ var PM_Task_Mixin = {
                     if ( callback ) {
                         callback(res);
                     }
+                    NProgress.done();
                 }
             };
             self.httpRequest(request);

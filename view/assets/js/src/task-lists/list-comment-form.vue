@@ -6,7 +6,8 @@
 	        <div class="item message cpm-sm-col-1">
 	            <text-editor :editor_id="editor_id" :content="content"></text-editor>
 	        </div>
-	        <!-- <file-uploader :files="files"></file-uploader> -->
+
+	        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
 	        <div v-if="hasCoWorker" class="notify-users">
 	                        
@@ -41,7 +42,7 @@
 
 <script>
 	import editor from './text-editor.vue';
-	import file_uploader from './file-uploader.vue';
+	import file_uploader from './../file-uploader.vue';
 
 	export default {
 	    // Get passing data for this component. 
@@ -54,7 +55,8 @@
 	     */
 	    data: function() {
 	        return {
-	            files: typeof this.comment.files == 'undefined' ? [] : this.comment.files,
+	            files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
+				deleted_files: [],
 	            content: {
 	                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
 	            },
@@ -62,6 +64,7 @@
 	            notify_all_co_worker: false,
 	            show_spinner: false,
 	            submit_disabled: false,
+	            list_id: this.$route.params.list_id
 	        }
 	    },
 
@@ -69,17 +72,7 @@
 	     * Observe onchange value
 	     */
 	    watch: {
-	        /**
-	         * Observed comment file change
-	         * 
-	         * @param  array new_files 
-	         * 
-	         * @return void           
-	         */
-	        files: function( new_files ) {
-	            this.comment.files = new_files;
-	        },
-
+	        
 	        /**
 	         * Observe onchange comment message
 	         *
@@ -154,20 +147,38 @@
 	                return;
 	            }
 
-	            // Make disable submit button
-	            this.submit_disabled = true;
+	             //console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
+				var data = new FormData();
+				
+		        // Disable submit button for preventing multiple click
+		        this.submit_disabled = true;
+		        // Showing loading option 
+		        this.show_spinner = true;
 
-	            var self      = this,
-	                is_update = typeof this.comment.id == 'undefined' ? false : true,
-	                form_data = {
-	                	commentable_type: 'task-list',
-	                    content: this.comment.content,
-	                    commentable_id: self.$route.params.list_id,
-	                };
+
+		        var self      = this,
+		            is_update = typeof this.comment.id == 'undefined' ? false : true;
+		            
+	            data.append( 'content', self.comment.content );
+	            data.append( 'commentable_id', self.list_id );
+	            data.append( 'commentable_type', 'task-list' );
+	            
+	            
+	            this.deleted_files.map(function(del_file) {
+	            	data.append('files_to_delete[]', del_file);
+	            });
+	            
+
+	            this.files.map(function(file) {
+	            	if ( typeof file.attachment_id === 'undefined' ) {
+	            		var decode = self.dataURLtoFile(file.thumb, file.name);
+						data.append( 'files[]', decode );
+	            	}
+				});
 
 	            if (is_update) {
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id+'?content='+this.comment.content;
-	            	var type = "PUT";
+	            	var type = "POST";
 	            } else {
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
 	            	var type = "POST";
@@ -178,19 +189,22 @@
 	            var request_data = {
 	            	url: url,
 	            	type: type,
-	            	data: form_data,
+	            	data: data,
+	            	cache: false,
+        			contentType: false,
+        			processData: false,
 	            	success (res) { 
 	            		self.addListCommentMeta(res.data);
 	            		
                         if (is_update) {
                         	self.$store.commit('listUpdateComment', {
-                        		list_id: self.$route.params.list_id,
+                        		list_id: self.list_id,
                         		comment_id: self.comment.id,
                         		comment: res.data
                         	});
                         } else {
                         	self.$store.commit('listNewComment', {
-                        		list_id: self.$route.params.list_id,
+                        		list_id: self.list_id,
                         		comment: res.data
                         	});
                         }
@@ -205,23 +219,7 @@
 
 	        },
 
-	        /**
-	         * Get files id array from file object
-	         * 
-	         * @param  object files 
-	         * 
-	         * @return array       
-	         */
-	        filtersOnlyFileID: function( files ) {
-	            if ( typeof files == 'undefined' ) {
-	                return [];
-	            }
-
-	            return files.map( function( file ) {
-	                return file.id;
-	            });
-	        },
-
+	        
 	        /**
 	         * Check select all check box enable or disabled. for notify users
 	         * 
