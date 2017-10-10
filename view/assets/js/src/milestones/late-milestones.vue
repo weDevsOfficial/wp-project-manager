@@ -7,7 +7,7 @@
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
                     <span class="time-left">
-                    	({{ humanDate(milestone) }} late - 
+                    	({{ humanDate(milestone) }} - 
                     	<time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
                     		{{ getDueDate(milestone) }}
                     	</time>)
@@ -101,21 +101,21 @@
 
         methods: {
             humanDate (milestone) {
-                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
                     due_date = new Date(due_date),
                     due_date = moment(due_date).format();
 
-                return moment(due_date).fromNow(true);
+                return moment(due_date).fromNow();
             },
             momentFormat (milestone) {
-                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
                     due_date = new Date(due_date),
                     due_date = moment(due_date).format();
 
                 return due_date;
             },
             getDueDate (milestone) {
-                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.create_at.date;
+                var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
                 var due_date = this.dateFormat(due_date);
 
                 return due_date;
