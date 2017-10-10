@@ -25,7 +25,7 @@ class Text_Domain {
         self::$texts = load_texts();
     }
 
-    public static function get_text( $key = null, $args = [] ) {
+    public static function get_text_format( $key = null ) {
         Text_Domain::singleton(
             array(),
             array([
@@ -43,7 +43,7 @@ class Text_Domain {
             $text = self::get_value_from_array( $texts, $keys );
         }
 
-        return self::named_vsprintf( $text, $args );
+        return self::named_sprintf( $text );
     }
 
     private static function get_value_from_array( $array = [], $keys = [] ) {
@@ -56,21 +56,19 @@ class Text_Domain {
         return $value;
     }
 
-    private static function named_vsprintf( $text, $args ) {
-        $values = [];
-        $values[0] = $text[0];
+    private static function named_sprintf( $text ) {
+        $sprintf_args = [];
+        $format = $text[0];
 
         if ( array_key_exists( 1, $text ) ) {
             $params = $text[1];
 
             foreach ( $params as $key => $param ) {
-                $keys  = explode( '.', $param );
-                $value = self::get_value_from_array( $args, $keys );
-
-                $values[$key + 1] = $value;
+                $sprintf_args[$key + 1] = '$' . $param;
             }
         }
+        array_unshift( $sprintf_args, $format );
 
-        return call_user_func_array( 'sprintf', $values );
+        return call_user_func_array( 'sprintf', $sprintf_args );
     }
 }

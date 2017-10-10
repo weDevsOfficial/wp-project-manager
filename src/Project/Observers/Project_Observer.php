@@ -16,10 +16,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'creation',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'id'    => $resource->id,
-                'title' => $resource->title,
-            ]),
+            'meta'          => [
+                'project_id'    => $resource->id,
+                'project_title' => $resource->title,
+            ],
             'project_id'    => $resource->id,
         ]);
     }
@@ -35,10 +35,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => $old_value,
-                'new' => $item->title
-            ]),
+            'meta'          => [
+                'project_title_old' => $old_value,
+                'project_title_new' => $item->title
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -50,10 +50,6 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => $old_value,
-                'new' => $item->description
-            ]),
             'project_id'    => $item->id,
         ]);
     }
@@ -65,10 +61,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => Project::$status[$old_value],
-                'new' => $item->status
-            ]),
+            'meta'          => [
+                'project_status_old' => Project::$status[$old_value],
+                'project_status_new' => $item->status
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -80,10 +76,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => $old_value,
-                'new' => $item->budget
-            ]),
+            'meta'          => [
+                'project_status_old' => $old_value,
+                'project_status_new' => $item->budget
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -95,10 +91,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => $old_value,
-                'new' => $item->pay_rate
-            ]),
+            'meta'          => [
+                'project_pay_rate_old' => $old_value,
+                'project_pay_rate_new' => $item->pay_rate
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -110,10 +106,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => format_date( make_carbon_date( $old_value ) ),
-                'new' => format_date( $item->est_completion_date )
-            ]),
+            'meta'          => [
+                'project_est_completion_date_old' => format_date( make_carbon_date( $old_value ) ),
+                'project_est_completion_date_new' => format_date( $item->est_completion_date )
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -125,10 +121,10 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
-            'meta'          => serialize([
-                'old' => $old_value,
-                'new' => $item->color_code
-            ]),
+            'meta'          => [
+                'project_color_code_old' => $old_value,
+                'project_color_code_new' => $item->color_code
+            ],
             'project_id'    => $item->id,
         ]);
     }
