@@ -14,7 +14,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'discussion_board_title' => $resource->title,
         ];
 
-        $this->log_activity( $resource, 'create-discussion-board', 'creation', $meta );
+        $this->log_activity( $resource, 'create-discussion-board', 'create', $meta );
     }
 
     public function updated( $resource ) {

@@ -17,11 +17,11 @@ class Comment_Observer extends Model_Observer {
 
     public function created( $resource ) {
         if ( $resource->commentable_type == 'comment' ) {
-            $this->log_activity( $resource, 'create-reply-comment', 'creation');
+            $this->log_activity( $resource, 'create-reply-comment', 'create');
         } elseif ( $resource->commentable_type == 'file' ) {
-            $this->log_activity( $resource, 'create-file-comment', 'creation');
+            $this->log_activity( $resource, 'create-file-comment', 'create');
         } else {
-            $this->log_activity( $resource, 'create-comment', 'creation');
+            $this->log_activity( $resource, 'create-comment', 'create');
         }
     }
 

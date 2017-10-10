@@ -53,6 +53,24 @@ return [
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
 
+    // Activities on task list
+    'create-task-list'             => [
+        __( '%1$s has created a task list titled as %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'update-task-list-title'       => [
+        __( '%1$s has updated the title of a task list from "%2$s" to "%3$s".', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_list_title_old', 'meta.task_list_title_new']
+    ],
+    'update-task-list-description' => [
+        __( '%1$s has updated the description of a task list, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'update-task-list-order'       => [
+        __( '%1$s has updated the order of a task list, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+
 
     // Activities on comment
     'create-comment'       => [

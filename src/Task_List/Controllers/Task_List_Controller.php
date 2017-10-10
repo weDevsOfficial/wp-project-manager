@@ -77,7 +77,7 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $task_list->update( $data );
+        $task_list->update_model( $data );
 
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );

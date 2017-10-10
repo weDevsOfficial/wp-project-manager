@@ -13,7 +13,7 @@ class Project_Observer extends Model_Observer {
         Activity::create([
             'actor_id'      => $resource->created_by,
             'action'        => 'create-project',
-            'action_type'   => 'creation',
+            'action_type'   => 'create',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
             'meta'          => [
