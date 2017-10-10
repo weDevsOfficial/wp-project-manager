@@ -36,38 +36,38 @@ return [
     ],
 
     // Activities on discussion board
-    'create-discussion-board'            => [
+    'create-discussion-board'             => [
         __( '%1$s has created a discussion board titled as %2$s.', 'cpm' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
-    'update-discussion-board-title'      => [
+    'update-discussion-board-title'       => [
         __( '%1$s has updated the title of a discussion board from "%2$s" to "%3$s".', 'cpm' ),
         ['actor.data.display_name', 'meta.discussion_board_title_old', 'meta.discussion_board_title_new']
     ],
-    'update-discussion-board-description'      => [
+    'update-discussion-board-description' => [
         __( '%1$s has updated the description of a discussion board, %2$s.', 'cpm' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
-    'update-discussion-board-order' => [
+    'update-discussion-board-order'       => [
         __( '%1$s has updated the order of a discussion board, %2$s.', 'cpm' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
 
 
     // Activities on comment
-    'create-comment'                     => [
+    'create-comment'       => [
         __( '%1$s has commented on a %2$s, %3$s.', 'cpm' ),
         ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.comemntable_title']
     ],
-    'update-comment'                     => [
+    'update-comment'       => [
         __( '%1$s has updated a comment on a %2$s, %3$s.'),
         ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.comemntable_title']
     ],
-    'create-reply-comment'               => [
+    'create-reply-comment' => [
         __( '%1$s has replied a comment on a %2$s, %3$s.'),
         ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.commentable_title']
     ],
-    'create-file-comment'                => [
+    'create-file-comment'  => [
         __( '%1$s has commented on a %2$s.'),
         ['actor.data.display_name', 'meta.trans_commentable_title']
     ],
