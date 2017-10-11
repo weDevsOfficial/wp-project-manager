@@ -5,7 +5,7 @@ namespace CPM\Project\Observers;
 use CPM\Core\Database\Model_Observer;
 use CPM\Project\Models\Project;
 use CPM\Activity\Models\Activity;
-use Reflection;
+use Carbon\Carbon;
 
 class Project_Observer extends Model_Observer {
 
@@ -113,8 +113,9 @@ class Project_Observer extends Model_Observer {
             'resource_type' => 'project',
             'meta'          => [
                 'project_title'                   => $item->title,
-                'project_est_completion_date_old' => format_date( make_carbon_date( $old_value ) ),
-                'project_est_completion_date_new' => format_date( $item->est_completion_date )
+                'project_est_completion_date_old' => $old_value,
+                'project_est_completion_date_new' => $item->est_completion_date instanceof Carbon
+                    ? $item->est_completion_date->toDateTimeString() : null,
             ],
             'project_id'    => $item->id,
         ]);
