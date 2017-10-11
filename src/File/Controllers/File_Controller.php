@@ -25,7 +25,7 @@ class File_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $files = File::where( 'project_id', $project_id)
+        $files = File::where( 'project_id', $project_id )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $file_collection = $files->getCollection();
