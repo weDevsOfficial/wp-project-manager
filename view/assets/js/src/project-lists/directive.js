@@ -47,19 +47,20 @@ var Project = {
                     $( "#cpm-create-user-wrap" ).dialog( "open" );
                 } else {
 
-                    var has_user = context.project_users.find(function(user) {
+                    var has_user = context.selectedUsers.find(function(user) {
                         return ui.item.id === user.id ? true : false;
                     });
                     
                     if (!has_user) {
                         context.addUserMeta(ui.item);
-                        context.$root.$store.commit(
-                            'setNewUser',
-                            {
-                                project_id: context.project_id,
-                                user: ui.item
-                            }
-                        );
+                        // context.$root.$store.commit(
+                        //     'setNewUser',
+                        //     {
+                        //         project_id: context.project_id,
+                        //         user: ui.item
+                        //     }
+                        // );
+                        context.$root.$store.commit('updateSeletedUser', ui.item);
                     }
                     
                     $( '.cpm-project-role>table' ).append( ui.item._user_meta );
