@@ -3,20 +3,35 @@
 namespace CPM\Task;
 
 use Carbon\Carbon;
-use Illuminate\Database\Capsule\Manager as DB;
 
 trait Task_Model_Trait {
     // Allowed status for a task
-    private static $status = [
+    public static $status = [
         0 => 'incomplete',
         1 => 'complete',
         2 => 'pending',
     ];
 
-    private static $priorities = [
-        1 => 'high',
-        2 => 'medium',
-        3 => 'low',
+    public static $priorities = [
+        0 => 'low',
+        1 => 'medium',
+        2 => 'high',
+    ];
+
+    public static $recurrency = [
+        0 => 'no',
+        1 => 'yes'
+    ];
+
+    public static $payability = [
+        0 => 'no',
+        1 => 'yes'
+    ];
+
+    public static $complexity = [
+        0 => 'basic',
+        1 => 'intermediate',
+        2 => 'advance'
     ];
 
     public function getStatusAttribute( $value ) {
@@ -67,5 +82,69 @@ trait Task_Model_Trait {
 
     public function setDueDateAttribute( $date ) {
         $this->attributes['due_date'] = make_carbon_date( $date );
+    }
+
+    public function getRecurrentAttribute( $value ) {
+        $value = (int) $value;
+
+        if ( array_key_exists( $value, self::$recurrency ) ) {
+            return self::$recurrency[(int) $value];
+        }
+
+        return self::$recurrency[0];
+    }
+
+    public function setRecurrentAttribute( $value ) {
+        $value = strtolower( $value );
+        $key   = array_search( $value, self::$recurrency );
+
+        if ( array_key_exists( $value, self::$recurrency ) ) {
+            $this->attributes['recurrent'] = $value;
+        } else {
+            $this->attributes['recurrent'] = $key;
+        }
+    }
+
+    public function getPayableAttribute( $value ) {
+        $value = (int) $value;
+
+        if ( array_key_exists( $value, self::$payability ) ) {
+            return self::$payability[(int) $value];
+        }
+
+        return self::$payability[0];
+    }
+
+    public function setPayableAttribute( $value ) {
+        $value = strtolower( $value );
+        $key   = array_search( $value, self::$payability );
+
+        if ( array_key_exists( $value, self::$payability ) ) {
+            var_dump( $value );
+            $this->attributes['payable'] = $value;
+        } else {
+            $this->attributes['payable'] = $key;
+        }
+    }
+
+    public function getComplexityAttribute( $value ) {
+        $value = (int) $value;
+
+        if ( array_key_exists( $value, self::$complexity ) ) {
+            return self::$complexity[(int) $value];
+        }
+
+        return self::$complexity[0];
+    }
+
+    public function setComplexityAttribute( $value ) {
+        $value = strtolower( $value );
+        $key   = array_search( $value, self::$complexity );
+
+        if ( array_key_exists( $value, self::$complexity ) ) {
+            $this->attributes['complexity'] = $value;
+        } else {
+            $this->attributes['complexity'] = $key;
+        }
     }
 }
