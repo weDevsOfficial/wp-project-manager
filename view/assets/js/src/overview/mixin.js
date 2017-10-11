@@ -3,7 +3,7 @@ import Vue from './../../vue/vue';
 export default Vue.mixin({
 	methods: {
 		getOverViews (condition) {
-			var condition = condition || '',
+			var condition = condition || ''
 				var self = this;
 
 			var request = {
