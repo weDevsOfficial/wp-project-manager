@@ -24,11 +24,13 @@ class Task_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 5;
         $page = $request->get_param( 'page' );
 
-        $tasks = Task::orderBy( 'created_at', 'DESC')
+        $tasks = Task::where( 'project_id', $project_id )
+            ->orderBy( 'created_at', 'DESC')
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $task_collection = $tasks->getCollection();
@@ -113,7 +115,7 @@ class Task_Controller {
             ->first();
 
         if ( $task ) {
-            $task->update( $data );
+            $task->update_model( $data );
         }
 
         if ( is_array( $assignees ) && $task ) {

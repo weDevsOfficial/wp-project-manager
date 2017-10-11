@@ -18,13 +18,15 @@ class File_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $files = File::paginate( $per_page, ['*'], 'page', $page );
+        $files = File::where( 'project_id', $project_id )
+            ->paginate( $per_page, ['*'], 'page', $page );
 
         $file_collection = $files->getCollection();
 

@@ -22,13 +22,15 @@ class Discussion_Board_Controller {
     use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
         $per_page = $per_page ? $per_page : 15;
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $discussion_boards = Discussion_Board::orderBy( 'created_at', 'DESC' )
+        $discussion_boards = Discussion_Board::where( 'project_id', $project_id )
+            ->orderBy( 'created_at', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $discussion_board_collection = $discussion_boards->getCollection();
@@ -88,7 +90,7 @@ class Discussion_Board_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $discussion_board->update( $data );
+        $discussion_board->update_model( $data );
 
         if ( $milestone ) {
             $this->attach_milestone( $discussion_board, $milestone );

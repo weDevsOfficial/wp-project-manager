@@ -22,4 +22,14 @@ class Activity extends Eloquent {
     public function actor() {
         return $this->belongsTo( User::class, 'actor_id' );
     }
+
+    public function setMetaAttribute( $value ) {
+        if ( ! empty($value) ) {
+            $this->attributes['meta'] = serialize( $value );
+        }
+    }
+
+    public function getMetaAttribute( $value ) {
+        return unserialize( $value );
+    }
 }

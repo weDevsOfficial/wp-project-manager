@@ -118,7 +118,7 @@ class Milestone_Controller {
             ->first();
 
         if ( $milestone ) {
-            $milestone->update( $data );
+            $milestone->update_model( $data );
         }
 
         if ( $milestone && $achieve_date ) {

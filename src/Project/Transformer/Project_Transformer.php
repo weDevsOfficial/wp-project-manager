@@ -50,31 +50,31 @@ class Project_Transformer extends TransformerAbstract {
     }
 
     public function includeOverviewGraph( Project $item ) {
-        $today = Carbon::today();
-        $one_month_ago = (Carbon::today())->subMonth();
+        $today = Carbon::today()->addDay();
+        $first_day = Carbon::today()->startOfMonth();
         $graph_data = [];
 
-        $tasks = $item->tasks->where( 'updated_at', '>=', $one_month_ago )
+        $tasks = $item->tasks->where( 'created_at', '>=', $first_day )
             ->map( function( $item, $key ) {
-                $date = $item->updated_at->toDateString();
-                $item->updated_at = make_carbon_date( $date );
+                $date = $item->created_at->toDateString();
+                $item->created_at = make_carbon_date( $date );
 
                 return $item;
             });
 
-        $activities = $item->activities->where( 'updated_at', '>=', $one_month_ago )
+        $activities = $item->activities->where( 'created_at', '>=', $first_day )
             ->map( function( $item, $key ) {
-                $date = $item->updated_at->toDateString();
-                $item->updated_at = make_carbon_date( $date );
+                $date = $item->created_at->toDateString();
+                $item->created_at = make_carbon_date( $date );
 
                 return $item;
             });
 
-        for ( $dt = $one_month_ago; $today->diffInDays( $dt ); $dt->addDay() ) {
+        for ( $dt = $first_day; $today->diffInDays( $dt ); $dt->addDay() ) {
             $graph_data[] = [
                 'date_time'  => format_date( $dt ),
-                'tasks'      => $tasks->where( 'updated_at', $dt )->count(),
-                'activities' => $activities->where( 'updated_at', $dt )->count()
+                'tasks'      => $tasks->where( 'created_at', $dt )->count(),
+                'activities' => $activities->where( 'created_at', $dt )->count()
             ];
         }
 
