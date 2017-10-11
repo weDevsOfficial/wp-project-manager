@@ -23,7 +23,7 @@
 			jQuery.ajax(property);
 		},
 
-        newProject () {
+        newProject (callback) {
             var self = this;
 
             var request = {
@@ -45,10 +45,16 @@
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
                     jQuery( "#cpm-project-dialog" ).dialog("close");
+
+                    if(typeof callback !== 'undefined'){
+                        callback(res);
+                    }
                 },
 
                 error: function(res) {
-                    
+                    if(typeof callback !== 'undefined'){
+                        callback(res);
+                    }
                 }
             };
 

@@ -13,7 +13,10 @@
 
                 <div class="detail"></div>
             </div>
-
+            <div class="cpm-completed-wrap">
+                <div v-if="project.status === 'complete'" class="ribbon-green">Completed</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">Incomplete</div>
+            </div>
             <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
                     
                 <div class="cpm-project-action">

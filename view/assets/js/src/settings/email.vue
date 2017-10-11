@@ -60,6 +60,7 @@
 					<div style="padding-left: 10px">
 						<p class="submit">
 							<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
+							<span v-show="show_spinner" class="cpm-spinner"></span>
 						</p>                            
 					</div>
 				</form>
@@ -82,11 +83,14 @@
                 link_to_backend: this.getSettings('link_to_backend', false),
                 email_type: this.getSettings('email_type', 'text/html'),
                 enable_bcc: this.getSettings('enable_bcc', false),
+                show_spinner: false
             }
         },
 
         methods: {
             saveEmailSettings () {
+            	this.show_spinner = true;
+            	self = this;
                 var data = {
                     from_email: this.from_email,
                     link_to_backend: this.link_to_backend,
@@ -96,7 +100,7 @@
 
 
                 this.saveSettings(data, function(res) {
-
+                	self.show_spinner = false;
                 });
             },
         }

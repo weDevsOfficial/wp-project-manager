@@ -26,7 +26,7 @@
             </div>
             <div>
                 <input class="button-primary" type="submit" value="Create User" name="create_user">
-                <span></span>
+                <span v-show="show_spinner" class="cpm-spinner"></span>
             </div>
         </form>
     </div>
@@ -41,12 +41,14 @@
                 first_name: '',
                 last_name: '',
                 email: '',
+                show_spinner: false,
             }
         },
 
         methods: {
             createUser () {
                 var self = this;
+                this.show_spinner = true;
 
                 self.httpRequest({
                     url: self.base_url + '/cpm/v2/users',
@@ -60,6 +62,8 @@
 
                     success: function(res) {
                         self.addUserMeta(res.data);
+                        self.show_spinner = false;
+                        
                         // self.$root.$store.commit(
                         //     'setNewUser',
                         //     {

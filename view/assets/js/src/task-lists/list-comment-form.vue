@@ -58,7 +58,7 @@
 	            files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
 				deleted_files: [],
 	            content: {
-	                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
+	                html: typeof this.comment.content === 'undefined' ? '' : this.comment.content,
 	            },
 	            notify_co_workers: [],
 	            notify_all_co_worker: false,
@@ -183,8 +183,6 @@
 	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
 	            	var type = "POST";
 	            }
-	            // Showing spinner    
-	            this.show_spinner = true;
 
 	            var request_data = {
 	            	url: url,
@@ -209,9 +207,11 @@
                         	});
                         }
 	            		self.submit_disabled = false;
+	            		self.show_spinner = false;
 	            	},
 	            	error (res) {
 	            		self.submit_disabled = false;
+	            		self.show_spinner = false;
 	            	}
 	            }
 

@@ -28,8 +28,8 @@
 
         <div class="submit">
             <input type="submit" class="button-primary" name="cpm_new_comment" value="Add this comment" id="">
+            <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
-        <div class="cpm-loading" style="display: none;">Saving...</div>
     </form>
 </template>
 
