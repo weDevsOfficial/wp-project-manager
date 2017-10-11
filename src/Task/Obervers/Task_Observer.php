@@ -98,7 +98,7 @@ class Task_Observer extends Model_Observer {
 
     public function recurrent( Task $item, $old_value ) {
         $meta = [
-            'task_title'       => $item->title,
+            'task_title'         => $item->title,
             'task_recurrent_old' => $old_value,
             'task_recurrent_new' => $item->recurrent,
         ];

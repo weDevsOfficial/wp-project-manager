@@ -110,6 +110,30 @@ return [
         __( '%1$s has updated the start date of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
         ['actor.data.display_name', 'meta.task_title', 'meta.task_start_at_old', 'meta.task_start_at_old']
     ],
+    'update-task-due-date'    => [
+        __( '%1$s has updated the due date of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_due_date_old', 'meta.task_due_date_old']
+    ],
+    'update-task-complexity'    => [
+        __( '%1$s has updated the complexity of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_complexity_old', 'meta.task_complexity_old']
+    ],
+    'update-task-priority'    => [
+        __( '%1$s has updated the priority of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_priority_old', 'meta.task_priority_new']
+    ],
+    'update-task-payable'    => [
+        __( '%1$s has updated the payable status of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_payable_old', 'meta.task_payable_new']
+    ],
+    'update-task-recurrent'    => [
+        __( '%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_recurrent_old', 'meta.task_recurrent_old']
+    ],
+    'update-task-status'    => [
+        __( '%1$s has updated the status of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_status_old', 'meta.task_status_old']
+    ],
 
     // Activities on comment
     'create-comment'       => [
