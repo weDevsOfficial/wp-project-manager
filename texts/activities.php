@@ -89,6 +89,27 @@ return [
         ['actor.data.display_name', 'meta.milestone_title']
     ],
 
+    // Activities on milestone
+    'create-task'             => [
+        __( '%1$s has created a task, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
+    'update-task-title'       => [
+        __( '%1$s has updated the title of a task from "%2$s" to "%3$s".', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title_old', 'meta.task_title_new']
+    ],
+    'update-task-description' => [
+        __( '%1$s has updated the description of a task, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
+    'update-task-estimation'  => [
+        __( '%1$s has updated the estimation of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_estimation_old', 'meta.task_estimation_new']
+    ],
+    'update-task-start-at'    => [
+        __( '%1$s has updated the start date of a task, %2$s, from %3$s to %4$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_start_at_old', 'meta.task_start_at_old']
+    ],
 
     // Activities on comment
     'create-comment'       => [
