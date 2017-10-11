@@ -56,7 +56,7 @@
 			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" value="Update Project">
 			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" value="Add New Project">
 			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">Cancel</a>
-			<span v-show="show_spinner" class="cpm-spinner"></span>
+			<span v-show="show_spinner" class="cpm-loading"></span>
 		</div>
 
 	</form>

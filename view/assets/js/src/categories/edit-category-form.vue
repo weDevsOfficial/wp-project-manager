@@ -22,6 +22,7 @@
 			<p class="inline-edit-save submit">
 				<button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">Cancel</button>
 				<input type="submit" class="save button button-primary alignright" value="Update Category">
+				<span v-show="show_spinner" class="cpm-spinner"></span>
 				<br class="clear">
 			</p>
 		</form>
@@ -34,7 +35,8 @@
 
 		data () {
 			return {
-				submit_disabled: false
+				submit_disabled: false,
+				show_spinner:false,
 			}
 		},
 
