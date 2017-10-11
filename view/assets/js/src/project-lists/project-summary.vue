@@ -146,13 +146,13 @@
 				            </a>
     				    </li>
 
-    				    <li>
+ <!--    				    <li>
 				            <span class="cpm-spinner"></span>
 				            <a class="cpm-duplicate-project" href="#" data-project_id="60">
 				                <span class="dashicons dashicons-admin-page"></span>
 				                <span>Duplicate</span>
 				            </a>
-    				    </li>
+    				    </li> -->
     				</ul>
     			</div>
     		</div>

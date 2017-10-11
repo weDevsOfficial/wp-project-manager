@@ -91,7 +91,7 @@ function get_wp_roles() {
 }
 
 function pm_get_settings() {
-    $response = wp_remote_get( 'http://localhost/api/wp-json/cpm/v2/settings' );
+    $response = wp_remote_get( home_url('wp-json/cpm/v2/settings') );
     
     if ( is_array( $response ) ) {
         $header = $response['headers']; // array of http header lines

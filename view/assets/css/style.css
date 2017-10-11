@@ -825,9 +825,9 @@ ul.cpm-activity ul li:before {
 .cpm-completed-wrap .ribbon-green {
   font-weight: bold;
   font-size: 12px;
-  color: #333;
+  color: #23282e;
   text-align: center;
-  text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px;
+  text-shadow: rgba(255, 255, 255, 0.3) 0px 1px 0px;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -846,7 +846,6 @@ ul.cpm-activity ul li:before {
   background-image: linear-gradient(to bottom, #BFDC7A, #8EBF45);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbfdc7a', endColorstr='#ff8ebf45', GradientType=0);
-  color: #6a6340;
   -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);

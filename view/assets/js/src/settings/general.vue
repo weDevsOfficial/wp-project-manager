@@ -132,7 +132,6 @@
                 managing_capability: this.getSettings('managing_capability', []),
                 project_create_capability: this.getSettings('project_create_capability', []),
                 show_spinner: false,
-
             }
         },
 
