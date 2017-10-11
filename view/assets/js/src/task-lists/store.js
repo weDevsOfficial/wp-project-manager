@@ -469,19 +469,19 @@ export default new Vuex.Store({
         },
 
         setLists (state, lists) {
-
-            if(state.lists.length > 0){
-                lists.forEach(function(list){
+            state.lists = lists;
+            // if(state.lists.length > 0){
+            //     lists.forEach(function(list){
                     
-                    var list_index = state.getIndex(state.lists, list.id, 'id');
-                    if(list_index === false){
-                         state.lists.push(list);
-                    }
+            //         var list_index = state.getIndex(state.lists, list.id, 'id');
+            //         if(list_index === false){
+            //              state.lists.push(list);
+            //         }
                     
-                })
-            }else{
-                state.lists =lists;
-            }
+            //     })
+            // }else{
+                
+            //}
             
         },
         setList(state, list){
@@ -546,18 +546,43 @@ export default new Vuex.Store({
         },
         setTasks(state, data){
             var list_index = state.getIndex(state.lists, data.id, 'id');
+            
             if(typeof data.incomplete_tasks !== 'undefined' ){
                 data.incomplete_tasks.data.forEach(function(task){
                     state.lists[list_index].incomplete_tasks.data.push(task)
                 });
                 state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
-            }else{
+            } else {
                 data.complete_tasks.data.forEach(function(task){
                     state.lists[list_index].complete_tasks.data.push(task)
                 });
                 state.lists[list_index].complete_tasks.meta = data.complete_tasks.meta;
             }
             
+        },
+
+        updateTaskEditMode (state, data) {
+            var list_index = state.getIndex(state.lists, data.list_id, 'id');
+            
+            
+            if(typeof state.lists[list_index].incomplete_tasks !== 'undefined' ){
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = true;
+
+                //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1); 
+
+                //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1, data.task);
+
+                //jQuery.extend(true, data.task, state.lists[list_index].incomplete_tasks.data[task_index] );
+
+                console.log(state.lists[list_index].incomplete_tasks);
+
+            } 
+
+            if(typeof state.lists[list_index].complete_tasks !== 'undefined' ){
+                var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
+                state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = data.edit_mode;
+            }
         }
     }
 });

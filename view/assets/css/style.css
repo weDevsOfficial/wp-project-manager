@@ -1375,13 +1375,13 @@ ul.cpm-activity ul li:before {
   border: 1px solid #e5e5e5;
   padding: 6px 3px 5px 5px;
 }
-.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar {
+.cpm-todolists .cpm-todolist .cpm-todo-progress-bar {
   margin-top: 15px;
   overflow: hidden;
   height: 13px;
   background-color: #f7f7f7;
 }
-.cpm-todolists .cpm-todolist .cpm-todo-prgress-bar .bar {
+.cpm-todolists .cpm-todolist .cpm-todo-progress-bar .bar {
   height: 18px;
   background-color: #62c462;
 }
@@ -3273,6 +3273,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-complete {
   background-image: url('../images/todo_completed.svg');
+}
+.cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-refresh {
+  background-image: url('../images/refresh.svg');
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-todo-incomplete {
   background-image: url('../images/todo-incomplete.svg');

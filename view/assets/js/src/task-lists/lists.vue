@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<pm-header></pm-header>
-		<div id="cpm-task-el" class="cpm-task-container wrap">
+		
+		<div v-if="lists.length" id="cpm-task-el" class="cpm-task-container wrap">
 			
 			<new-task-list-btn></new-task-list-btn>
 			<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
@@ -45,47 +46,55 @@
 		              	<list-tasks :list="list"></list-tasks>
 
 		                <footer class="cpm-row cpm-list-footer">
-		                    <div class="cpm-col-6">
-		                        <div>
-		                        	<new-task-button :task="{}" :list="list"></new-task-button>
-		                        </div>
-		                       
-		                        <div class="cpm-col-3 cpm-todo-complete">
-		                            <router-link :to="{ 
-			                        	name: 'single_list', 
-			                        	params: { 
-			                        		list_id: list.id 
-			                        	}}">
-		                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
-		                                Completed
-		                            </router-link>
-		                        </div>
-		                        <div  class="cpm-col-3 cpm-todo-incomplete">
-		                            <router-link :to="{ 
-			                        	name: 'single_list', 
-			                        	params: { 
-			                        		list_id: list.id 
-			                        	}}">
-		                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
-		                                Incomplete
-		                            </router-link>
-		                        </div>
-		                        <div  class="cpm-col-3 cpm-todo-comment">
-		                            <router-link :to="{ 
-			                        	name: 'single_list', 
-			                        	params: { 
-			                        		list_id: list.id 
-			                        	}}">
-		                                <span>{{ list.meta.total_comments }} Comments</span>
-		                            </router-link>
-		                        </div>
+		                    <div class="cpm-footer-left">
+		                    	<ul class="cpm-footer-left-ul">
+			                    	<li v-if="isIncompleteLoadMoreActive(list)" class="cpm-todo-refresh">
+			                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
+			                        </li>
+			                        
+			                        <new-task-button :task="{}" :list="list"></new-task-button>
+			                       
+			                       
+			                        <li class="cpm-todo-complete">
+			                            <router-link :to="{ 
+				                        	name: 'single_list', 
+				                        	params: { 
+				                        		list_id: list.id 
+				                        	}}">
+			                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
+			                                Completed
+			                            </router-link>
+			                        </li>
+			                        <li  class="cpm-todo-incomplete">
+			                            <router-link :to="{ 
+				                        	name: 'single_list', 
+				                        	params: { 
+				                        		list_id: list.id 
+				                        	}}">
+			                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
+			                                Incomplete
+			                            </router-link>
+			                        </li>
+			                        <li  class="cpm-todo-comment">
+			                            <router-link :to="{ 
+				                        	name: 'single_list', 
+				                        	params: { 
+				                        		list_id: list.id 
+				                        	}}">
+			                                <span>{{ list.meta.total_comments }} Comments</span>
+			                            </router-link>
+			                        </li>
+		                    	</ul>
 		                    </div>
 
-		                    <div class="cpm-col-4 cpm-todo-prgress-bar">
-		                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+		                    <div class="cpm-footer-right">
+		                        <div class="cpm-todo-progress-bar">
+		                        	<div :style="getProgressStyle( list )" class="bar completed"></div>
+		                        </div>
+		                        <div class="cpm-progress-percent">{{ getProgressPercent( list ) }}%</div>
 		                    </div>
-		                    <div class=" cpm-col-1 no-percent">{{ getProgressPercent( list ) }}%</div>
-		                    <div class="clearfix"></div>
+		                    
+		                    <div class="cpm-clearfix"></div>
 		                </footer>
 		            </article>
 	        	
@@ -98,9 +107,46 @@
 	            
 	        </pm-pagination> 
 		</div>
-		<router-view name="single-task"></router-view>
+		<router-view v-if="lists.length" name="single-task"></router-view>
+
+		<default-list-page v-if="!lists.length"></default-list-page>
 	</div>
 </template>
+    
+<style>
+	.cpm-list-footer .cpm-footer-left-ul li {
+		display: inline-block;
+		padding-left: 28px;
+	    background-size: 20px;
+	    background-repeat: no-repeat;
+	    margin: 5px 0;
+	    padding-bottom: 5px;
+	    margin-right: 2%;
+	}
+	.cpm-list-footer .cpm-footer-left-ul li a {
+		line-height: 150%;
+    	font-size: 12px;
+	}
+	.cpm-list-footer .cpm-footer-left {
+		width: 66%;
+	}
+	.cpm-list-footer .cpm-footer-right {
+		width: 30%;
+	}
+	.cpm-list-footer .cpm-footer-left, .cpm-list-footer .cpm-footer-right {
+		float: left;
+	}
+	.cpm-todo-progress-bar, .cpm-progress-percent {
+		display: inline-block;
+	}
+	.cpm-todo-progress-bar {
+		width: 70%;
+	}
+	.cpm-progress-percent {
+		margin-left: 6px;
+	}
+
+</style>
 
 <script>
 	import new_task_list_btn from './new-task-list-btn.vue';
@@ -109,13 +155,14 @@
 	import pagination from './../pagination.vue';
 	import header from './../header.vue';
 	import tasks from './list-tasks.vue';
+	import default_page from './default-list-page.vue';
 	
 	export default {
 
 		beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getLists(vm);
-                vm.getMilestones(vm);
+            	vm.getSelfLists();
+                vm.getMilestones();
             });
         }, 
     	components: {
@@ -124,7 +171,8 @@
 			'new-task-button': new_task_button,
 			'pm-pagination': pagination,
 			'pm-header': header,
-			'list-tasks': tasks
+			'list-tasks': tasks,
+			'default-list-page': default_page
 		},
 
 	    /**
@@ -143,7 +191,7 @@
 
 	    watch: {
             '$route' (route) {
-                this.getLists(this);
+                this.getSelfLists();
             }
 	    },
 
@@ -170,32 +218,6 @@
 	            return this.$store.state.milestones;
 	        },
 
-	        /**
-	         * Get initial data from vuex store when this component loaded
-	         * 
-	         * @return obj
-	         */
-	        // init () {
-	        //     return this.$store.state.init;
-	        // },
-
-	        /**
-	         * Get task for single task popup
-	         * 
-	         * @return object
-	         */
-	        // task () {
-	        //     return this.$store.state.task;
-	        // },
-
-	        // total () {
-	        //     return Math.ceil( this.$store.state.list_total / this.$store.state.todo_list_per_page );
-	        // },
-
-	        // limit () {
-	        //     return this.$store.state.todo_list_per_page;
-	        // },
-
 	        is_active_list_form () {
 	        	return this.$store.state.is_active_list_form;
 	        },
@@ -209,7 +231,62 @@
 
 	    	showEditForm (list, index) {
 	    		list.edit_mode = list.edit_mode ? false : true;
-	    	}
+	    	},
+
+	    	getSelfLists () {
+	    		var condition = {
+		    			with: 'incomplete_tasks',
+		    			per_page: this.getSettings('list_per_page', 10),
+		    			page: this.setCurrentPageNumber()
+		    		},
+		    		self = this;
+
+	    		this.getLists(condition, function(res) {
+	    			NProgress.done();
+	    		});
+	    	},
+
+	    	isIncompleteLoadMoreActive (list) {
+	    		if (typeof list.incomplete_tasks === 'undefined') {
+	    			return false;
+	    		}
+
+	    		var count_tasks = list.meta.total_incomplete_tasks;
+	    		var total_set_task = list.incomplete_tasks.data.length;
+
+	    		if (total_set_task === count_tasks) {
+	    			return false;
+	    		}
+
+	    		return true;
+	    	},
+
+	    	loadMoreIncompleteTasks (list) {
+
+				if ( list.task_loading_status ) {
+	                return;
+	            }
+	            
+	            list.task_loading_status = true;
+
+	            var total_tasks = list.meta.total_incomplete_tasks;
+	            var per_page = this.getSettings('incomplete_tasks_per_page', 10);
+	            var current_page = Math.ceil(list.incomplete_tasks.data.length/per_page);
+	            
+	            
+	            var condition = {
+	            	with: 'incomplete_tasks',
+	            	incomplete_task_page: current_page+1,
+	            };
+
+	            var self = this;
+	            
+	            this.getTasks( list.id, condition, function(res) {
+	                list.task_loading_status = false;
+	                                
+	            });
+
+	        }
 	    }
 	}
 </script>

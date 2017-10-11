@@ -1,7 +1,7 @@
 <template>
-	<div :class="newTaskBtnClass()">
-		<a @click.prevent="showHideTaskFrom('toggle', list)" href="#">New Task</a>
-	</div>
+	<li :class="newTaskBtnClass()">
+		<a @click.prevent="showHideTaskFrom('toggle', list, false )" href="#">New Task</a>
+	</li>
 </template>
 
 <script>
@@ -16,7 +16,7 @@
 	         * @return string
 	         */
 	        newTaskBtnClass: function() {
-	            return this.list.show_task_form ? 'cpm-col-3 cpm-new-task-btn-minus' : 'cpm-col-3 cpm-new-task-btn';
+	            return this.list.show_task_form ? 'cpm-new-task-btn-minus' : 'cpm-new-task-btn';
 	        },
 	    }
 	}
