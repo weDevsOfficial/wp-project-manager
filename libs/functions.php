@@ -77,3 +77,13 @@ function make_carbon_date( $date ) {
 
     return null;
 }
+
+function get_cpm_settings( $key ) {
+    $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+
+    if ( $settings ) {
+        return $settings->value;
+    }
+
+    return null;
+}
