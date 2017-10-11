@@ -6,7 +6,9 @@
     <ul v-if="activities.length" class="cpm-activity-list">
         <li v-for="group in activities" :key="group.id" class="cpm-row"> 
             <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12">
-                <span>{{ actiivtyGroupDate(group.date) }}</span> 
+                <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span> 
+                <br>
+                {{ actiivtyGroupDate(group.date, 'MMMM') }}
                  
             </div> 
             <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> 
@@ -97,7 +99,7 @@
              * 
              * @return string      
              */
-            actiivtyGroupDate: function( date ) {
+            actiivtyGroupDate: function( date, format ) {
                 if ( !date ) {
                     return;
                 }
@@ -107,8 +109,6 @@
 
                 date = new Date(date);
                 date = moment(date).format('YYYY-MM-DD');
-                
-                var format = 'MMMM DD';
 
                 return moment.tz( date, PM_Vars.wp_time_zone ).format(format);
             },
