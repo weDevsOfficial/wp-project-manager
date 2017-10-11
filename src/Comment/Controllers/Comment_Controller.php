@@ -20,6 +20,7 @@ class Comment_Controller {
     use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
         $page     = $request->get_param( 'page' );
 
@@ -43,9 +44,13 @@ class Comment_Controller {
         }
 
         if ( $query ) {
-            $comments = $query->orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
+            $comments = $query->where( 'project_id', $project_id )
+                ->orderBy( 'created_at', 'DESC' )
+                ->paginate( $per_page, ['*'], 'page', $page );
         } else {
-            $comments = Comment::orderBy( 'created_at', 'DESC' )->paginate( $per_page, ['*'], 'page', $page );
+            $comments = Comment::where( 'project_id', $project_id )
+                ->orderBy( 'created_at', 'DESC' )
+                ->paginate( $per_page, ['*'], 'page', $page );
         }
 
         $comment_collection = $comments->getCollection();
