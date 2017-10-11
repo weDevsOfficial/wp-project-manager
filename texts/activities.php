@@ -71,6 +71,24 @@ return [
         ['actor.data.display_name', 'meta.task_list_title']
     ],
 
+    // Activities on milestone
+    'create-milestone'             => [
+        __( '%1$s has created a milestone, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'update-milestone-title'       => [
+        __( '%1$s has updated the title of a milestone from "%2$s" to "%3$s".', 'cpm' ),
+        ['actor.data.display_name', 'meta.milestone_title_old', 'meta.milestone_title_new']
+    ],
+    'update-milestone-description' => [
+        __( '%1$s has updated the description of a milestone, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'update-milestone-order'       => [
+        __( '%1$s has updated the order of a milestone, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+
 
     // Activities on comment
     'create-comment'       => [
