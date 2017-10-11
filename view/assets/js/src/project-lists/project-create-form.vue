@@ -23,7 +23,7 @@
 
 		<div class="cpm-form-item cpm-project-role">
 			<table>
-				<tr v-for="projectUser in project_users" key="projectUser.id">
+				<tr v-for="projectUser in selectedUsers" key="projectUser.id">
 		            <td>{{ projectUser.display_name }}</td>
 		            <td>
 		                <select  v-model="projectUser.roles.data[0].id">
@@ -84,11 +84,13 @@
 				'project_notify': false,
 				'assignees': [],
 				show_spinner: false
-
 			}
 		},
 		components: {
 			'project-new-user-form': project_new_user_form,
+		},
+		created () {
+			this.setProjectUser();
 		},
 		computed: {
 			roles () {
@@ -109,15 +111,19 @@
 				return {};
 			},
 
-			project_users () {
-				var projects = this.$root.$store.state.projects;
-                var index = this.getIndex(projects, this.project_id, 'id');
-                
-                if ( index !== false ) {
-                	return projects[index].assignees.data;
-                } 
-				return [];
+			selectedUsers () {
+				return this.$root.$store.state.assignees;
 			},
+
+			// project_users () {
+			// 	var projects = this.$root.$store.state.projects;
+   //              var index = this.getIndex(projects, this.project_id, 'id');
+                
+   //              if ( index !== false ) {
+   //              	return projects[index].assignees.data;
+   //              } 
+			// 	return [];
+			// },
 				
 	
 			project_category: {
@@ -179,7 +185,7 @@
                     'categories': [this.project_cat],
                     'description': this.project.description,
                     'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.project_users),
+                    'assignees': this.formatUsers(this.selectedUsers),
                     'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
                 },
                 self = this;
@@ -187,6 +193,14 @@
                 self.updateProject(data, function(res) {
                 	self.show_spinner = false;
                 });	
+			},
+			setProjectUser () {
+				var projects = this.$root.$store.state.projects;
+                var index = this.getIndex(projects, this.project_id, 'id');
+                
+                if ( index !== false && this.is_update ) {
+                	this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
+                } 
 			}
 		}
 	}

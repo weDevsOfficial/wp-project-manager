@@ -63,13 +63,16 @@
                     success: function(res) {
                         self.addUserMeta(res.data);
                         self.show_spinner = false;
-                        self.$root.$store.commit(
-                            'setNewUser',
-                            {
-                                project_id: self.project_id,
-                                user: res.data
-                            }
-                        );
+                        
+                        // self.$root.$store.commit(
+                        //     'setNewUser',
+                        //     {
+                        //         project_id: self.project_id,
+                        //         user: res.data
+                        //     }
+                        // );
+
+                        self.$root.$store.commit('updateSeletedUser', res.data);
                         jQuery( "#cpm-create-user-wrap" ).dialog( "close" );
                     }
                 });

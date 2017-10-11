@@ -36,13 +36,14 @@
                     'categories': [this.project_cat],
                     'description': this.project.description,
                     'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.project_users),
+                    'assignees': this.formatUsers(this.selectedUsers),
                     'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
                 },
 
                 success: function(res) {
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
+                    self.resetSelectedUsers();
                     jQuery( "#cpm-project-dialog" ).dialog("close");
 
                     if(typeof callback !== 'undefined'){
@@ -89,7 +90,7 @@
                    
                     self.showHideProjectForm(false);
                     jQuery( "#cpm-project-dialog" ).dialog("close");
-
+                    self.resetSelectedUsers();
                     if ( typeof callback !== 'undefined' ) {
                         callback(res.data);
                     }
@@ -101,6 +102,10 @@
             };
             
             this.httpRequest(request);
+        },
+
+        resetSelectedUsers () {
+            this.$root.$store.commit('resetSelectedUsers');
         },
 
         getProjects (condition) {

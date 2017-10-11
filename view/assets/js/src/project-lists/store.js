@@ -12,7 +12,7 @@ var Store = {
 		project_users: [],
 		roles: [],
 		categories: [],
-		total_pages: 0
+		total_pages: 0,
 	},
 
 	mutations: {

@@ -28,6 +28,7 @@ export default new Vuex.Store({
 
             return index;
         },
+        assignees: []
 	},
 
 	mutations: {
@@ -114,9 +115,16 @@ export default new Vuex.Store({
 			state.projects[index].assignees.data.splice(user_index, 1);
 		},
 
-		setNewUser (state, data) {
-			var index = state.getIndex(state.projects, data.project_id, 'id');
-			state.projects[index].assignees.data.push(data.user);
+		updateSeletedUser (state, assignees) {
+			state.assignees.push(assignees);
+		},
+
+		setSeletedUser(state, assignees) {
+			state.assignees = assignees;
+		},
+
+		resetSelectedUsers (state) {
+			state.assignees = [];
 		}
 	}
 	
