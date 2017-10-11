@@ -17,7 +17,6 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
             'meta'          => [
-                'project_id'    => $resource->id,
                 'project_title' => $resource->title,
             ],
             'project_id'    => $resource->id,
@@ -50,6 +49,9 @@ class Project_Observer extends Model_Observer {
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
+            'meta'          => [
+                'proejct_title' => $item->title,
+            ],
             'project_id'    => $item->id,
         ]);
     }
@@ -62,6 +64,7 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
+                'project_title'      => $item->title,
                 'project_status_old' => Project::$status[$old_value],
                 'project_status_new' => $item->status
             ],
@@ -77,8 +80,9 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
-                'project_status_old' => $old_value,
-                'project_status_new' => $item->budget
+                'project_title'      => $item->title,
+                'project_budget_old' => $old_value,
+                'project_budget_new' => $item->budget
             ],
             'project_id'    => $item->id,
         ]);
@@ -92,6 +96,7 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
+                'project_title'        => $item->title,
                 'project_pay_rate_old' => $old_value,
                 'project_pay_rate_new' => $item->pay_rate
             ],
@@ -107,6 +112,7 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
+                'project_title'                   => $item->title,
                 'project_est_completion_date_old' => format_date( make_carbon_date( $old_value ) ),
                 'project_est_completion_date_new' => format_date( $item->est_completion_date )
             ],
@@ -122,6 +128,7 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
+                'project_title'          => $item->title,
                 'project_color_code_old' => $old_value,
                 'project_color_code_new' => $item->color_code
             ],
