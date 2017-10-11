@@ -16,3 +16,5 @@ $router->put( 'projects/{project_id}/tasks/{task_id}/detach-users', 'CPM/Task/Co
 
 $router->put( 'projects/{project_id}/tasks/{task_id}/boards', 'CPM/Task/Controllers/Task_Controller@attach_to_board' );
 $router->delete( 'projects/{project_id}/tasks/{task_id}/boards', 'CPM/Task/Controllers/Task_Controller@detach_from_board' );
+
+$router->put( 'projects/{project_id}/tasks/reorder', 'CPM/Task/Controllers/Task_Controller@reorder' );
