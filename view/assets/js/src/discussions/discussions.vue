@@ -2,20 +2,58 @@
 	<div class="wrap cpm cpm-front-end">
         <pm-header></pm-header>
 
-        <div>
-            <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
-                Add New Discussion 
-            </a>
+        <div class="cpm-blank-template discussion" v-if="!discussion.length">
+            <div class="cpm-content" >
+                <h3 class="cpm-page-title">  Discussion</h3>
+
+                <p>
+                    Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
+                </p>
+                    <div>
+                        <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                            Add New Discussion 
+                        </a>
+                    </div>
+                    <transition name="slide">
+                    <div class="cpm-new-message-form" v-if="is_discuss_form_active">
+                        <h3>Create a new message</h3>
+
+                        <new-discuss-form :discuss="{}"></new-discuss-form>
+
+                    </div>
+                    </transition>
+
+                <div class="cpm-list-content">
+                    <h3 class="cpm-why-for cpm-page-title"> When to use Discussions? </h3>
+
+                    <ul class="cpm-list">
+                        <li> To discuss a work matter privately. </li>
+                        <li> To exchange files privately. </li>
+                        <li> To discuss in a group.</li>
+                        <li> To create an open discussion visible to all. </li>
+
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
-            <h3>Create a new message</h3>
+        <div class="cpm-row discussion" v-if="discussion.length" >
+            <div>
+                <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                    Add New Discussion 
+                </a>
+            </div>
+            <transition name="slide">
+                <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
+                    <h3>Create a new message</h3>
 
-            <new-discuss-form :discuss="{}"></new-discuss-form>
+                    <new-discuss-form :discuss="{}"></new-discuss-form>
+
+                </div>
+            </transition>
 
         </div>
 
-        
-        <div class="cpm-row cpm-message-page">
+        <div class="cpm-row cpm-message-page" v-if="discussion.length">
             <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
                 <div class="cpm-box-title">Discussion List</div>
                 <ul class="dicussion-list">        

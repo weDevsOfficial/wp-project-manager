@@ -1237,8 +1237,9 @@ ul.cpm-activity ul li:before {
 .cpm-comment-form input[type=text],
 .cpm-message-form input[type=text],
 .cpm-milestone-form input[type=text] {
-  width: 80%;
-  padding: 5px 10px;
+  width: 100%;
+  padding: 10px 10px;
+  margin-bottom: 10px;
 }
 .cpm-comment-form .cpm-attachment-area,
 .cpm-message-form .cpm-attachment-area,
@@ -4828,3 +4829,25 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0 0 0 2px;
   padding: 0;
 }
+.discussion{
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-enter-active {
+  transition: all .3s ease;
+  overflow-y: hidden;
+  height: 500px;
+}
+.slide-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  height: 500px;
+  overflow-y: hidden;
+}
+.slide-leave-to{
+  height: 0px;
+}
+.slide-enter{
+  height: 0px;
+}
+

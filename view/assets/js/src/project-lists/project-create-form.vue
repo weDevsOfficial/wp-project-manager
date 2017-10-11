@@ -169,6 +169,7 @@
 
 			selfNewProject () {
 				this.show_spinner = true;
+				var self = this;
 				if (this.is_update) {
 					this.updateSelfProject();
 				} else {
