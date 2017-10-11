@@ -32,6 +32,7 @@
     </ul>
 
     <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">Load More...</a>
+    <span v-show="show_spinner" class="cpm-spinner"></span>
 </div>
 </template>
 
@@ -48,7 +49,8 @@
             return {
                 page: 1,
                 total_activity: 0,
-                per_page: 2
+                per_page: 2,
+                show_spinner:false
             }
         },
         computed: {
@@ -112,6 +114,7 @@
             },
 
             loadMore () {
+                this.show_spinner = true;
                 this.page = this.page + 1;
                 this.activityQuery();
             },
@@ -125,6 +128,7 @@
 
                 this.getActivities(condition, function(res) {
                     self.total_activity = res.meta.pagination.total;
+                    self.show_spinner = false;
                 });
             }
         }

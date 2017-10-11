@@ -53,13 +53,12 @@
 		</div>
 
 		<div class="submit">
-			<input type="hidden" name="action" value="cpm_project_new">
-			<span class="cpm-pro-update-spinner"></span>
-			<input type="submit" name="add_project" id="add_project" class="button-primary" value="Add New Project">
+			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" value="Update Project">
+			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" value="Add New Project">
 			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">Cancel</a>
+			<span v-show="show_spinner" class="cpm-spinner"></span>
 		</div>
 
-		<div class="cpm-loading" style="display: none;">Saving...</div>
 	</form>
 
     <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" title="Create a new user">
@@ -84,6 +83,7 @@
 				'project_description': '',
 				'project_notify': false,
 				'assignees': [],
+				show_spinner: false
 
 			}
 		},
@@ -162,10 +162,13 @@
 			},
 
 			selfNewProject () {
+				this.show_spinner = true;
 				if (this.is_update) {
 					this.updateSelfProject();
 				} else {
-					this.newProject();
+					this.newProject(function(){
+						self.show_spinner = false;
+					});
 				}
 			},
 
@@ -182,7 +185,7 @@
                 self = this;
 
                 self.updateProject(data, function(res) {
-                	
+                	self.show_spinner = false;
                 });	
 			}
 		}

@@ -109,6 +109,7 @@
                     <div style="padding-left: 10px">
                         <p class="submit">
                             <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
+                            <span v-show="show_spinner" class="cpm-spinner"></span>
                         </p>                            
                     </div>
                 </form>
@@ -130,6 +131,7 @@
                 roles: PM_Vars.roles,
                 managing_capability: this.getSettings('managing_capability', []),
                 project_create_capability: this.getSettings('project_create_capability', []),
+                show_spinner: false,
 
             }
         },
@@ -140,6 +142,7 @@
 
         methods: {
             saveSelfSettings () {
+                this.show_spinner = true;
                 var data = {
                     upload_limit: this.upload_limit,
                     project_per_page: this.project_per_page,
@@ -152,7 +155,7 @@
 
 
                 this.saveSettings(data, function(res) {
-
+                    self.show_spinner = false;
                 });
             },
         }

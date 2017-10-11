@@ -53,8 +53,9 @@
 
 				<input type="submit" name="create_message" id="create_message" class="button-primary" value="Add Message">
 	            <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">Cancel</a>
+	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
-	        <div class="cpm-loading" style="display: none;">Saving...</div>
+	        
     	</form>
 
 	</div>

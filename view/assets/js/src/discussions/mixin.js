@@ -249,7 +249,10 @@ export default Vue.mixin({
 	            }
 	        }
 
-	        self.httpRequest(request_data);
+	        //self.httpRequest(request_data);
+	        setTimeout(function(){
+	        	self.httpRequest(request_data);
+	        }, 3000)
         },
 
         deleteDiscuss (discuss_id) {

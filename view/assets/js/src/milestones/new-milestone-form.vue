@@ -16,8 +16,9 @@
         <div class="submit">
             <input type="submit" name="create_milestone" id="create_milestone" class="button-primary" value="Add Milestone">
             <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel" data-milestone_id="0" href="#">Cancel</a>
+            <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
-        <div class="cpm-loading" style="display: none;">Saving...</div>
+        
     </form>
 </template>
 
