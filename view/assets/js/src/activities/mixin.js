@@ -9,8 +9,6 @@ export default Vue.mixin({
 			var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/activities?'+condition,
 	            success (res) {
-	                self.$store.commit( 'setActivities', res.data );
-
 	                if ( typeof callback !== 'undefined' ) {
 	                	callback(res);
 	                }
