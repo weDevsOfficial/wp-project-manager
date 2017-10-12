@@ -3,8 +3,8 @@ import Vue from './../../vue/vue';
 export default Vue.mixin({
 	methods: {
 		getOverViews (condition) {
-			var condition = condition || '',
-				self = this;
+			var condition = condition || ''
+				var self = this;
 
 			var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'?'+condition,
@@ -13,6 +13,7 @@ export default Vue.mixin({
 			    	// 	self.addDiscussMeta(discuss);
 			    	// });
 	                self.$store.commit( 'setOverViews', res.data );
+	                NProgress.done();
 	            }
 	        };
 	        self.httpRequest(request);

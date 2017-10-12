@@ -2,7 +2,7 @@
     <div class="wrap cpm cpm-front-end">
         
         <project-header></project-header>
-        <div class="cpm-projects cpm-row cpm-project-grid cpm-no-padding cpm-no-margin">
+        <div class="cpm-projects cpm-row cpm-no-padding cpm-no-margin" v-bind:class="[projects_view_class()]">
             <project-summary></project-summary>
             <pm-pagination 
                 :total_pages="total_pages" 

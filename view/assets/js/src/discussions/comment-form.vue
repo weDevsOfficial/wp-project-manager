@@ -1,36 +1,38 @@
 <template>
-	<form class="cpm-comment-form" @submit.prevent="newComment()">
-        <div class="item message cpm-sm-col-12 ">
-            <text-editor :editor_id="editor_id" :content="content"></text-editor>
-        </div>
-        
-        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-        <div class="notify-users">
+    
+    	<form class="cpm-comment-form" @submit.prevent="newComment()">
+            <div class="item message cpm-sm-col-12 ">
+                <text-editor :editor_id="editor_id" :content="content"></text-editor>
+            </div>
             
-            <h2 class="cpm-box-title"> 
-                Notify users            
-                <label class="cpm-small-title" for="select-all"> 
-                    <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
-                    Select all
-                </label>
-            </h2>
-
-            <ul class="cpm-user-list">
-                <li>
-                    <label for="cpm_notify_1">
-                        <input type="checkbox" name="notify_user[]" id="cpm_notify_1" value="1"> 
-                        Admin
+            <file-uploader :files="files" :delete="deleted_files"></file-uploader>
+            <div class="notify-users">
+                
+                <h2 class="cpm-box-title"> 
+                    Notify users            
+                    <label class="cpm-small-title" for="select-all"> 
+                        <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
+                        Select all
                     </label>
-                </li>
-                <div class="clearfix"></div>
-            </ul>
-        </div>
+                </h2>
 
-        <div class="submit">
-            <input type="submit" class="button-primary" name="cpm_new_comment" value="Add this comment" id="">
-            <span v-show="show_spinner" class="cpm-spinner"></span>
-        </div>
-    </form>
+                <ul class="cpm-user-list">
+                    <li>
+                        <label for="cpm_notify_1">
+                            <input type="checkbox" name="notify_user[]" id="cpm_notify_1" value="1"> 
+                            Admin
+                        </label>
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+
+            <div class="submit">
+                <input type="submit" class="button-primary" name="cpm_new_comment" value="Add this comment" id="">
+                <span v-show="show_spinner" class="cpm-spinner"></span>
+            </div>
+        </form>
+    
 </template>
 
 <script>	

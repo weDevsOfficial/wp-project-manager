@@ -10,6 +10,7 @@ export default Vue.mixin({
 	        
 	        // Disable submit button for preventing multiple click
 	        this.submit_disabled = true;
+	        this.show_spinner = true;
 
 	        var self      = this,
 	            form_data = {
@@ -17,9 +18,6 @@ export default Vue.mixin({
 	                description: this.description,
 	                categorible_type: 'project'
 	            };
-	        
-	        // Showing loading option 
-	        this.show_spinner = true;
 
 	        var request_data = {
 	            url: self.base_url + '/cpm/v2/categories',
@@ -91,6 +89,7 @@ export default Vue.mixin({
 	        
 	        // Disable submit button for preventing multiple click
 	        this.submit_disabled = true;
+	        this.show_spinner = true;
 
 	        var self      = this,
 	            form_data = category;
@@ -111,6 +110,7 @@ export default Vue.mixin({
 	                toastr.success(res.data.success);
 	           
 	                self.submit_disabled = false;
+	                self.show_spinner = false;
 
 	                self.$store.commit('afterUpdateCategories', res.data);
 
