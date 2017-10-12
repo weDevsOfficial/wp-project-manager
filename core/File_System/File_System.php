@@ -74,6 +74,8 @@ Class File_System {
                 'url'  => wp_get_attachment_url( $attachment_id ),
             );
 
+            $file_type = wp_check_filetype( $response['url'] );
+
             if ( wp_attachment_is_image( $attachment_id ) ) {
                 $thumb             = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
                 $response['thumb'] = $thumb[0];
@@ -82,6 +84,9 @@ Class File_System {
                 $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
                 $response['type']  = 'file';
             }
+
+            $response['file_extension'] = $file_type['ext'];
+            $response['mime_type'] = $file_type['type'];
 
             return $response;
         }

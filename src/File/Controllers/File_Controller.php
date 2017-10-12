@@ -46,14 +46,15 @@ class File_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $files = $request->get_file_params();
+        $media_data = $request->get_file_params();
+        $file = $media_data['file'];
 
-        $attachment_id = File_System::upload( $files );
+        $attachment_id = File_System::upload( $file );
         $request->set_param( 'attachment_id', $attachment_id );
 
         $data = $this->extract_non_empty_values( $request );
+        $file = File::create( $data );
 
-        $file     = File::create( $data );
         $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
