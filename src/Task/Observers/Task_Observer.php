@@ -5,6 +5,7 @@ namespace CPM\Task\Observers;
 use CPM\Core\Database\Model_Observer;
 use CPM\Activity\Models\Activity;
 use CPM\Task\Models\Task;
+use Carbon\Carbon;
 
 class Task_Observer extends Model_Observer {
 
@@ -38,7 +39,7 @@ class Task_Observer extends Model_Observer {
 
     public function estimation( Task $item, $old_value ) {
         $meta = [
-            'task_title'     => $item->title,
+            'task_title'          => $item->title,
             'task_estimation_old' => $old_value,
             'task_estimation_new' => $item->estimation,
         ];
@@ -47,10 +48,11 @@ class Task_Observer extends Model_Observer {
     }
 
     public function start_at( Task $item, $old_value ) {
+        var_dump( $old_value );
         $meta = [
             'task_title'        => $item->title,
             'task_start_at_old' => $old_value,
-            'task_start_at_new' => $item->start_at,
+            'task_start_at_new' => $item->start_at instanceof Carbon ? $item->start_at->toDateTimeString() : null,
         ];
 
         $this->log_activity( $item, 'update-task-start-at', 'update', $meta );
@@ -60,7 +62,7 @@ class Task_Observer extends Model_Observer {
         $meta = [
             'task_title'        => $item->title,
             'task_due_date_old' => $old_value,
-            'task_due_date_new' => $item->due_date,
+            'task_due_date_new' => $item->due_date instanceof Carbon ? $item->due_date->toDateTimeString() : null,
         ];
 
         $this->log_activity( $item, 'update-task-due-date', 'update', $meta );

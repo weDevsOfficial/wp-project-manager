@@ -1054,6 +1054,119 @@ var PM_Task_Mixin = {
             });
 
             return query.slice(0, -1);
+        },
+
+        taskOrder (data, callback) {
+
+            var self = this;
+            
+            var request_data = {
+                url: self.base_url + '/cpm/v2/projects/1/tasks/reorder',
+                type: 'PUT',
+                data: data,
+                
+                success (res) {
+                    // Display a success toast, with a title
+                    //toastr.success(res.data.success);
+
+                    if (typeof callback !== 'undefined') {
+                        callback(res);
+                    }
+                },
+
+                error (res) {
+
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        toastr.error(value);
+                    });
+                    
+                }
+            }
+            
+            self.httpRequest(request_data);
+        },
+
+        isIncompleteLoadMoreActive (list) {
+            if (typeof list.incomplete_tasks === 'undefined') {
+                return false;
+            }
+
+            var count_tasks = list.meta.total_incomplete_tasks;
+            var total_set_task = list.incomplete_tasks.data.length;
+
+            if (total_set_task === count_tasks) {
+                return false;
+            }
+
+            return true;
+        },
+
+        loadMoreIncompleteTasks (list) {
+
+            if ( list.task_loading_status ) {
+                return;
+            }
+            
+            list.task_loading_status = true;
+
+            var total_tasks = list.meta.total_incomplete_tasks;
+            var per_page = this.getSettings('incomplete_tasks_per_page', 10);
+            var current_page = Math.ceil(list.incomplete_tasks.data.length/per_page);
+            
+            var condition = {
+                with: 'incomplete_tasks',
+                incomplete_task_page: current_page+1,
+            };
+
+            var self = this;
+            
+            this.getTasks( list.id, condition, function(res) {
+                list.task_loading_status = false;
+                                
+            });
+        },
+
+        isCompleteLoadMoreActive (list) {
+            if (typeof list.complete_tasks === 'undefined') {
+                return false;
+            }
+
+            var count_tasks = list.meta.total_complete_tasks;
+            var total_set_task = list.complete_tasks.data.length;
+
+            if (total_set_task === count_tasks) {
+                return false;
+            }
+
+            return true;
+        },
+
+        loadMoreCompleteTasks (list) {
+
+            if ( list.task_loading_status ) {
+                return;
+            }
+            
+            list.task_loading_status = true;
+
+            var total_tasks = list.meta.total_complete_tasks;
+            var per_page = this.getSettings('complete_tasks_per_page', 10);
+            var current_page = Math.ceil(list.complete_tasks.data.length/per_page);
+            
+            
+            var condition = {
+                with: 'complete_tasks',
+                complete_task_page: current_page+1,
+            };
+
+            var self = this;
+            
+            this.getTasks( list.id, condition, function(res) {
+                list.task_loading_status = false;
+                                
+            });
+
         }
     }
 }

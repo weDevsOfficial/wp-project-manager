@@ -52,7 +52,7 @@
 			                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
 			                        </li>
 			                        
-			                        <new-task-button :task="{}" :list="list"></new-task-button>
+			                        <li class="cpm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
 			                       
 			                       
 			                        <li class="cpm-todo-complete">
@@ -114,6 +114,9 @@
 </template>
     
 <style>
+	.cpm-list-footer .cpm-new-task-btn-li {
+		padding-left: 0 !important;
+	}
 	.cpm-list-footer .cpm-footer-left-ul li {
 		display: inline-block;
 		padding-left: 28px;
@@ -136,13 +139,13 @@
 	.cpm-list-footer .cpm-footer-left, .cpm-list-footer .cpm-footer-right {
 		float: left;
 	}
-	.cpm-todo-progress-bar, .cpm-progress-percent {
+	.cpm-list-footer .cpm-todo-progress-bar, .cpm-list-footer .cpm-progress-percent {
 		display: inline-block;
 	}
-	.cpm-todo-progress-bar {
+	.cpm-list-footer .cpm-todo-progress-bar {
 		width: 70%;
 	}
-	.cpm-progress-percent {
+	.cpm-list-footer .cpm-progress-percent {
 		margin-left: 6px;
 	}
 
@@ -245,48 +248,6 @@
 	    			NProgress.done();
 	    		});
 	    	},
-
-	    	isIncompleteLoadMoreActive (list) {
-	    		if (typeof list.incomplete_tasks === 'undefined') {
-	    			return false;
-	    		}
-
-	    		var count_tasks = list.meta.total_incomplete_tasks;
-	    		var total_set_task = list.incomplete_tasks.data.length;
-
-	    		if (total_set_task === count_tasks) {
-	    			return false;
-	    		}
-
-	    		return true;
-	    	},
-
-	    	loadMoreIncompleteTasks (list) {
-
-				if ( list.task_loading_status ) {
-	                return;
-	            }
-	            
-	            list.task_loading_status = true;
-
-	            var total_tasks = list.meta.total_incomplete_tasks;
-	            var per_page = this.getSettings('incomplete_tasks_per_page', 10);
-	            var current_page = Math.ceil(list.incomplete_tasks.data.length/per_page);
-	            
-	            
-	            var condition = {
-	            	with: 'incomplete_tasks',
-	            	incomplete_task_page: current_page+1,
-	            };
-
-	            var self = this;
-	            
-	            this.getTasks( list.id, condition, function(res) {
-	                list.task_loading_status = false;
-	                                
-	            });
-
-	        }
 	    }
 	}
 </script>

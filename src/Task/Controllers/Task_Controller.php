@@ -234,4 +234,25 @@ class Task_Controller {
         return $this->get_response( $resource );
     }
 
+    public function reorder( WP_REST_Request $request ) {
+        $board_id = $request->get_param( 'board_id' );
+        $board_type = $request->get_param( 'board_type' );
+        $task_orders = $request->get_param( 'task_orders' );
+
+        if ( is_array( $task_orders ) ) {
+            foreach ( $task_orders as $task_order ) {
+                $boardable = Boardable::where( 'board_id', $board_id )
+                    ->where( 'board_type', $board_type )
+                    ->where( 'boardable_id', $task_order['id'] )
+                    ->where( 'boardable_type', 'task' )
+                    ->first();
+
+                if ( $boardable ) {
+                    $boardable->order = (int) $task_order['order'];
+                    $boardable->save();
+                }
+            }
+        }
+    }
+
 }

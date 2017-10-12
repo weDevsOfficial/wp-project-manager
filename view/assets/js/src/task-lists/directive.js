@@ -21,28 +21,54 @@ var CPM_Task = {
             placeholder: "ui-state-highlight",
             update: function(event, ui) {
                 var newOrder = {},
-                    oldOrder = [];
-                    console.log(component.list.id);
+                    orders = [],
+                    ids = [],
+                    send_data = [];
+                    
                 // finding new order sequence and old orders
                 $(this).find('li.cpm-todo').each( function(e) {
-                    var order = $(this).index(),
+                    var order = $(this).data('order'),
                         task_id = $(this).data('id');
                     
+                    orders.push(order);
+                    ids.push(task_id);
+                   
+
                     var task_index = component.getIndex(component.list.incomplete_tasks.data, task_id,'id');
                     if (task_index === false) {
                         var task_index = component.getIndex(component.list.complete_tasks.data, task_id,'id');
 
                     }
                     
-                    component.list.incomplete_tasks.data[task_index].order = order;
+                    if (typeof component.list.incomplete_tasks !== 'undefined') {
+                        component.list.incomplete_tasks.data[task_index].order = order;
+                    }
 
-                    var task = component.list.incomplete_tasks.data[task_index];
-                    component.task = task;
-                    component.newTask();
-
-                    console.log(task);
+                    if (typeof component.list.complete_tasks !== 'undefined') {
+                        component.list.complete_tasks.data[task_index].order = order;
+                    }
 
                 }); 
+              
+                var after_revers_order = orders.sort(),
+                    after_revers_order = after_revers_order.reverse();
+
+                after_revers_order.forEach(function(order, key) {
+                    send_data.push({
+                        id: ids[key],
+                        order: order
+                    });
+                });
+
+                console.log(send_data, after_revers_order);
+
+                var data = {
+                    task_orders: send_data,
+                    board_id: component.list.id,
+                    board_type: 'task-list'
+                }
+                
+                component.taskOrder(data);
             }
         });
     },

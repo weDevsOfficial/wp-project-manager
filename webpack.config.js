@@ -9,8 +9,8 @@ module.exports = {
 		path: path.resolve( __dirname, 'view/assets/js'),
 		filename: 'cpm-bundle.js',
 		publicPath: '',
-		chunkFilename: 'chunk/[id].chunk-bundle.js',
-		// jsonpFunction: 'wedevsPmWebpack',
+		chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
+		jsonpFunction: 'wedevsPmWebpack',
 		// hotUpdateFunction: 'wedevsPmWebpacks',
 	},
 

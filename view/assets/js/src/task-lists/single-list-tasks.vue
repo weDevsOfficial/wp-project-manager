@@ -24,8 +24,8 @@
 	            </li>
 
 	            <li v-if="!getIncompleteTasks" class="nonsortable">No tasks found.</li>
-	            <li v-if="incompletedLoadMoreButton" class="nonsortable">
-	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
+	            <li v-if="isIncompleteLoadMoreActive(list)" class="nonsortable">
+	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">+ More Tasks</a>
 	                <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
 	            </li>
 	        </ul>
@@ -56,8 +56,8 @@
 
 	            <li v-if="!getCompletedTask" class="nonsortable">No completed tasks.</li>
 
-	            <li v-if="completedLoadMoreButton" class="nonsortable">
-	                <a @click.prevent="loadMoreCompleteTasks()" href="#">More Tasks</a>
+	            <li v-if="isCompleteLoadMoreActive(list)" class="nonsortable">
+	                <a @click.prevent="loadMoreCompleteTasks(list)" href="#">+ More Tasks</a>
 	                <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
 	            </li>
 	        </ul>
@@ -68,6 +68,12 @@
 	    </div>
 	</div>
 </template>
+
+<style>
+	.cpm-list-footer .cpm-new-task-button-icon {
+		margin-top: 5px;
+	}
+</style>
 
 <script>
 	import new_task_form from './new-task-form.vue';
@@ -268,48 +274,6 @@
 	                }
 	            });
 	        },
-
-	        loadMoreIncompleteTasks: function() {
-
-				if ( this.task_loading_status ) {
-	                return;
-	            }
-	            
-	            this.task_loading_status = true;
-	            this.more_incomplete_task_spinner = true;
-	            var condition = 'incomplete_tasks&incomplete_task_page='+this.incompleted_tasks_next_page_number;
-
-	            self   = this;
-	            
-	            this.getTasks(this.list.id, condition, function(res) {
-	                self.task_loading_status = false;
-	                self.more_incomplete_task_spinner = false;
-	                                
-	            });
-
-	        },
-
-
-	        loadMoreCompleteTasks: function() {
-
-				if ( this.task_loading_status ) {
-	                return;
-	            }
-	            
-	            this.task_loading_status = true;
-	            this.more_complete_task_spinner = true;
-	            var condition = 'complete_tasks&complete_task_page='+this.completed_tasks_next_page_number;
-
-	            self   = this;
-	            
-	            this.getTasks(this.list.id, condition, function(res) {
-	                self.task_loading_status = false;
-	                self.more_incomplete_task_spinner = false;
-	                                
-	            });
-
-	        }
-
 	    }
 	}
 </script>
