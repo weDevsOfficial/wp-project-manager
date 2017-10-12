@@ -37,11 +37,14 @@
 			         	</li>
 
 			         	<li class="todos">
+			         		<a href="javascript:void(0)">
+
 			         		<div class="icon"></div> 
 			         		<div class="count">
 			         			<span>{{ meta.total_tasks }}</span> 
 			         			Task
 			         		</div> 
+			         		</a>
 				         	
 				        </li>
 
