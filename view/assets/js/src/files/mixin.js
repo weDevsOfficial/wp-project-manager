@@ -2,7 +2,8 @@ import Vue from './../../vue/vue';
 
 export default Vue.mixin({
 	methods: {
-		getFiles (self) {
+		getFiles () {
+			var self = this;
 			var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/files',
 	            success (res) {

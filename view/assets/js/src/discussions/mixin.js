@@ -98,6 +98,8 @@ export default Vue.mixin({
 	        var self      = this,
 	            is_update = typeof this.discuss.id == 'undefined' ? false : true,
 	            is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true;
+
+	        this.discuss.description = typeof this.discuss.description === 'undefined' ? '' : this.discuss.description;
 	            
             data.append('title', this.discuss.title);
             data.append('description', this.discuss.description);
@@ -188,7 +190,7 @@ export default Vue.mixin({
 	        var self      = this,
 	            is_update = typeof self.comment.id == 'undefined' ? false : true;
 
-	            console.log(self.comment.content );
+	            
             var data = new FormData();
 
             data.append('content', self.comment.content );
