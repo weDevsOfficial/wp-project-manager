@@ -18,10 +18,7 @@ class Comment_Observer extends Model_Observer {
 
     public function created( $comment ) {
         $action_type = 'create';
-        $parent_comment = Comment::parent_comment( $comment->id );
-        $commentable_type = $parent_comment->commentable_type;
-        $commentable = $this->get_commentable( $parent_comment );
-        $this->log_activity( $comment, $commentable_type, $commentable, $action_type );
+        $this->log_activity( $comment, $action_type );
     }
 
     public function updated( $resource ) {
@@ -30,110 +27,56 @@ class Comment_Observer extends Model_Observer {
 
     protected function content( Comment $comment, $old_value ) {
         $action_type = 'update';
+        $this->log_activity( $comment, $action_type );
+    }
+
+    private function log_activity( Comment $comment, $action_type ) {
         $parent_comment = Comment::parent_comment( $comment->id );
         $commentable_type = $parent_comment->commentable_type;
         $commentable = $this->get_commentable( $parent_comment );
-        $this->log_activity( $comment, $commentable_type, $commentable, $action_type );
-    }
 
-    private function log_activity( Comment $comment, $commentable_type, $commentable, $action_type ) {
         switch ( $commentable_type ) {
             case 'task':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-task';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-task';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-task';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-task';
-                }
-
-                $this->comment_on_task( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_task( $comment, $commentable, $action_type );
                 break;
 
             case 'task-list':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-task-list';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-task-list';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-task-list';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-task-list';
-                }
-
-                $this->comment_on_task_list( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_task_list( $comment, $commentable, $action_type );
                 break;
 
             case 'discussion-board':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-discussion-board';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-discussion-board';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-discussion-board';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-discussion-board';
-                }
-                $this->comment_on_discussion_board( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_discussion_board( $comment, $commentable, $action_type );
                 break;
 
             case 'milestone':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-milestone';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-milestone';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-milestone';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-milestone';
-                }
-
-                $this->comment_on_milestone( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_milestone( $comment, $commentable, $action_type );
                 break;
 
             case 'project':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-project';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-project';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-project';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-project';
-                }
-
-                $this->comment_on_project( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_project( $comment, $commentable, $action_type );
                 break;
 
             case 'file':
-                if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-                    $action = 'reply-comment-on-file';
-                } elseif ( $action_type == 'update' && $commentable_type == 'comment' ) {
-                    $action = 'update-reply-comment-on-file';
-                } elseif ( $action_type == 'create' ) {
-                    $action = 'comment-on-file';
-                } elseif ( $action_type == 'update' ) {
-                    $action = 'update-comment-on-file';
-                }
-
-                $this->comment_on_file( $comment, $commentable, $action_type, $action );
-
+                $this->comment_on_file( $comment, $commentable, $action_type );
                 break;
         }
     }
 
-    private function comment_on_task( Comment $comment, Task $task, $action_type, $action ) {
+    private function comment_on_task( Comment $comment, Task $task, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'task_title' => $task->title,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-task';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-task';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-task';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-task';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
@@ -146,11 +89,21 @@ class Comment_Observer extends Model_Observer {
         ]);
     }
 
-    private function comment_on_task_list( Comment $comment, Task_List $list, $action_type, $action ) {
+    private function comment_on_task_list( Comment $comment, Task_List $list, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'task_list_title' => $list->title,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-task-list';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-task-list';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-task-list';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-task-list';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
@@ -163,11 +116,21 @@ class Comment_Observer extends Model_Observer {
         ]);
     }
 
-    private function comment_on_discussion_board( Comment $comment, Board $board, $action_type, $action ) {
+    private function comment_on_discussion_board( Comment $comment, Board $board, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'discussion_board_title' => $board->title,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-discussion-board';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-discussion-board';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-discussion-board';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-discussion-board';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
@@ -180,11 +143,21 @@ class Comment_Observer extends Model_Observer {
         ]);
     }
 
-    private function comment_on_milestone( Comment $comment, Milestone $milestone, $action_type, $action ) {
+    private function comment_on_milestone( Comment $comment, Milestone $milestone, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'milestone_title' => $milestone->title,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-milestone';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-milestone';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-milestone';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-milestone';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
@@ -197,11 +170,21 @@ class Comment_Observer extends Model_Observer {
         ]);
     }
 
-    private function comment_on_project( Comment $comment, Project $project, $action_type, $action ) {
+    private function comment_on_project( Comment $comment, Project $project, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'project_title' => $project->title,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-project';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-project';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-project';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-project';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
@@ -214,7 +197,7 @@ class Comment_Observer extends Model_Observer {
         ]);
     }
 
-    private function comment_on_file( Comment $comment, File $file, $action_type, $action ) {
+    private function comment_on_file( Comment $comment, File $file, $action_type ) {
         $physical_file = File_System::get_file( $file->attachment_id );
 
         $meta = [
@@ -223,6 +206,16 @@ class Comment_Observer extends Model_Observer {
             'file_title'    => $physical_file['name'],
             'attachment_id' => $file->attachment_id,
         ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-file';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-file';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-file';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-file';
+        }
 
         Activity::create([
             'actor_id'      => $comment->updated_by,
