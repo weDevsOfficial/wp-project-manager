@@ -1,8 +1,18 @@
 <template>
-	<li :class="newTaskBtnClass()">
+	<div :class="newTaskBtnClass() + ' cpm-new-task-button-icon'">
 		<a @click.prevent="showHideTaskFrom('toggle', list, false )" href="#">New Task</a>
-	</li>
+	</div>
 </template>
+
+<style>
+	
+	.cpm-new-task-button-icon {
+		display: inline-block;
+	    padding-left: 28px;
+	    background-size: 20px;
+	    background-repeat: no-repeat;
+	}
+</style>
 
 <script>
 	export default {

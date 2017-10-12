@@ -78,6 +78,7 @@ function make_carbon_date( $date ) {
     return null;
 }
 
+
 function get_wp_roles() {
     global $wp_roles;
 
@@ -99,4 +100,15 @@ function pm_get_settings() {
 
         return $body;
     }
+}
+
+function get_cpm_settings( $key ) {
+    $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+
+    if ( $settings ) {
+        return $settings->value;
+    }
+
+    return null;
+
 }

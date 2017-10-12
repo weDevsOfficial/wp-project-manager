@@ -64,7 +64,7 @@ class Text_Domain {
             $params = $text[1];
 
             foreach ( $params as $key => $param ) {
-                $sprintf_args[$key + 1] = '$' . $param;
+                $sprintf_args[$key + 1] = '{{' . $param . '}}';
             }
         }
         array_unshift( $sprintf_args, $format );
