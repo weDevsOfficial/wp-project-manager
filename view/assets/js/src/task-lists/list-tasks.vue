@@ -23,10 +23,10 @@
 
 	        <li v-if="!getIncompleteTasks.length" class="nonsortable">No tasks found.</li>
 
-	        <li v-if="loadMoreButton" class="nonsortable">
-	            <a @click.prevent="loadMoreIncompleteTasks" href="#">More Tasks</a>
+	       <!--  <li v-if="loadMoreButton" class="nonsortable">
+	            <a @click.prevent="loadMoreIncompleteTasks()" href="#">More Tasks</a>
 	            <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
-	        </li>
+	        </li> -->
 	        <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
 	            <new-task-form :task="{}"  :list="list"></new-task-form>
 	        </li>
@@ -50,7 +50,7 @@
 	     * 
 	     * @return obj
 	     */
-	    data: function() {
+	    data () {
 	        return {
 	           showTaskForm: false,
 	           task: {},
@@ -73,7 +73,7 @@
 	         * 
 	         * @return boolen
 	         */
-	        taskLength: function() {
+	        taskLength () {
 	            return typeof this.list.tasks != 'undefined' && this.list.tasks.length ? true : false;
 	        },
 
@@ -84,7 +84,7 @@
 	         * 
 	         * @return array       
 	         */
-	        getIncompleteTasks: function() {
+	        getIncompleteTasks () {
 	        	if ( this.list.incomplete_tasks ) {
 	        		this.list.incomplete_tasks.data.map(function(task, index) {
 	        			task.status = false;
@@ -103,7 +103,7 @@
 	         * 
 	         * @return array       
 	         */
-	        getCompletedTask: function() {
+	        getCompletedTask () {
 	        	if ( this.list.complete_tasks ) {
 	        		this.list.complete_tasks.data.map(function(task, index) {
 	        			task.status = true;
@@ -113,7 +113,7 @@
 	        	}
 	        },
 
-	        loadMoreButton: function(){
+	        loadMoreButton (){
 	        	if(typeof this.list.incomplete_tasks  == 'undefined'){
 	        		return false;
 	        	}
@@ -134,7 +134,7 @@
 	    },
 
 	    methods: {
-	        is_assigned: function(task) {
+	        is_assigned (task) {
 	            return true;
 	            var get_current_user_id = this.$store.state.get_current_user_id,
 	                in_task  = task.assigned_to.indexOf(get_current_user_id);
@@ -152,7 +152,7 @@
 	         * 
 	         * @return array       
 	         */
-	        getIncompletedTasks: function(lists) {
+	        getIncompletedTasks (lists) {
 	            return lists.tasks.filter(function( task ) {
 	                return ( task.completed == '0' || !task.completed );
 	            });
@@ -165,7 +165,7 @@
 	         * 
 	         * @return array       
 	         */
-	        getCompleteTask: function(lists) {
+	        getCompleteTask (lists) {
 	            return lists.tasks.filter(function( task ) {
 	                return ( task.completed == '1' || task.completed );
 	            }); 
@@ -178,7 +178,7 @@
 	         * 
 	         * @return string      
 	         */
-	        privateClass: function( task ) {
+	        privateClass ( task ) {
 	            return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
 	        },
 
@@ -187,7 +187,7 @@
 	         * 
 	         * @return void
 	         */
-	        deleteTask: function( list_id, task_id ) {
+	        deleteTask ( list_id, task_id ) {
 	            if ( ! confirm( PM_Vars.message.confirm ) ) {
 	                return;
 	            }
@@ -220,27 +220,7 @@
 	                    });
 	                }
 	            });
-	        },
-
-	        loadMoreIncompleteTasks: function() {
-
-				if ( this.task_loading_status ) {
-	                return;
-	            }
-	            
-	            this.task_loading_status = true;
-	            this.more_incomplete_task_spinner = true;
-	            var condition = 'incomplete_tasks&incomplete_task_page='+this.completed_tasks_next_page_number;
-
-	            self   = this;
-	            
-	            this.getTasks(this.list.id, condition, function(res) {
-	                self.task_loading_status = false;
-	                self.more_incomplete_task_spinner = false;
-	                                
-	            });
-
-	        } 
+	        }, 
 	    }
 	}
 </script>

@@ -626,20 +626,41 @@ var PM_Task_Mixin = {
         },
 
         getTasks: function(list_id, condition, callback) {
-            self = this;
-            var condition = condition || 'incomplete_tasks';
+            var self = this;
+            var condition = self.generateListsCondition(condition);
 
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?'+condition,
                 success (res) {
+                    // res.data.map(function(task){
+                    //     self.addTaskMeta(task);
+                    // });
+
+                    if ( typeof res.data.incomplete_tasks !== 'undefined' ) {
+                        res.data.incomplete_tasks.data.map(function(task) {
+                            self.addTaskMeta(task);
+                        });
+                    }
+
+                    if ( typeof res.data.complete_tasks !== 'undefined' ) {
+                        res.data.complete_tasks.data.map(function(task) {
+                            self.addTaskMeta(task);
+                        });
+                    }
+
                     self.$store.commit('setTasks', res.data);
+
                     if ( typeof callback != 'undefined' ) {
                         callback(res);
                     }
                 }
             };
+
             this.httpRequest(request);
-            
+        },
+
+        addTaskMeta (task) {
+            task.edit_mode = false;
         },
 
         /**
@@ -777,7 +798,7 @@ var PM_Task_Mixin = {
          * 
          * @return void            
          */
-        showHideTaskFrom: function(status, list, task) {
+        showHideTaskFrom: function(status, list, task ) {
             var list = list || false;
             var task = task || false;
             
@@ -814,7 +835,8 @@ var PM_Task_Mixin = {
             }
         },
 
-        getMilestones (self) {
+        getMilestones () {
+            var self = this;
             var request = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
                 success (res) {
@@ -824,17 +846,37 @@ var PM_Task_Mixin = {
             self.httpRequest(request);
         },
 
-        getLists (self) {
+        getLists (condition, callback) {
+            var self = this,
+                condition = self.generateListsCondition(condition);
+            
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?with=incomplete_tasks&per_page=2&page='+ self.setCurrentPageNumber(self),
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?'+condition,
+                
                 success (res) {
                     res.data.map(function(list,index) {
                         self.addMetaList(list);
+
+                        if ( typeof list.incomplete_tasks !== 'undefined' ) {
+                            list.incomplete_tasks.data.map(function(task) {
+                                self.addTaskMeta(task);
+                            });
+                        }
+
+                        if ( typeof list.complete_tasks !== 'undefined' ) {
+                            list.complete_tasks.data.map(function(task) {
+                                self.addTaskMeta(task);
+                            });
+                        }
+
                     });
                     
                     self.$store.commit('setLists', res.data);
                     self.$store.commit('setListsMeta', res.meta.pagination);
-                    NProgress.done();
+                    
+                    if ( typeof callback !== 'undefined' ) {
+                        callback(res.data);
+                    }
                 }
             };
             self.httpRequest(request);
@@ -847,16 +889,31 @@ var PM_Task_Mixin = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
                 success (res) {
                     self.addMetaList(res.data);
+                    
                     if ( typeof res.data.comments !== 'undefined' ) {
                         res.data.comments.data.map(function(comment) {
                             self.addListCommentMeta(comment);
                         });
                     }
+
+                    if ( typeof res.data.incomplete_tasks !== 'undefined' ) {
+                        res.data.incomplete_tasks.data.map(function(task) {
+                            self.addTaskMeta(task);
+                        });
+                    }
+
+                    if ( typeof res.data.complete_tasks !== 'undefined' ) {
+                        res.data.complete_tasks.data.map(function(task) {
+                            self.addTaskMeta(task);
+                        });
+                    }
+                    
                     self.$store.commit('setList', res.data);
 
                     if ( callback ) {
                         callback(res);
                     }
+
                     NProgress.done();
                 }
             };
@@ -866,11 +923,14 @@ var PM_Task_Mixin = {
         addMetaList (list) {
             list.edit_mode  = false;
             list.show_task_form = false;
+            list.task_loading_status = false;
         },
 
-        setCurrentPageNumber (self) {
-            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-            self.current_page_number = current_page_number;
+        setCurrentPageNumber () {
+            var current_page_number = this.$route.params.current_page_number 
+                ? this.$route.params.current_page_number : 1;
+            this.current_page_number = current_page_number;
+            
             return current_page_number;
         },
 
@@ -945,6 +1005,8 @@ var PM_Task_Mixin = {
                 type: type,
                 data: form_data,
                 success (res) {
+                    self.addTaskMeta(res.data);
+                    
                     if (is_update) {
                         self.$store.commit('afterUpdateTask', {
                             list_id: self.list.id,
@@ -963,7 +1025,7 @@ var PM_Task_Mixin = {
                     toastr.success(res.data.success);
                
                     self.submit_disabled = false;
-                    self.showHideTaskFrom(false, self.list, self.task);
+                    self.showHideTaskFrom(false, self.list, self.task );
                 },
 
                 error (res) {
@@ -978,6 +1040,20 @@ var PM_Task_Mixin = {
             }
             
             self.httpRequest(request_data);
+        },
+
+        generateListsCondition (conditions) {
+            var query = '';
+
+            if (jQuery.isEmptyObject(conditions)) {
+                return ''
+            }
+
+            jQuery.each(conditions, function(condition, key) {
+                query = query + condition +'='+ key +'&';
+            });
+
+            return query.slice(0, -1);
         }
     }
 }

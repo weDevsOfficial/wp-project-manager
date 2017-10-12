@@ -28,4 +28,14 @@ class Comment extends Eloquent {
     public function files() {
         return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'comment' );
     }
+
+    public static function parent_comment( $comment_id ) {
+        $comment = self::find( $comment_id );
+
+        if ( $comment && $comment->commentable_type == 'comment' ) {
+            $comment = self::parent_comment( $comment->commentable_id );
+        }
+
+        return $comment;
+    }
 }

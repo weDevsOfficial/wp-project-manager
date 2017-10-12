@@ -1,7 +1,6 @@
 <template>
     <div class="cpm-todo-wrap clearfix">
-        <div class="cpm-todo-content" >
-        	
+        <div class="cpm-todo-content">
             <div>
                 <div class="cpm-col-7">
                    <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
@@ -74,16 +73,18 @@
                 <!-- v-if="task.can_del_edit" -->
                 <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
                     
-                        <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                        <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task)" class="cpm-todo-edit"><span class="dashicons dashicons-edit"></span></a>
-                        <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                    <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
+                    <a href="#" @click.prevent="showHideTaskFrom('toggle', list, task )" class="cpm-todo-edit">
+                        <span class="dashicons dashicons-edit"></span>
+                    </a>
+                    <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete">
+                        <span class="dashicons dashicons-trash"></span>
+                    </a>
                         
-
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
-
         <div class="cpm-todo-form" v-if="task.edit_mode">
             <new-task-form :task="task" :list="list"></new-task-form>
         </div>
