@@ -2719,7 +2719,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   width: 100% ;
   float: left;
   box-shadow: none;
-  height: 89px;
+  height: auto;
 }
 .cpm .cpm-project-list .cpm-project:not(:first-child) {
   border-top: none;
@@ -4307,7 +4307,9 @@ ul.cpm-files li .cpm-file-action .comment-number {
     margin-left: 0px;
     padding: 0px;
     box-shadow: none;
-    height: 300px;
+  }
+  .cpm .cpm-project-list .cpm-project {
+     height: auto;
   }
   .cpm .cpm-project-grid .cpm-project .project_head,
   .cpm .cpm-project-list .cpm-project .project_head {
@@ -4316,6 +4318,12 @@ ul.cpm-files li .cpm-file-action .comment-number {
     border-bottom: #ccc solid 1px;
     min-height: 55px;
     color: #000 ;
+  }
+  .cpm .cpm-project-list .cpm-project .project_head {
+    width: 100%;
+  }
+  .cpm .cpm-project-list .cpm-project .cpm-project-meta {
+    width: 100%;
   }
   .cpm .cpm-project-grid .cpm-project .project_head:hover,
   .cpm .cpm-project-list .cpm-project .project_head:hover {
@@ -4350,7 +4358,6 @@ ul.cpm-files li .cpm-file-action .comment-number {
     float: left;
     width: 41% ;
     list-style: none;
-    background: url('../images/bullet_green.png') no-repeat 0% 55%;
     //padding-left: 25px;
     font-size: 13px;
     color: #888888;
@@ -4369,6 +4376,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
     background-repeat: repeat-x;
     box-shadow: 0px ;
     border-radius: 0px;
+    top:unset;
+  }
+  .cpm .cpm-project-list .cpm-project .cpm-project-people {
+    width: 100%;
+    top:0;
   }
   .cpm .cpm-project-grid .cpm-project .cpm-progress .completed,
   .cpm .cpm-project-list .cpm-project .cpm-progress .completed {
