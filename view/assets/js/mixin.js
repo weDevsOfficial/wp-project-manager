@@ -388,6 +388,9 @@
                     }]
                 }
             } 
+        },
+        projects_view_class (){
+            return this.$store.state.projects_view === 'grid_view' ? 'cpm-project-grid': 'cpm-project-list'
         }
 	}
 });

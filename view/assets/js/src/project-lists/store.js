@@ -13,6 +13,7 @@ var Store = {
 		roles: [],
 		categories: [],
 		total_pages: 0,
+		projects_view: '',
 	},
 
 	mutations: {
@@ -50,6 +51,9 @@ var Store = {
 
 		setPagination (state, pagination) {
 			state.total_pages = pagination.pagination.total_pages;
+		},
+		setProjectsView(state, value){
+			state.projects_view = value;
 		}	
 	}
 }
