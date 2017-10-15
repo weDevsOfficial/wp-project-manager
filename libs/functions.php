@@ -78,37 +78,16 @@ function make_carbon_date( $date ) {
     return null;
 }
 
-
-function get_wp_roles() {
-    global $wp_roles;
-
-    $settings_fields = array();
-
-    if ( ! $wp_roles ) {
-        $wp_roles = new WP_Roles();
+function cpm_get_settings( $key = null ) {
+    if ( $key ) {
+        $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+    } else {
+        $all_settings = \CPM\Settings\Models\Settings::all();
     }
-    
-    return $wp_roles->get_names();
-}
-
-function pm_get_settings() {
-    $response = wp_remote_get( home_url('wp-json/cpm/v2/settings') );
-    
-    if ( is_array( $response ) ) {
-        $header = $response['headers']; // array of http header lines
-        $body  = $response['body']; // use the content
-
-        return $body;
-    }
-}
-
-function get_cpm_settings( $key ) {
-    $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
 
     if ( $settings ) {
         return $settings->value;
     }
 
-    return null;
-
+    return $all_settings->pluck( 'value', 'key' )->all();
 }
