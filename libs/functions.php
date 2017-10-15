@@ -89,6 +89,9 @@ function cpm_get_wp_roles() {
 }
 
 function cpm_get_settings( $key = null ) {
+    $settings = null;
+    $all_settings = null;
+
     if ( $key ) {
         $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
     } else {
@@ -99,5 +102,9 @@ function cpm_get_settings( $key = null ) {
         return $settings->value;
     }
 
-    return $all_settings->pluck( 'value', 'key' )->all();
+    if ( $all_settings ) {
+        return $all_settings->pluck( 'value', 'key' )->all();
+    }
+
+    return null;
 }
