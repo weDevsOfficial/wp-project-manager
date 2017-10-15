@@ -15,7 +15,7 @@ class Activity_Transformer extends TransformerAbstract {
     public function transform( Activity $item ) {
         return [
             'id'            => (int) $item->id,
-            'message'       => get_textdomain_text( "activities.{$item->action}" ),
+            'message'       => cpm_get_text( "activities.{$item->action}" ),
             'action'        => $item->action,
             'action_type'   => $item->action_type,
             'meta'          => $this->parse_meta( $item ),
@@ -100,13 +100,13 @@ class Activity_Transformer extends TransformerAbstract {
 
         foreach ($activity->meta as $key => $value) {
             if ( $key == 'commentable_type' && $value == 'file' ) {
-                $trans_commentable_type = get_textdomain_text( "resource_types.{$value}" );
+                $trans_commentable_type = cpm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
                 $meta['commentable_title'] = $trans_commentable_type;
             } elseif ( $key == 'commentable_type' ) {
-                $trans_commentable_type = get_textdomain_text( "resource_types.{$value}" );
+                $trans_commentable_type = cpm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;

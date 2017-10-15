@@ -8,60 +8,227 @@ use CPM\Activity\Models\Activity;
 use CPM\Task\Models\Task;
 use CPM\Task_List\Models\Task_List;
 use CPM\Project\Models\Project;
-use CPM\Discussion_Board\Models\Discussion_Board;
+use CPM\Discussion_Board\Models\Discussion_Board as Board;
 use CPM\Milestone\Models\Milestone;
 use CPM\File\Models\File;
+use CPM\Core\File_System\File_System;
 use Reflection;
 
 class Comment_Observer extends Model_Observer {
 
-    public function created( $resource ) {
-        if ( $resource->commentable_type == 'comment' ) {
-            $this->log_activity( $resource, 'create-reply-comment', 'create');
-        } elseif ( $resource->commentable_type == 'file' ) {
-            $this->log_activity( $resource, 'create-file-comment', 'create');
-        } else {
-            $this->log_activity( $resource, 'create-comment', 'create');
-        }
+    public function created( $comment ) {
+        $action_type = 'create';
+        $this->log_activity( $comment, $action_type );
     }
 
     public function updated( $resource ) {
         $this->call_attribute_methods( $resource );
     }
 
-    protected function content( Comment $item, $old_value ) {
-        $this->log_activity( $item, 'update-comment', 'update', 'comment' );
+    protected function content( Comment $comment, $old_value ) {
+        $action_type = 'update';
+        $this->log_activity( $comment, $action_type );
     }
 
-    private function log_activity( Comment $item, $action, $action_type ) {
-        $parent_comment = Comment::parent_comment( $item->id );
-        $commentable = $this->get_commentable_resource( $parent_comment );
+    private function log_activity( Comment $comment, $action_type ) {
+        $parent_comment = Comment::parent_comment( $comment->id );
+        $commentable_type = $parent_comment->commentable_type;
+        $commentable = $this->get_commentable( $parent_comment );
 
-        if ( !$commentable ) {
-            return;
+        switch ( $commentable_type ) {
+            case 'task':
+                $this->comment_on_task( $comment, $commentable, $action_type );
+                break;
+
+            case 'task-list':
+                $this->comment_on_task_list( $comment, $commentable, $action_type );
+                break;
+
+            case 'discussion-board':
+                $this->comment_on_discussion_board( $comment, $commentable, $action_type );
+                break;
+
+            case 'milestone':
+                $this->comment_on_milestone( $comment, $commentable, $action_type );
+                break;
+
+            case 'project':
+                $this->comment_on_project( $comment, $commentable, $action_type );
+                break;
+
+            case 'file':
+                $this->comment_on_file( $comment, $commentable, $action_type );
+                break;
         }
+    }
 
+    private function comment_on_task( Comment $comment, Task $task, $action_type ) {
         $meta = [
-            'commentable_id'   => $parent_comment->commentable_id,
-            'commentable_type' => $parent_comment->commentable_type,
+            'comment_id' => $comment->id,
+            'task_title' => $task->title,
         ];
 
-        if ( in_array( 'title', $commentable->getFillable() ) ) {
-            $meta['commentable_title'] = $commentable->title;
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-task';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-task';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-task';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-task';
         }
 
         Activity::create([
-            'actor_id'      => $item->updated_by,
+            'actor_id'      => $comment->updated_by,
             'action'        => $action,
             'action_type'   => $action_type,
-            'resource_id'   => $item->id,
-            'resource_type' => 'comment',
+            'resource_id'   => $task->id,
+            'resource_type' => 'task',
             'meta'          => $meta,
-            'project_id'    => $item->project_id,
+            'project_id'    => $comment->project_id,
         ]);
     }
 
-    private function get_commentable_resource( Comment $comment ) {
+    private function comment_on_task_list( Comment $comment, Task_List $list, $action_type ) {
+        $meta = [
+            'comment_id' => $comment->id,
+            'task_list_title' => $list->title,
+        ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-task-list';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-task-list';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-task-list';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-task-list';
+        }
+
+        Activity::create([
+            'actor_id'      => $comment->updated_by,
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => $list->id,
+            'resource_type' => 'task-list',
+            'meta'          => $meta,
+            'project_id'    => $comment->project_id,
+        ]);
+    }
+
+    private function comment_on_discussion_board( Comment $comment, Board $board, $action_type ) {
+        $meta = [
+            'comment_id' => $comment->id,
+            'discussion_board_title' => $board->title,
+        ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-discussion-board';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-discussion-board';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-discussion-board';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-discussion-board';
+        }
+
+        Activity::create([
+            'actor_id'      => $comment->updated_by,
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => $board->id,
+            'resource_type' => 'discussion-board',
+            'meta'          => $meta,
+            'project_id'    => $comment->project_id,
+        ]);
+    }
+
+    private function comment_on_milestone( Comment $comment, Milestone $milestone, $action_type ) {
+        $meta = [
+            'comment_id' => $comment->id,
+            'milestone_title' => $milestone->title,
+        ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-milestone';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-milestone';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-milestone';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-milestone';
+        }
+
+        Activity::create([
+            'actor_id'      => $comment->updated_by,
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => $milestone->id,
+            'resource_type' => 'milestone',
+            'meta'          => $meta,
+            'project_id'    => $comment->project_id,
+        ]);
+    }
+
+    private function comment_on_project( Comment $comment, Project $project, $action_type ) {
+        $meta = [
+            'comment_id' => $comment->id,
+            'project_title' => $project->title,
+        ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-project';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-project';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-project';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-project';
+        }
+
+        Activity::create([
+            'actor_id'      => $comment->updated_by,
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => $project->id,
+            'resource_type' => 'project',
+            'meta'          => $meta,
+            'project_id'    => $comment->project_id,
+        ]);
+    }
+
+    private function comment_on_file( Comment $comment, File $file, $action_type ) {
+        $physical_file = File_System::get_file( $file->attachment_id );
+
+        $meta = [
+            'comment_id'    => $comment->id,
+            'file_url'      => $physical_file['url'],
+            'file_title'    => $physical_file['name'] . '.' . $physical_file['file_extension'],
+            'attachment_id' => $file->attachment_id,
+        ];
+
+        if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
+            $action = 'reply-comment-on-file';
+        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+            $action = 'update-reply-comment-on-file';
+        } elseif ( $action_type == 'create' ) {
+            $action = 'comment-on-file';
+        } elseif ( $action_type == 'update' ) {
+            $action = 'update-comment-on-file';
+        }
+
+        Activity::create([
+            'actor_id'      => $comment->updated_by,
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => $file->id,
+            'resource_type' => 'file',
+            'meta'          => $meta,
+            'project_id'    => $comment->project_id,
+        ]);
+    }
+
+    private function get_commentable( Comment $comment ) {
         $commentable = null;
 
         switch ( $comment->commentable_type ) {
@@ -74,7 +241,7 @@ class Comment_Observer extends Model_Observer {
                 break;
 
             case 'discussion-board':
-                $commentable = Discussion_Board::find( $comment->commentable_id );
+                $commentable = Board::find( $comment->commentable_id );
                 break;
 
             case 'milestone':
@@ -83,6 +250,10 @@ class Comment_Observer extends Model_Observer {
 
             case 'project':
                 $commentable = Project::find( $comment->commentable_id );
+                break;
+
+            case 'file':
+                $commentable = File::find( $comment->commentable_id );
                 break;
         }
 

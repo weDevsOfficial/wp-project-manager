@@ -1,9 +1,9 @@
 <?php
 
-use CPM\Core\Text_Domain\Text_Domain;
+use CPM\Core\Textdomain\Textdomain;
 
-function get_textdomain_text( $key ) {
-    return Text_Domain::get_text_format( $key);
+function cpm_get_text( $key ) {
+    return Textdomain::get_text( $key);
 }
 
 function get_wp_timezone() {

@@ -135,21 +135,111 @@ return [
         ['actor.data.display_name', 'meta.task_title', 'meta.task_status_old', 'meta.task_status_old']
     ],
 
-    // Activities on comment
-    'create-comment'       => [
-        __( '%1$s has commented on a %2$s, %3$s.', 'cpm' ),
-        ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.comemntable_title']
+    // Comment activities on task
+    'comment-on-task'              => [
+        __( '%1$s has commented on a task, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_title']
     ],
-    'update-comment'       => [
-        __( '%1$s has updated a comment on a %2$s, %3$s.'),
-        ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.comemntable_title']
+    'update-comment-on-task'       => [
+        __( '%1$s has updated a comment on a task, %2$s.'),
+        ['actor.data.display_name', 'meta.task_title']
     ],
-    'create-reply-comment' => [
-        __( '%1$s has replied a comment on a %2$s, %3$s.'),
-        ['actor.data.display_name', 'meta.trans_commentable_type', 'meta.commentable_title']
+    'reply-comment-on-task'        => [
+        __( '%1$s has replied a comment on a task, %2$s'),
+        ['actor.data.display_name', 'meta.task_title']
     ],
-    'create-file-comment'  => [
-        __( '%1$s has commented on a %2$s.'),
-        ['actor.data.display_name', 'meta.trans_commentable_title']
+    'update-reply-comment-on-task' => [
+        __( '%1$s has updated a reply comment on a task, %2$s.'),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
+
+    // Comment activities on task list
+    'comment-on-task-list'              => [
+        __( '%1$s has commented on a task list, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'update-comment-on-task-list'       => [
+        __( '%1$s has updated a comment on a task list, %2$s.'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'reply-comment-on-task-list'        => [
+        __( '%1$s has replied a comment on a task list, %2$s'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'update-reply-comment-on-task-list' => [
+        __( '%1$s has updated a reply comment on a task list, %2$s.'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+
+    // Comment activities on discussion board
+    'comment-on-discussion-board'              => [
+        __( '%1$s has commented on a discussion board, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+    'update-comment-on-discussion-board'       => [
+        __( '%1$s has updated a comment on a discussion board, %2$s.'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+    'reply-comment-on-discussion-board'        => [
+        __( '%1$s has replied a comment on a discussion board, %2$s'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+    'update-reply-comment-on-discussion-board' => [
+        __( '%1$s has updated a reply comment on a discussion board, %2$s.'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+
+    // Comment activities on milestone
+    'comment-on-milestone'              => [
+        __( '%1$s has commented on a milestone, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'update-comment-on-milestone'       => [
+        __( '%1$s has updated a comment on a milestone, %2$s.'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'reply-comment-on-milestone'        => [
+        __( '%1$s has replied a comment on a milestone, %2$s'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'update-reply-comment-on-milestone' => [
+        __( '%1$s has updated a reply comment on a milestone, %2$s.'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+
+    // Comment activities on project
+    'comment-on-project'              => [
+        __( '%1$s has commented on the project, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+    'update-comment-on-project'       => [
+        __( '%1$s has updated a comment on the project, %2$s.'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+    'reply-comment-on-project'        => [
+        __( '%1$s has replied a comment on the project, %2$s'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+    'update-reply-comment-on-project' => [
+        __( '%1$s has updated a reply comment on the project, %2$s.'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+
+    // Comment activities on task
+    'comment-on-file'              => [
+        __( '%1$s has commented on a file, %2$s.', 'cpm' ),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
+    'update-comment-on-file'       => [
+        __( '%1$s has updated a comment on a file, %2$s.'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
+    'reply-comment-on-file'        => [
+        __( '%1$s has replied a comment on a file, %2$s'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
+    'update-reply-comment-on-file' => [
+        __( '%1$s has updated a reply comment on a file, %2$s.'),
+        ['actor.data.display_name', 'meta.file_title']
     ],
 ];
