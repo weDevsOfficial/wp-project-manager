@@ -78,6 +78,16 @@ function make_carbon_date( $date ) {
     return null;
 }
 
+function cpm_get_wp_roles() {
+    global $wp_roles;
+
+    if ( !$wp_roles ) {
+        $wp_roles = new WP_Roles();
+    }
+
+    return $wp_roles->get_names();
+}
+
 function cpm_get_settings( $key = null ) {
     if ( $key ) {
         $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
