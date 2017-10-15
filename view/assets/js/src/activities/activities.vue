@@ -115,8 +115,18 @@
 
             loadMore () {
                 this.show_spinner = true;
-                this.page = this.page + 1;
-                this.activityQuery();
+                
+                var condition = {
+                    per_page: this.per_page,
+                    page: this.page + 1
+                },
+                self = this;
+
+                this.getActivities(condition, function(res) {
+                    self.$store.commit( 'setLoadedActivities', res.data );
+                    self.total_activity = res.meta.pagination.total;
+                    self.show_spinner = false;
+                });
             },
 
             activityQuery () {
@@ -127,6 +137,7 @@
                 self = this;
 
                 this.getActivities(condition, function(res) {
+                    self.$store.commit( 'setActivities', res.data );
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
                 });

@@ -92,7 +92,7 @@
 
 			    <div id="cpm-chart" class="cpm-chart">
 
-			    	<h3>Last 30 days</h3>
+			    	<h3>This Month</h3>
 
 			    	
 				    <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>

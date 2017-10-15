@@ -5,18 +5,18 @@
 			<ul class="cpm-files">        
 				<li v-for="file in files">
 		            <div class="cpm-thumb">
-		                <a class="cpm-colorbox-img" :title="file.file.name" :href="file.file.url">
-		                	<img :src="file.file.thumb" :alt="file.file.name">
+		                <a class="cpm-colorbox-img" :title="file.name" :href="file.url">
+		                	<img :src="file.thumb" :alt="file.name">
 		                </a>
 		            </div>
 		            <div class="">
-		                <h3 class="cpm-file-name">{{ file.file.name }}</h3>
+		                <h3 class="cpm-file-name">{{ file.name }}</h3>
 
 		                <div class="cpm-file-meta">
 		                    Attached to 
-		                    <a href="">{{ attachTo(file) }}</a> 
+		                    <a :href="contentURL(file)">{{ attachTo(file) }}</a> 
 		                    by 
-		                    <a href="http://localhost/test/wp-admin/admin.php?page=cpm_task&amp;user_id=1" title="admin">
+		                    <a href="#/" title="admin">
 		                    	admin
 		                	</a>                
 		                </div>
@@ -24,7 +24,7 @@
 		                <div class="cpm-file-action">
 		                    <ul>
 		                        <li class="cpm-go-discussion"> <a :href="contentURL(file)"></a> </li>
-		                        <li class="cpm-download-file"> <a :href="file.file.url"> </a> </li>
+		                        <li class="cpm-download-file"> <a :href="file.url"> </a> </li>
 		                        <li class="cpm-comments-count"> <span>  </span> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> 1</div></li>
 		                    </ul>
 		                </div>
@@ -43,7 +43,7 @@
 		beforeRouteEnter(to, from, next) {
 
 			next(vm => {
-                vm.getFiles(vm);
+                vm.getFiles();
             });
 		},
 		components: {

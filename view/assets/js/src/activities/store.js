@@ -14,8 +14,11 @@ export default new Vuex.Store({
 	
 	mutations: {
 		setActivities (state, activities) {
+			state.activities = activities;
+		},
+
+		setLoadedActivities (state, activities) {
 			var new_activity = state.activities.concat(activities);
-			
 			state.activities = new_activity;
 		}
 	}
