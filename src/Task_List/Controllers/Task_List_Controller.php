@@ -21,7 +21,7 @@ class Task_List_Controller {
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
-        $per_page_from_settings = get_cpm_settings( 'list_per_page' );
+        $per_page_from_settings = cpm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page = $per_page ? $per_page : $per_page_from_settings;
 

@@ -26,7 +26,7 @@ class Project_Controller {
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 
-		$per_page_from_settings = get_cpm_settings( 'project_per_page' );
+		$per_page_from_settings = cpm_get_settings( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
