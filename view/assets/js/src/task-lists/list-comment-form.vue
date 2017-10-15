@@ -192,6 +192,7 @@
         			contentType: false,
         			processData: false,
 	            	success (res) { 
+	            		self.files = [];
 	            		self.addListCommentMeta(res.data);
 	            		
                         if (is_update) {

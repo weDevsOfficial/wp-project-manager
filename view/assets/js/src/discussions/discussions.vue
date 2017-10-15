@@ -15,12 +15,12 @@
                         </a>
                     </div>
                     <transition name="slide">
-                    <div class="cpm-new-message-form" v-if="is_discuss_form_active">
-                        <h3>Create a new message</h3>
+                        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
+                            <h3>Create a new message</h3>
 
-                        <new-discuss-form :discuss="{}"></new-discuss-form>
+                            <new-discuss-form  :discuss="{}"></new-discuss-form>
 
-                    </div>
+                        </div>
                     </transition>
 
                 <div class="cpm-list-content">
@@ -46,7 +46,7 @@
                 <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
                     <h3>Create a new message</h3>
 
-                    <new-discuss-form :discuss="{}"></new-discuss-form>
+                    <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                 </div>
             </transition>

@@ -228,6 +228,7 @@ export default Vue.mixin({
         		contentType: false,
         		processData: false,
 	            success (res) {
+	            	self.files = [];
 	                self.getDiscuss(self);
 	                self.show_spinner = false;
 	                self.$root.$emit( 'after_comment' );
@@ -238,6 +239,7 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 
 	                self.showHideCommentForm(false, self.comment);
+	                self.$root.$emit( 'after_comment' );
 	            },
 
 	            error (res) {
@@ -251,10 +253,7 @@ export default Vue.mixin({
 	            }
 	        }
 
-	        //self.httpRequest(request_data);
-	        setTimeout(function(){
-	        	self.httpRequest(request_data);
-	        }, 3000)
+	        self.httpRequest(request_data);
         },
 
         deleteDiscuss (discuss_id) {
