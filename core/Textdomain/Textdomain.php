@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Core\Text_Domain;
+namespace CPM\Core\Textdomain;
 
 use CPM\Core\Singletonable;
 
-class Text_Domain {
+class Textdomain {
     /**
      * Code associated with making a class singleton.
      */
@@ -25,8 +25,8 @@ class Text_Domain {
         self::$texts = load_texts();
     }
 
-    public static function get_text_format( $key = null ) {
-        Text_Domain::singleton(
+    public static function get_text( $key ) {
+        Textdomain::singleton(
             array(),
             array([
                 'method' => 'load',
@@ -36,14 +36,20 @@ class Text_Domain {
         );
 
         $texts = self::$texts;
-        $text  = $texts;
+        $keys  = explode( '.', $key );
+        $text  = self::get_value_from_array( $texts, $keys );
 
-        if ( $key ) {
-            $keys = explode( '.', $key );
-            $text = self::get_value_from_array( $texts, $keys );
+        $localized_text = [];
+        if ( count( $keys ) == 1 ) {
+            $sub_keys = array_keys( $text );
+            foreach ( $sub_keys as $key ) {
+                $localized_text[$key] = self::named_sprintf( $text[$key] );
+            }
+        } else {
+            $localized_text = self::named_sprintf( $text );
         }
 
-        return self::named_sprintf( $text );
+        return $localized_text;
     }
 
     private static function get_value_from_array( $array = [], $keys = [] ) {
