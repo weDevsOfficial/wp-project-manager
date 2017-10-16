@@ -4,7 +4,7 @@ namespace CPM\Task\Transformers;
 
 use CPM\Task\Models\Task;
 use League\Fractal\TransformerAbstract;
-use CPM\Task_List\Transformer\Task_List_Transformer;
+use CPM\Task_List\Transformers\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Transformers\Assignee_Transformer;

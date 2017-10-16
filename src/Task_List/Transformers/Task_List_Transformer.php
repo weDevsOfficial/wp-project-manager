@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Task_List\Transformer;
+namespace CPM\Task_List\Transformers;
 
 use CPM\Task_List\Models\Task_List;
 use League\Fractal\TransformerAbstract;
