@@ -25,6 +25,24 @@ export default Vue.mixin({
 		    }
 		},
 
+		afterGetDiscussionAction(){
+			var self = this;
+			var discussion = this.$store.state.discussion;
+			console.log(discussion, "OK");
+			if(discussion.length){
+                self.discuss_template = true;
+                self.blank_template = false;
+            }
+
+            if(!discussion.length){
+            	self.discuss_template = false;
+                self.blank_template = true;
+            }
+
+            self.loading = false;
+    		NProgress.done();
+		},
+
 		getDiscussion (args) {
 			var self = this;
 			var pre_define = {
@@ -48,14 +66,11 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscussion', res.data );
 	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
 
-	                NProgress.done();
-
 	                if (typeof args.callback === 'function') {
 						args.callback(res.data);
 					} 
 	            }
 	        };
-
 	        self.httpRequest(request);
 	    },
 
@@ -67,7 +82,7 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscuss', res.data );
 	                //self.$store.commit( 'setComments', res.data );
 	                //self.$store.commit( 'setCommentsMeta', res.data );
-	                
+	                self.loading = false;
 	                NProgress.done();
 	            }
 	        };
@@ -175,6 +190,17 @@ export default Vue.mixin({
 	                } else {
 	                	self.showHideDiscussForm(false);
 	                }
+
+	                self.$root.$emit( 'after_comment' );
+	                self.afterGetDiscussionAction();
+
+	                // self.$router.push({
+                 //            name: 'individual_discussions', 
+                 //            params: { 
+                 //                project_id: self.project_id,
+                 //                discussion_id: res.data.id
+                 //            }
+                 //        });
 	            },
 
 	            error (res) {

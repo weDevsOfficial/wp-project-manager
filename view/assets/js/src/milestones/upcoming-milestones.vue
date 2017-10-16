@@ -22,9 +22,11 @@
 	            </div>
     		</div>
 
-    		<div class="cpm-milestone-edit-form" v-if="milestone.edit_mode">
-                <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
-            </div>
+            <transition name="slide">
+        		<div class="cpm-milestone-edit-form cpm-col-6 cpm-sm-col-12" style="float:none;margin-left:20px;" v-if="milestone.edit_mode">
+                    <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
+                </div>
+            </transition>
 
     		<div class="cpm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">

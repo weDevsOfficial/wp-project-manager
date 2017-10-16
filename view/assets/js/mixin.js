@@ -108,7 +108,7 @@
             this.$root.$store.commit('resetSelectedUsers');
         },
 
-        getProjects (condition) {
+        getProjects (condition, callback) {
             var condition = condition || '';
             var self = this;
 
@@ -121,6 +121,10 @@
                     self.$root.$store.commit('setProjects', {'projects': res.data});
                     self.$root.$store.commit('setProjectsMeta', res.meta );
                     NProgress.done();
+                    self.loading = false;
+                    if(typeof callback !== 'undefined'){
+                        callback(res.data);
+                    }
                 }
             };
 
