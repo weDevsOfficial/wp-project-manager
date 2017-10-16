@@ -4,7 +4,7 @@ namespace CPM\Project\Transformer;
 
 use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
-use CPM\Category\Transformer\Category_Transformer;
+use CPM\Category\Transformers\Category_Transformer;
 use CPM\User\Transformers\User_Transformer;
 use CPM\Common\Traits\Resource_Editors;
 use Carbon\Carbon;

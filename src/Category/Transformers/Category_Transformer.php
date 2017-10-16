@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Category\Transformer;
+namespace CPM\Category\Transformers;
 
 use CPM\Category\Models\Category;
 use League\Fractal\TransformerAbstract;
