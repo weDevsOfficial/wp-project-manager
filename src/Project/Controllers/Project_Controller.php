@@ -9,7 +9,7 @@ use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
-use CPM\Project\Transformer\Project_Transformer;
+use CPM\Project\Transformers\Project_Transformer;
 use CPM\Common\Traits\Request_Filter;
 use CPM\User\Models\User;
 use CPM\User\Models\User_Role;

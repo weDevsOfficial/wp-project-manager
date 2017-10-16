@@ -8,7 +8,7 @@ use CPM\Task_List\Transformer\Task_List_Transformer;
 use CPM\Common\Transformers\Board_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\Common\Transformers\Assignee_Transformer;
-use CPM\File\Transformer\File_Transformer;
+use CPM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\User\Models\User;
 use CPM\User\Transformers\User_Transformer;

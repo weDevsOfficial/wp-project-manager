@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Milestone\Transformer;
+namespace CPM\Milestone\Transformers;
 
 use CPM\Milestone\Models\Milestone;
 use League\Fractal\TransformerAbstract;

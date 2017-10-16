@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Discussion_Board\Transformer;
+namespace CPM\Discussion_Board\Transformers;
 
 use CPM\Discussion_Board\Models\Discussion_Board;
 use League\Fractal\TransformerAbstract;
 use CPM\Common\Transformers\Boardable_User_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
-use CPM\File\Transformer\File_Transformer;
+use CPM\File\Transformers\File_Transformer;
 use CPM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Milestone\Transformer\Milestone_Transformer;
+use CPM\Milestone\Transformers\Milestone_Transformer;
 use CPM\Common\Traits\Resource_Editors;
 
 class Discussion_Board_Transformer extends TransformerAbstract {

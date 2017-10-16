@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Project\Transformer;
+namespace CPM\Project\Transformers;
 
 use CPM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
