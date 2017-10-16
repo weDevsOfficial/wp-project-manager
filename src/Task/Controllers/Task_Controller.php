@@ -10,7 +10,7 @@ use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Transformer_Manager;
-use CPM\Task\Transformer\Task_Transformer;
+use CPM\Task\Transformers\Task_Transformer;
 use CPM\Task_List\Models\Task_List;
 use CPM\Project\Models\Project;
 use CPM\Common\Models\Boardable;

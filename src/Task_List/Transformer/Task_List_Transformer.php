@@ -5,7 +5,7 @@ namespace CPM\Task_List\Transformer;
 use CPM\Task_List\Models\Task_List;
 use League\Fractal\TransformerAbstract;
 use CPM\User\Transformers\User_Transformer;
-use CPM\Task\Transformer\Task_Transformer;
+use CPM\Task\Transformers\Task_Transformer;
 use CPM\Comment\Transformers\Comment_Transformer;
 use CPM\File\Transformers\File_Transformer;
 use CPM\Milestone\Transformers\Milestone_Transformer;

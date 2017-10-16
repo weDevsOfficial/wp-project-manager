@@ -5,7 +5,7 @@ namespace CPM\Milestone\Transformers;
 use CPM\Milestone\Models\Milestone;
 use League\Fractal\TransformerAbstract;
 use CPM\Task_List\Transformer\Task_List_Transformer;
-use CPM\Task\Transformer\Task_Transformer;
+use CPM\Task\Transformers\Task_Transformer;
 use CPM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use CPM\Common\Traits\Resource_Editors;
