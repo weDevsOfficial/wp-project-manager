@@ -14,6 +14,7 @@ export default Vue.mixin({
 			    	// });
 	                self.$store.commit( 'setOverViews', res.data );
 	                NProgress.done();
+	                self.loading = false;
 	            }
 	        };
 	        self.httpRequest(request);

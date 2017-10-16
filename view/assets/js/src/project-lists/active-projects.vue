@@ -1,8 +1,24 @@
 <template>
+
+        
+
     <div class="wrap cpm cpm-front-end">
         
         <project-header></project-header>
-        <div class="cpm-projects cpm-row cpm-no-padding cpm-no-margin" v-bind:class="[projects_view_class()]">
+
+        <div v-if="loading" class="cpm-data-load-before" >
+            <div class="loadmoreanimation">
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="!loading" class="cpm-projects cpm-row cpm-no-padding cpm-no-margin" v-bind:class="[projects_view_class()]">
             <project-summary></project-summary>
             <pm-pagination 
                 :total_pages="total_pages" 
@@ -45,7 +61,8 @@
 
         data () {
             return {
-                current_page_number: 1
+                current_page_number: 1,
+                loading: true,
             }
         },
 

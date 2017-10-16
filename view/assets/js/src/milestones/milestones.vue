@@ -2,7 +2,19 @@
     <div class="" id="cpm-milestone-page">
         <pm-header></pm-header>
 
-        <div class="cpm-blank-template milestone" v-if="!milestones.length">
+        <div v-if="loading" class="cpm-data-load-before" >
+            <div class="loadmoreanimation">
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cpm-blank-template milestone" v-if="!milestones.length && !loading">
             <div class="cpm-content" >
                 <h3 class="cpm-page-title">  Milestones </h3>
 
@@ -40,33 +52,37 @@
             </div>
 
         </div>
+        <div v-if="milestones.length">
+            
+            <div class="cpm-row cpm-milestone-details" >
+                <div class="cpm-milestone-link clearfix">
+                    <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+                </div>
 
-        <div class="cpm-row cpm-milestone-details" v-if="milestones.length">
-            <div class="cpm-milestone-link clearfix">
-                <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+                 <transition name="slide">
+                    <div class="cpm-new-milestone-form cpm-col-6 cpm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
+                        <div class="cpm-milestone-form-wrap">
+                            <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
+                        </div>
+
+                    </div>
+                </transition>
+
+                <late-milestones></late-milestones>
+                <upcomming-milestone></upcomming-milestone>
+                <completed-milestones></completed-milestones>
+                
             </div>
 
-             <transition name="slide">
-                <div class="cpm-new-milestone-form cpm-col-6 cpm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
-                    <div class="cpm-milestone-form-wrap">
-                        <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
-                    </div>
+            <pm-pagination 
+                :total_pages="total_milestone_page" 
+                :current_page_number="current_page_number" 
+                component_name='milestone_pagination'>
+                
+            </pm-pagination> 
 
-                </div>
-            </transition>
-
-            <late-milestones></late-milestones>
-            <upcomming-milestone></upcomming-milestone>
-            <completed-milestones></completed-milestones>
-            
         </div>
-
-        <pm-pagination 
-            :total_pages="total_milestone_page" 
-            :current_page_number="current_page_number" 
-            component_name='milestone_pagination'>
-            
-        </pm-pagination> 
+        
 
 
         <!-- <pm-do-action hook="component-lazy-load"></pm-do-action> -->
@@ -91,7 +107,8 @@
         },
         data () {
             return {
-                current_page_number: 1
+                current_page_number: 1,
+                loading: true,
             }
         },
         watch: {

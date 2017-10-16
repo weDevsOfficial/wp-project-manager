@@ -3,38 +3,51 @@
 
     <pm-header></pm-header>
 
-    <ul v-if="activities.length" class="cpm-activity-list">
-        <li v-for="group in activities" :key="group.id" class="cpm-row"> 
-            <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12">
-                <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span> 
-                <br>
-                {{ actiivtyGroupDate(group.date, 'MMMM') }}
-                 
-            </div> 
-            <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> 
-                <ul>
-                    <li v-for="activity in group.activities" >
-                        <div class="cpm-col-8 cpm-sm-col-12">
-                            <a href="#">
-                                {{ activity.actor.data.display_name }}
-                            </a> 
-                            <span v-html="activity.message"></span>
-                        </div>
-                        <div class="date cpm-col-4 cpm-sm-col-12">
-                            <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                {{ activity.committed_at.date }} {{ activity.committed_at.time }}
-                            </time>
-                        </div> 
-                        <div class="clear"></div> 
-                    </li>
-                </ul>
+    <div v-if="loading" class="cpm-data-load-before" >
+        <div class="loadmoreanimation">
+            <div class="load-spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
             </div>
-        </li>
+        </div>
+    </div>
+    <div v-else>
+        <ul v-if="activities.length" class="cpm-activity-list">
+            <li v-for="group in activities" :key="group.id" class="cpm-row"> 
+                <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12">
+                    <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span> 
+                    <br>
+                    {{ actiivtyGroupDate(group.date, 'MMMM') }}
+                     
+                </div> 
+                <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> 
+                    <ul>
+                        <li v-for="activity in group.activities" >
+                            <div class="cpm-col-8 cpm-sm-col-12">
+                                <a href="#">
+                                    {{ activity.actor.data.display_name }}
+                                </a> 
+                                <span v-html="activity.message"></span>
+                            </div>
+                            <div class="date cpm-col-4 cpm-sm-col-12">
+                                <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
+                                    {{ activity.committed_at.date }} {{ activity.committed_at.time }}
+                                </time>
+                            </div> 
+                            <div class="clear"></div> 
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
-    </ul>
+        </ul>
 
-    <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">Load More...</a>
-    <span v-show="show_spinner" class="cpm-spinner"></span>
+        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">Load More...</a>
+        <span v-show="show_spinner" class="cpm-spinner"></span>
+    </div>
 </div>
 </template>
 
@@ -52,7 +65,8 @@
                 page: 1,
                 total_activity: 0,
                 per_page: 2,
-                show_spinner:false
+                show_spinner:false,
+                loading: true,
             }
         },
         computed: {
@@ -140,6 +154,7 @@
                     self.$store.commit( 'setActivities', res.data );
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
+                    self.loading = false;
                 });
             }
         }

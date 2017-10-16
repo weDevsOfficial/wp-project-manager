@@ -49,7 +49,7 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscuss', res.data );
 	                //self.$store.commit( 'setComments', res.data );
 	                //self.$store.commit( 'setCommentsMeta', res.data );
-	                
+	                self.loading = false;
 	                NProgress.done();
 	            }
 	        };
