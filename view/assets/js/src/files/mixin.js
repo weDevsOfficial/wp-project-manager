@@ -9,6 +9,7 @@ export default Vue.mixin({
 	            success (res) {
 	                self.$store.commit( 'setFiles', res.data );
 	                NProgress.done();
+	                self.loading = false;
 	            }
 	        };
 	        self.httpRequest(request);

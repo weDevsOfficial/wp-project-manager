@@ -1,7 +1,21 @@
 <template>
 	<div class="wrap cpm cpm-front-end">
 		<pm-header></pm-header>
-		<div class="cpm-files-page">
+
+		<div v-if="loading" class="cpm-data-load-before" >
+            <div class="loadmoreanimation">
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+
+
+		<div v-if="!loading" class="cpm-files-page">
 			<ul class="cpm-files">        
 				<li v-for="file in files">
 		            <div class="cpm-thumb">
@@ -52,6 +66,11 @@
 		computed: {
 			files () {
 				return this.$store.state.files;
+			}
+		},
+		data(){
+			return {
+				loading: true,
 			}
 		},
 		methods: {

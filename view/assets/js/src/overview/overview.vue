@@ -2,6 +2,18 @@
 	<div class="wrap cpm cpm-front-end">
 		<pm-header></pm-header>
 
+		<div v-if="loading" class="cpm-data-load-before" >
+            <div class="loadmoreanimation">
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+
 		<div class="project-overview">
 			<div class="cpm-col-10 cpm-sm-col-12">
 			    <div class="overview-menu">
@@ -127,6 +139,11 @@
 			next(vm => {
 				vm.getOverViews('with=overview_graph');
 			});
+		},
+		data(){
+			return{
+				loading: true,
+			}
 		},
 		computed: {
 			meta () {
