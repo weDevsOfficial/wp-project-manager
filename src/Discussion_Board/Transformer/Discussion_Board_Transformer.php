@@ -56,7 +56,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
-
+        
         return $resource;
     }
 

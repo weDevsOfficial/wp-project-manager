@@ -130,8 +130,8 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getDiscussion(vm);
-                vm.getMilestones(vm);
+                vm.discussQuery();
+                vm.getMilestones();
             });
         },
         data () {
@@ -141,7 +141,7 @@
         },
         watch: {
             '$route' (route) {
-                this.getDiscussion(this);
+                this.discussQuery();
             }
         },
         components: {
@@ -162,7 +162,30 @@
                 return this.$store.state.meta.total_pages;
             }
         },
+        methods: {
+            discussQuery () {
+                var self = this;
+                
+                var conditions = {
+                    with: 'comments',
+                    per_page: 20,
+                    page: this.setCurrentPageNumber()
+                };
 
+                var args = {
+                    conditions: conditions,
+                    callback: function(res) {
+                        self.afterGetDiscussion(res);
+                    }   
+                }
+
+                this.getDiscussion(args);
+            },
+
+            afterGetDiscussion (res) {
+                
+            }
+        }
     }
 
 </script>

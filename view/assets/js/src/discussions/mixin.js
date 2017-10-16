@@ -25,9 +25,22 @@ export default Vue.mixin({
 		    }
 		},
 
-		getDiscussion (self) {
+		getDiscussion (args) {
+			var self = this;
+			var pre_define = {
+					conditions: {
+						with: 'comments',
+	                    per_page: 20,
+	                    page: 1,
+	                },
+					callback: false
+				};
+
+			var args       = jQuery.extend(true, pre_define, args );
+			var conditions = self.generateConditions(args.conditions);
+
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments&per_page=2&page='+ self.setCurrentPageNumber(self),
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
 	            success (res) {
 	            	res.data.map(function(discuss, index) {
 			    		self.addDiscussMeta(discuss);
@@ -36,8 +49,13 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
 
 	                NProgress.done();
+
+	                if (typeof args.callback === 'function') {
+						args.callback(res.data);
+					} 
 	            }
 	        };
+
 	        self.httpRequest(request);
 	    },
 
@@ -64,7 +82,8 @@ export default Vue.mixin({
 	    	});
 	    },
 
-	   	setCurrentPageNumber (self) {
+	   	setCurrentPageNumber () {
+	   		var self = this;
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;
@@ -140,7 +159,7 @@ export default Vue.mixin({
 	            	if ( is_single ) {
 	            		self.getDiscuss(self);
 	            	} else {
-	            		self.getDiscussion(self);
+	            		self.getDiscussion();
 	            	}
 	                
 	                self.show_spinner = false;
@@ -275,7 +294,7 @@ export default Vue.mixin({
                             }
                         });
                     } else {
-                        self.getDiscussion(self);
+                        self.getDiscussion();
                     }
                 }
             }
