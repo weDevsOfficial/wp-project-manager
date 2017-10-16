@@ -37,7 +37,7 @@ class Discussion_Board_Controller {
 
         $resource = new Collection( $discussion_board_collection, new Discussion_Board_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
-
+ 
         return $this->get_response( $resource );
     }
 

@@ -1,9 +1,9 @@
 <?php
 
-use CPM\Core\Text_Domain\Text_Domain;
+use CPM\Core\Textdomain\Textdomain;
 
-function get_textdomain_text( $key ) {
-    return Text_Domain::get_text_format( $key);
+function cpm_get_text( $key ) {
+    return Textdomain::get_text( $key);
 }
 
 function get_wp_timezone() {
@@ -78,37 +78,33 @@ function make_carbon_date( $date ) {
     return null;
 }
 
-
-function get_wp_roles() {
+function cpm_get_wp_roles() {
     global $wp_roles;
 
-    $settings_fields = array();
-
-    if ( ! $wp_roles ) {
+    if ( !$wp_roles ) {
         $wp_roles = new WP_Roles();
     }
-    
+
     return $wp_roles->get_names();
 }
 
-function pm_get_settings() {
-    $response = wp_remote_get( home_url('wp-json/cpm/v2/settings') );
-    
-    if ( is_array( $response ) ) {
-        $header = $response['headers']; // array of http header lines
-        $body  = $response['body']; // use the content
+function cpm_get_settings( $key = null ) {
+    $settings = null;
+    $all_settings = null;
 
-        return $body;
+    if ( $key ) {
+        $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+    } else {
+        $all_settings = \CPM\Settings\Models\Settings::all();
     }
-}
-
-function get_cpm_settings( $key ) {
-    $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
 
     if ( $settings ) {
         return $settings->value;
     }
 
-    return null;
+    if ( $all_settings ) {
+        return $all_settings->pluck( 'value', 'key' )->all();
+    }
 
+    return null;
 }

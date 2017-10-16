@@ -35,10 +35,12 @@ class Milestone_Controller {
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $meta_collection = $metas->getCollection();
+        
         $milestone_collection = $this->get_milestone_collection( $meta_collection );
 
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $metas ) );
+
 
         return $this->get_response( $resource );
     }

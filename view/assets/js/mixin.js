@@ -271,6 +271,7 @@
         userTaskProfileUrl ( user_id ) {
             return PM_Vars.ajaxurl + '?page=cpm_task#/user/' + user_id;
         },
+
         /**
          * Set extra element in httpRequest query
          */
@@ -395,7 +396,21 @@
         },
         projects_view_class (){
             return this.$store.state.projects_view === 'grid_view' ? 'cpm-project-grid': 'cpm-project-list'
-        }
+        },
+
+        generateConditions (conditions) {
+            var query = '';
+
+            if (jQuery.isEmptyObject(conditions)) {
+                return ''
+            }
+
+            jQuery.each(conditions, function(condition, key) {
+                query = query + condition +'='+ key +'&';
+            });
+
+            return query.slice(0, -1);
+        },
 	}
 });
 

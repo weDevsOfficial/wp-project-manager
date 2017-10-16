@@ -1,8 +1,8 @@
 <template>
-	<div class="wrap cpm cpm-front-end">
+    <div class="wrap cpm cpm-front-end">
         <pm-header></pm-header>
 
-         <div v-if="loading" class="cpm-data-load-before" >
+        <div v-if="loading" class="cpm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -13,10 +13,10 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="cpm-blank-template discussion" v-if="blank_template">
             <div class="cpm-content" >
-                <h3 class="cpm-page-title">  Discussion</h3>
+                <h3 class="cpm-page-title">Discussion</h3>
 
                 <p>
                     Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
@@ -27,12 +27,12 @@
                         </a>
                     </div>
                     <transition name="slide">
-                    <div class="cpm-new-message-form" v-if="is_discuss_form_active">
-                        <h3>Create a new message</h3>
+                        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
+                            <h3>Create a new message</h3>
 
-                        <new-discuss-form :discuss="{}"></new-discuss-form>
+                            <new-discuss-form  :discuss="{}"></new-discuss-form>
 
-                    </div>
+                        </div>
                     </transition>
 
                 <div class="cpm-list-content">
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div v-if="discuss_template">
-            <div class="cpm-row discussion" >
+            <div class="cpm-row discussion" v-if="discussion.length" >
                 <div>
                     <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
                         Add New Discussion 
@@ -59,14 +59,14 @@
                     <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
                         <h3>Create a new message</h3>
 
-                        <new-discuss-form :discuss="{}"></new-discuss-form>
+                        <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                     </div>
                 </transition>
 
             </div>
 
-            <div class="cpm-row cpm-message-page" >
+            <div class="cpm-row cpm-message-page" v-if="discussion.length">
                 <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
                     <div class="cpm-box-title">Discussion List</div>
                     <ul class="dicussion-list">        
@@ -121,15 +121,14 @@
                 </div>
                 <div class="clear"></div>
             </div>
-
-            <pm-pagination 
-                :total_pages="total_discussion_page" 
-                :current_page_number="current_page_number" 
-                component_name='discussion_pagination'>
-                
-            </pm-pagination> 
-        
         </div>
+        <pm-pagination 
+            :total_pages="total_discussion_page" 
+            :current_page_number="current_page_number" 
+            component_name='discussion_pagination'>
+            
+        </pm-pagination> 
+
     </div>
 
 </template>
@@ -143,8 +142,8 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getDiscussion(vm);
-                vm.getMilestones(vm);
+                vm.discussQuery();
+                vm.getMilestones();
             });
         },
         data () {
@@ -157,7 +156,7 @@
         },
         watch: {
             '$route' (route) {
-                this.getDiscussion(this);
+                this.discussQuery();
             }
         },
         components: {
@@ -178,7 +177,26 @@
                 return this.$store.state.meta.total_pages;
             }
         },
+        methods: {
+            discussQuery () {
+                var self = this;
+                
+                var conditions = {
+                    with: 'comments',
+                    per_page: 2,
+                    page: this.setCurrentPageNumber()
+                };
 
+                var args = {
+                    conditions: conditions,
+                    callback: function(){
+                        self.afterGetDiscussionAction();
+                    }  
+                }
+
+                this.getDiscussion(args);
+            }
+        }
     }
 
 </script>

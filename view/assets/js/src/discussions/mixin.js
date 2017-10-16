@@ -25,9 +25,40 @@ export default Vue.mixin({
 		    }
 		},
 
-		getDiscussion (self) {
+		afterGetDiscussionAction(){
+			var self = this;
+			var discussion = this.$store.state.discussion;
+			console.log(discussion, "OK");
+			if(discussion.length){
+                self.discuss_template = true;
+                self.blank_template = false;
+            }
+
+            if(!discussion.length){
+            	self.discuss_template = false;
+                self.blank_template = true;
+            }
+
+            self.loading = false;
+    		NProgress.done();
+		},
+
+		getDiscussion (args) {
+			var self = this;
+			var pre_define = {
+					conditions: {
+						with: 'comments',
+	                    per_page: 20,
+	                    page: 1,
+	                },
+					callback: false
+				};
+
+			var args       = jQuery.extend(true, pre_define, args );
+			var conditions = self.generateConditions(args.conditions);
+
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?with=comments&per_page=2&page='+ self.setCurrentPageNumber(self),
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
 	            success (res) {
 	            	res.data.map(function(discuss, index) {
 			    		self.addDiscussMeta(discuss);
@@ -35,7 +66,9 @@ export default Vue.mixin({
 	                self.$store.commit( 'setDiscussion', res.data );
 	                self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
 
-	                NProgress.done();
+	                if (typeof args.callback === 'function') {
+						args.callback(res.data);
+					} 
 	            }
 	        };
 	        self.httpRequest(request);
@@ -64,7 +97,8 @@ export default Vue.mixin({
 	    	});
 	    },
 
-	   	setCurrentPageNumber (self) {
+	   	setCurrentPageNumber () {
+	   		var self = this;
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;
@@ -140,7 +174,7 @@ export default Vue.mixin({
 	            	if ( is_single ) {
 	            		self.getDiscuss(self);
 	            	} else {
-	            		self.getDiscussion(self);
+	            		self.getDiscussion();
 	            	}
 	                
 	                self.show_spinner = false;
@@ -156,6 +190,17 @@ export default Vue.mixin({
 	                } else {
 	                	self.showHideDiscussForm(false);
 	                }
+
+	                self.$root.$emit( 'after_comment' );
+	                self.afterGetDiscussionAction();
+
+	                // self.$router.push({
+                 //            name: 'individual_discussions', 
+                 //            params: { 
+                 //                project_id: self.project_id,
+                 //                discussion_id: res.data.id
+                 //            }
+                 //        });
 	            },
 
 	            error (res) {
@@ -228,6 +273,7 @@ export default Vue.mixin({
         		contentType: false,
         		processData: false,
 	            success (res) {
+	            	self.files = [];
 	                self.getDiscuss(self);
 	                self.show_spinner = false;
 	                self.$root.$emit( 'after_comment' );
@@ -238,6 +284,7 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 
 	                self.showHideCommentForm(false, self.comment);
+	                self.$root.$emit( 'after_comment' );
 	            },
 
 	            error (res) {
@@ -251,10 +298,7 @@ export default Vue.mixin({
 	            }
 	        }
 
-	        //self.httpRequest(request_data);
-	        setTimeout(function(){
-	        	self.httpRequest(request_data);
-	        }, 3000)
+	        self.httpRequest(request_data);
         },
 
         deleteDiscuss (discuss_id) {
@@ -276,7 +320,7 @@ export default Vue.mixin({
                             }
                         });
                     } else {
-                        self.getDiscussion(self);
+                        self.getDiscussion();
                     }
                 }
             }

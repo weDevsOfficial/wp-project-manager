@@ -37,16 +37,14 @@ export default Vue.mixin({
 
 		getSettings (key, pre_define ) {
 			var pre_define   = pre_define || false,
-				settings  = JSON.parse(PM_Vars.settings),
-				send_data = false
+				settings  = PM_Vars.settings;
 
-			settings.data.map(function(setting, index) {
-				if (setting.key === key) {
-					send_data = setting.value;
-				}
-			});
+			if ( typeof PM_Vars.settings[key] === 'undefined' ) {
+				return pre_define;
+			}
 
-			return send_data === false ? pre_define : send_data;
+			return PM_Vars.settings[key];
+
 		}
 	},
 });
