@@ -38,7 +38,7 @@ export default Vue.mixin({
 
 			var args       = jQuery.extend(true, pre_define, args );
 			var conditions = self.generateConditions(args.conditions);
-
+			
 	        var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
 	            success (res) {
