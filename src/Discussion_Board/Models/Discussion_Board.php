@@ -3,7 +3,7 @@
 namespace CPM\Discussion_Board\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 use CPM\Comment\Models\Comment;
 use CPM\File\Models\File;
 use CPM\Common\Models\Boardable;

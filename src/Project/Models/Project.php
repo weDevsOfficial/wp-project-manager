@@ -4,7 +4,7 @@ namespace CPM\Project\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use CPM\Project\Project_Status;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 use CPM\Task_List\Models\Task_List;
 use CPM\Task\Models\Task;
 use CPM\Discussion_Board\Models\Discussion_Board;

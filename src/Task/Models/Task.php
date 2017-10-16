@@ -3,7 +3,7 @@
 namespace CPM\Task\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 use CPM\Task\Task_Model_Trait;
 use CPM\Task_List\Models\Task_List;
 use CPM\Common\Models\Board;

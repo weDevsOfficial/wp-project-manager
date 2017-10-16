@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM;
+namespace CPM\Common\Traits;
 
 use CPM\User\Models\User;
 use CPM\Activity\Activity_Log;

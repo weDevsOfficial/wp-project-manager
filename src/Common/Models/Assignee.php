@@ -3,10 +3,11 @@
 namespace CPM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 use CPM\User\Models\User;
 
 class Assignee extends Eloquent {
+
     use Model_Events;
 
     protected $table = 'cpm_assignees';

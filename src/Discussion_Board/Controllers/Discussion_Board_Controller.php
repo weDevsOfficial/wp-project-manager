@@ -8,7 +8,7 @@ use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
+use CPM\Common\Traits\Transformer_Manager;
 use CPM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use CPM\Common\Models\Boardable;
 use CPM\Common\Traits\Request_Filter;

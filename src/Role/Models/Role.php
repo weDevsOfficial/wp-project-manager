@@ -3,7 +3,7 @@
 namespace CPM\Role\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 
 class Role extends Eloquent {
 

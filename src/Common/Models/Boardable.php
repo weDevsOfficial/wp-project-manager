@@ -3,9 +3,10 @@
 namespace CPM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 
 class Boardable extends Eloquent {
+
     use Model_Events;
 
     protected $table = 'cpm_boardables';

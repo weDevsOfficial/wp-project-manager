@@ -3,10 +3,11 @@
 namespace CPM\Category\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use CPM\Common\Traits\Model_Events;
 use CPM\Project\Models\Project;
 
 class Category extends Eloquent {
+
     use Model_Events;
 
     protected $table = 'cpm_categories';

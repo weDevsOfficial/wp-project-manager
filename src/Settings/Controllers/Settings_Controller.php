@@ -9,7 +9,7 @@ use League\Fractal\Resource\Collection as Collection;
 use CPM\Common\Traits\Request_Filter;
 use CPM\Settings\Models\Settings;
 use CPM\Settings\Transformers\Settings_Transformer;
-use CPM\Transformer_Manager;
+use CPM\Common\Traits\Transformer_Manager;
 
 class Settings_Controller {
 
