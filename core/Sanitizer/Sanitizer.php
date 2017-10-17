@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\Sanitizer;
+namespace PM\Core\Sanitizer;
 
 use WP_REST_Request;
 

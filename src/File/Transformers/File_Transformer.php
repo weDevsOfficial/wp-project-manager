@@ -1,12 +1,12 @@
 <?php
 
-namespace CPM\File\Transformers;
+namespace PM\File\Transformers;
 
-use CPM\File\Models\File;
+use PM\File\Models\File;
 use League\Fractal\TransformerAbstract;
-use CPM\Core\File_System\File_System;
-use CPM\User\Transformers\User_Transformer;
-use CPM\Common\Traits\Resource_Editors;
+use PM\Core\File_System\File_System;
+use PM\User\Transformers\User_Transformer;
+use PM\Common\Traits\Resource_Editors;
 
 class File_Transformer extends TransformerAbstract {
 

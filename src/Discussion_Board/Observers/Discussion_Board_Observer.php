@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Discussion_Board\Observers;
+namespace PM\Discussion_Board\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Discussion_Board\Models\Discussion_Board;
+use PM\Core\Database\Model_Observer;
+use PM\Activity\Models\Activity;
+use PM\Discussion_Board\Models\Discussion_Board;
 use Reflection;
 
 class Discussion_Board_Observer extends Model_Observer {

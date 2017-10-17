@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Common\Models;
+namespace PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
+use PM\Common\Traits\Model_Events;
 
 class Board extends Eloquent {
 

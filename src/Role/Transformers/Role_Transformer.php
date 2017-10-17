@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Role\Transformers;
+namespace PM\Role\Transformers;
 
-use CPM\Role\Models\Role;
+use PM\Role\Models\Role;
 use League\Fractal\TransformerAbstract;
 
 class Role_Transformer extends TransformerAbstract {

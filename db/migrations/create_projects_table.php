@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-use CPM\Core\Database\Abstract_Migration as Migration;
+use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Projects_Table extends Migration {
     public function schema() {

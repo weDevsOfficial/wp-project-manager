@@ -1,16 +1,16 @@
 <?php
 
-namespace CPM\Discussion_Board\Transformers;
+namespace PM\Discussion_Board\Transformers;
 
-use CPM\Discussion_Board\Models\Discussion_Board;
+use PM\Discussion_Board\Models\Discussion_Board;
 use League\Fractal\TransformerAbstract;
-use CPM\Common\Transformers\Boardable_User_Transformer;
-use CPM\Comment\Transformers\Comment_Transformer;
-use CPM\File\Transformers\File_Transformer;
-use CPM\User\Transformers\User_Transformer;
+use PM\Common\Transformers\Boardable_User_Transformer;
+use PM\Comment\Transformers\Comment_Transformer;
+use PM\File\Transformers\File_Transformer;
+use PM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Milestone\Transformers\Milestone_Transformer;
-use CPM\Common\Traits\Resource_Editors;
+use PM\Milestone\Transformers\Milestone_Transformer;
+use PM\Common\Traits\Resource_Editors;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
 

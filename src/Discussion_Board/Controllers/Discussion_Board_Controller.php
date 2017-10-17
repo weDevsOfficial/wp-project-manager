@@ -1,21 +1,21 @@
 <?php
 
-namespace CPM\Discussion_Board\Controllers;
+namespace PM\Discussion_Board\Controllers;
 
 use WP_REST_Request;
-use CPM\Discussion_Board\Models\Discussion_Board;
+use PM\Discussion_Board\Models\Discussion_Board;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Common\Traits\Transformer_Manager;
-use CPM\Discussion_Board\Transformers\Discussion_Board_Transformer;
-use CPM\Common\Models\Boardable;
-use CPM\Common\Traits\Request_Filter;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Core\File_System\File_System;
-use CPM\Common\Traits\File_Attachment;
+use PM\Common\Traits\Transformer_Manager;
+use PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
+use PM\Common\Models\Boardable;
+use PM\Common\Traits\Request_Filter;
+use PM\Milestone\Models\Milestone;
+use PM\File\Models\File;
+use PM\Core\File_System\File_System;
+use PM\Common\Traits\File_Attachment;
 
 class Discussion_Board_Controller {
 

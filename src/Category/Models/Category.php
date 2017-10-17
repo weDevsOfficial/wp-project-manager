@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Category\Models;
+namespace PM\Category\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
-use CPM\Project\Models\Project;
+use PM\Common\Traits\Model_Events;
+use PM\Project\Models\Project;
 
 class Category extends Eloquent {
 

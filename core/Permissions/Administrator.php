@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Core\Permissions;
+namespace PM\Core\Permissions;
 
-use CPM\Core\Permissions\Abstract_Permission;
+use PM\Core\Permissions\Abstract_Permission;
 use WP_REST_Request;
 
 class Administrator extends Abstract_Permission {

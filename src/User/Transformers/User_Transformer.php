@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\User\Transformers;
+namespace PM\User\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use CPM\User\Models\User;
-use CPM\Role\Transformers\Role_Transformer;
+use PM\User\Models\User;
+use PM\Role\Transformers\Role_Transformer;
 
 class User_Transformer extends TransformerAbstract {
     /**

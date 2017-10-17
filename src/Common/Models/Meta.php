@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Common\Models;
+namespace PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
-use CPM\Milestone\Models\Milestone;
+use PM\Common\Traits\Model_Events;
+use PM\Milestone\Models\Milestone;
 
 class Meta extends Eloquent {
 

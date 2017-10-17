@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Project;
+namespace PM\Project;
 
 trait Project_Status {
     // Allowed project statuses and their keys

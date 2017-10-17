@@ -1,13 +1,13 @@
 <?php
 
-namespace CPM\Comment\Transformers;
+namespace PM\Comment\Transformers;
 
-use CPM\Comment\Models\Comment;
+use PM\Comment\Models\Comment;
 use League\Fractal\TransformerAbstract;
-use CPM\File\Transformers\File_Transformer;
+use PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\User\Transformers\User_Transformer;
-use CPM\Common\Traits\Resource_Editors;
+use PM\User\Transformers\User_Transformer;
+use PM\Common\Traits\Resource_Editors;
 
 class Comment_Transformer extends TransformerAbstract {
 

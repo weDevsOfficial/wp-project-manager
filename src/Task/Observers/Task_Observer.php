@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Task\Observers;
+namespace PM\Task\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Task\Models\Task;
+use PM\Core\Database\Model_Observer;
+use PM\Activity\Models\Activity;
+use PM\Task\Models\Task;
 use Carbon\Carbon;
 
 class Task_Observer extends Model_Observer {

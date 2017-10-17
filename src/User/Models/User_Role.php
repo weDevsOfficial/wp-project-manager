@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\User\Models;
+namespace PM\User\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Role\Models\Role;
+use PM\Role\Models\Role;
 
 class User_Role extends Eloquent {
     protected $table = 'cpm_role_user';

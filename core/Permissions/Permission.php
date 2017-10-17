@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\Permissions;
+namespace PM\Core\Permissions;
 
 interface Permission {
     /**

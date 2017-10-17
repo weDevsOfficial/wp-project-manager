@@ -1,17 +1,17 @@
 <?php
 
-namespace CPM\Milestone\Controllers;
+namespace PM\Milestone\Controllers;
 
 use WP_REST_Request;
-use CPM\Milestone\Models\Milestone;
+use PM\Milestone\Models\Milestone;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Common\Traits\Transformer_Manager;
-use CPM\Milestone\Transformers\Milestone_Transformer;
-use CPM\Common\Traits\Request_Filter;
-use CPM\Common\Models\Meta;
+use PM\Common\Traits\Transformer_Manager;
+use PM\Milestone\Transformers\Milestone_Transformer;
+use PM\Common\Traits\Request_Filter;
+use PM\Common\Models\Meta;
 use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager as DB;
 

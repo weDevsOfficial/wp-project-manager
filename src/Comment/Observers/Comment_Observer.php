@@ -1,17 +1,17 @@
 <?php
 
-namespace CPM\Comment\Observers;
+namespace PM\Comment\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Comment\Models\Comment;
-use CPM\Activity\Models\Activity;
-use CPM\Task\Models\Task;
-use CPM\Task_List\Models\Task_List;
-use CPM\Project\Models\Project;
-use CPM\Discussion_Board\Models\Discussion_Board as Board;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Core\File_System\File_System;
+use PM\Core\Database\Model_Observer;
+use PM\Comment\Models\Comment;
+use PM\Activity\Models\Activity;
+use PM\Task\Models\Task;
+use PM\Task_List\Models\Task_List;
+use PM\Project\Models\Project;
+use PM\Discussion_Board\Models\Discussion_Board as Board;
+use PM\Milestone\Models\Milestone;
+use PM\File\Models\File;
+use PM\Core\File_System\File_System;
 use Reflection;
 
 class Comment_Observer extends Model_Observer {

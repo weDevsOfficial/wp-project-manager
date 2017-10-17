@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: CPM
+ * Plugin Name: PM
  * Plugin URI : https://wordpress.org/plugins/cpm
  * Description: Delightfull Project Management
  * Version    : 1

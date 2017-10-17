@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Common\Traits;
+namespace PM\Common\Traits;
 
-use CPM\User\Transformers\User_Transformer;
+use PM\User\Transformers\User_Transformer;
 
 trait Resource_Editors {
 

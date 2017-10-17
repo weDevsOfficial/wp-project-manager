@@ -1,6 +1,6 @@
 <?php
 
-use CPM\Core\Textdomain\Textdomain;
+use PM\Core\Textdomain\Textdomain;
 
 function cpm_get_text( $key ) {
     return Textdomain::get_text( $key);
@@ -93,9 +93,9 @@ function cpm_get_settings( $key = null ) {
     $all_settings = null;
 
     if ( $key ) {
-        $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+        $settings = \PM\Settings\Models\Settings::where( 'key', $key )->first();
     } else {
-        $all_settings = \CPM\Settings\Models\Settings::all();
+        $all_settings = \PM\Settings\Models\Settings::all();
     }
 
     if ( $settings ) {

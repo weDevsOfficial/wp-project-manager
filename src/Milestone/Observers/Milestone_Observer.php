@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Milestone\Observers;
+namespace PM\Milestone\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Milestone\Models\Milestone;
+use PM\Core\Database\Model_Observer;
+use PM\Activity\Models\Activity;
+use PM\Milestone\Models\Milestone;
 use Reflection;
 
 class Milestone_Observer extends Model_Observer {

@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Activity\Models;
+namespace PM\Activity\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\User\Models\User;
+use PM\User\Models\User;
 
 class Activity extends Eloquent {
 

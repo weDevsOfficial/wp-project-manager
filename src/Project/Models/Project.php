@@ -1,21 +1,21 @@
 <?php
 
-namespace CPM\Project\Models;
+namespace PM\Project\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Project\Project_Status;
-use CPM\Common\Traits\Model_Events;
-use CPM\Task_List\Models\Task_List;
-use CPM\Task\Models\Task;
-use CPM\Discussion_Board\Models\Discussion_Board;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Comment\Models\Comment;
-use CPM\Category\Models\Category;
-use CPM\User\Models\User;
-use CPM\Activity\Models\Activity;
-use CPM\Settings\Models\Settings;
-use CPM\Common\Models\Meta;
+use PM\Project\Project_Status;
+use PM\Common\Traits\Model_Events;
+use PM\Task_List\Models\Task_List;
+use PM\Task\Models\Task;
+use PM\Discussion_Board\Models\Discussion_Board;
+use PM\Milestone\Models\Milestone;
+use PM\File\Models\File;
+use PM\Comment\Models\Comment;
+use PM\Category\Models\Category;
+use PM\User\Models\User;
+use PM\Activity\Models\Activity;
+use PM\Settings\Models\Settings;
+use PM\Common\Models\Meta;
 
 class Project extends Eloquent {
 

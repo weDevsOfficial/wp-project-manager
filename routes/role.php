@@ -1,12 +1,12 @@
 <?php
 
-use CPM\Core\Router\Router;
-use CPM\Core\Permissions\Administrator;
+use PM\Core\Router\Router;
+use PM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
 
-$router->get( 'roles', 'CPM/Role/Controllers/Role_Controller@index' );
-$router->post( 'roles', 'CPM/Role/Controllers/Role_Controller@store' );
-$router->get( 'roles/{id}', 'CPM/Role/Controllers/Role_Controller@show' );
-$router->put( 'roles/{id}', 'CPM/Role/Controllers/Role_Controller@update' );
-$router->delete( 'roles/{id}', 'CPM/Role/Controllers/Role_Controller@destroy' );
+$router->get( 'roles', 'PM/Role/Controllers/Role_Controller@index' );
+$router->post( 'roles', 'PM/Role/Controllers/Role_Controller@store' );
+$router->get( 'roles/{id}', 'PM/Role/Controllers/Role_Controller@show' );
+$router->put( 'roles/{id}', 'PM/Role/Controllers/Role_Controller@update' );
+$router->delete( 'roles/{id}', 'PM/Role/Controllers/Role_Controller@destroy' );

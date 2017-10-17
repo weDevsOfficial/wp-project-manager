@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Core\Router;
+namespace PM\Core\Router;
 
-use CPM\Core\Router\Uri_Parser;
-use CPM\Core\Singletonable;
-use CPM\Core\Permissions\Permission;
+use PM\Core\Router\Uri_Parser;
+use PM\Core\Singletonable;
+use PM\Core\Permissions\Permission;
 
 class Router {
 	/**

@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Settings\Models;
+namespace PM\Settings\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
+use PM\Common\Traits\Model_Events;
 
 class Settings extends Eloquent {
 

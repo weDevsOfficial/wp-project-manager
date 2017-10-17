@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Project\Observers;
+namespace PM\Project\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Project\Models\Project;
-use CPM\Activity\Models\Activity;
+use PM\Core\Database\Model_Observer;
+use PM\Project\Models\Project;
+use PM\Activity\Models\Activity;
 use Carbon\Carbon;
 
 class Project_Observer extends Model_Observer {

@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Role\Models;
+namespace PM\Role\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
+use PM\Common\Traits\Model_Events;
 
 class Role extends Eloquent {
 

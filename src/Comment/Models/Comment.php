@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Comment\Models;
+namespace PM\Comment\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
-use CPM\File\Models\File;
+use PM\Common\Traits\Model_Events;
+use PM\File\Models\File;
 
 class Comment extends Eloquent {
 

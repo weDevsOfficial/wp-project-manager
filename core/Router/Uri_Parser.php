@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Core\Router;
+namespace PM\Core\Router;
 
-use CPM\Core\Exceptions\Invalid_Route_Handler;
-use CPM\Core\Exceptions\Class_Not_Found;
-use CPM\Core\Exceptions\Undefined_Method_Call;
+use PM\Core\Exceptions\Invalid_Route_Handler;
+use PM\Core\Exceptions\Class_Not_Found;
+use PM\Core\Exceptions\Undefined_Method_Call;
 
 class Uri_Parser {
     /**

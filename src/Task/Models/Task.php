@@ -1,16 +1,16 @@
 <?php
 
-namespace CPM\Task\Models;
+namespace PM\Task\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Common\Traits\Model_Events;
-use CPM\Task\Task_Model_Trait;
-use CPM\Task_List\Models\Task_List;
-use CPM\Common\Models\Board;
-use CPM\Common\Models\Boardable;
-use CPM\File\Models\File;
-use CPM\Comment\Models\Comment;
-use CPM\Common\Models\Assignee;
+use PM\Common\Traits\Model_Events;
+use PM\Task\Task_Model_Trait;
+use PM\Task_List\Models\Task_List;
+use PM\Common\Models\Board;
+use PM\Common\Models\Boardable;
+use PM\File\Models\File;
+use PM\Comment\Models\Comment;
+use PM\Common\Models\Assignee;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;

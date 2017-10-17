@@ -33,8 +33,8 @@
             "db"
         ],
         "psr-4": {
-            "CPM\\Core\\": "core/",
-            "CPM\\": "src/"
+            "PM\\Core\\": "core/",
+            "PM\\": "src/"
         },
         "files": [
             "bootstrap/loaders.php"

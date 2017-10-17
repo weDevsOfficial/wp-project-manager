@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Task_List\Observers;
+namespace PM\Task_List\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Task_List\Models\Task_List;
+use PM\Core\Database\Model_Observer;
+use PM\Activity\Models\Activity;
+use PM\Task_List\Models\Task_List;
 use Reflection;
 
 class Task_List_Observer extends Model_Observer {

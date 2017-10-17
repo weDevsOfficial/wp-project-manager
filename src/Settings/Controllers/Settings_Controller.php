@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Settings\Controllers;
+namespace PM\Settings\Controllers;
 
 use WP_REST_Request;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
-use CPM\Common\Traits\Request_Filter;
-use CPM\Settings\Models\Settings;
-use CPM\Settings\Transformers\Settings_Transformer;
-use CPM\Common\Traits\Transformer_Manager;
+use PM\Common\Traits\Request_Filter;
+use PM\Settings\Models\Settings;
+use PM\Settings\Transformers\Settings_Transformer;
+use PM\Common\Traits\Transformer_Manager;
 
 class Settings_Controller {
 

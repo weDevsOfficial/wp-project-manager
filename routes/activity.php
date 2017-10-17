@@ -1,8 +1,8 @@
 <?php
 
-use CPM\Core\Router\Router;
-use CPM\Core\Permissions\Administrator;
+use PM\Core\Router\Router;
+use PM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
 
-$router->get( 'projects/{project_id}/activities', 'CPM/Activity/Controllers/Activity_Controller@index' );
+$router->get( 'projects/{project_id}/activities', 'PM/Activity/Controllers/Activity_Controller@index' );

@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core;
+namespace PM\Core;
 
 use Reflection;
 
@@ -118,7 +118,7 @@ trait Singletonable {
 }
 
 //Example: singleton() first param
-// use CPM\Core\Singletonable;
+// use PM\Core\Singletonable;
 
 // $obj = test::singleton(['xyz' => 'Hello World!']);
 
@@ -126,13 +126,13 @@ trait Singletonable {
 
 // class test {
 //     use Singletonable;
-    
+
 //     public $xyz;
 // }
-// 
+//
 
 //Example: singleton() second param
-// use CPM\Core\Singletonable;
+// use PM\Core\Singletonable;
 
 // $obj = test::singleton(['xyz' => 'Hello World!'], [
 //     'method' => 'kkk',
@@ -143,13 +143,13 @@ trait Singletonable {
 
 //  class test {
 //     use Singletonable;
-    
+
 //     public $xyz;
-     
+
 //     //for else condition
 //     public function kkk( $params ) {
 //         // do operation
-        
-//         return //something; 
+
+//         return //something;
 //     }
 // }

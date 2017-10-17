@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Core\Database;
+namespace PM\Core\Database;
 
-use CPM\Core\Database\Migration;
+use PM\Core\Database\Migration;
 
 abstract class Abstract_Migration implements Migration {
     public function run() {

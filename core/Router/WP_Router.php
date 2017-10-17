@@ -1,12 +1,12 @@
 <?php
 
-namespace CPM\Core\Router;
+namespace PM\Core\Router;
 
 use WP_REST_Request;
 use WP_REST_Server;
 use WP_Error;
-use CPM\Core\Validator\Validator;
-use CPM\Core\Sanitizer\Sanitizer;
+use PM\Core\Validator\Validator;
+use PM\Core\Sanitizer\Sanitizer;
 
 class WP_Router {
 	/**

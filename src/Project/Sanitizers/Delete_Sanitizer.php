@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Project\Sanitizers;
+namespace PM\Project\Sanitizers;
 
-use CPM\Core\Sanitizer\Abstract_Sanitizer;
+use PM\Core\Sanitizer\Abstract_Sanitizer;
 
 class Delete_Sanitizer extends Abstract_Sanitizer {
 	public function filters() {

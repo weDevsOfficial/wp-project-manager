@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Core\Config;
+namespace PM\Core\Config;
 
-use CPM\Core\Singletonable;
+use PM\Core\Singletonable;
 
 class Config {
     /**

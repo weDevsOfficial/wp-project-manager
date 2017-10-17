@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Common\Traits;
+namespace PM\Common\Traits;
 
-use CPM\User\Models\User;
-use CPM\Activity\Activity_Log;
+use PM\User\Models\User;
+use PM\Activity\Activity_Log;
 
 trait Model_Events {
 
