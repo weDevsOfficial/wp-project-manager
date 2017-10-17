@@ -56,6 +56,11 @@ class Textdomain {
         $value = $array;
 
         foreach ( $keys as $key ) {
+
+            if ( !array_key_exists( $key, $value ) ) {
+                return null;
+            }
+
             $value = $value[$key];
         }
 
