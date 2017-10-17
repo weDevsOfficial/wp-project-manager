@@ -3,6 +3,7 @@
 namespace CPM\Core\WP;
 
 use CPM\Core\WP\Output as Output;
+use CPM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 
 class Menu {
 
@@ -11,7 +12,7 @@ class Menu {
 	public static function admin_menu() {
 		global $submenu;
 
-		add_menu_page( __( 'Project Manager', 'pm' ), __( 'Project Manager', 'pm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
+		$home = add_menu_page( __( 'Project Manager', 'pm' ), __( 'Project Manager', 'pm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
 
 		$submenu['pm_projects'][] = [ __( 'Projects', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
 		$submenu['pm_projects'][] = [ __( 'Categories', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
@@ -21,5 +22,12 @@ class Menu {
 		$submenu['pm_projects'][] = [ __( 'Reports', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
 		$submenu['pm_projects'][] = [ __( 'Progress', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/settings' ];
+
+		add_action( 'admin_print_styles-' . $home, array( $this, 'scripts' ) );
+	}
+
+	public function scripts() {
+		Enqueue_Scripts::scripts();
+		Enqueue_Scripts::styles();
 	}
 }

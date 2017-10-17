@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="cpm-blank-template discussion" v-if="blank_template">
+        <div class="cpm-blank-template discussion" v-if="blankTemplate">
             <div class="cpm-content" >
                 <h3 class="cpm-page-title">Discussion</h3>
 
@@ -48,8 +48,8 @@
                 </div>
             </div>
         </div>
-        <div v-if="discuss_template">
-            <div class="cpm-row discussion" v-if="discussion.length" >
+        <div v-if="discussTemplate">
+            <div class="cpm-row discussion">
                 <div>
                     <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
                         Add New Discussion 
@@ -66,7 +66,7 @@
 
             </div>
 
-            <div class="cpm-row cpm-message-page" v-if="discussion.length">
+            <div class="cpm-row cpm-message-page">
                 <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
                     <div class="cpm-box-title">Discussion List</div>
                     <ul class="dicussion-list">        
@@ -97,7 +97,7 @@
                             <div class="cpm-col-1">
                                 <span class="cpm-message-action cpm-right">
                                     <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="cpm-msg-edit dashicons dashicons-edit"></a>
-                                    <a href="" @click.prevent="deleteDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
+                                    <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
                                         <span class="dashicons dashicons-trash"></span>
                                     </a>
 
@@ -121,14 +121,14 @@
                 </div>
                 <div class="clear"></div>
             </div>
+        
+            <pm-pagination 
+                :total_pages="total_discussion_page" 
+                :current_page_number="current_page_number" 
+                component_name='discussion_pagination'>
+                
+            </pm-pagination> 
         </div>
-        <pm-pagination 
-            :total_pages="total_discussion_page" 
-            :current_page_number="current_page_number" 
-            component_name='discussion_pagination'>
-            
-        </pm-pagination> 
-
     </div>
 
 </template>
@@ -148,10 +148,8 @@
         },
         data () {
             return {
-                 current_page_number: 1,
-                 loading: true,
-                 blank_template: false,
-                 discuss_template: false,
+                current_page_number: 1,
+                loading: true,
             }
         },
         watch: {
@@ -165,6 +163,12 @@
             'pm-pagination': pagination
         },
         computed: {
+            discussTemplate () {
+                return this.$store.state.discuss_template;
+            },
+            blankTemplate () {
+                return this.$store.state.blank_template;
+            },
             is_discuss_form_active () {
                 return this.$store.state.is_discuss_form_active;
             },
@@ -190,11 +194,25 @@
                 var args = {
                     conditions: conditions,
                     callback: function(){
-                        self.afterGetDiscussionAction();
+                        self.loading = false;
+                        self.lazyAction();
+                        NProgress.done();
                     }  
                 }
 
                 this.getDiscussion(args);
+            },
+
+            deleteSelfDiscuss (id) {
+                var self = this;
+                var args = {
+                    discuss_id: id,
+                    callback: function() {
+                        self.lazyAction();
+                    }
+                }
+
+                self.deleteDiscuss(args);
             }
         }
     }

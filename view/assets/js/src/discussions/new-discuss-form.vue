@@ -2,7 +2,7 @@
 	<div>
 		
 		<!-- <pre>{{ discuss }}</pre> -->
-		<form id="myForm" class="cpm-message-form" @submit.prevent="newDiscuss()" enctype='multipart/form-data'>
+		<form id="myForm" class="cpm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
 	        <div class="item title">
 	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
 	        </div>
@@ -126,7 +126,33 @@
 		methods: {
 			filesChange ($event, $files) {
 				this.pfiles = $files;
-			}
+			},
+
+			formAction () {
+				var self = this;
+				var discuss_id = typeof self.discuss.id === 'undefined' ? false : this.discuss.id;
+
+				var args = {
+					title: this.discuss.title,
+            		description: this.discuss.description,
+            		milestone: this.discuss.milestone_id,
+            		order: 0,
+            		deleted_files: this.deleted_files,
+            		files: this.files
+				}
+
+				if (discuss_id) {
+					args.discuss_id = discuss_id;
+					self.updateDiscuss(args);
+				
+				} else {
+					args.callback = function(res) {
+						self.lazyAction();
+					}
+
+					self.newDiscuss(args);
+				}
+			},
 		}
 	
 	}	

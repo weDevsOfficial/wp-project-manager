@@ -25,30 +25,12 @@ export default Vue.mixin({
 		    }
 		},
 
-		afterGetDiscussionAction(){
-			var self = this;
-			var discussion = this.$store.state.discussion;
-			console.log(discussion, "OK");
-			if(discussion.length){
-                self.discuss_template = true;
-                self.blank_template = false;
-            }
-
-            if(!discussion.length){
-            	self.discuss_template = false;
-                self.blank_template = true;
-            }
-
-            self.loading = false;
-    		NProgress.done();
-		},
-
 		getDiscussion (args) {
 			var self = this;
 			var pre_define = {
 					conditions: {
 						with: 'comments',
-	                    per_page: 20,
+	                    per_page: 2,
 	                    page: 1,
 	                },
 					callback: false
@@ -56,7 +38,7 @@ export default Vue.mixin({
 
 			var args       = jQuery.extend(true, pre_define, args );
 			var conditions = self.generateConditions(args.conditions);
-
+			
 	        var request = {
 	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
 	            success (res) {
@@ -74,27 +56,41 @@ export default Vue.mixin({
 	        self.httpRequest(request);
 	    },
 
-	    getDiscuss (self) {
+	    getDiscuss (args) {
+	    	var self = this;
+			var pre_define = {
+					conditions: {
+						with: 'comments',
+	                },
+					callback: false
+				};
+
+			var args       = jQuery.extend(true, pre_define, args );
+			var conditions = self.generateConditions(args.conditions);
+
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?with=comments',
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
 	            success (res) {
 	            	self.addDiscussMeta(res.data);
 	                self.$store.commit( 'setDiscuss', res.data );
-	                //self.$store.commit( 'setComments', res.data );
-	                //self.$store.commit( 'setCommentsMeta', res.data );
-	                self.loading = false;
-	                NProgress.done();
+
+	                if(typeof args.callback === 'function' ) {
+	                	args.callback(res.data);
+	                }
 	            }
 	        };
 	        self.httpRequest(request);
 	    },
 
 	    addDiscussMeta (discuss) {
+	    	var self = this;
 	    	discuss.edit_mode = false;
 
-	    	discuss.comments.data.map(function(comment, index) {
-	    		comment.edit_mode = false;
-	    	});
+	    	if (typeof discuss.comments !== 'undefined' ) {
+	    		discuss.comments.data.map(function(comment, index) {
+		    		self.addCommentMeta(comment);
+		    	});
+	    	}
 	    },
 
 	   	setCurrentPageNumber () {
@@ -113,39 +109,35 @@ export default Vue.mixin({
 		    return new File([u8arr], filename, {type:mime});
 		},
 
-	    /**
+	   	/**
 	     * Insert and edit task
 	     * 
 	     * @return void
 	     */
-	    newDiscuss: function() {
+	    newDiscuss: function(args) {
 			// Exit from this function, If submit button disabled 
 	        if ( this.submit_disabled ) {
 	            return;
 	        }
-	        //console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
-			var data = new FormData();
-			
 	        // Disable submit button for preventing multiple click
 	        this.submit_disabled = true;
-
-	        var self      = this,
-	            is_update = typeof this.discuss.id == 'undefined' ? false : true,
-	            is_single = typeof self.$route.params.discussion_id === 'undefined' ? false : true;
-
-	        this.discuss.description = typeof this.discuss.description === 'undefined' ? '' : this.discuss.description;
+			
+	        var self = this;
+	        var pre_define = {};
+			var args = jQuery.extend(true, pre_define, args );
+			var data = new FormData();
 	            
-            data.append('title', this.discuss.title);
-            data.append('description', this.discuss.description);
-            data.append('milestone', this.discuss.milestone_id);
+            data.append('title', args.title);
+            data.append('description', args.description);
+            data.append('milestone', args.milestone_id);
             data.append('order', 0);
             
-            this.deleted_files.map(function(del_file) {
+            args.deleted_files.map(function(del_file) {
             	data.append('files_to_delete[]', del_file);
             });
             
 
-            this.files.map(function(file) {
+            args.files.map(function(file) {
             	if ( typeof file.attachment_id === 'undefined' ) {
             		var decode = self.dataURLtoFile(file.thumb, file.name);
 					data.append( 'files[]', decode );
@@ -155,52 +147,28 @@ export default Vue.mixin({
 	        // Showing loading option 
 	        this.show_spinner = true;
 
-	        if (is_update) {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id;
-	            var type = 'POST'; 
-	        } else {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards';
-	            var type = 'POST';
-	        }
-
 	        var request_data = {
-	            url: url,
-	            type: type,
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards',
+	            type: 'POST',
 			    data: data,
 			    cache: false,
         		contentType: false,
         		processData: false,
 	            success (res) {
-	            	if ( is_single ) {
-	            		self.getDiscuss(self);
-	            	} else {
-	            		self.getDiscussion();
-	            	}
-	                
-	                self.show_spinner = false;
 
 	                // Display a success toast, with a title
 	                toastr.success(res.data.success);
-	           
 	                self.submit_disabled = false;
-	                
-	                if (is_update) {
-
-	                	self.showHideDiscussForm(false, self.discuss);
-	                } else {
-	                	self.showHideDiscussForm(false);
-	                }
-
+	                self.show_spinner = false;
+	           		self.addDiscussMeta(res.data);
+	                self.showHideDiscussForm(false);
 	                self.$root.$emit( 'after_comment' );
-	                self.afterGetDiscussionAction();
+	                self.$store.commit( 'newDiscuss', res.data );
+	                self.$store.commit('updateMetaAfterNewDiscussion');
 
-	                // self.$router.push({
-                 //            name: 'individual_discussions', 
-                 //            params: { 
-                 //                project_id: self.project_id,
-                 //                discussion_id: res.data.id
-                 //            }
-                 //        });
+	                if (typeof args.callback === 'function') {
+	                	args.callback(res.data);
+	                }
 	            },
 
 	            error (res) {
@@ -215,6 +183,78 @@ export default Vue.mixin({
 	        }
 	        self.httpRequest(request_data);
 	    },
+
+	    updateDiscuss (args) {
+	    	// Exit from this function, If submit button disabled 
+	        if ( this.submit_disabled ) {
+	            return;
+	        }
+
+	        var self = this;
+	        var pre_define = {};
+			var args = jQuery.extend(true, pre_define, args );
+			var data = new FormData();
+			
+	        // Disable submit button for preventing multiple click
+	        this.submit_disabled = true;
+
+            data.append('title', args.title);
+            data.append('description', args.description);
+            data.append('milestone', args.milestone_id);
+            data.append('order', 0);
+            
+            args.deleted_files.map(function(del_file) {
+            	data.append('files_to_delete[]', del_file);
+            });
+            
+
+            args.files.map(function(file) {
+            	if ( typeof file.attachment_id === 'undefined' ) {
+            		var decode = self.dataURLtoFile(file.thumb, file.name);
+					data.append( 'files[]', decode );
+            	}
+			});
+
+	        // Showing loading option 
+	        this.show_spinner = true;
+
+	        var request_data = {
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
+	            type: 'POST',
+			    data: data,
+			    cache: false,
+        		contentType: false,
+        		processData: false,
+	            success (res) {
+	                self.show_spinner = false;
+	                // Display a success toast, with a title
+	                toastr.success(res.data.success);
+	           		self.addDiscussMeta(res.data);
+	                self.submit_disabled = false;
+
+	                self.showHideDiscussForm(false, self.discuss);
+
+	                self.$store.commit( 'updateDiscuss', res.data );
+	                self.$root.$emit( 'after_comment' );
+	                
+	                if (typeof args.callback === 'function') {
+	                	args.callback(res.data);
+	                }
+	            },
+
+	            error (res) {
+	                self.show_spinner = false;
+	                
+	                // Showing error
+	                res.data.error.map( function( value, index ) {
+	                    toastr.error(value);
+	                });
+	                self.submit_disabled = false;
+	            }
+	        }
+	        self.httpRequest(request_data);
+	    },
+
         getMilestones (self) {
             var request = {
                 url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
@@ -224,7 +264,8 @@ export default Vue.mixin({
             };
             self.httpRequest(request);
         },
-        newComment () {
+
+        newComment (args) {
         	// Exit from this function, If submit button disabled 
 	        if ( this.submit_disabled ) {
 	            return;
@@ -232,22 +273,17 @@ export default Vue.mixin({
 	        
 	        // Disable submit button for preventing multiple click
 	        this.submit_disabled = true;
-	        var self      = this,
-	            is_update = typeof self.comment.id == 'undefined' ? false : true;
-
-	            
+	        
+	        var self = this;
+	        var pre_define = {};
+			var args = jQuery.extend(true, pre_define, args );
             var data = new FormData();
 
-            data.append('content', self.comment.content );
-            data.append('commentable_id', self.discuss.id );
-            data.append('commentable_type', 'discussion-board');
+            data.append('content', args.content );
+            data.append('commentable_id', args.commentable_id );
+            data.append('commentable_type', args.commentable_type); //'discussion-board'
 
-            this.deleted_files.map(function(del_file) {
-            	data.append('files_to_delete[]', del_file);
-            });
-            
-
-            this.files.map(function(file) {
+            args.files.map(function(file) {
             	if ( typeof file.attachment_id === 'undefined' ) {
             		var decode = self.dataURLtoFile(file.thumb, file.name);
 					data.append( 'files[]', decode );
@@ -257,34 +293,36 @@ export default Vue.mixin({
 	        // Showing loading option 
 	        this.show_spinner = true;
 
-	        if (is_update) {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
-	            var type = 'POST'; 
-	        } else {
-	            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
-	            var type = 'POST';
-	        }
-
 	        var request_data = {
-	            url: url,
-	            type: type,
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments',
+	            type: 'POST',
 	            data: data,
 	            cache: false,
         		contentType: false,
         		processData: false,
 	            success (res) {
+	            	self.addCommentMeta(res.data);
 	            	self.files = [];
-	                self.getDiscuss(self);
+	                //self.getDiscuss(self);
 	                self.show_spinner = false;
-	                self.$root.$emit( 'after_comment' );
-
 	                // Display a success toast, with a title
 	                toastr.success(res.data.success);
 	           
 	                self.submit_disabled = false;
 
 	                self.showHideCommentForm(false, self.comment);
-	                self.$root.$emit( 'after_comment' );
+	                self.$root.$emit('after_comment');
+	                self.$store.commit(
+	                	'afterNewComment', 
+	                	{
+	                		'comment': res.data, 
+	                		'commentable_id': args.commentable_id
+	                	}
+	                );
+
+	                if (typeof args.callback === 'function') {
+	                	args.callback(res.data);
+	                }
 	            },
 
 	            error (res) {
@@ -301,16 +339,106 @@ export default Vue.mixin({
 	        self.httpRequest(request_data);
         },
 
-        deleteDiscuss (discuss_id) {
+        updateComment (args) {
+        	// Exit from this function, If submit button disabled 
+	        if ( this.submit_disabled ) {
+	            return;
+	        }
+	        
+	        // Disable submit button for preventing multiple click
+	        this.submit_disabled = true;
+	        
+	        var self = this;
+	        var pre_define = {};
+			var args = jQuery.extend(true, pre_define, args );
+            var data = new FormData();
+
+            data.append('content', args.content );
+            data.append('commentable_id', args.commentable_id );
+            data.append('commentable_type', args.commentable_type); //'discussion-board'
+            
+            args.deleted_files.map(function(del_file) {
+            	data.append('files_to_delete[]', del_file);
+            });
+            
+            args.files.map(function(file) {
+            	if ( typeof file.attachment_id === 'undefined' ) {
+            		var decode = self.dataURLtoFile(file.thumb, file.name);
+					data.append( 'files[]', decode );
+            	}
+			});
+	                    
+	        // Showing loading option 
+	        this.show_spinner = true;
+
+	        var request_data = {
+	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+args.comment_id,
+	            type: 'POST',
+	            data: data,
+	            cache: false,
+        		contentType: false,
+        		processData: false,
+	            success (res) {
+	            	self.addCommentMeta(res.data);
+	            	self.files = [];
+	                //self.getDiscuss(self);
+	                self.show_spinner = false;
+	                // Display a success toast, with a title
+	                toastr.success(res.data.success);
+	           
+	                self.submit_disabled = false;
+
+	                self.showHideCommentForm(false, self.comment);
+	                self.$root.$emit('after_comment');
+	                self.$store.commit(
+	                	'afterUpdateComment', 
+	                	{
+	                		'comment': res.data, 
+	                		'commentable_id': args.commentable_id,
+	                		'comment_id': args.comment_id
+	                	}
+	                );
+
+	                if (typeof args.callback === 'function') {
+	                	args.callback(res.data);
+	                }
+	            },
+
+	            error (res) {
+	                self.show_spinner = false;
+	                
+	                // Showing error
+	                res.data.error.map( function( value, index ) {
+	                    toastr.error(value);
+	                });
+	                self.submit_disabled = false;
+	            }
+	        }
+
+	        self.httpRequest(request_data);
+        },
+
+        addCommentMeta (comment) {
+        	comment.edit_mode = false;
+        },
+
+        deleteDiscuss (args) {
         	if ( ! confirm( 'Are you sure!' ) ) {
                 return;
             }
             var self = this;
+			var pre_define = {
+					discuss_id: false,
+					callback: false
+				};
+
+			var args = jQuery.extend(true, pre_define, args );
+
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/' + discuss_id,
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteDiscuss', discuss_id);
+                    self.$store.commit('afterDeleteDiscuss', args.discuss_id);
 
                     if (!self.$store.state.discussion.length) {
                         self.$router.push({
@@ -322,30 +450,62 @@ export default Vue.mixin({
                     } else {
                         self.getDiscussion();
                     }
+
+                   	if (typeof args.callback === 'function') {
+						args.callback();
+					} 
                 }
             }
-            //self.$store.commit('afterDeleteDiscuss', discuss_id);
+            
             self.httpRequest(request_data);
         },
 
-        deleteComment(comment_id){
+        deleteComment(args){
         	if ( ! confirm( 'Are you sure to delete this comment?' ) ) {
                 return;
             }
 
             var self = this;
+            var pre_define = {
+					comment_id: false,
+					callback: false,
+					commentable_id: false
+				};
+
+			var args = jQuery.extend(true, pre_define, args);
+
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+ comment_id,
+                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteComment', {
-                    	comment_id: comment_id,
-                    	discuss_id: self.discuss.id
+                    	comment_id: args.comment_id,
+                    	commentable_id: args.commentable_id
                     } ); 
                 }
             }
-            //self.$store.commit('afterDeleteDiscuss', discuss_id);
+            
             self.httpRequest(request_data);
+        },
+
+		viewAction (blank, discuss) {
+			var blank = blank || false;
+			var discuss = discuss || false;
+
+			this.$store.commit('balankTemplateStatus', blank);
+			this.$store.commit('discussTemplateStatus', discuss);
+		},
+
+	    lazyAction() {
+            var discussion = this.$store.state.discussion;
+            
+            if(discussion.length){
+                this.viewAction(false, true);
+            }
+
+            if(!discussion.length){
+                this.viewAction(true, false);
+            }
         }
 	},
 });

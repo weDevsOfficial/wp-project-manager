@@ -55,7 +55,6 @@
             <div v-if="discuss" class="cpm-comment-area cpm-box-shadow">
 
                 <h3> {{ discuss.meta.total_comments }} Comments</h3>
-
                 <ul class="cpm-comment-wrap">
 
                     <li v-for="comment in comments" class="cpm-comment clearfix even" :id="'cpm-comment-' + comment.id" key="comment.id">
@@ -82,7 +81,7 @@
                                     </span>
 
                                     <span class="cpm-delete-link">
-                                        <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" @click.prevent="deleteComment(comment.id)"></a>
+                                        <a href="#" class="cpm-delete-comment-link dashicons dashicons-trash" @click.prevent="deleteSelfComment(comment.id, discuss.id)"></a>
                                     </span>
                                 </div>
                             </div>
@@ -129,7 +128,7 @@
         beforeRouteEnter (to, from, next) {
 
             next(vm => {
-                vm.getDiscuss(vm);
+                vm.getSelfDiscuss();
                 vm.getMilestones(vm);
             });
         },
@@ -146,7 +145,7 @@
 
                 return false;
             },
-            files(){
+            files() {
                 if ( this.$store.state.discussion.length ) {
                     return this.$store.state.discussion[0].files.data;
                 }
@@ -171,6 +170,32 @@
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
             'comment-form': comment_form,
+        },
+
+        methods: {
+            deleteSelfComment (comment_id, commentable_id) {
+                var self = this;
+                var args = {
+                    comment_id: comment_id,
+                    commentable_id: commentable_id,
+                    callback: function() {
+                        
+                    }
+                }
+
+                self.deleteComment(args);
+            },
+
+            getSelfDiscuss () {
+                var self = this;
+                var args = {
+                    callback: function(res) {
+                        self.loading = false;
+                        NProgress.done();
+                    }
+                }
+                self.getDiscuss(args);
+            }
         }
     }
 
