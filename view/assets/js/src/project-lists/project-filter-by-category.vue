@@ -3,7 +3,7 @@
 		<form action="" method="get" class="cpm-project-filters" id="cpm-project-filters">
 			<select @change="categoryFilter()" v-model="categorie_id">
 		        <option value="-1">
-		            – Project Category –
+		           {{text.Project_Category}}
 		        </option>
 		        <option v-for="categorie in categories" :value="categorie.id">
 		            {{ categorie.title }}

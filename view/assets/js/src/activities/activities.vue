@@ -45,7 +45,7 @@
 
         </ul>
 
-        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">Load More...</a>
+        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">{{text.load_more}}</a>
         <span v-show="show_spinner" class="cpm-spinner"></span>
     </div>
 </div>
