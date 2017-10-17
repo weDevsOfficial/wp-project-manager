@@ -1,7 +1,7 @@
 <template>
     
-    	<form class="cpm-comment-form" @submit.prevent="newComment()">
-            <div class="item message cpm-sm-col-12 ">
+    	<form class="cpm-comment-form" @submit.prevent="newSelfComment()">
+            <div class="item message cpm-sm-col-12">
                 <text-editor :editor_id="editor_id" :content="content"></text-editor>
             </div>
             
@@ -85,7 +85,30 @@
 	            var comment_id = ( typeof this.comment.commentable_id === 'undefined' ) ? '' : '-' + this.comment.commentable_id;
 	            return 'cpm-comment-editor' + comment_id;
 	        },
-		}
+		},
+
+        methods: {
+            newSelfComment () {
+                var self = this;
+                var comment_id = typeof self.comment.id == 'undefined' ? false : true;
+
+                var args = {
+                    content: this.comment.content,
+                    commentable_id: this.discuss.id,
+                    commentable_type: 'discussion-board',
+                    deleted_files: this.deleted_files,
+                    files: this.files
+                };
+
+                if (comment_id) {
+                    args.comment_id = self.comment.id;
+                    self.updateComment(args);
+                
+                } else {
+                    self.newComment(args);
+                }
+            }
+        }
 	}
 	
 </script>

@@ -10,6 +10,8 @@ export default new Vuex.Store({
 
 	state: {
 		is_discuss_form_active: false,
+        blank_template: false,
+        discuss_template: false,
 		milestones: [],
 		discussion: [],
 		discuss: {},
@@ -58,10 +60,50 @@ export default new Vuex.Store({
 			state.meta = meta;
 		},
 		afterDeleteComment(state, data ) {
-			console.log(data)
-			console.log(state.discussion[0].comments)
 			var comment_index = state.getIndex(state.discussion[0].comments.data, data.comment_id, 'id');
 			state.discussion[0].comments.data.splice( comment_index, 1 );
-		}
+		},
+		updateDiscuss (state, data) {
+			var discuss_index = state.getIndex(state.discussion, data.id, 'id');
+            state.discussion.splice(discuss_index, 1, data);
+		},
+
+		newDiscuss (state, discuss) {
+			var per_page = state.meta.per_page,
+                length   = state.discussion.length;
+
+            if (per_page <= length) {
+                state.discussion.splice(0,0,discuss);
+                state.discussion.pop();
+            } else {
+                state.discussion.splice(0,0,discuss);
+            }
+		},
+
+		balankTemplateStatus (state, status) {
+			state.blank_template = status;
+		},
+
+		discussTemplateStatus (state, status) {
+			state.discuss_template = status;
+		},
+
+		updateMetaAfterNewDiscussion (state) {
+            state.meta.total = state.meta.total + 1;
+            state.meta.total_pages = Math.ceil( state.meta.total / state.meta.per_page );
+        },
+
+        afterNewComment (state, data) {
+        	var index = state.getIndex( state.discussion, data.commentable_id, 'id' );
+
+            state.discussion[index].comments.data.splice(0,0,data.comment);
+        },
+
+        afterUpdateComment (state, data) {
+        	var index = state.getIndex( state.discussion, data.commentable_id, 'id' ),
+                comment_index = state.getIndex( state.discussion[index].comments.data, data.comment_id, 'id' );
+
+            state.discussion[index].comments.data.splice(comment_index,1,data.comment);
+        }
 	}
 });
