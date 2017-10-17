@@ -46,7 +46,7 @@ class Task extends Eloquent {
 
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
-            ->where('pm_boardables.board_type', 'task-list')
+            ->where('pm_boardables.board_type', 'task_list')
             ->where('pm_boardables.boardable_type', 'task');
     }
 

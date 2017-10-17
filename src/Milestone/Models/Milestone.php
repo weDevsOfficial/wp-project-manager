@@ -94,7 +94,7 @@ class Milestone extends Eloquent {
 
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'pm_boardables', 'board_id', 'boardable_id' )
-            ->where( 'boardable_type', 'task-list' )
+            ->where( 'boardable_type', 'task_list' )
             ->where( 'board_type', 'milestone' );
     }
 

@@ -39,7 +39,7 @@ class Activity_Transformer extends TransformerAbstract {
                 $parsed_meta = $this->parse_meta_for_task( $activity );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $parsed_meta = $this->parse_meta_for_task_list( $activity );
                 break;
 

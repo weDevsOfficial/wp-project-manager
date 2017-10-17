@@ -53,7 +53,7 @@ class Task_List_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $item->id,
-            'resource_type' => 'task-list',
+            'resource_type' => 'task_list',
             'meta'          => $meta,
             'project_id'    => $item->project_id,
         ]);

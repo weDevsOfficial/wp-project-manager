@@ -111,14 +111,14 @@ class Task_List_Controller {
 
     private function attach_milestone( Task_List $task_list, Milestone $milestone ) {
         $boardable = Boardable::where( 'boardable_id', $task_list->id )
-            ->where( 'boardable_type', 'task-list' )
+            ->where( 'boardable_type', 'task_list' )
             ->where( 'board_type', 'milestone' )
             ->first();
 
         if ( !$boardable ) {
             $boardable = Boardable::firstOrCreate([
                 'boardable_id'   => $task_list->id,
-                'boardable_type' => 'task-list',
+                'boardable_type' => 'task_list',
                 'board_id'       => $milestone->id,
                 'board_type'     => 'milestone'
             ]);
@@ -157,7 +157,7 @@ class Task_List_Controller {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $task_list->id,
-                    'board_type' => 'task-list',
+                    'board_type' => 'task_list',
                     'boardable_id' => $user_id,
                     'boardable_type' => 'user'
                 ];

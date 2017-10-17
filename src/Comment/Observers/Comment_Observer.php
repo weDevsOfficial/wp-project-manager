@@ -40,7 +40,7 @@ class Comment_Observer extends Model_Observer {
                 $this->comment_on_task( $comment, $commentable, $action_type );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $this->comment_on_task_list( $comment, $commentable, $action_type );
                 break;
 
@@ -110,7 +110,7 @@ class Comment_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $list->id,
-            'resource_type' => 'task-list',
+            'resource_type' => 'task_list',
             'meta'          => $meta,
             'project_id'    => $comment->project_id,
         ]);
@@ -236,7 +236,7 @@ class Comment_Observer extends Model_Observer {
                 $commentable = Task::find( $comment->commentable_id );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $commentable = Task_List::find( $comment->commentable_id );
                 break;
 
