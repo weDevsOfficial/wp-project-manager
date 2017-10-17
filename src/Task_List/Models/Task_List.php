@@ -1,15 +1,15 @@
 <?php
 
-namespace PM\Task_List\Models;
+namespace WeDevs\PM\Task_List\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\Task\Models\Task;
-use PM\Common\Models\Boardable;
-use PM\Comment\Models\Comment;
-use PM\File\Models\File;
-use PM\User\Models\User;
-use PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Task_List extends Eloquent {
     use Model_Events;

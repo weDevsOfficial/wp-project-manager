@@ -1,16 +1,16 @@
 <?php
 
-namespace PM\Task\Models;
+namespace WeDevs\PM\Task\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\Task\Task_Model_Trait;
-use PM\Task_List\Models\Task_List;
-use PM\Common\Models\Board;
-use PM\Common\Models\Boardable;
-use PM\File\Models\File;
-use PM\Comment\Models\Comment;
-use PM\Common\Models\Assignee;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task\Task_Model_Trait;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Common\Models\Assignee;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;

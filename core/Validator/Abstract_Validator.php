@@ -1,8 +1,8 @@
 <?php
 
-namespace PM\Core\Validator;
+namespace WeDevs\PM\Core\Validator;
 
-use PM\Core\Validator\Validator;
+use WeDevs\PM\Core\Validator\Validator;
 use WP_REST_Request;
 
 abstract class Abstract_Validator implements Validator {

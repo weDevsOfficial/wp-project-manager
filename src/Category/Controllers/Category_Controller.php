@@ -1,15 +1,15 @@
 <?php
 
-namespace PM\Category\Controllers;
+namespace WeDevs\PM\Category\Controllers;
 
 use WP_REST_Request;
-use PM\Category\Models\Category;
+use WeDevs\PM\Category\Models\Category;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use PM\Common\Traits\Transformer_Manager;
-use PM\Category\Transformers\Category_Transformer;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Category\Transformers\Category_Transformer;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Category_Controller {

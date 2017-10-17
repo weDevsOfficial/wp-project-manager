@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Comment\Models;
+namespace WeDevs\PM\Comment\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\File\Models\File;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\File\Models\File;
 
 class Comment extends Eloquent {
 

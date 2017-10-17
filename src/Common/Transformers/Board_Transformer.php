@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Common\Transformers;
+namespace WeDevs\PM\Common\Transformers;
 
-use PM\Common\Models\Board;
+use WeDevs\PM\Common\Models\Board;
 use League\Fractal\TransformerAbstract;
-use PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class Board_Transformer extends TransformerAbstract {
 

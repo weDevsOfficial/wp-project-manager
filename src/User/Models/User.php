@@ -1,9 +1,9 @@
 <?php
 
-namespace PM\User\Models;
+namespace WeDevs\PM\User\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Role\Models\Role;
+use WeDevs\PM\Role\Models\Role;
 
 class User extends Eloquent {
     protected $primaryKey = 'ID';

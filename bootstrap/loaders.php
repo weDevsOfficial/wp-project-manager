@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-use PM\Core\Router\Router;
-use PM\Core\Router\WP_Router;
-use PM\Core\Database\Migrater;
+use WeDevs\PM\Core\Router\Router;
+use WeDevs\PM\Core\Router\WP_Router;
+use WeDevs\PM\Core\Database\Migrater;
 
 function load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );

@@ -1,21 +1,21 @@
 <?php
 
-namespace PM\Project\Models;
+namespace WeDevs\PM\Project\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Project\Project_Status;
-use PM\Common\Traits\Model_Events;
-use PM\Task_List\Models\Task_List;
-use PM\Task\Models\Task;
-use PM\Discussion_Board\Models\Discussion_Board;
-use PM\Milestone\Models\Milestone;
-use PM\File\Models\File;
-use PM\Comment\Models\Comment;
-use PM\Category\Models\Category;
-use PM\User\Models\User;
-use PM\Activity\Models\Activity;
-use PM\Settings\Models\Settings;
-use PM\Common\Models\Meta;
+use WeDevs\PM\Project\Project_Status;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Category\Models\Category;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Settings\Models\Settings;
+use WeDevs\PM\Common\Models\Meta;
 
 class Project extends Eloquent {
 

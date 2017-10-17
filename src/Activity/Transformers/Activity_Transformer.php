@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Activity\Transformers;
+namespace WeDevs\PM\Activity\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use PM\Activity\Models\Activity;
-use PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\User\Transformers\User_Transformer;
 
 class Activity_Transformer extends TransformerAbstract {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Core\Router;
+namespace WeDevs\PM\Core\Router;
 
-use PM\Core\Exceptions\Invalid_Route_Handler;
-use PM\Core\Exceptions\Class_Not_Found;
-use PM\Core\Exceptions\Undefined_Method_Call;
+use WeDevs\PM\Core\Exceptions\Invalid_Route_Handler;
+use WeDevs\PM\Core\Exceptions\Class_Not_Found;
+use WeDevs\PM\Core\Exceptions\Undefined_Method_Call;
 
 class Uri_Parser {
     /**

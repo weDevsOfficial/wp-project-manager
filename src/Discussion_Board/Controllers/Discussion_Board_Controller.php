@@ -1,21 +1,21 @@
 <?php
 
-namespace PM\Discussion_Board\Controllers;
+namespace WeDevs\PM\Discussion_Board\Controllers;
 
 use WP_REST_Request;
-use PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use PM\Common\Traits\Transformer_Manager;
-use PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
-use PM\Common\Models\Boardable;
-use PM\Common\Traits\Request_Filter;
-use PM\Milestone\Models\Milestone;
-use PM\File\Models\File;
-use PM\Core\File_System\File_System;
-use PM\Common\Traits\File_Attachment;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Core\File_System\File_System;
+use WeDevs\PM\Common\Traits\File_Attachment;
 
 class Discussion_Board_Controller {
 

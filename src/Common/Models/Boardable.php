@@ -1,9 +1,9 @@
 <?php
 
-namespace PM\Common\Models;
+namespace WeDevs\PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
+use WeDevs\PM\Common\Traits\Model_Events;
 
 class Boardable extends Eloquent {
 

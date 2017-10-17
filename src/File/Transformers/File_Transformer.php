@@ -1,12 +1,12 @@
 <?php
 
-namespace PM\File\Transformers;
+namespace WeDevs\PM\File\Transformers;
 
-use PM\File\Models\File;
+use WeDevs\PM\File\Models\File;
 use League\Fractal\TransformerAbstract;
-use PM\Core\File_System\File_System;
-use PM\User\Transformers\User_Transformer;
-use PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Core\File_System\File_System;
+use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class File_Transformer extends TransformerAbstract {
 

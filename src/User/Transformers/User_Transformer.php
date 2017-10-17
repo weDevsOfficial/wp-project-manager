@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\User\Transformers;
+namespace WeDevs\PM\User\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use PM\User\Models\User;
-use PM\Role\Transformers\Role_Transformer;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Role\Transformers\Role_Transformer;
 
 class User_Transformer extends TransformerAbstract {
     /**

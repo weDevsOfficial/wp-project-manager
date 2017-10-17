@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Core\Router;
+namespace WeDevs\PM\Core\Router;
 
-use PM\Core\Router\Uri_Parser;
-use PM\Core\Singletonable;
-use PM\Core\Permissions\Permission;
+use WeDevs\PM\Core\Router\Uri_Parser;
+use WeDevs\PM\Core\Singletonable;
+use WeDevs\PM\Core\Permissions\Permission;
 
 class Router {
 	/**

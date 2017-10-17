@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Common\Models;
+namespace WeDevs\PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Meta extends Eloquent {
 

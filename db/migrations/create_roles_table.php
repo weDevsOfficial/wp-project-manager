@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-use PM\Core\Database\Abstract_Migration as Migration;
+use WeDevs\PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Roles_Table extends Migration {
     public function schema() {

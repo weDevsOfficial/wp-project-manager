@@ -1,9 +1,9 @@
 <?php
 
-namespace PM\Activity\Models;
+namespace WeDevs\PM\Activity\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\User\Models\User;
+use WeDevs\PM\User\Models\User;
 
 class Activity extends Eloquent {
 

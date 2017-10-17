@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\File\Models;
+namespace WeDevs\PM\File\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\User\Models\User;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\User\Models\User;
 
 class File extends Eloquent {
     use Model_Events;

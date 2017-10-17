@@ -1,6 +1,6 @@
 <?php
 
-use PM\Core\Textdomain\Textdomain;
+use WeDevs\PM\Core\Textdomain\Textdomain;
 
 function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
@@ -93,9 +93,9 @@ function pm_get_settings( $key = null ) {
     $all_settings = null;
 
     if ( $key ) {
-        $settings = \PM\Settings\Models\Settings::where( 'key', $key )->first();
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )->first();
     } else {
-        $all_settings = \PM\Settings\Models\Settings::all();
+        $all_settings = \WeDevs\PM\Settings\Models\Settings::all();
     }
 
     if ( $settings ) {

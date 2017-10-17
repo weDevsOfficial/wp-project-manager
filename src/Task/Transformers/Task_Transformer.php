@@ -1,18 +1,18 @@
 <?php
 
-namespace PM\Task\Transformers;
+namespace WeDevs\PM\Task\Transformers;
 
-use PM\Task\Models\Task;
+use WeDevs\PM\Task\Models\Task;
 use League\Fractal\TransformerAbstract;
-use PM\Task_List\Transformers\Task_List_Transformer;
-use PM\Common\Transformers\Board_Transformer;
-use PM\Comment\Transformers\Comment_Transformer;
-use PM\Common\Transformers\Assignee_Transformer;
-use PM\File\Transformers\File_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Common\Transformers\Board_Transformer;
+use WeDevs\PM\Comment\Transformers\Comment_Transformer;
+use WeDevs\PM\Common\Transformers\Assignee_Transformer;
+use WeDevs\PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use PM\User\Models\User;
-use PM\User\Transformers\User_Transformer;
-use PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class Task_Transformer extends TransformerAbstract {
 

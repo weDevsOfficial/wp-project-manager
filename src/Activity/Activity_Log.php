@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Activity;
+namespace WeDevs\PM\Activity;
 
 use ReflectionClass;
 use Reflection;
-use PM\Activity\Models\Activity;
+use WeDevs\PM\Activity\Models\Activity;
 
 class Activity_Log {
 

@@ -1,14 +1,14 @@
 <?php
 
-use PM\Core\Router\Router;
-use PM\Core\Permissions\Administrator;
+use WeDevs\PM\Core\Router\Router;
+use WeDevs\PM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
 
-$router->get( 'categories', 'PM/Category/Controllers/Category_Controller@index' );
-$router->post( 'categories', 'PM/Category/Controllers/Category_Controller@store' );
-$router->get( 'categories/{id}', 'PM/Category/Controllers/Category_Controller@show' );
-$router->put( 'categories/{id}', 'PM/Category/Controllers/Category_Controller@update' );
-$router->delete( 'categories/{id}', 'PM/Category/Controllers/Category_Controller@destroy' );
+$router->get( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller@index' );
+$router->post( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller@store' );
+$router->get( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@show' );
+$router->put( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@update' );
+$router->delete( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@destroy' );
 
-$router->delete( 'categories/bulk-delete', 'PM/Category/Controllers/Category_Controller@bulk_destroy' );
+$router->delete( 'categories/bulk-delete', 'WeDevs/PM/Category/Controllers/Category_Controller@bulk_destroy' );

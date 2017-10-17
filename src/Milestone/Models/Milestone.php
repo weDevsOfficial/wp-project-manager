@@ -1,15 +1,15 @@
 <?php
 
-namespace PM\Milestone\Models;
+namespace WeDevs\PM\Milestone\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\Task_List\Models\Task_List;
-use PM\Task\Models\Task;
-use PM\Common\Models\Boardable;
-use PM\Common\Models\Meta;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Models\Meta;
 use Carbon\Carbon;
-use PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 
 class Milestone extends Eloquent {
 

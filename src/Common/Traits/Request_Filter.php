@@ -1,6 +1,6 @@
 <?php
 
-namespace PM\Common\Traits;
+namespace WeDevs\PM\Common\Traits;
 
 use WP_REST_Request;
 

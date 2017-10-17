@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: PM
+ * Plugin Name: WP Project Manager 2
  * Plugin URI : https://wordpress.org/plugins/wedevs-project-manager/
  * Description: Delightfull Project Management
  * Version    : 2

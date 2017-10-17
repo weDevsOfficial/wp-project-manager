@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Task\Observers;
+namespace WeDevs\PM\Task\Observers;
 
-use PM\Core\Database\Model_Observer;
-use PM\Activity\Models\Activity;
-use PM\Task\Models\Task;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task\Models\Task;
 use Carbon\Carbon;
 
 class Task_Observer extends Model_Observer {

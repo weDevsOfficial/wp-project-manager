@@ -1,17 +1,17 @@
 <?php
 
-namespace PM\Comment\Observers;
+namespace WeDevs\PM\Comment\Observers;
 
-use PM\Core\Database\Model_Observer;
-use PM\Comment\Models\Comment;
-use PM\Activity\Models\Activity;
-use PM\Task\Models\Task;
-use PM\Task_List\Models\Task_List;
-use PM\Project\Models\Project;
-use PM\Discussion_Board\Models\Discussion_Board as Board;
-use PM\Milestone\Models\Milestone;
-use PM\File\Models\File;
-use PM\Core\File_System\File_System;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board as Board;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Core\File_System\File_System;
 use Reflection;
 
 class Comment_Observer extends Model_Observer {

@@ -1,18 +1,18 @@
 <?php
 
-namespace PM\Task_List\Controllers;
+namespace WeDevs\PM\Task_List\Controllers;
 
 use WP_REST_Request;
-use PM\Task_List\Models\Task_List;
+use WeDevs\PM\Task_List\Models\Task_List;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use PM\Common\Traits\Transformer_Manager;
-use PM\Task_List\Transformers\Task_List_Transformer;
-use PM\Common\Models\Boardable;
-use PM\Common\Traits\Request_Filter;
-use PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Task_List_Controller {
 

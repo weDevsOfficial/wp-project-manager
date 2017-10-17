@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Discussion_Board\Observers;
+namespace WeDevs\PM\Discussion_Board\Observers;
 
-use PM\Core\Database\Model_Observer;
-use PM\Activity\Models\Activity;
-use PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use Reflection;
 
 class Discussion_Board_Observer extends Model_Observer {

@@ -1,14 +1,14 @@
 <?php
 
-namespace PM\Discussion_Board\Models;
+namespace WeDevs\PM\Discussion_Board\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use PM\Common\Traits\Model_Events;
-use PM\Comment\Models\Comment;
-use PM\File\Models\File;
-use PM\Common\Models\Boardable;
-use PM\User\Models\User;
-use PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Discussion_Board extends Eloquent {
     use Model_Events;

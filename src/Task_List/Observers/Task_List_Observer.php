@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Task_List\Observers;
+namespace WeDevs\PM\Task_List\Observers;
 
-use PM\Core\Database\Model_Observer;
-use PM\Activity\Models\Activity;
-use PM\Task_List\Models\Task_List;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task_List\Models\Task_List;
 use Reflection;
 
 class Task_List_Observer extends Model_Observer {

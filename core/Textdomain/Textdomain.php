@@ -1,8 +1,8 @@
 <?php
 
-namespace PM\Core\Textdomain;
+namespace WeDevs\PM\Core\Textdomain;
 
-use PM\Core\Singletonable;
+use WeDevs\PM\Core\Singletonable;
 
 class Textdomain {
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace PM\Core\Permissions;
+namespace WeDevs\PM\Core\Permissions;
 
-use PM\Core\Permissions\Abstract_Permission;
+use WeDevs\PM\Core\Permissions\Abstract_Permission;
 use WP_REST_Request;
 
 class Administrator extends Abstract_Permission {

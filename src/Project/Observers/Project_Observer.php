@@ -1,10 +1,10 @@
 <?php
 
-namespace PM\Project\Observers;
+namespace WeDevs\PM\Project\Observers;
 
-use PM\Core\Database\Model_Observer;
-use PM\Project\Models\Project;
-use PM\Activity\Models\Activity;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Activity\Models\Activity;
 use Carbon\Carbon;
 
 class Project_Observer extends Model_Observer {
