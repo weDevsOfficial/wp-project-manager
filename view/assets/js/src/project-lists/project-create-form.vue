@@ -5,20 +5,20 @@
 
 		<div class="cpm-form-item project-name">
 			<!-- v-model="project_name" -->
-			<input type="text" v-model="project.title" name="project_name" id="project_name" placeholder="Name of the project" value="" size="45" />
+			<input type="text" v-model="project.title" name="project_name" id="project_name" :placeholder="text.name_of_the_project" value="" size="45" />
 		</div>
 
 		<div class="cpm-form-item project-category">
 			<!-- v-model="project_cat" -->
-			<select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' >
-				<option value="0">&#8211; Project Category &#8211;</option>
+			<select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' style="height: 35px;">
+				<option value="0">{{text.Project_Category}}</option>
 				<option v-for="category in categories" :value="category.id">{{ category.title }}</option>
 			</select>
 		</div>
 
 		<div class="cpm-form-item project-detail">
 			<!-- v-model="project_description" -->
-			<textarea v-model="project.description" name="project_description" class="cpm-project-description" id="" cols="50" rows="3" placeholder="Some details about the project (optional)"></textarea>
+			<textarea v-model="project.description" name="project_description" class="cpm-project-description" id="" cols="50" rows="3" :placeholder="text.project_dsc_input"></textarea>
 		</div>
 
 		<div class="cpm-form-item cpm-project-role">
@@ -34,7 +34,7 @@
 		            <td>
 		            	<a @click.prevent="deleteUser(projectUser)" hraf="#" class="cpm-del-proj-role cpm-assign-del-user">
 		            		<span class="dashicons dashicons-trash"></span> 
-		            		<span class="title">Delete</span>
+		            		<span class="title">{{text.Delete}}</span>
 		            	</a>
 		            </td>
 	        	</tr>
@@ -42,26 +42,26 @@
 		</div>
 		
 		<div class="cpm-form-item project-users">
-			<input v-pm-users class="cpm-project-coworker" type="text" name="user" placeholder="Type 3 or more characters to search users..." size="45">
+			<input v-pm-users class="cpm-project-coworker" type="text" name="user" :placeholder="text.project_user_input" size="45">
 		</div>
 
 		<div class="cpm-form-item project-notify">
 			<label>
 				<input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
-				Notify Co-Workers            
+				{{text.notify_co_workers}}            
 			</label>
 		</div>
 
 		<div class="submit">
-			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" value="Update Project">
-			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" value="Add New Project">
-			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">Cancel</a>
+			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.Update_Project">
+			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="text.create_a_project">
+			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">{{text.Cancel}}</a>
 			<span v-show="show_spinner" class="cpm-loading"></span>
 		</div>
 
 	</form>
 
-    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" title="Create a new user">
+    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" :title="text.Create_a_new_user">
         <project-new-user-form></project-new-user-form>
     </div>
 </div>

@@ -70,13 +70,15 @@ var Project = {
             }
 
         } ).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+            var no_user = context.text.no_user_found,
+                create_user = context.text.create_user;
             if ( item.email ) {
                 return $( "<li>" )
                 .append( '<a>'+item.display_name+'</a>' )
                 .appendTo( ul );
             } else {
                 return $( "<li>" )
-                .append( '<a><div class="no-user-wrap"><p>No users found.</p> <span class="button-primary">Create a new user?</span></div></a>' )
+                .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p> <span class="button-primary">'+create_user+'</span></div></a>' )
                 .appendTo( ul );
             }
             

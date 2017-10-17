@@ -8,6 +8,7 @@
  			project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
+            text: PM_Vars.text,
  		}
  	},
 

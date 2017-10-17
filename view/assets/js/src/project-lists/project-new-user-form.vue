@@ -5,27 +5,27 @@
 
         <form action="" class="cpm-user-create-form" @submit.prevent="createUser()">
             <div class="cpm-field-wrap">
-                <label>Username</label>
+                <label>{{text.Username}}</label>
                 <input v-model="username" type="text" required name="user_name">
 
             </div>
             <div class="cpm-field-wrap">
-                <label>First Name</label>
+                <label>{{text.First_Name}}</label>
                 <input v-model="first_name" type="text" name="first_name">
 
             </div>
             <div class="cpm-field-wrap">
-                <label>Last Name</label>
+                <label>{{text.Last_Name}}</label>
                 <input v-model="last_name" type="text" name="last_name">
 
             </div>
             <div class="cpm-field-wrap">
-                <label>Email</label>
+                <label>{{text.Email}}</label>
                 <input v-model="email" type="email" required name="email">
 
             </div>
             <div>
-                <input class="button-primary" type="submit" value="Create User" name="create_user">
+                <input class="button-primary" type="submit" :value="text.Create_User" name="create_user">
                 <span v-show="show_spinner" class="cpm-spinner"></span>
             </div>
         </form>

@@ -25,7 +25,7 @@
             </pm-pagination> 
         </div>
 
-        <div id="cpm-project-dialog" v-pm-popup-box style="z-index:999;" title="Start a new project">
+        <div id="cpm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
             <project-create-form :project="{}"></project-create-form>
             <!-- <do-action :hook="'cpm-after-project-list'"></do-action> -->
         </div>
