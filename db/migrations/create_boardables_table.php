@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Boardables_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_boardables', function( $table ) {
+        Capsule::schema()->create( 'pm_boardables', function( $table ) {
             $table->increments( 'id' );
 
             $table->unsignedInteger( 'board_id' );

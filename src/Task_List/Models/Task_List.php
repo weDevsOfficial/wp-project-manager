@@ -14,7 +14,7 @@ use PM\Milestone\Models\Milestone;
 class Task_List extends Eloquent {
     use Model_Events;
 
-    protected $table = 'cpm_boards';
+    protected $table = 'pm_boards';
 
     protected $fillable = [
         'title',
@@ -36,7 +36,7 @@ class Task_List extends Eloquent {
     }
 
     public function tasks() {
-        return $this->belongsToMany( Task::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( Task::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
             ->where( 'board_type', 'task-list' )
             ->withPivot( 'order' );
@@ -47,7 +47,7 @@ class Task_List extends Eloquent {
     }
 
     public function assignees() {
-        return $this->belongsToMany( User::class, 'cpm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( User::class, 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'task-list' )
             ->where( 'boardable_type', 'user' );
     }
@@ -57,7 +57,7 @@ class Task_List extends Eloquent {
     }
 
     public function milestones() {
-        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( Milestone::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'task-list' );
     }

@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Roles_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_roles', function( $table ) {
+        Capsule::schema()->create( 'pm_roles', function( $table ) {
             $table->bigIncrements( 'id' );
             $table->string( 'title' );
             $table->text( 'description' )->nullable();

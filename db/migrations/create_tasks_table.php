@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Tasks_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_tasks', function( $table ) {
+        Capsule::schema()->create( 'pm_tasks', function( $table ) {
             $table->bigIncrements( 'id' );
 
             $table->string( 'title' );

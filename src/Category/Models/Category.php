@@ -10,7 +10,7 @@ class Category extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_categories';
+    protected $table = 'pm_categories';
 
     protected $fillable = [
         'title',
@@ -21,6 +21,6 @@ class Category extends Eloquent {
     ];
 
     public function projects() {
-        return $this->belongsToMany( Project::class, 'cpm_category_project', 'category_id', 'project_id' );
+        return $this->belongsToMany( Project::class, 'pm_category_project', 'category_id', 'project_id' );
     }
 }

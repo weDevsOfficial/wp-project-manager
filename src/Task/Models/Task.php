@@ -15,7 +15,7 @@ use PM\Common\Models\Assignee;
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
 
-    protected $table = 'cpm_tasks';
+    protected $table = 'pm_tasks';
 
     const INCOMPLETE = 0;
     const COMPLETE   = 1;
@@ -45,14 +45,14 @@ class Task extends Eloquent {
     ];
 
     public function task_lists() {
-        return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'boardable_id', 'board_id' )
-            ->where('cpm_boardables.board_type', 'task-list')
-            ->where('cpm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where('pm_boardables.board_type', 'task-list')
+            ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boards() {
-        return $this->belongsToMany( Board::class, 'cpm_boardables', 'boardable_id', 'board_id' )
-            ->where('cpm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( Board::class, 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boardables() {

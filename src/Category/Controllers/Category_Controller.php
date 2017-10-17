@@ -88,7 +88,7 @@ class Category_Controller {
         $category_ids = $request->get_param( 'category_ids' );
 
         if ( is_array( $category_ids ) ) {
-            DB::table('cpm_category_project')->whereIn( 'category_id', $category_ids )->delete();
+            DB::table('pm_category_project')->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
         }
     }

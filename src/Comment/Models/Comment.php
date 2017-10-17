@@ -10,7 +10,7 @@ class Comment extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_comments';
+    protected $table = 'pm_comments';
 
     protected $fillable = [
         'content',

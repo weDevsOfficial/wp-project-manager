@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Assignees_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_assignees', function( $table ) {
+        Capsule::schema()->create( 'pm_assignees', function( $table ) {
             $table->increments( 'id' );
 
             $table->unsignedInteger( 'task_id' );

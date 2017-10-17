@@ -5,7 +5,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Settings_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_settings', function( $table ) {
+        Capsule::schema()->create( 'pm_settings', function( $table ) {
             $table->increments( 'id' );
             $table->string( 'key' );
             $table->text( 'value' )->nullable();

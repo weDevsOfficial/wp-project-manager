@@ -13,7 +13,7 @@ use PM\Milestone\Models\Milestone;
 class Discussion_Board extends Eloquent {
     use Model_Events;
 
-    protected $table = 'cpm_boards';
+    protected $table = 'pm_boards';
 
     protected $fillable = [
         'title',
@@ -39,13 +39,13 @@ class Discussion_Board extends Eloquent {
     }
 
     public function users() {
-        return $this->belongsToMany( User::class, 'cpm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( User::class, 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion-board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( Milestone::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion-board' );
     }

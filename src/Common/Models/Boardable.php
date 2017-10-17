@@ -9,7 +9,7 @@ class Boardable extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_boardables';
+    protected $table = 'pm_boardables';
 
     protected $fillable = [
         'board_id',

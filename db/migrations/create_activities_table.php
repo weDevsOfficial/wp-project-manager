@@ -5,7 +5,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Activities_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_activities', function( $table ) {
+        Capsule::schema()->create( 'pm_activities', function( $table ) {
             $table->increments( 'id' );
             $table->unsignedInteger( 'actor_id' );
             $table->string( 'action' );

@@ -9,7 +9,7 @@ use PM\User\Models\User;
 class File extends Eloquent {
     use Model_Events;
 
-    protected $table = 'cpm_files';
+    protected $table = 'pm_files';
 
     protected $fillable = [
         'fileable_id',

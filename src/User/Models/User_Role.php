@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use PM\Role\Models\Role;
 
 class User_Role extends Eloquent {
-    protected $table = 'cpm_role_user';
+    protected $table = 'pm_role_user';
 
     public $timestamps = false;
 

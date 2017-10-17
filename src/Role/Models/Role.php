@@ -9,7 +9,7 @@ class Role extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_roles';
+    protected $table = 'pm_roles';
 
     protected $fillable = [
         'title',

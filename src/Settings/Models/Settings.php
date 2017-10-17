@@ -9,7 +9,7 @@ class Settings extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_settings';
+    protected $table = 'pm_settings';
 
     protected $fillable = [
         'key',

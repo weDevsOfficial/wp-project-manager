@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Comments_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_comments', function( $table ) {
+        Capsule::schema()->create( 'pm_comments', function( $table ) {
             $table->increments( 'id' );
 
             $table->text( 'content' );

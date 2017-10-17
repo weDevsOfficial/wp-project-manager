@@ -7,7 +7,7 @@ use PM\User\Models\User;
 
 class Activity extends Eloquent {
 
-    protected $table = 'cpm_activities';
+    protected $table = 'pm_activities';
 
     protected $fillable = [
         'actor_id',

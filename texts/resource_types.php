@@ -2,24 +2,24 @@
 
 return [
     'project' => [
-        __( 'project', 'cpm' ),
+        __( 'project', 'pm' ),
     ],
     'discussion-board' => [
-        __( 'discussion board', 'cpm' ),
+        __( 'discussion board', 'pm' ),
     ],
     'task-list' => [
-        __( 'task list', 'cpm' ),
+        __( 'task list', 'pm' ),
     ],
     'task' => [
-        __( 'task', 'cpm' ),
+        __( 'task', 'pm' ),
     ],
     'milestone' => [
-        __( 'milestone', 'cpm' ),
+        __( 'milestone', 'pm' ),
     ],
     'comment' => [
-        __( 'comment', 'cpm' ),
+        __( 'comment', 'pm' ),
     ],
     'file' => [
-        __( 'file', 'cpm' ),
+        __( 'file', 'pm' ),
     ],
 ];

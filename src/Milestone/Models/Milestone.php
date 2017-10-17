@@ -15,7 +15,7 @@ class Milestone extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_boards';
+    protected $table = 'pm_boards';
 
     const OVERDUE    = 0;
     const INCOMPLETE = 1;
@@ -93,13 +93,13 @@ class Milestone extends Eloquent {
     }
 
     public function task_lists() {
-        return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( Task_List::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task-list' )
             ->where( 'board_type', 'milestone' );
     }
 
     public function tasks() {
-        return $this->belongsToMany( Task::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( Task::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
             ->where( 'board_type', 'milestone' );
     }
@@ -109,7 +109,7 @@ class Milestone extends Eloquent {
     }
 
     public function discussion_boards() {
-        return $this->belongsToMany( Discussion_Board::class, 'cpm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( Discussion_Board::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion-board' );
     }

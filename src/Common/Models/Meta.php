@@ -10,7 +10,7 @@ class Meta extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_meta';
+    protected $table = 'pm_meta';
 
     protected $fillable = [
         'entity_id',

@@ -26,7 +26,7 @@ class Project extends Eloquent {
     const PENDING    = 2;
     const ARCHIVED   = 3;
 
-    protected $table = 'cpm_projects';
+    protected $table = 'pm_projects';
 
     protected $fillable = [
 		'title',
@@ -47,11 +47,11 @@ class Project extends Eloquent {
     ];
 
     public function categories() {
-        return $this->belongsToMany( Category::class, 'cpm_category_project', 'project_id', 'category_id' );
+        return $this->belongsToMany( Category::class, 'pm_category_project', 'project_id', 'category_id' );
     }
 
     public function assignees() {
-        return $this->belongsToMany( User::class, 'cpm_role_user', 'project_id', 'user_id' )
+        return $this->belongsToMany( User::class, 'pm_role_user', 'project_id', 'user_id' )
             ->withPivot( 'project_id', 'role_id' );
     }
 

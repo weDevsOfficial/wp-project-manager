@@ -21,5 +21,5 @@ add_action( 'init', function() {
     load_routes();
     register_routes();
 
-    do_action( 'cpm_loaded' );
+    do_action( 'pm_loaded' );
 });

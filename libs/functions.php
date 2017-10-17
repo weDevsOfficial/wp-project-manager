@@ -2,7 +2,7 @@
 
 use PM\Core\Textdomain\Textdomain;
 
-function cpm_get_text( $key ) {
+function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
 }
 
@@ -78,7 +78,7 @@ function make_carbon_date( $date ) {
     return null;
 }
 
-function cpm_get_wp_roles() {
+function pm_get_wp_roles() {
     global $wp_roles;
 
     if ( !$wp_roles ) {
@@ -88,7 +88,7 @@ function cpm_get_wp_roles() {
     return $wp_roles->get_names();
 }
 
-function cpm_get_settings( $key = null ) {
+function pm_get_settings( $key = null ) {
     $settings = null;
     $all_settings = null;
 

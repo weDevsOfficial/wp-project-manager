@@ -6,7 +6,7 @@ use PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Files_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_files', function( $table ) {
+        Capsule::schema()->create( 'pm_files', function( $table ) {
             $table->bigIncrements( 'id' );
 
             $table->integer( 'fileable_id' )->nullable();

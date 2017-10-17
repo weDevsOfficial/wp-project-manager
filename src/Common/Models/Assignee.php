@@ -10,7 +10,7 @@ class Assignee extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_assignees';
+    protected $table = 'pm_assignees';
 
     protected $fillable = [
         'task_id',
