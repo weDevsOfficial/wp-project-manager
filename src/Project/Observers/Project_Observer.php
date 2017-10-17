@@ -12,7 +12,7 @@ class Project_Observer extends Model_Observer {
     public function created( $resource ) {
         Activity::create([
             'actor_id'      => $resource->created_by,
-            'action'        => 'create-project',
+            'action'        => 'create_project',
             'action_type'   => 'create',
             'resource_id'   => $resource->id,
             'resource_type' => 'project',
@@ -30,7 +30,7 @@ class Project_Observer extends Model_Observer {
     protected function title( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-title',
+            'action'        => 'update_project_title',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -45,7 +45,7 @@ class Project_Observer extends Model_Observer {
     protected function description( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-description',
+            'action'        => 'update_project_description',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -59,7 +59,7 @@ class Project_Observer extends Model_Observer {
     protected function status( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-status',
+            'action'        => 'update_project_status',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -75,7 +75,7 @@ class Project_Observer extends Model_Observer {
     protected function budget( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-budget',
+            'action'        => 'update_project_budget',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -91,7 +91,7 @@ class Project_Observer extends Model_Observer {
     protected function pay_rate( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-pay-rate',
+            'action'        => 'update_project_pay_rate',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -107,7 +107,7 @@ class Project_Observer extends Model_Observer {
     protected function est_completion_date( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-est-completion-date',
+            'action'        => 'update_project_est_completion_date',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',
@@ -124,7 +124,7 @@ class Project_Observer extends Model_Observer {
     protected function color_code( Project $item, $old_value ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
-            'action'        => 'update-project-color-code',
+            'action'        => 'update_project_color_code',
             'action_type'   => 'update',
             'resource_id'   => $item->id,
             'resource_type' => 'project',

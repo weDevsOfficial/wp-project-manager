@@ -14,7 +14,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'discussion_board_title' => $resource->title,
         ];
 
-        $this->log_activity( $resource, 'create-discussion-board', 'create', $meta );
+        $this->log_activity( $resource, 'create_discussion_board', 'create', $meta );
     }
 
     public function updated( $resource ) {
@@ -26,7 +26,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'discussion_board_title_old' => $old_value,
             'discussion_board_title_new' => $item->title,
         ];
-        $this->log_activity( $item, 'update-discussion-board-title', 'update', $meta );
+        $this->log_activity( $item, 'update_discussion_board_title', 'update', $meta );
     }
 
     public function description( Discussion_Board $item, $old_value ) {
@@ -34,7 +34,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'discussion_board_title' => $item->title,
         ];
 
-        $this->log_activity( $item, 'update-discussion-board-description', 'update', $meta );
+        $this->log_activity( $item, 'update_discussion_board_description', 'update', $meta );
     }
 
     public function order( Discussion_Board $item, $old_value ) {
@@ -44,7 +44,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'discussion_board_order_new' => $item->order,
         ];
 
-        $this->log_activity( $item, 'update-discussion-board-order', 'update', $meta );
+        $this->log_activity( $item, 'update_discussion_board_order', 'update', $meta );
     }
 
     private function log_activity( Discussion_Board $item, $action, $action_type, $meta = null ) {

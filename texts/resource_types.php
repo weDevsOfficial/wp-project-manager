@@ -4,10 +4,10 @@ return [
     'project' => [
         __( 'project', 'pm' ),
     ],
-    'discussion-board' => [
+    'discussion_board' => [
         __( 'discussion board', 'pm' ),
     ],
-    'task-list' => [
+    'task_list' => [
         __( 'task list', 'pm' ),
     ],
     'task' => [
