@@ -69,13 +69,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-task';
+            $action = 'reply_comment_on_task';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-task';
+            $action = 'update_reply_comment_on_task';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-task';
+            $action = 'comment_on_task';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-task';
+            $action = 'update_comment_on_task';
         }
 
         Activity::create([
@@ -96,13 +96,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-task-list';
+            $action = 'reply_comment_on_task_list';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-task-list';
+            $action = 'update_reply_comment_on_task_list';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-task-list';
+            $action = 'comment_on_task_list';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-task-list';
+            $action = 'update_comment_on_task_list';
         }
 
         Activity::create([
@@ -123,13 +123,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-discussion-board';
+            $action = 'reply_comment_on_discussion_board';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-discussion-board';
+            $action = 'update_reply_comment_on_discussion_board';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-discussion-board';
+            $action = 'comment_on_discussion_board';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-discussion-board';
+            $action = 'update_comment_on_discussion_board';
         }
 
         Activity::create([
@@ -150,13 +150,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-milestone';
+            $action = 'reply_comment_on_milestone';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-milestone';
+            $action = 'update_reply_comment_on_milestone';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-milestone';
+            $action = 'comment_on_milestone';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-milestone';
+            $action = 'update_comment_on_milestone';
         }
 
         Activity::create([
@@ -177,13 +177,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-project';
+            $action = 'reply_comment_on_project';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-project';
+            $action = 'update_reply_comment_on_project';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-project';
+            $action = 'comment_on_project';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-project';
+            $action = 'update_comment_on_project';
         }
 
         Activity::create([
@@ -208,13 +208,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-file';
+            $action = 'reply_comment_on_file';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-file';
+            $action = 'update_reply_comment_on_file';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-file';
+            $action = 'comment_on_file';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-file';
+            $action = 'update_comment_on_file';
         }
 
         Activity::create([
