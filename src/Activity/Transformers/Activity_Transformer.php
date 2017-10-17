@@ -43,7 +43,7 @@ class Activity_Transformer extends TransformerAbstract {
                 $parsed_meta = $this->parse_meta_for_task_list( $activity );
                 break;
 
-            case 'discussion-board':
+            case 'discussion_board':
                 $parsed_meta = $this->parse_meta_for_discussion_board( $activity );
                 break;
 

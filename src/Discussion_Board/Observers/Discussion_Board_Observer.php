@@ -53,7 +53,7 @@ class Discussion_Board_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $item->id,
-            'resource_type' => 'discussion-board',
+            'resource_type' => 'discussion_board',
             'meta'          => $meta,
             'project_id'    => $item->project_id,
         ]);

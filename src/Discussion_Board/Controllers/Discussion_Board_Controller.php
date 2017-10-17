@@ -133,14 +133,14 @@ class Discussion_Board_Controller {
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
         $boardable = Boardable::where( 'boardable_id', $board->id )
-            ->where( 'boardable_type', 'discussion-board' )
+            ->where( 'boardable_type', 'discussion_board' )
             ->where( 'board_type', 'milestone' )
             ->first();
 
         if ( !$boardable ) {
             $boardable = Boardable::firstOrCreate([
                 'boardable_id'   => $board->id,
-                'boardable_type' => 'discussion-board',
+                'boardable_type' => 'discussion_board',
                 'board_id'       => $milestone->id,
                 'board_type'     => 'milestone'
             ]);
@@ -165,7 +165,7 @@ class Discussion_Board_Controller {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $discussion_board->id,
-                    'board_type' => 'discussion-board',
+                    'board_type' => 'discussion_board',
                     'boardable_id' => $user_id,
                     'boardable_type' => 'user'
                 ];

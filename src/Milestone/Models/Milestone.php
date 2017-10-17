@@ -111,6 +111,6 @@ class Milestone extends Eloquent {
     public function discussion_boards() {
         return $this->belongsToMany( Discussion_Board::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'board_type', 'milestone' )
-            ->where( 'boardable_type', 'discussion-board' );
+            ->where( 'boardable_type', 'discussion_board' );
     }
 }
