@@ -2,9 +2,9 @@
 
 /**
  * Plugin Name: PM
- * Plugin URI : https://wordpress.org/plugins/pm
+ * Plugin URI : https://wordpress.org/plugins/wedevs-project-manager/
  * Description: Delightfull Project Management
- * Version    : 1
+ * Version    : 2
  * Author     : weDevs
  * Author URI : https://wedevs.com/
  * License    : GPL2
