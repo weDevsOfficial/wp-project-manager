@@ -67,7 +67,16 @@ class Textdomain {
         return $value;
     }
 
-    private static function named_sprintf( $text ) {
+    private static function named_sprintf( $text = [] ) {
+        if ( !is_array( $text ) ) {
+            return "";
+        }
+
+        $keys = array_keys( $text );
+        if ( !empty( array_diff( $keys, [0, 1] ) ) ) {
+            return "";
+        }
+
         $sprintf_args = [];
         $format = $text[0];
 
