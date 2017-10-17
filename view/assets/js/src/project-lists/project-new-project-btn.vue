@@ -1,6 +1,6 @@
 <template>
 	<a href="#" id="cpm-create-project" @click.prevent="is_popup_active()" class="cpm-btn cpm-plus-white cpm-btn-uppercase">
-    	<i class="fa fa-plus-circle" aria-hidden="true"></i> New Project
+    	<i class="fa fa-plus-circle" aria-hidden="true"></i> {{ text.create_a_project}}
     </a>
 </template>
 

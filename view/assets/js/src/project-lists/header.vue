@@ -2,7 +2,7 @@
 	<div class="cpm-top-bar cpm-no-padding">
         <div class="cpm-row cpm-no-padding">
             <div class="cpm-col-6">
-                <h3>Project Manager</h3>
+                <h3>{{text.project_manager}}</h3>
             </div>
 
             <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">

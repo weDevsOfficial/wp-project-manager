@@ -7,15 +7,15 @@
                     <span class="cpm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">Edit</span>
+                        <span class="text">{{text.Edit}}</span>
                      </a>
                 </h3>
 
                 <div class="detail"></div>
             </div>
             <div class="cpm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">Completed</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">Incomplete</div>
+                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.Completed}}</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.Incomplete}}</div>
             </div>
             <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
                     
