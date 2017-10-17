@@ -361,7 +361,7 @@
         },
 
         deleteProject (id) {
-            if ( ! confirm( 'Are you sure!' ) ) {
+            if ( ! confirm( this.text.delete_project_conf ) ) {
                 return;
             }
             var self = this;

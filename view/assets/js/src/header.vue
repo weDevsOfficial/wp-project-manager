@@ -7,37 +7,37 @@
                     <span class="cpm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">{{text.Edit}}</span>
+                        <span class="text">{{text.edit}}</span>
                      </a>
                 </h3>
 
-                <div class="detail"></div>
+                <div class="detail">{{project.description}}</div>
             </div>
             <div class="cpm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.Completed}}</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.Incomplete}}</div>
+                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.completed}}</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.incomplete}}</div>
             </div>
             <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
                     
                 <div class="cpm-project-action">
-                    <span @click.prevent="showProjectAction()" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+                    <span @click.prevent="showProjectAction()" :title="text.Project_Actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
                     <ul v-if="project.settings_hide" class="cpm-settings">
                         <li>
                             <span class="cpm-spinner"></span>
-                            <a href="#" @click.prevent="deleteProject(project.id)">
+                            <a href="#" @click.prevent="deleteProject(project.id)" :title="text.delete_project">
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>Delete</span>
+                                <span>{{text.delete}}</span>
                             </a>
                         </li>
                         <li>
                             <span class="cpm-spinner"></span>
                             <a @click.prevent="selfProjectMarkDone(project)" href="#">
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">Complete</span>
+                                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">Restore</span>
+                                <span v-if="project.status === 'complete'">{{text.restore}}</span>
                             </a>
                         </li>
                     </ul>
@@ -45,10 +45,11 @@
             </div>
 
             <div class="clearfix"></div>
-
-            <div class="cpm-edit-project" v-if="is_project_edit_mode">
-                <edit-project :is_update="true"></edit-project>
-            </div>
+             <transition name="slide">
+                <div class="cpm-edit-project" v-if="is_project_edit_mode">
+                    <edit-project :is_update="true"></edit-project>
+                </div>
+            </transition>
         </div>
 
         <div class="cpm-row cpm-project-group">
@@ -114,7 +115,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Overview',
+                        name: this.text.overview,
                         count: '',
                         class: 'overview cpm-sm-col-12'
                     },
@@ -125,7 +126,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Activities',
+                        name: this.text.activities,
                         count: project.meta.total_activities,
                         class: 'activity cpm-sm-col-12'
                     },
@@ -136,7 +137,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Discussions',
+                        name: this.text.discussions,
                         count: project.meta.total_discussion_boards,
                         class: 'message cpm-sm-col-12'
                     },
@@ -147,7 +148,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Task Lists',
+                        name: this.text.task_lists,
                         count: project.meta.total_task_lists,
                         class: 'to-do-list cpm-sm-col-12'
                     },
@@ -158,7 +159,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Milestones',
+                        name: this.text.milestones,
                         count: project.meta.total_milestones,
                         class: 'milestone cpm-sm-col-12'
                     },
@@ -169,7 +170,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Files',
+                        name: this.text.files,
                         count: project.meta.total_files,
                         class: 'files cpm-sm-col-12'
                     }

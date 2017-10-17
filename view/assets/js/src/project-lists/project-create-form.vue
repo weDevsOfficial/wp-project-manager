@@ -11,7 +11,7 @@
 		<div class="cpm-form-item project-category">
 			<!-- v-model="project_cat" -->
 			<select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' style="height: 35px;">
-				<option value="0">{{text.Project_Category}}</option>
+				<option value="0">{{text.project_category}}</option>
 				<option v-for="category in categories" :value="category.id">{{ category.title }}</option>
 			</select>
 		</div>
@@ -34,7 +34,7 @@
 		            <td>
 		            	<a @click.prevent="deleteUser(projectUser)" hraf="#" class="cpm-del-proj-role cpm-assign-del-user">
 		            		<span class="dashicons dashicons-trash"></span> 
-		            		<span class="title">{{text.Delete}}</span>
+		            		<span class="title">{{text.delete}}</span>
 		            	</a>
 		            </td>
 	        	</tr>
@@ -53,15 +53,15 @@
 		</div>
 
 		<div class="submit">
-			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.Update_Project">
+			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.update_project">
 			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="text.create_a_project">
-			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">{{text.Cancel}}</a>
+			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">{{text.cancel}}</a>
 			<span v-show="show_spinner" class="cpm-loading"></span>
 		</div>
 
 	</form>
 
-    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" :title="text.Create_a_new_user">
+    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" :title="text.create_a_new_user">
         <project-new-user-form></project-new-user-form>
     </div>
 </div>

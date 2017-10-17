@@ -1,17 +1,17 @@
 <template>
  <ul class="cpm-links cpm-right">
     <li>
-        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="cpm-icon-edit dashicons dashicons-edit " data-id="107" data-project_id="98" href="#" title="Edit Milestone"></a>
+        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="cpm-icon-edit dashicons dashicons-edit " :title="text.edit_milestone"></a>
     </li>
     <li>
-        <a @click.prevent="deleteMilestone(milestone.id)" class="cpm-milestone-delete dashicons dashicons-trash" data-project="98" data-id="107" data-confirm="Are you sure?" title="Delete milestone" href="#"></a>
+        <a @click.prevent="deleteMilestone(milestone.id)" class="cpm-milestone-delete dashicons dashicons-trash" :title="text.delete_milestone" href="#"></a>
     </li>
 
     <li>
-        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class=" cpm-milestone-open dashicons dashicons-update" data-project="98" data-id="107" title="Mark as incomplete" href="#"></a>
+        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class="cpm-milestone-open dashicons dashicons-update" :title="text.mark_as_incomplete" href="#"></a>
     </li>
     <li>
-        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="cpm-milestone-complete dashicons dashicons-yes" data-project="98" data-id="107" title="Mark as complete" href="#"></a>
+        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="cpm-milestone-complete dashicons dashicons-yes" :title="text.mark_as_complete" href="#"></a>
     </li>
     <li>
         <span class="cpm-unlock"></span>

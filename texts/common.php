@@ -2,86 +2,208 @@
 
 return [
 	'add_new_discussion' => [
-		__( 'Add New Discussion', 'cpm' )
+		__( 'Add New Discussion', 'pm' )
 	],
 
 	'load_more' => [
-		__( 'Load More ...', 'cpm' )
+		__( 'Load More ...', 'pm' )
 	],
-	'Edit' => [
-		__( 'Edit', 'cpm' )
+	'edit' => [
+		__( 'Edit', 'pm' )
 	],
-	'Delete' => [
-		__( 'Delete', 'cpm' )
+	'delete' => [
+		__( 'Delete', 'pm' )
 	],
-	'Cancel' => [
-		__( 'Cancel', 'cpm' )
+	'cancel' => [
+		__( 'Cancel', 'pm' )
+	],
+	'complete' => [
+		__( 'Complete', 'pm' )
+	],
+	'restore' => [
+		__( 'Restore', 'pm' )
 	],
 	// project page Header
 	'project_manager' => [
-		__( 'Project Manager', 'cpm' )
+		__( 'Project Manager', 'pm' )
 	],
 	'create_a_project' => [
-		__( 'Create A Project', 'cpm' )
+		__( 'Create A Project', 'pm' )
 	],
-	'Project_Category' => [
-		__( ' – Project Category –', 'cpm' )
+	'project_category' => [
+		__( ' – Project Category –', 'pm' )
 	],
-	'Active' => [
-		__( 'Active', 'cpm' )
+	'search_all' => [
+		__( 'Search All...', 'pm' )
 	],
-	'All' => [
-		__( 'All', 'cpm' )
+	'search_by_client' => [
+		__( 'Search By Client...', 'pm' )
 	],
-	'Completed' => [
-		__( 'Completed', 'cpm' )
+	'active' => [
+		__( 'Active', 'pm' )
+	],
+	'all' => [
+		__( 'All', 'pm' )
+	],
+	'incomplete' => [
+		__( 'Incomplete', 'pm' )
+	],
+	'completed' => [
+		__( 'Completed', 'pm' )
 	],
 	'start_a_new_project' => [
-		__( 'Start a new project', 'cpm' )
+		__( 'Start a new project', 'pm' )
 	],
 	'name_of_the_project' => [
-		__( 'Name of the project', 'cpm' )
+		__( 'Name of the project', 'pm' )
 	],
 	'project_dsc_input' => [
-		__( 'Some details about the project (optional)', 'cpm' )
+		__( 'Some details about the project (optional)', 'pm' )
 	],
 	'project_user_input' => [
-		__( 'Type 3 or more characters to search users...', 'cpm' )
+		__( 'Type 3 or more characters to search users...', 'pm' )
 	],
 	'notify_co_workers' => [
-		__( 'Notify Co-Workers', 'cpm' )
+		__( 'Notify Co-Workers', 'pm' )
 	],
-	'Update_Project' => [
-		__( 'Update Project', 'cpm' )
+	'update_project' => [
+		__( 'Update Project', 'pm' )
 	],
-	'Create_a_new_user' => [
-		__( 'Create a new user', 'cpm' )
+	'create_a_new_user' => [
+		__( 'Create a new user', 'pm' )
 	],
 	'no_user_found' => [
-		__( 'No User Found', 'cpm' )
+		__( 'No User Found', 'pm' )
 	],
-	'Username' => [
-		__( 'Username', 'cpm' )
+	'username' => [
+		__( 'Username', 'pm' )
 	],
-	'First_Name' => [
-		__( 'First Name', 'cpm' )
+	'first_name' => [
+		__( 'First Name', 'pm' )
 	],
-	'Last_Name' => [
-		__( 'Last Name', 'cpm' )
+	'last_name' => [
+		__( 'Last Name', 'pm' )
 	],
-	'Email' => [
-		__( 'Email', 'cpm' )
-	],
-	'Create_User' => [
-		__( 'Create User', 'cpm' )
+	'email' => [
+		__( 'Email', 'pm' )
 	],
 	'create_user' => [
-		__( 'Create a new user?', 'cpm' )
+		__( 'Create User', 'pm' )
 	],
-	'List_View' => [
-		__( 'List View', 'cpm' )
+	'create_new_user' => [
+		__( 'Create a new user?', 'pm' )
 	],
-	'Grid_View' => [
-		__( 'Grid View', 'cpm' )
+	'list_view' => [
+		__( 'List View', 'pm' )
 	],
+	'grid_view' => [
+		__( 'Grid View', 'pm' )
+	],
+	'no_project_found' => [
+		__( 'No project found', 'pm' )
+	],
+	'discussions' => [
+		__( 'Discussions', 'pm' )
+	],
+	'task_lists' => [
+		__( 'Task Lists', 'pm' )
+	],
+	'tasks' => [
+		__( 'Tasks', 'pm' )
+	],
+	'milestones' => [
+		__( 'Milestones', 'pm' )
+	],
+	'files' => [
+		__( 'Files', 'pm' )
+	],
+	'comments' => [
+		__( 'Comments', 'pm' )
+	],
+	'delete_project' => [
+		__( 'Delete project', 'pm' )
+	],
+	'delete_project_conf' => [
+		__( 'Are you sure! Want to delete the project?', 'pm' )
+	],
+	'project_actions' => [
+		__( 'Project Actions', 'pm' )
+	],
+	/*
+	*project single page
+	*Overview tab
+	*/
+	'activities' => [
+		__( 'Activities', 'pm' )
+	],
+	'overview' => [
+		__( 'Overview', 'pm' )
+	],
+	'this_month' => [
+		__( 'This Month', 'pm' )
+	],
+	'users' => [
+		__( 'Users', 'pm' )
+	],
+	'activity' => [
+		__( 'Activity', 'pm' )
+	],
+	'task' => [
+		__( 'Task', 'pm' )
+	],
+	// milstones tab
+	'milestone_define' => [
+		__( 'Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.', 'pm' )
+	],
+	'add_milestone' => [
+		__( 'Add Milestone', 'pm' )
+	],
+	'when_use_milestone' => [
+		__( 'When to use Milestones?', 'pm' )
+	],
+	'to_set_target_date' => [
+		__( 'To set a target date for the project overall.', 'pm' )
+	],
+	'to_divide_project' => [
+		__( 'To divide a project into several development-time phases.', 'pm' )
+	],
+	'to_coordinate_project' => [
+		__( 'To coordinate projects and assigned persons timely.', 'pm' )
+	],
+	'milestone_name' => [
+		__( 'Milestone name', 'pm' )
+	],
+	'update_milestone' => [
+		__( 'Update Milestone', 'pm' )
+	],
+	'upcoming_milestones' => [
+		__( 'Upcoming Milestones', 'pm' )
+	],
+	'moment_left' => [
+		__( 'left -', 'pm' )
+	],
+	'edit_milestone' => [
+		__( 'Edit Milestone', 'pm' )
+	],
+	'delete_milestone' => [
+		__( 'Delete Milestone', 'pm' )
+	],
+	'mark_as_incomplete' => [
+		__( 'Mark as incomplete', 'pm' )
+	],
+	'mark_as_complete' => [
+		__( 'Mark as complete', 'pm' )
+	],
+	'completed_milestones' => [
+		__( 'Completed Milestones', 'pm' )
+	],
+	'completed_on' => [
+		__( 'Completed on:', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'milestone_delete_conf' => [
+		__( 'Are you sure! Want to delete this milestones?', 'pm' )
+	]
 ];

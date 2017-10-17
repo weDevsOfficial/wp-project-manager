@@ -1,13 +1,13 @@
 <template>
 	<div v-if="upComingMileStones.length" class="cpm-upcomming-milestone cpm-milestone-data">
-        <h2 class="group-title">Upcoming Milestones</h2>
+        <h2 class="group-title">{{text.upcoming_milestones}}</h2>
 
         <div v-for="milestone in upComingMileStones" class="cpm-milestone late">
     		<div class="milestone-detail ">
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
                     <span class="time-left">
-                    	({{ humanDate(milestone) }} left - 
+                    	({{ humanDate(milestone) }} {{text.moment_left}} 
                     	<time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
                     		{{ getDueDate(milestone) }}
                     	</time>
@@ -30,7 +30,7 @@
 
     		<div class="cpm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
-                    <h3>Task List</h3>
+                    <h3>{{text.task_lists}}</h3>
 
                     <ul>
                         <li v-for="list in milestone.task_lists.data">
@@ -41,7 +41,7 @@
                
                 
                 <div v-if="milestone.discussion_boards.data.length"  class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
-                    <h3>Discussion</h3>
+                    <h3>{{text.discussions}}</h3>
 
                     <ul>
                         <li v-for="discuss in milestone.discussion_boards.data">
@@ -81,7 +81,7 @@
                         return false;
                     }
                     var due_date = milestone.achieve_date.date;
-                    
+
                     if ( !due_date ) {
                         return false;
                     }

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="lateMileStones.length" class="cpm-late-milestone cpm-milestone-data">
-        <h2 class="group-title">Late Milestones</h2>
+        <h2 class="group-title">{{text.late_milestones}}</h2>
 
         <div v-for="milestone in lateMileStones" class="cpm-milestone late">
     		<div class="milestone-detail ">
@@ -27,7 +27,7 @@
 
     		<div class="cpm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
-                    <h3>Task List</h3>
+                    <h3>{{text.task_lists}}</h3>
 
                     <ul>
                         <li v-for="list in milestone.task_lists.data">
@@ -38,7 +38,7 @@
                
                 
                 <div v-if="milestone.discussion_boards.data.length"  class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
-                    <h3>Discussion</h3>
+                    <h3>{{text.discussions}}</h3>
 
                     <ul>
                         <li v-for="discuss in milestone.discussion_boards.data">

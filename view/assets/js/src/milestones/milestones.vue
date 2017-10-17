@@ -16,15 +16,15 @@
 
         <div class="cpm-blank-template milestone" v-if="!milestones.length && !loading">
             <div class="cpm-content" >
-                <h3 class="cpm-page-title">  Milestones </h3>
+                <h3 class="cpm-page-title">  {{text.milestones}}</h3>
 
                 <p>
-                    Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.
+                    {{text.milestone_define}}
                 </p>
 
                 
                     <div class="cpm-milestone-link clearfix">
-                        <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+                        <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                     </div>
 
                     <transition name="slide">
@@ -40,12 +40,12 @@
                
 
                 <div class="cpm-list-content">
-                    <h3 class="cpm-page-title cpm-why-for"> When to use Milestones?</h3>
+                    <h3 class="cpm-page-title cpm-why-for"> {{text.when_use_milestone }}</h3>
 
                     <ul class="cpm-list">
-                        <li>To set a target date for the project overall. </li>
-                        <li>To divide a project into several development-time phases. </li>
-                        <li>To coordinate projects and assigned persons timely. </li>
+                        <li>{{text.to_set_target_date}} </li>
+                        <li>{{text.to_divide_project}} </li>
+                        <li>{{text.to_coordinate_project}} </li>
                     </ul>
                 </div>
 
@@ -56,7 +56,7 @@
             
             <div class="cpm-row cpm-milestone-details" >
                 <div class="cpm-milestone-link clearfix">
-                    <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+                    <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                 </div>
 
                  <transition name="slide">
