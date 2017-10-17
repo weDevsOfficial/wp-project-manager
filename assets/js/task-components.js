@@ -600,8 +600,8 @@ Vue.component('cpm-task-comment-form', {
             content: {
                 html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
             },
-            notify_co_workers: [],
-            notify_all_co_worker: false,
+            notify_user: [],
+            notify_all_user: false,
             show_spinner: false,
             submit_disabled: false,
         }
@@ -718,6 +718,7 @@ Vue.component('cpm-task-comment-form', {
                 form_data = {
                     parent_id: typeof this.task.ID == 'undefined' ? false : this.task.ID,
                     comment_id: is_update ? this.comment.comment_ID : false,
+                    notify_user: this.notify_user,
                     action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new',
                     cpm_message: this.comment.comment_content,
                     cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
@@ -793,14 +794,14 @@ Vue.component('cpm-task-comment-form', {
          */
         notify_coo_workers: function( user_id ) {
             var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
-                notify_co_worker_length = this.notify_co_workers.length;
+                notify_co_worker_length = this.notify_user.length;
 
             if ( co_worker_length != notify_co_worker_length ) {
-                this.notify_all_co_worker = false;
+                this.notify_all_user = false;
             }
 
             if ( co_worker_length === notify_co_worker_length ) {
-                this.notify_all_co_worker = true;
+                this.notify_all_user = true;
             }
         },
 
@@ -809,11 +810,11 @@ Vue.component('cpm-task-comment-form', {
          */
         notify_all_coo_worker: function() {
 
-            if ( this.notify_all_co_worker ) {
-                this.notify_co_workers = [];
-                this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
+            if ( this.notify_all_user ) {
+                this.notify_user = [];
+                this.notify_user = this.get_porject_users_id_by_role('co_worker');
             } else {
-                this.notify_co_workers = [];
+                this.notify_user = [];
             }
         }
 
@@ -1807,8 +1808,8 @@ Vue.component('cpm-list-comment-form', {
             content: {
                 html: typeof this.comment.comment_content == 'undefined' ? '' : this.comment.comment_content,
             },
-            notify_co_workers: [],
-            notify_all_co_worker: false,
+            notify_user: [],
+            notify_all_user: false,
             show_spinner: false,
             submit_disabled: false,
         }
@@ -1909,6 +1910,7 @@ Vue.component('cpm-list-comment-form', {
                     comment_id: is_update ? this.comment.comment_ID : false,
                     action:  is_update ? 'cpm_comment_update' : 'cpm_comment_new',
                     cpm_message: this.comment.comment_content,
+                    notify_user: this.notify_user,
                     cpm_attachment: this.filtersOnlyFileID( this.comment.files ),
                     project_id: CPM_Vars.project_id,
                     _wpnonce: CPM_Vars.nonce,
@@ -1979,14 +1981,14 @@ Vue.component('cpm-list-comment-form', {
          */
         notify_coo_workers: function( user_id ) {
             var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
-                notify_co_worker_length = this.notify_co_workers.length;
+                notify_co_worker_length = this.notify_user.length;
 
             if ( co_worker_length != notify_co_worker_length ) {
-                this.notify_all_co_worker = false;
+                this.notify_all_user = false;
             }
 
             if ( co_worker_length === notify_co_worker_length ) {
-                this.notify_all_co_worker = true;
+                this.notify_all_user = true;
             }
         },
 
@@ -1995,11 +1997,11 @@ Vue.component('cpm-list-comment-form', {
          */
         notify_all_coo_worker: function() {
 
-            if ( this.notify_all_co_worker ) {
-                this.notify_co_workers = [];
-                this.notify_co_workers = this.get_porject_users_id_by_role('co_worker');
+            if ( this.notify_all_user ) {
+                this.notify_user = [];
+                this.notify_user = this.get_porject_users_id_by_role('co_worker');
             } else {
-                this.notify_co_workers = [];
+                this.notify_user = [];
             }
         },
     }
