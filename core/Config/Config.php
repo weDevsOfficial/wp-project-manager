@@ -52,6 +52,11 @@ class Config {
             $keys = explode( '.', $key );
 
             foreach ( $keys as $key ) {
+
+                if ( !array_key_exists( $key, $configs ) ) {
+                    return null;
+                }
+
                 $configs = $configs[$key];
             }
         }
