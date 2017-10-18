@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-use CPM\Core\Router\Router;
-use CPM\Core\Router\WP_Router;
-use CPM\Core\Database\Migrater;
-use CPM\Core\WP\CPM_Frontend;
+use WeDevs\PM\Core\Router\Router;
+use WeDevs\PM\Core\Router\WP_Router;
+use WeDevs\PM\Core\Database\Migrater;
+use WeDevs\PM\Core\WP\PM_Frontend;
 
 function load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
@@ -122,5 +122,5 @@ function register_routes() {
 }
 
 function view() {
-    new CPM_Frontend();
+    new PM_Frontend();
 }

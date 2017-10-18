@@ -1,12 +1,12 @@
 <?php
 
-namespace CPM\User\Models;
+namespace WeDevs\PM\User\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Role\Models\Role;
+use WeDevs\PM\Role\Models\Role;
 
 class User_Role extends Eloquent {
-    protected $table = 'cpm_role_user';
+    protected $table = 'pm_role_user';
 
     public $timestamps = false;
 

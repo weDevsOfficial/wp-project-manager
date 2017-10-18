@@ -1,14 +1,15 @@
 <?php
 
-namespace CPM\Common\Models;
+namespace WeDevs\PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use WeDevs\PM\Common\Traits\Model_Events;
 
 class Boardable extends Eloquent {
+
     use Model_Events;
 
-    protected $table = 'cpm_boardables';
+    protected $table = 'pm_boardables';
 
     protected $fillable = [
         'board_id',

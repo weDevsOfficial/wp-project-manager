@@ -1,12 +1,12 @@
 <template>
-	<form class="cpm-milestone-form" @submit.prevent="newMilestone()">
-        <input type="hidden" name="_wp_http_referer" value="/test/wp-admin/admin.php?page=cpm_projects&amp;tab=milestone&amp;action=index&amp;pid=98">
+	<form class="pm-milestone-form" @submit.prevent="newMilestone()">
+        <input type="hidden" name="_wp_http_referer" value="/test/wp-admin/admin.php?page=pm_projects&amp;tab=milestone&amp;action=index&amp;pid=98">
         <div class="item milestone-title">
             <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" placeholder="Milestone name">
         </div>
         
         <div class="item due">
-            <cpm-datepickter v-model="due_date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
+            <pm-datepickter v-model="due_date" class="pm-datepickter-to" dependency="pm-datepickter-from"></pm-datepickter>
         </div>
 
         <div class="item detail">
@@ -16,7 +16,7 @@
         <div class="submit">
             <input type="submit" name="create_milestone" id="create_milestone" class="button-primary" value="Add Milestone">
             <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel" data-milestone_id="0" href="#">Cancel</a>
-            <span v-show="show_spinner" class="cpm-spinner"></span>
+            <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
         
     </form>
@@ -59,7 +59,7 @@
 
 		components: {
 			'text-editor': editor,
-			'cpm-datepickter': date_picker
+			'pm-datepickter': date_picker
 		},
 		computed: {
 			milestones () {
@@ -72,7 +72,7 @@
 	         */
 	        editor_id: function() {
 	            var milestone_id = ( typeof this.milestone.id === 'undefined' ) ? '' : '-' + this.milestone.id;
-	            return 'cpm-milestone-editor' + milestone_id;
+	            return 'pm-milestone-editor' + milestone_id;
 	        },
 		},
 		methods: {

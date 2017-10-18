@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\User\Models;
+namespace WeDevs\PM\User\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Role\Models\Role;
+use WeDevs\PM\Role\Models\Role;
 
 class User extends Eloquent {
     protected $primaryKey = 'ID';
@@ -26,7 +26,7 @@ class User extends Eloquent {
     protected $dates = ['user_registered'];
 
     public function roles() {
-        return $this->belongsToMany( Role::class, 'cpm_role_user', 'user_id', 'role_id' )
+        return $this->belongsToMany( Role::class, 'pm_role_user', 'user_id', 'role_id' )
             ->withPivot('project_id', 'role_id');
     }
 }

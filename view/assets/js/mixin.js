@@ -30,7 +30,7 @@
             var request = {
                 type: 'POST',
 
-                url: this.base_url + '/cpm/v2/projects/',
+                url: this.base_url + '/pm/v2/projects/',
 
                 data: {
                     'title': this.project.title,
@@ -45,7 +45,7 @@
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
-                    jQuery( "#cpm-project-dialog" ).dialog("close");
+                    jQuery( "#pm-project-dialog" ).dialog("close");
 
                     if(typeof callback !== 'undefined'){
                         callback(res);
@@ -81,7 +81,7 @@
             var request = {
                 type: 'PUT',
 
-                url: this.base_url + '/cpm/v2/projects/'+ project.id,
+                url: this.base_url + '/pm/v2/projects/'+ project.id,
 
                 data: project,
 
@@ -90,7 +90,7 @@
                     self.$root.$store.commit('updateProject', res.data);
                    
                     self.showHideProjectForm(false);
-                    jQuery( "#cpm-project-dialog" ).dialog("close");
+                    jQuery( "#pm-project-dialog" ).dialog("close");
                     self.resetSelectedUsers();
                     if ( typeof callback !== 'undefined' ) {
                         callback(res.data);
@@ -114,7 +114,7 @@
             var self = this;
 
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self) +'&'+ condition,
+                url: self.base_url + '/pm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self) +'&'+ condition,
                 success: function(res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
@@ -160,7 +160,7 @@
                 }
             } else {
                 self.httpRequest({
-                    url: self.base_url + '/cpm/v2/projects/'+ self.project_id,
+                    url: self.base_url + '/pm/v2/projects/'+ self.project_id,
                     success: function(res) {
                         self.addProjectMeta(res.data);
                         self.$root.$store.commit('setProject', res.data);
@@ -193,7 +193,7 @@
             }
 
             this.httpRequest({
-                url: self.base_url + '/cpm/v2/categories?type=project',
+                url: self.base_url + '/pm/v2/categories?type=project',
                 success: function(res) {
                     self.$root.$store.commit('setCategories', res.data);
 
@@ -218,7 +218,7 @@
             }
 
             self.httpRequest({
-                url: self.base_url + '/cpm/v2/roles',
+                url: self.base_url + '/pm/v2/roles',
                 success: function(res) {
                     self.$root.$store.commit('setRoles', res.data);
 
@@ -256,7 +256,7 @@
             var self = this;
 
             self.httpRequest({
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/files/' + file_id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id,
                 type: 'DELETE',
                 success: function(res) {
                     
@@ -270,7 +270,7 @@
 
 
         userTaskProfileUrl ( user_id ) {
-            return PM_Vars.ajaxurl + '?page=cpm_task#/user/' + user_id;
+            return PM_Vars.ajaxurl + '?page=pm_task#/user/' + user_id;
         },
 
         /**
@@ -366,7 +366,7 @@
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/' + id,
+                url: self.base_url + '/pm/v2/projects/' + id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$root.$store.commit('afterDeleteProject', id);
@@ -396,7 +396,7 @@
             } 
         },
         projects_view_class (){
-            return this.$store.state.projects_view === 'grid_view' ? 'cpm-project-grid': 'cpm-project-list'
+            return this.$store.state.projects_view === 'grid_view' ? 'pm-project-grid': 'pm-project-list'
         },
 
         generateConditions (conditions) {

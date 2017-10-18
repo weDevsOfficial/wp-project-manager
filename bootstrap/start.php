@@ -22,5 +22,5 @@ add_action( 'init', function() {
     register_routes();
     view();
 
-    do_action( 'cpm_loaded' );
+    do_action( 'pm_loaded' );
 });

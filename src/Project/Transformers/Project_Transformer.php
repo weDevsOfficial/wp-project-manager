@@ -1,14 +1,14 @@
 <?php
 
-namespace CPM\Project\Transformer;
+namespace WeDevs\PM\Project\Transformers;
 
-use CPM\Project\Models\Project;
+use WeDevs\PM\Project\Models\Project;
 use League\Fractal\TransformerAbstract;
-use CPM\Category\Transformer\Category_Transformer;
-use CPM\User\Transformers\User_Transformer;
-use CPM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Category\Transformers\Category_Transformer;
+use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 use Carbon\Carbon;
-use CPM\Task\Models\Task;
+use WeDevs\PM\Task\Models\Task;
 
 class Project_Transformer extends TransformerAbstract {
 

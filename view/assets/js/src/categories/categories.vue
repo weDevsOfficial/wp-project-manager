@@ -38,7 +38,7 @@
 
 							<p class="submit">
 								<input type="submit" name="submit" id="submit" class="button button-primary" value="Add New Category">
-								<span v-show="show_spinner" class="cpm-spinner"></span>
+								<span v-show="show_spinner" class="pm-spinner"></span>
 							</p>
 						</form>
 					</div>

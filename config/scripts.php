@@ -3,77 +3,77 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
-	'cpm-chart' => [
-		'id'         => 'cpm-chart',
+	'pm-chart' => [
+		'id'         => 'pm-chart',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/chart/chart.min.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
-	'cpm-upload' => [
-		'id'         => 'cpm-upload',
+	'pm-upload' => [
+		'id'         => 'pm-upload',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/upload.js',
 		'dependency' => ['jquery', 'plupload-handlers'],
 		'in_footer'  => true
 	],
-	'cpm-timepicker' => [
-		'id'         => 'cpm-timepicker',
+	'pm-timepicker' => [
+		'id'         => 'pm-timepicker',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/jquery-ui/jquery-ui-timepicker.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
-	'cpm-moment' => [
-		'id'         => 'cpm-moment',
+	'pm-moment' => [
+		'id'         => 'pm-moment',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
 
-	'cpm-tiny-mce' => [
-		'id'         => 'cpm-tiny-mce',
+	'pm-tiny-mce' => [
+		'id'         => 'pm-tiny-mce',
 		'url'        => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
 		'dependency' => false,
 		'in_footer'  => true
 	],
 
-	'cpm-moment-timezone' => [
-		'id'         => 'cpm-moment-timezone',
+	'pm-moment-timezone' => [
+		'id'         => 'pm-moment-timezone',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/moment/moment-timezone.js',
-		'dependency' => ['jquery', 'cpm-moment'],
+		'dependency' => ['jquery', 'pm-moment'],
 		'in_footer'  => true
 	],
 
-	'cpm-toastr' => [
-		'id'         => 'cpm-toastr',
+	'pm-toastr' => [
+		'id'         => 'pm-toastr',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/toastr/toastr.min.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
 
-	'cpm-nprogress' => [
-		'id'         => 'cpm-nprogress',
+	'pm-nprogress' => [
+		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/nprogress/nprogress.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
 
-	'cpm-vue' => [
-		'id'         => 'cpm-vue',
+	'pm-vue' => [
+		'id'         => 'pm-vue',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/vue/vue' . $suffix . '.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
 
-	'cpm-vuex' => [
-		'id'         => 'cpm-vuex',
+	'pm-vuex' => [
+		'id'         => 'pm-vuex',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/vue/vuex' . $suffix . '.js',
-		'dependency' => ['jquery', 'cpm-vue'],
+		'dependency' => ['jquery', 'pm-vue'],
 		'in_footer'  => true
 	],
 
-	'cpm-vue-router' => [
-		'id'         => 'cpm-vue-router',
+	'pm-vue-router' => [
+		'id'         => 'pm-vue-router',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/vue/vue-router' . $suffix . '.js', 
-		'dependency' => ['jquery', 'cpm-vue', 'cpm-vuex'],
+		'dependency' => ['jquery', 'pm-vue', 'pm-vuex'],
 		'in_footer'  => true
 	],
 	
@@ -84,23 +84,23 @@ return [
 		'in_footer'  => false
 	],
 
-	'cpm' => [
+	'pm' => [
 		'id'         => 'pm-scripts',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/cpm-bundle' . $suffix . '.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/js/pm-bundle' . $suffix . '.js',
 		'dependency' => [
 			'jquery', 
 			'underscore',
-			'cpm-moment-timezone',
-			'cpm-upload',
+			'pm-moment-timezone',
+			'pm-upload',
 			'jquery-ui-datepicker',
-			'cpm-timepicker',
-			'cpm-nprogress', 
+			'pm-timepicker',
+			'pm-nprogress', 
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',
-			'cpm-tiny-mce',
-			'cpm-toastr',
+			'pm-tiny-mce',
+			'pm-toastr',
 			'jquery-ui-sortable',
-			'cpm-chart'
+			'pm-chart'
 
 		],
 		'in_footer'  => true

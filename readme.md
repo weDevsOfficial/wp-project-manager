@@ -2,7 +2,7 @@
 
 Navigate to the plugin directory and run the following commands
 
-1. `git clone https://github.com/asikur/CPM.git <plugin-name>`
+1. `git clone https://github.com/weDevsOfficial/wp-project-manager.git <plugin-name>`
 2. `cd <plugin-dir-name>`
 3. `wp scaffold plugin-tests <plugin-name>` (wp-cli needs to be installed first)
 4. `bash bin/install-wp-tests.sh wordpress_test <db-user-name> <db-password> <db-host> latest`

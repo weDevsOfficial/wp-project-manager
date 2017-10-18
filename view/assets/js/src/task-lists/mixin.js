@@ -3,7 +3,7 @@ import Vue from './../../vue/vue';
  /**
  * Global jQuery action for this component
  */
-window.CPM_Component_jQuery = {
+window.PM_Component_jQuery = {
     /**
      * JQuery fadeIn
      * 
@@ -15,7 +15,7 @@ window.CPM_Component_jQuery = {
     faceIn: function( id, callback ) {
         var class_id = ( typeof id == 'undefined' ) ? false : '-'+id;
 
-        jQuery('.cpm-fade-in' + class_id).fadeOut(300, function() {
+        jQuery('.pm-fade-in' + class_id).fadeOut(300, function() {
             if ( typeof callback != 'undefined' ) {
                 callback( callback );
             }
@@ -33,7 +33,7 @@ window.CPM_Component_jQuery = {
     fadeOut: function( id, callback ) {
         var class_id = ( typeof id == 'undefined' ) ? false : String( '-'+id );
         
-        jQuery('.cpm-fade-out' + class_id).fadeOut(300, function() {
+        jQuery('.pm-fade-out' + class_id).fadeOut(300, function() {
             if ( typeof callback != 'undefined' ) {
                 callback( callback );
             }
@@ -51,7 +51,7 @@ window.CPM_Component_jQuery = {
     slide: function( id, callback ) {
         var class_id = '-'+id;//( typeof id == 'undefined' ) ? false : '-'+id;
 
-        jQuery('.cpm-slide' + class_id).slideToggle(300, function() {
+        jQuery('.pm-slide' + class_id).slideToggle(300, function() {
             if ( typeof callback != 'undefined' ) {
                 callback( callback );
             }
@@ -156,7 +156,7 @@ var PM_Task_Mixin = {
                 var is_edit = self.$store.state.lists[list_index].edit_mode;
 
                 if ( is_edit ) {
-                    CPM_Component_jQuery.slide( list.ID, function() {
+                    PM_Component_jQuery.slide( list.ID, function() {
                         self.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
                     });
                 
@@ -165,14 +165,14 @@ var PM_Task_Mixin = {
                  
                     Vue.nextTick( function() {
 
-                        CPM_Component_jQuery.slide( list.ID );
+                        PM_Component_jQuery.slide( list.ID );
                     });    
                 }
             } else {
                 var is_edit = self.$store.state.show_list_form;
 
                 if ( is_edit ) {
-                    CPM_Component_jQuery.slide( 'list', function() {
+                    PM_Component_jQuery.slide( 'list', function() {
                         self.$store.commit( 'newTodoListForm' );
                     });
                 } else {
@@ -180,7 +180,7 @@ var PM_Task_Mixin = {
                 
                     Vue.nextTick( function() {
 
-                        CPM_Component_jQuery.slide( 'list' );
+                        PM_Component_jQuery.slide( 'list' );
                     } );
 
                 }
@@ -206,7 +206,7 @@ var PM_Task_Mixin = {
 
                 if ( edit_mode ) {
 
-                    CPM_Component_jQuery.slide( 'undefined', function() {
+                    PM_Component_jQuery.slide( 'undefined', function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
                     });
                 
@@ -214,7 +214,7 @@ var PM_Task_Mixin = {
                     self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
                     
                     Vue.nextTick( function() {
-                        CPM_Component_jQuery.slide( 'undefined' );
+                        PM_Component_jQuery.slide( 'undefined' );
                     } );
                 }
                 
@@ -226,7 +226,7 @@ var PM_Task_Mixin = {
                 
                 if ( edit_mode ) {
 
-                    CPM_Component_jQuery.slide( task_id, function() {
+                    PM_Component_jQuery.slide( task_id, function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
                     });
                 
@@ -235,7 +235,7 @@ var PM_Task_Mixin = {
                     
                     Vue.nextTick( function() {
 
-                        CPM_Component_jQuery.slide( task_id );
+                        PM_Component_jQuery.slide( task_id );
                     } );
                 }
             }
@@ -384,7 +384,7 @@ var PM_Task_Mixin = {
             var edit_mode = this.task.comments[comment_index].edit_mode;
             
             if ( edit_mode ) {
-                CPM_Component_jQuery.slide( comment_id, function() {
+                PM_Component_jQuery.slide( comment_id, function() {
                     //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );
                     self.task.comments[comment_index].edit_mode = false;    
                     
@@ -395,7 +395,7 @@ var PM_Task_Mixin = {
                 self.task.comments[comment_index].edit_mode = true;
 
                 Vue.nextTick( function() {
-                    CPM_Component_jQuery.slide( comment_id );
+                    PM_Component_jQuery.slide( comment_id );
                 } );
             }
         },
@@ -489,7 +489,7 @@ var PM_Task_Mixin = {
                 due_day = moment.tz( due_date, PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
             
             
-            return moment(today).isSameOrBefore(due_day) ? 'cpm-current-date' : 'cpm-due-date';
+            return moment(today).isSameOrBefore(due_day) ? 'pm-current-date' : 'pm-due-date';
         },
 
         completedTaskWrap( due_date ) {
@@ -510,7 +510,7 @@ var PM_Task_Mixin = {
             var today   = moment.tz( PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
                 due_day = moment.tz( due_date, PM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
             
-            return moment(today).isSameOrBefore(due_day) ? false : 'cpm-task-done';
+            return moment(today).isSameOrBefore(due_day) ? false : 'pm-task-done';
         },
 
         /**
@@ -544,7 +544,7 @@ var PM_Task_Mixin = {
                     project_id: project_id,
                     current_page: this.$route.params.page_number,
                     _wpnonce: PM_Vars.nonce,
-                    action: 'cpm_initial_todo_list'
+                    action: 'pm_initial_todo_list'
                 }
             
                
@@ -572,7 +572,7 @@ var PM_Task_Mixin = {
             // Redirect to first page
             this.$router.push('/');
             
-            // Condition because $route is watch in CPM_Router_Init component
+            // Condition because $route is watch in PM_Router_Init component
             // When watch is not active then its execute 
             if ( ! this.$route.params.page_number ) {
                 this.getInitialData( this.$store.state.project_id );
@@ -590,7 +590,7 @@ var PM_Task_Mixin = {
          */
         taskDoneUndone: function( task, is_checked, list ) {
             var self = this;
-            var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+task.id;
+            var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+task.id;
             var type = 'PUT'; 
 
             var form_data = {
@@ -630,7 +630,7 @@ var PM_Task_Mixin = {
             var condition = self.generateListsCondition(condition);
 
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?'+condition,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?'+condition,
                 success (res) {
                     // res.data.map(function(task){
                     //     self.addTaskMeta(task);
@@ -747,7 +747,7 @@ var PM_Task_Mixin = {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/' + list_id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + list_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteList', list_id);
@@ -769,7 +769,7 @@ var PM_Task_Mixin = {
         },
 
         privateClass: function(list) {
-            return list.private == 'on' ? 'cpm-lock' : '';
+            return list.private == 'on' ? 'pm-lock' : '';
         },
 
         updateActiveMode(mode) {
@@ -780,7 +780,7 @@ var PM_Task_Mixin = {
                     _wpnonce: PM_Vars.nonce,
                 };
 
-            wp.ajax.send('cpm_update_active_mode', {
+            wp.ajax.send('pm_update_active_mode', {
                 data: form_data,
                 success: function(res) {
 
@@ -838,7 +838,7 @@ var PM_Task_Mixin = {
         getMilestones () {
             var self = this;
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
                 success (res) {
                     self.$store.commit( 'setMilestones', res.data );
                 }
@@ -851,7 +851,7 @@ var PM_Task_Mixin = {
                 condition = self.generateListsCondition(condition);
             
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists?'+condition,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists?'+condition,
                 
                 success (res) {
                     res.data.map(function(list,index) {
@@ -886,7 +886,7 @@ var PM_Task_Mixin = {
             var condition = condition || 'incomplete_tasks';
             
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with='+condition,
                 success (res) {
                     self.addMetaList(res.data);
                     
@@ -947,7 +947,7 @@ var PM_Task_Mixin = {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/' + task.id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + task.id,
                 type: 'DELETE',
                 success (res) {
                     self.$store.commit('afterDeleteTask', {
@@ -993,10 +993,10 @@ var PM_Task_Mixin = {
             this.show_spinner = true;
             
             if (is_update) {
-                var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+                var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
                 var type = 'PUT'; 
             } else {
-                var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
+                var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks';
                 var type = 'POST';
             }
 
@@ -1061,7 +1061,7 @@ var PM_Task_Mixin = {
             var self = this;
             
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/1/tasks/reorder',
+                url: self.base_url + '/pm/v2/projects/1/tasks/reorder',
                 type: 'PUT',
                 data: data,
                 

@@ -2,11 +2,11 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-use CPM\Core\Database\Abstract_Migration as Migration;
+use WeDevs\PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Categories_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_categories', function( $table ) {
+        Capsule::schema()->create( 'pm_categories', function( $table ) {
             $table->increments( 'id' );
 
             $table->string('title');

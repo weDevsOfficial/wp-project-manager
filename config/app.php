@@ -2,7 +2,7 @@
 
 return [
     'name'        => 'Project Manager',
-    'slug'        => 'cpm',
+    'slug'        => 'pm',
     'version'     => '2',
-    'text_domain' => 'cpm'
+    'text_domain' => 'pm'
 ];

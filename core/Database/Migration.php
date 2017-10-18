@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\Database;
+namespace WeDevs\PM\Core\Database;
 
 interface Migration {
     public function schema();

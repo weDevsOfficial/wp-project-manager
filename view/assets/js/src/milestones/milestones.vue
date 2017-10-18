@@ -1,8 +1,8 @@
 <template>
-    <div class="" id="cpm-milestone-page">
+    <div class="" id="pm-milestone-page">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="cpm-data-load-before" >
+        <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,23 +14,23 @@
             </div>
         </div>
 
-        <div class="cpm-blank-template milestone" v-if="!milestones.length && !loading">
-            <div class="cpm-content" >
-                <h3 class="cpm-page-title">  Milestones </h3>
+        <div class="pm-blank-template milestone" v-if="!milestones.length && !loading">
+            <div class="pm-content" >
+                <h3 class="pm-page-title">  Milestones </h3>
 
                 <p>
                     Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.
                 </p>
 
                 
-                    <div class="cpm-milestone-link clearfix">
-                        <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+                    <div class="pm-milestone-link clearfix">
+                        <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">Add Milestone</a>
                     </div>
 
                     <transition name="slide">
 
-                        <div class="cpm-new-milestone-form" v-if="is_milestone_form_active">
-                            <div class="cpm-milestone-form-wrap">
+                        <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
+                            <div class="pm-milestone-form-wrap">
                                 <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                             </div>
 
@@ -39,10 +39,10 @@
 
                
 
-                <div class="cpm-list-content">
-                    <h3 class="cpm-page-title cpm-why-for"> When to use Milestones?</h3>
+                <div class="pm-list-content">
+                    <h3 class="pm-page-title pm-why-for"> When to use Milestones?</h3>
 
-                    <ul class="cpm-list">
+                    <ul class="pm-list">
                         <li>To set a target date for the project overall. </li>
                         <li>To divide a project into several development-time phases. </li>
                         <li>To coordinate projects and assigned persons timely. </li>
@@ -54,14 +54,14 @@
         </div>
         <div v-if="milestones.length">
             
-            <div class="cpm-row cpm-milestone-details" >
-                <div class="cpm-milestone-link clearfix">
-                    <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">Add Milestone</a>
+            <div class="pm-row pm-milestone-details" >
+                <div class="pm-milestone-link clearfix">
+                    <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">Add Milestone</a>
                 </div>
 
                  <transition name="slide">
-                    <div class="cpm-new-milestone-form cpm-col-6 cpm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
-                        <div class="cpm-milestone-form-wrap">
+                    <div class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
+                        <div class="pm-milestone-form-wrap">
                             <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                         </div>
 

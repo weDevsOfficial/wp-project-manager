@@ -1,46 +1,46 @@
 <template>
-	<div class="cpm-task-comment-wrap">
+	<div class="pm-task-comment-wrap">
         
-        <h3 class="cpm-comment-title">Discuss this task</h3>
-        <ul class="cpm-comment-wrap">
-            <li  v-for="comment in comments" :key="comment.id" :class="'cpm-comment clearfix even cpm-fade-out-'+comment.id">
+        <h3 class="pm-comment-title">Discuss this task</h3>
+        <ul class="pm-comment-wrap">
+            <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
-                <div class="cpm-avatar">
+                <div class="pm-avatar">
                      <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
                 </div>
 
-                <div class="cpm-comment-container">
-                    <div class="cpm-comment-meta">
-                        <span class="cpm-author" v-html="comment.comment_user"></span>
+                <div class="pm-comment-container">
+                    <div class="pm-comment-meta">
+                        <span class="pm-author" v-html="comment.comment_user"></span>
                         <span>On</span>
-                        <span class="cpm-date">
+                        <span class="pm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, task)" -->
-                        <div  class="cpm-comment-action">
-                            <span class="cpm-edit-link">
+                        <div  class="pm-comment-action">
+                            <span class="pm-edit-link">
                                 <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
                             </span>
 
-                            <span class="cpm-delete-link">
+                            <span class="pm-delete-link">
                                 <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
                             </span>
                         </div>
                     </div>
 
-                    <div class="cpm-comment-content">
+                    <div class="pm-comment-content">
                         <div v-html="comment.content"></div>
-                        <ul class="cpm-attachments" v-if="comment.files.data.length">
+                        <ul class="pm-attachments" v-if="comment.files.data.length">
                             <li v-for="commnetFile in comment.files.data">
-                                <a class="cpm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
+                                <a class="pm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
                                     <img :src="commnetFile.thumb" :alt="commnetFile.name">
                                 </a>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="cpm-comment-edit-form" v-if="comment.edit_mode">
-                        <!-- <div :class="'cpm-slide-'+comment.id" style="display: none;"> -->
+                    <div class="pm-comment-edit-form" v-if="comment.edit_mode">
+                        <!-- <div :class="'pm-slide-'+comment.id" style="display: none;"> -->
                             <task-comment-form :comment="comment" :comments="comments"></task-comment-form>
                         <!-- </div> -->
                     </div>
@@ -48,10 +48,10 @@
             </li>
         </ul>
         <div class="single-todo-comments">
-            <div class="cpm-comment-form-wrap">
+            <div class="pm-comment-form-wrap">
 
-                <div class="cpm-avatar"><img :src="avatar_url" height="48" width="48"/></div>
-                <div class="cpm-new-doc-comment-form">
+                <div class="pm-avatar"><img :src="avatar_url" height="48" width="48"/></div>
+                <div class="pm-new-doc-comment-form">
                     <task-comment-form :comment="{}" :comments="comments"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
             </div>
@@ -90,7 +90,7 @@
                 comment.edit_mode = comment.edit_mode ? false : true;
             },
 	        current_user_can_edit_delete: function( comment, task ) {
-	            if ( comment.comment_type == 'cpm_activity' ) {
+	            if ( comment.comment_type == 'pm_activity' ) {
 	                return false;
 	            }
 
@@ -112,7 +112,7 @@
                 var self = this;
 
                 var request_data = {
-                    url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/' + id,
+                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/' + id,
                     type: 'DELETE',
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');

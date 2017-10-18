@@ -1,8 +1,8 @@
 <template>
-    <div class="wrap cpm cpm-front-end">
+    <div class="wrap pm pm-front-end">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="cpm-data-load-before" >
+        <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,20 +14,20 @@
             </div>
         </div>
 
-        <div class="cpm-blank-template discussion" v-if="blankTemplate">
-            <div class="cpm-content" >
-                <h3 class="cpm-page-title">Discussion</h3>
+        <div class="pm-blank-template discussion" v-if="blankTemplate">
+            <div class="pm-content" >
+                <h3 class="pm-page-title">Discussion</h3>
 
                 <p>
                     Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
                 </p>
                     <div>
-                        <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                        <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                             Add New Discussion 
                         </a>
                     </div>
                     <transition name="slide">
-                        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
+                        <div class="pm-new-message-form" v-if="is_discuss_form_active">
                             <h3>Create a new message</h3>
 
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -35,10 +35,10 @@
                         </div>
                     </transition>
 
-                <div class="cpm-list-content">
-                    <h3 class="cpm-why-for cpm-page-title"> When to use Discussions? </h3>
+                <div class="pm-list-content">
+                    <h3 class="pm-why-for pm-page-title"> When to use Discussions? </h3>
 
-                    <ul class="cpm-list">
+                    <ul class="pm-list">
                         <li> To discuss a work matter privately. </li>
                         <li> To exchange files privately. </li>
                         <li> To discuss in a group.</li>
@@ -49,14 +49,14 @@
             </div>
         </div>
         <div v-if="discussTemplate">
-            <div class="cpm-row discussion">
+            <div class="pm-row discussion">
                 <div>
-                    <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                    <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                         Add New Discussion 
                     </a>
                 </div>
                 <transition name="slide">
-                    <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
+                    <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
                         <h3>Create a new message</h3>
 
                         <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -66,15 +66,15 @@
 
             </div>
 
-            <div class="cpm-row cpm-message-page">
-                <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
-                    <div class="cpm-box-title">Discussion List</div>
+            <div class="pm-row pm-message-page">
+                <div class="pm-message-list pm-col-12 pm-sm-col-12">
+                    <div class="pm-box-title">Discussion List</div>
                     <ul class="dicussion-list">        
-                        <li class="cpm-col-12" v-for="discuss in discussion" key="discuss.id">
-                            <div class="cpm-col-9">
+                        <li class="pm-col-12" v-for="discuss in discussion" key="discuss.id">
+                            <div class="pm-col-9">
                                 
                                 <router-link 
-                                    class="cpm-pagination-btn prev page-numbers" 
+                                    class="pm-pagination-btn prev page-numbers" 
                                     :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
                                     <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     <div>
@@ -94,20 +94,20 @@
 
                             </div>
 
-                            <div class="cpm-col-1">
-                                <span class="cpm-message-action cpm-right">
-                                    <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="cpm-msg-edit dashicons dashicons-edit"></a>
+                            <div class="pm-col-1">
+                                <span class="pm-message-action pm-right">
+                                    <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
                                     <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
                                         <span class="dashicons dashicons-trash"></span>
                                     </a>
 
-                                    <span class="cpm-unlock"></span>
+                                    <span class="pm-unlock"></span>
                                 </span>
                             </div>
 
-                            <div class="cpm-col-2 cpm-last-col cpm-right comment-count">
+                            <div class="pm-col-2 pm-last-col pm-right comment-count">
                                 <router-link 
-                                    class="cpm-pagination-btn prev page-numbers" 
+                                    class="pm-pagination-btn prev page-numbers" 
                                     :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
                                     {{ discuss.meta.total_comments }} Comments 
                                 </router-link>           

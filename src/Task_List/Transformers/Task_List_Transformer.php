@@ -1,17 +1,17 @@
 <?php
 
-namespace CPM\Task_List\Transformer;
+namespace WeDevs\PM\Task_List\Transformers;
 
-use CPM\Task_List\Models\Task_List;
+use WeDevs\PM\Task_List\Models\Task_List;
 use League\Fractal\TransformerAbstract;
-use CPM\User\Transformers\User_Transformer;
-use CPM\Task\Transformer\Task_Transformer;
-use CPM\Comment\Transformers\Comment_Transformer;
-use CPM\File\Transformer\File_Transformer;
-use CPM\Milestone\Transformer\Milestone_Transformer;
+use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Comment\Transformers\Comment_Transformer;
+use WeDevs\PM\File\Transformers\File_Transformer;
+use WeDevs\PM\Milestone\Transformers\Milestone_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Common\Traits\Resource_Editors;
-use CPM\Task\Models\Task;
+use WeDevs\PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Task\Models\Task;
 
 class Task_List_Transformer extends TransformerAbstract {
 
@@ -96,7 +96,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $page = isset( $_GET['task_page'] ) ? $_GET['task_page'] : 1;
 
         $tasks = $item->tasks()
-            ->orderBy( 'cpm_boardables.order', 'DESC' )
+            ->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( 15, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -105,12 +105,12 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeCompleteTasks( Task_List $item ) {
         $page = isset( $_GET['complete_task_page'] ) ? $_GET['complete_task_page'] : 1;
-        $per_page = cpm_get_settings( 'complete_tasks_per_page' );
+        $per_page = pm_get_settings( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         $tasks = $item->tasks()
             ->where( 'status', 1 )
-            ->orderBy( 'cpm_boardables.order', 'DESC' )
+            ->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -118,12 +118,12 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeIncompleteTasks( Task_List $item ) {
         $page = isset( $_GET['incomplete_task_page'] ) ? $_GET['incomplete_task_page'] : 1;
-        $per_page = cpm_get_settings( 'incomplete_tasks_per_page' );
+        $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         $tasks = $item->tasks()
             ->where( 'status', 0 )
-            ->orderBy( 'cpm_boardables.order', 'DESC' )
+            ->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );

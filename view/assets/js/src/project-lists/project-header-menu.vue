@@ -1,21 +1,21 @@
 <template>
-    <ul class="list-inline  cpm-col-8 cpm-project-group-ul">
+    <ul class="list-inline  pm-col-8 pm-project-group-ul">
         
-        <li :class="active+ ' cpm-sm-col-4'">
+        <li :class="active+ ' pm-sm-col-4'">
             <router-link :to="{name: 'project_lists'}">
                 {{text.Active}}
                 <span class="count">{{ activated }}</span>
             </router-link>
         </li>
 
-        <li :class="complete+' cpm-sm-col-4'">
+        <li :class="complete+' pm-sm-col-4'">
             <router-link :to="{name: 'completed_projects'}">
                 {{text.Completed}} 
                 <span class="count">{{ completed }}</span> 
             </router-link> 
         </li>
 
-        <li :class="all + ' cpm-sm-col-4'">
+        <li :class="all + ' pm-sm-col-4'">
             <router-link :to="{name: 'all_projects'}">
                 {{text.All}}
                 <span class="count">{{ allof }}</span>

@@ -2,40 +2,40 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
-	'cpm-vue-multiselect' => [
-		'id'         => 'cpm-vue-multiselect',
+	'pm-vue-multiselect' => [
+		'id'         => 'pm-vue-multiselect',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/vue-multiselect/vue-multiselect.min.css',
 		'dependency' => false,
 	],
-	'cpm-nprogress' => [
-		'id'         => 'cpm-nprogress',
+	'pm-nprogress' => [
+		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/nprogress/nprogress.css',
 		'dependency' => false,
 	],
-	'cpm-fontawesome' => [
-		'id'         => 'cpm-fontawesome',
+	'pm-fontawesome' => [
+		'id'         => 'pm-fontawesome',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/fontawesome/font-awesome.min.css',
 		'dependency' => false,
 	],
-	'cpm-jquery-ui' => [
-		'id'         => 'cpm-jquery-ui',
+	'pm-jquery-ui' => [
+		'id'         => 'pm-jquery-ui',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/jquery-ui/jquery-ui-1.9.1.custom.css',
 		'dependency' => false,
 	],
-	'cpm-tiny-mce' => [
-		'id'         => 'cpm-tiny-mce',
+	'pm-tiny-mce' => [
+		'id'         => 'pm-tiny-mce',
 		'url'        => site_url( '/wp-includes/css/editor.css' ),
 		'dependency' => false,
 	],
-	'cpm-style' => [
-		'id'         => 'cpm-style',
+	'pm-style' => [
+		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'view/assets/css/style.css',
 		'dependency' => [
-			'cpm-vue-multiselect',
-			'cpm-nprogress',
-			'cpm-fontawesome',
-			'cpm-jquery-ui',
-			'cpm-tiny-mce',
+			'pm-vue-multiselect',
+			'pm-nprogress',
+			'pm-fontawesome',
+			'pm-jquery-ui',
+			'pm-tiny-mce',
 		],
 	],
 ];

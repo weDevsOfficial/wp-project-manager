@@ -1,8 +1,8 @@
 <template>
-    <div class="cpm-todo-wrap clearfix">
-        <div class="cpm-todo-content" >
+    <div class="pm-todo-wrap clearfix">
+        <div class="pm-todo-content" >
             <div>
-                <div class="cpm-col-6">
+                <div class="pm-col-6">
                     <input v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
@@ -17,14 +17,14 @@
                                     task: task 
                             }}">
 
-                            <span class="cpm-todo-text">{{ task.title }}</span>
+                            <span class="pm-todo-text">{{ task.title }}</span>
                         </router-link>
                   
                      <span :class="privateClass( task )"></span>
                     </span> 
                   
 
-                    <span class='cpm-assigned-user' 
+                    <span class='pm-assigned-user' 
                         v-for="user in getUsers( task.assigned_to )" 
                         v-html="user.user_url" :key="user.ID">
 
@@ -37,9 +37,9 @@
                     </span>
                 </div>
 
-                <div class="cpm-col-5">
+                <div class="pm-col-5">
                     
-                    <span class="cpm-comment-count">
+                    <span class="pm-comment-count">
                         <a href="#">
                             {{ task.comment_count }}
                         </a>
@@ -47,13 +47,13 @@
                 </div>
 
 
-                <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
-                    <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                <div class="pm-col-1 pm-todo-action-right pm-last-col">
+                    <a href="#" @click.prevent="deleteTask(task, list)" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="cpm-todo-form" v-if="task.edit_mode">
+        <div class="pm-todo-form" v-if="task.edit_mode">
             <new-task-form :task="task" :list="list"></new-task-form>
         </div>
 

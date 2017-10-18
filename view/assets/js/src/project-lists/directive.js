@@ -4,21 +4,21 @@ var Project = {
     coWorkerSearch: function(el, binding, vnode) {
         
         var $ = jQuery;
-        var cpm_abort;
+        var pm_abort;
         var context = vnode.context;
 
-        $( ".cpm-project-coworker" ).autocomplete( {
+        $( ".pm-project-coworker" ).autocomplete( {
             minLength: 3,
             
             source: function( request, response ) {
                 var data = {},
-                    url = context.base_url + '/cpm/v2/users/search?query=' + request.term;
+                    url = context.base_url + '/pm/v2/users/search?query=' + request.term;
                 
-                if ( cpm_abort ) {
-                    cpm_abort.abort();
+                if ( pm_abort ) {
+                    pm_abort.abort();
                 }
 
-                cpm_abort = $.get( url, data, function( resp ) {
+                pm_abort = $.get( url, data, function( resp ) {
                     
                     if ( resp.data.length ) {
                         response( resp.data );
@@ -31,20 +31,20 @@ var Project = {
             },
 
             search: function() {
-                $( this ).addClass( 'cpm-spinner' );
+                $( this ).addClass( 'pm-spinner' );
             },
 
             open: function() {
                 var self = $( this );
                 self.autocomplete( 'widget' ).css( 'z-index', 999999 );
-                self.removeClass( 'cpm-spinner' );
+                self.removeClass( 'pm-spinner' );
                 return false;
             },
 
             select: function( event, ui ) {
                 if ( ui.item.value === '0' ) {
-                    $( "form.cpm-user-create-form" ).find( 'input[type=text]' ).val( '' );
-                    $( "#cpm-create-user-wrap" ).dialog( "open" );
+                    $( "form.pm-user-create-form" ).find( 'input[type=text]' ).val( '' );
+                    $( "#pm-create-user-wrap" ).dialog( "open" );
                 } else {
 
                     var has_user = context.selectedUsers.find(function(user) {
@@ -63,8 +63,8 @@ var Project = {
                         context.$root.$store.commit('updateSeletedUser', ui.item);
                     }
                     
-                    $( '.cpm-project-role>table' ).append( ui.item._user_meta );
-                    $( "input.cpm-project-coworker" ).val( '' );
+                    $( '.pm-project-role>table' ).append( ui.item._user_meta );
+                    $( "input.pm-project-coworker" ).val( '' );
                 }
                 return false;
             }
@@ -100,7 +100,7 @@ Vue.directive('pm-popup-box', {
         jQuery(el).dialog({
             autoOpen: false,
             modal: true,
-            dialogClass: 'cpm-ui-dialog',
+            dialogClass: 'pm-ui-dialog',
             width: 485,
             height: 'auto',
             position:['middle', 100],
@@ -109,14 +109,14 @@ Vue.directive('pm-popup-box', {
 });
 
 // Register a global custom directive called v-pm-popup-box
-Vue.directive('cpm-user-create-popup-box', {
+Vue.directive('pm-user-create-popup-box', {
 
     inserted: function (el) {
         jQuery(function($) {
             $(el).dialog({
                 autoOpen: false,
                 modal: true,
-                dialogClass: 'cpm-ui-dialog cpm-user-ui-dialog',
+                dialogClass: 'pm-ui-dialog pm-user-ui-dialog',
                 width: 400,
                 height: 'auto',
                 position:['middle', 100],

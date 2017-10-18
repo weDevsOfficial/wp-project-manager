@@ -1,21 +1,21 @@
 <?php
 
-namespace CPM\Task\Models;
+namespace WeDevs\PM\Task\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\Task\Task_Model_Trait;
-use CPM\Task_List\Models\Task_List;
-use CPM\Common\Models\Board;
-use CPM\Common\Models\Boardable;
-use CPM\File\Models\File;
-use CPM\Comment\Models\Comment;
-use CPM\Common\Models\Assignee;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task\Task_Model_Trait;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Common\Models\Assignee;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
 
-    protected $table = 'cpm_tasks';
+    protected $table = 'pm_tasks';
 
     const INCOMPLETE = 0;
     const COMPLETE   = 1;
@@ -45,14 +45,14 @@ class Task extends Eloquent {
     ];
 
     public function task_lists() {
-        return $this->belongsToMany( Task_List::class, 'cpm_boardables', 'boardable_id', 'board_id' )
-            ->where('cpm_boardables.board_type', 'task-list')
-            ->where('cpm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where('pm_boardables.board_type', 'task_list')
+            ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boards() {
-        return $this->belongsToMany( Board::class, 'cpm_boardables', 'boardable_id', 'board_id' )
-            ->where('cpm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( Board::class, 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boardables() {

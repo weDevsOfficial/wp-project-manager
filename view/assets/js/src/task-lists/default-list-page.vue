@@ -1,7 +1,7 @@
 <template>
-	<div class="cpm-blank-template todolist">
-	    <div class="cpm-content" >
-	        <h3 class="cpm-page-title">Task Lists</h3>
+	<div class="pm-blank-template todolist">
+	    <div class="pm-content" >
+	        <h3 class="pm-page-title">Task Lists</h3>
 
 	        <p>
 	            You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.
@@ -10,10 +10,10 @@
 	         <new-task-list-btn></new-task-list-btn>
 			<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
 
-	        <div class="cpm-list-content">
-	            <h3 class="cpm-why-for cpm-page-title">When to use Task Lists?</h3>
+	        <div class="pm-list-content">
+	            <h3 class="pm-why-for pm-page-title">When to use Task Lists?</h3>
 
-	            <ul class="cpm-list">
+	            <ul class="pm-list">
 	                <li>To partition a project internals.</li>
 	                <li>To mark milestone points.</li>
 	                <li>To assign people to tasks.</li>

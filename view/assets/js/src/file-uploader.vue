@@ -1,8 +1,8 @@
 <template>
-	<div class="cpm-attachment-area">
-	    <div id="cpm-upload-container">
-	        <div class="cpm-upload-filelist">
-	        	<div class="cpm-uploaded-item" v-for="file in files" :key="file.id">
+	<div class="pm-attachment-area">
+	    <div id="pm-upload-container">
+	        <div class="pm-upload-filelist">
+	        	<div class="pm-uploaded-item" v-for="file in files" :key="file.id">
 	        		<a :href="file.url" target="_blank">
 	        			<img :src="file.thumb" :alt="file.name">
 	        		</a> 
@@ -13,7 +13,7 @@
 	 
 	                       
 	        </div>
-	        To attach, <a id="cpm-upload-pickfiles" href="#">select files</a> from your computer.
+	        To attach, <a id="pm-upload-pickfiles" href="#">select files</a> from your computer.
 	    </div>
 	</div>
 </template>
@@ -32,7 +32,7 @@
 
 	        // Instantiate file upload, After dom ready
 	        Vue.nextTick(function() {
-	            new CPM_Uploader('cpm-upload-pickfiles', 'cpm-upload-container', self );
+	            new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', self );
 	        });
 
 	    },

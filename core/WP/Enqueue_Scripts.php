@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\WP;
+namespace WeDevs\PM\Core\WP;
 
 class Enqueue_Scripts {
 
@@ -25,41 +25,41 @@ class Enqueue_Scripts {
 			do_action( 'after_loaded' . $script_id );
 		}
 
-		$upload_size = 10 * 1024 * 1024;//intval( \cpm_get_option( 'upload_limit', 'cpm_general' ) ) * 1024 * 1024;
+		$upload_size = 10 * 1024 * 1024;//intval( \pm_get_option( 'upload_limit', 'pm_general' ) ) * 1024 * 1024;
 
 		wp_localize_script( 'pm-config', 'PM_Vars', array(
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
-			'nonce'                    => wp_create_nonce( 'cpm_nonce' ),
+			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
 			'time_zones'               => $json_time_zone_string['zones'],
 			'time_links'               => $json_time_zone_string['links'],
 			'rest_api_prefix'          => rest_get_url_prefix(),
-			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'CPM_Task_Mixin' ) ),
-			'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'CPM_Task_Mixin' ) ),
+			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
+			'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),
 			'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
 			'assets_url'			   => config('frontend.assets_url'),
 			'wp_time_zone'             => tzcode_to_tzstring( get_wp_timezone() ),
 			'current_user'             => wp_get_current_user(),
 			'avatar_url'               => get_avatar_url( get_current_user_id() ),
 			'plupload'      => array(
-                'browse_button'       => 'cpm-upload-pickfiles',
-                'container'           => 'cpm-upload-container',
+                'browse_button'       => 'pm-upload-pickfiles',
+                'container'           => 'pm-upload-container',
                 'max_file_size'       => $upload_size . 'b',
-                'url'                 => admin_url( 'admin-ajax.php' ) . '?action=cpm_ajax_upload&nonce=' . wp_create_nonce( 'cpm_ajax_upload' ),
+                'url'                 => admin_url( 'admin-ajax.php' ) . '?action=pm_ajax_upload&nonce=' . wp_create_nonce( 'pm_ajax_upload' ),
                 'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
                 'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
                 'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
                 'resize'              => array( 'width' => ( int ) get_option( 'large_size_w' ), 'height' => ( int ) get_option( 'large_size_h' ), 'quality' => 100 )
             ),
-            'roles' => cpm_get_wp_roles(),
-            'settings' => cpm_get_settings(),
-            'text' => cpm_get_text('common')
+            'roles' => pm_get_wp_roles(),
+            'settings' => pm_get_settings(),
+            'text' => pm_get_text('common')
         ));
 	}
 
 	public static function styles() {
 		$styles_id = [
-			'cpm-style',
+			'pm-style',
 		];
 
 		foreach ( $styles_id as $style ) {

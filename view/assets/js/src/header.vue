@@ -1,11 +1,11 @@
 <template>
-    <div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head">
-        <div class="cpm-row cpm-no-padding cpm-border-bottom">
+    <div class="pm-top-bar pm-no-padding pm-project-header pm-project-head">
+        <div class="pm-row pm-no-padding pm-border-bottom">
 
-            <div class="cpm-col-6 cpm-project-detail">
+            <div class="pm-col-6 pm-project-detail">
                 <h3>
-                    <span class="cpm-project-title">{{ project.title }}</span>
-                     <a @click.prevent="showHideProjectForm('toggle')" href="#" class="cpm-icon-edit cpm-project-edit-link small-text">
+                    <span class="pm-project-title">{{ project.title }}</span>
+                     <a @click.prevent="showHideProjectForm('toggle')" href="#" class="pm-icon-edit pm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
                         <span class="text">{{text.Edit}}</span>
                      </a>
@@ -13,25 +13,25 @@
 
                 <div class="detail"></div>
             </div>
-            <div class="cpm-completed-wrap">
+            <div class="pm-completed-wrap">
                 <div v-if="project.status === 'complete'" class="ribbon-green">{{text.Completed}}</div>
                 <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.Incomplete}}</div>
             </div>
-            <div class="cpm-col-6 cpm-last-col cpm-top-right-btn cpm-text-right show_desktop_only">
+            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only">
                     
-                <div class="cpm-project-action">
-                    <span @click.prevent="showProjectAction()" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+                <div class="pm-project-action">
+                    <span @click.prevent="showProjectAction()" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
-                    <ul v-if="project.settings_hide" class="cpm-settings">
+                    <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
-                            <span class="cpm-spinner"></span>
+                            <span class="pm-spinner"></span>
                             <a href="#" @click.prevent="deleteProject(project.id)">
                                 <span class="dashicons dashicons-trash"></span>
                                 <span>Delete</span>
                             </a>
                         </li>
                         <li>
-                            <span class="cpm-spinner"></span>
+                            <span class="pm-spinner"></span>
                             <a @click.prevent="selfProjectMarkDone(project)" href="#">
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
                                 <span v-if="project.status === 'incomplete'">Complete</span>
@@ -46,12 +46,12 @@
 
             <div class="clearfix"></div>
 
-            <div class="cpm-edit-project" v-if="is_project_edit_mode">
+            <div class="pm-edit-project" v-if="is_project_edit_mode">
                 <edit-project :is_update="true"></edit-project>
             </div>
         </div>
 
-        <div class="cpm-row cpm-project-group">
+        <div class="pm-row pm-project-group">
             <ul>
                 <li v-for="item in menu"> 
                     <router-link 
@@ -116,7 +116,7 @@
 
                         name: 'Overview',
                         count: '',
-                        class: 'overview cpm-sm-col-12'
+                        class: 'overview pm-sm-col-12'
                     },
 
                     {
@@ -127,7 +127,7 @@
 
                         name: 'Activities',
                         count: project.meta.total_activities,
-                        class: 'activity cpm-sm-col-12'
+                        class: 'activity pm-sm-col-12'
                     },
 
                     {
@@ -138,7 +138,7 @@
 
                         name: 'Discussions',
                         count: project.meta.total_discussion_boards,
-                        class: 'message cpm-sm-col-12'
+                        class: 'message pm-sm-col-12'
                     },
 
                     {
@@ -149,7 +149,7 @@
 
                         name: 'Task Lists',
                         count: project.meta.total_task_lists,
-                        class: 'to-do-list cpm-sm-col-12'
+                        class: 'to-do-list pm-sm-col-12'
                     },
 
                     {
@@ -160,7 +160,7 @@
 
                         name: 'Milestones',
                         count: project.meta.total_milestones,
-                        class: 'milestone cpm-sm-col-12'
+                        class: 'milestone pm-sm-col-12'
                     },
 
                     {
@@ -171,7 +171,7 @@
 
                         name: 'Files',
                         count: project.meta.total_files,
-                        class: 'files cpm-sm-col-12'
+                        class: 'files pm-sm-col-12'
                     }
                 ];
             }
@@ -221,7 +221,7 @@
 </script>
 
 <style>
-    .cpm-project-header .router-link-active {
+    .pm-project-header .router-link-active {
         border-bottom: solid 2px #019dd6 !important;
         color: #000000 !important;
     }

@@ -7,7 +7,7 @@ export default Vue.mixin({
 				condition = self.generateActivityCondition(condition) || '';
 
 			var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/activities?'+condition,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/activities?'+condition,
 	            success (res) {
 	                if ( typeof callback !== 'undefined' ) {
 	                	callback(res);

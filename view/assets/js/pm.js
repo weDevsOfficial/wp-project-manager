@@ -1,4 +1,4 @@
-__webpack_public_path__ = PM_Vars.base_url + '/wp-content/plugins/cpmapi/view/assets/js/';
+__webpack_public_path__ = PM_Vars.base_url + '/wp-content/plugins/pmapi/view/assets/js/';
 
 import Vue from './vue/vue';
 import store from './store';
@@ -11,11 +11,11 @@ import Controller from './src/controller.vue';
 /**
  * Project template render
  */
-var CPM_Vue = {
+var PM_Vue = {
 	el: '#wedevs-pm',
 	store,
 	router,
 	render: t => t(Controller),
 }
 
-new Vue(CPM_Vue); 
+new Vue(PM_Vue); 

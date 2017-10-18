@@ -1,9 +1,9 @@
 <template>
 
-	<div class="cpm-incomplete-tasks">
-	    <ul  class="cpm-todos cpm-todolist-content cpm-incomplete-task" v-cpm-sortable>
+	<div class="pm-incomplete-tasks">
+	    <ul  class="pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
 	       <!--  <li v-if="loading_incomplete_tasks" class="nonsortable">
-	            <div class="cpm-data-load-before" >
+	            <div class="pm-data-load-before" >
 	                <div class="loadmoreanimation">
 	                    <div class="load-spinner">
 	                        <div class="rect1"></div>
@@ -16,7 +16,7 @@
 	            </div>
 	        </li>
 	-->
-	        <li :data-id="task.id" :data-order="task.order" class="cpm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'cpm-fade-out-'+task.id">
+	        <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
 
 	            <incompleted-tasks :task="task" :list="list"></incompleted-tasks>      	
 	        </li>
@@ -25,9 +25,9 @@
 
 	       <!--  <li v-if="loadMoreButton" class="nonsortable">
 	            <a @click.prevent="loadMoreIncompleteTasks()" href="#">More Tasks</a>
-	            <span v-show="more_incomplete_task_spinner"  class="cpm-incomplete-task-spinner cpm-spinner"></span>
+	            <span v-show="more_incomplete_task_spinner"  class="pm-incomplete-task-spinner pm-spinner"></span>
 	        </li> -->
-	        <li v-if="list.show_task_form" class="cpm-todo-form nonsortable">
+	        <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
 	            <new-task-form :task="{}"  :list="list"></new-task-form>
 	        </li>
 	    </ul> 
@@ -179,7 +179,7 @@
 	         * @return string      
 	         */
 	        privateClass ( task ) {
-	            return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+	            return ( task.task_privacy == 'yes' ) ? 'pm-lock' : 'pm-unlock';
 	        },
 
 	        /**
@@ -196,7 +196,7 @@
 	                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
 	                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task_id, 'ID' ),
 	                form_data  = {
-	                    action: 'cpm_task_delete',
+	                    action: 'pm_task_delete',
 	                    task_id: task_id,
 	                    _wpnonce: PM_Vars.nonce,
 	                };
@@ -207,7 +207,7 @@
 	                    // Display a success message, with a title
 	                    //toastr.success(res.data.success);
 	                    
-	                    CPM_Component_jQuery.fadeOut( task_id, function() {
+	                    PM_Component_jQuery.fadeOut( task_id, function() {
 	                        self.$store.commit( 'after_delete_task', { 
 	                            list_index: list_index,
 	                            task_index: task_index,

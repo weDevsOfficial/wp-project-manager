@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Role\Models;
+namespace WeDevs\PM\Role\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use WeDevs\PM\Common\Traits\Model_Events;
 
 class Role extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_roles';
+    protected $table = 'pm_roles';
 
     protected $fillable = [
         'title',

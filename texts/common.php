@@ -2,86 +2,86 @@
 
 return [
 	'add_new_discussion' => [
-		__( 'Add New Discussion', 'cpm' )
+		__( 'Add New Discussion', 'pm' )
 	],
 
 	'load_more' => [
-		__( 'Load More ...', 'cpm' )
+		__( 'Load More ...', 'pm' )
 	],
 	'Edit' => [
-		__( 'Edit', 'cpm' )
+		__( 'Edit', 'pm' )
 	],
 	'Delete' => [
-		__( 'Delete', 'cpm' )
+		__( 'Delete', 'pm' )
 	],
 	'Cancel' => [
-		__( 'Cancel', 'cpm' )
+		__( 'Cancel', 'pm' )
 	],
 	// project page Header
 	'project_manager' => [
-		__( 'Project Manager', 'cpm' )
+		__( 'Project Manager', 'pm' )
 	],
 	'create_a_project' => [
-		__( 'Create A Project', 'cpm' )
+		__( 'Create A Project', 'pm' )
 	],
 	'Project_Category' => [
-		__( ' – Project Category –', 'cpm' )
+		__( ' – Project Category –', 'pm' )
 	],
 	'Active' => [
-		__( 'Active', 'cpm' )
+		__( 'Active', 'pm' )
 	],
 	'All' => [
-		__( 'All', 'cpm' )
+		__( 'All', 'pm' )
 	],
 	'Completed' => [
-		__( 'Completed', 'cpm' )
+		__( 'Completed', 'pm' )
 	],
 	'start_a_new_project' => [
-		__( 'Start a new project', 'cpm' )
+		__( 'Start a new project', 'pm' )
 	],
 	'name_of_the_project' => [
-		__( 'Name of the project', 'cpm' )
+		__( 'Name of the project', 'pm' )
 	],
 	'project_dsc_input' => [
-		__( 'Some details about the project (optional)', 'cpm' )
+		__( 'Some details about the project (optional)', 'pm' )
 	],
 	'project_user_input' => [
-		__( 'Type 3 or more characters to search users...', 'cpm' )
+		__( 'Type 3 or more characters to search users...', 'pm' )
 	],
 	'notify_co_workers' => [
-		__( 'Notify Co-Workers', 'cpm' )
+		__( 'Notify Co-Workers', 'pm' )
 	],
 	'Update_Project' => [
-		__( 'Update Project', 'cpm' )
+		__( 'Update Project', 'pm' )
 	],
 	'Create_a_new_user' => [
-		__( 'Create a new user', 'cpm' )
+		__( 'Create a new user', 'pm' )
 	],
 	'no_user_found' => [
-		__( 'No User Found', 'cpm' )
+		__( 'No User Found', 'pm' )
 	],
 	'Username' => [
-		__( 'Username', 'cpm' )
+		__( 'Username', 'pm' )
 	],
 	'First_Name' => [
-		__( 'First Name', 'cpm' )
+		__( 'First Name', 'pm' )
 	],
 	'Last_Name' => [
-		__( 'Last Name', 'cpm' )
+		__( 'Last Name', 'pm' )
 	],
 	'Email' => [
-		__( 'Email', 'cpm' )
+		__( 'Email', 'pm' )
 	],
 	'Create_User' => [
-		__( 'Create User', 'cpm' )
+		__( 'Create User', 'pm' )
 	],
 	'create_user' => [
-		__( 'Create a new user?', 'cpm' )
+		__( 'Create a new user?', 'pm' )
 	],
 	'List_View' => [
-		__( 'List View', 'cpm' )
+		__( 'List View', 'pm' )
 	],
 	'Grid_View' => [
-		__( 'Grid View', 'cpm' )
+		__( 'Grid View', 'pm' )
 	],
 ];

@@ -1,17 +1,17 @@
 <?php
 
-namespace CPM\Core\WP;
+namespace WeDevs\PM\Core\WP;
 
-use CPM\Core\WP\Menu as Menu;
-use CPM\Core\WP\Register_Scripts;
-use CPM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
-//use CPM\Project\Project_Ajax;
-use CPM\Core\File_System\File_System as File_System;
+use WeDevs\PM\Core\WP\Menu as Menu;
+use WeDevs\PM\Core\WP\Register_Scripts;
+use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
+//use PM\Project\Project_Ajax;
+use WeDevs\PM\Core\File_System\File_System as File_System;
 
-class CPM_Frontend {
+class PM_Frontend {
 
 	/**
-     * Constructor for the CPM class
+     * Constructor for the PM class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -36,7 +36,7 @@ class CPM_Frontend {
 		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
 		//add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'scripts' ) );
 		//add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'styles' ) );
-		add_action( 'wp_ajax_cpm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
+		add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
 	}
 
 	/**

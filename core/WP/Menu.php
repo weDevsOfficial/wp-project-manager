@@ -1,9 +1,9 @@
 <?php
 
-namespace CPM\Core\WP;
+namespace WeDevs\PM\Core\WP;
 
-use CPM\Core\WP\Output as Output;
-use CPM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
+use WeDevs\PM\Core\WP\Output as Output;
+use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 
 class Menu {
 

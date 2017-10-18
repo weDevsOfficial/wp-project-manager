@@ -1,17 +1,17 @@
 <?php
 
-namespace CPM\Comment\Observers;
+namespace WeDevs\PM\Comment\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Comment\Models\Comment;
-use CPM\Activity\Models\Activity;
-use CPM\Task\Models\Task;
-use CPM\Task_List\Models\Task_List;
-use CPM\Project\Models\Project;
-use CPM\Discussion_Board\Models\Discussion_Board as Board;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Core\File_System\File_System;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board as Board;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Core\File_System\File_System;
 use Reflection;
 
 class Comment_Observer extends Model_Observer {
@@ -40,11 +40,11 @@ class Comment_Observer extends Model_Observer {
                 $this->comment_on_task( $comment, $commentable, $action_type );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $this->comment_on_task_list( $comment, $commentable, $action_type );
                 break;
 
-            case 'discussion-board':
+            case 'discussion_board':
                 $this->comment_on_discussion_board( $comment, $commentable, $action_type );
                 break;
 
@@ -69,13 +69,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-task';
+            $action = 'reply_comment_on_task';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-task';
+            $action = 'update_reply_comment_on_task';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-task';
+            $action = 'comment_on_task';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-task';
+            $action = 'update_comment_on_task';
         }
 
         Activity::create([
@@ -96,13 +96,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-task-list';
+            $action = 'reply_comment_on_task_list';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-task-list';
+            $action = 'update_reply_comment_on_task_list';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-task-list';
+            $action = 'comment_on_task_list';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-task-list';
+            $action = 'update_comment_on_task_list';
         }
 
         Activity::create([
@@ -110,7 +110,7 @@ class Comment_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $list->id,
-            'resource_type' => 'task-list',
+            'resource_type' => 'task_list',
             'meta'          => $meta,
             'project_id'    => $comment->project_id,
         ]);
@@ -123,13 +123,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-discussion-board';
+            $action = 'reply_comment_on_discussion_board';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-discussion-board';
+            $action = 'update_reply_comment_on_discussion_board';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-discussion-board';
+            $action = 'comment_on_discussion_board';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-discussion-board';
+            $action = 'update_comment_on_discussion_board';
         }
 
         Activity::create([
@@ -137,7 +137,7 @@ class Comment_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $board->id,
-            'resource_type' => 'discussion-board',
+            'resource_type' => 'discussion_board',
             'meta'          => $meta,
             'project_id'    => $comment->project_id,
         ]);
@@ -150,13 +150,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-milestone';
+            $action = 'reply_comment_on_milestone';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-milestone';
+            $action = 'update_reply_comment_on_milestone';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-milestone';
+            $action = 'comment_on_milestone';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-milestone';
+            $action = 'update_comment_on_milestone';
         }
 
         Activity::create([
@@ -177,13 +177,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-project';
+            $action = 'reply_comment_on_project';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-project';
+            $action = 'update_reply_comment_on_project';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-project';
+            $action = 'comment_on_project';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-project';
+            $action = 'update_comment_on_project';
         }
 
         Activity::create([
@@ -208,13 +208,13 @@ class Comment_Observer extends Model_Observer {
         ];
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
-            $action = 'reply-comment-on-file';
+            $action = 'reply_comment_on_file';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
-            $action = 'update-reply-comment-on-file';
+            $action = 'update_reply_comment_on_file';
         } elseif ( $action_type == 'create' ) {
-            $action = 'comment-on-file';
+            $action = 'comment_on_file';
         } elseif ( $action_type == 'update' ) {
-            $action = 'update-comment-on-file';
+            $action = 'update_comment_on_file';
         }
 
         Activity::create([
@@ -236,11 +236,11 @@ class Comment_Observer extends Model_Observer {
                 $commentable = Task::find( $comment->commentable_id );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $commentable = Task_List::find( $comment->commentable_id );
                 break;
 
-            case 'discussion-board':
+            case 'discussion_board':
                 $commentable = Board::find( $comment->commentable_id );
                 break;
 

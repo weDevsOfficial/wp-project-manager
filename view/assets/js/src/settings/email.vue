@@ -2,7 +2,7 @@
 	<div>
 		<settings-header></settings-header>
 		<div class="metabox-holder">
-			<div id="cpm_mails" class="group" style="">
+			<div id="pm_mails" class="group" style="">
 				<form @submit.prevent="saveEmailSettings()" method="post" action="options.php">
 			
 					<h2>E-Mail Settings</h2>
@@ -10,19 +10,19 @@
 						<tbody>
 							<tr>
 								<th scope="row">
-									<label for="cpm_mails[email_from]">From Email</label>
+									<label for="pm_mails[email_from]">From Email</label>
 								</th>
 								<td>
-									<input v-model="from_email" type="text" class="regular-text" id="cpm_mails[email_from]" name="cpm_mails[email_from]" value="joy.mishu@gmail.com">
+									<input v-model="from_email" type="text" class="regular-text" id="pm_mails[email_from]" name="pm_mails[email_from]" value="joy.mishu@gmail.com">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="cpm_mails[email_url_link]">Links in the Email</label>
+									<label for="pm_mails[email_url_link]">Links in the Email</label>
 								</th>
 								<td>
 									<fieldset>
-										<label for="wpuf-cpm_mails[email_url_link][backend]">
+										<label for="wpuf-pm_mails[email_url_link][backend]">
 											<input v-model="link_to_backend" type="checkbox" class="radio">Link to Backend
 										</label>
 										<br>
@@ -33,10 +33,10 @@
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="cpm_mails[email_type]">E-Mail Type</label>
+									<label for="pm_mails[email_type]">E-Mail Type</label>
 								</th>
 								<td>
-									<select v-model="email_type" class="regular" name="cpm_mails[email_type]" id="cpm_mails[email_type]">
+									<select v-model="email_type" class="regular" name="pm_mails[email_type]" id="pm_mails[email_type]">
 										<option value="text/html">HTML Mail</option>
 										<option value="text/plain" selected="selected">Plain Text</option>
 									</select>
@@ -44,11 +44,11 @@
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="cpm_mails[email_bcc_enable]">Send email via Bcc</label>
+									<label for="pm_mails[email_bcc_enable]">Send email via Bcc</label>
 								</th>
 								<td>
 									<fieldset>
-										<label for="wpuf-cpm_mails[email_bcc_enable]">
+										<label for="wpuf-pm_mails[email_bcc_enable]">
 											<input v-model="enable_bcc" type="checkbox" class="checkbox">
 											Enable Bcc
 										</label>
@@ -60,7 +60,7 @@
 					<div style="padding-left: 10px">
 						<p class="submit">
 							<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
-							<span v-show="show_spinner" class="cpm-spinner"></span>
+							<span v-show="show_spinner" class="pm-spinner"></span>
 						</p>                            
 					</div>
 				</form>

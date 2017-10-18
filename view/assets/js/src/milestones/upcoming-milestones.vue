@@ -1,8 +1,8 @@
 <template>
-	<div v-if="upComingMileStones.length" class="cpm-upcomming-milestone cpm-milestone-data">
+	<div v-if="upComingMileStones.length" class="pm-upcomming-milestone pm-milestone-data">
         <h2 class="group-title">Upcoming Milestones</h2>
 
-        <div v-for="milestone in upComingMileStones" class="cpm-milestone late">
+        <div v-for="milestone in upComingMileStones" class="pm-milestone late">
     		<div class="milestone-detail ">
             	<h3 class="milestone-head">
                 	{{ milestone.title }} <br>
@@ -23,13 +23,13 @@
     		</div>
 
             <transition name="slide">
-        		<div class="cpm-milestone-edit-form cpm-col-6 cpm-sm-col-12" style="float:none;margin-left:20px;" v-if="milestone.edit_mode">
+        		<div class="pm-milestone-edit-form pm-col-6 pm-sm-col-12" style="float:none;margin-left:20px;" v-if="milestone.edit_mode">
                     <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
                 </div>
             </transition>
 
-    		<div class="cpm-milestone-items-details">
-                <div v-if="milestone.task_lists.data.length"  class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
+    		<div class="pm-milestone-items-details">
+                <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">
                     <h3>Task List</h3>
 
                     <ul>
@@ -40,7 +40,7 @@
                 </div>
                
                 
-                <div v-if="milestone.discussion_boards.data.length"  class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
+                <div v-if="milestone.discussion_boards.data.length"  class="pm-col-6 pm-milestone-discussion pm-last-col pm-sm-col-12">
                     <h3>Discussion</h3>
 
                     <ul>

@@ -13,7 +13,7 @@
 4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
 4 verbose stack     at tryToString (fs.js:456:3)
 4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:443:12)
-5 verbose cwd /Users/mishu/Documents/wedevs/api/wp-content/plugins/cpmapi
+5 verbose cwd /Users/mishu/Documents/wedevs/api/wp-content/plugins/pmapi
 6 error Darwin 16.7.0
 7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "warch"
 8 error node v6.11.2

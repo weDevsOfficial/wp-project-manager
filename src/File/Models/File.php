@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\File\Models;
+namespace WeDevs\PM\File\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\User\Models\User;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\User\Models\User;
 
 class File extends Eloquent {
     use Model_Events;
 
-    protected $table = 'cpm_files';
+    protected $table = 'pm_files';
 
     protected $fillable = [
         'fileable_id',

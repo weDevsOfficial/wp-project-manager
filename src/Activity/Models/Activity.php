@@ -1,13 +1,13 @@
 <?php
 
-namespace CPM\Activity\Models;
+namespace WeDevs\PM\Activity\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\User\Models\User;
+use WeDevs\PM\User\Models\User;
 
 class Activity extends Eloquent {
 
-    protected $table = 'cpm_activities';
+    protected $table = 'pm_activities';
 
     protected $fillable = [
         'actor_id',

@@ -1,8 +1,8 @@
 <?php
 
-use CPM\Core\Textdomain\Textdomain;
+use WeDevs\PM\Core\Textdomain\Textdomain;
 
-function cpm_get_text( $key ) {
+function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
 }
 
@@ -78,7 +78,7 @@ function make_carbon_date( $date ) {
     return null;
 }
 
-function cpm_get_wp_roles() {
+function pm_get_wp_roles() {
     global $wp_roles;
 
     if ( !$wp_roles ) {
@@ -88,14 +88,14 @@ function cpm_get_wp_roles() {
     return $wp_roles->get_names();
 }
 
-function cpm_get_settings( $key = null ) {
+function pm_get_settings( $key = null ) {
     $settings = null;
     $all_settings = null;
 
     if ( $key ) {
-        $settings = \CPM\Settings\Models\Settings::where( 'key', $key )->first();
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )->first();
     } else {
-        $all_settings = \CPM\Settings\Models\Settings::all();
+        $all_settings = \WeDevs\PM\Settings\Models\Settings::all();
     }
 
     if ( $settings ) {

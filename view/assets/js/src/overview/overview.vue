@@ -1,8 +1,8 @@
 <template>
-	<div class="wrap cpm cpm-front-end">
+	<div class="wrap pm pm-front-end">
 		<pm-header></pm-header>
 
-		<div v-if="loading" class="cpm-data-load-before" >
+		<div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -15,7 +15,7 @@
         </div>
 
 		<div class="project-overview">
-			<div class="cpm-col-10 cpm-sm-col-12">
+			<div class="pm-col-10 pm-sm-col-12">
 			    <div class="overview-menu">
 			        <ul>
 			         	<li class="message">
@@ -102,7 +102,7 @@
 			         </ul>
 			    </div>
 
-			    <div id="cpm-chart" class="cpm-chart">
+			    <div id="pm-chart" class="pm-chart">
 
 			    	<h3>This Month</h3>
 
@@ -112,8 +112,8 @@
 			    </div>
 			</div>
 
-			<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part cpm-last-col">
-				<h3 class="cpm-border-bottom"> Users </h3>
+			<div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
+				<h3 class="pm-border-bottom"> Users </h3>
 				<ul class="user_list">
 					<li v-for="user in users">
 						<img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 

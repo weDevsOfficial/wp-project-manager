@@ -1,19 +1,19 @@
 <?php
 
-namespace CPM\Discussion_Board\Models;
+namespace WeDevs\PM\Discussion_Board\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\Comment\Models\Comment;
-use CPM\File\Models\File;
-use CPM\Common\Models\Boardable;
-use CPM\User\Models\User;
-use CPM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Discussion_Board extends Eloquent {
     use Model_Events;
 
-    protected $table = 'cpm_boards';
+    protected $table = 'pm_boards';
 
     protected $fillable = [
         'title',
@@ -24,30 +24,30 @@ class Discussion_Board extends Eloquent {
         'updated_by',
     ];
 
-    protected $attributes = ['type' => 'discussion-board'];
+    protected $attributes = ['type' => 'discussion_board'];
 
     public function newQuery( $except_deleted = true ) {
-        return parent::newQuery( $except_deleted )->where( 'type', '=', 'discussion-board' );
+        return parent::newQuery( $except_deleted )->where( 'type', '=', 'discussion_board' );
     }
 
     public function comments() {
-        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'discussion-board' );
+        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'discussion_board' );
     }
 
     public function files() {
-        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'discussion-board' );
+        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'discussion_board' );
     }
 
     public function users() {
-        return $this->belongsToMany( User::class, 'cpm_boardables', 'board_id', 'boardable_id')
-            ->where( 'board_type', 'discussion-board' )
+        return $this->belongsToMany( User::class, 'pm_boardables', 'board_id', 'boardable_id')
+            ->where( 'board_type', 'discussion_board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( Milestone::class, 'cpm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( Milestone::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
-            ->where( 'boardable_type', 'discussion-board' );
+            ->where( 'boardable_type', 'discussion_board' );
     }
 
 }

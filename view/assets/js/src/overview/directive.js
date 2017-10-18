@@ -40,7 +40,7 @@ var PM_Overview = {
 		Chart.defaults.global.responsive = true;
 		var ctx = el.getContext("2d");
 		// This will get the first returned node in the jQuery collection.
-		var cpmChart = new Chart(ctx, {
+		var pmChart = new Chart(ctx, {
 			type: 'line',
 			data: data,
 			pointDotRadius : 8,
@@ -92,7 +92,7 @@ var PM_Overview = {
 }
 
 
-// Register a global custom directive called v-cpm-sortable
+// Register a global custom directive called v-pm-sortable
 Vue.directive('pm-overview-chart', {
     update: function (el, binding, vnode) {
         PM_Overview.chart(el, binding, vnode);

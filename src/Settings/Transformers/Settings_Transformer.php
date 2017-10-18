@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Settings\Transformers;
+namespace WeDevs\PM\Settings\Transformers;
 
-use CPM\Settings\Models\Settings;
+use WeDevs\PM\Settings\Models\Settings;
 use League\Fractal\TransformerAbstract;
-use CPM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class Settings_Transformer extends TransformerAbstract {
 

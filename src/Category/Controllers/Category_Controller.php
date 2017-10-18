@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Category\Controllers;
+namespace WeDevs\PM\Category\Controllers;
 
 use WP_REST_Request;
-use CPM\Category\Models\Category;
+use WeDevs\PM\Category\Models\Category;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Category\Transformer\Category_Transformer;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Category\Transformers\Category_Transformer;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Category_Controller {
@@ -88,7 +88,7 @@ class Category_Controller {
         $category_ids = $request->get_param( 'category_ids' );
         
         if ( is_array( $category_ids ) ) {
-            DB::table('cpm_category_project')->whereIn( 'category_id', $category_ids )->delete();
+            DB::table('pm_category_project')->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
         }
     }

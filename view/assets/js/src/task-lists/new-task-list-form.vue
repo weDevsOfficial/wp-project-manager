@@ -1,6 +1,6 @@
 <template>
 	
-	<div :class="todolistFormClass(list)+' cpm-new-todolist-form'">
+	<div :class="todolistFormClass(list)+' pm-new-todolist-form'">
 
 	    <form v-on:submit.prevent="newTodoList()" action="" method="post">
 	        <div class="item title">
@@ -23,10 +23,10 @@
 	        </div>
 	        
 	        <div class="item submit">
-	            <span class="cpm-new-list-spinner"></span>
+	            <span class="pm-new-list-spinner"></span>
 	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="submit_btn_text">
 	            <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">Cancel</a>
-	            <span v-show="show_spinner" class="cpm-spinner"></span>
+	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	    </form>
 	</div>
@@ -35,7 +35,7 @@
 
 <script>
 
-	var cpm_todo_list_mixins = function(mixins, mixin_parent) {
+	var pm_todo_list_mixins = function(mixins, mixin_parent) {
 	    if (!mixins || !mixins.length) {
 	        return [];
 	    }
@@ -98,7 +98,7 @@
 	         * @return string     
 	         */
 	        todolistFormClass: function( list ) {
-	            return list.ID ? 'cpm-todo-form-wrap cpm-form cpm-slide-'+ list.ID : 'cpm-todo-list-form-wrap cpm-form cpm-slide-list';
+	            return list.ID ? 'pm-todo-form-wrap pm-form pm-slide-'+ list.ID : 'pm-todo-list-form-wrap pm-form pm-slide-list';
 	        },
 
 	        /**
@@ -123,11 +123,11 @@
 
 	            if ( is_update ) {
 	            	var type = 'PUT';
-	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id;
+	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id;
 	            	var data = 'title='+self.list.title+'&description='+self.list.description+'&milestone='+self.milestone_id+'&order'+5;
 	            		
 	            } else {
-	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists';
+	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists';
 	            	var type = 'POST';
 	            	var data = {
 	            		'title': self.list.title,

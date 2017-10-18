@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Task\Observers;
+namespace WeDevs\PM\Task\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Task\Models\Task;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task\Models\Task;
 use Carbon\Carbon;
 
 class Task_Observer extends Model_Observer {
@@ -14,7 +14,7 @@ class Task_Observer extends Model_Observer {
             'task_title' => $resource->title,
         ];
 
-        $this->log_activity( $resource, 'create-task', 'create', $meta );
+        $this->log_activity( $resource, 'create_task', 'create', $meta );
     }
 
     public function updated( $resource ) {
@@ -26,7 +26,7 @@ class Task_Observer extends Model_Observer {
             'task_title_old' => $old_value,
             'task_title_new' => $item->title,
         ];
-        $this->log_activity( $item, 'update-task-title', 'update', $meta );
+        $this->log_activity( $item, 'update_task_title', 'update', $meta );
     }
 
     public function description( Task $item, $old_value ) {
@@ -34,7 +34,7 @@ class Task_Observer extends Model_Observer {
             'task_title' => $item->title,
         ];
 
-        $this->log_activity( $item, 'update-task-description', 'update', $meta );
+        $this->log_activity( $item, 'update_task_description', 'update', $meta );
     }
 
     public function estimation( Task $item, $old_value ) {
@@ -44,7 +44,7 @@ class Task_Observer extends Model_Observer {
             'task_estimation_new' => $item->estimation,
         ];
 
-        $this->log_activity( $item, 'update-task-estimation', 'update', $meta );
+        $this->log_activity( $item, 'update_task_estimation', 'update', $meta );
     }
 
     public function start_at( Task $item, $old_value ) {
@@ -55,7 +55,7 @@ class Task_Observer extends Model_Observer {
             'task_start_at_new' => $item->start_at instanceof Carbon ? $item->start_at->toDateTimeString() : null,
         ];
 
-        $this->log_activity( $item, 'update-task-start-at', 'update', $meta );
+        $this->log_activity( $item, 'update_task_start_at_date', 'update', $meta );
     }
 
     public function due_date( Task $item, $old_value ) {
@@ -65,7 +65,7 @@ class Task_Observer extends Model_Observer {
             'task_due_date_new' => $item->due_date instanceof Carbon ? $item->due_date->toDateTimeString() : null,
         ];
 
-        $this->log_activity( $item, 'update-task-due-date', 'update', $meta );
+        $this->log_activity( $item, 'update_task_due_date', 'update', $meta );
     }
 
     public function complexity( Task $item, $old_value ) {
@@ -75,7 +75,7 @@ class Task_Observer extends Model_Observer {
             'task_complexity_new' => $item->complexity,
         ];
 
-        $this->log_activity( $item, 'update-complexity', 'update', $meta );
+        $this->log_activity( $item, 'update_task_complexity', 'update', $meta );
     }
 
     public function priority( Task $item, $old_value ) {
@@ -85,7 +85,7 @@ class Task_Observer extends Model_Observer {
             'task_priority_new' => $item->priority,
         ];
 
-        $this->log_activity( $item, 'update-priority', 'update', $meta );
+        $this->log_activity( $item, 'update_task_priority', 'update', $meta );
     }
 
     public function payable( Task $item, $old_value ) {
@@ -95,7 +95,7 @@ class Task_Observer extends Model_Observer {
             'task_payable_new' => $item->payable,
         ];
 
-        $this->log_activity( $item, 'update-payable', 'update', $meta );
+        $this->log_activity( $item, 'update_task_payable_status', 'update', $meta );
     }
 
     public function recurrent( Task $item, $old_value ) {
@@ -105,7 +105,7 @@ class Task_Observer extends Model_Observer {
             'task_recurrent_new' => $item->recurrent,
         ];
 
-        $this->log_activity( $item, 'update-recurrent', 'update', $meta );
+        $this->log_activity( $item, 'update_task_recurrent_status', 'update', $meta );
     }
 
     public function status( Task $item, $old_value ) {
@@ -115,7 +115,7 @@ class Task_Observer extends Model_Observer {
             'task_status_new' => $item->status,
         ];
 
-        $this->log_activity( $item, 'update-status', 'update', $meta );
+        $this->log_activity( $item, 'update_task_status', 'update', $meta );
     }
 
     private function log_activity( Task $item, $action, $action_type, $meta = null ) {

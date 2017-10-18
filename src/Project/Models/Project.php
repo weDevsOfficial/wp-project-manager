@@ -1,21 +1,21 @@
 <?php
 
-namespace CPM\Project\Models;
+namespace WeDevs\PM\Project\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Project\Project_Status;
-use CPM\Model_Events;
-use CPM\Task_List\Models\Task_List;
-use CPM\Task\Models\Task;
-use CPM\Discussion_Board\Models\Discussion_Board;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Comment\Models\Comment;
-use CPM\Category\Models\Category;
-use CPM\User\Models\User;
-use CPM\Activity\Models\Activity;
-use CPM\Settings\Models\Settings;
-use CPM\Common\Models\Meta;
+use WeDevs\PM\Project\Project_Status;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Category\Models\Category;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Settings\Models\Settings;
+use WeDevs\PM\Common\Models\Meta;
 
 class Project extends Eloquent {
 
@@ -26,7 +26,7 @@ class Project extends Eloquent {
     const PENDING    = 2;
     const ARCHIVED   = 3;
 
-    protected $table = 'cpm_projects';
+    protected $table = 'pm_projects';
 
     protected $fillable = [
 		'title',
@@ -47,11 +47,11 @@ class Project extends Eloquent {
     ];
 
     public function categories() {
-        return $this->belongsToMany( Category::class, 'cpm_category_project', 'project_id', 'category_id' );
+        return $this->belongsToMany( Category::class, 'pm_category_project', 'project_id', 'category_id' );
     }
 
     public function assignees() {
-        return $this->belongsToMany( User::class, 'cpm_role_user', 'project_id', 'user_id' )
+        return $this->belongsToMany( User::class, 'pm_role_user', 'project_id', 'user_id' )
             ->withPivot( 'project_id', 'role_id' );
     }
 

@@ -1,33 +1,33 @@
 <template>
-	<div class="cpm-top-bar cpm-no-padding">
-        <div class="cpm-row cpm-no-padding">
-            <div class="cpm-col-6">
+	<div class="pm-top-bar pm-no-padding">
+        <div class="pm-row pm-no-padding">
+            <div class="pm-col-6">
                 <h3>{{text.project_manager}}</h3>
             </div>
 
-            <div class="cpm-col-6 cpm-top-right-btn cpm-text-right cpm-last-col show_desktop_only">
+            <div class="pm-col-6 pm-top-right-btn pm-text-right pm-last-col show_desktop_only">
 
             </div>
             <div class="clearfix"></div>
         </div>
 
-        <div class="cpm-row cpm-no-padding cpm-priject-search-bar">
-            <div class="cpm-col-3 cpm-sm-col-12 cpm-no-padding cpm-no-margin">
+        <div class="pm-row pm-no-padding pm-priject-search-bar">
+            <div class="pm-col-3 pm-sm-col-12 pm-no-padding pm-no-margin">
                 <project-new-project-btn></project-new-project-btn>
             </div>
 
-            <div class="cpm-col-9 cpm-no-padding cpm-no-margin cpm-sm-col-12  ">
-                <div class="cpm-col-5 cpm-sm-col-12">
+            <div class="pm-col-9 pm-no-padding pm-no-margin pm-sm-col-12  ">
+                <div class="pm-col-5 pm-sm-col-12">
                     <project-filter-by-category></project-filter-by-category>
                 </div>
             </div>
             <div class="clearfix"> </div>
         </div>
 
-        <div class="cpm-row cpm-project-group">
+        <div class="pm-row pm-project-group">
             <project-header-menu></project-header-menu>
 
-            <div class="cpm-col-4 cpm-last-col cpm-text-right show_desktop_only">
+            <div class="pm-col-4 pm-last-col pm-text-right show_desktop_only">
                 <project-view></project-view>
             </div>
         </div>

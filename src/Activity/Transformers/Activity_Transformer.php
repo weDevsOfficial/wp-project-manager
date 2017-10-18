@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Activity\Transformers;
+namespace WeDevs\PM\Activity\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use CPM\Activity\Models\Activity;
-use CPM\User\Transformers\User_Transformer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\User\Transformers\User_Transformer;
 
 class Activity_Transformer extends TransformerAbstract {
 
@@ -15,7 +15,7 @@ class Activity_Transformer extends TransformerAbstract {
     public function transform( Activity $item ) {
         return [
             'id'            => (int) $item->id,
-            'message'       => cpm_get_text( "activities.{$item->action}" ),
+            'message'       => pm_get_text( "activities.{$item->action}" ),
             'action'        => $item->action,
             'action_type'   => $item->action_type,
             'meta'          => $this->parse_meta( $item ),
@@ -39,11 +39,11 @@ class Activity_Transformer extends TransformerAbstract {
                 $parsed_meta = $this->parse_meta_for_task( $activity );
                 break;
 
-            case 'task-list':
+            case 'task_list':
                 $parsed_meta = $this->parse_meta_for_task_list( $activity );
                 break;
 
-            case 'discussion-board':
+            case 'discussion_board':
                 $parsed_meta = $this->parse_meta_for_discussion_board( $activity );
                 break;
 
@@ -100,13 +100,13 @@ class Activity_Transformer extends TransformerAbstract {
 
         foreach ($activity->meta as $key => $value) {
             if ( $key == 'commentable_type' && $value == 'file' ) {
-                $trans_commentable_type = cpm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
                 $meta['commentable_title'] = $trans_commentable_type;
             } elseif ( $key == 'commentable_type' ) {
-                $trans_commentable_type = cpm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;

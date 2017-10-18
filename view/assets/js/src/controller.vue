@@ -1,5 +1,5 @@
 <template>
-	<div class="wedevs-pm-wrap cpm wrap">
+	<div class="wedevs-pm-wrap pm wrap">
 		<pm-projects></pm-projects>
 		<pm-overview></pm-overview>
 		<pm-discussions></pm-discussions>
@@ -61,7 +61,7 @@
 <!--<template>
 	<div id="ttt">
 		i am default template
-		<do-action :hook="'cpm-after-title'"></do-action>
+		<do-action :hook="'pm-after-title'"></do-action>
 	</div>
 </template>-->
 

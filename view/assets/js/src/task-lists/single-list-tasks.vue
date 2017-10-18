@@ -1,12 +1,12 @@
 <template>
-	<div  id="cpm-single-todo-list-view">
+	<div  id="pm-single-todo-list-view">
 		
-	    <div class="cpm-incomplete-tasks">
-	        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Incomplete Tasks</a></h3>
-	        <ul  class="cpm-incomplete-task-list cpm-todos cpm-todolist-content cpm-incomplete-task" v-cpm-sortable>
+	    <div class="pm-incomplete-tasks">
+	        <h3 class="pm-task-list-title pm-tag-gray"><a>Incomplete Tasks</a></h3>
+	        <ul  class="pm-incomplete-task-list pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
 
 	         <!--    <li v-if="loading_incomplete_tasks" class="nonsortable">
-	                <div class="cpm-data-load-before" >
+	                <div class="pm-data-load-before" >
 	                    <div class="loadmoreanimation">
 	                        <div class="load-spinner">
 	                            <div class="rect1"></div>
@@ -19,24 +19,24 @@
 	                </div>
 	            </li> -->
 
-	            <li class="cpm-todo" :data-id="task.id" :data-order="task.menu_order" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'cpm-fade-out-'+task.ID">
+	            <li class="pm-todo" :data-id="task.id" :data-order="task.menu_order" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.ID">
 	            	<incompleted-tasks :task="task" :list="list"></incompleted-tasks>
 	            </li>
 
 	            <li v-if="!getIncompleteTasks" class="nonsortable">No tasks found.</li>
 	            <li v-if="isIncompleteLoadMoreActive(list)" class="nonsortable">
 	                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">+ More Tasks</a>
-	                <span v-show="more_incomplete_task_spinner" class="cpm-incomplete-task-spinner cpm-spinner"></span>
+	                <span v-show="more_incomplete_task_spinner" class="pm-incomplete-task-spinner pm-spinner"></span>
 	            </li>
 	        </ul>
 	    </div>
 
-	    <div class="cpm-completed-tasks">
-	        <h3 class="cpm-task-list-title cpm-tag-gray"><a>Completed Tasks</a></h3>
-	        <ul  class="cpm-completed-task-list cpm-todos cpm-todolist-content cpm-todo-completed" v-cpm-sortable>
+	    <div class="pm-completed-tasks">
+	        <h3 class="pm-task-list-title pm-tag-gray"><a>Completed Tasks</a></h3>
+	        <ul  class="pm-completed-task-list pm-todos pm-todolist-content pm-todo-completed" v-pm-sortable>
 
 	          <!--   <li v-if="loading_completed_tasks" class="nonsortable">
-	                <div class="cpm-data-load-before" >
+	                <div class="pm-data-load-before" >
 	                    <div class="loadmoreanimation">
 	                        <div class="load-spinner">
 	                            <div class="rect1"></div>
@@ -49,7 +49,7 @@
 	                </div>
 	            </li> -->
 
-	            <li :data-id="task.id" :data-order="task.menu_order" class="cpm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.id" :class="'cpm-todo cpm-fade-out-'+task.id">
+	            <li :data-id="task.id" :data-order="task.menu_order" class="pm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.id" :class="'pm-todo pm-fade-out-'+task.id">
 	                
 	                <completed-tasks :task="task" :list="list"></completed-tasks>
 	            </li>
@@ -58,19 +58,19 @@
 
 	            <li v-if="isCompleteLoadMoreActive(list)" class="nonsortable">
 	                <a @click.prevent="loadMoreCompleteTasks(list)" href="#">+ More Tasks</a>
-	                <span v-show="more_completed_task_spinner" class="cpm-completed-task-spinner cpm-spinner"></span>
+	                <span v-show="more_completed_task_spinner" class="pm-completed-task-spinner pm-spinner"></span>
 	            </li>
 	        </ul>
 	    </div>
 
-	    <div v-if="list.show_task_form" class="cpm-todo-form">
+	    <div v-if="list.show_task_form" class="pm-todo-form">
 	        <new-task-form :task="{}" :list="list"></new-task-form>
 	    </div>
 	</div>
 </template>
 
 <style>
-	.cpm-list-footer .cpm-new-task-button-icon {
+	.pm-list-footer .pm-new-task-button-icon {
 		margin-top: 5px;
 	}
 </style>
@@ -232,7 +232,7 @@
 	         * @return string      
 	         */
 	        privateClass: function( task ) {
-	            return ( task.task_privacy == 'yes' ) ? 'cpm-lock' : 'cpm-unlock';
+	            return ( task.task_privacy == 'yes' ) ? 'pm-lock' : 'pm-unlock';
 	        },
 
 	        /**
@@ -249,7 +249,7 @@
 	                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
 	                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task_id, 'ID' ),
 	                form_data  = {
-	                    action: 'cpm_task_delete',
+	                    action: 'pm_task_delete',
 	                    task_id: task_id,
 	                    _wpnonce: PM_Vars.nonce,
 	                };
@@ -260,7 +260,7 @@
 	                    // Display a success message, with a title
 	                    //toastr.success(res.data.success);
 	                    
-	                    CPM_Component_jQuery.fadeOut( task_id, function() {
+	                    PM_Component_jQuery.fadeOut( task_id, function() {
 	                        self.$store.commit( 'after_delete_task', { 
 	                            list_index: list_index,
 	                            task_index: task_index,

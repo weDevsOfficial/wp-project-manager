@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="cpm-col-5">
+		<div class="pm-col-5">
 			<router-link 
 				:to="{
 					name: 'individual_discussions',
@@ -13,14 +13,14 @@
 	        </router-link>
 	    </div>
 
-	    <div class="cpm-col-4 ">
+	    <div class="pm-col-4 ">
 	        <span class="time">
 	            <time datetime="2017-09-20T11:15:00+00:00" title="2017-09-20T11:15:00+00:00">
 	            	September 20, 2017 11:15 am
 	            </time>                                    
 	        </span>
 	    </div>
-	    <div class="cpm-col-2">
+	    <div class="pm-col-2">
 	        <a href="#">
 	        	<img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-28 photo" height="28" width="28">
 	        </a>

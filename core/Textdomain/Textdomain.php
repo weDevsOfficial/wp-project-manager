@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Core\Textdomain;
+namespace WeDevs\PM\Core\Textdomain;
 
-use CPM\Core\Singletonable;
+use WeDevs\PM\Core\Singletonable;
 
 class Textdomain {
     /**
@@ -56,13 +56,27 @@ class Textdomain {
         $value = $array;
 
         foreach ( $keys as $key ) {
+
+            if ( !array_key_exists( $key, $value ) ) {
+                return null;
+            }
+
             $value = $value[$key];
         }
 
         return $value;
     }
 
-    private static function named_sprintf( $text ) {
+    private static function named_sprintf( $text = [] ) {
+        if ( !is_array( $text ) ) {
+            return "";
+        }
+
+        $keys = array_keys( $text );
+        if ( !empty( array_diff( $keys, [0, 1] ) ) ) {
+            return "";
+        }
+
         $sprintf_args = [];
         $format = $text[0];
 

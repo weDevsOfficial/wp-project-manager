@@ -1,23 +1,23 @@
 <?php
 
-namespace CPM\Task\Controllers;
+namespace WeDevs\PM\Task\Controllers;
 
 use Reflection;
 use WP_REST_Request;
-use CPM\Task\Models\Task;
+use WeDevs\PM\Task\Models\Task;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Task\Transformer\Task_Transformer;
-use CPM\Task_List\Models\Task_List;
-use CPM\Project\Models\Project;
-use CPM\Common\Models\Boardable;
-use CPM\Common\Models\Board;
-use CPM\Common\Traits\Request_Filter;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Common\Traits\Request_Filter;
 use Carbon\Carbon;
-use CPM\Common\Models\Assignee;
+use WeDevs\PM\Common\Models\Assignee;
 
 class Task_Controller {
 

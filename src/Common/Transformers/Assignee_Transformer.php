@@ -1,11 +1,11 @@
 <?php
 
-namespace CPM\Common\Transformers;
+namespace WeDevs\PM\Common\Transformers;
 
-use CPM\Common\Models\Assignee;
+use WeDevs\PM\Common\Models\Assignee;
 use League\Fractal\TransformerAbstract;
-use CPM\User\Transformers\User_Transformer;
-use CPM\Common\Traits\Resource_Editors;
+use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class Assignee_Transformer extends TransformerAbstract {
 

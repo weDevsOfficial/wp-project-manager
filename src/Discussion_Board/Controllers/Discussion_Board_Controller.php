@@ -1,21 +1,21 @@
 <?php
 
-namespace CPM\Discussion_Board\Controllers;
+namespace WeDevs\PM\Discussion_Board\Controllers;
 
 use WP_REST_Request;
-use CPM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
-use CPM\Common\Models\Boardable;
-use CPM\Common\Traits\Request_Filter;
-use CPM\Milestone\Models\Milestone;
-use CPM\File\Models\File;
-use CPM\Core\File_System\File_System;
-use CPM\Common\Traits\File_Attachment;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Core\File_System\File_System;
+use WeDevs\PM\Common\Traits\File_Attachment;
 
 class Discussion_Board_Controller {
 
@@ -59,7 +59,7 @@ class Discussion_Board_Controller {
         $media_data = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
+        
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
@@ -131,14 +131,14 @@ class Discussion_Board_Controller {
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
         $boardable = Boardable::where( 'boardable_id', $board->id )
-            ->where( 'boardable_type', 'discussion-board' )
+            ->where( 'boardable_type', 'discussion_board' )
             ->where( 'board_type', 'milestone' )
             ->first();
 
         if ( !$boardable ) {
             $boardable = Boardable::firstOrCreate([
                 'boardable_id'   => $board->id,
-                'boardable_type' => 'discussion-board',
+                'boardable_type' => 'discussion_board',
                 'board_id'       => $milestone->id,
                 'board_type'     => 'milestone'
             ]);
@@ -163,7 +163,7 @@ class Discussion_Board_Controller {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $discussion_board->id,
-                    'board_type' => 'discussion-board',
+                    'board_type' => 'discussion_board',
                     'boardable_id' => $user_id,
                     'boardable_type' => 'user'
                 ];

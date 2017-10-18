@@ -1,12 +1,12 @@
 <template>
-	<div :class="newTaskBtnClass() + ' cpm-new-task-button-icon'">
+	<div :class="newTaskBtnClass() + ' pm-new-task-button-icon'">
 		<a @click.prevent="showHideTaskFrom('toggle', list, false )" href="#">New Task</a>
 	</div>
 </template>
 
 <style>
 	
-	.cpm-new-task-button-icon {
+	.pm-new-task-button-icon {
 		display: inline-block;
 	    padding-left: 28px;
 	    background-size: 20px;
@@ -26,7 +26,7 @@
 	         * @return string
 	         */
 	        newTaskBtnClass: function() {
-	            return this.list.show_task_form ? 'cpm-new-task-btn-minus' : 'cpm-new-task-btn';
+	            return this.list.show_task_form ? 'pm-new-task-btn-minus' : 'pm-new-task-btn';
 	        },
 	    }
 	}

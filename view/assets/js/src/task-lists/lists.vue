@@ -2,7 +2,7 @@
 	<div>
 		<pm-header></pm-header>
 
-		<div v-if="loading" class="cpm-data-load-before" >
+		<div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -16,17 +16,17 @@
         <div v-else>
 	        <default-list-page v-if="is_lists_empty"></default-list-page>
 			
-			<div v-if="!is_lists_empty" id="cpm-task-el" class="cpm-task-container wrap">
+			<div v-if="!is_lists_empty" id="pm-task-el" class="pm-task-container wrap">
 				
 				<new-task-list-btn></new-task-list-btn>
 				<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
 				
-				<ul class="cpm-todolists">
+				<ul class="pm-todolists">
 		        
-		        	<li v-for="(list, index) in lists" :key="list.id"  :class="'cpm-fade-out-'+list.id">
+		        	<li v-for="(list, index) in lists" :key="list.id"  :class="'pm-fade-out-'+list.id">
 
-			            <article class="cpm-todolist">
-			                <header class="cpm-list-header">
+			            <article class="pm-todolist">
+			                <header class="pm-list-header">
 			                    <h3>
 			                    
 			                        <router-link :to="{ 
@@ -39,18 +39,18 @@
 			                    	</router-link>
 			                        <span :class="privateClass(list)"></span>
 			                        <!-- v-if="list.can_del_edit" -->
-			                        <div class="cpm-right">
+			                        <div class="pm-right">
 			                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-			                            <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
+			                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
 			                        </div>
 			                    </h3>
 
-			                    <div class="cpm-entry-detail" >
+			                    <div class="pm-entry-detail" >
 			                        {{ list.description }}    
 			                    </div>
 			                    
-			                    <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
-			                    <div class="cpm-update-todolist-form" v-if="list.edit_mode">
+			                    <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
+			                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
 			                        <!-- New Todo list form -->
 			                        <new-task-list-form section="lists" :list="list"></new-task-list-form>
 			                    </div>
@@ -59,17 +59,17 @@
 			                <!-- Todos component -->
 			              	<list-tasks :list="list"></list-tasks>
 
-			                <footer class="cpm-row cpm-list-footer">
-			                    <div class="cpm-footer-left">
-			                    	<ul class="cpm-footer-left-ul">
-				                    	<li v-if="isIncompleteLoadMoreActive(list)" class="cpm-todo-refresh">
+			                <footer class="pm-row pm-list-footer">
+			                    <div class="pm-footer-left">
+			                    	<ul class="pm-footer-left-ul">
+				                    	<li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
 				                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
 				                        </li>
 				                        
-				                        <li class="cpm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
+				                        <li class="pm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
 				                       
 				                       
-				                        <li class="cpm-todo-complete">
+				                        <li class="pm-todo-complete">
 				                            <router-link :to="{ 
 					                        	name: 'single_list', 
 					                        	params: { 
@@ -79,7 +79,7 @@
 				                                Completed
 				                            </router-link>
 				                        </li>
-				                        <li  class="cpm-todo-incomplete">
+				                        <li  class="pm-todo-incomplete">
 				                            <router-link :to="{ 
 					                        	name: 'single_list', 
 					                        	params: { 
@@ -89,7 +89,7 @@
 				                                Incomplete
 				                            </router-link>
 				                        </li>
-				                        <li  class="cpm-todo-comment">
+				                        <li  class="pm-todo-comment">
 				                            <router-link :to="{ 
 					                        	name: 'single_list', 
 					                        	params: { 
@@ -101,14 +101,14 @@
 			                    	</ul>
 			                    </div>
 
-			                    <div class="cpm-footer-right">
-			                        <div class="cpm-todo-progress-bar">
+			                    <div class="pm-footer-right">
+			                        <div class="pm-todo-progress-bar">
 			                        	<div :style="getProgressStyle( list )" class="bar completed"></div>
 			                        </div>
-			                        <div class="cpm-progress-percent">{{ getProgressPercent( list ) }}%</div>
+			                        <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div>
 			                    </div>
 			                    
-			                    <div class="cpm-clearfix"></div>
+			                    <div class="pm-clearfix"></div>
 			                </footer>
 			            </article>
 		        	
@@ -128,10 +128,10 @@
 </template>
     
 <style>
-	.cpm-list-footer .cpm-new-task-btn-li {
+	.pm-list-footer .pm-new-task-btn-li {
 		padding-left: 0 !important;
 	}
-	.cpm-list-footer .cpm-footer-left-ul li {
+	.pm-list-footer .pm-footer-left-ul li {
 		display: inline-block;
 		padding-left: 28px;
 	    background-size: 20px;
@@ -140,26 +140,26 @@
 	    padding-bottom: 5px;
 	    margin-right: 2%;
 	}
-	.cpm-list-footer .cpm-footer-left-ul li a {
+	.pm-list-footer .pm-footer-left-ul li a {
 		line-height: 150%;
     	font-size: 12px;
 	}
-	.cpm-list-footer .cpm-footer-left {
+	.pm-list-footer .pm-footer-left {
 		width: 66%;
 	}
-	.cpm-list-footer .cpm-footer-right {
+	.pm-list-footer .pm-footer-right {
 		width: 30%;
 	}
-	.cpm-list-footer .cpm-footer-left, .cpm-list-footer .cpm-footer-right {
+	.pm-list-footer .pm-footer-left, .pm-list-footer .pm-footer-right {
 		float: left;
 	}
-	.cpm-list-footer .cpm-todo-progress-bar, .cpm-list-footer .cpm-progress-percent {
+	.pm-list-footer .pm-todo-progress-bar, .pm-list-footer .pm-progress-percent {
 		display: inline-block;
 	}
-	.cpm-list-footer .cpm-todo-progress-bar {
+	.pm-list-footer .pm-todo-progress-bar {
 		width: 70%;
 	}
-	.cpm-list-footer .cpm-progress-percent {
+	.pm-list-footer .pm-progress-percent {
 		margin-left: 6px;
 	}
 
