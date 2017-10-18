@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\Exceptions;
+namespace WeDevs\PM\Core\Exceptions;
 
 use Exception;
 

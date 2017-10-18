@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\Permissions;
+namespace WeDevs\PM\Core\Permissions;
 
 interface Permission {
     /**

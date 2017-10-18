@@ -1,15 +1,16 @@
 <?php
 
-namespace CPM\Comment\Models;
+namespace WeDevs\PM\Comment\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\File\Models\File;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\File\Models\File;
 
 class Comment extends Eloquent {
+
     use Model_Events;
 
-    protected $table = 'cpm_comments';
+    protected $table = 'pm_comments';
 
     protected $fillable = [
         'content',

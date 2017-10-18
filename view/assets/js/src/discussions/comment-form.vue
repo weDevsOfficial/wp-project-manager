@@ -1,7 +1,7 @@
 <template>
     
-    	<form class="cpm-comment-form" @submit.prevent="newSelfComment()">
-            <div class="item message cpm-sm-col-12">
+    	<form class="pm-comment-form" @submit.prevent="newSelfComment()">
+            <div class="item message pm-sm-col-12">
                 <text-editor :editor_id="editor_id" :content="content"></text-editor>
             </div>
             
@@ -16,10 +16,10 @@
                     </label>
                 </h2>
 
-                <ul class="cpm-user-list">
+                <ul class="pm-user-list">
                     <li>
-                        <label for="cpm_notify_1">
-                            <input type="checkbox" name="notify_user[]" id="cpm_notify_1" value="1"> 
+                        <label for="pm_notify_1">
+                            <input type="checkbox" name="notify_user[]" id="pm_notify_1" value="1"> 
                             Admin
                         </label>
                     </li>
@@ -28,8 +28,8 @@
             </div>
 
             <div class="submit">
-                <input type="submit" class="button-primary" name="cpm_new_comment" value="Add this comment" id="">
-                <span v-show="show_spinner" class="cpm-spinner"></span>
+                <input type="submit" class="button-primary" name="pm_new_comment" value="Add this comment" id="">
+                <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
     
@@ -83,7 +83,7 @@
 	         */
 	        editor_id: function() {
 	            var comment_id = ( typeof this.comment.commentable_id === 'undefined' ) ? '' : '-' + this.comment.commentable_id;
-	            return 'cpm-comment-editor' + comment_id;
+	            return 'pm-comment-editor' + comment_id;
 	        },
 		},
 
@@ -95,7 +95,7 @@
                 var args = {
                     content: this.comment.content,
                     commentable_id: this.discuss.id,
-                    commentable_type: 'discussion-board',
+                    commentable_type: 'discussion_board',
                     deleted_files: this.deleted_files,
                     files: this.files
                 };

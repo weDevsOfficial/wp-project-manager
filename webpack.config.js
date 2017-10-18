@@ -3,11 +3,11 @@ const path = require('path');
 
 
 module.exports = {
-	entry: './view/assets/js/cpm.js',
+	entry: './view/assets/js/pm.js',
 
 	output: {
 		path: path.resolve( __dirname, 'view/assets/js'),
-		filename: 'cpm-bundle.js',
+		filename: 'pm-bundle.js',
 		publicPath: '',
 		chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
 		jsonpFunction: 'wedevsPmWebpack',

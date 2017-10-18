@@ -4,7 +4,7 @@ import Vue from './vue/vue';
  * 
  * @type Object
  */
-var CPM_Common = {
+var PM_Common = {
     init () {
        
     },

@@ -5,7 +5,7 @@
      * @param string browse_button ID of the pickfile
      * @param string container ID of the wrapper
      */
-    window.CPM_Uploader = function (browse_button, container, component) {
+    window.PM_Uploader = function (browse_button, container, component) {
         this.container = container;
         this.browse_button = browse_button;
 
@@ -19,7 +19,7 @@
         //instantiate the uploader
         this.uploader = new plupload.Uploader({
             dragdrop: true,
-            drop_element: 'cpm-upload-container',
+            drop_element: 'pm-upload-container',
             runtimes: 'html5,silverlight,flash,html4',
             browse_button: browse_button,
             container: container,
@@ -48,7 +48,7 @@
 
     };
 
-    CPM_Uploader.prototype = {
+    PM_Uploader.prototype = {
 
         init: function (up, params) {
 
@@ -56,7 +56,7 @@
 
         added: function (up, files) {
 
-            var $container = $('#' + this.container).find('.cpm-upload-filelist');
+            var $container = $('#' + this.container).find('.pm-upload-filelist');
             self = this;
             $.each(files, function(i, file) {
                 
@@ -103,7 +103,7 @@
 
             if(res.success) {
                 this.component.files.push(res.data.file);
-                //this.component.$emit( 'cpm_file_upload_hook', { res: res.data, component: this.component } );
+                //this.component.$emit( 'pm_file_upload_hook', { res: res.data, component: this.component } );
             } else {
                 alert(res.error);
             }

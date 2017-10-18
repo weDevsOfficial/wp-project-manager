@@ -1,5 +1,5 @@
 {
-  "name": "cpmapi",
+  "name": "pmapi",
   "version": "2.0.0",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "cpm": "webpack",
+    "pm": "webpack",
     "build": "webpack-dev-server",
     "watch": "webpack --progress --colors --watch"
   },

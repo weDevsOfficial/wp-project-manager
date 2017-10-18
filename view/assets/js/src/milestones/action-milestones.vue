@@ -1,5 +1,5 @@
 <template>
- <ul class="cpm-links cpm-right">
+ <ul class="pm-links pm-right">
     <li>
         <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="cpm-icon-edit dashicons dashicons-edit " :title="text.edit_milestone"></a>
     </li>
@@ -14,7 +14,7 @@
         <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="cpm-milestone-complete dashicons dashicons-yes" :title="text.mark_as_complete" href="#"></a>
     </li>
     <li>
-        <span class="cpm-unlock"></span>
+        <span class="pm-unlock"></span>
     </li>
 </ul>
 </template>

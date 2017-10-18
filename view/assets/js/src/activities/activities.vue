@@ -1,9 +1,9 @@
 <template>
-	<div class="wrap cpm cpm-front-end">
+	<div class="wrap pm pm-front-end">
 
     <pm-header></pm-header>
 
-    <div v-if="loading" class="cpm-data-load-before" >
+    <div v-if="loading" class="pm-data-load-before" >
         <div class="loadmoreanimation">
             <div class="load-spinner">
                 <div class="rect1"></div>
@@ -15,24 +15,24 @@
         </div>
     </div>
     <div v-else>
-        <ul v-if="activities.length" class="cpm-activity-list">
-            <li v-for="group in activities" :key="group.id" class="cpm-row"> 
-                <div class="cpm-activity-date cpm-col-1 cpm-sm-col-12">
+        <ul v-if="activities.length" class="pm-activity-list">
+            <li v-for="group in activities" :key="group.id" class="pm-row"> 
+                <div class="pm-activity-date pm-col-1 pm-sm-col-12">
                     <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span> 
                     <br>
                     {{ actiivtyGroupDate(group.date, 'MMMM') }}
                      
                 </div> 
-                <div class="cpm-activity-body cpm-col-11 cpm-sm-col-12 cpm-right cpm-last-col"> 
+                <div class="pm-activity-body pm-col-11 pm-sm-col-12 pm-right pm-last-col"> 
                     <ul>
                         <li v-for="activity in group.activities" >
-                            <div class="cpm-col-8 cpm-sm-col-12">
+                            <div class="pm-col-8 pm-sm-col-12">
                                 <a href="#">
                                     {{ activity.actor.data.display_name }}
                                 </a> 
                                 <span v-html="activity.message"></span>
                             </div>
-                            <div class="date cpm-col-4 cpm-sm-col-12">
+                            <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
                                     {{ activity.committed_at.date }} {{ activity.committed_at.time }}
                                 </time>
@@ -45,8 +45,8 @@
 
         </ul>
 
-        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button cpm-load-more">{{text.load_more}}</a>
-        <span v-show="show_spinner" class="cpm-spinner"></span>
+        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button pm-load-more">{{text.load_more}}</a>
+        <span v-show="show_spinner" class="pm-spinner"></span>
     </div>
 </div>
 </template>

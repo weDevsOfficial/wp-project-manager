@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Project\Transformer;
+namespace WeDevs\PM\Project\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use Carbon\Carbon;

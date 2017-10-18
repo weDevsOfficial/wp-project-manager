@@ -40,7 +40,7 @@ export default Vue.mixin({
 			var conditions = self.generateConditions(args.conditions);
 			
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
 	            success (res) {
 	            	res.data.map(function(discuss, index) {
 			    		self.addDiscussMeta(discuss);
@@ -69,7 +69,7 @@ export default Vue.mixin({
 			var conditions = self.generateConditions(args.conditions);
 
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
 	            success (res) {
 	            	self.addDiscussMeta(res.data);
 	                self.$store.commit( 'setDiscuss', res.data );
@@ -135,8 +135,7 @@ export default Vue.mixin({
             args.deleted_files.map(function(del_file) {
             	data.append('files_to_delete[]', del_file);
             });
-            
-
+           
             args.files.map(function(file) {
             	if ( typeof file.attachment_id === 'undefined' ) {
             		var decode = self.dataURLtoFile(file.thumb, file.name);
@@ -148,7 +147,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards',
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards',
 	            type: 'POST',
 			    data: data,
 			    cache: false,
@@ -219,7 +218,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
 	            type: 'POST',
 			    data: data,
 			    cache: false,
@@ -257,7 +256,7 @@ export default Vue.mixin({
 
         getMilestones (self) {
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
                 success (res) {
                     self.$store.commit( 'setMilestones', res.data );
                 }
@@ -294,7 +293,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments',
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments',
 	            type: 'POST',
 	            data: data,
 	            cache: false,
@@ -372,7 +371,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+args.comment_id,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+args.comment_id,
 	            type: 'POST',
 	            data: data,
 	            cache: false,
@@ -435,7 +434,7 @@ export default Vue.mixin({
 			var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteDiscuss', args.discuss_id);
@@ -475,7 +474,7 @@ export default Vue.mixin({
 			var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteComment', {

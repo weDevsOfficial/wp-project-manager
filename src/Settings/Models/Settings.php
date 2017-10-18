@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Settings\Models;
+namespace WeDevs\PM\Settings\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
+use WeDevs\PM\Common\Traits\Model_Events;
 
 class Settings extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_settings';
+    protected $table = 'pm_settings';
 
     protected $fillable = [
         'key',

@@ -2,7 +2,7 @@
 
 	import mixin from '../mixin';
 	
-	function CPMGetComponents() {
+	function PMGetComponents() {
 		var components = {};
 		
 		window.weDevs_PM_Components.map(function(obj, key) {
@@ -21,7 +21,7 @@
 	var action = {
 		props: ['hook'],
 
-		components: CPMGetComponents(),
+		components: PMGetComponents(),
 
 		render (h) {
 			var components = [],
@@ -43,7 +43,7 @@
 
 <!-- <template>
 	<div>
-		<cpm-test-component></cpm-test-component>
-		<cpm-again-component></cpm-again-component>
+		<pm-test-component></pm-test-component>
+		<pm-again-component></pm-again-component>
 	</div>
 </template> -->

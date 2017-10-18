@@ -1,16 +1,17 @@
 <?php
 
-namespace CPM\Category\Models;
+namespace WeDevs\PM\Category\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\Project\Models\Project;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Project\Models\Project;
 
 
 class Category extends Eloquent {
+
     use Model_Events;
 
-    protected $table = 'cpm_categories';
+    protected $table = 'pm_categories';
 
     protected $fillable = [
         'title',
@@ -21,6 +22,6 @@ class Category extends Eloquent {
     ];
 
     public function projects() {
-        return $this->belongsToMany( Project::class, 'cpm_category_project', 'category_id', 'project_id' );
+        return $this->belongsToMany( Project::class, 'pm_category_project', 'category_id', 'project_id' );
     }
 }

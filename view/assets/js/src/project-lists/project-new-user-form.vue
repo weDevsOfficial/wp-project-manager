@@ -1,8 +1,7 @@
 <template>
-    <div class="cpm-create-user-form-wrap">
+    <div class="pm-create-user-form-wrap">
 
-        <div class="cpm-error"></div>
-
+        <div class="pm-error"></div>
         <form action="" class="cpm-user-create-form" @submit.prevent="createUser()">
             <div class="cpm-field-wrap">
                 <label>{{text.username}}</label>
@@ -51,7 +50,7 @@
                 this.show_spinner = true;
 
                 self.httpRequest({
-                    url: self.base_url + '/cpm/v2/users',
+                    url: self.base_url + '/pm/v2/users',
                     method: 'POST',
                     data: {
                         username: this.username,
@@ -73,7 +72,7 @@
                         // );
 
                         self.$root.$store.commit('updateSeletedUser', res.data);
-                        jQuery( "#cpm-create-user-wrap" ).dialog( "close" );
+                        jQuery( "#pm-create-user-wrap" ).dialog( "close" );
                     }
                 });
             }

@@ -1,8 +1,8 @@
 <template>
-    <div class="cpm-todo-wrap clearfix">
-        <div class="cpm-todo-content">
+    <div class="pm-todo-wrap clearfix">
+        <div class="pm-todo-content">
             <div>
-                <div class="cpm-col-7">
+                <div class="pm-col-7">
                    <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
 
                     <span v-if="is_single_list">
@@ -35,7 +35,7 @@
 
                     <span :class="privateClass( task )"></span>
 
-                    <span class='cpm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
+                    <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
                         <a href="#" :title="user.display_name">
                         	<img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
                         </a>
@@ -48,8 +48,8 @@
                     </span>
                 </div>
                 
-                <div class="cpm-col-4 cpm-todo-action-center">
-                    <div class="cpm-task-comment">
+                <div class="pm-col-4 pm-todo-action-center">
+                    <div class="pm-task-comment">
                         <span>
                             <router-link 
                             	:to="{ 
@@ -60,7 +60,7 @@
                             		}
                             	}">
 
-                                <span class="cpm-comment-count">
+                                <span class="pm-comment-count">
                                     {{ task.meta.total_comment }}
                                 </span>
                             </router-link>
@@ -71,13 +71,13 @@
                 </div>
 
                 <!-- v-if="task.can_del_edit" -->
-                <div class="cpm-col-1 cpm-todo-action-right cpm-last-col">
+                <div class="pm-col-1 pm-todo-action-right pm-last-col">
                     
                     <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                    <a href="#" @click.prevent="showHideTaskFrom('toggle', list, task )" class="cpm-todo-edit">
+                    <a href="#" @click.prevent="showHideTaskFrom('toggle', list, task )" class="pm-todo-edit">
                         <span class="dashicons dashicons-edit"></span>
                     </a>
-                    <a href="#" @click.prevent="deleteTask(task, list)" class="cpm-todo-delete">
+                    <a href="#" @click.prevent="deleteTask(task, list)" class="pm-todo-delete">
                         <span class="dashicons dashicons-trash"></span>
                     </a>
                         
@@ -85,7 +85,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="cpm-todo-form" v-if="task.edit_mode">
+        <div class="pm-todo-form" v-if="task.edit_mode">
             <new-task-form :task="task" :list="list"></new-task-form>
         </div>
     </div>

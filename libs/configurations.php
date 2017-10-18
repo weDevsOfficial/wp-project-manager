@@ -1,6 +1,6 @@
 <?php
 
-use CPM\Core\Config\Config;
+use WeDevs\PM\Core\Config\Config;
 
 function config( $key = null ) {
     return Config::get( $key );

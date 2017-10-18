@@ -1,8 +1,8 @@
 <?php
 
-namespace CPM\Core\Permissions;
+namespace WeDevs\PM\Core\Permissions;
 
-use CPM\Core\Permissions\Permission;
+use WeDevs\PM\Core\Permissions\Permission;
 use WP_REST_Request;
 
 abstract class Abstract_Permission implements Permission {

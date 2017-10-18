@@ -1,8 +1,8 @@
 <template>
-    <div class="" id="cpm-milestone-page">
+    <div class="" id="pm-milestone-page">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="cpm-data-load-before" >
+        <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -17,27 +17,22 @@
         <div class="cpm-blank-template milestone" v-if="!milestones.length && !loading">
             <div class="cpm-content" >
                 <h3 class="cpm-page-title">  {{text.milestones}}</h3>
-
                 <p>
                     {{text.milestone_define}}
                 </p>
-
-                
                     <div class="cpm-milestone-link clearfix">
                         <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                     </div>
 
                     <transition name="slide">
 
-                        <div class="cpm-new-milestone-form" v-if="is_milestone_form_active">
-                            <div class="cpm-milestone-form-wrap">
+                        <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
+                            <div class="pm-milestone-form-wrap">
                                 <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                             </div>
 
                         </div>
                     </transition>
-
-               
 
                 <div class="cpm-list-content">
                     <h3 class="cpm-page-title cpm-why-for"> {{text.when_use_milestone }}</h3>
@@ -53,15 +48,14 @@
 
         </div>
         <div v-if="milestones.length">
-            
             <div class="cpm-row cpm-milestone-details" >
                 <div class="cpm-milestone-link clearfix">
                     <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                 </div>
 
                  <transition name="slide">
-                    <div class="cpm-new-milestone-form cpm-col-6 cpm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
-                        <div class="cpm-milestone-form-wrap">
+                    <div class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
+                        <div class="pm-milestone-form-wrap">
                             <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                         </div>
 

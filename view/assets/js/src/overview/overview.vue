@@ -1,8 +1,8 @@
 <template>
-	<div class="wrap cpm cpm-front-end">
+	<div class="wrap pm pm-front-end">
 		<pm-header></pm-header>
 
-		<div v-if="loading" class="cpm-data-load-before" >
+		<div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -15,7 +15,7 @@
         </div>
 
 		<div class="project-overview">
-			<div class="cpm-col-10 cpm-sm-col-12">
+			<div class="pm-col-10 pm-sm-col-12">
 			    <div class="overview-menu">
 			        <ul>
 			         	<li class="message">
@@ -102,7 +102,7 @@
 			         </ul>
 			    </div>
 
-			    <div id="cpm-chart" class="cpm-chart">
+			    <div id="pm-chart" class="pm-chart">
 
 			    	<h3>{{text.this_month}}</h3>
 

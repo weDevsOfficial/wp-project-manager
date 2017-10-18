@@ -20,7 +20,7 @@ export default Vue.mixin({
 	            };
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/categories',
+	            url: self.base_url + '/pm/v2/categories',
 	            type: 'POST',
 	            data: form_data,
 	            
@@ -57,7 +57,7 @@ export default Vue.mixin({
 			var self = this;
 			
             var request_data = {
-                url: self.base_url + '/cpm/v2/categories',
+                url: self.base_url + '/pm/v2/categories',
                 success: function(res) {
                 	res.data.map(function(category, index) {
                 		self.addCategoryMeta(category);
@@ -98,7 +98,7 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        var request_data = {
-	            url: self.base_url + '/cpm/v2/categories/' + category.id,
+	            url: self.base_url + '/pm/v2/categories/' + category.id,
 	            type: 'PUT',
 	            data: form_data,
 	            
@@ -136,7 +136,7 @@ export default Vue.mixin({
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/categories/bulk-delete/',
+                url: self.base_url + '/pm/v2/categories/bulk-delete/',
                 data: {
                 	'category_ids': ids
                 },

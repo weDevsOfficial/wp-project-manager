@@ -28,7 +28,7 @@ export default Vue.mixin({
 
 	    getMilestone (self) {
 	        var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?with=discussion_boards,task_lists',
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?with=discussion_boards,task_lists',
 	            success (res) {
 	            	self.addMeta(res.data);
 	                self.$store.commit( 'setMilestone', res.data );
@@ -39,7 +39,7 @@ export default Vue.mixin({
 
 	    getSelfMilestones (self) {
             var request = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
                 success (res) {
                 	res.data.map(function(milestone, index) {
 			    		self.addMeta(milestone, index);
@@ -92,10 +92,10 @@ export default Vue.mixin({
 	        this.show_spinner = true;
 
 	        if (is_update) {
-				var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
+				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
 				var type = 'PUT'; 
 	        } else {
-				var url  = self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones';
+				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
 				var type = 'POST';
 	        }
 
@@ -201,7 +201,7 @@ export default Vue.mixin({
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/milestones/' + milestone_id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + milestone_id,
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteMilestone', milestone_id);

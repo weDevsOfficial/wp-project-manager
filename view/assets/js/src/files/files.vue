@@ -1,8 +1,8 @@
 <template>
-	<div class="wrap cpm cpm-front-end">
+	<div class="wrap pm pm-front-end">
 		<pm-header></pm-header>
 
-		<div v-if="loading" class="cpm-data-load-before" >
+		<div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -15,18 +15,18 @@
         </div>
 
 
-		<div v-if="!loading" class="cpm-files-page">
-			<ul class="cpm-files">        
+		<div v-if="!loading" class="pm-files-page">
+			<ul class="pm-files">        
 				<li v-for="file in files">
-		            <div class="cpm-thumb">
-		                <a class="cpm-colorbox-img" :title="file.name" :href="file.url">
+		            <div class="pm-thumb">
+		                <a class="pm-colorbox-img" :title="file.name" :href="file.url">
 		                	<img :src="file.thumb" :alt="file.name">
 		                </a>
 		            </div>
 		            <div class="">
-		                <h3 class="cpm-file-name">{{ file.name }}</h3>
+		                <h3 class="pm-file-name">{{ file.name }}</h3>
 
-		                <div class="cpm-file-meta">
+		                <div class="pm-file-meta">
 		                    Attached to 
 		                    <a :href="contentURL(file)">{{ attachTo(file) }}</a> 
 		                    by 
@@ -35,11 +35,11 @@
 		                	</a>                
 		                </div>
 
-		                <div class="cpm-file-action">
+		                <div class="pm-file-action">
 		                    <ul>
-		                        <li class="cpm-go-discussion"> <a :href="contentURL(file)"></a> </li>
-		                        <li class="cpm-download-file"> <a :href="file.url"> </a> </li>
-		                        <li class="cpm-comments-count"> <span>  </span> <div class="cpm-btn cpm-btn-blue cpm-comment-count"> 1</div></li>
+		                        <li class="pm-go-discussion"> <a :href="contentURL(file)"></a> </li>
+		                        <li class="pm-download-file"> <a :href="file.url"> </a> </li>
+		                        <li class="pm-comments-count"> <span>  </span> <div class="pm-btn pm-btn-blue pm-comment-count"> 1</div></li>
 		                    </ul>
 		                </div>
 		            </div>
@@ -75,7 +75,7 @@
 		},
 		methods: {
 			attachTo (file) {
-				if (file.fileable_type === 'discussion-board') {
+				if (file.fileable_type === 'discussion_board') {
 					return 'Discuss';
 				}
 			},
@@ -84,11 +84,11 @@
 				var self = this;
 				switch(file.fileable_type) {
 					
-					case 'discussion-board':
+					case 'discussion_board':
 						return '#/'+self.project_id+'/discussions/'+file.fileable_id;
 						break;
 
-					case 'task-list':
+					case 'task_list':
 						return '#/'+self.project_id+'/task-lists/'+file.fileable_id;
 						break;
 

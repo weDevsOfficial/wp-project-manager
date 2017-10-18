@@ -1,16 +1,16 @@
 <?php
 
-namespace CPM\Common\Models;
+namespace WeDevs\PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Meta extends Eloquent {
 
     use Model_Events;
 
-    protected $table = 'cpm_meta';
+    protected $table = 'pm_meta';
 
     protected $fillable = [
         'entity_id',

@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Milestone\Observers;
+namespace WeDevs\PM\Milestone\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Milestone\Models\Milestone;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Milestone\Models\Milestone;
 use Reflection;
 
 class Milestone_Observer extends Model_Observer {
@@ -14,7 +14,7 @@ class Milestone_Observer extends Model_Observer {
             'milestone_title' => $resource->title,
         ];
 
-        $this->log_activity( $resource, 'create-milestone', 'create', $meta );
+        $this->log_activity( $resource, 'create_milestone', 'create', $meta );
     }
 
     public function updated( $resource ) {
@@ -26,7 +26,7 @@ class Milestone_Observer extends Model_Observer {
             'milestone_title_old' => $old_value,
             'milestone_title_new' => $item->title,
         ];
-        $this->log_activity( $item, 'update-milestone-title', 'update', $meta );
+        $this->log_activity( $item, 'update_milestone_title', 'update', $meta );
     }
 
     public function description( Milestone $item, $old_value ) {
@@ -34,7 +34,7 @@ class Milestone_Observer extends Model_Observer {
             'milestone_title' => $item->title,
         ];
 
-        $this->log_activity( $item, 'update-milestone-description', 'update', $meta );
+        $this->log_activity( $item, 'update_milestone_description', 'update', $meta );
     }
 
     public function order( Milestone $item, $old_value ) {
@@ -44,7 +44,7 @@ class Milestone_Observer extends Model_Observer {
             'milestone_order_new' => $item->order,
         ];
 
-        $this->log_activity( $item, 'update-milestone-order', 'update', $meta );
+        $this->log_activity( $item, 'update_milestone_order', 'update', $meta );
     }
 
     private function log_activity( Milestone $item, $action, $action_type, $meta = null ) {

@@ -1,15 +1,15 @@
 <?php
 
-namespace CPM\Activity\Controllers;
+namespace WeDevs\PM\Activity\Controllers;
 
 use WP_REST_Request;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Activity\Models\Activity;
-use CPM\Activity\Transformers\Activity_Transformer;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
 class Activity_Controller {
 

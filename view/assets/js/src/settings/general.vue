@@ -2,14 +2,14 @@
     <div>
         <settings-header></settings-header>
         <div class="metabox-holder">
-            <div id="cpm_general" class="group" style="">
+            <div id="pm_general" class="group" style="">
                 <form @submit.prevent="saveSelfSettings()" method="post" action="options.php">
                     <h2>General Settings</h2>
                     <table class="form-table">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[upload_limit]">File Upload Limit</label>
+                                    <label for="pm_general[upload_limit]">File Upload Limit</label>
                                 </th>
                                 <td>
                                     <input v-model="upload_limit" type="text" class="regular-text">
@@ -18,7 +18,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[pagination]">Projects Per Page</label>
+                                    <label for="pm_general[pagination]">Projects Per Page</label>
                                 </th>
                                 <td>
                                     <input v-model="project_per_page" type="text" class="regular-text">
@@ -27,22 +27,22 @@
                             </tr>
                             <!-- <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[todolist_show]">Task List Style</label>
+                                    <label for="pm_general[todolist_show]">Task List Style</label>
                                 </th>
                                 <td>
                                     <fieldset>
-                                        <label for="wpuf-cpm_general[todolist_show][pagination]">
+                                        <label for="wpuf-pm_general[todolist_show][pagination]">
                                             <input type="radio" class="radio" checked="checked">
                                             Pagination
                                         </label>
                                         <br>
-                                         <label for="wpuf-cpm_general[todolist_show][load_more]">
-                                            <input type="radio" class="radio" id="wpuf-cpm_general[todolist_show][load_more]" name="cpm_general[todolist_show]" value="load_more">
+                                         <label for="wpuf-pm_general[todolist_show][load_more]">
+                                            <input type="radio" class="radio" id="wpuf-pm_general[todolist_show][load_more]" name="pm_general[todolist_show]" value="load_more">
                                             Load More...
                                         </label>
                                         <br>
-                                        <label for="wpuf-cpm_general[todolist_show][lazy_load]">
-                                            <input type="radio" class="radio" id="wpuf-cpm_general[todolist_show][lazy_load]" name="cpm_general[todolist_show]" value="lazy_load">Lazy Load
+                                        <label for="wpuf-pm_general[todolist_show][lazy_load]">
+                                            <input type="radio" class="radio" id="wpuf-pm_general[todolist_show][lazy_load]" name="pm_general[todolist_show]" value="lazy_load">Lazy Load
                                         </label>
                                         <br>
                                     </fieldset>
@@ -50,31 +50,31 @@
                             </tr> -->
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[show_todo]">Task Lists Per Page</label>
+                                    <label for="pm_general[show_todo]">Task Lists Per Page</label>
                                 </th>
                                 <td>
-                                    <input v-model="list_per_page" type="text" class="regular-text" id="cpm_general[show_todo]" name="cpm_general[show_todo]" value="">
+                                    <input v-model="list_per_page" type="text" class="regular-text" id="pm_general[show_todo]" name="pm_general[show_todo]" value="">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[show_incomplete_tasks]">Incomplete Tasks Per Page</label>
+                                    <label for="pm_general[show_incomplete_tasks]">Incomplete Tasks Per Page</label>
                                 </th>
                                 <td>
-                                    <input v-model="incomplete_tasks_per_page" type="text" class="regular-text" id="cpm_general[show_incomplete_tasks]" name="cpm_general[show_incomplete_tasks]" value="2">
+                                    <input v-model="incomplete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_incomplete_tasks]" name="pm_general[show_incomplete_tasks]" value="2">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[show_completed_tasks]">Completed Tasks Per Page</label>
+                                    <label for="pm_general[show_completed_tasks]">Completed Tasks Per Page</label>
                                 </th>
                                 <td>
-                                    <input v-model="complete_tasks_per_page" type="text" class="regular-text" id="cpm_general[show_completed_tasks]" name="cpm_general[show_completed_tasks]" value="2">
+                                    <input v-model="complete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_completed_tasks]" name="pm_general[show_completed_tasks]" value="2">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[project_manage_role]">Project Managing Capability</label>
+                                    <label for="pm_general[project_manage_role]">Project Managing Capability</label>
                                 </th>
                                 <td>
 
@@ -90,7 +90,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="cpm_general[project_create_role]">Project Creation Capability</label>
+                                    <label for="pm_general[project_create_role]">Project Creation Capability</label>
                                 </th>
                                 <td>
 
@@ -109,7 +109,7 @@
                     <div style="padding-left: 10px">
                         <p class="submit">
                             <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
-                            <span v-show="show_spinner" class="cpm-spinner"></span>
+                            <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>                            
                     </div>
                 </form>

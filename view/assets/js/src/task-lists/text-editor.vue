@@ -8,7 +8,7 @@
 
 	export default {
 	    
-	    //mixins: cpm_todo_list_mixins( CPM_Todo_List.todo_list_text_editor ),    
+	    //mixins: pm_todo_list_mixins( PM_Todo_List.todo_list_text_editor ),    
 
 	    // Get passing data for this component.
 	    props: ['editor_id', 'content'],

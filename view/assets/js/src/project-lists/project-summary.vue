@@ -3,7 +3,7 @@
 
         <div v-if="!projects.length">{{text.no_project_found}}</div>
 
-    	<article class="cpm-project cpm-column-gap-left cpm-sm-col-12" v-for="project in projects">
+    	<article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
             <router-link 
                 :title="project.title"
                 :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
@@ -11,12 +11,12 @@
                 <div class="project_head">
                     <h5>{{ project.title }}</h5>
 
-                    <div class="cpm-project-detail"></div>
+                    <div class="pm-project-detail"></div>
                 </div>
                 
             </router-link>
 
-    	    <div class="cpm-project-meta">
+    	    <div class="pm-project-meta">
             	<ul>
             		<li class="message">
             			<router-link :to="{
@@ -109,24 +109,24 @@
             	</ul>
             </div>
 
-    	     <div class="cpm-progress cpm-progress-info">
+    	     <div class="pm-progress pm-progress-info">
     	        <div :style="projectCompleteStatus(project)" class="bar completed"></div>
     	    </div>
 
-            <div class="cpm-progress-percentage"></div>
+            <div class="pm-progress-percentage"></div>
 
-            <footer class="cpm-project-people">
-                <div class="cpm-scroll">
+            <footer class="pm-project-people">
+                <div class="pm-scroll">
                     <img v-for="user in project.assignees.data" :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">  
                 </div>
             </footer>
-        
+
             <div class="cpm-project-action-icon">
     	        <div class="cpm-project-action">
     				<span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
 
-    				<ul v-if="project.settings_hide" class="cpm-settings">
+    				<ul v-if="project.settings_hide" class="pm-settings">
     				    <li>
     				        <span class="cpm-spinner"></span>
     				        <a @click.prevent="deleteProject(project.id)" class="cpm-project-delete-link" :title="text.delete_project">
@@ -147,8 +147,8 @@
     				    </li>
 
  <!--    				    <li>
-				            <span class="cpm-spinner"></span>
-				            <a class="cpm-duplicate-project" href="#" data-project_id="60">
+				            <span class="pm-spinner"></span>
+				            <a class="pm-duplicate-project" href="#" data-project_id="60">
 				                <span class="dashicons dashicons-admin-page"></span>
 				                <span>Duplicate</span>
 				            </a>
@@ -158,7 +158,7 @@
     		</div>
     	</article>
 
-        <div class="cpm-clearfix"></div>
+        <div class="pm-clearfix"></div>
     </div>
 </template>
 

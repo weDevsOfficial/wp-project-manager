@@ -1,9 +1,9 @@
 <template>
-	<div class="cpm-comment-form">
+	<div class="pm-comment-form">
 
-		<form class="cpm-comment-form-vue" @submit.prevent="updateComment()">
+		<form class="pm-comment-form-vue" @submit.prevent="updateComment()">
 
-	        <div class="item message cpm-sm-col-1">
+	        <div class="item message pm-sm-col-1">
 	            <text-editor :editor_id="editor_id" :content="content"></text-editor>
 	        </div>
 
@@ -11,18 +11,26 @@
 
 	        <div v-if="hasCoWorker" class="notify-users">
 	                        
+<<<<<<< HEAD
 	                <h2 class="cpm-box-title"> 
 	                    {{text.notify_user}}         
 	                    <label class="cpm-small-title" for="select-all"> 
 	                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="cpm-toggle-checkbox"> 
 	                        {{text.select_all}}
+=======
+	                <h2 class="pm-box-title"> 
+	                    Notify users            
+	                    <label class="pm-small-title" for="select-all"> 
+	                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="pm-toggle-checkbox"> 
+	                        Select all
+>>>>>>> f238d6c23907356a513697a0e13548d0ac5df949
 	                    </label>
 	                </h2>
 
-	                <ul class="cpm-user-list">
+	                <ul class="pm-user-list">
 	                    <li v-for="co_worker in co_workers" :key="co_worker.id">
-	                        <label :for="'cpm_notify_' + co_worker.id">
-	                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'cpm_notify_' + co_worker.id" > 
+	                        <label :for="'pm_notify_' + co_worker.id">
+	                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'pm_notify_' + co_worker.id" > 
 	                            {{ co_worker.name }}
 	                        </label>
 	                    </li>
@@ -34,7 +42,7 @@
 	        <div class="submit">
 	            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Add New Comment" id="" />
 	            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Update Comment" id="" />
-	            <span v-show="show_spinner" class="cpm-spinner"></span>
+	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	    </form>
 	</div>
@@ -107,7 +115,7 @@
 	        editor_id: function() {
 	            var comment_id = ( typeof this.comment.id == 'undefined' ) ? 
 	                '' : '-' + this.comment.id;
-	            return 'cpm-list-editor' + comment_id;
+	            return 'pm-list-editor' + comment_id;
 	        },
 
 	        /**
@@ -161,7 +169,7 @@
 		            
 	            data.append( 'content', self.comment.content );
 	            data.append( 'commentable_id', self.list_id );
-	            data.append( 'commentable_type', 'task-list' );
+	            data.append( 'commentable_type', 'task_list' );
 	            
 	            
 	            this.deleted_files.map(function(del_file) {
@@ -177,10 +185,10 @@
 				});
 
 	            if (is_update) {
-	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id+'?content='+this.comment.content;
+	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+this.comment.id+'?content='+this.comment.content;
 	            	var type = "POST";
 	            } else {
-	            	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
+	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments';
 	            	var type = "POST";
 	            }
 

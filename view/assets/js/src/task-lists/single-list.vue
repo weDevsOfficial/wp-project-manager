@@ -2,7 +2,7 @@
     <div>
         <pm-header></pm-header>
         <!-- Spinner before load task -->
-      <div v-if="loading" class="cpm-data-load-before" >
+      <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -17,7 +17,7 @@
         <div v-else>
 
             <router-link  
-                class="cpm-btn cpm-btn-blue cpm-margin-bottom add-tasklist"
+                class="pm-btn pm-btn-blue pm-margin-bottom add-tasklist"
                 :to="{ 
                     name: 'task_lists', 
                     params: { 
@@ -29,27 +29,27 @@
             </router-link>
             
             <div>
-                <ul class="cpm-todolists">
+                <ul class="pm-todolists">
 
-                    <li :class="'cpm-fade-out-'+list_id">
+                    <li :class="'pm-fade-out-'+list_id">
 
-                        <article class="cpm-todolist">
-                            <header class="cpm-list-header">
+                        <article class="pm-todolist">
+                            <header class="pm-list-header">
                                 <h3>
                                     {{ list.title }}
                                     <span :class="privateClass(list)"></span>
-                                    <div class="cpm-right">
-                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="cpm-icon-edit" title="<?php _e( 'Edit this List', 'cpm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="cpm-btn cpm-btn-xs" @click.prevent="deleteList( list.id )" title="<?php _e( 'Delete this List', 'cpm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'cpm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                                    <div class="pm-right">
+                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit" title="<?php _e( 'Edit this List', 'pm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" title="<?php _e( 'Delete this List', 'pm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'pm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                                     </div>
                                 </h3>
 
-                                <div class="cpm-entry-detail">
+                                <div class="pm-entry-detail">
                                     {{ list.description }}
                                 </div>
 
-                                <!-- <div class="cpm-entry-detail">{{list.post_content}}</div> -->
-                                <div class="cpm-update-todolist-form" v-if="list.edit_mode">
+                                <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
+                                <div class="pm-update-todolist-form" v-if="list.edit_mode">
                                     <!-- New Todo list form -->
                                     <new-task-list-form :list="list" section="single"></new-task-list-form>
                                 </div>
@@ -58,8 +58,8 @@
                             <!-- Todos component -->
                             <single-list-tasks :list="list" index="0"></single-list-tasks>
 
-                            <footer class="cpm-row cpm-list-footer">
-                                <div class="cpm-col-6">
+                            <footer class="pm-row pm-list-footer">
+                                <div class="pm-col-6">
 
                                     <div>
                                         <new-task-button :task="{}" :list="list" list_index="0"></new-task-button>
@@ -67,10 +67,10 @@
 
                                 </div>
 
-                                <div class="cpm-col-4 cpm-todo-prgress-bar">
+                                <div class="pm-col-4 pm-todo-prgress-bar">
                                     <div :style="getProgressStyle(list)" class="bar completed"></div>
                                 </div>
-                                <div class=" cpm-col-1 no-percent">{{ getProgressPercent(list) }}%</div>
+                                <div class=" pm-col-1 no-percent">{{ getProgressPercent(list) }}%</div>
                                 <div class="clearfix"></div>
                             </footer>
                         </article>
@@ -193,7 +193,7 @@
         },
 
         methods: {
-            //cpm/v2/projects/1/task-lists/6?with=tasks,comments,complete_tasks,incomplete_tasks&comment_page=1&complete_task_page=1&incomplete_task_page=1
+            //pm/v2/projects/1/task-lists/6?with=tasks,comments,complete_tasks,incomplete_tasks&comment_page=1&complete_task_page=1&incomplete_task_page=1
             /**
              * Get todo list for single todo list page
              * 
@@ -208,7 +208,7 @@
                     self.loading = false;
                 });
                 // var request = {
-                //     url: self.base_url + '/cpm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
+                //     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
                 //     success (res) {
                 //         self.list = res.data;
                 //         self.comments = res.data.comments.data;
@@ -219,7 +219,7 @@
                 // var self      = this,
                 //     form_data = {
                 //         list_id: list_id,
-                //         action: 'cpm_get_todo_list_single',
+                //         action: 'pm_get_todo_list_single',
                 //         project_id: PM_Vars.project_id,
                 //         _wpnonce: PM_Vars.nonce,
                 //     };

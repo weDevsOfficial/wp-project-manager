@@ -2,7 +2,7 @@
 	<div>
 		
 		<!-- <pre>{{ discuss }}</pre> -->
-		<form id="myForm" class="cpm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
+		<form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
 	        <div class="item title">
 	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="text.enter_message_title">
 	        </div>
@@ -22,7 +22,7 @@
 			    </select>
 	        	
 	        </div>
-	            
+
 	        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
 	        <!-- <input type="file" name="pfiles" @change="filesChange($event.target.name, $event.target.files)" multiple> -->
@@ -37,10 +37,10 @@
 	        		</label>
 	        	</h2>
 
-		        <ul class="cpm-user-list">
+		        <ul class="pm-user-list">
 		            <li>
-		            	<label for="cpm_notify_1">
-		            		<input type="checkbox" name="notify_user[]" id="cpm_notify_1" value="1"> 
+		            	<label for="pm_notify_1">
+		            		<input type="checkbox" name="notify_user[]" id="pm_notify_1" value="1"> 
 		            		Admin
 		            	</label>
 		            </li>
@@ -50,7 +50,6 @@
 
 	        
 	        <div class="submit">
-
 				<input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="text.add_message">
 				<input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="text.update_message">
 	            <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{text.cancel}}</a>
@@ -121,7 +120,7 @@
 	         */
 	        editor_id: function() {
 	            var discuss_id = ( typeof this.discuss.id === 'undefined' ) ? '' : '-' + this.discuss.id;
-	            return 'cpm-discuss-editor' + discuss_id;
+	            return 'pm-discuss-editor' + discuss_id;
 	        },
 		},
 		methods: {
@@ -135,7 +134,7 @@
 
 				var args = {
 					title: this.discuss.title,
-            		description: this.discuss.description,
+            		description: typeof this.discuss.description === 'undefined' ? '' : this.discuss.description,
             		milestone: this.discuss.milestone_id,
             		order: 0,
             		deleted_files: this.deleted_files,
@@ -150,7 +149,6 @@
 					args.callback = function(res) {
 						self.lazyAction();
 					}
-
 					self.newDiscuss(args);
 				}
 			},

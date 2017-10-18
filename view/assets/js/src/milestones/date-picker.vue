@@ -7,7 +7,7 @@
 		props: ['value', 'dependency'],
 	    mounted: function() {
 	        var self = this,
-	            limit_date = ( self.dependency == 'cpm-datepickter-from' ) ? "maxDate" : "minDate";
+	            limit_date = ( self.dependency == 'pm-datepickter-from' ) ? "maxDate" : "minDate";
 
 	        jQuery( self.$el ).datepicker({
 	            dateFormat: 'yy-mm-dd',

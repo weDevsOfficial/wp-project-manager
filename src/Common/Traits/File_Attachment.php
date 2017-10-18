@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Common\Traits;
+namespace WeDevs\PM\Common\Traits;
 
 use ReflectionClass;
-use CPM\Core\File_System\File_System;
-use CPM\File\Models\File;
+use WeDevs\PM\Core\File_System\File_System;
+use WeDevs\PM\File\Models\File;
 
 trait File_Attachment {
 

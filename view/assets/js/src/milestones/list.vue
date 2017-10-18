@@ -1,6 +1,6 @@
 <template>
 	<div>
-	    <div class="cpm-col-7">
+	    <div class="pm-col-7">
 	        <router-link 
 	            :to="{
 	                name: 'single_list',
@@ -14,13 +14,13 @@
 	        </router-link>
 	    </div>
 	    
-	    <div class=" cpm-col-3">
-	        <div class="cpm-progress cpm-progress-info">
+	    <div class=" pm-col-3">
+	        <div class="pm-progress pm-progress-info">
 	            <div :style="getProgressStyle( list )" class="bar completed"></div>
 	        </div>
 
 	    </div>
-	    <div class="cpm-col-1 cpm-right cpm-last-col">
+	    <div class="pm-col-1 pm-right pm-last-col">
 	        {{ getProgressPercent( list ) }}%                                
 	    </div>
 	    <div class="clearfix"></div>

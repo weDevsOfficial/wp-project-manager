@@ -1,14 +1,14 @@
 <?php
 
-namespace CPM\Milestone\Transformer;
+namespace WeDevs\PM\Milestone\Transformers;
 
-use CPM\Milestone\Models\Milestone;
+use WeDevs\PM\Milestone\Models\Milestone;
 use League\Fractal\TransformerAbstract;
-use CPM\Task_List\Transformer\Task_List_Transformer;
-use CPM\Task\Transformer\Task_Transformer;
-use CPM\Discussion_Board\Transformer\Discussion_Board_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Common\Traits\Resource_Editors;
 
 class Milestone_Transformer extends TransformerAbstract {
 

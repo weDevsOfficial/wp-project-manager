@@ -1,6 +1,6 @@
 <?php
 
-namespace CPM\Core\WP;
+namespace WeDevs\PM\Core\WP;
 
 class Register_Scripts {
 	

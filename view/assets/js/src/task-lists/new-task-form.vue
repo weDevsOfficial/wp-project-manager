@@ -1,6 +1,6 @@
 <template>
-	<div :class="'cpm-task-edit-form cpm-slide-'+task.id">
-		<form action="" v-on:submit.prevent="newTask()" method="post" class="cpm-task-form">
+	<div :class="'pm-task-edit-form pm-slide-'+task.id">
+		<form action="" v-on:submit.prevent="newTask()" method="post" class="pm-task-form">
 	      
 	        <div class="item task-title">
 	            <input v-model="task.title" type="text" name="task_title" class="task_title" placeholder="Add a new task" value="" required="required">
@@ -12,16 +12,16 @@
 
 	        <div class="item date">
 	            
-	            <div class="cpm-task-start-field" v-if="task_start_field">
+	            <div class="pm-task-start-field" v-if="task_start_field">
 	                <label>Start Date</label>
-	                <cpm-datepickter v-model="task.start_at.date" class="cpm-datepickter-from" dependency="cpm-datepickter-to"></cpm-datepickter>
+	                <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to"></pm-datepickter>
 	                
 	            </div>
 	            
 
-	            <div class="cpm-task-due-field">
+	            <div class="pm-task-due-field">
 	                <label>Due Date</label>
-	                <cpm-datepickter v-model="task.due_date.date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
+	                <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from"></pm-datepickter>
 	            </div>
 	        </div>
 
@@ -44,11 +44,11 @@
 	        </div>
 
 	        <div class="item submit">
-	            <span class="cpm-new-task-spinner"></span>
+	            <span class="pm-new-task-spinner"></span>
 	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="Update Task"></span>
 	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="New Task"></span>
 	            <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">Cancel</a>
-	            <span v-show="show_spinner" class="cpm-spinner"></span>
+	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	    </form>
 
@@ -84,7 +84,7 @@
 
 	    components: {
 	    	'multiselect': Multiselect,
-	    	'cpm-datepickter': date_picker
+	    	'pm-datepickter': date_picker
 	    },
 
 	    beforeMount () {
@@ -93,7 +93,7 @@
 
 	    // Initial action for this component
 	    created: function() {
-	        this.$on( 'cpm_date_picker', this.getDatePicker );
+	        this.$on( 'pm_date_picker', this.getDatePicker );
 	        
 	    },
 
@@ -279,10 +279,10 @@
 	    //         this.show_spinner = true;
 	            
 	    //         if (is_update) {
-	    //         	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
+	    //         	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
 	    //         	var type = 'PUT'; 
 	    //         } else {
-	    //         	var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/tasks';
+	    //         	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks';
 	    //         	var type = 'POST';
 	    //         }
 

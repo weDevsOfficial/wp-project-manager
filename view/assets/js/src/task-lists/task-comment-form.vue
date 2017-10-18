@@ -1,7 +1,7 @@
 <template>
-	<form class="cpm-comment-form-vue" @submit.prevent="updateComment()">
+	<form class="pm-comment-form-vue" @submit.prevent="updateComment()">
 
-        <div class="item message cpm-sm-col-12 ">
+        <div class="item message pm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
 
@@ -9,17 +9,17 @@
 
         <div v-if="hasCoWorker" class="notify-users">
                         
-                <h2 class="cpm-box-title"> 
+                <h2 class="pm-box-title"> 
                     Notify users            
-                    <label class="cpm-small-title" for="select-all"> 
-                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="cpm-toggle-checkbox"> 
+                    <label class="pm-small-title" for="select-all"> 
+                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="pm-toggle-checkbox"> 
                         Select all
                     </label>
                 </h2>
-                <ul class="cpm-user-list">
+                <ul class="pm-user-list">
                     <li v-for="co_worker in co_workers">
-                        <label :for="'cpm_notify_' + co_worker.id">
-                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'cpm_notify_' + co_worker.id" > 
+                        <label :for="'pm_notify_' + co_worker.id">
+                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'pm_notify_' + co_worker.id" > 
                             {{ co_worker.name }}
                         </label>
                     </li>
@@ -31,7 +31,7 @@
         <div class="submit">
             <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Add New Comment" id="" />
             <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Update Comment" id="" />
-            <span v-show="show_spinner" class="cpm-spinner"></span>
+            <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
     </form>
 </template>
@@ -85,7 +85,7 @@
 	         */
 	        editor_id: function() {
 	            var comment_id = ( typeof this.comment.id === 'undefined' ) ? '' : '-' + this.comment.id;
-	            return 'cpm-comment-editor' + comment_id;
+	            return 'pm-comment-editor' + comment_id;
 	        },
 		},
 		methods: {
@@ -127,10 +127,10 @@
   
 		        
 		        if (is_update) {
-		            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
+		            var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
 		            var type = 'POST'; 
 		        } else {
-		            var url = self.base_url + '/cpm/v2/projects/'+self.project_id+'/comments';
+		            var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments';
 		            var type = 'POST';
 		        }
 

@@ -2,11 +2,11 @@
 
         
 
-    <div class="wrap cpm cpm-front-end">
+    <div class="wrap pm pm-front-end">
         
         <project-header></project-header>
 
-        <div v-if="loading" class="cpm-data-load-before" >
+        <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div v-if="!loading" class="cpm-projects cpm-row cpm-no-padding cpm-no-margin" v-bind:class="[projects_view_class()]">
+        <div v-if="!loading" class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
             <project-summary></project-summary>
             <pm-pagination 
                 :total_pages="total_pages" 
@@ -28,9 +28,9 @@
             </pm-pagination> 
         </div>
 
-        <div id="cpm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
+        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
             <project-create-form :project="{}"></project-create-form>
-            <!-- <do-action :hook="'cpm-after-project-list'"></do-action> -->
+            <!-- <do-action :hook="'pm-after-project-list'"></do-action> -->
         </div>
         
     </div>
@@ -110,19 +110,19 @@
 </script>
 
 <style>
-.cpm-project-meta .message .fa-circle {
+.pm-project-meta .message .fa-circle {
     color: #4975a8;
 }   
 
-.cpm-project-meta .todo .fa-circle {
+.pm-project-meta .todo .fa-circle {
     color: #68af94;
 }   
 
-.cpm-project-meta .files .fa-circle {
+.pm-project-meta .files .fa-circle {
     color: #71c8cb;
 }   
 
-.cpm-project-meta .milestone .fa-circle {
+.pm-project-meta .milestone .fa-circle {
     color: #4975a8;
 }   
 

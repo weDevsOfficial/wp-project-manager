@@ -1,15 +1,16 @@
 <?php
 
-namespace CPM\Common\Models;
+namespace WeDevs\PM\Common\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use CPM\Model_Events;
-use CPM\User\Models\User;
+use WeDevs\PM\Common\Traits\Model_Events;
+use WeDevs\PM\User\Models\User;
 
 class Assignee extends Eloquent {
+
     use Model_Events;
 
-    protected $table = 'cpm_assignees';
+    protected $table = 'pm_assignees';
 
     protected $fillable = [
         'task_id',

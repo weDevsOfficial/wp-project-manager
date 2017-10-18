@@ -1,18 +1,18 @@
 <?php
 
-namespace CPM\Task_List\Controllers;
+namespace WeDevs\PM\Task_List\Controllers;
 
 use WP_REST_Request;
-use CPM\Task_List\Models\Task_List;
+use WeDevs\PM\Task_List\Models\Task_List;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Task_List\Transformer\Task_List_Transformer;
-use CPM\Common\Models\Boardable;
-use CPM\Common\Traits\Request_Filter;
-use CPM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Task_List_Controller {
 
@@ -21,7 +21,7 @@ class Task_List_Controller {
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page = $request->get_param( 'per_page' );
-        $per_page_from_settings = cpm_get_settings( 'list_per_page' );
+        $per_page_from_settings = pm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page = $per_page ? $per_page : $per_page_from_settings;
 
@@ -111,14 +111,14 @@ class Task_List_Controller {
 
     private function attach_milestone( Task_List $task_list, Milestone $milestone ) {
         $boardable = Boardable::where( 'boardable_id', $task_list->id )
-            ->where( 'boardable_type', 'task-list' )
+            ->where( 'boardable_type', 'task_list' )
             ->where( 'board_type', 'milestone' )
             ->first();
 
         if ( !$boardable ) {
             $boardable = Boardable::firstOrCreate([
                 'boardable_id'   => $task_list->id,
-                'boardable_type' => 'task-list',
+                'boardable_type' => 'task_list',
                 'board_id'       => $milestone->id,
                 'board_type'     => 'milestone'
             ]);
@@ -157,7 +157,7 @@ class Task_List_Controller {
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $task_list->id,
-                    'board_type' => 'task-list',
+                    'board_type' => 'task_list',
                     'boardable_id' => $user_id,
                     'boardable_type' => 'user'
                 ];

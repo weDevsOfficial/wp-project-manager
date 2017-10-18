@@ -1,16 +1,16 @@
 <?php
 
-namespace CPM\User\Controllers;
+namespace WeDevs\PM\User\Controllers;
 
 use WP_REST_Request;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Common\Traits\Request_Filter;
-use CPM\User\Models\User;
-use CPM\User\Transformers\User_Transformer;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Transformers\User_Transformer;
 use Illuminate\Support\Facades\Schema;
 
 class User_Controller {

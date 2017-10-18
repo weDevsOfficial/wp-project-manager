@@ -1,10 +1,10 @@
 <?php
 
-namespace CPM\Task_List\Observers;
+namespace WeDevs\PM\Task_List\Observers;
 
-use CPM\Core\Database\Model_Observer;
-use CPM\Activity\Models\Activity;
-use CPM\Task_List\Models\Task_List;
+use WeDevs\PM\Core\Database\Model_Observer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Task_List\Models\Task_List;
 use Reflection;
 
 class Task_List_Observer extends Model_Observer {
@@ -14,7 +14,7 @@ class Task_List_Observer extends Model_Observer {
             'task_list_title' => $resource->title,
         ];
 
-        $this->log_activity( $resource, 'create-task-list', 'create', $meta );
+        $this->log_activity( $resource, 'create_task_list', 'create', $meta );
     }
 
     public function updated( $resource ) {
@@ -26,7 +26,7 @@ class Task_List_Observer extends Model_Observer {
             'task_list_title_old' => $old_value,
             'task_list_title_new' => $item->title,
         ];
-        $this->log_activity( $item, 'update-task-list-title', 'update', $meta );
+        $this->log_activity( $item, 'update_task_list_title', 'update', $meta );
     }
 
     public function description( Task_list $item, $old_value ) {
@@ -34,7 +34,7 @@ class Task_List_Observer extends Model_Observer {
             'task_list_title' => $item->title,
         ];
 
-        $this->log_activity( $item, 'update-task-list-description', 'update', $meta );
+        $this->log_activity( $item, 'update_task_list_description', 'update', $meta );
     }
 
     public function order( Task_list $item, $old_value ) {
@@ -44,7 +44,7 @@ class Task_List_Observer extends Model_Observer {
             'task_list_order_new' => $item->order,
         ];
 
-        $this->log_activity( $item, 'update-task-list-order', 'update', $meta );
+        $this->log_activity( $item, 'update_task_list_order', 'update', $meta );
     }
 
     private function log_activity( Task_list $item, $action, $action_type, $meta = null ) {
@@ -53,7 +53,7 @@ class Task_List_Observer extends Model_Observer {
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $item->id,
-            'resource_type' => 'task-list',
+            'resource_type' => 'task_list',
             'meta'          => $meta,
             'project_id'    => $item->project_id,
         ]);

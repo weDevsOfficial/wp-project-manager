@@ -7,7 +7,7 @@ export default Vue.mixin({
 				var self = this;
 
 			var request = {
-	            url: self.base_url + '/cpm/v2/projects/'+self.project_id+'?'+condition,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'?'+condition,
 	            success (res) {
 	       			// res.data.map(function(discuss, index) {
 			    	// 	self.addDiscussMeta(discuss);

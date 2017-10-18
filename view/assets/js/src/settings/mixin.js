@@ -7,7 +7,7 @@ export default Vue.mixin({
 				self = this;
 
 			var request = {
-                url: self.base_url + '/cpm/v2/settings',
+                url: self.base_url + '/pm/v2/settings',
                 data: {
                 	settings: settings
                 },

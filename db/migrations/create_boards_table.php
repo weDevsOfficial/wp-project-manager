@@ -2,11 +2,11 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-use CPM\Core\Database\Abstract_Migration as Migration;
+use WeDevs\PM\Core\Database\Abstract_Migration as Migration;
 
 class Create_Boards_Table extends Migration {
     public function schema() {
-        Capsule::schema()->create( 'cpm_boards', function( $table ) {
+        Capsule::schema()->create( 'pm_boards', function( $table ) {
             $table->increments( 'id' );
 
             $table->string( 'title' );

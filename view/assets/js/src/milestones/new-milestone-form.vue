@@ -1,12 +1,11 @@
 <template>
 	<form class="cpm-milestone-form" @submit.prevent="newMilestone()">
-        
         <div class="item milestone-title">
             <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" :placeholder="text.milestone_name">
         </div>
         
         <div class="item due">
-            <cpm-datepickter v-model="due_date" class="cpm-datepickter-to" dependency="cpm-datepickter-from"></cpm-datepickter>
+            <pm-datepickter v-model="due_date" class="pm-datepickter-to" dependency="pm-datepickter-from"></pm-datepickter>
         </div>
 
         <div class="item detail">
@@ -60,7 +59,7 @@
 
 		components: {
 			'text-editor': editor,
-			'cpm-datepickter': date_picker
+			'pm-datepickter': date_picker
 		},
 		computed: {
 			milestones () {
@@ -73,7 +72,7 @@
 	         */
 	        editor_id: function() {
 	            var milestone_id = ( typeof this.milestone.id === 'undefined' ) ? '' : '-' + this.milestone.id;
-	            return 'cpm-milestone-editor' + milestone_id;
+	            return 'pm-milestone-editor' + milestone_id;
 	        },
 		},
 		methods: {

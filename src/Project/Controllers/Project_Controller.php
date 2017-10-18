@@ -1,20 +1,20 @@
 <?php
 
-namespace CPM\Project\Controllers;
+namespace WeDevs\PM\Project\Controllers;
 
 use WP_REST_Request;
-use CPM\Project\Models\Project;
+use WeDevs\PM\Project\Models\Project;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use CPM\Transformer_Manager;
-use CPM\Project\Transformer\Project_Transformer;
-use CPM\Common\Traits\Request_Filter;
-use CPM\User\Models\User;
-use CPM\User\Models\User_Role;
-use CPM\Category\Models\Category;
-use CPM\Common\Traits\File_Attachment;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Project\Transformers\Project_Transformer;
+use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Models\User_Role;
+use WeDevs\PM\Category\Models\Category;
+use WeDevs\PM\Common\Traits\File_Attachment;
 
 class Project_Controller {
 
@@ -26,7 +26,7 @@ class Project_Controller {
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 
-		$per_page_from_settings = cpm_get_settings( 'project_per_page' );
+		$per_page_from_settings = pm_get_settings( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
