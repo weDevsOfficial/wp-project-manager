@@ -26,10 +26,10 @@
                         </span>
 
                         <div class="cpm-small-title">
-                            By 
+                            {{text.by}}
                             <a href="#" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
-                            </a> on September 11, 2017  at  01:34 pm            
+                            </a> {{text.on}} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
                         </div>
                     </h3>
                     <div class="cpm-entry-detail">
@@ -54,7 +54,7 @@
 
             <div v-if="discuss" class="cpm-comment-area cpm-box-shadow">
 
-                <h3> {{ discuss.meta.total_comments }} Comments</h3>
+                <h3> {{ discuss.meta.total_comments }} {{text.comments}}</h3>
                 <ul class="cpm-comment-wrap">
 
                     <li v-for="comment in comments" class="cpm-comment clearfix even" :id="'cpm-comment-' + comment.id" key="comment.id">
@@ -70,14 +70,16 @@
                                         {{ comment.creator.data.display_name }}
                                     </a>
                                 </span>
-                                On            
+                                {{text.on}}           
                                 <span class="cpm-date">
-                                    <time datetime="2017-09-11T13:34:37+00:00" title="2017-09-11T13:34:37+00:00">September 11, 2017 1:34 pm</time>
+
+                                    <time :datetime="comment.created_at.date +' ' + comment.created_at.time" :title="comment.created_at.date +' ' + comment.created_at.time">{{comment.created_at.date +' ' + comment.created_at.time}}</time>
+                                    
                                 </span>
 
                                 <div class="cpm-comment-action">
                                     <span class="cpm-edit-link">
-                                        <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit " data-comment_id="309" data-project_id="60" data-object_id="97"></a>
+                                        <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit "></a>
                                     </span>
 
                                     <span class="cpm-delete-link">

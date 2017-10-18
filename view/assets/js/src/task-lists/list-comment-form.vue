@@ -12,10 +12,10 @@
 	        <div v-if="hasCoWorker" class="notify-users">
 	                        
 	                <h2 class="cpm-box-title"> 
-	                    Notify users            
+	                    {{text.notify_user}}         
 	                    <label class="cpm-small-title" for="select-all"> 
 	                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="cpm-toggle-checkbox"> 
-	                        Select all
+	                        {{text.select_all}}
 	                    </label>
 	                </h2>
 

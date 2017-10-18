@@ -1,12 +1,11 @@
 <?php
 
 return [
-	'add_new_discussion' => [
-		__( 'Add New Discussion', 'pm' )
-	],
-
 	'load_more' => [
 		__( 'Load More ...', 'pm' )
+	],
+	'are_you_sure' => [
+		__( 'Are you sure!', 'pm' )
 	],
 	'edit' => [
 		__( 'Edit', 'pm' )
@@ -205,5 +204,129 @@ return [
 	],
 	'milestone_delete_conf' => [
 		__( 'Are you sure! Want to delete this milestones?', 'pm' )
-	]
+	],
+	//discuss tab
+	'discuss_define' => [
+		__( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'pm' )
+	],
+	'add_new_discussion' => [
+		__( 'Add New Discussion', 'pm' )
+	],
+	'create_a_new_message' => [
+		__( 'Create a new message', 'pm' )
+	],
+	'when_use_discuss' => [
+		__( 'When to use Discussions?', 'pm' )
+	],
+	'to_discuss_work_matter' => [
+		__( 'To discuss a work matter privately.', 'pm' )
+	],
+	'to_exchange_file' => [
+		__( 'To exchange files privately.', 'pm' )
+	],
+	'to_discuss_group' => [
+		__( 'To discuss in a group.', 'pm' )
+	],
+	'to_open_discuss' => [
+		__( 'To create an open discussion visible to all.', 'pm' )
+	],
+	'discussion_list' => [
+		__( 'Discussion List', 'pm' )
+	],
+	'by' => [
+		__( 'By', 'pm' )
+	],
+	'on' => [
+		__( 'on', 'pm' )
+	],
+	'comments' => [
+		__( 'Comments', 'pm' )
+	],
+	'notify_user' => [
+		__( 'Notify users', 'pm' )
+	],
+	'select_all' => [
+		__( 'Select all', 'pm' )
+	],
+	'add_message' => [
+		__( 'Add Message', 'pm' )
+	],
+	'update_message' => [
+		__( 'Update Message', 'pm' )
+	],
+	'delete_comment_conf' => [
+		__( 'Are you sure to delete this comment?', 'pm' )
+	],
+	'milestones_select' => [
+		__( ' - Milestone -', 'pm' )
+	],
+	'enter_message_title' => [
+		__( 'Enter message title', 'pm' )
+	],
+
+	// task list tab
+	'task_lists_define' => [
+		__( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'pm' )
+	],
+	'when_use_task' => [
+		__( 'When to use Task Lists?', 'pm' )
+	],
+	'to_pertition_project' => [
+		__( 'To partition a project internals.', 'pm' )
+	],
+	'to_milestone_points' => [
+		__( 'To mark milestone points.', 'pm' )
+	],
+	'to_assaign_task' => [
+		__( 'To assign people to tasks.', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	'late_milestones' => [
+		__( 'Late Milestones', 'pm' )
+	],
+	
 ];

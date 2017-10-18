@@ -423,7 +423,7 @@ export default Vue.mixin({
         },
 
         deleteDiscuss (args) {
-        	if ( ! confirm( 'Are you sure!' ) ) {
+        	if ( ! confirm( this.text.are_you_sure ) ) {
                 return;
             }
             var self = this;
@@ -461,7 +461,7 @@ export default Vue.mixin({
         },
 
         deleteComment(args){
-        	if ( ! confirm( 'Are you sure to delete this comment?' ) ) {
+        	if ( ! confirm( this.text.delete_comment_conf ) ) {
                 return;
             }
 

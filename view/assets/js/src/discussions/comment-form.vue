@@ -9,10 +9,10 @@
             <div class="notify-users">
                 
                 <h2 class="cpm-box-title"> 
-                    Notify users            
+                    {{text.notify_user}}            
                     <label class="cpm-small-title" for="select-all"> 
                         <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
-                        Select all
+                        {{text.select_all}}
                     </label>
                 </h2>
 

@@ -16,19 +16,19 @@
 
         <div class="cpm-blank-template discussion" v-if="blankTemplate">
             <div class="cpm-content" >
-                <h3 class="cpm-page-title">Discussion</h3>
+                <h3 class="cpm-page-title">{{text.discussions}}</h3>
 
                 <p>
-                    Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.
+                    {{text.discuss_define}}
                 </p>
                     <div>
                         <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
-                            Add New Discussion 
+                            {{text.add_new_discussion}} 
                         </a>
                     </div>
                     <transition name="slide">
                         <div class="cpm-new-message-form" v-if="is_discuss_form_active">
-                            <h3>Create a new message</h3>
+                            <h3>{{text.create_a_new_message}}</h3>
 
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
 
@@ -36,13 +36,13 @@
                     </transition>
 
                 <div class="cpm-list-content">
-                    <h3 class="cpm-why-for cpm-page-title"> When to use Discussions? </h3>
+                    <h3 class="cpm-why-for cpm-page-title"> {{text.when_use_discuss}} </h3>
 
                     <ul class="cpm-list">
-                        <li> To discuss a work matter privately. </li>
-                        <li> To exchange files privately. </li>
-                        <li> To discuss in a group.</li>
-                        <li> To create an open discussion visible to all. </li>
+                        <li> {{text.to_discuss_work_matter}} </li>
+                        <li> {{text.to_exchange_file}}</li>
+                        <li> {{text.to_discuss_group}}</li>
+                        <li> {{text.to_open_discuss}} </li>
 
                     </ul>
                 </div>
@@ -52,12 +52,12 @@
             <div class="cpm-row discussion">
                 <div>
                     <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
-                        Add New Discussion 
+                        {{text.add_new_discussion}} 
                     </a>
                 </div>
                 <transition name="slide">
                     <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
-                        <h3>Create a new message</h3>
+                        <h3>{{text.create_a_new_message}}</h3>
 
                         <new-discuss-form  :discuss="{}"></new-discuss-form>
 
@@ -68,7 +68,7 @@
 
             <div class="cpm-row cpm-message-page">
                 <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
-                    <div class="cpm-box-title">Discussion List</div>
+                    <div class="cpm-box-title">{{text.discussion_list}}</div>
                     <ul class="dicussion-list">        
                         <li class="cpm-col-12" v-for="discuss in discussion" key="discuss.id">
                             <div class="cpm-col-9">
@@ -84,11 +84,11 @@
                                 </router-link>
                                
                                 <div class="dicussion-meta">
-                                    By 
+                                    {{text.by}} 
                                     <a href="#" :title="discuss.creator.data.display_name">
                                         {{ discuss.creator.data.display_name }}
                                     </a> 
-                                    on 
+                                     {{text.on}}
                                     {{ discuss.created_at.date }}                  
                                 </div>
 
@@ -109,7 +109,7 @@
                                 <router-link 
                                     class="cpm-pagination-btn prev page-numbers" 
                                     :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
-                                    {{ discuss.meta.total_comments }} Comments 
+                                    {{ discuss.meta.total_comments }} {{text.comments}} 
                                 </router-link>           
                             </div>
 

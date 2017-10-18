@@ -4,7 +4,7 @@
 		<!-- <pre>{{ discuss }}</pre> -->
 		<form id="myForm" class="cpm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
 	        <div class="item title">
-	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" placeholder="Enter message title">
+	            <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="text.enter_message_title">
 	        </div>
 
 	        <div class="item detail">
@@ -14,7 +14,7 @@
 	        <div class="item milestone">
         		<select v-model="milestone_id">
 			        <option value="-1">
-			            - Milestone -
+			           {{text.milestones_select}}
 			        </option>
 			        <option v-for="milestone in milestones" :value="milestone.id">
 			            {{ milestone.title }}
@@ -30,10 +30,10 @@
 	        <div class="notify-users">
 	            
 	        	<h2 class="cpm-box-title"> 
-	        		Notify users            
+	        		{{text.notify_user}}               
 	        		<label class="cpm-small-title" for="select-all"> 
 	        			<input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
-	        			Select all
+	        			{{text.select_all}}
 	        		</label>
 	        	</h2>
 
@@ -51,8 +51,9 @@
 	        
 	        <div class="submit">
 
-				<input type="submit" name="create_message" id="create_message" class="button-primary" value="Add Message">
-	            <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">Cancel</a>
+				<input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="text.add_message">
+				<input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="text.update_message">
+	            <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{text.cancel}}</a>
 	            <span v-show="show_spinner" class="cpm-spinner"></span>
 	        </div>
 	        
