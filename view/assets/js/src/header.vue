@@ -7,37 +7,36 @@
                     <span class="pm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" class="pm-icon-edit pm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">{{text.Edit}}</span>
+                        <span class="text">{{text.edit}}</span>
                      </a>
                 </h3>
 
-                <div class="detail"></div>
+                <div class="detail">{{project.description}}</div>
             </div>
-            <div class="pm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.Completed}}</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.Incomplete}}</div>
+            <div class="cpm-completed-wrap">
+                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.completed}}</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.incomplete}}</div>
             </div>
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only">
-                    
-                <div class="pm-project-action">
-                    <span @click.prevent="showProjectAction()" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
-
+                <div class="cpm-project-action">
+                    <span @click.prevent="showProjectAction()" :title="text.Project_Actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
-                            <span class="pm-spinner"></span>
-                            <a href="#" @click.prevent="deleteProject(project.id)">
+                            <span class="cpm-spinner"></span>
+                            <a href="#" @click.prevent="deleteProject(project.id)" :title="text.delete_project">
+
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>Delete</span>
+                                <span>{{text.delete}}</span>
                             </a>
                         </li>
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="selfProjectMarkDone(project)" href="#">
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">Complete</span>
+                                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">Restore</span>
+                                <span v-if="project.status === 'complete'">{{text.restore}}</span>
                             </a>
                         </li>
                     </ul>
@@ -45,10 +44,11 @@
             </div>
 
             <div class="clearfix"></div>
-
-            <div class="pm-edit-project" v-if="is_project_edit_mode">
-                <edit-project :is_update="true"></edit-project>
-            </div>
+             <transition name="slide">
+                <div class="cpm-edit-project" v-if="is_project_edit_mode">
+                    <edit-project :is_update="true"></edit-project>
+                </div>
+            </transition>
         </div>
 
         <div class="pm-row pm-project-group">
@@ -114,7 +114,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Overview',
+                        name: this.text.overview,
                         count: '',
                         class: 'overview pm-sm-col-12'
                     },
@@ -125,7 +125,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Activities',
+                        name: this.text.activities,
                         count: project.meta.total_activities,
                         class: 'activity pm-sm-col-12'
                     },
@@ -136,7 +136,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Discussions',
+                        name: this.text.discussions,
                         count: project.meta.total_discussion_boards,
                         class: 'message pm-sm-col-12'
                     },
@@ -147,7 +147,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Task Lists',
+                        name: this.text.task_lists,
                         count: project.meta.total_task_lists,
                         class: 'to-do-list pm-sm-col-12'
                     },
@@ -158,7 +158,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Milestones',
+                        name: this.text.milestones,
                         count: project.meta.total_milestones,
                         class: 'milestone pm-sm-col-12'
                     },
@@ -169,7 +169,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: 'Files',
+                        name: this.text.files,
                         count: project.meta.total_files,
                         class: 'files pm-sm-col-12'
                     }

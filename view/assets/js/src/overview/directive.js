@@ -8,12 +8,13 @@ import Vue from './../../vue/vue';
 var PM_Overview = {
 	chart: function(el, binding, vnode) {
 		var $ = jQuery;
-		
+		var activity = vnode.context.text.activity,
+			Task = vnode.context.text.task
 		var data = {
 		    labels: PM_Overview.getLabels(vnode.context), //["Oct 05", "Oct 09", "Oct 15"],
 		    datasets: [
 		        {
-		            label: "Activity",
+		            label: activity,
 		            fillColor: "rgba(120,200, 223, 0.4)",
 		            strokeColor: "#79C7DF",
 		            pointColor: "#79C7DF",
@@ -24,7 +25,7 @@ var PM_Overview = {
 		            backgroundColor: "rgba(120,200, 223, 0.4)",
 		        },
 		        {
-		            label: "Task",
+		            label: Task,
 		            fillColor: "rgba(185, 114, 182,0.5)",
 		            strokeColor: "#B972B6",
 		            pointColor: "#B972B6",

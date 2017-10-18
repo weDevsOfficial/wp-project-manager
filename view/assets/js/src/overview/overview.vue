@@ -28,7 +28,7 @@
 			         			<div class="icon"></div> 
 			         			<div class="count">
 			         				<span>{{ meta.total_discussion_boards }}</span> 
-			         				Discussions
+			         				{{text.discussions}}
 			         			</div> 
 			         		</router-link>
 			         	</li>
@@ -43,7 +43,7 @@
 			         			<div class="icon"></div> 
 			         			<div class="count">
 			         				<span>{{ meta.total_task_lists }}</span> 
-			         				Task List
+			         				{{text.task_lists}}
 			         			</div> 
 			         		</router-link>
 			         	</li>
@@ -54,7 +54,7 @@
 			         		<div class="icon"></div> 
 			         		<div class="count">
 			         			<span>{{ meta.total_tasks }}</span> 
-			         			Task
+			         			{{text.tasks}}
 			         		</div> 
 			         		</a>
 				         	
@@ -65,7 +65,7 @@
 				         		<div class="icon"></div> 
 				         		<div class="count">
 					         		<span>{{ meta.total_comments }}</span>  
-					         		Comments
+					         		{{text.comments}}
 					         	</div> 
 					         </a>
 					    </li>
@@ -79,7 +79,7 @@
 						    	<div class="icon"></div> 
 						    		<div class="count">
 						    			<span>{{ meta.total_files }}</span>  
-						    			Files
+						    			{{text.files}}
 						    	</div> 
 						    </router-link>
 						</li>
@@ -94,7 +94,7 @@
 								<div class="icon"></div> 
 								<div class="count">
 									<span>{{ meta.total_milestones }}</span> 
-										Milestones
+										{{text.milestones}}
 								</div> 
 							</router-link>
 						</li>	
@@ -104,7 +104,7 @@
 
 			    <div id="pm-chart" class="pm-chart">
 
-			    	<h3>This Month</h3>
+			    	<h3>{{text.this_month}}</h3>
 
 			    	
 				    <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
@@ -112,12 +112,12 @@
 			    </div>
 			</div>
 
-			<div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-				<h3 class="pm-border-bottom"> Users </h3>
+			<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part cpm-last-col">
+				<h3 class="cpm-border-bottom"> {{text.users}} </h3>
 				<ul class="user_list">
 					<li v-for="user in users">
 						<img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 
-						<a href="#" title="admin">
+						<a href="#">
 							{{ user.display_name }}
 						</a>
 						<span v-for="role in user.roles.data">{{ role.title }}</span>

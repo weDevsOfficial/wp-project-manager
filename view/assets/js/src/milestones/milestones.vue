@@ -14,17 +14,14 @@
             </div>
         </div>
 
-        <div class="pm-blank-template milestone" v-if="!milestones.length && !loading">
-            <div class="pm-content" >
-                <h3 class="pm-page-title">  Milestones </h3>
-
+        <div class="cpm-blank-template milestone" v-if="!milestones.length && !loading">
+            <div class="cpm-content" >
+                <h3 class="cpm-page-title">  {{text.milestones}}</h3>
                 <p>
-                    Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.
+                    {{text.milestone_define}}
                 </p>
-
-                
-                    <div class="pm-milestone-link clearfix">
-                        <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">Add Milestone</a>
+                    <div class="cpm-milestone-link clearfix">
+                        <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                     </div>
 
                     <transition name="slide">
@@ -37,15 +34,13 @@
                         </div>
                     </transition>
 
-               
+                <div class="cpm-list-content">
+                    <h3 class="cpm-page-title cpm-why-for"> {{text.when_use_milestone }}</h3>
 
-                <div class="pm-list-content">
-                    <h3 class="pm-page-title pm-why-for"> When to use Milestones?</h3>
-
-                    <ul class="pm-list">
-                        <li>To set a target date for the project overall. </li>
-                        <li>To divide a project into several development-time phases. </li>
-                        <li>To coordinate projects and assigned persons timely. </li>
+                    <ul class="cpm-list">
+                        <li>{{text.to_set_target_date}} </li>
+                        <li>{{text.to_divide_project}} </li>
+                        <li>{{text.to_coordinate_project}} </li>
                     </ul>
                 </div>
 
@@ -53,10 +48,9 @@
 
         </div>
         <div v-if="milestones.length">
-            
-            <div class="pm-row pm-milestone-details" >
-                <div class="pm-milestone-link clearfix">
-                    <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">Add Milestone</a>
+            <div class="cpm-row cpm-milestone-details" >
+                <div class="cpm-milestone-link clearfix">
+                    <a @click.prevent="showHideMilestoneForm('toggle')" id="cpm-add-milestone" href="#" class="cpm-btn cpm-btn-blue cpm-plus-white">{{text.add_milestone}}</a>
                 </div>
 
                  <transition name="slide">

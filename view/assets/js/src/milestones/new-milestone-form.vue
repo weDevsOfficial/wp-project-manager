@@ -1,8 +1,7 @@
 <template>
-	<form class="pm-milestone-form" @submit.prevent="newMilestone()">
-        <input type="hidden" name="_wp_http_referer" value="/test/wp-admin/admin.php?page=pm_projects&amp;tab=milestone&amp;action=index&amp;pid=98">
+	<form class="cpm-milestone-form" @submit.prevent="newMilestone()">
         <div class="item milestone-title">
-            <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" placeholder="Milestone name">
+            <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" :placeholder="text.milestone_name">
         </div>
         
         <div class="item due">
@@ -14,9 +13,10 @@
         </div>
         
         <div class="submit">
-            <input type="submit" name="create_milestone" id="create_milestone" class="button-primary" value="Add Milestone">
-            <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel" data-milestone_id="0" href="#">Cancel</a>
-            <span v-show="show_spinner" class="pm-spinner"></span>
+            <input v-if="!milestone.id" type="submit" name="create_milestone" id="create_milestone" class="button-primary" :value="text.add_milestone">
+            <input v-if="milestone.id" type="submit" name="update_milestone" id="update_milestone" class="button-primary" :value="text.update_milestone">
+            <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel" data-milestone_id="0" href="#">{{text.cancel}}</a>
+            <span v-show="show_spinner" class="cpm-spinner"></span>
         </div>
         
     </form>

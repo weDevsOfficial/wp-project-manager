@@ -2,31 +2,30 @@
     <div class="pm-create-user-form-wrap">
 
         <div class="pm-error"></div>
-
-        <form action="" class="pm-user-create-form" @submit.prevent="createUser()">
-            <div class="pm-field-wrap">
-                <label>{{text.Username}}</label>
+        <form action="" class="cpm-user-create-form" @submit.prevent="createUser()">
+            <div class="cpm-field-wrap">
+                <label>{{text.username}}</label>
                 <input v-model="username" type="text" required name="user_name">
 
             </div>
-            <div class="pm-field-wrap">
-                <label>{{text.First_Name}}</label>
+            <div class="cpm-field-wrap">
+                <label>{{text.first_name}}</label>
                 <input v-model="first_name" type="text" name="first_name">
 
             </div>
-            <div class="pm-field-wrap">
-                <label>{{text.Last_Name}}</label>
+            <div class="cpm-field-wrap">
+                <label>{{text.last_name}}</label>
                 <input v-model="last_name" type="text" name="last_name">
 
             </div>
-            <div class="pm-field-wrap">
-                <label>{{text.Email}}</label>
+            <div class="cpm-field-wrap">
+                <label>{{text.email}}</label>
                 <input v-model="email" type="email" required name="email">
 
             </div>
             <div>
-                <input class="button-primary" type="submit" :value="text.Create_User" name="create_user">
-                <span v-show="show_spinner" class="pm-spinner"></span>
+                <input class="button-primary" type="submit" :value="text.create_user" name="create_user">
+                <span v-show="show_spinner" class="cpm-spinner"></span>
             </div>
         </form>
     </div>

@@ -15,8 +15,8 @@
 
 	    <div class="pm-col-4 ">
 	        <span class="time">
-	            <time datetime="2017-09-20T11:15:00+00:00" title="2017-09-20T11:15:00+00:00">
-	            	September 20, 2017 11:15 am
+	            <time :datetime="discuss.created_at.date +' '+ discuss.created_at.time" :title="discuss.created_at.date +' '+ discuss.created_at.time">
+	            	{{discuss.created_at.date}} {{discuss.created_at.time}}
 	            </time>                                    
 	        </span>
 	    </div>

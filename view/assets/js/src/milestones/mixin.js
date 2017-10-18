@@ -196,7 +196,7 @@ export default Vue.mixin({
         },
 
         deleteMilestone (milestone_id) {
-        	if ( ! confirm( 'Are you sure!' ) ) {
+        	if ( ! confirm( text.milestone_delete_conf ) ) {
                 return;
             }
             var self = this;

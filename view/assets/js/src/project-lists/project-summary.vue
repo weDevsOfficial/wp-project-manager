@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="!projects.length">No project found</div>
+        <div v-if="!projects.length">{{text.no_project_found}}</div>
 
     	<article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
             <router-link 
@@ -29,7 +29,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_discussion_boards) }}
                             </strong> 
-                                Discussions
+                                {{text.discussions}}
 
             			</router-link>
             		</li>
@@ -45,7 +45,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_task_lists) }}
                             </strong> 
-                                Task Lists
+                                {{text.task_lists}}
             			</router-link>
             		</li>
 
@@ -60,7 +60,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_tasks) }}
                             </strong> 
-                                Tasks
+                                {{text.tasks}}
             			</router-link>
             		</li>
 
@@ -75,7 +75,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_milestones) }}
                             </strong> 
-                                Milestones
+                                {{text.milestones}}
             			</router-link>
             		</li>   
 
@@ -90,7 +90,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_files) }}
                             </strong> 
-                                Files
+                                {{text.files}}
                         </router-link>
                     </li>
 
@@ -101,7 +101,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_comments) }}
                             </strong> 
-                                Comments
+                                {{text.comments}}
                         </a>
                     </li>
 
@@ -120,28 +120,28 @@
                     <img v-for="user in project.assignees.data" :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">  
                 </div>
             </footer>
-        
-            <div class="pm-project-action-icon">
-    	        <div class="pm-project-action">
-    				<span @click.prevent="settingsShowHide(project)" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+
+            <div class="cpm-project-action-icon">
+    	        <div class="cpm-project-action">
+    				<span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
 
 
     				<ul v-if="project.settings_hide" class="pm-settings">
     				    <li>
-    				        <span class="pm-spinner"></span>
-    				        <a @click.prevent="deleteProject(project.id)" href="#" class="pm-project-delete-link" title="Delete project" data-confirm="Are you sure to delete this project?" data-project_id="60">
+    				        <span class="cpm-spinner"></span>
+    				        <a @click.prevent="deleteProject(project.id)" class="cpm-project-delete-link" :title="text.delete_project">
     				            <span class="dashicons dashicons-trash"></span>
-    				            <span>Delete</span>
+    				            <span>{{text.delete}}</span>
     				        </a>
     				    </li>
     				    <li>
-    				        <span class="pm-spinner"></span>
-				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" data-type="archive" data-project_id="60" href="#">
+    				        <span class="cpm-spinner"></span>
+				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="cpm-archive" >
 				                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-				                <span v-if="project.status === 'incomplete'">Complete</span>
+				                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">Restore</span>
+                                <span v-if="project.status === 'complete'">{{text.restore}}</span>
                                 
 				            </a>
     				    </li>
