@@ -316,6 +316,9 @@ return [
 	'add_list' => [
 		__( 'Add List', 'pm' )
 	],
+	'update_list' => [
+		__( 'Update List', 'pm' )
+	],
 	'incomplete_tasks' => [
 		__( 'Incomplete Tasks', 'pm' )
 	],

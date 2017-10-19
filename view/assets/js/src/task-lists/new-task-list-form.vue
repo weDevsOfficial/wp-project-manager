@@ -23,7 +23,8 @@
 	        </div>
 	        
 	        <div class="item submit">
-	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.add_list">
+	            <input v-if="list.edit_mode" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.update_list">
+	            <input v-if="!list.edit_mode" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.add_list">
 	            <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">{{text.cancel}}</a>
 	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
