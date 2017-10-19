@@ -742,7 +742,7 @@ var PM_Task_Mixin = {
          * @return void         
          */
         deleteList: function( list_id ) {
-            if ( ! confirm( 'Are you sure!' ) ) {
+            if ( ! confirm( this.text.are_you_sure ) ) {
                 return;
             }
             var self = this;

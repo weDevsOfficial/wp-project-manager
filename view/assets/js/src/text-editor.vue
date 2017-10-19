@@ -26,7 +26,7 @@
 	            var settings = {
 	                selector: 'textarea#' + self.editor_id,
 	                menubar: false,
-	                placeholder: 'Write a comment...',
+	                placeholder: self.text.write_a_comments,
 	                branding: false,
 	                
 	                setup: function (editor) {

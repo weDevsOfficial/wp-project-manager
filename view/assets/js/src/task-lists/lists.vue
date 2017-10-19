@@ -63,7 +63,7 @@
 			                    <div class="pm-footer-left">
 			                    	<ul class="pm-footer-left-ul">
 				                    	<li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
-				                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">More Tasks</a>
+				                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
 				                        </li>
 				                        
 				                        <li class="pm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
@@ -76,7 +76,7 @@
 					                        		list_id: list.id 
 					                        	}}">
 				                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
-				                                Completed
+				                                {{text.completed}}
 				                            </router-link>
 				                        </li>
 				                        <li  class="pm-todo-incomplete">
@@ -86,7 +86,7 @@
 					                        		list_id: list.id 
 					                        	}}">
 				                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
-				                                Incomplete
+				                                {{text.incomplete}}
 				                            </router-link>
 				                        </li>
 				                        <li  class="pm-todo-comment">
@@ -95,7 +95,7 @@
 					                        	params: { 
 					                        		list_id: list.id 
 					                        	}}">
-				                                <span>{{ list.meta.total_comments }} Comments</span>
+				                                <span>{{ list.meta.total_comments }} {{text.comments}}</span>
 				                            </router-link>
 				                        </li>
 			                    	</ul>

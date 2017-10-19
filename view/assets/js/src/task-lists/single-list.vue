@@ -25,7 +25,7 @@
                     }
                 }">
 
-                <i class="fa fa-angle-left"></i>Back to Task Lists
+                <i class="fa fa-angle-left"></i>{{text.back_to_task_lists}}
             </router-link>
             
             <div>
@@ -40,7 +40,7 @@
                                     <span :class="privateClass(list)"></span>
                                     <div class="pm-right">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit" title="<?php _e( 'Edit this List', 'pm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" title="<?php _e( 'Delete this List', 'pm' ); ?>" :data-list_id="list.ID" data-confirm="<?php _e( 'Are you sure to delete this task list?', 'pm' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" :title="text.delete_list" ><span class="dashicons dashicons-trash"></span></a>
                                     </div>
                                 </h3>
 

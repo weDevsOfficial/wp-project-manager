@@ -283,50 +283,199 @@ return [
 	'late_milestones' => [
 		__( 'Late Milestones', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'discuss_this_task_list' => [
+		__( 'Discuss this task list', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'no_tasks_found' => [
+		__( 'No tasks found.', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'more_tasks' => [
+		__( '+ More Tasks', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'add_task' => [
+		__( 'Add Task', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'add_new_task' => [
+		__( 'Add a new task', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'task_extra_details' => [
+		__( 'Add extra details about this task (optional)', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'update_task' => [
+		__( 'Update Task', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'new_task_list' => [
+		__( 'New Task List', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'task_list_name' => [
+		__( 'Task list name', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'task_list_details' => [
+		__( 'Task list details', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'add_list' => [
+		__( 'Add List', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'incomplete_tasks' => [
+		__( 'Incomplete Tasks', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'completed_tasks' => [
+		__( 'Completed Tasks', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'back_to_task_lists' => [
+		__( 'Back to Task Lists', 'pm' )
 	],
-	'late_milestones' => [
-		__( 'Late Milestones', 'pm' )
+	'delete_list' => [
+		__( 'Delete List', 'pm' )
+	],
+	'updata_description' => [
+		__( 'Update Description', 'pm' )
+	],
+	'line_break' => [
+		__( 'Shift+Enter for line break', 'pm' )
+	],
+	'add_new_comment' => [
+		__( 'Add New Comment', 'pm' )
+	],
+	'update_comment' => [
+		__( 'Update Comment', 'pm' )
+	],
+	'discussion_this_task' => [
+		__( 'Discuss this task', 'pm' )
+	],
+	'write_a_comments' => [
+		__( 'Write a comment...', 'pm' )
+	],
+	'delete_file' => [
+		__( 'Delete File', 'pm' )
+	],
+	'attach_from_computer' => [
+		__( ' To attach, <a id="pm-upload-pickfiles" href="#">select files</a> from your computer.', 'pm' )
+	],
+	//category page
+	'categories' => [
+		__( 'Categories', 'pm' )
+	],
+	'add_new_category' => [
+		__( 'Add New Category', 'pm' )
+	],
+	'name' => [
+		__( 'Name', 'pm' )
+	],
+	'description' => [
+		__( 'Description', 'pm' )
+	],
+	'select_bulk_action' => [
+		__( 'Select bulk action', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'apply' => [
+		__( 'Apply', 'pm' )
+	],
+	'quick_edit' => [
+		__( 'Quick Edit', 'pm' )
+	],
+	'update_category' => [
+		__( 'Update Category', 'pm' )
+	],
+	//settings
+	'email_settings' => [
+		__( 'E-Mail Settings', 'pm' )
+	],
+	'from_email' => [
+		__( 'From Email', 'pm' )
+	],
+	'links_email' => [
+		__( 'Links in the Email', 'pm' )
+	],
+	'link_to_backend' => [
+		__( 'Link to Backend', 'pm' )
+	],
+	'link_to_backend_des' => [
+		__( 'Select where do you want to take the user. Notification emails contain links.', 'pm' )
+	],
+	'emial_type' => [
+		__( 'E-Mail Type', 'pm' )
+	],
+	'html_mail' => [
+		__( 'HTML Mail', 'pm' )
+	],
+	'plain_text' => [
+		__( 'Plain Text', 'pm' )
+	],
+	'send_email_via_Bcc' => [
+		__( 'Send email via Bcc', 'pm' )
+	],
+	'enable_bcc' => [
+		__( 'Enable Bcc', 'pm' )
+	],
+	'save_changes' => [
+		__( 'Save Changes', 'pm' )
+	],
+	'general_settings' => [
+		__( 'General Settings', 'pm' )
+	],
+	'file_upload_limit' => [
+		__( 'File Upload Limit', 'pm' )
+	],
+	'file_size_mb' => [
+		__( 'File Size in Megabytes. e.g: 2', 'pm' )
+	],
+	'project_pp' => [
+		__( 'Projects Per Page', 'pm' )
+	],
+	'for_uplimited' => [
+		__( '-1 for unlimited', 'pm' )
+	],
+	'task_lists_pp' => [
+		__( 'Task Lists Per Page', 'pm' )
+	],
+	'incomplete_tasks_pp' => [
+		__( 'Incomplete Tasks Per Page', 'pm' )
+	],
+	'completed_tasks_pp' => [
+		__( 'Completed Tasks Per Page', 'pm' )
+	],
+	'pm_capability' => [
+		__( 'Project Managing Capability', 'pm' )
+	],
+	'pm_capability_des' => [
+		__( 'Select the user roles who can see and manage all projects.', 'pm' )
+	],
+	'pm_cc' => [
+		__( 'Project Creation Capability', 'pm' )
+	],
+	'pm_cc_des' => [
+		__( 'Select the user roles who can see and manage all projects.', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
+	],
+	'bulk_actions' => [
+		__( 'Bulk Actions', 'pm' )
 	],
 	
 ];

@@ -10,10 +10,10 @@
         <div v-if="hasCoWorker" class="notify-users">
                         
                 <h2 class="pm-box-title"> 
-                    Notify users            
+                    {{text.notify_user}}           
                     <label class="pm-small-title" for="select-all"> 
                         <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="pm-toggle-checkbox"> 
-                        Select all
+                        {{text.select_all}}
                     </label>
                 </h2>
                 <ul class="pm-user-list">
@@ -29,8 +29,8 @@
         </div>
         
         <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Add New Comment" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Update Comment" id="" />
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.add_new_comment" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.update_comment" id="" />
             <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
     </form>

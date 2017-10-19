@@ -2,16 +2,16 @@
 	<div class="form-wrap">
 		<form action="" @submit.prevent="updateSelfCategory()">
 			<fieldset>
-				<legend class="inline-edit-legend">Quick Edit</legend>
+				<legend class="inline-edit-legend">{{text.quick_edit}}</legend>
 				<div class="inline-edit-col">
 				<label>
-					<span class="title">Name</span>
+					<span class="title">{{text.name}}</span>
 					<span class="input-text-wrap">
 						<input v-model="category.title" type="text" name="name" class="ptitle" value="">
 					</span>
 				</label>
 					<label>
-					<span class="title">Description</span>
+					<span class="title">{{text.description}}</span>
 					<span class="input-text-wrap">
 						<textarea v-model="category.description"></textarea>
 					</span>
@@ -20,8 +20,8 @@
 			</fieldset>
 
 			<p class="inline-edit-save submit">
-				<button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">Cancel</button>
-				<input type="submit" class="save button button-primary alignright" value="Update Category">
+				<button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">{{text.cancel}}</button>
+				<input type="submit" class="save button button-primary alignright" :value="text.update_category">
 				<span v-show="show_spinner" class="pm-spinner"></span>
 				<br class="clear">
 			</p>

@@ -4,17 +4,17 @@
 
 	    <form v-on:submit.prevent="newTodoList()" action="" method="post">
 	        <div class="item title">
-	            <input type="text" required="required" name="tasklist_name" v-model="list.title" placeholder="Task list name">
+	            <input type="text" required="required" name="tasklist_name" v-model="list.title" :placeholder="text.task_list_name">
 	        </div>
 
 	        <div class="item content">
-	            <textarea name="tasklist_detail" id="" v-model="list.description" cols="40" rows="2" placeholder="Task list details"></textarea>
+	            <textarea name="tasklist_detail" id="" v-model="list.description" cols="40" rows="2" :placeholder="text.task_list_details"></textarea>
 	        </div>
 
 	        <div class="item milestone">
 	            <select v-model="milestone_id">
 	                <option value="-1">
-	                    - Milestone -
+	                    {{text.milestones_select}}
 	                </option>
 	                <option v-for="milestone in milestones" :value="milestone.id">
 	                    {{ milestone.title }}
@@ -23,9 +23,8 @@
 	        </div>
 	        
 	        <div class="item submit">
-	            <span class="pm-new-list-spinner"></span>
-	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="submit_btn_text">
-	            <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">Cancel</a>
+	            <input type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.add_list">
+	            <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">{{text.cancel}}</a>
 	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	    </form>
@@ -58,7 +57,6 @@
 	     */
 	    data: function() {
 	        return {
-	            submit_btn_text: 'Submit',
 	            tasklist_milestone: this.list.milestone ? this.list.milestone : '-1',
 	            show_spinner: false,
 	            error: [],

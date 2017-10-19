@@ -4,25 +4,25 @@
         <div class="metabox-holder">
             <div id="pm_general" class="group" style="">
                 <form @submit.prevent="saveSelfSettings()" method="post" action="options.php">
-                    <h2>General Settings</h2>
+                    <h2>{{text.general_settings}}</h2>
                     <table class="form-table">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[upload_limit]">File Upload Limit</label>
+                                    <label for="pm_general[upload_limit]">{{text.file_upload_limit}}</label>
                                 </th>
                                 <td>
                                     <input v-model="upload_limit" type="text" class="regular-text">
-                                    <p class="description">File Size in Megabytes. e.g: 2</p>
+                                    <p class="description">{{text.file_size_mb}}</p>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[pagination]">Projects Per Page</label>
+                                    <label for="pm_general[pagination]">{{text.project_pp}}</label>
                                 </th>
                                 <td>
                                     <input v-model="project_per_page" type="text" class="regular-text">
-                                    <p class="description">-1 for unlimited</p>
+                                    <p class="description">{{text.for_uplimited}}</p>
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -50,7 +50,7 @@
                             </tr> -->
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_todo]">Task Lists Per Page</label>
+                                    <label for="pm_general[show_todo]">{{text.task_lists_pp}}</label>
                                 </th>
                                 <td>
                                     <input v-model="list_per_page" type="text" class="regular-text" id="pm_general[show_todo]" name="pm_general[show_todo]" value="">
@@ -58,7 +58,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_incomplete_tasks]">Incomplete Tasks Per Page</label>
+                                    <label for="pm_general[show_incomplete_tasks]">{{text.incomplete_tasks_pp}}</label>
                                 </th>
                                 <td>
                                     <input v-model="incomplete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_incomplete_tasks]" name="pm_general[show_incomplete_tasks]" value="2">
@@ -66,7 +66,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_completed_tasks]">Completed Tasks Per Page</label>
+                                    <label for="pm_general[show_completed_tasks]">{{text.completed_tasks_pp}}</label>
                                 </th>
                                 <td>
                                     <input v-model="complete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_completed_tasks]" name="pm_general[show_completed_tasks]" value="2">
@@ -74,7 +74,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[project_manage_role]">Project Managing Capability</label>
+                                    <label for="pm_general[project_manage_role]">{{text.pm_capability}}</label>
                                 </th>
                                 <td>
 
@@ -84,13 +84,13 @@
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">Select the user roles who can see and manage all projects.</p>
+                                        <p class="description">{{text.pm_capability_des}}</p>
                                     </fieldset>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[project_create_role]">Project Creation Capability</label>
+                                    <label for="pm_general[project_create_role]">{{text.pm_cc}}</label>
                                 </th>
                                 <td>
 
@@ -100,7 +100,7 @@
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">Select the user roles who can see and manage all projects.</p>
+                                        <p class="description">{{text.pm_cc_des}}</p>
                                     </fieldset>
                                 </td>
                             </tr>
@@ -108,7 +108,7 @@
                     </table>                            
                     <div style="padding-left: 10px">
                         <p class="submit">
-                            <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
+                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="text.save_changes">
                             <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>                            
                     </div>

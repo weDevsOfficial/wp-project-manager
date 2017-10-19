@@ -5,52 +5,52 @@
 			<div id="pm_mails" class="group" style="">
 				<form @submit.prevent="saveEmailSettings()" method="post" action="options.php">
 			
-					<h2>E-Mail Settings</h2>
+					<h2>{{text.email_settings}}</h2>
 					<table class="form-table">
 						<tbody>
 							<tr>
 								<th scope="row">
-									<label for="pm_mails[email_from]">From Email</label>
+									<label for="pm_mails[email_from]">{{text.from_email}}</label>
 								</th>
 								<td>
-									<input v-model="from_email" type="text" class="regular-text" id="pm_mails[email_from]" name="pm_mails[email_from]" value="joy.mishu@gmail.com">
+									<input v-model="from_email" type="text" class="regular-text" id="pm_mails[email_from]" name="pm_mails[email_from]" value="">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="pm_mails[email_url_link]">Links in the Email</label>
+									<label for="pm_mails[email_url_link]">{{text.links_email}}</label>
 								</th>
 								<td>
 									<fieldset>
 										<label for="wpuf-pm_mails[email_url_link][backend]">
-											<input v-model="link_to_backend" type="checkbox" class="radio">Link to Backend
+											<input v-model="link_to_backend" type="checkbox" class="radio">{{text.link_to_backend}}
 										</label>
 										<br>
-										<p class="description">Select where do you want to take the user. Notification emails contain links.
+										<p class="description">{{text.link_to_backend_des}}
 										</p>
 									</fieldset>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="pm_mails[email_type]">E-Mail Type</label>
+									<label for="pm_mails[email_type]">{{text.emial_type}}</label>
 								</th>
 								<td>
 									<select v-model="email_type" class="regular" name="pm_mails[email_type]" id="pm_mails[email_type]">
-										<option value="text/html">HTML Mail</option>
-										<option value="text/plain" selected="selected">Plain Text</option>
+										<option value="text/html">{{text.html_mail}}</option>
+										<option value="text/plain" selected="selected">{{text.plain_text}}</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="pm_mails[email_bcc_enable]">Send email via Bcc</label>
+									<label for="pm_mails[email_bcc_enable]">{{text.send_email_via_Bcc}}</label>
 								</th>
 								<td>
 									<fieldset>
 										<label for="wpuf-pm_mails[email_bcc_enable]">
 											<input v-model="enable_bcc" type="checkbox" class="checkbox">
-											Enable Bcc
+											{{text.enable_bcc}}
 										</label>
 									</fieldset>
 								</td>
@@ -59,7 +59,7 @@
 					</table>                            
 					<div style="padding-left: 10px">
 						<p class="submit">
-							<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
+							<input type="submit" name="submit" id="submit" class="button button-primary" :value="text.save_changes">
 							<span v-show="show_spinner" class="pm-spinner"></span>
 						</p>                            
 					</div>

@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap nosubsub">
-		<h1 class="wp-heading-inline">Categories</h1>
+		<h1 class="wp-heading-inline">{{text.categories}}</h1>
 		<hr class="wp-header-end">
 		<div id="ajax-response"></div>
 
@@ -21,23 +21,23 @@
 
 
 					<div class="form-wrap">
-						<h2>Add New Category</h2>
+						<h2>{{text.add_new_category}}</h2>
 						<form @submit.prevent="newCategory()" id="addtag" method="post" action="edit-tags.php" class="validate" >
 							
 							<div class="form-field form-required term-name-wrap">
-								<label for="tag-name">Name</label>
+								<label for="tag-name">{{text.name}}</label>
 								<input v-model="title" required="required" name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true">
 								<p></p>
 							</div>
 
 							<div class="form-field term-description-wrap">
-								<label for="tag-description">Description</label>
+								<label for="tag-description">{{text.description}}</label>
 								<textarea v-model="description" name="description" id="tag-description" rows="5" cols="40"></textarea>
 								<p></p>
 							</div>
 
 							<p class="submit">
-								<input type="submit" name="submit" id="submit" class="button button-primary" value="Add New Category">
+								<input type="submit" name="submit" id="submit" class="button button-primary" :value="text.add_new_category">
 								<span v-show="show_spinner" class="pm-spinner"></span>
 							</p>
 						</form>
@@ -52,12 +52,12 @@
 					
 						<div class="tablenav top">
 							<div class="alignleft actions bulkactions">
-								<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label>
+								<label for="bulk-action-selector-top" class="screen-reader-text">{{text.select_bulk_action}}</label>
 								<select  v-model="bulk_action" name="action">
-									<option value="-1">Bulk Actions</option>
-									<option value="delete">Delete</option>
+									<option value="-1">{{text.bulk_actions}}</option>
+									<option value="delete">{{text.delete}}</option>
 								</select>
-								<input type="submit" id="doaction" class="button action" value="Apply">
+								<input type="submit" id="doaction" class="button action" :value="text.apply">
 							</div>
 							
 							<br class="clear">
@@ -67,17 +67,17 @@
 							<thead>
 								<tr>
 									<td id="cb" class="manage-column column-cb check-column">
-										<label class="screen-reader-text" for="cb-select-all-1">Select All</label>
+										<label class="screen-reader-text" for="cb-select-all-1">{{text.select_all}}</label>
 										<input @change="selectAll()" v-model="select_all"   id="cb-select-all-1" type="checkbox">
 									</td>
 									<th scope="col" id="name" class="manage-column column-name column-primary sortable desc">
 										<a href="#">
-											<span>Name</span>
+											<span>{{text.name}}</span>
 										</a>
 									</th>
 									<th scope="col" id="description" class="manage-column column-description sortable desc">
 										<a href="">
-											<span>Description</span>
+											<span>{{text.description}}</span>
 										</a>
 									</th>
 									<!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -103,7 +103,7 @@
 									
 										<div class="row-actions">
 											<span class="edit">
-												<a @click.prevent="showHideCategoryEditForm(category)" href="#">Edit</a> 
+												<a @click.prevent="showHideCategoryEditForm(category)" href="#">{{text.edit}}</a> 
 											</span>
 										</div>
 										
@@ -129,13 +129,13 @@
 
 									<th scope="col" class="manage-column column-name column-primary sortable desc">
 										<a href="#">
-											<span>Name</span>
+											<span>{{text.name}}</span>
 										</a>
 									</th>
 
 									<th scope="col" class="manage-column column-description sortable desc">
 										<a href="#">
-											<span>Description</span>
+											<span>{{text.description}}</span>
 										</a>
 									</th>	
 									<!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -154,10 +154,10 @@
 
 							<div class="alignleft actions bulkactions">
 								<select v-model="bulk_action" name="action" id="bulk-action-selector-bottom">
-									<option value="-1">Bulk Actions</option>
-									<option value="delete">Delete</option>
+									<option value="-1">{{text.bulk_actions}}</option>
+									<option value="delete">{{text.delete}}</option>
 								</select>
-								<input type="submit" id="doaction2" class="button action" value="Apply">
+								<input type="submit" id="doaction2" class="button action" :value="text.apply">
 							</div>
 							<br class="clear">
 						</div>

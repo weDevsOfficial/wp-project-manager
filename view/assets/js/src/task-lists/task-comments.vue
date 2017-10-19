@@ -1,7 +1,7 @@
 <template>
 	<div class="pm-task-comment-wrap">
         
-        <h3 class="pm-comment-title">Discuss this task</h3>
+        <h3 class="pm-comment-title">{{text.discussion_this_task}}</h3>
         <ul class="pm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
@@ -11,8 +11,13 @@
 
                 <div class="pm-comment-container">
                     <div class="pm-comment-meta">
-                        <span class="pm-author" v-html="comment.comment_user"></span>
-                        <span>On</span>
+                        {{text.by}}
+                        <span class="pm-author">
+                            <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                                {{ comment.creator.data.display_name }}
+                            </a>
+                        </span>
+                        <span>{{text.on}}</span>
                         <span class="pm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
@@ -23,7 +28,7 @@
                             </span>
 
                             <span class="pm-delete-link">
-                                <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash" data-project_id="111" data-id="82" data-confirm="Are you sure to delete this comment?"></a>
+                                <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash"></a>
                             </span>
                         </div>
                     </div>
@@ -106,7 +111,7 @@
 	        },
 
             deleteTaskComment (id) {
-                if ( !confirm('Are you sure!') ) {
+                if ( !confirm( this.text.are_you_sure ) ) {
                     return;
                 }
                 var self = this;

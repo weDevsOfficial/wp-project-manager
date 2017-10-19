@@ -7,13 +7,13 @@
 	        			<img :src="file.thumb" :alt="file.name">
 	        		</a> 
 	        		
-	        		<a href="#" @click.prevent="deletefile(file.id)" class="button">Delete File</a>
+	        		<a href="#" @click.prevent="deletefile(file.id)" class="button">{{text.delete_file}}</a>
 	        			
 	        	</div>
 	 
 	                       
 	        </div>
-	        To attach, <a id="pm-upload-pickfiles" href="#">select files</a> from your computer.
+	       	<span v-html="text.attach_from_computer"></span>
 	    </div>
 	</div>
 </template>
@@ -63,7 +63,7 @@
 			 * @return void
 			 */
 			deletefile: function(file_id) {
-			    if ( ! confirm('Are you sure!') ) {
+			    if ( ! confirm( this.text.are_you_sure ) ) {
 			        return;
 			    }
 			    var self = this;

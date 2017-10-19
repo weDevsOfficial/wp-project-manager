@@ -3,11 +3,11 @@
 		<form action="" v-on:submit.prevent="newTask()" method="post" class="pm-task-form">
 	      
 	        <div class="item task-title">
-	            <input v-model="task.title" type="text" name="task_title" class="task_title" placeholder="Add a new task" value="" required="required">
+	            <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="text.add_new_task" value="" required="required">
 	        </div>
 
 	        <div class="item content">
-	            <textarea v-model="task.description" name="task_text" class="todo_content" cols="40" placeholder="Add extra details about this task (optional)" rows="2"></textarea>
+	            <textarea v-model="task.description" name="task_text" class="todo_content" cols="40" :placeholder="text.task_extra_details" rows="2"></textarea>
 	        </div>
 
 	        <div class="item date">
@@ -45,9 +45,9 @@
 
 	        <div class="item submit">
 	            <span class="pm-new-task-spinner"></span>
-	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="Update Task"></span>
-	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" value="New Task"></span>
-	            <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">Cancel</a>
+	            <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="text.update_task"></span>
+	            <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="text.add_task"></span>
+	            <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{text.cancel}}</a>
 	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	    </form>
