@@ -25,7 +25,7 @@
                             <span class="pm-not-private"></span>
                         </span>
 
-                        <div class="cpm-small-title">
+                        <div class="pm-small-title">
                             {{text.by}}
                             <a href="#" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
@@ -54,7 +54,7 @@
 
             <div v-if="discuss" class="pm-comment-area pm-box-shadow">
                 <h3> {{ discuss.meta.total_comments }} {{text.comments}}</h3>
-                <ul class="cpm-comment-wrap">
+                <ul class="pm-comment-wrap">
 
                     <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" key="comment.id">
                         <div class="pm-avatar ">
@@ -70,15 +70,15 @@
                                     </a>
                                 </span>
                                 {{text.on}}           
-                                <span class="cpm-date">
+                                <span class="pm-date">
 
                                     <time :datetime="comment.created_at.date +' ' + comment.created_at.time" :title="comment.created_at.date +' ' + comment.created_at.time">{{comment.created_at.date +' ' + comment.created_at.time}}</time>
                                     
                                 </span>
 
-                                <div class="cpm-comment-action">
-                                    <span class="cpm-edit-link">
-                                        <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="cpm-edit-comment-link dashicons dashicons-edit "></a>
+                                <div class="pm-comment-action">
+                                    <span class="pm-edit-link">
+                                        <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="pm-edit-comment-link dashicons dashicons-edit "></a>
                                     </span>
 
                                     <span class="pm-delete-link">

@@ -10,20 +10,11 @@
 	        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
 	        <div v-if="hasCoWorker" class="notify-users">
-	                        
-<<<<<<< HEAD
-	                <h2 class="cpm-box-title"> 
-	                    {{text.notify_user}}         
-	                    <label class="cpm-small-title" for="select-all"> 
-	                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="cpm-toggle-checkbox"> 
-	                        {{text.select_all}}
-=======
 	                <h2 class="pm-box-title"> 
-	                    Notify users            
+	                    {{text.notify_user}}         
 	                    <label class="pm-small-title" for="select-all"> 
 	                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="pm-toggle-checkbox"> 
-	                        Select all
->>>>>>> f238d6c23907356a513697a0e13548d0ac5df949
+	                        {{text.select_all}}
 	                    </label>
 	                </h2>
 

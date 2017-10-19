@@ -29,10 +29,10 @@
 
 	        <div class="notify-users">
 	            
-	        	<h2 class="cpm-box-title"> 
+	        	<h2 class="pm-box-title"> 
 	        		{{text.notify_user}}               
-	        		<label class="cpm-small-title" for="select-all"> 
-	        			<input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
+	        		<label class="pm-small-title" for="select-all"> 
+	        			<input type="checkbox" name="select-all" id="select-all" class="pm-toggle-checkbox"> 
 	        			{{text.select_all}}
 	        		</label>
 	        	</h2>
@@ -53,7 +53,7 @@
 				<input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="text.add_message">
 				<input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="text.update_message">
 	            <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{text.cancel}}</a>
-	            <span v-show="show_spinner" class="cpm-spinner"></span>
+	            <span v-show="show_spinner" class="pm-spinner"></span>
 	        </div>
 	        
     	</form>

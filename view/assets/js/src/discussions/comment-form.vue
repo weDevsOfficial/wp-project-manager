@@ -8,10 +8,10 @@
             <file-uploader :files="files" :delete="deleted_files"></file-uploader>
             <div class="notify-users">
                 
-                <h2 class="cpm-box-title"> 
+                <h2 class="pm-box-title"> 
                     {{text.notify_user}}            
-                    <label class="cpm-small-title" for="select-all"> 
-                        <input type="checkbox" name="select-all" id="select-all" class="cpm-toggle-checkbox"> 
+                    <label class="pm-small-title" for="select-all"> 
+                        <input type="checkbox" name="select-all" id="select-all" class="pm-toggle-checkbox"> 
                         {{text.select_all}}
                     </label>
                 </h2>

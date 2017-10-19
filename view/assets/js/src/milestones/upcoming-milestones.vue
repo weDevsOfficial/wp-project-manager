@@ -1,5 +1,5 @@
 <template>
-	<div v-if="upComingMileStones.length" class="cpm-upcomming-milestone cpm-milestone-data">
+	<div v-if="upComingMileStones.length" class="pm-upcomming-milestone pm-milestone-data">
         <h2 class="group-title">{{text.upcoming_milestones}}</h2>
 
         <div v-for="milestone in upComingMileStones" class="pm-milestone late">
@@ -27,8 +27,8 @@
                     <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
                 </div>
             </transition>
-    		<div class="cpm-milestone-items-details">
-                <div v-if="milestone.task_lists.data.length"  class="cpm-col-6 cpm-milestone-todo cpm-sm-col-12">
+    		<div class="pm-milestone-items-details">
+                <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">
                     <h3>{{text.task_lists}}</h3>
 
                     <ul>
@@ -38,7 +38,7 @@
                     </ul>
                 </div>
                
-                <div v-if="milestone.discussion_boards.data.length"  class="cpm-col-6 cpm-milestone-discussion cpm-last-col cpm-sm-col-12">
+                <div v-if="milestone.discussion_boards.data.length"  class="pm-col-6 pm-milestone-discussion pm-last-col pm-sm-col-12">
                     <h3>{{text.discussions}}</h3>
                     <ul>
                         <li v-for="discuss in milestone.discussion_boards.data">

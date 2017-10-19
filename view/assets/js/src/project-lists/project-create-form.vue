@@ -56,12 +56,12 @@
 			<input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.update_project">
 			<input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="text.create_a_project">
 			<a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">{{text.cancel}}</a>
-			<span v-show="show_spinner" class="cpm-loading"></span>
+			<span v-show="show_spinner" class="pm-loading"></span>
 
 		</div>
 
 	</form>
-    <div v-cpm-user-create-popup-box id="cpm-create-user-wrap" :title="text.create_a_new_user">
+    <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="text.create_a_new_user">
         <project-new-user-form></project-new-user-form>
     </div>
 </div>

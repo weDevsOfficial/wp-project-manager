@@ -121,22 +121,22 @@
                 </div>
             </footer>
 
-            <div class="cpm-project-action-icon">
-    	        <div class="cpm-project-action">
-    				<span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+            <div class="pm-project-action-icon">
+    	        <div class="pm-project-action">
+    				<span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
     				<ul v-if="project.settings_hide" class="pm-settings">
     				    <li>
-    				        <span class="cpm-spinner"></span>
-    				        <a @click.prevent="deleteProject(project.id)" class="cpm-project-delete-link" :title="text.delete_project">
+    				        <span class="pm-spinner"></span>
+    				        <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="text.delete_project">
     				            <span class="dashicons dashicons-trash"></span>
     				            <span>{{text.delete}}</span>
     				        </a>
     				    </li>
     				    <li>
-    				        <span class="cpm-spinner"></span>
-				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="cpm-archive" >
+    				        <span class="pm-spinner"></span>
+				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
 				                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
 				                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
 

@@ -15,29 +15,29 @@
         </div>
 
 
-        <div class="cpm-blank-template discussion" v-if="blankTemplate">
-            <div class="cpm-content" >
-                <h3 class="cpm-page-title">{{text.discussions}}</h3>
+        <div class="pm-blank-template discussion" v-if="blankTemplate">
+            <div class="pm-content" >
+                <h3 class="pm-page-title">{{text.discussions}}</h3>
 
                 <p>
                     {{text.discuss_define}}
                 </p>
                     <div>
-                        <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                        <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                             {{text.add_new_discussion}} 
                         </a>
                     </div>
                     <transition name="slide">
-                        <div class="cpm-new-message-form" v-if="is_discuss_form_active">
+                        <div class="pm-new-message-form" v-if="is_discuss_form_active">
                             <h3>{{text.create_a_new_message}}</h3>
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                         </div>
                     </transition>
-                <div class="cpm-list-content">
-                    <h3 class="cpm-why-for cpm-page-title"> {{text.when_use_discuss}} </h3>
+                <div class="pm-list-content">
+                    <h3 class="pm-why-for pm-page-title"> {{text.when_use_discuss}} </h3>
 
-                    <ul class="cpm-list">
+                    <ul class="pm-list">
                         <li> {{text.to_discuss_work_matter}} </li>
                         <li> {{text.to_exchange_file}}</li>
                         <li> {{text.to_discuss_group}}</li>
@@ -50,12 +50,12 @@
         <div v-if="discussTemplate">
             <div class="pm-row discussion">
                 <div>
-                    <a @click.prevent="showHideDiscussForm('toggle')" class="cpm-btn cpm-plus-white cpm-new-message-btn cpm-btn-uppercase" href="" id="cpm-add-message"> 
+                    <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                         {{text.add_new_discussion}} 
                     </a>
                 </div>
                 <transition name="slide">
-                    <div class="cpm-form cpm-new-message-form cpm-col-6 cpm-sm-col-12" v-if="is_discuss_form_active">
+                    <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
                         <h3>{{text.create_a_new_message}}</h3>
                         <new-discuss-form  :discuss="{}"></new-discuss-form>
 
@@ -63,9 +63,9 @@
                 </transition>
 
             </div>
-            <div class="cpm-row cpm-message-page">
-                <div class="cpm-message-list cpm-col-12 cpm-sm-col-12">
-                    <div class="cpm-box-title">{{text.discussion_list}}</div>
+            <div class="pm-row pm-message-page">
+                <div class="pm-message-list pm-col-12 pm-sm-col-12">
+                    <div class="pm-box-title">{{text.discussion_list}}</div>
                     <ul class="dicussion-list">        
                         <li class="pm-col-12" v-for="discuss in discussion" key="discuss.id">
                             <div class="pm-col-9">

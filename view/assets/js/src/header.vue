@@ -13,16 +13,16 @@
 
                 <div class="detail">{{project.description}}</div>
             </div>
-            <div class="cpm-completed-wrap">
+            <div class="pm-completed-wrap">
                 <div v-if="project.status === 'complete'" class="ribbon-green">{{text.completed}}</div>
                 <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.incomplete}}</div>
             </div>
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only">
-                <div class="cpm-project-action">
-                    <span @click.prevent="showProjectAction()" :title="text.Project_Actions" class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
+                <div class="pm-project-action">
+                    <span @click.prevent="showProjectAction()" :title="text.Project_Actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
-                            <span class="cpm-spinner"></span>
+                            <span class="pm-spinner"></span>
                             <a href="#" @click.prevent="deleteProject(project.id)" :title="text.delete_project">
 
                                 <span class="dashicons dashicons-trash"></span>
@@ -45,7 +45,7 @@
 
             <div class="clearfix"></div>
              <transition name="slide">
-                <div class="cpm-edit-project" v-if="is_project_edit_mode">
+                <div class="pm-edit-project" v-if="is_project_edit_mode">
                     <edit-project :is_update="true"></edit-project>
                 </div>
             </transition>

@@ -112,8 +112,8 @@
 			    </div>
 			</div>
 
-			<div class="cpm-col-2 cpm-sm-col-12 cpm-right-part cpm-last-col">
-				<h3 class="cpm-border-bottom"> {{text.users}} </h3>
+			<div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
+				<h3 class="pm-border-bottom"> {{text.users}} </h3>
 				<ul class="user_list">
 					<li v-for="user in users">
 						<img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 
