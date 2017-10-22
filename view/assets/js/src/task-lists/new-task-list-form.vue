@@ -82,7 +82,7 @@
 	         * @return array
 	         */
 	        milestones: function() {
-	            return this.$store.state.milestones;
+	            return this.$root.$store.state.milestones;
 	        },
 	    },
 

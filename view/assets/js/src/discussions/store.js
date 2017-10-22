@@ -12,7 +12,6 @@ export default new Vuex.Store({
 		is_discuss_form_active: false,
         blank_template: false,
         discuss_template: false,
-		milestones: [],
 		discussion: [],
 		discuss: {},
 		meta: {},

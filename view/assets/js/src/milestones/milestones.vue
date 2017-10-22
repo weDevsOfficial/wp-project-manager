@@ -133,7 +133,22 @@
             }
         },
         methods: {
- 
+            getSelfMilestones(){
+                var self = this,
+                args = {
+                    conditions :{
+                        with:'discussion_boards,task_lists',
+                        per_page:2,
+                        page:self.setCurrentPageNumber(),
+                    },
+                    callback: function(){
+                        NProgress.done();
+                        self.loading = false;
+                    }
+                }
+
+                self.getsMilestones(args);
+            }
         }
     }
 

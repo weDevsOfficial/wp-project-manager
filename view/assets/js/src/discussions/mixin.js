@@ -254,16 +254,6 @@ export default Vue.mixin({
 	        self.httpRequest(request_data);
 	    },
 
-        getMilestones (self) {
-            var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-                success (res) {
-                    self.$store.commit( 'setMilestones', res.data );
-                }
-            };
-            self.httpRequest(request);
-        },
-
         newComment (args) {
         	// Exit from this function, If submit button disabled 
 	        if ( this.submit_disabled ) {

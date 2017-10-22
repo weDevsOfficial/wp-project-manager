@@ -17,7 +17,6 @@ export default new Vuex.Store({
         list: {},
         list_comments: [],
         lists_meta: {},
-        milestones: [],
         init: {},
         is_single_list: true,
         project_users: [],

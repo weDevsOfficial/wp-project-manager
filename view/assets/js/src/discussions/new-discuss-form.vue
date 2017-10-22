@@ -111,7 +111,7 @@
 		},
 		computed: {
 			milestones () {
-				return this.$store.state.milestones;
+				return this.$root.$store.state.milestones;
 			},
 			/**
 	         * Editor ID
@@ -135,7 +135,7 @@
 				var args = {
 					title: this.discuss.title,
             		description: typeof this.discuss.description === 'undefined' ? '' : this.discuss.description,
-            		milestone: this.discuss.milestone_id,
+            		milestone_id: this.discuss.milestone_id,
             		order: 0,
             		deleted_files: this.deleted_files,
             		files: this.files

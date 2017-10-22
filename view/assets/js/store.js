@@ -14,6 +14,7 @@ export default new Vuex.Store({
 		project_users: [],
 		categories: [],
 		roles: [],
+		milestones: [],
 		is_project_form_active: false,
 		projects_meta: {},
 		pagination: {},
@@ -125,6 +126,10 @@ export default new Vuex.Store({
 
 		resetSelectedUsers (state) {
 			state.assignees = [];
+		},
+
+		setMilestones(state, milestones){
+			state.milestones = milestones;
 		}
 	}
 	

@@ -179,7 +179,7 @@
 		beforeRouteEnter (to, from, next) {
             next(vm => {
             	vm.getSelfLists();
-                vm.getMilestones();
+                vm.getGlobalMilestones();
             });
         }, 
     	components: {

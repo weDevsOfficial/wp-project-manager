@@ -412,6 +412,35 @@
 
             return query.slice(0, -1);
         },
+        /**
+         * [get Global Milestones in every page where milestone need and store in $root.$store.state.milestone ]
+         * @param  {Function} callback [optional]
+         * @return {[type]}            [milestone]
+         */
+        getGlobalMilestones (callback) {
+            var self = this,
+            milestones = this.$root.$store.state.milestones;
+
+            if(milestones.length){
+                if(typeof callback === 'function' ){
+                    callback.apply(milestones);
+                }
+
+                return milestones;
+            }
+
+            var request = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$root.$store.commit( 'setMilestones', res.data );
+
+                    if (typeof callback === 'function') {
+                        args.callback(res.data);
+                    }
+                }
+            };
+            self.httpRequest(request);
+        }
 	}
 });
 

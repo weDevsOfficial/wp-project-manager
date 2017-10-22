@@ -834,18 +834,7 @@ var PM_Task_Mixin = {
                 this.$store.commit('showHideListFormStatus', status);
             }
         },
-
-        getMilestones () {
-            var self = this;
-            var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-                success (res) {
-                    self.$store.commit( 'setMilestones', res.data );
-                }
-            };
-            self.httpRequest(request);
-        },
-
+        
         getLists (condition, callback) {
             var self = this,
                 condition = self.generateListsCondition(condition);

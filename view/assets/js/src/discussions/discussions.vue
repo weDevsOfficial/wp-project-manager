@@ -139,8 +139,8 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
+                vm.getGlobalMilestones();
                 vm.discussQuery();
-                vm.getMilestones();
             });
         },
         data () {

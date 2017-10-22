@@ -24,41 +24,99 @@ export default Vue.mixin({
 		        comment.edit_mode = status;
 		    }
 		},
+		/**
+		 * get single Milestones 
+		 *
+		 * @param {args} object [object with calback]
+		 */
+		
+		getMilestone(args){
+			var self = this,
+			pre_define = {
+				conditions :{
+					with:'discussion_boards,task_lists',
+				},
+				callback: false
+			}
 
+			var args       = jQuery.extend(true, pre_define, args );
+			var conditions = self.generateConditions(args.conditions);
 
-	    getMilestone (self) {
-	        var request = {
-	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?with=discussion_boards,task_lists',
+			var request = {
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?'+conditions,
 	            success (res) {
 	            	self.addMeta(res.data);
 	                self.$store.commit( 'setMilestone', res.data );
+
+	                if (typeof args.callback === 'function') {
+						args.callback(res.data);
+					} 
 	            }
 	        };
 	        self.httpRequest(request);
-	    },
+		},
 
-	    getSelfMilestones (self) {
-            var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
+		/**
+		 * Retrive milestones 
+		 * 
+		 * @param {Object} args Object with callback
+		 */
+		 getsMilestones(args){
+		 	var self = this,
+			pre_define = {
+				conditions :{
+					with:'discussion_boards,task_lists',
+					per_page:2,
+					page:1,
+				},
+				callback: false
+			}
+
+			var args       = jQuery.extend(true, pre_define, args );
+			var conditions = self.generateConditions(args.conditions);
+
+			var request = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?'+ conditions,
                 success (res) {
                 	res.data.map(function(milestone, index) {
 			    		self.addMeta(milestone, index);
 			    	});
                     self.$store.commit( 'setSelfMilestones', res.data );
                     self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
-                    NProgress.done();
-                    self.loading = false;
+
+                    if (typeof args.callback === 'function') {
+						args.callback(res.data);
+					}
                 }
             };
 
             self.httpRequest(request);
-        },
+		 },
+
+
+	    // getSelfMilestones (self) {
+     //        var request = {
+     //            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
+     //            success (res) {
+     //            	res.data.map(function(milestone, index) {
+			  //   		self.addMeta(milestone, index);
+			  //   	});
+     //                self.$store.commit( 'setSelfMilestones', res.data );
+     //                self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
+     //                NProgress.done();
+     //                self.loading = false;
+     //            }
+     //        };
+
+     //        self.httpRequest(request);
+     //    },
 
 	    addMeta (milestone, index) {
 	    	milestone.edit_mode = false;
 	    },
 
-	    setCurrentPageNumber (self) {
+	    setCurrentPageNumber () {
+	    	var self = this;
             var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
             self.current_page_number = current_page_number;
             return current_page_number;

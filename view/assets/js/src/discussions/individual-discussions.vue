@@ -130,7 +130,7 @@
 
             next(vm => {
                 vm.getSelfDiscuss();
-                vm.getMilestones(vm);
+                vm.getGlobalMilestones();
             });
         },
         data(){

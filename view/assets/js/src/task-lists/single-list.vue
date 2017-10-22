@@ -98,7 +98,7 @@
         beforeRouteEnter (to, from, next) {
             next(vm => {
                 vm.getIndividualList(vm);
-                vm.getMilestones(vm);
+                vm.getGlobalMilestones();
             });
         },
         /**
