@@ -129,7 +129,10 @@
             },
 
             total_milestone_page () {
-                return this.$store.state.total_milestone_page;
+                if(typeof this.$store.state.milestone_meta.pagination !== 'undefined'){
+                    return this.$store.state.milestone_meta.pagination.total_pages;
+                }
+                return false;
             }
         },
         methods: {
@@ -147,7 +150,7 @@
                     }
                 }
 
-                self.getsMilestones(args);
+                self.getMilestones(args);
             }
         }
     }

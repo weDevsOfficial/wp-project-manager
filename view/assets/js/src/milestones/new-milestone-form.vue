@@ -1,5 +1,5 @@
 <template>
-	<form class="pm-milestone-form" @submit.prevent="newMilestone()">
+	<form class="pm-milestone-form" @submit.prevent="milestoneFormAction()">
         <div class="item milestone-title">
             <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" :placeholder="text.milestone_name">
         </div>
@@ -76,7 +76,30 @@
 	        },
 		},
 		methods: {
+			milestoneFormAction(){
+				 // Exit from this function, If submit button disabled 
+		        if ( this.submit_disabled ) {
+		            return;
+		        }
 
+		        // Disable submit button for preventing multiple click
+		        this.submit_disabled = true;
+		        // Showing loading option 
+		        this.show_spinner = true;
+
+				var self = this,
+
+				args = {
+					title: this.milestone.title,
+					description: this.milestone.description,
+					achieve_date: this.due_date,
+					status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
+					order: typeof this.milestone.order  === 'undefined' ? '' : this.milestone.order,
+					milestone_id: typeof this.milestone.id  === 'undefined' ? 0 : this.milestone.id,
+				}
+
+				this.addOrUpdateMilestone(args);
+			}
 		}
 	
 	}	

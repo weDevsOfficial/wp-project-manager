@@ -61,7 +61,7 @@ export default Vue.mixin({
 		 * 
 		 * @param {Object} args Object with callback
 		 */
-		 getsMilestones(args){
+		 getMilestones(args){
 		 	var self = this,
 			pre_define = {
 				conditions :{
@@ -81,8 +81,8 @@ export default Vue.mixin({
                 	res.data.map(function(milestone, index) {
 			    		self.addMeta(milestone, index);
 			    	});
-                    self.$store.commit( 'setSelfMilestones', res.data );
-                    self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
+                    self.$store.commit( 'setMilestones', res.data );
+                    self.$store.commit('setMilestonesMeta', res.meta);
 
                     if (typeof args.callback === 'function') {
 						args.callback(res.data);
@@ -92,24 +92,6 @@ export default Vue.mixin({
 
             self.httpRequest(request);
 		 },
-
-
-	    // getSelfMilestones (self) {
-     //        var request = {
-     //            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?with=discussion_boards,task_lists&per_page=4&page='+ self.setCurrentPageNumber(self),
-     //            success (res) {
-     //            	res.data.map(function(milestone, index) {
-			  //   		self.addMeta(milestone, index);
-			  //   	});
-     //                self.$store.commit( 'setSelfMilestones', res.data );
-     //                self.$store.commit( 'setTotalMilestonePage', res.meta.pagination.total_pages );
-     //                NProgress.done();
-     //                self.loading = false;
-     //            }
-     //        };
-
-     //        self.httpRequest(request);
-     //    },
 
 	    addMeta (milestone, index) {
 	    	milestone.edit_mode = false;
@@ -121,6 +103,83 @@ export default Vue.mixin({
             self.current_page_number = current_page_number;
             return current_page_number;
         },
+
+        /**
+         * Add new or update milestone 
+         *
+         * @param {object} args upgoment with data
+         * @return { void } [description]
+         */
+       	addOrUpdateMilestone(args){
+       		var self = this;
+	        var pre_define = {};
+			var args = jQuery.extend(true, pre_define, args );
+			var data = new FormData();
+
+			data.append('title', args.title);
+            data.append('description', args.description);
+            data.append('achieve_date', args.achieve_date);
+            data.append('status', args.status);
+            data.append('order', args.order);
+
+            if (args.milestone_id) {
+				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+args.milestone_id;
+				var type = 'POST'; 
+	        } else {
+				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
+				var type = 'POST';
+	        }
+
+	        var request_data = {
+	            url: url,
+	            type: type,
+	            data: data,
+			    cache: false,
+        		contentType: false,
+        		processData: false,
+	            success (res) {
+	            	self.addMeta(res.data);
+	            	//new milestone
+	            	if(!args.milestone_id){
+	            		self.$store.commit('newMilestone', res.data);
+	            		self.showHideMilestoneForm(false);
+	            	}
+
+	            	// update milestone 
+	            	if(args.milestone_id){
+	            		self.$store.commit('updateMilestone', res.data);
+	            		self.showHideMilestoneForm(false, self.milestone);
+	            	}
+	            	
+	            	
+	                self.show_spinner = false;
+
+	             	// Display a success toast, with a title
+	                toastr.success(res.data.success);
+	                self.submit_disabled = false;
+	                self.$root.$emit( 'after_comment' );
+
+	                if(typeof args.callback === 'function'){
+	                	args.callback.apply(res.data);
+	                }  
+
+                	if ( self.section === 'milestones' ) {
+                    	self.afterNewMilestone();
+                    }
+	            },
+
+	            error (res) {
+	                self.show_spinner = false;
+	                
+	                // Showing error
+	                res.data.error.map( function( value, index ) {
+	                    toastr.error(value);
+	                });
+	                self.submit_disabled = false;
+	            }
+	        }
+	        self.httpRequest(request_data);
+       	},
 
 	    /**
 	     * Insert and edit task
@@ -163,7 +222,7 @@ export default Vue.mixin({
 	            data: form_data,
 	            success (res) {
 	            	
-	            	self.getSelfMilestones(self);
+	            	self.getMilestones();
 	            	
 	                self.show_spinner = false;
 
@@ -202,7 +261,8 @@ export default Vue.mixin({
 	        self.httpRequest(request_data);
 	    },
 
-	    afterNewMilestone (self, res, is_update) {
+	    afterNewMilestone () {
+	    	var self = this;
 
 			if ( self.$route.params.current_page_number > 1 ) {
 				// named route
@@ -213,8 +273,6 @@ export default Vue.mixin({
 					}
 				});
 				
-			} else {
-				self.getSelfMilestones(self);
 			}
 	    },
 	   	/**
@@ -254,7 +312,7 @@ export default Vue.mixin({
         },
 
         deleteMilestone (milestone_id) {
-        	if ( ! confirm( text.milestone_delete_conf ) ) {
+        	if ( ! confirm( this.text.milestone_delete_conf ) ) {
                 return;
             }
             var self = this;
@@ -272,7 +330,7 @@ export default Vue.mixin({
                             }
                         });
                     } else {
-                        self.getSelfMilestones(self);
+                        self.getSelfMilestones();
                     }
                 }
             }
