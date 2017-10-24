@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="pm-blank-template milestone" v-if="!milestones.length && !loading">
+        <div class="pm-blank-template milestone" v-if="blankTemplate">
             <div class="pm-content" >
                 <h3 class="pm-page-title">  {{text.milestones}}</h3>
                 <p>
@@ -47,7 +47,7 @@
             </div>
 
         </div>
-        <div v-if="milestones.length">
+        <div v-if="milestoneTemplate">
             <div class="pm-row pm-milestone-details" >
                 <div class="pm-milestone-link clearfix">
                     <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
@@ -120,6 +120,12 @@
             'completed-milestones': completed_milestones
         },
         computed: {
+            milestoneTemplate () {
+                return this.$store.state.milestone_template;
+            },
+            blankTemplate () {
+                return this.$store.state.blank_template;
+            },
             is_milestone_form_active () {
                 return this.$store.state.is_milestone_form_active;
             },
@@ -129,29 +135,14 @@
             },
 
             total_milestone_page () {
-                if(typeof this.$store.state.milestone_meta.pagination !== 'undefined'){
-                    return this.$store.state.milestone_meta.pagination.total_pages;
+                if(typeof this.$store.state.milestone_meta !== 'undefined'){
+                    return this.$store.state.milestone_meta.total_pages;
                 }
                 return false;
             }
         },
         methods: {
-            getSelfMilestones(){
-                var self = this,
-                args = {
-                    conditions :{
-                        with:'discussion_boards,task_lists',
-                        per_page:2,
-                        page:self.setCurrentPageNumber(),
-                    },
-                    callback: function(){
-                        NProgress.done();
-                        self.loading = false;
-                    }
-                }
-
-                self.getMilestones(args);
-            }
+            
         }
     }
 

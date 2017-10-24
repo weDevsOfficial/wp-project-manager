@@ -87,18 +87,11 @@
 		        // Showing loading option 
 		        this.show_spinner = true;
 
-				var self = this,
+				var self = this;
 
-				args = {
-					title: this.milestone.title,
-					description: this.milestone.description,
-					achieve_date: this.due_date,
-					status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
-					order: typeof this.milestone.order  === 'undefined' ? '' : this.milestone.order,
-					milestone_id: typeof this.milestone.id  === 'undefined' ? 0 : this.milestone.id,
-				}
-
-				this.addOrUpdateMilestone(args);
+				this.addOrUpdateMilestone(this.milestone, function(res){
+						self.templateAction();
+				});
 			}
 		}
 	

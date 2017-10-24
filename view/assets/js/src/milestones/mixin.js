@@ -82,7 +82,7 @@ export default Vue.mixin({
 			    		self.addMeta(milestone, index);
 			    	});
                     self.$store.commit( 'setMilestones', res.data );
-                    self.$store.commit('setMilestonesMeta', res.meta);
+                    self.$store.commit('setMilestonesMeta', res.meta.pagination);
 
                     if (typeof args.callback === 'function') {
 						args.callback(res.data);
@@ -92,6 +92,24 @@ export default Vue.mixin({
 
             self.httpRequest(request);
 		 },
+
+		 getSelfMilestones(){
+            var self = this,
+            args = {
+                conditions :{
+                    with:'discussion_boards,task_lists',
+                    per_page:2,
+                    page:self.setCurrentPageNumber(),
+                },
+                callback: function(){
+                    NProgress.done();
+                    self.loading = false;
+                    self.templateAction();
+                }
+            }
+
+            self.getMilestones(args);
+        },
 
 	    addMeta (milestone, index) {
 	    	milestone.edit_mode = false;
@@ -110,20 +128,19 @@ export default Vue.mixin({
          * @param {object} args upgoment with data
          * @return { void } [description]
          */
-       	addOrUpdateMilestone(args){
+       	addOrUpdateMilestone(milestone, callback){
        		var self = this;
-	        var pre_define = {};
-			var args = jQuery.extend(true, pre_define, args );
+
 			var data = new FormData();
 
-			data.append('title', args.title);
-            data.append('description', args.description);
-            data.append('achieve_date', args.achieve_date);
-            data.append('status', args.status);
-            data.append('order', args.order);
+			data.append('title', milestone.title);
+            data.append('description', milestone.description);
+            data.append('achieve_date', milestone.achieve_date);
+            data.append('status', milestone.status || 'incomplete');
+            data.append('order', milestone.order || 0);
 
-            if (args.milestone_id) {
-				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+args.milestone_id;
+            if (milestone.id) {
+				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+milestone.id;
 				var type = 'POST'; 
 	        } else {
 				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
@@ -140,15 +157,15 @@ export default Vue.mixin({
 	            success (res) {
 	            	self.addMeta(res.data);
 	            	//new milestone
-	            	if(!args.milestone_id){
+	            	if(!milestone.id){
 	            		self.$store.commit('newMilestone', res.data);
 	            		self.showHideMilestoneForm(false);
 	            	}
 
 	            	// update milestone 
-	            	if(args.milestone_id){
+	            	if(milestone.id){
 	            		self.$store.commit('updateMilestone', res.data);
-	            		self.showHideMilestoneForm(false, self.milestone);
+	            		self.showHideMilestoneForm(false, milestone);
 	            	}
 	            	
 	            	
@@ -159,8 +176,8 @@ export default Vue.mixin({
 	                self.submit_disabled = false;
 	                self.$root.$emit( 'after_comment' );
 
-	                if(typeof args.callback === 'function'){
-	                	args.callback.apply(res.data);
+	                if(typeof callback === 'function'){
+	                	callback.apply(res.data);
 	                }  
 
                 	if ( self.section === 'milestones' ) {
@@ -181,85 +198,105 @@ export default Vue.mixin({
 	        self.httpRequest(request_data);
        	},
 
+       	deleteMilestone (milestone, callback) {
+        	if ( ! confirm( this.text.milestone_delete_conf ) ) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + milestone.id,
+                type: 'DELETE',
+                success: function(res) {
+                    self.$store.commit('afterDeleteMilestone', milestone.id);
+
+                    if(typeof callback === 'function'){
+                    	callback.apply(res);
+                    }
+                }
+            }
+
+            self.httpRequest(request_data);
+        },
+
 	    /**
 	     * Insert and edit task
 	     * 
 	     * @return void
 	     */
-	    newMilestone: function() {
-	        // Exit from this function, If submit button disabled 
-	        if ( this.submit_disabled ) {
-	            return;
-	        }
+	   //  newMilestone: function() {
+	   //      // Exit from this function, If submit button disabled 
+	   //      if ( this.submit_disabled ) {
+	   //          return;
+	   //      }
 	        
-	        // Disable submit button for preventing multiple click
-	        this.submit_disabled = true;
+	   //      // Disable submit button for preventing multiple click
+	   //      this.submit_disabled = true;
 
-	        var self      = this,
-	            is_update = typeof this.milestone.id == 'undefined' ? false : true,
-	            form_data = {
-	                title: this.milestone.title,
-	                description: this.milestone.description,
-	                achieve_date: this.due_date,
-	                status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
-	                order: '',
-	            };
+	   //      var self      = this,
+	   //          is_update = typeof this.milestone.id == 'undefined' ? false : true,
+	   //          form_data = {
+	   //              title: this.milestone.title,
+	   //              description: this.milestone.description,
+	   //              achieve_date: this.due_date,
+	   //              status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
+	   //              order: '',
+	   //          };
 	        
-	        // Showing loading option 
-	        this.show_spinner = true;
+	   //      // Showing loading option 
+	   //      this.show_spinner = true;
 
-	        if (is_update) {
-				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
-				var type = 'PUT'; 
-	        } else {
-				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
-				var type = 'POST';
-	        }
+	   //      if (is_update) {
+				// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
+				// var type = 'PUT'; 
+	   //      } else {
+				// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
+				// var type = 'POST';
+	   //      }
 
-	        var request_data = {
-	            url: url,
-	            type: type,
-	            data: form_data,
-	            success (res) {
+	   //      var request_data = {
+	   //          url: url,
+	   //          type: type,
+	   //          data: form_data,
+	   //          success (res) {
 	            	
-	            	self.getMilestones();
+	   //          	self.getMilestones();
 	            	
-	                self.show_spinner = false;
+	   //              self.show_spinner = false;
 
-	                // Display a success toast, with a title
-	                toastr.success(res.data.success);
+	   //              // Display a success toast, with a title
+	   //              toastr.success(res.data.success);
 	           
-	                self.submit_disabled = false;
+	   //              self.submit_disabled = false;
 	                
-	                if (is_update) {
+	   //              if (is_update) {
 
-	                	self.showHideMilestoneForm(false, self.milestone);
-	                } else {
-	                	self.showHideMilestoneForm(false);
-	                }
+	   //              	self.showHideMilestoneForm(false, self.milestone);
+	   //              } else {
+	   //              	self.showHideMilestoneForm(false);
+	   //              }
 
-                	if ( self.section === 'milestones' ) {
-                    	self.afterNewMilestone(self, res, is_update);
-                    }
+    //             	if ( self.section === 'milestones' ) {
+    //                 	self.afterNewMilestone(self, res, is_update);
+    //                 }
 
-                    if ( self.section === 'single' ) {
-                    	//self.afterNewSingleMilestone(self, res, is_update);
-                    }
-	            },
+    //                 if ( self.section === 'single' ) {
+    //                 	//self.afterNewSingleMilestone(self, res, is_update);
+    //                 }
+	   //          },
 
-	            error (res) {
-	                self.show_spinner = false;
+	   //          error (res) {
+	   //              self.show_spinner = false;
 	                
-	                // Showing error
-	                res.data.error.map( function( value, index ) {
-	                    toastr.error(value);
-	                });
-	                self.submit_disabled = false;
-	            }
-	        }
+	   //              // Showing error
+	   //              res.data.error.map( function( value, index ) {
+	   //                  toastr.error(value);
+	   //              });
+	   //              self.submit_disabled = false;
+	   //          }
+	   //      }
 	        
-	        self.httpRequest(request_data);
-	    },
+	   //      self.httpRequest(request_data);
+	   //  },
 
 	    afterNewMilestone () {
 	    	var self = this;
@@ -310,34 +347,6 @@ export default Vue.mixin({
 
             return { width: width+'%' };
         },
-
-        deleteMilestone (milestone_id) {
-        	if ( ! confirm( this.text.milestone_delete_conf ) ) {
-                return;
-            }
-            var self = this;
-            var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + milestone_id,
-                type: 'DELETE',
-                success: function(res) {
-                    self.$store.commit('afterDeleteMilestone', milestone_id);
-
-                    if (!self.$store.state.milestones.length) {
-                        self.$router.push({
-                            name: 'milestones', 
-                            params: { 
-                                project_id: self.project_id 
-                            }
-                        });
-                    } else {
-                        self.getSelfMilestones();
-                    }
-                }
-            }
-
-            self.httpRequest(request_data);
-        },
-
         humanDate (milestone) {
             var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
                 due_date = new Date(due_date),
@@ -358,15 +367,21 @@ export default Vue.mixin({
 
             return due_date;
         },
+        templateAction(){
+        	var blank, miltemp;
 
-        milestoneMarkDone (milestone) {
-        	milestone.status = 'complete';
-        	this.newMilestone();
-        },
+        	var milestones = this.$store.state.milestones;
+            
+            if(milestones.length){
+                blank = false; miltemp = true;
+            }
 
-        milestoneMarkUndone (milestone) {
-        	milestone.status = 'incomplete';
-        	this.newMilestone();
+            if(!milestones.length){
+                blank = true; miltemp = false;
+            }
+
+            this.$store.commit('balankTemplateStatus', blank);
+			this.$store.commit('milestoneTemplateStatus', miltemp);
         }
 
 	},

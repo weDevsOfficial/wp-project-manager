@@ -63,7 +63,7 @@ export default new Vuex.Store({
 
 		newMilestone (state, milestone) {
 			var per_page = state.milestone_meta.per_page,
-                length   = state.milestone_meta.length;
+                length   = state.milestones.length;
 
             if(typeof milestone.discussion_boards === 'undefined'){
             	milestone.discussion_boards = {data:[]};
