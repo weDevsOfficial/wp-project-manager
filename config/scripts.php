@@ -9,12 +9,12 @@ return [
 	// 	'dependency' => ['jquery'],
 	// 	'in_footer'  => true
 	// ],
-	'pm-upload' => [
-		'id'         => 'pm-upload',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/upload.js',
-		'dependency' => ['jquery', 'plupload-handlers'],
-		'in_footer'  => true
-	],
+	// 'pm-upload' => [
+	// 	'id'         => 'pm-upload',
+	// 	'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/upload.js',
+	// 	'dependency' => ['jquery', 'plupload-handlers'],
+	// 	'in_footer'  => true
+	// ],
 	// 'pm-timepicker' => [
 	// 	'id'         => 'pm-timepicker',
 	// 	'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/jquery-ui/jquery-ui-timepicker.js',
@@ -99,7 +99,7 @@ return [
 			'jquery', 
 			'underscore',
 			// 'pm-moment-timezone',
-			'pm-upload',
+			//'pm-upload',
 			'jquery-ui-datepicker',
 			// 'pm-timepicker',
 			// 'pm-nprogress', 
