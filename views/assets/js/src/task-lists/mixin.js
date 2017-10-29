@@ -1156,6 +1156,19 @@ var PM_Task_Mixin = {
                                 
             });
 
+        },
+        listTemplateAction(){
+            var lists = this.$store.state.lists, blank, listTmpl;
+
+            if(lists.length){
+                blank = false; listTmpl = true;
+            }else{
+                blank = true; listTmpl = false;
+            }
+
+            this.$store.commit('balankTemplateStatus', blank);
+            this.$store.commit('listTemplateStatus', listTmpl);
+
         }
     }
 }

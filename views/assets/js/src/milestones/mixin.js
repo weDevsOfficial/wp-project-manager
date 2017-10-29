@@ -123,61 +123,41 @@ export default Vue.mixin({
         },
 
         /**
-         * Add new or update milestone 
+         * Add new milestone 
          *
          * @param {object} args upgoment with data
          * @return { void } [description]
          */
-       	addOrUpdateMilestone(milestone, callback){
-       		var self = this;
-
-			var data = new FormData();
-
-			data.append('title', milestone.title);
-            data.append('description', milestone.description);
-            data.append('achieve_date', milestone.achieve_date);
-            data.append('status', milestone.status || 'incomplete');
-            data.append('order', milestone.order || 0);
-
-            if (milestone.id) {
-				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+milestone.id;
-				var type = 'POST'; 
-	        } else {
-				var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
-				var type = 'POST';
-	        }
+       	addMilestone ( args ) {
+       		 var self = this,
+            pre_define = {
+              data: {
+                id: false,
+                title : '',
+                description: '',
+                achieve_date: '',
+                order: 0,
+                status:'incomplete'
+              },
+              callback: false,
+            };
+            var args = jQuery.extend(true, pre_define, args );
 
 	        var request_data = {
-	            url: url,
-	            type: type,
-	            data: data,
-			    cache: false,
-        		contentType: false,
-        		processData: false,
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+	            type: 'POST',
+	            data: args.data,
 	            success (res) {
 	            	self.addMeta(res.data);
-	            	//new milestone
-	            	if(!milestone.id){
-	            		self.$store.commit('newMilestone', res.data);
-	            		self.showHideMilestoneForm(false);
-	            	}
-
-	            	// update milestone 
-	            	if(milestone.id){
-	            		self.$store.commit('updateMilestone', res.data);
-	            		self.showHideMilestoneForm(false, milestone);
-	            	}
 	            	
-	            	
-	                self.show_spinner = false;
-
+            		self.$store.commit('newMilestone', res.data);
 	             	// Display a success toast, with a title
 	                toastr.success(res.data.success);
-	                self.submit_disabled = false;
-	                self.$root.$emit( 'after_comment' );
 
-	                if(typeof callback === 'function'){
-	                	callback.apply(res.data);
+	                self.$root.$emit( 'after_comment' );
+                  self.templateAction();
+	                if(typeof args.callback === 'function'){
+	                	args.callback.call(self, res);
 	                }  
 
                 	if ( self.section === 'milestones' ) {
@@ -186,13 +166,70 @@ export default Vue.mixin({
 	            },
 
 	            error (res) {
-	                self.show_spinner = false;
-	                
 	                // Showing error
 	                res.data.error.map( function( value, index ) {
 	                    toastr.error(value);
 	                });
-	                self.submit_disabled = false;
+	                if(typeof args.callback === 'function'){
+	                	args.callback.call(self, res);
+	                }
+	            }
+	        }
+	        self.httpRequest(request_data);
+       	},
+
+       	/**
+       	 * Update milesotne 
+       	 * @param  {[Objecat]}   args [description]
+       	 * @return {[type]}             [description]
+       	 */
+       	updateMilestone ( args ) {
+       		 var self = this,
+            pre_define = {
+              data: {
+                id: false,
+                title : '',
+                description: '',
+                achieve_date: '',
+                order: 0,
+                status:'incomplete'
+              },
+              callback: false,
+            };
+            var args = jQuery.extend(true, pre_define, args );
+
+	        var request_data = {
+	            url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+milestone.id,
+	            type: 'PUT',
+	            data: data,
+	            success (res) {
+	            	self.addMeta(res.data);
+
+	            	// update milestone 
+            		self.$store.commit('updateMilestone', res.data);
+	               
+	             	// Display a success toast, with a title
+	                toastr.success(res.data.success);
+	                self.templateAction();
+	                self.$root.$emit( 'after_comment' );
+
+	                if(typeof args.callback === 'function'){
+	                	args.callback.call ( self, res );
+	                }  
+
+                	if ( self.section === 'milestones' ) {
+                    	self.afterNewMilestone();
+                    }
+	            },
+
+	            error (res) {
+	                // Showing error
+	                res.data.error.map( function( value, index ) {
+	                    toastr.error(value);
+	                });
+	                if(typeof args.callback === 'function'){
+	                	args.callback.call ( self, res );
+	                }
 	            }
 	        }
 	        self.httpRequest(request_data);
@@ -217,86 +254,6 @@ export default Vue.mixin({
 
             self.httpRequest(request_data);
         },
-
-	    /**
-	     * Insert and edit task
-	     * 
-	     * @return void
-	     */
-	   //  newMilestone: function() {
-	   //      // Exit from this function, If submit button disabled 
-	   //      if ( this.submit_disabled ) {
-	   //          return;
-	   //      }
-	        
-	   //      // Disable submit button for preventing multiple click
-	   //      this.submit_disabled = true;
-
-	   //      var self      = this,
-	   //          is_update = typeof this.milestone.id == 'undefined' ? false : true,
-	   //          form_data = {
-	   //              title: this.milestone.title,
-	   //              description: this.milestone.description,
-	   //              achieve_date: this.due_date,
-	   //              status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
-	   //              order: '',
-	   //          };
-	        
-	   //      // Showing loading option 
-	   //      this.show_spinner = true;
-
-	   //      if (is_update) {
-				// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
-				// var type = 'PUT'; 
-	   //      } else {
-				// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
-				// var type = 'POST';
-	   //      }
-
-	   //      var request_data = {
-	   //          url: url,
-	   //          type: type,
-	   //          data: form_data,
-	   //          success (res) {
-	            	
-	   //          	self.getMilestones();
-	            	
-	   //              self.show_spinner = false;
-
-	   //              // Display a success toast, with a title
-	   //              toastr.success(res.data.success);
-	           
-	   //              self.submit_disabled = false;
-	                
-	   //              if (is_update) {
-
-	   //              	self.showHideMilestoneForm(false, self.milestone);
-	   //              } else {
-	   //              	self.showHideMilestoneForm(false);
-	   //              }
-
-    //             	if ( self.section === 'milestones' ) {
-    //                 	self.afterNewMilestone(self, res, is_update);
-    //                 }
-
-    //                 if ( self.section === 'single' ) {
-    //                 	//self.afterNewSingleMilestone(self, res, is_update);
-    //                 }
-	   //          },
-
-	   //          error (res) {
-	   //              self.show_spinner = false;
-	                
-	   //              // Showing error
-	   //              res.data.error.map( function( value, index ) {
-	   //                  toastr.error(value);
-	   //              });
-	   //              self.submit_disabled = false;
-	   //          }
-	   //      }
-	        
-	   //      self.httpRequest(request_data);
-	   //  },
 
 	    afterNewMilestone () {
 	    	var self = this;

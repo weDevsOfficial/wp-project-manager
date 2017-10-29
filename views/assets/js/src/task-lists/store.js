@@ -18,6 +18,8 @@ export default new Vuex.Store({
         list_comments: [],
         lists_meta: {},
         init: {},
+        balankTemplateStatus: false,
+        listTemplateStatus: false,
         is_single_list: true,
         project_users: [],
         loading: true,
@@ -182,8 +184,8 @@ export default new Vuex.Store({
 
         afterNewTask (state, data) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
-            
             if ( data.task.status === 'incomplete' ) {
+
                 if(typeof state.lists[list_index].incomplete_tasks !== 'undefined'){
                     state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
                 }else{
@@ -346,7 +348,6 @@ export default new Vuex.Store({
          * @return void       
          */
         single_task_popup: function( state ) {
-            console.log('aldkjadsk');
             state.task = task.task;
         },
 
@@ -412,7 +413,6 @@ export default new Vuex.Store({
         insert_tasks: function( state, task ) {
             
             task.tasks.tasks.forEach(function(task_obj) {
-                //console.log(task);
                state.lists[task.list_index].tasks.push(task_obj);
             });
             //state.lists[task.list_index].tasks = task.tasks.tasks;
@@ -468,20 +468,7 @@ export default new Vuex.Store({
         },
 
         setLists (state, lists) {
-            state.lists = lists;
-            // if(state.lists.length > 0){
-            //     lists.forEach(function(list){
-                    
-            //         var list_index = state.getIndex(state.lists, list.id, 'id');
-            //         if(list_index === false){
-            //              state.lists.push(list);
-            //         }
-                    
-            //     })
-            // }else{
-                
-            //}
-            
+            state.lists = lists; 
         },
         setList(state, list){
             state.lists = [list];
@@ -574,14 +561,18 @@ export default new Vuex.Store({
 
                 //jQuery.extend(true, data.task, state.lists[list_index].incomplete_tasks.data[task_index] );
 
-                console.log(state.lists[list_index].incomplete_tasks);
-
             } 
 
             if(typeof state.lists[list_index].complete_tasks !== 'undefined' ){
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = data.edit_mode;
             }
+        },
+        balankTemplateStatus(state, status){
+            state.balankTemplateStatus = status; 
+        },
+        listTemplateStatus(state, status){
+            state.listTemplateStatus = status;
         }
     }
 });

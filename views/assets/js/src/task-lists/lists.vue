@@ -14,9 +14,9 @@
             </div>
         </div>
         <div v-else>
-	        <default-list-page v-if="is_lists_empty"></default-list-page>
+	        <default-list-page v-if="is_blank_Template"></default-list-page>
 			
-			<div v-if="!is_lists_empty" id="pm-task-el" class="pm-task-container wrap">
+			<div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
 				
 				<new-task-list-btn></new-task-list-btn>
 				<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
@@ -41,7 +41,7 @@
 			                        <!-- v-if="list.can_del_edit" -->
 			                        <div class="pm-right">
 			                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-			                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" title="Delete this List" :data-list_id="list.ID" data-confirm="Are you sure to delete this task list?"><span class="dashicons dashicons-trash"></span></a>
+			                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
 			                        </div>
 			                    </h3>
 
@@ -204,7 +204,6 @@
 	            project_id: this.$route.params.project_id,
 	            current_page_number: 1,
 	            loading: true,
-	            is_lists_empty: false,
 	        }
 	    },
 
@@ -245,6 +244,13 @@
 	        	return this.$store.state.lists_meta.total_pages;
 	        },
 
+	        is_blank_Template(){
+	        	return this.$store.state.balankTemplateStatus;
+	        },
+	        is_list_Template(){
+	        	return this.$store.state.listTemplateStatus; 
+	        }
+
 	    },
 
 	    methods: {
@@ -252,25 +258,39 @@
 	    	showEditForm (list, index) {
 	    		list.edit_mode = list.edit_mode ? false : true;
 	    	},
-
+	    	
 	    	getSelfLists () {
-	    		var condition = {
-		    			with: 'incomplete_tasks',
-		    			per_page: this.getSettings('list_per_page', 10),
-		    			page: this.setCurrentPageNumber()
-		    		},
-		    		self = this;
+	    		var self = this;
 
-	    		this.getLists(condition, function(res) {
-	    			NProgress.done();
-	    			self.loading = false;
-	    			if(self.$store.state.lists.length){
-	    				self.is_lists_empty = false;
-	    			}else{
-	    				self.is_lists_empty = true;
-	    			}
-	    		});
+	    		var args = {
+	    				callback: function(res) {
+	    					NProgress.done();
+					    	self.loading = false;
+	    				}
+			    	}
+			    this.getLists(args);
 	    	},
+
+	    	deleteSelfList ( list ) {
+	    		var self = this;
+	    		var args = {
+	    			list_id: list.id,
+	    			callback: function ( res ) {
+	    				if (!self.$store.state.lists.length) {
+	                        self.$router.push({
+	                            name: 'task_lists', 
+	                            params: { 
+	                                project_id: self.project_id 
+	                            }
+	                        });
+	                    } else {
+
+	                        self.getLists();
+	                    }	
+	    			}
+	    		}
+	    		this.deleteList(args);
+	    	}
 	    }
 	}
 </script>

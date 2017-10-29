@@ -4865,3 +4865,8 @@ ul.pm-files li .pm-file-action .comment-number {
   height: 0px;
 }
 
+.pm-milestone .pm-milestone-form {
+    width: 90%;
+    padding-left: 10px;
+    border-left: 3px solid #0073aa;
+}

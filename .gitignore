@@ -1,7 +1,7 @@
 /node_modules/
 /vendor/
-/view/assets/js/chunk/
-/view/assets/js/pm-bundle.js
+/views/assets/js/chunk/
+/views/assets/js/pm-bundle.js
 /.idea
 .env
 .DS_Store

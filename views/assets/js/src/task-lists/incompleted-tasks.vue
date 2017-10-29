@@ -3,7 +3,7 @@
         <div class="pm-todo-content">
             <div>
                 <div class="pm-col-7">
-                   <input :disabled="!is_assigned(task)" v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
+                   <input :disabled="!is_assigned(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span v-if="is_single_list">
                         <router-link 
@@ -110,6 +110,11 @@
 
 	            return false;
 	        },
+
+            doneUndone (){
+                var status = !this.task.status;
+                this.taskDoneUndone( this.task, status, this.list )
+            }
 
 	    }
 	}
