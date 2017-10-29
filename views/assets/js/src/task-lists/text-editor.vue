@@ -4,7 +4,7 @@
 
 <script>
 	
-	import Vue from './../../vue/vue';
+	import Vue from 'vue';
 
 	export default {
 	    

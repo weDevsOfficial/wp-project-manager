@@ -1,6 +1,6 @@
 __webpack_public_path__ = PM_Vars.dir_url + 'views/assets/js/';
 
-import Vue from './vue/vue';
+import Vue from 'vue';
 import store from './store';
 import router from './router';
 import directive from './directive';

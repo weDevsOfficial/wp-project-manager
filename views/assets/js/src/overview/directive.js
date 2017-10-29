@@ -1,4 +1,5 @@
-import Vue from './../../vue/vue';
+import Vue from 'vue';
+import Chart from 'chart.js';
 
 /**
  * Required jQuery methods 
@@ -7,7 +8,6 @@ import Vue from './../../vue/vue';
  */
 var PM_Overview = {
 	chart: function(el, binding, vnode) {
-		var $ = jQuery;
 		var activity = vnode.context.text.activity,
 			Task = vnode.context.text.task
 		var data = {

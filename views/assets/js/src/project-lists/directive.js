@@ -1,4 +1,4 @@
-import Vue from './../../vue/vue';
+import Vue from 'vue';
 
 var Project = {
     coWorkerSearch: function(el, binding, vnode) {

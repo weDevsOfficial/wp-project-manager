@@ -229,7 +229,7 @@
 </template>
 
 <script>
-	import Vue from './../../vue/vue';
+	import Vue from 'vue';
 	import comments from './task-comments.vue';
 	import Multiselect from './../../vue-multiselect/vue-multiselect.min';
 

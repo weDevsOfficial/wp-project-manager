@@ -3,12 +3,6 @@
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
-	'pm-chart' => [
-		'id'         => 'pm-chart',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/chart/chart.min.js',
-		'dependency' => ['jquery'],
-		'in_footer'  => true
-	],
 	'pm-upload' => [
 		'id'         => 'pm-upload',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/upload.js',
@@ -100,7 +94,6 @@ return [
 			'pm-tiny-mce',
 			'pm-toastr',
 			'jquery-ui-sortable',
-			'pm-chart'
 
 		],
 		'in_footer'  => true

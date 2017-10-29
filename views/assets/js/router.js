@@ -1,5 +1,6 @@
-import Vue from './vue/vue';
-import Router from './vue/vue-router';
+import Vue from 'vue';
+import Router from 'vue-router';
+import NProgress from 'nprogress';
 
 import {active, all, completed} from './src/project-lists/router';
 import categories from './src/categories/router';

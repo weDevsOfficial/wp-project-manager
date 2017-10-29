@@ -1,5 +1,5 @@
-import Vue from './../../vue/vue';
-import Vuex from './../../vue/vuex';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 /**
  * Make sure to call Vue.use(Vuex) first if using a vuex module system

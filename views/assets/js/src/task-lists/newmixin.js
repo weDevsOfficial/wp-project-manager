@@ -1,4 +1,4 @@
-import Vue from './../../vue/vue';
+import Vue from 'vue';
 /**
  * Task list mixin
  * All available function about task
