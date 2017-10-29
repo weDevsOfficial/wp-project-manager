@@ -23,9 +23,11 @@ class Menu {
 		$submenu['pm_projects'][] = [ __( 'Progress', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/settings' ];
 
+		do_action( 'pm_menu_before', $home );
+		
 		add_action( 'admin_print_styles-' . $home, array( $this, 'scripts' ) );
 
-		do_action( 'pm_menu', $home );
+		do_action( 'pm_menu_after', $home );
 	}
 
 	public function scripts() {

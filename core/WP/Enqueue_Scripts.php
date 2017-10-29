@@ -27,7 +27,7 @@ class Enqueue_Scripts {
 
 		$upload_size = 10 * 1024 * 1024;//intval( \pm_get_option( 'upload_limit', 'pm_general' ) ) * 1024 * 1024;
 
-		wp_localize_script( 'pm-config', 'PM_Vars', array(
+		wp_localize_script( 'pm-library', 'PM_Vars', array(
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),

@@ -4,8 +4,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        pm: './views/assets/src/pm.js',
-        library: './views/assets/src/library.js',
+        bundle: './views/assets/js/pm.js',
+        library: './views/assets/js/pm-library.js',
     },
 
     output: {
