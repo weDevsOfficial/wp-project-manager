@@ -3,48 +3,48 @@ const path = require('path');
 
 
 module.exports = {
-	entry: './view/assets/js/pm.js',
+    entry: './views/assets/js/pm.js',
 
-	output: {
-		path: path.resolve( __dirname, 'view/assets/js'),
-		filename: 'pm-bundle.js',
-		publicPath: '',
-		chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
-		jsonpFunction: 'wedevsPmWebpack',
-		// hotUpdateFunction: 'wedevsPmWebpacks',
-	},
+    output: {
+        path: path.resolve( __dirname, 'views/assets/js'),
+        filename: 'pm-bundle.js',
+        publicPath: '',
+        chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
+        jsonpFunction: 'wedevsPmWebpack',
+        // hotUpdateFunction: 'wedevsPmWebpacks',
+    },
 
-	module: {
-		rules: [
-			// doc url https://vue-loader.vuejs.org/en/options.html#loaders
-			{   
-				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					loaders: {
-			        	//js: 'babel-loader!eslint-loader'
-			        }
-				}
-			},
-			{
-				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/	
-			},
-			{
-				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'file-loader',
-				exclude: /node_modules/,
-				options: {
-					name: '[name].[ext]?[hash]'
-				}
-			}
-		]
-	},
+    module: {
+        rules: [
+            // doc url https://vue-loader.vuejs.org/en/options.html#loaders
+            {   
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        //js: 'babel-loader!eslint-loader'
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/ 
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                loader: 'file-loader',
+                exclude: /node_modules/,
+                options: {
+                    name: '[name].[ext]?[hash]'
+                }
+            }
+        ]
+    },
 
     plugins: [
-	    // new HTMLWebpackPlugin({
-	    //     title: 'Code Splitting'
-	    // }),
+        // new HTMLWebpackPlugin({
+        //     title: 'Code Splitting'
+        // }),
     ]
 }

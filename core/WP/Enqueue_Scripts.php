@@ -53,7 +53,8 @@ class Enqueue_Scripts {
             ),
             'roles' => pm_get_wp_roles(),
             'settings' => pm_get_settings(),
-            'text' => pm_get_text('common')
+            'text' => pm_get_text('common'),
+            'dir_url' => config('frontend.url')
         ));
 	}
 
