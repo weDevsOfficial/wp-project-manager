@@ -278,7 +278,7 @@
             			self.submit_disabled = false;
             		}
             	}
-            	if ( this.task.id ) {
+            	if ( typeof this.task.id !== 'undefined' ) {
             		self.updateTask ( args );
             	}else{
             		self.addTask ( args );

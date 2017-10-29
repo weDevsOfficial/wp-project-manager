@@ -188,6 +188,7 @@ var PM_TaskList_Mixin = {
             	success (res) {
 
 					          self.addMetaList(res.data);
+                    res.data.incomplete_tasks = {data: []};
                   	self.$store.commit('afterNewList', res.data);
 					          self.$store.commit('afterNewListupdateListsMeta');
                   	self.showHideListForm(false);
@@ -324,47 +325,28 @@ var PM_TaskList_Mixin = {
             		data: {
             			task_id: false,
             			board_id: '',
-	                    assignees: '',
-	                    title: '',
-	                    description: '',
-	                    start_at: '',
-	                    due_date: '',
-	                    task_privacy: '',
-	                    list_id: '',
-	                    order: ''
+                  assignees: '',
+                  title: '',
+                  description: '',
+                  start_at: '',
+                  due_date: '',
+                  task_privacy: '',
+                  list_id: '',
+                  order: ''
             		},
             		callback: false
             	},
-            	args = jQuery.extend(true, pre_define, args),
-
-                is_update = args.data.task_id !== false ?  true:false;
-
-            if (is_update) {
-                var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+args.data.board_id;
-                var type = 'PUT'; 
-            } else {
-                var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks';
-                var type = 'POST';
-            }
-
+            	args = jQuery.extend(true, pre_define, args);
             var request_data = {
-                url: url,
-                type: type,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
+                type: 'POST',
                 data: args.data,
                 success (res) {
                     self.addTaskMeta(res.data);
-                    
-                    if (is_update) {
-                        self.$store.commit('afterUpdateTask', {
-                            list_id: self.list.id,
+                    self.$store.commit('afterNewTask', {
+                            list_id: args.data.list_id,
                             task: res.data
                         });
-                    } else {
-                        self.$store.commit('afterNewTask', {
-                            list_id: self.list.id,
-                            task: res.data
-                        });
-                    }
 
                     // Display a success toast, with a title
                     toastr.success(res.data.success);                    
@@ -422,7 +404,7 @@ var PM_TaskList_Mixin = {
                     self.addTaskMeta(res.data);
                     
                     self.$store.commit('afterUpdateTask', {
-                        list_id: self.list.id,
+                        list_id: args.data.list_id,
                         task: res.data
                     });
 
@@ -480,7 +462,6 @@ var PM_TaskList_Mixin = {
                 callback: false
               };
             var args = jQuery.extend(true, pre_define, args);
-            console.log(args);
             var data = new FormData();
 
             data.append( 'content', args.data.content );
@@ -519,7 +500,6 @@ var PM_TaskList_Mixin = {
                   }
                 }
               }
-              console.log(request_data)
 
               self.httpRequest(request_data);
         },
