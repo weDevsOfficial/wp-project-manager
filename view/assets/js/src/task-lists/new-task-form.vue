@@ -1,6 +1,6 @@
 <template>
 	<div :class="'pm-task-edit-form pm-slide-'+task.id">
-		<form action="" v-on:submit.prevent="newTask()" method="post" class="pm-task-form">
+		<form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
 	      
 	        <div class="item task-title">
 	            <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="text.add_new_task" value="" required="required">
@@ -251,80 +251,39 @@
 	         * 
 	         * @return void
 	         */
-	    //     newTask: function() {
-	    //         // Exit from this function, If submit button disabled 
-	    //         if ( this.submit_disabled ) {
-	    //             return;
-	    //         }
-	            
-	    //         // Disable submit button for preventing multiple click
-	    //         this.submit_disabled = true;
-	            
-	    //         var self      = this,
-	    //             is_update = typeof this.task.id == 'undefined' ? false : true,
-	                
-	    //             form_data = {
-	    //                 board_id: this.list.id,
-	    //                 assignees: this.assigned_to,
-	    //                 title: this.task.title,
-	    //                 description: this.task.description,
-	    //                 start_at: this.task.start_at.date,
-	    //                 due_date: this.task.due_date.date,
-	    //                 task_privacy: this.task.task_privacy,
-	    //                 list_id: this.list.id,
-	    //                 order: this.task.order
-	    //             };
-	            
-	    //         // Showing loading option 
-	    //         this.show_spinner = true;
-	            
-	    //         if (is_update) {
-	    //         	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+this.task.id;
-	    //         	var type = 'PUT'; 
-	    //         } else {
-	    //         	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks';
-	    //         	var type = 'POST';
-	    //         }
-
-	    //         var request_data = {
-	    //         	url: url,
-	    //         	type: type,
-	    //         	data: form_data,
-	    //         	success (res) {
-	    //         		if (is_update) {
-	    //         			self.$store.commit('afterUpdateTask', {
-	    //         				list_id: self.list.id,
-	    //         				task: res.data
-	    //         			});
-	    //         		} else {
-	    //         			self.$store.commit('afterNewTask', {
-	    //         				list_id: self.list.id,
-	    //         				task: res.data
-	    //         			});
-	    //         		}
-	            		
-	    //         		self.show_spinner = false;
-
-	    //                 // Display a success toast, with a title
-	    //                 toastr.success(res.data.success);
-                   
-	    //                 self.submit_disabled = false;
-	    //                 self.showHideTaskFrom(false, self.list, self.task);
-	    //         	},
-
-	    //         	error (res) {
-	    //         		self.show_spinner = false;
-	                    
-	    //                 // Showing error
-	    //                 res.data.error.map( function( value, index ) {
-	    //                     toastr.error(value);
-	    //                 });
-	    //                 self.submit_disabled = false;
-	    //         	}
-	    //         }
-	            
-	    //         self.httpRequest(request_data);
-	    //     }
+	    	taskFormAction () {
+	    		// Exit from this function, If submit button disabled 
+	            if ( this.submit_disabled ) {
+	                return;
+	            }
+	            var self = this;
+	            this.submit_disabled = true;
+	            // Showing loading option 
+            	this.show_spinner = true;
+            	var args = {
+            		data: {
+            			task_id: this.task.id,
+            			board_id: this.list.id,
+	                    assignees: this.assigned_to,
+	                    title: this.task.title,
+	                    description: this.task.description,
+	                    start_at: this.task.start_at.date,
+	                    due_date: this.task.due_date.date,
+	                    task_privacy: this.task.task_privacy,
+	                    list_id: this.list.id,
+	                    order: this.task.order,
+            		},
+            		callback: function( res ) {
+            			self.show_spinner = false;
+            			self.submit_disabled = false;
+            		}
+            	}
+            	if ( this.task.id ) {
+            		self.updateTask ( args );
+            	}else{
+            		self.addTask ( args );
+            	}
+	    	}
 	    }
 	}
 </script>

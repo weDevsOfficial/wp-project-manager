@@ -18,6 +18,8 @@ export default new Vuex.Store({
         list_comments: [],
         lists_meta: {},
         init: {},
+        balankTemplateStatus: false,
+        listTemplateStatus: false,
         is_single_list: true,
         project_users: [],
         loading: true,
@@ -468,20 +470,7 @@ export default new Vuex.Store({
         },
 
         setLists (state, lists) {
-            state.lists = lists;
-            // if(state.lists.length > 0){
-            //     lists.forEach(function(list){
-                    
-            //         var list_index = state.getIndex(state.lists, list.id, 'id');
-            //         if(list_index === false){
-            //              state.lists.push(list);
-            //         }
-                    
-            //     })
-            // }else{
-                
-            //}
-            
+            state.lists = lists; 
         },
         setList(state, list){
             state.lists = [list];
@@ -582,6 +571,12 @@ export default new Vuex.Store({
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = data.edit_mode;
             }
+        },
+        balankTemplateStatus(state, status){
+            state.balankTemplateStatus = status; 
+        },
+        listTemplateStatus(state, status){
+            state.listTemplateStatus = status;
         }
     }
 });

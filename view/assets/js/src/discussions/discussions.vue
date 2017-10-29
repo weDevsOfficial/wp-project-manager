@@ -14,118 +14,120 @@
             </div>
         </div>
 
+        <div v-else>
+            <div class="pm-blank-template discussion" v-if="blankTemplate">
+                <div class="pm-content" >
+                    <h3 class="pm-page-title">{{text.discussions}}</h3>
 
-        <div class="pm-blank-template discussion" v-if="blankTemplate">
-            <div class="pm-content" >
-                <h3 class="pm-page-title">{{text.discussions}}</h3>
+                    <p>
+                        {{text.discuss_define}}
+                    </p>
+                        <div>
+                            <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
+                                {{text.add_new_discussion}} 
+                            </a>
+                        </div>
+                        <transition name="slide">
+                            <div class="pm-new-message-form" v-if="is_discuss_form_active">
+                                <h3>{{text.create_a_new_message}}</h3>
+                                <new-discuss-form  :discuss="{}"></new-discuss-form>
 
-                <p>
-                    {{text.discuss_define}}
-                </p>
+                            </div>
+                        </transition>
+                    <div class="pm-list-content">
+                        <h3 class="pm-why-for pm-page-title"> {{text.when_use_discuss}} </h3>
+
+                        <ul class="pm-list">
+                            <li> {{text.to_discuss_work_matter}} </li>
+                            <li> {{text.to_exchange_file}}</li>
+                            <li> {{text.to_discuss_group}}</li>
+                            <li> {{text.to_open_discuss}} </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div v-if="discussTemplate">
+                <div class="pm-row discussion">
                     <div>
                         <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                             {{text.add_new_discussion}} 
                         </a>
                     </div>
                     <transition name="slide">
-                        <div class="pm-new-message-form" v-if="is_discuss_form_active">
+                        <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
                             <h3>{{text.create_a_new_message}}</h3>
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                         </div>
                     </transition>
-                <div class="pm-list-content">
-                    <h3 class="pm-why-for pm-page-title"> {{text.when_use_discuss}} </h3>
 
-                    <ul class="pm-list">
-                        <li> {{text.to_discuss_work_matter}} </li>
-                        <li> {{text.to_exchange_file}}</li>
-                        <li> {{text.to_discuss_group}}</li>
-                        <li> {{text.to_open_discuss}} </li>
-
-                    </ul>
                 </div>
-            </div>
-        </div>
-        <div v-if="discussTemplate">
-            <div class="pm-row discussion">
-                <div>
-                    <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
-                        {{text.add_new_discussion}} 
-                    </a>
-                </div>
-                <transition name="slide">
-                    <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
-                        <h3>{{text.create_a_new_message}}</h3>
-                        <new-discuss-form  :discuss="{}"></new-discuss-form>
-
-                    </div>
-                </transition>
-
-            </div>
-            <div class="pm-row pm-message-page">
-                <div class="pm-message-list pm-col-12 pm-sm-col-12">
-                    <div class="pm-box-title">{{text.discussion_list}}</div>
-                    <ul class="dicussion-list">        
-                        <li class="pm-col-12" v-for="discuss in discussion" key="discuss.id">
-                            <div class="pm-col-9">
-                                
-                                <router-link 
-                                    class="pm-pagination-btn prev page-numbers" 
-                                    :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
-                                    <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                    <div>
-                                       {{ discuss.title }}                    
-                                    </div>
+                <div class="pm-row pm-message-page">
+                    <div class="pm-message-list pm-col-12 pm-sm-col-12">
+                        <div class="pm-box-title">{{text.discussion_list}}</div>
+                        <ul class="dicussion-list">        
+                            <li class="pm-col-12" v-for="discuss in discussion" key="discuss.id">
+                                <div class="pm-col-9">
                                     
-                                </router-link>
-                               
-                                <div class="dicussion-meta">
-                                    {{text.by}} 
-                                    <a href="#" :title="discuss.creator.data.display_name">
-                                        {{ discuss.creator.data.display_name }}
-                                    </a> 
-                                     {{text.on}}
-                                    {{ discuss.created_at.date }}                  
+                                    <router-link 
+                                        class="pm-pagination-btn prev page-numbers" 
+                                        :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
+                                        <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                        <div>
+                                           {{ discuss.title }}                    
+                                        </div>
+                                        
+                                    </router-link>
+                                   
+                                    <div class="dicussion-meta">
+                                        {{text.by}} 
+                                        <a href="#" :title="discuss.creator.data.display_name">
+                                            {{ discuss.creator.data.display_name }}
+                                        </a> 
+                                         {{text.on}}
+                                        {{ discuss.created_at.date }}                  
+                                    </div>
+
                                 </div>
 
-                            </div>
+                                <div class="pm-col-1">
+                                    <span class="pm-message-action pm-right">
+                                        <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
+                                        <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
+                                            <span class="dashicons dashicons-trash"></span>
+                                        </a>
 
-                            <div class="pm-col-1">
-                                <span class="pm-message-action pm-right">
-                                    <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
-                                    <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
-                                        <span class="dashicons dashicons-trash"></span>
-                                    </a>
+                                        <span class="pm-unlock"></span>
+                                    </span>
+                                </div>
 
-                                    <span class="pm-unlock"></span>
-                                </span>
-                            </div>
+                                <div class="pm-col-2 pm-last-col pm-right comment-count">
+                                    <router-link 
+                                        class="pm-pagination-btn prev page-numbers" 
+                                        :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
+                                        {{ discuss.meta.total_comments }} {{text.comments}} 
+                                    </router-link>           
+                                </div>
 
-                            <div class="pm-col-2 pm-last-col pm-right comment-count">
-                                <router-link 
-                                    class="pm-pagination-btn prev page-numbers" 
-                                    :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
-                                    {{ discuss.meta.total_comments }} {{text.comments}} 
-                                </router-link>           
-                            </div>
-
-                            <div class="clear"></div>
-                            <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
-                        </li>
-                 
-                    </ul>    
+                                <div class="clear"></div>
+                                <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
+                            </li>
+                     
+                        </ul>    
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
+            
+                <pm-pagination 
+                    :total_pages="total_discussion_page" 
+                    :current_page_number="current_page_number" 
+                    component_name='discussion_pagination'>
+                    
+                </pm-pagination> 
             </div>
-        
-            <pm-pagination 
-                :total_pages="total_discussion_page" 
-                :current_page_number="current_page_number" 
-                component_name='discussion_pagination'>
-                
-            </pm-pagination> 
         </div>
+        
     </div>
 
 </template>

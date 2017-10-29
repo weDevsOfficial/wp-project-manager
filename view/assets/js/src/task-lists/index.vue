@@ -7,7 +7,8 @@
 
 <script>
 	import store from './store';
-	import mixin from './mixin';
+	//import mixin from './mixin';
+	import mixin from './newmixin';
 	import directive from './directive';
 
 	export default {

@@ -2,7 +2,7 @@
 	
 	<div :class="todolistFormClass(list)+' pm-new-todolist-form'">
 
-	    <form v-on:submit.prevent="newTodoList()" action="" method="post">
+	    <form v-on:submit.prevent="listFormAction()" action="" method="post">
 	        <div class="item title">
 	            <input type="text" required="required" name="tasklist_name" v-model="list.title" :placeholder="text.task_list_name">
 	        </div>
@@ -96,7 +96,7 @@
 	         * 
 	         * @return string     
 	         */
-	        todolistFormClass: function( list ) {
+	        todolistFormClass ( list ) {
 	            return list.ID ? 'pm-todo-form-wrap pm-form pm-slide-'+ list.ID : 'pm-todo-list-form-wrap pm-form pm-slide-list';
 	        },
 
@@ -105,86 +105,39 @@
 	         * 
 	         * @return void
 	         */
-	        newTodoList: function() {
+	        listFormAction: function() {
 
 	            // Prevent sending request when multiple click submit button 
 	            if ( this.submit_disabled ) {
 	                return;
 	            }
-
+	            var self = this;
 	            // Make disable submit button
 	            this.submit_disabled = true;
-
-	            var self      = this,
-	                is_update = typeof this.list.id == 'undefined' ? false : true;
-	               
+	            this.show_spinner = true;            	               
 	            this.show_spinner = true;
-
-	            if ( is_update ) {
-	            	var type = 'PUT';
-	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id;
-	            	var data = 'title='+self.list.title+'&description='+self.list.description+'&milestone='+self.milestone_id+'&order'+5;
-	            		
-	            } else {
-	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists';
-	            	var type = 'POST';
-	            	var data = {
-	            		'title': self.list.title,
-	            		'description': self.list.description,
-	            		'milestone': self.milestone_id,
-	            		'order': 5
-	            	};
-	            }
-	            
-	            var request_data = {
-	            	url: url,
-	            	data: data,
-	            	type: type,
-	            	success (res) {
-						self.milestone_id   = '-1';
-						self.show_spinner     = false;
-						self.list.title       = '';
-						self.list.description = '';
-
-						self.addMetaList(res.data);
-	                    // Display a success message, with a title
-	                    toastr.success(res.data.success);
-	                    self.submit_disabled = false;
-
-	                    if (is_update) {
-	                    	self.showHideListForm(false, self.list);
-	                    } else {
-	                    	self.showHideListForm(false);
-	                    }
-							
-	                    self.afterNewList(self, res, is_update);
-
+	            var is_update = typeof this.list.id !== 'undefined' ? true : false
+	            var args = {
+	            	data : {
+	            		id: self.list.id,
+		            	title : self.list.title,
+		            	description: self.list.description,
+		            	milestone: self.list.milestone,
+		            	order: self.list.order
 	            	},
-
-	            	error (res) {
-	            		
-	            		self.show_spinner = false;
-	            		self.submit_disabled = false;
-
-	                    // Showing error
-	                    res.data.error.map(function(value, index) {
-	                        toastr.error(value);
-	                    });
-	            	},
+	            	callback: function(res){
+	            		self.show_spinner     = false;
+						self.submit_disabled = false;
+						self.listTemplateAction();
+	            	}
 	            }
 
-	            self.httpRequest(request_data);
+	            if(!is_update){
+	            	self.addList(args);
+	            }else {
+	            	self.updateList(args);
+	            }	            
 	        },
-
-	        afterNewList (self, res, is_update) {
-	        	if (is_update) {
-					self.$store.commit('afterUpdateList', res.data);
-	        	} else {
-	        		self.$store.commit('afterNewList', res.data);
-					self.$store.commit('afterNewListupdateListsMeta');
-	        	}
-	        },
-
 	        singleAfterNewList (self, res, is_update) {
 	        	if ( is_update ) {
 	        		var condition = 'incomplete_tasks,complete_tasks,comments';
