@@ -1,6 +1,6 @@
 <template>
 	<div :class="'pm-task-edit-form pm-slide-'+task.id">
-		<form action="" v-on:submit.prevent="newTask()" method="post" class="pm-task-form">
+		<form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
 	      
 	        <div class="item task-title">
 	            <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="text.add_new_task" value="" required="required">
@@ -250,6 +250,7 @@
 	         * 
 	         * @return void
 	         */
+
 	    //     newTask: function() {
 	    //         // Exit from this function, If submit button disabled 
 	    //         if ( this.submit_disabled ) {
@@ -324,6 +325,40 @@
 	            
 	    //         self.httpRequest(request_data);
 	    //     }
+
+	    	taskFormAction () {
+	    		// Exit from this function, If submit button disabled 
+	            if ( this.submit_disabled ) {
+	                return;
+	            }
+	            var self = this;
+	            this.submit_disabled = true;
+	            // Showing loading option 
+            	this.show_spinner = true;
+            	var args = {
+            		data: {
+            			task_id: this.task.id,
+            			board_id: this.list.id,
+	                    assignees: this.assigned_to,
+	                    title: this.task.title,
+	                    description: this.task.description,
+	                    start_at: this.task.start_at.date,
+	                    due_date: this.task.due_date.date,
+	                    task_privacy: this.task.task_privacy,
+	                    list_id: this.list.id,
+	                    order: this.task.order,
+            		},
+            		callback: function( res ) {
+            			self.show_spinner = false;
+            			self.submit_disabled = false;
+            		}
+            	}
+            	if ( typeof this.task.id !== 'undefined' ) {
+            		self.updateTask ( args );
+            	}else{
+            		self.addTask ( args );
+            	}
+	    	}
 	    }
 	}
 </script>

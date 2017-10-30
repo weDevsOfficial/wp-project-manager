@@ -64,7 +64,7 @@
         },
 
         created () {
-            
+            console.log(this._c('div', 'hello world'));
         },
 
         watch: {

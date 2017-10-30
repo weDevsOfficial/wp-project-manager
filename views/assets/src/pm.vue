@@ -22,7 +22,7 @@
 
 <script>
 	import discussions from './discussions/index.vue';
-	import projects from './project-lists/index.vue';
+	import projects from './projects/index.vue';
 	import overview from './overview/index.vue';
 	import activities from './activities/index.vue';
 	import milestones from './milestones/index.vue';

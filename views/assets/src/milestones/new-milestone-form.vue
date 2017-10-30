@@ -76,7 +76,7 @@
 	        },
 		},
 		methods: {
-			milestoneFormAction(){
+			milestoneFormAction ( ) {
 				 // Exit from this function, If submit button disabled 
 		        if ( this.submit_disabled ) {
 		            return;
@@ -89,9 +89,33 @@
 
 				var self = this;
 
-				this.addOrUpdateMilestone(this.milestone, function(res){
-						self.templateAction();
-				});
+				var args = {
+					data: {
+		                title : self.milestone.title,
+		                description: self.milestone.description,
+		                achieve_date: self.due_date,
+		                order: self.milestone.order,
+		                status: self.milestone.status,
+		            }
+				}
+
+				if( typeof this.milestone.id !== 'undefined' ){
+					args.id = this.milestone.id;
+					args.callback = function ( res ) {
+							self.showHideMilestoneForm(false, self.milestone);
+							self.show_spinner = false;
+							self.submit_disabled = false;
+					}
+
+					this.updateMilestone ( args );
+				}else{
+					args.callback = function ( res ) {
+						self.showHideMilestoneForm(false);
+						self.show_spinner = false;
+						self.submit_disabled = false;
+					}
+					this.addMilestone ( args );
+				}
 			}
 		}
 	

@@ -3,7 +3,6 @@
 </template>
 
 <script>
-	
 	export default {
 	    
 	    //mixins: pm_todo_list_mixins( PM_Todo_List.todo_list_text_editor ),    

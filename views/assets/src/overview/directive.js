@@ -1,5 +1,4 @@
 
-
 /**
  * Required jQuery methods 
  * 
@@ -7,7 +6,6 @@
  */
 var PM_Overview = {
 	chart: function(el, binding, vnode) {
-		var $ = jQuery;
 		var activity = vnode.context.text.activity,
 			Task = vnode.context.text.task
 		var data = {

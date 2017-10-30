@@ -13,20 +13,48 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <div class="pm-blank-template milestone" v-if="blankTemplate">
+                <div class="pm-content" >
+                    <h3 class="pm-page-title">  {{text.milestones}}</h3>
+                    <p>
+                        {{text.milestone_define}}
+                    </p>
+                        <div class="pm-milestone-link clearfix">
+                            <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
+                        </div>
 
-        <div class="pm-blank-template milestone" v-if="blankTemplate">
-            <div class="pm-content" >
-                <h3 class="pm-page-title">  {{text.milestones}}</h3>
-                <p>
-                    {{text.milestone_define}}
-                </p>
+                        <transition name="slide">
+
+                            <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
+                                <div class="pm-milestone-form-wrap">
+                                    <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
+                                </div>
+
+                            </div>
+                        </transition>
+
+                    <div class="pm-list-content">
+                        <h3 class="pm-page-title pm-why-for"> {{text.when_use_milestone }}</h3>
+
+                        <ul class="pm-list">
+                            <li>{{text.to_set_target_date}} </li>
+                            <li>{{text.to_divide_project}} </li>
+                            <li>{{text.to_coordinate_project}} </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+            <div v-if="milestoneTemplate">
+                <div class="pm-row pm-milestone-details" >
                     <div class="pm-milestone-link clearfix">
                         <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
                     </div>
 
-                    <transition name="slide">
-
-                        <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
+                     <transition name="slide">
+                        <div class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
                             <div class="pm-milestone-form-wrap">
                                 <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                             </div>
@@ -34,51 +62,22 @@
                         </div>
                     </transition>
 
-                <div class="pm-list-content">
-                    <h3 class="pm-page-title pm-why-for"> {{text.when_use_milestone }}</h3>
-
-                    <ul class="pm-list">
-                        <li>{{text.to_set_target_date}} </li>
-                        <li>{{text.to_divide_project}} </li>
-                        <li>{{text.to_coordinate_project}} </li>
-                    </ul>
+                    <late-milestones></late-milestones>
+                    <upcomming-milestone></upcomming-milestone>
+                    <completed-milestones></completed-milestones>
+                    
                 </div>
+
+                <pm-pagination 
+                    :total_pages="total_milestone_page" 
+                    :current_page_number="current_page_number" 
+                    component_name='milestone_pagination'>
+                    
+                </pm-pagination> 
 
             </div>
 
-        </div>
-        <div v-if="milestoneTemplate">
-            <div class="pm-row pm-milestone-details" >
-                <div class="pm-milestone-link clearfix">
-                    <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
-                </div>
-
-                 <transition name="slide">
-                    <div class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
-                        <div class="pm-milestone-form-wrap">
-                            <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
-                        </div>
-
-                    </div>
-                </transition>
-
-                <late-milestones></late-milestones>
-                <upcomming-milestone></upcomming-milestone>
-                <completed-milestones></completed-milestones>
-                
-            </div>
-
-            <pm-pagination 
-                :total_pages="total_milestone_page" 
-                :current_page_number="current_page_number" 
-                component_name='milestone_pagination'>
-                
-            </pm-pagination> 
-
-        </div>
-        
-
-
+        </div>    
         <!-- <pm-do-action hook="component-lazy-load"></pm-do-action> -->
     </div>
 </template>

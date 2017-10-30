@@ -1,5 +1,4 @@
 
-
 export default pm.Vue.mixin({
 	methods: {
 		getOverViews (condition) {

@@ -1,5 +1,4 @@
 
-
 var Project = {
     coWorkerSearch: function(el, binding, vnode) {
         

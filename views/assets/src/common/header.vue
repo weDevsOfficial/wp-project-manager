@@ -72,7 +72,7 @@
 <script>
     import router from './router';
     import do_action from './do-action.vue';
-    import edit_project from './../project-lists/project-create-form.vue';
+    import edit_project from './../projects/project-create-form.vue';
 
     export default {
         data () {

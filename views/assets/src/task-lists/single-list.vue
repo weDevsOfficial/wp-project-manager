@@ -97,7 +97,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getIndividualList(vm);
+                vm.getIndividualList();
                 vm.getGlobalMilestones();
             });
         },
@@ -113,7 +113,7 @@
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
                 loading: true,
-                //comments: []
+               
             }
         },
 
@@ -124,17 +124,7 @@
          * @return void
          */
         created: function() {
-            // this.loading = false;
-            // this.render_tmpl = true;
-            this.$store.state.is_single_list = true;
-            // return;
-            // var self = this;
-            
-            // this.$store.commit('emptyTodoLists');
-            
-            // // Get todo list 
-           // this.getList();
-           
+            this.$store.state.is_single_list = true; 
         },
 
         computed: {
@@ -174,26 +164,10 @@
                 return this.$store.state.init;
             },
 
-            // comments: function() {
-            //     if ( this.$store.state.lists.length ) {
-            //         return this.$store.state.lists[0].comments;
-            //     }
-
-            //     return [];
-            // },
-
-            // comment_list: function() {
-            //     if ( this.$store.state.lists.length ) {
-            //         return this.$store.state.lists[0];
-            //     }
-
-            //     return {};
-            // }
-
         },
 
         methods: {
-            //pm/v2/projects/1/task-lists/6?with=tasks,comments,complete_tasks,incomplete_tasks&comment_page=1&complete_task_page=1&incomplete_task_page=1
+            
             /**
              * Get todo list for single todo list page
              * 
@@ -201,49 +175,21 @@
              * 
              * @return void         
              */
-            getIndividualList: function(self) {
-                var condition = 'incomplete_tasks,complete_tasks,comments';
+            getIndividualList () {
+                var self = this;
+                var args = {
+                    condition: {
+                        with : 'incomplete_tasks,complete_tasks,comments'
+                    },
+                    list_id: this.list_id,
+                    callback: function (res) {
+                        self.$store.commit('setList', res.data);
+                        self.loading = false; 
+                    }
+                }
                 
-                self.getList(self, self.$route.params.list_id, condition, function(res) {
-                    self.loading = false;
-                });
-                // var request = {
-                //     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+list_id+'?with=incomplete_tasks,complete_tasks,comments',
-                //     success (res) {
-                //         self.list = res.data;
-                //         self.comments = res.data.comments.data;
-                //     }
-                // };
-                // self.httpRequest(request);
-                
-                // var self      = this,
-                //     form_data = {
-                //         list_id: list_id,
-                //         action: 'pm_get_todo_list_single',
-                //         project_id: PM_Vars.project_id,
-                //         _wpnonce: PM_Vars.nonce,
-                //     };
-
-                // // Sending request for getting singel todo list 
-                // jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-
-                //     if ( res.success ) {
-
-                //         // After getting todo list, set it to vuex state lists
-                //         self.$store.commit( 'update_todo_list_single', { 
-                //             list: res.data.list,
-                //             permissions: res.data.permissions,
-                //             milestones: res.data.milestones,
-                //             project_users: res.data.project_users
-                //         });
-
-                //         self.render_tmpl = true;
-
-                //         if ( typeof callback != 'undefined'  ) {
-                //             callback(res);
-                //         }
-                //     } 
-                // });
+                this.getList( args );
+               
             },
 
             showEditForm (list ) {

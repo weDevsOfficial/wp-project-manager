@@ -31,7 +31,7 @@
 	    </div>
     
     	
-        <div v-if="!loading" class="modal-mask half-modal pm-task-modal modal-transition" style="">
+        <div v-else class="modal-mask half-modal pm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px;">
@@ -229,7 +229,6 @@
 </template>
 
 <script>
-	
 	import comments from './task-comments.vue';
 
 	export default {

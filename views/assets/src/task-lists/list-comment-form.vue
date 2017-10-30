@@ -1,7 +1,7 @@
 <template>
 	<div class="pm-comment-form">
 
-		<form class="pm-comment-form-vue" @submit.prevent="updateComment()">
+		<form class="pm-comment-form-vue" @submit.prevent="listCommentAction()">
 
 	        <div class="item message pm-sm-col-1">
 	            <text-editor :editor_id="editor_id" :content="content"></text-editor>
@@ -139,85 +139,57 @@
 	         * Insert and update todo-list comment
 	         * 
 	         * @return void
-	         */
-	        updateComment: function() {
-	            // Prevent sending request when multiple click submit button 
-	            if ( this.submit_disabled ) {
-	                return;
+	         */    
+	   		listCommentAction () {
+	   			// Prevent sending request when multiple click submit button 
+              if ( this.submit_disabled ) {
+                  return;
+              }
+
+	             // Disable submit button for preventing multiple click
+	            this.submit_disabled = true;
+	            // Showing loading option 
+	            this.show_spinner = true;
+	            var self = this;
+
+	            var args = {
+	            	data: {
+	                  commentable_id: self.list_id,
+	                  content: self.comment.content,
+	                  commentable_type: 'task_list',
+	                  deleted_files: self.deleted_files || [],
+	                  files: self.files || [],
+	                },
 	            }
 
-	             //console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
-				var data = new FormData();
-				
-		        // Disable submit button for preventing multiple click
-		        this.submit_disabled = true;
-		        // Showing loading option 
-		        this.show_spinner = true;
-
-
-		        var self      = this,
-		            is_update = typeof this.comment.id == 'undefined' ? false : true;
-		            
-	            data.append( 'content', self.comment.content );
-	            data.append( 'commentable_id', self.list_id );
-	            data.append( 'commentable_type', 'task_list' );
-	            
-	            
-	            this.deleted_files.map(function(del_file) {
-	            	data.append('files_to_delete[]', del_file);
-	            });
-	            
-
-	            this.files.map(function(file) {
-	            	if ( typeof file.attachment_id === 'undefined' ) {
-	            		var decode = self.dataURLtoFile(file.thumb, file.name);
-						data.append( 'files[]', decode );
-	            	}
-				});
-
-	            if (is_update) {
-	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+this.comment.id+'?content='+this.comment.content;
-	            	var type = "POST";
-	            } else {
-	            	var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments';
-	            	var type = "POST";
-	            }
-
-	            var request_data = {
-	            	url: url,
-	            	type: type,
-	            	data: data,
-	            	cache: false,
-        			contentType: false,
-        			processData: false,
-	            	success (res) { 
-	            		self.files = [];
-	            		self.addListCommentMeta(res.data);
-	            		
-                        if (is_update) {
-                        	self.$store.commit('listUpdateComment', {
-                        		list_id: self.list_id,
-                        		comment_id: self.comment.id,
-                        		comment: res.data
-                        	});
-                        } else {
-                        	self.$store.commit('listNewComment', {
-                        		list_id: self.list_id,
-                        		comment: res.data
-                        	});
-                        }
+	            if(typeof this.comment.id !== 'undefined' ){
+	            	args.data.id = this.comment.id;
+	            	args.callback = function(res){
+	            		self.$store.commit('listUpdateComment', {
+                    		list_id: self.list_id,
+                    		comment_id: self.comment.id,
+                    		comment: res.data
+                    	});
 	            		self.submit_disabled = false;
-	            		self.show_spinner = false;
-	            	},
-	            	error (res) {
-	            		self.submit_disabled = false;
-	            		self.show_spinner = false;
+		          		self.show_spinner = false;
+		          		self.files = []; self.deleted_files = [];
 	            	}
+	            	self.updateComment ( args );
+	            }else{
+
+	            	args.callback = function ( res ) {
+	            		self.$store.commit('listNewComment', {
+                    		list_id: self.list_id,
+                    		comment: res.data
+                    	});
+	            		self.submit_disabled = false;
+		          		self.show_spinner = false;
+		          		self.files = []; self.deleted_files = [];
+	            	}
+	            	self.addComment ( args );
+
 	            }
-
-	            self.httpRequest(request_data);
-
-	        },
+	   		},
 
 	        
 	        /**

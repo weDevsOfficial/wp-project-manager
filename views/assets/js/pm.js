@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "chunk/" + {"0":"096c3e96f63716910a8f","1":"0facb4d942b97c26ebb1","2":"eaf943934757d6239c3e","3":"57169459ea305a4e283d","4":"40d42843035e1ac79c1f","5":"9341a7f1fff9e73948c4","6":"40ab8bd25fc097dce74b","7":"744f55ec4b7f5c6269ee","8":"172e02e73fcc45a3fd15","9":"8bbbc34aee8a5c1cee3a","10":"3f99920f1862f0df6737","11":"bfe3520a1d06b2800687"}[chunkId] + ".chunk-bundle.js";
+/******/ 		script.src = __webpack_require__.p + "chunk/" + {"0":"359caa609bf5f26a669d","1":"9a9a78160b7194f6219c","2":"be10ccb70e501896492f","3":"e1fecf5cf9ecaf691614","4":"effa7f63596a51aa1709","5":"4ab5645061a7b247a8ec","6":"084de48429dc6bcd70c4","7":"7939d38510cf3e728857","8":"17f356e22723ee56df0d","9":"ce1eb6f84e6611590231","10":"fc38b57d7b8de0546fc8","11":"a53420a4aaa27d8c717a"}[chunkId] + ".chunk-bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -710,7 +710,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__project_lists_router__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__projects_router__ = __webpack_require__(324);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__categories_router__ = __webpack_require__(305);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__add_ons_router__ = __webpack_require__(302);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__my_tasks_router__ = __webpack_require__(317);
@@ -742,9 +742,9 @@ module.exports = function normalizeComponent (
 
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__settings_router__["a" /* general */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_7__settings_router__["b" /* email */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__project_lists_router__["a" /* active */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__project_lists_router__["b" /* all */]);
-weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__project_lists_router__["c" /* completed */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__projects_router__["a" /* active */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__projects_router__["b" /* all */]);
+weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_0__projects_router__["c" /* completed */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_1__categories_router__["a" /* default */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_2__add_ons_router__["a" /* default */]);
 weDevs_PM_Routers.push(__WEBPACK_IMPORTED_MODULE_3__my_tasks_router__["a" /* default */]);
@@ -1071,6 +1071,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
@@ -1216,7 +1217,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_pm_vue__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ca61d7fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_pm_vue__ = __webpack_require__(420);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ca61d7fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_pm_vue__ = __webpack_require__(419);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -2158,7 +2159,7 @@ var action = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__discussions_index_vue__ = __webpack_require__(392);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_lists_index_vue__ = __webpack_require__(398);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__projects_index_vue__ = __webpack_require__(398);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__overview_index_vue__ = __webpack_require__(396);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__activities_index_vue__ = __webpack_require__(386);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__ = __webpack_require__(394);
@@ -2204,7 +2205,7 @@ var action = {
 /* harmony default export */ __webpack_exports__["a"] = ({
 	components: {
 		'pm-discussions': __WEBPACK_IMPORTED_MODULE_0__discussions_index_vue__["a" /* default */],
-		'pm-projects': __WEBPACK_IMPORTED_MODULE_1__project_lists_index_vue__["a" /* default */],
+		'pm-projects': __WEBPACK_IMPORTED_MODULE_1__projects_index_vue__["a" /* default */],
 		'pm-overview': __WEBPACK_IMPORTED_MODULE_2__overview_index_vue__["a" /* default */],
 		'pm-activities': __WEBPACK_IMPORTED_MODULE_3__activities_index_vue__["a" /* default */],
 		'pm-milestones': __WEBPACK_IMPORTED_MODULE_4__milestones_index_vue__["a" /* default */],
@@ -2568,6 +2569,7 @@ var action = {
 
 
 
+//import mixin from './newmixin';
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -2579,7 +2581,6 @@ var action = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
 
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
@@ -2647,7 +2648,6 @@ var activities = {
 
 "use strict";
 
-
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
@@ -2702,7 +2702,6 @@ var activities = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
 
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
@@ -2884,7 +2883,6 @@ var activities = {
 
 "use strict";
 
-
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
@@ -2930,7 +2928,6 @@ var activities = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
 
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
@@ -3480,7 +3477,6 @@ var single_discussion = {
 
 "use strict";
 
-
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
@@ -3592,7 +3588,6 @@ var single_discussion = {
 
 "use strict";
 
-
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
 		getFiles() {
@@ -3662,390 +3657,428 @@ const files = resolve => {
 
 "use strict";
 
-
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
-				methods: {
-								showHideMilestoneForm(status, milestone) {
-												var milestone = milestone || false,
-												    milestone = jQuery.isEmptyObject(milestone) ? false : milestone;
+    methods: {
+        showHideMilestoneForm(status, milestone) {
+            var milestone = milestone || false,
+                milestone = jQuery.isEmptyObject(milestone) ? false : milestone;
 
-												if (milestone) {
-																if (status === 'toggle') {
-																				milestone.edit_mode = milestone.edit_mode ? false : true;
-																} else {
-																				milestone.edit_mode = status;
-																}
-												} else {
-																this.$store.commit('showHideMilestoneForm', status);
-												}
-								},
+            if (milestone) {
+                if (status === 'toggle') {
+                    milestone.edit_mode = milestone.edit_mode ? false : true;
+                } else {
+                    milestone.edit_mode = status;
+                }
+            } else {
+                this.$store.commit('showHideMilestoneForm', status);
+            }
+        },
 
-								showHideCommentForm(status, comment) {
-												if (status === 'toggle') {
-																comment.edit_mode = comment.edit_mode ? false : true;
-												} else {
-																comment.edit_mode = status;
-												}
-								},
-								/**
+        showHideCommentForm(status, comment) {
+            if (status === 'toggle') {
+                comment.edit_mode = comment.edit_mode ? false : true;
+            } else {
+                comment.edit_mode = status;
+            }
+        },
+        /**
          * get single Milestones 
          *
          * @param {args} object [object with calback]
          */
 
-								getMilestone(args) {
-												var self = this,
-												    pre_define = {
-																conditions: {
-																				with: 'discussion_boards,task_lists'
-																},
-																callback: false
-												};
+        getMilestone(args) {
+            var self = this,
+                pre_define = {
+                conditions: {
+                    with: 'discussion_boards,task_lists'
+                },
+                callback: false
+            };
 
-												var args = jQuery.extend(true, pre_define, args);
-												var conditions = self.generateConditions(args.conditions);
+            var args = jQuery.extend(true, pre_define, args);
+            var conditions = self.generateConditions(args.conditions);
 
-												var request = {
-																url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + self.$route.params.discussion_id + '?' + conditions,
-																success(res) {
-																				self.addMeta(res.data);
-																				self.$store.commit('setMilestone', res.data);
+            var request = {
+                url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + self.$route.params.discussion_id + '?' + conditions,
+                success(res) {
+                    self.addMeta(res.data);
+                    self.$store.commit('setMilestone', res.data);
 
-																				if (typeof args.callback === 'function') {
-																								args.callback(res.data);
-																				}
-																}
-												};
-												self.httpRequest(request);
-								},
+                    if (typeof args.callback === 'function') {
+                        args.callback(res.data);
+                    }
+                }
+            };
+            self.httpRequest(request);
+        },
 
-								/**
+        /**
          * Retrive milestones 
          * 
          * @param {Object} args Object with callback
          */
-								getMilestones(args) {
-												var self = this,
-												    pre_define = {
-																conditions: {
-																				with: 'discussion_boards,task_lists',
-																				per_page: 2,
-																				page: 1
-																},
-																callback: false
-												};
+        getMilestones(args) {
+            var self = this,
+                pre_define = {
+                conditions: {
+                    with: 'discussion_boards,task_lists',
+                    per_page: 2,
+                    page: 1
+                },
+                callback: false
+            };
 
-												var args = jQuery.extend(true, pre_define, args);
-												var conditions = self.generateConditions(args.conditions);
+            var args = jQuery.extend(true, pre_define, args);
+            var conditions = self.generateConditions(args.conditions);
 
-												var request = {
-																url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones?' + conditions,
-																success(res) {
-																				res.data.map(function (milestone, index) {
-																								self.addMeta(milestone, index);
-																				});
-																				self.$store.commit('setMilestones', res.data);
-																				self.$store.commit('setMilestonesMeta', res.meta.pagination);
+            var request = {
+                url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones?' + conditions,
+                success(res) {
+                    res.data.map(function (milestone, index) {
+                        self.addMeta(milestone, index);
+                    });
+                    self.$store.commit('setMilestones', res.data);
+                    self.$store.commit('setMilestonesMeta', res.meta.pagination);
 
-																				if (typeof args.callback === 'function') {
-																								args.callback(res.data);
-																				}
-																}
-												};
+                    if (typeof args.callback === 'function') {
+                        args.callback(res.data);
+                    }
+                }
+            };
 
-												self.httpRequest(request);
-								},
+            self.httpRequest(request);
+        },
 
-								getSelfMilestones() {
-												var self = this,
-												    args = {
-																conditions: {
-																				with: 'discussion_boards,task_lists',
-																				per_page: 2,
-																				page: self.setCurrentPageNumber()
-																},
-																callback: function () {
-																				pm.NProgress.done();
-																				self.loading = false;
-																				self.templateAction();
-																}
-												};
+        getSelfMilestones() {
+            var self = this,
+                args = {
+                conditions: {
+                    with: 'discussion_boards,task_lists',
+                    per_page: 2,
+                    page: self.setCurrentPageNumber()
+                },
+                callback: function () {
+                    pm.NProgress.done();
+                    self.loading = false;
+                    self.templateAction();
+                }
+            };
 
-												self.getMilestones(args);
-								},
+            self.getMilestones(args);
+        },
 
-								addMeta(milestone, index) {
-												milestone.edit_mode = false;
-								},
+        addMeta(milestone, index) {
+            milestone.edit_mode = false;
+        },
 
-								setCurrentPageNumber() {
-												var self = this;
-												var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-												self.current_page_number = current_page_number;
-												return current_page_number;
-								},
+        setCurrentPageNumber() {
+            var self = this;
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
 
-								/**
-         * Add new or update milestone 
+        /**
+         * Add new milestone 
          *
          * @param {object} args upgoment with data
          * @return { void } [description]
          */
-								addOrUpdateMilestone(milestone, callback) {
-												var self = this;
+        addMilestone(args) {
+            var self = this,
+                pre_define = {
+                data: {
+                    title: '',
+                    description: '',
+                    achieve_date: '',
+                    order: 0,
+                    status: 'incomplete'
+                },
+                callback: false
+            };
+            var args = jQuery.extend(true, pre_define, args);
 
-												var data = new FormData();
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones',
+                type: 'POST',
+                data: args.data,
+                success(res) {
+                    self.addMeta(res.data);
 
-												data.append('title', milestone.title);
-												data.append('description', milestone.description);
-												data.append('achieve_date', milestone.achieve_date);
-												data.append('status', milestone.status || 'incomplete');
-												data.append('order', milestone.order || 0);
+                    self.$store.commit('newMilestone', res.data);
+                    // Display a success toast, with a title
+                    toastr.success(res.data.success);
 
-												if (milestone.id) {
-																var url = self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + milestone.id;
-																var type = 'POST';
-												} else {
-																var url = self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones';
-																var type = 'POST';
-												}
+                    self.$root.$emit('after_comment');
+                    self.templateAction();
 
-												var request_data = {
-																url: url,
-																type: type,
-																data: data,
-																cache: false,
-																contentType: false,
-																processData: false,
-																success(res) {
-																				self.addMeta(res.data);
-																				//new milestone
-																				if (!milestone.id) {
-																								self.$store.commit('newMilestone', res.data);
-																								self.showHideMilestoneForm(false);
-																				}
+                    if (typeof args.callback === 'function') {
+                        args.callback.call(self, res);
+                    }
 
-																				// update milestone 
-																				if (milestone.id) {
-																								self.$store.commit('updateMilestone', res.data);
-																								self.showHideMilestoneForm(false, milestone);
-																				}
+                    if (self.section === 'milestones') {
+                        self.afterNewMilestone();
+                    }
+                },
 
-																				self.show_spinner = false;
+                error(res) {
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        toastr.error(value);
+                    });
+                    if (typeof args.callback === 'function') {
+                        args.callback.call(self, res);
+                    }
+                }
+            };
+            self.httpRequest(request_data);
+        },
 
-																				// Display a success toast, with a title
-																				pm.Toastr.success(res.data.success);
-																				self.submit_disabled = false;
-																				self.$root.$emit('after_comment');
+        /**
+         * Update milesotne 
+         * @param  {[Objecat]}   args [description]
+         * @return {[type]}             [description]
+         */
+        updateMilestone(args) {
+            var self = this,
+                pre_define = {
+                data: {
+                    title: '',
+                    description: '',
+                    achieve_date: '',
+                    order: 0,
+                    status: 'incomplete'
+                },
+                callback: false
+            };
+            var args = jQuery.extend(true, pre_define, args);
 
-																				if (typeof callback === 'function') {
-																								callback.apply(res.data);
-																				}
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + milestone.id,
+                type: 'PUT',
+                data: data,
+                success(res) {
+                    self.addMeta(res.data);
 
-																				if (self.section === 'milestones') {
-																								self.afterNewMilestone();
-																				}
-																},
+                    // update milestone 
+                    self.$store.commit('updateMilestone', res.data);
 
-																error(res) {
-																				self.show_spinner = false;
+                    // Display a success toast, with a title
+                    pm.Toastr.success(res.data.success);
+                    self.submit_disabled = false;
+                    self.templateAction();
 
-																				// Showing error
-																				res.data.error.map(function (value, index) {
-																								pm.Toastr.error(value);
-																				});
-																				self.submit_disabled = false;
-																}
-												};
-												self.httpRequest(request_data);
-								},
+                    self.$root.$emit('after_comment');
 
-								deleteMilestone(milestone, callback) {
-												if (!confirm(this.text.milestone_delete_conf)) {
-																return;
-												}
-												var self = this;
-												var request_data = {
-																url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + milestone.id,
-																type: 'DELETE',
-																success: function (res) {
-																				self.$store.commit('afterDeleteMilestone', milestone.id);
+                    if (typeof args.callback === 'function') {
+                        args.callback.call(self, res);
+                    }
 
-																				if (typeof callback === 'function') {
-																								callback.apply(res);
-																				}
-																}
-												};
+                    if (self.section === 'milestones') {
+                        self.afterNewMilestone();
+                    }
+                },
 
-												self.httpRequest(request_data);
-								},
+                error(res) {
+                    // Showing error
+                    res.data.error.map(function (value, index) {
+                        pm.Toastr.error(value);
+                    });
+                    if (typeof args.callback === 'function') {
+                        args.callback.call(self, res);
+                    }
+                }
+            };
+            self.httpRequest(request_data);
+        },
 
-								/**
+        deleteMilestone(milestone, callback) {
+            if (!confirm(this.text.milestone_delete_conf)) {
+                return;
+            }
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/' + self.project_id + '/milestones/' + milestone.id,
+                type: 'DELETE',
+                success: function (res) {
+                    self.$store.commit('afterDeleteMilestone', milestone.id);
+
+                    if (typeof callback === 'function') {
+                        callback.apply(res);
+                    }
+                }
+            };
+
+            self.httpRequest(request_data);
+        },
+
+        /**
          * Insert and edit task
          * 
          * @return void
          */
-								//  newMilestone: function() {
-								//      // Exit from this function, If submit button disabled 
-								//      if ( this.submit_disabled ) {
-								//          return;
-								//      }
+        //  newMilestone: function() {
+        //      // Exit from this function, If submit button disabled 
+        //      if ( this.submit_disabled ) {
+        //          return;
+        //      }
 
-								//      // Disable submit button for preventing multiple click
-								//      this.submit_disabled = true;
+        //      // Disable submit button for preventing multiple click
+        //      this.submit_disabled = true;
 
-								//      var self      = this,
-								//          is_update = typeof this.milestone.id == 'undefined' ? false : true,
-								//          form_data = {
-								//              title: this.milestone.title,
-								//              description: this.milestone.description,
-								//              achieve_date: this.due_date,
-								//              status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
-								//              order: '',
-								//          };
+        //      var self      = this,
+        //          is_update = typeof this.milestone.id == 'undefined' ? false : true,
+        //          form_data = {
+        //              title: this.milestone.title,
+        //              description: this.milestone.description,
+        //              achieve_date: this.due_date,
+        //              status: typeof this.milestone.status  === 'undefined' ? 'incomplete' : this.milestone.status,
+        //              order: '',
+        //          };
 
-								//      // Showing loading option 
-								//      this.show_spinner = true;
+        //      // Showing loading option 
+        //      this.show_spinner = true;
 
-								//      if (is_update) {
-								// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
-								// var type = 'PUT'; 
-								//      } else {
-								// var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
-								// var type = 'POST';
-								//      }
+        //      if (is_update) {
+        // var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+this.milestone.id;
+        // var type = 'PUT'; 
+        //      } else {
+        // var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones';
+        // var type = 'POST';
+        //      }
 
-								//      var request_data = {
-								//          url: url,
-								//          type: type,
-								//          data: form_data,
-								//          success (res) {
+        //      var request_data = {
+        //          url: url,
+        //          type: type,
+        //          data: form_data,
+        //          success (res) {
 
-								//          	self.getMilestones();
+        //           self.getMilestones();
 
-								//              self.show_spinner = false;
+        //              self.show_spinner = false;
 
-								//              // Display a success toast, with a title
-								//              pm.Toastr.success(res.data.success);
+        //              // Display a success toast, with a title
+        //              pm.Toastr.success(res.data.success);
 
-								//              self.submit_disabled = false;
+        //              self.submit_disabled = false;
 
-								//              if (is_update) {
+        //              if (is_update) {
 
-								//              	self.showHideMilestoneForm(false, self.milestone);
-								//              } else {
-								//              	self.showHideMilestoneForm(false);
-								//              }
+        //               self.showHideMilestoneForm(false, self.milestone);
+        //              } else {
+        //               self.showHideMilestoneForm(false);
+        //              }
 
-								//             	if ( self.section === 'milestones' ) {
-								//                 	self.afterNewMilestone(self, res, is_update);
-								//                 }
+        //              if ( self.section === 'milestones' ) {
+        //                  self.afterNewMilestone(self, res, is_update);
+        //                 }
 
-								//                 if ( self.section === 'single' ) {
-								//                 	//self.afterNewSingleMilestone(self, res, is_update);
-								//                 }
-								//          },
+        //                 if ( self.section === 'single' ) {
+        //                  //self.afterNewSingleMilestone(self, res, is_update);
+        //                 }
+        //          },
 
-								//          error (res) {
-								//              self.show_spinner = false;
+        //          error (res) {
+        //              self.show_spinner = false;
 
-								//              // Showing error
-								//              res.data.error.map( function( value, index ) {
-								//                  pm.Toastr.error(value);
-								//              });
-								//              self.submit_disabled = false;
-								//          }
-								//      }
+        //              // Showing error
+        //              res.data.error.map( function( value, index ) {
+        //                  pm.Toastr.error(value);
+        //              });
+        //              self.submit_disabled = false;
+        //          }
+        //      }
 
-								//      self.httpRequest(request_data);
-								//  },
+        //      self.httpRequest(request_data);
+        //  },
 
-								afterNewMilestone() {
-												var self = this;
+        afterNewMilestone() {
+            var self = this;
 
-												if (self.$route.params.current_page_number > 1) {
-																// named route
-																self.$router.push({
-																				name: 'milestones',
-																				params: {
-																								project_id: self.project_id
-																				}
-																});
-												}
-								},
-								/**
-            * Get task completed percentage from todo list
-            * 
-            * @param  array tasks
-            *  
-            * @return float       
-            */
-								getProgressPercent: function (list) {
+            if (self.$route.params.current_page_number > 1) {
+                // named route
+                self.$router.push({
+                    name: 'milestones',
+                    params: {
+                        project_id: self.project_id
+                    }
+                });
+            }
+        },
+        /**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function (list) {
 
-												if (typeof list == 'undefined') {
-																return 0;
-												}
+            if (typeof list == 'undefined') {
+                return 0;
+            }
 
-												var total_tasks = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks),
-												    //tasks.length,
-												completed_tasks = list.meta.total_complete_tasks,
-												    //this.countCompletedTasks( list ),
-												progress = 100 * completed_tasks / total_tasks;
+            var total_tasks = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks),
+                //tasks.length,
+            completed_tasks = list.meta.total_complete_tasks,
+                //this.countCompletedTasks( list ),
+            progress = 100 * completed_tasks / total_tasks;
 
-												return isNaN(progress) ? 0 : progress.toFixed(0);
-								},
+            return isNaN(progress) ? 0 : progress.toFixed(0);
+        },
 
-								/**
+        /**
          * Get task completed progress width
          * 
          * @param  array tasks 
          * 
          * @return obj       
          */
-								getProgressStyle: function (list) {
-												if (typeof list == 'undefined') {
-																return 0;
-												}
-												var width = this.getProgressPercent(list);
+        getProgressStyle: function (list) {
+            if (typeof list == 'undefined') {
+                return 0;
+            }
+            var width = this.getProgressPercent(list);
 
-												return { width: width + '%' };
-								},
-								humanDate(milestone) {
-												var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
-												due_date = new Date(due_date), due_date = pm.Moment(due_date).format();
+            return { width: width + '%' };
+        },
+        humanDate(milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            due_date = new Date(due_date), due_date = pm.Moment(due_date).format();
 
-												return pm.Moment(due_date).fromNow(true);
-								},
-								momentFormat(milestone) {
-												var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
-												due_date = new Date(due_date), due_date = pm.Moment(due_date).format();
+            return pm.Moment(due_date).fromNow(true);
+        },
+        momentFormat(milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            due_date = new Date(due_date), due_date = pm.Moment(due_date).format();
 
-												return due_date;
-								},
-								getDueDate(milestone) {
-												var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
-												var due_date = this.dateFormat(due_date);
+            return due_date;
+        },
+        getDueDate(milestone) {
+            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            var due_date = this.dateFormat(due_date);
 
-												return due_date;
-								},
-								templateAction() {
-												var blank, miltemp;
+            return due_date;
+        },
+        templateAction() {
+            var blank, miltemp;
 
-												var milestones = this.$store.state.milestones;
+            var milestones = this.$store.state.milestones;
 
-												if (milestones.length) {
-																blank = false;miltemp = true;
-												}
+            if (milestones.length) {
+                blank = false;miltemp = true;
+            }
 
-												if (!milestones.length) {
-																blank = true;miltemp = false;
-												}
+            if (!milestones.length) {
+                blank = true;miltemp = false;
+            }
 
-												this.$store.commit('balankTemplateStatus', blank);
-												this.$store.commit('milestoneTemplateStatus', miltemp);
-								}
+            this.$store.commit('balankTemplateStatus', blank);
+            this.$store.commit('milestoneTemplateStatus', miltemp);
+        }
 
-				}
+    }
 }));
 
 /***/ }),
@@ -4086,12 +4119,9 @@ var milestones = {
 
 "use strict";
 
-
 /**
  * Make sure to call  first if using a vuex module system
  */
-;
-
 /* harmony default export */ __webpack_exports__["a"] = (new pm.Vuex.Store({
 
 	state: {
@@ -4201,7 +4231,6 @@ var milestones = {
 /***/ (function(module, exports) {
 
 
-
 /**
  * Required jQuery methods 
  * 
@@ -4209,7 +4238,6 @@ var milestones = {
  */
 var PM_Overview = {
 	chart: function (el, binding, vnode) {
-		var $ = jQuery;
 		var activity = vnode.context.text.activity,
 		    Task = vnode.context.text.task;
 		var data = {
@@ -4302,7 +4330,6 @@ var PM_Overview = {
 
 "use strict";
 
-
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
 		getOverViews(condition) {
@@ -4352,11 +4379,9 @@ const overview = resolve => {
 
 "use strict";
 
-
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
-
 /* harmony default export */ __webpack_exports__["a"] = (new pm.Vuex.Store({
 
 	state: {
@@ -4530,7 +4555,6 @@ var completed = {
 
 "use strict";
 
-
 /* unused harmony default export */ var _unused_webpack_default_export = (pm.Vue.mixin({
 	methods: {
 		saveSettings(settings, callback) {
@@ -4614,7 +4638,6 @@ var email = {
 /***/ }),
 /* 329 */
 /***/ (function(module, exports) {
-
 
 
 /**
@@ -4790,7 +4813,6 @@ pm.Vue.directive('prevent-line-break', {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
 
 /**
 * Global jQuery action for this component
@@ -5913,6 +5935,20 @@ window.PM_Component_jQuery = {
             this.getTasks(list.id, condition, function (res) {
                 list.task_loading_status = false;
             });
+        },
+        listTemplateAction() {
+            var lists = this.$store.state.lists,
+                blank,
+                listTmpl;
+
+            if (lists.length) {
+                blank = false;listTmpl = true;
+            } else {
+                blank = true;listTmpl = false;
+            }
+
+            this.$store.commit('balankTemplateStatus', blank);
+            this.$store.commit('listTemplateStatus', listTmpl);
         }
     }
 };
@@ -5990,11 +6026,9 @@ var single_list = {
 
 "use strict";
 
-
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
-
 /* harmony default export */ __webpack_exports__["a"] = (new pm.Vuex.Store({
     /**
      * Assign global property
@@ -6007,6 +6041,8 @@ var single_list = {
         list_comments: [],
         lists_meta: {},
         init: {},
+        balankTemplateStatus: false,
+        listTemplateStatus: false,
         is_single_list: true,
         project_users: [],
         loading: true,
@@ -6165,8 +6201,8 @@ var single_list = {
 
         afterNewTask(state, data) {
             var list_index = state.getIndex(state.lists, data.list_id, 'id');
-
             if (data.task.status === 'incomplete') {
+
                 if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
                     state.lists[list_index].incomplete_tasks.data.splice(0, 0, data.task);
                 } else {
@@ -6329,7 +6365,6 @@ var single_list = {
          * @return void       
          */
         single_task_popup: function (state) {
-            console.log('aldkjadsk');
             state.task = task.task;
         },
 
@@ -6394,7 +6429,6 @@ var single_list = {
         insert_tasks: function (state, task) {
 
             task.tasks.tasks.forEach(function (task_obj) {
-                //console.log(task);
                 state.lists[task.list_index].tasks.push(task_obj);
             });
             //state.lists[task.list_index].tasks = task.tasks.tasks;
@@ -6451,18 +6485,6 @@ var single_list = {
 
         setLists(state, lists) {
             state.lists = lists;
-            // if(state.lists.length > 0){
-            //     lists.forEach(function(list){
-
-            //         var list_index = state.getIndex(state.lists, list.id, 'id');
-            //         if(list_index === false){
-            //              state.lists.push(list);
-            //         }
-
-            //     })
-            // }else{
-
-            //}
         },
         setList(state, list) {
             state.lists = [list];
@@ -6551,14 +6573,18 @@ var single_list = {
                 //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1, data.task);
 
                 //jQuery.extend(true, data.task, state.lists[list_index].incomplete_tasks.data[task_index] );
-
-                console.log(state.lists[list_index].incomplete_tasks);
             }
 
             if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = data.edit_mode;
             }
+        },
+        balankTemplateStatus(state, status) {
+            state.balankTemplateStatus = status;
+        },
+        listTemplateStatus(state, status) {
+            state.listTemplateStatus = status;
         }
     }
 }));
@@ -7246,7 +7272,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9bed64e4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__ = __webpack_require__(418);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d5e557fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__ = __webpack_require__(420);
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
@@ -7263,13 +7289,13 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __vue_script__,
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9bed64e4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d5e557fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "views/assets/src/project-lists/index.vue"
+Component.options.__file = "views/assets/src/projects/index.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -7279,9 +7305,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9bed64e4", Component.options)
+    hotAPI.createRecord("data-v-d5e557fa", Component.options)
   } else {
-    hotAPI.reload("data-v-9bed64e4", Component.options)
+    hotAPI.reload("data-v-d5e557fa", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -7297,7 +7323,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_index_vue__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c8084928_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__ = __webpack_require__(419);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c8084928_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_index_vue__ = __webpack_require__(418);
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
@@ -9300,38 +9326,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("router-view", { attrs: { name: "project-lists" } }),
-      _vm._v(" "),
-      _c("router-view", { attrs: { name: "completed-projects" } }),
-      _vm._v(" "),
-      _c("router-view", { attrs: { name: "all-projects" } })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9bed64e4", esExports)
-  }
-}
-
-/***/ }),
-/* 419 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
   return _c("p", [_vm._v("Hi i am reports")])
 }
 var staticRenderFns = []
@@ -9346,7 +9340,7 @@ if (false) {
 }
 
 /***/ }),
-/* 420 */
+/* 419 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9399,6 +9393,38 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-ca61d7fa", esExports)
+  }
+}
+
+/***/ }),
+/* 420 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("router-view", { attrs: { name: "project-lists" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "completed-projects" } }),
+      _vm._v(" "),
+      _c("router-view", { attrs: { name: "all-projects" } })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d5e557fa", esExports)
   }
 }
 

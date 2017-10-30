@@ -108,6 +108,7 @@ return [
 			'pm-tiny-mce',
 			// 'pm-toastr',
 			'jquery-ui-sortable',
+
 			// 'pm-chart'
 		],
 		'in_footer'  => true

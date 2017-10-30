@@ -1,5 +1,4 @@
 
-
 /**
  * Required jQuery methods 
  * 

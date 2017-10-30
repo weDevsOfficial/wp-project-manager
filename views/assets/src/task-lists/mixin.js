@@ -1,5 +1,4 @@
 
-
  /**
  * Global jQuery action for this component
  */
@@ -1155,6 +1154,19 @@ var PM_Task_Mixin = {
                 list.task_loading_status = false;
                                 
             });
+
+        },
+        listTemplateAction(){
+            var lists = this.$store.state.lists, blank, listTmpl;
+
+            if(lists.length){
+                blank = false; listTmpl = true;
+            }else{
+                blank = true; listTmpl = false;
+            }
+
+            this.$store.commit('balankTemplateStatus', blank);
+            this.$store.commit('listTemplateStatus', listTmpl);
 
         }
     }

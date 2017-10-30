@@ -1,5 +1,5 @@
 
-import {active, all, completed} from './../project-lists/router';
+import {active, all, completed} from './../projects/router';
 import categories from './../categories/router';
 import add_ons from './../add-ons/router';
 import my_tasks from './../my-tasks/router';

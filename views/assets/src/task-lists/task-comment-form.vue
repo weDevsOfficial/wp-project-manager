@@ -1,5 +1,5 @@
 <template>
-	<form class="pm-comment-form-vue" @submit.prevent="updateComment()">
+	<form class="pm-comment-form-vue" @submit.prevent="taskCommentAction()">
 
         <div class="item message pm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
@@ -90,93 +90,51 @@
 		},
 		methods: {
 
-			updateComment () {
-	        	// Exit from this function, If submit button disabled 
-		        if ( this.submit_disabled ) {
-		            return;
-		        }
+			taskCommentAction () {
+	   			// Prevent sending request when multiple click submit button 
+              if ( this.submit_disabled ) {
+                  return;
+              }
 
-		         //console.log(new File( [this.files[0].thum], this.files[0].name, { type: 'image/png'} ), this.pfiles[0]);
-				var data = new FormData();
-				
-		        // Disable submit button for preventing multiple click
-		        this.submit_disabled = true;
-		        // Showing loading option 
-		        this.show_spinner = true;
+	             // Disable submit button for preventing multiple click
+	            this.submit_disabled = true;
+	            // Showing loading option 
+	            this.show_spinner = true;
+	            var self = this;
 
+	            var args = {
+	            	data: {
+	                  commentable_id: self.task_id,
+	                  content: self.comment.content,
+	                  commentable_type: 'task',
+	                  deleted_files: self.deleted_files || [],
+	                  files: self.files || [],
+	                },
+	            }
 
-		        var self      = this,
-		            is_update = typeof this.comment.id == 'undefined' ? false : true;
-		            
-	            data.append('content', self.comment.content);
-	            data.append('commentable_id', self.task_id);
-	            data.append('commentable_type', 'task');
-	            
-	            
-	            this.deleted_files.map(function(del_file) {
-	            	data.append('files_to_delete[]', del_file);
-	            });
-	            
+	            if(typeof this.comment.id !== 'undefined' ){
+	            	args.data.id = this.comment.id;
+	            	args.callback = function(res){
+	            		var index = self.getIndex( self.comments, self.comment.id, 'id' );
+		                self.comments.splice(index, 1, res.data);
 
-	            this.files.map(function(file) {
-	            	if ( typeof file.attachment_id === 'undefined' ) {
-	            		var decode = self.dataURLtoFile(file.thumb, file.name);
-						data.append( 'files[]', decode );
+	            		self.submit_disabled = false;
+		          		self.show_spinner = false;
+		          		self.files = []; self.deleted_files = [];
 	            	}
-				});
-  
-		        
-		        if (is_update) {
-		            var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+this.comment.id;
-		            var type = 'POST'; 
-		        } else {
-		            var url = self.base_url + '/pm/v2/projects/'+self.project_id+'/comments';
-		            var type = 'POST';
-		        }
 
-		        var request_data = {
-		            url: url,
-		            type: type,
-		            data: data,
-		            cache: false,
-        			contentType: false,
-        			processData: false,
-		            success (res) {
+	            	self.updateComment ( args );
+	            }else{
 
-		                self.addMeta(res.data);
-		                self.show_spinner = false;
-
-		                if (is_update) {
-		                	var index = self.getIndex( self.comments, self.comment.id, 'id' );
-		                	self.comments.splice(index, 1, res.data);
-		                } else {
-		                	self.comments.splice(0, 0, res.data);
-		                }
-
-		                // Display a success toast, with a title
-		                pm.Toastr.success(res.data.success);
-		           
-		                self.submit_disabled = false;
-		                //self.showHideTaskCommentForm(false, self.comment);
-		            },
-
-		            error (res) {
-		                self.show_spinner = false;
-		                
-		                // Showing error
-		                res.data.error.map( function( value, index ) {
-		                    pm.Toastr.error(value);
-		                });
-		                self.submit_disabled = false;
-		            }
-		        }
-
-		        self.httpRequest(request_data);
-	        },
-
-	       	addMeta (comment) {
-	        	comment.edit_mode = false;
-	        },
+	            	args.callback = function ( res ) {
+	            		self.comments.splice(0, 0, res.data);
+	            		self.submit_disabled = false;
+		          		self.show_spinner = false;
+		          		self.files = []; self.deleted_files = [];
+	            	}
+	            	self.addComment ( args );
+	            }
+	   		}
 		}
 	}
 </script>
