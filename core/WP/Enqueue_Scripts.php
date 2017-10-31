@@ -5,12 +5,12 @@ namespace WeDevs\PM\Core\WP;
 class Enqueue_Scripts {
 
 	public static function scripts() {
-		ob_start();
-		$assets_path = config('frontend.view_path');
-		include $assets_path . '/assets/js/moment/latest.json';
-        $time_zone_string      = ob_get_clean();
+		// ob_start();
+		// $assets_path = config('frontend.view_path');
+		// include $assets_path . '/assets/js/moment/latest.json';
+  		// $time_zone_string      = ob_get_clean();
 
-        $json_time_zone_string = json_decode( $time_zone_string, true );
+        //$json_time_zone_string = json_decode( $time_zone_string, true );
 
 		$scripts_id = [
 			'pm-config',
@@ -31,8 +31,8 @@ class Enqueue_Scripts {
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
-			'time_zones'               => $json_time_zone_string['zones'],
-			'time_links'               => $json_time_zone_string['links'],
+			//'time_zones'               => $json_time_zone_string['zones'],
+			//'time_links'               => $json_time_zone_string['links'],
 			'rest_api_prefix'          => rest_get_url_prefix(),
 			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
 			'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),

@@ -98,18 +98,12 @@ return [
 			'pm-config',
 			'jquery', 
 			'underscore',
-			// 'pm-moment-timezone',
-			//'pm-upload',
+			'plupload-handlers',
 			'jquery-ui-datepicker',
-			// 'pm-timepicker',
-			// 'pm-nprogress', 
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',
 			'pm-tiny-mce',
-			// 'pm-toastr',
 			'jquery-ui-sortable',
-
-			// 'pm-chart'
 		],
 		'in_footer'  => true
 	]
