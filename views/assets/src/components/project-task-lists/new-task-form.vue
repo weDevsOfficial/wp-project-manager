@@ -80,9 +80,12 @@
 	            assigned_to: []
 	        }
 	    },
-
+	    created ()
+	    {
+	    	console.log(pm.Multiselect)
+	    },
 	    components: {
-	    	'multiselect': pm.Multiselect,
+	    	'multiselect': pm.Multiselect.Multiselect,
 	    	'pm-datepickter': date_picker
 	    },
 

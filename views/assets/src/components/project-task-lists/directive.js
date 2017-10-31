@@ -110,26 +110,26 @@ var PM_Task = {
             }
         });
 
-        $( ".pm-date-time-picker-from" ).datetimepicker({
+        $( ".pm-date-time-picker-from" ).datepicker({
             dateFormat: 'yy-mm-dd',
             changeYear: true,
             changeMonth: true,
             numberOfMonths: 1,
             onClose: function( selectedDate ) {
-                $( ".pm-date-time-picker-to" ).datetimepicker( "option", "minDate", selectedDate );
+                $( ".pm-date-time-picker-to" ).datepicker( "option", "minDate", selectedDate );
             },
             onSelect: function(dateText) {
                 
             }
         });
 
-        $( ".pm-date-time-picker-to" ).datetimepicker({
+        $( ".pm-date-time-picker-to" ).datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
             numberOfMonths: 1,
             onClose: function( selectedDate ) {
-                $( ".pm-date-time-picker-from" ).datetimepicker( "option", "maxDate", selectedDate );
+                $( ".pm-date-time-picker-from" ).datepicker( "option", "maxDate", selectedDate );
             },
             onSelect: function(dateText) {
                

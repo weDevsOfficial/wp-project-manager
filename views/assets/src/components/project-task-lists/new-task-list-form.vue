@@ -123,7 +123,7 @@
 	            		id: self.list.id,
 		            	title : self.list.title,
 		            	description: self.list.description,
-		            	milestone: self.list.milestone,
+		            	milestone: self.milestone_id,
 		            	order: self.list.order
 	            	},
 	            	callback: function(res){

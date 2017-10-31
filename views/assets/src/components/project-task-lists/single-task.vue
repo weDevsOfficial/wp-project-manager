@@ -308,7 +308,7 @@
 
 	    components: {
 	    	'task-comments': comments,
-	    	'multiselect': pm.Multiselect
+	    	'multiselect': pm.Multiselect.Multiselect
 	    },
 
 	    created: function() {

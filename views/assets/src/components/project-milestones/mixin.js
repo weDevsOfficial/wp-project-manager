@@ -150,7 +150,7 @@ export default pm.Vue.mixin({
                     
                     self.$store.commit('newMilestone', res.data);
                     // Display a success toast, with a title
-                    toastr.success(res.data.success);
+                    pm.Toastr.success(res.data.success);
 
                     self.$root.$emit( 'after_comment' );
                     self.templateAction();
@@ -167,7 +167,7 @@ export default pm.Vue.mixin({
                 error (res) {
                     // Showing error
                     res.data.error.map( function( value, index ) {
-                        toastr.error(value);
+                        pm.Toastr.error(value);
                     });
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);

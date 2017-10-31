@@ -34,9 +34,8 @@
                     </h3>
                     <div class="pm-entry-detail">
                         <div v-html="discuss.description"></div>
-
-                        <ul class="pm-attachments" v-if="files.length">
-                            <li v-for="file in files">
+                        <ul class="pm-attachments" v-if="discuss.files.data.length">
+                            <li v-for="file in discuss.files.data">
                                 <a class="pm-colorbox-img" :href="file.url" :title="file.name" target="_blank">
                                     <img :src="file.thumb" :alt="file.name">
                                 </a>
