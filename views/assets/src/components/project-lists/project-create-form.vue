@@ -1,7 +1,7 @@
 <template>
 <div>
 
-	<form action="" method="post" class="pm-project-form" @submit.prevent="selfNewProject();">
+	<form action="" method="post" class="pm-project-form" @submit.prevent="projectFormAction();">
 
 		<div class="pm-form-item project-name">
 			<!-- v-model="project_name" -->
@@ -166,42 +166,50 @@
 					}
 				);
 			},
-
-			selfNewProject () {
+			/**
+			 * Action after submit the form to save and update
+			 * @return {[void]} 
+			 */
+			projectFormAction () {
 				this.show_spinner = true;
+				var args = {
+					data: {
+						'title': this.project.title,
+						'categories': [this.project_cat],
+						'description': this.project.description,
+						'notify_users': this.project_notify,
+						'assignees': this.formatUsers(this.selectedUsers),
+						'status': this.project.status,
+					}	
+				}
+
 				var self = this;
 				if (this.is_update) {
-					this.updateSelfProject();
-				} else {
-					this.newProject(function(){
+					args.data.id = this.project.id;
+					args.callback = function ( res ){
 						self.show_spinner = false;
-					});
+					}
+					this.updateProject ( args );
+				} else {
+					args.callback = function(res){
+						self.show_spinner = false;
+						self.$router.push({
+              name: 'pm_overview', 
+              params: { 
+                project_id: res.data.id 
+              }
+            });
+					}
+					this.newProject(args);
 				}
-			},
-
-			updateSelfProject () {
-				var data = {
-					'id': this.project.id,
-					'title': this.project.title,
-                    'categories': [this.project_cat],
-                    'description': this.project.description,
-                    'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.selectedUsers),
-                    'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
-                },
-                self = this;
-
-                self.updateProject(data, function(res) {
-                	self.show_spinner = false;
-                });	
 			},
 			setProjectUser () {
 				var projects = this.$root.$store.state.projects;
-                var index = this.getIndex(projects, this.project_id, 'id');
-                
-                if ( index !== false && this.is_update ) {
-                	this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
-                } 
+        var index = this.getIndex(projects, this.project_id, 'id');
+        
+        if ( index !== false && this.is_update ) {
+        	this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
+        } 
 			}
 		}
 	}

@@ -23,37 +23,44 @@
 			jQuery.ajax(property);
 		},
 
-        newProject (callback) {
-            var self = this;
+        /**
+         * Create a new project 
+         * @param  {[Object]} args data with callback
+         * @return {viod}      [description]
+         */
+        newProject (args) {
+            var self = this,
+            pre_define = {
+                data: {
+                    title : '',
+                    categories : '',
+                    description: '',
+                    notify_users: '',
+                    assignees: '',
+                    status: 'incomplete'
+                },
+                callback: false,
+            },
+            args = jQuery.extend(true, pre_define, args );
 
             var request = {
                 type: 'POST',
-
                 url: this.base_url + '/pm/v2/projects/',
-
-                data: {
-                    'title': this.project.title,
-                    'categories': [this.project_cat],
-                    'description': this.project.description,
-                    'notify_users': this.project_notify,
-                    'assignees': this.formatUsers(this.selectedUsers),
-                    'status': typeof this.project.status === 'undefined' ? 'incomplete' : this.project.status,
-                },
-
+                data: args.data,
                 success: function(res) {
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
                     jQuery( "#pm-project-dialog" ).dialog("close");
 
-                    if(typeof callback !== 'undefined'){
-                        callback(res);
+                    if(typeof args.callback === 'function'){
+                        args.callback.call(self, res);
                     }
                 },
 
                 error: function(res) {
-                    if(typeof callback !== 'undefined'){
-                        callback(res);
+                    if(typeof args.callback === 'function'){
+                        args.callback.call(self, res);
                     }
                 }
             };
@@ -74,16 +81,26 @@
             return format_users;
         },
 
-        updateProject (project, callback) {
-            var self = this;
+        updateProject (args) {
+            var self = this,
+            pre_define = {
+              data: {
+                id: '',
+                title : '',
+                categories : '',
+                description: '',
+                notify_users: '',
+                assignees: '',
+                status: 'incomplete'
+              },
+              callback: false,
+            },
+            args = jQuery.extend(true, pre_define, args );
 
             var request = {
                 type: 'PUT',
-
-                url: this.base_url + '/pm/v2/projects/'+ project.id,
-
-                data: project,
-
+                url: this.base_url + '/pm/v2/projects/'+ args.data.id,
+                data: args.data,
                 success: function(res) {
                     
                     self.$root.$store.commit('updateProject', res.data);
@@ -91,13 +108,15 @@
                     self.showHideProjectForm(false);
                     jQuery( "#pm-project-dialog" ).dialog("close");
                     self.resetSelectedUsers();
-                    if ( typeof callback !== 'undefined' ) {
-                        callback(res.data);
+                    if(typeof args.callback === 'function'){
+                        args.callback.call(self, res);
                     }
                 },
 
                 error: function(res) {
-                    
+                    if(typeof args.callback === 'function'){
+                        args.callback.call(self, res);
+                    }                    
                 }
             };
             
