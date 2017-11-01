@@ -93,7 +93,7 @@
                     var today   = pm.Moment().format( 'YYYY-MM-DD' ),
                         due_day = pm.Moment( due_date ).format( 'YYYY-MM-DD' );
 
-                    return pm.Moment(due_day).isAfter(today) ? milestone : false;
+                    return pm.Moment(due_day).isSameOrAfter(today) ? milestone : false;
                 });
 
 
