@@ -149,6 +149,7 @@ export default pm.Vue.mixin({
                     self.addMeta(res.data);
                     
                     self.$store.commit('newMilestone', res.data);
+                    self.$root.$store.state.milestones_load = false;
                     // Display a success toast, with a title
                     pm.Toastr.success(res.data.success);
 
@@ -186,6 +187,7 @@ export default pm.Vue.mixin({
             var self = this,
             pre_define = {
                 data: {
+                    id: '',
                     title : '',
                     description: '',
                     achieve_date: '',
@@ -197,14 +199,15 @@ export default pm.Vue.mixin({
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+milestone.id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+args.data.id,
                 type: 'PUT',
-                data: data,
+                data: args.data,
                 success (res) {
                     self.addMeta(res.data);
 
                     // update milestone 
                     self.$store.commit('updateMilestone', res.data);
+                    self.$root.$store.state.milestones_load = false;
                    
                     // Display a success toast, with a title
                     pm.Toastr.success(res.data.success);
@@ -245,6 +248,7 @@ export default pm.Vue.mixin({
                 type: 'DELETE',
                 success: function(res) {
                     self.$store.commit('afterDeleteMilestone', milestone.id);
+                    self.$root.$store.state.milestones_load = false;
 
                     if(typeof callback === 'function'){
                         callback.apply(res);

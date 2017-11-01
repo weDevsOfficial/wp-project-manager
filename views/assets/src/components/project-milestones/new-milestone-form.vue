@@ -100,7 +100,7 @@
 				}
 
 				if( typeof this.milestone.id !== 'undefined' ){
-					args.id = this.milestone.id;
+					args.data.id = this.milestone.id;
 					args.callback = function ( res ) {
 							self.showHideMilestoneForm(false, self.milestone);
 							self.show_spinner = false;

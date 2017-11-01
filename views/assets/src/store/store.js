@@ -7,6 +7,7 @@ export default new pm.Vuex.Store({
 		categories: [],
 		roles: [],
 		milestones: [],
+		milestones_load: false,
 		is_project_form_active: false,
 		projects_meta: {},
 		pagination: {},
@@ -122,6 +123,7 @@ export default new pm.Vuex.Store({
 
 		setMilestones(state, milestones){
 			state.milestones = milestones;
+			state.milestones_load = true;
 		}
 	}
 	

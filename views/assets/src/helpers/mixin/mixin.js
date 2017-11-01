@@ -436,28 +436,28 @@
          * @return {[type]}            [milestone]
          */
         getGlobalMilestones (callback) {
-            var self = this,
-            milestones = this.$root.$store.state.milestones;
+          var self = this,
+          milestones = this.$root.$store.state.milestones,
+          milestones_load = self.$root.$store.state.milestones_load;
 
-            if(milestones.length){
-                if(typeof callback === 'function' ){
-                    callback.apply(milestones);
-                }
-
-                return milestones;
+          if(milestones_load){
+            if(typeof callback === 'function' ){
+                callback.call(self, milestones);
             }
-
+            return milestones;
+          }else {
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-                success (res) {
-                    self.$root.$store.commit( 'setMilestones', res.data );
+              url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+              success (res) {
+                self.$root.$store.commit( 'setMilestones', res.data );
 
-                    if (typeof callback === 'function') {
-                        args.callback(res.data);
-                    }
+                if (typeof callback === 'function') {
+                  callback.call( self, res.data);
                 }
+              }
             };
             self.httpRequest(request);
+          }    
         }
 	}
 });
