@@ -77,7 +77,7 @@
                     </li>
                 </ul>
 
-                <router-view name="single_task"></router-view>
+                <router-view name="single-task"></router-view>
 
                 <list-comments :comments="comments" :list="list"></list-comments>
             </div>

@@ -9,11 +9,11 @@
                         
                             <router-link 
                             :to="{ 
-                                name: 'single_task', 
+                                name: route_name, 
                                 params: { 
                                     list_id: list.id, 
                                     task_id: task.id, 
-                                    project_id: 1, 
+                                    project_id: project_id, 
                                     task: task 
                             }}">
 
@@ -67,6 +67,15 @@
         props: ['task', 'list'],
         components: {
             'new-task-form': new_task_form,
+        },
+        computed: {
+            route_name (){
+                if( this.$route.name === 'single_list' ){
+                    return 'single_task'
+                }
+
+                return 'lists_single_task'
+            }
         },
         methods: {
             is_assigned: function(task) {

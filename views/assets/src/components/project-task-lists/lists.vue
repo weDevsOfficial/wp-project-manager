@@ -169,8 +169,8 @@
 	import new_task_list_btn from './new-task-list-btn.vue';
 	import new_task_list_form from './new-task-list-form.vue';
 	import new_task_button from './new-task-btn.vue';
-	import pagination from './../common/pagination.vue';
-	import header from './../common/header.vue';
+	import pagination from '@components/common/pagination.vue';
+	import header from '@components/common/header.vue';
 	import tasks from './list-tasks.vue';
 	import default_page from './default-list-page.vue';
 	
@@ -202,14 +202,21 @@
 	            list: {},
 	            index: false,
 	            project_id: this.$route.params.project_id,
-	            current_page_number: 1,
+	            current_page_number: this.$route.params.current_page_number || 1,
 	            loading: true,
 	        }
 	    },
 
 	    watch: {
             '$route' (route) {
-                this.getSelfLists();
+            	if(route.name === 'lists_single_task'){
+                	return ;
+            	}
+	        	if(this.current_page_number !== route.params.current_page_number ) {
+	        		this.getSelfLists();
+	        		this.current_page_number = route.params.current_page_number;
+	        	}
+            	
             }
 	    },
 

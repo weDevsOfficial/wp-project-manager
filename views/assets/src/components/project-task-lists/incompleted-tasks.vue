@@ -5,33 +5,21 @@
                 <div class="pm-col-7">
                    <input :disabled="!is_assigned(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
-                    <span v-if="is_single_list">
+                    <span class="task-title">
                         <router-link 
                         	:to="{ 
-                            	name: 'lists_single_task', 
-                            	params: { 
-                                	list_id: list.id, 
-                                	task_id: task.id, 
-                                	project_id: project_id, 
-                                	task: task 
+                                name: route_name, 
+                                params: { 
+                                    list_id: list.id, 
+                                    task_id: task.id, 
+                                    project_id: project_id, 
+                                    task: task 
                             }}">
 
                         	{{ task.title }}
                     	</router-link>
                     
-                    </span>
-                    <span v-else>
-                        <router-link exact 
-                        	:to="{ 
-                            	name: 'lists_single_task', 
-                            	params: { 
-                                	task_id: task.id, 
-                                	project_id: project_id, 
-                            }}">
-
-                        	{{ task.title }}
-                        </router-link>
-                    </span>
+                    </span>                 
 
                     <span :class="privateClass( task )"></span>
 
@@ -53,12 +41,13 @@
                         <span>
                             <router-link 
                             	:to="{ 
-                            		name: 'lists_single_task', 
-                            		params: { 
-                            			list_id: list.id, 
-                            			task_id: task.id
-                            		}
-                            	}">
+                                    name: route_name, 
+                                    params: { 
+                                        list_id: list.id, 
+                                        task_id: task.id, 
+                                        project_id: project_id, 
+                                        task: task 
+                                }}">
 
                                 <span class="pm-comment-count">
                                     {{ task.meta.total_comment }}
@@ -98,6 +87,15 @@
 		components: {
 			'new-task-form': new_task_form,
 		},
+        computed: {
+            route_name (){
+                if( this.$route.name === 'single_list' ){
+                    return 'single_task'
+                }
+
+                return 'lists_single_task'
+            }
+        },
 		methods: {
 	        is_assigned: function(task) {
 	            return true;

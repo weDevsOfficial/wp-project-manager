@@ -312,8 +312,7 @@
 	    },
 
 	    created: function() {
-	        window.addEventListener('click', this.windowActivity);
-	        
+	        window.addEventListener('click', this.windowActivity);  
 	        this.$root.$on('pm_date_picker', this.fromDate);
 	    },
 
@@ -432,14 +431,7 @@
 	        },
 
 	        closePopup: function() {
-	        	var self = this;
-	            // named route
-				self.$router.push({ 
-					name: 'task_lists', 
-					params: { 
-						project_id: self.project_id 
-					}
-				});
+	            this.$router.go(-1)
 	        },
 
 	        singleTaskTitle: function(task) {
