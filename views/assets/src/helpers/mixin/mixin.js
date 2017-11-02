@@ -458,6 +458,33 @@
             };
             self.httpRequest(request);
           }    
+        },
+
+        loadingStart (id, args) {
+            var pre_define = {
+                // loading text
+                text: '', 
+
+                // from 0 to 100 
+                percent: '', 
+
+                // duration in ms
+                duration: '', 
+
+                // z-index property
+                zIndex: '', 
+
+                // sets relative position to preloader's parent
+                setRelative: false 
+
+            };
+            var args = jQuery.extend(true, pre_define, args);
+
+            jQuery('#'+id).preloader(args);
+        },
+
+        loadingStop (id) {
+            jQuery('#'+id).preloader('remove');
         }
 	}
 });

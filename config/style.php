@@ -27,6 +27,11 @@ return [
 		'url'        => site_url( '/wp-includes/css/editor.css' ),
 		'dependency' => false,
 	],
+	'pm-loading' => [
+		'id'         => 'pm-loading',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/Elegant-Loading-Indicator/preloader.css',
+		'dependency' => false,
+	],
 	'pm-style' => [
 		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
@@ -36,6 +41,7 @@ return [
 			'pm-fontawesome',
 			'pm-jquery-ui',
 			'pm-tiny-mce',
+			'pm-loading'
 		],
 	],
 ];

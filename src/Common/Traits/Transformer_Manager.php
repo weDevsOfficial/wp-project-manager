@@ -15,7 +15,7 @@ trait Transformer_Manager {
         if ( isset( $_GET['with'] ) ) {
             $manager->parseIncludes( $_GET['with'] );
         }
-
+        
         return $manager->createData( $resource )->toArray();
     }
 
