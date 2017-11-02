@@ -18,6 +18,8 @@ class Enqueue_Scripts {
 		];
 
 		foreach ( $scripts_id as $script_id ) {
+			global $wedevs_pm_pro;
+			
 			do_action( 'before_loaded' . $script_id );
 			
 			wp_enqueue_script( $script_id );
@@ -51,10 +53,11 @@ class Enqueue_Scripts {
                 'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
                 'resize'              => array( 'width' => ( int ) get_option( 'large_size_w' ), 'height' => ( int ) get_option( 'large_size_h' ), 'quality' => 100 )
             ),
-            'roles' => pm_get_wp_roles(),
-            'settings' => pm_get_settings(),
-            'text' => pm_get_text('common'),
-            'dir_url' => config('frontend.url')
+			'roles'    => pm_get_wp_roles(),
+			'settings' => pm_get_settings(),
+			'text'     => pm_get_text('common'),
+			'dir_url'  => config('frontend.url'),
+			'is_pro'   => $wedevs_pm_pro
         ));
 	}
 

@@ -1,7 +1,4 @@
 <template>
-
-        
-
     <div class="wrap pm pm-front-end">
         
         <project-header></project-header>
@@ -94,7 +91,6 @@
 
         methods: {
             projectQuery () {
-                
                 var add_query = {
                     status: 'incomplete'
                 }

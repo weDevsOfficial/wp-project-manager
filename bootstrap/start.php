@@ -11,6 +11,7 @@
 | loading of any our classes "manually". Feels great to relax.
 |
 */
+global $wedevs_pm_pro;
 
 add_action( 'init', function() { 
     require __DIR__.'/../vendor/autoload.php';

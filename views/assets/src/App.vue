@@ -9,8 +9,8 @@
 		<pm-task-lists></pm-task-lists>
 		<pm-files></pm-files>
 		<pm-settings></pm-settings>
+		<pm-my-tasks></pm-my-tasks>
 		<router-view name="add-ons"></router-view>
-		<router-view name="my-tasks"></router-view>
 		<router-view name="calendar"></router-view>
 		<router-view name="reports"></router-view>
 		<router-view name="progress"></router-view>
@@ -31,6 +31,7 @@
 	import files from './components/project-files/index.vue';
 	import do_action from './components/common/do-action.vue';
 	import settings from './components/settings/index.vue';
+	import my_tasks from './components/my-tasks/index.vue';
 
 	export default {
 		components: {
@@ -43,7 +44,8 @@
 			'pm-task-lists': task_lists,
 			'pm-files': files,
 			'do-action': do_action,
-			'pm-settings': settings
+			'pm-settings': settings,
+			'pm-my-tasks': my_tasks
 		}
 		
 	}

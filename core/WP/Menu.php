@@ -16,9 +16,9 @@ class Menu {
 
 		$submenu['pm_projects'][] = [ __( 'Projects', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
 		$submenu['pm_projects'][] = [ __( 'Categories', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
-		$submenu['pm_projects'][] = [ __( 'Add-ons', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/add-ons' ];
 		$submenu['pm_projects'][] = [ __( 'My Tasks', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
 		$submenu['pm_projects'][] = [ __( 'Calendar', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/calendar' ];
+		$submenu['pm_projects'][] = [ __( 'Add-ons', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/add-ons' ];
 		$submenu['pm_projects'][] = [ __( 'Reports', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
 		$submenu['pm_projects'][] = [ __( 'Progress', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/settings' ];
