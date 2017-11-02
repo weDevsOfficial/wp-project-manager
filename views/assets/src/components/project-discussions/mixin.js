@@ -129,6 +129,7 @@ export default pm.Vue.mixin({
             data.append('title', args.title);
             data.append('description', args.description);
             data.append('milestone', args.milestone_id);
+            data.append('notify_users', args.notify_users);
             data.append('order', 0);
             
             args.deleted_files.map(function(del_file) {
@@ -199,6 +200,7 @@ export default pm.Vue.mixin({
             data.append('title', args.title);
             data.append('description', args.description);
             data.append('milestone', args.milestone_id);
+            data.append('notify_users', args.notify_users);
             data.append('order', 0);
             
             args.deleted_files.map(function(del_file) {
@@ -270,6 +272,7 @@ export default pm.Vue.mixin({
             data.append('content', args.content );
             data.append('commentable_id', args.commentable_id );
             data.append('commentable_type', args.commentable_type); //'discussion-board'
+            data.append('notify_users', args.notify_users);
 
             args.files.map(function(file) {
             	if ( typeof file.attachment_id === 'undefined' ) {
@@ -344,6 +347,7 @@ export default pm.Vue.mixin({
             data.append('content', args.content );
             data.append('commentable_id', args.commentable_id );
             data.append('commentable_type', args.commentable_type); //'discussion-board'
+            data.append('notify_users', args.notify_users);
             
             args.deleted_files.map(function(del_file) {
             	data.append('files_to_delete[]', del_file);

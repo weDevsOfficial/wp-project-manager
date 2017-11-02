@@ -48,7 +48,7 @@
 
 
                 <div class="pm-col-1 pm-todo-action-right pm-last-col">
-                    <a href="#" @click.prevent="deleteTask(task, list)" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
+                    <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
             </div>

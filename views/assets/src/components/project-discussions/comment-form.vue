@@ -6,26 +6,7 @@
             </div>
             
             <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-            <div class="notify-users">
-                
-                <h2 class="pm-box-title"> 
-                    {{text.notify_user}}            
-                    <label class="pm-small-title" for="select-all"> 
-                        <input type="checkbox" name="select-all" id="select-all" class="pm-toggle-checkbox"> 
-                        {{text.select_all}}
-                    </label>
-                </h2>
-
-                <ul class="pm-user-list">
-                    <li>
-                        <label for="pm_notify_1">
-                            <input type="checkbox" name="notify_user[]" id="pm_notify_1" value="1"> 
-                            Admin
-                        </label>
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
+            <notify-user v-model="notify_users"></notify-user>
 
             <div class="submit">
                 <input v-if="!comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="text.add_new_comment" id="">
@@ -37,8 +18,9 @@
 </template>
 
 <script>	
-	import editor from './../common/text-editor.vue';
-    import uploader from './../common/file-uploader.vue';
+	import editor from '@components/common/text-editor.vue';
+    import uploader from '@components/common/file-uploader.vue';
+    import notifyUser from '@components/common/notifyUser.vue';
 	
 	export default {
 		props: ['comment', 'discuss'],
@@ -48,7 +30,8 @@
                     html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
                 },
                 submit_disabled: false,
-				show_spinner: false,
+    			show_spinner: false,
+                notify_users: [],
                 deleted_files: [],
                 files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             }
@@ -73,7 +56,8 @@
 
 		components: {
 			'text-editor': editor,
-            'file-uploader': uploader
+            'file-uploader': uploader,
+             notifyUser: notifyUser
 		},
 
 		computed: {
@@ -98,7 +82,8 @@
                     commentable_id: this.discuss.id,
                     commentable_type: 'discussion_board',
                     deleted_files: this.deleted_files,
-                    files: this.files
+                    files: this.files,
+                    notify_users: this.notify_users
                 };
 
                 if (comment_id) {

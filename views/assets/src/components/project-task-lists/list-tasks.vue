@@ -162,46 +162,6 @@
 	         */
 	        privateClass ( task ) {
 	            return ( task.task_privacy == 'yes' ) ? 'pm-lock' : 'pm-unlock';
-	        },
-
-	        /**
-	         * Delete task
-	         * 
-	         * @return void
-	         */
-	        deleteTask ( list_id, task_id ) {
-	            if ( ! confirm( PM_Vars.message.confirm ) ) {
-	                return;
-	            }
-
-	            var self       = this,
-	                list_index = this.getIndex( this.$store.state.lists, list_id, 'ID' ),
-	                task_index = this.getIndex( this.$store.state.lists[list_index].tasks, task_id, 'ID' ),
-	                form_data  = {
-	                    action: 'pm_task_delete',
-	                    task_id: task_id,
-	                    _wpnonce: PM_Vars.nonce,
-	                };
-
-	            // Seding request for insert or update todo list
-	            jQuery.post( PM_Vars.ajaxurl, form_data, function( res ) {
-	                if ( res.success ) {
-	                    // Display a success message, with a title
-	                    //pm.Toastr.success(res.data.success);
-	                    
-	                    PM_Component_jQuery.fadeOut( task_id, function() {
-	                        self.$store.commit( 'after_delete_task', { 
-	                            list_index: list_index,
-	                            task_index: task_index,
-	                        });
-	                    });
-	                } else {
-	                    // Showing error
-	                    res.data.error.map( function( value, index ) {
-	                        pm.Toastr.error(value);
-	                    });
-	                }
-	            });
 	        }, 
 	    }
 	}

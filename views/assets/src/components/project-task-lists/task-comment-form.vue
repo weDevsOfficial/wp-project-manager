@@ -6,28 +6,8 @@
         </div>
 
          <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-
-        <div v-if="hasCoWorker" class="notify-users">
-                        
-                <h2 class="pm-box-title"> 
-                    {{text.notify_user}}           
-                    <label class="pm-small-title" for="select-all"> 
-                        <input @change.prevent="notify_all_coo_worker()" type="checkbox" v-model="notify_all_co_worker" id="select-all" class="pm-toggle-checkbox"> 
-                        {{text.select_all}}
-                    </label>
-                </h2>
-                <ul class="pm-user-list">
-                    <li v-for="co_worker in co_workers">
-                        <label :for="'pm_notify_' + co_worker.id">
-                            <input @change.prevent="notify_coo_workers( co_worker.id )" type="checkbox" v-model="notify_co_workers" name="notify_co_workers[]" :value="co_worker.id" :id="'pm_notify_' + co_worker.id" > 
-                            {{ co_worker.name }}
-                        </label>
-                    </li>
-
-                    <div class="clearfix"></div>
-                </ul>
-        </div>
-        
+         <notify-user v-model="notify_users"></notify-user>
+               
         <div class="submit">
             <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.add_new_comment" id="" />
             <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.update_comment" id="" />
@@ -37,8 +17,9 @@
 </template>
 
 <script>
-	import editor from './../common/text-editor.vue';
-	import uploader from './../common/file-uploader.vue';
+	import editor from '@components/common/text-editor.vue';
+	import uploader from '@components/common/file-uploader.vue';
+  import notifyUser from '@components/common/notifyUser.vue';
 
 	export default {
 		props: ['comment', 'comments'],
@@ -46,18 +27,19 @@
 			return {
 				submit_disabled: false,
 				show_spinner: false,
-				hasCoWorker: false,
 				content: {
 	                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
 	            },
-	            task_id: this.$route.params.task_id,
-	            files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
-				deleted_files: []
+        task_id: this.$route.params.task_id,
+        files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
+				deleted_files: [],
+        notify_users: [],
 			}
 		},
 		components: {
 			'text-editor': editor,
-			'file-uploader': uploader
+			'file-uploader': uploader,
+      notifyUser: notifyUser
 		},
 
 		watch: {
@@ -91,50 +73,51 @@
 		methods: {
 
 			taskCommentAction () {
-	   			// Prevent sending request when multiple click submit button 
-              if ( this.submit_disabled ) {
-                  return;
-              }
+   			// Prevent sending request when multiple click submit button 
+        if ( this.submit_disabled ) {
+            return;
+        }
 
-	             // Disable submit button for preventing multiple click
-	            this.submit_disabled = true;
-	            // Showing loading option 
-	            this.show_spinner = true;
-	            var self = this;
+         // Disable submit button for preventing multiple click
+        this.submit_disabled = true;
+        // Showing loading option 
+        this.show_spinner = true;
+        var self = this;
 
-	            var args = {
-	            	data: {
-	                  commentable_id: self.task_id,
-	                  content: self.comment.content,
-	                  commentable_type: 'task',
-	                  deleted_files: self.deleted_files || [],
-	                  files: self.files || [],
-	                },
-	            }
+        var args = {
+        	data: {
+              commentable_id: self.task_id,
+              content: self.comment.content,
+              commentable_type: 'task',
+              deleted_files: self.deleted_files || [],
+              files: self.files || [],
+              notify_users: this.notify_users
+            },
+        }
 
-	            if(typeof this.comment.id !== 'undefined' ){
-	            	args.data.id = this.comment.id;
-	            	args.callback = function(res){
-	            		var index = self.getIndex( self.comments, self.comment.id, 'id' );
-		                self.comments.splice(index, 1, res.data);
+        if(typeof this.comment.id !== 'undefined' ){
+        	args.data.id = this.comment.id;
+        	args.callback = function(res){
+        		var index = self.getIndex( self.comments, self.comment.id, 'id' );
+              self.comments.splice(index, 1, res.data);
 
-	            		self.submit_disabled = false;
-		          		self.show_spinner = false;
-		          		self.files = []; self.deleted_files = [];
-	            	}
+        		self.submit_disabled = false;
+        		self.show_spinner = false;
+        		self.files = []; self.deleted_files = [];
+        	}
 
-	            	self.updateComment ( args );
-	            }else{
+        	self.updateComment ( args );
+        }else{
 
-	            	args.callback = function ( res ) {
-	            		self.comments.splice(0, 0, res.data);
-	            		self.submit_disabled = false;
-		          		self.show_spinner = false;
-		          		self.files = []; self.deleted_files = [];
-	            	}
-	            	self.addComment ( args );
-	            }
-	   		}
+        	args.callback = function ( res ) {
+        		self.comments.splice(0, 0, res.data);
+        		self.submit_disabled = false;
+        		self.show_spinner = false;
+        		self.files = []; self.deleted_files = [];
+        	}
+        	self.addComment ( args );
+        }
+   		}
 		}
 	}
 </script>

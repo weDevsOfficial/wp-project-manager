@@ -66,7 +66,7 @@
                     <a href="#" @click.prevent="showHideTaskFrom('toggle', list, task )" class="pm-todo-edit">
                         <span class="dashicons dashicons-edit"></span>
                     </a>
-                    <a href="#" @click.prevent="deleteTask(task, list)" class="pm-todo-delete">
+                    <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
                         <span class="dashicons dashicons-trash"></span>
                     </a>
                         
