@@ -145,6 +145,7 @@
                 vm.discussQuery();
             });
         },
+
         data () {
             return {
                 current_page_number: 1,
