@@ -192,27 +192,29 @@
             },
             projectMarkAsDoneUndone (project) {
                 var self = this;
-                var project = {
-                    id: project.id,
-                    status: project.status === 'complete' ? 'incomplete' : 'complete'
-                };
+                project.status = project.status === 'complete' ? 'incomplete' : 'complete';
+                
+                var args ={
+                    data:project,
+                    callback: function(project) {
+                        switch (self.$route.name) {
+                            
+                            case 'project_lists':
+                                self.getProjects('status=incomplete');
+                                break;
 
-                this.updateProject(project, function(project) {
-                    switch (self.$route.name) {
-                        
-                        case 'project_lists':
-                            self.getProjects('status=incomplete');
-                            break;
+                            case 'completed_projects':
+                                self.getProjects('status=complete');
+                                break;
 
-                        case 'completed_projects':
-                            self.getProjects('status=complete');
-                            break;
-
-                        default:
-                            self.getProjects();
-                            break;
+                            default:
+                                self.getProjects();
+                                break;
+                        }
                     }
-                });
+                }
+
+                this.updateProject(args);
             }
         }
     }
