@@ -290,7 +290,7 @@ return [
 		__( 'No tasks found.', 'pm' )
 	],
 	'more_tasks' => [
-		__( '+ More Tasks', 'pm' )
+		__( 'More Tasks', 'pm' )
 	],
 	'add_task' => [
 		__( 'Add Task', 'pm' )

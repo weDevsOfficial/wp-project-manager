@@ -212,10 +212,11 @@
             	if(route.name === 'lists_single_task'){
                 	return ;
             	}
-	        	if(this.current_page_number !== route.params.current_page_number ) {
-	        		this.getSelfLists();
-	        		this.current_page_number = route.params.current_page_number;
+            	
+	        	if(this.current_page_number == route.params.current_page_number ) {
+	        		return ;
 	        	}
+	        	this.getSelfLists();
             	
             }
 	    },
