@@ -22,7 +22,7 @@
 
 					<div class="form-wrap">
 						<h2>{{text.add_new_category}}</h2>
-						<form @submit.prevent="newCategory()" id="addtag" method="post" action="edit-tags.php" class="validate" >
+						<form @submit.prevent="categoryFormAction()" id="addtag" method="post" action="edit-tags.php" class="validate" >
 							
 							<div class="form-field form-required term-name-wrap">
 								<label for="tag-name">{{text.name}}</label>
@@ -215,12 +215,35 @@
 
 
 			selfDeleted () {
+				if ( ! confirm( this.text.are_you_sure ) ) {
+            return;
+        }
 				var self = this;
 				switch (this.bulk_action) {
 					case 'delete':
-						self.deleteCategories(this.delete_items);
+						self.deleteCategories({category_ids: this.delete_items} );
 						break;
 				}
+			},
+
+			categoryFormAction () {
+				// Exit from this function, If submit button disabled 
+        if ( this.submit_disabled ) {
+            return;
+        }
+        // Disable submit button for preventing multiple click
+        this.submit_disabled = true;
+        this.show_spinner = true;
+
+				var args = {
+					data:{
+						title: this.title,
+            description: this.description,
+					}
+				}
+				this.newCategory(args);
+				this.title ='';
+				this.description = '';
 			}
 		}
 	}

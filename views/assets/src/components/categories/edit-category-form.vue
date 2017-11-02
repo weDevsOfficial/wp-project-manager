@@ -42,13 +42,24 @@
 
 		methods: {
 			updateSelfCategory () {
-				var data = {
-					id: this.category.id,
-					title: this.category.title,
-					description: this.category.description
-				};
+				// Exit from this function, If submit button disabled 
+        if ( this.submit_disabled ) {
+            return;
+        }
+        
+        // Disable submit button for preventing multiple click
+        this.submit_disabled = true;
+        this.show_spinner = true;
 
-				this.updateCategory(data);
+				var args= {
+						data: {
+						id: this.category.id,
+						title: this.category.title,
+						description: this.category.description
+					}
+				}
+
+				this.updateCategory(args);
 			}
 		}
 	}

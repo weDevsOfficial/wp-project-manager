@@ -1,57 +1,65 @@
 
 export default pm.Vue.mixin({
 	methods: {
-		newCategory () {
-			// Exit from this function, If submit button disabled 
-	        if ( this.submit_disabled ) {
-	            return;
-	        }
-	        
-	        // Disable submit button for preventing multiple click
-	        this.submit_disabled = true;
-	        this.show_spinner = true;
+    /**
+     * Insert categroy resource
+     * @param  {Object} args Object with callback
+     * @return {void}      
+     */
+		newCategory (args) {
+      var self = this;
+      var pre_define = {
+        data:{
+          title: this.title,
+          description: this.description,
+          categorible_type: 'project'
+        },
+        callback: false
+      },
+      args = jQuery.extend(true, pre_define, args );
 
-	        var self      = this,
-	            form_data = {
-	                title: this.title,
-	                description: this.description,
-	                categorible_type: 'project'
-	            };
+      var request_data = {
+        url: self.base_url + '/pm/v2/categories',
+        type: 'POST',
+        data: args.data,
+        
+        success (res) {
+        	self.addCategoryMeta(res.data);
+       		
+       		self.show_spinner = false;
 
-	        var request_data = {
-	            url: self.base_url + '/pm/v2/categories',
-	            type: 'POST',
-	            data: form_data,
-	            
-	            success (res) {
-	            	self.addCategoryMeta(res.data);
-	           		
-	           		self.show_spinner = false;
+          // Display a success toast, with a title
+          pm.Toastr.success(res.data.success);
+     
+          self.submit_disabled = false;
 
-	                // Display a success toast, with a title
-	                pm.Toastr.success(res.data.success);
-	           
-	                self.submit_disabled = false;
+          self.$store.commit('afterNewCategories', res.data);
+          if(typeof args.callback === 'function' ){
+            args.callback.call(self, res);
+          }
 
-	                self.$store.commit('afterNewCategories', res.data);
+        },
 
-	            },
-
-	            error (res) {
-	            	self.show_spinner = false;
-	                
-	                // Showing error
-	                res.data.error.map( function( value, index ) {
-	                    pm.Toastr.error(value);
-	                });
-	                self.submit_disabled = false;
-	            }
-	        }
-	        
-	        self.httpRequest(request_data);
+        error (res) {
+        	self.show_spinner = false;
+          // Showing error
+          res.data.error.map( function( value, index ) {
+              pm.Toastr.error(value);
+          });
+          if(typeof args.callback === 'function' ){
+            args.callback.call(self, res);
+          }
+          self.submit_disabled = false;
+        }
+      }
+      
+      self.httpRequest(request_data);
 		},
 
-
+    /**
+     * Get All categories 
+     * @return {[data]} [description]
+     */
 		getCategories () {
 			var self = this;
 			
@@ -72,94 +80,116 @@ export default pm.Vue.mixin({
 		getCategory () {
 
 		},
-
+    /**
+     * Category meta
+     * @param {Object} category 
+     */
 		addCategoryMeta (category) {
 			category.edit_mode = false;
 		},
 
+    /**
+     * Category form mood
+     * @param  {Object} category 
+     * @return {void}          
+     */
 		showHideCategoryEditForm (category) {
 			category.edit_mode = category.edit_mode ? false : true;
 		},
-		updateCategory (category) {
-			// Exit from this function, If submit button disabled 
-	        if ( this.submit_disabled ) {
-	            return;
-	        }
-	        
-	        // Disable submit button for preventing multiple click
-	        this.submit_disabled = true;
-	        this.show_spinner = true;
 
-	        var self      = this,
-	            form_data = category;
-	        
-	        // Showing loading option 
-	        this.show_spinner = true;
+    /**
+     * Update Category 
+     * @param  {Object} args 
+     * @return {Data Collection}      
+     */
+		updateCategory (args) {
+      var self      = this;
 
-	        var request_data = {
-	            url: self.base_url + '/pm/v2/categories/' + category.id,
-	            type: 'PUT',
-	            data: form_data,
-	            
-	            success (res) {
-	            	self.addCategoryMeta(res.data);
-	           		self.show_spinner = false;
+      var pre_define = {
+        data:{
+          id: '',
+          title: '',
+          description: '',
+          categorible_type: 'project'
+        },
+        callback: false
+      },
+      args = jQuery.extend(true, pre_define, args );
 
-	                // Display a success toast, with a title
-	                pm.Toastr.success(res.data.success);
-	           
-	                self.submit_disabled = false;
-	                self.show_spinner = false;
+      // Showing loading option 
+      this.show_spinner = true;
 
-	                self.$store.commit('afterUpdateCategories', res.data);
+      var request_data = {
+        url: self.base_url + '/pm/v2/categories/' + args.data.id,
+        type: 'PUT',
+        data: args.data,
+        
+        success (res) {
+        	self.addCategoryMeta(res.data);
+       		self.show_spinner = false;
 
-	            },
+            // Display a success toast, with a title
+          pm.Toastr.success(res.data.success);
+     
+          self.submit_disabled = false;
+          self.show_spinner = false;
 
-	            error (res) {
-	            	self.show_spinner = false;
-	                
-	                // Showing error
-	                res.data.error.map( function( value, index ) {
-	                    pm.Toastr.error(value);
-	                });
-	                self.submit_disabled = false;
-	            }
-	        }
-	        
-	        self.httpRequest(request_data);
+          self.$store.commit('afterUpdateCategories', res.data);
+          if(typeof args.callback === 'function' ){
+            args.callback.call(self, res);
+          }
+
+        },
+
+        error (res) {
+        	self.show_spinner = false;
+            
+          // Showing error
+          res.data.error.map( function( value, index ) {
+              pm.Toastr.error(value);
+          });
+          if(typeof args.callback === 'function' ){
+            args.callback.call(self, res);
+          }
+          self.submit_disabled = false;
+        }
+      }
+      
+      self.httpRequest(request_data);
 		},
 
-		deleteCategories (ids) {
-			if ( ! confirm( 'Are you sure!' ) ) {
-                return;
-            }
-            var self = this;
-            var request_data = {
-                url: self.base_url + '/pm/v2/categories/bulk-delete/',
-                data: {
-                	'category_ids': ids
-                },
-                type: 'DELETE',
-                success: function(res) {
-                	ids.map(function(id, index) {
-                		self.$store.commit('afterDeleteCategory', id);
-                	});
-                    
+    /**
+     * Delete Bulk categories by categories ids
+     * @param  {Object} args ids with callback
+     * @return {void}      
+     */
+		deleteCategories (args) {
+      var self = this;
 
-                    // if (!self.$store.state.discussion.length) {
-                    //     self.$router.push({
-                    //         name: 'discussions', 
-                    //         params: { 
-                    //             project_id: self.project_id 
-                    //         }
-                    //     });
-                    // } else {
-                    //     self.getDiscussion(self);
-                    // }
-                }
+      var pre_define = {
+        category_ids: [],
+        callback: false
+      },
+      args = jQuery.extend(true, pre_define, args );
+
+      var request_data = {
+          url: self.base_url + '/pm/v2/categories/bulk-delete/',
+          data: {
+          	'category_ids': args.category_ids
+          },
+          type: 'DELETE',
+          success: function(res) {
+          	args.category_ids.map(function(id, index) {
+          		self.$store.commit('afterDeleteCategory', id);
+          	});
+
+            if(typeof args.callback === 'function' ){
+              args.callback.call(self, res);
             }
-            //self.$store.commit('afterDeleteDiscuss', discuss_id);
-            self.httpRequest(request_data);
+          }
+      }
+      //self.$store.commit('afterDeleteDiscuss', discuss_id);
+      self.httpRequest(request_data);
 		}
 	},
 });
