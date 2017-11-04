@@ -20,8 +20,8 @@ class Create_Projects_Table extends Migration {
             $table->tinyInteger( 'order' )->nullable();
             $table->string( 'projectable_type' )->nullable();
 
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamps();
         });

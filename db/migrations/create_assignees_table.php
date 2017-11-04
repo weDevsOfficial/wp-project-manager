@@ -13,8 +13,8 @@ class Create_Assignees_Table extends Migration {
             $table->unsignedInteger( 'assigned_to' );
             $table->tinyInteger( 'status' )->default(0)->comment('0: Not started; 1: Working; 2: Accomplished');
 
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamp( 'assigned_at' )->nullable();
             $table->timestamp( 'stated_at' )->nullable();

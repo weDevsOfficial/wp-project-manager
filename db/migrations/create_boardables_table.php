@@ -15,8 +15,8 @@ class Create_Boardables_Table extends Migration {
             $table->string( 'boardable_type' );
             $table->integer( 'order' )->default(0);
 
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamps();
         });
