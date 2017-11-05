@@ -111,6 +111,10 @@ class Project_Controller {
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
+		$assignees[] = [
+			'user_id' => wp_get_current_user()->ID,
+			'role_id' => 1, // 1 for manager
+		];
 
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
