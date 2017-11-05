@@ -25,7 +25,7 @@ trait Transformer_Manager {
         return array_merge( $extra, $response );
     }
 
-    public function get_json_response( $resource, $message = null ) {
+    public function get_json_response( $resource, $extra = [] ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
