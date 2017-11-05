@@ -58,8 +58,6 @@ var PM_Task = {
                     });
                 });
 
-                console.log(send_data, after_revers_order);
-
                 var data = {
                     task_orders: send_data,
                     board_id: component.list.id,

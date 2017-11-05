@@ -1,5 +1,7 @@
 <template>
-	<p>Hi i am calendar</p>
+	<div>
+		<router-view  name="calendar"></router-view>
+	</div>
 </template>
 
 <script>

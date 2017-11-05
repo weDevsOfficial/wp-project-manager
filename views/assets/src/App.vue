@@ -9,9 +9,9 @@
 		<pm-task-lists></pm-task-lists>
 		<pm-files></pm-files>
 		<pm-settings></pm-settings>
-		<pm-my-tasks></pm-my-tasks>
+		<pm-my-tasks v-if="!is_pro"></pm-my-tasks>
+		<pm-calendar v-if="!is_pro"></pm-calendar>
 		<router-view name="add-ons"></router-view>
-		<router-view name="calendar"></router-view>
 		<router-view name="reports"></router-view>
 		<router-view name="progress"></router-view>
 
@@ -32,7 +32,8 @@
 	import do_action from './components/common/do-action.vue';
 	import settings from './components/settings/index.vue';
 	import my_tasks from './components/my-tasks/index.vue';
-
+	import calendar from './components/calendar/index.vue';
+	
 	export default {
 		components: {
 			'pm-discussions': discussions,
@@ -45,7 +46,14 @@
 			'pm-files': files,
 			'do-action': do_action,
 			'pm-settings': settings,
-			'pm-my-tasks': my_tasks
+			'pm-my-tasks': my_tasks,
+			'pm-calendar': calendar
+		},
+
+		data () {
+			return {
+				is_pro: PM_Vars.is_pro
+			}
 		}
 		
 	}

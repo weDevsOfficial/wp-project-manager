@@ -82,7 +82,7 @@
 	    },
 	    created ()
 	    {
-	    	console.log(pm.Multiselect)
+	    	
 	    },
 	    components: {
 	    	'multiselect': pm.Multiselect.Multiselect,

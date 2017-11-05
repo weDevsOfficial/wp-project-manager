@@ -21,8 +21,12 @@ weDevs_PM_Routers.push(all);
 weDevs_PM_Routers.push(completed);
 weDevs_PM_Routers.push(categories);
 weDevs_PM_Routers.push(add_ons);
-weDevs_PM_Routers.push(my_tasks);
-weDevs_PM_Routers.push(calendar);
+
+if ( !PM_Vars.is_pro ) {
+	weDevs_PM_Routers.push(my_tasks);
+	weDevs_PM_Routers.push(calendar);
+}
+
 weDevs_PM_Routers.push(reports);
 weDevs_PM_Routers.push(progress);
 weDevs_PM_Routers.push(overview);
