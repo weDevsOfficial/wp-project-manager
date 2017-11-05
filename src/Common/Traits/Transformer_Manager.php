@@ -8,7 +8,7 @@ use League\Fractal\Serializer\DataArraySerializer;
 
 trait Transformer_Manager {
 
-    public function get_response( $resource ) {
+    public function get_response( $resource, $extra = [] ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
@@ -16,10 +16,16 @@ trait Transformer_Manager {
             $manager->parseIncludes( $_GET['with'] );
         }
 
-        return $manager->createData( $resource )->toArray();
+        if ($resource) {
+            $response = $manager->createData( $resource )->toArray();
+        } else {
+            $response = [];
+        }
+
+        return array_merge( $extra, $response );
     }
 
-    public function get_json_response( $resource ) {
+    public function get_json_response( $resource, $message = null ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
@@ -27,6 +33,12 @@ trait Transformer_Manager {
             $manager->parseIncludes( $_GET['with'] );
         }
 
-        return json_encode( $manager->createData( $resource )->toArray() );
+        if ($resource) {
+            $response = $manager->createData( $resource )->toArray();
+        } else {
+            $response = [];
+        }
+
+        return json_encode( array_merge( $extra, $response ) );
     }
 }

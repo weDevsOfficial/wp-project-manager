@@ -82,7 +82,11 @@ class Comment_Controller {
 
         $resource = new Item( $comment, new Comment_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.comment_created')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -112,7 +116,11 @@ class Comment_Controller {
 
         $resource = new Item( $comment, new Comment_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.comment_updated')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -123,5 +131,11 @@ class Comment_Controller {
         $comment->replies()->delete();
         $comment->files()->delete();
         $comment->delete();
+
+        $message = [
+            'message' => pm_get_text('success_messages.comment_deleted')
+        ];
+
+        return $this->get_response(false, $message);
     }
 }

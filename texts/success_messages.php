@@ -24,4 +24,14 @@ return [
     'selected_category_deleted' => [
         __( 'All the selected categories has been deleted successfully.', 'pm' )
     ],
+    // comment crud releated messages
+    'comment_created' => [
+        __( 'Successfully commented.', 'pm' )
+    ],
+    'comment_updated' => [
+        __( 'A comment has been updated successfully.', 'pm' )
+    ],
+    'comment_deleted' => [
+        __( 'A comment has been deleted successfully.', 'pm' )
+    ],
 ];

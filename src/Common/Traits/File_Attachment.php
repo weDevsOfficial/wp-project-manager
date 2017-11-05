@@ -27,9 +27,9 @@ trait File_Attachment {
 
     private function detach_files( $entity, $file_ids = [] ) {
         if ( empty( $file_ids ) ) {
-            $attachment_ids = $entity->files->pluck('attachment_id');
+            $attachment_ids = empty($entity->files) ? [] : $entity->files->pluck('attachment_id')->all();
         } else {
-            $attachment_ids = $entity->files->whereIn( 'id', $file_ids )->pluck( 'attachment_id' );
+            $attachment_ids = $entity->files->whereIn( 'id', $file_ids )->pluck( 'attachment_id' )->all();
         }
 
         foreach ($attachment_ids as $attachment_id) {
