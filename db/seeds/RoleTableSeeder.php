@@ -24,7 +24,7 @@ class RoleTableSeeder extends Seeder
                 ],
                 [
                     'title'       => 'Co Worker',
-                    'description' => 'Co-worker is person whos work under a project.',
+                    'description' => 'Co-worker is person who works under a project.',
                     'created_at'  => Carbon::now(),
                     'updated_at'  => Carbon::now(),
                 ],

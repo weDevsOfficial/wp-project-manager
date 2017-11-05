@@ -20,8 +20,7 @@ add_action( 'init', function() {
     migrate_db();
     load_routes();
     register_routes();
-
-    (new RoleTableSeeder())->run();
+    seed_db();
 
     do_action( 'pm_loaded' );
 });
