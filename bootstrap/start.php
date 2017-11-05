@@ -21,5 +21,7 @@ add_action( 'init', function() {
     load_routes();
     register_routes();
 
+    (new RoleTableSeeder())->run();
+
     do_action( 'pm_loaded' );
 });
