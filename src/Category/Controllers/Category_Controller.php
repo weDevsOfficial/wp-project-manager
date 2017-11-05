@@ -54,7 +54,10 @@ class Category_Controller {
 
         $resource = new Item( $category, new Category_Transformer );
 
-        return $this->get_response( $resource );
+        $response = $this->get_response( $resource );
+        $response['message'] = pm_get_text('success_messages.category_created');
+
+        return $response;
     }
 
     public function update( WP_REST_Request $request ) {
@@ -73,7 +76,10 @@ class Category_Controller {
 
         $resource = new Item( $category, new Category_Transformer );
 
-        return $this->get_response( $resource );
+        $response = $this->get_response( $resource );
+        $response['message'] = pm_get_text('success_messages.category_updated');
+
+        return $response;
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -82,6 +88,10 @@ class Category_Controller {
 
         $category->projects()->detach();
         $category->delete();
+
+        return [
+            'message' => pm_get_text('success_messages.category_deleted')
+        ];
     }
 
     public function bulk_destroy( WP_REST_Request $request ) {
@@ -91,5 +101,9 @@ class Category_Controller {
             DB::table('pm_category_project')->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
         }
+
+        return [
+            'message' => pm_get_text('success_messages.selected_category_deleted')
+        ];
     }
 }
