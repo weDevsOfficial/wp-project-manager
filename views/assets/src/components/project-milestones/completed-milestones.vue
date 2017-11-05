@@ -51,7 +51,7 @@
     import action from './action-milestones.vue';
     import discuss from './milestone-discussion.vue';
 
-	export default {
+    export default {
         components: {
             'new-milestone-form': new_milestone_form,
             'list': list,
@@ -65,6 +65,6 @@
                 });
             },
         }
-	}
+    }
 </script>
 

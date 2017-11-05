@@ -4,11 +4,11 @@
  */
 export default new pm.Vuex.Store({
 
-	state: {
-		meta: {},
-		assignees: [],
-		graph: [],
-		getIndex: function ( itemList, id, slug) {
+    state: {
+        meta: {},
+        assignees: [],
+        graph: [],
+        getIndex: function ( itemList, id, slug) {
             var index = false;
 
             itemList.forEach(function(item, key) {
@@ -19,13 +19,13 @@ export default new pm.Vuex.Store({
 
             return index;
         },
-	},
-	
-	mutations: {
-		setOverViews (state, over_views) {
-			state.meta = over_views.meta;
-			state.assignees = over_views.assignees.data;
-			state.graph = over_views.overview_graph.data;
-		},
-	}
+    },
+    
+    mutations: {
+        setOverViews (state, over_views) {
+            state.meta = over_views.meta;
+            state.assignees = over_views.assignees.data;
+            state.graph = over_views.overview_graph.data;
+        },
+    }
 });

@@ -7,7 +7,7 @@
 
                     <span class="task-title">
                         <router-link 
-                        	:to="{ 
+                            :to="{ 
                                 name: route_name, 
                                 params: { 
                                     list_id: list.id, 
@@ -16,8 +16,8 @@
                                     task: task 
                             }}">
 
-                        	{{ task.title }}
-                    	</router-link>
+                            {{ task.title }}
+                        </router-link>
                     
                     </span>                 
 
@@ -25,7 +25,7 @@
 
                     <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
                         <a href="#" :title="user.display_name">
-                        	<img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
+                            <img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
                         </a>
                     </span>
                     
@@ -40,7 +40,7 @@
                     <div class="pm-task-comment">
                         <span>
                             <router-link 
-                            	:to="{ 
+                                :to="{ 
                                     name: route_name, 
                                     params: { 
                                         list_id: list.id, 
@@ -81,12 +81,12 @@
 </template>
 
 <script>
-	import new_task_form from './new-task-form.vue';
-	export default {
-		props: ['task', 'list'],
-		components: {
-			'new-task-form': new_task_form,
-		},
+    import new_task_form from './new-task-form.vue';
+    export default {
+        props: ['task', 'list'],
+        components: {
+            'new-task-form': new_task_form,
+        },
         computed: {
             route_name (){
                 if( this.$route.name === 'single_list' ){
@@ -96,24 +96,24 @@
                 return 'lists_single_task'
             }
         },
-		methods: {
-	        is_assigned: function(task) {
-	            return true;
-	            var get_current_user_id = this.$store.state.get_current_user_id,
-	                in_task  = task.assigned_to.indexOf(get_current_user_id);
-	            
-	            if ( task.can_del_edit || ( in_task != '-1' ) ) {
-	                return true;
-	            }
+        methods: {
+            is_assigned: function(task) {
+                return true;
+                var get_current_user_id = this.$store.state.get_current_user_id,
+                    in_task  = task.assigned_to.indexOf(get_current_user_id);
+                
+                if ( task.can_del_edit || ( in_task != '-1' ) ) {
+                    return true;
+                }
 
-	            return false;
-	        },
+                return false;
+            },
 
             doneUndone (){
                 var status = !this.task.status;
                 this.taskDoneUndone( this.task, status, this.list )
             }
 
-	    }
-	}
+        }
+    }
 </script>

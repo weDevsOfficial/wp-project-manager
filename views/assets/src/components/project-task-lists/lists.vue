@@ -1,8 +1,8 @@
 <template>
-	<div>
-		<pm-header></pm-header>
+    <div>
+        <pm-header></pm-header>
 
-		<div v-if="loading" class="pm-data-load-before" >
+        <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,290 +14,290 @@
             </div>
         </div>
         <div v-else>
-	        <default-list-page v-if="is_blank_Template"></default-list-page>
-			
-			<div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
-				
-				<new-task-list-btn></new-task-list-btn>
-				<new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
-				
-				<ul class="pm-todolists">
-		        
-		        	<li v-for="(list, index) in lists" :key="list.id"  :class="'pm-fade-out-'+list.id">
+            <default-list-page v-if="is_blank_Template"></default-list-page>
+            
+            <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
+                
+                <new-task-list-btn></new-task-list-btn>
+                <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+                
+                <ul class="pm-todolists">
+                
+                    <li v-for="(list, index) in lists" :key="list.id"  :class="'pm-fade-out-'+list.id">
 
-			            <article class="pm-todolist">
-			                <header class="pm-list-header">
-			                    <h3>
-			                    
-			                        <router-link :to="{ 
-			                        	name: 'single_list', 
-			                        	params: { 
-			                        		list_id: list.id 
-			                        	}}">
-			                    	{{ list.title }}
-			                    	
-			                    	</router-link>
-			                        <span :class="privateClass(list)"></span>
-			                        <!-- v-if="list.can_del_edit" -->
-			                        <div class="pm-right">
-			                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-			                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
-			                        </div>
-			                    </h3>
+                        <article class="pm-todolist">
+                            <header class="pm-list-header">
+                                <h3>
+                                
+                                    <router-link :to="{ 
+                                        name: 'single_list', 
+                                        params: { 
+                                            list_id: list.id 
+                                        }}">
+                                    {{ list.title }}
+                                    
+                                    </router-link>
+                                    <span :class="privateClass(list)"></span>
+                                    <!-- v-if="list.can_del_edit" -->
+                                    <div class="pm-right">
+                                        <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
+                                    </div>
+                                </h3>
 
-			                    <div class="pm-entry-detail" >
-			                        {{ list.description }}    
-			                    </div>
-			                    
-			                    <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
-			                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
-			                        <!-- New Todo list form -->
-			                        <new-task-list-form section="lists" :list="list"></new-task-list-form>
-			                    </div>
-			                </header>
+                                <div class="pm-entry-detail" >
+                                    {{ list.description }}    
+                                </div>
+                                
+                                <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
+                                <div class="pm-update-todolist-form" v-if="list.edit_mode">
+                                    <!-- New Todo list form -->
+                                    <new-task-list-form section="lists" :list="list"></new-task-list-form>
+                                </div>
+                            </header>
 
-			                <!-- Todos component -->
-			              	<list-tasks :list="list"></list-tasks>
+                            <!-- Todos component -->
+                            <list-tasks :list="list"></list-tasks>
 
-			                <footer class="pm-row pm-list-footer">
-			                    <div class="pm-footer-left">
-			                    	<ul class="pm-footer-left-ul">
-				                    	<li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
-				                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
-				                        </li>
-				                        
-				                        <li class="pm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
-				                       
-				                       
-				                        <li class="pm-todo-complete">
-				                            <router-link :to="{ 
-					                        	name: 'single_list', 
-					                        	params: { 
-					                        		list_id: list.id 
-					                        	}}">
-				                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
-				                                {{text.completed}}
-				                            </router-link>
-				                        </li>
-				                        <li  class="pm-todo-incomplete">
-				                            <router-link :to="{ 
-					                        	name: 'single_list', 
-					                        	params: { 
-					                        		list_id: list.id 
-					                        	}}">
-				                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
-				                                {{text.incomplete}}
-				                            </router-link>
-				                        </li>
-				                        <li  class="pm-todo-comment">
-				                            <router-link :to="{ 
-					                        	name: 'single_list', 
-					                        	params: { 
-					                        		list_id: list.id 
-					                        	}}">
-				                                <span>{{ list.meta.total_comments }} {{text.comments}}</span>
-				                            </router-link>
-				                        </li>
-			                    	</ul>
-			                    </div>
+                            <footer class="pm-row pm-list-footer">
+                                <div class="pm-footer-left">
+                                    <ul class="pm-footer-left-ul">
+                                        <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
+                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
+                                        </li>
+                                        
+                                        <li class="pm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
+                                       
+                                       
+                                        <li class="pm-todo-complete">
+                                            <router-link :to="{ 
+                                                name: 'single_list', 
+                                                params: { 
+                                                    list_id: list.id 
+                                                }}">
+                                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
+                                                {{text.completed}}
+                                            </router-link>
+                                        </li>
+                                        <li  class="pm-todo-incomplete">
+                                            <router-link :to="{ 
+                                                name: 'single_list', 
+                                                params: { 
+                                                    list_id: list.id 
+                                                }}">
+                                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
+                                                {{text.incomplete}}
+                                            </router-link>
+                                        </li>
+                                        <li  class="pm-todo-comment">
+                                            <router-link :to="{ 
+                                                name: 'single_list', 
+                                                params: { 
+                                                    list_id: list.id 
+                                                }}">
+                                                <span>{{ list.meta.total_comments }} {{text.comments}}</span>
+                                            </router-link>
+                                        </li>
+                                    </ul>
+                                </div>
 
-			                    <div class="pm-footer-right">
-			                        <div class="pm-todo-progress-bar">
-			                        	<div :style="getProgressStyle( list )" class="bar completed"></div>
-			                        </div>
-			                        <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div>
-			                    </div>
-			                    
-			                    <div class="pm-clearfix"></div>
-			                </footer>
-			            </article>
-		        	
-		        	</li>
-		    	</ul>
-		    	<pm-pagination 
-		            :total_pages="total_list_page" 
-		            :current_page_number="current_page_number" 
-		            component_name='list_pagination'>
-		            
-		        </pm-pagination> 
-			</div>
-			<router-view v-if="lists.length" name="single-task"></router-view>
-		</div>
-		
-	</div>
+                                <div class="pm-footer-right">
+                                    <div class="pm-todo-progress-bar">
+                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                    </div>
+                                    <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div>
+                                </div>
+                                
+                                <div class="pm-clearfix"></div>
+                            </footer>
+                        </article>
+                    
+                    </li>
+                </ul>
+                <pm-pagination 
+                    :total_pages="total_list_page" 
+                    :current_page_number="current_page_number" 
+                    component_name='list_pagination'>
+                    
+                </pm-pagination> 
+            </div>
+            <router-view v-if="lists.length" name="single-task"></router-view>
+        </div>
+        
+    </div>
 </template>
     
 <style>
-	.pm-list-footer .pm-new-task-btn-li {
-		padding-left: 0 !important;
-	}
-	.pm-list-footer .pm-footer-left-ul li {
-		display: inline-block;
-		padding-left: 28px;
-	    background-size: 20px;
-	    background-repeat: no-repeat;
-	    margin: 5px 0;
-	    padding-bottom: 5px;
-	    margin-right: 2%;
-	}
-	.pm-list-footer .pm-footer-left-ul li a {
-		line-height: 150%;
-    	font-size: 12px;
-	}
-	.pm-list-footer .pm-footer-left {
-		width: 66%;
-	}
-	.pm-list-footer .pm-footer-right {
-		width: 30%;
-	}
-	.pm-list-footer .pm-footer-left, .pm-list-footer .pm-footer-right {
-		float: left;
-	}
-	.pm-list-footer .pm-todo-progress-bar, .pm-list-footer .pm-progress-percent {
-		display: inline-block;
-	}
-	.pm-list-footer .pm-todo-progress-bar {
-		width: 70%;
-	}
-	.pm-list-footer .pm-progress-percent {
-		margin-left: 6px;
-	}
+    .pm-list-footer .pm-new-task-btn-li {
+        padding-left: 0 !important;
+    }
+    .pm-list-footer .pm-footer-left-ul li {
+        display: inline-block;
+        padding-left: 28px;
+        background-size: 20px;
+        background-repeat: no-repeat;
+        margin: 5px 0;
+        padding-bottom: 5px;
+        margin-right: 2%;
+    }
+    .pm-list-footer .pm-footer-left-ul li a {
+        line-height: 150%;
+        font-size: 12px;
+    }
+    .pm-list-footer .pm-footer-left {
+        width: 66%;
+    }
+    .pm-list-footer .pm-footer-right {
+        width: 30%;
+    }
+    .pm-list-footer .pm-footer-left, .pm-list-footer .pm-footer-right {
+        float: left;
+    }
+    .pm-list-footer .pm-todo-progress-bar, .pm-list-footer .pm-progress-percent {
+        display: inline-block;
+    }
+    .pm-list-footer .pm-todo-progress-bar {
+        width: 70%;
+    }
+    .pm-list-footer .pm-progress-percent {
+        margin-left: 6px;
+    }
 
 </style>
 
 <script>
-	import new_task_list_btn from './new-task-list-btn.vue';
-	import new_task_list_form from './new-task-list-form.vue';
-	import new_task_button from './new-task-btn.vue';
-	import pagination from '@components/common/pagination.vue';
-	import header from '@components/common/header.vue';
-	import tasks from './list-tasks.vue';
-	import default_page from './default-list-page.vue';
-	
-	export default {
+    import new_task_list_btn from './new-task-list-btn.vue';
+    import new_task_list_form from './new-task-list-form.vue';
+    import new_task_button from './new-task-btn.vue';
+    import pagination from '@components/common/pagination.vue';
+    import header from '@components/common/header.vue';
+    import tasks from './list-tasks.vue';
+    import default_page from './default-list-page.vue';
+    
+    export default {
 
-		beforeRouteEnter (to, from, next) {
+        beforeRouteEnter (to, from, next) {
             next(vm => {
-            	vm.getSelfLists();
+                vm.getSelfLists();
                 vm.getGlobalMilestones();
             });
         }, 
-    	components: {
-			'new-task-list-btn': new_task_list_btn,
-			'new-task-list-form': new_task_list_form,
-			'new-task-button': new_task_button,
-			'pm-pagination': pagination,
-			'pm-header': header,
-			'list-tasks': tasks,
-			'default-list-page': default_page
-		},
+        components: {
+            'new-task-list-btn': new_task_list_btn,
+            'new-task-list-form': new_task_list_form,
+            'new-task-button': new_task_button,
+            'pm-pagination': pagination,
+            'pm-header': header,
+            'list-tasks': tasks,
+            'default-list-page': default_page
+        },
 
-	    /**
-	     * Initial data for this component
-	     * 
-	     * @return obj
-	     */
-	    data () {
-	        return {
-	            list: {},
-	            index: false,
-	            project_id: this.$route.params.project_id,
-	            current_page_number: this.$route.params.current_page_number || 1,
-	            loading: true,
-	        }
-	    },
-
-	    watch: {
-            '$route' (route) {
-            	if(route.name === 'lists_single_task'){
-                	return ;
-            	}
-            	
-	        	if(this.current_page_number == route.params.current_page_number ) {
-	        		return ;
-	        	}
-	        	this.getSelfLists();
-            	
+        /**
+         * Initial data for this component
+         * 
+         * @return obj
+         */
+        data () {
+            return {
+                list: {},
+                index: false,
+                project_id: this.$route.params.project_id,
+                current_page_number: this.$route.params.current_page_number || 1,
+                loading: true,
             }
-	    },
+        },
 
-	    created () {
-	    	this.$store.state.is_single_list = false;
-	    },
+        watch: {
+            '$route' (route) {
+                if(route.name === 'lists_single_task'){
+                    return ;
+                }
+                
+                if(this.current_page_number == route.params.current_page_number ) {
+                    return ;
+                }
+                this.getSelfLists();
+                
+            }
+        },
 
-	    computed: {
-	        /**
-	         * Get lists from vuex store
-	         * 
-	         * @return array
-	         */
-	        lists () {
-	            return this.$store.state.lists;
-	        },
+        created () {
+            this.$store.state.is_single_list = false;
+        },
 
-	        /**
-	         * Get milestones from vuex store
-	         * 
-	         * @return array
-	         */
-	        milestones () {
-	            return this.$store.state.milestones;
-	        },
+        computed: {
+            /**
+             * Get lists from vuex store
+             * 
+             * @return array
+             */
+            lists () {
+                return this.$store.state.lists;
+            },
 
-	        is_active_list_form () {
-	        	return this.$store.state.is_active_list_form;
-	        },
+            /**
+             * Get milestones from vuex store
+             * 
+             * @return array
+             */
+            milestones () {
+                return this.$store.state.milestones;
+            },
 
-	        total_list_page () {
-	        	return this.$store.state.lists_meta.total_pages;
-	        },
+            is_active_list_form () {
+                return this.$store.state.is_active_list_form;
+            },
 
-	        is_blank_Template(){
-	        	return this.$store.state.balankTemplateStatus;
-	        },
-	        is_list_Template(){
-	        	return this.$store.state.listTemplateStatus; 
-	        }
+            total_list_page () {
+                return this.$store.state.lists_meta.total_pages;
+            },
 
-	    },
+            is_blank_Template(){
+                return this.$store.state.balankTemplateStatus;
+            },
+            is_list_Template(){
+                return this.$store.state.listTemplateStatus; 
+            }
 
-	    methods: {
+        },
 
-	    	showEditForm (list, index) {
-	    		list.edit_mode = list.edit_mode ? false : true;
-	    	},
-	    	
-	    	getSelfLists () {
-	    		var self = this;
-	    		var args = {
-	    				callback: function(res) {
-	    					pm.NProgress.done();
-					    	self.loading = false;
-	    				}
-			    	}
-			    this.getLists(args);
-	    	},
+        methods: {
 
-	    	deleteSelfList ( list ) {
-	    		var self = this;
-	    		var args = {
-	    			list_id: list.id,
-	    			callback: function ( res ) {
-	    				if (!self.$store.state.lists.length) {
-	                        self.$router.push({
-	                            name: 'task_lists', 
-	                            params: { 
-	                                project_id: self.project_id 
-	                            }
-	                        });
-	                    } else {
+            showEditForm (list, index) {
+                list.edit_mode = list.edit_mode ? false : true;
+            },
+            
+            getSelfLists () {
+                var self = this;
+                var args = {
+                        callback: function(res) {
+                            pm.NProgress.done();
+                            self.loading = false;
+                        }
+                    }
+                this.getLists(args);
+            },
 
-	                        self.getLists();
-	                    }	
-	    			}
-	    		}
-	    		this.deleteList(args);
-	    	}
-	    }
-	}
+            deleteSelfList ( list ) {
+                var self = this;
+                var args = {
+                    list_id: list.id,
+                    callback: function ( res ) {
+                        if (!self.$store.state.lists.length) {
+                            self.$router.push({
+                                name: 'task_lists', 
+                                params: { 
+                                    project_id: self.project_id 
+                                }
+                            });
+                        } else {
+
+                            self.getLists();
+                        }   
+                    }
+                }
+                this.deleteList(args);
+            }
+        }
+    }
 </script>

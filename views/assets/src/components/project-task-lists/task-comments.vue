@@ -1,5 +1,5 @@
 <template>
-	<div class="pm-task-comment-wrap">
+    <div class="pm-task-comment-wrap">
         
         <h3 class="pm-comment-title">{{text.discussion_this_task}}</h3>
         <ul class="pm-comment-wrap">
@@ -61,54 +61,54 @@
                 </div><!--v-end--><!--v-component-->
             </div>
         </div>
-	</div>
+    </div>
 </template>
 
 <script>
-	import comment_form from './task-comment-form.vue';
-	export default {
-		// Get passing data for this component.
-	    props: ['comments'],
+    import comment_form from './task-comment-form.vue';
+    export default {
+        // Get passing data for this component.
+        props: ['comments'],
 
-	    data: function() {
-	        return {
-	            currnet_user_id: 1,
+        data: function() {
+            return {
+                currnet_user_id: 1,
                 avatar_url: PM_Vars.avatar_url
-	        }
-	    },
+            }
+        },
 
-	    computed: {
-	        /**
-	         * Get current user avatar
-	         */
-	        getCurrentUserAvatar: function() {
-	            return '';
-	        },
-	    },
+        computed: {
+            /**
+             * Get current user avatar
+             */
+            getCurrentUserAvatar: function() {
+                return '';
+            },
+        },
 
-	    components: {
-	    	'task-comment-form': comment_form
-	    },
+        components: {
+            'task-comment-form': comment_form
+        },
 
-	    methods: {
+        methods: {
             showHideTaskCommentForm (comment) {
                 comment.edit_mode = comment.edit_mode ? false : true;
             },
-	        current_user_can_edit_delete: function( comment, task ) {
-	            if ( comment.comment_type == 'pm_activity' ) {
-	                return false;
-	            }
+            current_user_can_edit_delete: function( comment, task ) {
+                if ( comment.comment_type == 'pm_activity' ) {
+                    return false;
+                }
 
-	            if ( task.can_del_edit ) {
-	                return true;
-	            }
+                if ( task.can_del_edit ) {
+                    return true;
+                }
 
-	            if ( (comment.user_id == this.currnet_user_id ) && (comment.comment_type == '') ) {
-	                return true;
-	            }
+                if ( (comment.user_id == this.currnet_user_id ) && (comment.comment_type == '') ) {
+                    return true;
+                }
 
-	            return false;
-	        },
+                return false;
+            },
 
             deleteTaskComment (id) {
                 if ( !confirm( this.text.are_you_sure ) ) {
@@ -128,6 +128,6 @@
                 this.httpRequest(request_data);
             }
 
-	    }
-	}
+        }
+    }
 </script>

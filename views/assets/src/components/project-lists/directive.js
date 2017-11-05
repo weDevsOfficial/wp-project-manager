@@ -88,9 +88,9 @@ var Project = {
 
 // Register a global custom directive called v-pm-popup-box
 pm.Vue.directive('pm-users', {
-	inserted: function (el, binding, vnode) { 
-		Project.coWorkerSearch(el, binding, vnode);
-	}
+    inserted: function (el, binding, vnode) { 
+        Project.coWorkerSearch(el, binding, vnode);
+    }
 });
 
 // Register a global custom directive called v-pm-popup-box

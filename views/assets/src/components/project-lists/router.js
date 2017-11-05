@@ -22,7 +22,7 @@ const completed_projects = resolve => {
 var active = {
     path: '/', 
     components: { 
-    	'project-lists': project_lists 
+        'project-lists': project_lists 
     }, 
     name: 'project_lists',
 
@@ -30,7 +30,7 @@ var active = {
         {
             path: '/pages/:current_page_number', 
             components: { 
-            	'project-lists': project_lists
+                'project-lists': project_lists
             }, 
             name: 'project_pagination',
         },

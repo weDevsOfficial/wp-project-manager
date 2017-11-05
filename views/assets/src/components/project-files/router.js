@@ -9,7 +9,7 @@ const files = resolve => {
 export default { 
     path: '/:project_id/files', 
     components: { 
-    	'pm-files': files 
+        'pm-files': files 
     }, 
     name: 'pm_files',
 }

@@ -1,11 +1,11 @@
 <template>
-	<p>Hi i am progress</p>
+    <p>Hi i am progress</p>
 </template>
 
 <script>
-	export default {
-		methods: {
+    export default {
+        methods: {
 
-		}
-	}
+        }
+    }
 </script>

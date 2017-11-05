@@ -9,7 +9,7 @@ const overview = resolve => {
 export default { 
     path: '/:project_id/overview', 
     components: { 
-    	'pm-overview': overview 
+        'pm-overview': overview 
     }, 
     name: 'pm_overview',
 }

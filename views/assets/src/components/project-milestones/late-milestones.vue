@@ -1,29 +1,29 @@
 <template>
-	<div v-if="lateMileStones.length" class="pm-late-milestone pm-milestone-data">
+    <div v-if="lateMileStones.length" class="pm-late-milestone pm-milestone-data">
         <h2 class="group-title">{{text.late_milestones}}</h2>
         <div v-for="milestone in lateMileStones" class="pm-milestone late">
-    		<div class="milestone-detail ">
-            	<h3 class="milestone-head">
-                	{{ milestone.title }} <br>
+            <div class="milestone-detail ">
+                <h3 class="milestone-head">
+                    {{ milestone.title }} <br>
                     <span class="time-left">
-                    	({{ humanDate(milestone) }} - 
-                    	<time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
-                    		{{ getDueDate(milestone) }}
-                    	</time>)
+                        ({{ humanDate(milestone) }} - 
+                        <time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
+                            {{ getDueDate(milestone) }}
+                        </time>)
                     </span>
                     
                     <action :milestone="milestone"></action>
                 </h3>
 
-	            <div class="detail">
-	                <div v-html="milestone.content"></div>
-	            </div>
-    		</div>
+                <div class="detail">
+                    <div v-html="milestone.content"></div>
+                </div>
+            </div>
 
-    		<div class="pm-milestone-edit-form" v-if="milestone.edit_mode">
+            <div class="pm-milestone-edit-form" v-if="milestone.edit_mode">
                 <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
             </div>
-    		<div class="pm-milestone-items-details">
+            <div class="pm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">
                     <h3>{{text.task_lists}}</h3>
                     <ul>
@@ -41,8 +41,8 @@
                         </li>
                     </ul>
                 </div>
-               	<div class="clearfix"></div>
-    		</div>
+                <div class="clearfix"></div>
+            </div>
         </div>
         
     </div>
@@ -54,7 +54,7 @@
     import action from './action-milestones.vue';
     import discuss from './milestone-discussion.vue';
 
-	export default {
+    export default {
         components: {
             'new-milestone-form': new_milestone_form,
             'list': list,
@@ -116,6 +116,6 @@
                 return due_date;
             }
         }
-	}
+    }
 </script>
 

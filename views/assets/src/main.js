@@ -8,10 +8,10 @@ import PM from './App.vue';
  * Project template render
  */
 var PM_Vue = {
-	el: '#wedevs-pm',
-	store,
-	router,
-	render: t => t(PM),
+    el: '#wedevs-pm',
+    store,
+    router,
+    render: t => t(PM),
 }
 
 new pm.Vue(PM_Vue); 

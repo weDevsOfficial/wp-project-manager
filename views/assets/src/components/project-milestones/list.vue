@@ -1,34 +1,34 @@
 <template>
-	<div>
-	    <div class="pm-col-7">
-	        <router-link 
-	            :to="{
-	                name: 'single_list',
-	                params: {
-	                    project_id: project_id,
-	                    list_id: list.id
-	                }}">
+    <div>
+        <div class="pm-col-7">
+            <router-link 
+                :to="{
+                    name: 'single_list',
+                    params: {
+                        project_id: project_id,
+                        list_id: list.id
+                    }}">
 
-	            {{ list.title }}
+                {{ list.title }}
 
-	        </router-link>
-	    </div>
-	    
-	    <div class=" pm-col-3">
-	        <div class="pm-progress pm-progress-info">
-	            <div :style="getProgressStyle( list )" class="bar completed"></div>
-	        </div>
+            </router-link>
+        </div>
+        
+        <div class=" pm-col-3">
+            <div class="pm-progress pm-progress-info">
+                <div :style="getProgressStyle( list )" class="bar completed"></div>
+            </div>
 
-	    </div>
-	    <div class="pm-col-1 pm-right pm-last-col">
-	        {{ getProgressPercent( list ) }}%                                
-	    </div>
-	    <div class="clearfix"></div>
-	</div>
+        </div>
+        <div class="pm-col-1 pm-right pm-last-col">
+            {{ getProgressPercent( list ) }}%                                
+        </div>
+        <div class="clearfix"></div>
+    </div>
 </template>
 
 <script>
-	export default {
-		props: ['list']
-	}
+    export default {
+        props: ['list']
+    }
 </script>

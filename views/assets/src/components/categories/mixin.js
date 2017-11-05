@@ -1,12 +1,11 @@
-
 export default pm.Vue.mixin({
-	methods: {
+    methods: {
     /**
      * Insert categroy resource
      * @param  {Object} args Object with callback
      * @return {void}      
      */
-		newCategory (args) {
+        newCategory (args) {
       var self = this;
       var pre_define = {
         data:{
@@ -24,9 +23,9 @@ export default pm.Vue.mixin({
         data: args.data,
         
         success (res) {
-        	self.addCategoryMeta(res.data);
-       		
-       		self.show_spinner = false;
+            self.addCategoryMeta(res.data);
+            
+            self.show_spinner = false;
 
           // Display a success toast, with a title
           pm.Toastr.success(res.data.success);
@@ -41,7 +40,7 @@ export default pm.Vue.mixin({
         },
 
         error (res) {
-        	self.show_spinner = false;
+            self.show_spinner = false;
           // Showing error
           res.data.error.map( function( value, index ) {
               pm.Toastr.error(value);
@@ -54,55 +53,55 @@ export default pm.Vue.mixin({
       }
       
       self.httpRequest(request_data);
-		},
+        },
 
     /**
      * Get All categories 
      * @return {[data]} [description]
      */
-		getCategories () {
-			var self = this;
-			
+        getCategories () {
+            var self = this;
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/categories',
                 success: function(res) {
-                	res.data.map(function(category, index) {
-                		self.addCategoryMeta(category);
-                	});
-                	
+                    res.data.map(function(category, index) {
+                        self.addCategoryMeta(category);
+                    });
+                    
                     self.$store.commit('setCategories', res.data);
                 }
             };
 
             self.httpRequest(request_data);
-		},
+        },
 
-		getCategory () {
+        getCategory () {
 
-		},
+        },
     /**
      * Category meta
      * @param {Object} category 
      */
-		addCategoryMeta (category) {
-			category.edit_mode = false;
-		},
+        addCategoryMeta (category) {
+            category.edit_mode = false;
+        },
 
     /**
      * Category form mood
      * @param  {Object} category 
      * @return {void}          
      */
-		showHideCategoryEditForm (category) {
-			category.edit_mode = category.edit_mode ? false : true;
-		},
+        showHideCategoryEditForm (category) {
+            category.edit_mode = category.edit_mode ? false : true;
+        },
 
     /**
      * Update Category 
      * @param  {Object} args 
      * @return {Data Collection}      
      */
-		updateCategory (args) {
+        updateCategory (args) {
       var self      = this;
 
       var pre_define = {
@@ -125,8 +124,8 @@ export default pm.Vue.mixin({
         data: args.data,
         
         success (res) {
-        	self.addCategoryMeta(res.data);
-       		self.show_spinner = false;
+            self.addCategoryMeta(res.data);
+            self.show_spinner = false;
 
             // Display a success toast, with a title
           pm.Toastr.success(res.data.success);
@@ -142,7 +141,7 @@ export default pm.Vue.mixin({
         },
 
         error (res) {
-        	self.show_spinner = false;
+            self.show_spinner = false;
             
           // Showing error
           res.data.error.map( function( value, index ) {
@@ -156,14 +155,14 @@ export default pm.Vue.mixin({
       }
       
       self.httpRequest(request_data);
-		},
+        },
 
     /**
      * Delete Bulk categories by categories ids
      * @param  {Object} args ids with callback
      * @return {void}      
      */
-		deleteCategories (args) {
+        deleteCategories (args) {
       var self = this;
 
       var pre_define = {
@@ -175,13 +174,13 @@ export default pm.Vue.mixin({
       var request_data = {
           url: self.base_url + '/pm/v2/categories/bulk-delete/',
           data: {
-          	'category_ids': args.category_ids
+            'category_ids': args.category_ids
           },
           type: 'DELETE',
           success: function(res) {
-          	args.category_ids.map(function(id, index) {
-          		self.$store.commit('afterDeleteCategory', id);
-          	});
+            args.category_ids.map(function(id, index) {
+                self.$store.commit('afterDeleteCategory', id);
+            });
 
             if(typeof args.callback === 'function' ){
               args.callback.call(self, res);
@@ -190,6 +189,6 @@ export default pm.Vue.mixin({
       }
       //self.$store.commit('afterDeleteDiscuss', discuss_id);
       self.httpRequest(request_data);
-		}
-	},
+        }
+    },
 });

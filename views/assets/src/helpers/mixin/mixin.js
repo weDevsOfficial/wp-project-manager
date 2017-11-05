@@ -1,27 +1,27 @@
 
  export default pm.Vue.mixin({
 
- 	data () {
- 		return {
- 			base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
- 			project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
+    data () {
+        return {
+            base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
+            project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
             text: PM_Vars.text,
- 		}
- 	},
+        }
+    },
 
-	methods: {
-		httpRequest (property) {
-			var before = function( xhr ) {
-			    xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
-			    xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
-			};
+    methods: {
+        httpRequest (property) {
+            var before = function( xhr ) {
+                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
+                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+            };
 
-			property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
+            property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
 
-			jQuery.ajax(property);
-		},
+            jQuery.ajax(property);
+        },
 
         /**
          * Create a new project 
@@ -156,15 +156,15 @@
             return current_page_number;
         },
 
-		getProject (project_id, callback) {
-			var self = this;
+        getProject (project_id, callback) {
+            var self = this;
             
             var callback   = callback || false;
-			var project_id = project_id || self.project_id;
+            var project_id = project_id || self.project_id;
 
-			if ( typeof self.project_id === 'undefined' ) {
-				return;
-			}
+            if ( typeof self.project_id === 'undefined' ) {
+                return;
+            }
 
             var projects = self.$root.$store.state.projects,
                 index = self.getIndex(projects, project_id, 'id');
@@ -486,6 +486,6 @@
         loadingStop (id) {
             jQuery('#'+id).preloader('remove');
         }
-	}
+    }
 });
 

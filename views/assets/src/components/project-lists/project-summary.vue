@@ -3,7 +3,7 @@
 
         <div v-if="!projects.length">{{text.no_project_found}}</div>
 
-    	<article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
+        <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
             <router-link 
                 :title="project.title"
                 :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
@@ -16,68 +16,68 @@
                 
             </router-link>
 
-    	    <div class="pm-project-meta">
-            	<ul>
-            		<li class="message">
-            			<router-link :to="{
+            <div class="pm-project-meta">
+                <ul>
+                    <li class="message">
+                        <router-link :to="{
                             name: 'discussions',
                             params: {
                                 project_id: project.id
                             }}">
 
-            				<strong>
+                            <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_discussion_boards) }}
                             </strong> 
                                 {{text.discussions}}
 
-            			</router-link>
-            		</li>
+                        </router-link>
+                    </li>
 
-            		<li class="todo">
-            			<router-link :to="{
+                    <li class="todo">
+                        <router-link :to="{
                             name: 'task_lists',
                             params: {
                                 project_id: project.id
                             }}">
 
-            				<strong>
+                            <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_task_lists) }}
                             </strong> 
                                 {{text.task_lists}}
-            			</router-link>
-            		</li>
+                        </router-link>
+                    </li>
 
-            		<li class="files">
-            			<router-link :to="{
+                    <li class="files">
+                        <router-link :to="{
                             name: 'task_lists',
                             params: {
                                 project_id: project.id
                             }}">
 
-            				<strong>
+                            <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_tasks) }}
                             </strong> 
                                 {{text.tasks}}
-            			</router-link>
-            		</li>
+                        </router-link>
+                    </li>
 
-            		<li class="milestone">
-            			<router-link :to="{
+                    <li class="milestone">
+                        <router-link :to="{
                             name: 'milestones',
                             params: {
                                 project_id: project.id
                             }}">
 
-            				<strong>
+                            <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.total_milestones) }}
                             </strong> 
                                 {{text.milestones}}
-            			</router-link>
-            		</li>   
+                        </router-link>
+                    </li>   
 
                     <li class="files">
                         <router-link :to="{
@@ -105,13 +105,13 @@
                         </a>
                     </li>
 
-            		<div class="clearfix"></div>
-            	</ul>
+                    <div class="clearfix"></div>
+                </ul>
             </div>
 
-    	     <div class="pm-progress pm-progress-info">
-    	        <div :style="projectCompleteStatus(project)" class="bar completed"></div>
-    	    </div>
+             <div class="pm-progress pm-progress-info">
+                <div :style="projectCompleteStatus(project)" class="bar completed"></div>
+            </div>
 
             <div class="pm-progress-percentage"></div>
 
@@ -122,41 +122,41 @@
             </footer>
 
             <div class="pm-project-action-icon">
-    	        <div class="pm-project-action">
-    				<span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                <div class="pm-project-action">
+                    <span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
-    				<ul v-if="project.settings_hide" class="pm-settings">
-    				    <li>
-    				        <span class="pm-spinner"></span>
-    				        <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="text.delete_project">
-    				            <span class="dashicons dashicons-trash"></span>
-    				            <span>{{text.delete}}</span>
-    				        </a>
-    				    </li>
-    				    <li>
-    				        <span class="pm-spinner"></span>
-				            <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
-				                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-				                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
+                    <ul v-if="project.settings_hide" class="pm-settings">
+                        <li>
+                            <span class="pm-spinner"></span>
+                            <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="text.delete_project">
+                                <span class="dashicons dashicons-trash"></span>
+                                <span>{{text.delete}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <span class="pm-spinner"></span>
+                            <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
+                                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
+                                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
                                 <span v-if="project.status === 'complete'">{{text.restore}}</span>
                                 
-				            </a>
-    				    </li>
+                            </a>
+                        </li>
 
- <!--    				    <li>
-				            <span class="pm-spinner"></span>
-				            <a class="pm-duplicate-project" href="#" data-project_id="60">
-				                <span class="dashicons dashicons-admin-page"></span>
-				                <span>Duplicate</span>
-				            </a>
-    				    </li> -->
-    				</ul>
-    			</div>
-    		</div>
-    	</article>
+ <!--                       <li>
+                            <span class="pm-spinner"></span>
+                            <a class="pm-duplicate-project" href="#" data-project_id="60">
+                                <span class="dashicons dashicons-admin-page"></span>
+                                <span>Duplicate</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </article>
 
         <div class="pm-clearfix"></div>
     </div>

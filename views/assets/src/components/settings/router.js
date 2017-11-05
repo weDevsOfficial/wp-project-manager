@@ -7,7 +7,7 @@ var general = {
     name: 'general',
 }
 
-var email =	{ 
+var email = { 
     path: '/settings/email', 
     components: { 'email': email_file }, 
     name: 'email',

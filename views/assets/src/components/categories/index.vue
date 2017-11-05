@@ -1,14 +1,14 @@
 <template>
-	<div>
-		<router-view name="categories"></router-view>
-	</div>
+    <div>
+        <router-view name="categories"></router-view>
+    </div>
 </template>
 
 <script>
-	import mixin from './mixin';
-	import store from './store';
+    import mixin from './mixin';
+    import store from './store';
 
-	export default {
-		store
-	}
+    export default {
+        store
+    }
 </script>

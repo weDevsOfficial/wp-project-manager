@@ -1,46 +1,46 @@
 <template>
-	<div>
-		<form action="" method="get" class="pm-project-filters" id="pm-project-filters">
-			<select @change="categoryFilter()" v-model="categorie_id">
-		        <option value="-1">
-		           {{text.project_category}}
-		        </option>
-		        <option v-for="categorie in categories" :value="categorie.id">
-		            {{ categorie.title }}
-		        </option>
-		    </select>
-	    </form>
-	</div>
+    <div>
+        <form action="" method="get" class="pm-project-filters" id="pm-project-filters">
+            <select @change="categoryFilter()" v-model="categorie_id">
+                <option value="-1">
+                   {{text.project_category}}
+                </option>
+                <option v-for="categorie in categories" :value="categorie.id">
+                    {{ categorie.title }}
+                </option>
+            </select>
+        </form>
+    </div>
 </template>
 
 <script>
-	export default {
-		data () {
-			return {
-				categorie_id: typeof this.$route.query.category === 'undefined' 
-					? '-1' : this.$route.query.category
-			}
-		},
-		computed: {
-			categories () {
-				return this.$root.$store.state.categories;
-			}
-		},
+    export default {
+        data () {
+            return {
+                categorie_id: typeof this.$route.query.category === 'undefined' 
+                    ? '-1' : this.$route.query.category
+            }
+        },
+        computed: {
+            categories () {
+                return this.$root.$store.state.categories;
+            }
+        },
 
 
-		methods: {
-			categoryFilter () {
-				var self = this;
-				var extra_ele = {
-					'category': self.categorie_id === '-1' ? false : self.categorie_id
-				}
+        methods: {
+            categoryFilter () {
+                var self = this;
+                var extra_ele = {
+                    'category': self.categorie_id === '-1' ? false : self.categorie_id
+                }
 
-				var setQuery = this.setQuery(extra_ele);
-				
-				this.$router.push({
-					query: setQuery
-				});
-			}
-		}
-	} 
+                var setQuery = this.setQuery(extra_ele);
+                
+                this.$router.push({
+                    query: setQuery
+                });
+            }
+        }
+    } 
 </script>

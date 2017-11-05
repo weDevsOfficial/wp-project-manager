@@ -1,8 +1,8 @@
 <template>
-	<div>
-		<router-view name="general"></router-view>
-		<router-view name="email"></router-view>
-	</div>
+    <div>
+        <router-view name="general"></router-view>
+        <router-view name="email"></router-view>
+    </div>
 </template>
 
 <script>

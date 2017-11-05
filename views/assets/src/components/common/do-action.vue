@@ -1,49 +1,49 @@
 <script>
-	
-	import mixin from './../../helpers/mixin/mixin';
-	
-	function PMGetComponents() {
-		var components = {};
-		
-		window.weDevs_PM_Components.map(function(obj, key) {
-			if (obj.property.mixins) {
-				obj.property.mixins.push(mixin);
-			} else {
-				obj.property.mixins = [mixin];
-			}
+    
+    import mixin from './../../helpers/mixin/mixin';
+    
+    function PMGetComponents() {
+        var components = {};
+        
+        window.weDevs_PM_Components.map(function(obj, key) {
+            if (obj.property.mixins) {
+                obj.property.mixins.push(mixin);
+            } else {
+                obj.property.mixins = [mixin];
+            }
 
-			components[obj.component] = obj.property;
-		});
+            components[obj.component] = obj.property;
+        });
 
-		return components;
-	}
+        return components;
+    }
 
-	var action = {
-		props: ['hook'],
+    var action = {
+        props: ['hook'],
 
-		components: PMGetComponents(),
+        components: PMGetComponents(),
 
-		render (h) {
-			var components = [],
-				self = this;
+        render (h) {
+            var components = [],
+                self = this;
 
-			window.weDevs_PM_Components.map(function(obj, key) {
-				if (obj.hook == self.hook) {
-					components.push(h(obj.component));
-				}
-			});
+            window.weDevs_PM_Components.map(function(obj, key) {
+                if (obj.hook == self.hook) {
+                    components.push(h(obj.component));
+                }
+            });
 
-			return h('span', {}, components);
-		}
-	}
+            return h('span', {}, components);
+        }
+    }
 
-	export default action;
+    export default action;
 
 </script>
 
 <!-- <template>
-	<div>
-		<pm-test-component></pm-test-component>
-		<pm-again-component></pm-again-component>
-	</div>
+    <div>
+        <pm-test-component></pm-test-component>
+        <pm-again-component></pm-again-component>
+    </div>
 </template> -->

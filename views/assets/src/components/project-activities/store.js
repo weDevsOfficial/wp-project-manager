@@ -4,18 +4,18 @@
  */
 export default new pm.Vuex.Store({
 
-	state: {
-		activities: [],
-	},
-	
-	mutations: {
-		setActivities (state, activities) {
-			state.activities = activities;
-		},
+    state: {
+        activities: [],
+    },
+    
+    mutations: {
+        setActivities (state, activities) {
+            state.activities = activities;
+        },
 
-		setLoadedActivities (state, activities) {
-			var new_activity = state.activities.concat(activities);
-			state.activities = new_activity;
-		}
-	}
+        setLoadedActivities (state, activities) {
+            var new_activity = state.activities.concat(activities);
+            state.activities = new_activity;
+        }
+    }
 });

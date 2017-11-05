@@ -9,47 +9,47 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return {
-				projects_view: this.$store.state.projects_view,
-			}
-		},
-		created(){
-			this.getCookie("project_view");
-		},
-		methods: {
-			setcookie(name="grid_view"){
-				var d = new Date();
-			    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
-			    var expires = "expires="+d.toUTCString();
+    export default{
+        data(){
+            return {
+                projects_view: this.$store.state.projects_view,
+            }
+        },
+        created(){
+            this.getCookie("project_view");
+        },
+        methods: {
+            setcookie(name="grid_view"){
+                var d = new Date();
+                d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+                var expires = "expires="+d.toUTCString();
 
-				document.cookie = "project_view="+name + ';' + expires;
-				this.$store.commit('setProjectsView', name);
-			},
+                document.cookie = "project_view="+name + ';' + expires;
+                this.$store.commit('setProjectsView', name);
+            },
 
-			getCookie(key){
-	            var cookies = document.cookie.split(';'),
-	             cookieslen = cookies.length;
-	             key=key + "=";
+            getCookie(key){
+                var cookies = document.cookie.split(';'),
+                 cookieslen = cookies.length;
+                 key=key + "=";
 
-	             for(var i =0; i<cookieslen; i++){
-	                var c = cookies[i];
-	                while (c.charAt(0) == ' ') {
-	                    c = c.substring(1);
-	                }
+                 for(var i =0; i<cookieslen; i++){
+                    var c = cookies[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
 
-	                if (c.indexOf(name) == 0) {
-	                    this.$store.commit('setProjectsView', c.substring(key.length, c.length))
-	                    return c.substring(key.length, c.length);
-	                }
-	             }
+                    if (c.indexOf(name) == 0) {
+                        this.$store.commit('setProjectsView', c.substring(key.length, c.length))
+                        return c.substring(key.length, c.length);
+                    }
+                 }
 
-	             return "";
-	        },
-	        activeClass(view){
-	        	return this.$store.state.projects_view === view;
-	        }
-		}
-	}
+                 return "";
+            },
+            activeClass(view){
+                return this.$store.state.projects_view === view;
+            }
+        }
+    }
 </script>

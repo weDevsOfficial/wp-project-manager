@@ -1,6 +1,6 @@
 <template>
     
-    	<form class="pm-comment-form" @submit.prevent="newSelfComment()">
+        <form class="pm-comment-form" @submit.prevent="newSelfComment()">
             <div class="item message pm-sm-col-12">
                 <text-editor :editor_id="editor_id" :content="content"></text-editor>
             </div>
@@ -17,20 +17,20 @@
     
 </template>
 
-<script>	
-	import editor from '@components/common/text-editor.vue';
+<script>    
+    import editor from '@components/common/text-editor.vue';
     import uploader from '@components/common/file-uploader.vue';
     import notifyUser from '@components/common/notifyUser.vue';
-	
-	export default {
-		props: ['comment', 'discuss'],
-		data () {
+    
+    export default {
+        props: ['comment', 'discuss'],
+        data () {
             return {
                 content: {
                     html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
                 },
                 submit_disabled: false,
-    			show_spinner: false,
+                show_spinner: false,
                 notify_users: [],
                 deleted_files: [],
                 files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
@@ -54,23 +54,23 @@
             },
         },
 
-		components: {
-			'text-editor': editor,
+        components: {
+            'text-editor': editor,
             'file-uploader': uploader,
              notifyUser: notifyUser
-		},
+        },
 
-		computed: {
-			/**
-	         * Editor ID
-	         * 
-	         * @return string
-	         */
-	        editor_id: function() {
-	            var comment_id = ( typeof this.comment.commentable_id === 'undefined' ) ? '' : '-' + this.comment.commentable_id;
-	            return 'pm-comment-editor' + comment_id;
-	        },
-		},
+        computed: {
+            /**
+             * Editor ID
+             * 
+             * @return string
+             */
+            editor_id: function() {
+                var comment_id = ( typeof this.comment.commentable_id === 'undefined' ) ? '' : '-' + this.comment.commentable_id;
+                return 'pm-comment-editor' + comment_id;
+            },
+        },
 
         methods: {
             newSelfComment () {
@@ -95,6 +95,6 @@
                 }
             }
         }
-	}
-	
+    }
+    
 </script>

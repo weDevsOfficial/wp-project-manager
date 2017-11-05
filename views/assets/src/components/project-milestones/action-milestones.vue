@@ -20,8 +20,8 @@
 </template>
 
 <script>
-	export default {
-		props: ['milestone'],
+    export default {
+        props: ['milestone'],
 
         data () {
             return {
@@ -62,5 +62,5 @@
                     });
             }
         }
-	}
+    }
 </script>

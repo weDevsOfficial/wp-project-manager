@@ -1,5 +1,5 @@
 <template>
-	<div class="pm-list-comment-wrap">
+    <div class="pm-list-comment-wrap">
 
         <h3 class="pm-comment-title">{{text.discuss_this_task_list}}</h3>
 
@@ -60,40 +60,40 @@
                 <list-comment-form :comment="{}" :list="list"></list-comment-form>
             </div>
         </div>
-	</div>
+    </div>
 </template>
 
 <script>
-	
-	import list_comment_form from './list-comment-form.vue';
+    
+    import list_comment_form from './list-comment-form.vue';
 
-	export default {
+    export default {
 
-	    // Get passing data for this component. 
-	    props: ['comments', 'list'],
+        // Get passing data for this component. 
+        props: ['comments', 'list'],
 
-	    computed: {
-	        /**
-	         * Get current user avatar
-	         */
-	        getCurrentUserAvatar: function() {
-	            return PM_Vars.current_user_avatar_url;
-	        },
-	    },
+        computed: {
+            /**
+             * Get current user avatar
+             */
+            getCurrentUserAvatar: function() {
+                return PM_Vars.current_user_avatar_url;
+            },
+        },
 
-	    methods: {
-	        current_user_can_edit_delete: function( comment, list ) {
-	            
-	            if ( list.can_del_edit ) {
-	                return true;
-	            }
-	            
-	            if ( (comment.user_id == this.$store.state.get_current_user_id ) && (comment.comment_type == '') ) {
-	                return true;
-	            }
+        methods: {
+            current_user_can_edit_delete: function( comment, list ) {
+                
+                if ( list.can_del_edit ) {
+                    return true;
+                }
+                
+                if ( (comment.user_id == this.$store.state.get_current_user_id ) && (comment.comment_type == '') ) {
+                    return true;
+                }
 
-	            return false;
-	        },
+                return false;
+            },
             deleteListComment (id) {
                 if ( !confirm( this.text.are_you_sure ) ) {
                     return;
@@ -111,12 +111,12 @@
                 }
                 this.httpRequest(request_data);
             }
-	    },
+        },
 
-	    components: {
-	    	'list-comment-form': list_comment_form
-	    }
+        components: {
+            'list-comment-form': list_comment_form
+        }
             
-	}
+    }
 </script>
 
