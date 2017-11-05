@@ -122,8 +122,10 @@ class Project_Controller {
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource );
+		$response['message'] = pm_get_text('success_messages.project_created');
 
-        return $this->get_response( $resource );
+        return $response;
 	}
 
 	public function update( WP_REST_Request $request ) {
@@ -145,8 +147,10 @@ class Project_Controller {
 		}
 
 		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource );
+		$response['message'] = pm_get_text('success_messages.project_updated');
 
-        return $this->get_response( $resource );
+        return $response;
 	}
 
 	public function destroy( WP_REST_Request $request ) {
@@ -169,6 +173,10 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
+
+		return [
+			'message' => pm_get_text('success_messages.project_deleted')
+		];
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {
