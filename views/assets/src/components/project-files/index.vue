@@ -6,11 +6,12 @@
 </template>
 
 <script>
-    import store from './store';
+    //import store from './store';
+    //import store from './../../store/store';
     import mixin from './mixin';
     
     export default {
-        store,
+        //store,
     }
 
 </script>

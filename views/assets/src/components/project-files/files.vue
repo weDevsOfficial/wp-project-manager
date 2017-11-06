@@ -1,7 +1,8 @@
 <template>
     <div class="wrap pm pm-front-end">
         <pm-header></pm-header>
-
+        <do-action :hook="'after_files_header'"></do-action>
+        
         <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -51,28 +52,37 @@
 </template>
 
 <script>
-    import header from './../common/header.vue';
-
+    import header from '@components/common/header.vue';
+    import do_action from '@components/common/do-action.vue';
+    
     export default {
-        beforeRouteEnter(to, from, next) {
-
-            next(vm => {
-                vm.getFiles();
-            });
+        state: {
+            files: []
         },
-        components: {
-            'pm-header': header
-        },
-        computed: {
-            files () {
-                return this.$store.state.files;
+        mutations: {
+            setFiles (state, files) {
+                state.files = files;
             }
         },
-        data(){
+        components: {
+            'pm-header': header,
+            'do-action': do_action
+        },
+        created () {
+            this.registerStore('pmFiles');
+            this.getFiles();
+            
+        },
+        computed: {
+            ...pm.Vuex.mapState('pmFiles', ['files']),
+        },
+
+        data() {
             return {
                 loading: true,
             }
         },
+
         methods: {
             attachTo (file) {
                 if (file.fileable_type === 'discussion_board') {
@@ -100,8 +110,8 @@
                         break;
                 }
             }
+        
         }
-
 
     }
 

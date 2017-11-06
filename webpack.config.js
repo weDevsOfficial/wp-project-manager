@@ -39,14 +39,18 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        //js: 'babel-loader!eslint-loader'
+                        js: 'babel-loader'
                     }
-                }
+                },
             },
-            {
+            {   
                 test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
-                exclude: /node_modules/ 
+                query: {
+                    presets:[ 'es2015', 'react', 'stage-2' ]
+                }
+             
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
