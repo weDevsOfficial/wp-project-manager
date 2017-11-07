@@ -1915,46 +1915,146 @@ a.pm-icon-tick.grey {
 /*--------------------------------------------------
 :: Files
 -------------------------------------------------- */
-ul.pm-files li {
-  position: relative;
-  margin: 0 10px 10px 0;
-  display: inline-block;
-  background: #f9f9f9;
-  border: 1px solid #dfdfdf;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+.pm-folders-list {
+  padding: 0;
+  margin: 20px -15px 0;
+  list-style: none;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
 }
-ul.pm-files li .pm-thumb {
-  padding: 10px;
+.pm-folders-list li {
+  margin: 0 0 30px;
+  padding: 0px 15px;
+  background: none;
+  width: 20%;
+  float: left;
+  min-width: 272px;
+  height: 248px;
 }
-ul.pm-files li .pm-thumb img {
-  margin: 0 auto;
-  display: block;
-  border: 1px solid #DDDDDD;
-  padding: 3px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-ul.pm-files li .pm-thumb-detail {
-  padding: 0 10px 10px 10px;
-  font-size: 13px;
-}
-ul.pm-files li .pm-file-name {
-  padding: 5px 0;
-  margin: 0 0 0px 0;
-  font-size: 13px;
-}
-ul.pm-files li .pm-file-action .comment-number {
-  font-size: 11px;
+.pm-folders-list li .ff-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: #E2E6E7 solid 1px;
   background: #fff;
-  border: 1px solid #ddd;
-  padding: 1px 4px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
+.pm-folders-list li .ff-content:last-child {
+  margin-right: 0px !important;
+}
+.pm-folders-list li .image-content {
+  padding: 20px 20px 0px;
+  text-align: center;
+  height: 205px;
+}
+.pm-folders-list li .image-content img {
+  max-height: 140px;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+.pm-folders-list li .image-content .item-title {
+  font-weight: bold;
+}
+.pm-folders-list li .image-content .edit {
+  display: none;
+}
+.pm-folders-list li .editing .view {
+  display: none;
+}
+.pm-folders-list li .editing .edit {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+.pm-folders-list li .editing .edit input {
+  width: 70%;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+.pm-folders-list li .editing .edit .button {
+  padding: 1px 2px;
+}
+.pm-folders-list li .editing .edit .dashicons,
+.pm-folders-list li .editing .edit .dashicons-before:before {
+  line-height: inherit;
+}
+.pm-folders-list li .editing .edit .save {
+  color: green;
+}
+.pm-folders-list li .editing .edit .cancel {
+  color: red;
+}
+.pm-folders-list li .footer-section {
+  padding: 10px 15px;
+  background: #FCFCFC;
+  border-top: #F2F2F2 solid 1px;
+  width: 100%;
+  text-align: center;
+  height: 42px;
+}
+.pm-folders-list li .footer-section a {
+  color: #ccc;
+  padding: 2px 12px;
+}
+.pm-folders-list li .footer-section a:hover {
+  color: #0073aa;
+}
+.pm-folders-list li .footer-section .pm-comments-count {
+  background: url('../images/discussion.svg') no-repeat center center;
+  padding: 15px;
+  background-size: 20px;
+}
+.pm-folders-list li .footer-section .pm-comments-count span {
+  padding: 0px 6px;
+  margin-top: -12px;
+  border-radius: 10px;
+  position: absolute;
+  margin-left: 5px;
+}
+.pm-folders-list .folder img {
+  padding: 35px 25px 33px;
+}
+.pm-folders-list .file .image-content img {
+  border: #fdfdfd solid 1px;
+}
+.pm-folders-list .file .doc-content {
+  padding: 20px 20px 0px;
+  text-align: center;
+  font-weight: normal;
+  height: 205px;
+  background: #FAFEF0;
+  text-align: left;
+  cursor: pointer ;
+  overflow: hidden;
+}
+.pm-folders-list .file .doc-content .item-title {
+  font-weight: bold;
+}
+.pm-folders-list .file .online-docx-image-content {
+  position: absolute;
+  width: 18% ;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: 50% 30% ;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: 150px;
+}
+.pm-folders-list .file .footer-section {
+  text-align: center;
+}
+.pm-folders-list:last-child {
+  margin-right: 0px;
+}
+
 .pm-user-task .pm-list-header h3 {
   color: #0074A2;
 }
@@ -3582,7 +3682,7 @@ ul.pm-files li .pm-file-action .comment-number {
   padding: 0px;
   margin: 0px;
 }
-.pm .pm-files-page .pm-files li {
+/*.pm .pm-files-page .pm-files li {
   background: #fff;
   margin-right: 30px;
   margin-bottom: 12px;
@@ -3631,7 +3731,7 @@ ul.pm-files li .pm-file-action .comment-number {
 }
 .pm .pm-files-page .pm-files li .pm-file-action ul .pm-download-file a {
   background: url('../images/download.svg') no-repeat center center;
-}
+}*/
 .pm .chosen-drop ul li {
   float: none !important ;
 }
