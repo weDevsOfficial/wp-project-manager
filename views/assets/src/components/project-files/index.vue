@@ -6,12 +6,17 @@
 </template>
 
 <script>
-    //import store from './store';
-    //import store from './../../store/store';
+    import store from './store';
     import mixin from './mixin';
     
     export default {
-        //store,
+    	state: store.state,
+	    
+	    mutations: store.mutations,
+        
+        created () {
+        	this.registerStore('pmFiles');
+        }
     }
 
 </script>

@@ -56,20 +56,11 @@
     import do_action from '@components/common/do-action.vue';
     
     export default {
-        state: {
-            files: []
-        },
-        mutations: {
-            setFiles (state, files) {
-                state.files = files;
-            }
-        },
         components: {
             'pm-header': header,
             'do-action': do_action
         },
         created () {
-            this.registerStore('pmFiles');
             this.getFiles();
             
         },
