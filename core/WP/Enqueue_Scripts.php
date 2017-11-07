@@ -33,6 +33,7 @@ class Enqueue_Scripts {
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
+			'project_page'				=> admin_url( 'admin.php?page=pm_projects' ),
 			//'time_zones'               => $json_time_zone_string['zones'],
 			//'time_links'               => $json_time_zone_string['links'],
 			'rest_api_prefix'          => rest_get_url_prefix(),

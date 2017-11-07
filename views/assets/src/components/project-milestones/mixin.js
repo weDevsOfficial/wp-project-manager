@@ -192,14 +192,15 @@ export default pm.Vue.mixin({
                     description: '',
                     achieve_date: '',
                     order: 0,
-                    status:'incomplete'
+                    status:'incomplete',
+                    project_id: self.project_id,
                 },
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+args.data.id,
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id,
                 type: 'PUT',
                 data: args.data,
                 success (res) {
