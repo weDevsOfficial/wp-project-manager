@@ -35,7 +35,7 @@
     function Plugin(element, options) {
         this.element = element;
         this.options = $.extend({}, defaults, options);
-        $class_name = this.options.class_name;
+        var $class_name = this.options.class_name;
         this._defaults = defaults;
         this._name = pluginName;
 
@@ -86,7 +86,7 @@
         
         element.prepend('<div class="preloader"><div class="preloader-container"><div class="preloader-animation"></div></div></div>');
         $preloader = element.find('.preloader');
-        $preloaderContainer = element.find('.preloader-container');
+        var $preloaderContainer = element.find('.preloader-container');
         $animationBlock = $preloader.find('.preloader-animation');
 
         // Установка высоты прелоадера

@@ -1,3 +1,4 @@
+import store from './../../store/store';
 
 export default pm.Vue.mixin({
     methods: {
@@ -6,7 +7,7 @@ export default pm.Vue.mixin({
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files',
                 success (res) {
-                    self.$store.commit( 'setFiles', res.data );
+                    self.$store.commit( 'pmFiles/setFiles', res.data );
                     pm.NProgress.done();
                     self.loading = false;
                 }

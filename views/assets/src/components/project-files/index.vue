@@ -10,7 +10,13 @@
     import mixin from './mixin';
     
     export default {
-        store,
+    	state: store.state,
+	    
+	    mutations: store.mutations,
+        
+        created () {
+        	this.registerStore('pmFiles');
+        }
     }
 
 </script>

@@ -1,5 +1,4 @@
 export default new pm.Vuex.Store({
-    
     state: {
         projects: [],
         project: {},

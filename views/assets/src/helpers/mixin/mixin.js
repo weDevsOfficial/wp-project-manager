@@ -23,6 +23,19 @@
             jQuery.ajax(property);
         },
 
+        registerStore (module_name) {
+            var self = this;
+            var mutations = self.$options.mutations;
+            var state = self.$options.state;
+
+            // register a module `myModule`
+            self.$store.registerModule(module_name, {
+                namespaced: true,
+                state,
+                mutations,
+            });
+        },
+
         /**
          * Create a new project 
          * @param  {[Object]} args data with callback
