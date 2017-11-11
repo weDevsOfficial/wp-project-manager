@@ -1,0 +1,10 @@
+wedevsPmWebpack([19],{
+
+/***/ 17:
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (22:33)\n\n\u001b[0m \u001b[90m 20 | \u001b[39m                \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m \u001b[36mclass\u001b[39m\u001b[33m=\u001b[39m\u001b[32m\"pm-single\"\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 21 | \u001b[39m                    \u001b[33m<\u001b[39m\u001b[33mh3\u001b[39m \u001b[36mclass\u001b[39m\u001b[33m=\u001b[39m\u001b[32m\"pm-box-title\"\u001b[39m\u001b[33m>\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 22 | \u001b[39m                        {{discuss\u001b[33m.\u001b[39mtitle}}          \n \u001b[90m    | \u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 23 | \u001b[39m                        \u001b[33m<\u001b[39m\u001b[33mspan\u001b[39m \u001b[36mclass\u001b[39m\u001b[33m=\u001b[39m\u001b[32m\"pm-right pm-edit-link\"\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 24 | \u001b[39m                            \u001b[33m<\u001b[39m\u001b[33ma\u001b[39m \u001b[37m\u001b[41m\u001b[1m@\u001b[22m\u001b[49m\u001b[39mclick\u001b[33m.\u001b[39mprevent\u001b[33m=\u001b[39m\u001b[32m\"showHideDiscussForm('toggle', discuss)\"\u001b[39m href\u001b[33m=\u001b[39m\u001b[32m\"#\"\u001b[39m data\u001b[33m-\u001b[39mmsg_id\u001b[33m=\u001b[39m\u001b[32m\"97\"\u001b[39m data\u001b[33m-\u001b[39mproject_id\u001b[33m=\u001b[39m\u001b[32m\"60\"\u001b[39m \u001b[36mclass\u001b[39m\u001b[33m=\u001b[39m\u001b[32m\"pm-msg-edit dashicons dashicons-edit\"\u001b[39m\u001b[33m>\u001b[39m\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33ma\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 25 | \u001b[39m                            \u001b[33m<\u001b[39m\u001b[33mspan\u001b[39m \u001b[36mclass\u001b[39m\u001b[33m=\u001b[39m\u001b[32m\"pm-not-private\"\u001b[39m\u001b[33m>\u001b[39m\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mspan\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n");
+
+/***/ })
+
+});
