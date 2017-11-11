@@ -108,13 +108,3 @@ function pm_get_settings( $key = null ) {
 
     return null;
 }
-
-function pm_add_meta( $id, $project_id, $key, $value, $type = null ) {
-    WeDevs\PM\Common\Models\Meta::create([
-        'entity_id'   => $id,
-        'entity_type' => $type,
-        'meta_key'    => $key,
-        'meta_value'  => $value,
-        'project_id'  => $project_id,
-    ]);
-}
