@@ -1,87 +1,129 @@
 <template>
     <div class="wrap pm pm-front-end">
         <pm-header></pm-header>
-        <do-action :hook="'after_files_header'"></do-action>
         
-        <div v-if="loading" class="pm-data-load-before" >
-            <div class="loadmoreanimation">
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
+        <div v-if="!is_pro">
+            <div v-if="loading" class="pm-data-load-before" >
+                <div class="loadmoreanimation">
+                    <div class="load-spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
                 </div>
             </div>
+
+
+            <div v-if="!loading">
+                
+
+                <ul class="pm-folders-list">
+                    <li class="file" v-for="file in files">
+
+                        <div class="ff-content">
+                            <div>
+                                <div class="image-content">
+                                    
+                                    <a class="pm-colorbox-img" :title="file.name" :href="file.url">
+                                        <img :src="file.thumb" :alt="file.name">
+                                    </a>
+                                    
+                                    <div class="item-title">{{ file.name }}</div>
+                                    <span class="text">
+                                        Attached to 
+                                        <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
+                                        by 
+                                        <a href="#/" title="admin">
+                                            admin
+                                        </a>
+                                    </span>
+                                </div>
+
+                                <div class="footer-section">
+                                    
+                                    <a :href="file.url"><span class="dashicons dashicons-download"></span></a>
+                                    <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
+                                    <a href="#" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
+                                
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </li>
+
+
+                    <div class="clearfix"></div>
+                </ul>
+
+            </div>
         </div>
+        <div v-else>
+            <do-action :hook="'pm_file_footer'"></do-action>
+        </div>
+    </div>
 
+</template>
 
-        <div v-if="!loading">
-            
+<script>
+    import header from '@components/common/header.vue';
+    import do_action from '@components/common/do-action.vue';
+    
+    export default {
+        components: {
+            'pm-header': header,
+            'do-action': do_action
+        },
+        created () {
+            if (!PM_Vars.is_pro) {
+                this.getFiles();
+            }
+        },
+        computed: {
+            ...pm.Vuex.mapState('pmFiles', ['files']),
+        },
 
-        <ul class="pm-folders-list">
-            <do-action :hook="'pmBeforePrintfiles'"></do-action>
-            <li class="file" v-for="file in files">
+        data() {
+            return {
+                loading: true,
+                is_pro: PM_Vars.is_pro
+            }
+        },
 
-                <div class="ff-content">
-                    <div>
-                        <div class="image-content">
-                            
-                            <a class="pm-colorbox-img" :title="file.name" :href="file.url">
-                                <img :src="file.thumb" :alt="file.name">
-                            </a>
-                            
-                            <div class="item-title">{{ file.name }}</div>
-                            <span class="text">
-                                Attached to 
-                                <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
-                                by 
-                                <a href="#/" title="admin">
-                                    admin
-                                </a>
-                            </span>
-                        </div>
+        methods: {
+            attachTo (file) {
+                if (file.fileable_type === 'discussion_board') {
+                    return 'Discuss';
+                }
+            },
 
-                        <div class="footer-section">
-                            
-                            <a :href="file.url"><span class="dashicons dashicons-download"></span></a>
-                            <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
-                            <a href="#" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
-                        
-                        </div>
-                    </div>
+            contentURL(file) {
+                var self = this;
+                switch(file.fileable_type) {
                     
-                </div>
-            </li>
+                    case 'discussion_board':
+                        return '#/'+self.project_id+'/discussions/'+file.fileable_id;
+                        break;
 
+                    case 'task_list':
+                        return '#/'+self.project_id+'/task-lists/'+file.fileable_id;
+                        break;
 
-            <div class="clearfix"></div>
-        </ul>
+                    case 'task':
+                        return '#/'+self.project_id+'/task/'+file.fileable_id;
+                        break;
 
+                    default:
+                        break;
+                }
+            }
+        
+        }
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</script>
 
             <!-- <ul class="pm-files">    
 
@@ -136,67 +178,6 @@
                     </div>
                 </li>
             </ul>  -->
-        </div>
-    </div>
-
-</template>
-
-<script>
-    import header from '@components/common/header.vue';
-    import do_action from '@components/common/do-action.vue';
-    
-    export default {
-        components: {
-            'pm-header': header,
-            'do-action': do_action
-        },
-        created () {
-            this.getFiles();
-            
-        },
-        computed: {
-            ...pm.Vuex.mapState('pmFiles', ['files']),
-        },
-
-        data() {
-            return {
-                loading: true,
-            }
-        },
-
-        methods: {
-            attachTo (file) {
-                if (file.fileable_type === 'discussion_board') {
-                    return 'Discuss';
-                }
-            },
-
-            contentURL(file) {
-                var self = this;
-                switch(file.fileable_type) {
-                    
-                    case 'discussion_board':
-                        return '#/'+self.project_id+'/discussions/'+file.fileable_id;
-                        break;
-
-                    case 'task_list':
-                        return '#/'+self.project_id+'/task-lists/'+file.fileable_id;
-                        break;
-
-                    case 'task':
-                        return '#/'+self.project_id+'/task/'+file.fileable_id;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        
-        }
-
-    }
-
-</script>
 
 
 
