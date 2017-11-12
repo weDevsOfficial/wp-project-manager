@@ -37,16 +37,30 @@
         methods:{
             milestoneMarkDone (milestone) {
                 milestone.status = 'complete';
-                this.addOrUpdateMilestone(milestone);
+                var args = {
+                    data: {
+                        id: milestone.id,
+                        status: 'complete'
+                    }
+                }
+                this.updateMilestone(args);
             },
 
             milestoneMarkUndone (milestone) {
                 milestone.status = 'incomplete';
-                this.addOrUpdateMilestone(milestone);
+                var args = {
+                    data: {
+                        id: milestone.id,
+                        status: 'incomplete'
+                    }
+                }
+                this.updateMilestone(args);
             },
             deleteSelfMilestone(){
                 var self = this;
-                this.deleteMilestone(this.milestone, function(res){
+                var args = {
+                    milestone_id: this.milestone.id,
+                    callback: function(res){
                         if (!self.$store.state.milestones.length) {
                             self.$router.push({
                                 name: 'milestones', 
@@ -59,7 +73,9 @@
                         }
 
                         self.templateAction();
-                    });
+                    }
+                }
+                this.deleteMilestone( args );
             }
         }
     }
