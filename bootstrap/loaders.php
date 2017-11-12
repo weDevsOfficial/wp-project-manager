@@ -115,6 +115,10 @@ function migrate_db() {
     $migrater->build_schema();
 }
 
+function seed_db() {
+    (new RoleTableSeeder())->run();
+}
+
 function register_routes() {
     $routes = Router::get_routes();
 

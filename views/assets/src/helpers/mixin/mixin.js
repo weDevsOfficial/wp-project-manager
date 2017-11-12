@@ -16,6 +16,8 @@
             var before = function( xhr ) {
                 xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
                 xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+
+                xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
 
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;

@@ -107,9 +107,14 @@ class Project_Controller {
 
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
+		$category_ids = array_filter( $category_ids );
 		$project->categories()->sync( $category_ids );
 
 		$assignees = $request->get_param( 'assignees' );
+		$assignees[] = [
+			'user_id' => wp_get_current_user()->ID,
+			'role_id' => 1, // 1 for manager
+		];
 
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
@@ -117,8 +122,10 @@ class Project_Controller {
 
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource );
+		$response['message'] = pm_get_text('success_messages.project_created');
 
-        return $this->get_response( $resource );
+        return $response;
 	}
 
 	public function update( WP_REST_Request $request ) {
@@ -140,8 +147,10 @@ class Project_Controller {
 		}
 
 		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource );
+		$response['message'] = pm_get_text('success_messages.project_updated');
 
-        return $this->get_response( $resource );
+        return $response;
 	}
 
 	public function destroy( WP_REST_Request $request ) {
@@ -164,6 +173,10 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
+
+		return [
+			'message' => pm_get_text('success_messages.project_deleted')
+		];
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {

@@ -11,10 +11,10 @@ class Create_Meta_Table extends Migration {
             $table->unsignedInteger( 'entity_id' );
             $table->string( 'entity_type' );
             $table->string( 'meta_key' );
-            $table->string( 'meta_value' )->nullable();
+            $table->text( 'meta_value' )->nullable();
             $table->unsignedInteger( 'project_id' )->nullable();
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
             $table->timestamps();
         });
     }

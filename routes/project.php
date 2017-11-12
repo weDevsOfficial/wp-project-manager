@@ -2,6 +2,7 @@
 
 use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Administrator;
+use WeDevs\PM\Core\Permissions\Authentic;
 use WeDevs\PM\Project\Sanitizers\Project_Sanitizer;
 use WeDevs\PM\Project\Validators\Create_Project;
 use WeDevs\PM\Project\Validators\Update_Project;
@@ -27,7 +28,9 @@ $router = Router::singleton();
 //     ->permission( [Administrator::class] );
 
 
-$router->get( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' );
+$router->get( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' )
+    ->permission([Authentic::class]);
+
 $router->get( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@show' );
 $router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@store' );
 $router->put( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@update' );
