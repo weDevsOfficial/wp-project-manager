@@ -13,9 +13,10 @@ class Create_Files_Table extends Migration {
             $table->string( 'fileable_type' )->nullable();
             $table->integer( 'directory' )->nullable();
             $table->bigInteger( 'attachment_id' )->nullable();
+            $table->integer( 'parent' )->default(0);
             $table->unsignedInteger( 'project_id' )->nullable();
-            $table->integer( 'created_by' )->nullable();
-            $table->integer( 'updated_by' )->nullable();
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamps();
         });

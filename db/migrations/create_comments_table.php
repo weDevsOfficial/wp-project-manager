@@ -15,8 +15,8 @@ class Create_Comments_Table extends Migration {
             $table->string( 'commentable_type' );
 
             $table->unsignedInteger( 'project_id' );
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamps();
         });

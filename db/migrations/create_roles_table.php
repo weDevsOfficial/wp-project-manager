@@ -10,8 +10,8 @@ class Create_Roles_Table extends Migration {
             $table->bigIncrements( 'id' );
             $table->string( 'title' );
             $table->text( 'description' )->nullable();
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
             $table->timestamps();
         });
     }

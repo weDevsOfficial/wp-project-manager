@@ -31,6 +31,7 @@ class Enqueue_Scripts {
 
 		wp_localize_script( 'pm-library', 'PM_Vars', array(
 			'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
+			'permission'               => wp_create_nonce('wp_rest'),
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
 			'project_page'				=> admin_url( 'admin.php?page=pm_projects' ),

@@ -22,6 +22,6 @@ add_action( 'init', function() {
     load_routes();
     register_routes();
     view();
-
+    seed_db();
     do_action( 'pm_loaded' );
 });

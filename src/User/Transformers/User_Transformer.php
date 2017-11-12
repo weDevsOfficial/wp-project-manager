@@ -16,7 +16,11 @@ class User_Transformer extends TransformerAbstract {
         'roles'
     ];
 
-    public function transform( User $user ) {
+    public function transform( $user ) {
+        if (!$user) {
+            return [];
+        }
+
         $data = [
             'id'           => $user->ID,
             'username'     => $user->user_login,
@@ -30,7 +34,11 @@ class User_Transformer extends TransformerAbstract {
         return $data;
     }
 
-    public function includeRoles( User $user ) {
+    public function includeRoles( $user ) {
+        if (!$user) {
+            return null;
+        }
+
         $request_uri = $_SERVER['REQUEST_URI'];
         $project_uri = preg_match_all('/projects\/[0-9]+/', $request_uri, $matches, PREG_SET_ORDER);
 

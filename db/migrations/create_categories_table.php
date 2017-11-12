@@ -13,8 +13,8 @@ class Create_Categories_Table extends Migration {
             $table->text('description')->nullable();
             $table->string( 'categorible_type' )->nullable();
 
-            $table->unsignedInteger( 'created_by' );
-            $table->unsignedInteger( 'updated_by' );
+            $table->unsignedInteger( 'created_by' )->nullable();
+            $table->unsignedInteger( 'updated_by' )->nullable();
 
             $table->timestamps();
         });

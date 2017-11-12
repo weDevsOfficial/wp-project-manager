@@ -26,7 +26,6 @@ class Category_Controller {
         }
 
         $category_collection = $categories->getCollection();
-
         $resource = new Collection( $category_collection, new Category_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $categories ) );
 
@@ -35,8 +34,8 @@ class Category_Controller {
 
     public function show( WP_REST_Request $request ) {
         $id = $request->get_param( 'id' );
-        $category = Category::findOrFail( $id );
 
+        $category = Category::findOrFail( $id );
         $resource = new Item( $category, new Category_Transformer );
 
         return $this->get_response( $resource );
@@ -51,10 +50,14 @@ class Category_Controller {
         $data = array_filter( $data );
 
         $category = Category::create( $data );
-
         $resource = new Item( $category, new Category_Transformer );
+        $response = $this->get_response( $resource );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.category_created')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -70,11 +73,14 @@ class Category_Controller {
         $data = array_filter( $data );
 
         $category->update( $data );
-
         $resource = new Item( $category, new Category_Transformer );
+        $response = $this->get_response( $resource );
 
-        return $this->get_response( $resource );
-    }
+        $message = [
+            'message' => pm_get_text('success_messages.category_updated')
+        ];
+
+        return $this->get_response( $resource, $message );    }
 
     public function destroy( WP_REST_Request $request ) {
         $id = $request->get_param( 'id' );
@@ -82,6 +88,12 @@ class Category_Controller {
 
         $category->projects()->detach();
         $category->delete();
+
+        $message = [
+            'message' => pm_get_text('success_messages.category_deleted')
+        ];
+
+        return $this->get_response( false, $message );
     }
 
     public function bulk_destroy( WP_REST_Request $request ) {
@@ -91,5 +103,11 @@ class Category_Controller {
             DB::table('pm_category_project')->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
         }
+
+        $message = [
+            'message' => pm_get_text('success_messages.selected_category_deleted')
+        ];
+
+        return $this->get_response( false, $message );
     }
 }
