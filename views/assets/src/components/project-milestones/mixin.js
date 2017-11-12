@@ -192,14 +192,15 @@ export default pm.Vue.mixin({
                     description: '',
                     achieve_date: '',
                     order: 0,
-                    status:'incomplete'
+                    status:'incomplete',
+                    project_id: self.project_id,
                 },
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+args.data.id,
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id,
                 type: 'PUT',
                 data: args.data,
                 success (res) {
@@ -238,20 +239,32 @@ export default pm.Vue.mixin({
             self.httpRequest(request_data);
         },
 
-        deleteMilestone (milestone, callback) {
+        /**
+         * Delete Milestone
+         * @param  {Object} args 
+         * @return {void}      
+         */
+        deleteMilestone ( args ) {
             if ( ! confirm( this.text.milestone_delete_conf ) ) {
                 return;
             }
+            var pre_define = {
+                milestone_id: '',
+                callback: false,
+            }
+
+            var args = jQuery.extend(true, pre_define, args );
             var self = this;
+            console.log(args);
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + milestone.id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteMilestone', milestone.id);
+                    self.$store.commit('afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
 
-                    if(typeof callback === 'function'){
-                        callback.apply(res);
+                    if(typeof args.callback === 'function'){
+                        args.callback.call(self, res);
                     }
                 }
             }

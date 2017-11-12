@@ -3,7 +3,7 @@
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
-                    <input v-model="task.status" @click="taskDoneUndone( task, task.status, list )" class="" type="checkbox"  value="" name="" >
+                    <input v-model="task.status" @click="doneUndone( )" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         
@@ -89,6 +89,11 @@
 
                 return false;
             },
+
+            doneUndone (){
+                var status = !this.task.status;
+                this.taskDoneUndone( this.task, status, this.list )
+            }
         }
     }
 </script>

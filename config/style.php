@@ -17,6 +17,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/fontawesome/font-awesome.min.css',
 		'dependency' => false,
 	],
+	'pm-fullcalendar' => [
+		'id'         => 'pm-fullcalendar',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-fullcalendar/fullcalendar.min.css',
+		'dependency' => false,
+	],
 	'pm-jquery-ui' => [
 		'id'         => 'pm-jquery-ui',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-ui/jquery-ui-1.9.1.custom.css',
@@ -40,6 +45,7 @@ return [
 			'pm-nprogress',
 			'pm-fontawesome',
 			'pm-jquery-ui',
+			'pm-fullcalendar',
 			'pm-tiny-mce',
 			'pm-loading'
 		],
