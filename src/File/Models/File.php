@@ -14,7 +14,8 @@ class File extends Eloquent {
     protected $fillable = [
         'fileable_id',
         'fileable_type',
-        'directory',
+        'parent',
+        'type',
         'attachment_id',
         'parent',
         'project_id',
