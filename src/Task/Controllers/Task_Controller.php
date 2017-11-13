@@ -104,6 +104,30 @@ class Task_Controller {
         }
     }
 
+    private function update_task_status( Task $task ){
+        $user = wp_get_current_user();
+        $data = [
+            'task_id'     => $task->id,
+            'assigned_to' => $user->ID,
+            'project_id'  => $task->project_id,
+        ];
+
+        $assignee = Assignee::firstOrCreate( $data );
+
+
+        if(  $task->status == 'complete' && !$assignee->completed_at ){
+            $assignee->completed_at = Carbon::now();
+            $assignee->status = 2;
+            $assignee->save();
+        }
+
+        if(  $task->status == 'incomplete' && $assignee->completed_at ){
+            $assignee->completed_at = null;
+            $assignee->status = 0;
+            $assignee->save();
+        }
+    }
+
     public function update( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
         $project_id = $request->get_param( 'project_id' );
@@ -123,6 +147,8 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
 
+        $this->update_task_status( $task );
+        
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );
