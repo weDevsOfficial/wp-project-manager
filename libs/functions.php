@@ -109,7 +109,7 @@ function pm_get_settings( $key = null ) {
     return null;
 }
 
-function pm_add_meta( $id, $project_id, $key, $value, $type = null ) {
+function pm_add_meta( $id, $project_id, $type, $key, $value ) {
     WeDevs\PM\Common\Models\Meta::create([
         'entity_id'   => $id,
         'entity_type' => $type,
@@ -118,3 +118,33 @@ function pm_add_meta( $id, $project_id, $key, $value, $type = null ) {
         'project_id'  => $project_id,
     ]);
 }
+
+function pm_update_meta( $id, $project_id, $type, $key, $value ) {
+    $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
+        ->where( 'project_id', $project_id )
+        ->where( 'entity_type', $type )
+        ->where( 'meta_key', $key )
+        ->first();
+
+    if ( $meta ) {
+        $meta->update(['meta_value' => $value]);
+    } else {
+        pm_add_meta( $id, $project_id, $type, $key, $value );
+    }
+}
+
+function pm_delete_meta( $id, $project_id, $type, $key = false ) {
+    $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
+        ->where( 'project_id', $project_id )
+        ->where( 'entity_type', $type );
+
+    if ( $key ) {
+        $meta = $meta->where( 'meta_key', $key );
+        $meta = $meta->first();
+    }
+
+    if ( $meta ) {
+        $meta->delete();
+    }
+}
+

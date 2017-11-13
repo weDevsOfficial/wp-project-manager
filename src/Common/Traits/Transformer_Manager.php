@@ -18,6 +18,7 @@ trait Transformer_Manager {
 
         if ($resource) {
             $response = $manager->createData( $resource )->toArray();
+
         } else {
             $response = [];
         }
