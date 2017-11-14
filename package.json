@@ -57,7 +57,7 @@
   "dependencies": {
     "babel-preset-stage-2": "^6.24.1",
     "chart.js": "^2.7.1",
-    "fullcalendar": "^3.6.2",
+    "fullcalendar": "3.6.2",
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",

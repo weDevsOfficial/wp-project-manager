@@ -91,8 +91,25 @@
             },
 
             doneUndone (){
-                var status = !this.task.status;
-                this.taskDoneUndone( this.task, status, this.list )
+                var self = this,
+                 status = !this.task.status
+                var args = {
+                    data: {
+                        task_id: this.task.id,
+                        status : status,
+                    },
+                    callback: function(res){
+                        self.$store.commit( 'afterTaskDoneUndone', {
+                            status: status,
+                            task: res.data,
+                            list_id: self.list.id,
+                            task_id: self.task.id
+                        });
+                    }
+                }
+
+                                    
+                this.taskDoneUndone( args );
             }
         }
     }

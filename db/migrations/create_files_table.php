@@ -12,7 +12,6 @@ class Create_Files_Table extends Migration {
             $table->integer( 'fileable_id' )->nullable();
             $table->string( 'fileable_type' )->nullable();
             $table->string( 'type' )->default('file');
-            $table->integer( 'parent' )->default(0);
             $table->bigInteger( 'attachment_id' )->nullable();
             $table->integer( 'parent' )->default(0);
             $table->unsignedInteger( 'project_id' )->nullable();
