@@ -1090,31 +1090,26 @@ var PM_TaskList_Mixin = {
          * 
          * @return void             
          */
-        taskDoneUndone ( task, is_checked, list ) {
-            var self = this;
-            var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+task.id;
-            var type = 'PUT'; 
+        taskDoneUndone ( args ) {
+            var self = this,
+            pre_define = {
+                data: {
+                    task_id: '',
+                    status:0,
+                    project_id: self.project_id,
+                },
+                callback: false,
+            },
+            args = jQuery.extend(true, pre_define, args );
 
-            var form_data = {
-                'status': is_checked ? 1 : 0
-            }
             var request_data = {
-                url: url,
-                type: type,
-                data: form_data,
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id,
+                type: 'PUT',
+                data: args.data,
                 success ( res ) {
-                    self.$store.commit( 'afterTaskDoneUndone', {
-                        status: is_checked,
-                        task: res.data,
-                        list_id: list.id,
-                        task_id: task.id
-                    });
-                    if ( self.$store.state.is_single_list ) {
-                    // var condition = 'incomplete_tasks,complete_tasks,comments';
-                    // self.getList(self, self.list.id, condition);
-                    } else {
-                    //self.getList(self, self.list.id );
-                    }
+                    if( typeof args.callback === 'function' ){
+                        args.callback.call(self, res);
+                    }                    
                 },
             }
             self.httpRequest( request_data );    
