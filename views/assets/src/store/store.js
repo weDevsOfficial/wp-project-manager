@@ -29,6 +29,7 @@ export default new pm.Vuex.Store({
             state.projects = projects.projects;
         },
         setProject (state, project) {
+            state.projects.push(project);
             state.project = project;
         },
 
@@ -81,6 +82,7 @@ export default new pm.Vuex.Store({
 
             //state.projects[index] = project;
             jQuery.extend(true, state.projects[index], project);
+            jQuery.extend(true, state.project, project);
             //console.log(state.projects[index], project);
             // jQuery.each(state.projects[index], function(key, value) {
             //  //console.log(state.projects[index][key], project[key]);

@@ -100,12 +100,6 @@
             var self = this,
             pre_define = {
               data: {
-                id: '',
-                title : '',
-                categories : '',
-                description: '',
-                notify_users: '',
-                assignees: '',
                 status: 'incomplete'
               },
               callback: false,
