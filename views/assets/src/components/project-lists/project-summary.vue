@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pm-clearfix">
 
         <div v-if="!projects.length">{{text.no_project_found}}</div>
 
@@ -157,8 +157,6 @@
                 </div>
             </div>
         </article>
-
-        <div class="pm-clearfix"></div>
     </div>
 </template>
 
@@ -200,11 +198,11 @@
                         switch (self.$route.name) {
                             
                             case 'project_lists':
-                                self.getProjects('status=incomplete');
+                                self.getProjects({conditions:{status: 'incomplete'}});
                                 break;
 
                             case 'completed_projects':
-                                self.getProjects('status=complete');
+                                self.getProjects({conditions:{status: 'complete'}});
                                 break;
 
                             default:

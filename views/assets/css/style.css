@@ -2714,6 +2714,9 @@ a.pm-icon-tick.grey {
   float: left;
   height: 300px;
 }
+.pm .pm-project-grid article.pm-project:last-child {
+  margin: 0 0 1.75% 0;
+}
 .pm .pm-project-grid .pm-project .project_head {
   background: #ffffff ;
   padding: 15px;
