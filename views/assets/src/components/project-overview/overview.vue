@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="project-overview">
+        <div v-else class="project-overview">
             <div class="pm-col-10 pm-sm-col-12">
                 <div class="overview-menu">
                     <ul>
@@ -137,7 +137,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getOverViews('with=overview_graph');
+                vm.getOverViews();
             });
         },
         data(){
@@ -160,6 +160,23 @@
         },
         components: {
             'pm-header': header
+        },
+
+        methods : {
+            getOverViews () {
+                var args = {
+                    conditions :{
+                        with : 'overview_graph'
+                    },
+                    callback : function (res){
+                        this.$store.commit( 'setOverViews', res.data );
+                        pm.NProgress.done();
+                        this.loading = false;
+                    }
+                }
+
+                this.getProject(args);
+            }
         }
     }
 
