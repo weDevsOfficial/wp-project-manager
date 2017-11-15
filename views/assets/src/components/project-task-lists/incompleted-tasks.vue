@@ -63,7 +63,7 @@
                 <div class="pm-col-1 pm-todo-action-right pm-last-col">
                     
                     <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
-                    <a href="#" @click.prevent="showHideTaskFrom('toggle', list, task )" class="pm-todo-edit">
+                    <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
                         <span class="dashicons dashicons-edit"></span>
                     </a>
                     <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
