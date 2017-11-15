@@ -1,6 +1,7 @@
 <?php
 
 namespace WeDevs\PM\Core\WP;
+use WP_REST;
 
 class Enqueue_Scripts {
 
