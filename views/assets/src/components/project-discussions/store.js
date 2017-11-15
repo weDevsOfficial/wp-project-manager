@@ -63,7 +63,7 @@ export default new pm.Vuex.Store({
         updateDiscuss (state, data) {
             var discuss_index = state.getIndex(state.discussion, data.id, 'id');
             jQuery.extend(true, state.discussion[discuss_index], data);
-            //state.discussion.splice(discuss_index, 1, data);
+            state.discussion.splice(discuss_index, 1, data);
         },
 
         newDiscuss (state, discuss) {
