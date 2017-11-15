@@ -29,7 +29,7 @@ export default new pm.Vuex.Store({
             state.projects = projects.projects;
         },
         setProject (state, project) {
-            state.projects.push(project);
+            state.project = project;
         },
 
         setProjectUsers (state, users) {

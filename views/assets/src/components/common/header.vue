@@ -85,25 +85,13 @@
             },
 
             project () {
-                var projects = this.$root.$store.state.projects;
-
-                var index = this.getIndex(projects, this.project_id, 'id');
-                
-                if ( index !== false ) {
-                    return projects[index];
-                }
-
-                return {};
+                return  this.$root.$store.state.project;
             },
 
             menu () {
-                var projects = this.$root.$store.state.projects;
-                var index = this.getIndex(projects, this.project_id, 'id');
-                var project = {};
+                var project = this.$root.$store.state.project;
                 
-                if ( index !== false ) {
-                    project = projects[index];
-                } else {
+                if( typeof project.meta === 'undefined' ){
                     return [];
                 }
 
@@ -178,7 +166,7 @@
         },
 
         created () {
-            this.getProject();
+            this.getGloabalProject();
             this.getProjectCategories();
             this.getRoles(); 
         },
