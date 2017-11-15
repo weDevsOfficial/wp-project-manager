@@ -55,7 +55,7 @@
         <div class="submit">
             <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.update_project">
             <input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="text.create_a_project">
-            <a @click.prevent="showHideProjectForm(false)" class="button project-cancel" href="#">{{text.cancel}}</a>
+            <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{text.cancel}}</a>
             <span v-show="show_spinner" class="pm-loading"></span>
 
         </div>
@@ -194,22 +194,27 @@
                     args.callback = function(res){
                         self.show_spinner = false;
                         self.$router.push({
-              name: 'pm_overview', 
-              params: { 
-                project_id: res.data.id 
-              }
-            });
+                            name: 'pm_overview', 
+                            params: { 
+                                project_id: res.data.id 
+                            }
+                        });
                     }
                     this.newProject(args);
                 }
             },
             setProjectUser () {
                 var projects = this.$root.$store.state.projects;
-        var index = this.getIndex(projects, this.project_id, 'id');
-        
-        if ( index !== false && this.is_update ) {
-            this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
-        } 
+                var index = this.getIndex(projects, this.project_id, 'id');
+                
+                if ( index !== false && this.is_update ) {
+                    this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
+                } 
+            },
+
+            closeForm () {
+                jQuery( "#pm-project-dialog" ).dialog("close");
+                this.showHideProjectForm(false)
             }
         }
     }
