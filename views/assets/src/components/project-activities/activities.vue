@@ -31,6 +31,7 @@
                                     {{ activity.actor.data.display_name }}
                                 </a> 
                                 <span v-html="activity.message"></span>
+                                {{compilineText ( activity.message ) }}
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
@@ -150,6 +151,10 @@
                     self.show_spinner = false;
                     self.loading = false;
                 });
+            },
+
+            compilineText( text ){
+                console.log(text);
             }
         }
     }
