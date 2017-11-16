@@ -97,18 +97,6 @@
             }
         },
         methods: {
-            is_assigned: function(task) {
-                return true;
-                var get_current_user_id = this.$store.state.get_current_user_id,
-                    in_task  = task.assigned_to.indexOf(get_current_user_id);
-                
-                if ( task.can_del_edit || ( in_task != '-1' ) ) {
-                    return true;
-                }
-
-                return false;
-            },
-
             doneUndone (){
                 var self = this,
                  status = !this.task.status
