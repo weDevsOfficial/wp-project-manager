@@ -100,12 +100,6 @@
             var self = this,
             pre_define = {
               data: {
-                id: '',
-                title : '',
-                categories : '',
-                description: '',
-                notify_users: '',
-                assignees: '',
                 status: 'incomplete'
               },
               callback: false,
@@ -524,7 +518,39 @@
 
         loadingStop (id) {
             jQuery('#'+id).preloader('remove');
-        }
+        },
+
+        arrayDiffer ( arr1, arr2 ) {
+            var diff =[];
+            arr1.forEach(function (arr) {
+                if( arr2.indexOf( arr) > -1 ){
+                    diff.push(arr);
+                }
+            });
+            return diff;
+        },
+
+        can_manage_project () {
+            var capability = this.getSettings('managing_capability', []);
+            var roles = PM_Vars.current_user.roles;
+
+            if(this.arrayDiffer(capability, roles).length){
+                return true
+            }
+
+            return false;
+        },
+
+        can_create_project () {
+            var capability = this.getSettings('project_create_capability', []);
+            var roles = PM_Vars.current_user.roles;
+
+            if(this.arrayDiffer(capability, roles).length){
+                return true
+            }
+
+            return false;
+        },
     }
 });
 
