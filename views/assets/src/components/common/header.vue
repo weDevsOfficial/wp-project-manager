@@ -187,22 +187,25 @@
                 );
             },
 
-            selfProjectMarkDone (project) {
-                var project = {
-                        id: project.id,
-                        status: project.status === 'complete' ? 'incomplete' : 'complete'
+            selfProjectMarkDone () {
+                var args = {
+                    data: {
+                        id : this.project.id,
+                        status: this.project.status === 'complete' ? 'incomplete' : 'complete'
                     },
-                    self = this;
+                    callback: function ( res ) {
+                        this.$root.$store.commit(
+                            'showHideProjectDropDownAction', 
+                            {
+                                status: false, 
+                                project_id: this.project_id
+                            }
+                        );
+                    }
+                } 
 
-                this.updateProject(project, function(project) {
-                    self.$root.$store.commit(
-                        'showHideProjectDropDownAction', 
-                        {
-                            status: false, 
-                            project_id: self.project_id
-                        }
-                    );
-                });
+
+                this.updateProject( args );
             }
         }
     }
