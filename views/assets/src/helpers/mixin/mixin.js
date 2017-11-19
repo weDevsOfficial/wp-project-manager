@@ -107,12 +107,6 @@
             var self = this,
             pre_define = {
               data: {
-                id: '',
-                title : '',
-                categories : '',
-                description: '',
-                notify_users: '',
-                assignees: '',
                 status: 'incomplete'
               },
               callback: false,
@@ -149,12 +143,24 @@
             this.$root.$store.commit('resetSelectedUsers');
         },
 
-        getProjects (condition, callback) {
-            var condition = condition || '';
+        getProjects ( args ) {
+
             var self = this;
+            var pre_define ={
+                conditions : {
+                    status: '',
+                    per_page: this.getSettings('project_per_page', 10),
+                    page : this.setCurrentPageNumber(),
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects?per_page=2&page='+ self.setCurrentPageNumber(self) +'&'+ condition,
+                url: self.base_url + '/pm/v2/projects?'+conditions,
                 success: function(res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
@@ -172,46 +178,55 @@
             self.httpRequest(request_data);
         },
 
-        setCurrentPageNumber (self) {
-            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
-            self.current_page_number = current_page_number;
+        setCurrentPageNumber () {
+            var current_page_number = this.$route.params.current_page_number ? this.$route.params.current_page_number : 1;
+            this.current_page_number = current_page_number;
             return current_page_number;
         },
 
-        getProject (project_id, callback) {
-            var self = this;
-            
-            var callback   = callback || false;
-            var project_id = project_id || self.project_id;
+        getProject ( args ) {
+             var self = this;
+            var pre_define ={
+                conditions : {
 
-            if ( typeof self.project_id === 'undefined' ) {
+                },
+                project_id: this.project_id,
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            if ( typeof args.project_id === 'undefined' ) {
                 return;
             }
 
-            var projects = self.$root.$store.state.projects,
-                index = self.getIndex(projects, project_id, 'id');
-
-            if ( index !== false ) {
-                self.addProjectMeta(projects[index]);
-                self.$root.$store.commit('setProject', projects[index]);
-                self.$root.$store.commit('setProjectUsers', projects[index].assignees.data);
-                if (callback) {
-                    callback(res.data);
-                }
-            } else {
-                self.httpRequest({
-                    url: self.base_url + '/pm/v2/projects/'+ self.project_id,
-                    success: function(res) {
-                        self.addProjectMeta(res.data);
-                        self.$root.$store.commit('setProject', res.data);
-                        self.$root.$store.commit('setProjectUsers', res.data.assignees.data);
-
-                        if (callback) {
-                            callback(res.data);
-                        }
+            self.httpRequest({
+                url:self.base_url + '/pm/v2/projects/'+ args.project_id + '?' + conditions ,
+                success: function(res) {
+                     if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
                     }
-                });
+                }
+            });
+
+        },
+
+        getGloabalProject(){
+            var args ={
+                callback : function (res) {
+                    this.addProjectMeta(res.data);
+                    this.$root.$store.commit('setProject', res.data);
+                    this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+                }
             }
+
+            var project = this.$root.$store.state.project;
+
+            if ( ! project.hasOwnProperty('id') ) { 
+                this.getProject(args);
+            }
+
         },
 
         addProjectMeta (project) {
@@ -447,7 +462,10 @@
             }
 
             jQuery.each(conditions, function(condition, key) {
-                query = query + condition +'='+ key +'&';
+                if(key){
+                    query = query + condition +'='+ key +'&';
+                }
+                
             });
 
             return query.slice(0, -1);
@@ -507,7 +525,39 @@
 
         loadingStop (id) {
             jQuery('#'+id).preloader('remove');
-        }
+        },
+
+        arrayDiffer ( arr1, arr2 ) {
+            var diff =[];
+            arr1.forEach(function (arr) {
+                if( arr2.indexOf( arr) > -1 ){
+                    diff.push(arr);
+                }
+            });
+            return diff;
+        },
+
+        can_manage_project () {
+            var capability = this.getSettings('managing_capability', []);
+            var roles = PM_Vars.current_user.roles;
+
+            if(this.arrayDiffer(capability, roles).length){
+                return true
+            }
+
+            return false;
+        },
+
+        can_create_project () {
+            var capability = this.getSettings('project_create_capability', []);
+            var roles = PM_Vars.current_user.roles;
+
+            if(this.arrayDiffer(capability, roles).length){
+                return true
+            }
+
+            return false;
+        },
     }
 });
 
