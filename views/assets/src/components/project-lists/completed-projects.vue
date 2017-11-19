@@ -14,20 +14,21 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
+                <project-summary></project-summary>
+                <pm-pagination 
+                    :total_pages="total_pages" 
+                    :current_page_number="current_page_number" 
+                    component_name='completed_project_pagination'>
+                    
+                </pm-pagination> 
+            </div>
 
-        <div v-if="!loading" class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
-            <project-summary></project-summary>
-            <pm-pagination 
-                :total_pages="total_pages" 
-                :current_page_number="current_page_number" 
-                component_name='completed_project_pagination'>
-                
-            </pm-pagination> 
-        </div>
-
-        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
-            <project-create-form :project="{}"></project-create-form>
-            <!-- <do-action :hook="'pm-after-project-list'"></do-action> -->
+            <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
+                <project-create-form :project="{}"></project-create-form>
+                <!-- <do-action :hook="'pm-after-project-list'"></do-action> -->
+            </div>
         </div>
         
     </div>
@@ -89,11 +90,13 @@
         methods: {
             projectQuery () {
                 
-                var add_query = {
-                    status: 'complete'
+                var args = {
+                    conditions: {
+                       status: 'complete' 
+                    }
                 }
-                var query_params = this.getQueryParams(add_query);
-                this.getProjects(query_params);
+                
+                this.getProjects(args);
             }
         }
     }

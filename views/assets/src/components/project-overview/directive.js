@@ -93,7 +93,7 @@ var PM_Overview = {
 
 // Register a global custom directive called v-pm-sortable
 pm.Vue.directive('pm-overview-chart', {
-    update: function (el, binding, vnode) {
+    inserted: function (el, binding, vnode) {
         PM_Overview.chart(el, binding, vnode);
     }
 });

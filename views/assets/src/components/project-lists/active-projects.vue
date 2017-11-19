@@ -13,6 +13,16 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
+                <project-summary></project-summary>
+                <pm-pagination 
+                    :total_pages="total_pages" 
+                    :current_page_number="current_page_number" 
+                    component_name='project_pagination'>
+                    
+                </pm-pagination> 
+            </div>
 
         <div v-if="!loading" class="pm-projects pm-row pm-no-padding pm-no-margin" :class="[projects_view_class()]">
             <project-summary></project-summary>
@@ -28,6 +38,7 @@
             <project-create-form :project="{}"></project-create-form>
             
         </div> 
+
         
     </div>
 </template>
@@ -83,11 +94,13 @@
 
         methods: {
             projectQuery () {
-                var add_query = {
-                    status: 'incomplete'
+                var args = {
+                    conditions: {
+                       status: 'incomplete' 
+                    }
                 }
-                var query_params = this.getQueryParams(add_query);
-                this.getProjects(query_params);
+
+                this.getProjects(args);
             }
         }
     }
