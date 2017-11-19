@@ -4,54 +4,129 @@
  */
 var Store = {
     state: {
+
         projects: [],
+        project: {},
         project_users: [],
-        roles: [],
         categories: [],
-        total_pages: 0,
+        roles: [],
+        milestones: [],
+        milestones_load: false,
+        is_project_form_active: false,
+        projects_meta: {},
+        pagination: {
+            total_pages: 0
+        },
+        assignees: [],
+ 
         projects_view: '',
+        getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
     },
 
     mutations: {
-
-        newProject (state, projects) {
-            state.projects.push(projects.projects);
+        setProjects (state, projects) {
+            state.projects = projects.projects;
+        },
+        setProject (state, project) {
+            state.projects.push(project);
         },
 
         setProjectUsers (state, users) {
-            if (!users.users.hasOwnProperty('roles')) {
-                users.users.roles = {
-                    'data': {
-                        'id': 3,
-                        'title': '',
-                        'description': ''
-                    }
-                };
-            }
-            var has_in_array = state.project_users.filter( user => {
-                return user.id === users.users.id;
-            });
-
-            if( !has_in_array.length ) {
-                state.project_users.push(users.users);
-            }
+            state.project_users = users;
         },
-
-        setRoles (state, roles) {
-            state.roles = roles.roles;
-        },
-
         setCategories (state, categories) {
-            state.categories = categories.categories;
+            state.categories = categories;
+        },
+        setRoles (state, roles) {
+            state.roles = roles;
+        },
+        newProject (state, projects) {
+            var per_page = state.pagination.per_page,
+                length   = state.projects.length;
+
+            if (per_page <= length) {
+                state.projects.splice(0,0,projects);
+                state.projects.pop();
+            } else {
+                state.projects.splice(0,0,projects);
+            }
+
+            //update pagination
+            state.pagination.total = state.pagination.total + 1;
+            state.projects_meta.total_incomplete = state.projects_meta.total_incomplete + 1;
+            state.pagination.total_pages = Math.ceil( state.pagination.total / state.pagination.per_page );
+        },
+        showHideProjectForm (state, status) {
+            if ( status === 'toggle' ) {
+                state.is_project_form_active = state.is_project_form_active ? false : true;
+            } else {
+                state.is_project_form_active = status;
+            }
+        },
+        setProjectsMeta (state, data) {
+            state.projects_meta = data;
+            state.pagination = data.pagination;
         },
 
-        setPagination (state, pagination) {
-            state.total_pages = pagination.pagination.total_pages;
+        afterDeleteProject (state, project_id) {
+            var project_index = state.getIndex(state.projects, project_id, 'id');
+            state.projects.splice(project_index,1);
         },
+
+        updateProject (state, project) {
+            var index = state.getIndex(state.projects, project.id, 'id');
+            jQuery.extend(true, state.projects[index], project);
+        },
+
+        showHideProjectDropDownAction (state, data) {
+            var index = state.getIndex(state.projects, data.project_id, 'id');
+            
+            if (data.status === 'toggle') {
+                state.projects[index].settings_hide = state.projects[index].settings_hide ? false : true;
+            } else {
+                state.projects[index].settings_hide = data.status;
+            }
+        },
+
+        afterDeleteUserFromProject (state, data) {
+            var index = state.getIndex(state.projects, data.project_id, 'id');
+            var users = state.projects[index].assignees.data;
+            var user_index = state.getIndex(users, data.user_id, 'id');
+
+            state.projects[index].assignees.data.splice(user_index, 1);
+        },
+
+        updateSeletedUser (state, assignees) {
+            state.assignees.push(assignees);
+        },
+
+        setSeletedUser(state, assignees) {
+            state.assignees = assignees;
+        },
+
+        resetSelectedUsers (state) {
+            state.assignees = [];
+        },
+
+        setMilestones(state, milestones){
+            state.milestones = milestones;
+            state.milestones_load = true;
+        },
+
         setProjectsView(state, value){
             state.projects_view = value;
         }   
     }
 }
 
-export default new pm.Vuex.Store(Store);
+export default Store; //new pm.Vuex.Store(Store);

@@ -12,6 +12,14 @@
     },
 
     methods: {
+        dataURLtoFile (dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, {type:mime});
+        },
         httpRequest (property) {
             var before = function( xhr ) {
                 xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
@@ -25,11 +33,10 @@
             jQuery.ajax(property);
         },
 
-        registerStore (module_name) {
+        registerStore (module_name, store) {
             var self = this;
-            var mutations = self.$options.mutations;
-            var state = self.$options.state;
-
+            var mutations = store.mutations; //self.$options.mutations;
+            var state = store.state; //self.$options.state;
             // register a module `myModule`
             self.$store.registerModule(module_name, {
                 namespaced: true,
