@@ -22,11 +22,14 @@ class Activity_Controller {
 
         $per_page   = $per_page ? $per_page : 15;
         $page       = $page ? $page : 1;
-
-        $activities = Activity::where( 'project_id', $project_id )
+        if( empty($project_id)){
+            $activities = Activity::orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'], 'page', $page );
+        }else {
+            $activities = Activity::where( 'project_id', $project_id )
             ->orderBy( 'created_at', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
-
+        }
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );
 

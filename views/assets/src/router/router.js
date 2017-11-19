@@ -25,10 +25,10 @@ weDevs_PM_Routers.push(add_ons);
 if ( !PM_Vars.is_pro ) {
 	weDevs_PM_Routers.push(my_tasks);
 	weDevs_PM_Routers.push(calendar);
+    weDevs_PM_Routers.push(reports);
+    weDevs_PM_Routers.push(progress);
 }
 
-weDevs_PM_Routers.push(reports);
-weDevs_PM_Routers.push(progress);
 weDevs_PM_Routers.push(overview);
 weDevs_PM_Routers.push(activities);
 weDevs_PM_Routers.push(discussions);
