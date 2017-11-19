@@ -5,7 +5,7 @@
     function PMGetComponents() {
         var components = {};
         
-        window.weDevs_PM_Components.map(function(obj, key) {
+        weDevs_PM_Components.map(function(obj, key) {
             if (obj.property.mixins) {
                 obj.property.mixins.push(mixin);
             } else {
@@ -27,7 +27,7 @@
             var components = [],
                 self = this;
 
-            window.weDevs_PM_Components.map(function(obj, key) {
+            weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
                     components.push(h(obj.component));
                 }

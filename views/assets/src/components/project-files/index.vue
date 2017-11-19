@@ -1,22 +1,31 @@
-<template>
+<!-- <template>
     <div>
-        <router-view name="pm-files"></router-view>
+        <pm-header></pm-header>
+        <file-lists></file-lists>
+        <router-view></router-view>
     </div>
 
-</template>
+</template> -->
 
 <script>
-    import store from './store';
-    import mixin from './mixin';
+    // import store from './store';
+    // import mixin from './mixin';
+    // import Files from './files.vue';
+    // import Header from '@components/common/header.vue';
     
-    export default {
-    	state: store.state,
+    // export default {
+    // 	state: store.state,
 	    
-	    mutations: store.mutations,
+	   //  mutations: store.mutations,
         
-        created () {
-        	this.registerStore('pmFiles');
-        }
-    }
+    //     created () {
+    //     	this.registerStore('pmFiles');
+    //     },
+
+    //     components: {
+    //         'file-lists': Files,
+    //         'pm-header': Header
+    //     }
+    // }
 
 </script>

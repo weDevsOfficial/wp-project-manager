@@ -1,7 +1,5 @@
 <template>
     <div class="wrap pm pm-front-end">
-        <pm-header></pm-header>
-        
         <div v-if="!is_pro">
             <div v-if="loading" class="pm-data-load-before" >
                 <div class="loadmoreanimation">
@@ -67,21 +65,22 @@
 </template>
 
 <script>
-    import header from '@components/common/header.vue';
+
     import do_action from '@components/common/do-action.vue';
     
     export default {
         components: {
-            'pm-header': header,
             'do-action': do_action
         },
+        mixins: [PmMixin.projectFiles],
         created () {
+            
             if (!PM_Vars.is_pro) {
                 this.getFiles();
             }
         },
         computed: {
-            ...pm.Vuex.mapState('pmFiles', ['files']),
+            ...pm.Vuex.mapState('projectFiles', ['files']),
         },
 
         data() {
@@ -92,6 +91,7 @@
         },
 
         methods: {
+
             attachTo (file) {
                 if (file.fileable_type === 'discussion_board') {
                     return 'Discuss';
