@@ -34,19 +34,6 @@
 </template>
 
 <script>
-
-    var pm_todo_list_mixins = function(mixins, mixin_parent) {
-        if (!mixins || !mixins.length) {
-            return [];
-        }
-        if (!mixin_parent) {
-            mixin_parent = window;
-        }
-        return mixins.map(function (mixin) {
-            return mixin_parent[mixin];
-        });
-    };
-
     export default {
         // Get passing data for this component. Remember only array and objects are 
         props: ['list', 'section'],

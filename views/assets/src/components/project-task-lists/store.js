@@ -226,7 +226,7 @@ export default {
         afterTaskDoneUndone: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
             
-            if (data.status === true) {
+            if (data.status === 1) {
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
                 
@@ -239,7 +239,7 @@ export default {
                 state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
-            if (data.status === false) {
+            if (data.status === 0) {
                 var task_index = state.getIndex( state.lists[list_index].complete_tasks.data, data.task_id, 'id' );
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
                 

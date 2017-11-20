@@ -1,6 +1,6 @@
 <template>
     <div>
-        <settings-header></settings-header>
+        
         <div class="metabox-holder">
             <div id="pm_general" class="group" style="">
                 <form @submit.prevent="saveSelfSettings()" method="post" action="options.php">
@@ -118,46 +118,40 @@
     </div>
 </template>
 <script>
-    import header from './header.vue';
-
-    export default {
-        data () {
-            return {
-                upload_limit: this.getSettings('upload_limit', 2),
-                project_per_page: this.getSettings('project_per_page', 10),
-                list_per_page: this.getSettings('list_per_page', 10),
-                incomplete_tasks_per_page: this.getSettings('incomplete_tasks_per_page', 10),
-                complete_tasks_per_page: this.getSettings('complete_tasks_per_page', 10),
-                roles: PM_Vars.roles,
-                managing_capability: this.getSettings('managing_capability', []),
-                project_create_capability: this.getSettings('project_create_capability', []),
-                show_spinner: false,
-            }
-        },
-
-        components: {
-            'settings-header': header
-        },
-
-        methods: {
-            saveSelfSettings () {
-                this.show_spinner = true;
-                self = this;
-                var data = {
-                    upload_limit: this.upload_limit,
-                    project_per_page: this.project_per_page,
-                    list_per_page: this.list_per_page,
-                    incomplete_tasks_per_page: this.incomplete_tasks_per_page,
-                    complete_tasks_per_page: this.complete_tasks_per_page,
-                    managing_capability: this.managing_capability,
-                    project_create_capability: this.project_create_capability
-                };
-
-
-                this.saveSettings(data, function(res) {
-                    self.show_spinner = false;
-                });
-            },
+export default {
+    data () {
+        return {
+            upload_limit: this.getSettings('upload_limit', 2),
+            project_per_page: this.getSettings('project_per_page', 10),
+            list_per_page: this.getSettings('list_per_page', 10),
+            incomplete_tasks_per_page: this.getSettings('incomplete_tasks_per_page', 10),
+            complete_tasks_per_page: this.getSettings('complete_tasks_per_page', 10),
+            roles: PM_Vars.roles,
+            managing_capability: this.getSettings('managing_capability', []),
+            project_create_capability: this.getSettings('project_create_capability', []),
+            show_spinner: false,
         }
+    },
+    mixins: [PmMixin.settings],
+    methods: {
+        saveSelfSettings () {
+            this.show_spinner = true;
+            self = this;
+            var data = {
+                upload_limit: this.upload_limit,
+                project_per_page: this.project_per_page,
+                list_per_page: this.list_per_page,
+                incomplete_tasks_per_page: this.incomplete_tasks_per_page,
+                complete_tasks_per_page: this.complete_tasks_per_page,
+                managing_capability: this.managing_capability,
+                project_create_capability: this.project_create_capability
+            };
+
+
+            this.saveSettings(data, function(res) {
+                self.show_spinner = false;
+            });
+        },
     }
+}
 </script>
