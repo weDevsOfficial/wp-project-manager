@@ -4,7 +4,7 @@
  */
 
 
-export default new pm.Vuex.Store({
+export default {
 
     state: {
         categories: [],
@@ -38,4 +38,4 @@ export default new pm.Vuex.Store({
             state.categories.splice(category_index,1);
         }
     }
-});
+};
