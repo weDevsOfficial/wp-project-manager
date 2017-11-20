@@ -1,7 +1,5 @@
 <template>
-    <div class="wrap pm pm-front-end">
-        <project-header></project-header>
-
+    <div class="active-projects">
         <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -23,33 +21,14 @@
                     
                 </pm-pagination> 
             </div>
-
-        <!--     <div v-if="!loading" class="pm-projects pm-row pm-no-padding pm-no-margin" :class="[projects_view_class()]">
-                <project-summary></project-summary>
-                <pm-pagination 
-                    :total_pages="total_pages" 
-                    :current_page_number="current_page_number" 
-                    component_name='project_pagination'>
-                    
-                </pm-pagination> 
-            </div> -->
-
-            <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
-                <project-create-form :project="{}"></project-create-form>
-                
-            </div> 
-
-        </div>
+        </div>       
     </div>
 </template>
 
 <script>
     import project_summary from './project-summary.vue';
     import pagination from './../common/pagination.vue';
-    import project_create_form from './project-create-form.vue';
-    import store from './store';
     import after_project from './../common/do-action.vue';
-    import header from './header.vue';
 
 
     export default  {
@@ -77,18 +56,14 @@
         },
 
         computed: {
-            ...pm.Vuex.mapState('projectLists', 
-                {
-                    total_pages: state => state.pagination.total_pages,
-                }
-            ),
+            total_pages () {
+                return this.$root.$store.state.pagination.total_pages;
+            }
         },
         
         components: {
-            'project-header': header,
             'project-summary': project_summary,
             'pm-pagination': pagination,
-            'project-create-form': project_create_form,
             'do-action': after_project
         },
 
@@ -96,7 +71,7 @@
             projectQuery () {
                 var args = {
                     conditions: {
-                       status: 'incomplete' 
+                       status: 'incomplete',
                     }
                 }
 

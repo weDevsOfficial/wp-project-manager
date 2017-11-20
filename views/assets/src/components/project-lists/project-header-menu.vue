@@ -1,21 +1,21 @@
 <template>
     <ul class="list-inline  pm-col-8 pm-project-group-ul">
         
-        <li :class="active+ ' pm-sm-col-4'">
+        <li class= "pm-sm-col-4">
             <router-link :to="{name: 'project_lists'}">
                 {{text.active}}
                 <span class="count">{{ activated }}</span>
             </router-link>
         </li>
 
-        <li :class="complete+' pm-sm-col-4'">
+        <li class="pm-sm-col-4">
             <router-link :to="{name: 'completed_projects'}">
                 {{text.completed}} 
                 <span class="count">{{ completed }}</span> 
             </router-link> 
         </li>
 
-        <li :class="all + ' pm-sm-col-4'">
+        <li class=" pm-sm-col-4">
             <router-link :to="{name: 'all_projects'}">
                 {{text.all}}
                 <span class="count">{{ allof }}</span>
@@ -29,9 +29,7 @@
     export default {
         data () {
             return {
-                all: '',
-                complete: '',
-                active: ''
+                
             }
         },
         computed: {
@@ -46,17 +44,6 @@
                 var complete   = this.$root.$store.state.projects_meta.total_complete;
 
                 return incomplete + complete;
-            }
-        },
-        created () {
-            var route_name = this.$route.name;
-            
-            if (route_name === 'all_projects') {
-                this.all = 'active';
-            } else if (route_name === 'completed_projects') {
-                this.complete = 'active';
-            } else {
-                this.active = 'active';
             }
         }
     }
