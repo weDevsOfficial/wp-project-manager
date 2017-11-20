@@ -61,6 +61,7 @@
                 vm.activityQuery();
             }); 
         },
+        mixins: [PmMixin.projectActivities],
         data () {
             return {
                 page: 1,
@@ -72,7 +73,7 @@
         },
         computed: {
             activities () {
-                var records = this.$store.state.activities,
+                var records = this.$store.state.projectActivities.activities,
                     self = this;
 
                 var activities = _.chain(records)
@@ -85,7 +86,7 @@
             },
 
             loaded_activities () {
-                return this.$store.state.activities.length;
+                return this.$store.state.projectActivities.activities.length;
             }
         },
         components: {
@@ -132,7 +133,7 @@
                 self = this;
 
                 this.getActivities(condition, function(res) {
-                    self.$store.commit( 'setLoadedActivities', res.data );
+                    self.$store.commit( 'projectActivities/setLoadedActivities', res.data );
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
                 });
@@ -146,7 +147,7 @@
                 self = this;
 
                 this.getActivities(condition, function(res) {
-                    self.$store.commit( 'setActivities', res.data );
+                    self.$store.commit( 'projectActivities/setActivities', res.data );
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
                     self.loading = false;

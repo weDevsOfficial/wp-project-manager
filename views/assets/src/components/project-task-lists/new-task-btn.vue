@@ -19,6 +19,8 @@
         // Get passing data for this component. Remember only array and objects are
         props: ['list', 'task'],
 
+        mixins: [PmMixin.projectTaskLists],
+
         methods: {
             /**
              * Select new todo-list button class for +,- icon

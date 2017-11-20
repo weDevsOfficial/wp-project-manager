@@ -1,4 +1,3 @@
-//import project_lists from './index.vue';
 
 const overview = resolve => {
     require.ensure(['./overview.vue'], () => {
@@ -6,11 +5,15 @@ const overview = resolve => {
     });
 }
 
-export default { 
-    path: '/:project_id/overview', 
-    components: { 
-        'pm-overview': overview 
-    }, 
-    name: 'pm_overview',
-}
- 
+weDevsPmRegisterModule('projectOverview', 'project-overview');
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        {
+            path: ':project_id/overview', 
+    		component: overview,
+    		name: 'pm_overview',
+        },
+    ]
+)
+

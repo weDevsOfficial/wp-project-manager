@@ -1,4 +1,5 @@
-//import project_lists from './index.vue';
+
+weDevsPmRegisterModule('projectActivities', 'project-activities');
 
 const activities_route = resolve => {
     require.ensure(['./activities.vue'], () => {
@@ -6,16 +7,26 @@ const activities_route = resolve => {
     });
 }
 
-var activities = {
-    path: '/:project_id/activities/', 
-    components: { 
-        'activities': activities_route 
-    }, 
-    name: 'activities',
-}
+weDevsPMRegisterChildrenRoute('project_root', 
+	[
+		{
+		    path: ':project_id/activities/', 
+		    component: activities_route, 
+		    name: 'activities',
+		}
+	]
+);
+
+// var activities = {
+//     path: '/:project_id/activities/', 
+//     components: { 
+//         'activities': activities_route 
+//     }, 
+//     name: 'activities',
+// }
 
 
 
-export default activities;
+// export default activities;
 
  

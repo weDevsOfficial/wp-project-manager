@@ -26,7 +26,7 @@
         render (h) {
             var components = [],
                 self = this;
-
+            
             weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
                     components.push(h(obj.component));
@@ -41,9 +41,4 @@
 
 </script>
 
-<!-- <template>
-    <div>
-        <pm-test-component></pm-test-component>
-        <pm-again-component></pm-again-component>
-    </div>
-</template> -->
+

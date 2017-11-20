@@ -1,5 +1,6 @@
 <template>
     <div class="wrap pm pm-front-end">
+        <pm-header></pm-header>
         <div v-if="!is_pro">
             <div v-if="loading" class="pm-data-load-before" >
                 <div class="loadmoreanimation">
@@ -67,11 +68,10 @@
 <script>
 
     import do_action from '@components/common/do-action.vue';
+    import Header from '@components/common/header.vue';
     
     export default {
-        components: {
-            'do-action': do_action
-        },
+
         mixins: [PmMixin.projectFiles],
         created () {
             
@@ -88,6 +88,11 @@
                 loading: true,
                 is_pro: PM_Vars.is_pro
             }
+        },
+
+        components: {
+            'do-action': do_action,
+            'pm-header': Header
         },
 
         methods: {

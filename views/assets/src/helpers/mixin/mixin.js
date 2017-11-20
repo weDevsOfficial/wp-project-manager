@@ -12,6 +12,16 @@
     },
 
     methods: {
+        getSettings (key, pre_define ) {
+            var pre_define  = pre_define || false,
+                settings  = PM_Vars.settings;
+
+            if ( !PM_Vars.settings[key] ) {
+                return pre_define;
+            }
+
+            return PM_Vars.settings[key];
+        },
         dataURLtoFile (dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -38,6 +48,7 @@
             var mutations = store.mutations; //self.$options.mutations;
             var state = store.state; //self.$options.state;
             // register a module `myModule`
+
             self.$store.registerModule(module_name, {
                 namespaced: true,
                 state,

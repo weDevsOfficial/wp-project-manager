@@ -248,6 +248,8 @@
             }
         },
 
+        mixins: [PmMixin.projectTaskLists],
+
         computed: {
             // task () {
             //  return this.$store.state.task;
