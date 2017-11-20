@@ -3,8 +3,8 @@
         <div id="pm-upload-container">
             <div class="pm-upload-filelist">
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
-                    <a :href="file.url" target="_blank">
-                        <img :src="file.thumb" :alt="file.name">
+                    <a class="pm-uploaded-img" :href="file.url" target="_blank">
+                        <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
                     </a> 
                     
                     <a href="#" @click.prevent="deletefile(file.id)" class="button">{{text.delete_file}}</a>
@@ -17,6 +17,8 @@
         </div>
     </div>
 </template>
+
+
 
 <script>
     export default {

@@ -24,6 +24,7 @@
     
     export default {
         props: ['comment', 'discuss'],
+        mixins: [PmMixin.projectDiscussions],
         data () {
             return {
                 content: {

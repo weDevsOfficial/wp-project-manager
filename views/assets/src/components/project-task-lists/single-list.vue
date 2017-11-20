@@ -117,7 +117,7 @@
             }
         },
 
-
+        mixins: [PmMixin.projectTaskLists],
         /**
          * Initial action for this component
          * 

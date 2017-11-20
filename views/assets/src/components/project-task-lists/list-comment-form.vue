@@ -28,6 +28,8 @@
     // Get passing data for this component. 
     props: ['comment', 'list'],
 
+    mixins: [PmMixin.projectTaskLists],
+
     /**
      * Initial data for this component
      * 

@@ -9,23 +9,34 @@
 </template>
 
 <script>
+    
     export default{
         data(){
             return {
-                projects_view: this.$store.state.projects_view,
+                //projects_view: this.$store.state.projects_view,
             }
         },
+
+        mixins: [PmMixin.projectLists],
+
         created(){
             this.getCookie("project_view");
+            
         },
         methods: {
+            ...pm.Vuex.mapMutations( 'projectLists',
+                [
+                    'setProjectsView'
+                ]
+            ),
             setcookie(name="grid_view"){
                 var d = new Date();
                 d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
                 var expires = "expires="+d.toUTCString();
 
                 document.cookie = "project_view="+name + ';' + expires;
-                this.$store.commit('setProjectsView', name);
+                this.setProjectsView(name);
+                //this.$store.commit('projectLists/setProjectsView', name);
             },
 
             getCookie(key){
@@ -40,7 +51,8 @@
                     }
 
                     if (c.indexOf(name) == 0) {
-                        this.$store.commit('setProjectsView', c.substring(key.length, c.length))
+                        this.setProjectsView( c.substring(key.length, c.length) );
+                        //this.$store.commit('projectLists/setProjectsView', c.substring(key.length, c.length))
                         return c.substring(key.length, c.length);
                     }
                  }
@@ -48,7 +60,11 @@
                  return "";
             },
             activeClass(view){
-                return this.$store.state.projects_view === view;
+                if ( view == this.projects_view ) {
+                    return view;
+                }
+                
+                //return this.$store.state.projects_view === view;
             }
         }
     }

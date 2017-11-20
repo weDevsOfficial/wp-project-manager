@@ -81,6 +81,8 @@
             }
         },
 
+        mixins: [PmMixin.projectTaskLists],
+
         computed: {
             /**
              * Check, Has task from this props list

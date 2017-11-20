@@ -132,6 +132,7 @@
                 vm.getGlobalMilestones();
             });
         },
+        mixins: [PmMixin.projectDiscussions],
         data(){
             return{
                 loading: true,
@@ -139,28 +140,28 @@
         },
         computed: {
             discuss () {
-                if ( this.$store.state.discussion.length ) {
-                    return this.$store.state.discussion[0];
+                if ( this.$store.state.projectDiscussions.discussion.length ) {
+                    return this.$store.state.projectDiscussions.discussion[0];
                 }
 
                 return false;
             },
             files() {
-                if ( this.$store.state.discussion.length ) {
-                    return this.$store.state.discussion[0].files.data;
+                if ( this.$store.state.projectDiscussions.discussion.length ) {
+                    return this.$store.state.projectDiscussions.discussion[0].files.data;
                 }
                 return [];
             },
             comments () {
-                if ( this.$store.state.discussion.length ) {
-                    return this.$store.state.discussion[0].comments.data;
+                if ( this.$store.state.projectDiscussions.discussion.length ) {
+                    return this.$store.state.projectDiscussions.discussion[0].comments.data;
                 }
                 return [];
             },
 
             commentsTotal () {
-                if ( this.$store.state.discussion.length ) {
-                    return this.$store.state.discussion[0].comments.meta.pagination.total;
+                if ( this.$store.state.projectDiscussions.discussion.length ) {
+                    return this.$store.state.projectDiscussions.discussion[0].comments.meta.pagination.total;
                 }
                 return 0;
                 

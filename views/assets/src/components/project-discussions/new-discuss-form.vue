@@ -49,6 +49,7 @@
 
   export default { 
     props: ['discuss'],
+    mixins: [PmMixin.projectDiscussions],
     
     data () {
       return {

@@ -4,12 +4,23 @@ const files = resolve => {
     });
 }
 
-export default { 
-    path: '/:project_id/files', 
-    components: { 
-        'pm-files': files 
-    }, 
-    name: 'pm_files',
-    children: wedevsPMGetRegisterChildrenRoute('pm_files')
-}
- 
+weDevsPmRegisterModule('projectFiles', 'project-files');
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        {
+            path: ':project_id/files', 
+    		component: files,
+    		name: 'pm_files',
+    		children: wedevsPMGetRegisterChildrenRoute('pm_files')
+        },
+    ]
+)
+
+// export default { 
+//     path: ':project_id/files', 
+//     component: index,
+//     name: 'pm_files',
+//     children: wedevsPMGetRegisterChildrenRoute('pm_files')
+// }
+//  
