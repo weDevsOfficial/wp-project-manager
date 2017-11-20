@@ -2644,11 +2644,12 @@ a.pm-icon-tick.grey {
   color: #ffffff ;
 }
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul .active a,
+.pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a.router-link-exact-active,
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a:hover {
   border-bottom: solid 2px #019dd6;
   color: #000000;
 }
-.pm .pm-top-bar .pm-project-group ul.pm-project-group-ul .active a span.count,
+.pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a.router-link-exact-active span.count,
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a:hover span.count {
   background: #019dd6;
   color: #ffffff ;
@@ -2713,7 +2714,7 @@ a.pm-icon-tick.grey {
   float: left;
   height: 300px;
 }
-.pm .pm-project-grid article.pm-project:last-child {
+.pm .pm-project-grid article.pm-project:nth-child(3n) {
   margin: 0 0 1.75% 0;
 }
 .pm .pm-project-grid .pm-project .project_head {
