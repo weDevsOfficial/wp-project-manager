@@ -124,7 +124,7 @@
          * @return void
          */
         created: function() {
-            this.$store.state.is_single_list = true; 
+            this.$store.state.projectTaskLists.is_single_list = true; 
         },
 
         computed: {
@@ -134,8 +134,8 @@
              * @return array
              */
             list: function () {
-                if( this.$store.state.lists.length) {
-                    return this.$store.state.lists[0];
+                if( this.$store.state.projectTaskLists.lists.length) {
+                    return this.$store.state.projectTaskLists.lists[0];
                 }
             },
 
@@ -145,12 +145,12 @@
              * @return array
              */
             milestones: function() {
-                return this.$store.state.milestones;
+                return this.$store.state.projectTaskLists.milestones;
             },
 
             comments () {
-                if( this.$store.state.lists.length ) {
-                    return this.$store.state.lists[0].comments.data;
+                if( this.$store.state.projectTaskLists.lists.length ) {
+                    return this.$store.state.projectTaskLists.lists[0].comments.data;
                 }
                 
             },
@@ -161,7 +161,7 @@
              * @return obj
              */
             init: function() {
-                return this.$store.state.init;
+                return this.$store.state.projectTaskLists.init;
             },
 
         },
@@ -183,7 +183,7 @@
                     },
                     list_id: this.list_id,
                     callback: function (res) {
-                        self.$store.commit('setList', res.data);
+                        self.$store.commit('projectTaskLists/setList', res.data);
                         self.loading = false; 
                     }
                 }

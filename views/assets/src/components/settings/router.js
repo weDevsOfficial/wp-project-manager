@@ -1,19 +1,39 @@
-import general_file from './general.vue';
-import email_file from './email.vue';
+weDevsPmRegisterModule('settings', 'settings');
 
-var general = { 
-    path: '/settings', 
-    components: { 'general': general_file }, 
-    name: 'general',
+const settingsHeader = resolve => {
+    require.ensure(['./header.vue'], () => {
+        resolve(require('./header.vue'));
+    });
+}
+const settingsGeneral = resolve => {
+    require.ensure(['./general.vue'], () => {
+        resolve(require('./general.vue'));
+    });
+}
+const settingsEmail = resolve => {
+    require.ensure(['./email.vue'], () => {
+        resolve(require('./email.vue'));
+    });
 }
 
-var email = { 
-    path: '/settings/email', 
-    components: { 'email': email_file }, 
-    name: 'email',
-}
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        { 
+            path: 'settings', 
+            component: settingsHeader, 
+            children: [
+                {
+                    path: '/',
+                    component: settingsGeneral,
+                    name: 'general',
+                },
+                { 
+                    path: 'email', 
+                    component: settingsEmail, 
+                    name: 'email',
+                }
+            ]
+        }
 
-export {general, email};
-
-
-
+    ]
+);

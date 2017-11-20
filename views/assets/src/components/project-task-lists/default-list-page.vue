@@ -37,7 +37,7 @@
 
         computed: {
             is_active_list_form () {
-                return this.$store.state.is_active_list_form;
+                return this.$store.state.projectTaskLists.is_active_list_form;
             },
         }
     }

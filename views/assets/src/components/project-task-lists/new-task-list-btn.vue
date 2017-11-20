@@ -20,7 +20,7 @@
             return {
                 list: {},
                 index: false,
-                permissions: this.$store.state.permissions,
+                permissions: this.$store.state.projectTaskLists.permissions,
             }
         },
 
@@ -33,7 +33,7 @@
              * @return boolean
              */
             show_list_form: function() {
-                return this.$store.state.show_list_form;
+                return this.$store.state.projectTaskLists.show_list_form;
             },
         },
 

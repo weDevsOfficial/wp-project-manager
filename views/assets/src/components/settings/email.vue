@@ -1,6 +1,5 @@
 <template>
     <div>
-        <settings-header></settings-header>
         <div class="metabox-holder">
             <div id="pm_mails" class="group" style="">
                 <form @submit.prevent="saveEmailSettings()" method="post" action="options.php">
@@ -70,13 +69,7 @@
 </template>
 
 <script>
-    import header from './header.vue';
     export default {
-
-        components: {
-            'settings-header': header
-        },
-
         data () {
             return {
                 from_email: this.getSettings('from_email', PM_Vars.current_user.data.user_email),
@@ -86,7 +79,7 @@
                 show_spinner: false
             }
         },
-
+        mixins: [PmMixin.settings],
         methods: {
             saveEmailSettings () {
                 this.show_spinner = true;
