@@ -1,7 +1,5 @@
 <template>
-    <div class="wrap pm pm-front-end">
-
-        <project-header></project-header>
+    <div class="all-projects">
 
         <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -24,11 +22,6 @@
                     
                 </pm-pagination> 
             </div>
-
-            <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
-                <project-create-form :project="{}"></project-create-form>
-                <!-- <do-action :hook="'pm-after-project-list'"></do-action> -->
-            </div>
         </div>
         
     </div>
@@ -38,10 +31,7 @@
 
     import project_summary from './project-summary.vue';
     import pagination from './../common/pagination.vue';
-    import project_create_form from './project-create-form.vue';
     import after_project from './../common/do-action.vue';
-    import header from './header.vue';
-
     export default  {
         
         beforeRouteEnter (to, from, next) {
@@ -62,7 +52,7 @@
                 loading: true,
             }
         },
-
+        mixins: [PmMixin.projectLists],
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;
@@ -81,10 +71,8 @@
         },
         
         components: {
-            'project-header': header,
             'project-summary': project_summary,
             'pm-pagination': pagination,
-            'project-create-form': project_create_form,
             'do-action': after_project
         },
 

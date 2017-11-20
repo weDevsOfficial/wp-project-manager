@@ -1,6 +1,11 @@
 
 weDevsPmRegisterModule('projectLists', 'project-lists');
 
+const projectListHeader = resolve => {
+    require.ensure(['./header.vue'], () => {
+        resolve(require('./header.vue'));
+    });
+}
 const project_lists = resolve => {
     require.ensure(['./active-projects.vue'], () => {
         resolve(require('./active-projects.vue'));
@@ -20,48 +25,56 @@ const completed_projects = resolve => {
 }
 
 weDevsPMRegisterChildrenRoute('project_root', 
-    [
-        {
+    [   {
             path: 'projects', 
-            component: project_lists,
-            name: 'project_lists',
-
-            children: [
+            component: projectListHeader,
+            children: 
+            [
                 {
-                    path: 'pages/:current_page_number', 
+                    path: '/', 
                     component: project_lists,
-                    name: 'project_pagination',
+                    name: 'project_lists',
+
+                    children: [
+                        {
+                            path: 'pages/:current_page_number', 
+                            component: project_lists,
+                            name: 'project_pagination',
+                        },
+                    ]
                 },
-            ]
-        },
 
-        {
-            path: 'all', 
-            component: all_projects,
-            name: 'all_projects',
-
-            children: [
                 {
-                    path: 'pages/:current_page_number', 
+                    path: 'all', 
                     component: all_projects,
-                    name: 'all_project_pagination',
+                    name: 'all_projects',
+
+                    children: [
+                        {
+                            path: 'pages/:current_page_number', 
+                            component: all_projects,
+                            name: 'all_project_pagination',
+                        },
+                    ]
                 },
-            ]
-        },
 
-        {
-            path: 'completed', 
-            component: completed_projects,
-            name: 'completed_projects',
-
-            children: [
                 {
-                    path: 'pages/:current_page_number', 
+                    path: 'completed', 
                     component: completed_projects,
-                    name: 'completed_project_pagination',
+                    name: 'completed_projects',
+
+                    children: [
+                        {
+                            path: 'pages/:current_page_number', 
+                            component: completed_projects,
+                            name: 'completed_project_pagination',
+                        },
+                    ]
                 },
+
             ]
-        },
+        }
+        
     ]
 );
 

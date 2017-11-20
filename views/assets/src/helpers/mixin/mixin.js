@@ -165,6 +165,7 @@
                     status: '',
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
                 },
                 callback: false
             }
