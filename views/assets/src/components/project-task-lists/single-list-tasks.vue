@@ -71,7 +71,7 @@
                task_loading_status: false,
                incomplete_show_load_more_btn: false,
                complete_show_load_more_btn: false,
-               currnet_user_id: this.$store.state.get_current_user_id,
+               currnet_user_id: this.$store.state.projectTaskLists.get_current_user_id,
                more_incomplete_task_spinner: false,
                more_completed_task_spinner: false,
                loading_completed_tasks: true,
@@ -163,7 +163,7 @@
         methods: {
             is_assigned: function(task) {
                 return true;
-                var get_current_user_id = this.$store.state.get_current_user_id,
+                var get_current_user_id = this.$store.state.projectTaskLists.get_current_user_id,
                     in_task  = task.assigned_to.indexOf(get_current_user_id);
                 
                 if ( task.can_del_edit || ( in_task != '-1' ) ) {

@@ -134,12 +134,12 @@ export default {
          * @return boolean
          */
         todo_view_private: function() {
-            if ( ! this.$store.state.init.hasOwnProperty('premissions')) {
+            if ( ! this.$store.state.projectTaskLists.init.hasOwnProperty('premissions')) {
                 return true;
             }
 
-            if ( this.$store.state.init.premissions.hasOwnProperty('todo_view_private')) {
-                return this.$store.state.init.premissions.tdolist_view_private
+            if ( this.$store.state.projectTaskLists.init.premissions.hasOwnProperty('todo_view_private')) {
+                return this.$store.state.projectTaskLists.init.premissions.tdolist_view_private
             }
 
             return true;
@@ -234,7 +234,7 @@ export default {
         hideNewTaskForm: function(list_index, task_id) {
             var self = this,
                 task_index = this.getIndex(this.list.tasks, task_id, 'ID'),
-                list_index = this.getIndex( this.$store.state.lists, this.list.ID, 'ID' );
+                list_index = this.getIndex( this.$store.state.projectTaskLists.lists, this.list.ID, 'ID' );
 
             if ( typeof task_id == 'undefined'   ) {
                 self.showHideTaskFrom( self.list );

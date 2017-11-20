@@ -146,7 +146,7 @@
             if(typeof this.comment.id !== 'undefined' ){
                 args.data.id = this.comment.id;
                 args.callback = function(res){
-                    self.$store.commit('listUpdateComment', {
+                    self.$store.commit('projectTaskLists/listUpdateComment', {
                         list_id: self.list_id,
                         comment_id: self.comment.id,
                         comment: res.data
@@ -158,7 +158,7 @@
                 self.updateComment ( args );
             }else{
                 args.callback = function ( res ) {
-                    self.$store.commit('listNewComment', {
+                    self.$store.commit('projectTaskLists/listNewComment', {
                         list_id: self.list_id,
                         comment: res.data
                     });
