@@ -1,75 +1,74 @@
-export default pm.Vue.mixin({
+export default {
     methods: {
-    /**
-     * Insert categroy resource
-     * @param  {Object} args Object with callback
-     * @return {void}      
-     */
+        /**
+         * Insert categroy resource
+         * @param  {Object} args Object with callback
+         * @return {void}      
+         */
         newCategory (args) {
-      var self = this;
-      var pre_define = {
-        data:{
-          title: this.title,
-          description: this.description,
-          categorible_type: 'project'
+            var self = this;
+            var pre_define = {
+                data:{
+                    title: this.title,
+                    description: this.description,
+                    categorible_type: 'project'
+                },
+                callback: false
+              },
+            args = jQuery.extend(true, pre_define, args );
+
+            var request_data = {
+                url: self.base_url + '/pm/v2/categories',
+                type: 'POST',
+                data: args.data,
+                
+                success (res) {
+                    self.addCategoryMeta(res.data);
+                    
+                    self.show_spinner = false;
+
+                    // Display a success toast, with a title
+                    pm.Toastr.success(res.data.success);
+             
+                    self.submit_disabled = false;
+
+                    self.$store.commit('categories/afterNewCategories', res.data);
+                    if(typeof args.callback === 'function' ){
+                        args.callback.call(self, res);
+                    }
+
+                },
+
+                error (res) {
+                    self.show_spinner = false;
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
+                    if(typeof args.callback === 'function' ){
+                        args.callback.call(self, res);
+                    }
+                    self.submit_disabled = false;
+                }
+            }
+          
+            self.httpRequest(request_data);
         },
-        callback: false
-      },
-      args = jQuery.extend(true, pre_define, args );
 
-      var request_data = {
-        url: self.base_url + '/pm/v2/categories',
-        type: 'POST',
-        data: args.data,
-        
-        success (res) {
-            self.addCategoryMeta(res.data);
-            
-            self.show_spinner = false;
-
-          // Display a success toast, with a title
-          pm.Toastr.success(res.data.success);
-     
-          self.submit_disabled = false;
-
-          self.$store.commit('afterNewCategories', res.data);
-          if(typeof args.callback === 'function' ){
-            args.callback.call(self, res);
-          }
-
-        },
-
-        error (res) {
-            self.show_spinner = false;
-          // Showing error
-          res.data.error.map( function( value, index ) {
-              pm.Toastr.error(value);
-          });
-          if(typeof args.callback === 'function' ){
-            args.callback.call(self, res);
-          }
-          self.submit_disabled = false;
-        }
-      }
-      
-      self.httpRequest(request_data);
-        },
-
-    /**
-     * Get All categories 
-     * @return {[data]} [description]
-     */
+        /**
+         * Get All categories 
+         * @return {[data]} [description]
+         */
         getCategories () {
             var self = this;
-            
             var request_data = {
                 url: self.base_url + '/pm/v2/categories',
                 success: function(res) {
                     res.data.map(function(category, index) {
                         self.addCategoryMeta(category);
                     });
-                    
-                    self.$store.commit('setCategories', res.data);
+                        
+                    self.$store.commit('categories/setCategories', res.data);
                 }
             };
 
@@ -79,116 +78,112 @@ export default pm.Vue.mixin({
         getCategory () {
 
         },
-    /**
-     * Category meta
-     * @param {Object} category 
-     */
+        /**
+         * Category meta
+         * @param {Object} category 
+         */
         addCategoryMeta (category) {
             category.edit_mode = false;
         },
 
-    /**
-     * Category form mood
-     * @param  {Object} category 
-     * @return {void}          
-     */
+        /**
+         * Category form mood
+         * @param  {Object} category 
+         * @return {void}          
+         */
         showHideCategoryEditForm (category) {
             category.edit_mode = category.edit_mode ? false : true;
         },
 
-    /**
-     * Update Category 
-     * @param  {Object} args 
-     * @return {Data Collection}      
-     */
+        /**
+         * Update Category 
+         * @param  {Object} args 
+         * @return {Data Collection}      
+         */
         updateCategory (args) {
-      var self      = this;
+            var self      = this;
+            var pre_define = {
+                data:{
+                    id: '',
+                    title: '',
+                    description: '',
+                    categorible_type: 'project'
+                },
+                callback: false
+            },
+            args = jQuery.extend(true, pre_define, args );
 
-      var pre_define = {
-        data:{
-          id: '',
-          title: '',
-          description: '',
-          categorible_type: 'project'
-        },
-        callback: false
-      },
-      args = jQuery.extend(true, pre_define, args );
+              // Showing loading option 
+            this.show_spinner = true;
 
-      // Showing loading option 
-      this.show_spinner = true;
+            var request_data = {
+                url: self.base_url + '/pm/v2/categories/' + args.data.id,
+                type: 'PUT',
+                data: args.data,
+                
+                success (res) {
+                    self.addCategoryMeta(res.data);
+                    self.show_spinner = false;
 
-      var request_data = {
-        url: self.base_url + '/pm/v2/categories/' + args.data.id,
-        type: 'PUT',
-        data: args.data,
-        
-        success (res) {
-            self.addCategoryMeta(res.data);
-            self.show_spinner = false;
+                    // Display a success toast, with a title
+                    pm.Toastr.success(res.data.success);
+             
+                    self.submit_disabled = false;
+                    self.show_spinner = false;
 
-            // Display a success toast, with a title
-          pm.Toastr.success(res.data.success);
-     
-          self.submit_disabled = false;
-          self.show_spinner = false;
+                    self.$store.commit('categories/afterUpdateCategories', res.data);
+                    if(typeof args.callback === 'function' ){
+                        args.callback.call(self, res);
+                    }
 
-          self.$store.commit('afterUpdateCategories', res.data);
-          if(typeof args.callback === 'function' ){
-            args.callback.call(self, res);
-          }
+                },
 
-        },
-
-        error (res) {
-            self.show_spinner = false;
-            
-          // Showing error
-          res.data.error.map( function( value, index ) {
-              pm.Toastr.error(value);
-          });
-          if(typeof args.callback === 'function' ){
-            args.callback.call(self, res);
-          }
-          self.submit_disabled = false;
-        }
-      }
-      
-      self.httpRequest(request_data);
-        },
-
-    /**
-     * Delete Bulk categories by categories ids
-     * @param  {Object} args ids with callback
-     * @return {void}      
-     */
-        deleteCategories (args) {
-      var self = this;
-
-      var pre_define = {
-        category_ids: [],
-        callback: false
-      },
-      args = jQuery.extend(true, pre_define, args );
-
-      var request_data = {
-          url: self.base_url + '/pm/v2/categories/bulk-delete/',
-          data: {
-            'category_ids': args.category_ids
-          },
-          type: 'DELETE',
-          success: function(res) {
-            args.category_ids.map(function(id, index) {
-                self.$store.commit('afterDeleteCategory', id);
-            });
-
-            if(typeof args.callback === 'function' ){
-              args.callback.call(self, res);
+                error (res) {
+                    self.show_spinner = false;
+                    // Showing error
+                    res.data.error.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
+                    if(typeof args.callback === 'function' ){
+                        args.callback.call(self, res);
+                    }
+                    self.submit_disabled = false;
+                }
             }
-          }
-      }
-      //self.$store.commit('afterDeleteDiscuss', discuss_id);
-      self.httpRequest(request_data);
+            self.httpRequest(request_data);
+        },
+
+        /**
+         * Delete Bulk categories by categories ids
+         * @param  {Object} args ids with callback
+         * @return {void}      
+         */
+        deleteCategories (args) {
+            var self = this;
+
+            var pre_define = {
+                category_ids: [],
+                callback: false
+              },
+            args = jQuery.extend(true, pre_define, args );
+
+            var request_data = {
+                url: self.base_url + '/pm/v2/categories/bulk-delete/',
+                data: {
+                    'category_ids': args.category_ids
+                },
+                type: 'DELETE',
+                success: function(res) {
+                    args.category_ids.map(function(id, index) {
+                        self.$store.commit('categories/afterDeleteCategory', id);
+                    });
+
+                    if(typeof args.callback === 'function' ){
+                      args.callback.call(self, res);
+                    }
+                }
+            }
+            self.httpRequest(request_data);
         }
     },
-});
+};
