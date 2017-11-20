@@ -4,7 +4,7 @@
  */
 
 
-export default new pm.Vuex.Store({
+export default {
 
     state: {
         is_discuss_form_active: false,
@@ -104,4 +104,4 @@ export default new pm.Vuex.Store({
             state.discussion[index].comments.data.splice(comment_index,1,data.comment);
         }
     }
-});
+};

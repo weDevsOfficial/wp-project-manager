@@ -1,6 +1,5 @@
-import store from './../../store/store';
 
-export default pm.Vue.mixin({
+export default {
     methods: {
         getFiles () {
             var self = this;
@@ -15,4 +14,4 @@ export default pm.Vue.mixin({
             self.httpRequest(request);
         }
     }
-});
+};

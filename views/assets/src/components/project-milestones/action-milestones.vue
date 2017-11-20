@@ -23,6 +23,8 @@
     export default {
         props: ['milestone'],
 
+        mixins: [PmMixin.projectMilestones],
+
         data () {
             return {
                 due_date: this.milestone.achieve_date.date,
@@ -61,7 +63,7 @@
                 var args = {
                     milestone_id: this.milestone.id,
                     callback: function(res){
-                        if (!self.$store.state.milestones.length) {
+                        if (!self.$store.state.projectMilestones.milestones.length) {
                             self.$router.push({
                                 name: 'milestones', 
                                 params: { 

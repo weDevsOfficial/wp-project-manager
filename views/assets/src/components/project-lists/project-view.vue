@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    
     export default{
         data(){
             return {
@@ -20,6 +21,7 @@
 
         created(){
             this.getCookie("project_view");
+            
         },
         methods: {
             ...pm.Vuex.mapMutations( 'projectLists',
@@ -34,7 +36,7 @@
 
                 document.cookie = "project_view="+name + ';' + expires;
                 this.setProjectsView(name);
-                //this.$store.commit('setProjectsView', name);
+                //this.$store.commit('projectLists/setProjectsView', name);
             },
 
             getCookie(key){
@@ -50,7 +52,7 @@
 
                     if (c.indexOf(name) == 0) {
                         this.setProjectsView( c.substring(key.length, c.length) );
-                        //this.$store.commit('setProjectsView', c.substring(key.length, c.length))
+                        //this.$store.commit('projectLists/setProjectsView', c.substring(key.length, c.length))
                         return c.substring(key.length, c.length);
                     }
                  }

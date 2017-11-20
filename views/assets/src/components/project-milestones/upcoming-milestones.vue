@@ -61,6 +61,7 @@
     import discuss from './milestone-discussion.vue';
 
     export default {
+        mixins: [PmMixin.projectMilestones],
         components: {
             'new-milestone-form': new_milestone_form,
             'list': list,
@@ -72,7 +73,7 @@
                 
                 
 
-                return this.$store.state.milestones.filter(function(milestone) {
+                return this.$store.state.projectMilestones.milestones.filter(function(milestone) {
 
                     if ( milestone.status === 'complete' ) {
                         return false;

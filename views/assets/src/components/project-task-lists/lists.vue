@@ -121,7 +121,8 @@
                     
                 </pm-pagination> 
             </div>
-            <router-view v-if="lists.length" name="single-task"></router-view>
+            <!-- v-if="lists.length" name="single-task" -->
+            <router-view></router-view>
         </div>
         
     </div>
@@ -192,6 +193,8 @@
             'default-list-page': default_page
         },
 
+        mixins: [PmMixin.projectTaskLists],
+
         /**
          * Initial data for this component
          * 
@@ -222,7 +225,7 @@
         },
 
         created () {
-            this.$store.state.is_single_list = false;
+            this.$store.state.projectTaskLists.is_single_list = false;
         },
 
         computed: {
@@ -232,7 +235,7 @@
              * @return array
              */
             lists () {
-                return this.$store.state.lists;
+                return this.$store.state.projectTaskLists.lists;
             },
 
             /**
@@ -241,22 +244,22 @@
              * @return array
              */
             milestones () {
-                return this.$store.state.milestones;
+                return this.$store.state.projectTaskLists.milestones;
             },
 
             is_active_list_form () {
-                return this.$store.state.is_active_list_form;
+                return this.$store.state.projectTaskLists.is_active_list_form;
             },
 
             total_list_page () {
-                return this.$store.state.lists_meta.total_pages;
+                return this.$store.state.projectTaskLists.lists_meta.total_pages;
             },
 
             is_blank_Template(){
-                return this.$store.state.balankTemplateStatus;
+                return this.$store.state.projectTaskLists.balankTemplateStatus;
             },
             is_list_Template(){
-                return this.$store.state.listTemplateStatus; 
+                return this.$store.state.projectTaskLists.listTemplateStatus; 
             }
 
         },
@@ -283,7 +286,7 @@
                 var args = {
                     list_id: list.id,
                     callback: function ( res ) {
-                        if (!self.$store.state.lists.length) {
+                        if (!self.$store.state.projectTaskLists.lists.length) {
                             self.$router.push({
                                 name: 'task_lists', 
                                 params: { 

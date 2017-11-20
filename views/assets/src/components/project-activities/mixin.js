@@ -1,5 +1,5 @@
 
-export default pm.Vue.mixin({
+export default {
     methods: {
         getActivities (condition, callback) {
             var self = this,
@@ -34,4 +34,4 @@ export default pm.Vue.mixin({
             return query.slice(0, -1);
         }
     },
-});
+};

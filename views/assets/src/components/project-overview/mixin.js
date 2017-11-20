@@ -1,6 +1,6 @@
 
-export default pm.Vue.mixin({
+export default {
     methods: {
 
     }
-});
+};

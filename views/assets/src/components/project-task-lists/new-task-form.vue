@@ -80,6 +80,7 @@ export default {
             assigned_to: []
         }
     },
+    mixins: [PmMixin.projectTaskLists],
     created ()
     {
     	

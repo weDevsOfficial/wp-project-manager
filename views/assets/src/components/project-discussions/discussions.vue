@@ -141,10 +141,11 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getGlobalMilestones();
-                vm.discussQuery();
+                
             });
         },
+
+        mixins: [PmMixin.projectDiscussions],
 
         data () {
             return {
@@ -157,6 +158,10 @@
                 this.discussQuery();
             }
         },
+        created () {
+            this.getGlobalMilestones();
+            this.discussQuery();
+        },
         components: {
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
@@ -164,21 +169,21 @@
         },
         computed: {
             discussTemplate () {
-                return this.$store.state.discuss_template;
+                return this.$store.state.projectDiscussions.discuss_template;
             },
             blankTemplate () {
-                return this.$store.state.blank_template;
+                return this.$store.state.projectDiscussions.blank_template;
             },
             is_discuss_form_active () {
-                return this.$store.state.is_discuss_form_active;
+                return this.$store.state.projectDiscussions.is_discuss_form_active;
             },
 
             discussion () {
-                return this.$store.state.discussion;
+                return this.$store.state.projectDiscussions.discussion;
             },
 
             total_discussion_page () {
-                return this.$store.state.meta.total_pages;
+                return this.$store.state.projectDiscussions.meta.total_pages;
             }
         },
         methods: {

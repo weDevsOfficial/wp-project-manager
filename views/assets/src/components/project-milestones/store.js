@@ -2,7 +2,7 @@
 /**
  * Make sure to call  first if using a vuex module system
  */
-export default new pm.Vuex.Store({
+export default {
 
     state: {
         is_milestone_form_active: false,
@@ -90,4 +90,4 @@ export default new pm.Vuex.Store({
             state.meta.total_pages = Math.ceil( state.meta.total / state.meta.per_page );
         },
     }
-});
+};

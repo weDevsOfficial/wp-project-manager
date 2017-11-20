@@ -1,4 +1,4 @@
-const index = resolve => {
+const files = resolve => {
     require.ensure(['./files.vue'], () => {
         resolve(require('./files.vue'));
     });
@@ -6,10 +6,21 @@ const index = resolve => {
 
 weDevsPmRegisterModule('projectFiles', 'project-files');
 
-export default { 
-    path: ':project_id/files', 
-    component: index,
-    name: 'pm_files',
-    children: wedevsPMGetRegisterChildrenRoute('pm_files')
-}
- 
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        {
+            path: ':project_id/files', 
+    		component: files,
+    		name: 'pm_files',
+    		children: wedevsPMGetRegisterChildrenRoute('pm_files')
+        },
+    ]
+)
+
+// export default { 
+//     path: ':project_id/files', 
+//     component: index,
+//     name: 'pm_files',
+//     children: wedevsPMGetRegisterChildrenRoute('pm_files')
+// }
+//  

@@ -23,6 +23,7 @@
 
   export default {
     props: ['comment', 'comments'],
+    mixins: [PmMixin.projectTaskLists],
     data () {
         return {
             submit_disabled: false,

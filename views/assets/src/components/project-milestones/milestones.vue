@@ -98,6 +98,7 @@
                 vm.getSelfMilestones(vm);
             });
         },
+        mixins: [PmMixin.projectMilestones],
         data () {
             return {
                 current_page_number: 1,
@@ -120,22 +121,22 @@
         },
         computed: {
             milestoneTemplate () {
-                return this.$store.state.milestone_template;
+                return this.$store.state.projectMilestones.milestone_template;
             },
             blankTemplate () {
-                return this.$store.state.blank_template;
+                return this.$store.state.projectMilestones.blank_template;
             },
             is_milestone_form_active () {
-                return this.$store.state.is_milestone_form_active;
+                return this.$store.state.projectMilestones.is_milestone_form_active;
             },
 
             milestones () {
-                return this.$store.state.milestones;
+                return this.$store.state.projectMilestones.milestones;
             },
 
             total_milestone_page () {
-                if(typeof this.$store.state.milestone_meta !== 'undefined'){
-                    return this.$store.state.milestone_meta.total_pages;
+                if(typeof this.$store.state.projectMilestones.milestone_meta !== 'undefined'){
+                    return this.$store.state.projectMilestones.milestone_meta.total_pages;
                 }
                 return false;
             }

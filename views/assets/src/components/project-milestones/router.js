@@ -1,4 +1,4 @@
-//import project_lists from './index.vue';
+weDevsPmRegisterModule('projectMilestones', 'project-milestones');
 
 const milestones_route = resolve => {
     require.ensure(['./milestones.vue'], () => {
@@ -6,24 +6,42 @@ const milestones_route = resolve => {
     });
 }
 
-var milestones = {
-    path: '/:project_id/milestones/', 
-    components: { 
-        'milestones': milestones_route 
-    }, 
-    name: 'milestones',
-
-    children: [
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
         {
-            path: 'pages/:current_page_number', 
-            components: { 
-                'milestones': milestones_route
-            }, 
-            name: 'milestone_pagination',
-        },
-    ]
-}
+            path: ':project_id/milestones/', 
+            component: milestones_route,
+            name: 'milestones',
 
-export { milestones };
+            children: [
+                {
+                    path: 'pages/:current_page_number', 
+                    component: milestones_route,
+                    name: 'milestone_pagination',
+                },
+            ]
+        }
+    ]
+)
+
+// var milestones = {
+//     path: '/:project_id/milestones/', 
+//     components: { 
+//         'milestones': milestones_route 
+//     }, 
+//     name: 'milestones',
+
+//     children: [
+//         {
+//             path: 'pages/:current_page_number', 
+//             components: { 
+//                 'milestones': milestones_route
+//             }, 
+//             name: 'milestone_pagination',
+//         },
+//     ]
+// }
+
+// export { milestones };
 
  

@@ -52,7 +52,7 @@ var PM_Overview = {
 
     getLabels: function(self) {
         var labels = [],
-            graph_data = self.$store.state.graph;
+            graph_data = self.graph;
         
         graph_data.map(function(graph) {
             var date = PM_Overview.labelDateFormat(graph.date_time.date);
@@ -68,7 +68,7 @@ var PM_Overview = {
     },
 
     getActivities: function(self) {
-        var activities = self.$store.state.graph;
+        var activities = self.graph;
         var set_activities = [];
 
         activities.map(function(activity) {
@@ -79,7 +79,7 @@ var PM_Overview = {
     },
 
     getTasks: function(self) {
-        var tasks = self.$store.state.graph;
+        var tasks = self.graph;
         var set_tasks = [];
 
         tasks.map(function(task) {
