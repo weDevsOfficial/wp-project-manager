@@ -645,6 +645,7 @@ var PM_TaskList_Mixin = {
          * @return {[type]}        [description]
          */
         showHideListForm ( status, list ) {
+            console.log(status, list)
             var list   = list || false,
               list   = jQuery.isEmptyObject(list) ? false : list;
 

@@ -45,8 +45,11 @@
 
         registerStore (module_name, store) {
             var self = this;
-            var mutations = store.mutations; //self.$options.mutations;
-            var state = store.state; //self.$options.state;
+            if( typeof store !== 'undefined' ) {
+                var mutations = store.mutations || {}; //self.$options.mutations;
+                var state = store.state || {}; //self.$options.state;
+            }
+            
             // register a module `myModule`
 
             self.$store.registerModule(module_name, {

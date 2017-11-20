@@ -1,5 +1,9 @@
+export default{
+    data () {
+        return {
 
-export default pm.Vue.mixin({
+        }
+    },
     methods: {
         saveSettings (settings, callback) {
             var settings = this.formatSettings(settings),
@@ -45,7 +49,7 @@ export default pm.Vue.mixin({
             return PM_Vars.settings[key];
 
         }
-    },
-});
+    }
+}
 
 

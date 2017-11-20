@@ -252,24 +252,24 @@
 
         computed: {
             // task () {
-            //  return this.$store.state.task;
+            //  return this.$store.state.projectTaskLists.task;
             // },
             project_users: function() {
                 return this.$root.$store.state.project_users;
             },
             task_users () {
-                if (jQuery.isEmptyObject(this.$store.state.task)) {
+                if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
                     return [];
                 }
-                return this.$store.state.task.assignees.data;
+                return this.$store.state.projectTaskLists.task.assignees.data;
             },
 
             // comments () {
-            //  if (jQuery.isEmptyObject(this.$store.state.task)) {
+            //  if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
             //      return [];
             //  }
          
-            //  return this.$store.state.task.comments.data;
+            //  return this.$store.state.projectTaskLists.task.comments.data;
             // },
 
             /**
@@ -351,7 +351,7 @@
                     success (res) {
                         self.addMeta(res.data);
                         self.list = res.data.boards.data[0];
-                        //self.$store.commit('setSingleTask', res.data);
+                        //self.$store.commit('projectTaskLists/setSingleTask', res.data);
                         self.task = res.data;
                         self.loading = false;
                         pm.NProgress.done();
@@ -399,7 +399,7 @@
                     var start = new Date( task.start_at ),
                         due = new Date( date.date );
 
-                    if ( !this.$store.state.permissions.task_start_field ) {
+                    if ( !this.$store.state.projectTaskLists.permissions.task_start_field ) {
                         task.due_date.date = date.date;
                         this.updateTaskElement(task);
                     } else if ( start <= due ) {

@@ -100,14 +100,14 @@
         methods: {
             doneUndone (){
                 var self = this,
-                 status = !this.task.status
+                 status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
                         task_id: this.task.id,
                         status : status,
                     },
                     callback: function(res){
-                        self.$store.commit( 'afterTaskDoneUndone', {
+                        self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                             status: status,
                             task: res.data,
                             list_id: self.list.id,
