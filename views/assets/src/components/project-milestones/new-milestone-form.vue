@@ -40,6 +40,8 @@
             }
         },
 
+        mixins: [PmMixin.projectMilestones],
+
         watch: {
             /**
              * Observe onchange comment message
@@ -63,7 +65,7 @@
         },
         computed: {
             milestones () {
-                return this.$store.state.milestones;
+                return this.$store.state.projectMilestones.milestones;
             },
             /**
              * Editor ID

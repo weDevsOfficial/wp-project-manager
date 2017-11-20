@@ -7,7 +7,8 @@
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px; height: 20000px;">
                     <span class="close-vue-modal">
-                        <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                        
+                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
 
@@ -36,7 +37,7 @@
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px;">
                     <span class="close-vue-modal">
-                        <a class="" @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
                     <div class="modal-body pm-todolist">
@@ -67,11 +68,7 @@
                                                     {{ task.title }}
                                                 </span>
                                             </div>
-                                           <!--  <div class="pm-task-title-meta">
-                                                <span v-if="task.task_privacy == 'yes'" @click.prevent="updateTaskPrivacy(task, 'no')" v-pm-tiptip class="dashicons dashicons-lock pm-tiptip" title="<?php _e( 'Make public', 'pm' ); ?>"></span>
-                                                <span v-if="task.task_privacy != 'yes'" @click.prevent="updateTaskPrivacy(task, 'yes')" v-pm-tiptip class="dashicons dashicons-unlock pm-tiptip" title="<?php _e( 'Make private', 'pm' ); ?>"></span>
-                                                
-                                            </div> -->
+                                          
                                             <div class="clearfix pm-clear"></div>
                                         </span>
 
@@ -114,9 +111,9 @@
                                                     track-by="id"
                                                     :allow-empty="true">
 
-                                                    <template  slot="option" scope="props">
+                                                    <template  slot="tag" slot-scope="props">
                                                         <div>
-                                                            <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                                            <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky"/>
                                                             <div class="option__desc">
                                                                 <span class="option__title">{{ props.option.display_name }}</span>
                                                                 <!-- <span class="option__small">{{ props.option.desc }}</span> -->
@@ -250,6 +247,8 @@
                 assigned_to: []
             }
         },
+
+        mixins: [PmMixin.projectTaskLists],
 
         computed: {
             // task () {

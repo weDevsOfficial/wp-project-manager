@@ -24,6 +24,8 @@
             }
         },
 
+        mixins: [PmMixin.projectTaskLists],
+
         computed: {
             /**
              * Show new todo-list form

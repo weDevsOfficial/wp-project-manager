@@ -68,6 +68,8 @@
             };
         },
 
+        mixins: [PmMixin.projectTaskLists],
+
         created () {
             if ( typeof this.list.milestone !== 'undefined' ) {
                 this.milestone_id = this.list.milestone.data.id;

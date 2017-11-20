@@ -65,6 +65,7 @@
     import new_task_form from './new-task-form.vue';
     export default {
         props: ['task', 'list'],
+        mixins: [PmMixin.projectTaskLists],
         components: {
             'new-task-form': new_task_form,
         },

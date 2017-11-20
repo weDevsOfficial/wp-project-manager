@@ -27,6 +27,8 @@
         // Get passing data for this component. Remember only array and objects are
         props: ['list'],
 
+        mixins: [PmMixin.projectTaskLists],
+
         /**
          * Initial data for this component
          * 

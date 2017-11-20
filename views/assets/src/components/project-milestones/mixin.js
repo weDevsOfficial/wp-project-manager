@@ -1,5 +1,5 @@
 
-export default pm.Vue.mixin({
+export default {
     methods: {
         showHideMilestoneForm (status, milestone) {
             var milestone   = milestone || false,
@@ -12,7 +12,7 @@ export default pm.Vue.mixin({
                     milestone.edit_mode = status;
                 }
             } else {
-                this.$store.commit('showHideMilestoneForm', status);
+                this.$store.commit('projectMilestones/showHideMilestoneForm', status);
             }
         },
 
@@ -45,7 +45,7 @@ export default pm.Vue.mixin({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?'+conditions,
                 success (res) {
                     self.addMeta(res.data);
-                    self.$store.commit( 'setMilestone', res.data );
+                    self.$store.commit( 'projectMilestones/setMilestone', res.data );
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -80,8 +80,8 @@ export default pm.Vue.mixin({
                     res.data.map(function(milestone, index) {
                         self.addMeta(milestone, index);
                     });
-                    self.$store.commit( 'setMilestones', res.data );
-                    self.$store.commit('setMilestonesMeta', res.meta.pagination);
+                    self.$store.commit( 'projectMilestones/setMilestones', res.data );
+                    self.$store.commit('projectMilestones/setMilestonesMeta', res.meta.pagination);
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -121,6 +121,36 @@ export default pm.Vue.mixin({
             return current_page_number;
         },
 
+                 /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateFormat ( date ) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            date = pm.Moment(date).format('YYYY-MM-DD');
+
+            var format = 'MMMM DD YYYY';
+
+            if ( PM_Vars.wp_date_format == 'Y-m-d' ) {
+            format = 'YYYY-MM-DD';
+
+            } else if ( PM_Vars.wp_date_format == 'm/d/Y' ) {
+                format = 'MM/DD/YYYY';
+
+            } else if ( PM_Vars.wp_date_format == 'd/m/Y' ) {
+                format = 'DD/MM/YYYY';
+            } 
+
+            return pm.Moment( date ).format(format);
+        },
+
         /**
          * Add new milestone 
          *
@@ -148,7 +178,7 @@ export default pm.Vue.mixin({
                 success (res) {
                     self.addMeta(res.data);
                     
-                    self.$store.commit('newMilestone', res.data);
+                    self.$store.commit('projectMilestones/newMilestone', res.data);
                     self.$root.$store.state.milestones_load = false;
                     // Display a success toast, with a title
                     pm.Toastr.success(res.data.success);
@@ -207,7 +237,7 @@ export default pm.Vue.mixin({
                     self.addMeta(res.data);
 
                     // update milestone 
-                    self.$store.commit('updateMilestone', res.data);
+                    self.$store.commit('projectMilestones/updateMilestone', res.data);
                     self.$root.$store.state.milestones_load = false;
                    
                     // Display a success toast, with a title
@@ -260,7 +290,7 @@ export default pm.Vue.mixin({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteMilestone', args.milestone_id);
+                    self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
 
                     if(typeof args.callback === 'function'){
@@ -344,7 +374,7 @@ export default pm.Vue.mixin({
         templateAction(){
             var blank, miltemp;
 
-            var milestones = this.$store.state.milestones;
+            var milestones = this.$store.state.projectMilestones.milestones;
             
             if(milestones.length){
                 blank = false; miltemp = true;
@@ -354,10 +384,10 @@ export default pm.Vue.mixin({
                 blank = true; miltemp = false;
             }
 
-            this.$store.commit('balankTemplateStatus', blank);
-            this.$store.commit('milestoneTemplateStatus', miltemp);
+            this.$store.commit('projectMilestones/balankTemplateStatus', blank);
+            this.$store.commit('projectMilestones/milestoneTemplateStatus', miltemp);
         }
 
     },
-});
+};
 

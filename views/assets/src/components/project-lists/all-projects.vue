@@ -39,20 +39,22 @@
     import project_summary from './project-summary.vue';
     import pagination from './../common/pagination.vue';
     import project_create_form from './project-create-form.vue';
-    import store from './store';
     import after_project from './../common/do-action.vue';
     import header from './header.vue';
 
     export default  {
-        store,
         
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.projectQuery();
-                vm.getRoles();
-                vm.getProjectCategories();
+                
             });
         },  
+
+        created () {
+            this.projectQuery();
+            this.getRoles();
+            this.getProjectCategories();
+        },
 
         data () {
             return {

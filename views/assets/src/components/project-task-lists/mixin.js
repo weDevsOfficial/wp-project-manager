@@ -12,18 +12,17 @@ var PM_TaskList_Mixin = {
     },
 
     computed: {
-
         /**
          * Is current user can create task
          * 
          * @return object
          */
         canUserCreateTask: function() {
-            return this.$store.state.permissions.create_todo;
+            return this.$store.state.projectTaskLists.permissions.create_todo;
         },
 
         task_start_field: function() {
-           return this.$store.state.permissions.task_start_field;
+           return this.$store.state.projectTaskLists.permissions.task_start_field;
         },
 
         /**
@@ -32,7 +31,7 @@ var PM_TaskList_Mixin = {
          * @return Boolean
          */
         is_single_list: function() {
-            return this.$store.state.is_single_list;
+            return this.$store.state.projectTaskLists.is_single_list;
         },
 
         /**
@@ -41,11 +40,66 @@ var PM_TaskList_Mixin = {
          * @return Boolean
          */
         is_single_task: function() {
-            return this.$store.state.is_single_task;
+            return this.$store.state.projectTaskLists.is_single_task;
         },
     },
 
     methods: {
+        ...pm.Vuex.mapMutations('projectTaskLists',
+            [
+                'setLists',
+                'setListsMeta',
+                'afterNewList',
+                'afterNewListupdateListsMeta',
+                'afterDeleteList',
+                'afterNewTask',
+                'afterUpdateTask',
+                'afterDeleteTask',
+                'showHideListFormStatus',
+                'single_task_popup',
+                'balankTemplateStatus',
+                'listTemplateStatus',
+                'setTasks',
+                'afterUpdateList'
+            ]
+        ),
+
+        /**
+         * Get task completed progress width
+         * 
+         * @param  array tasks 
+         * 
+         * @return obj       
+         */
+        getProgressStyle: function( list ) {
+            if ( typeof list == 'undefined' ) {
+                return 0;
+            }
+            var width = this.getProgressPercent( list );
+
+            return { width: width+'%' };
+        },
+
+        /**
+         * Get task completed percentage from todo list
+         * 
+         * @param  array tasks
+         *  
+         * @return float       
+         */
+        getProgressPercent: function( list ) {
+            
+            if (typeof list ==  'undefined') {
+                return 0;
+            }
+            
+            var total_tasks     = parseInt(list.meta.total_incomplete_tasks) + parseInt(list.meta.total_complete_tasks), //tasks.length,
+                completed_tasks = list.meta.total_complete_tasks, //this.countCompletedTasks( list ),
+                progress        = ( 100 * completed_tasks ) / total_tasks;
+
+            return isNaN( progress ) ? 0 : progress.toFixed(0);
+        },
+
 
         /**
          * Retrive All task list
@@ -86,8 +140,8 @@ var PM_TaskList_Mixin = {
 
                     });
                   
-                    self.$store.commit('setLists', res.data);
-                    self.$store.commit('setListsMeta', res.meta.pagination);
+                    self.setLists(res.data);
+                    self.setListsMeta(res.meta.pagination);
 
                     self.listTemplateAction();
                   
@@ -179,8 +233,8 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     res.data.incomplete_tasks = {data: []};
-                    self.$store.commit('afterNewList', res.data);
-                    self.$store.commit('afterNewListupdateListsMeta');
+                    self.afterNewList(res.data);
+                    self.afterNewListupdateListsMeta();
                     self.showHideListForm(false);
                     pm.Toastr.success(res.data.success);
 
@@ -230,7 +284,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.data.success);
-                    self.$store.commit('afterUpdateList', res.data);
+                    self.afterUpdateList(res.data);
                     self.showHideListForm(false, self.list);
 
                     if( typeof args.callback === 'function' ) {
@@ -288,7 +342,7 @@ var PM_TaskList_Mixin = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteList', args.list_id);
+                    self.afterDeleteList(args.list_id);
                     // pm.Toastr.success(res.data.success);
                     self.listTemplateAction();
                     if( typeof args.callback === 'function' ) {
@@ -330,10 +384,12 @@ var PM_TaskList_Mixin = {
                 data: args.data,
                 success (res) {
                     self.addTaskMeta(res.data);
-                    self.$store.commit('afterNewTask', {
-                        list_id: args.data.list_id,
-                        task: res.data
-                    });
+                    self.afterNewTask(
+                        {
+                            list_id: args.data.list_id,
+                            task: res.data
+                        }
+                    );
 
                     // Display a success toast, with a title
                     pm.Toastr.success(res.data.success);                    
@@ -391,7 +447,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addTaskMeta(res.data);
 
-                    self.$store.commit('afterUpdateTask', {
+                    self.afterUpdateTask( {
                         list_id: args.data.list_id,
                         task: res.data
                     });
@@ -453,7 +509,7 @@ var PM_TaskList_Mixin = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id,
                 type: 'DELETE',
                 success (res) {
-                    self.$store.commit('afterDeleteTask', {
+                    self.afterDeleteTask( {
                         'task': args.task,
                         'list': args.list 
                     });
@@ -599,7 +655,7 @@ var PM_TaskList_Mixin = {
                     list.edit_mode = status;
                 }
             } else {
-                this.$store.commit('showHideListFormStatus', status);
+                this.showHideListFormStatus(status);
             }
         },
 
@@ -726,7 +782,7 @@ var PM_TaskList_Mixin = {
                 },
                 list_id: list.id,
                 callback: function ( res ){
-                    self.$store.commit ( 'setTasks', res.data );
+                    self.setTasks(res.data );
                     list.task_loading_status = false;
                 }
             } ;
@@ -775,7 +831,7 @@ var PM_TaskList_Mixin = {
                 },
                 list_id: list.id,
                 callback: function ( res ){
-                    this.$store.commit('setTasks', res.data);
+                    this.setTasks(res.data);
                     list.task_loading_status = false;
                 }
             } ;
@@ -935,8 +991,8 @@ var PM_TaskList_Mixin = {
          * @return void            
          */
         showHideTaskCommentEditForm ( task, comment_id ) {
-            var list_index    = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
-            task_index    = this.getIndex( this.$store.state.lists[list_index].tasks, task.ID, 'ID' ),
+            var list_index = this.getIndex( this.$store.state.projectTaskLists.lists, task.post_parent, 'ID' ),
+            task_index    = this.getIndex( this.$store.state.projectTaskLists.lists[list_index].tasks, task.ID, 'ID' ),
             comment_index = this.getIndex( this.task.comments, comment_id, 'comment_ID' ) ,
             self          = this;
 
@@ -966,7 +1022,7 @@ var PM_TaskList_Mixin = {
          * @return array     
          */
         get_porject_users_by_role ( role ) {
-            return this.$store.state.project_users.filter(function( user ) {
+            return this.$store.state.projectTaskLists.project_users.filter(function( user ) {
                 return ( user.role == role ) ? true : false;
             });
         },
@@ -981,7 +1037,7 @@ var PM_TaskList_Mixin = {
         get_porject_users_id_by_role ( role ) {
             var ids = [];
 
-            this.$store.state.project_users.map(function(user) {
+            this.$store.state.projectTaskLists.projectTaskLists.project_users.map(function(user) {
                 if ( user.role == role ) {
                   ids.push(user.id);
                 } 
@@ -1010,7 +1066,7 @@ var PM_TaskList_Mixin = {
                 return parseInt(id);
             });
 
-            filtered_users = this.$store.state.project_users.filter( function (user) {
+            filtered_users = this.$store.state.projectTaskLists.projectTaskLists.project_users.filter( function (user) {
                 return ( assigned_to.indexOf( parseInt(user.id) ) >= 0 );
             });
 
@@ -1130,7 +1186,7 @@ var PM_TaskList_Mixin = {
          * @return {[type]}      [description]
          */
         singleTask ( task, list ) {
-            this.$store.commit( 'single_task_popup', { task: task } );
+            this.single_task_popup({ task: task });
         },
 
         /**
@@ -1138,15 +1194,19 @@ var PM_TaskList_Mixin = {
          * @return {[type]} [description]
          */
         listTemplateAction () {
-            var lists = this.$store.state.lists, blank, listTmpl;
-
+            var lists = this.$store.state.projectTaskLists.lists, 
+                blank, 
+                listTmpl;
+            
             if(lists.length){
-                blank = false; listTmpl = true;
+                blank = false; 
+                listTmpl = true;
             }else{
-                blank = true; listTmpl = false;
+                blank = true; 
+                listTmpl = false;
             }
-            this.$store.commit('balankTemplateStatus', blank);
-            this.$store.commit('listTemplateStatus', listTmpl);
+            this.balankTemplateStatus(blank);
+            this.listTemplateStatus(listTmpl);
         },
 
         is_assigned: function(task) {
@@ -1164,4 +1224,5 @@ var PM_TaskList_Mixin = {
     }
 }
 
-export default  pm.Vue.mixin(PM_TaskList_Mixin);
+export default  PM_TaskList_Mixin;
+

@@ -32,6 +32,7 @@
 
 <script>
     export default {
-        props: ['discuss']
+        props: ['discuss'],
+        mixins: [PmMixin.projectMilestones],
     }
 </script>

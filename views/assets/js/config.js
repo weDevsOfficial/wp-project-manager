@@ -1,14 +1,19 @@
-var weDevs_PM_Routers = [];
-var weDevs_PM_Components = [];
-var weDevsPMChildrenRouter = {};
+const PmMixin = {};
+const PmProMixin = {};
+const weDevs_PM_Routers = [];
+const weDevs_PM_Components = [];
+const weDevsPMChildrenRouter = {};
+const weDevsPmModules = [];
+const weDevsPmProModules = [];
 
-function weDevsPMRegisterChildrenRoute (parentRouteName, route) {
-	if (weDevsPMChildrenRouter.hasOwnProperty(parentRouteName)  ) {
-		weDevsPMChildrenRouter[parentRouteName].push(route);
-	} else {
-		weDevsPMChildrenRouter[parentRouteName] = [route];
-	}
-	
+function weDevsPMRegisterChildrenRoute (parentRouteName, routes) {
+	routes.forEach(function(route) {
+		if (weDevsPMChildrenRouter.hasOwnProperty(parentRouteName)  ) {
+			weDevsPMChildrenRouter[parentRouteName].push(route);
+		} else {
+			weDevsPMChildrenRouter[parentRouteName] = [route];
+		}
+	});
 };
 
 function wedevsPMGetRegisterChildrenRoute(parentRouteName, prevRoute) {
@@ -19,4 +24,22 @@ function wedevsPMGetRegisterChildrenRoute(parentRouteName, prevRoute) {
 	}
 	
 	return prevRoute;
+}
+
+function weDevsPmRegisterModule(module, path) {
+	weDevsPmModules.push(
+		{
+			'name': module,
+			'path': path
+		}
+	);
+}
+
+function weDevsPmProRegisterModule(module, path) {
+	weDevsPmProModules.push(
+		{
+			'name': module,
+			'path': path
+		}
+	);
 }

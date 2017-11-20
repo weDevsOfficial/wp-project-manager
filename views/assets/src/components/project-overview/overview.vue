@@ -133,12 +133,16 @@
 
 <script>
     import header from './../common/header.vue';
+    import directive from './directive';
 
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getOverViews();
+                
             });
+        },
+        created () {
+            this.getOverViews();
         },
         data(){
             return{
@@ -146,30 +150,42 @@
             }
         },
         computed: {
-            meta () {
-                return this.$store.state.meta;
-            },
+            ...pm.Vuex.mapState('projectOverview', 
+                {
+                    'meta': state => state.meta,
+                    'users': state => state.assignees,
+                    'graph': state => state.graph
+                }
+            ),
+            // meta () {
+            //     return this.$store.state.meta;
+            // },
 
-            users () {
-                return this.$store.state.assignees;
-            },
+            // users () {
+            //     return this.$store.state.assignees;
+            // },
 
-            graph () {
-                return this.$store.state.graph;
-            }
+            // graph () {
+            //     return this.$store.state.graph;
+            // }
         },
         components: {
             'pm-header': header
         },
 
         methods : {
+            ...pm.Vuex.mapMutations('projectOverview', 
+                [
+                    'setOverViews'
+                ]
+            ),
             getOverViews () {
                 var args = {
                     conditions :{
                         with : 'overview_graph'
                     },
                     callback : function (res){
-                        this.$store.commit( 'setOverViews', res.data );
+                        this.setOverViews( res.data );
                         pm.NProgress.done();
                         this.loading = false;
                     }

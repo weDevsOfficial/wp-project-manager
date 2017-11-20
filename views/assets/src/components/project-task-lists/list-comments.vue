@@ -72,6 +72,8 @@
         // Get passing data for this component. 
         props: ['comments', 'list'],
 
+        mixins: [PmMixin.projectTaskLists],
+
         computed: {
             /**
              * Get current user avatar

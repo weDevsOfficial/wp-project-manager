@@ -21,6 +21,7 @@
 <script>
     export default {
         props: ['files'],
+        mixins: [PmMixin.projectTaskLists],
 
         // Initial action for this component
         created: function() {

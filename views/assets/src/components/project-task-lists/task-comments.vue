@@ -70,6 +70,8 @@
         // Get passing data for this component.
         props: ['comments'],
 
+        mixins: [PmMixin.projectTaskLists],
+
         data: function() {
             return {
                 currnet_user_id: 1,

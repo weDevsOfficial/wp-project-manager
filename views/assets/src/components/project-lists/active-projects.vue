@@ -1,6 +1,5 @@
 <template>
     <div class="wrap pm pm-front-end">
-        
         <project-header></project-header>
 
         <div v-if="loading" class="pm-data-load-before" >
@@ -15,7 +14,7 @@
             </div>
         </div>
         <div v-else>
-            <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
+            <div class="pm-projects pm-row pm-no-padding pm-no-margin" :class="[projects_view_class()]">
                 <project-summary></project-summary>
                 <pm-pagination 
                     :total_pages="total_pages" 
@@ -25,12 +24,22 @@
                 </pm-pagination> 
             </div>
 
+        <!--     <div v-if="!loading" class="pm-projects pm-row pm-no-padding pm-no-margin" :class="[projects_view_class()]">
+                <project-summary></project-summary>
+                <pm-pagination 
+                    :total_pages="total_pages" 
+                    :current_page_number="current_page_number" 
+                    component_name='project_pagination'>
+                    
+                </pm-pagination> 
+            </div> -->
+
             <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
                 <project-create-form :project="{}"></project-create-form>
-                <!-- <do-action :hook="'pm-after-project-list'"></do-action> -->
-            </div>
+                
+            </div> 
+
         </div>
-        
     </div>
 </template>
 
@@ -44,15 +53,6 @@
 
 
     export default  {
-        store,
-        
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                vm.projectQuery();
-                vm.getRoles();
-                vm.getProjectCategories();
-            });
-        },  
 
         data () {
             return {
@@ -61,8 +61,12 @@
             }
         },
 
+        mixins: [PmMixin.projectLists],
+
         created () {
-            
+            this.projectQuery();
+            this.getRoles();
+            this.getProjectCategories();
         },
 
         watch: {
@@ -73,13 +77,11 @@
         },
 
         computed: {
-            is_popup_active () {
-                return this.$store.state.is_popup_active;
-            },
-
-            total_pages () {
-                return this.$root.$store.state.pagination.total_pages;
-            },
+            ...pm.Vuex.mapState('projectLists', 
+                {
+                    total_pages: state => state.pagination.total_pages,
+                }
+            ),
         },
         
         components: {

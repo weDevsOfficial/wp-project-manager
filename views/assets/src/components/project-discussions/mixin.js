@@ -1,5 +1,5 @@
 
-export default pm.Vue.mixin({
+export default {
     methods: {
         showHideDiscussForm (status, discuss) {
             var discuss   = discuss || false,
@@ -12,7 +12,7 @@ export default pm.Vue.mixin({
                     discuss.edit_mode = status;
                 }
             } else {
-                this.$store.commit('showHideDiscussForm', status);
+                this.$store.commit( 'projectDiscussions/showHideDiscussForm', status);
             }
         },
 
@@ -44,8 +44,8 @@ export default pm.Vue.mixin({
                     res.data.map(function(discuss, index) {
                         self.addDiscussMeta(discuss);
                     });
-                    self.$store.commit( 'setDiscussion', res.data );
-                    self.$store.commit( 'setDiscussionMeta', res.meta.pagination );
+                    self.$store.commit( 'projectDiscussions/setDiscussion', res.data );
+                    self.$store.commit( 'projectDiscussions/setDiscussionMeta', res.meta.pagination );
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -71,7 +71,7 @@ export default pm.Vue.mixin({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
                 success (res) {
                     self.addDiscussMeta(res.data);
-                    self.$store.commit( 'setDiscuss', res.data );
+                    self.$store.commit( 'projectDiscussions/setDiscuss', res.data );
 
                     if(typeof args.callback === 'function' ) {
                         args.callback(res.data);
@@ -99,14 +99,14 @@ export default pm.Vue.mixin({
             return current_page_number;
         },
 
-        dataURLtoFile (dataurl, filename) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new File([u8arr], filename, {type:mime});
-        },
+        // dataURLtoFile (dataurl, filename) {
+        //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        //     while(n--){
+        //         u8arr[n] = bstr.charCodeAt(n);
+        //     }
+        //     return new File([u8arr], filename, {type:mime});
+        // },
 
         /**
          * Insert and edit task
@@ -162,8 +162,8 @@ export default pm.Vue.mixin({
                     self.addDiscussMeta(res.data);
                     self.showHideDiscussForm(false);
                     self.$root.$emit( 'after_comment' );
-                    self.$store.commit( 'newDiscuss', res.data );
-                    self.$store.commit('updateMetaAfterNewDiscussion');
+                    self.$store.commit( 'projectDiscussions/newDiscuss', res.data );
+                    self.$store.commit( 'projectDiscussions/updateMetaAfterNewDiscussion' );
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -234,7 +234,7 @@ export default pm.Vue.mixin({
 
                     self.showHideDiscussForm(false, self.discuss);
 
-                    self.$store.commit( 'updateDiscuss', res.data );
+                    self.$store.commit( 'projectDiscussions/updateDiscuss', res.data );
                     self.$root.$emit( 'after_comment' );
                     
                     if (typeof args.callback === 'function') {
@@ -304,7 +304,7 @@ export default pm.Vue.mixin({
                     self.showHideCommentForm(false, self.comment);
                     self.$root.$emit('after_comment');
                     self.$store.commit(
-                        'afterNewComment', 
+                        'projectDiscussions/afterNewComment', 
                         {
                             'comment': res.data, 
                             'commentable_id': args.commentable_id
@@ -383,7 +383,7 @@ export default pm.Vue.mixin({
                     self.showHideCommentForm(false, self.comment);
                     self.$root.$emit('after_comment');
                     self.$store.commit(
-                        'afterUpdateComment', 
+                        'projectDiscussions/afterUpdateComment', 
                         {
                             'comment': res.data, 
                             'commentable_id': args.commentable_id,
@@ -430,7 +430,7 @@ export default pm.Vue.mixin({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteDiscuss', args.discuss_id);
+                    self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
 
                     if (!self.$store.state.discussion.length) {
                         self.$router.push({
@@ -470,7 +470,7 @@ export default pm.Vue.mixin({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$store.commit('afterDeleteComment', {
+                    self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id
                     } ); 
@@ -484,12 +484,12 @@ export default pm.Vue.mixin({
             var blank = blank || false;
             var discuss = discuss || false;
 
-            this.$store.commit('balankTemplateStatus', blank);
-            this.$store.commit('discussTemplateStatus', discuss);
+            this.$store.commit('projectDiscussions/balankTemplateStatus', blank);
+            this.$store.commit('projectDiscussions/discussTemplateStatus', discuss);
         },
 
         lazyAction() {
-            var discussion = this.$store.state.discussion;
+            var discussion = this.$store.state.projectDiscussions.discussion;
             
             if(discussion.length){
                 this.viewAction(false, true);
@@ -500,4 +500,4 @@ export default pm.Vue.mixin({
             }
         }
     },
-});
+};

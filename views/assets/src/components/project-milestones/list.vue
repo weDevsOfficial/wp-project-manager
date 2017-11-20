@@ -29,6 +29,7 @@
 
 <script>
     export default {
-        props: ['list']
+        props: ['list'],
+        mixins: [PmMixin.projectMilestones],
     }
 </script>
