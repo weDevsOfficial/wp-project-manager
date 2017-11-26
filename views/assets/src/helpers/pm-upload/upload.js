@@ -13,7 +13,7 @@
         if(!$('#'+browse_button).length) {
             return;
         }
-
+        
         this.component = component;
 
         //instantiate the uploader
@@ -58,22 +58,21 @@
 
             var $container = $('#' + this.container).find('.pm-upload-filelist');
             self = this;
+            
             $.each(files, function(i, file) {
-                
                 file.formatSize = plupload.formatSize(file.size);
-
-                var preloader = new mOxie.Image();
+                let preloader   = new window.FileReader();
                 
-                preloader.onload = function() {
-                    file.thumb = preloader.getAsDataURL();
+                preloader.readAsDataURL(file.getNative());
 
+                preloader.onload = function() {
+                    
+                    file.thumb = preloader.result;
                     self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
                 };
-
-                preloader.load( file.getSource() );
             });
 
-           // up.destroy();
+            up.destroy();
         },
         BeforeUpload: function(uploader, file ) {
             

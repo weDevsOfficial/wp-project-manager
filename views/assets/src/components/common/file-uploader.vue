@@ -1,6 +1,6 @@
 <template>
     <div class="pm-attachment-area">
-        <div id="pm-upload-container">
+        <div v-pm-uploader id="pm-upload-container">
             <div class="pm-upload-filelist">
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
                     <a class="pm-uploaded-img" :href="file.url" target="_blank">
@@ -13,7 +13,7 @@
      
                            
             </div>
-            <span v-html="text.attach_from_computer"></span>
+            <span>To attach, <a id="pm-upload-pickfiles"  href="#/2/discussions">select files</a> from your computer.</span>
         </div>
     </div>
 </template>
@@ -21,21 +21,19 @@
 
 
 <script>
+    // Register a global custom directive called v-pm-popup-box
+    pm.Vue.directive('pm-uploader', {
+        inserted: function (el, binding, vnode) { 
+            new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
+        },
+
+        update: function (el, binding, vnode) { 
+            new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
+        }
+    });
+
     export default {
         props: ['files', 'delete'],
-
-        // Initial action for this component
-        created: function() {
-            //this.files = typeof files.data ===
-
-            var self = this;
-
-            // Instantiate file upload, After dom ready
-            pm.Vue.nextTick(function() {
-                new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', self );
-            });
-
-        },
 
         methods: {
             /**
@@ -73,6 +71,9 @@
                     self.files.splice(index, 1);
                     this.delete.push(file_id);
                 }  
+            },
+            test () {
+
             }
         }
     }
