@@ -37,6 +37,7 @@ class Project_Controller {
 		if( $per_page == 'all' ) {
 			$project_collection = $projects->get();
 			$resource = new Collection( $project_collection, new Project_Transformer );
+			$resource->setMeta( $this->projects_meta( $category ) );
 			return $this->get_response( $resource );
 		}
 
