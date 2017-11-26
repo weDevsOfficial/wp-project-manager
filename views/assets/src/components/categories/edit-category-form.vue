@@ -39,7 +39,7 @@
                 show_spinner:false,
             }
         },
-
+        mixins: [PmMixin.categories],
         methods: {
             updateSelfCategory () {
                 // Exit from this function, If submit button disabled 

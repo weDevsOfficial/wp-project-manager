@@ -192,10 +192,19 @@
                 show_spinner: false,
             }
         },
-
+        watch: {
+            delete_items ( value ) {
+                if ( this.delete_items.length === this.$store.state.categories.categories.length ) {
+                    this.select_all = true;
+                }else{
+                   this.select_all = false; 
+                }
+            }
+        },
+        mixins: [PmMixin.categories],
         computed: {
             categories () {
-                return this.$store.state.categories;
+                return this.$store.state.categories.categories;
             }
         },
 
@@ -203,9 +212,13 @@
 
             selectAll () {
                 var self = this;
-                this.$store.state.categories.map(function(category, index) {
-                    self.delete_items.push(category.id);
-                });
+                self.delete_items =[];
+                if ( self.select_all === true ){
+                    this.$store.state.categories.categories.map(function(category, index) {
+                        self.delete_items.push(category.id);
+                    });
+                }
+                
             },
             catTrClass (category) {
                 if (category.edit_mode) {
@@ -216,8 +229,8 @@
 
             selfDeleted () {
                 if ( ! confirm( this.text.are_you_sure ) ) {
-            return;
-        }
+                    return;
+                }
                 var self = this;
                 switch (this.bulk_action) {
                     case 'delete':

@@ -90,7 +90,7 @@
                     return true;
                 }
                 
-                if ( (comment.user_id == this.$store.state.get_current_user_id ) && (comment.comment_type == '') ) {
+                if ( (comment.user_id == this.$store.state.projectTaskLists.get_current_user_id ) && (comment.comment_type == '') ) {
                     return true;
                 }
 

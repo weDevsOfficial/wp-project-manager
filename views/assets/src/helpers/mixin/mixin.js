@@ -49,8 +49,11 @@
             }
             
             var self = this;
-            var mutations = store.mutations; //self.$options.mutations;
-            var state = store.state; //self.$options.state;
+            if( typeof store !== 'undefined' ) {
+                var mutations = store.mutations || {}; //self.$options.mutations;
+                var state = store.state || {}; //self.$options.state;
+            }
+            
             // register a module `myModule`
 
             self.$store.registerModule(module_name, {
@@ -166,6 +169,7 @@
                     status: '',
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
                 },
                 callback: false
             }

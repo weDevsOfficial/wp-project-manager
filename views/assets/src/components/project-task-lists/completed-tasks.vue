@@ -81,7 +81,7 @@
         methods: {
             is_assigned: function(task) {
                 return true;
-                var get_current_user_id = this.$store.state.get_current_user_id,
+                var get_current_user_id = this.$store.state.projectTaskLists.get_current_user_id,
                     in_task  = task.assigned_to.indexOf(get_current_user_id);
                 
                 if ( task.can_del_edit || ( in_task != '-1' ) ) {
@@ -93,14 +93,14 @@
 
             doneUndone (){
                 var self = this,
-                 status = !this.task.status
+                 status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
                         task_id: this.task.id,
                         status : status,
                     },
                     callback: function(res){
-                        self.$store.commit( 'afterTaskDoneUndone', {
+                        self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                             status: status,
                             task: res.data,
                             list_id: self.list.id,
