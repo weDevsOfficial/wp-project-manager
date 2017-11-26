@@ -66,8 +66,10 @@ export default new pm.Vuex.Store({
             }
         },
         setProjectsMeta (state, data) {
-            state.projects_meta = data;
-            state.pagination = data.pagination;
+            if ( typeof data !== 'undefined' ) {
+                state.projects_meta = data;
+                state.pagination = data.pagination;
+            }
         },
 
         afterDeleteProject (state, project_id) {
