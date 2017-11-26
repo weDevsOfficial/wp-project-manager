@@ -14,17 +14,21 @@
         created: function() {
             var self = this;
             this.$root.$on( 'after_comment', this.afterComment );
+
             // After ready dom
             pm.Vue.nextTick(function() {
+
                 // Remove the editor
                 tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
                 
                 // Instantiate the editor
                 var settings = {
-                    selector: 'textarea#' + self.editor_id,
+                    selector: '#' + self.editor_id,
                     menubar: false,
                     placeholder: self.text.write_a_comments,
                     branding: false,
+                    theme: 'modern',
+                    skin: 'lightgray',
                     
                     setup: function (editor) {
                         editor.on('change', function () {
@@ -63,7 +67,7 @@
                 }
 
 
-                tinymce.init(settings);
+                window.tinymce.init(settings);
                 
             });
            

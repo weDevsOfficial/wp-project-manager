@@ -44,6 +44,10 @@
         },
 
         registerStore (module_name, store) {
+            if (typeof store === 'undefined') {
+                return false;
+            }
+            
             var self = this;
             var mutations = store.mutations; //self.$options.mutations;
             var state = store.state; //self.$options.state;

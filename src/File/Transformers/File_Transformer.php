@@ -18,6 +18,8 @@ class File_Transformer extends TransformerAbstract {
 
     public function transform( File $item ) {
         $file = File_System::get_file( $item->attachment_id );
+        $file = is_array( $file ) ? $file : [];
+        
         $model_data = [
             'id'            => (int) $item->id,
             'fileable_id'   => $item->fileable_id,
