@@ -7,7 +7,7 @@
 
 **Requires at least:** 3.5
 
-**Tested up to:** 4.8.1
+**Tested up to:** 4.9
 
 **Stable tag:** trunk
 
@@ -105,6 +105,16 @@ A. Sure, lots of actions and filters are added by default and will add more of t
 A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
 ## Changelog ##
+
+## 1.6.10 - November 27, 2017 ##
+
+ * [new] Vuejs loading made compact.
+ * [new] Included vuejs in project file.
+ * [update] Included file download attributes.
+ * [update] Notify manager when updating comments.
+ * [fix] Navigate to a task from the calendar.
+ * [fix] User search problem fixed when creating a project.
+ * [fix] Text editor style problem fixed.
 
 ## 1.6.9 - August 24, 2017 ##
 

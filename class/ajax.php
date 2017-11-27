@@ -106,6 +106,21 @@ class CPM_Ajax {
         add_action( 'wp_ajax_cpm_update_active_mode', array( $this, 'update_active_mode' ) );
 
         add_action( 'wp_ajax_cpm_update_task_order', array( $this, 'update_task_order' ) );
+        add_action( 'wp_ajax_cpm-dismiss-promotional-offer-notice', array( $this, 'dismiss_promotional_offer' ) );
+    }
+
+    /**
+     * Dismiss promotion notice
+     *
+     * @since  1.9.10
+     *
+     * @return void
+     */
+    public function dismiss_promotional_offer() {
+        if ( ! empty( $_POST['cpm_promotion_dismissed'] ) ) {
+            $offer_key = 'cpm_package_offer';
+            update_option( $offer_key . '_tracking_notice', 'hide' );
+        }
     }
 
     function update_active_mode() {

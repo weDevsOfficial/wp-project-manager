@@ -17,6 +17,7 @@ class CPM_Admin {
 
         add_action( 'admin_init', array( $this, 'admin_init' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ), 50 );
+        add_action( 'admin_notices', array($this, 'promotional_offer' ) );
     }
 
     function admin_init() {
@@ -184,6 +185,153 @@ class CPM_Admin {
         $this->settings_api->show_forms();
 
         echo '</div>';
+    }
+
+    function is_valid_promotion() {
+        $today  = strtotime( date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) ) );
+        $future = strtotime( '2017-11-28' );
+
+        if ( $future >= $today ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Added promotion notice
+     *
+     * @since  1.6.10
+     *
+     * @return void
+     */
+    public function promotional_offer() {
+
+        if ( ! $this->is_valid_promotion() ) {
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        // check if it has already been dismissed
+        $offer_key = 'cpm_package_offer';
+        $hide_notice = get_option( $offer_key . '_tracking_notice', 'no' );
+
+        if ( 'hide' == $hide_notice ) {
+            return;
+        }
+        $offer  = __( '<h2>Flash Sale! 40% Off! Biggest Sale For WP Project Manager!</h2>', "cpm" );
+        $offer .= __( '<p>We are running our biggest flash sale! A whopping 40% off for first 100 orders!</p>', 'cpm' );
+
+        $offer_msg = sprintf( '%s', $offer );
+        
+        ?>
+            <div class="notice is-dismissible" id="cpm-promotional-offer-notice">
+
+                <img src="<?php echo CPM_URL . '/assets/images/pm-icon.png'; ?>" alt="">
+                <div class="cpm-offer-msg-wrap"><?php echo $offer_msg; ?></div>
+                <span class="dashicons dashicons-megaphone"></span>
+                <a href="https://wedevs.com/in/cm-via-wpm" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'cpm' ); ?></a>
+            </div>
+
+            <style>
+                .cpm-offer-msg-wrap {
+                    margin-top: 18px;
+                }
+                #cpm-promotional-offer-notice {
+                    background-color: #7257a9;
+                    border-left: 0px;
+                    padding-left: 83px;
+                    height: 89px;
+                }
+
+                #cpm-promotional-offer-notice a.promo-btn{
+                    background: #fff;
+                    border-color: #fafafa #fafafa #fafafa;
+                    box-shadow: 0 1px 0 #fafafa;
+                    color: #7257a9;
+                    text-decoration: none;
+                    text-shadow: none;
+                    position: absolute;
+                    top: 30px;
+                    right: 26px;
+                    height: 40px;
+                    line-height: 40px;
+                    width: 130px;
+                    text-align: center;
+                }
+
+                #cpm-promotional-offer-notice h2{
+                    font-size: 18px;
+                    width: 85%;
+                    color: rgba(250, 250, 250, 1);
+                    margin-bottom: 8px;
+                    font-weight: normal;
+                    margin-top: 15px;
+                    -webkit-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    -moz-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    -o-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                }
+
+                #cpm-promotional-offer-notice img{
+                    position: absolute;
+                    width: 80px;
+                    top: 5px;
+                    left: 0px;
+                }
+
+                #cpm-promotional-offer-notice h2 span {
+                    position: relative;
+                    top: -1px;
+                }
+
+                #cpm-promotional-offer-notice p{
+                    width: 85%;
+                    color: rgba(250, 250, 250, 0.77);
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                    -webkit-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    -moz-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    -o-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                    text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
+                }
+
+                #cpm-promotional-offer-notice p strong.highlight-text{
+                    color: #fff;
+                }
+
+                #cpm-promotional-offer-notice p a {
+                    color: #fafafa;
+                }
+
+                #cpm-promotional-offer-notice .notice-dismiss:before {
+                    color: #fff;
+                }
+
+                #cpm-promotional-offer-notice span.dashicons-megaphone {
+                    position: absolute;
+                    top: 16px;
+                    right: 248px;
+                    color: rgba(253, 253, 253, 0.29);
+                    font-size: 96px;
+                    transform: rotate(-21deg);
+                }
+
+            </style>
+
+            <script type='text/javascript'>
+                jQuery('body').on('click', '#cpm-promotional-offer-notice .notice-dismiss', function(e) {
+                    e.preventDefault();
+
+                    wp.ajax.post('cpm-dismiss-promotional-offer-notice', {
+                        cpm_promotion_dismissed: true
+                    });
+                });
+            </script>
+        <?php
     }
 
 }

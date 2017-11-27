@@ -15,6 +15,8 @@ $project_view       = in_array( $dpv, array( 'grid', 'list' ) ) ? $dpv : 'grid';
 unset( $projects['total_projects'] );
 
 ?>
+<h2 style="margin:0; padding: 0;"></h2>
+
 <div class="cpm-top-bar cpm-no-padding">
     <div class="cpm-row cpm-no-padding">
         <div class="cpm-col-6">
