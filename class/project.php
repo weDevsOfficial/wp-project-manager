@@ -58,7 +58,7 @@ class CPM_Project {
                 'not_found_in_trash' => __( 'No projects found in Trash.', 'cpm' ),
                 'parent'             => __( 'Parent Project', 'cpm' ),
             ),
-        ); 
+        );
 
         $args_post_type = apply_filters( 'cpm_register_project_post_type', $args_post_type );
 
@@ -312,7 +312,7 @@ class CPM_Project {
 
         if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
-            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -400,7 +400,7 @@ class CPM_Project {
 
         if ( cpm_can_manage_projects() === false ) {
             add_filter( 'posts_join', array( $this, 'jonin_user_role_table' ) );
-            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 3 );
+            add_filter( 'posts_where', array( $this, 'get_project_where_user_role' ), 10, 2 );
         }
 
         $args = apply_filters( 'cpm_get_projects_argument', $args );
@@ -455,8 +455,8 @@ class CPM_Project {
         return $join;
     }
 
-    function get_project_where_user_role( $where, &$wp_query, $user_id = 0 ) {
-        global $wp_query, $wpdb;
+    function get_project_where_user_role( $where, $wp_query, $user_id = 0 ) {
+        global $wpdb;
 
         $table = $wpdb->prefix . 'cpm_user_role';
 
@@ -663,7 +663,7 @@ class CPM_Project {
                         'avatar_url' => get_avatar_url( $user->ID, ['default' => 'mm'] ),
                         'user_url'   => cpm_url_user( $user->ID, true, 48, $user ),
                     );
-                    
+
                     array_push( $user_list, $u) ;
                 }
             }
@@ -857,7 +857,7 @@ class CPM_Project {
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_project_items';
         $private = ( $private == 'yes' ) ? 1 : 0;
-        
+
         $data = array(
             'project_id'      => $project_id,
             'item_type'       => $type,

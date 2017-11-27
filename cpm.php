@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.9
+ * Version: 1.6.10
  * License: GPL2
  */
 /**
@@ -49,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.9';
+    public $version = '1.6.10';
 
      /**
      * Plugin Database version
@@ -153,7 +153,7 @@ class WeDevs_CPM {
 
         //Execute only plugin install time
         register_activation_hook( __FILE__, array( $this, 'install' ) );
-        
+
         //Do some thing after load this plugin
         do_action( 'cpm_loaded' );
     }
@@ -331,7 +331,7 @@ class WeDevs_CPM {
      */
     function includes() {
         include_once dirname( __FILE__ ) . '/includes/lib/class-weforms-upsell.php';
-        new WeForms_Upsell( 'wedocs' );
+        new WeForms_Upsell( '407' );
 
         $this->version    = CPM_VERSION;
         $this->db_version = CPM_DB_VERSION;
@@ -404,6 +404,7 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-trix-editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, false );
         wp_enqueue_script( 'plupload-handlers' );
+        wp_enqueue_script( 'cpm-trix-editor' );
         //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
         //swp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );
@@ -412,10 +413,15 @@ class WeDevs_CPM {
         //wp_enqueue_script( 'cpm_uploader', plugins_url( 'assets/js/upload.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
         wp_enqueue_script( 'cpm_uploader_old', plugins_url( 'assets/js/upload-old.js', __FILE__ ), array( 'jquery', 'plupload-handlers' ), false, true );
 
-        $cpm_dependency = array( 'jquery', 'cpm-vue');
+        $cpm_dependency = array( 'jquery', 'cpm_uploader_old', 'jquery-ui-datepicker' );
         $cpm_dependency = apply_filters('cpm_dependency', $cpm_dependency);
+        wp_register_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
 
-        wp_enqueue_script( 'cpm_admin', plugins_url( 'assets/js/admin.js', __FILE__ ), $cpm_dependency, false, true );
+        if ( isset( $_GET[ 'page' ] ) AND $_GET[ 'page' ] == 'cpm_projects' ) {
+            wp_enqueue_script( 'cpm-vue' );
+            wp_enqueue_script( 'cpm_admin' );
+        }
+
         //wp_enqueue_script( 'cpm_task', plugins_url( 'assets/js/task.js', __FILE__ ), array( 'jquery' ), false, true );
 
         $project_id = cpm_get_project_id();
@@ -455,9 +461,9 @@ class WeDevs_CPM {
         //wp_register_script( 'cpm-vue-focus', CPM_URL . '/assets/js/vue/vue.focus.min.js', array ( 'cpm-vue' ), false, true );
         wp_register_script( 'cpm-tiny-mce-component', CPM_URL. '/assets/js/text-editor/text-editor.js', array ( 'jquery' ), false, true );
         wp_register_script( 'cpm-task-mixin', CPM_URL . '/assets/js/task-component-mixin.js', array ( 'jquery' ), false, true );
-        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-store', CPM_URL . '/assets/js/task-store.js', array ( 'jquery', 'cpm_admin' ), false, true );
         wp_register_script( 'cpm-task-components', CPM_URL . '/assets/js/task-components.js', array ( 'jquery', 'cpm-vue-multiselect', 'cpm-toastr', 'cpm-task-store', 'cpm-task-mixin' ), false, true );
-        wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery' ), false, true );
+        wp_register_script( 'cpm-task-router', CPM_URL . '/assets/js/task-router.js', array ( 'jquery', 'cpm-task-components' ), false, true );
         wp_register_script( 'cpm-task-vue', CPM_URL . '/assets/js/task-vue.js', array ( 'jquery', 'plupload-handlers', 'cpm-task-components' ), false, true );
         wp_register_script( 'cpm-tiptip', CPM_URL . '/assets/js/tiptip/jquery.tipTip.min.js', array ( 'jquery' ), false, false );
 
@@ -474,6 +480,7 @@ class WeDevs_CPM {
         wp_enqueue_style( 'cpm_admin', plugins_url( 'assets/css/admin.css', __FILE__ ) );
         wp_enqueue_style( 'fontawesome', CPM_URL . '/assets/css/fontawesome/font-awesome.min.css' );
         wp_enqueue_style( 'dashicons' );
+        wp_enqueue_style( 'cpm-trix-editor' );
 
         do_action( 'cpm_admin_scripts' );
     }

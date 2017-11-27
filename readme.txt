@@ -1,9 +1,9 @@
 === WP Project Manager ===
-Contributors: tareq1988, wedevs, asaquzzaman, wpasikur, mdmamun-1
+Contributors: tareq1988, wedevs, asaquzzaman, wpasikur, mdmamun-1, mshossain110
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.8.1
+Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,7 +14,7 @@ The best WordPress Project Management plugin. Project Management with WordPress 
 
 Best Project Management Tool for WordPress
 
-[youtube http://www.youtube.com/watch?v=tETwpwjSA4Q]
+[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
 The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
 
@@ -90,7 +90,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
 
 = Q. Who can create projects? =
-A. Only Editors and Admin's can projects and edit them.
+A. Only Editors and Admin's can create projects and edit them.
 
 = Q. Who can create tasklist, todo, messages or milestone? =
 A. Admins and every co-workers from a project can create these.
@@ -122,17 +122,28 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.10 - November 27, 2017 =
+
+ * [new] Vuejs loading made compact.
+ * [new] Included vuejs in project file.
+ * [update] Included file download attributes.
+ * [update] Notify manager when updating comments.
+ * [fix] Navigate to a task from the calendar.
+ * [fix] User search problem fixed when creating a project.
+ * [fix] Text editor style problem fixed.
+
+
 = 1.6.9 - August 24, 2017 =
 
- * [Fix] CPM free loader class active after loading WP all plugins
- * [Fix] All co-workers get mail after completed the task
+ * [fix] CPM free loader class active after loading WP all plugins
+ * [fix] All co-workers get mail after completed the task
  * [new] weForms Upsell Class
 
 = 1.6.8 - August 17, 2017 =
 
- * [Fix] Prevent the loading trix-editor for all WP page.
- * [Fix] Text formating retained got from others editor.
- * [Fix] Creating second task does change the date of first task.
+ * [fix] Prevent the loading trix-editor for all WP page.
+ * [fix] Text formating retained got from others editor.
+ * [fix] Creating second task does change the date of first task.
  * [new] Add new component cpm-datepicker
 
 = 1.6.7 - August 01, 2017 =

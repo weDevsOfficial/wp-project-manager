@@ -11,7 +11,7 @@ var CPM_Task_Mixin = {
     computed: {
         /**
          * Is current user can create task
-         * 
+         *
          * @return object
          */
         canUserCreateTask: function() {
@@ -24,7 +24,7 @@ var CPM_Task_Mixin = {
 
         /**
          * Check is todo-list single or not
-         * 
+         *
          * @return Boolean
          */
         is_single_list: function() {
@@ -33,7 +33,7 @@ var CPM_Task_Mixin = {
 
         /**
          * Check is task single or not
-         * 
+         *
          * @return Boolean
          */
         is_single_task: function() {
@@ -42,7 +42,7 @@ var CPM_Task_Mixin = {
 
         /**
          * Todo-lists view active mode
-         * 
+         *
          * @return string
          */
         active_mode: function() {
@@ -58,10 +58,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Single task popup
-         * 
+         *
          * @param  object task
-         *  
-         * @return void      
+         *
+         * @return void
          */
         singleTask: function( task ) {
             this.$store.commit( 'single_task_popup', { task: task } );
@@ -69,11 +69,11 @@ var CPM_Task_Mixin = {
 
         /**
          * Handel new todo list form show and hide
-         * 
-         * @param  obj list       
-         * @param  int list_index 
-         * 
-         * @return void            
+         *
+         * @param  obj list
+         * @param  int list_index
+         *
+         * @return void
          */
         showHideTodoListForm: function( list, list_index ) {
             if ( list.ID ) {
@@ -85,7 +85,7 @@ var CPM_Task_Mixin = {
 
             var edit_mode = list.ID ? true : false,
                 self      = this;
-            
+
             if ( edit_mode ) {
                 var is_edit = self.$store.state.lists[list_index].edit_mode;
 
@@ -93,14 +93,14 @@ var CPM_Task_Mixin = {
                     CPM_Component_jQuery.slide( list.ID, function() {
                         self.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
                     });
-                
+
                 } else {
                     self.$store.commit( 'showHideUpdatelistForm', { list: list, list_index: list_index } );
-                 
+
                      Vue.nextTick( function() {
 
                         CPM_Component_jQuery.slide( list.ID );
-                    });    
+                    });
                 }
             } else {
                 var is_edit = self.$store.state.show_list_form;
@@ -111,29 +111,29 @@ var CPM_Task_Mixin = {
                     });
                 } else {
                     self.$store.commit( 'newTodoListForm' );
-                
+
                     Vue.nextTick( function() {
 
                         CPM_Component_jQuery.slide( 'list' );
                     } );
 
                 }
-                
+
             }
         },
 
         /**
          * Handel new todo or task form show and hide
-         * 
-         * @param  int list_index 
-         * @param  int task_index 
-         * 
-         * @return void            
+         *
+         * @param  int list_index
+         * @param  int task_index
+         *
+         * @return void
          */
         showHideTaskForm: function( list_index, task_index ) {
-            
+
             if ( ( typeof task_index == 'undefined' ) || ( task_index === false ) ) {
-                
+
                 var edit_mode = this.$store.state.lists[list_index].show_task_form,
                     list_id   = this.$store.state.lists[list_index].ID,
                     self      = this;
@@ -143,30 +143,30 @@ var CPM_Task_Mixin = {
                     CPM_Component_jQuery.slide( 'undefined', function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
                     });
-                
+
                 } else {
                     self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: false } );
-                    
+
                     Vue.nextTick( function() {
                         CPM_Component_jQuery.slide( 'undefined' );
                     } );
                 }
-                
+
             } else {
                 var edit_mode = this.$store.state.lists[list_index].tasks[task_index].edit_mode,
                     list_id   = this.$store.state.lists[list_index].ID,
                     task_id   = this.$store.state.lists[list_index].tasks[task_index].ID,
                     self      = this;
-                
+
                 if ( edit_mode ) {
 
                     CPM_Component_jQuery.slide( task_id, function() {
                         self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
                     });
-                
+
                 } else {
                     self.$store.commit( 'showHideTaskForm', { list_index: list_index, task_index: task_index } );
-                    
+
                     Vue.nextTick( function() {
 
                         CPM_Component_jQuery.slide( task_id );
@@ -177,10 +177,10 @@ var CPM_Task_Mixin = {
 
         /**
          * WP settings date format convert to moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
         dateFormat: function( date ) {
             if ( date == '' ) {
@@ -189,28 +189,28 @@ var CPM_Task_Mixin = {
 
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
-            
+
             var format = 'MMMM DD YYYY';
-            
+
             if ( CPM_Vars.wp_date_format == 'Y-m-d' ) {
                 format = 'YYYY-MM-DD';
-            
+
             } else if ( CPM_Vars.wp_date_format == 'm/d/Y' ) {
                 format = 'MM/DD/YYYY';
-            
+
             } else if ( CPM_Vars.wp_date_format == 'd/m/Y' ) {
                 format = 'DD/MM/YYYY';
-            } 
+            }
 
             return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
         },
 
         /**
          * WP settings date format convert to moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
         shortDateFormat: function( date ) {
             if ( date == '' ) {
@@ -219,7 +219,7 @@ var CPM_Task_Mixin = {
 
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
-            
+
             var format = 'MMM DD';
 
             return moment.tz( date, CPM_Vars.wp_time_zone ).format( String( format ) );
@@ -227,10 +227,10 @@ var CPM_Task_Mixin = {
 
         /**
          * WP settings date time format convert to moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
         dateTimeFormat: function( date ) {
             if ( date == '' ) {
@@ -239,29 +239,29 @@ var CPM_Task_Mixin = {
 
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
-            
+
             var date_format = 'MMMM DD YYYY',
                 time_format = 'h:mm:ss a';
-            
+
             if ( CPM_Vars.wp_date_format == 'Y-m-d' ) {
                 date_format = 'YYYY-MM-DD';
-            
+
             } else if ( CPM_Vars.wp_date_format == 'm/d/Y' ) {
                 date_format = 'MM/DD/YYYY';
-            
+
             } else if ( CPM_Vars.wp_date_format == 'd/m/Y' ) {
                 date_format = 'DD/MM/YYYY';
-            } 
+            }
 
             if ( CPM_Vars.wp_time_format == 'g:i a' ) {
                 time_format = 'h:m a';
-            
+
             } else if ( CPM_Vars.wp_time_format == 'g:i A' ) {
                 time_format = 'h:m A';
-            
+
             } else if ( CPM_Vars.wp_time_format == 'H:i' ) {
                 time_format = 'HH:m';
-            } 
+            }
 
             var format = String( date_format+', '+time_format );
 
@@ -270,30 +270,30 @@ var CPM_Task_Mixin = {
 
         /**
          * Get index from array object element
-         * 
-         * @param   array 
-         * @param   id    
-         * 
-         * @return  int      
+         *
+         * @param   itemList
+         * @param   id
+         *
+         * @return  int
          */
-        getIndex: function ( array,  id, slug) {
-            var target = false;
+        getIndex: function ( itemList, id, slug) {
+            var index = false;
 
-            array.map(function(content, index) {
-                if ( content[slug] == id ) {
-                    target = index;
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
                 }
             });
 
-            return target;
+            return index;
         },
 
         /**
          * ISO_8601 Date format convert to moment date format
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
         dateISO8601Format: function( date ) {
             return moment( date ).format();
@@ -301,10 +301,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Show hide todo-list edit form
-         * 
-         * @param  int comment_id 
-         * 
-         * @return void            
+         *
+         * @param  int comment_id
+         *
+         * @return void
          */
         showHideListCommentEditForm: function( comment_id ) {
             var comment_index = this.getIndex( this.$store.state.lists[0].comments, comment_id, 'comment_ID' ) ,
@@ -314,12 +314,12 @@ var CPM_Task_Mixin = {
 
             if ( edit_mode ) {
                 CPM_Component_jQuery.slide( comment_id, function() {
-                    self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
+                    self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );
                 });
-            
+
             } else {
-                self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );    
-                
+                self.$store.commit( 'showHideListCommentEditForm', { comment_index: comment_index, list_index: 0 } );
+
                 Vue.nextTick( function() {
                     CPM_Component_jQuery.slide( comment_id );
                 } );
@@ -328,10 +328,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Show hide todo-list edit form
-         * 
-         * @param  int comment_id 
-         * 
-         * @return void            
+         *
+         * @param  int comment_id
+         *
+         * @return void
          */
         showHideTaskCommentEditForm: function( task, comment_id ) {
             var list_index    = this.getIndex( this.$store.state.lists, task.post_parent, 'ID' ),
@@ -340,16 +340,16 @@ var CPM_Task_Mixin = {
                 self          = this;
 
             var edit_mode = this.task.comments[comment_index].edit_mode;
-            
+
             if ( edit_mode ) {
                 CPM_Component_jQuery.slide( comment_id, function() {
                     //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );
-                    self.task.comments[comment_index].edit_mode = false;    
-                    
+                    self.task.comments[comment_index].edit_mode = false;
+
                 });
-            
+
             } else {
-                //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );    
+                //self.$store.commit( 'showHideTaskCommentEditForm', { list_index: list_index, task_index: task_index, comment_index: comment_index } );
                 self.task.comments[comment_index].edit_mode = true;
 
                 Vue.nextTick( function() {
@@ -361,10 +361,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Get current project users by role
-         * 
-         * @param  string role 
-         * 
-         * @return array     
+         *
+         * @param  string role
+         *
+         * @return array
          */
         get_porject_users_by_role: function( role ) {
             return this.$store.state.project_users.filter(function( user ) {
@@ -374,18 +374,18 @@ var CPM_Task_Mixin = {
 
         /**
          * Get current project users by role
-         * 
-         * @param  string role 
-         * 
-         * @return array     
+         *
+         * @param  string role
+         *
+         * @return array
          */
         get_porject_users_id_by_role: function( role ) {
             var ids = [];
-            
+
             this.$store.state.project_users.map(function(user) {
                 if ( user.role == role ) {
                     ids.push(user.id);
-                } 
+                }
 
                 if ( typeof role == 'undefined' ) {
                     ids.push(user.id);
@@ -397,13 +397,13 @@ var CPM_Task_Mixin = {
 
         /**
          * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
+         *
+         * @param int comment_id
+         *
+         * @return void
          */
         deleteComment: function( comment_id, list_id ) {
-            
+
             if ( ! confirm( CPM_Vars.message.confirm ) ) {
                 return;
             }
@@ -424,26 +424,26 @@ var CPM_Task_Mixin = {
                     //toastr.success(res.data.success);
 
                     CPM_Component_jQuery.fadeOut( comment_id, function() {
-                        self.$store.commit( 'after_delete_comment', { 
+                        self.$store.commit( 'after_delete_comment', {
                             list_index: list_index,
                             comment_index: comment_index
                         });
                     });
-                    
-                    
+
+
                 }
             });
         },
 
         /**
          * Remove comment
-         * 
-         * @param int comment_id 
-         * 
-         * @return void            
+         *
+         * @param int comment_id
+         *
+         * @return void
          */
         deleteTaskComment: function( comment_id, task ) {
-            
+
             if ( ! confirm( CPM_Vars.message.confirm ) ) {
                 return;
             }
@@ -465,7 +465,7 @@ var CPM_Task_Mixin = {
                     //toastr.success(res.data.success);
 
                     CPM_Component_jQuery.fadeOut( comment_id, function() {
-                        self.$store.commit( 'after_delete_task_comment', { 
+                        self.$store.commit( 'after_delete_task_comment', {
                             list_index: list_index,
                             task_index: task_index,
                             comment_index: comment_index
@@ -477,17 +477,17 @@ var CPM_Task_Mixin = {
 
         /**
          * Get user information from task assigned user id
-         *  
-         * @param  array assigned_user 
-         * 
-         * @return obje               
+         *
+         * @param  array assigned_user
+         *
+         * @return obje
          */
         getUsers: function( assigned_user ) {
             if ( ! assigned_user ) {
                 return [];
             }
             filtered_users = [];
-            
+
             var assigned_to = assigned_user.map(function (id) {
                     return parseInt(id);
                 });
@@ -502,11 +502,11 @@ var CPM_Task_Mixin = {
 
         /**
          * CSS class for task date
-         * 
-         * @param  string start_date 
-         * @param  string due_date   
-         * 
-         * @return string            
+         *
+         * @param  string start_date
+         * @param  string due_date
+         *
+         * @return string
          */
         taskDateWrap: function( start_date, due_date ) {
             if ( start_date == '' && due_date == '' ) {
@@ -515,14 +515,14 @@ var CPM_Task_Mixin = {
 
             moment.tz.add(CPM_Vars.time_zones);
             moment.tz.link(CPM_Vars.time_links);
-            
+
             var today   = moment.tz( CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' ),
                 due_day = moment.tz( due_date, CPM_Vars.wp_time_zone ).format( 'YYYY-MM-DD' );
-            
+
             if ( ! moment( String(due_day), 'YYYY-MM-DD' ).isValid() && ! moment( String(start_date), 'YYYY-MM-DD' ).isValid()) {
                 return false;
             }
-            
+
             if ( moment( String(due_day), 'YYYY-MM-DD' ).isValid() ) {
                 return moment( String(today), 'YYYY-MM-DD' ).isSameOrBefore( String(due_day) ) ? 'cpm-current-date' : 'cpm-due-date';
             }
@@ -550,12 +550,12 @@ var CPM_Task_Mixin = {
 
         /**
          * Showing (-) between task start date and due date
-         * 
-         * @param  string  task_start_field 
-         * @param  string  start_date       
-         * @param  string  due_date         
-         * 
-         * @return Boolean                  
+         *
+         * @param  string  task_start_field
+         * @param  string  start_date
+         * @param  string  due_date
+         *
+         * @return Boolean
          */
         isBetweenDate: function( task_start_field, start_date, due_date ) {
             if ( task_start_field && ( start_date != '' ) && ( due_date != '' ) ) {
@@ -567,10 +567,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Get initial data for todo-list page
-         * 
-         * @param  int project_id 
-         * 
-         * @return void            
+         *
+         * @param  int project_id
+         *
+         * @return void
          */
         getInitialData: function( project_id, callback ) {
 
@@ -581,15 +581,15 @@ var CPM_Task_Mixin = {
                     _wpnonce: CPM_Vars.nonce,
                     action: 'cpm_initial_todo_list'
                 }
-            
-               
+
+
             jQuery.post( CPM_Vars.ajaxurl, data, function( res ) {
                 if ( res.success ) {
                     self.$store.commit( 'setTaskInitData', res );
                     if ( typeof callback != 'undefined'  ) {
                         callback(true);
                     }
-                    
+
                 } else {
                     if ( typeof callback != 'undefined'  ) {
                         callback(false);
@@ -600,15 +600,15 @@ var CPM_Task_Mixin = {
 
         /**
          * Refresh todo-list page
-         * 
+         *
          * @return void
          */
         refreshTodoListPage: function() {
             // Redirect to first page
             this.$router.push('/');
-            
+
             // Condition because $route is watch in CPM_Router_Init component
-            // When watch is not active then its execute 
+            // When watch is not active then its execute
             if ( ! this.$route.params.page_number ) {
                 this.getInitialData( this.$store.state.project_id );
             }
@@ -616,15 +616,15 @@ var CPM_Task_Mixin = {
 
                 /**
          * Mark task done and undone
-         * 
-         * @param  int  task_id    
-         * @param  Boolean is_checked 
-         * @param  int  task_index 
-         * 
-         * @return void             
+         *
+         * @param  int  task_id
+         * @param  Boolean is_checked
+         * @param  int  task_index
+         *
+         * @return void
          */
         taskDoneUndone: function( task, is_checked ) {
-            
+
             var self = this,
                 form_data = {
                     _wpnonce: CPM_Vars.nonce,
@@ -682,18 +682,18 @@ var CPM_Task_Mixin = {
 
         /**
          * Count completed tasks
-         * 
-         * @param  array tasks 
-         * 
-         * @return int      
+         *
+         * @param  array tasks
+         *
+         * @return int
          */
         countCompletedTasks: function( list ) {
             // if ( ! list.tasks ) {
             //     return 0;
             // }
-            
+
             // var completed_task = 0;
-            
+
             // list.tasks.filter( function( task ) {
             //     if ( ( list.count_completed_tasks === 1 ) || list.count_completed_tasks ) {
             //         completed_task++;
@@ -705,10 +705,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Count incompleted tasks
-         * 
+         *
          * @param  array tasks
-         *  
-         * @return int       
+         *
+         * @return int
          */
         countIncompletedTasks: function( tasks ) {
             if ( ! tasks ) {
@@ -728,17 +728,17 @@ var CPM_Task_Mixin = {
 
         /**
          * Get task completed percentage from todo list
-         * 
+         *
          * @param  array tasks
-         *  
-         * @return float       
+         *
+         * @return float
          */
         getProgressPercent: function( list ) {
-            
+
             if (typeof list ==  'undefined') {
                 return 0;
             }
-            
+
             var total_tasks     = parseInt(list.count_incompleted_tasks) + parseInt(list.count_completed_tasks), //tasks.length,
                 completed_tasks = list.count_completed_tasks, //this.countCompletedTasks( list ),
                 progress        = ( 100 * completed_tasks ) / total_tasks;
@@ -748,10 +748,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Get task completed progress width
-         * 
-         * @param  array tasks 
-         * 
-         * @return obj       
+         *
+         * @param  array tasks
+         *
+         * @return obj
          */
         getProgressStyle: function( list ) {
             if ( typeof list == 'undefined' ) {
@@ -764,10 +764,10 @@ var CPM_Task_Mixin = {
 
         /**
          * Delete list
-         * 
-         * @param  int list_id 
-         * 
-         * @return void         
+         *
+         * @param  int list_id
+         *
+         * @return void
          */
         deleteList: function( list_id ) {
             if ( ! confirm( CPM_Vars.message.confirm ) ) {
@@ -788,12 +788,12 @@ var CPM_Task_Mixin = {
                 if ( res.success ) {
                     // Display a success message, with a title
                     //toastr.success(res.data.success);
-                    
+
                     CPM_Component_jQuery.fadeOut( list_id, function() {
-                        
+
                         self.refreshTodoListPage();
-                        
-                        // self.$store.commit( 'after_delete_todo_list', { 
+
+                        // self.$store.commit( 'after_delete_todo_list', {
                         //     list_index: list_index,
                         // });
                     });

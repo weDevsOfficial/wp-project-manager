@@ -55,7 +55,7 @@ class CPM_Notification {
         return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
     }
 
-    function prepare_contacts() {
+    function prepare_contacts($project_id) {
         $to         = array();
         $bcc_status = cpm_get_option( 'email_bcc_enable' , 'cpm_mails');
 
@@ -73,6 +73,26 @@ class CPM_Notification {
                     $to[] = sprintf( '%s', $user_info->user_email );
                 }
             }
+        }
+        /*Adding manager in email list*/
+        $managers_ids = cpm_get_all_manager_from_project($project_id);
+
+
+        foreach ( $managers_ids as $user_id ){
+            $user_info = get_user_by( 'id', $user_id );
+
+            if ( ! $this->filter_email( $user_info->ID ) ) {
+                continue;
+            }
+
+            if(in_array($to, $user_info->user_email)){
+                continue;
+            }
+
+            if ( $user_info && $bcc_status == 'on' ) {
+                $to[] = sprintf( '%s', $user_info->user_email ); 
+            }
+
         }
 
         return $to;
@@ -239,7 +259,7 @@ class CPM_Notification {
     }
 
     function new_message( $message_id, $project_id ) {
-        $users = $this->prepare_contacts();
+        $users = $this->prepare_contacts($project_id);
         if ( ! $users ) {
             return;
         }
@@ -273,7 +293,8 @@ class CPM_Notification {
      */
     function new_comment( $comment_id, $project_id, $data ) {
 
-        $users = $this->prepare_contacts();
+        $users = $this->prepare_contacts($project_id);
+
         if ( ! $users ) {
             return;
         }
@@ -309,7 +330,7 @@ class CPM_Notification {
      */
     function update_comment( $comment_id, $project_id, $data ) {
 
-        $users = $this->prepare_contacts();
+        $users = $this->prepare_contacts($project_id);
         if ( ! $users ) {
             return;
         }
