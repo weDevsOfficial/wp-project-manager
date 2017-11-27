@@ -95,15 +95,15 @@
 }
 .cpm input[type=text]:-moz-placeholder,
 .cpm textarea:-moz-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm input[type=text]:-ms-input-placeholder,
 .cpm textarea:-ms-input-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm input[type=text]::-webkit-input-placeholder,
 .cpm textarea::-webkit-input-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm h2 .nav-tab {
   font-size: 18px;
@@ -380,7 +380,7 @@ ul.cpm-attachments {
 }
 ul.cpm-attachments li {
   display: inline-block;
-  border: solid 1px #eeeeee;
+  border: solid 1px #eee;
   padding: 5px;
   margin: 0 15px 15px 0;
 }
@@ -585,17 +585,17 @@ ul.cpm-nav li a {
 .cpm-ui-dialog .cpm-project-form input[type=text]:-moz-placeholder,
 .cpm-ui-dialog .cpm-project-form textarea:-moz-placeholder,
 .cpm-ui-dialog .cpm-project-form select:-moz-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm-ui-dialog .cpm-project-form input[type=text]:-ms-input-placeholder,
 .cpm-ui-dialog .cpm-project-form textarea:-ms-input-placeholder,
 .cpm-ui-dialog .cpm-project-form select:-ms-input-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm-ui-dialog .cpm-project-form input[type=text]::-webkit-input-placeholder,
 .cpm-ui-dialog .cpm-project-form textarea::-webkit-input-placeholder,
 .cpm-ui-dialog .cpm-project-form select::-webkit-input-placeholder {
-  color: #999999;
+  color: #999;
 }
 .cpm-ui-dialog .cpm-project-form .cpm-form-item {
   margin-bottom: 15px;
@@ -839,11 +839,11 @@ ul.cpm-activity ul li:before {
   top: 15px;
   width: 120px;
   background-color: #abd065;
-  background-image: -moz-linear-gradient(top, #bfdc7a, #8ebf45);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#bfdc7a), to(#8ebf45));
-  background-image: -webkit-linear-gradient(top, #bfdc7a, #8ebf45);
-  background-image: -o-linear-gradient(top, #bfdc7a, #8ebf45);
-  background-image: linear-gradient(to bottom, #bfdc7a, #8ebf45);
+  background-image: -moz-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#BFDC7A), to(#8EBF45));
+  background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image: -o-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image: linear-gradient(to bottom, #BFDC7A, #8EBF45);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbfdc7a', endColorstr='#ff8ebf45', GradientType=0);
   color: #6a6340;
@@ -1257,7 +1257,7 @@ ul.cpm-activity ul li:before {
 .cpm-comment-form .cpm-attachment-area .progress,
 .cpm-message-form .cpm-attachment-area .progress,
 .cpm-milestone-form .cpm-attachment-area .progress {
-  background: -moz-linear-gradient(center bottom, #ffffff 0%, #f7f7f7 100%) repeat scroll 0 0 #ffffff;
+  background: -moz-linear-gradient(center bottom, #FFFFFF 0%, #F7F7F7 100%) repeat scroll 0 0 #FFFFFF;
   border: 1px solid #D1D1D1;
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
@@ -1273,7 +1273,7 @@ ul.cpm-activity ul li:before {
 .cpm-message-form .cpm-attachment-area .bar,
 .cpm-milestone-form .cpm-attachment-area .bar {
   background-color: #83B4D8;
-  background-image: -moz-linear-gradient(center bottom, #72a7cf 0%, #90c5ee 100%);
+  background-image: -moz-linear-gradient(center bottom, #72A7CF 0%, #90C5EE 100%);
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   height: 100%;
@@ -2261,7 +2261,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0;
   border-radius: 3px;
   display: inline-block;
-  background: #eeeeee;
+  background: #eee;
 }
 .cpm .cpm-btn-red {
   background: RED;
@@ -2423,7 +2423,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   border: 1px solid #e5e5e5;
 }
 .cpm .cpm-top-bar .cpm-priject-search-bar {
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
@@ -2463,13 +2463,13 @@ ul.cpm-files li .cpm-file-action .comment-number {
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  border: 1px solid #eeeeee;
+  border: 1px solid #eee;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a:hover {
   background: red;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn .cpm-btn-white a {
-  color: #eeeeee;
+  color: #eee;
 }
 .cpm .cpm-top-bar .cpm-top-right-btn a {
   font-size: 13px;
@@ -2516,7 +2516,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-group-ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #eeeeee;
+  background: #eee;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -2578,7 +2578,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0 15px 0 0;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a {
-  color: #eeeeee;
+  color: #eee;
 }
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a :hover,
 .cpm .cpm-top-bar .cpm-project-group ul.cpm-project-view li a .active {
@@ -2815,7 +2815,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   line-height: auto !important;
 }
 .cpm .cpm-border-bottom {
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   padding-bottom: 0px;
 }
 .cpm .cpm-project-header {
@@ -2853,7 +2853,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-project-header ul li a span.count {
   padding: 0px 6px;
   position: relative;
-  background: #eeeeee;
+  background: #eee;
   margin-top: -15px;
   margin-left: 5px;
   border-radius: 15px;
@@ -3071,7 +3071,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-date {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  border: #eeeeee solid 1px;
+  border: #eee solid 1px;
   margin-bottom: 0px;
   background: #ffffff;
   text-align: center;
@@ -3085,7 +3085,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-activity-list li.cpm-row .cpm-activity-body {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  border: #eeeeee solid 1px;
+  border: #eee solid 1px;
   margin-bottom: 0px;
   margin-right: 0px;
   font-size: 13px;
@@ -3150,7 +3150,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0px;
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos li {
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   padding: 0px 8px 5px 15px;
   background: #ffffff;
 }
@@ -3212,7 +3212,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-todolists .cpm-todolist .cpm-todos-new-form .cpm-new-btn {
   margin-bottom: 10px;
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   padding: 0px 10px 5px 30px;
   margin-left: 0px;
 }
@@ -3235,7 +3235,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding-top: 5px;
 }
 .cpm .cpm-todolists .cpm-todolist footer.cpm-list-footer .cpm-col-6 {
-  border-right: solid 1px #eeeeee;
+  border-right: solid 1px #eee;
   margin-right: 8%;
   margin-bottom: 0;
 }
@@ -3311,7 +3311,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-message-page .cpm-message-list li {
   margin: 0px;
   border-left: #fff solid 3px;
-  border-bottom: #eeeeee solid 1px;
+  border-bottom: #eee solid 1px;
   cursor: pointer;
   padding: 15px 1px 0px;
 }
@@ -3361,7 +3361,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm .cpm-message-page .cpm-message-body .cpm-discuss-title {
   color: #019dd6;
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   padding-bottom: 10px;
 }
 .cpm .cpm-message-page .cpm-message-body .cpm-discuss-title .cpm-edit-discussion {
@@ -3401,7 +3401,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background: #fff;
   margin-bottom: 10px;
   display: block;
-  border: #eeeeee solid 1px;
+  border: #eee solid 1px;
   padding: 10px;
   min-height: 50px;
 }
@@ -3477,11 +3477,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
   background-size: 28px;
   padding: 10px 10px 10px 50px;
   margin-bottom: 0px;
-  border-bottom: #eeeeee solid 1px;
+  border-bottom: #eee solid 1px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone {
   background: #fff;
-  border-bottom: #eeeeee solid 1px;
+  border-bottom: #eee solid 1px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head {
   padding: 15px 15px 0px;
@@ -3523,7 +3523,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   padding-left: 25px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 {
-  border: solid 1px #eeeeee;
+  border: solid 1px #eee;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 h3 {
   margin: 0px;
@@ -3535,7 +3535,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details .cpm-col-6 ul li {
-  border-bottom: solid 1px #eeeeee;
+  border-bottom: solid 1px #eee;
   padding: 6px 15px;
   padding-left: 45px;
 }
@@ -3544,7 +3544,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .cpm-milestone-items-details img.avatar {
   border-radius: 15px;
-  border: solid 1px #eeeeee;
+  border: solid 1px #eee;
   vertical-align: top;
   margin-right: 5px;
 }
@@ -3621,7 +3621,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-project-action {
   position: absolute;
   right: 15px;
-  top: 15px;
+  top: 13px;
   color: #aaa;
   cursor: pointer;
 }
@@ -4033,7 +4033,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 .cpm .cpm-blank-loading .animated-background .background-masker {
   min-height: 25px;
   padding: 8px;
-  background: linear-gradient(to right, #ffffff 8%, #eeeeee 18%, #ffffff 33%);
+  background: linear-gradient(to right, #fff 8%, #eee 18%, #fff 33%);
   margin-bottom: 5px;
   animation-duration: 1s;
   animation-fill-mode: forwards;
@@ -4276,7 +4276,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
   }
   .cpm .cpm-project-group ul li a {
     background-position: 2% 50% !important;
-    border-bottom: solid 2px #eeeeee;
+    border-bottom: solid 2px #eee;
   }
   .cpm .cpm-project-grid,
   .cpm .cpm-project-list {

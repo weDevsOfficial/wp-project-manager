@@ -13,7 +13,7 @@ if ( ! $pro_obj->has_permission( $project ) ) {
     die();
 }
 ?>
-
+<h2 style="margin:0; padding: 0;"></h2>
 <div class="cpm-top-bar cpm-no-padding cpm-project-header cpm-project-head">
 
     <div class="cpm-row cpm-no-padding cpm-border-bottom">
@@ -68,6 +68,12 @@ if ( ! $pro_obj->has_permission( $project ) ) {
 
     <div class="clearfix"></div>
 </div>
+
+<style>
+    .cpm-project-header {
+        position: relative;
+    }
+</style>
 
 
 <?php if ( cpm_user_can_access( $project_id ) ) {  ?>
