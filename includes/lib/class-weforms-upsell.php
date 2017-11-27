@@ -350,7 +350,7 @@ class WeForms_Upsell {
         check_ajax_referer( 'weforms_upsell_installer' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You don\'t have permission to install the plugins' ) );
+            wp_send_json_error( __( 'You do not have permission to install the plugins.' ) );
         }
 
         if ( ! class_exists( 'WP_User_Frontend' ) ) {
