@@ -3,7 +3,11 @@ import router from './router/router';
 import directive from './directives/directive';
 import mixin from './helpers/mixin/mixin';
 import PM from './App.vue';
+import pagination from '@components/common/pagination.vue';
+import datePicker from '@components/common/date-picker.vue';
 
+pm.Vue.component('pmPagination', pagination);
+pm.Vue.component('pmDatePicker', datePicker);
 /**
  * Project template render
  */

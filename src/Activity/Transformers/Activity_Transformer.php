@@ -5,11 +5,12 @@ namespace WeDevs\PM\Activity\Transformers;
 use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Project\Transformers\Project_Transformer;
 
 class Activity_Transformer extends TransformerAbstract {
 
     protected $defaultIncludes = [
-        'actor'
+        'actor', 'project'
     ];
 
     public function transform( Activity $item ) {
@@ -29,6 +30,13 @@ class Activity_Transformer extends TransformerAbstract {
         $actor = $item->actor;
 
         return $this->item( $actor, new User_Transformer );
+    }
+
+    public function includeProject( Activity $item ) {
+        $project = $item->project;
+        $project_transformer = new Project_Transformer;
+        $project_transformer = $project_transformer->setDefaultIncludes([]);
+        return $this->item ( $project, $project_transformer);
     }
 
     private function parse_meta( Activity $activity ) {

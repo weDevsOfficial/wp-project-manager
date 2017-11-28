@@ -11,6 +11,8 @@ use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Common\Models\Assignee;
+use WeDevs\PM\Project\Models\Project;
+use Carbon\Carbon;
 
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
@@ -44,6 +46,19 @@ class Task extends Eloquent {
         'priority' => 1,
     ];
 
+    public function scopeCompleted($query) {
+        return $query->where('status', Task::COMPLETE);
+    }
+
+    public function scopeIncomplete($query) {
+        return $query->where('status', Task::INCOMPLETE);
+    }
+
+    public function scopeOverdue( $query ) {
+        $today = Carbon::now();
+        return $query->whereDate('due_date', '<', $today);
+    }
+
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where('pm_boardables.board_type', 'task_list')
@@ -69,5 +84,9 @@ class Task extends Eloquent {
 
     public function assignees() {
         return $this->hasMany( Assignee::class, 'task_id' );
+    }
+
+    public function projects() {
+        return $this->belongsTo( Project::class, 'project_id');
     }
 }
