@@ -114,7 +114,7 @@
                         },
 
                         name: this.text.activities,
-                        count: project.meta.total_activities,
+                        count: project.meta.data.total_activities,
                         class: 'activity pm-sm-col-12'
                     },
 
@@ -125,7 +125,7 @@
                         },
 
                         name: this.text.discussions,
-                        count: project.meta.total_discussion_boards,
+                        count: project.meta.data.total_discussion_boards,
                         class: 'message pm-sm-col-12'
                     },
 
@@ -136,7 +136,7 @@
                         },
 
                         name: this.text.task_lists,
-                        count: project.meta.total_task_lists,
+                        count: project.meta.data.total_task_lists,
                         class: 'to-do-list pm-sm-col-12'
                     },
 
@@ -147,7 +147,7 @@
                         },
 
                         name: this.text.milestones,
-                        count: project.meta.total_milestones,
+                        count: project.meta.data.total_milestones,
                         class: 'milestone pm-sm-col-12'
                     },
 
@@ -158,7 +158,7 @@
                         },
 
                         name: this.text.files,
-                        count: project.meta.total_files,
+                        count: project.meta.data.total_files,
                         class: 'files pm-sm-col-12'
                     }
                 ];
