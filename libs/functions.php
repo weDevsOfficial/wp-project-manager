@@ -148,3 +148,8 @@ function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     }
 }
 
+function pmpr($data) {
+    echo '<pre>'; print_r($data); '</pre>';
+}
+
+
