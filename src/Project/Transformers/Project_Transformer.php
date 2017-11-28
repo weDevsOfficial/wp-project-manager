@@ -15,7 +15,7 @@ class Project_Transformer extends TransformerAbstract {
     use Resource_Editors;
 
     protected $defaultIncludes = [
-        'creator', 'updater', 'categories', 'assignees'
+        'creator', 'updater', 'categories', 'assignees', 'meta'
     ];
 
     protected $availableIncludes = [
@@ -35,7 +35,13 @@ class Project_Transformer extends TransformerAbstract {
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'created_at'          => format_date( $item->created_at ),
-            'meta'                => [
+        ];
+    }
+
+    public function includeMeta (Project $item){
+
+        return $this->item($item, function ($item) {
+            return[
                 'total_task_lists'        => $item->task_lists()->count(),
                 'total_tasks'             => $item->tasks()->count(),
                 'total_complete_tasks'    => $item->tasks()->where( 'status', Task::COMPLETE)->count(),
@@ -45,8 +51,8 @@ class Project_Transformer extends TransformerAbstract {
                 'total_comments'          => $item->comments()->count(),
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
-            ],
-        ];
+            ];
+        });
     }
 
     public function includeOverviewGraph( Project $item ) {
