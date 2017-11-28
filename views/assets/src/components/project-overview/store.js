@@ -23,7 +23,7 @@ export default {
     
     mutations: {
         setOverViews (state, over_views) {
-            state.meta = over_views.meta;
+            state.meta = over_views.meta.data;
             state.assignees = over_views.assignees.data;
             state.graph = over_views.overview_graph.data;
         },
