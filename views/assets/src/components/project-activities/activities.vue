@@ -27,11 +27,7 @@
                     <ul>
                         <li v-for="activity in group.activities" >
                             <div class="pm-col-8 pm-sm-col-12">
-                                <a href="#">
-                                    {{ activity.actor.data.display_name }}
-                                </a> 
-                                <span v-html="activity.message"></span>
-                                {{compilineText ( activity.message ) }}
+                                <activity-parser :activity="activity"></activity-parser>
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
@@ -53,22 +49,32 @@
 </template>
 
 <script>
-    import header from './../common/header.vue';
+    import header from '@components/common/header.vue';
 
     export default {
         beforeRouteEnter(to, from, next) {
             next (vm => {
+                vm.$store.state.projectActivities.activities =[];
                 vm.activityQuery();
             }); 
         },
         mixins: [PmMixin.projectActivities],
         data () {
             return {
-                page: 1,
                 total_activity: 0,
                 per_page: 2,
                 show_spinner:false,
                 loading: true,
+            }
+        },
+        watch: {
+            '$route' (route) { 
+                if(typeof route.params.current_page_number !== 'undefined') {
+                    this.activityQuery();
+                }else {
+                    this.$store.state.projectActivities.activities = [];
+                    this.activityQuery(); 
+                }
             }
         },
         computed: {
@@ -87,6 +93,14 @@
 
             loaded_activities () {
                 return this.$store.state.projectActivities.activities.length;
+            },
+            current_page () {
+                if(typeof this.$route.params.current_page_number !== 'undefined') {
+                    return  parseInt(this.$route.params.current_page_number, 10)
+                }
+                else{
+                    return 1;
+                }
             }
         },
         components: {
@@ -124,25 +138,19 @@
             },
 
             loadMore () {
-                this.show_spinner = true;
-                
-                var condition = {
-                    per_page: this.per_page,
-                    page: this.page + 1
-                },
-                self = this;
-
-                this.getActivities(condition, function(res) {
-                    self.$store.commit( 'projectActivities/setLoadedActivities', res.data );
-                    self.total_activity = res.meta.pagination.total;
-                    self.show_spinner = false;
+                this.show_spinner= true;
+                this.$router.push({
+                    name: 'activities_pagination',
+                    params: {
+                        current_page_number : this.current_page +1
+                    }
                 });
             },
 
             activityQuery () {
                 var condition = {
-                    per_page: this.per_page,
-                    page: this.page
+                    per_page: 20,
+                    page:this.current_page,
                 },
                 self = this;
 
@@ -152,10 +160,6 @@
                     self.show_spinner = false;
                     self.loading = false;
                 });
-            },
-
-            compilineText( text ){
-                console.log(text);
             }
         }
     }
