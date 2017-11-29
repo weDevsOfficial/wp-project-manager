@@ -11,8 +11,8 @@ return [
         ['actor.data.display_name', 'meta.project_title_old', 'meta.project_title_new']
     ],
     'update_project_description'         => [
-        __( '%1$s has updated project description.', 'pm' ),
-        ['actor.data.display_name']
+        __( '%1$s has updated %2$s project description.', 'pm' ),
+        ['actor.data.display_name', 'meta.project_title']
     ],
     'update_project_status'              => [
         __( '%1$s has updated project status from "%2$s" to "%3$s".', 'pm' ),
@@ -132,7 +132,7 @@ return [
     ],
     'update_task_status'      => [
         __( '%1$s has updated the status of a task, %2$s, from %3$s to %4$s.', 'pm' ),
-        ['actor.data.display_name', 'meta.task_title', 'meta.task_status_old', 'meta.task_status_old']
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_status_old', 'meta.task_status_new']
     ],
 
     // Comment activities on task
