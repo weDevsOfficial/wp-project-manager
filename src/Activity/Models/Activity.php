@@ -4,6 +4,7 @@ namespace WeDevs\PM\Activity\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Project\Models\Project;
 
 class Activity extends Eloquent {
 
@@ -31,5 +32,9 @@ class Activity extends Eloquent {
 
     public function getMetaAttribute( $value ) {
         return unserialize( $value );
+    }
+
+    public function project() {
+        return $this->belongsTo( Project::class, 'project_id' );
     }
 }

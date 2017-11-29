@@ -27,7 +27,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_discussion_boards) }}
+                                {{ parseInt(project.meta.data.total_discussion_boards) }}
                             </strong> 
                                 {{text.discussions}}
 
@@ -43,7 +43,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_task_lists) }}
+                                {{ parseInt(project.meta.data.total_task_lists) }}
                             </strong> 
                                 {{text.task_lists}}
                         </router-link>
@@ -58,7 +58,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_tasks) }}
+                                {{ parseInt(project.meta.data.total_tasks) }}
                             </strong> 
                                 {{text.tasks}}
                         </router-link>
@@ -73,7 +73,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_milestones) }}
+                                {{ parseInt(project.meta.data.total_milestones) }}
                             </strong> 
                                 {{text.milestones}}
                         </router-link>
@@ -88,7 +88,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_files) }}
+                                {{ parseInt(project.meta.data.total_files) }}
                             </strong> 
                                 {{text.files}}
                         </router-link>
@@ -99,7 +99,7 @@
 
                             <strong>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
-                                {{ parseInt(project.meta.total_comments) }}
+                                {{ parseInt(project.meta.data.total_comments) }}
                             </strong> 
                                 {{text.comments}}
                         </a>

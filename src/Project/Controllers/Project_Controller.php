@@ -32,7 +32,16 @@ class Project_Controller {
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
 		$page     = $page ? $page : 1;
 
-		$projects = $this->fetch_projects( $category, $status, $per_page, $page );
+		$projects = $this->fetch_projects( $category, $status );
+
+		if( $per_page == 'all' ) {
+			$project_collection = $projects->get();
+			$resource = new Collection( $project_collection, new Project_Transformer );
+			$resource->setMeta( $this->projects_meta( $category ) );
+			return $this->get_response( $resource );
+		}
+
+		$projects = $projects->paginate( $per_page, ['*'], 'page', $page );
 
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
@@ -67,7 +76,7 @@ class Project_Controller {
 		return $meta;
     }
 
-    private function fetch_projects( $category, $status, $per_page = 15, $page = 1 ) {
+    private function fetch_projects( $category, $status ) {
     	$projects = $this->fetch_projects_by_category( $category );
 
     	if ( in_array( $status, Project::$status ) ) {
@@ -75,7 +84,7 @@ class Project_Controller {
 			$projects = $projects->where( 'status', $status );
 		}
 
-		return $projects->paginate( $per_page, ['*'], 'page', $page );
+		return $projects;
     }
 
     private function fetch_projects_by_category( $category = null ) {
@@ -169,6 +178,7 @@ class Project_Controller {
 		$project->assignees()->detach();
 		$this->detach_files( $project );
 		$project->settings()->delete();
+		$project->activities()->delete();
 		$project->meta()->delete();
 
 		// Delete the main resource
