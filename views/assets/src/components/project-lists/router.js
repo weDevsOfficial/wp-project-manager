@@ -25,7 +25,8 @@ const completed_projects = resolve => {
 }
 
 weDevsPMRegisterChildrenRoute('project_root', 
-    [   {
+    [   
+        {
             path: 'projects', 
             component: projectListHeader,
             children: 

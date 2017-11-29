@@ -1,32 +1,42 @@
 <template>
-    <div><textarea :id="editor_id" v-model="content.html"></textarea></div>
+    <textarea :id="editor_id" v-model="content.html"></textarea>
 </template>
 
 <script>
     export default {
         
+        watch: {
+            content: {
+                handler (html) {
+                    if ( html.html === '' ) {
+                        tinymce.get(this.editor_id).setContent(html.html);
+                    }
+                    
+                },
+                deep: true
+            }
+        },
+
         // Get passing data for this component.
         props: ['editor_id', 'content'],
 
         // Initial action for this component
         created: function() {
             var self = this;
-            this.$root.$on( 'after_comment', this.afterComment );
-
+            //this.$root.$on( 'after_comment', this.afterComment );
+            
             // After ready dom
             pm.Vue.nextTick(function() {
 
                 // Remove the editor
-                tinymce.execCommand( 'mceRemoveEditor', true, self.editor_id );
+                tinymce.execCommand( 'mceRemoveEditor', false, self.editor_id );
                 
                 // Instantiate the editor
                 var settings = {
-                    selector: '#' + self.editor_id,
+                    selector: 'textarea#' + self.editor_id,
                     menubar: false,
                     placeholder: self.text.write_a_comments,
                     branding: false,
-                    theme: 'modern',
-                    skin: 'lightgray',
                     
                     setup: function (editor) {
                         editor.on('change', function () {
@@ -64,20 +74,10 @@
                     settings = jQuery.extend(settings, self.tinyMCE_settings);
                 }
 
-
-                window.tinymce.init(settings);
+                tinymce.init(settings);
                 
             });
-           
-            //tinymce.execCommand( 'mceRemoveEditor', true, id );
-            //tinymce.execCommand( 'mceAddEditor', true, id );
-            //tinymce.execCommand( 'mceAddControl', true, id );
         },
-
-        methods: {
-            afterComment: function() {
-                tinyMCE.get(this.editor_id).setContent('');
-            }
-        }
     }
 </script>
+

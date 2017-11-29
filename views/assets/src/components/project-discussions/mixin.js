@@ -301,10 +301,11 @@ export default {
                
                     self.submit_disabled = false;
 
-                    self.showHideCommentForm(false, self.comment);
-                    self.$root.$emit('after_comment');
-                    self.$store.commit(
-                        'projectDiscussions/afterNewComment', 
+                    self.showHideDiscussCommentForm(false, self.comment);
+                    
+                    //self.$root.$emit('after_comment');
+                    
+                    self.$store.commit( 'projectDiscussions/afterNewComment', 
                         {
                             'comment': res.data, 
                             'commentable_id': args.commentable_id
@@ -380,8 +381,10 @@ export default {
                
                     self.submit_disabled = false;
 
-                    self.showHideCommentForm(false, self.comment);
-                    self.$root.$emit('after_comment');
+                    self.showHideDiscussCommentForm(false, self.comment);
+                    
+                    //self.$root.$emit('after_comment', true);
+                    
                     self.$store.commit(
                         'projectDiscussions/afterUpdateComment', 
                         {
