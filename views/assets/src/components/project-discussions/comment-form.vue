@@ -3,6 +3,7 @@
         <form class="pm-comment-form" @submit.prevent="newSelfComment()">
             <div class="item message pm-sm-col-12">
                 <text-editor :editor_id="editor_id" :content="content"></text-editor>
+                
             </div>
             
             <file-uploader :files="files" :delete="deleted_files"></file-uploader>
@@ -68,7 +69,7 @@
              * @return string
              */
             editor_id: function() {
-                var comment_id = ( typeof this.comment.commentable_id === 'undefined' ) ? '' : '-' + this.comment.commentable_id;
+                var comment_id = ( typeof this.comment.id === 'undefined' ) ? '' : '-' + this.comment.id;
                 return 'pm-comment-editor' + comment_id;
             },
         },
@@ -84,7 +85,11 @@
                     commentable_type: 'discussion_board',
                     deleted_files: this.deleted_files,
                     files: this.files,
-                    notify_users: this.notify_users
+                    notify_users: this.notify_users,
+
+                    callback: function() {
+                        self.content.html = '';
+                    }
                 };
 
                 if (comment_id) {
