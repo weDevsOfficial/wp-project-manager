@@ -5,9 +5,11 @@ import mixin from './helpers/mixin/mixin';
 import PM from './App.vue';
 import pagination from '@components/common/pagination.vue';
 import datePicker from '@components/common/date-picker.vue';
+import activityParser from '@components/common/activity-parser.vue';
 
 pm.Vue.component('pmPagination', pagination);
 pm.Vue.component('pmDatePicker', datePicker);
+pm.Vue.component('activityParser', activityParser);
 /**
  * Project template render
  */
