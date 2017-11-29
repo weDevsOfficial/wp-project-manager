@@ -111,7 +111,7 @@ class Task_Observer extends Model_Observer {
     public function status( Task $item, $old_value ) {
         $meta = [
             'task_title'      => $item->title,
-            'task_status_old' => $old_value,
+            'task_status_old' => Task::$status[$old_value],
             'task_status_new' => $item->status,
         ];
 

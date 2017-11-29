@@ -50,7 +50,7 @@ class Project_Observer extends Model_Observer {
             'resource_id'   => $item->id,
             'resource_type' => 'project',
             'meta'          => [
-                'proejct_title' => $item->title,
+                'project_title' => $item->title,
             ],
             'project_id'    => $item->id,
         ]);

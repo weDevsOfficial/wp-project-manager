@@ -13,20 +13,14 @@ weDevsPMRegisterChildrenRoute('project_root',
 		    path: ':project_id/activities/', 
 		    component: activities_route, 
 		    name: 'activities',
+            children: [
+                {
+                    path: 'pages/:current_page_number', 
+                    component: activities_route, 
+                    name: 'activities_pagination',
+                },
+            ]
 		}
 	]
 );
-
-// var activities = {
-//     path: '/:project_id/activities/', 
-//     components: { 
-//         'activities': activities_route 
-//     }, 
-//     name: 'activities',
-// }
-
-
-
-// export default activities;
-
  
