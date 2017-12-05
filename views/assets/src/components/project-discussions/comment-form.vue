@@ -70,7 +70,7 @@
              */
             editor_id: function() {
                 var comment_id = ( typeof this.comment.id === 'undefined' ) ? '' : '-' + this.comment.id;
-                return 'pm-comment-editor' + comment_id;
+                return 'pm-comment-editor-' + comment_id;
             },
         },
 
