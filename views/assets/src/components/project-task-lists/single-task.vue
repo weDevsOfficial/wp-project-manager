@@ -56,7 +56,7 @@
                                                         v-model="task.title"
                                                         @blur="updateTaskElement(task)" 
                                                         @keyup.enter="updateTaskElement(task)"
-                                                        :value="task.title" 
+                                                        v-value="task.title" 
                                                         class="pm-task-title-activity pm-task-title-field"
                                                         type="text">
                                                 </span>
