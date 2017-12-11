@@ -114,7 +114,7 @@
         components: {
             'new-task-form': new_task_form,
             'incompleted-tasks': incompleted_tasks,
-            'completed-tasks': completed_tasks
+            'completed-tasks': completed_tasks,
         },
 
         methods: {

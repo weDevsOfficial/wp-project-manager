@@ -54,7 +54,7 @@
                                 </span>
                             </router-link>
                         </span>
-                       
+                        <do-action :hook="'task_inline'"></do-action>
                     </div>
 
                 </div>
@@ -82,12 +82,18 @@
 
 <script>
     import new_task_form from './new-task-form.vue';
+    import DoAction from './../common/do-action.vue';
+    
     export default {
         props: ['task', 'list'],
+        
         mixins: [PmMixin.projectTaskLists],
+        
         components: {
             'new-task-form': new_task_form,
+            'do-action': DoAction
         },
+        
         computed: {
             route_name (){
                 if( this.$route.name === 'single_list' ){
@@ -97,6 +103,7 @@
                 return 'lists_single_task'
             }
         },
+        
         methods: {
             doneUndone (){
                 var self = this,
