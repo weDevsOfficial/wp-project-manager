@@ -3,13 +3,8 @@ import router from './router/router';
 import directive from './directives/directive';
 import mixin from './helpers/mixin/mixin';
 import PM from './App.vue';
-import pagination from '@components/common/pagination.vue';
-import datePicker from '@components/common/date-picker.vue';
-import activityParser from '@components/common/activity-parser.vue';
+import PMComponents from './helpers/common-components';
 
-pm.Vue.component('pmPagination', pagination);
-pm.Vue.component('pmDatePicker', datePicker);
-pm.Vue.component('activityParser', activityParser);
 /**
  * Project template render
  */

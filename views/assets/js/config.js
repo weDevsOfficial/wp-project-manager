@@ -5,6 +5,7 @@ const weDevs_PM_Components = [];
 const weDevsPMChildrenRouter = {};
 const weDevsPmModules = [];
 const weDevsPmProModules = [];
+const weDevsPmProAddonModules = [];
 
 function weDevsPMRegisterChildrenRoute (parentRouteName, routes) {
 	routes.forEach(function(route) {
@@ -37,6 +38,15 @@ function weDevsPmRegisterModule(module, path) {
 
 function weDevsPmProRegisterModule(module, path) {
 	weDevsPmProModules.push(
+		{
+			'name': module,
+			'path': path
+		}
+	);
+}
+
+function weDevsPmProAddonRegisterModule(module, path) {
+	weDevsPmProAddonModules.push(
 		{
 			'name': module,
 			'path': path

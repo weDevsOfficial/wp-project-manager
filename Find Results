@@ -1,0 +1,22 @@
+Searching 15 files for "/attendance" (case sensitive, whole word)
+
+/Users/wedevs/Documents/wedevs/hrm/wp-content/plugins/Human-Resource-Management/asset/js/components/attendance/attendance-configuration.vue:
+  155: 	                    self.$store.commit( 'setAttendance/attendance', {records: res.attendance} );
+  226:       				self.$store.commit( 'setInitVal/attendance', res );
+  265:                     self.$store.commit( 'setAttendance/attendance', {records: res.attendance} );
+
+/Users/wedevs/Documents/wedevs/hrm/wp-content/plugins/Human-Resource-Management/asset/js/components/attendance/attendance-punch-in-out-btn.vue:
+   62: 	                    self.$store.commit( 'setAttendance/attendance', {records: res.attendance} );
+   63: 	                    self.$store.commit( 'punch_in/attendance', { status: 'disable' } );
+  104: 						self.$store.commit( 'setAttendance/attendance', {records: res.attendance} );
+  105: 	                    self.$store.commit( 'punch_in/attendance', { status: res.punch_in_status } );
+
+/Users/wedevs/Documents/wedevs/hrm/wp-content/plugins/Human-Resource-Management/asset/js/components/attendance/attendance-records.vue:
+   95: 	      				self.$store.commit( 'setInitVal/attendance', res );
+  113: 	                    self.$store.commit( 'setAttendance/attendance', {records: res.attendance} );
+
+/Users/wedevs/Documents/wedevs/hrm/wp-content/plugins/Human-Resource-Management/asset/js/components/attendance/attendance-user-search.vue:
+   87: 			this.$store.commit( 'searchMode/attendance', {status: true} );
+  106: 	                    self.$store.commit( 'setAttendance/attendance', {
+
+11 matches across 4 files

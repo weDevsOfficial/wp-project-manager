@@ -1,5 +1,6 @@
 <script>
-    
+    import Vue from 'vue/dist/vue.esm.js';
+
     import mixin from './../../helpers/mixin/mixin';
     
     function PMGetComponents() {
@@ -19,7 +20,20 @@
     }
 
     var action = {
-        props: ['hook'],
+        props: {
+            hook: {
+                type: String,
+                required: true
+            },
+
+            actionData: {
+                type: [Object, Array, String, Number],
+
+                default: function () {
+                    return {}
+                }
+            }
+        },
 
         components: PMGetComponents(),
 
@@ -28,18 +42,21 @@
 
             var components = [],
                 self = this;
+
             weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
-                    components.push(h(obj.component));
+                    components.push(
+                       Vue.compile('<'+obj.component+' :actionData="actionData"></'+obj.component+'>').render.call(self)
+                    );
                 }
             });
-
+            
             return h('span', {}, components);
         }
     }
 
     export default action;
-
+    
 </script>
 
 
