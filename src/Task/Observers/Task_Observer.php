@@ -48,7 +48,6 @@ class Task_Observer extends Model_Observer {
     }
 
     public function start_at( Task $item, $old_value ) {
-        var_dump( $old_value );
         $meta = [
             'task_title'        => $item->title,
             'task_start_at_old' => $old_value,

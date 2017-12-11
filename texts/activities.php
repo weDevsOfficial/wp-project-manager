@@ -106,7 +106,7 @@ return [
         __( '%1$s has updated the estimation of a task, %2$s, from %3$s to %4$s.', 'pm' ),
         ['actor.data.display_name', 'meta.task_title', 'meta.task_estimation_old', 'meta.task_estimation_new']
     ],
-    'update_task_start_at'    => [
+    'update_task_start_at_date'    => [
         __( '%1$s has updated the start date of a task, %2$s, from %3$s to %4$s.', 'pm' ),
         ['actor.data.display_name', 'meta.task_title', 'meta.task_start_at_old', 'meta.task_start_at_old']
     ],
