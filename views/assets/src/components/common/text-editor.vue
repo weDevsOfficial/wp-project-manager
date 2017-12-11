@@ -21,63 +21,61 @@
         props: ['editor_id', 'content'],
 
         // Initial action for this component
-        created: function() {
+        mounted: function() {
             var self = this;
-            //this.$root.$on( 'after_comment', this.afterComment );
+
+            // Remove the editor
+            tinymce.execCommand( 'mceRemoveEditor', false, self.editor_id );
             
-            // After ready dom
-            pm.Vue.nextTick(function() {
-
-                // Remove the editor
-                tinymce.execCommand( 'mceRemoveEditor', false, self.editor_id );
+            // Instantiate the editor
+            var settings = {
+                selector: 'textarea#' + self.editor_id,
+                menubar: false,
+                placeholder: self.text.write_a_comments,
+                branding: false,
                 
-                // Instantiate the editor
-                var settings = {
-                    selector: 'textarea#' + self.editor_id,
-                    menubar: false,
-                    placeholder: self.text.write_a_comments,
-                    branding: false,
-                    
-                    setup: function (editor) {
-                        editor.on('change', function () {
-                            self.content.html = editor.getContent();
-                        });
-                        editor.on('keyup', function (event) {
-                            self.content.html = editor.getContent();
-                        });
-                        editor.on('NodeChange', function () {
-                            self.content.html = editor.getContent();
-                        });
-                    },
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('keyup', function (event) {
+                        self.content.html = editor.getContent();
+                    });
+                    editor.on('NodeChange', function () {
+                        self.content.html = editor.getContent();
+                    });
+                },
 
-                    external_plugins: {
-                        'placeholder' : PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js',
-                    },
+                external_plugins: {
+                    'placeholder' : PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js',
+                },
 
-                    fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
-                    font_formats : 'Arial=arial,helvetica,sans-serif;'+
-                        'Comic Sans MS=comic sans ms,sans-serif;'+
-                        'Courier New=courier new,courier;'+
-                        'Georgia=georgia,palatino;'+
-                        'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
-                        'Tahoma=tahoma,arial,helvetica,sans-serif;'+
-                        'Times New Roman=times new roman,times;'+
-                        'Trebuchet MS=trebuchet ms,geneva;'+
-                        'Verdana=verdana,geneva;',
-                    plugins: 'placeholder textcolor colorpicker wplink wordpress',
-                    toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
-                    toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
-                    toolbar3: 'fontselect fontsizeselect removeformat undo redo',
-                };
+                fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
+                font_formats : 'Arial=arial,helvetica,sans-serif;'+
+                    'Comic Sans MS=comic sans ms,sans-serif;'+
+                    'Courier New=courier new,courier;'+
+                    'Georgia=georgia,palatino;'+
+                    'Lucida=Lucida Sans Unicode, Lucida Grande, sans-serif;'+
+                    'Tahoma=tahoma,arial,helvetica,sans-serif;'+
+                    'Times New Roman=times new roman,times;'+
+                    'Trebuchet MS=trebuchet ms,geneva;'+
+                    'Verdana=verdana,geneva;',
+                plugins: 'placeholder textcolor colorpicker wplink wordpress',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
+                toolbar3: 'fontselect fontsizeselect removeformat undo redo',
+            };
 
-                if (self.tinyMCE_settings) {
-                    settings = jQuery.extend(settings, self.tinyMCE_settings);
-                }
+            if (self.tinyMCE_settings) {
+                settings = jQuery.extend(settings, self.tinyMCE_settings);
+            }
 
-                tinymce.init(settings);
-                
-            });
+            tinymce.init(settings);
         },
     }
 </script>
+
+
+
+
 

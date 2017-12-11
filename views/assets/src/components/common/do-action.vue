@@ -24,9 +24,10 @@
         components: PMGetComponents(),
 
         render (h) {
+            this.$options.components = PMGetComponents();
+
             var components = [],
                 self = this;
-            
             weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
                     components.push(h(obj.component));
