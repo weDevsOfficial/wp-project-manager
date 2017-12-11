@@ -90,6 +90,13 @@ return [
 		'dependency' => array( 'pm-library' ),
 		'in_footer'  => false
 	],
+	
+	// 'pm-common-components' => [
+	// 	'id'         => 'pm-common-components',
+	// 	'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/common-components.js',
+	// 	'dependency' => array( 'pm-config' ),
+	// 	'in_footer'  => false
+	// ],
 
 	'pm' => [
 		'id'         => 'pm-scripts',

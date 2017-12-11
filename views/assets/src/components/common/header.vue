@@ -61,7 +61,7 @@
                         <div>{{ item.count }}</div>
                     </router-link>
                 </li>      
-                <do-action hook="pm-header"></do-action>
+                <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>
             </ul>
         </div>
 
@@ -70,13 +70,16 @@
 </template>
 
 <script>
-    import router from './../../router/router';
+    //import router from './../../router/router';
     import do_action from './do-action.vue';
     import edit_project from './../project-lists/project-create-form.vue';
 
     export default {
         data () {
-            return {}
+            return {
+
+            }
+
         },
 
         computed: {
