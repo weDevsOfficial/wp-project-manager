@@ -288,7 +288,7 @@ export default {
                     //self.getDiscuss(self);
                     self.show_spinner = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                
                     self.submit_disabled = false;
 
@@ -368,7 +368,7 @@ export default {
                     //self.getDiscuss(self);
                     self.show_spinner = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                
                     self.submit_disabled = false;
 
@@ -464,6 +464,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
+                    pm.Toastr.seccess(res.message);
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id

@@ -17,6 +17,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/fontawesome/font-awesome.min.css',
 		'dependency' => false,
 	],
+	'pm-toastr' => [
+		'id'         => 'pm-toastr',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/toastr/toastr.min.css',
+		'dependency' => false,
+	],
 	'pm-fullcalendar' => [
 		'id'         => 'pm-fullcalendar',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-fullcalendar/fullcalendar.min.css',
@@ -44,6 +49,7 @@ return [
 			'pm-vue-multiselect',
 			'pm-nprogress',
 			'pm-fontawesome',
+			'pm-toastr',
 			'pm-jquery-ui',
 			'pm-fullcalendar',
 			'pm-tiny-mce',
