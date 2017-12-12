@@ -1,5 +1,4 @@
-
- export default pm.Vue.mixin({
+export default pm.Vue.mixin({
 
     data () {
         return {
