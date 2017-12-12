@@ -90,6 +90,7 @@ export default pm.Vue.mixin({
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
+                    pm.Toastr.success(res.message);
                     jQuery( "#pm-project-dialog" ).dialog("close");
 
                     if(typeof args.callback === 'function'){
@@ -137,7 +138,7 @@ export default pm.Vue.mixin({
                 success: function(res) {
                     
                     self.$root.$store.commit('updateProject', res.data);
-                   
+                    pm.Toastr.success(res.message);
                     self.showHideProjectForm(false);
                     jQuery( "#pm-project-dialog" ).dialog("close");
                     self.resetSelectedUsers();
@@ -443,7 +444,7 @@ export default pm.Vue.mixin({
                 type: 'DELETE',
                 success: function(res) {
                     self.$root.$store.commit('afterDeleteProject', id);
-
+                    pm.Toastr.success(res.message);
                     if (!self.$root.$store.state.projects.length) {
                         self.$router.push({
                             name: 'project_lists', 

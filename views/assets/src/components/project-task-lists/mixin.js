@@ -564,6 +564,7 @@ var PM_TaskList_Mixin = {
                 success (res) { 
                     self.addListCommentMeta(res.data);
                     self.$root.$emit( 'after_comment' );
+                    pm.Toastr.success(res.message);
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
                     }
@@ -614,7 +615,7 @@ var PM_TaskList_Mixin = {
 
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+args.id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+args.data.id,
                 type: "POST",
                 data: data,
                 cache: false,
@@ -622,6 +623,7 @@ var PM_TaskList_Mixin = {
                 processData: false,
                 success (res) { 
                     self.addListCommentMeta(res.data);
+                    pm.Toastr.success(res.message);
                     self.$root.$emit( 'after_comment' );
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
