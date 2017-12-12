@@ -133,13 +133,13 @@ class Task_Controller {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
-        $status  = $request->get_param( 'status' );
 
         $task = Task::where( 'project_id', $project_id )
             ->where( 'id', $task_id )
             ->first();
 
         if ( $task ) {
+            $ordStatus = $task->status;
             $task->update_model( $data );
         }
 
@@ -148,10 +148,9 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
 
-        if ( isset($status) ) {
+        if ( $ordStatus && $task->status !== $ordStatus ) {
             $this->update_task_status( $task ); 
         }
-                
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );
