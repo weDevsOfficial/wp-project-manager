@@ -204,7 +204,7 @@
         mixins: [PmMixin.categories],
         computed: {
             categories () {
-                return this.$store.state.categories.categories;
+                return this.$store.state.categories.categories || [];
             }
         },
 

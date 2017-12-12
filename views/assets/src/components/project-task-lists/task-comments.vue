@@ -123,7 +123,7 @@
                     type: 'DELETE',
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');
-
+                        pm.Toastr.success(res.message);
                         self.comments.splice(index, 1);
                     }
                 }
