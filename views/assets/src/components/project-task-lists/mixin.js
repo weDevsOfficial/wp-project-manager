@@ -1211,16 +1211,8 @@ var PM_TaskList_Mixin = {
         },
 
         is_assigned: function(task) {
-            var current_user = PM_Vars.current_user;
-            if( this.can_manage_project() ){
-                return true;
-            }
-            
-            if( task.assignees.data.findIndex(i => i.id === current_user.ID) !== -1 ){
-                return true
-            }
-            
-            return false;
+                       
+            return true;
         }
     }
 }
