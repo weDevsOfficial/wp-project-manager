@@ -34,4 +34,14 @@ return [
     'comment_deleted' => [
         __( 'A comment has been deleted successfully.', 'pm' )
     ],
+    // Dsicuss crud releated messages
+    'discuss_created' => [
+        __( 'A new discussion has been created successfully.', 'pm' )
+    ],
+    'discuss_updated' => [
+        __( 'A discussion has been updated successfully.', 'pm' )
+    ],
+    'discuss_deleted' => [
+        __( 'A discussion has been deleted successfully.', 'pm' )
+    ],
 ];
