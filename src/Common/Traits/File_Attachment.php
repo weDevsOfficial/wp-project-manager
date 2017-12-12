@@ -22,7 +22,7 @@ trait File_Attachment {
                 'attachment_id' => $attachment_id,
                 'project_id'    => $entity->project_id,
                 'parent'        => $entity->id,
-                'type'          => isset( $entity->type ) ? $entity->type : null
+                'type'          => isset( $entity->type ) ? $entity->type : 'file'
             ]);
         }
     }

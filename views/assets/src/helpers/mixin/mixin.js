@@ -553,29 +553,7 @@ export default pm.Vue.mixin({
                 }
             });
             return diff;
-        },
-
-        can_manage_project () {
-            var capability = this.getSettings('managing_capability', []);
-            var roles = PM_Vars.current_user.roles;
-
-            if(this.arrayDiffer(capability, roles).length){
-                return true
-            }
-
-            return false;
-        },
-
-        can_create_project () {
-            var capability = this.getSettings('project_create_capability', []);
-            var roles = PM_Vars.current_user.roles;
-
-            if(this.arrayDiffer(capability, roles).length){
-                return true
-            }
-
-            return false;
-        },
+        }
     }
 });
 

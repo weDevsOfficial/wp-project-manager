@@ -139,6 +139,7 @@ class Task_Controller {
             ->first();
 
         if ( $task ) {
+            $ordStatus = $task->status;
             $task->update_model( $data );
         }
 
@@ -147,8 +148,9 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
 
-        $this->update_task_status( $task );
-        
+        if ( $ordStatus && $task->status !== $ordStatus ) {
+            $this->update_task_status( $task ); 
+        }
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );
