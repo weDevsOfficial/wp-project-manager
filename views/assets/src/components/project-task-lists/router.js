@@ -30,7 +30,9 @@ weDevsPMRegisterChildrenRoute('project_root',
             children: [
                 {
                     path: '/:project_id/task/:task_id', 
-                    component: single_task_route,
+                    components: { 
+                        'single-task': single_task_route
+                    },
                     name: 'lists_single_task' 
                 },
 
@@ -42,7 +44,7 @@ weDevsPMRegisterChildrenRoute('project_root',
             ] 
         }
     ]
-)
+);
 
 weDevsPMRegisterChildrenRoute('project_root', 
     [
@@ -54,58 +56,14 @@ weDevsPMRegisterChildrenRoute('project_root',
             children: [
                 {
                     path: '/:project_id/task-lists/:list_id/task/:task_id', 
-                    component: single_task_route,
+                    components: { 
+                        'single-task': single_task_route
+                    },
                     name: 'single_task' 
                 }
             ]
         }
     ]
-)
-
-// var task_lists = {
-//     path: '/:project_id/task-lists/', 
-//     components: { 
-//         'task-lists': task_lists_route 
-//     }, 
-//     name: 'task_lists',
-
-//     children: [
-//         {
-//             path: '/:project_id/task/:task_id', 
-//             components: { 
-//                 'single-task': single_task_route
-//             }, 
-//             name: 'lists_single_task' 
-//         },
-
-//         {
-//             path: 'pages/:current_page_number', 
-//             components: { 
-//                 'task-lists': task_lists_route
-//             }, 
-//             name: 'list_pagination',
-//         },
-//     ]
-// }
-
-// var single_list = { 
-//     path: '/:project_id/task-lists/:list_id', 
-//     components: { 
-//         'single-list': single_list_route
-//     }, 
-//     name: 'single_list',
-
-//     children: [
-//         {
-//             path: '/:project_id/task-lists/:list_id/task/:task_id', 
-//             components: { 
-//                 'single-task': single_task_route
-//             }, 
-//             name: 'single_task' 
-//         }
-//     ]
-// }
-
-//export {task_lists, single_list}
+);
 
 
