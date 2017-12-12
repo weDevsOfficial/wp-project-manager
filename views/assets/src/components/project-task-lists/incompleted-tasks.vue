@@ -54,7 +54,7 @@
                                 </span>
                             </router-link>
                         </span>
-                        <do-action :hook="'task_inline'"></do-action>
+                        <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     </div>
 
                 </div>
@@ -88,6 +88,15 @@
         props: ['task', 'list'],
         
         mixins: [PmMixin.projectTaskLists],
+
+        data () {
+            return {
+                doActionData: {
+                    task: this.task,
+                    list: this.list
+                }
+            }
+        },
         
         components: {
             'new-task-form': new_task_form,
