@@ -28,7 +28,7 @@ export default {
                     self.show_spinner = false;
 
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
              
                     self.submit_disabled = false;
 
@@ -126,7 +126,7 @@ export default {
                     self.show_spinner = false;
 
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
              
                     self.submit_disabled = false;
                     self.show_spinner = false;
@@ -177,7 +177,7 @@ export default {
                     args.category_ids.map(function(id, index) {
                         self.$store.commit('categories/afterDeleteCategory', id);
                     });
-
+                    pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function' ){
                       args.callback.call(self, res);
                     }
