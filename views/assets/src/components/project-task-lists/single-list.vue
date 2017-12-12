@@ -67,8 +67,10 @@
 
                                 </div>
 
-                                <div class="pm-col-4 pm-todo-prgress-bar">
-                                    <div :style="getProgressStyle(list)" class="bar completed"></div>
+                                <div class="pm-col-4">
+                                    <div class="pm-todo-progress-bar">
+                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                    </div>
                                 </div>
                                 <div class=" pm-col-1 no-percent">{{ getProgressPercent(list) }}%</div>
                                 <div class="clearfix"></div>
