@@ -72,8 +72,10 @@ class Discussion_Board_Controller {
         }
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
-
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.discuss_created')
+        ];
+        return $this->get_response( $resource, $message );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -106,7 +108,10 @@ class Discussion_Board_Controller {
 
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.discuss_updated')
+        ];
+        return $this->get_response( $resource, $message);
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -127,6 +132,12 @@ class Discussion_Board_Controller {
         $discussion_board->users()->detach();
 
         $discussion_board->delete();
+
+        $message = [
+            'message' => pm_get_text('success_messages.discuss_deleted')
+        ];
+
+        return $this->get_response(false, $message);
     }
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
