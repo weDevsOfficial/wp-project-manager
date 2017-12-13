@@ -19,9 +19,9 @@ add_action( 'init', function() {
     load_libs();
     load_orm();
     migrate_db();
+    view();
     load_routes();
     register_routes();
-    view();
     seed_db();
     do_action( 'pm_loaded' );
 });
