@@ -112,8 +112,11 @@ class Task_Controller {
             'project_id'  => $task->project_id,
         ];
 
-        $assignee = Assignee::firstOrCreate( $data );
+        $assignee = Assignee::findOrFail( $data );
 
+        if ( !$assignee) {
+            return false;
+        }
 
         if(  $task->status == 'complete' && !$assignee->completed_at ){
             $assignee->completed_at = Carbon::now();
@@ -147,10 +150,7 @@ class Task_Controller {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
-
-        if ( $ordStatus && $task->status !== $ordStatus ) {
-            $this->update_task_status( $task ); 
-        }
+        
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );

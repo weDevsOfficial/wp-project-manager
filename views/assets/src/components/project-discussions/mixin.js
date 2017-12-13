@@ -147,7 +147,7 @@ export default {
                 success (res) {
 
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                     self.submit_disabled = false;
                     self.show_spinner = false;
                     self.addDiscussMeta(res.data);
@@ -219,7 +219,7 @@ export default {
                 success (res) {
                     self.show_spinner = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                     self.addDiscussMeta(res.data);
                     self.submit_disabled = false;
 
@@ -288,7 +288,7 @@ export default {
                     //self.getDiscuss(self);
                     self.show_spinner = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                
                     self.submit_disabled = false;
 
@@ -368,7 +368,7 @@ export default {
                     //self.getDiscuss(self);
                     self.show_spinner = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                
                     self.submit_disabled = false;
 
@@ -426,7 +426,7 @@ export default {
                 success: function(res) {
                     self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
 
-                    if (!self.$store.state.discussion.length) {
+                    if (!self.$store.state.projectDiscussions.discussion.length) {
                         self.$router.push({
                             name: 'discussions', 
                             params: { 
@@ -436,7 +436,8 @@ export default {
                     } else {
                         self.getDiscussion();
                     }
-
+                    console.log(res.message);
+                    pm.Toastr.success(res.message);
                     if (typeof args.callback === 'function') {
                         args.callback();
                     } 
@@ -464,6 +465,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
+                    pm.Toastr.seccess(res.message);
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id
