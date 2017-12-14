@@ -44,4 +44,37 @@ return [
     'discuss_deleted' => [
         __( 'A discussion has been deleted successfully.', 'pm' )
     ],
+    // Milestone crud releated messages
+    'milestone_created' => [
+        __( 'A new milestone has been created successfully.', 'pm' )
+    ],
+    'milestone_updated' => [
+        __( 'A milestone has been updated successfully.', 'pm' )
+    ],
+    'milestone_deleted' => [
+        __( 'A milestone has been deleted successfully.', 'pm' )
+    ],
+    // Task List crud releated messages
+    'task_list_created' => [
+        __( 'A new Task List has been created successfully.', 'pm' )
+    ],
+    'task_list_updated' => [
+        __( 'A Task List has been updated successfully.', 'pm' )
+    ],
+    'task_list_deleted' => [
+        __( 'A Task List has been deleted successfully.', 'pm' )
+    ],
+    // Task crud releated messages
+    'task_created' => [
+        __( 'A new Task has been created successfully.', 'pm' )
+    ],
+    'task_updated' => [
+        __( 'A Task has been updated successfully.', 'pm' )
+    ],
+    'task_deleted' => [
+        __( 'A Task has been deleted successfully.', 'pm' )
+    ],
+    'setting_saved' => [
+        __( 'Settings has been changed successfully.', 'pm' )
+    ],
 ];
