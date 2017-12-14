@@ -98,8 +98,11 @@ class Milestone_Controller {
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
-        // Return transformed data
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.milestone_created')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -150,7 +153,11 @@ class Milestone_Controller {
 
         $resource = new Item( $milestone, new Milestone_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.milestone_updated')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -164,5 +171,11 @@ class Milestone_Controller {
         $milestone->boardables()->delete();
         $milestone->metas()->delete();
         $milestone->delete();
+
+        $message = [
+            'message' => pm_get_text('success_messages.milestone_deleted')
+        ];
+
+        return $this->get_response(false, $message);
     }
 }
