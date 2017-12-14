@@ -46,8 +46,10 @@ class Settings_Controller {
             $settings = $this->save_settings( $data, $project_id );
             $resource = new Item( $settings, new Settings_Transformer );
         }
-
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.setting_saved')
+        ];
+        return $this->get_response( $resource, $message );
     }
 
     private function save_settings( $data, $project_id = 0 ) {
