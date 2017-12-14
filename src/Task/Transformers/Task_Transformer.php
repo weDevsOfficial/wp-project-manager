@@ -54,10 +54,10 @@ class Task_Transformer extends TransformerAbstract {
             'order'       => (int) ($item->pivot ? $item->pivot->order : 0),
             'payable'     => $item->payable,
             'recurrent'   => $item->recurrent,
+            'parent_id'   => $item->parent_id,     
             'status'      => $item->status,
             'project_id'  => $item->project_id,
             'category_id' => $item->category_id,
-            'parent_id'   => $item->category_id,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => [
                 'total_comment'  => $item->comments->count(),

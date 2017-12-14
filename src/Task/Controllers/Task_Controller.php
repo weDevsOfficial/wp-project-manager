@@ -104,32 +104,32 @@ class Task_Controller {
         }
     }
 
-    private function update_task_status( Task $task ){
-        $user = wp_get_current_user();
-        $data = [
-            'task_id'     => $task->id,
-            'assigned_to' => $user->ID,
-            'project_id'  => $task->project_id,
-        ];
+    // private function update_task_status( Task $task ){
+    //     $user = wp_get_current_user();
+    //     $data = [
+    //         'task_id'     => $task->id,
+    //         'assigned_to' => $user->ID,
+    //         'project_id'  => $task->project_id,
+    //     ];
 
-        $assignee = Assignee::findOrFail( $data );
+    //     $assignee = Assignee::findOrFail( $data );
 
-        if ( !$assignee) {
-            return false;
-        }
+    //     if ( !$assignee) {
+    //         return false;
+    //     }
 
-        if(  $task->status == 'complete' && !$assignee->completed_at ){
-            $assignee->completed_at = Carbon::now();
-            $assignee->status = 2;
-            $assignee->save();
-        }
+    //     if(  $task->status == 'complete' && !$assignee->completed_at ){
+    //         $assignee->completed_at = Carbon::now();
+    //         $assignee->status = 2;
+    //         $assignee->save();
+    //     }
 
-        if(  $task->status == 'incomplete' && $assignee->completed_at ){
-            $assignee->completed_at = null;
-            $assignee->status = 0;
-            $assignee->save();
-        }
-    }
+    //     if(  $task->status == 'incomplete' && $assignee->completed_at ){
+    //         $assignee->completed_at = null;
+    //         $assignee->status = 0;
+    //         $assignee->save();
+    //     }
+    // }
 
     public function update( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
