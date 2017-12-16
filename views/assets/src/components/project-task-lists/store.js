@@ -569,6 +569,9 @@ export default {
         },
         listTemplateStatus(state, status){
             state.listTemplateStatus = status;
+        },
+        updateLists (state, lists) {
+            state.lists = lists;
         }
     }
 };

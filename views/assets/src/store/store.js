@@ -3,6 +3,7 @@ export default new pm.Vuex.Store({
         projects: [],
         project: {},
         project_users: [],
+        is_single_task: false,
         categories: [],
         roles: [],
         milestones: [],

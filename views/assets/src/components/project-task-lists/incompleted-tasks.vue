@@ -72,6 +72,11 @@
                         
                 </div>
                 <div class="clearfix"></div>
+
+                <div class="cpm-col-12">
+                    <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
+                </div>
+
             </div>
         </div>
         <div class="pm-todo-form" v-if="task.edit_mode">
