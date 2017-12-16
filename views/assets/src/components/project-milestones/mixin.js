@@ -181,7 +181,7 @@ export default {
                     self.$store.commit('projectMilestones/newMilestone', res.data);
                     self.$root.$store.state.milestones_load = false;
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
 
                     self.$root.$emit( 'after_comment' );
                     self.templateAction();
@@ -241,7 +241,7 @@ export default {
                     self.$root.$store.state.milestones_load = false;
                    
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                     self.submit_disabled = false;
                     self.templateAction();
 
@@ -292,7 +292,7 @@ export default {
                 success: function(res) {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
-
+                    pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
                     }

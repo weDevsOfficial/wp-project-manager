@@ -84,7 +84,11 @@ class Task_Controller {
 
         $resource = new Item( $task, new Task_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.task_created')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     private function attach_assignees( Task $task, $assignees = [] ) {
@@ -153,7 +157,11 @@ class Task_Controller {
         
         $resource = new Item( $task, new Task_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.task_updated')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -179,6 +187,11 @@ class Task_Controller {
 
         // Delete the task
         $task->delete();
+        $message = [
+            'message' => pm_get_text('success_messages.task_deleted')
+        ];
+
+        return $this->get_response(false, $message);
     }
 
     public function attach_to_board( WP_REST_Request $request ) {

@@ -236,7 +236,7 @@ var PM_TaskList_Mixin = {
                     self.afterNewList(res.data);
                     self.afterNewListupdateListsMeta();
                     self.showHideListForm(false);
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
 
                     if( typeof args.callback === 'function' ) {
                         args.callback.call( self,  res );
@@ -283,7 +283,7 @@ var PM_TaskList_Mixin = {
                 type: 'PUT',
                 success (res) {
                     self.addMetaList(res.data);
-                    pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                     self.afterUpdateList(res.data);
                     self.showHideListForm(false, self.list);
 
@@ -343,7 +343,7 @@ var PM_TaskList_Mixin = {
                 type: 'DELETE',
                 success: function(res) {
                     self.afterDeleteList(args.list_id);
-                    // pm.Toastr.success(res.data.success);
+                    pm.Toastr.success(res.message);
                     self.listTemplateAction();
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
@@ -392,7 +392,7 @@ var PM_TaskList_Mixin = {
                     );
 
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);                    
+                    pm.Toastr.success(res.message);                    
                     self.showHideTaskFrom(false, self.list, self.task );
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -453,7 +453,7 @@ var PM_TaskList_Mixin = {
                     });
 
                     // Display a success toast, with a title
-                    pm.Toastr.success(res.data.success);                    
+                    pm.Toastr.success(res.message);                    
                     self.showHideTaskFrom(false, self.list, self.task );
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -513,7 +513,7 @@ var PM_TaskList_Mixin = {
                         'task': args.task,
                         'list': args.list 
                     });
-
+                    pm.Toastr.success(res.message);
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
