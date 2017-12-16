@@ -42,30 +42,33 @@ class Task_Transformer extends TransformerAbstract {
      * @return array
      */
     public function transform( Task $item ) {
-        return [
-            'id'          => (int) $item->id,
-            'title'       => $item->title,
-            'description' => $item->description,
-            'estimation'  => $item->estimation,
-            'start_at'    => format_date( $item->start_at ),
-            'due_date'    => format_date( $item->due_date ),
-            'complexity'  => $item->complexity,
-            'priority'    => $item->priority,
-            'order'       => (int) ($item->pivot ? $item->pivot->order : 0),
-            'payable'     => $item->payable,
-            'recurrent'   => $item->recurrent,
-            'parent_id'   => $item->parent_id,     
-            'status'      => $item->status,
-            'project_id'  => $item->project_id,
-            'category_id' => $item->category_id,
-            'created_at'  => format_date( $item->created_at ),
-            'meta'        => [
-                'total_comment'  => $item->comments->count(),
-                'total_files'    => $item->files->count(),
-                'total_board'    => $item->boards->count(),
-                'total_assignee' => $item->assignees->count(),
-            ],
-        ];
+        return apply_filters( 
+            'pm_task_transform', 
+            [
+                'id'          => (int) $item->id,
+                'title'       => $item->title,
+                'description' => $item->description,
+                'estimation'  => $item->estimation,
+                'start_at'    => format_date( $item->start_at ),
+                'due_date'    => format_date( $item->due_date ),
+                'complexity'  => $item->complexity,
+                'priority'    => $item->priority,
+                'order'       => (int) ($item->pivot ? $item->pivot->order : 0),
+                'payable'     => $item->payable,
+                'recurrent'   => $item->recurrent,
+                'parent_id'   => $item->parent_id,     
+                'status'      => $item->status,
+                'project_id'  => $item->project_id,
+                'category_id' => $item->category_id,
+                'created_at'  => format_date( $item->created_at ),
+                'meta'        => [
+                    'total_comment'  => $item->comments->count(),
+                    'total_files'    => $item->files->count(),
+                    'total_board'    => $item->boards->count(),
+                    'total_assignee' => $item->assignees->count(),
+                ],
+            ] 
+        );
     }
 
     /**
