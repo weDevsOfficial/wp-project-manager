@@ -67,7 +67,11 @@ class Task_List_Controller {
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.task_list_created')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -89,7 +93,11 @@ class Task_List_Controller {
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
-        return $this->get_response( $resource );
+        $message = [
+            'message' => pm_get_text('success_messages.task_list_updated')
+        ];
+
+        return $this->get_response( $resource, $message );
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -107,6 +115,11 @@ class Task_List_Controller {
 
         // Delete the task list
         $task_list->delete();
+        $message = [
+            'message' => pm_get_text('success_messages.task_list_deleted')
+        ];
+
+        return $this->get_response(false, $message);
     }
 
     private function attach_milestone( Task_List $task_list, Milestone $milestone ) {
