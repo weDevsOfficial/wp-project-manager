@@ -530,7 +530,7 @@ var CPM_Task_Mixin = {
             return 'cpm-current-date';
         },
 
-        completedTaskWrap( start_date, due_date ) {
+        completedTaskWrap: function ( start_date, due_date ) {
             if ( start_date == '' && due_date == '' ) {
                 return false;
             }
@@ -810,7 +810,7 @@ var CPM_Task_Mixin = {
             return list.private == 'on' ? 'cpm-lock' : '';
         },
 
-        updateActiveMode(mode) {
+        updateActiveMode: function (mode) {
             var self       = this,
                 form_data  = {
                     project_id: CPM_Vars.project_id,
