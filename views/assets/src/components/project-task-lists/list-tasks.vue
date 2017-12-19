@@ -10,7 +10,7 @@
             <li v-if="!getIncompleteTasks.length" class="nonsortable">{{text.no_tasks_found}}</li>
 
             <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
-                <new-task-form :task="{}"  :list="list"></new-task-form>
+                <new-task-form :list="list"></new-task-form>
             </li>
         </ul> 
     </div>

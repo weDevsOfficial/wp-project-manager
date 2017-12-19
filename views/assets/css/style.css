@@ -1671,7 +1671,7 @@ ul.pm-activity ul li:before {
 }
 .pm-todo .pm-todo-wrap .pm-todo-content .pm-todo-action-center .pm-task-comment {
   display: inline-block;
-  margin-right: -15px;
+  margin-right: -11px;
 }
 .pm-todo .pm-todo-wrap .pm-todo-content .pm-todo-action-center .pm-task-subtask {
   display: inline-block;
@@ -3243,7 +3243,6 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-todolists .pm-todolist header {
   padding: 10px 10px 3px 10px;
-  margin-bottom: 10px;
   background: #f9fafa;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -3271,13 +3270,13 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-todolists .pm-todolist .pm-todos li {
   border-bottom: solid 1px #eee;
-  padding: 0px 8px 5px 15px;
+  padding: 15px 8px 0px 15px;
   background: #ffffff;
+  margin: 0;
 }
 .pm .pm-todolists .pm-todolist .pm-todos li div {
   margin-bottom: 0px;
   padding-bottom: 0px;
-  padding-top: 2px;
 }
 .pm .pm-todolists .pm-todolist .pm-todos li .pm-todo-content .pm-comment-count {
   background: url('../images/comment_gray.svg') no-repeat 0% 50%;

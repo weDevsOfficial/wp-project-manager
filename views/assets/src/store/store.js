@@ -26,6 +26,9 @@ export default new pm.Vuex.Store({
     },
 
     mutations: {
+        isSigleTask (state, status) {
+            state.is_single_task = status;
+        },
         setProjects (state, projects) {
             state.projects = projects.projects;
         },
