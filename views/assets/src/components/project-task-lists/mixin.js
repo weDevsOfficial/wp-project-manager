@@ -363,18 +363,10 @@ var PM_TaskList_Mixin = {
         addTask ( args ) {
             var self      = this,
             pre_define = {
-            data: {
-            board_id: '',
-            assignees: '',
-            title: '',
-            description: '',
-            start_at: '',
-            due_date: '',
-            task_privacy: '',
-            list_id: '',
-            order: ''
-            },
-            callback: false
+                data: {
+                   
+                },
+                callback: false
             },
             args = jQuery.extend(true, pre_define, args);
 
@@ -424,16 +416,6 @@ var PM_TaskList_Mixin = {
             var self      = this,
             pre_define = {
                 data: {
-                    task_id: '',
-                    board_id: '',
-                    assignees: '',
-                    title: '',
-                    description: '',
-                    start_at: '',
-                    due_date: '',
-                    task_privacy: '',
-                    list_id: '',
-                    order: '',
                     project_id: self.project_id
                 },
                 callback: false
@@ -499,8 +481,6 @@ var PM_TaskList_Mixin = {
 
             var self      = this,
             pre_define = {
-                task: '',
-                list: '',
                 callback: false
             };
             var args = jQuery.extend(true, pre_define, args);
@@ -526,12 +506,6 @@ var PM_TaskList_Mixin = {
             var self      = this,
             pre_define = {
                 data: {
-                    commentable_id: '',
-                    content: '',
-                    commentable_type: '',
-                    deleted_files: [],
-                    files: [],
-                    notify_users: []
                 },
                 callback: false
             };
@@ -584,13 +558,6 @@ var PM_TaskList_Mixin = {
             var self      = this,
             pre_define = {
                 data: {
-                    id: '',
-                    commentable_id: '',
-                    content: '',
-                    commentable_type: '',
-                    deleted_files: [],
-                    files: [],
-                    notify_users: []
                 },
                 callback: false
             };

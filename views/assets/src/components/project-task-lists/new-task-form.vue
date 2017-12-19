@@ -60,9 +60,23 @@ import date_picker from './date-picker.vue';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
-    props: ['list', 'task'],
+    props: {
+        list: {
+            type: Object,
+            default: function () {
+                return {}
+            }
+        },
 
-
+        task: {
+            type: Object,
+            default: function () {
+                return {
+                    due_date: {}
+                }
+            }
+        }
+    },
 
     /**
      * Initial data for this component
@@ -81,10 +95,7 @@ export default {
         }
     },
     mixins: [PmMixin.projectTaskLists],
-    created ()
-    {
-    	
-    },
+
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
     	'pm-datepickter': date_picker
