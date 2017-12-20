@@ -2437,7 +2437,7 @@ a.pm-icon-tick.grey {
   width: 32.333333333%;
   float: left;
   margin-right: 10px;
-  margin-bottom: 10px;
+  
 }
 .pm .pm-col-5 {
   width: 38.788285225%;
@@ -2455,7 +2455,7 @@ a.pm-icon-tick.grey {
   width: 56.788285225%;
   float: left;
   margin-right: 10px;
-  margin-bottom: 10px;
+  
 }
 .pm .pm-col-8 {
   width: 64.666666667%;
@@ -3270,7 +3270,7 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-todolists .pm-todolist .pm-todos li {
   border-bottom: solid 1px #eee;
-  padding: 15px 8px 0px 15px;
+  padding: 10px 8px 10px 15px;
   background: #ffffff;
   margin: 0;
 }
