@@ -204,7 +204,7 @@
                                     
                                     <div class="clearfix pm-clear"></div>
                                 </div>
-                                    
+                                <do-action :hook="'aftre_single_task_content'" :actionData="{task: task, list: list}"></do-action>
                                 <div class="pm-todo-wrap clearfix">
                                     <div class="pm-task-comment">
                                         <div class="comment-content">
@@ -227,6 +227,7 @@
 
 <script>
     import comments from './task-comments.vue';
+    import DoAction from './../common/do-action.vue';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -244,7 +245,7 @@
                 task_id: this.$route.params.task_id,
                 list: {},
                 task: {},
-                assigned_to: []
+                assigned_to: [],
             }
         },
 
@@ -307,7 +308,8 @@
 
         components: {
             'task-comments': comments,
-            'multiselect': pm.Multiselect.Multiselect
+            'multiselect': pm.Multiselect.Multiselect,
+            'do-action': DoAction
         },
 
         created: function() {
