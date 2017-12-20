@@ -1,14 +1,23 @@
 <template>
     <div class="completed-projects">
-        <div v-if="loading" class="pm-data-load-before" >
-            <div class="loadmoreanimation">
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
-                </div>
+        <div v-if="loading" class="pm-row pm-data-load-before" >
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
+            </div>
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
+            </div>
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
+            </div>
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
+            </div>
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
+            </div>
+            <div class="pm-col-4">
+                <project-loading ></project-loading>
             </div>
         </div>
         <div v-else>
@@ -30,8 +39,8 @@
     import project_summary from './project-summary.vue';
     import pagination from './../common/pagination.vue';
     import after_project from './../common/do-action.vue';
-   
-    
+    import project_loading from './project-loading.vue';
+
     export default  {
         
         beforeRouteEnter (to, from, next) {
@@ -73,7 +82,8 @@
         components: {
             'project-summary': project_summary,
             'pm-pagination': pagination,
-            'do-action': after_project
+            'do-action': after_project,
+            'project-loading': project_loading
         },
 
         methods: {
