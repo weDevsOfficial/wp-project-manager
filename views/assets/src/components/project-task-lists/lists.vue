@@ -212,20 +212,21 @@
 
         watch: {
             '$route' (route) {
-                if(route.name === 'lists_single_task'){
-                    return ;
+                if(
+                    route.name != 'lists_single_task'
+                    &&
+                    this.current_page_number != route.params.current_page_number
+                ) {
+                    this.getSelfLists();
                 }
                 
-                if(this.current_page_number == route.params.current_page_number ) {
-                    return ;
-                }
-                this.getSelfLists();
-                
+                this.isSingleTask();
             }
         },
 
         created () {
             this.$store.state.projectTaskLists.is_single_list = false;
+            this.isSingleTask();
         },
 
         computed: {
@@ -265,6 +266,13 @@
         },
 
         methods: {
+            isSingleTask () {
+                if ( this.$route.name == 'lists_single_task' ) {
+                    this.$store.commit('isSigleTask', true);
+                } else {
+                    this.$store.commit('isSigleTask', false);
+                }
+            },
 
             showEditForm (list, index) {
                 list.edit_mode = list.edit_mode ? false : true;

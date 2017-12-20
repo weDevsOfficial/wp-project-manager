@@ -1,7 +1,7 @@
 <template>
     <div class="pm-todo-wrap clearfix">
-        <div class="pm-todo-content">
-            <div>
+        <div v-if="!task.edit_mode" class="pm-todo-content">
+            <div class="pm-todo-inside">
                 <div class="pm-col-7">
                    <input :disabled="!is_assigned(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
@@ -37,7 +37,7 @@
                 </div>
                 
                 <div class="pm-col-4 pm-todo-action-center">
-                    <div class="pm-task-comment">
+                    <div class="pm-task-comment pm-todo-action-child">
                         <span>
                             <router-link 
                                 :to="{ 
@@ -54,15 +54,16 @@
                                 </span>
                             </router-link>
                         </span>
-                        <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     </div>
+
+                    <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
+                    <div class="pm-clearfix"></div>
 
                 </div>
 
                 <!-- v-if="task.can_del_edit" -->
-                <div class="pm-col-1 pm-todo-action-right pm-last-col">
+               <!--  <div class="pm-col-1 pm-todo-action-right pm-last-col">
                     
-                    <!-- <a class="move"><span class="dashicons dashicons-menu"></span></a> -->
                     <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
                         <span class="dashicons dashicons-edit"></span>
                     </a>
@@ -70,20 +71,49 @@
                         <span class="dashicons dashicons-trash"></span>
                     </a>
                         
-                </div>
+                </div> -->
                 <div class="clearfix"></div>
 
-                <div class="cpm-col-12">
-                    <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
-                </div>
+                <div class="pm-list-action-wrap">
+                    <div class="pm-list-action">
 
+                        <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
+                            <span class="">Edit |</span>
+                        </a>
+                        <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
+                            <span class="">Delete</span>
+                        </a>
+                    </div>
+                        
+                </div>
             </div>
+
+            
+            <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
         </div>
         <div class="pm-todo-form" v-if="task.edit_mode">
             <new-task-form :task="task" :list="list"></new-task-form>
         </div>
     </div>
 </template>
+
+<style>
+    .pm-todo-action-child {
+        float: left;
+    }
+    .pm-list-action {
+        margin-left: 24px;
+        font-size: 12px;
+        display: none;
+    }
+    .pm-todo-inside:hover .pm-list-action {
+        display: block;
+    }
+    .pm-list-action-wrap {
+        display: block;
+        height: 16px;
+    }
+</style>
 
 <script>
     import new_task_form from './new-task-form.vue';
@@ -121,7 +151,7 @@
         methods: {
             doneUndone (){
                 var self = this,
-                 status = !this.task.status ? 1: 0;
+                    status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
                         task_id: this.task.id,
