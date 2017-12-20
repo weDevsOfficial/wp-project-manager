@@ -87,13 +87,13 @@
                         
                 </div>
             </div>
-
-            
             <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
         </div>
-        <div class="pm-todo-form" v-if="task.edit_mode">
-            <new-task-form :task="task" :list="list"></new-task-form>
-        </div>
+        <transition name="slide">
+            <div class="pm-todo-form" v-if="task.edit_mode">
+                <new-task-form :task="task" :list="list"></new-task-form>
+            </div>
+        </transition>
     </div>
 </template>
 
