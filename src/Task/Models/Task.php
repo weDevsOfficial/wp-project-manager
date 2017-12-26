@@ -14,6 +14,8 @@ use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\Project\Models\Project;
 use Carbon\Carbon;
 
+use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
+
 class Task extends Eloquent {
     use Model_Events, Task_Model_Trait;
 
@@ -89,4 +91,13 @@ class Task extends Eloquent {
     public function projects() {
         return $this->belongsTo( Project::class, 'project_id');
     }
+
+    public function task_model( $key = '' ) {
+        return apply_filters( 'task_model', $this, $key );
+    }
+
+    // public function task_model( ) {
+    //     return apply_filters( 'task_model', $this, $key )
+    //     return $this->hasMany( Time_Tracker::class, 'task_id' );
+    // }
 }

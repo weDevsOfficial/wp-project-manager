@@ -22,6 +22,7 @@ class Migrater {
 
         $classes = array_filter( $classes );
 
+
         foreach ( $classes as $class ) {
             $this->migrate( new $class );
         }
