@@ -32,6 +32,6 @@ $router->get( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@inde
     ->permission([Authentic::class]);
 
 $router->get( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@show' );
-$router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@store' );
+$router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@store' )->validator( Create_Project::class );
 $router->put( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@update' );
 $router->delete( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' );

@@ -68,7 +68,8 @@ class WP_Router {
 	 * @return boolean (Return true if permitted; ortherwise false.)
 	 */
 	private function check_permission( WP_REST_Request $request, $permissions ) {
-		$permitted = false;
+		$permitted = array();
+		$merge_error = false;
 
 		if ( empty( $permissions ) ) {
 			$permitted = true;
@@ -76,11 +77,44 @@ class WP_Router {
 
 		foreach ( $permissions as $permission ) {
 			$permission_obj = new $permission( $request );
+			$has_permission = $permission_obj->check();
 
-			$permitted = ( $permitted || $permission_obj->check() );
+			if ( is_wp_error( $has_permission ) ) {
+				$merge_error = true;
+			}
+
+			$permitted[] = $has_permission;
 		}
 
+		if ( $merge_error ) {
+			$permitted = $this->merge_permission_error( $permitted );
+		} else if ( is_array($permitted) && in_array( false, $permitted ) ) {
+			$permitted = false;
+		}
+		
 		return $permitted;
+	}
+
+	function merge_permission_error($wp_errors) {
+	  	$wp_error_merged = new WP_Error();
+
+	  	if ( !is_array( $wp_errors ) ) {
+	  		return $wp_errors;
+	  	}
+		
+		foreach ( $wp_errors as $wp_error ) {
+			if ( ! is_wp_error( $wp_error ) )
+				continue;
+			foreach ( $wp_error as $key => $errors ) {
+				foreach ( $errors as $error ) {
+					$wp_error_merged->add( $key, $error );
+				}
+				if ( isset( $wp_error->error_data[ $key ] ) ) {
+					$wp_error_merged->add_data( $wp_error->error_data[ $key ], $key );
+				}
+			}
+		}	
+		return $wp_error_merged;
 	}
 
 	/**
