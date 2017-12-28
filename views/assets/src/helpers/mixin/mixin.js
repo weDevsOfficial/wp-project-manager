@@ -39,7 +39,7 @@ export default pm.Vue.mixin({
 
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
 
-            jQuery.ajax(property);
+            return jQuery.ajax(property);
         },
 
         registerStore (module_name, store) {
