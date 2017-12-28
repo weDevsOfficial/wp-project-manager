@@ -50,4 +50,8 @@ class Discussion_Board extends Eloquent {
             ->where( 'boardable_type', 'discussion_board' );
     }
 
+    public function boardables() {
+        return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'discussion_board' );
+    }
+
 }
