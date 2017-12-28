@@ -242,4 +242,8 @@ return [
         __( '%1$s has updated a reply comment on a file, %2$s.'),
         ['actor.data.display_name', 'meta.file_title']
     ],
+    'duplicate_project' => [
+        __( '%1$s has duplicated project from , %2$s.'),
+        ['actor.data.display_name', 'meta.old_project_title']
+    ],
 ];
