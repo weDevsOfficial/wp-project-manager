@@ -145,14 +145,7 @@
                                 
                             </a>
                         </li>
-
- <!--                       <li>
-                            <span class="pm-spinner"></span>
-                            <a class="pm-duplicate-project" href="#" data-project_id="60">
-                                <span class="dashicons dashicons-admin-page"></span>
-                                <span>Duplicate</span>
-                            </a>
-                        </li> -->
+                        <do-action :hook="'project_action_menu'" :actionData="project" ></do-action>
                     </ul>
                 </div>
             </div>
@@ -162,6 +155,7 @@
 
 
 <script>
+
     export default {
         data () {
             return {

@@ -31,6 +31,10 @@ class Task_List extends Eloquent {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'task_list' );
     }
 
+    public function board() {
+        return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'task_list' );
+    }
+    
     public function boardables() {
         return $this->hasMany( Boardable::class, 'board_id' )->where( 'board_type', 'task_list' );
     }
