@@ -51,6 +51,7 @@
                     'actor.data.display_name': "<a href='"+ this.actor_url() + "'>" + obj.actor.data.display_name + "</a>",
                     'meta.project_title': "<a href='"+ this.resolve_url() + "'>" + obj.meta.project_title + "</a>",
                     'meta.project_title_old': "<a href='"+ this.resolve_url( ) + "'>" + obj.meta.project_title_old + "</a>",
+                    'meta.old_project_title': "<a href='"+ this.resolve_url( ) + "'>" + obj.meta.old_project_title + "</a>",
                     'meta.project_title_new': "<a href='"+ this.resolve_url( ) + "'>" + obj.meta.project_title_new + "</a>",
                     'meta.discussion_board_title': "<a href='"+ this.resolve_url() + "'>" + obj.meta.discussion_board_title + "</a>",
                     'meta.discussion_board_title_old': "<a href='"+ this.resolve_url() + "'>" + obj.meta.discussion_board_title_old + "</a>",
@@ -103,6 +104,7 @@
                 var url,
                 resource_type= this.activity.resource_type,
                 resource_id = this.activity.resource_id,
+                meta = this.activity.meta,
                 project_id = this.activity.project.data.id;
 
                 
@@ -112,6 +114,9 @@
                         break;
                     case 'project':
                         url =  this.$router.resolve({ name : 'pm_overview' , params: { project_id: resource_id }  }).href;
+                        if ( 'duplicate_project' == this.activity.action ) {
+                            url = this.$router.resolve({ name : 'pm_overview' , params: { project_id: meta.old_project_id }  }).href;
+                        }
                         break;
                     case 'milestone':
                         url =  this.$router.resolve({ name : 'milestones' , params: { project_id: project_id  }  }).href;
