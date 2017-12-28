@@ -148,6 +148,25 @@ function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     }
 }
 
+function pm_get_response( $resource, $extra = [] ) {
+    $manager = new \League\Fractal\Manager();
+    $data_serialize = new \League\Fractal\Serializer\DataArraySerializer();
+    $manager->setSerializer( $data_serialize );
+
+    if ( isset( $_GET['with'] ) ) {
+        $manager->parseIncludes( $_GET['with'] );
+    }
+
+    if ($resource) {
+        $response = $manager->createData( $resource )->toArray();
+
+    } else {
+        $response = [];
+    }
+
+    return array_merge( $extra, $response );
+}
+
 function pmpr($data) {
     echo '<pre>'; print_r($data); '</pre>';
 }

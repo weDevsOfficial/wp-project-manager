@@ -25,3 +25,4 @@ function gtz( $value ) {
 
 	return false;
 }
+

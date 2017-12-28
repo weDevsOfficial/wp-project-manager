@@ -14,6 +14,7 @@ use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 
+
 class Task_Transformer extends TransformerAbstract {
 
     use Resource_Editors;
@@ -67,7 +68,9 @@ class Task_Transformer extends TransformerAbstract {
                     'total_board'    => $item->boards->count(),
                     'total_assignee' => $item->assignees->count(),
                 ],
-            ] 
+                //'time' => $this->time($item)
+            ], 
+            $item
         );
     }
 
