@@ -55,7 +55,7 @@ export default pm.Vue.mixin({
 
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
 
-            jQuery.ajax(property);
+            return jQuery.ajax(property);
         },
 
         registerStore (module_name, store) {
@@ -245,6 +245,34 @@ export default pm.Vue.mixin({
                 }
             });
 
+        },
+
+        getUser ( args ) {
+            var self = this;
+            var pre_define ={
+                data: {
+                },
+                conditions : {
+
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            if (typeof args.data.user_id === 'undefined' ){
+                return ;
+            }
+
+            self.httpRequest({
+                url:self.base_url + '/pm/v2/users/'+ args.data.user_id + '?' + conditions ,
+                success: function(res) {
+                    if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
+                    }
+                }
+            });
         },
 
         getGloabalProject(){

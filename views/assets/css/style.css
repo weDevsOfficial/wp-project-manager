@@ -580,7 +580,7 @@ ul.pm-nav li a {
 .pm-ui-dialog .pm-project-form textarea,
 .pm-ui-dialog .pm-project-form select {
   border: 1px solid #F1F1F1;
-  padding: 8px;
+  padding: 0px;
 }
 .pm-ui-dialog .pm-project-form input[type=text]:-moz-placeholder,
 .pm-ui-dialog .pm-project-form textarea:-moz-placeholder,
