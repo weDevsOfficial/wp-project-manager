@@ -11,6 +11,9 @@ export default pm.Vue.mixin({
     },
 
     methods: {
+        pad2 (number) {
+           return (number < 10 ? '0' : '') + number;
+        },
         stringToTime (seconds) {
             var numdays = Math.floor(seconds / 86400);
 
@@ -21,10 +24,10 @@ export default pm.Vue.mixin({
             var numseconds = ((seconds % 86400) % 3600) % 60;
 
             return {
-                'days': numdays,
-                'hours': numhours,
-                'minutes': numminutes,
-                'seconds': numseconds
+                'days': this.pad2(numdays),
+                'hours': this.pad2(numhours),
+                'minutes': this.pad2(numminutes),
+                'seconds': this.pad2(numseconds)
             }
         },
         getSettings (key, pre_define ) {
