@@ -20,7 +20,8 @@ var scriptsLoaded = {
 	'Moment': false,
 	'Toastr': false,
 	'Uploader': false,
-	'Loading': false
+	'Loading': false,
+	//'TimePicker': false
 };
 
 window.pmPromise = new Promise(function(resolve, reject) {
@@ -115,6 +116,16 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		}
 	).then(function() {
 		scriptsLoaded.Toastr = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
+		['./jquery-ui-timepicker/jquery-ui-timepicker'],
+		function(require) {
+			pm.TimePicker = require('./jquery-ui-timepicker/jquery-ui-timepicker');
+		}
+	).then(function() {
+		scriptsLoaded.TimePicker = true;
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 

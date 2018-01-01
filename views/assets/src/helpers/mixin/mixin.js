@@ -11,6 +11,22 @@ export default pm.Vue.mixin({
     },
 
     methods: {
+        stringToTime (seconds) {
+            var numdays = Math.floor(seconds / 86400);
+
+            var numhours = Math.floor((seconds % 86400) / 3600);
+
+            var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+
+            var numseconds = ((seconds % 86400) % 3600) % 60;
+
+            return {
+                'days': numdays,
+                'hours': numhours,
+                'minutes': numminutes,
+                'seconds': numseconds
+            }
+        },
         getSettings (key, pre_define ) {
             var pre_define  = pre_define || false,
                 settings  = PM_Vars.settings;
