@@ -46,6 +46,10 @@ class Project extends Eloquent {
     	'est_completion_date'
     ];
 
+    public function scopeSearch( $query, $search ) { 
+        $query->where('title',  'LIKE', '%'.$search.'%' )->orWhere( 'description', 'LIKE', '%'.$search.'%');
+    }
+
     public function categories() {
         return $this->belongsToMany( Category::class, 'pm_category_project', 'project_id', 'category_id' );
     }
