@@ -572,6 +572,10 @@ export default {
         },
         updateLists (state, lists) {
             state.lists = lists;
+        },
+
+        updateTask (state, task) {
+            state.task = task;
         }
     }
 };
