@@ -13,5 +13,5 @@ pm.Vue.component('activityParser', activityParser);
 pm.Vue.component('pm-header', Header);
 pm.Vue.component('VueContentLoading', VueContentLoading);
 pm.Vue.component('pm-date-time-picker', DateTimePicker);
-pm.Vue.component('DoAction', DoAction);
+pm.Vue.component('pm-do-action', DoAction);
 
