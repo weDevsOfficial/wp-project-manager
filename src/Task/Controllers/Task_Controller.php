@@ -65,6 +65,8 @@ class Task_Controller {
 
         if ( $project ) {
             $task = Task::create( $data );
+
+            do_action('pm_after_create_task', $task, $request);
         }
 
         if ( $task && $board ) {

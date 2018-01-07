@@ -30,6 +30,53 @@ export default pm.Vue.mixin({
                 'seconds': this.pad2(numseconds)
             }
         },
+
+        /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        shortDateFormat ( date ) {
+            if ( date == '' ) {
+                return;
+            }      
+            var format = 'MMM DD';
+
+            return pm.Moment( date ).format( String( format ) );
+        },
+
+
+        /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateFormat ( date ) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            date = pm.Moment(date).format('YYYY-MM-DD');
+
+            var format = 'MMMM DD YYYY';
+
+            if ( PM_Vars.wp_date_format == 'Y-m-d' ) {
+            format = 'YYYY-MM-DD';
+
+            } else if ( PM_Vars.wp_date_format == 'm/d/Y' ) {
+                format = 'MM/DD/YYYY';
+
+            } else if ( PM_Vars.wp_date_format == 'd/m/Y' ) {
+                format = 'DD/MM/YYYY';
+            } 
+
+            return pm.Moment( date ).format(format);
+        },
         getSettings (key, pre_define ) {
             var pre_define  = pre_define || false,
                 settings  = PM_Vars.settings;
