@@ -25,18 +25,27 @@ class Task_Controller {
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
-        $per_page = $per_page ? $per_page : 5;
-        $page = $request->get_param( 'page' );
+        $per_page   = $request->get_param( 'per_page' );
+        $per_page   = $per_page ? $per_page : 5;
+        $page       = $request->get_param( 'page' );
+        $search     = $request->get_param( 's' );
 
-        $tasks = Task::where( 'project_id', $project_id )
-            ->orderBy( 'created_at', 'DESC')
-            ->paginate( $per_page, ['*'], 'page', $page );
+        if ( $search ) {
+            $tasks = Task::where( 'project_id', $project_id )
+                ->where('title', 'LIKE', '%'.$search.'%')
+                ->orderBy( 'created_at', 'DESC')
+                ->get();
 
-        $task_collection = $tasks->getCollection();
+            $resource = new Collection( $tasks, new Task_Transformer );
+        } else {
+            $tasks = Task::where( 'project_id', $project_id )
+                ->orderBy( 'created_at', 'DESC')
+                ->paginate( $per_page, ['*'], 'page', $page );
 
-        $resource = new Collection( $task_collection, new Task_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $tasks ) );
+            $task_collection = $tasks->getCollection();
+            $resource = new Collection( $task_collection, new Task_Transformer );
+            $resource->setPaginator( new IlluminatePaginatorAdapter( $tasks ) );
+        }
 
         return $this->get_response( $resource );
     }
