@@ -27,7 +27,6 @@ class Boardable extends Eloquent {
             ->where( 'boardable_type', $boardable_type )
             ->orderBy( 'order', 'DESC' )
             ->first();
-
         return $boardable ? $boardable->order : 0;
     }
 }
