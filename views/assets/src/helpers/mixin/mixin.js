@@ -11,6 +11,72 @@ export default pm.Vue.mixin({
     },
 
     methods: {
+        pad2 (number) {
+           return (number < 10 ? '0' : '') + number;
+        },
+        stringToTime (seconds) {
+            var numdays = Math.floor(seconds / 86400);
+
+            var numhours = Math.floor((seconds % 86400) / 3600);
+
+            var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+
+            var numseconds = ((seconds % 86400) % 3600) % 60;
+
+            return {
+                'days': this.pad2(numdays),
+                'hours': this.pad2(numhours),
+                'minutes': this.pad2(numminutes),
+                'seconds': this.pad2(numseconds)
+            }
+        },
+
+        /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        shortDateFormat ( date ) {
+            if ( date == '' ) {
+                return;
+            }      
+            var format = 'MMM DD';
+
+            return pm.Moment( date ).format( String( format ) );
+        },
+
+
+        /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateFormat ( date ) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            date = pm.Moment(date).format('YYYY-MM-DD');
+
+            var format = 'MMMM DD YYYY';
+
+            if ( PM_Vars.wp_date_format == 'Y-m-d' ) {
+            format = 'YYYY-MM-DD';
+
+            } else if ( PM_Vars.wp_date_format == 'm/d/Y' ) {
+                format = 'MM/DD/YYYY';
+
+            } else if ( PM_Vars.wp_date_format == 'd/m/Y' ) {
+                format = 'DD/MM/YYYY';
+            } 
+
+            return pm.Moment( date ).format(format);
+        },
         getSettings (key, pre_define ) {
             var pre_define  = pre_define || false,
                 settings  = PM_Vars.settings;

@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <!-- Spinner before load task -->
         <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
             <div class="modal-wrapper">
@@ -67,6 +66,7 @@
                                                     @click.prevent="isTaskTitleEditMode()">
                                                     {{ task.title }}
                                                 </span>
+                                                
                                             </div>
                                           
                                             <div class="clearfix pm-clear"></div>
@@ -74,7 +74,7 @@
 
                                         <div class="clearfix pm-clear"></div>
                                     </h3>
-                                    
+                                    <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
                                     <div  class="pm-task-meta">
 
                                         <span  class="pm-assigned-user-wrap">
@@ -203,8 +203,9 @@
                                     </div>
                                     
                                     <div class="clearfix pm-clear"></div>
+                                    <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
                                 </div>
-                                <do-action :hook="'aftre_single_task_content'" :actionData="{task: task, list: list}"></do-action>
+                                <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
                                 <div class="pm-todo-wrap clearfix">
                                     <div class="pm-task-comment">
                                         <div class="comment-content">
@@ -244,7 +245,7 @@
                 is_enable_multi_select: false,
                 task_id: this.$route.params.task_id,
                 list: {},
-                task: {},
+                //task: {},
                 assigned_to: [],
             }
         },
@@ -252,9 +253,15 @@
         mixins: [PmMixin.projectTaskLists],
 
         computed: {
-            // task () {
-            //  return this.$store.state.projectTaskLists.task;
-            // },
+            doActionData () {
+                return {
+                    task: this.task,
+                    list: this.list
+                }
+            },
+            task () {
+             return this.$store.state.projectTaskLists.task;
+            },
             project_users: function() {
                 return this.$root.$store.state.project_users;
             },
@@ -353,8 +360,8 @@
                     success (res) {
                         self.addMeta(res.data);
                         self.list = res.data.boards.data[0];
-                        //self.$store.commit('projectTaskLists/setSingleTask', res.data);
-                        self.task = res.data;
+                        self.$store.commit('projectTaskLists/setSingleTask', res.data);
+                        //self.task = res.data;
                         self.loading = false;
                         pm.NProgress.done();
                     }

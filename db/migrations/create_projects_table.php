@@ -19,7 +19,7 @@ class Create_Projects_Table extends Migration {
             $table->string( 'color_code' )->nullable();
             $table->tinyInteger( 'order' )->nullable();
             $table->string( 'projectable_type' )->nullable();
-
+            $table->timestamp( 'completed_at' )->nullable();
             $table->unsignedInteger( 'created_by' )->nullable();
             $table->unsignedInteger( 'updated_by' )->nullable();
 
