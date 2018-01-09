@@ -68,7 +68,6 @@ class Task_Transformer extends TransformerAbstract {
                     'total_board'    => $item->boards->count(),
                     'total_assignee' => $item->assignees->count(),
                 ],
-                //'time' => $this->time($item)
             ], 
             $item
         );

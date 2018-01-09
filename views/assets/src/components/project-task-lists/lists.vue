@@ -17,8 +17,16 @@
             <default-list-page v-if="is_blank_Template"></default-list-page>
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
-                
-                <new-task-list-btn></new-task-list-btn>
+                <div class="pm-inline-list-wrap">
+                    <div class="pm-inline-list-element">
+                        <new-task-list-btn></new-task-list-btn>
+                    </div>
+                    <div class="pm-right-inline-list-element">
+                        <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
+                    </div>
+                    <div class="pm-clearfix"></div>
+                </div>
+
                 <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
                 
                 <ul class="pm-todolists">
@@ -129,6 +137,16 @@
 </template>
     
 <style>
+    .pm-inline-list-wrap .pm-right-inline-list-element {
+        float: right;
+    }
+    .pm-inline-list-wrap {
+        width: 100%;
+    }
+    .pm-inline-list-element {
+        float: left;
+    }
+
     .pm-list-footer .pm-new-task-btn-li {
         padding-left: 0 !important;
     }
