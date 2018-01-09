@@ -24,7 +24,7 @@ class Upgrade {
      * @return void
      */
     function __construct() {
-        //var_dump(get_post_thumbnail_id('48'));
+        //var_dump(class_exists('WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker'));
         //die();
         //$this->get_activity(7);
         add_action( 'admin_notices', array($this, 'show_update_notice') );

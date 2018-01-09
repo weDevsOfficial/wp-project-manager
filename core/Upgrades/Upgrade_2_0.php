@@ -14,6 +14,8 @@ use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
+
     
 /**
 *   Upgrade project manager 2.0     
@@ -114,10 +116,20 @@ class Upgrade_2_0 extends WP_Background_Process
         $commnetd  = $this->get_comments( $discuss, $newProject->id, 'discussion_board' );
         $taskLists = $this->get_task_list( $project_id, $newProject->id, $milestons );
         $commenttl = $this->get_comments( $taskLists, $newProject->id, 'task_list' );
-        $tasks     = $this->get_tasks( $newProject->id, $taskLists );
+        list($tasks, $parents )  = $this->get_tasks( $newProject->id, $taskLists );
         $commnett  = $this->get_comments( $tasks, $newProject->id, 'task' );
+
         $this->get_activity( $project_id, $newProject->id, $discuss, $taskLists, $tasks, array_merge( (array) $commnetd, (array)$commenttl, (array)$commnett) );
+
         $this->get_file( $project_id, $newProject->id );
+
+        if( !empty( $parents ) ) {
+            // for sub task
+           $this->get_tasks( $newProject->id, $tasks, $taskLists, $parents ); 
+        }
+
+        $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
+
         return $newProject;
     }
 
@@ -331,22 +343,34 @@ class Upgrade_2_0 extends WP_Background_Process
         return  $taskList->id;
     }
 
-    protected function get_tasks ( $newPorjectID, $taskLists ) {
-        if( empty($taskLists)){
+    protected function get_tasks ( $newPorjectID, $listitems, $list = null, $parent = null ) {
+        if( empty($listitems)){
             return ;
         }
         global $wpdb;
-        $in      = implode(',', array_keys($taskLists));
-        $oldTask = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) AND  post_type='cpm_task' AND post_status='publish'", ARRAY_A );
+        if( $parent == null ){
+            $post_type = 'cpm_task';
+        }else{
+            $post_type = 'cpm_sub_task';
+        }
+        
+
+        $in      = implode(',', array_keys($listitems));
+        $oldTask = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) AND  post_type='{$post_type}' AND post_status='publish'", ARRAY_A );
         
         $tasks   = [];
+        $taskParent = [];
         foreach ( $oldTask as $post ) {
-            $tasks[$post['ID']] = $this->create_task( $post, $newPorjectID,  $taskLists );
+            $tasks[$post['ID']]      = $this->create_task( $post, $newPorjectID,  $listitems, $list,  $parent );
+            if( $post['post_type'] == 'cpm_task' ){
+                $taskParent[$post['ID']] = $post['post_parent'];
+            }
+            
         }
-        return $tasks;
+        return array( $tasks, $taskParent );
     }
 
-    protected function create_task( $post, $newPorjectID,  $taskLists ) {
+    protected function create_task( $post, $newPorjectID,  $listitems, $list=null, $parent = null ) {
         if( !$post ){
             return ;
         }
@@ -357,6 +381,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'project_id'  => $newPorjectID, 
             'start_at'    => get_post_meta( $post['ID'], '_start', true),
             'due_date'    => get_post_meta( $post['ID'], '_due', true),
+            'parent_id'   => $post['post_type'] === 'cpm_task' ? 0: $listitems[$post['post_parent']],
             'created_by'  => $post['post_author'],
             'updated_by'  => $post['post_author'],
             'created_at'  => $post['post_date'],
@@ -364,11 +389,19 @@ class Upgrade_2_0 extends WP_Background_Process
         ] );
 
         if ( !empty($post['post_parent']) ) {
+
+            if ( $parent !== null ){
+                $board_id = $list[$parent[$post['post_parent']]];
+                $boardable_type = 'sub_task';
+            }else {
+                $board_id = $listitems[$post['post_parent']];
+                $boardable_type = 'task';
+            }
             $this->save_object( new Boardable, [
-                'board_id'       => $taskLists[$post['post_parent']],
+                'board_id'       => $board_id,
                 'board_type'     => 'task_list',
                 'boardable_id'   => $newTask->id,
-                'boardable_type' => 'task',
+                'boardable_type' => $boardable_type,
                 'order'          => $post['menu_order'],
                 'created_by'     => $post['post_author'],
                 'updated_by'     => $post['post_author'],
@@ -377,14 +410,15 @@ class Upgrade_2_0 extends WP_Background_Process
             ] );
         }
 
-        $metas = [
-            'privacy'      => get_post_meta( $post['ID'], '_tasklist_privacy', true ) == 'yes' ? 1 : 0,
-        ];   
+        if ( $post['post_type'] == 'cpm_task' ){
+            $metas = [
+                'privacy'      => get_post_meta( $post['ID'], '_task_privacy', true ) == 'yes' ? 1 : 0,
+            ];
 
-        if ( $newTask->id ) {
-            $this->add_metas( $metas,  $newTask, $newPorjectID, 'task');
+            if ( $newTask->id && $metas ) {
+                $this->add_metas( $metas,  $newTask, $newPorjectID, $boardable_type );
+            }
         }
-
         $this->add_assignee( $newTask, $post['ID'] );
 
         return $newTask->id;
@@ -712,6 +746,36 @@ class Upgrade_2_0 extends WP_Background_Process
         }, $str );
 
         return array($attr, $text);
+    }
+
+    protected function add_time_tracker( $oldProjectId, $newPorjectID, $taskList, $tasks ) {
+        if ( !$oldProjectId ){
+            return ;
+        }
+
+        if(!class_exists('WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker')){
+            return ;
+        }
+
+        global $wpdb;
+        $table = $wpdb->prefix. 'cpm_time_tracker';
+        $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE  project_id = {$oldProjectId}", ARRAY_A );
+
+        foreach( $timetracker as $time ){
+            $this->save_object(new Time_Tracker, [
+                'user_id'    => $time['user_id'],
+                'project_id' => $newPorjectID,
+                'list_id'    => $taskList[$time['tasklist_id']],
+                'task_id'    => $tasks[$time['task_id']],
+                'start'      => $time['start'],
+                'stop'       => $time['stop'],
+                'total'      => $time['total'],
+                'run_status' => $time['run_status'] == 'no' ? 0 : 1 
+            ]);
+        }
+
+
+
     }
 
     protected function add_file( $arr ) {
