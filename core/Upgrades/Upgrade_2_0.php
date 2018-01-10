@@ -130,6 +130,8 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
 
+        $this->set_project_settings( $project_id, $newPorject->id );
+
         return $newProject;
     }
 
@@ -644,7 +646,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
     }
 
-    protected function set_settings( $oldProjectId, $newPorject ) {
+    protected function set_project_settings( $oldProjectId, $newPorject ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -817,6 +819,67 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         return $meta_ids;
+    }
+
+    protected function set_settings(){
+        $genral          = get_site_option('cpm_general', array());
+        $mail            = get_site_option('cpm_mails', array());
+        $page            = get_site_option('cpm_page', array());
+        $woo_projects    = get_site_option('cpmwoo_settings', array());
+        $cpm_integration = get_site_option('cpm_integration', array());
+        $woo_project     = array();
+
+        if ( is_array($woo_project) && !empty($woo_project) ){
+            foreach ($woo_projects as $woo_project) {
+                $role =[];
+                if ( is_array($woo_project['role']) && !empty($woo_project['role']) ) {
+                    foreach ($woo_project['role'] as $key => $value) {
+                        $role[] = [
+                            'user_id' => $key,
+                            'role_id' => $value !== 'co_worker' ? 1 : 2,
+                        ];
+                    }
+                }
+                
+                $woo_project[]=[
+                    'action'      => $woo_project['type'],
+                    'product_ids' => array($woo_project['product_id']),
+                    'project_id'  => $woo_project['project_id'],
+                    'assignees'   => $role
+                ];
+            }
+        }
+        
+        
+        $newSettings = [
+            'upload_limit'              => !empty($genral['upload_limit']) ? $genral['upload_limit']: 2,
+            'project_per_page'          => !empty($genral['pagination']) ? $genral['pagination']: 10,
+            'list_per_page'             => !empty($genral['show_todo']) ? $genral['show_todo']: 10,
+            'list_show'                 => !empty($genral['todolist_show']) ? $genral['todolist_show'] : 'pagination' ,
+            'incomplete_tasks_per_page' => !empty($genral['show_incomplete_tasks']) ? $genral['show_incomplete_tasks'] : 50 ,
+            'complete_tasks_per_page'   => !empty($genral['show_completed_tasks']) ? $genral['show_completed_tasks'] : 50,
+            'managing_capability'       => !empty($genral['project_manage_role']) ? array_values($genral['project_manage_role']): array('administrator', 'editor', 'author'),
+            'project_create_capability' => !empty($genral['project_create_role'])? array_values($genral['project_create_role']) : array('administrator', 'editor', 'author'),
+            'task_start_field'          => (!empty($genral['task_start_field']) &&  $genral['task_start_field']  == 'on' ) ? true : false,
+            'daily_digest'              => (!empty($genral['daily_digest']) && $genral['daily_digest'] == 'on') ? true : false,
+            'from_email'                => !empty($mail['email_from']) ? $mail['email_from'] : bloginfo('admin_email'),
+            'link_to_backend'           => (!empty($mail['email_url_link']) && $mail['email_url_link'] == 'frontend') ? false: true,
+            'email_type'                => !empty($mail['email_type']) ? $mail['email_type']: 'text/plain',
+            'enable_bcc'                => (!empty($mail['email_bcc_enable']) && $mail['email_bcc_enable'] == 'on') ? true: false,
+            'project'                   => !empty($page['project']) ? $page['project'] : '',
+            'my_task'                   => !empty($page['my_task']) ? $page['my_task'] : '',
+            'calendar'                  => !empty($page['calendar']) ? $page['calendar']: '',
+            'woo_project'               => $woo_project,
+            'after_order_complete'      => (!empty($cpm_integration['woo_duplicate']) && $cpm_integration['woo_duplicate'] == 'paid') ? true : false,
+        ];
+        
+        foreach ($newSettings as $key => $value ) {
+            $settings = Settings::firstOrCreate([
+                'key' => $key
+            ]);
+            $settings->update_model( ['key'=>$key, 'value'=> $value] );
+        }
+        
     }
 
     /**
