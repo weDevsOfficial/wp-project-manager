@@ -15,6 +15,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
+use WeDevs\PM\Category\Models\Category;
 
     
 /**
@@ -51,9 +52,40 @@ class Upgrade_2_0 extends WP_Background_Process
     protected function complete() {
         parent::complete();
         $this->isProcessRuning = false;
+        $this->migrate_category();
         error_log("task complete");
         // upgrade complete function
         // update_option('pm_version', '2.0.0');
+    }
+
+    /**
+     * Is the updater running?
+     * @return boolean
+     */
+    public function is_updating() {
+        return false === $this->is_queue_empty();
+    }
+
+
+    /**
+     * Handle cron healthcheck
+     *
+     * Restart the background process if not already running
+     * and data exists in the queue.
+     */
+    public function handle_cron_healthcheck() {
+        if ( $this->is_process_running() ) {
+            // Background process already running.
+            return;
+        }
+
+        if ( $this->is_queue_empty() ) {
+            // No data to process.
+            $this->clear_scheduled_event();
+            return;
+        }
+
+        $this->handle();
     }
 
     /**
@@ -77,13 +109,19 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return Object          new project model object 
      */
     public function upgrade_projects ( $project_id ) {
-        $data = get_site_option("upgrade_status", array());
-        // if ( !in_array($project_id, array_keys($data))){
-        //     $data[$project_id] = 1;
-        //     update_site_option("upgrade_status", $data);
-        // }
+        $data = get_site_option("pm_upgrade", array());
+        if ( !in_array($project_id, array_keys($data))){
+            $data[$project_id] = 1;
+            update_site_option("pm_upgrade", $data);
 
-        $project = $this->create_project($project_id);
+            $project = $this->create_project($project_id);
+
+            if( $project ) {
+                $data[$project_id] = $project->id;
+                update_site_option("pm_upgrade", $data);
+            }
+        }
+        
     }
 
     /**
@@ -93,7 +131,7 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     protected function create_project ( $project_id ) {
         global $wpdb;
-        if( !$project_id ){
+        if( !$project_id && !is_int( $project_id ) ){
             return ;
         }
 
@@ -130,7 +168,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
 
-        $this->set_project_settings( $project_id, $newPorject->id );
+        $this->set_project_settings( $project_id, $newProject );
 
         return $newProject;
     }
@@ -872,7 +910,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'woo_project'               => $woo_project,
             'after_order_complete'      => (!empty($cpm_integration['woo_duplicate']) && $cpm_integration['woo_duplicate'] == 'paid') ? true : false,
         ];
-        
+
         foreach ($newSettings as $key => $value ) {
             $settings = Settings::firstOrCreate([
                 'key' => $key
@@ -880,6 +918,37 @@ class Upgrade_2_0 extends WP_Background_Process
             $settings->update_model( ['key'=>$key, 'value'=> $value] );
         }
         
+    }
+
+    protected function migrate_category() {
+        global $wpdb;
+        $terms = get_terms( array(
+            'taxonomy' => 'cpm_project_category',
+            'hide_empty' => false,
+        ) );
+        $categories = [];
+        foreach ($terms as $term) {
+            $cat = Category::firstOrCreate([
+                'title'            => $term->name , 
+                'description'      => $term->description, 
+                'categorible_type' =>'project',
+            ]);
+            $projects = get_site_option("pm_upgrade", array());
+
+            $prointrem = $wpdb->get_results( "SELECT object_id FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id = {$term->term_taxonomy_id}", ARRAY_A );
+            $pterm =[];
+            foreach ($prointrem as $p) {
+                $pterm[] = $p['object_id'];
+            }
+
+
+            $arr = array_filter($projects, function( $key ) use ($pterm){
+                return in_array($key, $pterm);
+            }, ARRAY_FILTER_USE_KEY);
+
+            $cat->projects()->attach(array_values($arr));
+            $categories[$term->term_taxonomy_id] = $cat->id;
+        }
     }
 
     /**

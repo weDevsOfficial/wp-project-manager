@@ -24,13 +24,7 @@ class Upgrade {
      * @return void
      */
     function __construct() {
-        $terms = get_terms([
-            'taxonomy' => 'cpm_project_category',
-            'hide_empty' => false,
-        ]);
-        $this->set_settings();
-        //pmpr( get_object_taxonomies( 'cpm_project', 'names' ));
-         //die();
+        
         add_action( 'admin_notices', array($this, 'show_update_notice') );
        
         add_action( 'admin_init', array( $this, 'init_upgrades' ) );
