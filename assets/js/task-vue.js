@@ -69,7 +69,9 @@
                     $( ".cpm-date-picker-to" ).datepicker( "option", "minDate", selectedDate );
                 },
                 onSelect: function(dateText) {
-                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
+                    if ( !vnode.context.newSubTask ){
+                        CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
+                    }
                 }
             });
 
@@ -82,7 +84,11 @@
                     $( ".cpm-date-picker-from" ).datepicker( "option", "maxDate", selectedDate );
                 },
                 onSelect: function(dateText) {
-                    CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_to', date: dateText } );
+
+                    if ( !vnode.context.newSubTask ){
+                         CPM_Task_Vue.$emit( 'cpm_date_picker', { field: 'datepicker_to', date: dateText } );
+                    }
+                   
                 }
             });
 
