@@ -92,6 +92,7 @@
 
 
                             <tbody id="the-list" data-wp-lists="list:tag">
+
                                 <tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)">
                                     <th v-if="!category.edit_mode" scope="row" class="check-column">
                                         <input v-model="delete_items" :value="category.id" type="checkbox"  id="cb-select-48">
@@ -241,17 +242,17 @@
 
             categoryFormAction () {
                 // Exit from this function, If submit button disabled 
-        if ( this.submit_disabled ) {
-            return;
-        }
-        // Disable submit button for preventing multiple click
-        this.submit_disabled = true;
-        this.show_spinner = true;
+                if ( this.submit_disabled ) {
+                    return;
+                }
+                // Disable submit button for preventing multiple click
+                this.submit_disabled = true;
+                this.show_spinner = true;
 
                 var args = {
                     data:{
                         title: this.title,
-            description: this.description,
+                        description: this.description,
                     }
                 }
                 this.newCategory(args);
