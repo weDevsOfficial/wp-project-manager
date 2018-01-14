@@ -24,33 +24,6 @@ weDevs_PM_Routers.push({
 	children: wedevsPMGetRegisterChildrenRoute('project_root')
 });
 
-//console.log(weDevs_PM_Routers);
-// weDevs_PM_Routers.push(active);
-// weDevs_PM_Routers.push(all);
-// weDevs_PM_Routers.push(completed);
-
-// weDevs_PM_Routers.push(general);
-// weDevs_PM_Routers.push(email);
-// weDevs_PM_Routers.push(categories);
-// weDevs_PM_Routers.push(add_ons);
-
-// if ( !PM_Vars.is_pro ) {
-// 	weDevs_PM_Routers.children.push(my_tasks);
-// 	weDevs_PM_Routers.children.push(calendar);
-// }
-
-// weDevs_PM_Routers.push(reports);
-// weDevs_PM_Routers.push(progress);
-// weDevs_PM_Routers.push(overview);
-// weDevs_PM_Routers.push(activities);
-// weDevs_PM_Routers.push(discussions);
-// weDevs_PM_Routers.push(single_discussion);
-// weDevs_PM_Routers.push(milestones);
-// weDevs_PM_Routers.push(task_lists);
-// weDevs_PM_Routers.push(single_list);
-// weDevs_PM_Routers.push(files);
-
-
 var router = new pm.VueRouter({
 	routes: weDevs_PM_Routers,
 });

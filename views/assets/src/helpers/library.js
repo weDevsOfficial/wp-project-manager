@@ -26,9 +26,9 @@ var scriptsLoaded = {
 
 window.pmPromise = new Promise(function(resolve, reject) {
 	require.ensure(
-		['vue'],
+		['vue/dist/vue.esm'],
 		function(require) {
-			require(['vue'], function(script) {
+			require(['vue/dist/vue.esm'], function(script) {
 				pm.Vue = script.default;
 			});
 		}

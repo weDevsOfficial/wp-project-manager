@@ -197,7 +197,7 @@
 .pm .pm-list-header-new-todo-btn {
   float: left;
 }
-.pm .pm-list-header-menu {
+/*.pm .pm-list-header-menu {
   float: right;
 }
 .pm .pm-lists-view {
@@ -231,7 +231,7 @@
   background-size: 16px 16px;
   background-position: 50%;
   background-repeat: no-repeat;
-}
+}*/
 .pm-left {
   float: left;
 }

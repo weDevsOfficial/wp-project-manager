@@ -35,6 +35,7 @@ class Project_Transformer extends TransformerAbstract {
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'created_at'          => format_date( $item->created_at ),
+            'capabilities'        => apply_filters( 'project_capabilities', $item )
         ];
     }
 
