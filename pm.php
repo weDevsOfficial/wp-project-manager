@@ -4,7 +4,7 @@
  * Plugin Name: WP Project Manager 2
  * Plugin URI : https://wordpress.org/plugins/wedevs-project-manager/
  * Description: Delightfull Project Management
- * Version    : 2
+ * Version    : 2.0.0
  * Author     : weDevs
  * Author URI : https://wedevs.com/
  * License    : GPL2

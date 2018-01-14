@@ -3,9 +3,9 @@
 namespace WeDevs\PM\Core\WP;
 
 use WeDevs\PM\Core\WP\Menu;
+use WeDevs\PM\Core\Upgrades\Upgrade;
 use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
-//use PM\Project\Project_Ajax;
 use WeDevs\PM\Core\File_System\File_System as File_System;
 
 class Frontend {
@@ -56,5 +56,6 @@ class Frontend {
 	public function instantiate() {
 		Register_Scripts::scripts();
 		Register_Scripts::styles();
+        new Upgrade();
 	}
 }
