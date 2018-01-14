@@ -690,7 +690,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         $settings = get_post_meta( $oldProjectId, '_settings', true);
         $this->save_object( new Settings, [
-            'key'        => 'settings',
+            'key'        => 'user_capabilities',
             'value'      => $settings,
             'project_id' => $newProject->id,
             'created_by' => $newProject->created_by,
