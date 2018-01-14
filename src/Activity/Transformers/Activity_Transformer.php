@@ -14,9 +14,14 @@ class Activity_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Activity $item ) {
+        if ( $item->action == 'cpm_migration' ){
+            $message = $item->meta['text'];
+        }else {
+            $message = pm_get_text( "activities.{$item->action}" ); 
+        }
         return [
             'id'            => (int) $item->id,
-            'message'       => pm_get_text( "activities.{$item->action}" ),
+            'message'       => $message,
             'action'        => $item->action,
             'action_type'   => $item->action_type,
             'meta'          => $this->parse_meta( $item ),
