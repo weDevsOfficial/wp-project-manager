@@ -53,9 +53,9 @@ class Upgrade_2_0 extends WP_Background_Process
         parent::complete();
         $this->isProcessRuning = false;
         $this->migrate_category();
+        $this->set_settings();
         error_log("task complete");
         // upgrade complete function
-        // update_option('pm_version', '2.0.0');
     }
 
     /**
@@ -684,7 +684,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
     }
 
-    protected function set_project_settings( $oldProjectId, $newPorject ) {
+    protected function set_project_settings( $oldProjectId, $newProject ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -692,8 +692,8 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->save_object( new Settings, [
             'key'        => 'settings',
             'value'      => $settings,
-            'project_id' => $newPorject->id,
-            'created_by' => $newPorject->created_by,
+            'project_id' => $newProject->id,
+            'created_by' => $newProject->created_by,
             'updated_by' => $newProject->updated_by,
             'created_at'  => $newProject->created_at,
             'updated_at'  => $newProject->updated_at,
@@ -865,13 +865,14 @@ class Upgrade_2_0 extends WP_Background_Process
         $page            = get_site_option('cpm_page', array());
         $woo_projects    = get_site_option('cpmwoo_settings', array());
         $cpm_integration = get_site_option('cpm_integration', array());
+        $projects        = get_site_option('pm_upgrade', array());
         $woo_project     = array();
-
-        if ( is_array($woo_project) && !empty($woo_project) ){
-            foreach ($woo_projects as $woo_project) {
+        
+        if ( is_array($woo_projects) && !empty($woo_projects) ){
+            foreach ($woo_projects as $wp ) {
                 $role =[];
-                if ( is_array($woo_project['role']) && !empty($woo_project['role']) ) {
-                    foreach ($woo_project['role'] as $key => $value) {
+                if ( is_array($wp['role']) && !empty($wp['role']) ) {
+                    foreach ($wp['role'] as $key => $value) {
                         $role[] = [
                             'user_id' => $key,
                             'role_id' => $value !== 'co_worker' ? 1 : 2,
@@ -880,9 +881,9 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
                 
                 $woo_project[]=[
-                    'action'      => $woo_project['type'],
-                    'product_ids' => array($woo_project['product_id']),
-                    'project_id'  => $woo_project['project_id'],
+                    'action'      => $wp['type'],
+                    'product_ids' => array($wp['product_id']),
+                    'project_id'  => $projects[$wp['project_id']],
                     'assignees'   => $role
                 ];
             }
@@ -907,7 +908,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'project'                   => !empty($page['project']) ? $page['project'] : '',
             'my_task'                   => !empty($page['my_task']) ? $page['my_task'] : '',
             'calendar'                  => !empty($page['calendar']) ? $page['calendar']: '',
-            'woo_project'               => $woo_project,
+            'woo_project'               => !empty($woo_project)? $woo_project: '',
             'after_order_complete'      => (!empty($cpm_integration['woo_duplicate']) && $cpm_integration['woo_duplicate'] == 'paid') ? true : false,
         ];
 

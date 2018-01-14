@@ -8,14 +8,7 @@ class Upgrade {
     ];
 
     public static $instance = null;
-    /**
-     * Current active erp modules
-     *
-     * @since 1.1.9
-     *
-     * @var array
-     */
-    private $active_modules = [];
+
     /**
      * Binding all events
      *
@@ -32,6 +25,10 @@ class Upgrade {
     }
 
     public function init_upgrades() {
+        if( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ){
+            return ;
+        }
+
         self::$updates = array_map( function ( $update ) {
             $class = str_replace( '/', '\\', __NAMESPACE__ );
             $class .= '\\' .$update;
@@ -39,6 +36,7 @@ class Upgrade {
                 return $update = new $class();
             }
         }, self::$updates);
+
     }
     /**
      * Check if need any update
@@ -48,7 +46,7 @@ class Upgrade {
      * @return boolean
      */
     public function is_needs_update() {
-        $installed_version = !empty( get_option( 'cpm_db_version' ))? get_option( 'cpm_db_version' ) : get_option( 'pm_db_version' );
+        $installed_version = !empty( get_site_option( 'cpm_db_version' ))? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('db_version');
         // may be it's the first install
         if ( ! $installed_version ) {
@@ -68,13 +66,13 @@ class Upgrade {
      * @return void
      */
     public function show_update_notice() {
-       // require_once 'Upgrade_2_0.php';
-        // if ( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ) {
-        //     return;
-        // }
-        // $installed_version  = get_option( 'cpm_db_version' );
-        // $updatable_versions = config('db_version');
-        // if ( ! is_null( $installed_version ) && version_compare( $installed_version, end( $updatable_versions ), '<' ) ) {
+
+        if ( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ) {
+            return;
+        }
+        $installed_version  = get_option( 'cpm_db_version' );
+        $updatable_versions = config('db_version');
+        if ( ! is_null( $installed_version ) && version_compare( $installed_version, end( $updatable_versions ), '<' ) ) {
             ?>
                 <div class="notice notice-warning">
                    
@@ -93,9 +91,9 @@ class Upgrade {
                     });
                 </script>
             <?php
-        // } else {
-        //     update_option( 'pm_db_version', $updatable_versions );
-        // }
+        } else {
+            update_option( 'pm_db_version', $updatable_versions );
+        }
     }
     /**
      * Do all updates when Run updater btn click
@@ -124,111 +122,22 @@ class Upgrade {
      */
     public function perform_updates() {
 
-        // if ( ! $this->is_needs_update() ) {
-        //     return;
-        // }
-        // $installed_version = get_option( 'pm_db_version' );
+        if ( ! $this->is_needs_update() ) {
+            return;
+        }
+         $installed_version = get_option( 'pm_db_version' );
 
          foreach (self::$updates as $version => $object ) {
-        //     //if ( version_compare( $installed_version, $version, '<' ) ) {
+            if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
                     $object->upgrade_init();
                 }
                 
-        //        // update_option( 'pm_db_version', $version );
-        //     //}
-        }
-        //update_option( 'pm_db_version', config('db_version') );
-        //exit();
-    }
-
-    protected function get_activity( $oldporjectId ) {
-        global $wpdb;
-        $activities = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE  comment_post_ID = {$oldporjectId} AND comment_type='cpm_activity' ORDER BY `comment_ID` ASC", ARRAY_A );
-        
-        foreach ($activities as $activity) {
-            list( $attr, $newCntent ) = $this->get_attr_array( $activity['comment_content'] );
-            
-            $meta = ['text' => $newCntent ];
-            $resource_type = "";
-            $resource_id   = 0;  
-            foreach ($attr as $key => $value) {
-
-                switch ($key) {
-                   
-                    case 'cpm_msg_url':
-                            //$resource_id = $discuss[$value['id']];
-                            $resource_type = 'discussion_board';
-                            $meta['discussion_board_title'] = $value['title'];
-                        break;
-                    case 'cpm_tasklist_url':
-                            //$resource_id = $tasklist[$value['id']];
-                            $resource_type = 'task_list';
-                            $meta['task_list_title'] = $value['title'];
-                        break;
-                    case 'cpm_task_url': 
-                            //$resource_id = $tasks[$value['id']];
-                            $resource_type = 'task_list';
-                            $meta['task_title'] = $value['title'];
-                        break;
-                    case 'cpm_comment_url':
-                            $resource_id = 0;
-                            $resource_type = '';
-                            $meta['comment_id'] = $value['id'];
-                        break;
-                    case 'cpm_user_url':
-                        break;  
-                       
-                }
+                update_option( 'pm_db_version', $version );
             }
-            //pmpr($activity['comment_content']);
-            pmpr($resource_type);
-            pmpr($resource_id);
-            pmpr($meta);
-            //$this->created_activity($activity, $resource_id, $resource_type, $meta, $newProjectId );
-              
         }
-        die();
-        
+        update_option( 'pm_db_version', config('db_version') );
+        exit();
     }
-
-    protected function created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId ) {
-        $this->save_object(new Activity, [
-            'actor_id'      => $activity['user_id'],
-            'action'        => 'cpm_migration',
-            'action_type'   => 'migrated',
-            'resource_id'   => $resource_id,
-            'resource_type' => $resource_type,
-            'meta'          => $meta,
-            'project_id'    => $newProjectId,
-            'created_at'    => $activity['comment_date'],
-            'updated_at'    => $activity['comment_date'],
-        ]);
-    }
-
-
-    protected function get_attr_array( $str ) {
-        $attr = [];
-        $arr  = [
-            'cpm_msg_url'      => '{{meta.discussion_board_title}}',
-            'cpm_user_url'     => '{{actor.data.display_name}}',
-            'cpm_task_url'     => '{{meta.task_title}}',
-            'cpm_tasklist_url' => '{{meta.task_list_title}}',
-            'cpm_comment_url'  => '{{meta.comment_id}}'
-        ];
-        $text = $str;
-        $pattern = get_shortcode_regex();
-            
-        $sdf     = preg_replace_callback( "/$pattern/s", function ( $match ) use ( &$attr, $arr, &$text ) {
-
-            $text = str_replace($match[0], $arr[$match[2]], $text );
-
-            $attr[$match[2]] = shortcode_parse_atts( $match[3] );
-
-        }, $str );
-
-        return array($attr, $text);
-    }
-
 }
