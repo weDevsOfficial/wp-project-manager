@@ -17,23 +17,40 @@ class Settings_Controller {
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
+        $key        = $request->get_param( 'key' );
 
-        if ( $project_id ) {
+        if ( $project_id && $key ) {
+            $settings = Settings::where( 'project_id', $project_id )
+                ->where( 'key', $key )
+                ->first();
+            $resource = new Item( $settings, new Settings_Transformer );
+
+            return $this->get_response( $resource );
+        } else if ( $key ) {
+            $settings = Settings::where( 'key', $key )->get();
+            $resource = new Collection( $settings, new Settings_Transformer );
+
+            return $this->get_response( $resource );
+        } else if ( $project_id ) {
             $settings = Settings::where( 'project_id', $project_id )->get();
+            $resource = new Collection( $settings, new Settings_Transformer );
+
+            return $this->get_response( $resource );
         } else {
             $settings = Settings::whereNull( 'project_id' )->get();
+            $resource = new Collection( $settings, new Settings_Transformer );
+
+            return $this->get_response( $resource );
         }
 
-        $resource = new Collection( $settings, new Settings_Transformer );
-
-        return $this->get_response( $resource );
+        
     }
 
     public function store( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
         $project_id = $request->get_param( 'project_id' );
         $settings = $request->get_param( 'settings' );
-
+        
         if ( is_array( $settings ) ) {
             $settings_collection = [];
 
@@ -67,5 +84,18 @@ class Settings_Controller {
         $settings->update_model( $data );
 
         return $settings;
+    }
+
+    public function pluck_without_project(WP_REST_Request $request) {
+        $key = $request->get_param('key');
+
+        return pm_get_settings( $kye );
+    }
+
+    public function pluck_with_project(WP_REST_Request $request) {
+        $project_id = $request->get_param('project_id');
+        $key        = $request->get_param('key');
+
+        return pm_get_settings( $kye, $project_id );
     }
 }

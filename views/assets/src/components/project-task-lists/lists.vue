@@ -22,7 +22,9 @@
                         <new-task-list-btn></new-task-list-btn>
                     </div>
                     <div class="pm-right-inline-list-element">
+                        
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
+                           
                     </div>
                     <div class="pm-clearfix"></div>
                 </div>
@@ -197,8 +199,7 @@
 
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getSelfLists();
-                vm.getGlobalMilestones();
+                
             });
         }, 
         components: {
@@ -243,8 +244,27 @@
         },
 
         created () {
-            this.$store.state.projectTaskLists.is_single_list = false;
-            this.isSingleTask();
+            var self = this;
+
+            this.getViewType(function(res) {
+                
+                if ( res.value == 'list' ) {
+                    self.$store.state.projectTaskLists.is_single_list = false;
+                    self.isSingleTask();
+                    self.getSelfLists();
+                    self.getGlobalMilestones();
+
+                } else if ( res.value == 'kanboard' ) {
+                    
+                    self.$router.push({
+                        name: 'kanboard'
+                    });
+                }
+
+            });
+            
+            
+            
         },
 
         computed: {

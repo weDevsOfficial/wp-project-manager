@@ -1,5 +1,6 @@
 export default new pm.Vuex.Store({
     state: {
+        is_need_fetch_view_type: true,
         projects: [],
         project: {},
         project_users: [],
@@ -11,6 +12,7 @@ export default new pm.Vuex.Store({
         is_project_form_active: false,
         projects_meta: {},
         pagination: {},
+        listView: 'list',
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
@@ -26,6 +28,9 @@ export default new pm.Vuex.Store({
     },
 
     mutations: {
+        listViewType (state, view_type) {
+            state.listView = view_type;
+        },
         isSigleTask (state, status) {
             state.is_single_task = status;
         },
@@ -131,6 +136,10 @@ export default new pm.Vuex.Store({
         setMilestones(state, milestones){
             state.milestones = milestones;
             state.milestones_load = true;
+        },
+
+        is_need_fetch_view_type (state, status) {
+            state.is_need_fetch_view_type = status;
         }
     }
     

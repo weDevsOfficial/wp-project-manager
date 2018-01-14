@@ -7,7 +7,7 @@ var PM_TaskList_Mixin = {
 
     data () {
         return {
-
+            
         }
     },
 
