@@ -5,51 +5,51 @@ export default{
         }
     },
     methods: {
-        saveSettings (settings, callback) {
-            var settings = this.formatSettings(settings),
-                self = this;
-
-            var request = {
-                url: self.base_url + '/pm/v2/settings',
-                data: {
-                    settings: settings
-                },
-                type: 'POST',
-                success (res) {
-                    pm.Toastr.success(res.message);
-                    if (typeof callback !== 'undefined') {
-                        callback();
-                    }
-                }
-            };
+        // saveSettings (settings, callback) {
+        //     var settings = this.formatSettings(settings),
+        //         self = this;
+                
+        //     var request = {
+        //         url: self.base_url + '/pm/v2/settings',
+        //         data: {
+        //             settings: settings
+        //         },
+        //         type: 'POST',
+        //         success (res) {
+        //             pm.Toastr.success(res.message);
+        //             if (typeof callback !== 'undefined') {
+        //                 callback();
+        //             }
+        //         }
+        //     };
             
-            self.httpRequest(request);
-        },
+        //     self.httpRequest(request);
+        // },
 
-        formatSettings (settings) {
-            var data = [];
+        // formatSettings (settings) {
+        //     var data = [];
 
-            jQuery.each(settings, function(name, value) {
-                data.push({
-                    key: name,
-                    value: value
-                });
-            });
+        //     jQuery.each(settings, function(name, value) {
+        //         data.push({
+        //             key: name,
+        //             value: value
+        //         });
+        //     });
 
-            return data;
-        },
+        //     return data;
+        // },
 
-        getSettings (key, pre_define ) {
-            var pre_define   = pre_define || false,
-                settings  = PM_Vars.settings;
+        // getSettings (key, pre_define ) {
+        //     var pre_define   = pre_define || false,
+        //         settings  = PM_Vars.settings;
 
-            if ( typeof PM_Vars.settings[key] === 'undefined' ) {
-                return pre_define;
-            }
+        //     if ( typeof PM_Vars.settings[key] === 'undefined' ) {
+        //         return pre_define;
+        //     }
 
-            return PM_Vars.settings[key];
+        //     return PM_Vars.settings[key];
 
-        }
+        // }
     }
 }
 

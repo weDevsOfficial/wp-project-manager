@@ -42,6 +42,10 @@ export default pm.Vue.mixin({
             if ( date == '' ) {
                 return;
             }      
+
+            date = new Date(date);
+            date = pm.Moment(date).format('YYYY-MM-DD');
+
             var format = 'MMM DD';
 
             return pm.Moment( date ).format( String( format ) );
@@ -648,6 +652,92 @@ export default pm.Vue.mixin({
                 }
             });
             return diff;
+        },
+
+        saveSettings (settings, project_id, callback) {
+            var settings = this.formatSettings(settings),
+                project_id = project_id || false,
+                self = this;
+            
+            var url = project_id 
+                ? self.base_url + '/pm/v2/projects/'+project_id+'/settings' 
+                : self.base_url + '/pm/v2/settings';
+
+            var request = {
+                url: url,
+                data: {
+                    settings: settings
+                },
+                type: 'POST',
+                success (res) {
+                    //pm.Toastr.success(res.message);
+                    if (typeof callback !== 'undefined') {
+                        callback(res.data);
+                    }
+                }
+            };
+            
+            self.httpRequest(request);
+        },
+
+        formatSettings (settings) {
+            var data = [];
+
+            jQuery.each(settings, function(name, value) {
+                data.push({
+                    key: name,
+                    value: value
+                });
+            });
+
+            return data;
+        },
+
+        getSettings (key, pre_define ) {
+            var pre_define   = pre_define || false,
+                settings  = PM_Vars.settings;
+
+            if ( typeof PM_Vars.settings[key] === 'undefined' ) {
+                return pre_define;
+            }
+
+            return PM_Vars.settings[key];
+
+        },
+
+        getViewType(callback) {
+            let is_need_fetch_view_type = this.$store.state.is_need_fetch_view_type;
+
+            if ( !is_need_fetch_view_type ) {
+                callback(
+                    {
+                        'value': this.$store.state.listView
+                    }
+                );
+                return;
+            }
+
+            var self = this;
+            var request = {
+                url: self.base_url + '/pm/v2/projects/'+this.project_id+'/settings?key=list_view_type',
+                data: {},
+                type: 'GET',
+                success (res) {
+                    
+                    self.$store.commit('is_need_fetch_view_type', false);
+                    self.setViewType(res.data.value);
+
+                    if (typeof callback !== 'undefined') {
+                        callback(res.data);
+                    }
+                }
+            };
+
+            self.httpRequest(request);
+        },
+
+        setViewType(view_type) {
+            this.$store.commit('listViewType', view_type);
         }
     }
 });

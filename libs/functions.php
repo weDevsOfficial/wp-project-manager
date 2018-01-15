@@ -88,12 +88,18 @@ function pm_get_wp_roles() {
     return $wp_roles->get_names();
 }
 
-function pm_get_settings( $key = null ) {
+function pm_get_settings( $key = null, $project_id = false ) {
     $settings = null;
     $all_settings = null;
 
-    if ( $key ) {
-        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )->first();
+    if ( $key && $project_id ) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->where('project_id', $project_id)
+            ->first();
+    
+    } else if ($key) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->first();
     } else {
         $all_settings = \WeDevs\PM\Settings\Models\Settings::all();
     }
