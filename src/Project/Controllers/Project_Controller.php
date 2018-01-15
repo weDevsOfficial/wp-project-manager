@@ -134,6 +134,8 @@ class Project_Controller {
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
 
+		do_action( 'pm_afer_new_project', $response, $request->get_params() );
+
         return $response;
 	}
 
