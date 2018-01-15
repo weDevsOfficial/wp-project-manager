@@ -7,6 +7,7 @@
 .env
 .DS_Store
 .travis.yml
+npm-debug.log
 /bin/
 /tests/bootstrap.php
 /tests/test-sample.php

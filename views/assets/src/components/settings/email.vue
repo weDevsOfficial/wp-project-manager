@@ -90,7 +90,7 @@
                     email_type: this.email_type,
                     enable_bcc: this.enable_bcc
                 };
-
+                
 
                 this.saveSettings(data, function(res) {
                     self.show_spinner = false;

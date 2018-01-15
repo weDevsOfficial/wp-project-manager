@@ -146,9 +146,9 @@ export default {
                 managing_capability: this.managing_capability,
                 project_create_capability: this.project_create_capability
             };
+            
 
-
-            this.saveSettings(data, function(res) {
+            this.saveSettings(data, false, function(res) {
                 self.show_spinner = false;
             });
         },
