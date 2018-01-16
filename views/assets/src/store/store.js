@@ -1,5 +1,6 @@
 export default new pm.Vuex.Store({
     state: {
+        manageCapability: PM_Pro_Vars.manage_capability,
         is_need_fetch_view_type: true,
         projects: [],
         project: {},

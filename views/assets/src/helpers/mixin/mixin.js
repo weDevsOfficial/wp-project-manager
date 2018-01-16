@@ -11,6 +11,153 @@ export default pm.Vue.mixin({
     },
 
     methods: {
+        user_can(cap, project, user) {
+            user    = user || PM_Vars.current_user;
+            project = project || this.$store.state.project;
+
+            if ( this.has_manage_capability() ) {
+                return true;
+            }
+
+            if ( ! this.is_user_in_project(project, user) ) {
+                return false;
+            }
+
+            if( this.is_manager() ) {
+                return true;
+            }
+
+            var role = this.get_role(project, user);
+
+            if ( !role ) {
+                return false;
+            }
+
+            var role_caps = this.get_role_caps( project, role );
+
+            if ( 
+                role_caps.hasOwnProperty(cap) 
+                &&
+                (
+                    role_caps[cap] === true
+                    ||
+                    role_caps[cap] === 'true'
+                )
+            ) {
+                return true;
+            }
+
+            return false;
+
+        },
+
+        get_role_caps (project, role) {
+            project = project || this.$store.state.project;
+
+            var default_project = {
+                capabilities: {}
+            },
+            project = jQuery.extend(true, default_project, project );
+            
+            if( project.capabilities.hasOwnProperty(role) ) {
+                return project.capabilities[role];
+            } else {
+                return [];
+            }
+        },
+
+        get_role (project, user) {
+            user    = user || PM_Vars.current_user;
+            project = project || this.$store.state.project;
+
+            var default_project = {
+                assignees: {
+                    data: []
+                }
+            },
+            project = jQuery.extend(true, default_project, project );
+
+            var index = this.getIndex( project.assignees.data, user.ID, 'id' );
+
+            if ( index === false ) {
+                return false;
+            }
+
+            var project_user = project.assignees.data[index];
+            
+            return project_user.roles.data.length ? project_user.roles.data[0].slug : false;
+        },
+
+        is_manager (project, user) {
+            user    = user || PM_Vars.current_user;
+            project = project || this.$store.state.project;
+
+            var default_project = {
+                assignees: {
+                    data: []
+                }
+            },
+            project = jQuery.extend(true, default_project, project );
+
+            var index = this.getIndex( project.assignees.data, user.ID, 'id' );
+
+            if ( index === false ) {
+                return false;
+            }
+
+            var project_user = project.assignees.data[index];
+            var role_index   = this.getIndex( project_user.roles.data, 'manager', 'slug' );
+
+            if ( role_index !== false ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        has_manage_capability (user) {
+            var manage_caps = this.$store.state.manageCapability;
+            user = user || PM_Vars.current_user;
+
+            var common = this.intersect(user.roles, manage_caps);
+
+            if ( common.length ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        intersect(a, b) {
+            var d = {};
+            var results = [];
+            for (var i = 0; i < b.length; i++) {
+                d[b[i]] = true;
+            }
+            for (var j = 0; j < a.length; j++) {
+                if (d[a[j]]) 
+                    results.push(a[j]);
+            }
+            return results;
+        },
+
+        is_user_in_project (project, user) {
+            var user_id = user.ID;
+            var default_project = {
+                assignees: {
+                    data: []
+                }
+            },
+            project = jQuery.extend(true, default_project, project );
+            
+            var index = this.getIndex(project.assignees.data, user_id, 'id');
+
+            if ( index === false ) {
+                return false;
+            }
+
+            return true;
+        },
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
         },
@@ -691,18 +838,6 @@ export default pm.Vue.mixin({
             });
 
             return data;
-        },
-
-        getSettings (key, pre_define ) {
-            var pre_define   = pre_define || false,
-                settings  = PM_Vars.settings;
-
-            if ( typeof PM_Vars.settings[key] === 'undefined' ) {
-                return pre_define;
-            }
-
-            return PM_Vars.settings[key];
-
         },
 
         getViewType(callback) {

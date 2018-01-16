@@ -31,7 +31,7 @@ var router = new pm.VueRouter({
 router.beforeEach((to, from, next) => {
   	pm.NProgress.start();
 	next();
-})
+});
 
 export default router;
 

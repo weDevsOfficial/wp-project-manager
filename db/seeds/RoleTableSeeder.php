@@ -18,12 +18,14 @@ class RoleTableSeeder extends Seeder
             Role::insert([
                 [
                     'title'       => 'Manager',
+                    'slug'        => 'manager',
                     'description' => 'Manager is a person who manages the project.',
                     'created_at'  => Carbon::now(),
                     'updated_at'  => Carbon::now(),
                 ],
                 [
                     'title'       => 'Co Worker',
+                    'slug'        => 'co_worker',
                     'description' => 'Co-worker is person who works under a project.',
                     'created_at'  => Carbon::now(),
                     'updated_at'  => Carbon::now(),
