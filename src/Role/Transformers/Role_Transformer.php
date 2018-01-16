@@ -13,6 +13,7 @@ class Role_Transformer extends TransformerAbstract {
             'title'       => $item->title,
             'description' => $item->description,
             'created_at'  => format_date( $item->created_at ),
+            'slug'        => $item->slug
         ];
     }
 }

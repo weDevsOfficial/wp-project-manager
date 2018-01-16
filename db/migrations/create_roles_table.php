@@ -9,6 +9,7 @@ class Create_Roles_Table extends Migration {
         Capsule::schema()->create( 'pm_roles', function( $table ) {
             $table->bigIncrements( 'id' );
             $table->string( 'title' );
+            $table->string( 'slug' );
             $table->text( 'description' )->nullable();
             $table->unsignedInteger( 'created_by' )->nullable();
             $table->unsignedInteger( 'updated_by' )->nullable();

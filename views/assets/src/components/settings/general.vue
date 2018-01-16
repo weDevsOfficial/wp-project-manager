@@ -147,7 +147,7 @@ export default {
                 project_create_capability: this.project_create_capability
             };
             
-
+            
             this.saveSettings(data, false, function(res) {
                 self.show_spinner = false;
             });

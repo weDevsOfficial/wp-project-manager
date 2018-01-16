@@ -89,7 +89,7 @@ function pm_get_wp_roles() {
 }
 
 function pm_get_settings( $key = null, $project_id = false ) {
-    $settings = null;
+    $settings     = null;
     $all_settings = null;
 
     if ( $key && $project_id ) {
