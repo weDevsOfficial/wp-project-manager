@@ -16,6 +16,7 @@ use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Role\Models\Role;
 
 class Project extends Eloquent {
 
@@ -94,5 +95,15 @@ class Project extends Eloquent {
 
     public function meta() {
         return $this->hasMany( Meta::class, 'project_id' );
+    }
+
+    public function managers() {
+        $role_id = Role::where('slug', 'manager')->first()->id;
+        return $this->assignees()->where('role_id', $role_id);
+    }
+
+    public function co_workers() {
+        $role_id = Role::where('slug', 'co_worker')->first()->id;
+        return $this->assignees()->where('role_id', $role_id);
     }
 }

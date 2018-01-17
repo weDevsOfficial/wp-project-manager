@@ -113,7 +113,7 @@ class Task_Observer extends Model_Observer {
             'task_status_old' => Task::$status[$old_value],
             'task_status_new' => $item->status,
         ];
-
+        do_action( 'pm_changed_task_status', $item, $old_value );
         $this->log_activity( $item, 'update_task_status', 'update', $meta );
     }
 

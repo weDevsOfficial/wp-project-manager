@@ -7,11 +7,11 @@ namespace WeDevs\PM\Core\Notifications\Emails;
 */
 use WeDevs\PM\Core\Notifications\Email;
 
-class New_Project_Notification extends Email {
+class Update_Project_Notification extends Email {
     
     function __construct() {
 
-        add_action('pm_after_new_project_notification', array($this, 'trigger'), 10, 2 );
+        add_action('pm_after_update_project_notification', array($this, 'trigger'), 10, 2 );
     }
 
     public function trigger( $project, $data ) {
@@ -20,8 +20,8 @@ class New_Project_Notification extends Email {
             return ;
         }
 
-        $template_name = apply_filters( 'pm_new_porject_email_template_path', $this->get_template_path( '/html/new-project.php' ) );
-        $subject       = sprintf( __( '[%s] New Project Invitation: %s', 'pm' ), $this->get_blogname(), $project['data']['title'] );
+        $template_name = apply_filters( 'pm_new_porject_email_template_path', $this->get_template_path( '/html/update-project.php' ) );
+        $subject       = sprintf( __( '[%s] Updated Project: %s', 'pm' ), $this->get_blogname(), $project['data']['title'] );
         $assignees     = $project['data']['assignees']['data'];
         $users         = array();
 

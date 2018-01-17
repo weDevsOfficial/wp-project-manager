@@ -901,7 +901,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'project_create_capability' => !empty($genral['project_create_role'])? array_values($genral['project_create_role']) : array('administrator', 'editor', 'author'),
             'task_start_field'          => (!empty($genral['task_start_field']) &&  $genral['task_start_field']  == 'on' ) ? true : false,
             'daily_digest'              => (!empty($genral['daily_digest']) && $genral['daily_digest'] == 'on') ? true : false,
-            'from_email'                => !empty($mail['email_from']) ? $mail['email_from'] : bloginfo('admin_email'),
+            'from_email'                => !empty($mail['email_from']) ? $mail['email_from'] : get_bloginfo('admin_email'),
             'link_to_backend'           => (!empty($mail['email_url_link']) && $mail['email_url_link'] == 'frontend') ? false: true,
             'email_type'                => !empty($mail['email_type']) ? $mail['email_type']: 'text/plain',
             'enable_bcc'                => (!empty($mail['email_bcc_enable']) && $mail['email_bcc_enable'] == 'on') ? true: false,
