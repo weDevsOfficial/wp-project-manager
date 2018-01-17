@@ -12,6 +12,13 @@ namespace WeDevs\PM\Core\Notifications;
 * @author   weDevs
 */
 use WeDevs\PM\Core\Notifications\Emails\New_Project_Notification;
+use WeDevs\PM\Core\Notifications\Emails\Update_Project_Notification;
+use WeDevs\PM\Core\Notifications\Emails\New_Message_Notification;
+use WeDevs\PM\Core\Notifications\Emails\New_Comment_Notification;
+use WeDevs\PM\Core\Notifications\Emails\Update_Comment_Notification;
+use WeDevs\PM\Core\Notifications\Emails\New_Task_Notification;
+use WeDevs\PM\Core\Notifications\Emails\Update_Task_Notification;
+use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
 
  class Notification
  {
@@ -29,7 +36,14 @@ use WeDevs\PM\Core\Notifications\Emails\New_Project_Notification;
      */
     public static function init_transactional_emails() {
         $email_actions = apply_filters( 'pm_notification_action', array(
-            'pm_new_project'
+            'pm_after_new_project',
+            'pm_after_update_project',
+            'pm_after_new_message',
+            'pm_after_create_task',
+            'pm_after_update_task',
+            'pm_changed_task_status',
+            'pm_after_new_comment',
+            'pm_after_update_comment'
         ) );
 
         if ( apply_filters( 'pm_transactional_emails', false ) ) {
@@ -116,6 +130,13 @@ use WeDevs\PM\Core\Notifications\Emails\New_Project_Notification;
      
     function __construct() {
         new New_Project_Notification();
+        new Update_Project_Notification();
+        new New_Message_Notification();
+        new New_Comment_Notification();
+        new Update_Comment_Notification();
+        new New_Task_Notification();
+        new Update_Task_Notification();
+        new Complete_Task_Notification();
     }
 
  }
