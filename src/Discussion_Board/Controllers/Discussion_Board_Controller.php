@@ -75,7 +75,9 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_created')
         ];
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_new_message', $response, $request->get_params() );
+        return $response;
     }
 
     public function update( WP_REST_Request $request ) {
@@ -111,7 +113,9 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_updated')
         ];
-        return $this->get_response( $resource, $message);
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_update_message', $response, $request->get_params() );
+        return $response;
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -121,7 +125,7 @@ class Discussion_Board_Controller {
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        do_action( 'pm_before_delete_message', $discussion_board, $request->get_params() );
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();
@@ -136,7 +140,7 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_deleted')
         ];
-
+        do_action( 'pm_after_delete_message', $request->get_params() );
         return $this->get_response(false, $message);
     }
 

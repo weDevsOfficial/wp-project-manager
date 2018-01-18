@@ -75,7 +75,6 @@ class Task_Controller {
         if ( $project ) {
             $task = Task::create( $data );
 
-            do_action('pm_after_create_task', $task, $request);
         }
 
         if ( $task && $board ) {
@@ -98,6 +97,8 @@ class Task_Controller {
         $message = [
             'message' => pm_get_text('success_messages.task_created')
         ];
+        
+        do_action('pm_after_create_task', $task, $request->get_params() );
 
         return $this->get_response( $resource, $message );
     }
@@ -171,7 +172,7 @@ class Task_Controller {
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
-
+        do_action('pm_after_update_task', $task, $request->get_params() );
         return $this->get_response( $resource, $message );
     }
 
@@ -184,7 +185,7 @@ class Task_Controller {
         $task = Task::where( 'id', $task_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        do_action("pm_before_delete_task", $task, $request->get_params() );
         // Delete relations assoicated with the task
         $task->boardables()->delete();
         $task->files()->delete();
