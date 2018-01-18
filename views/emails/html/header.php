@@ -1,7 +1,7 @@
 <?php
 $logo_path   =  config('frontend.assets_url') .'images/pm-logo-white.svg';
-$date        = cpm_date2mysql( current_time( 'mysql' ) );
-$custom_date = date( 'l, d F Y', strtotime( $date ) );
+// $date        = cpm_date2mysql( current_time( 'mysql' ) );
+// $custom_date = date( 'l, d F Y', strtotime( $date ) );
 $calendar    = config('frontend.assets_url')  . 'images/calendar.png';
 ?>
 
@@ -16,7 +16,7 @@ $calendar    = config('frontend.assets_url')  . 'images/calendar.png';
                         <div style="float: left; margin-left: 30px;  padding: 20px;"><a href="<?php echo home_url(); ?>"><span style="background: url(<?php echo $logo_path; ?>)"></span></a></div>
                         <div style="float: right; margin-right: 50px; margin-top: 33px;">
                             <img style="float: left;" src="<?php echo $calendar; ?>">
-                            <div style="float: right; margin: 3px 10px; font-family: arial; font-size: 13px;"><?php echo $custom_date; ?></div>
+                            <div style="float: right; margin: 3px 10px; font-family: arial; font-size: 13px;"><?php  //echo $custom_date; ?></div>
                             <div style="clear: both;"></div>
                         </div>
                         <div style="clear: both;"></div>

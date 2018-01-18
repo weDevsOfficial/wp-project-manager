@@ -147,4 +147,9 @@ trait Task_Model_Trait {
             $this->attributes['complexity'] = $key;
         }
     }
+
+
+    public function getPrivacyAtAttribute() {
+        return $this->mates()->where('meta_key', 'privacy')->first()->meta_value === 1;
+    }
 }

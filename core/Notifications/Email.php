@@ -38,12 +38,19 @@ abstract class Email{
         $parent_theme_dir = get_template_directory() . '/pm/emails';
         $mail_dir         = config('frontend.view_path'). '/emails';
 
+        if (function_exists('pm_pro_config')) {
+            $pro_dir      = pm_pro_config('define.view_path').'/emails';
+        }
+        
+
         if ( file_exists( $child_theme_dir . $template_name ) ) {
             return $child_theme_dir . $template_name;
         } else if ( file_exists( $parent_theme_dir . $template_name ) ) {
             return $parent_theme_dir . $template_name;
-        } else {
+        } else if ( file_exists( $mail_dir . $template_name )) {
             return $mail_dir . $template_name;
+        }else {
+            return  $pro_dir . $template_name;
         }
     }
 
