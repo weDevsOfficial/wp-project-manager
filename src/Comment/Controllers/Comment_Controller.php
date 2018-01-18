@@ -86,8 +86,9 @@ class Comment_Controller {
         $message = [
             'message' => pm_get_text('success_messages.comment_created')
         ];
-
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_new_comment', $response, $request->get_params());
+        return $response;
     }
 
     public function update( WP_REST_Request $request ) {
@@ -121,7 +122,9 @@ class Comment_Controller {
             'message' => pm_get_text('success_messages.comment_updated')
         ];
 
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_update_comment', $response, $request->get_params());
+        return $response;
     }
 
     public function destroy( WP_REST_Request $request ) {
