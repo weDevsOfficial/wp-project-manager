@@ -12,6 +12,7 @@ use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Common\Models\Meta;
 use Carbon\Carbon;
 
 
@@ -94,4 +95,10 @@ class Task extends Eloquent {
     public function task_model( $key = '' ) {
         return apply_filters( 'task_model', $this, $key );
     }
+
+    public function metas() {
+        return $this->hasMany( Meta::class, 'entity_id' )
+            ->where( 'entity_type', 'task' );
+    }
+
 }
