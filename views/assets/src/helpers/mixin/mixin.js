@@ -858,9 +858,13 @@ export default pm.Vue.mixin({
                 data: {},
                 type: 'GET',
                 success (res) {
-                    
                     self.$store.commit('is_need_fetch_view_type', false);
-                    self.setViewType(res.data.value);
+                    if ( res.length ) {
+                        self.setViewType(res.data.value);
+                    }else {
+                        self.setViewType('list');
+                    }
+                    
 
                     if (typeof callback !== 'undefined') {
                         callback(res.data);

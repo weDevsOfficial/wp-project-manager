@@ -23,8 +23,11 @@ class Settings_Controller {
             $settings = Settings::where( 'project_id', $project_id )
                 ->where( 'key', $key )
                 ->first();
-            $resource = new Item( $settings, new Settings_Transformer );
-
+            if( $settings ){
+                $resource = new Item( $settings, new Settings_Transformer );
+            }else{
+               $resource = null; 
+            }
             return $this->get_response( $resource );
         } else if ( $key ) {
             $settings = Settings::where( 'key', $key )->get();
