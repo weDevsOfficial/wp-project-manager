@@ -247,7 +247,9 @@
             var self = this;
 
             this.getViewType(function(res) {
-                
+                if ( typeof res === 'undefined' ) {
+                    res ={ 'value' : 'list'}
+                }
                 if ( res.value == 'list' ) {
                     self.$store.state.projectTaskLists.is_single_list = false;
                     self.isSingleTask();
