@@ -105,7 +105,10 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>                            
+                    </table> 
+
+                    <pm-do-action hook="pm_after_settings"></pm-do-action>
+
                     <div style="padding-left: 10px">
                         <p class="submit">
                             <input type="submit" name="submit" id="submit" class="button button-primary" :value="text.save_changes">
@@ -146,8 +149,8 @@ export default {
                 managing_capability: this.managing_capability,
                 project_create_capability: this.project_create_capability
             };
-            
-            
+            data = pm_apply_filters('setting_data', data);
+
             this.saveSettings(data, false, function(res) {
                 self.show_spinner = false;
             });
