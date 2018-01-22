@@ -92,7 +92,7 @@
                 };
                 
 
-                this.saveSettings(data, function(res) {
+                this.saveSettings(data, '', function(res) {
                     self.show_spinner = false;
                 });
             },
