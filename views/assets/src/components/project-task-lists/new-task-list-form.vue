@@ -21,7 +21,7 @@
                     </option>
                 </select>
             </div>
-            
+            <pm-do-action hook="pm_task_list_form" :actionData="list" ></pm-do-action>
             <div class="item submit">
                 <input v-if="list.edit_mode" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.update_list">
                 <input v-if="!list.edit_mode" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="text.add_list">

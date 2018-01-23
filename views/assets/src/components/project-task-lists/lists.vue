@@ -47,11 +47,12 @@
                                     {{ list.title }}
                                     
                                     </router-link>
-                                    <span :class="privateClass(list)"></span>
+                                    
                                     <!-- v-if="list.can_del_edit" -->
                                     <div class="pm-right">
                                         <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" ><span :class="privateClass( list.privacy )"></span></a>
                                     </div>
                                 </h3>
 

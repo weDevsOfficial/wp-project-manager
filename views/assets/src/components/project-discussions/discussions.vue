@@ -67,7 +67,7 @@
                     <div class="pm-message-list pm-col-12 pm-sm-col-12">
                         <div class="pm-box-title">{{text.discussion_list}}</div>
                         <ul class="dicussion-list">        
-                            <li class="pm-col-12" v-for="discuss in discussion" key="discuss.id">
+                            <li class="pm-col-12" v-for="discuss in discussion" :key="discuss.id">
                                 <div class="pm-col-9">
                                     
                                     <router-link 
@@ -98,7 +98,7 @@
                                             <span class="dashicons dashicons-trash"></span>
                                         </a>
 
-                                        <span class="pm-unlock"></span>
+                                        <span :class="privateClass( discuss )"></span>
                                     </span>
                                 </div>
 
@@ -208,7 +208,7 @@
                 this.getDiscussion(args);
             },
 
-            deleteSelfDiscuss (id) {
+            deleteSelfDiscuss ( id ) {
                 var self = this;
                 var args = {
                     discuss_id: id,

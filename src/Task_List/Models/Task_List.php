@@ -10,6 +10,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Models\Meta;
 
 class Task_List extends Eloquent {
     use Model_Events;
@@ -64,6 +65,11 @@ class Task_List extends Eloquent {
         return $this->belongsToMany( Milestone::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'task_list' );
+    }
+
+    public function metas() {
+        return $this->hasMany( Meta::class, 'entity_id' )
+            ->where( 'entity_type', 'task_list' );
     }
 
 }

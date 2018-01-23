@@ -217,18 +217,15 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 data: {
-                  title : '',
-                  description: '',
-                  milestone: '',
                   order: 0
                 },
                 callback: false,
             },
             args = jQuery.extend(true, pre_define, args );
-
+            var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists',
-                data: args.data,
+                data: data,
                 type: 'POST',
                 success (res) {
                     self.addMetaList(res.data);
@@ -267,19 +264,15 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 data: {
-                    id: '',
-                    title : '',
-                    description: '',
-                    milestone: '',
                     order: 0
                 },
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
-
+            var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id,
-                data: args.data,
+                data: data,
                 type: 'PUT',
                 success (res) {
                     self.addMetaList(res.data);
@@ -701,16 +694,7 @@ var PM_TaskList_Mixin = {
         showHideListCommentEditForm ( comment ) {
             comment.edit_mode = comment.edit_mode ? false : true; 
         },
-
-        /**
-         * private task class for lock
-         * @param  {Object} list task list
-         * @return {String}      pm-lock
-         */
-        privateClass ( list ) {
-            return list.private == 'on' ? 'pm-lock' : '';
-        },
-
+        
         /**
          * Incomplete task load more Button
          * @param  {[Object]}  list [Task List object]
@@ -1153,6 +1137,17 @@ var PM_TaskList_Mixin = {
         is_assigned: function(task) {
                        
             return true;
+        },
+
+        privateClass ( privacy ){
+            if( typeof privacy !== 'undefined' ){
+                if ( privacy ){
+                    return 'dashicons dashicons-lock'
+                }else {
+                    return 'dashicons dashicons-unlock'
+                }
+                
+            }
         }
     }
 }

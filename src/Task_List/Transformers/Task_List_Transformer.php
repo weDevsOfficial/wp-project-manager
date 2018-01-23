@@ -31,7 +31,7 @@ class Task_List_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Task_List $item ) {
-        return [
+        $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
@@ -46,6 +46,8 @@ class Task_List_Transformer extends TransformerAbstract {
                 'total_assignees'        => $item->assignees()->count(),
             ]
         ];
+
+        return apply_filters( 'pm_task_list_transform', $data, $item );
     }
 
     public function includeAssignees( Task_List $item ) {

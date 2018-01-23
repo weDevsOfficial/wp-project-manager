@@ -1177,7 +1177,11 @@ ul.pm-activity ul li:before {
 .pm-comment-form,
 .pm-message-form,
 .pm-milestone-form {
-  font-size: 13px;
+    font-size: 13px;
+}
+.pm-message-page ul.dicussion-list .pm-message-form {
+    padding-right: 10px;
+    padding-left: 5px;
 }
 .pm-comment-form label.notify,
 .pm-message-form label.notify,
@@ -3438,7 +3442,7 @@ a.pm-icon-tick.grey {
   border-left: #fff solid 3px;
   border-bottom: #eee solid 1px;
   cursor: pointer;
-  padding: 15px 1px 0px;
+  padding: 15px 10px 0px;
 }
 .pm .pm-message-page .pm-message-list li .pm-col-9 {
   font-weight: bold;

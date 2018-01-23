@@ -196,17 +196,6 @@
                 return lists.tasks.filter(function( task ) {
                     return ( task.completed == '1' || task.completed );
                 }); 
-            },
-           
-            /**
-             * Class for showing task private incon
-             * 
-             * @param  obje task 
-             * 
-             * @return string      
-             */
-            privateClass: function( task ) {
-                return ( task.task_privacy == 'yes' ) ? 'pm-lock' : 'pm-unlock';
             }
         }
     }
