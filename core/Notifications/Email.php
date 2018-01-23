@@ -51,12 +51,10 @@ abstract class Email{
             return $parent_theme_dir . $template_name;
         } else if ( file_exists( $mail_dir . $template_name ) ) {
             return $mail_dir . $template_name;
-        }else if ( file_exists( $pro_dir . $template_name ) ){
+        }else if ( isset($pro_dir) && file_exists( $pro_dir . $template_name ) ){
             return  $pro_dir . $template_name;
-        }else if ( file_exists( $module_path . $template_name ) ){
+        }else if ( isset($module_path) &&  file_exists( $module_path . $template_name ) ){
             return  $module_path . $template_name;
-        }else {
-            return $template_name;
         }
     }
 
@@ -147,7 +145,7 @@ abstract class Email{
         $reply_to     = "Reply-To: $no_reply";
 
         if ( $this->is_bcc_enable() ) {
-            $bcc     = 'Bcc: ' . $to;
+            $bcc     = 'Bcc: ' . implode(',', $to);
             $headers = array(
                 $bcc,
                 $reply_to,

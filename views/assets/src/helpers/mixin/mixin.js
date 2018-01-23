@@ -235,8 +235,14 @@ export default pm.Vue.mixin({
             if ( !PM_Vars.settings[key] ) {
                 return pre_define;
             }
-
-            return PM_Vars.settings[key];
+            if ( PM_Vars.settings[key] === "true" ){
+                return true;
+            }else if( PM_Vars.settings[key] === "false" ){
+                return false;
+            }else {
+                return PM_Vars.settings[key];
+            }
+            
         },
         dataURLtoFile (dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],

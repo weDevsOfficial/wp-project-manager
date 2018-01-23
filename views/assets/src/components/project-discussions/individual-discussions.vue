@@ -22,7 +22,7 @@
                         {{discuss.title}}          
                         <span class="pm-right pm-edit-link">
                             <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#" data-msg_id="97" data-project_id="60" class="pm-msg-edit dashicons dashicons-edit"></a>
-                            <span class="pm-not-private"></span>
+                            <span :class="privateClass( discuss )"></span>
                         </span>
 
                         <div class="pm-small-title">
