@@ -23,7 +23,7 @@ class Milestone_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Milestone $item ) {
-        return [
+        $data =  [
             'id'           => (int) $item->id,
             'title'        => $item->title,
             'description'  => $item->description,
@@ -37,6 +37,8 @@ class Milestone_Transformer extends TransformerAbstract {
                 'total_discussion_board' => $item->discussion_boards->count(),
             ],
         ];
+
+        return apply_filters( 'pm_milestone_transform', $data, $item );
     }
 
     public function includeTaskLists( Milestone $item ) {
