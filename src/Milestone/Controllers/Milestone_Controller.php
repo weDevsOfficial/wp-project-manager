@@ -101,8 +101,10 @@ class Milestone_Controller {
         $message = [
             'message' => pm_get_text('success_messages.milestone_created')
         ];
+        $response = $this->get_response( $resource, $message );
+        do_action("pm_after_new_milestone", $response, $request->get_params() );
 
-        return $this->get_response( $resource, $message );
+        return $response;
     }
 
     public function update( WP_REST_Request $request ) {
@@ -157,7 +159,10 @@ class Milestone_Controller {
             'message' => pm_get_text('success_messages.milestone_updated')
         ];
 
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action("pm_after_update_milestone", $response, $request->get_params() );
+
+        return $response;
     }
 
     public function destroy( WP_REST_Request $request ) {

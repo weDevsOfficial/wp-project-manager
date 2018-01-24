@@ -22,7 +22,7 @@ var PM_TaskList_Mixin = {
         },
 
         task_start_field: function() {
-           return this.$store.state.projectTaskLists.permissions.task_start_field;
+           return this.getSettings('task_start_field', false);
         },
 
         /**
@@ -362,11 +362,11 @@ var PM_TaskList_Mixin = {
                 callback: false
             },
             args = jQuery.extend(true, pre_define, args);
-
+            var data = pm_apply_filters( 'before_task_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
                 type: 'POST',
-                data: args.data,
+                data: data,
                 success (res) {
                     self.addTaskMeta(res.data);
                     self.afterNewTask(
@@ -414,11 +414,11 @@ var PM_TaskList_Mixin = {
                 callback: false
             };
             var args = jQuery.extend(true, pre_define, args);
-
+            var data = pm_apply_filters( 'before_task_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id,
                 type: 'PUT',
-                data: args.data,
+                data: data,
                 success (res) {
                     self.addTaskMeta(res.data);
 
