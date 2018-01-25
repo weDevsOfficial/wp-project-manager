@@ -39,7 +39,7 @@ class Project extends Eloquent {
 		'color_code',
 		'order',
         'projectable_type',
-        'compoleted_at',
+        'completed_at',
 		'created_by',
 		'updated_by',
     ];
