@@ -1,5 +1,4 @@
-<template>
-    
+<template>    
     <div :class="todolistFormClass(list)+' pm-new-todolist-form'">
 
         <form v-on:submit.prevent="listFormAction()" action="" method="post">
@@ -30,7 +29,6 @@
             </div>
         </form>
     </div>
-
 </template>
 
 <script>
