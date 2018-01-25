@@ -34,7 +34,6 @@ var promiseReturn = new Promise(function(resolve, reject) {
 		});
 
 		require(['./directives/directive'], function(script) {
-			console.log(script);
 			directive = script.default;
 			scriptsLoaded.directive = true;
 			pmScriptsLoaded(resolve, reject);
