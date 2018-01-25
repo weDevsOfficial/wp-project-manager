@@ -32,13 +32,18 @@ class Milestone_Transformer extends TransformerAbstract {
             'achieved_at'  => format_date( $item->achieved_at ),
             'status'       => $item->status,
             'created_at'   => format_date( $item->created_at ),
-            'meta'         => [
-                'total_task_list'        => $item->task_lists->count(),
-                'total_discussion_board' => $item->discussion_boards->count(),
-            ],
+            'meta'         => $this->meta( $item ),
         ];
 
         return apply_filters( 'pm_milestone_transform', $data, $item );
+    }
+
+    public function meta( Milestone $item ) {
+        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        return array_merge( $meta, [
+            'total_task_list'        => $item->task_lists->count(),
+            'total_discussion_board' => $item->discussion_boards->count(),
+        ] );
     }
 
     public function includeTaskLists( Milestone $item ) {

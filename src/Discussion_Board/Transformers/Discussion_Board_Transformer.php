@@ -31,14 +31,19 @@ class Discussion_Board_Transformer extends TransformerAbstract {
             'description' => $item->description,
             'order'       => $item->order,
             'created_at'  => format_date( $item->created_at ),
-            'meta'        => [
-                'total_comments' => $item->comments->count(),
-                'total_users'    => $item->users->count(),
-                'total_files'    => $item->files->count(),
-            ],
+            'meta'        => $this->meta( $item ),
         ];
         return apply_filters( 'pm_discuss_transform', $data, $item);
     
+    }
+
+    public function meta( Discussion_Board $item ) {
+        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        return array_merge( $meta, [
+            'total_comments' => $item->comments->count(),
+            'total_users'    => $item->users->count(),
+            'total_files'    => $item->files->count(),
+        ] );
     }
 
     public function includeUsers( Discussion_Board $item ) {

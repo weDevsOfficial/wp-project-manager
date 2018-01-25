@@ -62,17 +62,21 @@ class Task_Transformer extends TransformerAbstract {
                 'project_id'  => $item->project_id,
                 'category_id' => $item->category_id,
                 'created_at'  => format_date( $item->created_at ),
-                'meta'        => [
-                    'total_comment'  => $item->comments->count(),
-                    'total_files'    => $item->files->count(),
-                    'total_board'    => $item->boards->count(),
-                    'total_assignee' => $item->assignees->count(),
-                ],
+                'meta'        => $this->meta( $item ),
             ], 
             $item
         );
     }
 
+    public function meta( Task $item ) {
+        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        return array_merge( $meta, [
+            'total_comment'  => $item->comments->count(),
+            'total_files'    => $item->files->count(),
+            'total_board'    => $item->boards->count(),
+            'total_assignee' => $item->assignees->count(),
+        ] );
+    }
     /**
      * Include task list
      *

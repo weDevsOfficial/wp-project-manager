@@ -1,6 +1,6 @@
 export default new pm.Vuex.Store({
     state: {
-        manageCapability: PM_Pro_Vars.manage_capability,
+        manageCapability:[],
         is_need_fetch_view_type: true,
         projects: [],
         project: {},
@@ -141,6 +141,9 @@ export default new pm.Vuex.Store({
 
         is_need_fetch_view_type (state, status) {
             state.is_need_fetch_view_type = status;
+        },
+        setManageCapability( state, capability ) {
+            state.manageCapability = capability;
         }
     }
     

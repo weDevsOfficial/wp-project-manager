@@ -37,17 +37,22 @@ class Task_List_Transformer extends TransformerAbstract {
             'description' => $item->description,
             'order'       => (int) $item->order,
             'created_at'  => format_date( $item->created_at ),
-            'meta'        => [
-                'total_tasks'            => $item->tasks()->count(),
-                'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
-                'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
-                'total_comments'         => $item->comments()->count(),
-                'totla_files'            => $item->files()->count(),
-                'total_assignees'        => $item->assignees()->count(),
-            ]
+            'meta'        => $this->meta( $item ),
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );
+    }
+
+    public function meta( Task_List $item ) {
+        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        return array_merge( $meta, [
+            'total_tasks'            => $item->tasks()->count(),
+            'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
+            'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
+            'total_comments'         => $item->comments()->count(),
+            'totla_files'            => $item->files()->count(),
+            'total_assignees'        => $item->assignees()->count(),
+        ] );
     }
 
     public function includeAssignees( Task_List $item ) {
