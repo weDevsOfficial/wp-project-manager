@@ -91,6 +91,7 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
+        do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -98,7 +99,6 @@ class Task_Controller {
             'message' => pm_get_text('success_messages.task_created')
         ];
         
-        do_action('pm_after_create_task', $task, $request->get_params() );
 
         return $this->get_response( $resource, $message );
     }
@@ -167,12 +167,12 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
         
+        do_action('pm_after_update_task', $task, $request->get_params() );
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
-        do_action('pm_after_update_task', $task, $request->get_params() );
         return $this->get_response( $resource, $message );
     }
 

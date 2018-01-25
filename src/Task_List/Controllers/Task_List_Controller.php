@@ -65,6 +65,7 @@ class Task_List_Controller {
             $this->attach_milestone( $task_list, $milestone );
         }
 
+        do_action( 'pm_new_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
@@ -91,7 +92,8 @@ class Task_List_Controller {
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );
         }
-
+        
+        do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [

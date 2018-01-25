@@ -70,7 +70,7 @@ class Discussion_Board_Controller {
         if ( $files ) {
             $this->attach_files( $discussion_board, $files );
         }
-
+        do_action( 'pm_new_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
         $message = [
             'message' => pm_get_text('success_messages.discuss_created')
@@ -90,7 +90,7 @@ class Discussion_Board_Controller {
         $files_to_delete     = $request->get_param( 'files_to_delete' );
 
         $milestone = Milestone::find( $milestone_id );
-        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
+        $discussion_board = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
 
@@ -107,7 +107,7 @@ class Discussion_Board_Controller {
         if ( $files_to_delete ) {
             $this->detach_files( $discussion_board, $files_to_delete );
         }
-
+        do_action( 'pm_update_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         $message = [
