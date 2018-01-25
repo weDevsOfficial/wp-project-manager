@@ -564,7 +564,8 @@ export default pm.Vue.mixin({
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
-            itemList.forEach(function(item, key) {
+            jQuery.each(itemList, function(key, item) {
+        
                 if (item[slug] == id) {
                     index = key;
                 }
