@@ -16,14 +16,13 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
                     _e('Please click the link bellow to view the comment.', 'pm' ); 
                 ?>
             </div>
-            <center>
-                <div style="padding: 18px; margin: 30px 0 45px; border-radius: 30px; background: #00b1e7; width: 171px;">
-                    <a href="<?php echo $comment_url; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
-                        <?php _e( 'View Comment', 'pm' ); ?>
-                    </a>
+            <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px;text-align: center;">
+                <a href="<?php echo $comment_url; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
+                    <?php _e( 'View Comment', 'pm' ); ?>
+                </a>
 
-                </div>
-            </center>
+            </div>
+
         </div>
     </div>
 </div>
