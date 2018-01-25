@@ -36,7 +36,7 @@
                 </div>
                 
                 <div class="pm-col-4 pm-todo-action-center">
-                    <span :class="privateClass( task.privacy )"></span>
+                    <span :class="privateClass( task.meta.privacy )"></span>
                     <div class="pm-task-comment pm-todo-action-child">
                         <span>
                             <router-link 

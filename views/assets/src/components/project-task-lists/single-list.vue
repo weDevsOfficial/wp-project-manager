@@ -41,7 +41,7 @@
                                     <div class="pm-right">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit" title="<?php _e( 'Edit this List', 'pm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" :title="text.delete_list" ><span class="dashicons dashicons-trash"></span></a>
-                                        <a href="" >  <span :class="privateClass(list.privacy)"></span> </a>
+                                        <a href="" >  <span :class="privateClass(list.meta.privacy)"></span> </a>
                                     </div>
                                 </h3>
 
