@@ -23,10 +23,7 @@
                 let self = this;
                 
                 weDevsPmModules.forEach(function(module) {
-                    let mixin = require('./components/'+module.path+'/mixin.js');
                     let store = require('./components/'+module.path+'/store.js');
-                    
-                    PmMixin[module.name] = mixin.default;
                     self.registerStore(module.name, store.default );
                 });
             }
