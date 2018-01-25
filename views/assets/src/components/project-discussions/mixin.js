@@ -136,7 +136,7 @@ export default {
 
             // Showing loading option 
             this.show_spinner = true;
-
+            data = pm_apply_filters( 'before_discuss_save', data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards',
                 type: 'POST',
@@ -208,7 +208,7 @@ export default {
 
             // Showing loading option 
             this.show_spinner = true;
-
+            data = pm_apply_filters( 'before_discuss_save', data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
                 type: 'POST',
@@ -493,6 +493,16 @@ export default {
 
             if(!discussion.length){
                 this.viewAction(true, false);
+            }
+        },
+        privateClass ( discuss ){
+            if( typeof discuss.privacy !== 'undefined' ){
+                if ( discuss.privacy ){
+                    return 'dashicons dashicons-lock'
+                }else {
+                    return 'dashicons dashicons-unlock'
+                }
+                
             }
         }
     },

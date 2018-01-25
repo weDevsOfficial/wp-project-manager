@@ -11,7 +11,7 @@
         <div class="item detail">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
-        
+        <pm-do-action hook="pm_milestone_form" :actionData="milestone" ></pm-do-action>
         <div class="submit">
             <input v-if="!milestone.id" type="submit" name="create_milestone" id="create_milestone" class="button-primary" :value="text.add_milestone">
             <input v-if="milestone.id" type="submit" name="update_milestone" id="update_milestone" class="button-primary" :value="text.update_milestone">

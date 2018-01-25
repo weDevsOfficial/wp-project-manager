@@ -20,7 +20,7 @@
                             <span class="pm-todo-text">{{ task.title }}</span>
                         </router-link>
                   
-                     <span :class="privateClass( task )"></span>
+                     
                     </span> 
                   
 

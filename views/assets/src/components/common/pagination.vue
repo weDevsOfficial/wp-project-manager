@@ -16,7 +16,7 @@
             </router-link>
             
             <router-link 
-                key="page" 
+                :key="page" 
                 v-for="page in total_pages" 
                 :class="pageClass(page) + ' pm-pagination-btn'" 
                 :to="{ 

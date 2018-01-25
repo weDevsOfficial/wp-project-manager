@@ -161,20 +161,17 @@ export default {
             var self = this,
             pre_define = {
                 data: {
-                    title : '',
-                    description: '',
-                    achieve_date: '',
                     order: 0,
                     status:'incomplete'
                 },
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
-
+            var data = pm_apply_filters( 'before_milestone_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
                 type: 'POST',
-                data: args.data,
+                data: data,
                 success (res) {
                     self.addMeta(res.data);
                     
@@ -217,10 +214,6 @@ export default {
             var self = this,
             pre_define = {
                 data: {
-                    id: '',
-                    title : '',
-                    description: '',
-                    achieve_date: '',
                     order: 0,
                     status:'incomplete',
                     project_id: self.project_id,
@@ -228,11 +221,11 @@ export default {
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
-
+            var data = pm_apply_filters( 'before_milestone_save', args.data );
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id,
                 type: 'PUT',
-                data: args.data,
+                data: data,
                 success (res) {
                     self.addMeta(res.data);
 
@@ -386,6 +379,15 @@ export default {
 
             this.$store.commit('projectMilestones/balankTemplateStatus', blank);
             this.$store.commit('projectMilestones/milestoneTemplateStatus', miltemp);
+        },
+        privateClass ( privacy ){
+            if( typeof privacy !== 'undefined' ){
+                if ( privacy ){
+                    return 'dashicons dashicons-lock'
+                }else {
+                    return 'dashicons dashicons-unlock'
+                }
+            }
         }
 
     },

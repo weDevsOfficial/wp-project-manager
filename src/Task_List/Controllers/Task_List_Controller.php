@@ -70,8 +70,9 @@ class Task_List_Controller {
         $message = [
             'message' => pm_get_text('success_messages.task_list_created')
         ];
-
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_new_task_list', $response, $request->get_params() );
+        return $response;
     }
 
     public function update( WP_REST_Request $request ) {
@@ -97,7 +98,9 @@ class Task_List_Controller {
             'message' => pm_get_text('success_messages.task_list_updated')
         ];
 
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        do_action( 'pm_after_update_task_list', $response, $request->get_params() );
+        return $response;
     }
 
     public function destroy( WP_REST_Request $request ) {
