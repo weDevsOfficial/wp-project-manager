@@ -94,7 +94,7 @@ class Milestone_Controller {
             'meta_value'  => Milestone::INCOMPLETE,
             'project_id'  => $milestone->project_id,
         ]);
-
+        do_action("pm_new_milestone_before_response", $milestone, $request->get_params() );
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
@@ -152,7 +152,7 @@ class Milestone_Controller {
             $meta->meta_value = $status;
             $meta->save();
         }
-
+        do_action("pm_update_milestone_before_response", $milestone, $request->get_params() );
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
