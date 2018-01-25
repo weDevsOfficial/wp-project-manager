@@ -3,8 +3,6 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
 ?>
 
     <div style="width:600px;  background: #fff;">
-
-
         <div style="width: 600px;">
             <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
                 <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center; text-transform: uppercase;">
@@ -40,3 +38,5 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
                 </div>
                 
             </div>
+        </div>
+    </div>
