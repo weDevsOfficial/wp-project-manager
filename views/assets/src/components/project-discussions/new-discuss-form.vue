@@ -21,7 +21,7 @@
                 </select>
 
             </div>
-
+            <pm-do-action hook="pm_discuss_form" :actionData="discuss" ></pm-do-action>
             <file-uploader :files="files" :delete="deleted_files"></file-uploader>
 
             <notify-user v-model="notify_users"></notify-user>

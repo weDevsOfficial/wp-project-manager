@@ -13,15 +13,12 @@
             <div class="item date">
                 
                 <div class="pm-task-start-field" v-if="task_start_field">
-                    <label>Start Date</label>
-                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to"></pm-datepickter>
+                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to" placeholder="Start Date"></pm-datepickter>
                     
                 </div>
-                
 
                 <div class="pm-task-due-field">
-                    <label>Due Date</label>
-                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from"></pm-datepickter>
+                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" placeholder="Due Date"></pm-datepickter>
                 </div>
             </div>
 
@@ -42,7 +39,7 @@
                     </multiselect>
                 </div>
             </div>
-
+            <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
                 <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="text.update_task"></span>
@@ -278,7 +275,6 @@ export default {
                     description: this.task.description,
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
-                    task_privacy: this.task.task_privacy,
                     list_id: this.list.id,
                     order: this.task.order,
                 },

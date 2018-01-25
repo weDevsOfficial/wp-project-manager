@@ -21,7 +21,6 @@
                     
                     </span>                 
 
-                    <span :class="privateClass( task )"></span>
 
                     <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
                         <a href="#" :title="user.display_name">
@@ -37,6 +36,7 @@
                 </div>
                 
                 <div class="pm-col-4 pm-todo-action-center">
+                    <span :class="privateClass( task.privacy )"></span>
                     <div class="pm-task-comment pm-todo-action-child">
                         <span>
                             <router-link 

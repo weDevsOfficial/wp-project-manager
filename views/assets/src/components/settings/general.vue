@@ -105,7 +105,10 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>                            
+                    </table> 
+
+                    <pm-do-action hook="pm_after_settings"></pm-do-action>
+
                     <div style="padding-left: 10px">
                         <p class="submit">
                             <input type="submit" name="submit" id="submit" class="button button-primary" :value="text.save_changes">
@@ -142,13 +145,19 @@ export default {
                 project_per_page: this.project_per_page,
                 list_per_page: this.list_per_page,
                 incomplete_tasks_per_page: this.incomplete_tasks_per_page,
+  
                 complete_tasks_per_page: this.complete_tasks_per_page,
                 managing_capability: this.managing_capability,
                 project_create_capability: this.project_create_capability
             };
-            
-            
+            data = pm_apply_filters('setting_data', data);
+
             this.saveSettings(data, false, function(res) {
+                var arr = [] ;
+                res.forEach( function( item ) {
+                    return arr[item.key] =  item.value;
+                } );
+                PM_Vars.settings  = arr;
                 self.show_spinner = false;
             });
         },

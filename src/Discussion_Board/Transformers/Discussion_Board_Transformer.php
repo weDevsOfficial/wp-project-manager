@@ -25,7 +25,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Discussion_Board $item ) {
-        return [
+        $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
@@ -37,6 +37,8 @@ class Discussion_Board_Transformer extends TransformerAbstract {
                 'total_files'    => $item->files->count(),
             ],
         ];
+        return apply_filters( 'pm_discuss_transform', $data, $item);
+    
     }
 
     public function includeUsers( Discussion_Board $item ) {

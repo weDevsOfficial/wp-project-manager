@@ -32,25 +32,29 @@ abstract class Email{
         }
     }
 
-    public function get_template_path( $template_name ) {
+    public function get_template_path( $template_name, $module = null ) {
 
         $child_theme_dir  = get_stylesheet_directory() . '/pm/emails';
         $parent_theme_dir = get_template_directory() . '/pm/emails';
         $mail_dir         = config('frontend.view_path'). '/emails';
 
-        if (function_exists('pm_pro_config')) {
+        if ( function_exists('pm_pro_config') ) {
             $pro_dir      = pm_pro_config('define.view_path').'/emails';
+            if ( $module != null ) {
+                $module_path      = pm_pro_config('define.module_path').'/'. $module . 'views/emails';
+            }
         }
         
-
         if ( file_exists( $child_theme_dir . $template_name ) ) {
             return $child_theme_dir . $template_name;
         } else if ( file_exists( $parent_theme_dir . $template_name ) ) {
             return $parent_theme_dir . $template_name;
-        } else if ( file_exists( $mail_dir . $template_name )) {
+        } else if ( file_exists( $mail_dir . $template_name ) ) {
             return $mail_dir . $template_name;
-        }else {
+        }else if ( isset($pro_dir) && file_exists( $pro_dir . $template_name ) ){
             return  $pro_dir . $template_name;
+        }else if ( isset($module_path) &&  file_exists( $module_path . $template_name ) ){
+            return  $module_path . $template_name;
         }
     }
 
@@ -99,15 +103,21 @@ abstract class Email{
     }
 
     public function is_bcc_enable() {
-        return apply_filters( 'pm_enable_bcc', pm_get_settings( 'enable_bcc' ) ) ;
+        $enable_bcc = pm_get_settings( 'enable_bcc' );
+        $enable_bcc = isset( $enable_bcc ) ? $enable_bcc : false;
+        return apply_filters( 'pm_enable_bcc', $enable_bcc  ) ;
     }
 
     public function email_type() {
-        return apply_filters( 'pm_email_type', pm_get_settings('email_type') );
+        $email_type = pm_get_settings('email_type');
+        $email_type = isset( $email_type ) ? $email_type : 'text/html';
+        return apply_filters( 'pm_email_type', $email_type );
     }
 
     public function link_to_backend() {
-        return apply_filters('pm_email_link_to_backend', pm_get_settings('link_to_backend') ) ;
+        $link_to_backend = pm_get_settings('link_to_backend');
+        $link_to_backend = isset( $link_to_backend ) ? $link_to_backend : true;
+        return apply_filters('pm_email_link_to_backend', $link_to_backend ) ;
     }
 
     public function pm_link() {
@@ -135,7 +145,7 @@ abstract class Email{
         $reply_to     = "Reply-To: $no_reply";
 
         if ( $this->is_bcc_enable() ) {
-            $bcc     = 'Bcc: ' . $to;
+            $bcc     = 'Bcc: ' . implode(',', $to);
             $headers = array(
                 $bcc,
                 $reply_to,

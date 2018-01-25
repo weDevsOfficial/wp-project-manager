@@ -9,6 +9,7 @@ use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\Common\Models\Meta;
 
 class Discussion_Board extends Eloquent {
     use Model_Events;
@@ -52,6 +53,11 @@ class Discussion_Board extends Eloquent {
 
     public function boardables() {
         return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'discussion_board' );
+    }
+
+    public function metas() {
+        return $this->hasMany( Meta::class, 'entity_id' )
+            ->where( 'entity_type', 'discussion_board' );
     }
 
 }

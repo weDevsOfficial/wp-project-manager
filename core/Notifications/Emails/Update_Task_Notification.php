@@ -28,7 +28,7 @@ class Update_Task_Notification extends Email {
             return ; 
         }
 
-        $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/update-task.php' ) );
+        $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/new-task.php' ) );
         $subject = sprintf( __( '[%s][%s] Update Task Assigned: %s', 'pm' ), $this->get_blogname(), $task->projects->title, $task->title );
 
 
