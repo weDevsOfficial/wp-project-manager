@@ -2,6 +2,8 @@
 
 use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Administrator;
+use WeDevs\PM\Core\Permissions\Authentic;
+
 
 $router = Router::singleton();
 
