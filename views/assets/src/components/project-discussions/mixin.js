@@ -497,7 +497,7 @@ export default {
         },
         privateClass ( discuss ){
             if( typeof discuss.meta.privacy !== 'undefined' ){
-                if ( discuss.meta.privacy ){
+                if ( discuss.meta.privacy === '1' ){
                     return 'dashicons dashicons-lock'
                 }else {
                     return 'dashicons dashicons-unlock'
