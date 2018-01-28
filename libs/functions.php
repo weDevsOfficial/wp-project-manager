@@ -177,4 +177,172 @@ function pmpr($data) {
     echo '<pre>'; print_r($data); '</pre>';
 }
 
+function pm_default_co_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => true,
+        'create_list'            => true,
+        'view_private_list'      => true,
+        'create_task'            => true,
+        'view_private_task'      => true,
+        'create_milestone'       => true,
+        'view_private_milestone' => true,
+        'create_file'            => true,
+        'view_private_file'      => true
+    ];
+}
+
+function pm_default_client_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => false,
+        'create_list'            => true,
+        'view_private_list'      => false,
+        'create_task'            => true,
+        'view_private_task'      => false,
+        'create_milestone'       => true,
+        'view_private_milestone' => false,
+        'create_file'            => true,
+        'view_private_file'      => false
+    ];
+}
+
+function pm_pro_get_project_capabilities( $project_id ) {
+    $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
+        ->where('project_id', $project_id)
+        ->first();
+    
+    if ( ! $caps ) {
+        return [
+            'co_worker' => pm_default_co_caps(),
+            'client'    => pm_default_client_caps()
+        ];
+    }
+
+    $formatedCaps = [];
+    
+    foreach ( $caps->value as $key => $value ) {
+        $formatedCaps[$key] = array_map( function($val) {
+            return $val === 'true' ? true : false;
+        }, $value );
+    }
+    
+    return $formatedCaps;
+}
+
+function pm_is_user_in_project( $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $user_in_project = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id ) 
+        ->where( 'assigned_to', $user_id )
+        ->first();
+
+    return $user_in_project ? true : false;
+}
+
+function pm_get_role( $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $role = WeDevs\PM\User\Models\User_Role::with('role')
+        ->where( 'project_id', $project_id )
+        ->where( 'user_id', $user_id )
+        ->first();
+
+    if ( $role ) {
+        return $role->role->slug;
+    }
+
+    return false;
+}
+
+function pm_is_manager( $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $role = pm_get_role( $project_id, $user_id );
+
+    return $role == 'manager' ? true : false;
+}
+
+function pm_get_role_caps( $project_id, $role ) {
+    $caps = pm_pro_get_project_capabilities( $project_id );
+
+    if ( !empty( $caps[$role] ) ) {
+        return $caps[$role];
+    }
+
+    return [];
+}
+
+function pm_user_can( $cap, $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    // $cache_key  = 'pm_user_can-' . md5( serialize( [
+    //  'cap'        => $cap,
+    //  'project_id' => $project_id,
+    //  'user_id'    => $user_id
+    // ] ) );
+
+    // $items  = wp_cache_get( $cache_key, 'pm' );
+
+    // if ( false === $items ) {
+        if ( pm_has_manage_capability( $user_id ) ) {
+            return true;
+        }
+
+        if ( ! pm_is_user_in_project( $project_id, $user_id ) ) {
+            return false;
+        }
+
+        if ( pm_is_manager( $project_id, $user_id ) ) {
+            return true;
+        }
+
+        $role = pm_get_role( $project_id, $user_id );
+        
+        if ( !$role ) {
+            return false;
+        }
+        
+        $role_caps = pm_get_role_caps( $project_id, $role );
+
+        if ( !empty( $role_caps[$cap] ) ) {
+            return true;
+        }
+
+    //  wp_cache_set( $cache_key, $items, 'erp' );
+    // }
+
+    return false;
+}
+
+function pm_has_manage_capability( $user_id = false ) {
+    
+    $user_id = $user_id ? $user_id : get_current_user_id();
+    $user    = get_user_by( 'id', $user_id );
+
+    $manage_roles = pm_get_settings( 'managing_capability' );
+    $common_role  = array_intersect( $manage_roles, $user->roles );
+
+    if ( empty( $common_role ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+function pm_has_project_create_capability( $user_id = false ) {
+    
+    $user_id = $user_id ? $user_id : get_current_user_id();
+    $user    = get_user_by( 'id', $user_id );
+
+    $manage_roles = pm_get_settings( 'project_create_capability' );
+    $common_role  = array_intersect( $manage_roles, $user->roles );
+
+    if ( empty( $common_role ) ) {
+        return false;
+    }
+
+    return true;
+}
+
 
