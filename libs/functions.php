@@ -179,6 +179,7 @@ function pmpr($data) {
 
 function pm_default_co_caps() {
     return [
+        'view_project'           => true,
         'create_message'         => true,
         'view_private_message'   => true,
         'create_list'            => true,
@@ -305,8 +306,8 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         
         $role_caps = pm_get_role_caps( $project_id, $role );
 
-        if ( !empty( $role_caps[$cap] ) ) {
-            return true;
+        if ( isset( $role_caps[$cap] ) ) {
+            return $role_caps[$cap];
         }
 
     //  wp_cache_set( $cache_key, $items, 'erp' );
