@@ -35,7 +35,7 @@ class Milestone_Transformer extends TransformerAbstract {
             'meta'         => $this->meta( $item ),
         ];
 
-        return apply_filters( 'pm_milestone_transform', $data, $item );
+        return apply_filters( 'pm_milestone_transform', $data, $item, $this );
     }
 
     public function meta( Milestone $item ) {
