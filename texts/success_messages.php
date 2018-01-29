@@ -77,4 +77,7 @@ return [
     'setting_saved' => [
         __( 'Settings has been changed successfully.', 'pm' )
     ],
+    'no_element' => [
+        __( 'No element found', 'pm' )
+    ]
 ];

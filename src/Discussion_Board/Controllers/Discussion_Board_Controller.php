@@ -29,9 +29,10 @@ class Discussion_Board_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $discussion_boards = Discussion_Board::where( 'project_id', $project_id )
-            ->orderBy( 'created_at', 'DESC' )
-            ->paginate( $per_page, ['*'], 'page', $page );
+        $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
+        $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $request );
+        $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
+                                ->paginate( $per_page, ['*'], 'page', $page );
 
         $discussion_board_collection = $discussion_boards->getCollection();
 
@@ -45,10 +46,15 @@ class Discussion_Board_Controller {
         $project_id = $request->get_param( 'project_id' );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
 
-        $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
-            ->where( 'project_id', $project_id )
-            ->first();
+        $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
+        $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $request );
+        $discussion_board = $discussion_board->first();
 
+        if ( $discussion_board == NULL ) {
+            return $this->get_response( null,  [
+                'message' => pm_get_text('success_messages.no_element')
+            ] );
+        }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         return $this->get_response( $resource );
