@@ -52,7 +52,7 @@
         </div>
 
         <div class="pm-row pm-project-group">
-            <ul>
+            <ul v-if="menu.length">
                 <li v-for="item in menu"> 
                     <router-link 
                         :class="item.class"

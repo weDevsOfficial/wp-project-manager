@@ -13,8 +13,6 @@ var scriptsLoaded = {
 
 var promiseReturn = new Promise(function(resolve, reject) {
 
-
-
 	require(['./router/router'], function(script) {
 		router = script.default;
 		scriptsLoaded.router = true;
@@ -34,7 +32,6 @@ var promiseReturn = new Promise(function(resolve, reject) {
 		});
 
 		require(['./directives/directive'], function(script) {
-			console.log(script);
 			directive = script.default;
 			scriptsLoaded.directive = true;
 			pmScriptsLoaded(resolve, reject);
@@ -69,16 +66,10 @@ function pmScriptsLoaded(resolve, reject) {
 	}
 }
 
-//import store from './store/store';
-// import router from './router/router';
-// import directive from './directives/directive';
-// import mixin from './helpers/mixin/mixin';
-// import PM from './App.vue';
-// import PMComponents from './helpers/common-components';
-
-
+window.pmBus = new pm.Vue();
 
 promiseReturn.then(function(result) {
+
 	/**
 	 * Project template render
 	 */

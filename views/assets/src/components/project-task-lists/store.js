@@ -167,6 +167,10 @@ export default {
         afterUpdateTask: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
 
+            if (list_index === false) {
+                return;
+            }
+
             if ( data.task.status === 'incomplete' ) {
                 var task_index = state.getIndex( 
                         state.lists[list_index].incomplete_tasks.data, 
@@ -180,6 +184,11 @@ export default {
 
         afterNewTask (state, data) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+
+            if (list_index === false) {
+                return false;
+            }
+
             if ( data.task.status === 'incomplete' ) {
 
                 if(typeof state.lists[list_index].incomplete_tasks !== 'undefined'){
