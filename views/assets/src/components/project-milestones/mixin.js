@@ -382,7 +382,7 @@ export default {
         },
         privateClass ( privacy ){
             if( typeof privacy !== 'undefined' ){
-                if ( privacy ){
+                if ( privacy === '1' ){
                     return 'dashicons dashicons-lock'
                 }else {
                     return 'dashicons dashicons-unlock'

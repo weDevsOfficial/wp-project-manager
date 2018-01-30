@@ -33,11 +33,13 @@ class New_Task_Notification extends Email {
 
 
         $message = $this->get_content_html( $template_name, [
-            'id'    => $task->id,
-            'title' => $task->title,
-            'project_id'    => $task->project_id,
-            'creator' => $task->creator->display_name,
-            'due_date' => $task->due_date
+            'id'          => $task->id,
+            'title'       => $task->title,
+            'description' => $task->description,
+            'project_id'  => $task->project_id,
+            'due_date'    => format_date( $task->due_date ),
+            'start_at'    => empty( $task->start_at ) ? null: format_date( $task->start ),
+            'creator'     => $task->creator->display_name,
         ] );
 
         $this->send( $users, $subject, $message );

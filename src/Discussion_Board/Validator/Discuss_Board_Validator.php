@@ -7,12 +7,12 @@ Class Time_Tracker_Validator extends Abstract_Validator {
 
     public function messages() {
         return [
-            'title.email' => 'Title field is required.',
+            'title.required' => 'Title field is required.',
         ];
     }
     public function rules() {
         return [
-            'title' => 'email',
+            'title' => 'required',
         ];
     }
 }

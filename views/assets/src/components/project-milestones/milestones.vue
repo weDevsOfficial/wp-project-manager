@@ -20,14 +20,14 @@
                     <p>
                         {{text.milestone_define}}
                     </p>
-                        <div class="pm-milestone-link clearfix">
+                        <div class="pm-milestone-link clearfix" v-if="user_can('create_milestone')">
                             <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
                         </div>
 
                         <transition name="slide">
 
-                            <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
-                                <div class="pm-milestone-form-wrap">
+                            <div class="pm-new-milestone-form" v-if="user_can('create_milestone')" >
+                                <div class="pm-milestone-form-wrap" v-if="is_milestone_form_active" >
                                     <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                                 </div>
 
@@ -49,11 +49,11 @@
             </div>
             <div v-if="milestoneTemplate">
                 <div class="pm-row pm-milestone-details" >
-                    <div class="pm-milestone-link clearfix">
+                    <div class="pm-milestone-link clearfix" v-if="user_can('create_milestone')">
                         <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white">{{text.add_milestone}}</a>
                     </div>
 
-                     <transition name="slide">
+                     <transition name="slide" v-if="user_can('create_milestone')">
                         <div class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
                             <div class="pm-milestone-form-wrap">
                                 <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>

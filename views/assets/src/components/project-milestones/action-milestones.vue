@@ -1,5 +1,5 @@
 <template>
- <ul class="pm-links pm-right">
+ <ul class="pm-links pm-right" v-if="user_can('create_milestone')">
     <li>
         <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="text.edit_milestone"></a>
     </li>
@@ -14,7 +14,7 @@
         <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="text.mark_as_complete" href="#"></a>
     </li>
     <li>
-        <span :class="privateClass( milestone.privacy )"></span>
+        <span :class="privateClass( milestone.meta.privacy )"></span>
     </li>
 </ul>
 </template>
