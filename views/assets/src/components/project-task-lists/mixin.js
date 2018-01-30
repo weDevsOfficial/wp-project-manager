@@ -238,6 +238,8 @@ var PM_TaskList_Mixin = {
                     if( typeof args.callback === 'function' ) {
                         args.callback.call( self,  res );
                     }
+                    
+                    pmBus.$emit('pm_after_create_list', res);
                 },
 
                 error (res) {
@@ -283,6 +285,8 @@ var PM_TaskList_Mixin = {
                     if( typeof args.callback === 'function' ) {
                         args.callback.call( self,  res );
                     }
+
+                    pmBus.$emit('pm_after_update_list', res);
                 },
                 error (res) {
                     // Showing error
@@ -383,6 +387,8 @@ var PM_TaskList_Mixin = {
                         args.callback.call ( self, res );
                     }
 
+                    pmBus.$emit('pm_after_create_task', res, args);
+
                 },
 
                 error (res) {
@@ -434,6 +440,7 @@ var PM_TaskList_Mixin = {
                         args.callback.call ( self, res );
                     }
 
+                    pmBus.$emit('pm_after_update_task', res, args);
                 },
 
                 error (res) {

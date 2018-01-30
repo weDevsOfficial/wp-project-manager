@@ -34,7 +34,23 @@
 <script>
     export default {
         // Get passing data for this component. Remember only array and objects are 
-        props: ['list', 'section'],
+        props: {
+            list: {
+                type: [Object],
+                default () {
+                    return {
+                        milestone: -1
+                    }
+                }
+            },
+
+            section: {
+                type: [String],
+                default () {
+                    return '';
+                }
+            }
+        },
 
         /**
          * Initial data for this component
@@ -56,7 +72,8 @@
         mixins: [PmMixin.projectTaskLists],
 
         created () {
-            if ( typeof this.list.milestone !== 'undefined' ) {
+
+            if ( this.list.milestone != -1 && typeof this.list.milestone != 'undefined') {
                 this.milestone_id = this.list.milestone.data.id;
             }
         },

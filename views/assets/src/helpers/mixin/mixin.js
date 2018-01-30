@@ -427,7 +427,7 @@ export default pm.Vue.mixin({
         },
 
         getProject ( args ) {
-             var self = this;
+            var self = this;
             var pre_define ={
                 conditions : {
 
