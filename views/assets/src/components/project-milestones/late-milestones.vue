@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="pm-milestone-edit-form" v-if="milestone.edit_mode">
+            <div class="pm-milestone-edit-form" v-if="milestone.edit_mode && user_can('create_milestone')">
                 <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
             </div>
             <div class="pm-milestone-items-details">
