@@ -38,8 +38,8 @@
                                 <h3>
                                     {{ list.title }}
                                    
-                                    <div class="pm-right">
-                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit" title="<?php _e( 'Edit this List', 'pm' ); ?>"><span class="dashicons dashicons-edit"></span></a>
+                                    <div class="pm-right" v-if="user_can('create_list')">
+                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" :title="text.delete_list" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="" >  <span :class="privateClass(list.meta.privacy)"></span> </a>
                                     </div>
@@ -50,7 +50,7 @@
                                 </div>
 
                                 <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
-                                <div class="pm-update-todolist-form" v-if="list.edit_mode">
+                                <div class="pm-update-todolist-form" v-if="list.edit_mode && user_can('create_list')">
                                     <!-- New Todo list form -->
                                     <new-task-list-form :list="list" section="single"></new-task-list-form>
                                 </div>

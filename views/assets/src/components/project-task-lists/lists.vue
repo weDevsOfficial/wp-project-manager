@@ -18,7 +18,7 @@
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
                 <div class="pm-inline-list-wrap">
-                    <div class="pm-inline-list-element">
+                    <div class="pm-inline-list-element" v-if="user_can('create_list')">
                         <new-task-list-btn></new-task-list-btn>
                     </div>
                     <div class="pm-right-inline-list-element">
@@ -28,8 +28,10 @@
                     </div>
                     <div class="pm-clearfix"></div>
                 </div>
-
-                <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+                <div v-if="user_can('create_list')">
+                    <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+                </div>
+                
                 
                 <ul class="pm-todolists">
                 
@@ -49,7 +51,7 @@
                                     </router-link>
                                     
                                     <!-- v-if="list.can_del_edit" -->
-                                    <div class="pm-right">
+                                    <div class="pm-right" v-if="user_can('create_list')">
                                         <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" ><span :class="privateClass( list.meta.privacy )"></span></a>
@@ -61,9 +63,9 @@
                                 </div>
                                 
                                 <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
-                                <div class="pm-update-todolist-form" v-if="list.edit_mode">
+                                <div class="pm-update-todolist-form" v-if="list.edit_mode && user_can('create_list')">
                                     <!-- New Todo list form -->
-                                    <new-task-list-form section="lists" :list="list"></new-task-list-form>
+                                    <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                 </div>
                             </header>
 

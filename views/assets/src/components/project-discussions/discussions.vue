@@ -22,12 +22,12 @@
                     <p>
                         {{text.discuss_define}}
                     </p>
-                        <div>
+                        <div v-if="user_can('create_message')">
                             <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                                 {{text.add_new_discussion}} 
                             </a>
                         </div>
-                        <transition name="slide">
+                        <transition name="slide" v-if="user_can('create_message')">
                             <div class="pm-new-message-form" v-if="is_discuss_form_active">
                                 <h3>{{text.create_a_new_message}}</h3>
                                 <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -49,12 +49,12 @@
             </div>
             <div v-if="discussTemplate">
                 <div class="pm-row discussion">
-                    <div>
+                    <div v-if="user_can('create_message')">
                         <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                             {{text.add_new_discussion}} 
                         </a>
                     </div>
-                    <transition name="slide">
+                    <transition name="slide" v-if="user_can('create_message')">
                         <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
                             <h3>{{text.create_a_new_message}}</h3>
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -91,7 +91,7 @@
 
                                 </div>
 
-                                <div class="pm-col-1">
+                                <div class="pm-col-1" v-if="user_can('create_message')">
                                     <span class="pm-message-action pm-right">
                                         <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
                                         <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
@@ -111,7 +111,10 @@
                                 </div>
 
                                 <div class="clear"></div>
-                                <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
+                                <div v-if="user_can('create_message')">
+                                    <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
+                                </div>
+                                
                             </li>
                      
                         </ul>    
