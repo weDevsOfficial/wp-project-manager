@@ -30,7 +30,7 @@ class Discussion_Board_Controller {
         $page = $page ? $page : 1;
 
         $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
-        $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $request );
+        $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $project_id, $request );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
                                 ->paginate( $per_page, ['*'], 'page', $page );
 
@@ -47,7 +47,7 @@ class Discussion_Board_Controller {
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
 
         $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
-        $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $request );
+        $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $project_id, $request );
         $discussion_board = $discussion_board->first();
 
         if ( $discussion_board == NULL ) {

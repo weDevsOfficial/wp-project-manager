@@ -33,14 +33,14 @@ class Task_Controller {
         if ( $search ) {
             $tasks = Task::where( 'project_id', $project_id )
                 ->where('title', 'LIKE', '%'.$search.'%');
-            $tasks = apply_filters( 'pm_task_index_query', $tasks, $request );
+            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->get();
 
             $resource = new Collection( $tasks, new Task_Transformer );
         } else {
             $tasks = Task::where( 'project_id', $project_id );
-            $tasks = apply_filters( 'pm_task_index_query', $tasks, $request );
+            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->paginate( $per_page, ['*'], 'page', $page );
 
@@ -58,7 +58,7 @@ class Task_Controller {
 
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->where( 'project_id', $project_id );
-        $task = apply_filters( 'pm_task_show_query', $tasks, $request );
+        $task = apply_filters( 'pm_task_show_query', $tasks, $project_id, $request );
         $task = $task->first();
 
         $resource = new Item( $task, new Task_Transformer );

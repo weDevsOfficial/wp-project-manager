@@ -35,6 +35,10 @@ export default pm.Vue.mixin({
 
             var role_caps = this.get_role_caps( project, role );
 
+            if ( !Object.keys(role_caps).length  ) {
+                return true;
+            }
+
             if ( 
                 role_caps.hasOwnProperty(cap) 
                 &&

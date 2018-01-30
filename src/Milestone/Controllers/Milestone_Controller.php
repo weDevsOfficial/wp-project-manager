@@ -28,7 +28,7 @@ class Milestone_Controller {
         $page = $page ? $page : 1;
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
-        $milestones = apply_filters("pm_milestone_index_query", $milestones, $request );
+        $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
 
         $milestones = $milestones->paginate( $per_page, ['*'], 'page', $page );
 
@@ -58,7 +58,7 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id );
-        $milestone = apply_filters("pm_milestone_show_query", $milestones, $request );
+        $milestone = apply_filters( "pm_milestone_show_query", $milestones, $project_id, $request );
         $milestone = $milestone->first();
         if ( $milestone == NULL ) {
             return $this->get_response( null,  [

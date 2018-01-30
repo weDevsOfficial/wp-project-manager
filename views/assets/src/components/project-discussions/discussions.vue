@@ -20,7 +20,7 @@
                     <h3 class="pm-page-title">{{text.discussions}}</h3>
 
                     <p>
-                        {{text.discuss_define}}
+                        {{text.discuss_define}} 
                     </p>
                         <div v-if="user_can('create_message')">
                             <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
