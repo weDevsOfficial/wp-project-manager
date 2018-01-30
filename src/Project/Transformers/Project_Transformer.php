@@ -23,7 +23,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Project $item ) {
-        return [
+        $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
             'description'         => (string) $item->description,
@@ -35,8 +35,8 @@ class Project_Transformer extends TransformerAbstract {
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'created_at'          => format_date( $item->created_at ),
-            'capabilities'        => apply_filters( 'project_capabilities', $item )
         ];
+        return apply_filters( "pm_project_transformer", $data, $item );
     }
 
     public function includeMeta (Project $item){

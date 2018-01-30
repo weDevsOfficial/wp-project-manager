@@ -32,7 +32,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
 
     </div>
     
-    <div style="padding: 18px; margin: 30px 0 45px; border-radius: 30px; background: #00b1e7; width: 171px;">
+    <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px;text-align: center;">
 
         <a href="<?php echo $comment_link; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
 <?php _e( 'View Comment', 'pm' ); ?>

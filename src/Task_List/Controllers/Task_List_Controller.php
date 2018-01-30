@@ -28,8 +28,9 @@ class Task_List_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
-        $task_lists = Task_List::where( 'project_id', $project_id)
-            ->orderBy( 'created_at', 'DESC' )
+        $task_lists = Task_List::where( 'project_id', $project_id);
+        $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
+        $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         $task_list_collection = $task_lists->getCollection();
@@ -46,8 +47,15 @@ class Task_List_Controller {
 
         $task_list = Task_List::with( 'tasks' )
             ->where( 'id', $task_list_id )
-            ->where( 'project_id', $project_id )
-            ->first();
+            ->where( 'project_id', $project_id );
+            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $request );
+            $task_list = $task_list->first();
+
+        if ( $task_list == NULL ) {
+            return $this->get_response( null,  [
+                'message' => pm_get_text('success_messages.no_element')
+            ] );
+        }
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -65,6 +73,7 @@ class Task_List_Controller {
             $this->attach_milestone( $task_list, $milestone );
         }
 
+        do_action( 'pm_new_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
@@ -91,7 +100,8 @@ class Task_List_Controller {
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );
         }
-
+        
+        do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [

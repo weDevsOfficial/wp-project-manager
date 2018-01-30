@@ -16,7 +16,7 @@ class New_Project_Notification extends Email {
 
     public function trigger( $project, $data ) {
 
-        if ( 'false' === $data['notify_users'] ){
+        if ( isset( $data['notify_users'] ) && 'false' === $data['notify_users'] ){
             return ;
         }
 

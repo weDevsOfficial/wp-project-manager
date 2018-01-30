@@ -26,7 +26,7 @@ class WP_Router {
 	public static function register( $routes = [] ) {
 		static::$routes = $routes;
 
-		add_action( 'rest_api_init', array( new WP_Router, 'make_wp_rest_route' ) );
+        add_action( 'rest_api_init', array( new WP_Router, 'make_wp_rest_route' ) );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WP_Router {
 	 *
 	 * @return void
 	 */
-	public function make_wp_rest_route() {
+    public function make_wp_rest_route() {
 		$routes = static::$routes;
 
 		foreach ( $routes as $route ) {

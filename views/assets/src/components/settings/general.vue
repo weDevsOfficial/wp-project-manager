@@ -153,11 +153,9 @@ export default {
             data = pm_apply_filters('setting_data', data);
 
             this.saveSettings(data, false, function(res) {
-                var arr = [] ;
                 res.forEach( function( item ) {
-                    return arr[item.key] =  item.value;
+                    PM_Vars.settings[item.key] =  item.value;
                 } );
-                PM_Vars.settings  = arr;
                 self.show_spinner = false;
             });
         },

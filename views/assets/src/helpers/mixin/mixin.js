@@ -35,6 +35,10 @@ export default pm.Vue.mixin({
 
             var role_caps = this.get_role_caps( project, role );
 
+            if ( !Object.keys(role_caps).length  ) {
+                return true;
+            }
+
             if ( 
                 role_caps.hasOwnProperty(cap) 
                 &&
@@ -116,6 +120,9 @@ export default pm.Vue.mixin({
         },
 
         has_manage_capability (user) {
+            if ( PM_Vars.manage_capability === '1' ){
+                return true;
+            }
             var manage_caps = this.$store.state.manageCapability;
             user = user || PM_Vars.current_user;
 
@@ -126,6 +133,16 @@ export default pm.Vue.mixin({
             }
 
             return false;
+        },
+
+        has_create_capability () {
+            if ( PM_Vars.manage_capability === '1' ){
+                return true;
+            }
+            if ( PM_Vars.create_capability === '1' ){
+                return true;
+            }
+            return false; 
         },
 
         intersect(a, b) {
@@ -322,9 +339,10 @@ export default pm.Vue.mixin({
                 },
 
                 error: function(res) {
-                    if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
-                    }
+                    res.responseJSON.message.map( function ( message ) {
+                        pm.Toastr.error( message );
+                    });
+                    
                 }
             };
 

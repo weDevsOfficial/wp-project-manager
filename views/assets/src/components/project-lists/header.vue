@@ -14,8 +14,8 @@
             </div>
 
             <div class="pm-row pm-no-padding pm-priject-search-bar">
-                <div class="pm-col-3 pm-sm-col-12 pm-no-padding pm-no-margin">
-                    <project-new-project-btn></project-new-project-btn>
+                <div class="pm-col-3 pm-sm-col-12 pm-no-padding pm-no-margin" >
+                    <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
                 </div>
 
                 <div class="pm-col-9 pm-no-padding pm-no-margin pm-sm-col-12  ">
@@ -40,7 +40,7 @@
         <router-view></router-view>
 
 
-        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project">
+        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project" v-if="has_create_capability()">
             <project-create-form :project="{}"></project-create-form>
                 
         </div> 

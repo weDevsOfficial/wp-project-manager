@@ -32,14 +32,16 @@ class Task_Controller {
 
         if ( $search ) {
             $tasks = Task::where( 'project_id', $project_id )
-                ->where('title', 'LIKE', '%'.$search.'%')
-                ->orderBy( 'created_at', 'DESC')
+                ->where('title', 'LIKE', '%'.$search.'%');
+            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->get();
 
             $resource = new Collection( $tasks, new Task_Transformer );
         } else {
-            $tasks = Task::where( 'project_id', $project_id )
-                ->orderBy( 'created_at', 'DESC')
+            $tasks = Task::where( 'project_id', $project_id );
+            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->paginate( $per_page, ['*'], 'page', $page );
 
             $task_collection = $tasks->getCollection();
@@ -55,8 +57,9 @@ class Task_Controller {
         $task_id    = $request->get_param( 'task_id' );
 
         $task = Task::with('task_lists')->where( 'id', $task_id )
-            ->where( 'project_id', $project_id )
-            ->first();
+            ->where( 'project_id', $project_id );
+        $task = apply_filters( 'pm_task_show_query', $tasks, $project_id, $request );
+        $task = $task->first();
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -91,6 +94,7 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
+        do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -98,7 +102,6 @@ class Task_Controller {
             'message' => pm_get_text('success_messages.task_created')
         ];
         
-        do_action('pm_after_create_task', $task, $request->get_params() );
 
         return $this->get_response( $resource, $message );
     }
@@ -167,12 +170,12 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
         
+        do_action('pm_after_update_task', $task, $request->get_params() );
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
-        do_action('pm_after_update_task', $task, $request->get_params() );
         return $this->get_response( $resource, $message );
     }
 

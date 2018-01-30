@@ -26,20 +26,17 @@ class Milestone_Controller {
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
+        $milestones = Milestone::with('metas')
+            ->where( 'project_id', $project_id );
+        $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
 
-        $metas = Meta::with( 'milestone.achieve_date_field', 'milestone.status_field' )
-            ->where( 'entity_type', 'milestone' )
-            ->where( 'meta_key', 'status' )
-            ->where( 'project_id', $project_id )
-            ->orderBy( 'meta_value', 'ASC' )
-            ->paginate( $per_page, ['*'], 'page', $page );
+        $milestones = $milestones->paginate( $per_page, ['*'], 'page', $page );
 
-        $meta_collection = $metas->getCollection();
-        
-        $milestone_collection = $this->get_milestone_collection( $meta_collection );
+        $milestone_collection = $milestones->getCollection();
 
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $metas ) );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $milestones ) );
+
 
 
         return $this->get_response( $resource );
@@ -60,9 +57,14 @@ class Milestone_Controller {
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
-            ->where( 'project_id', $project_id )
-            ->first();
-
+            ->where( 'project_id', $project_id );
+        $milestone = apply_filters( "pm_milestone_show_query", $milestones, $project_id, $request );
+        $milestone = $milestone->first();
+        if ( $milestone == NULL ) {
+            return $this->get_response( null,  [
+                'message' => pm_get_text('success_messages.no_element')
+            ] );
+        }
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         return $this->get_response( $resource );
@@ -94,7 +96,7 @@ class Milestone_Controller {
             'meta_value'  => Milestone::INCOMPLETE,
             'project_id'  => $milestone->project_id,
         ]);
-
+        do_action("pm_new_milestone_before_response", $milestone, $request->get_params() );
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
@@ -152,7 +154,7 @@ class Milestone_Controller {
             $meta->meta_value = $status;
             $meta->save();
         }
-
+        do_action("pm_update_milestone_before_response", $milestone, $request->get_params() );
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
