@@ -91,13 +91,18 @@ class Project_Controller {
     	$category = Category::where( 'categorible_type', 'project' )
     		->where( 'id', $category )
     		->first();
-
+    	$user_id = get_current_user_id();
     	if ( $category ) {
     		$projects = $category->projects()->orderBy( 'created_at', 'DESC' );
     	} else {
     		$projects = Project::orderBy( 'created_at', 'DESC' );
     	}
-
+    	if ( !pm_has_manage_capability( $user_id ) ){
+    		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
+    					$q->where('user_id', $user_id );
+    				});
+    	}
+    	
     	return $projects;
     }
 

@@ -289,7 +289,6 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         if ( pm_has_manage_capability( $user_id ) ) {
             return true;
         }
-
         if ( ! pm_is_user_in_project( $project_id, $user_id ) ) {
             return false;
         }
@@ -302,6 +301,10 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         
         if ( !$role ) {
             return false;
+        }
+
+        if ( $cap === 'view_project' ) {
+            return true;
         }
         
         $role_caps = pm_get_role_caps( $project_id, $role );
@@ -321,7 +324,7 @@ function pm_has_manage_capability( $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
-    $manage_roles = pm_get_settings( 'managing_capability' );
+    $manage_roles = (array) pm_get_settings( 'managing_capability' );
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {
@@ -336,7 +339,7 @@ function pm_has_project_create_capability( $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
-    $manage_roles = pm_get_settings( 'project_create_capability' );
+    $manage_roles = (array) pm_get_settings( 'project_create_capability' );
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {
