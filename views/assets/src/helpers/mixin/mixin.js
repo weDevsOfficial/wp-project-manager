@@ -432,6 +432,8 @@ export default pm.Vue.mixin({
                     if(typeof callback !== 'undefined'){
                         callback(res.data);
                     }
+
+                    pmProjects = res.data;
                 }
             };
 

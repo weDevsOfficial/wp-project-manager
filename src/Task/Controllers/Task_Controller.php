@@ -58,7 +58,7 @@ class Task_Controller {
 
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->where( 'project_id', $project_id );
-        $task = apply_filters( 'pm_task_show_query', $tasks, $project_id, $request );
+        $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
         $resource = new Item( $task, new Task_Transformer );
