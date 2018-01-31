@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use WeDevs\PM\Role\Models\Role;
+use \WeDevs\PM\Settings\Models\Settings;
 use Carbon\Carbon;
 
 class RoleTableSeeder extends Seeder
@@ -32,6 +33,21 @@ class RoleTableSeeder extends Seeder
                 ],
             ]);
         }
+        $mc = Settings::where( 'key', 'managing_capability')->get();
+        $pcc = Settings::where( 'key', 'project_create_capability' )->get();
+        if ( $mc->isEmpty() ){
+            Settings::firstOrCreate([
+                'key'   => 'managing_capability',
+                'value' => array('administrator', 'editor', 'author')
+            ]);
+        }
+        if ( $pcc->isEmpty() ) {
+            Settings::firstOrCreate([
+                'key'   => 'project_create_capability',
+                'value' => array('administrator', 'editor', 'author')
+            ]);
+        }
+        
     }
 
 }
