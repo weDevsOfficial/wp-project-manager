@@ -20,17 +20,32 @@ weDevsPMRegisterChildrenRoute('project_root',
     [
         { 
             path: 'settings', 
-            component: settingsHeader, 
+            component: settingsHeader,
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
+                }
+            },
             children: [
                 {
                     path: '/',
                     component: settingsGeneral,
                     name: 'general',
+                    meta: {
+                        permission: function(project) {
+                            return pmHasManageCapability()
+                        }
+                    }
                 },
                 { 
                     path: 'email', 
                     component: settingsEmail, 
                     name: 'email',
+                    meta: {
+                        permission: function(project) {
+                            return pmHasManageCapability()
+                        }
+                    }
                 }
             ]
         }
