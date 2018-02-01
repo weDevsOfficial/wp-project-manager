@@ -36,9 +36,6 @@ class Milestone_Controller {
 
         $resource = new Collection( $milestone_collection, new Milestone_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $milestones ) );
-
-
-
         return $this->get_response( $resource );
     }
 

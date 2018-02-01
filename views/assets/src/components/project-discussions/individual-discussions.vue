@@ -21,7 +21,7 @@
                     <h3 class="pm-box-title">
                         {{discuss.title}}          
                         <span class="pm-right pm-edit-link">
-                            <span v-if="user_can('create_message')" >
+                            <span v-if="can_create" >
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#" data-msg_id="97" data-project_id="60" class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
@@ -46,7 +46,7 @@
                         </ul>
 
                     </div>
-                    <span class="pm-msg-edit-form" v-if="user_can('create_message')" >
+                    <span class="pm-msg-edit-form" v-if="can_create" >
                         <div class="pm-message-form-wrap" >
                             <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
                         </div>
@@ -168,6 +168,12 @@
                 }
                 return 0;
                 
+            },
+            can_create () {
+                if ( typeof this.$store.state.projectDiscussions.discussion[0].meta.permission === 'undefined' ){
+                    return false;
+                }
+                return this.$store.state.projectDiscussions.discussion[0].meta.permission.can_create;
             }
         },
         components: {
