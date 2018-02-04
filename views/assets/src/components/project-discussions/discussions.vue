@@ -112,6 +112,7 @@
 
                                 <div class="clear"></div>
                                 <div v-if="user_can('create_message')">
+                                    
                                     <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
                                 </div>
                                 

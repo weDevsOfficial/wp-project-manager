@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <pre>{{ discuss }}</pre> -->
         <form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
             <div class="item title">
                 <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="text.enter_message_title">
