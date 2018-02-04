@@ -502,6 +502,33 @@ export default pm.Vue.mixin({
             });
         },
 
+
+        get_search_user(args) {
+            var self = this;
+            var pre_define ={
+                data: {
+                },
+                conditions : {
+
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            var request = {
+                url: self.base_url + '/pm/v2/users/search?' + conditions ,
+                success: function(res) {
+                    if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
+                    }
+                }
+            }
+
+            return self.httpRequest(request);
+        },
+
         getGloabalProject(){
             var args ={
                 callback : function (res) {
