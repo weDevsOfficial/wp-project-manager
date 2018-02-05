@@ -1064,6 +1064,11 @@ function cpm_project_count() {
 }
 
 function cpm_project_actions( $project_id ) {
+    if (is_admin()){
+        $url = admin_url( "admin.php?page=cpm_projects" );
+    } else {
+        $url = add_query_arg( array( 'page' => 'cpm_projects' ), get_permalink() );
+    }
     ?>
     <div class="cpm-project-action">
         <span class="dashicons dashicons-admin-generic cpm-settings-bind"></span>
@@ -1094,7 +1099,7 @@ function cpm_project_actions( $project_id ) {
             <?php if ( cpm_is_pro() ) { ?>
                 <li>
                     <span class="cpm-spinner"></span>
-                    <a class="cpm-duplicate-project" href="<?php echo add_query_arg( array( 'page' => 'cpm_projects' ), get_permalink() ); ?>" data-project_id="<?php echo $project_id; ?>">
+                    <a class="cpm-duplicate-project" href="<?php echo $url; ?>" data-project_id="<?php echo $project_id; ?>">
                         <span class="dashicons dashicons-admin-page"></span>
                         <span><?php _e( 'Duplicate', 'cpm' ); ?></span>
                     </a>
