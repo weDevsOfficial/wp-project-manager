@@ -8,10 +8,11 @@
             </li>
 
             <li v-if="!getIncompleteTasks.length" class="nonsortable">{{text.no_tasks_found}}</li>
-
-            <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
-                <new-task-form :list="list"></new-task-form>
-            </li>
+            <transition name="slide" v-if="can_create_task">
+                <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
+                    <new-task-form :list="list"></new-task-form>
+                </li>
+            </transition>
         </ul> 
     </div>
 

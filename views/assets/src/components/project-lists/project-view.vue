@@ -43,14 +43,14 @@
                 var cookies = document.cookie.split(';'),
                  cookieslen = cookies.length;
                  key=key + "=";
-
                  for(var i =0; i<cookieslen; i++){
                     var c = cookies[i];
                     while (c.charAt(0) == ' ') {
                         c = c.substring(1);
                     }
 
-                    if (c.indexOf(name) == 0) {
+                    console.log(c.indexOf(key));
+                    if (c.indexOf(key) == 0) {
                         this.setProjectsView( c.substring(key.length, c.length) );
                         //this.$store.commit('projectLists/setProjectsView', c.substring(key.length, c.length))
                         return c.substring(key.length, c.length);

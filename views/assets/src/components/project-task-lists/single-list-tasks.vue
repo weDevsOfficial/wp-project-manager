@@ -34,10 +34,11 @@
                 </li>
             </ul>
         </div>
-
-        <div v-if="list.show_task_form" class="pm-todo-form">
-            <new-task-form :task="{}" :list="list"></new-task-form>
-        </div>
+        <transition name="slide" v-if="can_create_list">
+            <div v-if="list.show_task_form" class="pm-todo-form">
+                <new-task-form :task="{}" :list="list"></new-task-form>
+            </div>
+        </transition>
     </div>
 </template>
 

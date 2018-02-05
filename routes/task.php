@@ -17,7 +17,7 @@ $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controlle
     ->permission([Access_Project::class]);
 
 $router->put( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
-    ->permission([Create_Task::class]);
+    ->permission([Access_Project::class]);
 
 $router->delete( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
     ->permission([Create_Task::class]);
