@@ -17,11 +17,11 @@ var PM_TaskList_Mixin = {
          * 
          * @return object
          */
-        canUserCreateTask: function() {
+        canUserCreateTask () {
             return this.$store.state.projectTaskLists.permissions.create_todo;
         },
 
-        task_start_field: function() {
+        task_start_field () {
            return this.getSettings('task_start_field', false);
         },
 
@@ -30,7 +30,7 @@ var PM_TaskList_Mixin = {
          * 
          * @return Boolean
          */
-        is_single_list: function() {
+        is_single_list () {
             return this.$store.state.projectTaskLists.is_single_list;
         },
 
@@ -39,9 +39,16 @@ var PM_TaskList_Mixin = {
          * 
          * @return Boolean
          */
-        is_single_task: function() {
+        is_single_task () {
             return this.$store.state.projectTaskLists.is_single_task;
         },
+        can_create_list () {
+            return this.user_can("create_list");
+        },
+        can_create_task () {
+            return this.user_can("create_task");
+        }
+
     },
 
     methods: {
@@ -63,7 +70,9 @@ var PM_TaskList_Mixin = {
                 'afterUpdateList'
             ]
         ),
-
+        can_complete_task (task) {
+            return !task.meta.can_complete_task;
+        },
         /**
          * Get task completed progress width
          * 

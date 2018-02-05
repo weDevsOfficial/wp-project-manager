@@ -18,7 +18,7 @@
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
                 <div class="pm-inline-list-wrap">
-                    <div class="pm-inline-list-element" v-if="user_can('create_list')">
+                    <div class="pm-inline-list-element" v-if="can_create_list">
                         <new-task-list-btn></new-task-list-btn>
                     </div>
                     <div class="pm-right-inline-list-element">
@@ -28,9 +28,9 @@
                     </div>
                     <div class="pm-clearfix"></div>
                 </div>
-                <div v-if="user_can('create_list')">
+                <transition name="slide" v-if="can_create_list">
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
-                </div>
+                </transition>
                 
                 
                 <ul class="pm-todolists">
@@ -51,7 +51,7 @@
                                     </router-link>
                                     
                                     <!-- v-if="list.can_del_edit" -->
-                                    <div class="pm-right" v-if="user_can('create_list')">
+                                    <div class="pm-right" v-if="can_create_list">
                                         <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" ><span :class="privateClass( list.meta.privacy )"></span></a>
@@ -62,11 +62,12 @@
                                     {{ list.description }}    
                                 </div>
                                 
-                                <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
-                                <div class="pm-update-todolist-form" v-if="list.edit_mode && user_can('create_list')">
-                                    <!-- New Todo list form -->
-                                    <new-task-list-form section="lists" :list="list" ></new-task-list-form>
-                                </div>
+                                <transition name="slide" v-if="can_create_list">
+                                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
+
+                                        <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                    </div>
+                                </transition>
                             </header>
 
                             <!-- Todos component -->
@@ -78,9 +79,11 @@
                                         <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
                                             <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
                                         </li>
-                                        
-                                        <li class="pm-new-task-btn-li"><new-task-button :task="{}" :list="list"></new-task-button></li>
-                                       
+                                        <transition name="slide" v-if="can_create_task">
+                                            <li class="pm-new-task-btn-li">
+                                                <new-task-button :task="{}" :list="list"></new-task-button>
+                                            </li>
+                                       </transition>
                                        
                                         <li class="pm-todo-complete">
                                             <router-link :to="{ 
@@ -88,7 +91,7 @@
                                                 params: { 
                                                     list_id: list.id 
                                                 }}">
-                                                <span>{{ list.meta.total_complete_tasks }}</span>  <!-- countCompletedTasks( list.tasks ) -->
+                                                <span>{{ list.meta.total_complete_tasks }}</span>  
                                                 {{text.completed}}
                                             </router-link>
                                         </li>
@@ -98,7 +101,7 @@
                                                 params: { 
                                                     list_id: list.id 
                                                 }}">
-                                                <span>{{ list.meta.total_incomplete_tasks }}</span> <!-- countIncompletedTasks( list.tasks ) -->
+                                                <span>{{ list.meta.total_incomplete_tasks }}</span> 
                                                 {{text.incomplete}}
                                             </router-link>
                                         </li>

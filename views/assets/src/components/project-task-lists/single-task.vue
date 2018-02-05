@@ -50,7 +50,7 @@
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
                                                 
-                                                <span  v-if="is_task_title_edit_mode">
+                                                <span  v-if="is_task_title_edit_mode && can_create_task">
                                                     <input 
                                                         v-model="task.title"
                                                         @blur="updateTaskElement(task)" 
@@ -387,6 +387,9 @@
                 //jQuery('.pm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
             },
             isEnableMultiSelect: function() {
+                if ( !this.user_can('create_task')){
+                    return false;
+                }
                 this.is_enable_multi_select = true;
 
                 pm.Vue.nextTick(function() {
@@ -422,6 +425,9 @@
                 this.updateTaskElement(task);
             },
             isTaskDetailsEditMode: function() {
+                if ( this.user_can('create_task') ) {
+                    this.is_task_details_edit_mode = false;
+                }
                 this.is_task_details_edit_mode = true;
 
                 pm.Vue.nextTick(function() {
@@ -485,6 +491,9 @@
             },
 
             isTaskDateEditMode: function() {
+                if ( this.user_can('create_task') ) {
+                    this.is_task_date_edit_mode = false;
+                }
                 this.is_task_date_edit_mode = true;
             },
 
