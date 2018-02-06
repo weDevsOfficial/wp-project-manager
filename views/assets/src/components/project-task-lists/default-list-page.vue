@@ -6,8 +6,10 @@
                 {{text.task_lists_define}}
             </p>
 
-            <new-task-list-btn></new-task-list-btn>
-            <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+            <new-task-list-btn v-if="can_create_list"></new-task-list-btn>
+            <transition name="slide" v-if="can_create_list">
+                <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
+            </transition>
             <div class="pm-list-content">
                 <h3 class="pm-why-for pm-page-title">{{text.when_use_task}}</h3>
 
@@ -30,6 +32,7 @@
     import new_task_list_form from './new-task-list-form.vue';
 
     export default {
+        mixins: [PmMixin.projectTaskLists],
         components: {
             'new-task-list-btn': new_task_list_btn,
             'new-task-list-form': new_task_list_form,

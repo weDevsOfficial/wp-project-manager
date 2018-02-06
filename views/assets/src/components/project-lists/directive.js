@@ -10,23 +10,25 @@ var Project = {
             minLength: 3,
             
             source: function( request, response ) {
-                var data = {},
-                    url = context.base_url + '/pm/v2/users/search?query=' + request.term;
+                var args = {
+                    conditions: {
+                       query : request.term
+                    },
+                    callback: function (res) {
+                        if ( res.data.length ) {
+                            response( res.data );
+                        } else {
+                            response({
+                                value: '0',
+                            });
+                        }
+                    }
+                }
                 
                 if ( pm_abort ) {
                     pm_abort.abort();
                 }
-
-                pm_abort = $.get( url, data, function( resp ) {
-                    
-                    if ( resp.data.length ) {
-                        response( resp.data );
-                    } else {
-                        response({
-                            value: '0',
-                        });
-                    }
-                });
+                pm_abort = context.get_search_user(args);
             },
 
             search: function() {

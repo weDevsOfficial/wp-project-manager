@@ -12,6 +12,7 @@ use WeDevs\PM\Milestone\Transformers\Milestone_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use WeDevs\PM\Task\Models\Task;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Task_List_Transformer extends TransformerAbstract {
 
@@ -31,21 +32,28 @@ class Task_List_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Task_List $item ) {
-        return [
+        $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
             'order'       => (int) $item->order,
             'created_at'  => format_date( $item->created_at ),
-            'meta'        => [
-                'total_tasks'            => $item->tasks()->count(),
-                'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
-                'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
-                'total_comments'         => $item->comments()->count(),
-                'totla_files'            => $item->files()->count(),
-                'total_assignees'        => $item->assignees()->count(),
-            ]
+            'meta'        => $this->meta( $item ),
         ];
+
+        return apply_filters( 'pm_task_list_transform', $data, $item );
+    }
+
+    public function meta( Task_List $item ) {
+        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        return array_merge( $meta, [
+            'total_tasks'            => $item->tasks()->count(),
+            'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
+            'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
+            'total_comments'         => $item->comments()->count(),
+            'totla_files'            => $item->files()->count(),
+            'total_assignees'        => $item->assignees()->count(),
+        ] );
     }
 
     public function includeAssignees( Task_List $item ) {
@@ -95,8 +103,9 @@ class Task_List_Transformer extends TransformerAbstract {
     public function includeTasks( Task_List $item ) {
         $page = isset( $_GET['task_page'] ) ? $_GET['task_page'] : 1;
 
-        $tasks = $item->tasks()
-            ->orderBy( 'pm_boardables.order', 'DESC' )
+        $tasks = $item->tasks();
+        $tasks = apply_filters( 'pm_task_query', $tasks,  $item->project_id, $item );
+        $tasks =  $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( 15, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -109,8 +118,9 @@ class Task_List_Transformer extends TransformerAbstract {
         $per_page = $per_page ? $per_page : 5;
 
         $tasks = $item->tasks()
-            ->where( 'status', 1 )
-            ->orderBy( 'pm_boardables.order', 'DESC' )
+                ->where( 'status', 1 );
+        $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
+        $tasks =  $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -120,12 +130,11 @@ class Task_List_Transformer extends TransformerAbstract {
         $page = isset( $_GET['incomplete_task_page'] ) ? $_GET['incomplete_task_page'] : 1;
         $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
-
         $tasks = $item->tasks()
-            ->where( 'status', 0 )
-            ->orderBy( 'pm_boardables.order', 'DESC' )
+            ->where( 'status', 0 );
+        $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
+        $tasks = $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
-
         return $this->make_paginated_tasks( $tasks );
     }
 

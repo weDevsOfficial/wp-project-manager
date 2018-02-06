@@ -3,148 +3,31 @@ export default pm.Vue.mixin({
     data () {
         return {
             base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
-            project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
+            project_id: typeof this.$route === 'undefined'? false : parseInt( this.$route.params.project_id ),
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
             text: PM_Vars.text,
         }
     },
+    computed: {
 
+    },
     methods: {
-        user_can(cap, project, user) {
-            user    = user || PM_Vars.current_user;
-            project = project || this.$store.state.project;
-
-            if ( this.has_manage_capability() ) {
-                return true;
-            }
-
-            if ( ! this.is_user_in_project(project, user) ) {
-                return false;
-            }
-
-            if( this.is_manager() ) {
-                return true;
-            }
-
-            var role = this.get_role(project, user);
-
-            if ( !role ) {
-                return false;
-            }
-
-            var role_caps = this.get_role_caps( project, role );
-
-            if ( !Object.keys(role_caps).length  ) {
-                return true;
-            }
-
-            if ( 
-                role_caps.hasOwnProperty(cap) 
-                &&
-                (
-                    role_caps[cap] === true
-                    ||
-                    role_caps[cap] === 'true'
-                )
-            ) {
-                return true;
-            }
-
-            return false;
-
+        user_can (cap) {
+            return pmUserCan( cap, this.$store.state.project );
         },
-
-        get_role_caps (project, role) {
-            project = project || this.$store.state.project;
-
-            var default_project = {
-                capabilities: {}
-            },
-            project = jQuery.extend(true, default_project, project );
-            
-            if( project.capabilities.hasOwnProperty(role) ) {
-                return project.capabilities[role];
-            } else {
-                return [];
-            }
+        is_user_in_project () {
+            return pmIsUserInProject( this.$store.state.project );
         },
-
-        get_role (project, user) {
-            user    = user || PM_Vars.current_user;
-            project = project || this.$store.state.project;
-
-            var default_project = {
-                assignees: {
-                    data: []
-                }
-            },
-            project = jQuery.extend(true, default_project, project );
-
-            var index = this.getIndex( project.assignees.data, user.ID, 'id' );
-
-            if ( index === false ) {
-                return false;
-            }
-
-            var project_user = project.assignees.data[index];
-            
-            return project_user.roles.data.length ? project_user.roles.data[0].slug : false;
+        is_manager () {
+            return pmIsManager( this.$store.state.project )
         },
-
-        is_manager (project, user) {
-            user    = user || PM_Vars.current_user;
-            project = project || this.$store.state.project;
-
-            var default_project = {
-                assignees: {
-                    data: []
-                }
-            },
-            project = jQuery.extend(true, default_project, project );
-
-            var index = this.getIndex( project.assignees.data, user.ID, 'id' );
-
-            if ( index === false ) {
-                return false;
-            }
-
-            var project_user = project.assignees.data[index];
-            var role_index   = this.getIndex( project_user.roles.data, 'manager', 'slug' );
-
-            if ( role_index !== false ) {
-                return true;
-            }
-
-            return false;
+        has_manage_capability () {
+            return pmHasManageCapability();
         },
-
-        has_manage_capability (user) {
-            if ( PM_Vars.manage_capability === '1' ){
-                return true;
-            }
-            var manage_caps = this.$store.state.manageCapability;
-            user = user || PM_Vars.current_user;
-
-            var common = this.intersect(user.roles, manage_caps);
-
-            if ( common.length ) {
-                return true;
-            }
-
-            return false;
-        },
-
         has_create_capability () {
-            if ( PM_Vars.manage_capability === '1' ){
-                return true;
-            }
-            if ( PM_Vars.create_capability === '1' ){
-                return true;
-            }
-            return false; 
+            return pmHasCreateCapability();
         },
-
         intersect(a, b) {
             var d = {};
             var results = [];
@@ -156,24 +39,6 @@ export default pm.Vue.mixin({
                     results.push(a[j]);
             }
             return results;
-        },
-
-        is_user_in_project (project, user) {
-            var user_id = user.ID;
-            var default_project = {
-                assignees: {
-                    data: []
-                }
-            },
-            project = jQuery.extend(true, default_project, project );
-            
-            var index = this.getIndex(project.assignees.data, user_id, 'id');
-
-            if ( index === false ) {
-                return false;
-            }
-
-            return true;
         },
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
@@ -521,6 +386,33 @@ export default pm.Vue.mixin({
             });
         },
 
+
+        get_search_user(args) {
+            var self = this;
+            var pre_define ={
+                data: {
+                },
+                conditions : {
+
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            var request = {
+                url: self.base_url + '/pm/v2/users/search?' + conditions ,
+                success: function(res) {
+                    if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
+                    }
+                }
+            }
+
+            return self.httpRequest(request);
+        },
+
         getGloabalProject(){
             var args ={
                 callback : function (res) {
@@ -531,8 +423,7 @@ export default pm.Vue.mixin({
             }
 
             var project = this.$root.$store.state.project;
-
-            if ( ! project.hasOwnProperty('id') ) { 
+            if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) { 
                 this.getProject(args);
             }
 

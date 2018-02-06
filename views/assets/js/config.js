@@ -138,11 +138,110 @@ function pmGetIndex( itemList, id, slug) {
 
     return index;
 }
+function pmUserCan(cap, project, user) {
+    user    = user || PM_Vars.current_user;
 
+    if ( pmHasManageCapability() ) {
+        return true;
+    }
+
+    if ( ! pmIsUserInProject(project, user) ) {
+        return false;
+    }
+
+    if( pmIsManager(project, user) ) {
+        return true;
+    }
+
+    var role = pmGetRole(project, user);
+
+    if ( !role ) {
+        return false;
+    }
+
+    var role_caps = pmGetRoleCaps( project, role );
+
+    if ( !Object.keys(role_caps).length  ) {
+        return true;
+    }
+
+    if ( 
+        role_caps.hasOwnProperty(cap) 
+        &&
+        (
+            role_caps[cap] === true
+            ||
+            role_caps[cap] === 'true'
+        )
+    ) {
+        return true;
+    }
+
+    return false;
+
+}
+
+function pmGetRoleCaps (project, role) {
+    var default_project = {
+        capabilities: {}
+    },
+    project = jQuery.extend(true, default_project, project );
+    
+    if( project.capabilities.hasOwnProperty(role) ) {
+        return project.capabilities[role];
+    } else {
+        return [];
+    }
+}
+
+function pmGetRole (project, user) {
+    user    = user || PM_Vars.current_user;
+
+    var default_project = {
+        assignees: {
+            data: []
+        }
+    },
+    project = jQuery.extend(true, default_project, project );
+
+    var index = pmGetIndex( project.assignees.data, user.ID, 'id' );
+
+    if ( index === false ) {
+        return false;
+    }
+
+    var project_user = project.assignees.data[index];
+    
+    return project_user.roles.data.length ? project_user.roles.data[0].slug : false;
+}
+
+function pmIsUserInProject (project, user) {
+    var user    = user || PM_Vars.current_user;
+    var user_id = user.ID;
+    var default_project = {
+        assignees: {
+            data: []
+        }
+    },
+    project = jQuery.extend(true, default_project, project );
+    
+    var index = pmGetIndex(project.assignees.data, user_id, 'id');
+
+    if ( index === false ) {
+        return false;
+    }
+
+    return true;
+}
 function pmIsManager (project, user) {
     user    = user || PM_Vars.current_user;
-    project = project || this.$store.state.project;
 
+    if (pmHasManageCapability()){
+        return true;
+    }
+    if ( !project ){
+        return false;
+    }
     var default_project = {
         assignees: {
             data: []

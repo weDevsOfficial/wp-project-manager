@@ -21,11 +21,11 @@ class Milestone_Controller {
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
-        $per_page = $per_page ? $per_page : 15;
-
-        $page = $request->get_param( 'page' );
-        $page = $page ? $page : 1;
+        $per_page   = $request->get_param( 'per_page' );
+        $per_page   = $per_page ? $per_page : 15;
+        
+        $page       = $request->get_param( 'page' );
+        $page       = $page ? $page : 1;
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
         $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );

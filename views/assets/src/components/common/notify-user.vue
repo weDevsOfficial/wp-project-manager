@@ -23,10 +23,17 @@
 <script>
     
 export default {
-    props: ['value'],
+    props: {
+        value: {
+            type: [Array],
+            default () {
+                return [];
+            }
+        }
+    },
     data () {
         return {
-            notify_users: [],
+            notify_users: this.value,
             select_all: false,
         }
     },
@@ -39,6 +46,9 @@ export default {
                 this.select_all = false;
             }
             this.$emit('input', value);
+        },
+        value (v) {
+            this.notify_users = v;
         }
     },
     computed: {
@@ -50,12 +60,12 @@ export default {
         select_all_user () {
             var self = this;
             if(this.select_all){
-                this.notify_users=[];
+                this.notify_users = [];
                 this.assain_users.forEach(function(user){
                 self.notify_users.push(user.id);
             })
             }else{
-                this.notify_users=[];
+                this.notify_users = [];
             }
         }
     }
