@@ -103,8 +103,7 @@ class Task_List_Transformer extends TransformerAbstract {
     public function includeTasks( Task_List $item ) {
         $page = isset( $_GET['task_page'] ) ? $_GET['task_page'] : 1;
 
-        $tasks = $item->tasks()
-            ->getQuery();
+        $tasks = $item->tasks();
         $tasks = apply_filters( 'pm_task_query', $tasks,  $item->project_id, $item );
         $tasks =  $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( 15, ['*'], 'page', $page );
@@ -119,8 +118,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $per_page = $per_page ? $per_page : 5;
 
         $tasks = $item->tasks()
-                ->where( 'status', 1 )
-                ->getQuery();
+                ->where( 'status', 1 );
         $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
         $tasks =  $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
@@ -133,8 +131,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         $tasks = $item->tasks()
-            ->where( 'status', 0 )
-            ->getQuery();
+            ->where( 'status', 0 );
         $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
         $tasks = $tasks->orderBy( 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page, ['*'], 'page', $page );
