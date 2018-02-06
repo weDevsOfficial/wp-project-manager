@@ -3,7 +3,7 @@ export default pm.Vue.mixin({
     data () {
         return {
             base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
-            project_id: typeof this.$route === 'undefined'? false : this.$route.params.project_id,
+            project_id: typeof this.$route === 'undefined'? false : parseInt( this.$route.params.project_id ),
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
             text: PM_Vars.text,
@@ -401,8 +401,7 @@ export default pm.Vue.mixin({
             }
 
             var project = this.$root.$store.state.project;
-
-            if ( ! project.hasOwnProperty('id') ) { 
+            if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) { 
                 this.getProject(args);
             }
 

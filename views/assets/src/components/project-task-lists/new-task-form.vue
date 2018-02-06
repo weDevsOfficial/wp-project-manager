@@ -269,7 +269,7 @@ export default {
             var args = {
                 data: {
                     task_id: this.task.id,
-                    board_id: pm_apply_filters( 'pm_list_id' , this.list.id),
+                    board_id: this.list.id,
                     assignees: this.assigned_to,
                     title: this.task.title,
                     description: this.task.description,
