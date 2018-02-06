@@ -11,6 +11,6 @@ class Project_Manage_Capability extends Abstract_Permission {
         if ( pm_has_manage_capability() ) {
             return true;
         }
-        return new \WP_Error( 'project', __( "You have no permission to create project.", "pm" ) );
+        return new \WP_Error( 'project', __( "You have no permission.", "pm" ) );
     }
 }

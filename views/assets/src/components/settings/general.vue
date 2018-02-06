@@ -122,6 +122,14 @@
 </template>
 <script>
 export default {
+    beforeRouteEnter (to, from, next) {
+        if( PM_Vars.manage_capability !== '1' ) {
+            next(false);
+        }else {
+            next();
+        }
+      
+    },
     data () {
         return {
             upload_limit: this.getSettings('upload_limit', 2),

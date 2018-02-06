@@ -63,6 +63,7 @@
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
+    "v-autocomplete": "^1.8.2",
     "vue": "^2.5.2",
     "vue-multiselect": "^2.0.3",
     "vue-router": "^3.0.1",

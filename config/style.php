@@ -42,6 +42,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/Elegant-Loading-Indicator/preloader.css',
 		'dependency' => false,
 	],
+	'pm-autocomplete' => [
+		'id'         => 'pm-loaautocompleteding',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/v-autocomplete/v-autocomplete.css',
+		'dependency' => false,
+	],
 	'pm-style' => [
 		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
@@ -53,7 +58,8 @@ return [
 			'pm-jquery-ui',
 			'pm-fullcalendar',
 			'pm-tiny-mce',
-			'pm-loading'
+			'pm-loading',
+			'pm-loaautocompleteding'
 		],
 	],
 ];

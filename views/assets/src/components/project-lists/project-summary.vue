@@ -145,7 +145,7 @@
                                 
                             </a>
                         </li>
-                        <do-action :hook="'project_action_menu'" :actionData="project" ></do-action>
+                        <pm-do-action :hook="'project_action_menu'" :actionData="project" ></pm-do-action>
                     </ul>
                 </div>
             </div>

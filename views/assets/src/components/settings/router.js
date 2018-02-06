@@ -16,24 +16,47 @@ const settingsEmail = resolve => {
     });
 }
 
+weDevsPMRegisterChildrenRoute('settings_root',
+    [
+        {
+            path: '',
+            component: settingsGeneral,
+            name: 'general',
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
+                }
+            }
+        },
+        { 
+            path: 'email', 
+            component: settingsEmail, 
+            name: 'email',
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
+                }
+            }
+        }
+    ]
+);
+
 weDevsPMRegisterChildrenRoute('project_root', 
     [
         { 
             path: 'settings', 
-            component: settingsHeader, 
-            children: [
-                {
-                    path: '/',
-                    component: settingsGeneral,
-                    name: 'general',
-                },
-                { 
-                    path: 'email', 
-                    component: settingsEmail, 
-                    name: 'email',
+            component: settingsHeader,
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
                 }
-            ]
+            },
+            children: wedevsPMGetRegisterChildrenRoute('settings_root')
         }
 
     ]
 );
+
+
+
+

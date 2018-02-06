@@ -8,6 +8,8 @@
             <router-link class="nav-tab" :to="{name: 'email'}">
                 {{text.email_settings}}
             </router-link>
+
+            <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
         <div class="settingswrapper">
             <router-view></router-view>

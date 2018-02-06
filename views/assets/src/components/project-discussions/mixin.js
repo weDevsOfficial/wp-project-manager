@@ -45,7 +45,7 @@ export default {
                         self.addDiscussMeta(discuss);
                     });
                     self.$store.commit( 'projectDiscussions/setDiscussion', res.data );
-                    self.$store.commit( 'projectDiscussions/setDiscussionMeta', res.meta.pagination );
+                    self.$store.commit( 'projectDiscussions/setDiscussionMeta', res.meta );
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);

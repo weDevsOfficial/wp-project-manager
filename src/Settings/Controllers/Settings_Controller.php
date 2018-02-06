@@ -72,7 +72,7 @@ class Settings_Controller {
         return $this->get_response( $resource, $message );
     }
 
-    private function save_settings( $data, $project_id = 0 ) {
+    public static function save_settings( $data, $project_id = 0 ) {
         if ( $project_id ) {
             $settings = Settings::firstOrCreate([
                 'key' => $data['key'],
