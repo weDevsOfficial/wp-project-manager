@@ -49,7 +49,6 @@
                         c = c.substring(1);
                     }
 
-                    console.log(c.indexOf(key));
                     if (c.indexOf(key) == 0) {
                         this.setProjectsView( c.substring(key.length, c.length) );
                         //this.$store.commit('projectLists/setProjectsView', c.substring(key.length, c.length))

@@ -127,6 +127,13 @@
         } else {
             args.callback = function(res) {
                 self.lazyAction();
+                self.$router.push({
+                    name: 'individual_discussions', 
+                    params: { 
+                        project_id: self.project_id,
+                        discussion_id: res.id 
+                    }
+                });
             }
             self.newDiscuss(args);
         }
