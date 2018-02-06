@@ -22,6 +22,9 @@ export default pm.Vue.mixin({
         is_manager () {
             return pmIsManager( this.$store.state.project )
         },
+        has_manage_capability () {
+            return pmHasManageCapability();
+        },
         has_create_capability () {
             return pmHasCreateCapability();
         },

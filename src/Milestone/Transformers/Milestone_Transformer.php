@@ -49,8 +49,7 @@ class Milestone_Transformer extends TransformerAbstract {
     public function includeTaskLists( Milestone $item ) {
         $page = isset( $_GET['task_list_page'] ) ? $_GET['task_list_page'] : 1;
 
-        $task_lists = $item->task_lists()
-            ->getQuery();
+        $task_lists = $item->task_lists();
         $task_lists = apply_filters('pm_task_list_query', $task_lists, $item->project_id, $item );
         $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
             ->paginate( 10, ['*'], 'task_list_page', $page );
@@ -66,7 +65,7 @@ class Milestone_Transformer extends TransformerAbstract {
     public function includeDiscussionBoards( Milestone $item ) {
         $page = isset( $_GET['discussion_page'] ) ? $_GET['discussion_page'] : 1;
 
-        $discussion_boards = $item->discussion_boards()->getQuery();
+        $discussion_boards = $item->discussion_boards();
         $discussion_boards = apply_filters( 'pm_discuss_query', $discussion_boards, $item->project_id, $item );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
             ->paginate( 10, ['*'], 'discussion_page', $page );
