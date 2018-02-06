@@ -22,7 +22,7 @@
 <script>
     import editor from '@components/common/text-editor.vue';
     import file_uploader from '@components/common/file-uploader.vue';
-    import notifyUser from '@components/common/notifyUser.vue';
+    import notifyUser from '@components/common/notify-user.vue';
 
     export default {
     // Get passing data for this component. 
@@ -152,8 +152,10 @@
                         comment: res.data
                     });
                     self.submit_disabled = false;
-                    self.show_spinner = false;
-                    self.files = []; self.deleted_files = [];
+                    self.show_spinner    = false;
+                    self.notify_users    = [];
+                    self.files           = []; 
+                    self.deleted_files   = [];
                 }
                 self.updateComment ( args );
             }else{
@@ -163,8 +165,10 @@
                         comment: res.data
                     });
                     self.submit_disabled = false;
-                    self.show_spinner = false;
-                    self.files = []; self.deleted_files = [];
+                    self.show_spinner    = false;
+                    self.notify_users    = [];
+                    self.files           = []; 
+                    self.deleted_files   = [];
                 }
                 self.addComment ( args );
             }

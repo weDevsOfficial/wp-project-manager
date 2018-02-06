@@ -349,4 +349,25 @@ function pm_has_project_create_capability( $user_id = false ) {
     return true;
 }
 
+function pm_user_can_complete_task( $task, $user_id = false ) {
+    $user_id = $user_id ? $user_id: get_current_user_id();
+
+    if ( pm_has_manage_capability( $user_id ) ) {
+        return true;
+    }
+
+    if ( pm_is_manager( $task->project_id, $user_id ) ) {
+        return true;
+    }
+
+    $assignees = $task->assignees->pluck( 'assigned_to' )->all();
+    $in_array = in_array( $user_id, $assignees );
+
+    if ( !empty( $in_array ) ) {
+        return true;
+    }
+
+    return false;
+}
+
 

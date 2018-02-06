@@ -7,10 +7,18 @@ use WP_REST_Request;
 
 class Project_Manage_Capability extends Abstract_Permission {
     public function check() {
-        
-        if ( pm_has_manage_capability() ) {
-            return true;
+        $project_id = $this->request->get_param( 'project_id' );
+        $user_id = get_current_user_id();
+        if ( $user_id ) {
+            if ( pm_has_manage_capability() ) {
+                return true;
+            }
+            
+            if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
+                return true;
+            }
         }
+        
         return new \WP_Error( 'project', __( "You have no permission.", "pm" ) );
     }
 }

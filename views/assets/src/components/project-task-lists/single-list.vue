@@ -38,7 +38,7 @@
                                 <h3>
                                     {{ list.title }}
                                    
-                                    <div class="pm-right" v-if="user_can('create_list')">
+                                    <div class="pm-right" v-if="can_create_list">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" :title="text.delete_list" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="" >  <span :class="privateClass(list.meta.privacy)"></span> </a>
@@ -49,11 +49,12 @@
                                     {{ list.description }}
                                 </div>
 
-                                <!-- <div class="pm-entry-detail">{{list.post_content}}</div> -->
-                                <div class="pm-update-todolist-form" v-if="list.edit_mode && user_can('create_list')">
-                                    <!-- New Todo list form -->
-                                    <new-task-list-form :list="list" section="single"></new-task-list-form>
-                                </div>
+                               <transition name="slide" v-if="can_create_list">
+                                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
+                                        <!-- New Todo list form -->
+                                        <new-task-list-form :list="list" section="single"></new-task-list-form>
+                                    </div>
+                                </transition>
                             </header>
 
                             <!-- Todos component -->
@@ -62,7 +63,7 @@
                             <footer class="pm-row pm-list-footer">
                                 <div class="pm-col-6">
 
-                                    <div>
+                                    <div v-if="can_create_task">
                                         <new-task-button :task="{}" :list="list" list_index="0"></new-task-button>
                                     </div>
 

@@ -3,7 +3,7 @@
         <div v-if="!task.edit_mode" class="pm-todo-content">
             <div class="pm-todo-inside">
                 <div class="pm-col-7">
-                   <input :disabled="!is_assigned(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
+                   <input :disabled="can_complete_task(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         <router-link 
@@ -75,7 +75,7 @@
                 <div class="clearfix"></div>
 
                 <div class="pm-list-action-wrap">
-                    <div class="pm-list-action">
+                    <div class="pm-list-action" v-if="can_create_task">
 
                         <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
                             <span class="">Edit |</span>
@@ -89,7 +89,7 @@
             </div>
             <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
         </div>
-        <transition name="slide">
+        <transition name="slide" v-if="can_create_task">
             <div class="pm-todo-form" v-if="task.edit_mode">
                 <new-task-form :task="task" :list="list"></new-task-form>
             </div>

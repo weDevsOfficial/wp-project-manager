@@ -61,6 +61,12 @@ class Task_Controller {
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
+        if ( $task == NULL ) {
+            return $this->get_response( null,  [
+                'message' => pm_get_text('success_messages.no_element')
+            ] );
+        }
+
         $resource = new Item( $task, new Task_Transformer );
 
         return $this->get_response( $resource );
@@ -156,21 +162,26 @@ class Task_Controller {
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
 
-        $task = Task::where( 'project_id', $project_id )
+        $task = Task::with('assignees')
+            ->where( 'project_id', $project_id )
             ->where( 'id', $task_id )
             ->first();
 
-        if ( $task ) {
-            $ordStatus = $task->status;
-            $task->update_model( $data );
+        if ( $task && pm_user_can_complete_task( $task ) ) {
+            $task->status = $request->get_param( 'status' );
+            $task->save();
         }
 
-        if ( is_array( $assignees ) && $task ) {
-            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
-            $this->attach_assignees( $task, $assignees );
+        if ( pm_user_can('create_task', $project_id) ) {
+            $task->update_model( $data );
+            if ( is_array( $assignees ) && $task ) {
+                $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+                $this->attach_assignees( $task, $assignees );
+            }
+            
+            do_action('pm_after_update_task', $task, $request->get_params() );
         }
         
-        do_action('pm_after_update_task', $task, $request->get_params() );
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [

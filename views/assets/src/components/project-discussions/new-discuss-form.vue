@@ -38,7 +38,7 @@
 <script>
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader.vue';
-  import notifyUser from '@components/common/notifyUser.vue';
+  import notifyUser from '@components/common/notify-user.vue';
 
 
 
@@ -126,6 +126,13 @@
         } else {
             args.callback = function(res) {
                 self.lazyAction();
+                self.$router.push({
+                    name: 'individual_discussions', 
+                    params: { 
+                        project_id: self.project_id,
+                        discussion_id: res.id 
+                    }
+                });
             }
             self.newDiscuss(args);
         }
