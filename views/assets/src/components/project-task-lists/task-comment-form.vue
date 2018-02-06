@@ -19,7 +19,7 @@
 <script>
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader.vue';
-  import notifyUser from '@components/common/notifyUser.vue';
+  import notifyUser from '@components/common/notify-user.vue';
 
   export default {
     props: ['comment', 'comments'],
@@ -101,10 +101,12 @@
                 args.callback = function(res){
                     var index = self.getIndex( self.comments, self.comment.id, 'id' );
                     self.comments.splice(index, 1, res.data);
-
+                    
                     self.submit_disabled = false;
-                    self.show_spinner = false;
-                    self.files = []; self.deleted_files = [];
+                    self.show_spinner    = false;
+                    self.notify_users    = [];
+                    self.files           = []; 
+                    self.deleted_files   = [];
                 }
 
                 self.updateComment ( args );
@@ -113,8 +115,10 @@
                 args.callback = function ( res ) {
                     self.comments.splice(0, 0, res.data);
                     self.submit_disabled = false;
-                    self.show_spinner = false;
-                    self.files = []; self.deleted_files = [];
+                    self.show_spinner    = false;
+                    self.notify_users    = [];
+                    self.files           = []; 
+                    self.deleted_files   = [];
                 }
                 self.addComment ( args );
             }

@@ -58,7 +58,7 @@
                 <h3> {{ discuss.meta.total_comments }} {{text.comments}}</h3>
                 <ul class="pm-comment-wrap">
 
-                    <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" key="comment.id">
+                    <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" :key="comment.id">
                         <div class="pm-avatar ">
                             <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">

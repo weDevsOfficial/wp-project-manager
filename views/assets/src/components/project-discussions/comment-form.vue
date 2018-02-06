@@ -21,7 +21,7 @@
 <script>    
     import editor from '@components/common/text-editor.vue';
     import uploader from '@components/common/file-uploader.vue';
-    import notifyUser from '@components/common/notifyUser.vue';
+    import notifyUser from '@components/common/notify-user.vue';
     
     export default {
         props: ['comment', 'discuss'],
@@ -89,6 +89,7 @@
 
                     callback: function() {
                         self.content.html = '';
+                        self.notify_users = [];
                     }
                 };
 
