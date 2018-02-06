@@ -245,18 +245,37 @@ export default pm.Vue.mixin({
 
             return pm.Moment( date ).format(format);
         },
-        getSettings (key, pre_define ) {
-            var pre_define  = pre_define || false,
+        getSettings (key, pre_define, objKey ) {
+
+            var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
+                objKey = typeof objKey == 'undefined' ? false : objKey,
                 settings  = PM_Vars.settings;
 
-            if ( !PM_Vars.settings[key] ) {
+
+            if (objKey) {
+                if ( typeof PM_Vars.settings[objKey][key] == 'undefined' ) {
+                    return pre_define;
+                }
+                
+                if ( PM_Vars.settings[objKey][key] === "true" ){
+                    return true;
+                } else if ( PM_Vars.settings[objKey][key] === "false" ){
+                    return false;
+                } else {
+                    return PM_Vars.settings[objKey][key];
+                }
+            }
+
+
+            if ( typeof PM_Vars.settings[key] == 'undefined' ) {
                 return pre_define;
             }
+
             if ( PM_Vars.settings[key] === "true" ){
                 return true;
-            }else if( PM_Vars.settings[key] === "false" ){
+            } else if ( PM_Vars.settings[key] === "false" ){
                 return false;
-            }else {
+            } else {
                 return PM_Vars.settings[key];
             }
             
@@ -432,6 +451,8 @@ export default pm.Vue.mixin({
                     if(typeof callback !== 'undefined'){
                         callback(res.data);
                     }
+
+                    pmProjects = res.data;
                 }
             };
 
@@ -842,7 +863,7 @@ export default pm.Vue.mixin({
                 },
                 type: 'POST',
                 success (res) {
-                    //pm.Toastr.success(res.message);
+                    pm.Toastr.success(res.message);
                     if (typeof callback !== 'undefined') {
                         callback(res.data);
                     }
@@ -902,7 +923,25 @@ export default pm.Vue.mixin({
 
         setViewType(view_type) {
             this.$store.commit('listViewType', view_type);
+        },
+
+        getClients () {
+            
+            var project = this.$store.state.project,
+                assignees = this.$store.state.project.assignees.data;
+
+            return assignees.filter(function(user) {
+
+                var roles = user.roles.data.filter(function(role) {
+                    return role.slug == 'client' ? true : false;
+                });
+
+                return roles.length ? true : false;
+            });
         }
     }
 });
+
+
+
 

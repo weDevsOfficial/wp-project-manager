@@ -38,7 +38,7 @@ class Discussion_Board_Controller {
 
         $resource = new Collection( $discussion_board_collection, new Discussion_Board_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
- 
+        $resource = apply_filters( 'pm_get_messages',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -56,7 +56,7 @@ class Discussion_Board_Controller {
             ] );
         }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
-
+        $resource = apply_filters( 'pm_get_message',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -81,6 +81,7 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_created')
         ];
+        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
         do_action( 'pm_after_new_message', $response, $request->get_params() );
         return $response;
@@ -119,6 +120,8 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_updated')
         ];
+        
+        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
         do_action( 'pm_after_update_message', $response, $request->get_params() );
         return $response;

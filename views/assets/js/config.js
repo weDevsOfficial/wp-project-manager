@@ -7,8 +7,10 @@ const weDevsPmModules = [];
 const weDevsPmProModules = [];
 const weDevsPmProAddonModules = [];
 const WeDevsfilters = {}; 
+var pmProjects = [];
 
 function weDevsPMRegisterChildrenRoute (parentRouteName, routes) {
+    
 	routes.forEach(function(route) {
 		if (weDevsPMChildrenRouter.hasOwnProperty(parentRouteName)  ) {
 			weDevsPMChildrenRouter[parentRouteName].push(route);
@@ -122,4 +124,61 @@ function pm_remove_filter( tag, callback ) {
             WeDevsfilters[ tag ].splice(i, 1);
         }
     } );
+}
+
+function pmGetIndex( itemList, id, slug) {
+    var index = false;
+
+    jQuery.each(itemList, function(key, item) {
+
+        if (item[slug] == id) {
+            index = key;
+        }
+    });
+
+    return index;
+}
+
+function pmIsManager (project, user) {
+    user    = user || PM_Vars.current_user;
+    project = project || this.$store.state.project;
+
+    var default_project = {
+        assignees: {
+            data: []
+        }
+    },
+    project = jQuery.extend(true, default_project, project );
+
+    var index = pmGetIndex( project.assignees.data, user.ID, 'id' );
+    ( project.assignees.data, user.ID, 'id' );
+
+    if ( index === false ) {
+        return false;
+    }
+
+    var project_user = project.assignees.data[index];
+    var role_index   = pmGetIndex( project_user.roles.data, 'manager', 'slug' );
+
+    if ( role_index !== false ) {
+        return true;
+    }
+
+    return false;
+}
+
+function pmHasManageCapability () {
+    if ( PM_Vars.manage_capability === '1' ){
+        return true;
+    }
+    return false;
+}
+function pmHasCreateCapability () {
+    if ( PM_Vars.manage_capability === '1' ){
+        return true;
+    }
+    if ( PM_Vars.create_capability === '1' ){
+        return true;
+    }
+    return false; 
 }

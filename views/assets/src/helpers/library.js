@@ -21,6 +21,7 @@ var scriptsLoaded = {
 	'Toastr': false,
 	'Uploader': false,
 	'Loading': false,
+	'Autocomplete': false,
 	//'TimePicker': false
 };
 
@@ -120,6 +121,16 @@ window.pmPromise = new Promise(function(resolve, reject) {
 	});
 
 	require.ensure(
+		['v-autocomplete'],
+		function(require) {
+			pm.Autocomplete = require('v-autocomplete');
+		}
+	).then(function() {
+		scriptsLoaded.Autocomplete = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
 		['./jquery-ui-timepicker/jquery-ui-timepicker'],
 		function(require) {
 			pm.TimePicker = require('./jquery-ui-timepicker/jquery-ui-timepicker');
@@ -162,6 +173,7 @@ function pmIsAllScriptsLoaded(resolve, reject) {
 pmPromise.then(function(result) {
 	pm.Vue.use(pm.Vuex);
 	pm.Vue.use(pm.VueRouter);
+	pm.Vue.use(pm.Autocomplete.default);
 });
 
 
