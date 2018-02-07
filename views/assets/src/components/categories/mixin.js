@@ -1,4 +1,9 @@
 export default {
+    data() {
+        return {
+            loading: true,
+        }
+    },
     methods: {
         /**
          * Insert categroy resource
@@ -67,8 +72,9 @@ export default {
                     res.data.map(function(category, index) {
                         self.addCategoryMeta(category);
                     });
-                        
+                    pm.NProgress.done();  
                     self.$store.commit('categories/setCategories', res.data);
+                    self.loading = false;
                 }
             };
 
