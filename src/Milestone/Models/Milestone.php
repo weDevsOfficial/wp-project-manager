@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Models\Meta;
 use Carbon\Carbon;
@@ -112,5 +113,9 @@ class Milestone extends Eloquent {
         return $this->belongsToMany( Discussion_Board::class, 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
+    }
+
+    public function project() {
+        return $this->belongsTo( Project::class, 'project_id' );
     }
 }
