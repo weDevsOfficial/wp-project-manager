@@ -36,9 +36,9 @@
                 </div>
                 
                 <div class="pm-col-4 pm-todo-action-center">
-                    <span :class="privateClass( task.meta.privacy )"></span>
-                    <div class="pm-task-comment pm-todo-action-child">
-                        <span>
+                    
+                    <span class="pm-task-comment pm-todo-action-child">
+
                             <router-link 
                                 :to="{ 
                                     name: route_name, 
@@ -53,9 +53,8 @@
                                     {{ task.meta.total_comment }}
                                 </span>
                             </router-link>
-                        </span>
-                    </div>
-
+                    </span>
+                    <span :class="privateClass( task.meta.privacy )"></span>
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     <div class="pm-clearfix"></div>
 
@@ -96,25 +95,6 @@
         </transition>
     </div>
 </template>
-
-<style>
-    .pm-todo-action-child {
-        float: left;
-    }
-    .pm-list-action {
-        margin-left: 24px;
-        font-size: 12px;
-        display: none;
-    }
-    .pm-todo-inside:hover .pm-list-action {
-        display: block;
-    }
-    .pm-list-action-wrap {
-        display: block;
-        height: 16px;
-    }
-</style>
-
 <script>
     import new_task_form from './new-task-form.vue';
     import DoAction from './../common/do-action.vue';
