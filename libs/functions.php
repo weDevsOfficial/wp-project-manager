@@ -370,4 +370,23 @@ function pm_user_can_complete_task( $task, $user_id = false ) {
     return false;
 }
 
+/**
+ * What type of request is this?
+ *
+ * @param  string $type admin, ajax, cron or frontend.
+ * @return bool
+ */
+function pm_is_request( $type ) {
+    switch ( $type ) {
+        case 'admin' :
+            return is_admin();
+        case 'ajax' :
+            return defined( 'DOING_AJAX' );
+        case 'cron' :
+            return defined( 'DOING_CRON' );
+        case 'frontend' :
+            return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+    }
+}
+
 

@@ -40,7 +40,6 @@ export default {
         },
 
         setDiscussion (state, discussion) {
-            
             state.discussion = discussion;
         },
 

@@ -69,7 +69,6 @@ function pmScriptsLoaded(resolve, reject) {
 window.pmBus = new pm.Vue();
 
 promiseReturn.then(function(result) {
-
 	/**
 	 * Project template render
 	 */
@@ -80,6 +79,8 @@ promiseReturn.then(function(result) {
 	    render: t => t(PM),
 	}
 
+	pm.Vue.mixin(pm.Mixin.default);
+	
 	new pm.Vue(PM_Vue); 
 });
 

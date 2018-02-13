@@ -22,7 +22,7 @@ var scriptsLoaded = {
 	'Uploader': false,
 	'Loading': false,
 	'Autocomplete': false,
-	//'TimePicker': false
+	'Mixin': false
 };
 
 window.pmPromise = new Promise(function(resolve, reject) {
@@ -137,6 +137,16 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		}
 	).then(function() {
 		scriptsLoaded.TimePicker = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
+		['./mixin/mixin'],
+		function(require) {
+			pm.Mixin = require('./mixin/mixin');
+		}
+	).then(function() {
+		scriptsLoaded.Mixin = true;
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 
