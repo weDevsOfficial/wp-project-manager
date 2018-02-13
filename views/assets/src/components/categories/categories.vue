@@ -2,19 +2,19 @@
     <div class="wrap nosubsub">
         <h1 class="wp-heading-inline">{{text.categories}}</h1>
         <hr class="wp-header-end">
-        <div id="ajax-response"></div>
+        <div v-if="loading" class="pm-data-load-before" >
+            <div class="loadmoreanimation">
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
 
-    <!--    <form class="search-form wp-clearfix" method="get">
-        
-            <p class="search-box">
-                <label class="screen-reader-text" for="tag-search-input">Search Categories:</label>
-                <input type="search" id="tag-search-input" name="s" value="">
-                <input type="submit" id="search-submit" class="button" value="Search Categories">
-            </p>
-
-        </form> -->
-
-        <div id="col-container" class="wp-clearfix">
+        <div v-if="!loading" id="col-container" class="wp-clearfix">
 
             <div id="col-left">
                 <div class="col-wrap">
@@ -93,7 +93,7 @@
 
                             <tbody id="the-list" data-wp-lists="list:tag">
 
-                                <tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)">
+                                <tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)" :key="category.id">
                                     <th v-if="!category.edit_mode" scope="row" class="check-column">
                                         <input v-model="delete_items" :value="category.id" type="checkbox"  id="cb-select-48">
                                     </th>
@@ -205,7 +205,7 @@
         mixins: [PmMixin.categories],
         computed: {
             categories () {
-                return this.$store.state.categories.categories || [];
+                return this.$store.state.categories.categories;
             }
         },
 

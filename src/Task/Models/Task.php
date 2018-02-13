@@ -61,6 +61,10 @@ class Task extends Eloquent {
         return $query->whereDate('due_date', '<', $today);
     }
 
+    public function scopeParent( $query ){
+        return $query->where('parent_id', 0);
+    }
+
     public function task_lists() {
         return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
             ->where('pm_boardables.board_type', 'task_list')
