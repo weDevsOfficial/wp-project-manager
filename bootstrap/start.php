@@ -13,15 +13,14 @@
 */
 global $wedevs_pm_pro;
 
-add_action( 'init', function() { 
-    require __DIR__.'/../vendor/autoload.php';
 
-    load_libs();
-    load_orm();
-    migrate_db();
-    view();
-    load_routes();
-    register_routes();
-    seed_db();
-    do_action( 'pm_loaded' );
-});
+require __DIR__.'/../vendor/autoload.php';
+
+load_libs();
+load_orm();
+migrate_db();
+view();
+load_routes();
+register_routes();
+seed_db();
+do_action( 'pm_loaded' );

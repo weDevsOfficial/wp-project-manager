@@ -37,6 +37,7 @@ class Frontend {
 		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
+		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
 	}
 
 	/**
@@ -54,9 +55,12 @@ class Frontend {
 	 * @return void
 	 */
 	public function instantiate() {
-		Register_Scripts::scripts();
-		Register_Scripts::styles();
         Notification::init_transactional_emails();
         new Upgrade();
+	}
+
+	public function register_scripts() {
+		Register_Scripts::scripts();
+		Register_Scripts::styles();
 	}
 }
