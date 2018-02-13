@@ -35,8 +35,6 @@ class Frontend {
 	 */
 	public function init_actions() {
 		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
-		//add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'scripts' ) );
-		//add_action( 'admin_enqueue_scripts', array( new  Enqueue_Scripts, 'styles' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
 	}

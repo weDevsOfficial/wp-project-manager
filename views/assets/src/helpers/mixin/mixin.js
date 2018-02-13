@@ -1,4 +1,4 @@
-export default pm.Vue.mixin({
+export default {
 
     data () {
         return {
@@ -116,7 +116,7 @@ export default pm.Vue.mixin({
                 objKey = typeof objKey == 'undefined' ? false : objKey,
                 settings  = PM_Vars.settings;
 
-
+            
             if (objKey) {
                 if ( typeof PM_Vars.settings[objKey][key] == 'undefined' ) {
                     return pre_define;
@@ -831,7 +831,10 @@ export default pm.Vue.mixin({
             });
         }
     }
-});
+};
+
+
+ 
 
 
 
