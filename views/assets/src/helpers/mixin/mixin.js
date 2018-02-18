@@ -115,12 +115,14 @@ export default {
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
                 objKey = typeof objKey == 'undefined' ? false : objKey,
                 settings  = PM_Vars.settings;
-
-            
             if (objKey) {
-                if ( typeof PM_Vars.settings[objKey][key] == 'undefined' ) {
+                if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
                     return pre_define;
                 }
+                if ( typeof PM_Vars.settings[objKey][key] === 'undefined' ){
+                    return pre_define;
+                }
+                        
                 
                 if ( PM_Vars.settings[objKey][key] === "true" ){
                     return true;
@@ -205,7 +207,7 @@ export default {
                 callback: false,
             },
             args = jQuery.extend(true, pre_define, args );
-
+            args = pm_apply_filters( 'before_project_save', args );
             var request = {
                 type: 'POST',
                 url: this.base_url + '/pm/v2/projects/',
@@ -255,7 +257,7 @@ export default {
               callback: false,
             },
             args = jQuery.extend(true, pre_define, args );
-
+            args = pm_apply_filters( 'before_project_save', args );
             var request = {
                 type: 'PUT',
                 url: this.base_url + '/pm/v2/projects/'+ args.data.id,
@@ -300,8 +302,8 @@ export default {
             }
 
             var  args = jQuery.extend(true, pre_define, args );
-            var conditions = self.generateConditions(args.conditions);
-
+            var conditions = pm_apply_filters( 'before_get_project', args.conditions );
+            conditions = self.generateConditions(conditions);
 
             var request_data = {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
