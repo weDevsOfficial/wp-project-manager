@@ -357,15 +357,21 @@ class CPM_Ajax {
         // cpm_user_can_delete_edit( $project_id, $list )
         $start_date = sanitize_text_field( $_POST[ 'start_date' ] );
         $end_date   = sanitize_text_field( $_POST[ 'end_date' ] );
-
-        $start_date = !empty( $start_date ) ? date( 'Y-m-d H:i:s', strtotime( $start_date ) ) : '';
-        $end_date   = !empty( $end_date ) ? date( 'Y-m-d H:i:s', strtotime( $end_date ) ) : '';
         $project_id = sanitize_text_field( $_POST[ 'project_id' ] );
         $task_id    = sanitize_text_field( $_POST[ 'task_id' ] );
 
+        if ( empty( $end_date ) || empty( $task_id ) ) {
+            return ;
+        }
+        $end_date   = date( 'Y-m-d H:i:s', strtotime( $end_date ) );
+        
+        if( !empty( $start_date ) ){
+            $start_date = date( 'Y-m-d H:i:s', strtotime( $start_date ) );
+        }
+        
         if ( cpm_user_can_delete_edit( $project_id, $task_id, true ) ) {
             $task_start_field = cpm_get_option( 'task_start_field', 'cpm_general', 'off' );
-            if ( $task_start_field == 'on' ) {
+            if ( $task_start_field == 'on' && !empty( $start_date ) ) {
                 update_post_meta( $_POST[ 'task_id' ], '_start', $start_date );
             }
 
