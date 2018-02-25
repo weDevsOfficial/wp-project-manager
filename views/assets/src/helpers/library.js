@@ -22,7 +22,8 @@ var scriptsLoaded = {
 	'Uploader': false,
 	'Loading': false,
 	'Autocomplete': false,
-	'Mixin': false
+	'Mixin': false,
+	'commonComponents': false
 };
 
 window.pmPromise = new Promise(function(resolve, reject) {
@@ -167,6 +168,19 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		}
 	).then(function() {
 		scriptsLoaded.Loading = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
+		['./global-common-components'],
+		function(require) {
+			require(['./global-common-components'], function(script) {
+				pm.commonComponents = script.default;
+			});
+		}
+	).then(function(script) {
+		
+		scriptsLoaded.commonComponents = true;
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 

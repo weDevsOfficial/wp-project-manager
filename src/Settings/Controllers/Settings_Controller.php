@@ -50,9 +50,9 @@ class Settings_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = $this->extract_non_empty_values( $request );
+        $data       = $this->extract_non_empty_values( $request );
         $project_id = $request->get_param( 'project_id' );
-        $settings = $request->get_param( 'settings' );
+        $settings   = $request->get_param( 'settings' );
         
         if ( is_array( $settings ) ) {
             $settings_collection = [];

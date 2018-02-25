@@ -38,6 +38,7 @@ class Frontend {
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
 		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
 	}
 
 	/**

@@ -62,11 +62,11 @@ export default {
         updateDiscuss (state, data) {
             var discuss_index = state.getIndex(state.discussion, data.id, 'id');
             jQuery.extend(true, state.discussion[discuss_index], data);
-            //state.discussion.splice(discuss_index, 1, data);
+            state.discussion.splice(discuss_index, 1, data);
         },
 
         newDiscuss (state, discuss) {
-            var per_page = state.meta.per_page,
+            var per_page = state.meta.pagination.per_page,
                 length   = state.discussion.length;
 
             if (per_page <= length) {
@@ -86,8 +86,8 @@ export default {
         },
 
         updateMetaAfterNewDiscussion (state) {
-            state.meta.total = state.meta.total + 1;
-            state.meta.total_pages = Math.ceil( state.meta.total / state.meta.per_page );
+            state.meta.pagination.total = state.meta.pagination.total + 1;
+            state.meta.pagination.total_pages = Math.ceil( state.meta.pagination.total / state.meta.pagination.per_page );
         },
 
         afterNewComment (state, data) {
