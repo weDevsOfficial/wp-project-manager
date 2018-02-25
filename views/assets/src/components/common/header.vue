@@ -194,7 +194,8 @@
                 var args = {
                     data: {
                         id : this.project.id,
-                        status: this.project.status === 'complete' ? 'incomplete' : 'complete'
+                        status: this.project.status === 'complete' ? 'incomplete' : 'complete',
+                        title: this.project.title,
                     },
                     callback: function ( res ) {
                         this.$root.$store.commit(
