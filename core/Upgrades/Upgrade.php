@@ -46,8 +46,8 @@ class Upgrade {
      * @return boolean
      */
     public function is_needs_update() {
-        $installed_version = !empty( get_site_option( 'cpm_db_version' ))? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
-        $updatable_versions = config('db_version');
+        $installed_version = !empty( get_site_option( 'cpm_db_version' ) ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
+        $updatable_versions = config('app.db_version');
         // may be it's the first install
         if ( ! $installed_version ) {
             return false;
@@ -71,8 +71,8 @@ class Upgrade {
             return;
         }
         $installed_version  = get_option( 'cpm_db_version' );
-        $updatable_versions = config('db_version');
-        if ( ! is_null( $installed_version ) && version_compare( $installed_version, end( $updatable_versions ), '<' ) ) {
+        $updatable_versions = config('app.db_version');
+        if ( ! is_null( $installed_version ) && version_compare( $installed_version, $updatable_versions, '<' ) ) {
             ?>
                 <div class="notice notice-warning">
                    
@@ -86,7 +86,7 @@ class Upgrade {
                 </div>
 
                 <script type="text/javascript">
-                    jQuery('form.PmUpgradeFrom').submit(function(){
+                    jQuery('form.PmUpgradeFrom').submit(function(event){
                         return confirm( '<?php _e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'pm' ); ?>' );
                     });
                 </script>
@@ -138,6 +138,5 @@ class Upgrade {
             }
         }
         update_option( 'pm_db_version', config('db_version') );
-        exit();
     }
 }

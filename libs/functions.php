@@ -189,7 +189,6 @@ function pmpr($data) {
 
 function pm_default_co_caps() {
     return [
-        'view_project'           => true,
         'create_message'         => true,
         'view_private_message'   => true,
         'create_list'            => true,
@@ -244,11 +243,21 @@ function pm_pro_get_project_capabilities( $project_id ) {
 function pm_is_user_in_project( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
-    $user_in_project = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id ) 
-        ->where( 'assigned_to', $user_id )
+    $user_in_project = WeDevs\PM\User\Models\User_Role::where( 'project_id', $project_id ) 
+        ->where( 'user_id', $user_id )
         ->first();
 
     return $user_in_project ? true : false;
+}
+
+function pm_is_user_in_task( $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $user_in_task = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id ) 
+        ->where( 'assigned_to', $user_id )
+        ->first();
+
+    return $user_in_task ? true : false;
 }
 
 function pm_get_role( $project_id, $user_id = false ) {
@@ -308,7 +317,6 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         }
 
         $role = pm_get_role( $project_id, $user_id );
-        
         if ( !$role ) {
             return false;
         }
