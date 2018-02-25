@@ -93,6 +93,7 @@ class Upgrade {
             <?php
         } else {
             update_option( 'pm_db_version', $updatable_versions );
+            //delete_option( 'cpm_db_version' );
         }
     }
     /**
@@ -138,5 +139,6 @@ class Upgrade {
             }
         }
         update_option( 'pm_db_version', config('db_version') );
+        //delete_option( 'cpm_db_version' );
     }
 }
