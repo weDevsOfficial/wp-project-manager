@@ -144,6 +144,9 @@ export default {
         }
     },
     mixins: [PmMixin.settings],
+    mounted: function(){
+        pm.NProgress.done();
+    },
     methods: {
         saveSelfSettings () {
             this.show_spinner = true;

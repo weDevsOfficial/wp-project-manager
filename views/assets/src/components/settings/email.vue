@@ -80,6 +80,9 @@
             }
         },
         mixins: [PmMixin.settings],
+        mounted: function(){
+            pm.NProgress.done();
+        },
         methods: {
             saveEmailSettings () {
                 this.show_spinner = true;
