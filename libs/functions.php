@@ -179,7 +179,6 @@ function pmpr($data) {
 
 function pm_default_co_caps() {
     return [
-        'view_project'           => true,
         'create_message'         => true,
         'view_private_message'   => true,
         'create_list'            => true,
