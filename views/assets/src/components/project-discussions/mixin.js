@@ -436,7 +436,7 @@ export default {
                     } else {
                         self.getDiscussion();
                     }
-                    console.log(res.message);
+                
                     pm.Toastr.success(res.message);
                     if (typeof args.callback === 'function') {
                         args.callback();

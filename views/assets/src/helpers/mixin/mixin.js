@@ -739,7 +739,7 @@ export default {
         },
 
         saveSettings (settings, project_id, callback) {
-            var settings = this.formatSettings(settings),
+            settings = this.formatSettings(settings),
                 project_id = project_id || false,
                 self = this;
             

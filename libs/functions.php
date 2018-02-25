@@ -139,6 +139,16 @@ function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     }
 }
 
+function pm_get_meta( $entity_id, $project_id, $type, $key ) {
+    $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $entity_id )
+        ->where( 'project_id', $project_id )
+        ->where( 'entity_type',  $type )
+        ->where( 'meta_key', $key )
+        ->first();
+
+    return $meta;
+}
+
 function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
