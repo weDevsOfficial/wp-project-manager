@@ -21,9 +21,9 @@
             <textarea v-model="project.description" name="project_description" class="pm-project-description" id="" cols="50" rows="3" :placeholder="text.project_dsc_input"></textarea>
         </div>
 
-        <div class="pm-form-item pm-project-role">
+        <div class="pm-form-item pm-project-role" v-if="show_role_field">
             <table>
-                <tr v-for="projectUser in selectedUsers" key="projectUser.id">
+                <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                     <td>{{ projectUser.display_name }}</td>
                     <td>
                         <select  v-model="projectUser.roles.data[0].id">
@@ -41,7 +41,7 @@
             </table>
         </div>
         
-        <div class="pm-form-item project-users">
+        <div class="pm-form-item project-users" v-if="show_role_field">
             <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="text.project_user_input" size="45">
         </div>
 
@@ -78,11 +78,11 @@
         data () {
 
             return {
-                'project_name': '',
-                'project_cat': 0,
-                'project_description': '',
-                'project_notify': false,
-                'assignees': [],
+                project_name: '',
+                project_cat: 0,
+                project_description: '',
+                project_notify: false,
+                assignees: [],
                 show_spinner: false
             }
         },
@@ -90,6 +90,7 @@
             'project-new-user-form': project_new_user_form,
         },
         created () {
+            console.log(  );
             this.setProjectUser();
         },
         computed: {
@@ -152,6 +153,10 @@
                     this.project_cat = cat;
                 }
             },
+
+            show_role_field () {
+                return typeof PM_BP_Vars !== 'undefined' ? PM_BP_Vars.show_role_field : true;
+            }
 
         },
 

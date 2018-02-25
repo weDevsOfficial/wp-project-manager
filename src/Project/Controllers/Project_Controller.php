@@ -33,7 +33,7 @@ class Project_Controller {
 		$page     = $page ? $page : 1;
 
 		$projects = $this->fetch_projects( $category, $status );
-
+		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 		if( $per_page == 'all' ) {
 			$project_collection = $projects->get();
 			$resource = new Collection( $project_collection, new Project_Transformer );
@@ -133,7 +133,7 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
-
+		do_action( 'pm_project_new', $project, $request->get_params());
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );

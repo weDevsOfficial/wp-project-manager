@@ -13,9 +13,11 @@ use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
+use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
-use WeDevs\PM\Category\Models\Category;
+use WeDevs\PM_Pro\Modules\Gantt\src\Models\Gantt;
+use WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice;
 
     
 /**
@@ -37,7 +39,7 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param   $item 
      * @return 
      */
-    protected function task( $item ) {
+    function task( $item ) {
         $this->isProcessRuning = true;
         $this->upgrade_projects($item);
 
@@ -49,12 +51,12 @@ class Upgrade_2_0 extends WP_Background_Process
      * Complete function for WP_Background_Process
      *
      */
-    protected function complete() {
+    function complete() {
         parent::complete();
         $this->isProcessRuning = false;
         $this->migrate_category();
         $this->set_settings();
-        error_log("task complete");
+        error_log( "task complete" );
         // upgrade complete function
     }
 
@@ -108,17 +110,18 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param  ini $project_id 
      * @return Object          new project model object 
      */
-    public function upgrade_projects ( $project_id ) {
-        $data = get_site_option("pm_upgrade", array());
-        if ( !in_array($project_id, array_keys($data))){
+    public function upgrade_projects( $project_id ) {
+
+        $data = get_site_option( "pm_upgrade", array() );
+        if( !in_array( $project_id, array_keys( $data ) ) ) {
             $data[$project_id] = 1;
-            update_site_option("pm_upgrade", $data);
+            //update_site_option("pm_upgrade", $data);
 
             $project = $this->create_project($project_id);
 
             if( $project ) {
                 $data[$project_id] = $project->id;
-                update_site_option("pm_upgrade", $data);
+                //update_site_option( "pm_upgrade", $data );
             }
         }
         
@@ -129,13 +132,13 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param  int $project_id 
      * @return Object             new Project model object
      */
-    protected function create_project ( $project_id ) {
+    function create_project( $project_id ) {
         global $wpdb;
         if( !$project_id && !is_int( $project_id ) ){
             return ;
         }
 
-        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID=%d", $project_id ));
+        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID=%d", $project_id ) );
 
         $newProject = $this->save_object( new Project, [
             'title'       => $oldProject->post_title,
@@ -145,7 +148,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'updated_by'  => $oldProject->post_author,
             'created_at'  => $oldProject->post_date,
             'updated_at'  => $oldProject->post_modified,
-        ]);
+        ] );
 
         $this->create_project_role( $project_id, $newProject->id, $oldProject->post_author );
 
@@ -154,10 +157,10 @@ class Upgrade_2_0 extends WP_Background_Process
         $commnetd  = $this->get_comments( $discuss, $newProject->id, 'discussion_board' );
         $taskLists = $this->get_task_list( $project_id, $newProject->id, $milestons );
         $commenttl = $this->get_comments( $taskLists, $newProject->id, 'task_list' );
-        list($tasks, $parents )  = $this->get_tasks( $newProject->id, $taskLists );
+        list( $tasks, $parents )  = $this->get_tasks( $newProject->id, $taskLists );
         $commnett  = $this->get_comments( $tasks, $newProject->id, 'task' );
 
-        $this->get_activity( $project_id, $newProject->id, $discuss, $taskLists, $tasks, array_merge( (array) $commnetd, (array)$commenttl, (array)$commnett) );
+        $this->get_activity( $project_id, $newProject->id, $discuss, $taskLists, $tasks, array_merge( (array) $commnetd, (array)$commenttl, (array)$commnett ) );
 
         $this->get_file( $project_id, $newProject->id );
 
@@ -169,18 +172,21 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
 
         $this->set_project_settings( $project_id, $newProject );
-
+        $this->set_bp_group( $project_id, $newProject );
+        $this->get_kanboard( $project_id, $newProject, $tasks );
+        $this->gantt_upgrate( $taskLists, $tasks, $parents );
+        $this->get_invoice( $project_id, $newProject );
         return $newProject;
     }
 
     /**
      * create project role 
      * @param  init $oldProjectId
-     * @param  init $newPorjectID       
+     * @param  init $newProjectID       
      * @param  init $assigned_by 
      * @return void              
      */
-    protected function create_project_role( $oldProjectId, $newPorjectID, $assigned_by ){
+    function create_project_role( $oldProjectId, $newProjectID, $assigned_by ){
         if( !$oldProjectId ){
             return ;
         }
@@ -196,17 +202,17 @@ class Upgrade_2_0 extends WP_Background_Process
             }else{
                 $role_id = 3; 
             }
-            $this->save_object(new User_Role, [
+            $this->save_object( new User_Role, [
                 'user_id'       => $role['user_id'],
                 'role_id'       => $role_id,
-                'project_id'    => $newPorjectID,
+                'project_id'    => $newProjectID,
                 'assigned_by'   => $assigned_by,
-            ]);
+            ] );
         }
     }
 
 
-    protected function get_milestones( $oldProjectId, $newPorjectID  ) {
+    function get_milestones( $oldProjectId, $newProjectID  ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -217,7 +223,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $milestons  = [];
 
         foreach ( $oldMilestones as $post ) {
-            $milestons[$post['ID']] = $this->create_milestone( $post, $newPorjectID );
+            $milestons[ $post[ 'ID' ] ] = $this->create_milestone( $post, $newProjectID );
         }
 
         return $milestons;
@@ -226,25 +232,29 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * create milestone 
      * @param  init $project_id 
-     * @param  object $newPorject new project Model
+     * @param  object $newProject new project Model
      * @return arrat             old milestone and new milestone 
      */
-    protected function create_milestone( $milestone, $newPorjectID ) {
-        if(!$milestone ){
+    function create_milestone( $milestone, $newProjectID ) {
+        if( !$milestone ){
             return ;
         }
 
-        $newMilestone = $this->add_board( $milestone, 'milestone',  $newPorjectID );
-
-        $metas = [
+        $newMilestone = $this->add_board( $milestone, 'milestone',  $newProjectID );
+        $meta = [
             'achieve_date' => get_post_meta( $milestone['ID'], '_due', true ),
             'completed_at' => get_post_meta( $milestone['ID'], '_completed_on', true ),
             'status'       => get_post_meta( $milestone['ID'], '_completed' , true ) == 1 ? 2 : 1,
-            'privacy'      => get_post_meta( $milestone['ID'], '_milestone_privacy', true ) == 'yes' ? 1 : 0,
-        ]; 
+        ];
 
-        if ( $newMilestone->id ) {
-            $this->add_metas( $metas, $newMilestone, $newPorjectID );
+        $mil_pri = get_post_meta( $milestone['ID'], '_milestone_privac', true );
+        if( isset( $mil_pri ) && $mil_pri == 'yes' ){
+            $meta['privacy'] = 1;
+        }
+
+
+        if ( $newMilestone->id && isset( $meta ) ) {
+            $this->add_meta( $meta, $newMilestone, $newProjectID );
         }
         
         return $newMilestone->id;
@@ -252,11 +262,11 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * get Dsicuss and create from
      * @param  int $oldProjectId 
-     * @param  int $newPorjectID 
+     * @param  int $newProjectID 
      * @param  array $milestons    
      * @return array               new and old milestone array
      */
-    protected function get_discuss( $oldProjectId, $newPorjectID, $milestons ) {
+    function get_discuss( $oldProjectId, $newProjectID, $milestons ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -267,7 +277,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $discuss  = [];
 
         foreach ( $oldDiscuss as $post ) {
-            $discuss[$post['ID']] = $this->create_discuss( $post, $newPorjectID, $milestons );
+            $discuss[$post['ID']] = $this->create_discuss( $post, $newProjectID, $milestons );
         }
         return $discuss;
     }
@@ -275,14 +285,14 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * Create disusss from old discuss
      */
-    protected function create_discuss( $post, $newPorjectID, $milestons ) {
+    function create_discuss( $post, $newProjectID, $milestons ) {
         if( !$post ) {
             return ;
         }
-        $newDiscuss = $this->add_board($post, 'discussion_board', $newPorjectID);
-        $mid        = get_post_meta( $post['ID'], '_milestone', true);
+        $newDiscuss = $this->add_board( $post, 'discussion_board', $newProjectID );
+        $mid        = get_post_meta( $post['ID'], '_milestone', true );
 
-        if ( $mid ) {
+        if ( $mid && !empty( $milestons ) ) {
             $this->save_object( new Boardable, [
                 'board_id'       => $milestons[$mid],
                 'board_type'     => 'milestone',
@@ -296,19 +306,20 @@ class Upgrade_2_0 extends WP_Background_Process
             ] );
         }
 
-        $metas = [
-            'privacy'      => get_post_meta( $post['ID'], '_message_privacy', true ) == 'yes' ? 1 : 0,
-        ]; 
-
-        if ( $newDiscuss->id ) {
-            $this->add_metas( $metas,  $newDiscuss, $newPorjectID );
+        $mag_pri = get_post_meta( $post['ID'], '_message_privacy', true );
+        if( isset( $mag_pri ) && $mag_pri == 'yes' ){
+            $meta['privacy'] = 1;
         }
 
-        $files = get_post_meta($post['ID'], '_files', true);
+        if ( isset( $meta ) && !empty( $meta )) {
+            $this->add_meta( $meta,  $newDiscuss, $newProjectID );
+        }
+
+        $files = get_post_meta( $post['ID'], '_files', true);
         if ( !empty( $files )) {
             foreach ( $files as $file ) {
                 
-                $this->add_file([
+                $this->add_file( [
                     'fileable_id'   => $newDiscuss->id,
                     'fileable_type' => 'discussion_board',
                     'parent'        => $newDiscuss->id,
@@ -327,11 +338,11 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * get Task list and create from
      * @param  int $oldProjectId 
-     * @param  int $newPorjectID 
+     * @param  int $newProjectID 
      * @param  array $milestons    
      * @return array               new and old milestone array
      */
-    protected function get_task_list( $oldProjectId, $newPorjectID, $milestons ) {
+    function get_task_list( $oldProjectId, $newProjectID, $milestons ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -342,7 +353,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $taskList  = [];
 
         foreach ( $oldTaskList as $post ) {
-            $taskList[$post['ID']] = $this->create_task_list( $post, $newPorjectID, $milestons );
+            $taskList[$post['ID']] = $this->create_task_list( $post, $newProjectID, $milestons );
         }
         return $taskList;
     }
@@ -351,14 +362,14 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * Create disusss from old discuss
      */
-    protected function create_task_list( $post, $newPorjectID, $milestons ) {
+    function create_task_list( $post, $newProjectID, $milestons ) {
         if( !$post ) {
             return ;
         }
-        $taskList = $this->add_board($post, 'task_list', $newPorjectID);
-        $mid      = get_post_meta( $post['ID'], '_milestone', true);
+        $taskList = $this->add_board( $post, 'task_list', $newProjectID );
+        $mid      = get_post_meta( $post['ID'], '_milestone', true );
 
-        if ( !empty( $mid ) && $mid != -1 ) {
+        if ( !empty( $mid ) && $mid != -1 && !empty( $milestons ) ) {
             $this->save_object( new Boardable, [
                 'board_id'       => $milestons[$mid],
                 'board_type'     => 'milestone',
@@ -371,20 +382,21 @@ class Upgrade_2_0 extends WP_Background_Process
                 'updated_at'     => $post['post_modified'],
             ] );
         }
-
-        $metas = [
-            'privacy'      => get_post_meta( $post['ID'], '_tasklist_privacy', true ) == 'yes' ? 1 : 0,
-        ]; 
-
-        if ( $taskList->id ) {
-            $this->add_metas( $metas,  $taskList, $newPorjectID );
+        $meta = array();
+        $list_pri = get_post_meta( $post['ID'], '_tasklist_privacy', true );
+        if( isset( $list_pri ) && $list_pri == 'on' ){
+            $meta['privacy'] = 1;
+        }
+        
+        if ( !empty( $meta ) ) {
+            $this->add_meta( $meta,  $taskList, $newProjectID );
         }
 
         return  $taskList->id;
     }
 
-    protected function get_tasks ( $newPorjectID, $listitems, $list = null, $parent = null ) {
-        if( empty($listitems)){
+    function get_tasks( $newProjectID, $listitems, $list = null, $parent = null ) {
+        if( empty( $listitems ) ) {
             return ;
         }
         global $wpdb;
@@ -394,14 +406,13 @@ class Upgrade_2_0 extends WP_Background_Process
             $post_type = 'cpm_sub_task';
         }
         
-
-        $in      = implode(',', array_keys($listitems));
-        $oldTask = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) AND  post_type='{$post_type}' AND post_status='publish'", ARRAY_A );
-        
-        $tasks   = [];
+        $in         = implode( ',', array_keys( $listitems  ));
+        $oldTask    = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) AND  post_type='{$post_type}' AND post_status='publish'", ARRAY_A );
+        $tasks      = [];
         $taskParent = [];
+
         foreach ( $oldTask as $post ) {
-            $tasks[$post['ID']]      = $this->create_task( $post, $newPorjectID,  $listitems, $list,  $parent );
+            $tasks[$post['ID']]      = $this->create_task( $post, $newProjectID,  $listitems, $list,  $parent );
             if( $post['post_type'] == 'cpm_task' ){
                 $taskParent[$post['ID']] = $post['post_parent'];
             }
@@ -410,7 +421,7 @@ class Upgrade_2_0 extends WP_Background_Process
         return array( $tasks, $taskParent );
     }
 
-    protected function create_task( $post, $newPorjectID,  $listitems, $list=null, $parent = null ) {
+    function create_task( $post, $newProjectID,  $listitems, $list=null, $parent = null ) {
         if( !$post ){
             return ;
         }
@@ -418,7 +429,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'title'       => $post['post_title'],
             'description' => $post['post_content'],
             'status'      => get_post_meta( $post['ID'], '_completed', true),
-            'project_id'  => $newPorjectID, 
+            'project_id'  => $newProjectID, 
             'start_at'    => get_post_meta( $post['ID'], '_start', true),
             'due_date'    => get_post_meta( $post['ID'], '_due', true),
             'parent_id'   => $post['post_type'] === 'cpm_task' ? 0: $listitems[$post['post_parent']],
@@ -428,9 +439,9 @@ class Upgrade_2_0 extends WP_Background_Process
             'updated_at'  => $post['post_modified'],
         ] );
 
-        if ( !empty($post['post_parent']) ) {
+        if( !empty( $post['post_parent'] ) ) {
 
-            if ( $parent !== null ){
+            if( $parent !== null ) {
                 $board_id = $list[$parent[$post['post_parent']]];
                 $boardable_type = 'sub_task';
             }else {
@@ -451,12 +462,14 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         if ( $post['post_type'] == 'cpm_task' ){
-            $metas = [
-                'privacy'      => get_post_meta( $post['ID'], '_task_privacy', true ) == 'yes' ? 1 : 0,
-            ];
+            $meta     = array();
+            $task_pri = get_post_meta( $post['ID'], '_task_privacy', true );
+            if ( !empty( $task_pri ) && $task_pri == 'yes' ){
+                $meta['privacy'] = 1;
+            }
 
-            if ( $newTask->id && $metas ) {
-                $this->add_metas( $metas,  $newTask, $newPorjectID, $boardable_type );
+            if ( $newTask->id && !empty( $meta ) ) {
+                $this->add_meta( $meta,  $newTask, $newProjectID, $boardable_type );
             }
         }
         $this->add_assignee( $newTask, $post['ID'] );
@@ -464,23 +477,23 @@ class Upgrade_2_0 extends WP_Background_Process
         return $newTask->id;
     }
 
-    protected function add_assignee($task, $post_id ) {
+    function add_assignee( $task, $post_id ) {
         if ( !$post_id ){
             return ;
         }
-        $assignees = get_post_meta($post_id, '_assigned');
+        $assignees = get_post_meta( $post_id, '_assigned' );
 
-        if ( empty( $assignees ) || array_keys($assignees, '-1')) {
+        if ( empty( $assignees ) || array_keys( $assignees, '-1' )) {
             return ;
         }
 
         foreach ( $assignees as $assignee ) {
 
-            $completd_by = get_post_meta( $post_id, '_completed_by', true);
+            $completd_by = get_post_meta( $post_id, '_completed_by', true );
             $completed_at = null;
-            if ( !empty($completd_by)  && $assignee == $completd_by ) {
+            if ( !empty( $completd_by )  && $assignee == $completd_by ) {
                 $completed_at = get_post_meta( $post_id, '_completed', true); 
-                $completed_at = !empty($completed_at) ? $completed_at: null;
+                $completed_at = !empty( $completed_at ) ? $completed_at: null;
             }
             $this->save_object( new Assignee, [
                 'task_id'      => $task->id,
@@ -492,28 +505,28 @@ class Upgrade_2_0 extends WP_Background_Process
                 'created_at'   => $task->created_at,
                 'updated_at'   => $task->updated_at,
                 'project_id'   => $task->project_id,
-            ]);
+            ] );
         }
     }
 
-    protected function get_comments($ids, $newPorjectID, $commentable_type ) {
+    function get_comments( $ids, $newProjectID, $commentable_type ) {
         if( empty( $ids ) ){
             return ;
         }
         global $wpdb;
-        $in        = implode(',', array_keys($ids));
+        $in        = implode(',', array_keys( $ids ) );
         $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in})", ARRAY_A );
         
         $comments  = [];
 
-        foreach ($OComments as $comment ) {
-            $comments[$comment['comment_ID']] = $this->create_comments( $comment, $newPorjectID, $commentable_type, $ids[$comment['comment_post_ID']] );
+        foreach ( $OComments as $comment ) {
+            $comments[$comment[ 'comment_ID' ]] = $this->create_comments( $comment, $newProjectID, $commentable_type, $ids[$comment['comment_post_ID']] );
         }
 
         return $comments;
     }
 
-    protected function create_comments( $comment, $newPorjectID, $commentable_type, $commentable_id ) {
+    function create_comments( $comment, $newProjectID, $commentable_type, $commentable_id ) {
         if( !$comment ){
             return ;
         }
@@ -522,7 +535,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'mentioned_users'  => null,
             'commentable_id'   => $commentable_id,
             'commentable_type' => $commentable_type,
-            'project_id'       => $newPorjectID,
+            'project_id'       => $newProjectID,
             'created_by'       => $comment['user_id'],
             'updated_by'       => $comment['user_id'],
             'updated_by'       => $comment['user_id'],
@@ -531,11 +544,11 @@ class Upgrade_2_0 extends WP_Background_Process
             'updated_at'       => $comment['comment_date'],
         ] );
 
-        $files = get_comment_meta($comment['comment_ID'], '_files', true);
+        $files = get_comment_meta( $comment['comment_ID'], '_files', true );
         if ( !empty( $files ) ) {
             foreach ( $files as $file ) {
                 
-                $this->add_file([
+                $this->add_file( [
                     'fileable_id'   => $newComment->id,
                     'fileable_type' => 'comment',
                     'parent'        => $newComment->id,
@@ -552,13 +565,13 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
 
-    protected function get_file ( $OldProjectId, $newPorjectID ){
+    function get_file( $OldProjectId, $newProjectID ) {
         if ( !$OldProjectId ){
             return ;
         }
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_file_relationship';
-        $files   = $wpdb->get_results( $wpdb->prepare("SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
+        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
         $fileArr = [];
         $comments = [];
         
@@ -575,50 +588,50 @@ class Upgrade_2_0 extends WP_Background_Process
                 $type = 'pro_file';
             }
 
-            $newFile = $this->add_file([
+            $newFile = $this->add_file( [
                 'fileable_id'   => null,
                 'fileable_type' => 'file',
                 'parent'        => $parent,
                 'type'          => $type,
                 'attachment_id' => $file['attachment_id'],
-                'project_id'    => $newPorjectID,
+                'project_id'    => $newProjectID,
                 'created_by'    => $file['created_by'],
                 'updated_by'    => $file['created_by'],
                 'created_at'    => $file['created_at'],
                 'updated_at'    => $file['updated_at'],
-            ]);
+            ] );
 
             if( $file['post_id'] ){
-                $metas = $this->get_doc_meta($file['post_id'], $newFile->id, $newPorjectID );
+                $meta = $this->get_doc_meta( $file['post_id'], $newFile->id, $newProjectID );
                 $comments[$file['post_id']] = $newFile->id;
             }elseif ( $file['attachment_id'] ) {
                 $comments[$file['attachment_id']] = $newFile->id;
             }
 
             $fileArr[$file['id']] = $newFile->id;
-            $metas['private']     = $file['private'] == 'yes' ? 1 : 0;
+            $meta['private']      = $file['private'] == 'yes' ? 1 : 0;
 
             if ( !empty( $file['dir_name'] ) ){
-                $metas['title']   = $file['dir_name'];
+                $meta['title']   = $file['dir_name'];
             }
 
-            $this->add_metas( $metas, $newFile, $newPorjectID, 'file' );
+            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
         }
 
-        $this->set_post_attachment( $comments, $newPorjectID );
-        $this->get_comments($comments, $newPorjectID, 'file' );
-        $this->get_revision($comments, $newPorjectID );
+        $this->set_post_attachment( $comments, $newProjectID );
+        $this->get_comments( $comments, $newProjectID, 'file' );
+        $this->get_revision( $comments, $newProjectID );
 
         return $fileArr;
         
     }
 
-    protected function get_doc_meta($post_id, $docid, $newPorjectID ){
+    function get_doc_meta( $post_id, $docid, $newProjectID ) {
         if ( !$post_id ) {
             return ;
         }
         global $wpdb;
-        $post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$wpdb->posts} WHERE ID=%d", $post_id ));
+        $post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID=%d", $post_id ) );
         $meta = [];
         $meta['title'] = $post->post_title;
         $meta['description'] = $post->post_content;
@@ -629,7 +642,7 @@ class Upgrade_2_0 extends WP_Background_Process
         return $meta;
     }
 
-    protected function set_post_attachment( $ids, $newPorjectID ){
+    function set_post_attachment( $ids, $newProjectID ) {
         if( empty( $ids ) ){
             return ;
         }
@@ -637,14 +650,14 @@ class Upgrade_2_0 extends WP_Background_Process
         $in        = implode(',', array_keys($ids));
         $attachments = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='attachment'", ARRAY_A);
 
-        foreach ($attachments as $attachment ){
+        foreach ( $attachments as $attachment ){
             $this->add_file([
                 'fileable_id'   => $ids[$attachment['post_parent']],
                 'fileable_type' => 'file',
                 'parent'        => $ids[$attachment['post_parent']],
                 'type'          => 'doc',
                 'attachment_id' => $attachment["ID"],
-                'project_id'    => $newPorjectID,
+                'project_id'    => $newProjectID,
                 'created_by'    => $attachment['post_author'],
                 'updated_by'    => $attachment['post_author'],
                 'created_at'    => $attachment['post_date'],
@@ -652,46 +665,177 @@ class Upgrade_2_0 extends WP_Background_Process
             ]);
         }
     }
-    protected function get_revision ( $ids, $newPorjectID ){
+    
+    function get_revision( $ids, $newProjectID ) {
         if( empty( $ids ) ){
             return ;
         }
         global $wpdb;
         $in        = implode(',', array_keys($ids));
         $revisions = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='revision'", ARRAY_A);
+        
         foreach( $revisions as $revision ){
-            $metas=[];
+            $meta=[];
             $newFile = $this->add_file([
                 'fileable_id'   => null,
                 'fileable_type' => 'file',
                 'parent'        => $ids[$revision['post_parent']],
                 'type'          => 'revision',
                 'attachment_id' => null,
-                'project_id'    => $newPorjectID,
+                'project_id'    => $newProjectID,
                 'created_by'    => $revision['post_author'],
                 'updated_by'    => $revision['post_author'],
                 'created_at'    => $revision['post_date'],
                 'updated_at'    => $revision['post_date'],
             ]);
 
-            $metas['title'] = $revision['post_title'];
-            $metas['description'] = $revision['post_content'];
+            $meta['title'] = $revision['post_title'];
+            $meta['description'] = $revision['post_content'];
             if( !empty( $revision['post_excerpt'] ) ){
-                $metas['url'] = $revision ['post_excerpt'];
+                $meta['url'] = $revision ['post_excerpt'];
             }
 
-            $this->add_metas( $metas, $newFile, $newPorjectID, 'file' );
+            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
         }
     }
 
-    protected function set_project_settings( $oldProjectId, $newProject ) {
+    function get_invoice( $oldProjectId, $newProject ) {
         if( !$oldProjectId ){
             return ;
         }
-        $settings = get_post_meta( $oldProjectId, '_settings', true);
+        if( !class_exists('WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice') ){
+            return ;
+        }
+        global $wpdb;
+
+        $oldInvoice   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_invoice', 'publish' ), ARRAY_A );
+
+        $invoice  = [];
+
+        foreach ( $oldInvoice as $post ) {
+            $invoice[$post['ID']] = $this->create_invoice( $post, $newProject );
+        }
+        return $invoice;
+    }
+
+    function create_invoice( $post, $newProject ) {
+        $invoiceArr =[
+            'client_id'      => get_post_meta( $post['ID'], 'client_id', true ),
+            'title'          => $post['post_title'] ,
+            'start_at'       => $post['post_date'],
+            'due_date'       => get_post_meta( $post['ID'], 'due_date', true ),
+            'discount'       => get_post_meta( $post['ID'], 'discount', true ),
+            'partial'        => get_post_meta( $post['ID'], 'partial_payment', true ) == 'yes' ? 1 : 0,
+            'partial_amount' => get_post_meta( $post['ID'], 'partial_amount', true ),
+            'terms'          => get_post_meta( $post['ID'], 'terms', true ),
+            'client_note'    => $post['post_content'],
+            'items'          => serialize( $this->get_invoice_item( $post, $newProject ) ),
+            'project_id'     => $newProject->id,
+            'status'         => get_post_meta( $post['ID'], 'statue', true ) == 'paid' ? 1 : 0,
+            'created_by'     => $post['post_author'],
+            'updated_by'     => $post['post_author'],
+            'created_at'     => $post['post_date'],
+            'updated_at'     => $post['post_modified'],
+        ];
+
+        $invoice = $this->save_object(new Invoice, $invoiceArr );
+        return $invoice->id;
+    }
+
+    function get_invoice_item( $post, $newProject ) {
+        $items = get_post_meta( $post['ID'], 'item', true );
+        $hours = get_post_meta( $post['ID'], 'hour', true );
+        $newItem = array();
+
+        foreach ( $items as $item ) {
+            $arr = [];
+            $arr['task'] = $this->get_task_by_title( $item->name, $newProject ); // find id, title time
+            $arr['description']  = $item->details;
+            $arr['amount']  = $item->amount;
+            $arr['hour']  = $item->qty;
+            $arr['tax']  = $item->tax_percent;
+            $arr['descriptionField']  = isset($item->details);
+
+            $newItem['entryNames'][] = $arr;
+        }
+
+        foreach ( $hours as $item ) {
+            $arr = [];
+            $arr['task'] = $this->get_task_by_title( $item->name, $newProject  ); // find id, title time
+            $arr['description']  = $item->details;
+            $arr['amount']  = $item->amount;
+            $arr['quantity']  = $item->qty;
+            $arr['tax']  = $item->tax_percent;
+            $arr['descriptionField']  = isset($item->details);
+
+            $newItem['entryTasks'][] = $arr;
+        }
+       return $newItem; 
+    }
+
+    function get_task_by_title( $title , $newProject  ) {
+        if( empty( $title ) ) {
+            return [];
+        }
+
+        $task = Task::where('title', $title )->where( 'project_id', $newProject->id )->first();
+
+        if( ! $task->id ) {
+            return [];
+        }
+
+        $arr['id'] = $task->id;
+        $arr['title'] = $task->title;
+        $arr['time'] = [
+            'hour' => 0
+        ];
+
+        return $arr;
+    }
+
+    function set_project_settings( $oldProjectId, $newProject ) {
+
+        $settings = get_post_meta( 27, '_settings', true);
+        if ( empty( $sections ) ) {
+            return ;
+        }
+
+        $co_worker = array();
+        $client    = array();
+        $oldCW     = $settings['co_worker'];
+        $oldClient = $settings['client'];
+
+        $co_worker['create_message']         = ( isset( $oldCW['create_message'] ) && $oldCW['create_message'] == 'yes' ) ? true : false;
+        $co_worker['view_private_message']   = ( isset( $oldCW['msg_view_private'] ) && $oldCW['msg_view_private'] == 'yes' ) ? true : false;
+        $co_worker['create_list']            = ( isset( $oldCW['create_todolist'] ) && $oldCW['create_todolist'] == 'yes' ) ? true : false;
+        $co_worker['view_private_list']      = ( isset( $oldCW['tdolist_view_private'] ) && $oldCW['tdolist_view_private'] == 'yes' ) ? true : false;
+        $co_worker['create_task']            = ( isset( $oldCW['create_todo'] ) && $oldCW['create_todo'] == 'yes' ) ? true : false;
+        $co_worker['view_private_task']      = ( isset( $oldCW['todo_view_private'] ) && $oldCW['todo_view_private'] == 'yes' ) ? true : false;
+        $co_worker['create_milestone']       = ( isset( $oldCW['create_milestone'] ) && $oldCW['create_milestone'] == 'yes' ) ? true : false;
+        $co_worker['view_private_milestone'] = ( isset( $oldCW['milestone_view_private'] ) && $oldCW['milestone_view_private'] == 'yes' ) ? true : false;
+        $co_worker['create_file']            = ( isset( $oldCW['upload_file_doc'] ) && $oldCW['upload_file_doc'] == 'yes' ) ? true : false;
+        $co_worker['view_private_file']      = ( isset( $oldCW['file_view_private'] ) && $oldCW['file_view_private'] == 'yes' ) ? true : false;
+        
+        $client['create_message']         = ( isset( $oldClient['create_message'] ) && $oldClient['create_message'] == 'yes' ) ? true : false;
+        $client['view_private_message']   = ( isset( $oldClient['msg_view_private'] ) && $oldClient['msg_view_private'] == 'yes' ) ? true : false;
+        $client['create_list']            = ( isset( $oldClient['create_todolist'] ) && $oldClient['create_todolist'] == 'yes' ) ? true : false;
+        $client['view_private_list']      = ( isset( $oldClient['tdolist_view_private'] ) && $oldClient['tdolist_view_private'] == 'yes' ) ? true : false;
+        $client['create_task']            = ( isset( $oldClient['create_todo'] ) && $oldClient['create_todo'] == 'yes' ) ? true : false;
+        $client['view_private_task']      = ( isset( $oldClient['todo_view_private'] ) && $oldClient['todo_view_private'] == 'yes' ) ? true : false;
+        $client['create_milestone']       = ( isset( $oldClient['create_milestone'] ) && $oldClient['create_milestone'] == 'yes' ) ? true : false;
+        $client['view_private_milestone'] = ( isset( $oldClient['milestone_view_private'] ) && $oldClient['milestone_view_private'] == 'yes' ) ? true : false;
+        $client['create_file']            = ( isset( $oldClient['upload_file_doc'] ) && $oldClient['upload_file_doc'] == 'yes' ) ? true : false;
+        $client['view_private_file']      = ( isset( $oldClient['file_view_private'] ) && $oldClient['file_view_private'] == 'yes' ) ? true : false;
+
+
+        $newSetings = [
+            'co_worker' => $co_worker,
+            'client'    => $client
+        ];
+
         $this->save_object( new Settings, [
             'key'        => 'capabilities',
-            'value'      => $settings,
+            'value'      => $newSetings,
             'project_id' => $newProject->id,
             'created_by' => $newProject->created_by,
             'updated_by' => $newProject->updated_by,
@@ -700,23 +844,140 @@ class Upgrade_2_0 extends WP_Background_Process
         ] );
     }
 
-    protected function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
-        if( !$oldProjectId ){
+    function set_bp_group( $oldProjectId, $newProject ) {
+        $group_id = get_post_meta( $oldProjectId, '_bp_group_id', true );
+        if ( empty( $group_id )) {
+            return ;
+        }
+
+        $metaObj = $this->save_object( new Meta, [
+            'entity_id'   => $group_id,
+            'entity_type' => 'pm_buddypress',
+            'meta_key'    => 'group_id',
+            'meta_value'  => $group_id,
+            'project_id'  => $newProject->id,
+            'created_by'  => $newProject->created_by,
+            'updated_by'  => $newProject->updated_by,
+            'created_at'  => $newProject->created_at,
+            'updated_at'  => $newProject->updated_at,
+        ] );
+
+    }
+
+    function get_kanboard( $oldProjectId, $newProject, $tasks ) {
+        $sections    = get_post_meta( $oldProjectId, '_custom_section', true );
+        $newSections = array();
+
+        if( empty( $sections ) || !is_array( $sections ) ) {
+            return ;
+        }
+
+        foreach( $sections as $section ) {
+            $newBoard = $this->save_object( new Board, [
+                'title'       => $section['name'],
+                'description' => null,
+                'order'       => $section['order'],
+                'type'        => 'kanboard',
+                'project_id'  => $newProject->id,
+                'created_by'  => $newProject->created_by,
+                'updated_by'  => $newProject->updated_by,
+                'created_at'  => $newProject->created_at,
+                'updated_at'  => $newProject->updated_at,
+            ]);
+            $newSections[$section['section_id']] = $newBoard->id;
+        }
+        if( is_array( $tasks ) && !empty( $tasks ) ) {
+            foreach ( $tasks as $oldTaskId => $newTaskId ) {
+                $section_id = get_post_meta( $oldTaskId, '_section_id', true );
+                $order = get_post_meta( $oldTaskId, '_kanboard_order', true );
+
+                if ( empty( $section_id ) ){
+                    continue ;
+                }
+
+                $this->save_object( new Boardable, [
+                    'board_id'       => $newSections[$section_id],
+                    'board_type'     => 'kanboard',
+                    'boardable_id'   => $newTaskId,
+                    'boardable_type' => 'task',
+                    'order'          => $order,
+                    'created_by'     => $newProject->created_by,
+                    'updated_by'     => $newProject->updated_by,
+                    'created_at'     => $newProject->created_at,
+                    'updated_at'     => $newProject->updated_at,
+                ] ); 
+            }
+        }
+        
+    }
+
+    function gantt_upgrate( $taskLists, $tasks, $taskParent ) {
+        if(!class_exists( 'WeDevs\PM_Pro\Modules\Gantt\src\Models\Gantt' ) ) {
+            return ;
+        }
+
+        error_log( var_dump($taskParent) );
+        $this->set_gantt_data( $taskLists, $taskLists, $tasks );
+        $this->set_gantt_data( $tasks, $taskLists, $tasks );
+        if( !empty( $taskParent ) ) {
+            foreach ( $taskParent as $task => $list ) {
+                $this->save_object( new Gantt, [
+                    'source' => $taskLists[$list],
+                    'target' => $tasks[$task],
+                    'type'   => 2,
+                ]);
+            }
+        }
+    }
+
+    function set_gantt_data( $items, $taskLists, $tasks  ) {
+
+        if(!is_array( $items ) && empty( $items ) ) {
+            return ;
+        }
+
+        foreach ( $items as $old => $new ) {
+            $links = get_post_meta( $old, '_link', true );
+
+            if( empty( $links ) ) {
+                continue ;
+            }
+
+            foreach ( $links as $link ) {
+                if ( array_key_exists( $link, $taskLists ) ) {
+                    $this->save_object( new Gantt, [
+                        'source' => $new,
+                        'target' => $taskLists[$link],
+                        'type'   => 1,
+                    ]);
+                }elseif ( array_key_exists( $link, $tasks ) ) {
+                    $this->save_object( new Gantt, [
+                        'source' => $new,
+                        'target' => $tasks[$link],
+                        'type'   => 1,
+                    ]);
+                }
+            }
+        }
+    }
+
+    function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
+        if( !$oldProjectId ) {
             return ;
         }
         global $wpdb;
         $activities = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE  comment_post_ID = {$oldProjectId} AND comment_type='cpm_activity' ORDER BY `comment_ID` ASC", ARRAY_A );
         
-        foreach ($activities as $activity) {
+        foreach ( $activities as $activity ) {
 
             list( $attr, $newCntent ) = $this->get_attr_array( $activity['comment_content'] );
-            $meta                     = ['text' => $newCntent ];
+            $meta                     = [ 'text' => $newCntent ];
             $resource_type            = "";
             $resource_id              = 0;
 
-            foreach ($attr as $key => $value) {
+            foreach ( $attr as $key => $value ) {
 
-                switch ($key) {
+                switch ( $key ) {
                    
                     case 'cpm_msg_url':
                             $resource_id                    = $discuss[$value['id']];
@@ -743,15 +1004,15 @@ class Upgrade_2_0 extends WP_Background_Process
                        
                 }
             }
-            $this->created_activity($activity, $resource_id, $resource_type, $meta, $newProjectId );
+            $this->created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId );
               
         }
         
         
     }
 
-    protected function created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId ) {
-        $this->save_object(new Activity, [
+    function created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId ) {
+        $this->save_object( new Activity, [
             'actor_id'      => $activity['user_id'],
             'action'        => 'cpm_migration',
             'action_type'   => 'migrated',
@@ -761,11 +1022,11 @@ class Upgrade_2_0 extends WP_Background_Process
             'project_id'    => $newProjectId,
             'created_at'    => $activity['comment_date'],
             'updated_at'    => $activity['comment_date'],
-        ]);
+        ] );
     }
 
 
-    protected function get_attr_array( $str ) {
+    function get_attr_array( $str ) {
         $attr = [];
         $arr  = [
             'cpm_msg_url'      => '{{meta.discussion_board_title}}',
@@ -788,12 +1049,12 @@ class Upgrade_2_0 extends WP_Background_Process
         return array($attr, $text);
     }
 
-    protected function add_time_tracker( $oldProjectId, $newPorjectID, $taskList, $tasks ) {
+    function add_time_tracker( $oldProjectId, $newProjectID, $taskList, $tasks ) {
         if ( !$oldProjectId ){
             return ;
         }
 
-        if(!class_exists('WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker')){
+        if(!class_exists( 'WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker' ) ) {
             return ;
         }
 
@@ -802,33 +1063,33 @@ class Upgrade_2_0 extends WP_Background_Process
         $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE  project_id = {$oldProjectId}", ARRAY_A );
 
         foreach( $timetracker as $time ){
-            $this->save_object(new Time_Tracker, [
+            $this->save_object( new Time_Tracker, [
                 'user_id'    => $time['user_id'],
-                'project_id' => $newPorjectID,
+                'project_id' => $newProjectID,
                 'list_id'    => $taskList[$time['tasklist_id']],
                 'task_id'    => $tasks[$time['task_id']],
                 'start'      => $time['start'],
                 'stop'       => $time['stop'],
                 'total'      => $time['total'],
                 'run_status' => $time['run_status'] == 'no' ? 0 : 1 
-            ]);
+            ] );
         }
 
 
 
     }
 
-    protected function add_file( $arr ) {
+    function add_file( $arr ) {
         return $this->save_object( new File, $arr );
     }
 
-    protected function add_board( $post , $board_type, $newPorjectID ) {
+    function add_board( $post , $board_type, $newProjectID ) {
         $newBoard = $this->save_object( new Board, [
             'title'       => $post['post_title'],
             'description' => $post['post_content'],
             'order'       => $post['menu_order'],
             'type'        => $board_type,
-            'project_id'  => $newPorjectID,
+            'project_id'  => $newProjectID,
             'created_by'  => $post['post_author'],
             'updated_by'  => $post['post_author'],
             'created_at'  => $post['post_date'],
@@ -838,15 +1099,15 @@ class Upgrade_2_0 extends WP_Background_Process
         return $newBoard;
     }
 
-    protected function add_metas( $metas , $object, $newPorjectID, $entity_type = null ) {
+    function add_meta( $meta , $object, $newProjectID, $entity_type = null ) {
         $meta_ids = [];
-        foreach ( $metas as $key => $value ) {
+        foreach ( $meta as $key => $value ) {
             $metaObj = $this->save_object( new Meta, [
                 'entity_id'   => $object->id,
                 'entity_type' => $entity_type !== null? $entity_type : $object->type,
                 'meta_key'    => $key,
                 'meta_value'  => $value,
-                'project_id'  => $newPorjectID,
+                'project_id'  => $newProjectID,
                 'created_by'  => $object->created_by,
                 'updated_by'  => $object->updated_by,
                 'created_at'  => $object->created_at,
@@ -859,20 +1120,22 @@ class Upgrade_2_0 extends WP_Background_Process
         return $meta_ids;
     }
 
-    protected function set_settings(){
-        $genral          = get_site_option('cpm_general', array());
-        $mail            = get_site_option('cpm_mails', array());
-        $page            = get_site_option('cpm_page', array());
-        $woo_projects    = get_site_option('cpmwoo_settings', array());
-        $cpm_integration = get_site_option('cpm_integration', array());
-        $projects        = get_site_option('pm_upgrade', array());
+    function set_settings() {
+        $genral          = get_site_option( 'cpm_general', array() );
+        $mail            = get_site_option( 'cpm_mails', array() );
+        $page            = get_site_option( 'cpm_page', array() );
+        $woo_projects    = get_site_option( 'cpmwoo_settings', array() );
+        $cpm_integration = get_site_option( 'cpm_integration', array() );
+        $projects        = get_site_option( 'pm_upgrade', array() );
+        $invoice         = get_site_option( 'cpm_invoice', array() );
+        $newSettings     = array();
         $woo_project     = array();
         
-        if ( is_array($woo_projects) && !empty($woo_projects) ){
-            foreach ($woo_projects as $wp ) {
-                $role =[];
-                if ( is_array($wp['role']) && !empty($wp['role']) ) {
-                    foreach ($wp['role'] as $key => $value) {
+        if ( is_array( $woo_projects ) && !empty( $woo_projects ) ){
+            foreach ( $woo_projects as $wp ) {
+                $role = [];
+                if ( is_array( $wp['role'] ) && !empty( $wp['role'] ) ) {
+                    foreach ( $wp['role'] as $key => $value ) {
                         $role[] = [
                             'user_id' => $key,
                             'role_id' => $value !== 'co_worker' ? 1 : 2,
@@ -880,7 +1143,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     }
                 }
                 
-                $woo_project[]=[
+                $woo_project[] = [
                     'action'      => $wp['type'],
                     'product_ids' => array($wp['product_id']),
                     'project_id'  => $projects[$wp['project_id']],
@@ -888,31 +1151,61 @@ class Upgrade_2_0 extends WP_Background_Process
                 ];
             }
         }
-        
-        
-        $newSettings = [
-            'upload_limit'              => !empty($genral['upload_limit']) ? $genral['upload_limit']: 2,
-            'project_per_page'          => !empty($genral['pagination']) ? $genral['pagination']: 10,
-            'list_per_page'             => !empty($genral['show_todo']) ? $genral['show_todo']: 10,
-            'list_show'                 => !empty($genral['todolist_show']) ? $genral['todolist_show'] : 'pagination' ,
-            'incomplete_tasks_per_page' => !empty($genral['show_incomplete_tasks']) ? $genral['show_incomplete_tasks'] : 50 ,
-            'complete_tasks_per_page'   => !empty($genral['show_completed_tasks']) ? $genral['show_completed_tasks'] : 50,
-            'managing_capability'       => !empty($genral['project_manage_role']) ? array_values($genral['project_manage_role']): array('administrator', 'editor', 'author'),
-            'project_create_capability' => !empty($genral['project_create_role'])? array_values($genral['project_create_role']) : array('administrator', 'editor', 'author'),
-            'task_start_field'          => (!empty($genral['task_start_field']) &&  $genral['task_start_field']  == 'on' ) ? true : false,
-            'daily_digest'              => (!empty($genral['daily_digest']) && $genral['daily_digest'] == 'on') ? true : false,
-            'from_email'                => !empty($mail['email_from']) ? $mail['email_from'] : get_bloginfo('admin_email'),
-            'link_to_backend'           => (!empty($mail['email_url_link']) && $mail['email_url_link'] == 'frontend') ? false: true,
-            'email_type'                => !empty($mail['email_type']) ? $mail['email_type']: 'text/plain',
-            'enable_bcc'                => (!empty($mail['email_bcc_enable']) && $mail['email_bcc_enable'] == 'on') ? true: false,
-            'project'                   => !empty($page['project']) ? $page['project'] : '',
-            'my_task'                   => !empty($page['my_task']) ? $page['my_task'] : '',
-            'calendar'                  => !empty($page['calendar']) ? $page['calendar']: '',
-            'woo_project'               => !empty($woo_project)? $woo_project: '',
-            'after_order_complete'      => (!empty($cpm_integration['woo_duplicate']) && $cpm_integration['woo_duplicate'] == 'paid') ? true : false,
-        ];
+        if( isset( $genral['project_manage_role'] ) ) {
+            $newSettings['managing_capability'] = array_values( $genral['project_manage_role'] );
+        }
+        if( isset( $genral['project_create_role'] ) ) {
+            $newSettings['project_create_capability'] = array_values( $genral['project_create_role'] );
+        }
+        if( !empty( $woo_project ) ) {
+            $newSettings['woo_project'] = $woo_project;
+        }
 
-        foreach ($newSettings as $key => $value ) {
+        if( !empty( $genral ) ){
+            $this->set_new_setting( $newSettings, 'upload_limit', $genral, 'upload_limit' );
+            $this->set_new_setting( $newSettings, 'project_per_page', $genral, 'pagination' );
+            $this->set_new_setting( $newSettings, 'list_per_page', $genral, 'show_todo' );
+            $this->set_new_setting( $newSettings, 'list_show', $genral, 'todolist_show' );
+            $this->set_new_setting( $newSettings, 'incomplete_tasks_per_page', $genral, 'show_incomplete_tasks' );
+            $this->set_new_setting( $newSettings, 'complete_tasks_per_page', $genral, 'show_completed_tasks' );
+            $this->set_new_setting( $newSettings, 'task_start_field', $genral, 'task_start_field', 'on' );
+            $this->set_new_setting( $newSettings, 'daily_digest', $genral, 'daily_digest', 'on' );
+        }
+
+        if ( !empty($mail) ) {
+            $this->set_new_setting( $newSettings, 'from_email', $mail, 'email_from' );
+            $this->set_new_setting( $newSettings, 'link_to_backend', $mail, 'email_url_link', 'backend' );
+            $this->set_new_setting( $newSettings, 'email_type', $mail, 'email_type' );
+            $this->set_new_setting( $newSettings, 'enable_bcc', $mail, 'email_bcc_enable', 'on' );
+        }
+
+        if( !empty( $page ) ) {
+            $this->set_new_setting( $newSettings, 'project', $page, 'project' );
+            $this->set_new_setting( $newSettings, 'my_task', $page, 'my_task' );
+            $this->set_new_setting( $newSettings, 'calendar', $page, 'calendar' );
+        }
+
+        if ( !empty( $cpm_integration ) ) {
+            $this->set_new_setting( $newSettings, 'after_order_complete', $cpm_integration, 'woo_duplicate', 'paid' );
+        }  
+
+        if ( !empty( $invoice ) ) {
+            $this->set_new_setting( $newSettings['invoice'], 'theme_color', $invoice, 'theme_color' );
+            $this->set_new_setting( $newSettings['invoice'], 'currency_code', $invoice, 'currency' );
+            $this->set_new_setting( $newSettings['invoice'], 'paypal', $invoice, 'payment_gateway', 'paypal' );
+            $this->set_new_setting( $newSettings['invoice'], 'paypal_mail', $invoice, 'paypal_email' );
+            $this->set_new_setting( $newSettings['invoice'], 'sand_box_mode', $invoice, 'paypal_sand_box', 'on' );
+            $this->set_new_setting( $newSettings['invoice'], 'paypal_instruction', $invoice, 'gate_instruct_paypal' );
+            $this->set_new_setting( $newSettings['invoice'], 'organization', $invoice, 'organization' );
+            $this->set_new_setting( $newSettings['invoice'], 'address_line_1', $invoice, 'address_line_1' );
+            $this->set_new_setting( $newSettings['invoice'], 'address_line_2', $invoice, 'address_line_2' );
+            $this->set_new_setting( $newSettings['invoice'], 'city', $invoice, 'city' );
+            $this->set_new_setting( $newSettings['invoice'], 'sate_province', $invoice, 'state' );
+            $this->set_new_setting( $newSettings['invoice'], 'zip_code', $invoice, 'zip' );
+            $this->set_new_setting( $newSettings['invoice'], 'country_code', $invoice, 'country' );
+        }
+
+        foreach ( $newSettings as $key => $value ) {
             $settings = Settings::firstOrCreate([
                 'key' => $key
             ]);
@@ -921,33 +1214,45 @@ class Upgrade_2_0 extends WP_Background_Process
         
     }
 
-    protected function migrate_category() {
+    function set_new_setting( &$settings, $newkey, $oldsettings, $oldkey, $willtrue = null ) {
+
+        if( !isset( $oldsettings[$oldkey] ) || empty( $oldsettings[$oldkey] ) ) {
+            return ;
+        }
+        if( $willtrue != null ) {
+            $settings[$newkey] = $oldsettings[$oldkey] == $willtrue ? true : false;
+        }
+        $settings[$newkey] = $oldsettings[$oldkey];
+    }
+
+    function migrate_category() {
         global $wpdb;
         $terms = get_terms( array(
             'taxonomy' => 'cpm_project_category',
             'hide_empty' => false,
         ) );
         $categories = [];
-        foreach ($terms as $term) {
-            $cat = Category::firstOrCreate([
+        if ( empty( $terms ))
+        foreach ( $terms as $term ) {
+            $cat = Category::firstOrCreate( [
                 'title'            => $term->name , 
                 'description'      => $term->description, 
                 'categorible_type' =>'project',
             ]);
-            $projects = get_site_option("pm_upgrade", array());
+            $projects = get_site_option( "pm_upgrade", array() );
 
             $prointrem = $wpdb->get_results( "SELECT object_id FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id = {$term->term_taxonomy_id}", ARRAY_A );
             $pterm =[];
-            foreach ($prointrem as $p) {
+            foreach ( $prointrem as $p ) {
                 $pterm[] = $p['object_id'];
             }
 
 
-            $arr = array_filter($projects, function( $key ) use ($pterm){
-                return in_array($key, $pterm);
+            $arr = array_filter( $projects, function( $key ) use ( $pterm ){
+                return in_array( $key, $pterm );
             }, ARRAY_FILTER_USE_KEY);
 
-            $cat->projects()->attach(array_values($arr));
+            $cat->projects()->attach( array_values( $arr ) );
             $categories[$term->term_taxonomy_id] = $cat->id;
         }
     }
@@ -958,14 +1263,14 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param  array $arr    model data
      * @return object         new model
      */
-    protected function save_object( $object,  $arr ) {
+    function save_object( $object,  $arr ) {
         foreach ($arr as $key => $value) {
             $object->{$key} = $value;
         }
 
         $object->unsetEventDispatcher();
 
-        if ($object->save()){
+        if( $object->save() ) {
             return $object;
         } 
     }
