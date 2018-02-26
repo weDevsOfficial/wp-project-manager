@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: Tareq Hasan
  * Author URI: https://tareq.co
- * Version: 1.6.10
+ * Version: 1.6.11
  * License: GPL2
  */
 /**
@@ -49,7 +49,7 @@ class WeDevs_CPM {
      *
      * @var string
      */
-    public $version = '1.6.10';
+    public $version = '1.6.11';
 
      /**
      * Plugin Database version
@@ -404,7 +404,10 @@ class WeDevs_CPM {
         wp_register_script( 'cpm-trix-editor', plugins_url( 'assets/js/trix.js', __FILE__ ), array( 'jquery' ), false, true );
         wp_enqueue_script( 'validate', plugins_url( 'assets/js/jquery.validate.min.js', __FILE__ ), array( 'jquery' ), false, false );
         wp_enqueue_script( 'plupload-handlers' );
-        wp_enqueue_script( 'cpm-trix-editor' );
+        if ( !wp_script_is( 'erp-trix-editor', 'enqueued' )){
+            wp_enqueue_script( 'cpm-trix-editor' );
+        }
+        
         //wp_enqueue_script( 'cpm_vue-multiselect', plugins_url( 'assets/js/multiselect.js', __FILE__ ), array ( 'jquery', 'plupload-handlers' ), false, true );
 
         //swp_enqueue_script( 'cpm_common_js', plugins_url( 'assets/js/cpm_common_js.js', __FILE__ ), array('cpm-vue', 'cpm_vue-multiselect'), false, true );

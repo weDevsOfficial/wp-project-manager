@@ -1,18 +1,18 @@
-# Copyright (C) 2017 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2018 Tareq Hasan
+# This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: WP Project Manager 1.6.11\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2017-11-27 07:57:06+00:00\n"
+"POT-Creation-Date: 2018-02-26 09:28:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
-"X-Generator: grunt-wp-i18n1.0.0\n"
+"X-Generator: grunt-wp-i18n1.0.1\n"
 
 #: class/activity.php:72
 msgid "Project created by %s"
@@ -272,136 +272,136 @@ msgstr ""
 msgid "Invalid project ID."
 msgstr ""
 
-#: class/ajax.php:413 class/ajax.php:464
+#: class/ajax.php:419 class/ajax.php:470
 msgid "Access Denied"
 msgstr ""
 
-#: class/ajax.php:420
+#: class/ajax.php:426
 msgid "Username is required."
 msgstr ""
 
-#: class/ajax.php:424
+#: class/ajax.php:430
 msgid "Email is required."
 msgstr ""
 
-#: class/ajax.php:428
+#: class/ajax.php:434
 msgid "Invalid email"
 msgstr ""
 
-#: class/ajax.php:432
+#: class/ajax.php:438
 msgid "Username already exist"
 msgstr ""
 
-#: class/ajax.php:436
+#: class/ajax.php:442
 msgid "Email already exist"
 msgstr ""
 
-#: class/ajax.php:445 class/ajax.php:476
+#: class/ajax.php:451 class/ajax.php:482
 msgid "Are you cheating?"
 msgstr ""
 
-#: class/ajax.php:451
+#: class/ajax.php:457
 msgid "Project ID required"
 msgstr ""
 
-#: class/ajax.php:522 includes/cpm-api/class-cpm-json-projects.php:103
+#: class/ajax.php:528 includes/cpm-api/class-cpm-json-projects.php:103
 #: includes/cpm-api/class-cpm-json-projects.php:107
 #: includes/cpm-api/class-cpm-json-projects.php:159
 msgid "Project name is required."
 msgstr ""
 
-#: class/ajax.php:570 class/ajax.php:1580
+#: class/ajax.php:576 class/ajax.php:1586
 msgid "Manager"
 msgstr ""
 
-#: class/ajax.php:576 class/ajax.php:1587 includes/html.php:1445
+#: class/ajax.php:582 class/ajax.php:1593 includes/html.php:1445
 msgid "Co-Worker"
 msgstr ""
 
-#: class/ajax.php:581 class/ajax.php:1592 includes/functions.php:1076
+#: class/ajax.php:587 class/ajax.php:1598 includes/functions.php:1081
 msgid "Delete"
 msgstr ""
 
-#: class/ajax.php:646
+#: class/ajax.php:652
 msgid "A new task has been created successfully."
 msgstr ""
 
-#: class/ajax.php:660
+#: class/ajax.php:666
 msgid "Task title is required."
 msgstr ""
 
-#: class/ajax.php:661
+#: class/ajax.php:667
 msgid "Start date is a date field and should be formatted as Y-m-d"
 msgstr ""
 
-#: class/ajax.php:662
+#: class/ajax.php:668
 msgid "Due date is a date field and should be formatted as Y-m-d"
 msgstr ""
 
-#: class/ajax.php:701
+#: class/ajax.php:707
 msgid "The task has been updated successfully."
 msgstr ""
 
-#: class/ajax.php:746
+#: class/ajax.php:752
 msgid "The task has been marked as completed."
 msgstr ""
 
-#: class/ajax.php:771
+#: class/ajax.php:777
 msgid "The task has been reopened."
 msgstr ""
 
-#: class/ajax.php:802
+#: class/ajax.php:808
 msgid "The task has been deleted successfully."
 msgstr ""
 
-#: class/ajax.php:825 class/ajax.php:874 class/task.php:222
+#: class/ajax.php:831 class/ajax.php:880 class/task.php:222
 #: includes/cpm-api/class-cpm-json-lists.php:165
 #: includes/cpm-api/class-cpm-json-lists.php:211
 msgid "Task list name is required."
 msgstr ""
 
-#: class/ajax.php:856
+#: class/ajax.php:862
 msgid "A new task list has been created successfully."
 msgstr ""
 
-#: class/ajax.php:902
+#: class/ajax.php:908
 msgid "Task list has been updated successfully."
 msgstr ""
 
-#: class/ajax.php:941
+#: class/ajax.php:947
 msgid "Task list has been deleted successfully."
 msgstr ""
 
-#: class/ajax.php:1198 class/ajax.php:1252
+#: class/ajax.php:1204 class/ajax.php:1258
 msgid "Successfully updated"
 msgstr ""
 
-#: class/ajax.php:1201
+#: class/ajax.php:1207
 msgid "Error"
 msgstr ""
 
-#: class/ajax.php:1226
+#: class/ajax.php:1232
 msgid "Add a comment..."
 msgstr ""
 
-#: class/ajax.php:1307
+#: class/ajax.php:1313
 msgid "Successfully deleted comment"
 msgstr ""
 
-#: class/ajax.php:1536 class/ajax.php:1563 includes/functions.php:196
+#: class/ajax.php:1542 class/ajax.php:1569 includes/functions.php:196
 msgid "No users found."
 msgstr ""
 
-#: class/ajax.php:1536
+#: class/ajax.php:1542
 msgid "Create a new user?"
 msgstr ""
 
-#: class/ajax.php:1912 includes/functions.php:244
+#: class/ajax.php:1918 includes/functions.php:244
 #: views/js-templates/file-uploader.php:9
 msgid "Delete File"
 msgstr ""
 
-#: class/ajax.php:1947
+#: class/ajax.php:1953
 msgid "Successfully reordered"
 msgstr ""
 
@@ -675,7 +675,7 @@ msgstr ""
 msgid "New Project Category Name"
 msgstr ""
 
-#: class/project.php:80 cpm.php:500
+#: class/project.php:80 cpm.php:503
 msgid "Categories"
 msgstr ""
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Add Task List"
 msgstr ""
 
-#: class/task.php:50 includes/functions.php:1309
+#: class/task.php:50 includes/functions.php:1314
 msgid "Update Task List"
 msgstr ""
 
@@ -886,7 +886,7 @@ msgstr ""
 msgid "Edit Task List"
 msgstr ""
 
-#: class/task.php:116 includes/functions.php:1308
+#: class/task.php:116 includes/functions.php:1313
 msgid "New Task List"
 msgstr ""
 
@@ -1016,19 +1016,19 @@ msgstr ""
 msgid "Pro Version"
 msgstr ""
 
-#: cpm.php:210 cpm.php:502
+#: cpm.php:210 cpm.php:505
 msgid "Add-ons"
 msgstr ""
 
-#: cpm.php:453
+#: cpm.php:456
 msgid "Allowed Files"
 msgstr ""
 
-#: cpm.php:497 views/project/index.php:23
+#: cpm.php:500 views/project/index.php:23
 msgid "Project Manager"
 msgstr ""
 
-#: cpm.php:498 includes/html.php:1444
+#: cpm.php:501 includes/html.php:1444
 msgid "Projects"
 msgstr ""
 
@@ -1321,47 +1321,47 @@ msgstr ""
 msgid "View Private files or docs"
 msgstr ""
 
-#: includes/functions.php:1074
+#: includes/functions.php:1079
 msgid "Delete project"
 msgstr ""
 
-#: includes/functions.php:1074
+#: includes/functions.php:1079
 msgid "Are you sure to delete this project?"
 msgstr ""
 
-#: includes/functions.php:1084
+#: includes/functions.php:1089
 msgid "Complete"
 msgstr ""
 
-#: includes/functions.php:1089
+#: includes/functions.php:1094
 msgid "Restore"
 msgstr ""
 
-#: includes/functions.php:1099
+#: includes/functions.php:1104
 msgid "Duplicate"
 msgstr ""
 
-#: includes/functions.php:1151
+#: includes/functions.php:1156
 msgid "&laquo;"
 msgstr ""
 
-#: includes/functions.php:1152
+#: includes/functions.php:1157
 msgid "&raquo;"
 msgstr ""
 
-#: includes/functions.php:1306
+#: includes/functions.php:1311
 msgid "You cannot use this field more than once!"
 msgstr ""
 
-#: includes/functions.php:1307
+#: includes/functions.php:1312
 msgid "You cannot create more than 4 actions!"
 msgstr ""
 
-#: includes/functions.php:1310
+#: includes/functions.php:1315
 msgid "Write a comment..."
 msgstr ""
 
-#: includes/functions.php:1311 includes/html.php:914
+#: includes/functions.php:1316 includes/html.php:914
 msgid "Are you sure?"
 msgstr ""
 
@@ -2082,6 +2082,28 @@ msgstr ""
 
 #: views/project/overview.php:53
 msgid "Users"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Project Manager"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/wedevs-project-manager/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WordPress Project Management plugin. Manage your projects and tasks, get "
+"things done."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Tareq Hasan"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://tareq.co"
 msgstr ""
 
 #: class/project.php:70
