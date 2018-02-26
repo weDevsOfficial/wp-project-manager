@@ -7,6 +7,9 @@
     
     export default {
         mixins: [mixin],
+        mounted: function(){
+	        pm.NProgress.done();
+	    },
         methods: {
 
         }
