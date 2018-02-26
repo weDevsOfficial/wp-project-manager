@@ -738,6 +738,36 @@ class Upgrade_2_0 extends WP_Background_Process
         ];
 
         $invoice = $this->save_object(new Invoice, $invoiceArr );
+
+        $payments = get_post_meta( $post['ID'], 'cpmi_payment', true );
+
+        if( !empty($payments) ) {
+            foreach ( $payments as $payment ) {
+                $payment_date = empty( $payment['date'] ) ? $post['post_modified'] : $payment['date'];
+
+                $data = [
+                    'entity_id'   => $invoice->id,
+                    'entity_type' => 'invoice',
+                    'meta_key'    => 'invoice_payment',
+                    'meta_value'  => maybe_serialize([
+                        'amount'  => floatval( $payment['amount'] ),
+                        'date'    => date( 'Y-m-d', strtotime( $payment_date ) ),
+                        'notes'   => $payment['notes'],
+                        'gateway' => $payment['method']
+                    ]),
+                    'project_id' => $newProject->id,
+                    'created_by'  => $invoice->client_id,
+                    'updated_by'  => $invoice->client_id,
+                    'created_at'  => $payment_date,
+                    'updated_at'  => $payment_date,
+                ];
+                $this->save_object( New Meta, $data );
+                
+            }
+        }
+
+        
+
         return $invoice->id;
     }
 
@@ -751,7 +781,7 @@ class Upgrade_2_0 extends WP_Background_Process
             $arr['task'] = $this->get_task_by_title( $item->name, $newProject ); // find id, title time
             $arr['description']  = $item->details;
             $arr['amount']  = $item->amount;
-            $arr['hour']  = $item->qty;
+            $arr['quantity']  = $item->qty;
             $arr['tax']  = $item->tax_percent;
             $arr['descriptionField']  = isset($item->details);
 
@@ -763,7 +793,7 @@ class Upgrade_2_0 extends WP_Background_Process
             $arr['task'] = $this->get_task_by_title( $item->name, $newProject  ); // find id, title time
             $arr['description']  = $item->details;
             $arr['amount']  = $item->amount;
-            $arr['quantity']  = $item->qty;
+            $arr['hour']  = $item->qty;
             $arr['tax']  = $item->tax_percent;
             $arr['descriptionField']  = isset($item->details);
 
@@ -915,18 +945,34 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
-        error_log( var_dump($taskParent) );
-        $this->set_gantt_data( $taskLists, $taskLists, $tasks );
-        $this->set_gantt_data( $tasks, $taskLists, $tasks );
-        if( !empty( $taskParent ) ) {
-            foreach ( $taskParent as $task => $list ) {
-                $this->save_object( new Gantt, [
-                    'source' => $taskLists[$list],
-                    'target' => $tasks[$task],
-                    'type'   => 2,
-                ]);
+        // $this->set_gantt_data( $taskLists, $taskLists, $tasks );
+        // $this->set_gantt_data( $tasks, $taskLists, $tasks );
+        if( is_array( $tasks ) ){
+            foreach ( $tasks as $old => $new ) {
+                $links = get_post_meta( $old, '_link', true );
+                if( empty( $links ) ) {
+                    continue ;
+                }
+                foreach ( $links as $link ) {
+                    if ( array_key_exists( $link, $tasks ) ) {
+                        $this->save_object( new Gantt, [
+                            'source' => $new,
+                            'target' => $tasks[$link],
+                            'type'   => 1,
+                        ]);
+                    }
+                }
             }
         }
+        // if( !empty( $taskParent ) ) {
+        //     foreach ( $taskParent as $task => $list ) {
+        //         $this->save_object( new Gantt, [
+        //             'source' => $taskLists[$list],
+        //             'target' => $tasks[$task],
+        //             'type'   => 2,
+        //         ]);
+        //     }
+        // }
     }
 
     function set_gantt_data( $items, $taskLists, $tasks  ) {
@@ -943,13 +989,14 @@ class Upgrade_2_0 extends WP_Background_Process
             }
 
             foreach ( $links as $link ) {
-                if ( array_key_exists( $link, $taskLists ) ) {
-                    $this->save_object( new Gantt, [
-                        'source' => $new,
-                        'target' => $taskLists[$link],
-                        'type'   => 1,
-                    ]);
-                }elseif ( array_key_exists( $link, $tasks ) ) {
+                // if ( array_key_exists( $link, $taskLists ) ) {
+                //     $this->save_object( new Gantt, [
+                //         'source' => $new,
+                //         'target' => $taskLists[$link],
+                //         'type'   => 1,
+                //     ]);
+                // }
+                if ( array_key_exists( $link, $tasks ) ) {
                     $this->save_object( new Gantt, [
                         'source' => $new,
                         'target' => $tasks[$link],

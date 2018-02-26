@@ -187,7 +187,11 @@
                 project.status = project.status === 'complete' ? 'incomplete' : 'complete';
                 
                 var args ={
-                    data:project,
+                    data:{
+                        'id': project.id,
+                        'title': project.title,
+                        'status': project.status,
+                    },
                     callback: function(project) {
                         switch (self.$route.name) {
                             

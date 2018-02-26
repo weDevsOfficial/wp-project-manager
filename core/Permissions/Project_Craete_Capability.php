@@ -5,7 +5,7 @@ namespace WeDevs\PM\Core\Permissions;
 use WeDevs\PM\Core\Permissions\Abstract_Permission;
 use WP_REST_Request;
 
-class Project_Craete_Capability extends Abstract_Permission {
+class Project_Create_Capability extends Abstract_Permission {
     public function check() {
         
         if ( pm_has_manage_capability() ) {
