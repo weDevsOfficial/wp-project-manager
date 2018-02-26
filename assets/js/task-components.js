@@ -785,6 +785,15 @@ Vue.component('cpm-task-comment-form', {
             });
         },
 
+        coworker_ids: function () {
+            var ids = [];
+            this.co_worker_lists().map(function(user) {
+                ids.push(user.id);
+            });
+
+            return ids;
+        },
+
         /**
          * Check select all check box enable or disabled. for notify users
          *
@@ -793,7 +802,7 @@ Vue.component('cpm-task-comment-form', {
          * @return void
          */
         notify_coo_workers: function( user_id ) {
-            var co_worker_length = this.get_porject_users_id_by_role('co_worker').length,
+            var co_worker_length = this.coworker_ids().length,
                 notify_co_worker_length = this.notify_user.length;
 
             if ( co_worker_length != notify_co_worker_length ) {
@@ -812,7 +821,7 @@ Vue.component('cpm-task-comment-form', {
 
             if ( this.notify_all_user ) {
                 this.notify_user = [];
-                this.notify_user = this.get_porject_users_id_by_role('co_worker');
+                this.notify_user = this.coworker_ids();
             } else {
                 this.notify_user = [];
             }
