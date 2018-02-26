@@ -3,7 +3,7 @@ Contributors: tareq1988, wedevs, asaquzzaman, wpasikur, mdmamun-1, mshossain110
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.0
-Tested up to: 4.9
+Tested up to: 4.9.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= 1.6.11 - February 26, 2018 =
+
+ * [fix] Notify users while commenting in a task.
+ * [fix] Trix-editor intregration with the WP ERP.
+ * [fix] Compatible with the Microsoft Edge browser.
+ * [fix] Task re-ordering.
+ * [fix] Project list and grid view compatible with all browsers.
 
 = 1.6.10 - November 27, 2017 =
 

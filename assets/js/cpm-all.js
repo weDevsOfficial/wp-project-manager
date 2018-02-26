@@ -659,12 +659,16 @@
                 e.preventDefault();
                 $( '#cpm-new-message-form-content' ).html( '' );
                 $( '#cpm-signle-message' ).slideUp();
-                $( '.cpm-new-message-form' ).slideDown();
+                $( '.cpm-new-message-form' ).slideDown(400, function(){
+                    uploadernd.uploader.refresh();
+                });
                 $( '#cpm-new-message-form-content' ).hide();
             },
             showasblank: function( e ) {
                 e.preventDefault();
-                $( '.cpm-new-message-form' ).slideDown();
+                $( '.cpm-new-message-form' ).slideDown(400, function(){
+                    uploadernd.uploader.refresh();
+                });
             },
             hide: function( e ) {
                 e.preventDefault();
@@ -1019,9 +1023,9 @@
             $( this ).closest( 'tr' ).remove();
         } );
     } );
-    new CPM_Uploader_Old( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
-    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
-    new CPM_Uploader_Old( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
+    window.uploadernd = new CPM_Uploader_Old( 'cpm-upload-pickfiles-nd', 'cpm-upload-container-nd' );
+    window.uploadercm = new CPM_Uploader_Old( 'cpm-upload-pickfiles-cm', 'cpm-upload-container-cm' );
+    window.uploadercd = new CPM_Uploader_Old( 'cpm-upload-pickfiles-cd', 'cpm-upload-container-cd' );
 
     function  showderror() {
 
