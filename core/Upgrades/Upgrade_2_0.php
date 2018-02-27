@@ -19,7 +19,6 @@ use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
 use WeDevs\PM_Pro\Modules\Gantt\src\Models\Gantt;
 use WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice;
 
-    
 /**
 *   Upgrade project manager 2.0     
 */
