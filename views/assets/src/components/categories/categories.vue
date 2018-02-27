@@ -112,7 +112,7 @@
                                     <td v-if="!category.edit_mode" class="description column-description" data-colname="Description">{{ category.description }}</td>
                                     <!-- <td v-if="!category.edit_mode" class="description column-description" data-colname="Description">{{ category.categorible_type }}</td> -->
 
-                                    <td v-if="category.edit_mode" colspan="4">
+                                    <td v-if="category.edit_mode" colspan="3">
                                         <edit-category-form :category="category"></edit-category-form>
                                     </td>
                                 </tr>   
