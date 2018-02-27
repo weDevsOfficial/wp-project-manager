@@ -94,10 +94,12 @@ class Upgrade_2_0 extends WP_Background_Process
      * Get all Project id and push into queue 
      * @return [type] [description]
      */
-    public function upgrade_init ( ) {
+    public function upgrade_init() {
         global $wpdb;
+
         $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
-        foreach ($ids as $id) {
+
+        foreach ( $ids as $id ) {
             $this->push_to_queue( $id['ID'] );
         }
 
@@ -365,6 +367,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if( !$post ) {
             return ;
         }
+        
         $taskList = $this->add_board( $post, 'task_list', $newProjectID );
         $mid      = get_post_meta( $post['ID'], '_milestone', true );
 
