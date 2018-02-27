@@ -3,7 +3,16 @@
 namespace WeDevs\PM\Core\Notifications;
 
 
-abstract class Email{
+class Email {
+    private static $_instance;
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
 
     /**
      * Get content html.
@@ -134,18 +143,24 @@ abstract class Email{
         return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
     }
     
-    public function send( $to, $subject, $message, $headers = array(), $attachments = null ) {
+    public static function send( $to, $subject, $message, $headers = [], $attachments = null ) {
 
-        $blogname     = $this->get_blogname();
+        $blogname     = self::getInstance()->get_blogname();
         $no_reply     = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
-        $from_email   = $this->from_email();
+        $from_email   = self::getInstance()->from_email();
         $from         = "From: $blogname <$from_email>";
         $reply_to     = "Reply-To: $no_reply";
 
-        if ( $this->is_bcc_enable() ) {
-            $bcc     = 'Bcc: ' . implode(',', $to);
+        if ( self::getInstance()->is_bcc_enable() ) {
+            
+            if ( is_array( $to ) ) {
+                $bcc     = 'Bcc: ' . implode(',', $to);
+            } else {
+                $bcc     = 'Bcc: ' . $to;
+            }
+            
             $headers = array(
                 $bcc,
                 $reply_to,
@@ -154,7 +169,7 @@ abstract class Email{
                 $from_email
             );
 
-            wp_mail( $from_email, $subject, $message, $headers, $attachments );
+            return wp_mail( $from_email, $subject, $message, $headers, $attachments );
             
         } else {
 
@@ -165,7 +180,7 @@ abstract class Email{
                 $from,
             );
 
-           wp_mail( $to, $subject, $message, $headers, $attachments );
+           return wp_mail( $to, $subject, $message, $headers, $attachments );
         }
     }
 }
