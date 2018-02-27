@@ -150,7 +150,8 @@
 }
 .pm .tablenav {
   display: block;
-  padding-top: 15px;
+  padding: 10px 0px;
+  height: auto;
 }
 .pm .tablenav .tablenav-pages {
   float: none !important;
@@ -166,7 +167,11 @@
   border: 1px solid #E4E4E4;
 }
 .pm .pm-pagination-wrap {
-  //float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
 }
 .pm .pm-pagination-wrap a {
   box-shadow: none;
@@ -181,8 +186,11 @@
   font-size: 12px;
   background: #fff;
   color: #000;
-  height: 30px;
+  display: inline-block;
   line-height: 1.5;
+}
+.pm .pm-pagination-wrap .pm-pagination-btn:first-child{
+    margin-left: 0px;
 }
 .pm .pm-pagination-wrap .current {
   background: #32373c;
@@ -3257,11 +3265,12 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-todolists {
   padding: 0px;
+  margin-top: 0px;
 }
 .pm .pm-todolists .pm-todolist {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .pm .pm-todolists .pm-todolist header {
   padding: 10px 10px 3px 10px;
@@ -3426,12 +3435,13 @@ a.pm-icon-tick.grey {
   color: #019dd6 !important;
 }
 .pm .pm-new-message-btn {
-  margin: 0px 0px 20px;
 }
 .pm .pm-message-page {
-  width: auto ;
-  padding: 0px;
-  background: #ffffff;
+    width: auto;
+    padding: 0px;
+    background: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .pm .pm-message-page .pm-message-list {
   padding: 10px 20px;
@@ -3566,7 +3576,6 @@ a.pm-icon-tick.grey {
 .pm #pm-milestone-page .pm-milestone-link {
   margin: 0px;
   padding: 0px;
-  margin-bottom: 20px;
   list-style: none;
 }
 .pm #pm-milestone-page .pm-milestone-link li {
@@ -3594,6 +3603,8 @@ a.pm-icon-tick.grey {
 }
 .pm #pm-milestone-page .pm-milestone-details {
   margin-top: 20px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .pm #pm-milestone-page .pm-milestone-details .pm-late-milestone .group-title {
   background-image: url('../images/late_milestone.svg');
@@ -3611,7 +3622,7 @@ a.pm-icon-tick.grey {
 .pm #pm-milestone-page .pm-milestone-details .pm-milestone-data {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
-  margin: 0 0 20px 0;
+  margin-top: 20px;
 }
 .pm #pm-milestone-page .pm-milestone-details .pm-milestone-data .group-title {
   font-size: 16px;
@@ -4967,7 +4978,8 @@ a.pm-icon-tick.grey {
   margin: 0 0 0 2px;
   padding: 0;
 }
-.discussion{
+.pm .discussion{
+  padding-left: 0px; 
   overflow: hidden;
   position: relative;
 }

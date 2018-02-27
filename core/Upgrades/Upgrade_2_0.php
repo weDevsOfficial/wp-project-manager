@@ -766,9 +766,6 @@ class Upgrade_2_0 extends WP_Background_Process
                 
             }
         }
-
-        
-
         return $invoice->id;
     }
 
