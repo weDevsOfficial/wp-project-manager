@@ -12,7 +12,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
  if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
             $messages = $msg_obj->get_all( $project_id, true );
         } else {
-            $messages = $msg_obj->get_users_all_message( $project_id );
+            $messages = $msg_obj->get_all( $project_id );
         }
  if ( $messages ) {
 ?>
