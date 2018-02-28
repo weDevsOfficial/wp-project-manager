@@ -1,5 +1,15 @@
 
 export default {
+    data () {
+        return {
+
+        }
+    },
+    computed: {
+        can_create_milestone () {
+            return this.user_can("create_task");
+        }
+    },
     methods: {
         showHideMilestoneForm (status, milestone) {
             var milestone   = milestone || false,

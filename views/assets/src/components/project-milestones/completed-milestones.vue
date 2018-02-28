@@ -13,8 +13,10 @@
                 </div>
             </div>
 
-            <div class="pm-milestone-edit-form" v-if="milestone.edit_mode && user_can('create_milestone')">
-                <new-milestone-form section="milestones" :milestone="milestone"></new-milestone-form>
+            <div class="pm-milestone-edit-form" v-if="can_create_milestone">
+                <transition name="slide">
+                    <new-milestone-form section="milestones" v-if="milestone.edit_mode" :milestone="milestone"></new-milestone-form>
+                </transition>
             </div>
             <div class="pm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">

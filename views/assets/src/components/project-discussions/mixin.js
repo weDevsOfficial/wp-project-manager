@@ -1,5 +1,15 @@
 
 export default {
+     data () {
+        return {
+
+        }
+    },
+    computed: {
+        can_create_message () {
+            return this.user_can("create_message");
+        }
+    },
     methods: {
         showHideDiscussForm (status, discuss) {
             var discuss   = discuss || false,

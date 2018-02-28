@@ -45,11 +45,13 @@
                         </ul>
                     </div>
 
-                    <div class="pm-comment-edit-form" v-if="comment.edit_mode">
-                        <div :class="'pm-slide-'+comment.id">
-                            <list-comment-form :comment="comment" :list="list"></list-comment-form>
+                    <transition name="slide">
+                        <div class="pm-comment-edit-form" v-if="comment.edit_mode">
+                            <div :class="'pm-slide-'+comment.id">
+                                <list-comment-form :comment="comment" :list="list"></list-comment-form>
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
             </li>
         </ul>

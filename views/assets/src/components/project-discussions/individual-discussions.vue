@@ -21,7 +21,7 @@
                     <h3 class="pm-box-title">
                         {{discuss.title}}          
                         <span class="pm-right pm-edit-link">
-                            <span v-if="can_create" >
+                            <span v-if="can_create_message" >
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#" data-msg_id="97" data-project_id="60" class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
@@ -46,11 +46,9 @@
                         </ul>
 
                     </div>
-                    <span class="pm-msg-edit-form" v-if="can_create" >
-                        <div class="pm-message-form-wrap" >
-                            <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
-                        </div>
-                    </span>
+                    <transition name="slide" v-if="can_create_message" >
+                        <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
+                    </transition>
                 </div>
             </div>
 
@@ -101,9 +99,9 @@
 
                             </div>
 
-                            <div class="pm-comment-edit-form">
+                            <transition name="slide" >
                                <comment-form v-if="comment.edit_mode" :comment="comment" :discuss="discuss"></comment-form> 
-                            </div>
+                            </transition>
                         </div>
                     </li>
                 </ul>
@@ -114,7 +112,9 @@
                             <img :alt="current_user.data.display_name" :src="avatar_url" :srcset="avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                         </a>
                     </div>
-                    <comment-form :comment="{}" :discuss="discuss"></comment-form> 
+                    <transition name="slide">
+                        <comment-form :comment="{}" :discuss="discuss"></comment-form>
+                    </transition>
                 </div>
             </div>            
         </div>

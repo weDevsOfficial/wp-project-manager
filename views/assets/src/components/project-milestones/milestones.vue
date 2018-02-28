@@ -24,13 +24,12 @@
                             <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{text.add_milestone}}</a>
                         </div>
 
-                        <transition name="slide" v-if="user_can('create_milestone')">
+                        <transition name="slide" v-if="can_create_milestone">
 
-                            <div class="pm-new-milestone-form" v-if="user_can('create_milestone')" >
-                                <div class="pm-milestone-form-wrap" v-if="is_milestone_form_active" >
+                            <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
+                                <div class="pm-milestone-form-wrap"  >
                                     <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                                 </div>
-
                             </div>
                         </transition>
 
@@ -49,11 +48,11 @@
             </div>
             <div v-if="milestoneTemplate">
                 <div class="pm-row pm-milestone-details" >
-                    <div class="pm-milestone-link clearfix" v-if="user_can('create_milestone')">
+                    <div class="pm-milestone-link clearfix" v-if="can_create_milestone">
                         <a @click.prevent="showHideMilestoneForm('toggle')"  id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{text.add_milestone}}</a>
                     </div>
 
-                     <transition name="slide" v-if="user_can('create_milestone')">
+                     <transition name="slide" v-if="can_create_milestone">
                         <div  class="pm-new-milestone-form pm-col-6 pm-sm-col-12" style="float:none;" v-if="is_milestone_form_active">
                             <div class="pm-milestone-form-wrap">
                                 <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>

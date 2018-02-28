@@ -1,6 +1,6 @@
 <template>
-    
-        <form class="pm-comment-form" @submit.prevent="newSelfComment()">
+    <div class="pm-comment-form">
+        <form @submit.prevent="newSelfComment()">
             <div class="item message pm-sm-col-12">
                 <text-editor :editor_id="editor_id" :content="content"></text-editor>
                 
@@ -15,7 +15,7 @@
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
-    
+    </div>
 </template>
 
 <script>    

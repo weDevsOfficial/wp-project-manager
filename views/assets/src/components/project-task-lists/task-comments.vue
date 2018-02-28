@@ -43,12 +43,11 @@
                             </li>
                         </ul>
                     </div>
-
-                    <div class="pm-comment-edit-form" v-if="comment.edit_mode">
-                        <!-- <div :class="'pm-slide-'+comment.id" style="display: none;"> -->
+                    <transition name="slide">
+                        <div class="pm-comment-edit-form" v-if="comment.edit_mode">
                             <task-comment-form :comment="comment" :comments="comments"></task-comment-form>
-                        <!-- </div> -->
-                    </div>
+                        </div>
+                    </transition>
                 </div>
             </li>
         </ul>
