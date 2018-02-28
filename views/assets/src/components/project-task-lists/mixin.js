@@ -12,14 +12,6 @@ var PM_TaskList_Mixin = {
     },
 
     computed: {
-        /**
-         * Is current user can create task
-         * 
-         * @return object
-         */
-        canUserCreateTask () {
-            return this.$store.state.projectTaskLists.permissions.create_todo;
-        },
 
         task_start_field () {
            return this.getSettings('task_start_field', false);
