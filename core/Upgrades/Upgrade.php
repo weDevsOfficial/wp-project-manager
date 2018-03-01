@@ -1,8 +1,5 @@
 <?php
 namespace WeDevs\PM\Core\Upgrades;
-
-use WeDevs\PM\Core\Upgrades\Upgrade_2_0;
-
 class Upgrade {
 
     /** @var array DB updates that need to be run */
@@ -49,6 +46,7 @@ class Upgrade {
      * @return boolean
      */
     public function is_needs_update() {
+        return true;
         $installed_version = !empty( get_site_option( 'cpm_db_version' ) ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
         // may be it's the first install
@@ -108,8 +106,6 @@ class Upgrade {
      * @return void
      */
     public function do_updates() {
-        $test = new Upgrade_2_0();
-        $test->upgrade_init();
         if ( ! isset( $_POST['pm_update'] ) ) {
             return;
         }
@@ -133,7 +129,9 @@ class Upgrade {
         }
         $installed_version = get_option( 'pm_db_version' );
 
-         foreach (self::$updates as $version => $object ) {
+        foreach (self::$updates as $version => $object ) {
+            
+            $object->upgrade_init();  
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
@@ -147,3 +145,5 @@ class Upgrade {
         //delete_option( 'cpm_db_version' );
     }
 }
+
+

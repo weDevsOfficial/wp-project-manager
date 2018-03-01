@@ -27,7 +27,7 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * @var string
      */
-    protected $action = 'upgrade';
+    protected $action = 'pm_db_migration_2_0';
 
     public $isProcessRuning = false;
     
@@ -39,6 +39,13 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return 
      */
     function task( $item ) {
+
+        if ( empty( absint( $item ) ) ) {
+            return false;
+        }
+
+        pm_log( 'migrations', $item );
+
         $this->isProcessRuning = true;
         $this->upgrade_projects($item);
 
@@ -55,7 +62,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->isProcessRuning = false;
         $this->migrate_category();
         $this->set_settings();
-        error_log( "task complete" );
+        
         // upgrade complete function
     }
 
@@ -89,18 +96,54 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->handle();
     }
 
+
+    /**
+     * Get batch
+     *
+     * @return stdClass Return the first batch from the queue
+     */
+    protected function delete_queue_batch() {
+        global $wpdb;
+
+        $table        = $wpdb->options;
+        $column       = 'option_name';
+        $key_column   = 'option_id';
+        $value_column = 'option_value';
+
+        if ( is_multisite() ) {
+            $table        = $wpdb->sitemeta;
+            $column       = 'meta_key';
+            $key_column   = 'meta_id';
+            $value_column = 'meta_value';
+        }
+
+        $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+
+        $query = $wpdb->query( $wpdb->prepare( "
+            DELETE 
+            FROM {$table}
+            WHERE {$column} LIKE %s
+        ", $key ) );
+    }
+
+
     /**
      * initialize upgrade
      * Get all Project id and push into queue 
      * @return [type] [description]
      */
-    public function upgrade_init() {
+    public function upgrade_init ( ) {
+        $this->delete_queue_batch(); 
+
         global $wpdb;
-
         $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
-
-        foreach ( $ids as $id ) {
-            $this->push_to_queue( $id['ID'] );
+        $ids = wp_list_pluck($ids, 'ID'); 
+        
+        foreach ($ids as $id) {
+            if ( empty( absint( $id ) ) ) {
+                continue;
+            }
+            $this->push_to_queue( $id );
         }
 
         $this->save()->dispatch();
@@ -113,17 +156,20 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     public function upgrade_projects( $project_id ) {
 
-        $data = get_site_option( "pm_upgrade", array() );
-        if( !in_array( $project_id, array_keys( $data ) ) ) {
-            $data[$project_id] = 1;
-            //update_site_option("pm_upgrade", $data);
+        $project_ids = get_site_option( "pm_db_migration", array() );
+        
+        if( in_array( $project_id, array_keys( $project_ids ) ) ) {
+            return false;
+        }
 
-            $project = $this->create_project($project_id);
+        $project_ids[$project_id] = 'running';
+        update_site_option("pm_db_migration", $project_ids);
 
-            if( $project ) {
-                $data[$project_id] = $project->id;
-                //update_site_option( "pm_upgrade", $data );
-            }
+        $project = $this->create_project($project_id);
+
+        if( $project ) {
+            $project_ids[$project_id] = 'completed';
+            update_site_option( "pm_db_migration", $project_ids );
         }
         
     }
@@ -219,7 +265,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
 
-        $oldMilestones   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_milestone', 'publish' ), ARRAY_A );
+        $oldMilestones   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type in (%s) AND post_status=%s", $oldProjectId, 'cpm_milestone, cpm_milestne', 'publish' ), ARRAY_A );
 
         $milestons  = [];
 
@@ -367,10 +413,12 @@ class Upgrade_2_0 extends WP_Background_Process
         if( !$post ) {
             return ;
         }
-        
         $taskList = $this->add_board( $post, 'task_list', $newProjectID );
         $mid      = get_post_meta( $post['ID'], '_milestone', true );
-
+        $mid      = intval( $mid );
+        pm_log('milestones', $milestons);
+        pm_log('project', $post);
+        pm_log('mid', $mid );
         if ( !empty( $mid ) && $mid != -1 && !empty( $milestons ) ) {
             $this->save_object( new Boardable, [
                 'board_id'       => $milestons[$mid],
@@ -768,6 +816,9 @@ class Upgrade_2_0 extends WP_Background_Process
                 
             }
         }
+
+        
+
         return $invoice->id;
     }
 
@@ -1008,6 +1059,7 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
+        return;
         if( !$oldProjectId ) {
             return ;
         }
@@ -1026,24 +1078,41 @@ class Upgrade_2_0 extends WP_Background_Process
                 switch ( $key ) {
                    
                     case 'cpm_msg_url':
-                            $resource_id                    = $discuss[$value['id']];
-                            $resource_type                  = 'discussion_board';
-                            $meta['discussion_board_title'] = $value['title'];
+                        if ( empty( $discuss[$value['id']] ) ) {
+                            break;
+                        }
+
+                        $resource_id                    = $discuss[$value['id']];
+                        $resource_type                  = 'discussion_board';
+                        $meta['discussion_board_title'] = $value['title'];
+
                         break;
                     case 'cpm_tasklist_url':
-                            $resource_id             = $tasklist[$value['id']];
-                            $resource_type           = 'task_list';
-                            $meta['task_list_title'] = $value['title'];
+                        if ( empty( $tasklist[$value['id']] ) ) {
+                            break;
+                        }
+                        
+                        $resource_id             = $tasklist[$value['id']];
+                        $resource_type           = 'task_list';
+                        $meta['task_list_title'] = $value['title'];
+
                         break;
                     case 'cpm_task_url': 
-                            $resource_id        = $tasks[$value['id']];
-                            $resource_type      = 'task';
-                            $meta['task_title'] = $value['title'];
+                        if ( empty( $tasks[$value['id']] ) ) {
+                            break;
+                        }
+
+                        $resource_id        = $tasks[$value['id']];
+                        $resource_type      = 'task';
+                        $meta['task_title'] = $value['title'];
+
                         break;
                     case 'cpm_comment_url':
-                            $resource_id        = $value['id'];
-                            $resource_type      = 'comment';
-                            $meta['comment_id'] = $value['id'];
+                
+                        $resource_id        = $value['id'];
+                        $resource_type      = 'comment';
+                        $meta['comment_id'] = $value['id'];
+
                         break;
                     case 'cpm_user_url':
                         break;  
@@ -1273,12 +1342,19 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function migrate_category() {
         global $wpdb;
-        $terms = get_terms( array(
-            'taxonomy' => 'cpm_project_category',
-            'hide_empty' => false,
-        ) );
+        $terms = get_terms( 
+            [
+                'taxonomy' => 'cpm_project_category',
+                'hide_empty' => false,
+            ]
+        );
+
         $categories = [];
-        if ( empty( $terms ))
+
+        if ( is_wp_error( $terms ) ) {
+            return;
+        }
+
         foreach ( $terms as $term ) {
             $cat = Category::firstOrCreate( [
                 'title'            => $term->name , 
