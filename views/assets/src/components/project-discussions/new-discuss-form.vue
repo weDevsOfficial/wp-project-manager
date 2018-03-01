@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
+    <div class="pm-msg-edit-form">
+        <div class="pm-message-form-wrap" >
+            <form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
             <div class="item title">
                 <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="text.enter_message_title">
             </div>
@@ -31,7 +32,8 @@
                 <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{text.cancel}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>       
-        </form>
+            </form>
+        </div>
     </div>
 </template>
 
