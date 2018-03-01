@@ -46,6 +46,7 @@ class Upgrade {
      * @return boolean
      */
     public function is_needs_update() {
+        return true;
         $installed_version = !empty( get_site_option( 'cpm_db_version' ) ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
         // may be it's the first install
@@ -126,9 +127,11 @@ class Upgrade {
         if ( ! $this->is_needs_update() ) {
             return;
         }
-         $installed_version = get_option( 'pm_db_version' );
+        $installed_version = get_option( 'pm_db_version' );
 
-         foreach (self::$updates as $version => $object ) {
+        foreach (self::$updates as $version => $object ) {
+            
+            $object->upgrade_init();  
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
@@ -142,3 +145,5 @@ class Upgrade {
         //delete_option( 'cpm_db_version' );
     }
 }
+
+

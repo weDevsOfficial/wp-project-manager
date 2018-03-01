@@ -8,6 +8,7 @@ use WeDevs\PM\Core\Notifications\Notification;
 use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 use WeDevs\PM\Core\File_System\File_System as File_System;
+use WeDevs\PM\Core\Cli\Commands;
 
 class Frontend {
 
@@ -18,6 +19,8 @@ class Frontend {
      * within our plugin.
      */
 	public function __construct() {
+		$this->includes();
+		
 		// instantiate classes
         $this->instantiate();
 
@@ -39,6 +42,18 @@ class Frontend {
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
 		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
+	}
+
+	public function includes() {
+
+		// cli command
+        if ( defined('WP_CLI') && WP_CLI ) {
+        	$file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
+        	
+        	//if ( file_exists( $file ) ) {
+        		new Commands();
+        	//}
+        }
 	}
 
 	/**

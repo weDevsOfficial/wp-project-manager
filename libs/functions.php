@@ -407,4 +407,21 @@ function pm_is_request( $type ) {
     }
 }
 
+/**
+ * The main logging function
+ *
+ * @since 0.1
+ * @uses error_log
+ * @param string $type type of the error. e.g: debug, error, info
+ * @param string $msg
+ */
+function pm_log( $type = '', $msg = '' ) {
+    $ouput_path = config( 'frontend.patch' );
+
+    if ( WP_DEBUG == true ) {
+        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
+        error_log( $msg, 3, $ouput_path . '/tmp/pm-debug.log' );
+    }
+}
+
 
