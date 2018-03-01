@@ -954,9 +954,10 @@ ul.pm-activity ul li:before {
   margin: 0px;
   background: #fff;
   padding: 15px 20px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
+  margin-top: 15px;
 }
 .pm-new-message-form h3 {
   margin-top: 0;
@@ -1407,6 +1408,7 @@ ul.pm-activity ul li:before {
   padding: 15px 15px 0;
   width: 40%;
 }
+
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form {
   margin: 10px 0 10px 0;
@@ -2335,6 +2337,7 @@ a.pm-icon-tick.grey {
 }
 .pm .mce-tinymce {
   border: 1px solid #e5e5e5;
+  margin-bottom: 10px;
 }
 .pm * {
   box-sizing: border-box;
