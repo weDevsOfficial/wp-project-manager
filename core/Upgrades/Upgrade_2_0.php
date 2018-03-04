@@ -416,9 +416,6 @@ class Upgrade_2_0 extends WP_Background_Process
         $taskList = $this->add_board( $post, 'task_list', $newProjectID );
         $mid      = get_post_meta( $post['ID'], '_milestone', true );
         $mid      = intval( $mid );
-        pm_log('milestones', $milestons);
-        pm_log('project', $post);
-        pm_log('mid', $mid );
         if ( !empty( $mid ) && $mid != -1 && !empty( $milestons ) ) {
             $this->save_object( new Boardable, [
                 'board_id'       => $milestons[$mid],

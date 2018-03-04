@@ -108,7 +108,7 @@ class Commands extends Cli {
             'pm_tasks'
         ];
         foreach ($tables as $table) {
-            $wpdb->query( 'TRUNCATE TABLE ' . $table);
+            $wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . $table );
         }
 
         delete_option('pm_db_migration');
