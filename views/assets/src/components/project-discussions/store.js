@@ -93,7 +93,7 @@ export default {
         afterNewComment (state, data) {
             var index = state.getIndex( state.discussion, data.commentable_id, 'id' );
 
-            state.discussion[index].comments.data.splice(0,0,data.comment);
+            state.discussion[index].comments.data.push(data.comment);
         },
 
         afterUpdateComment (state, data) {

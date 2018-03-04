@@ -137,6 +137,11 @@ class Upgrade_2_0 extends WP_Background_Process
 
         global $wpdb;
         $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
+
+        if ( is_wp_error( $ids ) ) {
+            return;
+        }
+
         $ids = wp_list_pluck($ids, 'ID'); 
         
         foreach ($ids as $id) {
@@ -240,7 +245,9 @@ class Upgrade_2_0 extends WP_Background_Process
         global $wpdb;
         $table    = $wpdb->prefix . 'cpm_user_role';
         $oldroles = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table WHERE project_id=%d", $oldProjectId ), ARRAY_A );
-
+        if ( is_wp_error( $oldroles ) ) {
+            return;
+        }
         foreach ($oldroles as $role ) {
             if ( $role['role']       == 'manager' ){
                 $role_id = 1;
@@ -750,7 +757,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if( !$oldProjectId ){
             return ;
         }
-        if( !class_exists('WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice') ){
+        if( !class_exists( 'WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice' ) ){
             return ;
         }
         global $wpdb;
@@ -1173,7 +1180,9 @@ class Upgrade_2_0 extends WP_Background_Process
         global $wpdb;
         $table = $wpdb->prefix. 'cpm_time_tracker';
         $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE  project_id = {$oldProjectId}", ARRAY_A );
-
+        if ( is_wp_error( $timetracker ) ) {
+            return;
+        }
         foreach( $timetracker as $time ){
             $this->save_object( new Time_Tracker, [
                 'user_id'    => $time['user_id'],
