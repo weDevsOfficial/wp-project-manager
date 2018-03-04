@@ -28,7 +28,7 @@
         },
 
         update: function (el, binding, vnode) { 
-            new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
+            //new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
         }
     });
 

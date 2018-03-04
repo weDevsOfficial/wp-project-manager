@@ -42,9 +42,9 @@
 
                                 <div class="footer-section">
                                     
-                                    <a :href="file.url"><span class="dashicons dashicons-download"></span></a>
+                                    <a @click.prevent="selfDownloadFile(file)" href="#"><span class="dashicons dashicons-download"></span></a>
                                     <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
-                                    <a href="#" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
+                                    <a @click.prevent="" href="#" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
                                 
                                 </div>
                             </div>
@@ -96,7 +96,9 @@
         },
 
         methods: {
-
+            selfDownloadFile (file) {
+                this.fileDwnload( file.attachment_id );
+            },
             attachTo (file) {
                 if (file.fileable_type === 'discussion_board') {
                     return 'Discuss';
