@@ -272,7 +272,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
 
-        $oldMilestones   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type in (%s) AND post_status=%s", $oldProjectId, 'cpm_milestone, cpm_milestne', 'publish' ), ARRAY_A );
+        $oldMilestones   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", $oldProjectId, 'publish' ), ARRAY_A );
 
         $milestons  = [];
 
