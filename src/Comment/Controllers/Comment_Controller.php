@@ -45,11 +45,11 @@ class Comment_Controller {
 
         if ( $query ) {
             $comments = $query->where( 'project_id', $project_id )
-                ->orderBy( 'created_at', 'DESC' )
+                ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         } else {
             $comments = Comment::where( 'project_id', $project_id )
-                ->orderBy( 'created_at', 'DESC' )
+                ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         }
 

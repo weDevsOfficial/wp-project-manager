@@ -113,7 +113,7 @@
             }else{
 
                 args.callback = function ( res ) {
-                    self.comments.splice(0, 0, res.data);
+                    self.comments.push(res.data);
                     self.submit_disabled = false;
                     self.show_spinner    = false;
                     self.notify_users    = [];

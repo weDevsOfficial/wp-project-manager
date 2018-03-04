@@ -22,6 +22,9 @@ return [
 	'restore' => [
 		__( 'Restore', 'pm' )
 	],
+	'at' => [
+		__( 'at', 'pm' )
+	],
 	// project page Header
 	'project_manager' => [
 		__( 'Project Manager', 'pm' )
@@ -452,33 +455,6 @@ return [
 	],
 	'pm_cc_des' => [
 		__( 'Select the user roles who can see and manage all projects.', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
-	],
-	'bulk_actions' => [
-		__( 'Bulk Actions', 'pm' )
 	],
 	
 ];

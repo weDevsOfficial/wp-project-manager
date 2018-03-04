@@ -56,7 +56,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
         $comments = $item->comments()
-            ->orderBy( 'created_at', 'DESC' )
+            ->orderBy( 'created_at', 'ASC' )
             ->paginate( 10, ['*'], 'comment_page', $page );
 
         $comment_collection = $comments->getCollection();
