@@ -295,11 +295,14 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         $newMilestone = $this->add_board( $milestone, 'milestone',  $newProjectID );
+        $completed_at = get_post_meta( $milestone['ID'], '_completed_on', true );
         $meta = [
             'achieve_date' => get_post_meta( $milestone['ID'], '_due', true ),
-            'completed_at' => get_post_meta( $milestone['ID'], '_completed_on', true ),
             'status'       => get_post_meta( $milestone['ID'], '_completed' , true ) == 1 ? 2 : 1,
         ];
+        if( !empty( $completed_at ) ) {
+            $meta['completed_at'] = $completed_at;
+        }
 
         $mil_pri = get_post_meta( $milestone['ID'], '_milestone_privac', true );
         if( isset( $mil_pri ) && $mil_pri == 'yes' ){
@@ -546,7 +549,7 @@ class Upgrade_2_0 extends WP_Background_Process
             $completd_by = get_post_meta( $post_id, '_completed_by', true );
             $completed_at = null;
             if ( !empty( $completd_by )  && $assignee == $completd_by ) {
-                $completed_at = get_post_meta( $post_id, '_completed', true); 
+                $completed_at = get_post_meta( $post_id, '_completed_on', true);
                 $completed_at = !empty( $completed_at ) ? $completed_at: null;
             }
             $this->save_object( new Assignee, [
@@ -758,6 +761,9 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
         if( !class_exists( 'WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice' ) ){
+            return ;
+        }
+        if( function_exists('pm_pro_is_module_inactive') || pm_pro_is_module_inactive('invoice/invoice.php') ) {
             return ;
         }
         global $wpdb;
@@ -1000,6 +1006,10 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
+        if( function_exists('pm_pro_is_module_inactive') && pm_pro_is_module_inactive('gantt/gantt.php') ) {
+            return ;
+        }
+
         // $this->set_gantt_data( $taskLists, $taskLists, $tasks );
         // $this->set_gantt_data( $tasks, $taskLists, $tasks );
         if( is_array( $tasks ) ){
@@ -1177,6 +1187,10 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
+        if( function_exists('pm_pro_is_module_inactive') && pm_pro_is_module_inactive('time_tracker/time_tracker.php') ) {
+            return ;
+        }
+
         global $wpdb;
         $table = $wpdb->prefix. 'cpm_time_tracker';
         $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE  project_id = {$oldProjectId}", ARRAY_A );
@@ -1223,6 +1237,9 @@ class Upgrade_2_0 extends WP_Background_Process
     function add_meta( $meta , $object, $newProjectID, $entity_type = null ) {
         $meta_ids = [];
         foreach ( $meta as $key => $value ) {
+            if( empty( $value ) ){
+                continue ;
+            }
             $metaObj = $this->save_object( new Meta, [
                 'entity_id'   => $object->id,
                 'entity_type' => $entity_type !== null? $entity_type : $object->type,
