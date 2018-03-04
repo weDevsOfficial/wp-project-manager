@@ -21,3 +21,5 @@ $router->put( 'projects/{project_id}/files/{file_id}', 'WeDevs/PM/File/Controlle
 
 $router->delete( 'projects/{project_id}/files/{file_id}', 'WeDevs/PM/File/Controllers/File_Controller@destroy' )
     ->permission([Create_File::class]);
+
+$router->get( 'projects/{project_id}/files/{file_id}/download', 'WeDevs/PM/File/Controllers/File_Controller@download' );

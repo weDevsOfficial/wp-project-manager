@@ -72,7 +72,7 @@
                 };
             });
 
-            up.destroy();
+            //up.destroy();
         },
         BeforeUpload: function(uploader, file ) {
             

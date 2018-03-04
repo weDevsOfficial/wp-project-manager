@@ -79,4 +79,40 @@ class File_Controller {
         File_System::delete( $file->attachment_id );
         $file->delete();
     }
+
+    public function download( WP_REST_Request $request ) {
+        $file_id = $request->get_param('file_id');
+
+        //get file path
+        $file = File_System::get_file( $file_id );
+        $path = get_attached_file( $file_id );
+
+        if ( ! file_exists( $path ) ) {
+            header( "Status: 404 Not Found" );
+            die( __( 'file not found', 'cpm' ) );
+        }
+
+        $file_name = basename( $path );
+        
+        $mime_type = empty( $file['mime_type'] ) ? 'application/force-download' : $file['mime_type'];
+
+        // serve the file with right header
+        if ( is_readable( $path ) ) {
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");
+            header("Content-Disposition: attachment; filename=$file_name");
+            header("Content-Transfer-Encoding: binary ");
+            readfile( $path );
+        }
+
+        exit;
+    }
 }
+
+
+
+
