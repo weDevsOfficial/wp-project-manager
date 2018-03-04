@@ -25,7 +25,6 @@ class Upgrade {
     }
 
     public function init_upgrades() {
-        var_dump(function_exists('pm_pro_is_module_inactive') && pm_pro_is_module_inactive('time_tracker/time_tracker.php')); die();
         if( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ){
             return ;
         }
