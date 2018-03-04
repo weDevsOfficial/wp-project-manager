@@ -8,7 +8,7 @@ use WeDevs\PM\Role\Models\Role;
 class User extends Eloquent {
     protected $primaryKey = 'ID';
 
-    protected $table = 'pro_users';
+    protected $table = 'users';
 
     public $timestamps = false;
 

@@ -162,13 +162,13 @@ class Upgrade_2_0 extends WP_Background_Process
             return false;
         }
 
-        $project_ids[$project_id] = 'running';
+        $project_ids[$project_id] = 0;
         update_site_option("pm_db_migration", $project_ids);
 
         $project = $this->create_project($project_id);
 
         if( $project ) {
-            $project_ids[$project_id] = 'completed';
+            $project_ids[$project_id] = $project->id;
             update_site_option( "pm_db_migration", $project_ids );
         }
         
@@ -1355,20 +1355,21 @@ class Upgrade_2_0 extends WP_Background_Process
             return;
         }
 
+        $object = wp_list_pluck($terms, 'term_taxonomy_id' );
+        $object = implode(',', $object);
+        
+        $terms_releation = $wpdb->get_results( "SELECT * FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id in({$object})", ARRAY_A );
+        $terms_releation = collect( $terms_releation );
+
         foreach ( $terms as $term ) {
             $cat = Category::firstOrCreate( [
                 'title'            => $term->name , 
                 'description'      => $term->description, 
                 'categorible_type' =>'project',
             ]);
-            $projects = get_site_option( "pm_upgrade", array() );
+            $projects = get_site_option( "pm_db_migration", array() );
 
-            $prointrem = $wpdb->get_results( "SELECT object_id FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id = {$term->term_taxonomy_id}", ARRAY_A );
-            $pterm =[];
-            foreach ( $prointrem as $p ) {
-                $pterm[] = $p['object_id'];
-            }
-
+            $pterm = $terms_releation->where( 'term_taxonomy_id', $term->term_taxonomy_id )->pluck('object_id')->all();
 
             $arr = array_filter( $projects, function( $key ) use ( $pterm ){
                 return in_array( $key, $pterm );
@@ -1377,6 +1378,7 @@ class Upgrade_2_0 extends WP_Background_Process
             $cat->projects()->attach( array_values( $arr ) );
             $categories[$term->term_taxonomy_id] = $cat->id;
         }
+        return $categories;
     }
 
     /**
