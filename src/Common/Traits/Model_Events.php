@@ -11,9 +11,9 @@ trait Model_Events {
         parent::boot();
 
         static::creating( function ( $model ) {
-            // $user = wp_get_current_user();
-            // $model->created_by = $user->ID;
-            // $model->updated_by = $user->ID;
+            $user = wp_get_current_user();
+            $model->created_by = $user->ID;
+            $model->updated_by = $user->ID;
         });
 
         static::created( function ( $model ) {
