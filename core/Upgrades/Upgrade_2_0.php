@@ -1073,7 +1073,6 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
-        return;
         if( !$oldProjectId ) {
             return ;
         }
@@ -1089,6 +1088,12 @@ class Upgrade_2_0 extends WP_Background_Process
 
             foreach ( $attr as $key => $value ) {
 
+                if( !empty( $value['title'] ) ) {
+                    $title = $value['title'];
+                }else {
+                    $title = '';
+                }
+
                 switch ( $key ) {
                    
                     case 'cpm_msg_url':
@@ -1098,7 +1103,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
                         $resource_id                    = $discuss[$value['id']];
                         $resource_type                  = 'discussion_board';
-                        $meta['discussion_board_title'] = $value['title'];
+                        $meta['discussion_board_title'] = $title;
 
                         break;
                     case 'cpm_tasklist_url':
@@ -1108,17 +1113,16 @@ class Upgrade_2_0 extends WP_Background_Process
                         
                         $resource_id             = $tasklist[$value['id']];
                         $resource_type           = 'task_list';
-                        $meta['task_list_title'] = $value['title'];
+                        $meta['task_list_title'] = $title;
 
                         break;
                     case 'cpm_task_url': 
                         if ( empty( $tasks[$value['id']] ) ) {
                             break;
-                        }
-
+                        }                        
                         $resource_id        = $tasks[$value['id']];
                         $resource_type      = 'task';
-                        $meta['task_title'] = $value['title'];
+                        $meta['task_title'] = $title;
 
                         break;
                     case 'cpm_comment_url':
@@ -1173,6 +1177,13 @@ class Upgrade_2_0 extends WP_Background_Process
 
             $attr[$match[2]] = shortcode_parse_atts( $match[3] );
 
+            if( empty( $attr[$match[2]]['title'] )){
+                if( strpos($match[0], 'title=') !== false ){
+                   $title = substr( $match[0], strpos($match[0], 'title=') + 7, -2);
+                   $title = preg_replace("/[\"\'\}\]]/m", '' , $title);
+                   $attr[$match[2]]['title'] = $title;
+                }
+            }
         }, $str );
 
         return array($attr, $text);
