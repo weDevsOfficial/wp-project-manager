@@ -130,8 +130,7 @@ class Upgrade {
         $installed_version = get_option( 'pm_db_version' );
 
         foreach (self::$updates as $version => $object ) {
-            
-            $object->upgrade_init();  
+             
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
