@@ -2,7 +2,7 @@
     <div class="wrap pm pm-front-end">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="pm-data-load-before" >
+        <div v-if="!fetchOverview" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div v-else class="project-overview">
+        <div v-if="fetchOverview" class="project-overview">
             <div class="pm-col-10 pm-sm-col-12">
                 <div class="overview-menu">
                     <ul>
@@ -144,19 +144,17 @@
         created () {
             this.getOverViews();
         },
-        data(){
-            return{
-                loading: true,
-            }
-        },
+
         computed: {
             ...pm.Vuex.mapState('projectOverview', 
                 {
                     'meta': state => state.meta,
                     'users': state => state.assignees,
-                    'graph': state => state.graph
+                    'graph': state => state.graph,
+                    'fetchOverview': state => state.fetchOverview
                 }
             ),
+
             // meta () {
             //     return this.$store.state.meta;
             // },
@@ -187,7 +185,6 @@
                     callback : function (res){
                         this.setOverViews( res.data );
                         pm.NProgress.done();
-                        this.loading = false;
                     }
                 }
 

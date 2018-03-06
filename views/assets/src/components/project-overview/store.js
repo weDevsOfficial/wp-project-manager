@@ -8,6 +8,7 @@ export default {
         meta: {},
         assignees: [],
         graph: [],
+        fetchOverview: false,
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
@@ -26,6 +27,7 @@ export default {
             state.meta = over_views.meta.data;
             state.assignees = over_views.assignees.data;
             state.graph = over_views.overview_graph.data;
+            state.fetchOverview = true;
         },
     }
 };

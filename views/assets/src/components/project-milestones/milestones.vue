@@ -2,7 +2,7 @@
     <div class="" id="pm-milestone-page">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="pm-data-load-before" >
+        <div v-if="!isFetchMilestone" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div v-else>
+        <div v-if="isFetchMilestone">
             <div class="pm-blank-template milestone" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">  {{text.milestones}}</h3>
@@ -94,15 +94,17 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getSelfMilestones(vm);
+                //vm.getSelfMilestones(vm);
             });
         },
         mixins: [PmMixin.projectMilestones],
         data () {
             return {
                 current_page_number: 1,
-                loading: true,
             }
+        },
+        created () {
+            this.getSelfMilestones();
         },
         watch: {
             '$route' (route) {
@@ -138,6 +140,10 @@
                     return this.$store.state.projectMilestones.milestone_meta.total_pages;
                 }
                 return false;
+            },
+
+            isFetchMilestone () {
+                return this.$store.state.projectMilestones.isFetchMilestone;
             }
         },
         methods: {

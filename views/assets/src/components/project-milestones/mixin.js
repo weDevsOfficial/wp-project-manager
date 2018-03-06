@@ -112,7 +112,6 @@ export default {
                 },
                 callback: function(){
                     pm.NProgress.done();
-                    self.loading = false;
                     self.templateAction();
                 }
             }

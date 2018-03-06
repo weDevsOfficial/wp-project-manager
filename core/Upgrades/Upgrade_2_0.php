@@ -1008,6 +1008,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 if( empty( $links ) ) {
                     continue ;
                 }
+                
                 foreach ( $links as $link ) {
                     if ( array_key_exists( $link, $tasks ) ) {
                         $this->save_object( new Gantt, [

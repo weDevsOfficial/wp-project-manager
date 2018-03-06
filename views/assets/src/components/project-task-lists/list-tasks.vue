@@ -1,5 +1,4 @@
 <template>
-
     <div class="pm-incomplete-tasks">
         <ul  class="pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
             <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
@@ -15,7 +14,6 @@
             </transition>
         </ul> 
     </div>
-
 </template>
 
 <script>
