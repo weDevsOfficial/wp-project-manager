@@ -1,6 +1,6 @@
 import Promise from 'promise-polyfill'; 
 
-var store, router, directive, mixin, PM, PMComponents;
+var store, router, directive, mixin, PM, PMComponents, MenuFix;
 
 var scriptsLoaded = {
 	'store': false,
@@ -9,6 +9,7 @@ var scriptsLoaded = {
 	'mixin': false,
 	'PM': false,
 	'PMComponents': false,
+	'menuFix': false
 };
 
 var promiseReturn = new Promise(function(resolve, reject) {
@@ -54,6 +55,12 @@ var promiseReturn = new Promise(function(resolve, reject) {
 			scriptsLoaded.PMComponents = true;
 			pmScriptsLoaded(resolve, reject);
 		});
+
+		require(['@helpers/menu-fix'], function(script) {
+			MenuFix = script.default;
+			scriptsLoaded.menuFix = true;
+			pmScriptsLoaded(resolve, reject);
+		});
 	});
 
 });
@@ -82,6 +89,9 @@ promiseReturn.then(function(result) {
 	pm.Vue.mixin(pm.Mixin.default);
 	
 	new pm.Vue(PM_Vue); 
+	
+	// fix the admin menu for the slug "vue-app"
+	MenuFix('pm_projects');
 });
 
 

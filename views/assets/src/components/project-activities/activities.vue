@@ -3,7 +3,7 @@
 
     <pm-header></pm-header>
 
-    <div v-if="loading" class="pm-data-load-before" >
+    <div v-if="!isActivityFetched" class="pm-data-load-before" >
         <div class="loadmoreanimation">
             <div class="load-spinner">
                 <div class="rect1"></div>
@@ -14,7 +14,8 @@
             </div>
         </div>
     </div>
-    <div v-else>
+
+    <div v-if="isActivityFetched">
         <ul v-if="activities.length" class="pm-activity-list">
             <li v-for="group in activities" :key="group.id" class="pm-row"> 
                 <div class="pm-activity-date pm-col-1 pm-sm-col-12">
@@ -54,8 +55,8 @@
     export default {
         beforeRouteEnter(to, from, next) {
             next (vm => {
-                vm.$store.state.projectActivities.activities =[];
-                vm.activityQuery();
+                //vm.$store.state.projectActivities.activities =[];
+                
             }); 
         },
         mixins: [PmMixin.projectActivities],
@@ -63,9 +64,11 @@
             return {
                 total_activity: 0,
                 per_page: 2,
-                show_spinner:false,
-                loading: true,
+                show_spinner:false
             }
+        },
+        created () {
+            this.activityQuery();
         },
         watch: {
             '$route' (route) { 
@@ -101,6 +104,9 @@
                 else{
                     return 1;
                 }
+            },
+            isActivityFetched () {
+                return this.$store.state.projectActivities.isActivityFetched;
             }
         },
         components: {
@@ -158,7 +164,6 @@
                     self.$store.commit( 'projectActivities/setActivities', res.data );
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
-                    self.loading = false;
                 });
             }
         }

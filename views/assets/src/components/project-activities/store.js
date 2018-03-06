@@ -6,6 +6,7 @@ export default {
 
     state: {
         activities: [],
+        isActivityFetched: false
     },
     
     mutations: {
@@ -15,6 +16,8 @@ export default {
             }else{
                 state.activities = activities;
             }
+
+            state.isActivityFetched = true;
         },
 
         // setLoadedActivities (state, activities) {

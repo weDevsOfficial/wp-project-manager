@@ -105,7 +105,8 @@ class Commands extends Cli {
             'pm_projects',
             'pm_role_user',
             'pm_settings',
-            'pm_tasks'
+            'pm_tasks',
+            'pm_gantt_chart_links'
         ];
         foreach ($tables as $table) {
             $wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . $table );

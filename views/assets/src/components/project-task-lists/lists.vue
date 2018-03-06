@@ -2,7 +2,7 @@
     <div>
         <pm-header></pm-header>
 
-        <div v-if="loading" class="pm-data-load-before" >
+        <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div v-else>
+        <div v-if="isListFetch">
             <default-list-page v-if="is_blank_Template"></default-list-page>
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
@@ -231,7 +231,6 @@
                 index: false,
                 project_id: this.$route.params.project_id,
                 current_page_number: this.$route.params.current_page_number || 1,
-                loading: true,
             }
         },
 
@@ -307,6 +306,9 @@
             },
             is_list_Template(){
                 return this.$store.state.projectTaskLists.listTemplateStatus; 
+            },
+            isListFetch () {
+                return this.$store.state.projectTaskLists.isListFetch; 
             }
 
         },
@@ -329,7 +331,6 @@
                 var args = {
                         callback: function(res) {
                             pm.NProgress.done();
-                            self.loading = false;
                         }
                     }
                 this.getLists(args);

@@ -5,6 +5,7 @@
 export default {
 
     state: {
+        isFetchMilestone: false,
         is_milestone_form_active: false,
         milestones: [],
         milestone: {},
@@ -35,6 +36,7 @@ export default {
 
         setMilestones (state, milestones) {
             state.milestones = milestones;
+            state.isFetchMilestone = true;
         },
 
         setMilestonesMeta(state, data){

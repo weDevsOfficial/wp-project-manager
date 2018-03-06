@@ -2,11 +2,10 @@
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
-
-
 export default {
 
     state: {
+        isFetchDiscussion: false,
         is_discuss_form_active: false,
         blank_template: false,
         discuss_template: false,
@@ -41,6 +40,7 @@ export default {
 
         setDiscussion (state, discussion) {
             state.discussion = discussion;
+            state.isFetchDiscussion = true;
         },
 
         setDiscuss (state, discuss) {

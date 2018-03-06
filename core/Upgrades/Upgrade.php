@@ -135,7 +135,7 @@ class Upgrade {
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
-                    $object->upgrade_init();
+                    //$object->upgrade_init();
                 }
                 
                 update_option( 'pm_db_version', $version );

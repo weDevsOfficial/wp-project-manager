@@ -9,6 +9,7 @@ export default {
      * @type Object
      */
     state: {
+        isListFetch: false,
         lists: [],
         list: {},
         list_comments: [],
@@ -474,6 +475,7 @@ export default {
 
         setLists (state, lists) {
             state.lists = lists; 
+            state.isListFetch = true;
         },
         setList(state, list){
             state.lists = [list];

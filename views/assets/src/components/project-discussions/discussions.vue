@@ -2,7 +2,7 @@
     <div class="wrap pm pm-front-end">
         <pm-header></pm-header>
 
-        <div v-if="loading" class="pm-data-load-before" >
+        <div v-if="!isFetchDiscussion" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div v-else>
+        <div v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">{{text.discussions}}</h3>
@@ -153,7 +153,6 @@
         data () {
             return {
                 current_page_number: 1,
-                loading: true,
             }
         },
         watch: {
@@ -188,6 +187,10 @@
             total_discussion_page () {
                 return this.$store.state.projectDiscussions.meta.pagination.total_pages;
             },
+
+            isFetchDiscussion () {
+                return this.$store.state.projectDiscussions.isFetchDiscussion;
+            }
         },
         methods: {
             discussQuery () {
@@ -202,7 +205,6 @@
                 var args = {
                     conditions: conditions,
                     callback: function(){
-                        self.loading = false;
                         self.lazyAction();
                         pm.NProgress.done();
                     }  
