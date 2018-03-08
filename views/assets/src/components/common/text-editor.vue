@@ -47,7 +47,7 @@
                 },
 
                 external_plugins: {
-                    'placeholder' : PM_Vars.assets_url + 'js/tinymce/plugins/placeholder/plugin.min.js',
+                    'placeholder' : PM_Vars.assets_url + 'vendor/tinymce/plugins/placeholder/plugin.min.js',
                 },
 
                 fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',

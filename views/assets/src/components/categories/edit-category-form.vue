@@ -32,34 +32,33 @@
 <script>
     export default {
         props: ['category'],
-
+        mixins: [PmMixin.projectCategories],
         data () {
             return {
                 submit_disabled: false,
                 show_spinner:false,
             }
         },
-        mixins: [PmMixin.categories],
         methods: {
             updateSelfCategory () {
                 // Exit from this function, If submit button disabled 
-        if ( this.submit_disabled ) {
-            return;
-        }
-        
-        // Disable submit button for preventing multiple click
-        this.submit_disabled = true;
-        this.show_spinner = true;
-
-                var args= {
-                        data: {
-                        id: this.category.id,
-                        title: this.category.title,
-                        description: this.category.description
-                    }
+                if ( this.submit_disabled ) {
+                    return;
                 }
+                
+                // Disable submit button for preventing multiple click
+                this.submit_disabled = true;
+                this.show_spinner = true;
 
-                this.updateCategory(args);
+                        var args= {
+                                data: {
+                                id: this.category.id,
+                                title: this.category.title,
+                                description: this.category.description
+                            }
+                        }
+
+                        this.updateCategory(args);
             }
         }
     }

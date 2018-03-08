@@ -2,11 +2,10 @@
 /**
  * Make sure to call pm.Vue.use(Vuex) first if using a vuex module system
  */
-
-
 export default {
 
     state: {
+        isFetchCategories: false,
         categories: [],
         getIndex: function ( itemList, id, slug) {
             var index = false;
@@ -27,6 +26,7 @@ export default {
 
         setCategories (state, categories) {
             state.categories = categories;
+            state.isFetchCategories = true;
         },
 
         afterUpdateCategories (state, category) {

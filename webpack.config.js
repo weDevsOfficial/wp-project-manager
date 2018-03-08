@@ -1,4 +1,8 @@
 const path = require('path');
+const shell = require('shelljs');
+
+const outputPath = path.resolve( __dirname, 'views/assets/js')
+shell.rm('-rf', outputPath)
 
 function resolve (dir) {
   return path.join(__dirname, './views/assets/src', dir)
@@ -11,7 +15,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve( __dirname, 'views/assets/js'),
+        path: outputPath,
         filename: '[name].js',
         publicPath: '',
         chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
