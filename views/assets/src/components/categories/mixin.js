@@ -37,7 +37,7 @@ export default {
              
                     self.submit_disabled = false;
 
-                    self.$store.commit('categories/afterNewCategories', res.data);
+                    self.$store.commit('projectCategories/afterNewCategories', res.data);
                     if(typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
@@ -73,8 +73,7 @@ export default {
                         self.addCategoryMeta(category);
                     });
                     pm.NProgress.done();  
-                    self.$store.commit('categories/setCategories', res.data);
-                    self.loading = false;
+                    self.$store.commit('projectCategories/setCategories', res.data);
                 }
             };
 
@@ -137,7 +136,7 @@ export default {
                     self.submit_disabled = false;
                     self.show_spinner = false;
 
-                    self.$store.commit('categories/afterUpdateCategories', res.data);
+                    self.$store.commit('projectCategories/afterUpdateCategories', res.data);
                     if(typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
@@ -181,7 +180,7 @@ export default {
                 type: 'DELETE',
                 success: function(res) {
                     args.category_ids.map(function(id, index) {
-                        self.$store.commit('categories/afterDeleteCategory', id);
+                        self.$store.commit('projectCategories/afterDeleteCategory', id);
                     });
                     pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function' ){

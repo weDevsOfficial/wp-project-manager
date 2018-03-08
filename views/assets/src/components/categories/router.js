@@ -1,4 +1,4 @@
-weDevsPmRegisterModule('categories', 'categories');
+weDevsPmRegisterModule('projectCategories', 'categories');
 
 const categories = resolve => {
     require.ensure(['./categories.vue'], () => {

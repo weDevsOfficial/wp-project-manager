@@ -2,7 +2,7 @@
     <div class="wrap nosubsub">
         <h1 class="wp-heading-inline">{{text.categories}}</h1>
         <hr class="wp-header-end">
-        <div v-if="loading" class="pm-data-load-before" >
+        <div v-if="!isFetchCategories" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -14,11 +14,10 @@
             </div>
         </div>
 
-        <div v-if="!loading" id="col-container" class="wp-clearfix">
+        <div v-if="isFetchCategories" id="col-container" class="wp-clearfix">
 
             <div id="col-left">
                 <div class="col-wrap">
-
 
                     <div class="form-wrap">
                         <h2>{{text.add_new_category}}</h2>
@@ -165,21 +164,21 @@
                     </form>
                 </div>
             </div><!-- /col-right -->
-        </div><!-- /col-container -->
+        </div>
     </div>
 </template>
 
 <script>
     import edit_category_form from './edit-category-form.vue';
     export default {
-        beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm.getCategories();
-            });
-        },
+        mixins: [PmMixin.projectCategories],
 
         components: {
             'edit-category-form': edit_category_form
+        },
+
+        created () {
+            this.getCategories();
         },
 
         data () {
@@ -195,17 +194,21 @@
         },
         watch: {
             delete_items ( value ) {
-                if ( this.delete_items.length === this.$store.state.categories.categories.length ) {
+                if ( this.delete_items.length === this.$store.state.projectCategories.categories.length ) {
                     this.select_all = true;
                 }else{
                    this.select_all = false; 
                 }
             }
         },
-        mixins: [PmMixin.categories],
+
         computed: {
             categories () {
-                return this.$store.state.categories.categories;
+                return this.$store.state.projectCategories.categories;
+            },
+
+            isFetchCategories () {
+                return this.$store.state.projectCategories.isFetchCategories;
             }
         },
 
@@ -215,7 +218,7 @@
                 var self = this;
                 self.delete_items =[];
                 if ( self.select_all === true ){
-                    this.$store.state.categories.categories.map(function(category, index) {
+                    this.$store.state.projectCategories.categories.map(function(category, index) {
                         self.delete_items.push(category.id);
                     });
                 }
