@@ -480,37 +480,37 @@ function cpm_data_attr( $values ) {
 function cpm_project_summary_info( $info, $project_id ) {
     $summary            = array();
     $summary['message'] = array(
-        'label' => _n( 'Discussion', 'Discussions', $info->discussion, 'cpm' ),
+        'label' => _nx( 'Discussion', 'Discussions', $info->discussion, 'Discussion', 'cpm' ),
         'count' => $info->discussion,
         'url'   => cpm_url_message_index( $project_id )
     );
 
     $summary['todo'] = array(
-        'label' => _n( 'Task List', 'Task Lists', $info->todolist, 'cpm' ),
+        'label' => _nx( 'Task List', 'Task Lists', $info->todolist, 'Task List', 'cpm' ),
         'count' => $info->todolist,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-        'label' => _n( 'Task', 'Tasks', $info->todos, 'cpm' ),
+        'label' => _nx( 'Task', 'Tasks', $info->todos, 'Task', 'cpm' ),
         'count' => $info->todos,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['comments'] = array(
-        'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
+        'label' => _nx( 'Comment', 'Comments', $info->comments, 'Comment', 'cpm' ),
         'count' => $info->comments,
         'url'   => ''
     );
 
     $summary['files'] = array(
-        'label' => _n( 'File', 'Files', $info->files, 'cpm' ),
+        'label' => _nx( 'File', 'Files', $info->files, 'File', 'cpm' ),
         'count' => $info->files,
         'url'   => cpm_url_file_index( $project_id )
     );
 
     $summary['milestone'] = array(
-        'label' => _n( 'Milestone', 'Milestones', $info->milestone, 'cpm' ),
+        'label' => _nx( 'Milestone', 'Milestones', $info->milestone, 'Milestone', 'cpm' ),
         'count' => $info->milestone,
         'url'   => cpm_url_milestone_index( $project_id )
     );

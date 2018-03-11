@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: WP Project Manager v0.4.1\n"
 "Report-Msgid-Bugs-To: http://wedevs.com/support/forum/plugin-support/wp-"
 "project-manager/\n"
-"POT-Creation-Date: 2018-03-11 11:18+0600\n"
-"PO-Revision-Date: 2018-03-11 11:18+0600\n"
+"POT-Creation-Date: 2018-03-11 16:10+0600\n"
+"PO-Revision-Date: 2018-03-11 16:10+0600\n"
 "Last-Translator: Tareq Hasan <tareq@wedevs.com>\n"
 "Language-Team: Anderson Blaine <anderson.blaine@gmail.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: .\n"
@@ -553,7 +553,7 @@ msgstr "Mensagem Relacionada"
 
 # @ cpm
 #: class/milestone.php:22 class/milestone.php:23 class/milestone.php:38
-#: class/milestone.php:39 class/milestone.php:40 includes/functions.php:513
+#: class/milestone.php:39 class/milestone.php:40
 msgid "Milestone"
 msgstr "Marco"
 
@@ -858,7 +858,7 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
-#: class/task.php:64 includes/functions.php:501
+#: class/task.php:64
 msgid "Comment"
 msgstr ""
 
@@ -932,9 +932,9 @@ msgstr "Adicionar Nova Lista de Tarefas"
 
 # @ cpm
 #: class/task.php:93 class/task.php:94 class/task.php:109 class/task.php:110
-#: class/task.php:111 includes/functions.php:489 includes/html.php:955
-#: includes/html.php:1563 views/emails/mention.php:20
-#: views/emails/new-comment.php:21 views/emails/update-comment.php:21
+#: class/task.php:111 includes/html.php:955 includes/html.php:1563
+#: views/emails/mention.php:20 views/emails/new-comment.php:21
+#: views/emails/update-comment.php:21 views/js-templates/list-corner-menu.php:4
 #: views/task/task-single.php:11 views/task/task-single.php:14
 msgid "Task List"
 msgstr "Lista de Tarefas"
@@ -974,10 +974,9 @@ msgstr "Lista de Tarefas Relacionada"
 
 # @ cpm
 #: class/task.php:127 class/task.php:144 class/task.php:145 class/task.php:1082
-#: includes/functions.php:495 includes/html.php:1564
-#: views/emails/mention.php:25 views/emails/new-comment.php:26
-#: views/emails/update-comment.php:26 views/project/overview.php:43
-#: views/project/overview.php:87
+#: includes/html.php:1564 views/emails/mention.php:25
+#: views/emails/new-comment.php:26 views/emails/update-comment.php:26
+#: views/project/overview.php:43 views/project/overview.php:87
 msgid "Task"
 msgstr "Tarefa"
 
@@ -1358,20 +1357,6 @@ msgstr ""
 msgid "To attach, %sselect files%s from your computer."
 msgstr ""
 
-#: includes/functions.php:483 includes/html.php:982
-#: views/blanktemplate/discussion.php:3
-#: views/js-templates/blanktemplate/discussion.php:3
-msgid "Discussion"
-msgid_plural "Discussions"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/functions.php:507
-msgid "File"
-msgid_plural "Files"
-msgstr[0] ""
-msgstr[1] ""
-
 #: includes/functions.php:586
 msgid "file access denied"
 msgstr ""
@@ -1512,13 +1497,11 @@ msgstr "Finalizado"
 msgid "Incomplete"
 msgstr ""
 
-# @ cpm
 #: includes/html.php:399 views/message/index.php:71 views/message/single.php:30
-#, fuzzy
-msgid "1 Comment"
+msgid "%d Comment"
 msgid_plural "%d Comments"
-msgstr[0] "1 Comentário"
-msgstr[1] "1 Comentário"
+msgstr[0] ""
+msgstr[1] ""
 
 # @ cpm
 #: includes/html.php:454
@@ -1582,6 +1565,11 @@ msgstr "Marcar como finalizado"
 
 #: includes/html.php:920
 msgid "Mark as incomplete"
+msgstr ""
+
+#: includes/html.php:982 views/blanktemplate/discussion.php:3
+#: views/js-templates/blanktemplate/discussion.php:3
+msgid "Discussion"
 msgstr ""
 
 # @ cpm
@@ -2227,10 +2215,59 @@ msgctxt "taxonomy singular name"
 msgid "Location"
 msgstr ""
 
+#: includes/functions.php:483
+msgctxt "Discussion"
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:489
+msgctxt "Task List"
+msgid "Task List"
+msgid_plural "Task Lists"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:495
+msgctxt "Task"
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:501
+msgctxt "Comment"
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:507
+msgctxt "File"
+msgid "File"
+msgid_plural "Files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/functions.php:513
+msgctxt "Milestone"
+msgid "Milestone"
+msgid_plural "Milestones"
+msgstr[0] ""
+msgstr[1] ""
+
 #: views/project/index.php:106
 msgctxt "Single project status"
 msgid "Completed"
 msgstr ""
+
+# @ cpm
+#, fuzzy
+#~ msgid "1 Comment"
+#~ msgid_plural "%d Comments"
+#~ msgstr[0] "1 Comentário"
+#~ msgstr[1] "1 Comentário"
 
 # @ cpm
 #~ msgid "Message %s created by %s"
