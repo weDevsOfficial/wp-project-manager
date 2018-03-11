@@ -1,12 +1,17 @@
 const path = require('path');
-const shell = require('shelljs');
 
+const shell = require('shelljs');
 const outputPath = path.resolve( __dirname, 'views/assets/js')
+
+
+//Remove all webpack build file
 shell.rm('-rf', outputPath)
 
 function resolve (dir) {
   return path.join(__dirname, './views/assets/src', dir)
 }
+
+
 
 module.exports = {
     entry: {
@@ -71,3 +76,5 @@ module.exports = {
 
     ]
 }
+
+

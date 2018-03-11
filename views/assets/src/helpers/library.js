@@ -23,7 +23,8 @@ var scriptsLoaded = {
 	'Loading': false,
 	'Autocomplete': false,
 	'Mixin': false,
-	'commonComponents': false
+	'commonComponents': false,
+	'i18n': false
 };
 
 window.pmPromise = new Promise(function(resolve, reject) {
@@ -58,6 +59,20 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		}
 	).then(function() {
 		scriptsLoaded.VueRouter = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
+		['./i18n/i18n'],
+		function(require) {
+			require(['./i18n/i18n'], function(script) {
+
+				pm.i18n = script;
+				pm.i18n.setLocaleData(PM_Vars.language);
+			});
+		}
+	).then(function() {
+		scriptsLoaded.i18n = true;
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 
