@@ -16,3 +16,4 @@ phpunit.xml.dist
 composer.lock
 package-lock.json
 /tmp/
+/build/

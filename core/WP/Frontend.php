@@ -42,6 +42,11 @@ class Frontend {
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
 		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+	}
+
+	function load_plugin_textdomain() {
+		load_plugin_textdomain( 'cpm', true, config('frontend.patch') . '/languages/' );
 	}
 
 	public function includes() {

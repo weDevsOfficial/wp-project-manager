@@ -424,4 +424,66 @@ function pm_log( $type = '', $msg = '' ) {
     }
 }
 
+function pm_get_translations_for_plugin_domain( $domain ) {
+
+    $lang_dir      = config('frontend.patch') . '/languages/';
+    $languages     = get_available_languages( $lang_dir );
+    $get_site_lang = is_admin() ? get_user_locale() : get_locale();
+    $mo_file_name  = $domain .'-'. $get_site_lang;
+    $translations  = [];
+    
+    if ( 
+        in_array( $mo_file_name, $languages )
+            &&
+        file_exists( $lang_dir . $mo_file_name . '.mo' )
+    ) {
+        $mo = new MO();
+        if ($mo->import_from_file( $lang_dir . $mo_file_name . '.mo' )) {
+            $translations = $mo->entries;
+        }
+    }
+
+    return [
+        'header' => isset( $mo ) ? $mo->headers : '',
+        'translations' => $translations
+    ];
+}
+
+/**
+ * Returns Jed-formatted localization data.
+ *
+ * @param  string $domain Translation domain.
+ *
+ * @return array
+ */
+function pm_get_jed_locale_data( $domain ) {
+    $plugin_translations = pm_get_translations_for_plugin_domain( $domain );
+    $translations = get_translations_for_domain( $domain );
+
+    $locale = array(
+        'domain'      => $domain,
+        'locale_data' => array(
+            $domain => array(
+                '' => array(
+                    'domain' => $domain,
+                    'lang'   => is_admin() ? get_user_locale() : get_locale(),
+                ),
+            ),
+        ),
+    );
+
+    if ( ! empty( $translations->headers['Plural-Forms'] ) ) {
+        $locale['locale_data'][ $domain ]['']['plural_forms'] = $translations->headers['Plural-Forms'];
+    } else if ( ! empty( $plugin_translations['header'] ) ) {
+        $locale['locale_data'][ $domain ]['']['plural_forms'] = $plugin_translations['header']['Plural-Forms'];
+    }
+
+    $entries = array_merge( $plugin_translations['translations'], $translations->entries );
+
+    foreach ( $entries as $msgid => $entry ) {
+        $locale['locale_data'][ $domain ][ $msgid ] = $entry->translations;
+    }
+    return $locale;
+}
+
 

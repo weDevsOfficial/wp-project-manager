@@ -74,7 +74,8 @@ class Enqueue_Scripts {
 				'text'                     => pm_get_text('common'),
 				'dir_url'                  => config('frontend.url'),
 				'is_pro'                   => $wedevs_pm_pro,
-				'is_admin'                 => is_admin()
+				'is_admin'                 => is_admin(),
+				'language'                 => pm_get_jed_locale_data('cpm')
         ));
 	}
 }

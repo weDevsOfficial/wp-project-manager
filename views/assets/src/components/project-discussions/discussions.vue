@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
         <div v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >

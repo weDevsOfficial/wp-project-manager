@@ -7,6 +7,8 @@ export default {
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
             text: PM_Vars.text,
+            PM_Vars: PM_Vars,
+            pm: pm
         }
     },
     computed: {
