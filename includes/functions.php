@@ -740,23 +740,23 @@ if ( ! function_exists( 'get_ipaddress' ) ) {
 
 function cpm_settings_label() {
     $labels = array(
-        'Message'   => array(
+        __('Message', 'cpm')   => array(
             'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Todo List' => array(
+        __('Todo List', 'cpm') => array(
             'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Todo'      => array(
+        __('Todo', 'cpm')      => array(
             'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Milestone' => array(
+        __('Milestone', 'cpm') => array(
             'create_milestone'       => __( 'Create', 'cpm' ),
             'milestone_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Files'     => array(
+        __('Files', 'cpm')     => array(
             'upload_file_doc'   => __( 'Upload or create doc', 'cpm' ),
             'file_view_private' => __( 'View Private files or docs', 'cpm' ),
         ),

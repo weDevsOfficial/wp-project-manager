@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: http://wedevs.com/support/forum/plugin-support/wp-"
 "project-manager/\n"
-"POT-Creation-Date: 2018-03-11 16:07+0600\n"
-"PO-Revision-Date: 2018-03-11 16:07+0600\n"
+"POT-Creation-Date: 2018-03-12 08:41+0600\n"
+"PO-Revision-Date: 2018-03-12 08:43+0600\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: es_ES\n"
@@ -479,9 +479,9 @@ msgstr "Mensajes"
 msgid "message post type"
 msgstr "mesaje tipo post"
 
-#: class/message.php:44 class/message.php:45 views/emails/mention.php:13
-#: views/emails/new-comment.php:14 views/emails/new-message.php:67
-#: views/emails/update-comment.php:14
+#: class/message.php:44 class/message.php:45 includes/functions.php:743
+#: views/emails/mention.php:13 views/emails/new-comment.php:14
+#: views/emails/new-message.php:67 views/emails/update-comment.php:14
 msgid "Message"
 msgstr "Mensaje"
 
@@ -527,7 +527,7 @@ msgid "Parent Message"
 msgstr "Mensaje Padre"
 
 #: class/milestone.php:22 class/milestone.php:23 class/milestone.php:38
-#: class/milestone.php:39 class/milestone.php:40
+#: class/milestone.php:39 class/milestone.php:40 includes/functions.php:755
 msgid "Milestone"
 msgstr "Meta"
 
@@ -707,7 +707,7 @@ msgstr "Componentes"
 msgid "Milestones"
 msgstr "Metas"
 
-#: class/project.php:711 views/files/index.php:1
+#: class/project.php:711 includes/functions.php:759 views/files/index.php:1
 msgid "Files"
 msgstr "Archivos"
 
@@ -1314,6 +1314,14 @@ msgstr "Crear"
 #: includes/functions.php:753 includes/functions.php:757
 msgid "View Private"
 msgstr "Ver Privado"
+
+#: includes/functions.php:747
+msgid "Todo List"
+msgstr ""
+
+#: includes/functions.php:751
+msgid "Todo"
+msgstr ""
 
 #: includes/functions.php:760
 msgid "Upload or create doc"
