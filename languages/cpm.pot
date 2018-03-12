@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WP Project Manager 1.6.11\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2018-03-11 10:05:19+00:00\n"
+"POT-Creation-Date: 2018-03-12 06:05:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -473,9 +473,9 @@ msgstr ""
 msgid "message post type"
 msgstr ""
 
-#: class/message.php:44 class/message.php:45 views/emails/mention.php:13
-#: views/emails/new-comment.php:14 views/emails/new-message.php:67
-#: views/emails/update-comment.php:14
+#: class/message.php:44 class/message.php:45 includes/functions.php:743
+#: views/emails/mention.php:13 views/emails/new-comment.php:14
+#: views/emails/new-message.php:67 views/emails/update-comment.php:14
 msgid "Message"
 msgstr ""
 
@@ -521,7 +521,7 @@ msgid "Parent Message"
 msgstr ""
 
 #: class/milestone.php:22 class/milestone.php:23 class/milestone.php:38
-#: class/milestone.php:39 class/milestone.php:40
+#: class/milestone.php:39 class/milestone.php:40 includes/functions.php:755
 msgid "Milestone"
 msgstr ""
 
@@ -701,7 +701,7 @@ msgstr ""
 msgid "Milestones"
 msgstr ""
 
-#: class/project.php:711 views/files/index.php:1
+#: class/project.php:711 includes/functions.php:759 views/files/index.php:1
 msgid "Files"
 msgstr ""
 
@@ -943,8 +943,8 @@ msgstr ""
 msgid "Search Task"
 msgstr ""
 
-#: class/task.php:154 views/js-templates/tasks.php:89
-#: views/js-templates/tasks.php:302
+#: class/task.php:154 views/js-templates/tasks.php:90
+#: views/js-templates/tasks.php:303
 msgid "No tasks found."
 msgstr ""
 
@@ -1296,6 +1296,14 @@ msgstr ""
 #: includes/functions.php:745 includes/functions.php:749
 #: includes/functions.php:753 includes/functions.php:757
 msgid "View Private"
+msgstr ""
+
+#: includes/functions.php:747
+msgid "Todo List"
+msgstr ""
+
+#: includes/functions.php:751
+msgid "Todo"
 msgstr ""
 
 #: includes/functions.php:760
@@ -1963,16 +1971,16 @@ msgstr ""
 msgid "Incomplete Tasks"
 msgstr ""
 
-#: views/js-templates/tasks.php:91 views/js-templates/tasks.php:182
-#: views/js-templates/tasks.php:308 views/js-templates/tasks.php:381
+#: views/js-templates/tasks.php:92 views/js-templates/tasks.php:183
+#: views/js-templates/tasks.php:309 views/js-templates/tasks.php:382
 msgid "More Tasks"
 msgstr ""
 
-#: views/js-templates/tasks.php:98
+#: views/js-templates/tasks.php:99
 msgid "Completed Tasks"
 msgstr ""
 
-#: views/js-templates/tasks.php:179 views/js-templates/tasks.php:379
+#: views/js-templates/tasks.php:180 views/js-templates/tasks.php:380
 msgid "No completed tasks."
 msgstr ""
 
