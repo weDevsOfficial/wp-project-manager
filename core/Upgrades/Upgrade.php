@@ -22,6 +22,19 @@ class Upgrade {
        
         add_action( 'admin_init', array( $this, 'init_upgrades' ) );
         add_action( 'admin_init', array( $this, 'do_updates' ) );
+        add_action( 'wp_ajax_do_updates', array( $this, 'do_updates' ) );
+        add_filter( 'heartbeat_received', array( $this, 'receive_heartbeat' ), 10, 2 );
+    }
+
+    public function receive_heartbeat($response, $data) {
+        $pm_migration = empty( $data['pm_migration'] ) ? false : $data['pm_migration'];
+        
+        if ( $pm_migration ) {
+            $response['pm_migration'] = get_option( 'pm_observe_migration' );
+        }
+
+        return $response;
+
     }
 
     public function init_upgrades() {
@@ -88,7 +101,27 @@ class Upgrade {
 
                 <script type="text/javascript">
                     jQuery('form.PmUpgradeFrom').submit(function(event){
+                        //event.preventDefault();
+
                         return confirm( '<?php _e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'pm' ); ?>' );
+                        
+                        //     var form_data = {
+                        //         url: PM_Vars.ajaxurl,
+                        //         type: 'POST',
+                        //         data: {
+                        //             action: 'do_updates',
+                        //             pm_update: true,
+                        //             pm_nonce: PM_Vars.nonce
+                        //         },
+
+                        //         success: function(res) {
+                        //         },
+
+                        //         error: function(res) {
+                        //         }
+                        //     };
+                        //     jQuery.ajax(form_data);
+                        
                     });
                 </script>
             <?php
@@ -106,6 +139,7 @@ class Upgrade {
      * @return void
      */
     public function do_updates() {
+        
         if ( ! isset( $_POST['pm_update'] ) ) {
             return;
         }
@@ -130,6 +164,7 @@ class Upgrade {
         $installed_version = get_option( 'pm_db_version' );
         
         foreach (self::$updates as $version => $object ) {
+
              $object->upgrade_init();
             if ( version_compare( $installed_version, $version, '<' ) ) {
 

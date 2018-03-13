@@ -101,4 +101,9 @@ class Settings_Controller {
 
         return pm_get_settings( $kye, $project_id );
     }
+
+    public function notice(WP_REST_Request $request) {
+        $action = $request->get_param('action');
+        update_option( $action, true );
+    }
 }

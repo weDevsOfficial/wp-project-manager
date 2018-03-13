@@ -29,7 +29,7 @@ return [
 	],
 	'pm-jquery-ui' => [
 		'id'         => 'pm-jquery-ui',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-ui/jquery-ui-1.9.1.custom.css',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-ui/jquery-ui-1.12.1.custom.css',
 		'dependency' => false,
 	],
 	'pm-tiny-mce' => [
