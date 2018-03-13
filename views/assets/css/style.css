@@ -128,6 +128,12 @@
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.15);
   border: 1px solid #DDD;
 }
+.pm ul {
+  list-style: none;
+}
+.pm .pm-wrap {
+    margin: 10px 20px 0 2px;
+}
 .pm ul.order-statuses-filter {
   font-size: 14px;
   color: #dfdfdf;
@@ -2991,6 +2997,7 @@ a.pm-icon-tick.grey {
   background-size: 20px 16px;
   background-position: 15px 30%;
   background-repeat: no-repeat;
+  box-shadow: none;
 }
 .pm .pm-project-header ul li a div {
   text-align: left;
