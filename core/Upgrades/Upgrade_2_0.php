@@ -31,6 +31,15 @@ class Upgrade_2_0 extends WP_Background_Process
 
     public $isProcessRuning = false;
     
+    function __construct() {
+        parent::__construct();
+        add_action('admin_notices', array( $this, 'notification' ) );
+        add_action('wp_ajax_pm_migration_notice', array( $this, 'migration_notice' ) );
+    }
+
+    function migration_notice() {
+
+    }
 
     /**
      * task funciotn run on background over time
@@ -48,10 +57,12 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $this->isProcessRuning = true;
         $this->upgrade_projects($item);
+        $this->upgrade_observe_migration( [
+            'projects' => true
+        ] );
 
         return false;
     }
-
 
     /**
      * Complete function for WP_Background_Process
@@ -126,6 +137,206 @@ class Upgrade_2_0 extends WP_Background_Process
         ", $key ) );
     }
 
+    // public function admin_footer() {
+    //     add_action('admin_footer', array( $this, 'notification' ) );
+    // }
+
+    public function notification() {
+        $is_active_notice = get_option('pm_migration_notice');
+
+        if ( !empty( $is_active_notice ) ) {
+           // return;
+        }
+
+        echo '<div class="pm-update-progress-notice"></div>';
+        $db_observe = get_option( 'pm_observe_migration' );
+
+        $observe = json_encode( $db_observe );
+        $assets_url = config('frontend.assets_url');
+        
+        $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
+
+        $is_all_migrated = empty( $result ) ? true : false; 
+        
+        ?>
+            <script type="text/javascript">
+                var pm_is_all_migrated = <?php echo json_encode($is_all_migrated); ?>;
+
+                jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+                    data.pm_migration = true;
+                });
+
+                jQuery(document).ready(function() {
+                    var migrateData = <?php echo $observe; ?>;
+                    
+                    
+                    pmProgressStatus(migrateData, function() {
+
+                        $('.pm-notice-dismiss').click(function() {
+                            $('.pm-update-progress-notice').slideUp( 300, function() {
+                                
+                                $('.pm-update-progress-notice').remove();
+                            });
+                        
+                            $.ajax({
+                                type: 'POST',
+                                url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
+                                data: {
+                                    action: 'pm_migration_notice',
+                                }
+                            });
+                        });
+                    });
+                });
+
+                jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+                    // Check for our data, and use it.
+                    if ( ! data.pm_migration ) {
+                        return;
+                    }
+
+                    pmProgressStatus(data.pm_migration);
+
+                });
+
+                function pmProgressStatus(migrateData, callBack) {
+                    var migrations = {
+                        'project': {
+                            label: 'Projects',
+                            status: pmGetStatus(migrateData.count.projects, migrateData.migrate.projects),
+                            count: migrateData.count.projects,
+                            completed: migrateData.migrate.projects,
+                        },
+                        'task_list': {
+                            label: 'Task Lists',
+                            status: pmGetStatus(migrateData.count.lists, migrateData.migrate.lists),
+                            count: migrateData.count.lists,
+                            completed: migrateData.migrate.lists,
+                        },
+                        'task': {
+                            label: 'Tasks',
+                            status: pmGetStatus(migrateData.count.tasks, migrateData.migrate.tasks),
+                            count: migrateData.count.tasks,
+                            completed: migrateData.migrate.tasks,
+                        },
+                        'message': {
+                            label: 'Messages',
+                            status: pmGetStatus(migrateData.count.messages, migrateData.migrate.messages),
+                            count: migrateData.count.messages,
+                            completed: migrateData.migrate.messages,
+                        },
+                        'milestone': {
+                            label: 'Milestones',
+                            status: pmGetStatus(migrateData.count.milestons, migrateData.migrate.milestons),
+                            count: migrateData.count.milestons,
+                            completed: migrateData.migrate.milestons,
+                        },
+                        'comment': {
+                            label: 'Comments',
+                            status: pmGetStatus(migrateData.count.comments, migrateData.migrate.comments),
+                            count: migrateData.count.comments,
+                            completed: migrateData.migrate.comments,
+                        },
+
+                    };
+
+                    var tmplInside = '';
+                    var cross = pm_is_all_migrated ? '<button type="button" class="pm-notice-dismiss"></button>' : '';
+                    
+                    jQuery.each(migrations, function(key, val) {
+                        var statuLogo = val.status ? 'pm-todo-migrate' : 'pm-todo-refresh';
+                        
+                        tmplInside = tmplInside + '<div class="pm-single-migrate-wrap"><span class="'+statuLogo+'"></sapn>'+val.label+': '+val.completed+ '/' + val.count+ '</div>';
+                    });
+                    
+                    var tmpl = '<div class="updated">'+
+                        '<p><strong>Migration Status</strong></p>'+
+                        cross+
+                        tmplInside+'</div>';
+
+                    $('.pm-update-progress-notice').html(tmpl);
+
+                    if (typeof callBack !== 'undefined') {
+                        callBack();
+                    }
+                }
+
+                function pmGetStatus(count, migrate) {
+                    count = parseInt(count);
+                    migrate = parseInt(migrate);
+
+                    return count <= migrate ? true : false;
+                }
+            
+
+            </script>
+            <style>
+                .updated {
+                    position: relative;
+                } 
+                .pm-notice-dismiss {
+                    position: absolute;
+                    top: 11px;
+                    right: 1px;
+                    border: none;
+                    margin: 0;
+                    padding: 9px;
+                    background: none;
+                    color: #72777c;
+                    cursor: pointer;
+                }
+                .pm-notice-dismiss:before {
+                    background: none;
+                    color: #72777c;
+                    content: "\f153";
+                    display: block;
+                    font: normal 16px/20px dashicons;
+                    speak: none;
+                    height: 20px;
+                    text-align: center;
+                    width: 20px;
+                    -webkit-font-smoothing: antialiased;
+                }
+                .pm-single-migrate-wrap {
+                    margin-bottom: 5px;
+                    display: inline-block;
+                    margin-right: 3%;
+                    padding-top: 4px;
+                    /*border-right: 1px solid #d2d2d2;*/
+                }
+                .pm-single-migrate-wrap:last-child {
+                    border-right: none;
+                }
+
+                .ui-progressbar {
+                    position: relative;
+                }
+                .hrm-progress-label {
+                    position: absolute;
+                    left: 50%;
+                    top: 4px;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 0 #fff;
+                }
+
+                .pm-todo-refresh {
+                    background-image: url('<?php echo $assets_url; ?>images/refresh.svg');
+                    padding-left: 28px;
+                    background-size: 20px;
+                    background-repeat: no-repeat;
+                    padding-bottom: 4px;
+                }
+                .pm-todo-migrate {
+                    background-image: url('<?php echo $assets_url; ?>images/todo_completed.svg');
+                    padding-left: 28px;
+                    background-size: 17px;
+                    background-repeat: no-repeat;
+                    padding-bottom: 4px;
+                }
+            </style>
+        <?php
+    }
+
 
     /**
      * initialize upgrade
@@ -133,6 +344,9 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return [type] [description]
      */
     public function upgrade_init ( ) {
+
+        $this->set_count();
+        
         $this->delete_queue_batch(); 
 
         global $wpdb;
@@ -152,6 +366,67 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         $this->save()->dispatch();
+    }
+
+    function upgrade_observe_migration( $args ) {
+        $migration = get_option( 'pm_observe_migration' );
+
+        if ( !empty( $args['projects'] ) ) {
+            $migration['migrate']['projects'] =  $migration['migrate']['projects'] + 1;
+        }
+
+        update_option( 'pm_observe_migration', $migration );
+    }
+
+    public function set_count() {
+        $has_migration = get_option( 'pm_observe_migration' );
+
+        if ( ! empty( $has_migration ) ) {
+            return;
+        }
+
+        global $wpdb;
+
+        $count_projects   = wp_count_posts( 'cpm_project' )->publish;
+        $count_lists      = wp_count_posts( 'cpm_task_list' )->publish;
+        $count_tasks      = wp_count_posts( 'cpm_task' )->publish;
+        $count_messages   = wp_count_posts( 'cpm_message' )->publish;
+        $count_milestones = wp_count_posts( 'cpm_milestone' )->publish;
+        $count_comments   = $wpdb->get_var( 
+            "
+            SELECT count(cmt.comment_ID) as count
+            FROM $wpdb->comments as cmt
+            LEFT JOIN $wpdb->posts as pt ON pt.ID = cmt.comment_post_ID 
+            WHERE 
+            pt.post_type IN ('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_message')
+            AND
+            pt.post_status = 'publish'
+            "
+        );
+
+        $observe = [
+            'count' => [
+                'projects'  => $count_projects,
+                'lists'     => $count_lists,
+                'tasks'     => $count_tasks,
+                'messages'  => $count_messages,
+                'milestons' => $count_milestones,
+                'comments'  => $count_comments
+            ],
+
+            'migrate' => [
+                'projects'  => 0,
+                'lists'     => 0,
+                'tasks'     => 0,
+                'messages'  => 0,
+                'milestons' => 0,
+                'comments'  => 0
+            ]
+        ];
+
+        update_option( 'pm_observe_migration', $observe );
+
+        return $observe;
     }
 
     /**

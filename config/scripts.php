@@ -33,6 +33,7 @@ return [
 			'jquery', 
 			'underscore',
 			'plupload-handlers',
+			'jquery-ui-progressbar',
 			'jquery-ui-datepicker',
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',

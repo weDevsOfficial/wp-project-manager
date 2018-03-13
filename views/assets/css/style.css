@@ -3410,8 +3410,18 @@ a.pm-icon-tick.grey {
 .pm .pm-todolists .pm-todolist footer.pm-list-footer .pm-todo-complete {
   background-image: url('../images/todo_completed.svg');
 }
-.pm .pm-todolists .pm-todolist footer.pm-list-footer .pm-todo-refresh {
+.pm .pm-todo-refresh {
   background-image: url('../images/refresh.svg');
+  padding-left: 28px;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+.pm .pm-todo-migrate {
+  background-image: url('../images/todo_completed.svg');
+  padding-left: 28px;
+  background-size: 17px;
+  background-repeat: no-repeat;
+  padding-bottom: 4px;
 }
 .pm .pm-todolists .pm-todolist footer.pm-list-footer .pm-todo-incomplete {
   background-image: url('../images/todo-incomplete.svg');
