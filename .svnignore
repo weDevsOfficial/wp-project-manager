@@ -15,9 +15,11 @@ tmp
 build
 .babelrc
 .travis.yml
+.gitignore
 composer.json
 package-lock.json
 package.json
 webpack.config.js
+Gruntfile.js
 views/assets/js
 

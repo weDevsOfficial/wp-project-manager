@@ -34,11 +34,6 @@ class Upgrade_2_0 extends WP_Background_Process
     function __construct() {
         parent::__construct();
         add_action('admin_notices', array( $this, 'notification' ) );
-        add_action('wp_ajax_pm_migration_notice', array( $this, 'migration_notice' ) );
-    }
-
-    function migration_notice() {
-
     }
 
     /**
@@ -142,20 +137,23 @@ class Upgrade_2_0 extends WP_Background_Process
     // }
 
     public function notification() {
+        $this->set_count();
+
+        $is_run_update    = get_option( 'pm_start_migration' );
         $is_active_notice = get_option('pm_migration_notice');
 
-        if ( !empty( $is_active_notice ) ) {
-           // return;
+        if ( !empty( $is_active_notice ) || empty( $is_run_update ) ) {
+           return;
         }
-
-        echo '<div class="pm-update-progress-notice"></div>';
+        
+        echo '<div class="updated pm-update-progress-notice"></div>';
         $db_observe = get_option( 'pm_observe_migration' );
 
         $observe = json_encode( $db_observe );
         $assets_url = config('frontend.assets_url');
-        
-        $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
 
+        $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
+        
         $is_all_migrated = empty( $result ) ? true : false; 
         
         ?>
@@ -170,22 +168,8 @@ class Upgrade_2_0 extends WP_Background_Process
                     var migrateData = <?php echo $observe; ?>;
                     
                     
-                    pmProgressStatus(migrateData, function() {
-
-                        $('.pm-notice-dismiss').click(function() {
-                            $('.pm-update-progress-notice').slideUp( 300, function() {
-                                
-                                $('.pm-update-progress-notice').remove();
-                            });
-                        
-                            $.ajax({
-                                type: 'POST',
-                                url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
-                                data: {
-                                    action: 'pm_migration_notice',
-                                }
-                            });
-                        });
+                    pmProgressStatus(migrateData, pm_is_all_migrated, function() {
+                        pmRemoveNotice();
                     });
                 });
 
@@ -195,11 +179,15 @@ class Upgrade_2_0 extends WP_Background_Process
                         return;
                     }
 
-                    pmProgressStatus(data.pm_migration);
+                    pmProgressStatus(data.pm_migration, data.pm_is_all_migrated, function() {
+                        pmRemoveNotice();
+                    });
 
                 });
 
-                function pmProgressStatus(migrateData, callBack) {
+                function pmProgressStatus(migrateData, pm_is_all_migrated, callBack ) {
+                    pm_is_all_migrated = pm_is_all_migrated || false;
+
                     var migrations = {
                         'project': {
                             label: 'Projects',
@@ -242,6 +230,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
                     var tmplInside = '';
                     var cross = pm_is_all_migrated ? '<button type="button" class="pm-notice-dismiss"></button>' : '';
+                    var is_loading_active = !pm_is_all_migrated ? 'pm-spinner' : '';
                     
                     jQuery.each(migrations, function(key, val) {
                         var statuLogo = val.status ? 'pm-todo-migrate' : 'pm-todo-refresh';
@@ -249,8 +238,8 @@ class Upgrade_2_0 extends WP_Background_Process
                         tmplInside = tmplInside + '<div class="pm-single-migrate-wrap"><span class="'+statuLogo+'"></sapn>'+val.label+': '+val.completed+ '/' + val.count+ '</div>';
                     });
                     
-                    var tmpl = '<div class="updated">'+
-                        '<p><strong>Migration Status</strong></p>'+
+                    var tmpl = '<div>'+
+                        '<p><strong>Migration Status<span class="'+is_loading_active+'"></span></strong></p>'+
                         cross+
                         tmplInside+'</div>';
 
@@ -266,6 +255,23 @@ class Upgrade_2_0 extends WP_Background_Process
                     migrate = parseInt(migrate);
 
                     return count <= migrate ? true : false;
+                }
+
+                function pmRemoveNotice () {
+                    $('.pm-notice-dismiss').click(function() {
+                        $('.pm-update-progress-notice').slideUp( 300, function() {
+                            
+                            $('.pm-update-progress-notice').remove();
+                        });
+                    
+                        $.ajax({
+                            type: 'POST',
+                            url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
+                            data: {
+                                action: 'pm_migration_notice',
+                            }
+                        });
+                    });
                 }
             
 
@@ -333,8 +339,19 @@ class Upgrade_2_0 extends WP_Background_Process
                     background-repeat: no-repeat;
                     padding-bottom: 4px;
                 }
+                .pm-spinner {
+                  background: url("<?php echo $assets_url; ?>images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                  height: 16px;
+                  display: inline-block;
+                  width: 16px;
+                  margin-left: 10px;
+                }
             </style>
         <?php
+    }
+
+    function start_update() {
+        update_option( 'pm_start_migration', true );
     }
 
 
@@ -345,6 +362,7 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     public function upgrade_init ( ) {
 
+        $this->start_update();
         $this->set_count();
         
         $this->delete_queue_batch(); 
@@ -375,42 +393,126 @@ class Upgrade_2_0 extends WP_Background_Process
             $migration['migrate']['projects'] =  $migration['migrate']['projects'] + 1;
         }
 
+        if ( !empty( $args['lists'] ) ) {
+            $migration['migrate']['lists'] =  $migration['migrate']['lists'] + 1;
+        }
+
+        if ( !empty( $args['tasks'] ) ) {
+            $migration['migrate']['tasks'] =  $migration['migrate']['tasks'] + 1;
+        }
+
+        if ( !empty( $args['messages'] ) ) {
+            $migration['migrate']['messages'] =  $migration['migrate']['messages'] + 1;
+        }
+
+        if ( !empty( $args['milestons'] ) ) {
+            $migration['migrate']['milestons'] =  $migration['migrate']['milestons'] + 1;
+        }
+
+        if ( !empty( $args['comments'] ) ) {
+            $migration['migrate']['comments'] =  $migration['migrate']['comments'] + 1;
+        }
+
         update_option( 'pm_observe_migration', $migration );
     }
 
     public function set_count() {
+        global $wpdb;
+
         $has_migration = get_option( 'pm_observe_migration' );
 
         if ( ! empty( $has_migration ) ) {
             return;
         }
 
-        global $wpdb;
+        $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
+        $ids = wp_list_pluck($ids, 'ID'); 
+        
+        $lists = [];
+        $tasks = [];
+        $messages = [];
+        $milestons = [];
 
-        $count_projects   = wp_count_posts( 'cpm_project' )->publish;
-        $count_lists      = wp_count_posts( 'cpm_task_list' )->publish;
-        $count_tasks      = wp_count_posts( 'cpm_task' )->publish;
-        $count_messages   = wp_count_posts( 'cpm_message' )->publish;
-        $count_milestones = wp_count_posts( 'cpm_milestone' )->publish;
+        foreach ( $ids as $key => $project_id ) {
+            $list_ids = $wpdb->get_results( 
+                "
+                SELECT ID FROM $wpdb->posts 
+                WHERE
+                post_parent = $project_id
+                AND
+                post_type = 'cpm_task_list'
+                AND
+                post_status = 'publish'
+                "
+            );
+
+            $list_ids = wp_list_pluck( $list_ids, 'ID' );
+            $lists    = array_merge( $list_ids, $lists );
+            $string_list_id = implode( ',', $list_ids );
+
+            $task_ids = $wpdb->get_results( 
+                "
+                SELECT ID FROM $wpdb->posts 
+                WHERE
+                post_parent IN ( $string_list_id )
+                AND
+                post_type = 'cpm_task'
+                AND
+                post_status = 'publish'
+                "
+            );
+
+            $task_ids = wp_list_pluck( $task_ids, 'ID' );
+            $tasks    = array_merge( $task_ids, $tasks );
+
+            $mileston_ids = $wpdb->get_results( 
+                "
+                SELECT ID FROM $wpdb->posts 
+                WHERE
+                post_parent = $project_id
+                AND
+                post_type = 'cpm_milestone'
+                AND
+                post_status = 'publish'
+                "
+            );
+
+            $mileston_ids = wp_list_pluck( $mileston_ids, 'ID' );
+            $milestons    = array_merge( $mileston_ids, $milestons );
+
+            $message_ids = $wpdb->get_results( 
+                "
+                SELECT ID FROM $wpdb->posts 
+                WHERE
+                post_parent = $project_id
+                AND
+                post_type = 'cpm_message'
+                AND
+                post_status = 'publish'
+                "
+            );
+
+            $message_ids = wp_list_pluck( $message_ids, 'ID' );
+            $messages    = array_merge( $message_ids, $messages );
+        }
+
+        $all_post_ids = array_merge( $lists, $tasks, $messages, $milestons );
+        $all_post_ids = implode(',', $all_post_ids);
+
         $count_comments   = $wpdb->get_var( 
             "
-            SELECT count(cmt.comment_ID) as count
-            FROM $wpdb->comments as cmt
-            LEFT JOIN $wpdb->posts as pt ON pt.ID = cmt.comment_post_ID 
-            WHERE 
-            pt.post_type IN ('cpm_project', 'cpm_task_list', 'cpm_task', 'cpm_message')
-            AND
-            pt.post_status = 'publish'
+            SELECT count(comment_ID) FROM $wpdb->comments
+            WHERE comment_post_ID IN ($all_post_ids)
             "
         );
 
         $observe = [
             'count' => [
-                'projects'  => $count_projects,
-                'lists'     => $count_lists,
-                'tasks'     => $count_tasks,
-                'messages'  => $count_messages,
-                'milestons' => $count_milestones,
+                'projects'  => count( $ids ),
+                'lists'     => count( $lists ),
+                'tasks'     => count( $tasks ),
+                'messages'  => count( $messages ),
+                'milestons' => count( $milestons ),
                 'comments'  => $count_comments
             ],
 
@@ -436,7 +538,7 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     public function upgrade_projects( $project_id ) {
 
-        $project_ids = get_site_option( "pm_db_migration", array() );
+        $project_ids = get_site_option( "pm_db_migration", [] );
         
         if( in_array( $project_id, array_keys( $project_ids ) ) ) {
             return false;
@@ -479,13 +581,13 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $this->create_project_role( $project_id, $newProject->id, $oldProject->post_author );
 
-        $milestons = $this->get_milestones( $project_id, $newProject->id );
-        $discuss   = $this->get_discuss( $project_id, $newProject->id, $milestons );
-        $commnetd  = $this->get_comments( $discuss, $newProject->id, 'discussion_board' );
-        $taskLists = $this->get_task_list( $project_id, $newProject->id, $milestons );
-        $commenttl = $this->get_comments( $taskLists, $newProject->id, 'task_list' );
-        list( $tasks, $parents )  = $this->get_tasks( $newProject->id, $taskLists );
-        $commnett  = $this->get_comments( $tasks, $newProject->id, 'task' );
+        $milestons               = $this->get_milestones( $project_id, $newProject->id );
+        $discuss                 = $this->get_discuss( $project_id, $newProject->id, $milestons );
+        $commnetd                = $this->get_comments( $discuss, $newProject->id, 'discussion_board' );
+        $taskLists               = $this->get_task_list( $project_id, $newProject->id, $milestons );
+        $commenttl               = $this->get_comments( $taskLists, $newProject->id, 'task_list' );
+        list( $tasks, $parents ) = $this->get_tasks( $newProject->id, $taskLists );
+        $commnett                = $this->get_comments( $tasks, $newProject->id, 'task' );
 
         $this->get_activity( $project_id, $newProject->id, $discuss, $taskLists, $tasks, array_merge( (array) $commnetd, (array)$commenttl, (array)$commnett ) );
 
@@ -552,7 +654,11 @@ class Upgrade_2_0 extends WP_Background_Process
         $milestons  = [];
 
         foreach ( $oldMilestones as $post ) {
-            $milestons[ $post[ 'ID' ] ] = $this->create_milestone( $post, $newProjectID );
+            $milestons[$post['ID']] = $this->create_milestone( $post, $newProjectID );
+            
+            $this->upgrade_observe_migration( [
+                'milestons' => true
+            ] );
         }
 
         return $milestons;
@@ -610,6 +716,10 @@ class Upgrade_2_0 extends WP_Background_Process
 
         foreach ( $oldDiscuss as $post ) {
             $discuss[$post['ID']] = $this->create_discuss( $post, $newProjectID, $milestons );
+
+            $this->upgrade_observe_migration( [
+                'messages' => true
+            ] );
         }
         return $discuss;
     }
@@ -686,6 +796,10 @@ class Upgrade_2_0 extends WP_Background_Process
 
         foreach ( $oldTaskList as $post ) {
             $taskList[$post['ID']] = $this->create_task_list( $post, $newProjectID, $milestons );
+            
+            $this->upgrade_observe_migration( [
+                'lists' => true
+            ] );
         }
         return $taskList;
     }
@@ -745,8 +859,15 @@ class Upgrade_2_0 extends WP_Background_Process
 
         foreach ( $oldTask as $post ) {
             $tasks[$post['ID']]      = $this->create_task( $post, $newProjectID,  $listitems, $list,  $parent );
+
+
+            
             if( $post['post_type'] == 'cpm_task' ){
                 $taskParent[$post['ID']] = $post['post_parent'];
+
+                $this->upgrade_observe_migration( [
+                    'tasks' => true
+                ] );
             }
             
         }
@@ -853,6 +974,10 @@ class Upgrade_2_0 extends WP_Background_Process
 
         foreach ( $OComments as $comment ) {
             $comments[$comment[ 'comment_ID' ]] = $this->create_comments( $comment, $newProjectID, $commentable_type, $ids[$comment['comment_post_ID']] );
+
+            $this->upgrade_observe_migration( [
+                'comments' => true
+            ] );
         }
 
         return $comments;

@@ -112,6 +112,7 @@ class Commands extends Cli {
             $wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . $table );
         }
 
+        delete_option('pm_start_migration');
         delete_option('pm_db_migration');
         delete_option('pm_observe_migration');
         delete_option('pm_migration_notice');
