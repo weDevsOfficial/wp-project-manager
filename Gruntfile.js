@@ -19,6 +19,12 @@ module.exports = function(grunt) {
                     '!.git/**',
                     '!Gruntfile.js',
                     '!package.json',
+                    '!package-lock.json',
+                    '!phpcs.ruleset.xml',
+                    '!phpunit.xml.dist',
+                    '!webpack.config.js',
+                    '!tmp/**',
+                    '!views/assets/src/**',
                     '!debug.log',
                     '!phpunit.xml',
                     '!export.sh',
@@ -55,6 +61,15 @@ module.exports = function(grunt) {
                 dest: 'pm'
             }
         },
+
+        run: {
+            options: {},
+
+            reset: {
+                cmd: 'npm',
+                args: ['run', 'reset']
+            }
+        }
     });
 
 
@@ -69,6 +84,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
+    grunt.loadNpmTasks( 'grunt-run' );
 
 
     grunt.registerTask( 'release', [
@@ -77,6 +93,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask( 'zip', [
         'clean',
+        'run',
         'copy',
         'compress'
     ])
