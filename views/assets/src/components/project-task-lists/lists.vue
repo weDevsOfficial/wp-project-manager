@@ -16,7 +16,7 @@
         <div v-if="isListFetch">
             <default-list-page v-if="is_blank_Template"></default-list-page>
             
-            <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container wrap">
+            <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container">
                 <div class="pm-inline-list-wrap">
                     <div class="pm-inline-list-element" v-if="can_create_list">
                         <new-task-list-btn></new-task-list-btn>
@@ -74,7 +74,7 @@
                             <list-tasks :list="list"></list-tasks>
 
                             <footer class="pm-row pm-list-footer">
-                                <div class="pm-footer-left">
+                                <div class="pm-col-8 pm-sm-col-12">
                                     <ul class="pm-footer-left-ul">
                                         <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
                                             <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
@@ -117,7 +117,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="pm-footer-right">
+                                <div class="pm-col-4">
                                     <div class="pm-todo-progress-bar">
                                         <div :style="getProgressStyle( list )" class="bar completed"></div>
                                     </div>

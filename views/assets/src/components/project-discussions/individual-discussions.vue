@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap pm pm-front-end">
+    <div class="pm-wrap pm-front-end">
 
         <pm-header></pm-header>
 

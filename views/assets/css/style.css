@@ -92,6 +92,24 @@
 }
 .pm a {
   text-decoration: none;
+  box-shadow: none;
+}
+.pm a:link {
+    text-decoration: none;
+    box-shadow: none;
+}
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+a:hover,
+a:active {
+  outline: 0;
+  text-decoration: none;
 }
 .pm input[type=text]:-moz-placeholder,
 .pm textarea:-moz-placeholder {
@@ -413,6 +431,11 @@ ul.pm-attachments li {
 .pm-form .item select,
 .pm-form .item textarea {
   width: 100%;
+  padding: 4px 6px;
+  font-size: inherit;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  background: #fff;
 }
 .pm-form .submit {
   padding: 0;
@@ -3945,6 +3968,12 @@ a.pm-icon-tick.grey {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  position: relative;
+}
+.pm .modal-header span.close-vue-modal {
+    position: absolute;
+    top: 0px;
+    right: 0;
 }
 .pm .modal-header {
   margin-bottom: 5px;
@@ -3955,6 +3984,7 @@ a.pm-icon-tick.grey {
   padding: 0;
   color: #095c91;
   padding: 15px 30px 10px;
+  font-size: 22px;
 }
 .pm .modal-header .close-vue-modal a {
   display: block;
