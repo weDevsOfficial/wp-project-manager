@@ -68,33 +68,33 @@
                         <div class="pm-box-title">{{text.discussion_list}}</div>
                         <ul class="dicussion-list">        
                             <li class="pm-col-12" v-for="discuss in discussion" :key="discuss.id">
-                                <div class="pm-col-9">
-                                    
-                                    <router-link 
-                                        class="pm-pagination-btn prev page-numbers" 
+                                <router-link 
+                                        class="pm-col-9 pm-messge-link" 
                                         :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
-                                        <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                    <div class="pm-message-inner">
+                                        <router-link :to="{ name:'user-tasks', params: { user_id: discuss.creator.data.id } }" :title="discuss.creator.data.display_name" >
+                                            <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                        </router-link>
                                         <div>
                                            {{ discuss.title }}                    
                                         </div>
                                         
-                                    </router-link>
-                                   
-                                    <div class="dicussion-meta">
-                                        {{text.by}} 
-                                        <a href="#" :title="discuss.creator.data.display_name">
-                                            {{ discuss.creator.data.display_name }}
-                                        </a> 
-                                         {{text.on}}
-                                        {{ discuss.created_at.date }}                  
-                                    </div>
+                                        <div class="dicussion-meta">
+                                            {{text.by}}
+                                            <router-link :to="{ name:'user-tasks', params: { user_id: discuss.creator.data.id } }" :title="discuss.creator.data.display_name" >
+                                                {{ discuss.creator.data.display_name }}
+                                            </router-link> 
+                                             {{text.on}}
+                                            {{ discuss.created_at.date }}                  
+                                        </div>
 
-                                </div>
+                                    </div>
+                                </router-link>
 
                                 <div class="pm-col-1" v-if="can_create_message">
                                     <span class="pm-message-action pm-right">
                                         <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
-                                        <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message" data-msg_id="97" data-project_id="60" data-confirm="Are you sure to delete this message?">
+                                        <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" title="Delete this message">
                                             <span class="dashicons dashicons-trash"></span>
                                         </a>
 
@@ -104,7 +104,7 @@
 
                                 <div class="pm-col-2 pm-last-col pm-right comment-count">
                                     <router-link 
-                                        class="pm-pagination-btn prev page-numbers" 
+                                        class="pm-link" 
                                         :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
                                         {{ discuss.meta.total_comments }} {{text.comments}} 
                                     </router-link>           
