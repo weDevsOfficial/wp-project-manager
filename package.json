@@ -10,7 +10,8 @@
     "pm": "webpack",
     "build": "webpack-dev-server",
     "watch": "webpack --progress --colors --watch",
-    "clean": "webpack --progress --colors"
+    "reset": "webpack --progress --colors",
+    "release": "webpack --progress --colors gurn zip"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-less": "^1.4.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-run": "^0.8.0",
     "grunt-ssh": "^0.12.9",
     "grunt-wp-i18n": "^1.0.0",
     "html-webpack-plugin": "^2.30.1",

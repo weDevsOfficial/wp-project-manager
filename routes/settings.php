@@ -9,6 +9,8 @@ $router->get( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@in
     ->permission([Authentic::class]);
 $router->post( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
     ->permission([Project_Manage_Capability::class]);
+
+$router->post( 'settings/notice', 'WeDevs/PM/Settings/Controllers/Settings_Controller@notice' );
 //$router->get( 'projects/settings/{key}/key', 'WeDevs/PM/Settings/Controllers/Settings_Controller@pluck_without_project' );;
 
 //$router->get( 'projects/{project_id}/settings/{key}/key', 'WeDevs/PM/Settings/Controllers/Settings_Controller@pluck_with_project' );;
