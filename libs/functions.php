@@ -438,13 +438,13 @@ function pm_get_translations_for_plugin_domain( $domain ) {
         file_exists( $lang_dir . $mo_file_name . '.mo' )
     ) {
         $mo = new MO();
-        if ($mo->import_from_file( $lang_dir . $mo_file_name . '.mo' )) {
+        if ( $mo->import_from_file( $lang_dir . $mo_file_name . '.mo' ) ) {
             $translations = $mo->entries;
         }
     }
 
     return [
-        'header' => isset( $mo ) ? $mo->headers : '',
+        'header'       => isset( $mo ) ? $mo->headers : '',
         'translations' => $translations
     ];
 }
