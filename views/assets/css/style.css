@@ -130,8 +130,63 @@ a:active {
 .pm .nav-tab.nav-tab-active {
   color: #000;
 }
+.pm button,
+.pm input,
+.pm select,
+.pm textarea {
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle;
+}
+
+.pm button,
+.pm input {
+  *overflow: visible;
+  line-height: normal;
+}
+
+.pm button::-moz-focus-inner,
+.pm input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.pm button,
+.pm html input[type="button"],
+.pm input[type="reset"],
+.pm input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+.pm label,
+.pm select,
+.pm button,
+.pm input[type="button"],
+.pm input[type="reset"],
+.pm input[type="submit"],
+.pm input[type="radio"],
+.pm input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.pm input[type="search"] {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+  -webkit-appearance: textfield;
+}
+
+.pm input[type="search"]::-webkit-search-decoration,
+.pm input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+
 .pm textarea,
 .pm input[type=text] {
+  overflow: auto;
+  vertical-align: top;
   padding: 5px 10px;
   border: 1px solid #DDD;
   font-size: 13px;
@@ -145,6 +200,51 @@ a:active {
   -moz-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.15);
   border: 1px solid #DDD;
+}
+.pm select,
+.pm textarea,
+.pm input[type="text"],
+.pm input[type="password"],
+.pm input[type="datetime"],
+.pm input[type="datetime-local"],
+.pm input[type="date"],
+.pm input[type="month"],
+.pm input[type="time"],
+.pm input[type="week"],
+.pm input[type="number"],
+.pm input[type="email"],
+.pm input[type="url"],
+.pm input[type="search"],
+.pm input[type="tel"],
+.pm input[type="color"],
+.pm .uneditable-input {
+  display: inline-block;
+  height: 36px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  background: #ffffff;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+.pm input[type="radio"],
+.pm input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  *margin-top: 0;
+  line-height: normal;
 }
 .pm ul {
   list-style: none;
