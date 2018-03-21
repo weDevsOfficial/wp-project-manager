@@ -18,7 +18,7 @@ class Frontend {
      * Sets up all the appropriate hooks and actions
      * within our plugin.
      */
-	public function __construct() {
+	public function __construct() {	
 		$this->includes();
 		
 		// instantiate classes
@@ -45,11 +45,16 @@ class Frontend {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 	}
 
+
+
 	function load_plugin_textdomain() {
 		load_plugin_textdomain( 'cpm', true, config('frontend.patch') . '/languages/' );
 	}
 
 	public function includes() {
+		//if ( ! wp_next_scheduled( 'pm_test_schedule' ) ) {
+			//wp_schedule_event(time(), 'pm_schedule', 'pm_test_schedule');
+		//}
 
 		// cli command
         if ( defined('WP_CLI') && WP_CLI ) {
@@ -68,6 +73,16 @@ class Frontend {
 	 */
 	public function init_filters() {
 		
+	}
+
+	function cron_interval( $schedules ) {
+		// Adds every 5 minutes to the existing schedules.
+		$schedules[ 'pm_schedule' ] = array(
+			'interval' => MINUTE_IN_SECONDS * 1,
+			'display'  => sprintf( __( 'Every %d Minutes PM schedule' ), 1 ),
+		);
+
+		return $schedules;
 	}
 
 	/**

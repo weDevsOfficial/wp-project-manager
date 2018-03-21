@@ -30,9 +30,13 @@ class Upgrade {
         $pm_migration = empty( $data['pm_migration'] ) ? false : $data['pm_migration'];
         
         if ( $pm_migration ) {
+            $db_observe = get_option( 'pm_observe_migration' );
+            $db_observe['count'] = empty( $db_observe['count'] ) ? [] : $db_observe['count'];
+            $db_observe['migrate'] = empty( $db_observe['migrate'] ) ? [] : $db_observe['migrate'];
+
             $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
             $is_all_migrated = empty( $result ) ? true : false; 
-            $response['pm_migration'] = get_option( 'pm_observe_migration' );
+            $response['pm_migration'] = $db_observe;
             $response['pm_is_all_migrated'] = $is_all_migrated;
         }
 

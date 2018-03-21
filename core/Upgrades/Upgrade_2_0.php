@@ -28,12 +28,24 @@ class Upgrade_2_0 extends WP_Background_Process
      * @var string
      */
     protected $action = 'pm_db_migration_2_0';
+    protected $pm_queue_data = [];
+    protected $milestons = [];
+    protected $discuss = [];
+    protected $tasks = [];
+    protected $task_lists = [];
+    protected $comments = [];
 
     public $isProcessRuning = false;
     
     function __construct() {
         parent::__construct();
+        
         add_action('admin_notices', array( $this, 'notification' ) );
+        add_filter( 'wp_pm_db_migration_2_0_cron_interval', [$this, 'migration_schedule_time'] );
+    }
+
+    function migration_schedule_time( $time ) {
+        return 1;
     }
 
     /**
@@ -43,34 +55,179 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return 
      */
     function task( $item ) {
+        
+        $type = empty( $item['type'] ) ? '' : $item['type'];
 
-        if ( empty( absint( $item ) ) ) {
-            return false;
+        switch ( $type ) {
+            case 'project':
+                $this->upgrade_projects($item['id']);
+                
+                break;
+
+            case 'milestone':
+                $this->milestons[$item['post']['ID']] = $this->create_milestone( $item['post'], $item['newProjectID'] );
+                
+                break;
+
+            case 'discuss':
+                $this->discuss[$item['post']['ID']] = $this->create_discuss( $item['post'], $item['newProjectID'] );
+                $this->get_comments( $this->discuss, $item['newProjectID'], 'discussion_board' );
+                $this->pm_update_queue();
+                break;
+
+            case 'task':
+                $this->tasks[$item['post']['ID']] = $this->create_task( $item['post'], $item['newProjectID'],  $item['listitems'], $item['list'],  $item['parent'] );
+                $this->get_comments( $this->tasks, $item['newProjectID'], 'task' );
+                $this->pm_update_queue();
+                break;
+
+            case 'task_list':
+                $this->task_lists[$item['post']['ID']] = $this->create_task_list( $item['post'], $item['newProjectID'] );
+                $this->get_tasks( $item['newProjectID'], $this->task_lists );
+                $this->get_comments( $this->task_lists, $item['newProjectID'], 'task_list' );
+                $this->pm_update_queue();
+                break;
+
+            case 'comment':
+                $this->comments[$item['comment']['comment_ID']] = $this->create_comments( $item['comment'], $item['newProjectID'], $item['commentable_type'], $item['id'] );
+                
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    
+        return false;
+    }
+
+    /**
+     * Complete.
+     *
+     * Override if applicable, but ensure that the below actions are
+     * performed, or, call parent::complete().
+     */
+    protected function complete() {
+        // Unschedule the cron healthcheck.
+        $this->clear_scheduled_event();
+    }
+
+    /**
+     * retrive old project and push into new database
+     * @param  int $project_id 
+     * @return Object             new Project model object
+     */
+    function create_project( $project_id ) {
+        global $wpdb;
+
+        if ( !$project_id && !is_int( $project_id ) ) {
+            return;
         }
 
-        pm_log( 'migrations', $item );
+        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID=%d", $project_id ) );
 
-        $this->isProcessRuning = true;
-        $this->upgrade_projects($item);
+        $newProject = $this->save_object( new Project, [
+            'title'       => $oldProject->post_title,
+            'description' => $oldProject->post_content,
+            'status'      => get_post_meta($project_id, '_project_active', true) == 'yes' ? 0 : 1,
+            'created_by'  => $oldProject->post_author,
+            'updated_by'  => $oldProject->post_author,
+            'created_at'  => $oldProject->post_date,
+            'updated_at'  => $oldProject->post_modified,
+        ] );
+
+        $this->create_project_role( $project_id, $newProject->id, $oldProject->post_author );
+        $this->get_milestones( $project_id, $newProject->id );
+        $this->get_discuss( $project_id, $newProject->id );
+        $this->get_task_list( $project_id, $newProject->id );
+
+
+        //please check it next time
+        //$this->get_activity( $project_id, $newProject->id, $this->discuss, $this->task_lists, $this->tasks, $this->comments );
+
+        // $this->get_file( $project_id, $newProject->id );
+
+        // if ( !empty( $parents ) ) {
+        //     // for sub task
+        //    $this->get_tasks( $newProject->id, $tasks, $taskLists, $parents ); 
+        // }
+
+        // $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
+
+        // $this->set_project_settings( $project_id, $newProject );
+        // $this->set_bp_group( $project_id, $newProject );
+        // $this->get_kanboard( $project_id, $newProject, $tasks );
+        // $this->gantt_upgrate( $taskLists, $tasks, $parents );
+        // $this->get_invoice( $project_id, $newProject );
+
+        //Update migration project count number
         $this->upgrade_observe_migration( [
             'projects' => true
         ] );
 
-        return false;
+        $this->pm_update_queue();
+
+        return $newProject;
+    }
+
+    public function pm_update_queue() {
+        //update background process data queue with pm_queue_data for individual project
+        $this->update(
+            $this->generate_key(),
+            $this->pm_queue_data
+        )->dispatch();
+
+        //After update background process queue make empty array for pm_queue_data
+        $this->pm_queue_data = [];
+    }
+
+    /**
+     * initialize upgrade
+     * Get all Project id and push into queue 
+     * @return [type] [description]
+     */
+    public function upgrade_init ( ) {
+       
+        $this->start_update();
+        $this->set_count();
+        
+        $this->delete_queue_batch(); 
+        
+        global $wpdb;
+        $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
+
+        if ( is_wp_error( $ids ) ) {
+            return;
+        }
+
+        $ids = wp_list_pluck($ids, 'ID'); 
+        
+        foreach ($ids as $id) {
+            if ( empty( absint( $id ) ) ) {
+                continue;
+            }
+            $this->push_to_queue( [
+                'type' => 'project',
+                'id' => $id
+            ] );
+        }
+
+
+        $this->save()->dispatch();
     }
 
     /**
      * Complete function for WP_Background_Process
      *
      */
-    function complete() {
-        parent::complete();
-        $this->isProcessRuning = false;
-        $this->migrate_category();
-        $this->set_settings();
+    // function complete() {
+    //     parent::complete();
+    //     $this->isProcessRuning = false;
+    //     $this->migrate_category();
+    //     $this->set_settings();
         
-        // upgrade complete function
-    }
+    //     // upgrade complete function
+    // }
 
     /**
      * Is the updater running?
@@ -79,29 +236,6 @@ class Upgrade_2_0 extends WP_Background_Process
     public function is_updating() {
         return false === $this->is_queue_empty();
     }
-
-
-    /**
-     * Handle cron healthcheck
-     *
-     * Restart the background process if not already running
-     * and data exists in the queue.
-     */
-    public function handle_cron_healthcheck() {
-        if ( $this->is_process_running() ) {
-            // Background process already running.
-            return;
-        }
-
-        if ( $this->is_queue_empty() ) {
-            // No data to process.
-            $this->clear_scheduled_event();
-            return;
-        }
-
-        $this->handle();
-    }
-
 
     /**
      * Get batch
@@ -354,38 +488,6 @@ class Upgrade_2_0 extends WP_Background_Process
         update_option( 'pm_start_migration', true );
     }
 
-
-    /**
-     * initialize upgrade
-     * Get all Project id and push into queue 
-     * @return [type] [description]
-     */
-    public function upgrade_init ( ) {
-
-        $this->start_update();
-        $this->set_count();
-        
-        $this->delete_queue_batch(); 
-
-        global $wpdb;
-        $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
-
-        if ( is_wp_error( $ids ) ) {
-            return;
-        }
-
-        $ids = wp_list_pluck($ids, 'ID'); 
-        
-        foreach ($ids as $id) {
-            if ( empty( absint( $id ) ) ) {
-                continue;
-            }
-            $this->push_to_queue( $id );
-        }
-
-        $this->save()->dispatch();
-    }
-
     function upgrade_observe_migration( $args ) {
         $migration = get_option( 'pm_observe_migration' );
 
@@ -449,6 +551,7 @@ class Upgrade_2_0 extends WP_Background_Process
             $list_ids = wp_list_pluck( $list_ids, 'ID' );
             $lists    = array_merge( $list_ids, $lists );
             $string_list_id = implode( ',', $list_ids );
+            $string_list_id = empty( $string_list_id ) ? '0' : $string_list_id;
 
             $task_ids = $wpdb->get_results( 
                 "
@@ -471,7 +574,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 WHERE
                 post_parent = $project_id
                 AND
-                post_type = 'cpm_milestone'
+                post_type IN ('cpm_milestone', 'cpm_milestne')
                 AND
                 post_status = 'publish'
                 "
@@ -537,76 +640,24 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return Object          new project model object 
      */
     public function upgrade_projects( $project_id ) {
-
         $project_ids = get_site_option( "pm_db_migration", [] );
         
-        if( in_array( $project_id, array_keys( $project_ids ) ) ) {
+        if ( array_key_exists( $project_id, $project_ids ) ) {
             return false;
         }
 
         $project_ids[$project_id] = 0;
         update_site_option("pm_db_migration", $project_ids);
 
-        $project = $this->create_project($project_id);
-
-        if( $project ) {
+        $project = $this->create_project( $project_id ); 
+        
+        if ( $project ) {
             $project_ids[$project_id] = $project->id;
             update_site_option( "pm_db_migration", $project_ids );
         }
-        
     }
 
-    /**
-     * retrive old project and push into new database
-     * @param  int $project_id 
-     * @return Object             new Project model object
-     */
-    function create_project( $project_id ) {
-        global $wpdb;
-        if( !$project_id && !is_int( $project_id ) ){
-            return ;
-        }
 
-        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID=%d", $project_id ) );
-
-        $newProject = $this->save_object( new Project, [
-            'title'       => $oldProject->post_title,
-            'description' => $oldProject->post_content,
-            'status'      => get_post_meta($project_id, '_project_active', true) == 'yes' ? 0 : 1,
-            'created_by'  => $oldProject->post_author,
-            'updated_by'  => $oldProject->post_author,
-            'created_at'  => $oldProject->post_date,
-            'updated_at'  => $oldProject->post_modified,
-        ] );
-
-        $this->create_project_role( $project_id, $newProject->id, $oldProject->post_author );
-
-        $milestons               = $this->get_milestones( $project_id, $newProject->id );
-        $discuss                 = $this->get_discuss( $project_id, $newProject->id, $milestons );
-        $commnetd                = $this->get_comments( $discuss, $newProject->id, 'discussion_board' );
-        $taskLists               = $this->get_task_list( $project_id, $newProject->id, $milestons );
-        $commenttl               = $this->get_comments( $taskLists, $newProject->id, 'task_list' );
-        list( $tasks, $parents ) = $this->get_tasks( $newProject->id, $taskLists );
-        $commnett                = $this->get_comments( $tasks, $newProject->id, 'task' );
-
-        $this->get_activity( $project_id, $newProject->id, $discuss, $taskLists, $tasks, array_merge( (array) $commnetd, (array)$commenttl, (array)$commnett ) );
-
-        $this->get_file( $project_id, $newProject->id );
-
-        if( !empty( $parents ) ) {
-            // for sub task
-           $this->get_tasks( $newProject->id, $tasks, $taskLists, $parents ); 
-        }
-
-        $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
-
-        $this->set_project_settings( $project_id, $newProject );
-        $this->set_bp_group( $project_id, $newProject );
-        $this->get_kanboard( $project_id, $newProject, $tasks );
-        $this->gantt_upgrate( $taskLists, $tasks, $parents );
-        $this->get_invoice( $project_id, $newProject );
-        return $newProject;
-    }
 
     /**
      * create project role 
@@ -650,18 +701,19 @@ class Upgrade_2_0 extends WP_Background_Process
         global $wpdb;
 
         $oldMilestones   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", $oldProjectId, 'publish' ), ARRAY_A );
-
         $milestons  = [];
-
+        
         foreach ( $oldMilestones as $post ) {
-            $milestons[$post['ID']] = $this->create_milestone( $post, $newProjectID );
-            
-            $this->upgrade_observe_migration( [
-                'milestons' => true
-            ] );
+            $this->pm_queue_data[] = [
+                'type'         => 'milestone',
+                'id'           => $post['ID'],
+                'oldProjectId' => $oldProjectId,
+                'newProjectID' => $newProjectID,
+                'post'         => $post
+            ];
         }
 
-        return $milestons;
+        //$this->save()->dispatch();
     }
 
     /**
@@ -694,6 +746,10 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( $newMilestone->id && isset( $meta ) ) {
             $this->add_meta( $meta, $newMilestone, $newProjectID );
         }
+
+        $this->upgrade_observe_migration( [
+            'milestons' => true
+        ] );
         
         return $newMilestone->id;
     }
@@ -704,39 +760,39 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param  array $milestons    
      * @return array               new and old milestone array
      */
-    function get_discuss( $oldProjectId, $newProjectID, $milestons ) {
+    function get_discuss( $oldProjectId, $newProjectID ) {
         if( !$oldProjectId ){
             return ;
         }
         global $wpdb;
 
-        $oldDiscuss   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_message', 'publish' ), ARRAY_A );
-
+        $oldDiscuss = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_message', 'publish' ), ARRAY_A );
         $discuss  = [];
 
         foreach ( $oldDiscuss as $post ) {
-            $discuss[$post['ID']] = $this->create_discuss( $post, $newProjectID, $milestons );
-
-            $this->upgrade_observe_migration( [
-                'messages' => true
-            ] );
+            $this->pm_queue_data[] =[
+                'type'         => 'discuss',
+                'id'           => $post['ID'],
+                'old_project'  => $oldProjectId,
+                'newProjectID' => $newProjectID,
+                'post'         => $post
+            ];
         }
-        return $discuss;
     }
 
     /**
      * Create disusss from old discuss
      */
-    function create_discuss( $post, $newProjectID, $milestons ) {
+    function create_discuss( $post, $newProjectID ) {
         if( !$post ) {
             return ;
         }
         $newDiscuss = $this->add_board( $post, 'discussion_board', $newProjectID );
         $mid        = get_post_meta( $post['ID'], '_milestone', true );
 
-        if ( $mid && !empty( $milestons ) ) {
+        if ( $mid && !empty( $this->milestons ) ) {
             $this->save_object( new Boardable, [
-                'board_id'       => $milestons[$mid],
+                'board_id'       => $this->milestons[$mid],
                 'board_type'     => 'milestone',
                 'boardable_id'   => $newDiscuss->id,
                 'boardable_type' => 'discussion_board',
@@ -773,6 +829,10 @@ class Upgrade_2_0 extends WP_Background_Process
                 ] );
             }
         }
+
+        $this->upgrade_observe_migration( [
+            'messages' => true
+        ] );
         
         return $newDiscuss->id;
     }
@@ -784,7 +844,7 @@ class Upgrade_2_0 extends WP_Background_Process
      * @param  array $milestons    
      * @return array               new and old milestone array
      */
-    function get_task_list( $oldProjectId, $newProjectID, $milestons ) {
+    function get_task_list( $oldProjectId, $newProjectID ) {
         if( !$oldProjectId ){
             return ;
         }
@@ -795,29 +855,30 @@ class Upgrade_2_0 extends WP_Background_Process
         $taskList  = [];
 
         foreach ( $oldTaskList as $post ) {
-            $taskList[$post['ID']] = $this->create_task_list( $post, $newProjectID, $milestons );
-            
-            $this->upgrade_observe_migration( [
-                'lists' => true
-            ] );
+
+            $this->pm_queue_data[] = [
+                'type'         => 'task_list',
+                'id'           => $post['ID'],
+                'newProjectID' => $newProjectID,
+                'post'         => $post
+            ];
         }
-        return $taskList;
     }
 
 
     /**
      * Create disusss from old discuss
      */
-    function create_task_list( $post, $newProjectID, $milestons ) {
+    function create_task_list( $post, $newProjectID ) {
         if( !$post ) {
             return ;
         }
         $taskList = $this->add_board( $post, 'task_list', $newProjectID );
         $mid      = get_post_meta( $post['ID'], '_milestone', true );
         $mid      = intval( $mid );
-        if ( !empty( $mid ) && $mid != -1 && !empty( $milestons ) ) {
+        if ( !empty( $mid ) && $mid != -1 && !empty( $this->milestons ) ) {
             $this->save_object( new Boardable, [
-                'board_id'       => $milestons[$mid],
+                'board_id'       => $this->milestons[$mid],
                 'board_type'     => 'milestone',
                 'boardable_id'   => $taskList->id,
                 'boardable_type' => 'task_list',
@@ -838,10 +899,15 @@ class Upgrade_2_0 extends WP_Background_Process
             $this->add_meta( $meta,  $taskList, $newProjectID );
         }
 
+        $this->upgrade_observe_migration( [
+            'lists' => true
+        ] );
+
         return  $taskList->id;
     }
 
     function get_tasks( $newProjectID, $listitems, $list = null, $parent = null ) {
+
         if( empty( $listitems ) ) {
             return ;
         }
@@ -853,25 +919,29 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         
         $in         = implode( ',', array_keys( $listitems  ));
-        $oldTask    = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) AND  post_type='{$post_type}' AND post_status='publish'", ARRAY_A );
+        $oldTask    = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN ({$in}) AND  post_type='{$post_type}' AND post_status='publish'", ARRAY_A );
         $tasks      = [];
         $taskParent = [];
 
         foreach ( $oldTask as $post ) {
-            $tasks[$post['ID']]      = $this->create_task( $post, $newProjectID,  $listitems, $list,  $parent );
 
-
-            
             if( $post['post_type'] == 'cpm_task' ){
                 $taskParent[$post['ID']] = $post['post_parent'];
-
-                $this->upgrade_observe_migration( [
-                    'tasks' => true
-                ] );
             }
-            
+
+            $this->pm_queue_data[] = [
+                'type'         => 'task',
+                'id'           => $post['ID'],
+                'listitems'    => $listitems,
+                'newProjectID' => $newProjectID,
+                'list'         => $list,
+                'post'         => $post,
+                'parent'       => $parent
+            ];
         }
-        return array( $tasks, $taskParent );
+
+        //$this->save()->dispatch();
+        //return array( $tasks, $taskParent );
     }
 
     function create_task( $post, $newProjectID,  $listitems, $list=null, $parent = null ) {
@@ -927,6 +997,10 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         $this->add_assignee( $newTask, $post['ID'] );
 
+        $this->upgrade_observe_migration( [
+            'tasks' => true
+        ] );
+
         return $newTask->id;
     }
 
@@ -963,24 +1037,24 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function get_comments( $ids, $newProjectID, $commentable_type ) {
+
         if( empty( $ids ) ){
             return ;
         }
         global $wpdb;
         $in        = implode(',', array_keys( $ids ) );
-        $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in})", ARRAY_A );
-        
-        $comments  = [];
-
-        foreach ( $OComments as $comment ) {
-            $comments[$comment[ 'comment_ID' ]] = $this->create_comments( $comment, $newProjectID, $commentable_type, $ids[$comment['comment_post_ID']] );
-
-            $this->upgrade_observe_migration( [
-                'comments' => true
-            ] );
+        $comments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in})", ARRAY_A );
+       
+        foreach ( $comments as $comment ) {
+            $this->pm_queue_data[] = [
+                'type'             => 'comment',
+                'id'               => $comment['comment_ID'],
+                'comment'          => $comment,
+                'newProjectID'     => $newProjectID,
+                'commentable_type' => $commentable_type,
+                'id'               => $ids[$comment['comment_post_ID']]
+            ];
         }
-
-        return $comments;
     }
 
     function create_comments( $comment, $newProjectID, $commentable_type, $commentable_id ) {
@@ -1018,6 +1092,10 @@ class Upgrade_2_0 extends WP_Background_Process
             }
         }
 
+        $this->upgrade_observe_migration( [
+            'comments' => true
+        ] );
+
         return $newComment->id;
     }
 
@@ -1045,11 +1123,12 @@ class Upgrade_2_0 extends WP_Background_Process
                 $type = 'pro_file';
             }
 
-            $newFile = $this->add_file( [
+            $this->push_to_queue( [
+                'type'          => 'file',
                 'fileable_id'   => null,
                 'fileable_type' => 'file',
                 'parent'        => $parent,
-                'type'          => $type,
+                'file_type'     => $type,
                 'attachment_id' => $file['attachment_id'],
                 'project_id'    => $newProjectID,
                 'created_by'    => $file['created_by'],
@@ -1058,22 +1137,37 @@ class Upgrade_2_0 extends WP_Background_Process
                 'updated_at'    => $file['updated_at'],
             ] );
 
-            if( $file['post_id'] ){
-                $meta = $this->get_doc_meta( $file['post_id'], $newFile->id, $newProjectID );
-                $comments[$file['post_id']] = $newFile->id;
-            }elseif ( $file['attachment_id'] ) {
-                $comments[$file['attachment_id']] = $newFile->id;
-            }
+            // $newFile = $this->add_file( [
+            //     'fileable_id'   => null,
+            //     'fileable_type' => 'file',
+            //     'parent'        => $parent,
+            //     'type'          => $type,
+            //     'attachment_id' => $file['attachment_id'],
+            //     'project_id'    => $newProjectID,
+            //     'created_by'    => $file['created_by'],
+            //     'updated_by'    => $file['created_by'],
+            //     'created_at'    => $file['created_at'],
+            //     'updated_at'    => $file['updated_at'],
+            // ] );
 
-            $fileArr[$file['id']] = $newFile->id;
-            $meta['private']      = $file['private'] == 'yes' ? 1 : 0;
+            // if( $file['post_id'] ){
+            //     $meta = $this->get_doc_meta( $file['post_id'], $newFile->id, $newProjectID );
+            //     $comments[$file['post_id']] = $newFile->id;
+            // }elseif ( $file['attachment_id'] ) {
+            //     $comments[$file['attachment_id']] = $newFile->id;
+            // }
 
-            if ( !empty( $file['dir_name'] ) ){
-                $meta['title']   = $file['dir_name'];
-            }
+            // $fileArr[$file['id']] = $newFile->id;
+            // $meta['private']      = $file['private'] == 'yes' ? 1 : 0;
 
-            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
+            // if ( !empty( $file['dir_name'] ) ){
+            //     $meta['title']   = $file['dir_name'];
+            // }
+
+            // $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
         }
+
+        //$this->save()->dispatch();
 
         $this->set_post_attachment( $comments, $newProjectID );
         $this->get_comments( $comments, $newProjectID, 'file' );
@@ -1173,9 +1267,17 @@ class Upgrade_2_0 extends WP_Background_Process
         $invoice  = [];
 
         foreach ( $oldInvoice as $post ) {
-            $invoice[$post['ID']] = $this->create_invoice( $post, $newProject );
+            //$invoice[$post['ID']] = $this->create_invoice( $post, $newProject );
+            $this->push_to_queue( [
+                'type'       => 'invoice',
+                'post'       => $post,
+                'newProject' => $newProject,
+                'post_id'    => $post['ID']
+            ] );
         }
-        return $invoice;
+        
+        //$this->save()->dispatch();
+
     }
 
     function create_invoice( $post, $newProject ) {
