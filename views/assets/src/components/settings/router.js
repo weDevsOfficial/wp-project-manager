@@ -49,7 +49,9 @@ weDevsPMRegisterChildrenRoute('project_root',
             meta: {
                 permission: function(project) {
                     return pmHasManageCapability()
-                }
+                },
+                lebel: 'Settings',
+                order: 7,
             },
             children: wedevsPMGetRegisterChildrenRoute('settings_root')
         }

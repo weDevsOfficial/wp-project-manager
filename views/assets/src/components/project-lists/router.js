@@ -29,13 +29,16 @@ weDevsPMRegisterChildrenRoute('project_root',
         {
             path: 'projects', 
             component: projectListHeader,
+            meta: {
+                label: "Projects",
+                order: 1,
+            },
             children: 
             [
                 {
                     path: '/', 
                     component: project_lists,
                     name: 'project_lists',
-
                     children: [
                         {
                             path: 'pages/:current_page_number', 
