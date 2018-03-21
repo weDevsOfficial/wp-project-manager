@@ -115,6 +115,17 @@ function pm_get_settings( $key = null, $project_id = false ) {
     return null;
 }
 
+function pm_set_settings( $key, $value, $project_id = false ){
+
+    if ( $project_id == false ){
+        $settings = \WeDevs\PM\Settings\Models\Settings::updateOrCreate(['key' => $key], ['value' => $value ]);
+    }else {
+        $settings = \WeDevs\PM\Settings\Models\Settings::updateOrCreate(['key' => $key, 'project_id' => $project_id ], ['value' => $value ]);
+    }
+    pmpr($settings); die();
+    return $settings;
+}
+
 function pm_add_meta( $id, $project_id, $type, $key, $value ) {
     WeDevs\PM\Common\Models\Meta::create([
         'entity_id'   => $id,
