@@ -92,6 +92,24 @@
 }
 .pm a {
   text-decoration: none;
+  box-shadow: none;
+}
+.pm a:link {
+    text-decoration: none;
+    box-shadow: none;
+}
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+a:hover,
+a:active {
+  outline: 0;
+  text-decoration: none;
 }
 .pm input[type=text]:-moz-placeholder,
 .pm textarea:-moz-placeholder {
@@ -112,8 +130,63 @@
 .pm .nav-tab.nav-tab-active {
   color: #000;
 }
+.pm button,
+.pm input,
+.pm select,
+.pm textarea {
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle;
+}
+
+.pm button,
+.pm input {
+  *overflow: visible;
+  line-height: normal;
+}
+
+.pm button::-moz-focus-inner,
+.pm input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.pm button,
+.pm html input[type="button"],
+.pm input[type="reset"],
+.pm input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+.pm label,
+.pm select,
+.pm button,
+.pm input[type="button"],
+.pm input[type="reset"],
+.pm input[type="submit"],
+.pm input[type="radio"],
+.pm input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.pm input[type="search"] {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+  -webkit-appearance: textfield;
+}
+
+.pm input[type="search"]::-webkit-search-decoration,
+.pm input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+
 .pm textarea,
 .pm input[type=text] {
+  overflow: auto;
+  vertical-align: top;
   padding: 5px 10px;
   border: 1px solid #DDD;
   font-size: 13px;
@@ -127,6 +200,51 @@
   -moz-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.15);
   border: 1px solid #DDD;
+}
+.pm select,
+.pm textarea,
+.pm input[type="text"],
+.pm input[type="password"],
+.pm input[type="datetime"],
+.pm input[type="datetime-local"],
+.pm input[type="date"],
+.pm input[type="month"],
+.pm input[type="time"],
+.pm input[type="week"],
+.pm input[type="number"],
+.pm input[type="email"],
+.pm input[type="url"],
+.pm input[type="search"],
+.pm input[type="tel"],
+.pm input[type="color"],
+.pm .uneditable-input {
+  display: inline-block;
+  height: 36px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  background: #ffffff;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+.pm input[type="radio"],
+.pm input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  *margin-top: 0;
+  line-height: normal;
 }
 .pm ul {
   list-style: none;
@@ -413,6 +531,11 @@ ul.pm-attachments li {
 .pm-form .item select,
 .pm-form .item textarea {
   width: 100%;
+  padding: 4px 6px;
+  font-size: inherit;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  background: #fff;
 }
 .pm-form .submit {
   padding: 0;
@@ -3955,6 +4078,12 @@ a.pm-icon-tick.grey {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  position: relative;
+}
+.pm .modal-header span.close-vue-modal {
+    position: absolute;
+    top: 0px;
+    right: 0;
 }
 .pm .modal-header {
   margin-bottom: 5px;
@@ -3965,6 +4094,7 @@ a.pm-icon-tick.grey {
   padding: 0;
   color: #095c91;
   padding: 15px 30px 10px;
+  font-size: 22px;
 }
 .pm .modal-header .close-vue-modal a {
   display: block;

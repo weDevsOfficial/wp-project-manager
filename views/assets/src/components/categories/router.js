@@ -15,7 +15,9 @@ weDevsPMRegisterChildrenRoute('project_root',
             meta: {
                 permission: function(project) {
                     return pmHasManageCapability()
-                }
+                },
+                label: 'Categories',
+                order: 2,
             }
         }
 

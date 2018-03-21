@@ -167,6 +167,11 @@
         </div>
     </div>
 </template>
+<style type="text/css">
+    .check-column {
+        width: 40px;
+    }
+</style>
 
 <script>
     import edit_category_form from './edit-category-form.vue';
