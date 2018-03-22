@@ -122,6 +122,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.12 - March 22, 2018 =
+
+ * [fixed] Showing HTML markup in task descriptions when we enter plain text.
+ * [fixed] To-do list, Discussion, milestone, page translation not working.
+ * [fixed] Projects page translation not working.
+ * [update] Improved plugin strings.
+
 = 1.6.11 - February 26, 2018 =
 
  * [fix] Notify users while commenting in a task.
