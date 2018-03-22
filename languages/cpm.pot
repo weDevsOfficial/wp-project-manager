@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 1.6.11\n"
+"Project-Id-Version: WP Project Manager 1.6.12\n"
 "Report-Msgid-Bugs-To: "
 "http://wedevs.com/support/forum/plugin-support/wp-project-manager/\n"
-"POT-Creation-Date: 2018-03-12 06:05:09+00:00\n"
+"POT-Creation-Date: 2018-03-22 04:18:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -229,13 +229,15 @@ msgid "- Select -"
 msgstr ""
 
 #: class/admin.php:225
-msgid "<h2>Flash Sale! 40% Off! Biggest Sale For WP Project Manager!</h2>"
+msgid ""
+"<h2>It’s Our Birthday <span>&#x1F382;</span> But You Get The Present "
+"<span>&#x1F381;</span></h2>"
 msgstr ""
 
 #: class/admin.php:226
 msgid ""
-"<p>We are running our biggest flash sale! A whopping 40% off for first 100 "
-"orders!</p>"
+"<p>Avail Exclusive <strong>25%</strong> Discount with coupon code: "
+"<strong>we25</strong></p>"
 msgstr ""
 
 #: class/admin.php:236

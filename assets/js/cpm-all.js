@@ -1045,7 +1045,6 @@
     } );
 
     function dateFormat( date, format ) {
-        return date;
         date = new Date( date );
         var month = ( "0" + ( date.getMonth() + 1 ) ).slice( -2 ),
                 day = ( "0" + date.getDate() ).slice( -2 ),
