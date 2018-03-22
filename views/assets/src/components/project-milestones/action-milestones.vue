@@ -1,17 +1,17 @@
 <template>
  <ul class="pm-links pm-right" v-if="user_can('create_milestone')">
     <li>
-        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="text.edit_milestone"></a>
+        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="__( 'Edit Milestone', 'pm' )"></a>
     </li>
     <li>
-        <a @click.prevent="deleteSelfMilestone()" class="pm-milestone-delete dashicons dashicons-trash" :title="text.delete_milestone" href="#"></a>
+        <a @click.prevent="deleteSelfMilestone()" class="pm-milestone-delete dashicons dashicons-trash" :title="__( 'Delete milestone', 'pm' )" href="#"></a>
     </li>
 
     <li>
-        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class="pm-milestone-open dashicons dashicons-update" :title="text.mark_as_incomplete" href="#"></a>
+        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class="pm-milestone-open dashicons dashicons-update" :title="__( 'Mark as incomplete', 'pm' )" href="#"></a>
     </li>
     <li>
-        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="text.mark_as_complete" href="#"></a>
+        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="__( 'Mark as complete', 'pm' )" href="#"></a>
     </li>
     <li>
         <span :class="privateClass( milestone.meta.privacy )"></span>

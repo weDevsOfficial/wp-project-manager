@@ -10,8 +10,8 @@
             <notify-user v-model="notify_users"></notify-user>
 
             <div class="submit">
-                <input v-if="!comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="text.add_new_comment" id="">
-                <input v-if="comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="text.update_comment" id="">
+                <input v-if="!comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="__( 'Add New Comment', 'pm' )" id="">
+                <input v-if="comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="__( 'Update Comment', 'pm' )" id="">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>

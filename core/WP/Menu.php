@@ -12,9 +12,9 @@ class Menu {
 	public static function admin_menu() {
 		global $submenu;
 		$ismanager = pm_has_manage_capability();
-		$home = add_menu_page( __( 'Project Manager', 'pm' ), __( 'Project Manager', 'pm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
+		$home = add_menu_page( __( 'Project Manager', 'cpm' ), __( 'Project Manager', 'cpm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
 
-		$submenu['pm_projects'][] = [ __( 'Projects', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
+		$submenu['pm_projects'][] = [ __( 'Projects', 'cpm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
 		if ( $ismanager ) {
 			$submenu['pm_projects'][] = [ __( 'Categories', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
 		}

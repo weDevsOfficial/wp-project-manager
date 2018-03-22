@@ -1,6 +1,6 @@
 <template>
     <div class="wrap nosubsub">
-        <h1 class="wp-heading-inline">{{text.categories}}</h1>
+        <h1 class="wp-heading-inline">{{ __( 'Categories', 'pm' ) }}</h1>
         <hr class="wp-header-end">
         <div v-if="!isFetchCategories" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -20,23 +20,23 @@
                 <div class="col-wrap">
 
                     <div class="form-wrap">
-                        <h2>{{text.add_new_category}}</h2>
+                        <h2>{{ __( 'Add New Category', 'pm' ) }}</h2>
                         <form @submit.prevent="categoryFormAction()" id="addtag" method="post" action="edit-tags.php" class="validate" >
                             
                             <div class="form-field form-required term-name-wrap">
-                                <label for="tag-name">{{text.name}}</label>
+                                <label for="tag-name">{{ __( 'Name', 'pm' ) }}</label>
                                 <input v-model="title" required="required" name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true">
                                 <p></p>
                             </div>
 
                             <div class="form-field term-description-wrap">
-                                <label for="tag-description">{{text.description}}</label>
+                                <label for="tag-description">{{ __( 'Description', 'pm' ) }}</label>
                                 <textarea v-model="description" name="description" id="tag-description" rows="5" cols="40"></textarea>
                                 <p></p>
                             </div>
 
                             <p class="submit">
-                                <input type="submit" name="submit" id="submit" class="button button-primary" :value="text.add_new_category">
+                                <input type="submit" name="submit" id="submit" class="button button-primary" :value="__( 'Add New Category', 'pm' )">
                                 <span v-show="show_spinner" class="pm-spinner"></span>
                             </p>
                         </form>
@@ -51,12 +51,12 @@
                     
                         <div class="tablenav top">
                             <div class="alignleft actions bulkactions">
-                                <label for="bulk-action-selector-top" class="screen-reader-text">{{text.select_bulk_action}}</label>
+                                <label for="bulk-action-selector-top" class="screen-reader-text">{{ __( 'Select bulk action', 'pm' ) }}</label>
                                 <select  v-model="bulk_action" name="action">
-                                    <option value="-1">{{text.bulk_actions}}</option>
-                                    <option value="delete">{{text.delete}}</option>
+                                    <option value="-1">{{ __( 'Bulk Actions', 'pm' ) }}</option>
+                                    <option value="delete">{{ __( 'Delete', 'pm' ) }}</option>
                                 </select>
-                                <input type="submit" id="doaction" class="button action" :value="text.apply">
+                                <input type="submit" id="doaction" class="button action" :value="__( 'Apply', 'pm' )">
                             </div>
                             
                             <br class="clear">
@@ -66,17 +66,17 @@
                             <thead>
                                 <tr>
                                     <td id="cb" class="manage-column column-cb check-column">
-                                        <label class="screen-reader-text" for="cb-select-all-1">{{text.select_all}}</label>
+                                        <label class="screen-reader-text" for="cb-select-all-1">{{ __( 'Select all', 'pm' ) }}</label>
                                         <input @change="selectAll()" v-model="select_all"   id="cb-select-all-1" type="checkbox">
                                     </td>
                                     <th scope="col" id="name" class="manage-column column-name column-primary sortable desc">
                                         <a href="#">
-                                            <span>{{text.name}}</span>
+                                            <span>{{__( 'Name', 'pm' )}}</span>
                                         </a>
                                     </th>
                                     <th scope="col" id="description" class="manage-column column-description sortable desc">
                                         <a href="">
-                                            <span>{{text.description}}</span>
+                                            <span>{{ __( 'Description', 'pm' ) }}</span>
                                         </a>
                                     </th>
                                     <!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -103,7 +103,7 @@
                                     
                                         <div class="row-actions">
                                             <span class="edit">
-                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{text.edit}}</a> 
+                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{ __('Edit', 'pm')}}</a> 
                                             </span>
                                         </div>
                                         
@@ -129,13 +129,13 @@
 
                                     <th scope="col" class="manage-column column-name column-primary sortable desc">
                                         <a href="#">
-                                            <span>{{text.name}}</span>
+                                            <span>{{  __( 'Name', 'pm' ) }}</span>
                                         </a>
                                     </th>
 
                                     <th scope="col" class="manage-column column-description sortable desc">
                                         <a href="#">
-                                            <span>{{text.description}}</span>
+                                            <span>{{ __( 'Description', 'pm' ) }}</span>
                                         </a>
                                     </th>   
                                     <!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -154,10 +154,10 @@
 
                             <div class="alignleft actions bulkactions">
                                 <select v-model="bulk_action" name="action" id="bulk-action-selector-bottom">
-                                    <option value="-1">{{text.bulk_actions}}</option>
-                                    <option value="delete">{{text.delete}}</option>
+                                    <option value="-1">{{ __( 'Bulk Actions', 'pm' ) }}</option>
+                                    <option value="delete">{{ __( 'Delete', 'pm' ) }}</option>
                                 </select>
-                                <input type="submit" id="doaction2" class="button action" :value="text.apply">
+                                <input type="submit" id="doaction2" class="button action" :value="__( 'Apply', 'pm' )">
                             </div>
                             <br class="clear">
                         </div>
@@ -237,7 +237,7 @@
 
 
             selfDeleted () {
-                if ( ! confirm( this.text.are_you_sure ) ) {
+                if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
                     return;
                 }
                 var self = this;

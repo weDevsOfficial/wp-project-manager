@@ -31,11 +31,11 @@
                                     
                                     <div class="item-title">{{ file.name }}</div>
                                     <span class="text">
-                                        Attached to 
+                                        {{ __('Attached to', 'pm') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
-                                        by 
+                                        {{ __('by', 'pm') }} 
                                         <a href="#/" title="admin">
-                                            admin
+                                            {{ __('admin', 'pm') }}
                                         </a>
                                     </span>
                                 </div>

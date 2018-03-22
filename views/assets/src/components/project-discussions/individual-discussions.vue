@@ -22,17 +22,17 @@
                         {{discuss.title}}          
                         <span class="pm-right pm-edit-link">
                             <span v-if="can_create_message" >
-                                <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#" data-msg_id="97" data-project_id="60" class="pm-msg-edit dashicons dashicons-edit"></a>
+                                <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
                             <span :class="privateClass( discuss )"></span>
                         </span>
 
                         <div class="pm-small-title">
-                            {{text.by}}
+                            {{ __( 'By', 'pm' ) }}
                             <a href="#" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
-                            </a> {{text.on}} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
+                            </a> {{ __( 'on', 'pm' ) }} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
                         </div>
                     </h3>
                     <div class="pm-entry-detail">
@@ -53,7 +53,7 @@
             </div>
 
             <div v-if="discuss" class="pm-comment-area pm-box-shadow">
-                <h3> {{ discuss.meta.total_comments }} {{text.comments}}</h3>
+                <h3> {{ discuss.meta.total_comments }} {{ __( 'Comments', 'pm' ) }}</h3>
                 <ul class="pm-comment-wrap">
 
                     <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" :key="comment.id">
@@ -69,7 +69,7 @@
                                         {{ comment.creator.data.display_name }}
                                     </a>
                                 </span>
-                                {{text.on}}           
+                                {{ __( 'on', 'pm' ) }}           
                                 <span class="pm-date">
 
                                     <time :datetime="comment.created_at.date +' ' + comment.created_at.time" :title="comment.created_at.date +' ' + comment.created_at.time">{{comment.created_at.date +' ' + comment.created_at.time}}</time>
