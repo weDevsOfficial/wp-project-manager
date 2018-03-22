@@ -118,7 +118,7 @@ class CPM_Ajax {
      */
     public function dismiss_promotional_offer() {
         if ( ! empty( $_POST['cpm_promotion_dismissed'] ) ) {
-            $offer_key = 'cpm_package_offer';
+            $offer_key = 'cpm_package_birthday_offer';
             update_option( $offer_key . '_tracking_notice', 'hide' );
         }
     }

@@ -189,7 +189,7 @@ class CPM_Admin {
 
     function is_valid_promotion() {
         $today  = strtotime( date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) ) );
-        $future = strtotime( '2017-11-28' );
+        $future = strtotime( '2018-03-26' );
 
         if ( $future >= $today ) {
             return true;
@@ -216,29 +216,30 @@ class CPM_Admin {
         }
 
         // check if it has already been dismissed
-        $offer_key = 'cpm_package_offer';
+        $offer_key = 'cpm_package_birthday_offer';
         $hide_notice = get_option( $offer_key . '_tracking_notice', 'no' );
 
         if ( 'hide' == $hide_notice ) {
             return;
         }
-        $offer  = __( '<h2>Flash Sale! 40% Off! Biggest Sale For WP Project Manager!</h2>', "cpm" );
-        $offer .= __( '<p>We are running our biggest flash sale! A whopping 40% off for first 100 orders!</p>', 'cpm' );
+        $offer  = __( '<h2>It’s Our Birthday <span>&#x1F382;</span> But You Get The Present <span>&#x1F381;</span></h2>', "cpm" );
+        $offer .= __( '<p>Avail Exclusive <strong>25%</strong> Discount with coupon code: <strong>we25</strong></p>', 'cpm' );
 
         $offer_msg = sprintf( '%s', $offer );
         
         ?>
             <div class="notice is-dismissible" id="cpm-promotional-offer-notice">
 
-                <img src="<?php echo CPM_URL . '/assets/images/pm-icon.png'; ?>" alt="">
+                <img class="cpm-logo" src="<?php echo CPM_URL . '/assets/images/pm-icon.png'; ?>" alt="">
                 <div class="cpm-offer-msg-wrap"><?php echo $offer_msg; ?></div>
                 <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/in/cm-via-wpm" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'cpm' ); ?></a>
+                <a href="https://wedevs.com/in/get-25-off" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'cpm' ); ?></a>
             </div>
 
             <style>
                 .cpm-offer-msg-wrap {
                     margin-top: 18px;
+                    margin-left: 20px;
                 }
                 #cpm-promotional-offer-notice {
                     background-color: #7257a9;
@@ -276,14 +277,14 @@ class CPM_Admin {
                     text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
                 }
 
-                #cpm-promotional-offer-notice img{
+                #cpm-promotional-offer-notice .cpm-logo {
                     position: absolute;
-                    width: 80px;
-                    top: 5px;
+                    width: 88px;
                     left: 0px;
+                    background: #50348ac7;
                 }
 
-                #cpm-promotional-offer-notice h2 span {
+                #cpm-promotional-offer-notice h2 .dashicons-megaphone {
                     position: relative;
                     top: -1px;
                 }

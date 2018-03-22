@@ -27,7 +27,7 @@ if ( $comments ) {
     $count = 0;
     ?>
 
-    <h3><?php printf( _n( '1 Comment', '%d Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
+    <h3><?php printf( _n( '%d Comment', '%d Comments', count( $comments ), 'cpm' ), number_format_i18n( count( $comments ) ) ); ?></h3>
 
     <ul class="cpm-comment-wrap">
 

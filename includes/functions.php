@@ -480,37 +480,37 @@ function cpm_data_attr( $values ) {
 function cpm_project_summary_info( $info, $project_id ) {
     $summary            = array();
     $summary['message'] = array(
-        'label' => _n( 'Discussion', 'Discussions', $info->discussion, 'cpm' ),
+        'label' => _nx( 'Discussion', 'Discussions', $info->discussion, 'Discussion', 'cpm' ),
         'count' => $info->discussion,
         'url'   => cpm_url_message_index( $project_id )
     );
 
     $summary['todo'] = array(
-        'label' => _n( 'Task List', 'Task Lists', $info->todolist, 'cpm' ),
+        'label' => _nx( 'Task List', 'Task Lists', $info->todolist, 'Task List', 'cpm' ),
         'count' => $info->todolist,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['todos'] = array(
-        'label' => _n( 'Task', 'Tasks', $info->todos, 'cpm' ),
+        'label' => _nx( 'Task', 'Tasks', $info->todos, 'Task', 'cpm' ),
         'count' => $info->todos,
         'url'   => cpm_url_tasklist_index( $project_id )
     );
 
     $summary['comments'] = array(
-        'label' => _n( 'Comment', 'Comments', $info->comments, 'cpm' ),
+        'label' => _nx( 'Comment', 'Comments', $info->comments, 'Comment', 'cpm' ),
         'count' => $info->comments,
         'url'   => ''
     );
 
     $summary['files'] = array(
-        'label' => _n( 'File', 'Files', $info->files, 'cpm' ),
+        'label' => _nx( 'File', 'Files', $info->files, 'File', 'cpm' ),
         'count' => $info->files,
         'url'   => cpm_url_file_index( $project_id )
     );
 
     $summary['milestone'] = array(
-        'label' => _n( 'Milestone', 'Milestones', $info->milestone, 'cpm' ),
+        'label' => _nx( 'Milestone', 'Milestones', $info->milestone, 'Milestone', 'cpm' ),
         'count' => $info->milestone,
         'url'   => cpm_url_milestone_index( $project_id )
     );
@@ -740,23 +740,23 @@ if ( ! function_exists( 'get_ipaddress' ) ) {
 
 function cpm_settings_label() {
     $labels = array(
-        'Message'   => array(
+        __('Message', 'cpm')   => array(
             'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Todo List' => array(
+        __('Todo List', 'cpm') => array(
             'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Todo'      => array(
+        __('Todo', 'cpm')      => array(
             'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Milestone' => array(
+        __('Milestone', 'cpm') => array(
             'create_milestone'       => __( 'Create', 'cpm' ),
             'milestone_view_private' => __( 'View Private', 'cpm' ),
         ),
-        'Files'     => array(
+        __('Files', 'cpm')     => array(
             'upload_file_doc'   => __( 'Upload or create doc', 'cpm' ),
             'file_view_private' => __( 'View Private files or docs', 'cpm' ),
         ),
