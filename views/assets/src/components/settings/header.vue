@@ -2,11 +2,11 @@
     <div class="Settings-page-wrapper">
         <h2 class="pm-settings-nav-menu-wrap nav-tab-wrapper">
             <router-link class="nav-tab" :to="{name: 'general'}">
-                {{text.general_settings}}
+                {{ __( 'General Settings', 'pm' ) }}
             </router-link>
 
             <router-link class="nav-tab" :to="{name: 'email'}">
-                {{text.email_settings}}
+                {{ __( 'E-Mail Settings', 'pm' ) }}
             </router-link>
 
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>

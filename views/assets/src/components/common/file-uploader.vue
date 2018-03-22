@@ -7,13 +7,13 @@
                         <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
                     </a> 
                     
-                    <a href="#" @click.prevent="deletefile(file.id)" class="button">{{text.delete_file}}</a>
+                    <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'pm' ) }}</a>
                         
                 </div>
      
                            
             </div>
-            <span>To attach, <a id="pm-upload-pickfiles"  href="#/2/discussions">select files</a> from your computer.</span>
+            <span> {{ __('To attach', 'pm') }} <a id="pm-upload-pickfiles"  href="#">{{ __('select files', 'pm') }}</a> {{ __('from your computer.', 'pm') }}</span>
         </div>
     </div>
 </template>

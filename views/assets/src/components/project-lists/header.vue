@@ -4,7 +4,7 @@
         <div class="pm-top-bar pm-no-padding">
             <div class="pm-row pm-no-padding">
                 <div class="pm-col-6">
-                    <h3>{{text.project_manager}}</h3>
+                    <h3>{{ __('Project Manager', 'pm') }}</h3>
                 </div>
 
                 <div class="pm-col-6 pm-top-right-btn pm-text-right pm-last-col show_desktop_only">
@@ -40,7 +40,7 @@
         <router-view></router-view>
 
 
-        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="text.start_a_new_project" v-if="has_create_capability()">
+        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="__( 'Start a new project', 'pm' )" v-if="has_create_capability()">
             <project-create-form :project="{}"></project-create-form>
                 
         </div> 

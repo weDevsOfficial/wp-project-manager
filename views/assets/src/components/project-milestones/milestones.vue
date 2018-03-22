@@ -16,12 +16,12 @@
         <div v-if="isFetchMilestone">
             <div class="pm-blank-template milestone" v-if="blankTemplate">
                 <div class="pm-content" >
-                    <h3 class="pm-page-title">  {{text.milestones}}</h3>
+                    <h3 class="pm-page-title">  {{ __( 'Milestones', 'pm' ) }}</h3>
                     <p>
-                        {{text.milestone_define}}
+                        {{ __( 'Create a lifecycle of your projects using milestones. Time mark the different stages of your project with multiple milestones and also it will help the assigned people to aim for a date to complete the project according to those steps.', 'pm' ) }}
                     </p>
                         <div class="pm-milestone-link clearfix" v-if="user_can('create_milestone')">
-                            <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{text.add_milestone}}</a>
+                            <a @click.prevent="showHideMilestoneForm('toggle')" id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{ __( 'Add Milestone', 'pm' ) }}</a>
                         </div>
 
                         <transition name="slide" v-if="can_create_milestone">
@@ -34,12 +34,12 @@
                         </transition>
 
                     <div class="pm-list-content">
-                        <h3 class="pm-page-title pm-why-for"> {{text.when_use_milestone }}</h3>
+                        <h3 class="pm-page-title pm-why-for"> {{ __( 'When to use Milestones?', 'pm' ) }}</h3>
 
                         <ul class="pm-list">
-                            <li>{{text.to_set_target_date}} </li>
-                            <li>{{text.to_divide_project}} </li>
-                            <li>{{text.to_coordinate_project}} </li>
+                            <li>{{ __( 'To set a target date for the project overall.', 'pm' ) }} </li>
+                            <li>{{ __( 'To divide a project into several development-time phases.', 'pm' )}} </li>
+                            <li>{{ __( 'To coordinate projects and assigned persons timely.', 'pm' ) }} </li>
                         </ul>
                     </div>
 
@@ -49,7 +49,7 @@
             <div v-if="milestoneTemplate">
                 <div class="pm-row pm-milestone-details" >
                     <div class="pm-milestone-link clearfix" v-if="can_create_milestone">
-                        <a @click.prevent="showHideMilestoneForm('toggle')"  id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{text.add_milestone}}</a>
+                        <a @click.prevent="showHideMilestoneForm('toggle')"  id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{ __( 'Add Milestone', 'pm' ) }}</a>
                     </div>
 
                      <transition name="slide" v-if="can_create_milestone">

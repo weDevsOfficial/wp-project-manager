@@ -1,7 +1,7 @@
 <template>
     <div class="pm-list-comment-wrap">
 
-        <h3 class="pm-comment-title">{{text.discuss_this_task_list}}</h3>
+        <h3 class="pm-comment-title">{{ __( 'Discuss this task list', 'pm' ) }}</h3>
 
         <ul class="pm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
@@ -12,14 +12,14 @@
 
                 <div class="pm-comment-container">
                     <div class="pm-comment-meta">
-                        {{text.by}}
+                        {{ __('By', 'pm' ) }}
                         <span class="pm-author" >
                             
                             <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 {{ comment.creator.data.display_name }}
                             </a>
                         </span>
-                        <span>{{text.on}}</span>
+                        <span>{{ __('on', 'pm' ) }}</span>
                         <span class="pm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
@@ -99,7 +99,7 @@
                 return false;
             },
             deleteListComment (id) {
-                if ( !confirm( this.text.are_you_sure ) ) {
+                if ( !confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
                     return;
                 }
                 var self = this;

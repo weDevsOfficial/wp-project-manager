@@ -3,7 +3,7 @@
         <form action="" method="get" class="pm-project-filters" id="pm-project-filters">
             <select @change="categoryFilter()" v-model="categorie_id">
                 <option value="-1">
-                   {{text.project_category}}
+                   {{ __( '- Project Category -', 'pm' ) }}
                 </option>
                 <option v-for="categorie in categories" :value="categorie.id">
                     {{ categorie.title }}

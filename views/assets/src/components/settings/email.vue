@@ -4,12 +4,12 @@
             <div id="pm_mails" class="group" style="">
                 <form @submit.prevent="saveEmailSettings()" method="post" action="options.php">
             
-                    <h2>{{text.email_settings}}</h2>
+                    <h2>{{ __( 'E-Mail Settings', 'pm' ) }}</h2>
                     <table class="form-table">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_mails[email_from]">{{text.from_email}}</label>
+                                    <label for="pm_mails[email_from]">{{ __( 'From Email', 'pm' ) }}</label>
                                 </th>
                                 <td>
                                     <input v-model="from_email" type="text" class="regular-text" id="pm_mails[email_from]" name="pm_mails[email_from]" value="">
@@ -17,39 +17,39 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_mails[email_url_link]">{{text.links_email}}</label>
+                                    <label for="pm_mails[email_url_link]">{{ __( 'Links in the Email', 'pm' ) }}</label>
                                 </th>
                                 <td>
                                     <fieldset>
                                         <label for="wpuf-pm_mails[email_url_link][backend]">
-                                            <input v-model="link_to_backend" type="checkbox" class="radio">{{text.link_to_backend}}
+                                            <input v-model="link_to_backend" type="checkbox" class="radio">{{ __( 'Link to Backend', 'pm' ) }}
                                         </label>
                                         <br>
-                                        <p class="description">{{text.link_to_backend_des}}
+                                        <p class="description">{{ __( 'Select where do you want to take the user. Notification emails contain links.', 'pm' ) }}
                                         </p>
                                     </fieldset>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_mails[email_type]">{{text.emial_type}}</label>
+                                    <label for="pm_mails[email_type]">{{ __( 'E-Mail Type', 'pm' ) }}</label>
                                 </th>
                                 <td>
                                     <select v-model="email_type" class="regular" name="pm_mails[email_type]" id="pm_mails[email_type]">
-                                        <option value="text/html">{{text.html_mail}}</option>
-                                        <option value="text/plain" selected="selected">{{text.plain_text}}</option>
+                                        <option value="text/html">{{ __( 'HTML Mail', 'pm' ) }}</option>
+                                        <option value="text/plain" selected="selected">{{ __( 'Plain Text', 'pm' ) }}</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_mails[email_bcc_enable]">{{text.send_email_via_Bcc}}</label>
+                                    <label for="pm_mails[email_bcc_enable]">{{ __( 'Send email via Bcc', 'pm' ) }}</label>
                                 </th>
                                 <td>
                                     <fieldset>
                                         <label for="wpuf-pm_mails[email_bcc_enable]">
                                             <input v-model="enable_bcc" type="checkbox" class="checkbox">
-                                            {{text.enable_bcc}}
+                                            {{ __( 'Enable Bcc', 'pm' ) }}
                                         </label>
                                     </fieldset>
                                 </td>
@@ -58,7 +58,7 @@
                     </table>                            
                     <div style="padding-left: 10px">
                         <p class="submit">
-                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="text.save_changes">
+                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="__( 'Save Changes', 'pm' )">
                             <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>                            
                     </div>

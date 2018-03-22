@@ -9,8 +9,8 @@
          <notify-user v-model="notify_users"></notify-user>
                
         <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.add_new_comment" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="text.update_comment" id="" />
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Add New Comment', 'pm' )" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Update Comment', 'pm' )" id="" />
             <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
     </form>

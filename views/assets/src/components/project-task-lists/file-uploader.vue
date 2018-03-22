@@ -13,7 +13,8 @@
      
                            
             </div>
-           To attach, <a id="pm-upload-pickfiles%s" href="#">select files</a> from your computer.
+            {{ sprintf('To attach, %1$s select files %2$s from your computer.', '<a id="pm-upload-pickfiles" href="#">', '</a>') }}
+           
         </div>
     </div>
 </template>

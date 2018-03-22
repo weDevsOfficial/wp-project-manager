@@ -171,7 +171,7 @@
                                                 
                                             </span>
 
-                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{text.comments}}</span>
+                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'pm' ) }}</span>
                                     </div>
                                 </div>
 
@@ -184,7 +184,7 @@
                                         <span v-if="task.description !== ''" v-html="task.description"></span>
                                         <span style="margin-left: -3px;" v-if="!task.description">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-                                            &nbsp;{{text.updata_description}}
+                                            &nbsp;{{ __( 'Update Description', 'pm' ) }}
                                         </span>
 
                                     </p>
@@ -199,7 +199,7 @@
                                             
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode" class="pm-help-text">
-                                        <span>{{text.line_break}}</span>
+                                        <span>{{ __( 'Shift+Enter for line break', 'pm' ) }}</span>
                                     </div>
                                     
                                     <div class="clearfix pm-clear"></div>

@@ -15,6 +15,10 @@ export default {
 
     },
     methods: {
+        __ (text, domain) {
+            return pm.i18n.__(text, domain);
+        },
+        sprintf : pm.i18n.sprintf,
         user_can (cap) {
             return pmUserCan( cap, this.$store.state.project );
         },
@@ -621,7 +625,7 @@ export default {
         },
 
         deleteProject (id) {
-            if ( ! confirm( this.text.delete_project_conf ) ) {
+            if ( ! confirm( this.__( 'Are you sure! Want to delete the project?', 'pm' ) ) ) {
                 return;
             }
             var self = this;

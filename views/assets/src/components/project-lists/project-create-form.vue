@@ -5,20 +5,20 @@
 
         <div class="pm-form-item project-name">
             <!-- v-model="project_name" -->
-            <input type="text" v-model="project.title" name="project_name" id="project_name" :placeholder="text.name_of_the_project" value="" size="45" />
+            <input type="text" v-model="project.title" name="project_name" id="project_name" :placeholder="__( 'Name of the project', 'pm' )" value="" size="45" />
         </div>
 
         <div class="pm-form-item project-category">
             <!-- v-model="project_cat" -->
             <select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' style="height: 35px;">
-                <option value="0">{{text.project_category}}</option>
+                <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
                 <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
             </select>
         </div>
 
         <div class="pm-form-item project-detail">
             <!-- v-model="project_description" -->
-            <textarea v-model="project.description" name="project_description" class="pm-project-description" id="" cols="50" rows="3" :placeholder="text.project_dsc_input"></textarea>
+            <textarea v-model="project.description" name="project_description" class="pm-project-description" id="" cols="50" rows="3" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
         </div>
 
         <div class="pm-form-item pm-project-role" v-if="show_role_field">
@@ -34,7 +34,7 @@
                     <td>
                         <a @click.prevent="deleteUser(projectUser)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                             <span class="dashicons dashicons-trash"></span> 
-                            <span class="title">{{text.delete}}</span>
+                            <span class="title">{{ __( 'Delete', 'pm' ) }}</span>
                         </a>
                     </td>
                 </tr>
@@ -42,26 +42,26 @@
         </div>
         
         <div class="pm-form-item project-users" v-if="show_role_field">
-            <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="text.project_user_input" size="45">
+            <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="__( 'Type 3 or more characters to search users...', 'pm' )" size="45">
         </div>
 
         <div class="pm-form-item project-notify">
             <label>
                 <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
-                {{text.notify_co_workers}}            
+                {{ __( 'Notify Co-Workers', 'pm' ) }}            
             </label>
         </div>
 
         <div class="submit">
-            <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="text.update_project">
-            <input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="text.create_a_project">
-            <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{text.cancel}}</a>
+            <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="__( 'Update Project', 'pm' )">
+            <input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="__( 'Add New Project', 'pm' )">
+            <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
             <span v-show="show_spinner" class="pm-loading"></span>
 
         </div>
 
     </form>
-    <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="text.create_a_new_user">
+    <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="__( 'Create a new user', 'pm' )">
         <project-new-user-form></project-new-user-form>
     </div>
 </div>

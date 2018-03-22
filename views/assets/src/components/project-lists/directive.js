@@ -71,8 +71,8 @@ var Project = {
             }
 
         } ).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-            var no_user = context.text.no_user_found,
-                create_new_user = context.text.create_new_user;
+            var no_user = context.__( 'No users found.', 'pm' ),
+                create_new_user = context.__( 'Create a new user', 'pm' );
             if ( item.email ) {
                 return $( "<li>" )
                 .append( '<a>'+item.display_name+'</a>' )

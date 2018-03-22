@@ -277,7 +277,7 @@ export default {
          * @return {void}      
          */
         deleteMilestone ( args ) {
-            if ( ! confirm( this.text.milestone_delete_conf ) ) {
+            if ( ! confirm( this.__( 'Are you sure! Want to delete this milestones?', 'pm' ) ) ) {
                 return;
             }
             var pre_define = {

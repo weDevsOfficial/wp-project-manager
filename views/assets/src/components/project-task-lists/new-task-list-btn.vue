@@ -4,7 +4,7 @@
         <a  @click.prevent="showHideListForm('toggle')" href="#" class="pm-btn pm-btn-blue pm-margin-bottom add-tasklist pm-btn-uppercase">
             <i v-if="!show_list_form" class="fa fa-plus-circle" aria-hidden="true"></i>
             <i v-if="show_list_form" class="fa fa-minus-circle" aria-hidden="true"></i>
-            {{text.new_task_list}}
+            {{ __( 'New Task List', 'pm' ) }}
         </a>
     </div>
 </template>
