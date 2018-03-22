@@ -12,7 +12,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
  if ( cpm_user_can_access( $project_id, 'msg_view_private' ) ) {
             $messages = $msg_obj->get_all( $project_id, true );
         } else {
-            $messages = $msg_obj->get_users_all_message( $project_id );
+            $messages = $msg_obj->get_all( $project_id );
         }
  if ( $messages ) {
 ?>
@@ -68,7 +68,7 @@ $can_create = cpm_user_can_access( $project_id, 'create_message' );
             </div>
 
             <div class="cpm-col-2 cpm-last-col cpm-right comment-count" itemref="<?php echo cpm_url_single_message($project_id, $message->ID) ?>">
-                 <?php printf( _n( '1 Comment', '%d Comments', $message->comment_count, 'cpm' ), cpm_get_number( $message->comment_count ) ); ?>
+                 <?php printf( _n( '%d Comment', '%d Comments', $message->comment_count, 'cpm' ), cpm_get_number( $message->comment_count ) ); ?>
             </div>
 
                 <div class="clear"></div>
