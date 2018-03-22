@@ -69,30 +69,30 @@ class WeForms_Upsell {
                 <img src="https://wedevs-com-wedevs.netdna-ssl.com/wp-content/uploads/2017/08/weforms-upsell.png" width="272" height="71" alt="weForms Logo">
             </div>
             <div class="weforms-upsell-text">
-                <h2>weForms is here!</h2>
+                <h2><?php _e( 'weForms is here!', 'cpm' ); ?></h2>
 
-                <p>weForms is the next generation contact form plugin for WordPress.</p>
+                <p><?php _e( 'weForms is the next generation contact form plugin for WordPress.', 'cpm' ); ?></p>
             </div>
             <div class="weforms-upsell-cta">
-                <button id="weforms-upsell-prompt-btn" class="button"><?php _e( 'Install Now', 'weforms' ); ?></button>
-                &nbsp;<a href="#" class="learn-more" data-tube="NJvjy9WFyAM">Learn More</a>
+                <button id="weforms-upsell-prompt-btn" class="button"><?php _e( 'Install Now', 'cpm' ); ?></button>
+                &nbsp;<a href="#" class="learn-more" data-tube="NJvjy9WFyAM"><?php _e( 'Learn More', 'cpm' ); ?></a>
             </div>
-            <button type="button" class="notice-dismiss" style="padding: 3px;" title="<?php _e( 'Dismiss this notice.' ); ?>">
-                <span class="screen-reader-text"><?php _e( 'Dismiss this notice.' ); ?></span>
+            <button type="button" class="notice-dismiss" style="padding: 3px;" title="<?php _e( 'Dismiss this notice.', 'cpm' ); ?>">
+                <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'cpm' ); ?></span>
             </button>
         </div>
 
         <div class="weforms-upsell-modal" id="weforms-upsell-modal">
             <a class="close">
                 &times;
-                <span class="screen-reader-text">Close modal window</span>
+                <span class="screen-reader-text"><?php _e( 'Close modal window', 'cpm' ); ?></span>
             </a>
             <div class="video-wrap">
                 <iframe id="weforms-upsell-modal-iframe" width="1280" height="720" src="" frameborder="0" allowfullscreen></iframe>
             </div>
 
             <div class="learn-more">
-                <a href="<?php echo $this->learn_more_link(); ?>" target="_blank" class="button button-primary">Learn more about weForms</a>
+                <a href="<?php echo $this->learn_more_link(); ?>" target="_blank" class="button button-primary"><?php _e( 'Learn more about weForms', 'cpm' ); ?></a>
             </div>
         </div>
         <div class="weforms-upsell-modal-backdrop" id="weforms-upsell-modal-backdrop"></div>
@@ -235,7 +235,7 @@ class WeForms_Upsell {
 
                     e.preventDefault();
                     self.addClass('install-now updating-message');
-                    self.text('<?php echo esc_js( 'Installing...' ); ?>');
+                    self.text('<?php echo esc_js( __( 'Installing...', 'cpm' ) ); ?>');
 
                     wp.ajax.send( 'weforms_upsell_installer', {
                         data: {
@@ -243,7 +243,7 @@ class WeForms_Upsell {
                         },
 
                         success: function(response) {
-                            self.text('<?php echo esc_js( 'Installed' ); ?>');
+                            self.text('<?php echo esc_js( __( 'Installed', 'cpm' ) ); ?>');
                             window.location.href = '<?php echo admin_url( 'admin.php?page=weforms' ); ?>';
                         },
 
@@ -350,7 +350,7 @@ class WeForms_Upsell {
         check_ajax_referer( 'weforms_upsell_installer' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You do not have permission to install the plugins.' ) );
+            wp_send_json_error( __( 'You do not have permission to install the plugins.', 'cpm' ) );
         }
 
         if ( ! class_exists( 'WP_User_Frontend' ) ) {
