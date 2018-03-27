@@ -106,6 +106,7 @@ class Commands extends Cli {
             'pm_role_user',
             'pm_settings',
             'pm_tasks',
+            'pm_time_tracker',
             'pm_gantt_chart_links'
         ];
         foreach ($tables as $table) {
@@ -116,6 +117,7 @@ class Commands extends Cli {
         delete_option('pm_db_migration');
         delete_option('pm_observe_migration');
         delete_option('pm_migration_notice');
+        delete_option('pm_task_migration');
 
         \WP_CLI::success( "Table truncate successfully!" );
     }
