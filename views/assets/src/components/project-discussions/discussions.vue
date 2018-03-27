@@ -161,7 +161,6 @@
             }
         },
         created () {
-            console.log(this);
             this.getGlobalMilestones();
             this.discussQuery();
         },

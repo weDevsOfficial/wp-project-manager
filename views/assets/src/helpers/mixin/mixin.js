@@ -625,7 +625,7 @@ export default {
         },
 
         deleteProject (id) {
-            if ( ! confirm( this.__( 'Are you sure! Want to delete the project?', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure to delete this project?', 'pm' ) ) ) {
                 return;
             }
             var self = this;
