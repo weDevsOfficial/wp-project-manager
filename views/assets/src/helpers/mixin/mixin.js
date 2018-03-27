@@ -728,7 +728,7 @@ export default {
 
             };
             var args = jQuery.extend(true, pre_define, args);
-
+            
             jQuery('#'+id).preloader(args);
         },
 

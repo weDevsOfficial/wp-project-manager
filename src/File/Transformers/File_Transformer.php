@@ -27,8 +27,16 @@ class File_Transformer extends TransformerAbstract {
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
             'attached_at'   => format_date( $item->created_at ),
+            'fileable'      => $this->get_fileabel($item)
         ];
 
         return array_merge( $model_data, $file );
+    }
+
+    public function get_fileabel( $item ) {
+
+        if ( $item->fileable_type == 'comment') {
+            return $item->comments()->get()->toArray();
+        }
     }
 }
