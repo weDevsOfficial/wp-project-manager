@@ -27,13 +27,15 @@ class Upgrade_2_0 extends WP_Background_Process
     /**
      * @var string
      */
-    protected $action = 'pm_db_migration_2_0';
+    protected $action        = 'pm_db_migration_2_0';
     protected $pm_queue_data = [];
-    protected $milestons = [];
-    protected $discuss = [];
-    protected $tasks = [];
-    protected $task_lists = [];
-    protected $comments = [];
+    protected $milestons     = [];
+    protected $discuss       = [];
+    protected $tasks         = [];
+    protected $task_lists    = [];
+    protected $comments      = [];
+    protected $taskParent    = [];
+    protected $kanboard_section = [];
 
     public $isProcessRuning = false;
     
@@ -61,44 +63,343 @@ class Upgrade_2_0 extends WP_Background_Process
         switch ( $type ) {
             case 'project':
                 $this->upgrade_projects($item['id']);
-                
                 break;
 
             case 'milestone':
                 $this->milestons[$item['post']['ID']] = $this->create_milestone( $item['post'], $item['newProjectID'] );
-                
                 break;
 
             case 'discuss':
-                $this->discuss[$item['post']['ID']] = $this->create_discuss( $item['post'], $item['newProjectID'] );
-                $this->get_comments( $this->discuss, $item['newProjectID'], 'discussion_board' );
+                $new_discuss = $this->create_discuss( $item['post'], $item['newProjectID'] );
+                $this->discuss[$item['post']['ID']] = $new_discuss;
+                $this->get_comments( [$item['post']['ID'] => $new_discuss], $item['newProjectID'], 'discussion_board' );
                 $this->pm_update_queue();
                 break;
 
             case 'task':
-                $this->tasks[$item['post']['ID']] = $this->create_task( $item['post'], $item['newProjectID'],  $item['listitems'], $item['list'],  $item['parent'] );
-                $this->get_comments( $this->tasks, $item['newProjectID'], 'task' );
+
+                $new_task_id = $this->create_task( 
+                    $item['post'], 
+                    $item['newProjectID'],  
+                    $item['listitems'], 
+                    $item['list'],  
+                    $item['parent'], 
+                    $item['old_project_id'] 
+                );
+                
+                $this->tasks[$item['post']['ID']] = $new_task_id;
+
+                $this->get_subtask( $item['id'], $new_task_id, $item['newProjectID'], $item['listitems'] );
+                $this->get_time_tracker( $item['old_project_id'], $item['newProjectID'], $item['listitems'], [$item['post']['ID'] => $new_task_id] );
+                $this->set_kanboard_task( [$item['post']['ID'] => $new_task_id], $item );
+                $this->get_comments( [$item['post']['ID'] => $new_task_id], $item['newProjectID'], 'task' );
                 $this->pm_update_queue();
                 break;
 
             case 'task_list':
-                $this->task_lists[$item['post']['ID']] = $this->create_task_list( $item['post'], $item['newProjectID'] );
-                $this->get_tasks( $item['newProjectID'], $this->task_lists );
-                $this->get_comments( $this->task_lists, $item['newProjectID'], 'task_list' );
+                $new_list_id = $this->create_task_list( $item['post'], $item['newProjectID'] );
+                $this->task_lists[$item['post']['ID']] = $new_list_id;
+                $this->get_tasks( $item['oldProjectId'], $item['newProjectID'], [$item['post']['ID'] => $new_list_id] );
+
+                $this->get_comments( [$item['post']['ID'] => $new_list_id], $item['newProjectID'], 'task_list' );
                 $this->pm_update_queue();
                 break;
 
             case 'comment':
                 $this->comments[$item['comment']['comment_ID']] = $this->create_comments( $item['comment'], $item['newProjectID'], $item['commentable_type'], $item['id'] );
-                
+                break;
+            
+            case 'activity':
+                $this->created_activity( $item['activity'], $item['resource_id'], $item['resource_type'], $item['meta'], $item['newProjectId'] );
+                break;
+
+            case 'time_tracker':
+                $this->create_time_tracker($item);
+                break;
+
+            case 'subtask':
+                $this->create_subtask( $item );
                 break;
             
             default:
                 # code...
                 break;
         }
-    
+     
         return false;
+    }
+
+    function set_kanboard_task( $tasks, $item ) {
+        if( is_array( $tasks ) && !empty( $tasks ) ) {
+            foreach ( $tasks as $oldTaskId => $newTaskId ) {
+                $section_id = get_post_meta( $oldTaskId, '_section_id', true );
+                $order = get_post_meta( $oldTaskId, '_kanboard_order', true );
+
+                if ( empty( $section_id ) ){
+                    continue ;
+                }
+
+                $this->save_object( new Boardable, [
+                    'board_id'       => $this->kanboard_section[$item['newProjectID']][$section_id],
+                    'board_type'     => 'kanboard',
+                    'boardable_id'   => $newTaskId,
+                    'boardable_type' => 'task',
+                    'order'          => $order,
+                    'created_by'     => $item['post']['post_author'],
+                    'updated_by'     => $item['post']['post_author'],
+                    'created_at'     => $item['post']['post_date'],
+                    'updated_at'     => $item['post']['post_modified'],
+                ] ); 
+            }
+        }
+    }
+
+    function get_subtask( $old_task_id, $new_task_id, $new_project_id, $listitems ) {
+        global $wpdb;
+        $old_sub_tasks = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent={$old_task_id} AND post_status='publish'", ARRAY_A );
+        $new_list_id   = reset( $listitems );
+        
+        foreach ( $old_sub_tasks as $key => $subtask ) {
+            $this->pm_queue_data[] = [
+                'type'        => 'subtask',
+                'title'       => $subtask['post_title'],
+                'description' => $subtask['post_content'],
+                'status'      => get_post_meta( $subtask['ID'], '_completed', true),
+                'project_id'  => $new_project_id, 
+                'start_at'    => get_post_meta( $subtask['ID'], '_start', true),
+                'due_date'    => get_post_meta( $subtask['ID'], '_due', true),
+                'parent_id'   => $new_task_id,
+                'created_by'  => $subtask['post_author'],
+                'updated_by'  => $subtask['post_author'],
+                'created_at'  => $subtask['post_date'],
+                'updated_at'  => $subtask['post_modified'],
+                'board_id'    => $new_list_id,
+                'menu_order'  => $subtask['menu_order'],
+                'subtask'     => $subtask
+            ];
+        }
+    }
+
+    function create_subtask( $item ) {
+        $new_sub_task = $this->save_object( 
+            new Task,
+            [
+                'title'       => $item['title'],
+                'description' => $item['description'],
+                'status'      => $item['status'],
+                'project_id'  => $item['project_id'], 
+                'start_at'    => $item['start_at'],
+                'due_date'    => $item['due_date'],
+                'parent_id'   => $item['parent_id'],
+                'created_by'  => $item['created_by'],
+                'updated_by'  => $item['updated_by'],
+                'created_at'  => $item['created_at'],
+                'updated_at'  => $item['updated_at'],
+            ]
+        );
+
+        $this->save_object( new Boardable, [
+            'board_id'       => $item['board_id'],
+            'board_type'     => 'task_list',
+            'boardable_id'   => $new_sub_task->id,
+            'boardable_type' => 'sub_task',
+            'order'          => $item['menu_order'],
+            'created_by'     => $item['created_by'],
+            'updated_by'     => $item['updated_by'],
+            'created_at'     => $item['created_at'],
+            'updated_at'     => $item['updated_at'],
+        ] );
+
+        $this->add_assignee( $new_sub_task, $item['subtask']['ID'] );
+
+    }
+
+    function migrate_file( $item ) {
+        $comments = [];
+        
+        $newFile = $this->add_file( [
+            'fileable_id'   => $item['fileable_id'],
+            'fileable_type' => $item['fileable_type'],
+            'parent'        => $item['parent'],
+            'type'          => $item['file_type'],
+            'attachment_id' => $item['attachment_id'],
+            'project_id'    => $item['project_id'],
+            'created_by'    => $item['created_by'],
+            'updated_by'    => $item['updated_by'],
+            'created_at'    => $item['created_at'],
+            'updated_at'    => $item['updated_at'],
+        ] );
+
+        if( $item['file']['post_id'] ){
+            $meta = $this->get_doc_meta( $item['file']['post_id'], $newFile->id, $item['project_id'] );
+            $comments[$item['file']['post_id']] = $newFile->id;
+        } elseif ( $item['file']['attachment_id'] ) {
+            $comments[$item['file']['attachment_id']] = $newFile->id;
+        }
+
+        $fileArr[$item['file']['id']] = $newFile->id;
+        $meta['private']      = $item['file']['private'] == 'yes' ? 1 : 0;
+
+        if ( !empty( $item['file']['dir_name'] ) ){
+            $meta['title']   = $item['file']['dir_name'];
+        }
+
+        $this->add_meta( $meta, $newFile, $item['project_id'], 'file' );
+
+        $this->set_post_attachment( $comments, $item['project_id'] );
+        $this->get_comments( $comments, $item['project_id'], 'file' );
+        $this->get_revision( $comments, $item['project_id'] );
+    }
+
+    function get_file( $OldProjectId, $newProjectID ) {
+        if ( !$OldProjectId ){
+            return ;
+        }
+        global $wpdb;
+        $table    = $wpdb->prefix . 'cpm_file_relationship';
+        $files    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
+        $fileArr  = [];
+        $comments = [];
+   
+        foreach ( $files as $file ) {
+            $metas = [];
+            $parent  = !empty( $fileArr[$file['parent_id']] ) ? $fileArr[$file['parent_id']]: 0;
+            if ( $file['is_dir'] == 1 ) {
+                $type = 'folder';
+            } else if ( $file['type'] == 'doc' ) {
+                $type = 'doc';
+            } else if ( $file['type'] == 'google_doc') {
+                $type = 'link';
+            } else {
+                $type = 'pro_file';
+            }
+            
+            // $this->pm_queue_data[] = [
+            //     'type'          => 'file',
+            //     'fileable_id'   => null,
+            //     'fileable_type' => 'file',
+            //     'parent'        => $parent,
+            //     'file_type'     => $type,
+            //     'attachment_id' => $file['attachment_id'],
+            //     'project_id'    => $newProjectID,
+            //     'created_by'    => $file['created_by'],
+            //     'updated_by'    => $file['created_by'],
+            //     'created_at'    => $file['created_at'],
+            //     'updated_at'    => $file['updated_at'],
+            //     'file'          => $file
+            // ];
+
+            $newFile = $this->add_file( [
+                'fileable_id'   => null,
+                'fileable_type' => 'file',
+                'parent'        => $parent,
+                'type'          => $type,
+                'attachment_id' => $file['attachment_id'],
+                'project_id'    => $newProjectID,
+                'created_by'    => $file['created_by'],
+                'updated_by'    => $file['created_by'],
+                'created_at'    => $file['created_at'],
+                'updated_at'    => $file['updated_at'],
+            ] );
+
+            if( $file['post_id'] ){
+                $meta = $this->get_doc_meta( $file['post_id'], $newFile->id, $newProjectID );
+                $comments[$file['post_id']] = $newFile->id;
+            }elseif ( $file['attachment_id'] ) {
+                $comments[$file['attachment_id']] = $newFile->id;
+            }
+
+            $fileArr[$file['id']] = $newFile->id;
+            $meta['private']      = $file['private'] == 'yes' ? 1 : 0;
+
+            if ( !empty( $file['dir_name'] ) ){
+                $meta['title']   = $file['dir_name'];
+            }
+
+            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
+        }
+
+        //$this->save()->dispatch();
+
+        $this->set_post_attachment( $comments, $newProjectID );
+        $this->get_comments( $comments, $newProjectID, 'file' );
+        $this->get_revision( $comments, $newProjectID );
+
+        return $fileArr;
+        
+    }
+
+    function get_doc_meta( $post_id, $docid, $newProjectID ) {
+        if ( !$post_id ) {
+            return ;
+        }
+        global $wpdb;
+        $post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID=%d", $post_id ) );
+        $meta = [];
+        $meta['title'] = $post->post_title;
+        $meta['description'] = $post->post_content;
+        if( !empty( $post->post_excerpt ) ){
+            $meta['url'] = $post->post_excerpt;
+        }
+
+        return $meta;
+    }
+
+    function set_post_attachment( $ids, $newProjectID ) {
+        if( empty( $ids ) ){
+            return ;
+        }
+        global $wpdb;
+        $in        = implode(',', array_keys($ids));
+        $attachments = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='attachment'", ARRAY_A);
+
+        foreach ( $attachments as $attachment ){
+            $this->add_file([
+                'fileable_id'   => $ids[$attachment['post_parent']],
+                'fileable_type' => 'file',
+                'parent'        => $ids[$attachment['post_parent']],
+                'type'          => 'doc',
+                'attachment_id' => $attachment["ID"],
+                'project_id'    => $newProjectID,
+                'created_by'    => $attachment['post_author'],
+                'updated_by'    => $attachment['post_author'],
+                'created_at'    => $attachment['post_date'],
+                'updated_at'    => $attachment['post_date'],
+            ]);
+        }
+    }
+    
+    function get_revision( $ids, $newProjectID ) {
+        if( empty( $ids ) ){
+            return ;
+        }
+        global $wpdb;
+        $in        = implode(',', array_keys($ids));
+        $revisions = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='revision'", ARRAY_A);
+        
+        foreach( $revisions as $revision ){
+            $meta=[];
+            $newFile = $this->add_file([
+                'fileable_id'   => null,
+                'fileable_type' => 'file',
+                'parent'        => $ids[$revision['post_parent']],
+                'type'          => 'revision',
+                'attachment_id' => null,
+                'project_id'    => $newProjectID,
+                'created_by'    => $revision['post_author'],
+                'updated_by'    => $revision['post_author'],
+                'created_at'    => $revision['post_date'],
+                'updated_at'    => $revision['post_date'],
+            ]);
+
+            $meta['title'] = $revision['post_title'];
+            $meta['description'] = $revision['post_content'];
+            if( !empty( $revision['post_excerpt'] ) ){
+                $meta['url'] = $revision ['post_excerpt'];
+            }
+
+            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
+        }
     }
 
     /**
@@ -108,6 +409,14 @@ class Upgrade_2_0 extends WP_Background_Process
      * performed, or, call parent::complete().
      */
     protected function complete() {
+        $this->gantt_upgrate();
+
+        $porjects = get_site_option( 'pm_db_migration', [] );
+        
+        foreach ( $porjects  as $old_project_id => $new_project_id ) {
+            $this->get_invoice( $old_project_id, $new_project_id );
+        }
+        
         // Unschedule the cron healthcheck.
         $this->clear_scheduled_event();
     }
@@ -136,30 +445,21 @@ class Upgrade_2_0 extends WP_Background_Process
             'updated_at'  => $oldProject->post_modified,
         ] );
 
+        //it should be execute after migrate only project
+        $this->get_kanboard( $project_id, $newProject);
+
         $this->create_project_role( $project_id, $newProject->id, $oldProject->post_author );
         $this->get_milestones( $project_id, $newProject->id );
         $this->get_discuss( $project_id, $newProject->id );
         $this->get_task_list( $project_id, $newProject->id );
 
+        $this->get_file( $project_id, $newProject->id );
 
-        //please check it next time
-        //$this->get_activity( $project_id, $newProject->id, $this->discuss, $this->task_lists, $this->tasks, $this->comments );
 
-        // $this->get_file( $project_id, $newProject->id );
-
-        // if ( !empty( $parents ) ) {
-        //     // for sub task
-        //    $this->get_tasks( $newProject->id, $tasks, $taskLists, $parents ); 
-        // }
-
-        // $this->add_time_tracker( $project_id, $newProject->id, $taskLists, $tasks );
-
-        // $this->set_project_settings( $project_id, $newProject );
-        // $this->set_bp_group( $project_id, $newProject );
-        // $this->get_kanboard( $project_id, $newProject, $tasks );
-        // $this->gantt_upgrate( $taskLists, $tasks, $parents );
-        // $this->get_invoice( $project_id, $newProject );
-
+        $this->get_activity( $project_id, $newProject->id, $this->discuss, $this->task_lists, $this->tasks, $this->comments );
+        $this->set_project_settings( $project_id, $newProject );
+        $this->set_bp_group( $project_id, $newProject );
+    
         //Update migration project count number
         $this->upgrade_observe_migration( [
             'projects' => true
@@ -229,13 +529,7 @@ class Upgrade_2_0 extends WP_Background_Process
     //     // upgrade complete function
     // }
 
-    /**
-     * Is the updater running?
-     * @return boolean
-     */
-    public function is_updating() {
-        return false === $this->is_queue_empty();
-    }
+
 
     /**
      * Get batch
@@ -820,8 +1114,8 @@ class Upgrade_2_0 extends WP_Background_Process
                 $this->add_file( [
                     'fileable_id'   => $newDiscuss->id,
                     'fileable_type' => 'discussion_board',
-                    'parent'        => $newDiscuss->id,
-                    'type'          => 'discussion_board',
+                    'parent'        => 0,
+                    'type'          => 'file',
                     'attachment_id' => $file,
                     'project_id'    => $newDiscuss->project_id,
                     'created_by'    => $newDiscuss->created_by,
@@ -857,10 +1151,11 @@ class Upgrade_2_0 extends WP_Background_Process
         foreach ( $oldTaskList as $post ) {
 
             $this->pm_queue_data[] = [
-                'type'         => 'task_list',
-                'id'           => $post['ID'],
-                'newProjectID' => $newProjectID,
-                'post'         => $post
+                'type'          => 'task_list',
+                'id'            => $post['ID'],
+                'newProjectID'  => $newProjectID,
+                'oldProjectId' => $oldProjectId,
+                'post'          => $post
             ];
         }
     }
@@ -906,7 +1201,7 @@ class Upgrade_2_0 extends WP_Background_Process
         return  $taskList->id;
     }
 
-    function get_tasks( $newProjectID, $listitems, $list = null, $parent = null ) {
+    function get_tasks( $oldProjectID, $newProjectID, $listitems, $list = null, $parent = null ) {
 
         if( empty( $listitems ) ) {
             return ;
@@ -926,7 +1221,7 @@ class Upgrade_2_0 extends WP_Background_Process
         foreach ( $oldTask as $post ) {
 
             if( $post['post_type'] == 'cpm_task' ){
-                $taskParent[$post['ID']] = $post['post_parent'];
+                $this->taskParent[$post['ID']] = $post['post_parent'];
             }
 
             $this->pm_queue_data[] = [
@@ -934,9 +1229,10 @@ class Upgrade_2_0 extends WP_Background_Process
                 'id'           => $post['ID'],
                 'listitems'    => $listitems,
                 'newProjectID' => $newProjectID,
+                'old_project_id' => $oldProjectID,
                 'list'         => $list,
                 'post'         => $post,
-                'parent'       => $parent
+                'parent'       => $parent,
             ];
         }
 
@@ -944,7 +1240,7 @@ class Upgrade_2_0 extends WP_Background_Process
         //return array( $tasks, $taskParent );
     }
 
-    function create_task( $post, $newProjectID,  $listitems, $list=null, $parent = null ) {
+    function create_task( $post, $newProjectID,  $listitems, $list=null, $parent = null, $old_project_id = 0 ) {
         if( !$post ){
             return ;
         }
@@ -995,7 +1291,20 @@ class Upgrade_2_0 extends WP_Background_Process
                 $this->add_meta( $meta,  $newTask, $newProjectID, $boardable_type );
             }
         }
+
         $this->add_assignee( $newTask, $post['ID'] );
+
+        $task_migrate_record = get_site_option( 'pm_task_migration' );
+
+        $task_migrate_record[] =  [
+            'old_project_id' => $old_project_id,
+            'new_project_id' => $newProjectID,
+            'old_task_id'    => $post['ID'],
+            'new_task_id'    => $newTask->id
+        ];
+        
+
+        update_site_option( 'pm_task_migration', $task_migrate_record );
 
         $this->upgrade_observe_migration( [
             'tasks' => true
@@ -1082,7 +1391,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 $this->add_file( [
                     'fileable_id'   => $newComment->id,
                     'fileable_type' => 'comment',
-                    'parent'        => $newComment->id,
+                    'parent'        => 0,
                     'type'          => 'file',
                     'attachment_id' => $file,
                     'project_id'    => $newComment->project_id,
@@ -1099,184 +1408,31 @@ class Upgrade_2_0 extends WP_Background_Process
         return $newComment->id;
     }
 
-
-    function get_file( $OldProjectId, $newProjectID ) {
-        if ( !$OldProjectId ){
-            return ;
-        }
-        global $wpdb;
-        $table   = $wpdb->prefix . 'cpm_file_relationship';
-        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
-        $fileArr = [];
-        $comments = [];
-        
-        foreach ( $files as $file ) {
-            $metas =[];
-            $parent  = !empty( $fileArr[$file['parent_id']] ) ? $fileArr[$file['parent_id']]: 0;
-            if( $file['is_dir'] == 1 ) {
-                $type = 'folder';
-            }elseif ( $file['type'] == 'doc' ) {
-                $type = 'doc';
-            }elseif ( $file['type'] == 'google_doc') {
-                $type = 'link';
-            }else{
-                $type = 'pro_file';
-            }
-
-            $this->push_to_queue( [
-                'type'          => 'file',
-                'fileable_id'   => null,
-                'fileable_type' => 'file',
-                'parent'        => $parent,
-                'file_type'     => $type,
-                'attachment_id' => $file['attachment_id'],
-                'project_id'    => $newProjectID,
-                'created_by'    => $file['created_by'],
-                'updated_by'    => $file['created_by'],
-                'created_at'    => $file['created_at'],
-                'updated_at'    => $file['updated_at'],
-            ] );
-
-            // $newFile = $this->add_file( [
-            //     'fileable_id'   => null,
-            //     'fileable_type' => 'file',
-            //     'parent'        => $parent,
-            //     'type'          => $type,
-            //     'attachment_id' => $file['attachment_id'],
-            //     'project_id'    => $newProjectID,
-            //     'created_by'    => $file['created_by'],
-            //     'updated_by'    => $file['created_by'],
-            //     'created_at'    => $file['created_at'],
-            //     'updated_at'    => $file['updated_at'],
-            // ] );
-
-            // if( $file['post_id'] ){
-            //     $meta = $this->get_doc_meta( $file['post_id'], $newFile->id, $newProjectID );
-            //     $comments[$file['post_id']] = $newFile->id;
-            // }elseif ( $file['attachment_id'] ) {
-            //     $comments[$file['attachment_id']] = $newFile->id;
-            // }
-
-            // $fileArr[$file['id']] = $newFile->id;
-            // $meta['private']      = $file['private'] == 'yes' ? 1 : 0;
-
-            // if ( !empty( $file['dir_name'] ) ){
-            //     $meta['title']   = $file['dir_name'];
-            // }
-
-            // $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
-        }
-
-        //$this->save()->dispatch();
-
-        $this->set_post_attachment( $comments, $newProjectID );
-        $this->get_comments( $comments, $newProjectID, 'file' );
-        $this->get_revision( $comments, $newProjectID );
-
-        return $fileArr;
-        
-    }
-
-    function get_doc_meta( $post_id, $docid, $newProjectID ) {
-        if ( !$post_id ) {
-            return ;
-        }
-        global $wpdb;
-        $post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID=%d", $post_id ) );
-        $meta = [];
-        $meta['title'] = $post->post_title;
-        $meta['description'] = $post->post_content;
-        if( !empty( $post->post_excerpt ) ){
-            $meta['url'] = $post->post_excerpt;
-        }
-
-        return $meta;
-    }
-
-    function set_post_attachment( $ids, $newProjectID ) {
-        if( empty( $ids ) ){
-            return ;
-        }
-        global $wpdb;
-        $in        = implode(',', array_keys($ids));
-        $attachments = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='attachment'", ARRAY_A);
-
-        foreach ( $attachments as $attachment ){
-            $this->add_file([
-                'fileable_id'   => $ids[$attachment['post_parent']],
-                'fileable_type' => 'file',
-                'parent'        => $ids[$attachment['post_parent']],
-                'type'          => 'doc',
-                'attachment_id' => $attachment["ID"],
-                'project_id'    => $newProjectID,
-                'created_by'    => $attachment['post_author'],
-                'updated_by'    => $attachment['post_author'],
-                'created_at'    => $attachment['post_date'],
-                'updated_at'    => $attachment['post_date'],
-            ]);
-        }
-    }
-    
-    function get_revision( $ids, $newProjectID ) {
-        if( empty( $ids ) ){
-            return ;
-        }
-        global $wpdb;
-        $in        = implode(',', array_keys($ids));
-        $revisions = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN({$in}) and post_type='revision'", ARRAY_A);
-        
-        foreach( $revisions as $revision ){
-            $meta=[];
-            $newFile = $this->add_file([
-                'fileable_id'   => null,
-                'fileable_type' => 'file',
-                'parent'        => $ids[$revision['post_parent']],
-                'type'          => 'revision',
-                'attachment_id' => null,
-                'project_id'    => $newProjectID,
-                'created_by'    => $revision['post_author'],
-                'updated_by'    => $revision['post_author'],
-                'created_at'    => $revision['post_date'],
-                'updated_at'    => $revision['post_date'],
-            ]);
-
-            $meta['title'] = $revision['post_title'];
-            $meta['description'] = $revision['post_content'];
-            if( !empty( $revision['post_excerpt'] ) ){
-                $meta['url'] = $revision ['post_excerpt'];
-            }
-
-            $this->add_meta( $meta, $newFile, $newProjectID, 'file' );
-        }
-    }
-
     function get_invoice( $oldProjectId, $newProject ) {
-        if( !$oldProjectId ){
-            return ;
+        $invoice = false;
+
+        if ( 
+            function_exists( 'pm_pro_is_module_inactive' ) 
+                && 
+            pm_pro_is_module_inactive( 'invoice/invoice.php' ) 
+        ) {
+            pm_pro_activate_module( 'invoice/invoice.php' );
+            $invoice = true;
         }
-        if( !class_exists( 'WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice' ) ){
-            return ;
-        }
-        if( function_exists('pm_pro_is_module_inactive') || pm_pro_is_module_inactive('invoice/invoice.php') ) {
-            return ;
-        }
+
         global $wpdb;
 
-        $oldInvoice   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_invoice', 'publish' ), ARRAY_A );
-
+        $oldInvoice   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s", $oldProjectId, 'cpm_invoice' ), ARRAY_A );
+        
         $invoice  = [];
 
         foreach ( $oldInvoice as $post ) {
-            //$invoice[$post['ID']] = $this->create_invoice( $post, $newProject );
-            $this->push_to_queue( [
-                'type'       => 'invoice',
-                'post'       => $post,
-                'newProject' => $newProject,
-                'post_id'    => $post['ID']
-            ] );
+            $invoice[$post['ID']] = $this->create_invoice( $post, $newProject );
         }
         
-        //$this->save()->dispatch();
+        if ( $invoice ) {
+            pm_pro_deactivate_module( 'invoice/invoice.php' );
+        }
 
     }
 
@@ -1292,7 +1448,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'terms'          => get_post_meta( $post['ID'], 'terms', true ),
             'client_note'    => $post['post_content'],
             'items'          => serialize( $this->get_invoice_item( $post, $newProject ) ),
-            'project_id'     => $newProject->id,
+            'project_id'     => $newProject,
             'status'         => get_post_meta( $post['ID'], 'statue', true ) == 'paid' ? 1 : 0,
             'created_by'     => $post['post_author'],
             'updated_by'     => $post['post_author'],
@@ -1318,7 +1474,7 @@ class Upgrade_2_0 extends WP_Background_Process
                         'notes'   => $payment['notes'],
                         'gateway' => $payment['method']
                     ]),
-                    'project_id' => $newProject->id,
+                    'project_id' => $newProject,
                     'created_by'  => $invoice->client_id,
                     'updated_by'  => $invoice->client_id,
                     'created_at'  => $payment_date,
@@ -1370,7 +1526,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return [];
         }
 
-        $task = Task::where('title', $title )->where( 'project_id', $newProject->id )->first();
+        $task = Task::where('title', $title )->where( 'project_id', $newProject )->first();
 
         if( ! $task->id ) {
             return [];
@@ -1456,7 +1612,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
     }
 
-    function get_kanboard( $oldProjectId, $newProject, $tasks ) {
+    function get_kanboard( $oldProjectId, $newProject ) {
         $sections    = get_post_meta( $oldProjectId, '_custom_section', true );
         $newSections = array();
 
@@ -1478,102 +1634,56 @@ class Upgrade_2_0 extends WP_Background_Process
             ]);
             $newSections[$section['section_id']] = $newBoard->id;
         }
-        if( is_array( $tasks ) && !empty( $tasks ) ) {
-            foreach ( $tasks as $oldTaskId => $newTaskId ) {
-                $section_id = get_post_meta( $oldTaskId, '_section_id', true );
-                $order = get_post_meta( $oldTaskId, '_kanboard_order', true );
-
-                if ( empty( $section_id ) ){
-                    continue ;
-                }
-
-                $this->save_object( new Boardable, [
-                    'board_id'       => $newSections[$section_id],
-                    'board_type'     => 'kanboard',
-                    'boardable_id'   => $newTaskId,
-                    'boardable_type' => 'task',
-                    'order'          => $order,
-                    'created_by'     => $newProject->created_by,
-                    'updated_by'     => $newProject->updated_by,
-                    'created_at'     => $newProject->created_at,
-                    'updated_at'     => $newProject->updated_at,
-                ] ); 
-            }
-        }
-        
+        $this->kanboard_section[$newProject->id] = $newSections;
     }
 
-    function gantt_upgrate( $taskLists, $tasks, $taskParent ) {
-        if(!class_exists( 'WeDevs\PM_Pro\Modules\Gantt\src\Models\Gantt' ) ) {
-            return ;
+    function gantt_upgrate() {
+        $gantt = false;
+
+        if ( 
+            function_exists('pm_pro_is_module_inactive') 
+                && 
+            pm_pro_is_module_inactive('gantt/gantt.php') 
+        ) {
+            pm_pro_activate_module('gantt/gantt.php');
+            $gantt = true;
         }
 
-        if( function_exists('pm_pro_is_module_inactive') && pm_pro_is_module_inactive('gantt/gantt.php') ) {
-            return ;
-        }
+        $task_relation = [];
+        $tasks = get_site_option( 'pm_task_migration' );
 
-        // $this->set_gantt_data( $taskLists, $taskLists, $tasks );
-        // $this->set_gantt_data( $tasks, $taskLists, $tasks );
+        foreach ( $tasks as $key => $value ) {
+            $task_relation[$value['old_task_id']] = $value['new_task_id'];
+        }
+        $old_task_links = wp_list_pluck( $tasks, 'old_task_id' );
+
         if( is_array( $tasks ) ){
-            foreach ( $tasks as $old => $new ) {
+            foreach ( $tasks as $task_obj ) {
+                $new =  intval( $task_obj['new_task_id'] );
+                $old =  intval( $task_obj['old_task_id'] );
                 $links = get_post_meta( $old, '_link', true );
                 if( empty( $links ) ) {
                     continue ;
                 }
                 
                 foreach ( $links as $link ) {
-                    if ( array_key_exists( $link, $tasks ) ) {
+                    if ( in_array( $link, $old_task_links ) ) {
                         $this->save_object( new Gantt, [
                             'source' => $new,
-                            'target' => $tasks[$link],
+                            'target' => $task_relation[$link],
                             'type'   => 1,
                         ]);
                     }
                 }
             }
         }
-        // if( !empty( $taskParent ) ) {
-        //     foreach ( $taskParent as $task => $list ) {
-        //         $this->save_object( new Gantt, [
-        //             'source' => $taskLists[$list],
-        //             'target' => $tasks[$task],
-        //             'type'   => 2,
-        //         ]);
-        //     }
-        // }
-    }
 
-    function set_gantt_data( $items, $taskLists, $tasks  ) {
-
-        if(!is_array( $items ) && empty( $items ) ) {
-            return ;
-        }
-
-        foreach ( $items as $old => $new ) {
-            $links = get_post_meta( $old, '_link', true );
-
-            if( empty( $links ) ) {
-                continue ;
-            }
-
-            foreach ( $links as $link ) {
-                // if ( array_key_exists( $link, $taskLists ) ) {
-                //     $this->save_object( new Gantt, [
-                //         'source' => $new,
-                //         'target' => $taskLists[$link],
-                //         'type'   => 1,
-                //     ]);
-                // }
-                if ( array_key_exists( $link, $tasks ) ) {
-                    $this->save_object( new Gantt, [
-                        'source' => $new,
-                        'target' => $tasks[$link],
-                        'type'   => 1,
-                    ]);
-                }
-            }
+        if ( $gantt) {
+            pm_pro_deactivate_module('gantt/gantt.php');
         }
     }
+
+
 
     function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
         if( !$oldProjectId ) {
@@ -1640,11 +1750,16 @@ class Upgrade_2_0 extends WP_Background_Process
                        
                 }
             }
-            $this->created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId );
-              
+
+            $this->pm_queue_data[] = [
+                'type'          => 'activity',
+                'activity'      => $activity,
+                'resource_id'   => $resource_id,
+                'resource_type' => $resource_type,
+                'meta'          => $meta,
+                'newProjectId'  => $newProjectId
+            ];
         }
-        
-        
     }
 
     function created_activity( $activity, $resource_id, $resource_type, $meta, $newProjectId ) {
@@ -1692,7 +1807,7 @@ class Upgrade_2_0 extends WP_Background_Process
         return array($attr, $text);
     }
 
-    function add_time_tracker( $oldProjectId, $newProjectID, $taskList, $tasks ) {
+    function get_time_tracker( $oldProjectId, $newProjectID, $taskList, $tasks ) {
         if ( !$oldProjectId ){
             return ;
         }
@@ -1706,13 +1821,17 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         global $wpdb;
-        $table = $wpdb->prefix. 'cpm_time_tracker';
-        $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE  project_id = {$oldProjectId}", ARRAY_A );
+        $old_task_id = key($tasks);
+        $table       = $wpdb->prefix. 'cpm_time_tracker';
+        $timetracker = $wpdb->get_results( "SELECT * FROM {$table} WHERE task_id = {$old_task_id} AND  project_id = {$oldProjectId}", ARRAY_A );
+        
         if ( is_wp_error( $timetracker ) ) {
             return;
         }
+        
         foreach( $timetracker as $time ){
-            $this->save_object( new Time_Tracker, [
+            $this->pm_queue_data[] = [
+                'type'       => 'time_tracker',
                 'user_id'    => $time['user_id'],
                 'project_id' => $newProjectID,
                 'list_id'    => $taskList[$time['tasklist_id']],
@@ -1721,11 +1840,32 @@ class Upgrade_2_0 extends WP_Background_Process
                 'stop'       => $time['stop'],
                 'total'      => $time['total'],
                 'run_status' => $time['run_status'] == 'no' ? 0 : 1 
-            ] );
+            ];
+            // $this->save_object( new Time_Tracker, [
+            //     'user_id'    => $time['user_id'],
+            //     'project_id' => $newProjectID,
+            //     'list_id'    => $taskList[$time['tasklist_id']],
+            //     'task_id'    => $tasks[$time['task_id']],
+            //     'start'      => $time['start'],
+            //     'stop'       => $time['stop'],
+            //     'total'      => $time['total'],
+            //     'run_status' => $time['run_status'] == 'no' ? 0 : 1 
+            // ] );
         }
+    }
 
-
-
+    function create_time_tracker( $time ) {
+        
+        $this->save_object( new Time_Tracker, [
+            'user_id'    => $time['user_id'],
+            'project_id' => $time['project_id'],
+            'list_id'    => $time['list_id'],
+            'task_id'    => $time['task_id'],
+            'start'      => $time['start'],
+            'stop'       => $time['stop'],
+            'total'      => $time['total'],
+            'run_status' => $time['run_status'] 
+        ] );
     }
 
     function add_file( $arr ) {
@@ -1904,7 +2044,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 'description'      => $term->description, 
                 'categorible_type' =>'project',
             ]);
-            $projects = get_site_option( "pm_db_migration", array() );
+            $projects = get_site_option( "pm_db_migration", [] );
 
             $pterm = $terms_releation->where( 'term_taxonomy_id', $term->term_taxonomy_id )->pluck('object_id')->all();
 

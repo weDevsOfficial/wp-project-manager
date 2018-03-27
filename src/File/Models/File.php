@@ -5,6 +5,8 @@ namespace WeDevs\PM\File\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\User\Models\User;
+use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Common\Models\Board;
 
 class File extends Eloquent {
     use Model_Events;
@@ -22,4 +24,8 @@ class File extends Eloquent {
         'created_by',
         'updated_by'
     ];
+
+    public function comments() {
+        return $this->belongsToMany(Board::class, 'pm_comments', 'id', 'commentable_id', 'fileable_id');
+    }
 }
