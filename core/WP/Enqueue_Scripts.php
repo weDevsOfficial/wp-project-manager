@@ -75,7 +75,7 @@ class Enqueue_Scripts {
 				'dir_url'                  => config('frontend.url'),
 				'is_pro'                   => $wedevs_pm_pro,
 				'is_admin'                 => is_admin(),
-				'language'                 => pm_get_jed_locale_data('pm')
+				'language'                 => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data('pm') ] )
         ));
 	}
 }
