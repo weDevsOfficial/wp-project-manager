@@ -16,8 +16,6 @@
 
 
             <div v-if="!loading">
-                
-
                 <ul class="pm-folders-list">
                     <li class="file" v-for="file in files">
 
@@ -103,6 +101,10 @@
                 if (file.fileable_type === 'discussion_board') {
                     return 'Discuss';
                 }
+
+                if (file.fileable_type === 'comment') {
+                    return 'Comment';
+                }
             },
 
             contentURL(file) {
@@ -120,8 +122,25 @@
                     case 'task':
                         return '#/'+self.project_id+'/task/'+file.fileable_id;
                         break;
+                    case 'comment':
+                        return self.getCommentUrl(file);
+                        break;
 
                     default:
+                        break;
+                }
+            },
+
+            getCommentUrl (file) {
+                var self = this;
+                
+                switch(file.fileable[0].type) {
+                    case 'task_list':
+                        return '#/'+self.project_id+'/task-lists/'+file.fileable[0].id;
+                        break;
+
+                    case 'discussion_board':
+                        return '#/'+self.project_id+'/discussions/'+file.fileable[0].id;
                         break;
                 }
             }
