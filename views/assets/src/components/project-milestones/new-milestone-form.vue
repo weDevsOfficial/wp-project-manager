@@ -1,7 +1,7 @@
 <template>
     <form class="pm-milestone-form" @submit.prevent="milestoneFormAction()">
         <div class="item milestone-title">
-            <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" :placeholder="text.milestone_name">
+            <input v-model="milestone.title" name="milestone_name" class="required" type="text" id="milestone_name" value="" :placeholder="__( 'Milestone name', 'pm' )">
         </div>
         
         <div class="item due">
@@ -13,9 +13,9 @@
         </div>
         <pm-do-action hook="pm_milestone_form" :actionData="milestone" ></pm-do-action>
         <div class="submit">
-            <input v-if="!milestone.id" type="submit" name="create_milestone" id="create_milestone" class="button-primary" :value="text.add_milestone">
-            <input v-if="milestone.id" type="submit" name="update_milestone" id="update_milestone" class="button-primary" :value="text.update_milestone">
-            <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel" data-milestone_id="0" href="#">{{text.cancel}}</a>
+            <input v-if="!milestone.id" type="submit" name="create_milestone" id="create_milestone" class="button-primary" :value="__( 'Add Milestone', 'pm' )">
+            <input v-if="milestone.id" type="submit" name="update_milestone" id="update_milestone" class="button-primary" :value="__( 'Update Milestone', 'pm' )">
+            <a @click.prevent="showHideMilestoneForm(false, milestone)" class="button milestone-cancel">{{  __( 'Cancel', 'pm' ) }}</a>
             <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
         

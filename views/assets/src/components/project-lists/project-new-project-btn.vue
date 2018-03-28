@@ -1,6 +1,6 @@
 <template>
     <a href="#" id="pm-create-project" @click.prevent="is_popup_active()" class="pm-btn pm-plus-white pm-btn-uppercase">
-        <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ text.create_a_project}}
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ __( 'New Project', 'pm' ) }}
     </a>
 </template>
 

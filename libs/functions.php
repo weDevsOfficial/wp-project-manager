@@ -435,10 +435,13 @@ function pm_log( $type = '', $msg = '' ) {
     }
 }
 
-function pm_get_translations_for_plugin_domain( $domain ) {
+function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
 
-    $lang_dir      = config('frontend.patch') . '/languages/';
-    $languages     = get_available_languages( $lang_dir );
+    if ( $language_dir == null ) {
+        $language_dir      = config('frontend.patch') . '/languages/';
+    }
+    
+    $languages     = get_available_languages( $language_dir );
     $get_site_lang = is_admin() ? get_user_locale() : get_locale();
     $mo_file_name  = $domain .'-'. $get_site_lang;
     $translations  = [];
@@ -446,10 +449,10 @@ function pm_get_translations_for_plugin_domain( $domain ) {
     if ( 
         in_array( $mo_file_name, $languages )
             &&
-        file_exists( $lang_dir . $mo_file_name . '.mo' )
+        file_exists( $language_dir . $mo_file_name . '.mo' )
     ) {
         $mo = new MO();
-        if ( $mo->import_from_file( $lang_dir . $mo_file_name . '.mo' ) ) {
+        if ( $mo->import_from_file( $language_dir . $mo_file_name . '.mo' ) ) {
             $translations = $mo->entries;
         }
     }
@@ -467,8 +470,8 @@ function pm_get_translations_for_plugin_domain( $domain ) {
  *
  * @return array
  */
-function pm_get_jed_locale_data( $domain ) {
-    $plugin_translations = pm_get_translations_for_plugin_domain( $domain );
+function pm_get_jed_locale_data( $domain, $language_dir = null ) {
+    $plugin_translations = pm_get_translations_for_plugin_domain( $domain, $language_dir );
     $translations = get_translations_for_domain( $domain );
 
     $locale = array(

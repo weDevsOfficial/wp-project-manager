@@ -31,7 +31,7 @@
             var settings = {
                 selector: 'textarea#' + self.editor_id,
                 menubar: false,
-                placeholder: self.text.write_a_comments,
+                placeholder: self.__( 'Write a comment...', 'pm' ),
                 branding: false,
                 
                 setup: function (editor) {

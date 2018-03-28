@@ -1,10 +1,10 @@
 <template>
     <div class="notify-users">    
         <h2 class="pm-box-title"> 
-            {{text.notify_user}}               
+            {{ __( 'Notify users', 'pm' ) }}               
             <label class="pm-small-title" for="select-all"> 
                 <input type="checkbox" v-model="select_all" id="select-all" @change="select_all_user()" class="pm-toggle-checkbox" > 
-                {{text.select_all}}
+                {{ __( 'Select all', 'pm' ) }}
             </label>
         </h2>
         <ul class="pm-user-list">

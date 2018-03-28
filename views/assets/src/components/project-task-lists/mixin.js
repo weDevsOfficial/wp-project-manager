@@ -325,7 +325,7 @@ var PM_TaskList_Mixin = {
          * @return void         
          */
         deleteList ( args ) {
-            if ( ! confirm( this.text.are_you_sure ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
                 return;
             }
             var self = this,
@@ -476,7 +476,7 @@ var PM_TaskList_Mixin = {
         },
 
         deleteTask (args) {
-            if ( ! confirm( this.text.are_you_sure ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
                 return;
             }
 

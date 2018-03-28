@@ -68,7 +68,7 @@ window.pmPromise = new Promise(function(resolve, reject) {
 			require(['./i18n/i18n'], function(script) {
 
 				pm.i18n = script;
-				pm.i18n.setLocaleData(PM_Vars.language);
+				pm.i18n.setLocaleData(PM_Vars.language.pm);
 			});
 		}
 	).then(function() {

@@ -1,6 +1,6 @@
 <template>
     <div v-if="lateMileStones.length" class="pm-late-milestone pm-milestone-data">
-        <h2 class="group-title">{{text.late_milestones}}</h2>
+        <h2 class="group-title">{{ __( 'Late Milestones', 'pm' ) }}</h2>
         <div v-for="milestone in lateMileStones" class="pm-milestone late">
             <div class="milestone-detail ">
                 <h3 class="milestone-head">
@@ -27,7 +27,7 @@
             </div>
             <div class="pm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">
-                    <h3>{{text.task_lists}}</h3>
+                    <h3>{{ __( 'Task Lists', 'pm' )  }}</h3>
                     <ul>
                         <li v-for="list in milestone.task_lists.data">
                             <list :list="list"></list>
@@ -36,7 +36,7 @@
                 </div>
                
                 <div v-if="milestone.discussion_boards.data.length"  class="pm-col-6 pm-milestone-discussion pm-last-col pm-sm-col-12">
-                    <h3>{{text.discussions}}</h3>
+                    <h3>{{  __( 'Discussions', 'pm' ) }}</h3>
                     <ul>
                         <li v-for="discuss in milestone.discussion_boards.data">
                             <discuss :discuss="discuss"></discuss>
