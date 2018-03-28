@@ -419,7 +419,7 @@ export default {
         },
 
         deleteDiscuss (args) {
-            if ( ! confirm( this.text.are_you_sure ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
                 return;
             }
             var self = this;
@@ -458,7 +458,7 @@ export default {
         },
 
         deleteComment(args){
-            if ( ! confirm( this.text.delete_comment_conf ) ) {
+            if ( ! confirm( this.__( 'Are you sure to delete this comment?', 'pm' ) ) ) {
                 return;
             }
 

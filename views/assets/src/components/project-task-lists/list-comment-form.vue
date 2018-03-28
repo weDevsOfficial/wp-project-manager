@@ -11,8 +11,8 @@
             <notify-user v-model="notify_users"></notify-user>
             
             <div class="submit">
-                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Add New Comment" id="" />
-                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  value="Update Comment" id="" />
+                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Add New Comment','pm' )" id="" />
+                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Update Comment', 'pm') " id="" />
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>

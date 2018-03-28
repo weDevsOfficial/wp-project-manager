@@ -1,7 +1,7 @@
 <template>
     <div class="pm-clearfix">
 
-        <div v-if="!projects.length">{{text.no_project_found}}</div>
+        <h3 v-if="!projects.length">{{ __( 'No projects found.', 'pm' ) }}</h3>
 
         <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
             <router-link 
@@ -29,7 +29,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_discussion_boards) }}
                             </strong> 
-                                {{text.discussions}}
+                                {{ __( 'Discussions', 'pm' ) }}
 
                         </router-link>
                     </li>
@@ -45,7 +45,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_task_lists) }}
                             </strong> 
-                                {{text.task_lists}}
+                                {{ __( 'Task Lists', 'pm' ) }}
                         </router-link>
                     </li>
 
@@ -60,7 +60,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_tasks) }}
                             </strong> 
-                                {{text.tasks}}
+                                {{ __( 'Tasks', 'pm' ) }}
                         </router-link>
                     </li>
 
@@ -75,7 +75,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_milestones) }}
                             </strong> 
-                                {{text.milestones}}
+                                {{ __( 'Milestones', 'pm' ) }}
                         </router-link>
                     </li>   
 
@@ -90,7 +90,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_files) }}
                             </strong> 
-                                {{text.files}}
+                                {{ __( 'Files', 'pm' ) }}
                         </router-link>
                     </li>
 
@@ -101,7 +101,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_comments) }}
                             </strong> 
-                                {{text.comments}}
+                                {{ __( 'Comments', 'pm' ) }}
                         </a>
                     </li>
 
@@ -123,25 +123,25 @@
 
             <div class="pm-project-action-icon">
                 <div class="pm-project-action">
-                    <span @click.prevent="settingsShowHide(project)" :title="text.project_actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                    <span @click.prevent="settingsShowHide(project)" :title="__( 'Project Actions', 'pm' )" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
-                            <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="text.delete_project">
+                            <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="__( 'Delete project', 'pm' )">
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>{{text.delete}}</span>
+                                <span>{{ __( 'Delete', 'pm' ) }}</span>
                             </a>
                         </li>
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
+                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">{{text.restore}}</span>
+                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
                                 
                             </a>
                         </li>

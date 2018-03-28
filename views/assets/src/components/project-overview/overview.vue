@@ -28,7 +28,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_discussion_boards }}</span> 
-                                    {{text.discussions}}
+                                    {{ __( 'Discussions', 'pm' ) }}
                                 </div> 
                             </router-link>
                         </li>
@@ -43,7 +43,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_task_lists }}</span> 
-                                    {{text.task_lists}}
+                                    {{ __( 'Task Lists', 'pm' ) }}
                                 </div> 
                             </router-link>
                         </li>
@@ -54,7 +54,7 @@
                             <div class="icon"></div> 
                             <div class="count">
                                 <span>{{ meta.total_tasks }}</span> 
-                                {{text.tasks}}
+                                {{ __( 'Tasks', 'pm' ) }}
                             </div> 
                             </a>
                             
@@ -65,7 +65,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_comments }}</span>  
-                                    {{text.comments}}
+                                    {{ __( 'Comments', 'pm' ) }}
                                 </div> 
                              </a>
                         </li>
@@ -79,7 +79,7 @@
                                 <div class="icon"></div> 
                                     <div class="count">
                                         <span>{{ meta.total_files }}</span>  
-                                        {{text.files}}
+                                        {{ __( 'Files', 'pm' ) }}
                                 </div> 
                             </router-link>
                         </li>
@@ -94,7 +94,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_milestones }}</span> 
-                                        {{text.milestones}}
+                                        {{  __( 'Milestones', 'pm' ) }}
                                 </div> 
                             </router-link>
                         </li>   
@@ -104,7 +104,7 @@
 
                 <div id="pm-chart" class="pm-chart">
 
-                    <h3>{{text.this_month}}</h3>
+                    <h3>{{ __( 'Last 30 days', 'pm' ) }}</h3>
 
                     
                     <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-                <h3 class="pm-border-bottom"> {{text.users}} </h3>
+                <h3 class="pm-border-bottom"> {{ __( 'Users', 'pm' ) }} </h3>
                 <ul class="user_list">
                     <li v-for="user in users">
                         <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 

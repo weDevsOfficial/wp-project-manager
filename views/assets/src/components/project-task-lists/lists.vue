@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
 
         <div v-if="!isListFetch" class="pm-data-load-before" >
@@ -77,7 +77,7 @@
                                 <div class="pm-col-8 pm-sm-col-12">
                                     <ul class="pm-footer-left-ul">
                                         <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
-                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{text.more_tasks}}</a>
+                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'pm' ) }}</a>
                                         </li>
                                         <transition name="slide" v-if="can_create_task">
                                             <li class="pm-new-task-btn-li">
@@ -92,7 +92,7 @@
                                                     list_id: list.id 
                                                 }}">
                                                 <span>{{ list.meta.total_complete_tasks }}</span>  
-                                                {{text.completed}}
+                                                {{ __( 'Completed', 'pm' ) }}
                                             </router-link>
                                         </li>
                                         <li  class="pm-todo-incomplete">
@@ -102,7 +102,7 @@
                                                     list_id: list.id 
                                                 }}">
                                                 <span>{{ list.meta.total_incomplete_tasks }}</span> 
-                                                {{text.incomplete}}
+                                                {{ __( 'Incomplete', 'pm' ) }}
                                             </router-link>
                                         </li>
                                         <li  class="pm-todo-comment">
@@ -111,7 +111,7 @@
                                                 params: { 
                                                     list_id: list.id 
                                                 }}">
-                                                <span>{{ list.meta.total_comments }} {{text.comments}}</span>
+                                                <span>{{ list.meta.total_comments }} {{ __( 'Comments', 'pm' ) }}</span>
                                             </router-link>
                                         </li>
                                     </ul>

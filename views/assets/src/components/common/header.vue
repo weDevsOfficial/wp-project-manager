@@ -7,36 +7,36 @@
                     <span class="pm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" v-if="has_create_capability()" class="pm-icon-edit pm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">{{text.edit}}</span>
+                        <span class="text">{{  __( 'Edit', 'pm' ) }}</span>
                      </a>
                 </h3>
 
                 <div class="detail">{{project.description}}</div>
             </div>
             <div class="pm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">{{text.completed}}</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{text.incomplete}}</div>
+                <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'pm' )}}</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'pm' ) }}</div>
             </div>
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="has_create_capability()">
                 <div class="pm-project-action">
-                    <span @click.prevent="showProjectAction()" :title="text.Project_Actions" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                    <span @click.prevent="showProjectAction()" :title="__('Project Actions', 'pm')" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
-                            <a href="#" @click.prevent="deleteProject(project.id)" :title="text.delete_project">
+                            <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'pm' )">
 
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>{{text.delete}}</span>
+                                <span>{{ __( 'Delete', 'pm' ) }}</span>
                             </a>
                         </li>
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="selfProjectMarkDone(project)" href="#">
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">{{text.complete}}</span>
+                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">{{text.restore}}</span>
+                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
                             </a>
                         </li>
                     </ul>
@@ -105,7 +105,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.overview,
+                        name: this.__( 'Overview', 'pm' ),
                         count: '',
                         class: 'overview pm-sm-col-12'
                     },
@@ -116,7 +116,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.activities,
+                        name: this.__( 'Activities', 'pm' ),
                         count: project.meta.data.total_activities,
                         class: 'activity pm-sm-col-12'
                     },
@@ -127,7 +127,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.discussions,
+                        name: this.__( 'Discussions', 'pm' ),
                         count: project.meta.data.total_discussion_boards,
                         class: 'message pm-sm-col-12'
                     },
@@ -138,7 +138,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.task_lists,
+                        name: this.__( 'Task Lists', 'pm' ),
                         count: project.meta.data.total_task_lists,
                         class: 'to-do-list pm-sm-col-12'
                     },
@@ -149,7 +149,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.milestones,
+                        name: this.__( 'Milestones', 'pm' ),
                         count: project.meta.data.total_milestones,
                         class: 'milestone pm-sm-col-12'
                     },
@@ -160,7 +160,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.text.files,
+                        name: this.__( 'Files', 'pm' ),
                         count: project.meta.data.total_files,
                         class: 'files pm-sm-col-12'
                     }

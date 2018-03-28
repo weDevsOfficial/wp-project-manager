@@ -4,27 +4,27 @@
         <div class="pm-error"></div>
         <form action="" class="pm-user-create-form" @submit.prevent="createUser()">
             <div class="pm-field-wrap">
-                <label>{{text.username}}</label>
+                <label>{{ __( 'Username', 'pm' ) }}</label>
                 <input v-model="username" type="text" required name="user_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{text.first_name}}</label>
+                <label>{{ __( 'First Name', 'pm' ) }}</label >
                 <input v-model="first_name" type="text" name="first_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{text.last_name}}</label>
+                <label>{{ __( 'Last Name', 'pm' ) }}</label>
                 <input v-model="last_name" type="text" name="last_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{text.email}}</label>
+                <label>{{ __( 'Email', 'pm' ) }}</label>
                 <input v-model="email" type="email" required name="email">
 
             </div>
             <div>
-                <input class="button-primary" type="submit" :value="text.create_user" name="create_user">
+                <input class="button-primary" type="submit" :value="__( 'Create User', 'pm' )" name="create_user">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
