@@ -1684,7 +1684,6 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
 
-
     function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {
         if( !$oldProjectId ) {
             return ;
