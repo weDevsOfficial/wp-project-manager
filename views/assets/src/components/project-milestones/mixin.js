@@ -111,6 +111,7 @@ export default {
                     page:self.setCurrentPageNumber(),
                 },
                 callback: function(){
+                    self.$root.$store.state.projectMilestoneLoaded = true;
                     pm.NProgress.done();
                     self.templateAction();
                 }

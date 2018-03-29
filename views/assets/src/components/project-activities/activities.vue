@@ -106,7 +106,7 @@
                 }
             },
             isActivityFetched () {
-                return this.$store.state.projectActivities.isActivityFetched;
+                return this.$root.$store.state.projectActivityLoaded;
             }
         },
         components: {
@@ -162,6 +162,7 @@
 
                 this.getActivities(condition, function(res) {
                     self.$store.commit( 'projectActivities/setActivities', res.data );
+                    self.$root.$store.state.projectActivityLoaded = true;
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
                 });
