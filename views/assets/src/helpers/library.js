@@ -23,6 +23,7 @@ var scriptsLoaded = {
 	'Loading': false,
 	'Autocomplete': false,
 	'Mixin': false,
+	'color': false,
 	'commonComponents': false,
 	'i18n': false
 };
@@ -93,6 +94,16 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		}
 	).then(function() {
 		scriptsLoaded.Fullcalendar = true;
+		pmIsAllScriptsLoaded(resolve, reject);
+	});
+
+	require.ensure(
+		['vue-color'],
+		function(require) {
+			pm.color = require('vue-color/src/components/Sketch.vue');
+		}
+	).then(function() {
+		scriptsLoaded.color = true;
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 
