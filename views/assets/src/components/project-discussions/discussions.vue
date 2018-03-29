@@ -144,7 +144,8 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                
+                vm.getGlobalMilestones();
+                vm.discussQuery();
             });
         },
 
@@ -159,10 +160,6 @@
             '$route' (route) {
                 this.discussQuery();
             }
-        },
-        created () {
-            this.getGlobalMilestones();
-            this.discussQuery();
         },
         components: {
             'pm-header': header,
@@ -189,7 +186,7 @@
             },
 
             isFetchDiscussion () {
-                return this.$store.state.projectDiscussions.isFetchDiscussion;
+                return this.$root.$store.state.projectDiscussLoaded;
             }
         },
         methods: {
@@ -206,6 +203,7 @@
                     conditions: conditions,
                     callback: function(){
                         self.lazyAction();
+                        self.$root.$store.state.projectDiscussLoaded = true;
                         pm.NProgress.done();
                     }  
                 }

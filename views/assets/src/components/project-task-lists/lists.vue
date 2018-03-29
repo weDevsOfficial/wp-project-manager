@@ -308,7 +308,7 @@
                 return this.$store.state.projectTaskLists.listTemplateStatus; 
             },
             isListFetch () {
-                return this.$store.state.projectTaskLists.isListFetch; 
+                return this.$root.$store.state.projectTaskListLoaded; 
             }
 
         },

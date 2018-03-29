@@ -140,7 +140,7 @@ var PM_TaskList_Mixin = {
                         }
 
                     });
-                  
+                    self.$root.$store.state.projectTaskListLoaded = true;
                     self.setLists(res.data);
                     self.setListsMeta(res.meta.pagination);
 

@@ -10,6 +10,7 @@ use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Settings\Transformers\Settings_Transformer;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Core\File_System\File_System;
 
 class Settings_Controller {
 
@@ -58,6 +59,12 @@ class Settings_Controller {
             $settings_collection = [];
 
             foreach ( $settings as $settings_data ) {
+
+                if ( $settings_data['key'] == 'logo' ) {
+                    $logo_id = File_System::upload_base64_file($settings_data['value'][0]);
+                    $settings_data['value'] = $logo_id;
+                }
+
                 $settings_collection[] = $this->save_settings( $settings_data, $project_id );
             }
 

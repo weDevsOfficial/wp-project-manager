@@ -126,36 +126,35 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    .color-picker-container {
+<style scoped>
+.color-picker-container .color-picker-button {
+    height: 24px;
+    padding: 0 0 0 30px;
+    margin: 0 0 6px;
+    font-size: 11px;
+}
+.color-picker-container .color-picker-button span {
+    display: block;
+    padding: 0 6px;
+    line-height: 22px;
+    color: #555;
+    text-align: center;
+    background: #f7f7f7;
+    border-left: 1px solid #ccc;
+    border-radius: 0 2px 2px 0;
+}
+    
 
-        .color-picker-button {
-            height: 24px;
-            padding: 0 0 0 30px;
-            margin: 0 0 6px;
-            font-size: 11px;
-
-            span {
-                display: block;
-                padding: 0 6px;
-                line-height: 22px;
-                color: #555;
-                text-align: center;
-                background: #f7f7f7;
-                border-left: 1px solid #ccc;
-                border-radius: 0 2px 2px 0;
-            }
-        }
-
-        .hex-input {
-            width: 65px;
-            padding: 3px 5px 4px;
-            margin: 0 3 0 0;
-            font-family: monospace;
-            font-size: 12px;
-            line-height: 1.4;
-            vertical-align: top;
-            box-shadow: 0 1px 0 #ccc;
-        }
-    }
+.color-picker-container .hex-input {
+    height: 24px;
+    width: 65px;
+    padding: 3px 5px 4px;
+    margin: 0 3 0 0;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    vertical-align: top;
+    box-shadow: 0 1px 0 #ccc;
+}
+    
 </style>

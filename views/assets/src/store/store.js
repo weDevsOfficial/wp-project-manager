@@ -2,6 +2,14 @@ export default new pm.Vuex.Store({
     state: {
         manageCapability:[],
         is_need_fetch_view_type: true,
+        projectLoaded : false,
+        projectOverviewLoaded: false,
+        projectDiscussLoaded: false,
+        projectTaskListLoaded: false,
+        projectTaskLoaded: false,
+        projectMilestoneLoaded: false,
+        projectFileLoaded: false,
+        projectActivityLoaded: false,
         projects: [],
         project: {},
         project_users: [],
@@ -144,6 +152,16 @@ export default new pm.Vuex.Store({
         },
         setManageCapability( state, capability ) {
             state.manageCapability = capability;
+        },
+        setDefaultLoaded (state) {
+            state.projectLoaded = false;
+            state.projectOverviewLoaded = false;
+            state.projectDiscussLoaded = false;
+            state.projectTaskListLoaded = false
+            state.projectTaskLoaded = false;
+            state.projectMilesotneLoaded = false;
+            state.projectFileLoaded = false;
+            state.projectActivityLoaded = false;
         }
     }
     

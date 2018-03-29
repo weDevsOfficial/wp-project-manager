@@ -16,6 +16,62 @@ Class File_System {
 
         return $attachment_id;
     }
+    
+    public static function upload_base64_file( $file ) {
+        if ( ! function_exists( 'wp_handle_sideload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+
+        $file_to_upload = self::decode_base64( $file );
+
+        $uploaded_file = wp_handle_sideload( $file_to_upload, array( 'test_form' => false ) );
+        $attachment_id = self::attachment_id( $uploaded_file );
+
+        return $attachment_id;
+    }
+
+    public static function upload_base64_files( $files ) {
+        if ( ! function_exists( 'wp_handle_sideload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+
+        $attachment_ids = [];
+        
+        foreach( $files as $key => $file ) {
+            $file_to_upload = self::decode_base64( $file );
+            
+            $uploaded_file    = wp_handle_sideload( $file_to_upload, array( 'test_form' => false ) );
+            $attachment_ids[] = self::attachment_id( $uploaded_file );
+        }
+
+        return array_filter( $attachment_ids );
+    }
+
+
+    public static function decode_base64( $file ) {
+
+        $upload_dir       = wp_upload_dir();
+        $upload_path      = str_replace( '/', DIRECTORY_SEPARATOR, $upload_dir['path'] ) . DIRECTORY_SEPARATOR;
+        $encode_explode   = explode( ',', $file['thumb'] );
+        
+        if ( empty( $encode_explode[1] ) ) {
+            return false;
+        }
+        
+        $encodedData      = str_replace( ' ', '+' , $encode_explode[1] );
+        $decoded          = base64_decode( $encodedData );
+        $filename         = $file['id'] .'-'. $file['name'];
+        $image_upload     = file_put_contents( $upload_path . $filename, $decoded );
+        
+        $uploaded             = array();
+        $uploaded['error']    = '';
+        $uploaded['tmp_name'] = $upload_path . $filename;
+        $uploaded['name']     = $file['name'];
+        $uploaded['type']     = $file['type'];
+        $uploaded['size']     = filesize( $upload_path . $filename );
+
+        return $uploaded;
+    }
 
     public static function multiple_upload( $file ) {
         if ( ! function_exists( 'wp_handle_upload' ) ) {

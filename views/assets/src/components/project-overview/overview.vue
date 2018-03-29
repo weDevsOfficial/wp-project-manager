@@ -138,22 +138,21 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                
+                vm.getOverViews();
             });
         },
-        created () {
-            this.getOverViews();
-        },
-
         computed: {
             ...pm.Vuex.mapState('projectOverview', 
                 {
                     'meta': state => state.meta,
                     'users': state => state.assignees,
-                    'graph': state => state.graph,
-                    'fetchOverview': state => state.fetchOverview
+                    'graph': state => state.graph
                 }
             ),
+            fetchOverview () {
+                console.log(this.$root.$store.state.projectOverviewLoaded);
+                return this.$root.$store.state.projectOverviewLoaded;
+            }
 
             // meta () {
             //     return this.$store.state.meta;
@@ -183,6 +182,7 @@
                         with : 'overview_graph'
                     },
                     callback : function (res){
+                        this.$root.$store.state.projectOverviewLoaded = true;
                         this.setOverViews( res.data );
                         pm.NProgress.done();
                     }

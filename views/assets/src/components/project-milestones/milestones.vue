@@ -94,7 +94,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                //vm.getSelfMilestones(vm);
+                vm.getSelfMilestones();
             });
         },
         mixins: [PmMixin.projectMilestones],
@@ -103,9 +103,7 @@
                 current_page_number: 1,
             }
         },
-        created () {
-            this.getSelfMilestones();
-        },
+
         watch: {
             '$route' (route) {
                 this.getSelfMilestones(this);
@@ -143,7 +141,7 @@
             },
 
             isFetchMilestone () {
-                return this.$store.state.projectMilestones.isFetchMilestone;
+                return this.$root.$store.state.projectMilestoneLoaded;
             }
         },
         methods: {

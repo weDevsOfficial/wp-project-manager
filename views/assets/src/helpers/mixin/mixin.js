@@ -153,6 +153,14 @@ export default {
             }
             
         },
+        getLogo () {
+            console.log(PM_Vars.pm_logo);
+            if (jQuery.isEmptyObject(PM_Vars.pm_logo)){
+                return false;
+            } else {
+                return PM_Vars.pm_logo
+            }
+        },
         dataURLtoFile (dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -426,12 +434,14 @@ export default {
                 callback : function (res) {
                     this.addProjectMeta(res.data);
                     this.$root.$store.commit('setProject', res.data);
+                    this.$root.$store.commit('setDefaultLoaded');
                     this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
                 }
             }
-
+            this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
-            if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) { 
+            if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) {
+                this.$root.$store.state.project_switch = true;
                 this.getProject(args);
             }
 
