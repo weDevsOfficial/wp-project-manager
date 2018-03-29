@@ -34,8 +34,21 @@ class Upgrade {
             $db_observe['count'] = empty( $db_observe['count'] ) ? [] : $db_observe['count'];
             $db_observe['migrate'] = empty( $db_observe['migrate'] ) ? [] : $db_observe['migrate'];
 
-            $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
-            $is_all_migrated = empty( $result ) ? true : false; 
+            $check_status = [];
+            foreach ( $db_observe['count'] as $key => $value) {
+                if ( $db_observe['migrate'][$key] >= $value ) {
+                    $check_status[$key] = 'complete';
+                } else {
+                    $check_status[$key] = 'incomplete';
+                }
+            }
+
+            if ( in_array( 'incomplete', $check_status  ) ) { 
+                $is_all_migrated = false;
+            } else {
+                $is_all_migrated = true;
+            }
+            
             $response['pm_migration'] = $db_observe;
             $response['pm_is_all_migrated'] = $is_all_migrated;
         }

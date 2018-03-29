@@ -288,7 +288,7 @@ export default {
 
             var args = jQuery.extend(true, pre_define, args );
             var self = this;
-            console.log(args);
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id,
                 type: 'DELETE',

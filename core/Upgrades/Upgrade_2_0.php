@@ -125,7 +125,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 # code...
                 break;
         }
-     
+
         return false;
     }
 
@@ -580,9 +580,24 @@ class Upgrade_2_0 extends WP_Background_Process
         $observe = json_encode( $db_observe );
         $assets_url = config('frontend.assets_url');
 
-        $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
+        $db_observe['count'] = !is_array($db_observe['count']) ? [] : $db_observe['count'];
+        $check_status = [];
+
+        foreach ( $db_observe['count'] as $key => $value) {
+            if ( $db_observe['migrate'][$key] >= $value ) {
+                $check_status[$key] = 'complete';
+            } else {
+                $check_status[$key] = 'incomplete';
+            }
+        }
+
+        if ( in_array( 'incomplete', $check_status  ) ) { 
+            $is_all_migrated = false;
+        } else {
+            $is_all_migrated = true;
+        }
+
         
-        $is_all_migrated = empty( $result ) ? true : false; 
         
         ?>
             <script type="text/javascript">
@@ -671,7 +686,7 @@ class Upgrade_2_0 extends WP_Background_Process
                         cross+
                         tmplInside+'</div>';
 
-                    $('.pm-update-progress-notice').html(tmpl);
+                    jQuery('.pm-update-progress-notice').html(tmpl);
 
                     if (typeof callBack !== 'undefined') {
                         callBack();
@@ -686,13 +701,13 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
 
                 function pmRemoveNotice () {
-                    $('.pm-notice-dismiss').click(function() {
-                        $('.pm-update-progress-notice').slideUp( 300, function() {
+                    jQuery('.pm-notice-dismiss').click(function() {
+                        jQuery('.pm-update-progress-notice').slideUp( 300, function() {
                             
-                            $('.pm-update-progress-notice').remove();
+                            jQuery('.pm-update-progress-notice').remove();
                         });
                     
-                        $.ajax({
+                        jQuery.ajax({
                             type: 'POST',
                             url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
                             data: {
@@ -1682,7 +1697,6 @@ class Upgrade_2_0 extends WP_Background_Process
             pm_pro_deactivate_module('gantt/gantt.php');
         }
     }
-
 
 
     function get_activity( $oldProjectId, $newProjectId, $discuss, $tasklist, $tasks, $comments ) {

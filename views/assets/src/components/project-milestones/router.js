@@ -6,7 +6,7 @@ const milestones_route = resolve => {
     });
 }
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         {
             path: ':project_id/milestones/', 

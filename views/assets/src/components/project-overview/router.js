@@ -7,7 +7,7 @@ const overview = resolve => {
 
 weDevsPmRegisterModule('projectOverview', 'project-overview');
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         {
             path: ':project_id/overview', 
