@@ -13,7 +13,7 @@ const individual_discussion = resolve => {
     });
 }
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         {
             path: ':project_id/discussions/', 
@@ -31,7 +31,7 @@ weDevsPMRegisterChildrenRoute('project_root',
     ]
 )
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         { 
             path: '/:project_id/discussions/:discussion_id', 

@@ -1,37 +1,40 @@
 <template>
-    <div class="completed-projects">
-        <div v-if="loading" class="pm-row pm-data-load-before" >
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
+    <div>
+        <project-list-header></project-list-header>
+        <div class="completed-projects">
+            <div v-if="loading" class="pm-row pm-data-load-before" >
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
+                <div class="pm-col-4">
+                    <project-loading ></project-loading>
+                </div>
             </div>
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
+            <div v-else>
+                <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
+                    <project-summary></project-summary>
+                    <pm-pagination 
+                        :total_pages="total_pages" 
+                        :current_page_number="current_page_number" 
+                        component_name='completed_project_pagination'>
+                        
+                    </pm-pagination> 
+                </div>
             </div>
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
-            </div>
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
-            </div>
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
-            </div>
-            <div class="pm-col-4">
-                <project-loading ></project-loading>
-            </div>
+            
         </div>
-        <div v-else>
-            <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
-                <project-summary></project-summary>
-                <pm-pagination 
-                    :total_pages="total_pages" 
-                    :current_page_number="current_page_number" 
-                    component_name='completed_project_pagination'>
-                    
-                </pm-pagination> 
-            </div>
-        </div>
-        
     </div>
 </template>
 
@@ -40,6 +43,7 @@
     import pagination from './../common/pagination.vue';
     import after_project from './../common/do-action.vue';
     import project_loading from './project-loading.vue';
+    import Header from './header.vue';
 
     export default  {
         
@@ -83,7 +87,8 @@
             'project-summary': project_summary,
             'pm-pagination': pagination,
             'do-action': after_project,
-            'project-loading': project_loading
+            'project-loading': project_loading,
+            'project-list-header': Header
         },
 
         methods: {

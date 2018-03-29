@@ -20,7 +20,7 @@ const single_task_route = resolve => {
         resolve(require('./single-task.vue'));
     });
 }
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         { 
             path: ':project_id/task-lists/', 
@@ -46,7 +46,7 @@ weDevsPMRegisterChildrenRoute('project_root',
     ]
 );
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         { 
             path: '/:project_id/task-lists/:list_id', 

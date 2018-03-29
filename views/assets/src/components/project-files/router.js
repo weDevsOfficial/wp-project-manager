@@ -6,7 +6,7 @@ const files = resolve => {
 
 weDevsPmRegisterModule('projectFiles', 'project-files');
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
     [
         {
             path: ':project_id/files', 
