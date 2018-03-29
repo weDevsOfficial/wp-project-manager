@@ -6,10 +6,10 @@
 	export default {
 		created () {
 			
-			if ( '/' === this.$route.path ) {
+			if ( '/projects' === this.$route.path ) {
 				this.$router.push(
 					{
-						name: 'projects'
+						name: 'project_lists'
 					}
 				);
 			}
@@ -17,10 +17,10 @@
 
 		watch: {
 			'$route' () {
-				if ( '/' === this.$route.path ) {
+				if ( '/projects' === this.$route.path ) {
 					this.$router.push(
 						{
-							name: 'projects'
+							name: 'project_lists'
 						}
 					);
 				}

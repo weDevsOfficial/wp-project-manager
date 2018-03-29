@@ -7,7 +7,7 @@ const activities_route = resolve => {
     });
 }
 
-weDevsPMRegisterChildrenRoute('project_root', 
+weDevsPMRegisterChildrenRoute('projects', 
 	[
 		{
 		    path: ':project_id/activities/', 

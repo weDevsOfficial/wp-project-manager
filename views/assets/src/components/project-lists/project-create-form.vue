@@ -90,7 +90,6 @@
             'project-new-user-form': project_new_user_form,
         },
         created () {
-            console.log(  );
             this.setProjectUser();
         },
         computed: {
