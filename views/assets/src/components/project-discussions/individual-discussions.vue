@@ -156,7 +156,11 @@
                 return [];
             },
             comments () {
-                if ( this.$store.state.projectDiscussions.discussion.length ) {
+                if ( 
+                    this.$store.state.projectDiscussions.discussion.length 
+                        &&
+                    this.$store.state.projectDiscussions.discussion[0].hasOwnProperty('comments')
+                ) {
                     return this.$store.state.projectDiscussions.discussion[0].comments.data;
                 }
                 return [];

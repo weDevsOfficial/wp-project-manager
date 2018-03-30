@@ -154,7 +154,7 @@ export default {
             
         },
         getLogo () {
-            console.log(PM_Vars.pm_logo);
+
             if (jQuery.isEmptyObject(PM_Vars.pm_logo)){
                 return false;
             } else {

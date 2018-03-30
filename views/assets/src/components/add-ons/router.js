@@ -1,8 +1,16 @@
-import add_ons from './index.vue';
-
-export default { 
-    path: '/add-ons', 
-    components: { 'add-ons': add_ons }, 
-    name: 'add_ons',
+const AddOns = resolve => {
+    require.ensure(['./add-ons.vue'], () => {
+        resolve(require('./add-ons.vue'));
+    });
 }
-    
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        { 
+            path: '/add-ons',
+            component: AddOns,
+            name: 'add-ons',
+        }
+
+    ]
+);

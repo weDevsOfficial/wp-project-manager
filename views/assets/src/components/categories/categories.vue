@@ -52,7 +52,7 @@
                         <div class="tablenav top">
                             <div class="alignleft actions bulkactions">
                                 <label for="bulk-action-selector-top" class="screen-reader-text">{{ __( 'Select bulk action', 'pm' ) }}</label>
-                                <select  v-model="bulk_action" name="action">
+                                <select id="bulk-action-selector-top"  v-model="bulk_action" name="action">
                                     <option value="-1">{{ __( 'Bulk Actions', 'pm' ) }}</option>
                                     <option value="delete">{{ __( 'Delete', 'pm' ) }}</option>
                                 </select>
@@ -115,6 +115,9 @@
                                         <edit-category-form :category="category"></edit-category-form>
                                     </td>
                                 </tr>   
+                                <tr v-if="!categories.length" class="no-items">
+                                    <td class="colspanchange" colspan="3">No categories found.</td>
+                                </tr>
                             </tbody>
 
 
@@ -170,6 +173,20 @@
 <style type="text/css">
     .check-column {
         width: 40px;
+    }
+    .pm #tag-name {
+        height: 30px;
+    }
+    .pm #tag-description {
+        min-height: 100px;
+    }
+    .pm #bulk-action-selector-top,
+    .pm #bulk-action-selector-bottom {
+        height: 30px;
+        width: 124px;
+    }
+    .pm .check-column input {
+        margin: 0 0 0 8px;
     }
 </style>
 
