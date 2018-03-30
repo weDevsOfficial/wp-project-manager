@@ -18,7 +18,7 @@ class Upgrade {
      */
     function __construct() {
         
-        add_action( 'admin_notices', array($this, 'show_update_notice') );
+        //add_action( 'admin_notices', array($this, 'show_update_notice') );
        
         add_action( 'admin_init', array( $this, 'init_upgrades' ) );
         add_action( 'admin_init', array( $this, 'do_updates' ) );
@@ -185,7 +185,7 @@ class Upgrade {
         
         foreach (self::$updates as $version => $object ) {
 
-             $object->upgrade_init();
+            // $object->upgrade_init();
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){

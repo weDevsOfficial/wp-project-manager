@@ -1,8 +1,16 @@
-import progress from './index.vue';
-
-export default { 
-    path: '/progress', 
-    components: { 'progress': progress }, 
-    name: 'progress',
+const Progress = resolve => {
+    require.ensure(['./progress.vue'], () => {
+        resolve(require('./progress.vue'));
+    });
 }
-    
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        { 
+            path: '/progress',
+            component: Progress,
+            name: 'progress',
+        }
+
+    ]
+);

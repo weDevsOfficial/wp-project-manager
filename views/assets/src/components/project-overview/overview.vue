@@ -150,7 +150,6 @@
                 }
             ),
             fetchOverview () {
-                console.log(this.$root.$store.state.projectOverviewLoaded);
                 return this.$root.$store.state.projectOverviewLoaded;
             }
 

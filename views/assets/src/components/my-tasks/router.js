@@ -1,8 +1,16 @@
-import my_tasks from './index.vue';
-
-export default { 
-    path: '/my-tasks', 
-    components: { 'my-tasks': my_tasks }, 
-    name: 'my_tasks',
+const MyTasks = resolve => {
+    require.ensure(['./my-tasks.vue'], () => {
+        resolve(require('./my-tasks.vue'));
+    });
 }
-    
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        { 
+            path: '/my-tasks',
+            component: MyTasks,
+            name: 'my-tasks',
+        }
+
+    ]
+);

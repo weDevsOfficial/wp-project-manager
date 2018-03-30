@@ -1,8 +1,16 @@
-import reports from './index.vue';
-
-export default { 
-    path: '/reports', 
-    components: { 'reports': reports }, 
-    name: 'reports',
+const Reports = resolve => {
+    require.ensure(['./reports.vue'], () => {
+        resolve(require('./reports.vue'));
+    });
 }
-    
+
+weDevsPMRegisterChildrenRoute('project_root', 
+    [
+        { 
+            path: '/reports',
+            component: Reports,
+            name: 'reports',
+        }
+
+    ]
+);
