@@ -2,10 +2,13 @@
 import projects from './../components/project-lists/router';
 import categories from './../components/categories/router';
 import add_ons from './../components/add-ons/router';
-import my_tasks from './../components/my-tasks/router';
-import calendar from './../components/calendar/router';
-import reports from './../components/reports/router';
-import progress from './../components/progress/router';
+if (!PM_Vars.is_pro) {
+    import('@components/my-tasks/router');
+    import('@components/calendar/router');
+    import('@components/reports/router');
+    import('@components/progress/router'); 
+}
+
 import {general, email} from './../components/settings/router';
 
 
