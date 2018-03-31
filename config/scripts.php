@@ -18,6 +18,13 @@ return [
 		'in_footer'  => false
 	],
 
+	'pm-time-picker' => [
+		'id'         => 'pm-time-picke',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/jquery-ui-timepicker/jquery-ui-timepicker.js',
+		'dependency' => array( 'pm-library' ),
+		'in_footer'  => false
+	],
+
 	'pm-config' => [
 		'id'         => 'pm-config',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/config.js',

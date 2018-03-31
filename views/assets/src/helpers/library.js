@@ -157,15 +157,15 @@ window.pmPromise = new Promise(function(resolve, reject) {
 		pmIsAllScriptsLoaded(resolve, reject);
 	});
 
-	require.ensure(
-		['./jquery-ui-timepicker/jquery-ui-timepicker'],
-		function(require) {
-			pm.TimePicker = require('./jquery-ui-timepicker/jquery-ui-timepicker');
-		}
-	).then(function() {
-		scriptsLoaded.TimePicker = true;
-		pmIsAllScriptsLoaded(resolve, reject);
-	});
+	// require.ensure(
+	// 	['./jquery-ui-timepicker/jquery-ui-timepicker'],
+	// 	function(require) {
+	// 		pm.TimePicker = require('./jquery-ui-timepicker/jquery-ui-timepicker');
+	// 	}
+	// ).then(function() {
+	// 	scriptsLoaded.TimePicker = true;
+	// 	pmIsAllScriptsLoaded(resolve, reject);
+	// });
 
 	require.ensure(
 		['./mixin/mixin'],
