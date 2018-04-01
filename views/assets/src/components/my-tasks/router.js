@@ -14,3 +14,5 @@ weDevsPMRegisterChildrenRoute('project_root',
 
     ]
 );
+
+export default MyTasks;
