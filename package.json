@@ -11,7 +11,7 @@
     "build": "webpack-dev-server",
     "watch": "webpack --progress --colors --watch",
     "reset": "webpack --progress --colors",
-    "release": "webpack --progress --colors gurn zip"
+    "release": "webpack --progress --colors gurnt zip"
   },
   "repository": {
     "type": "git",
