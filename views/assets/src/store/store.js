@@ -123,11 +123,15 @@ export default new pm.Vuex.Store({
         },
 
         afterDeleteUserFromProject (state, data) {
-            var index = state.getIndex(state.projects, data.project_id, 'id');
-            var users = state.projects[index].assignees.data;
-            var user_index = state.getIndex(users, data.user_id, 'id');
+            if ( data.project_id ) {
+                var index = state.getIndex(state.projects, data.project_id, 'id');
+                var users = state.projects[index].assignees.data;
+                var user_index = state.getIndex(users, data.user_id, 'id');
 
-            state.projects[index].assignees.data.splice(user_index, 1);
+                state.projects[index].assignees.data.splice(user_index, 1);
+            } else {
+                state.assignees.splice(user_index, 1);
+            }
         },
 
         updateSeletedUser (state, assignees) {
