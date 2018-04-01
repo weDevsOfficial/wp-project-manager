@@ -3,10 +3,10 @@ import projects from './../components/project-lists/router';
 import categories from './../components/categories/router';
 import add_ons from './../components/add-ons/router';
 if (!PM_Vars.is_pro) {
-    import('@components/my-tasks/router');
-    import('@components/calendar/router');
-    import('@components/reports/router');
-    import('@components/progress/router'); 
+    require( '@components/my-tasks/router');
+    require('@components/calendar/router');
+    require('@components/reports/router');
+    require('@components/progress/router'); 
 }
 
 import {general, email} from './../components/settings/router';

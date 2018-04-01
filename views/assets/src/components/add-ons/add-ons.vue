@@ -86,7 +86,7 @@
         <div class="wpuf-addon">
             <div class="wpuf-addon-thumb">
                 <a href="https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/" target="_blank">
-                    <img src="http://wedevs.com/wp-content/uploads/2014/03/cpm-woo.jpg" alt="WooCommerce Order">
+                    <img src="http://wedevs.com/wp-content/uploads/2014/03/pm-woo.jpg" alt="WooCommerce Order">
                 </a>
             </div>
 
@@ -188,5 +188,11 @@
             background: #eee;
         }
     </style>
-
+<script>
+    export default {
+        mounted () {
+            pm.NProgress.done();
+        }
+    }
+</script>
 
