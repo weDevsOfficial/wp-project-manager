@@ -22,7 +22,11 @@ migrate_db();
 view();
 load_routes();
 register_routes();
-do_action( 'pm_loaded' );
+
+add_action( 'plugins_loaded', function() {
+	do_action( 'pm_loaded' );
+} );
+
 
 add_action( 'init', function() {
 	seed_db();
