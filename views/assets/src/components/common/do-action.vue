@@ -1,5 +1,4 @@
 <script>
-    import Vue from 'vue/dist/vue.esm.js';
 
     import mixin from './../../helpers/mixin/mixin';
     

@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
     
     export default{
         data(){
@@ -17,7 +18,7 @@
             }
         },
 
-        mixins: [PmMixin.projectLists],
+        mixins: [Mixins],
 
         created(){
             this.getCookie("project_view");

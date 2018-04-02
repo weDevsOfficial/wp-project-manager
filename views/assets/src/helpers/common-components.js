@@ -6,7 +6,6 @@ import VueContentLoading from '@components/common/VueContentLoading.vue';
 import DateTimePicker from '@components/common/time-picker.vue';
 import colorPicker from '@components/common/color-picker.vue';
 import DoAction from '@components/common/do-action.vue';
-
 import ListForm from '@components/project-task-lists/new-task-list-form.vue';
 import TaskForm from '@components/project-task-lists/new-task-form.vue';
 

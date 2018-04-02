@@ -68,13 +68,14 @@
 <script>
     
     import list_comment_form from './list-comment-form.vue';
+    import Mixins from './mixin';
 
     export default {
 
         // Get passing data for this component. 
         props: ['comments', 'list'],
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         computed: {
             /**

@@ -42,7 +42,7 @@ export function getI18n(domain = '') {
  * @return {string} Translated text.
  */
 export function __( text, domain ) {
-	return getI18n(domain).dgettext( domain, text );
+	return getI18n(domain) ? getI18n(domain).dgettext( domain, text ) : text;
 }
 
 /**

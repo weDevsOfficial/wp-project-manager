@@ -1,10 +1,12 @@
 weDevsPmRegisterModule('projectMilestones', 'project-milestones');
 
-const milestones_route = resolve => {
-    require.ensure(['./milestones.vue'], () => {
-        resolve(require('./milestones.vue'));
-    });
-}
+// const milestones_route = resolve => {
+//     require.ensure(['./milestones.vue'], () => {
+//         resolve(require('./milestones.vue'));
+//     });
+// }
+
+import milestones_route from './milestones.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [

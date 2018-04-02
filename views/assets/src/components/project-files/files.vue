@@ -67,10 +67,11 @@
 
     import do_action from '@components/common/do-action.vue';
     import Header from '@components/common/header.vue';
+    import Mixins from './mixin';
     
     export default {
 
-        mixins: [PmMixin.projectFiles],
+        mixins: [Mixins],
         created () {
             
             if (!PM_Vars.is_pro) {

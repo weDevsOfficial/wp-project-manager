@@ -25,6 +25,7 @@
 <script>
     import editor from './../common/text-editor.vue';
     import date_picker from './date-picker.vue';
+    import Mixins from './mixin';
 
     export default { 
         props: ['milestone', 'section'],
@@ -40,7 +41,7 @@
             }
         },
 
-        mixins: [PmMixin.projectMilestones],
+        mixins: [Mixins],
 
         watch: {
             /**

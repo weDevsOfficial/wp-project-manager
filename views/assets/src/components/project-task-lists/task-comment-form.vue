@@ -20,10 +20,11 @@
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader.vue';
   import notifyUser from '@components/common/notify-user.vue';
+  import Mixins from './mixin';
 
   export default {
     props: ['comment', 'comments'],
-    mixins: [PmMixin.projectTaskLists],
+    mixins: [Mixins],
     data () {
         return {
             submit_disabled: false,

@@ -55,6 +55,7 @@
     import after_project from './../common/do-action.vue';
     import project_loading from './project-loading.vue';
     import Header from './header.vue';
+    import Mixins from './mixin';
 
     export default  {
 
@@ -65,7 +66,7 @@
             }
         },
 
-        mixins: [PmMixin.projectLists],
+        mixins: [Mixins],
 
         created () {
             this.projectQuery();

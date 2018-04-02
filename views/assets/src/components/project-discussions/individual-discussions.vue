@@ -126,6 +126,7 @@
     import header from './../common/header.vue';
     import new_discuss_form from './new-discuss-form.vue';
     import comment_form from './comment-form.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -135,7 +136,7 @@
                 vm.getGlobalMilestones();
             });
         },
-        mixins: [PmMixin.projectDiscussions],
+        mixins: [Mixins],
         data(){
             return{
                 loading: true,

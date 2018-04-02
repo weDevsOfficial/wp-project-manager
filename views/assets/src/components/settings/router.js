@@ -1,20 +1,24 @@
 weDevsPmRegisterModule('settings', 'settings');
 
-const settingsHeader = resolve => {
-    require.ensure(['./header.vue'], () => {
-        resolve(require('./header.vue'));
-    });
-}
-const settingsGeneral = resolve => {
-    require.ensure(['./general.vue'], () => {
-        resolve(require('./general.vue'));
-    });
-}
-const settingsEmail = resolve => {
-    require.ensure(['./email.vue'], () => {
-        resolve(require('./email.vue'));
-    });
-}
+// const settingsHeader = resolve => {
+//     require.ensure(['./header.vue'], () => {
+//         resolve(require('./header.vue'));
+//     });
+// }
+import settingsHeader from './header.vue'
+// const settingsGeneral = resolve => {
+//     require.ensure(['./general.vue'], () => {
+//         resolve(require('./general.vue'));
+//     });
+// }
+import settingsGeneral from './general.vue'
+// const settingsEmail = resolve => {
+//     require.ensure(['./email.vue'], () => {
+//         resolve(require('./email.vue'));
+//     });
+// }
+
+import settingsEmail from './email.vue'
 
 weDevsPMRegisterChildrenRoute('settings_root',
     [

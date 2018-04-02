@@ -46,6 +46,7 @@
     import after_project from './../common/do-action.vue';
     import project_loading from './project-loading.vue';
     import Header from './header.vue';
+    import Mixins from './mixin';
     
     export default  {
         
@@ -67,7 +68,7 @@
                 loading: true,
             }
         },
-        mixins: [PmMixin.projectLists],
+        mixins: [Mixins],
         watch: {
             '$route' (route) {
                 this.current_page_number = route.params.current_page_number;

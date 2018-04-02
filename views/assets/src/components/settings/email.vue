@@ -69,6 +69,8 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         data () {
             return {
@@ -79,7 +81,7 @@
                 show_spinner: false
             }
         },
-        mixins: [PmMixin.settings],
+        mixins: [Mixins],
         mounted: function(){
             pm.NProgress.done();
         },

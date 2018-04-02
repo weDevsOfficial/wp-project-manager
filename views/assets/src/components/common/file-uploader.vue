@@ -22,7 +22,7 @@
 
 <script>
     // Register a global custom directive called v-pm-popup-box
-    pm.Vue.directive('pm-uploader', {
+    Vue.directive('pm-uploader', {
         inserted: function (el, binding, vnode) { 
             new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
         },

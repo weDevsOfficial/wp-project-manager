@@ -70,6 +70,7 @@
 <script>
     import directive from './directive.js';
     import project_new_user_form from './project-new-user-form.vue';
+    import Mixins from './mixin';
 
     var new_project_form = {
 

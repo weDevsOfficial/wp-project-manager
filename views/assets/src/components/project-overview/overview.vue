@@ -134,6 +134,7 @@
 <script>
     import header from './../common/header.vue';
     import directive from './directive';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {

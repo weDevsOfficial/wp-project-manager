@@ -20,9 +20,11 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         props: ['files'],
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         // Initial action for this component
         created: function() {

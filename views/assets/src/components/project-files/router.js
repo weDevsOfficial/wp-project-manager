@@ -1,10 +1,12 @@
-const files = resolve => {
-    require.ensure(['./files.vue'], () => {
-        resolve(require('./files.vue'));
-    });
-}
+// const files = resolve => {
+//     require.ensure(['./files.vue'], () => {
+//         resolve(require('./files.vue'));
+//     });
+// }
 
 weDevsPmRegisterModule('projectFiles', 'project-files');
+
+import files from './files.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [

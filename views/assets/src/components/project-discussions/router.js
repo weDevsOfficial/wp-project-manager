@@ -1,17 +1,20 @@
 
 weDevsPmRegisterModule('projectDiscussions', 'project-discussions');
 
-const discussions_route = resolve => {
-    require.ensure(['./discussions.vue'], () => {
-        resolve(require('./discussions.vue'));
-    });
-}
+// const discussions_route = resolve => {
+//     require.ensure(['./discussions.vue'], () => {
+//         resolve(require('./discussions.vue'));
+//     });
+// }
 
-const individual_discussion = resolve => {
-    require.ensure(['./individual-discussions.vue'], () => {
-        resolve(require('./individual-discussions.vue'));
-    });
-}
+// const individual_discussion = resolve => {
+//     require.ensure(['./individual-discussions.vue'], () => {
+//         resolve(require('./individual-discussions.vue'));
+//     });
+// }
+
+import discussions_route from './discussions.vue'
+import individual_discussion from './individual-discussions.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [

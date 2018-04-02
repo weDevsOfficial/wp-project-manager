@@ -1,10 +1,12 @@
 weDevsPmRegisterModule('projectCategories', 'categories');
 
-const categories = resolve => {
-    require.ensure(['./categories.vue'], () => {
-        resolve(require('./categories.vue'));
-    });
-}
+// const categories = resolve => {
+//     require.ensure(['./categories.vue'], () => {
+//         resolve(require('./categories.vue'));
+//     });
+// }
+
+import categories from './categories.vue';
 
 weDevsPMRegisterChildrenRoute('project_root', 
     [

@@ -1,3 +1,4 @@
+window.pm = {};
 const PmMixin = {};
 const PmProMixin = {};
 const weDevs_PM_Routers = [];

@@ -52,9 +52,10 @@
     import list from './list.vue';
     import action from './action-milestones.vue';
     import discuss from './milestone-discussion.vue';
+    import Mixins from './mixin';
 
     export default {
-        mixins: [PmMixin.projectMilestones],
+        mixins: [Mixins],
         components: {
             'new-milestone-form': new_milestone_form,
             'list': list,

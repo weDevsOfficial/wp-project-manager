@@ -39,7 +39,7 @@ class Enqueue_Scripts {
 		global $wedevs_pm_pro;
 		$upload_size = 10 * 1024 * 1024;
 
-		wp_localize_script( 'pm-library', 'PM_Vars', array(
+		wp_localize_script( 'pm-config', 'PM_Vars', array(
 				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 				'permission'               => wp_create_nonce('wp_rest'),
 				'nonce'                    => wp_create_nonce( 'pm_nonce' ),

@@ -51,6 +51,7 @@
 
 <script>
     import header from '@components/common/header.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -59,7 +60,7 @@
                 
             }); 
         },
-        mixins: [PmMixin.projectActivities],
+        mixins: [Mixins],
         data () {
             return {
                 total_activity: 0,

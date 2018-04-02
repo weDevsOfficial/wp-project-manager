@@ -30,9 +30,11 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         props: ['category'],
-        mixins: [PmMixin.projectCategories],
+        mixins: [Mixins],
         data () {
             return {
                 submit_disabled: false,

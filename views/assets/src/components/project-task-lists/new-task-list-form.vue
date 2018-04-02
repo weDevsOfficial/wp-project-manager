@@ -32,6 +32,8 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         // Get passing data for this component. Remember only array and objects are 
         props: {
@@ -69,7 +71,7 @@
             };
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         created () {
 

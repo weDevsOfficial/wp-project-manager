@@ -1,81 +1,17 @@
-import Promise from 'promise-polyfill'; 
-
-var store, router, directive, mixin, PM, PMComponents, MenuFix;
-
-var scriptsLoaded = {
-	'store': false,
-	'router': false,
-	'directive': false,
-	'mixin': false,
-	'PM': false,
-	'PMComponents': false,
-	'menuFix': false
-};
-
-var promiseReturn = new Promise(function(resolve, reject) {
-
-	require(['./router/router'], function(script) {
-		router = script.default;
-		scriptsLoaded.router = true;
-		pmScriptsLoaded(resolve, reject);
+import router from '@router/router'
+import store from '@store/store'
+import '@directives/directive'
+import Mixin from '@helpers/mixin/mixin'
+import ModuleMixin from '@helpers/mixin/module-mixin'
+import PM from './App.vue'
+import '@helpers/common-components'
+import '@helpers/menu-fix';
 
 
-		weDevsPmModules.forEach(function(module) {
-            let mixin = require('./components/'+module.path+'/mixin.js');
-            PmMixin[module.name] = mixin.default;
-        });
-
-		
-		require(['./store/store'], function(script) {
-			store = script.default;
-			scriptsLoaded.store = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-
-		require(['./directives/directive'], function(script) {
-			directive = script.default;
-			scriptsLoaded.directive = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-
-		require(['./helpers/mixin/mixin'], function(script) {
-			mixin = script.default;
-			scriptsLoaded.mixin = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-
-		require(['./App.vue'], function(script) {
-			PM = script.default;
-			scriptsLoaded.PM = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-
-		require(['./helpers/common-components'], function(script) {
-			PMComponents = script.default;
-			scriptsLoaded.PMComponents = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-
-		require(['@helpers/menu-fix'], function(script) {
-			MenuFix = script.default;
-			scriptsLoaded.menuFix = true;
-			pmScriptsLoaded(resolve, reject);
-		});
-	});
-
-});
-
-function pmScriptsLoaded(resolve, reject) {
-	var loaded = Object.values(scriptsLoaded);
-	
-	if (loaded.indexOf(false) === -1) {
-		resolve(true);
-	}
-}
 
 window.pmBus = new pm.Vue();
 
-promiseReturn.then(function(result) {
+//promiseReturn.then(function(result) {
 	/**
 	 * Project template render
 	 */
@@ -84,15 +20,18 @@ promiseReturn.then(function(result) {
 	    store,
 	    router,
 	    render: t => t(PM),
+	    moduleMixins: ModuleMixin
 	}
-
-	pm.Vue.mixin(pm.Mixin.default);
+	
+	pm.Vue.mixin(Mixin);
 	
 	new pm.Vue(PM_Vue); 
 	
+
+	
 	// fix the admin menu for the slug "vue-app"
-	MenuFix('pm_projects');
-});
+	//menuFix('pm_projects');
+//});
 
 
 

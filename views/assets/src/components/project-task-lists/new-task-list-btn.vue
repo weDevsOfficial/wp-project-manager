@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default{
         /**
          * Initial data for this component
@@ -24,7 +26,7 @@
             }
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         computed: {
             /**
