@@ -78,7 +78,9 @@
             if ( this.submit_disabled ) {
                 return;
             }
-
+            if (typeof this.comment.content === 'undefined' || this.comment.content == '') {
+                return;
+            }
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
             // Showing loading option 
@@ -101,12 +103,7 @@
                 args.callback = function(res){
                     var index = self.getIndex( self.comments, self.comment.id, 'id' );
                     self.comments.splice(index, 1, res.data);
-                    
-                    self.submit_disabled = false;
-                    self.show_spinner    = false;
-                    self.notify_users    = [];
-                    self.files           = []; 
-                    self.deleted_files   = [];
+
                 }
 
                 self.updateComment ( args );
@@ -116,6 +113,8 @@
                     self.comments.push(res.data);
                     self.submit_disabled = false;
                     self.show_spinner    = false;
+                    self.content.html    = '';
+                    self.comment.content = '';
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];
