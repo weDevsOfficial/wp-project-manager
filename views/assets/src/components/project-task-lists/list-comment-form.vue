@@ -128,19 +128,21 @@
             if ( this.submit_disabled ) {
                 return;
             }
-             // Disable submit button for preventing multiple click
+            if (typeof this.comment.content === 'undefined' || this.comment.content == '') {
+                return;
+            }
             this.submit_disabled = true;
             // Showing loading option 
             this.show_spinner = true;
             var self = this;
             var args = {
                 data: {
-                  commentable_id: self.list_id,
-                  content: self.comment.content,
-                  commentable_type: 'task_list',
-                  deleted_files: self.deleted_files || [],
-                  files: self.files || [],
-                   notify_users: this.notify_users
+                    commentable_id: self.list_id,
+                    content: self.comment.content,
+                    commentable_type: 'task_list',
+                    deleted_files: self.deleted_files || [],
+                    files: self.files || [],
+                    notify_users: this.notify_users
                 },
             }
             if(typeof this.comment.id !== 'undefined' ){
@@ -166,6 +168,8 @@
                     });
                     self.submit_disabled = false;
                     self.show_spinner    = false;
+                    self.content.html    = '';
+                    self.comment.content = '';
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];

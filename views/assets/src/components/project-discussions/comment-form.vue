@@ -76,6 +76,9 @@
 
         methods: {
             newSelfComment () {
+                if (typeof this.comment.content === 'undefined' || this.comment.content == '' ) {
+                    return;
+                }
                 var self = this;
                 var comment_id = typeof self.comment.id == 'undefined' ? false : true;
 
