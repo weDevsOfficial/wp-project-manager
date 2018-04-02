@@ -65,11 +65,13 @@
 
 <script>
     import comment_form from './task-comment-form.vue';
+    import Mixins from './mixin';
+    
     export default {
         // Get passing data for this component.
         props: ['comments'],
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         data: function() {
             return {

@@ -31,8 +31,10 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         props: ['discuss'],
-        mixins: [PmMixin.projectMilestones],
+        mixins: [Mixins],
     }
 </script>

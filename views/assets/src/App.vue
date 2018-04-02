@@ -4,6 +4,7 @@
         <router-view></router-view>
 
         <do-action hook="addons-component"></do-action> 
+        
     </div>
 </template>
 

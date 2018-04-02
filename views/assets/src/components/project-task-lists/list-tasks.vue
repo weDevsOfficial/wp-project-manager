@@ -20,13 +20,14 @@
     import new_task_form from './new-task-form.vue';
     import incompleted_tasks from './incompleted-tasks.vue';
     import completed_tasks from './completed-tasks.vue';
+    import Mixins from './mixin';
 
     export default {
         
         // Get passing data for this component. Remember only array and objects are
         props: ['list'],
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         /**
          * Initial data for this component

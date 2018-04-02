@@ -1,25 +1,29 @@
 
 weDevsPmRegisterModule('projectTaskLists', 'project-task-lists');
 
-import directive from './directive';
+import directive from './directive'
+import task_lists_route from './lists.vue'
+import single_list_route from './single-list.vue'
+import single_task_route from './single-task.vue'
 
-const task_lists_route = resolve => {
-    require.ensure(['./lists.vue'], () => {
-        resolve(require('./lists.vue'));
-    });
-}
+// const task_lists_route = resolve => {
+//     require.ensure(['./lists.vue'], () => {
+//         resolve(require('./lists.vue'));
+//     });
+// }
 
-const single_list_route = resolve => {
-    require.ensure(['./single-list.vue'], () => {
-        resolve(require('./single-list.vue'));
-    });
-}
+// const single_list_route = resolve => {
+//     require.ensure(['./single-list.vue'], () => {
+//         resolve(require('./single-list.vue'));
+//     });
+// }
 
-const single_task_route = resolve => {
-    require.ensure(['./single-task.vue'], () => {
-        resolve(require('./single-task.vue'));
-    });
-}
+// const single_task_route = resolve => {
+//     require.ensure(['./single-task.vue'], () => {
+//         resolve(require('./single-task.vue'));
+//     });
+// }
+
 weDevsPMRegisterChildrenRoute('projects', 
     [
         { 

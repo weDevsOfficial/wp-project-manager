@@ -1,8 +1,10 @@
-const Calendar = resolve => {
-    require.ensure(['./calendar.vue'], () => {
-        resolve(require('./calendar.vue'));
-    });
-}
+// const Calendar = resolve => {
+//     require.ensure(['./calendar.vue'], () => {
+//         resolve(require('./calendar.vue'));
+//     });
+// }
+
+import Calendar from './calendar.vue'
 
 weDevsPMRegisterChildrenRoute('project_root', 
     [

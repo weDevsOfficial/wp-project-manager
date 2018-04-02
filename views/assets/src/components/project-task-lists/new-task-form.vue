@@ -54,6 +54,7 @@
 
 <script>
 import date_picker from './date-picker.vue';
+import Mixins from './mixin';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -91,7 +92,7 @@ export default {
             assigned_to: []
         }
     },
-    mixins: [PmMixin.projectTaskLists],
+    mixins: [Mixins],
 
     components: {
     	'multiselect': pm.Multiselect.Multiselect,

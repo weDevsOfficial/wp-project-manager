@@ -90,6 +90,7 @@
     import late_milestones from './late-milestones.vue';
     import upcoming_milestones from './upcoming-milestones.vue';
     import completed_milestones from './completed-milestones.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -97,7 +98,7 @@
                 vm.getSelfMilestones();
             });
         },
-        mixins: [PmMixin.projectMilestones],
+        mixins: [Mixins],
         data () {
             return {
                 current_page_number: 1,

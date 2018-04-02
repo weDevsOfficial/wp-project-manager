@@ -97,6 +97,7 @@
     import new_task_list_form from './new-task-list-form.vue';
     import new_task_button from './new-task-btn.vue';
     import header from './../common/header.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -121,7 +122,7 @@
             }
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
         /**
          * Initial action for this component
          * 

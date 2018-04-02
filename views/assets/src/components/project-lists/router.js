@@ -8,33 +8,36 @@ import {task_lists, single_list} from '@components/project-task-lists/router';
 import {discussions, single_discussion} from '@components/project-discussions/router';
 import {milestones} from '@components/project-milestones/router';
 
-// const projectListHeader = resolve => {
-//     require.ensure(['./header.vue'], () => {
-//         resolve(require('./header.vue'));
+
+// const empty = resolve => {
+//     require.ensure(['./empty.vue'], () => {
+//         resolve(require('./empty.vue'));
 //     });
 // }
-const empty = resolve => {
-    require.ensure(['./empty.vue'], () => {
-        resolve(require('./empty.vue'));
-    });
-}
-const project_lists = resolve => {
-    require.ensure(['./active-projects.vue'], () => {
-        resolve(require('./active-projects.vue'));
-    });
-}
+import empty from './empty.vue'
+// const project_lists = resolve => {
+//     require.ensure(['./active-projects.vue'], () => {
+//         resolve(require('./active-projects.vue'));
+//     });
+// }
 
-const all_projects = resolve => {
-    require.ensure(['./all-projects.vue'], () => {
-        resolve(require('./all-projects.vue'));
-    });
-}
+import project_lists from './active-projects.vue'
 
-const completed_projects = resolve => {
-    require.ensure(['./completed-projects.vue'], () => {
-        resolve(require('./completed-projects.vue'));
-    });
-}
+// const all_projects = resolve => {
+//     require.ensure(['./all-projects.vue'], () => {
+//         resolve(require('./all-projects.vue'));
+//     });
+// }
+
+import all_projects from './all-projects.vue'
+
+// const completed_projects = resolve => {
+//     require.ensure(['./completed-projects.vue'], () => {
+//         resolve(require('./completed-projects.vue'));
+//     });
+// }
+
+import completed_projects from './completed-projects.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [

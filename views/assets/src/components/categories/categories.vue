@@ -192,8 +192,10 @@
 
 <script>
     import edit_category_form from './edit-category-form.vue';
+    import Mixins from './mixin';
+
     export default {
-        mixins: [PmMixin.projectCategories],
+        mixins: [Mixins],
 
         components: {
             'edit-category-form': edit_category_form

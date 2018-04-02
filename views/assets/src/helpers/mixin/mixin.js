@@ -1,3 +1,5 @@
+import TaskLists from '@components/project-task-lists/mixin';
+
 export default {
 
     data () {
@@ -8,17 +10,16 @@ export default {
             avatar_url: PM_Vars.avatar_url,
             text: PM_Vars.text,
             PM_Vars: PM_Vars,
-            pm: pm
+            pm: pm,
+            taskLists: TaskLists
         }
     },
-    computed: {
 
-    },
     methods: {
         __ (text, domain) {
-            return pm.i18n.__(text, domain);
+            return __(text, domain);
         },
-        sprintf : pm.i18n.sprintf,
+        sprintf: sprintf,
         user_can (cap) {
             return pmUserCan( cap, this.$store.state.project );
         },

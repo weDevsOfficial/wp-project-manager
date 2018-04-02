@@ -121,6 +121,8 @@
     </div>
 </template>
 <script>
+import Mixins from './mixin';
+
 export default {
     beforeRouteEnter (to, from, next) {
         if( PM_Vars.manage_capability !== '1' ) {
@@ -143,7 +145,7 @@ export default {
             show_spinner: false,
         }
     },
-    mixins: [PmMixin.settings],
+    mixins: [Mixins],
     mounted: function(){
         pm.NProgress.done();
     },

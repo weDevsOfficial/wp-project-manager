@@ -140,6 +140,7 @@
     import header from './../common/header.vue';
     import new_discuss_form from './new-discuss-form.vue';
     import pagination from './../common/pagination.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -149,7 +150,7 @@
             });
         },
 
-        mixins: [PmMixin.projectDiscussions],
+        mixins: [Mixins],
 
         data () {
             return {

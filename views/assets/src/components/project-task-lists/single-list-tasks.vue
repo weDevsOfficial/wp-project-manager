@@ -52,6 +52,7 @@
     import new_task_form from './new-task-form.vue';
     import incompleted_tasks from './incompleted-tasks.vue';
     import completed_tasks from './completed-tasks.vue';
+    import Mixins from './mixin';
 
     export default {
         
@@ -82,7 +83,7 @@
             }
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         computed: {
             /**

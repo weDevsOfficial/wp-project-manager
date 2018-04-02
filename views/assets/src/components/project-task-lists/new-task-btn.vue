@@ -15,11 +15,13 @@
 </style>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         // Get passing data for this component. Remember only array and objects are
         props: ['list', 'task'],
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         methods: {
             /**

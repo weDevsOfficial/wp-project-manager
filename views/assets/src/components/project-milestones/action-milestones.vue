@@ -20,10 +20,12 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+    
     export default {
         props: ['milestone'],
 
-        mixins: [PmMixin.projectMilestones],
+        mixins: [Mixins],
 
         data () {
             return {

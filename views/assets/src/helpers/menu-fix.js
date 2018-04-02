@@ -31,4 +31,4 @@ function menuFix(slug) {
     });
 }
 
-export default menuFix;
+// export default menuFix;

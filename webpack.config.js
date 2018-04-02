@@ -23,8 +23,8 @@ module.exports = {
         path: outputPath,
         filename: '[name].js',
         publicPath: '',
-        chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
-        jsonpFunction: 'wedevsPmWebpack',
+        //chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
+        //jsonpFunction: 'wedevsPmWebpack',
         // hotUpdateFunction: 'wedevsPmWebpacks',
     },
 

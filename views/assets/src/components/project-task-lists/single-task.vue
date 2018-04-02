@@ -229,6 +229,7 @@
 <script>
     import comments from './task-comments.vue';
     import DoAction from './../common/do-action.vue';
+    import Mixins from './mixin';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -250,7 +251,7 @@
             }
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         computed: {
             doActionData () {

@@ -44,24 +44,25 @@ var PM_TaskList_Mixin = {
     },
 
     methods: {
-        ...pm.Vuex.mapMutations('projectTaskLists',
-            [
-                'setLists',
-                'setListsMeta',
-                'afterNewList',
-                'afterNewListupdateListsMeta',
-                'afterDeleteList',
-                'afterNewTask',
-                'afterUpdateTask',
-                'afterDeleteTask',
-                'showHideListFormStatus',
-                'single_task_popup',
-                'balankTemplateStatus',
-                'listTemplateStatus',
-                'setTasks',
-                'afterUpdateList'
-            ]
-        ),
+        // ...pm.Vuex.mapMutations('projectTaskLists',
+        //     [
+        //         'setLists',
+        //         'setListsMeta',
+        //         'afterNewList',
+        //         'afterNewListupdateListsMeta',
+        //         'afterDeleteList',
+        //         'afterNewTask',
+        //         'afterUpdateTask',
+        //         'projectTaskLists',
+        //         'showHideListFormStatus',
+        //         'single_task_popup',
+        //         'balankTemplateStatus',
+        //         'listTemplateStatus', 
+        //         'setTasks',
+
+        //         'afterUpdateList'
+        //     ]
+        // ),
         can_complete_task (task) {
             return !task.meta.can_complete_task;
         },
@@ -141,8 +142,8 @@ var PM_TaskList_Mixin = {
 
                     });
                     self.$root.$store.state.projectTaskListLoaded = true;
-                    self.setLists(res.data);
-                    self.setListsMeta(res.meta.pagination);
+                    self.$store.commit('projectTaskLists/setLists', res.data);
+                    self.$store.commit('projectTaskLists/setListsMeta', res.meta.pagination);
 
                     self.listTemplateAction();
                   
@@ -231,8 +232,8 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     res.data.incomplete_tasks = {data: []};
-                    self.afterNewList(res.data);
-                    self.afterNewListupdateListsMeta();
+                    self.$store.commit('projectTaskLists/afterNewList', res.data);
+                    self.$store.commit('projectTaskLists/afterNewListupdateListsMeta');
                     self.showHideListForm(false);
                     pm.Toastr.success(res.message);
 
@@ -280,7 +281,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.message);
-                    self.afterUpdateList(res.data);
+                    self.$store.commit( 'projectTaskLists/afterUpdateList', res.data);
                     self.showHideListForm(false, self.list);
 
                     if( typeof args.callback === 'function' ) {
@@ -340,7 +341,7 @@ var PM_TaskList_Mixin = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.afterDeleteList(args.list_id);
+                    self.$store.commit( 'projectTaskLists/afterDeleteList', args.list_id );
                     pm.Toastr.success(res.message);
                     self.listTemplateAction();
                     if( typeof args.callback === 'function' ) {
@@ -374,7 +375,7 @@ var PM_TaskList_Mixin = {
                 data: data,
                 success (res) {
                     self.addTaskMeta(res.data);
-                    self.afterNewTask(
+                    self.$store.commit( 'projectTaskLists/afterNewTask',
                         {
                             list_id: args.data.list_id,
                             task: res.data
@@ -429,7 +430,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addTaskMeta(res.data);
 
-                    self.afterUpdateTask( {
+                    self.$store.commit( 'projectTaskLists/afterUpdateTask',  {
                         list_id: args.data.list_id,
                         task: res.data
                     });
@@ -490,7 +491,7 @@ var PM_TaskList_Mixin = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id,
                 type: 'DELETE',
                 success (res) {
-                    self.afterDeleteTask( {
+                    self.$store.commit( 'projectTaskLists/afterDeleteTask', {
                         'task': args.task,
                         'list': args.list 
                     });
@@ -625,7 +626,7 @@ var PM_TaskList_Mixin = {
                     list.edit_mode = status;
                 }
             } else {
-                this.showHideListFormStatus(status);
+                this.$store.commit( 'projectTaskLists/showHideListFormStatus', status);
             }
         },
 
@@ -743,7 +744,7 @@ var PM_TaskList_Mixin = {
                 },
                 list_id: list.id,
                 callback: function ( res ){
-                    self.setTasks(res.data );
+                    self.$sotre.commit( 'projectTaskLists/setTasks', res.data );
                     list.task_loading_status = false;
                 }
             } ;
@@ -792,7 +793,7 @@ var PM_TaskList_Mixin = {
                 },
                 list_id: list.id,
                 callback: function ( res ){
-                    this.setTasks(res.data);
+                    this.$store.commit( 'projectTaskLists/setTasks', res.data);
                     list.task_loading_status = false;
                 }
             } ;
@@ -1118,7 +1119,7 @@ var PM_TaskList_Mixin = {
          * @return {[type]}      [description]
          */
         singleTask ( task, list ) {
-            this.single_task_popup({ task: task });
+            this.$store.commit( 'projectTaskLists/single_task_popup', { task: task });
         },
 
         /**
@@ -1137,8 +1138,8 @@ var PM_TaskList_Mixin = {
                 blank = true; 
                 listTmpl = false;
             }
-            this.balankTemplateStatus(blank);
-            this.listTemplateStatus(listTmpl);
+            this.$store.commit( 'projectTaskLists/balankTemplateStatus', blank);
+            this.$store.commit( 'projectTaskLists/listTemplateStatus', listTmpl);
         },
 
         is_assigned: function(task) {

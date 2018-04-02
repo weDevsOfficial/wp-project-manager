@@ -200,6 +200,7 @@
     import header from '@components/common/header.vue';
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
+    import Mixins from './mixin';
     
     export default {
 
@@ -218,7 +219,7 @@
             'default-list-page': default_page
         },
 
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
 
         /**
          * Initial data for this component

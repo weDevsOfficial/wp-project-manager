@@ -1,9 +1,11 @@
 
-const overview = resolve => {
-    require.ensure(['./overview.vue'], () => {
-        resolve(require('./overview.vue'));
-    });
-}
+// const overview = resolve => {
+//     require.ensure(['./overview.vue'], () => {
+//         resolve(require('./overview.vue'));
+//     });
+// }
+
+import overview from './overview.vue'
 
 weDevsPmRegisterModule('projectOverview', 'project-overview');
 

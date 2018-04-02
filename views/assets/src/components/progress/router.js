@@ -1,8 +1,10 @@
-const Progress = resolve => {
-    require.ensure(['./progress.vue'], () => {
-        resolve(require('./progress.vue'));
-    });
-}
+// const Progress = resolve => {
+//     require.ensure(['./progress.vue'], () => {
+//         resolve(require('./progress.vue'));
+//     });
+// }
+
+import Progress from './progress.vue'
 
 weDevsPMRegisterChildrenRoute('project_root', 
     [

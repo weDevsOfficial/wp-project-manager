@@ -30,9 +30,10 @@
 <script>
     import new_task_list_btn from './new-task-list-btn.vue';
     import new_task_list_form from './new-task-list-form.vue';
+    import Mixins from './mixin';
 
     export default {
-        mixins: [PmMixin.projectTaskLists],
+        mixins: [Mixins],
         components: {
             'new-task-list-btn': new_task_list_btn,
             'new-task-list-form': new_task_list_form,
