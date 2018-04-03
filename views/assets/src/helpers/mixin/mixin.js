@@ -435,14 +435,13 @@ export default {
                 callback : function (res) {
                     this.addProjectMeta(res.data);
                     this.$root.$store.commit('setProject', res.data);
-                    this.$root.$store.commit('setDefaultLoaded');
                     this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
                 }
             }
             this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
             if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) {
-                this.$root.$store.state.project_switch = true;
+                this.$root.$store.commit('setDefaultLoaded');
                 this.getProject(args);
             }
 

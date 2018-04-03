@@ -26,13 +26,13 @@
                 <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                     <td>{{ projectUser.display_name }}</td>
                     <td>
-                        <select  v-model="projectUser.roles.data[0].id">
+                        <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
                             <option v-for="role in roles" :value="role.id">{{ role.title }}</option>
                         </select>
                     </td>
                   
                     <td>
-                        <a @click.prevent="deleteUser(projectUser)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                        <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                             <span class="dashicons dashicons-trash"></span> 
                             <span class="title">{{ __( 'Delete', 'pm' ) }}</span>
                         </a>
@@ -111,7 +111,6 @@
                 } 
                 return {};
             },
-
             selectedUsers () {
                 return this.$root.$store.state.assignees;
             },
@@ -163,6 +162,10 @@
         methods: {
 
             deleteUser (del_user) {
+                if ( this.is_project_creator(del_user.id) ) {
+                    return;
+                }
+
                 this.$root.$store.commit(
                     'afterDeleteUserFromProject', 
                     {
@@ -170,6 +173,16 @@
                         user_id: del_user.id
                     }
                 );
+            },
+            is_project_creator (user_id) {
+                if ( !this.project.hasOwnProperty('creator') ){
+                    return false;
+                }
+
+                if ( this.project.creator.data.id  == user_id ) {
+                    return true;
+                }
+
             },
             /**
              * Action after submit the form to save and update
@@ -191,12 +204,19 @@
                 var self = this;
                 if (this.is_update) {
                     args.data.id = this.project.id;
-                    args.callback = function ( res ){
+                    args.callback = function ( res ) {
                         self.show_spinner = false;
                     }
                     this.updateProject ( args );
                 } else {
-                    args.callback = function(res){
+                    args.callback = function(res) {
+
+                        self.project.title = '';
+                        self.project_cat = 0;
+                        self.project.description = ''
+                        self.project_notify = [];
+                        self.project.status = '';
+
                         self.show_spinner = false;
                         self.$router.push({
                             name: 'pm_overview', 
@@ -205,6 +225,7 @@
                             }
                         });
                     }
+
                     this.newProject(args);
                 }
             },
@@ -214,7 +235,9 @@
                 
                 if ( index !== false && this.is_update ) {
                     this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
-                } 
+                } else {
+                    this.$root.$store.commit('resetSelectedUsers');
+                }
             },
 
             closeForm () {
