@@ -77,10 +77,10 @@
                     <div class="pm-list-action" v-if="can_create_task">
 
                         <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
-                            <span class="">Edit |</span>
+                            <span class="">{{ __('Edit', 'pm') }} |</span>
                         </a>
                         <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
-                            <span class="">Delete</span>
+                            <span class="">{{ __('Delete', 'pm') }}</span>
                         </a>
                     </div>
                         
