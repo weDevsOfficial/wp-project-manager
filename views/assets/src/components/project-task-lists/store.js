@@ -238,26 +238,28 @@ export default {
             
             if (data.status === 1) {
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
-                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
                 
                 if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
-
                     state.lists[list_index].complete_tasks.data.splice(0,0,data.task);
-                } 
+                } else {
+                    state.lists[list_index].complete_tasks = { data : [data.task] }
+                }
 
+                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
                 state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
                 state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
             if (data.status === 0) {
                 var task_index = state.getIndex( state.lists[list_index].complete_tasks.data, data.task_id, 'id' );
-                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
                 
                 if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
-
                     state.lists[list_index].incomplete_tasks.data.splice(0,0,data.task);
-                } 
+                } else {
+                    state.lists[list_index].incomplete_tasks = { data: [data.task] }
+                }
 
+                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
                 state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
                 state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
             }
