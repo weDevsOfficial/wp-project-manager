@@ -1,5 +1,5 @@
 <template>
-    <div class="" id="pm-milestone-page">
+    <div class="pm-wrap pm-front-end" id="pm-milestone-page">
         <pm-header></pm-header>
 
         <div v-if="!isFetchMilestone" class="pm-data-load-before" >
