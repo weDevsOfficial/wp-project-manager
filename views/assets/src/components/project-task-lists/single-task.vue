@@ -45,7 +45,7 @@
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title"> 
                                         <span class="pm-mark-done-checkbox">
-                                            <input v-model="task.status" @click="singleTaskDoneUndone()" class="" type="checkbox">
+                                            <input :disabled="can_complete_task(task)" v-model="task.status" @click="singleTaskDoneUndone()" class="" type="checkbox">
                                         </span>
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
@@ -92,7 +92,7 @@
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
                                             
-                                            <div v-if="is_enable_multi_select" @click.prevent="afterSelect" class="pm-multiselect pm-multiselect-single-task">
+                                            <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
 
                                                 <multiselect 
                                                     v-model="task_assign" 
@@ -234,7 +234,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getTask(vm);
+                vm.getSelfTask();
             });
         },
         data: function() {
@@ -334,41 +334,43 @@
             },
             singleTaskDoneUndone: function() {
 
-                var self = this;
-                var url  = self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task.id;
-                var type = 'PUT'; 
-
-                var form_data = {
-                    'status': self.task.status ? 1 : 0
-                }
-                
-                var request_data = {
-                    url: url,
-                    type: type,
-                    data: form_data,
-                    success (res) {
-                        
+                var self = this,
+                    status = !this.task.status ? 1: 0;
+                var args = {
+                    data: {
+                        task_id: this.task.id,
+                        status : status,
                     },
-                }
-                
-                self.httpRequest(request_data);
+                    callback: function(res){
+                        self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
+                            status: status,
+                            task: res.data,
+                            list_id: self.list.id,
+                            task_id: self.task.id
+                        });
+                    }
+                }                   
+                this.taskDoneUndone( args );
                    
             },
-            getTask: function(self) {
-                
-                var request = {
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+'?with=boards,comments',
-                    success (res) {
+            getSelfTask (){
+                var self = this;
+                var args = {
+                    condition : {
+                        with: 'boards,comments',
+                    },
+                    task_id : self.task_id,
+                    callback : function (res) {
                         self.addMeta(res.data);
                         self.list = res.data.boards.data[0];
                         self.$store.commit('projectTaskLists/setSingleTask', res.data);
                         //self.task = res.data;
                         self.loading = false;
-                        pm.NProgress.done();
                     }
                 }
 
-                self.httpRequest(request);
+                this.getTask(args);
+                
             },
 
             addMeta (task) {
@@ -383,10 +385,6 @@
                 });
             },
 
-
-            afterSelect: function(selectedOption, id, event) {
-                //jQuery('.pm-multiselect').find('.multiselect__tags').find('.multiselect__tag').remove(); 
-            },
             isEnableMultiSelect: function() {
                 if ( !this.user_can('create_task')){
                     return false;
