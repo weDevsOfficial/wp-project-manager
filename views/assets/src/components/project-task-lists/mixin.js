@@ -355,6 +355,43 @@ var PM_TaskList_Mixin = {
         },
 
         /**
+         * Retrive a single list 
+         * @param  {object}   args     condition and list id
+         * @param  {Function} callback [description]
+         * @return {void}            [description]
+         */
+        getTask ( args ) {
+            var self = this, 
+            pre_define = {
+                condition: {
+                    with: '', 
+                },
+                task_id: false,
+                project_id: this.project_id,
+                callback: false,
+            };
+
+            var args = jQuery.extend(true, pre_define, args );
+            var  condition = self.generateConditions(args.condition);
+
+            var request = {
+                type: 'GET',
+                url: self.base_url + '/pm/v2/projects/'+args.project_id+'/tasks/'+args.task_id+'?'+condition,
+                success (res) {
+                    if ( typeof args.callback === 'function' ) {
+                        args.callback.call ( self, res );
+                    }
+                    pm.NProgress.done();
+                }
+            };
+
+            if(args.task_id){
+                self.httpRequest(request);
+            }
+            
+        },
+
+        /**
          * Insert  task
          * 
          * @return void
