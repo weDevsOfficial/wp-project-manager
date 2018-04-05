@@ -6,17 +6,52 @@ export default {
 
     state: {
         activities: [],
-        isActivityFetched: false
+        isActivityFetched: false,
+        getIndex: function ( itemList, id, slug) {
+            var index = false;
+
+            itemList.forEach(function(item, key) {
+                if (item[slug] == id) {
+                    index = key;
+                }
+            });
+
+            return index;
+        },
     },
     
     mutations: {
         setActivities (state, activities) {
-            if ( state.activities.length > 0 ){
-                state.activities = state.activities.concat(activities);
-            }else{
-                state.activities = activities;
-            }
+            var index = state.getIndex(state.activities, activities.project_id, 'project_id');
 
+            if (index === false) {
+                var activity = {
+                    activities: activities.data,
+                    project_id: activities.project_id,
+                    page: 1
+                }
+
+                state.activities.push(activity);
+
+            } else {
+                var prevData = state.activities[index];
+                var page = prevData.page;
+
+                if ( activities.loadStatus ) {
+                    state.activities[index].activities = state.activities[index].activities.concat(activities.data);
+                    state.activities[index].page = parseInt(state.activities[index].page) + 1;
+                    
+                } else {
+                    var activity = {
+                        activities: activities.data,
+                        project_id: activities.project_id,
+                        page: 1
+                    }
+                    state.activities.splice(index, 1, activity);
+                }
+
+            }
+                
             state.isActivityFetched = true;
         },
 
