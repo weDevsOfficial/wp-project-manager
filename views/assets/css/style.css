@@ -424,7 +424,6 @@ ul.pm-inline-ul li {
 -------------------------------------------------- */
 .pm table {
   max-width: 100%;
-  background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -605,6 +604,10 @@ ul.pm-inline-ul li {
 
 .pm .table-hover tbody tr.info:hover > td {
   background-color: #c4e3f3;
+}
+.pm .pm-table thead,
+.pm .pm-table tfoot {
+  background-color: #fff;
 }
 ul.pm-attachments {
   margin: 0 10px;
