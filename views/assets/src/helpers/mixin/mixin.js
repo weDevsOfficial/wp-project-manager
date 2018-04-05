@@ -218,8 +218,7 @@ export default {
                     notify_users: '',
                     assignees: '',
                     status: 'incomplete'
-                },
-                callback: false,
+                }
             },
             args = jQuery.extend(true, pre_define, args );
             args = pm_apply_filters( 'before_project_save', args );
@@ -228,14 +227,14 @@ export default {
                 url: this.base_url + '/pm/v2/projects/',
                 data: args.data,
                 success: function(res) {
+                    jQuery( "#pm-project-dialog" ).dialog('destroy'); 
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
                     pm.Toastr.success(res.message);
-                    jQuery( "#pm-project-dialog" ).dialog("close");
-
+                    
                     if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
+                        args.callback(res);
                     }
                 },
 
@@ -312,8 +311,7 @@ export default {
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
                     category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
-                },
-                callback: false
+                }
             }
 
             var  args = jQuery.extend(true, pre_define, args );
@@ -330,8 +328,8 @@ export default {
                     self.$root.$store.commit('setProjectsMeta', res.meta );
                     pm.NProgress.done();
                     self.loading = false;
-                    if(typeof callback !== 'undefined'){
-                        callback(res.data);
+                    if(typeof args.callback != 'undefined'){
+                        args.callback(res.data);
                     }
 
                     pmProjects = res.data;

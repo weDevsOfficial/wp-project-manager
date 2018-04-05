@@ -18,6 +18,7 @@ var Store = {
             total_pages: 0
         },
         assignees: [],
+        isFetchProjects: false,
  
         projects_view: '',
         getIndex: function ( itemList, id, slug) {
@@ -125,7 +126,15 @@ var Store = {
 
         setProjectsView(state, value){
             state.projects_view = value;
-        }   
+        },
+
+        projectFetchComplete (state, status) {
+            state.isFetchProjects = status;
+        },
+
+        clearProjectForm (state) {
+            state.project = {};
+        }  
     }
 }
 

@@ -101,6 +101,7 @@
                     }
                 }
                 
+                this.loading = true;
                 this.getProjects(args);
             }
         }
