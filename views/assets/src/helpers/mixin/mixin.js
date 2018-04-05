@@ -770,7 +770,7 @@ export default {
                 },
                 type: 'POST',
                 success (res) {
-                    //pm.Toastr.success(res.message);
+                    pm.Toastr.success(res.message);
                     if (typeof callback !== 'undefined') {
                         callback(res.data);
                     }
