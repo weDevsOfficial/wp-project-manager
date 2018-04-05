@@ -64,9 +64,11 @@
         mixins: [Mixins],
         data () {
             return {
+                isActivityFetched: false,
                 total_activity: 0,
                 per_page: 2,
-                show_spinner:false
+                show_spinner:false,
+                loadMoreStatus: false
             }
         },
         created () {
@@ -87,6 +89,14 @@
                 var records = this.$store.state.projectActivities.activities,
                     self = this;
 
+                let index =  this.getIndex(records, this.project_id, 'project_id');
+
+                if ( index === false ) {
+                    return [];
+                }
+
+                records = records[index].activities;
+
                 var activities = _.chain(records)
                     .groupBy(self.occurrenceDay)
                     .map(self.groupToDay)
@@ -97,7 +107,17 @@
             },
 
             loaded_activities () {
-                return this.$store.state.projectActivities.activities.length;
+
+                var records = this.$store.state.projectActivities.activities,
+                    self = this;
+
+                let index =  this.getIndex(records, this.project_id, 'project_id');
+
+                if ( index === false ) {
+                    return 0;
+                }
+
+                return records[index].activities.length;
             },
             current_page () {
                 if(typeof this.$route.params.current_page_number !== 'undefined') {
@@ -107,9 +127,9 @@
                     return 1;
                 }
             },
-            isActivityFetched () {
-                return this.$root.$store.state.projectActivityLoaded;
-            }
+            // isActivityFetched () {
+            //     return this.$root.$store.state.projectActivityLoaded;
+            // }
         },
         components: {
             'pm-header': header
@@ -147,26 +167,36 @@
 
             loadMore () {
                 this.show_spinner= true;
-                this.$router.push({
-                    name: 'activities_pagination',
-                    params: {
-                        current_page_number : this.current_page +1
-                    }
-                });
+                var records = this.$store.state.projectActivities.activities;
+                let index =  this.getIndex(records, this.project_id, 'project_id');
+
+                if ( index === false ) {
+                    return;
+                }
+
+                var page = parseInt(records[index].page) + 1;
+
+                this.loadMoreStatus = true;
+                this.activityQuery(page);
             },
 
-            activityQuery () {
+            activityQuery (page) {
+                page = page || 1;
                 var condition = {
-                    per_page: 20,
-                    page:this.current_page,
+                    per_page: 2,
+                    page: page
                 },
                 self = this;
-
                 this.getActivities(condition, function(res) {
-                    self.$store.commit( 'projectActivities/setActivities', res.data );
+                    self.$store.commit( 'projectActivities/setActivities', {
+                        data: res.data,
+                        loadStatus: self.loadMoreStatus,
+                        project_id: self.project_id
+                    });
                     self.$root.$store.state.projectActivityLoaded = true;
                     self.total_activity = res.meta.pagination.total;
                     self.show_spinner = false;
+                    self.isActivityFetched = true;
                 });
             }
         }
