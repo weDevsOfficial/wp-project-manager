@@ -1,70 +1,69 @@
 <template>
-<div>
+    <div>
+        <form action="" method="post" class="pm-project-form" @submit.prevent="projectFormAction();">
 
-    <form action="" method="post" class="pm-project-form" @submit.prevent="projectFormAction();">
+            <div class="pm-form-item project-name">
+                <!-- v-model="project_name" -->
+                <input type="text" v-model="project.title"  id="project_name" :placeholder="__( 'Name of the project', 'pm' )" value="" size="45" />
+            </div>
 
-        <div class="pm-form-item project-name">
-            <!-- v-model="project_name" -->
-            <input type="text" v-model="project.title" name="project_name" id="project_name" :placeholder="__( 'Name of the project', 'pm' )" value="" size="45" />
+            <div class="pm-form-item project-category">
+                <!-- v-model="project_cat" -->
+                <select v-model="project_category"  id='project_cat' class='chosen-select' style="height: 35px;">
+                    <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
+                    <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
+                </select>
+            </div>
+
+            <div class="pm-form-item project-detail">
+                <!-- v-model="project_description" -->
+                <textarea v-model="project.description"  class="pm-project-description" id="" cols="50" rows="3" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
+            </div>
+
+            <div class="pm-form-item pm-project-role" v-if="show_role_field">
+                <table>
+                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
+                        <td>{{ projectUser.display_name }}</td>
+                        <td>
+                            <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
+                                <option v-for="role in roles" :value="role.id">{{ role.title }}</option>
+                            </select>
+                        </td>
+                      
+                        <td>
+                            <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                                <span class="dashicons dashicons-trash"></span> 
+                                <span class="title">{{ __( 'Delete', 'pm' ) }}</span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="pm-form-item project-users" v-if="show_role_field">
+                <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="__( 'Type 3 or more characters to search users...', 'pm' )" size="45">
+            </div>
+
+            <div class="pm-form-item project-notify">
+                <label>
+                    <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
+                    {{ __( 'Notify Co-Workers', 'pm' ) }}            
+                </label>
+            </div>
+
+            <div class="submit">
+                <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="__( 'Update Project', 'pm' )">
+                <input v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="__( 'Add New Project', 'pm' )">
+                <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
+                <span v-show="show_spinner" class="pm-loading"></span>
+
+            </div>
+
+        </form>
+        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="__( 'Create a new user', 'pm' )">
+            <project-new-user-form></project-new-user-form>
         </div>
-
-        <div class="pm-form-item project-category">
-            <!-- v-model="project_cat" -->
-            <select v-model="project_category"  name='project_cat' id='project_cat' class='chosen-select' style="height: 35px;">
-                <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
-                <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
-            </select>
-        </div>
-
-        <div class="pm-form-item project-detail">
-            <!-- v-model="project_description" -->
-            <textarea v-model="project.description" name="project_description" class="pm-project-description" id="" cols="50" rows="3" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
-        </div>
-
-        <div class="pm-form-item pm-project-role" v-if="show_role_field">
-            <table>
-                <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
-                    <td>{{ projectUser.display_name }}</td>
-                    <td>
-                        <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
-                            <option v-for="role in roles" :value="role.id">{{ role.title }}</option>
-                        </select>
-                    </td>
-                  
-                    <td>
-                        <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
-                            <span class="dashicons dashicons-trash"></span> 
-                            <span class="title">{{ __( 'Delete', 'pm' ) }}</span>
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-        <div class="pm-form-item project-users" v-if="show_role_field">
-            <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="__( 'Type 3 or more characters to search users...', 'pm' )" size="45">
-        </div>
-
-        <div class="pm-form-item project-notify">
-            <label>
-                <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
-                {{ __( 'Notify Co-Workers', 'pm' ) }}            
-            </label>
-        </div>
-
-        <div class="submit">
-            <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="__( 'Update Project', 'pm' )">
-            <input  v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="__( 'Add New Project', 'pm' )">
-            <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
-            <span v-show="show_spinner" class="pm-loading"></span>
-
-        </div>
-
-    </form>
-    <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="__( 'Create a new user', 'pm' )">
-        <project-new-user-form></project-new-user-form>
     </div>
-</div>
 </template>
 
 <script>
@@ -103,29 +102,21 @@
             },
 
             project () {
+                
                 var projects = this.$root.$store.state.projects;
                 var index = this.getIndex(projects, this.project_id, 'id');
+                var project = {};
                 
                 if ( index !== false ) {
-                    return projects[index];
+                    project = projects[index];
                 } 
-                return {};
+                
+                return project;
             },
             selectedUsers () {
                 return this.$root.$store.state.assignees;
             },
 
-            // project_users () {
-            //  var projects = this.$root.$store.state.projects;
-   //              var index = this.getIndex(projects, this.project_id, 'id');
-                
-   //              if ( index !== false ) {
-   //               return projects[index].assignees.data;
-   //              } 
-            //  return [];
-            // },
-                
-    
             project_category: {
                 get () {
                     if (this.is_update) {
@@ -189,7 +180,17 @@
              * @return {[void]} 
              */
             projectFormAction () {
+                if ( this.show_spinner ) {
+                    return;
+                }
+                
+                if ( !this.project.title ) {
+                    pm.Toastr.error('Project title is required!');
+                    return;
+                }
+
                 this.show_spinner = true;
+
                 var args = {
                     data: {
                         'title': this.project.title,
@@ -210,13 +211,11 @@
                     this.updateProject ( args );
                 } else {
                     args.callback = function(res) {
-
                         self.project.title = '';
                         self.project_cat = 0;
                         self.project.description = ''
                         self.project_notify = [];
                         self.project.status = '';
-
                         self.show_spinner = false;
                         self.$router.push({
                             name: 'pm_overview', 
@@ -241,7 +240,7 @@
             },
 
             closeForm () {
-                jQuery( "#pm-project-dialog" ).dialog("close");
+                jQuery( "#pm-project-dialog" ).dialog('close'); 
                 this.showHideProjectForm(false)
             }
         }
@@ -249,3 +248,6 @@
 
     export default new_project_form;
 </script>
+
+
+
