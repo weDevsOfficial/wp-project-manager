@@ -1,5 +1,5 @@
 <template>
-    <div class="wedevs-pm-wrap pm" id="wedevs-project-manager">
+    <div class="wedevs-pm-wrap wrap pm" id="wedevs-project-manager">
         <do-action hook="pm-before-router-view"></do-action>
         <router-view></router-view>
 

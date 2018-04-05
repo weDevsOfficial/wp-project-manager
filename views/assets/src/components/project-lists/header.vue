@@ -14,7 +14,7 @@
             </div>
 
             <div class="pm-row pm-no-padding pm-priject-search-bar">
-                <div class="pm-col-3 pm-sm-col-12 pm-no-padding pm-no-margin" >
+                <div class="pm-new-project-btn pm-no-padding pm-no-margin" >
                     <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
                 </div>
 
@@ -37,15 +37,21 @@
             <div class="clearfix"> </div>
         </div>
 
-        <router-view></router-view>
-
-
         <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="__( 'Start a new project', 'pm' )" v-if="has_create_capability()">
             <project-create-form :project="{}"></project-create-form>
                 
         </div> 
     </div>
 </template>
+
+<style>
+    .pm-new-project-btn {
+        width: 13.788285%;
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+</style>
 
 <script>
     import project_new_project_btn from './project-new-project-btn.vue';

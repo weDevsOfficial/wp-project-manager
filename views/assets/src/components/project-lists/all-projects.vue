@@ -96,6 +96,7 @@
 
         methods: {
             projectQuery () {
+                this.loading = true;
                 this.getProjects();
             }
         }
