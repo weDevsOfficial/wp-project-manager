@@ -164,7 +164,7 @@ class Task_Controller {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
-
+        
         $task = Task::with('assignees')
             ->where( 'project_id', $project_id )
             ->where( 'id', $task_id )

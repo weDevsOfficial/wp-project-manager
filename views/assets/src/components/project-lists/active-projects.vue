@@ -1,6 +1,7 @@
 <template>
     <div>
         <project-list-header></project-list-header>
+        
         <div class="active-projects">
             <div v-if="loading" class="pm-row pm-data-load-before" >
                 <div class="pm-col-4">
@@ -23,17 +24,6 @@
                 </div>
             </div>
             
-    <!--         <div v-if="loading" class="pm-data-load-before" >
-                <div class="loadmoreanimation">
-                    <div class="load-spinner">
-                        <div class="rect1"></div>
-                        <div class="rect2"></div>
-                        <div class="rect3"></div>
-                        <div class="rect4"></div>
-                        <div class="rect5"></div>
-                    </div>
-                </div>
-            </div> -->
             <div v-else>
                 <div class="pm-projects pm-row pm-no-padding pm-no-margin" :class="[projects_view_class()]">
                     <project-summary></project-summary>
@@ -84,7 +74,19 @@
         computed: {
             total_pages () {
                 return this.$root.$store.state.pagination.total_pages;
-            }
+            },
+                     project () {
+                
+                var projects = this.$root.$store.state.projects;
+                var index = this.getIndex(projects, this.project_id, 'id');
+                var project = {};
+                
+                if ( index !== false ) {
+                    project = projects[index];
+                } 
+                
+                return project;
+            },
         },
         
         components: {
@@ -97,12 +99,18 @@
 
         methods: {
             projectQuery () {
+                var self = this;
                 var args = {
                     conditions: {
                        status: 'incomplete',
+                    },
+
+                    callback (res) {
+                        self.projectFetchStatus(true);
                     }
                 }
 
+                this.loading = true;
                 this.getProjects(args);
             }
         }

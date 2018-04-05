@@ -1,5 +1,5 @@
 <template>
-    <ul class="list-inline  pm-col-8 pm-project-group-ul">
+    <ul v-if="isFetchProjects" class="list-inline  pm-col-8 pm-project-group-ul">
         
         <li class= "pm-sm-col-4">
             <router-link :to="{name: 'project_lists'}">
@@ -26,12 +26,15 @@
 </template>
 
 <script>
+    import Mixins from './mixin';
+
     export default {
         data () {
             return {
                 
             }
         },
+        mixins: [Mixins],
         computed: {
             activated () {
                 return this.$root.$store.state.projects_meta.total_incomplete;
