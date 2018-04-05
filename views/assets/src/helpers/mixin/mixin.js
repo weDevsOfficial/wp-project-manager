@@ -157,9 +157,9 @@ export default {
         getLogo () {
 
             if (jQuery.isEmptyObject(PM_Vars.pm_logo)){
-                return false;
+                return [];
             } else {
-                return PM_Vars.pm_logo
+                return [PM_Vars.pm_logo]
             }
         },
         dataURLtoFile (dataurl, filename) {
