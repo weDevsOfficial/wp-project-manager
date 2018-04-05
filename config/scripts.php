@@ -22,7 +22,7 @@ return [
 	'pm-time-picker' => [
 		'id'         => 'pm-time-picke',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/jquery-ui-timepicker/jquery-ui-timepicker'.$suffix.'.js',
-		'dependency' => ['pm-tiny-mce'],
+		'dependency' => ['jquery-ui-datepicker','pm-tiny-mce'],
 		'in_footer'  => true
 	],
 
