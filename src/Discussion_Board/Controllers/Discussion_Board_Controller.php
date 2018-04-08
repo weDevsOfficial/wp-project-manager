@@ -218,4 +218,15 @@ class Discussion_Board_Controller {
 
         return $this->get_response( $resource );
     }
+
+    public function privacy( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $privacy = $request->get_param( 'is_private' );
+        pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
+        return $this->get_response( NULL);
+    }
 }
+
+
+
