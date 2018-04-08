@@ -256,6 +256,36 @@ export default {
             self.httpRequest(request_data);
         },
 
+        lockUnlock (discuss) {
+            var self = this;
+            var data = {
+                is_private: discuss.meta.privacy == '0' ? 1 : 0
+            }
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/privacy/'+discuss.id,
+                type: 'POST',
+                data: data,
+                success (res) {
+                  
+                    if (typeof discuss.callback === 'function') {
+                        discuss.callback(res.data);
+                    }
+
+                    self.$store.commit('projectDiscussions/updatePrivacy', {
+                        privacy: data.is_private,
+                        project_id: self.project_id,
+                        discuss_id: discuss.id
+
+                    });
+                },
+
+                error (res) {
+                  
+                }
+            }
+            self.httpRequest(request_data);
+        },
+
         newComment (args) {
             // Exit from this function, If submit button disabled 
             if ( this.submit_disabled ) {
@@ -475,7 +505,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
                 type: 'DELETE',
                 success: function(res) {
-                    pm.Toastr.seccess(res.message);
+                    pm.Toastr.success(res.message);
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id
@@ -507,13 +537,13 @@ export default {
         },
         privateClass ( discuss ){
             if( typeof discuss.meta.privacy !== 'undefined' ){
-                if ( discuss.meta.privacy === '1' ){
+                if ( discuss.meta.privacy == 1 ){
                     return 'dashicons dashicons-lock'
                 }else {
                     return 'dashicons dashicons-unlock'
                 }
                 
             }
-        }
+        },
     },
 };

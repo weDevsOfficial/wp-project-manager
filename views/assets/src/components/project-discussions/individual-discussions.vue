@@ -25,7 +25,7 @@
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
-                            <span :class="privateClass( discuss )"></span>
+                            <span @click.prevent="lockUnlock(discuss)"  :class="privateClass( discuss )"></span>
                         </span>
 
                         <div class="pm-small-title">
