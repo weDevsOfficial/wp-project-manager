@@ -98,7 +98,7 @@
                                             <span class="dashicons dashicons-trash"></span>
                                         </a>
 
-                                        <span @click.prevent="lockUnlock(discuss)" :class="privateClass( discuss )"></span>
+                                        <span v-if="PM_Vars.is_pro" @click.prevent="lockUnlock(discuss)" :class="privateClass( discuss )"></span>
                                     </span>
                                 </div>
 
