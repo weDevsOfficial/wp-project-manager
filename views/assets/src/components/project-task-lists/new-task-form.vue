@@ -263,6 +263,16 @@ export default {
             if ( this.submit_disabled ) {
                 return;
             }
+
+            if(!this.task.title) {
+                pm.Toastr.error('Task title required!');
+                return false;
+            }
+
+            if(!this.task.due_date.date) {
+                pm.Toastr.error('Due date required!');
+                return false;
+            }
             var self = this;
             this.submit_disabled = true;
             // Showing loading option 

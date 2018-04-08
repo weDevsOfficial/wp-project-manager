@@ -781,7 +781,7 @@ var PM_TaskList_Mixin = {
                 },
                 list_id: list.id,
                 callback: function ( res ){
-                    self.$sotre.commit( 'projectTaskLists/setTasks', res.data );
+                    self.$store.commit( 'projectTaskLists/setTasks', res.data );
                     list.task_loading_status = false;
                 }
             } ;
@@ -1186,13 +1186,98 @@ var PM_TaskList_Mixin = {
 
         privateClass ( privacy ){
             if( typeof privacy !== 'undefined' ){
-                if ( privacy === '1' ){
+                if ( privacy == '1' ){
                     return 'dashicons dashicons-lock'
                 }else {
                     return 'dashicons dashicons-unlock'
                 }
                 
             }
+        },
+
+        listLockUnlock (list) {
+
+            var self = this;
+            var data = {
+                is_private: list.meta.privacy == '0' ? 1 : 0
+            }
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/privacy/'+list.id,
+                type: 'POST',
+                data: data,
+                success (res) {
+                    self.$store.commit('projectTaskLists/updateListPrivacy', {
+                        privacy: data.is_private,
+                        project_id: self.project_id,
+                        list_id: list.id
+
+                    });
+                },
+
+                error (res) {
+                  
+                }
+            }
+            self.httpRequest(request_data);
+        },
+
+        TaskLockUnlock (task) {
+            
+            var self = this;
+            var data = {
+                is_private: task.meta.privacy == '0' ? 1 : 0
+            }
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/privacy/'+task.id,
+                type: 'POST',
+                data: data,
+                success (res) {
+                    self.$store.commit('projectTaskLists/updateTaskPrivacy', {
+                        privacy: data.is_private,
+                        project_id: self.project_id,
+                        task_id: task.id,
+                        list_id: task.task_list.data.id
+
+                    });
+                },
+
+                error (res) {
+                  
+                }
+            }
+            self.httpRequest(request_data);
+        },
+
+        taskTimeWrap (task) {
+            var isActive = this.getSettings ('task_start_field', false);
+
+            if (isActive) {
+                if (
+                    typeof task.due_date == 'undefined'
+                        &&
+                    typeof task.start_at == 'undefined'
+                ) {
+                    return false;
+                }
+
+                if (
+                    !task.due_date.date
+                        &&
+                    !task.start_at.date
+                ) {
+                    return false;
+                }
+            } else {
+                if ( typeof task.due_date == 'undefined' ) {
+                    return false;
+                }
+
+                if (!task.due_date.date) {
+                    return false;
+                }
+            }
+            
+            return true;
         }
     }
 }

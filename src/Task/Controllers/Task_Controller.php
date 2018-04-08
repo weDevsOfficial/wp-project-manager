@@ -160,7 +160,7 @@ class Task_Controller {
     // }
 
     public function update( WP_REST_Request $request ) {
-        $data       = $this->extract_non_empty_values( $request );
+        $data       = $request->get_params();
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
@@ -323,6 +323,14 @@ class Task_Controller {
                 }
             }
         }
+    }
+
+    public function privacy( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $task_id = $request->get_param( 'task_id' );
+        $privacy = $request->get_param( 'is_private' );
+        pm_update_meta( $task_id, $project_id, 'task', 'privacy', $privacy );
+        return $this->get_response( NULL);
     }
 
 }
