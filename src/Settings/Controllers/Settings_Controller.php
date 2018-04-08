@@ -60,7 +60,7 @@ class Settings_Controller {
 
             foreach ( $settings as $settings_data ) {
 
-                if ( $settings_data['key'] == 'logo' ) {
+                if ( $settings_data['key'] == 'logo' &&  $settings_data['value'] !== '0' ) {
                     $logo_id = File_System::upload_base64_file($settings_data['value'][0]);
                     $settings_data['value'] = $logo_id;
                 }
