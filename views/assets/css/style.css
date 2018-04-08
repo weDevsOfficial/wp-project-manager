@@ -2867,7 +2867,7 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-top-bar .pm-project-search input {
   float: left;
-  width: 45%;
+  width: 100%;
 }
 .pm .pm-top-bar .pm-project-group {
   padding: 0px;
@@ -5267,4 +5267,5 @@ a.pm-icon-tick.grey {
     width: 90%;
     padding-left: 10px;
     border-left: 3px solid #0073aa;
+    max-width: 600px;
 }
