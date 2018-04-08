@@ -1,13 +1,13 @@
 <template>
     <div>
-        <form action="" method="post" class="pm-project-form" @submit.prevent="projectFormAction();">
+        <form action="" method="post" class="pm-form pm-project-form" @submit.prevent="projectFormAction();">
 
-            <div class="pm-form-item project-name">
+            <div class="item project-name">
                 <!-- v-model="project_name" -->
                 <input type="text" v-model="project.title"  id="project_name" :placeholder="__( 'Name of the project', 'pm' )" value="" size="45" />
             </div>
 
-            <div class="pm-form-item project-category">
+            <div class="pm-form-item item project-category">
                 <!-- v-model="project_cat" -->
                 <select v-model="project_category"  id='project_cat' class='chosen-select' style="height: 35px;">
                     <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
@@ -15,9 +15,9 @@
                 </select>
             </div>
 
-            <div class="pm-form-item project-detail">
+            <div class="pm-form-item item project-detail">
                 <!-- v-model="project_description" -->
-                <textarea v-model="project.description"  class="pm-project-description" id="" cols="50" rows="3" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
+                <textarea v-model="project.description"  class="pm-project-description" id="" rows="5" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
             </div>
 
             <div class="pm-form-item pm-project-role" v-if="show_role_field">
@@ -40,11 +40,11 @@
                 </table>
             </div>
             
-            <div class="pm-form-item project-users" v-if="show_role_field">
+            <div class="pm-form-item item project-users" v-if="show_role_field">
                 <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="__( 'Type 3 or more characters to search users...', 'pm' )" size="45">
             </div>
 
-            <div class="pm-form-item project-notify">
+            <div class="pm-form-item item project-notify">
                 <label>
                     <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
                     {{ __( 'Notify Co-Workers', 'pm' ) }}            

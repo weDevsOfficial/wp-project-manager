@@ -21,9 +21,11 @@ Class File_System {
         if ( ! function_exists( 'wp_handle_sideload' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/file.php' );
         }
-
         $file_to_upload = self::decode_base64( $file );
 
+        if ( !$file_to_upload ) {
+            return;
+        }
         $uploaded_file = wp_handle_sideload( $file_to_upload, array( 'test_form' => false ) );
         $attachment_id = self::attachment_id( $uploaded_file );
 

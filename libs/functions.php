@@ -138,6 +138,9 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
 
 function pm_get_logo() {
     $logo_id = pm_get_settings('logo');
+    if ( $logo_id == 0 ) {
+        return null;
+    }
     return WeDevs\PM\Core\File_System\File_System::get_file($logo_id);
 }
 

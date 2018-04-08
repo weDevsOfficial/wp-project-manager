@@ -9,6 +9,7 @@ class User extends Eloquent {
     protected $primaryKey = 'ID';
 
     protected $table = 'users';
+    protected $hidden = ['user_pass', 'user_activation_key'];
 
     public $timestamps = false;
 
