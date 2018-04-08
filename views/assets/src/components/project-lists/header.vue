@@ -22,6 +22,7 @@
                     <div class="pm-col-5 pm-sm-col-12">
                         <project-filter-by-category></project-filter-by-category>
                     </div>
+                    <pm-do-action hook="pm_project_header" ></pm-do-action>
                 </div>
                 <div class="clearfix"> </div>
             </div>
