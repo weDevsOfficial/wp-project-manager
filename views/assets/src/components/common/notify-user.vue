@@ -20,6 +20,15 @@
     </div>
 </template>
 
+<style>
+    .pm-small-title input[type="checkbox"] {
+        margin: -3px 0 0 !important;
+    }
+    .pm-user-list input[type="checkbox"] {
+        margin: -1px 0 0 !important;
+    }
+</style>
+    
 <script>
     
 export default {

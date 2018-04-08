@@ -101,6 +101,11 @@ export default {
                 comment_index = state.getIndex( state.discussion[index].comments.data, data.comment_id, 'id' );
 
             state.discussion[index].comments.data.splice(comment_index,1,data.comment);
+        },
+
+        updatePrivacy (state, data) {
+            var index = state.getIndex(state.discussion, data.discuss_id, 'id');
+            state.discussion[index].meta.privacy = data.privacy;
         }
     }
 };
