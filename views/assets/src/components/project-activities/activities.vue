@@ -183,7 +183,7 @@
             activityQuery (page) {
                 page = page || 1;
                 var condition = {
-                    per_page: 2,
+                    per_page: 20,
                     page: page
                 },
                 self = this;

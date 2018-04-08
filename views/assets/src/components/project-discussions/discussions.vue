@@ -98,7 +98,7 @@
                                             <span class="dashicons dashicons-trash"></span>
                                         </a>
 
-                                        <span :class="privateClass( discuss )"></span>
+                                        <span @click.prevent="lockUnlock(discuss)" :class="privateClass( discuss )"></span>
                                     </span>
                                 </div>
 
