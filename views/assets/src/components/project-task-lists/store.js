@@ -237,6 +237,9 @@ export default {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
             
             if (data.status === 1) {
+                if (typeof state.lists[list_index].incomplete_tasks == 'undefined') {
+                    return;
+                }
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
                 
                 if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
@@ -251,6 +254,9 @@ export default {
             }
 
             if (data.status === 0) {
+                if (typeof state.lists[list_index].complete_tasks == 'undefined') {
+                    return;
+                }
                 var task_index = state.getIndex( state.lists[list_index].complete_tasks.data, data.task_id, 'id' );
                 
                 if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
