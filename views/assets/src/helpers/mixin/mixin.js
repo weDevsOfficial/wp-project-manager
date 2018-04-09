@@ -145,9 +145,9 @@ export default {
                 return pre_define;
             }
 
-            if ( PM_Vars.settings[key] === "true" ){
+            if ( PM_Vars.settings[key] == "true" ){
                 return true;
-            } else if ( PM_Vars.settings[key] === "false" ){
+            } else if ( PM_Vars.settings[key] == "false" ){
                 return false;
             } else {
                 return PM_Vars.settings[key];

@@ -589,6 +589,23 @@ export default {
 
         updateTask (state, task) {
             state.task = task;
+        },
+        updateListPrivacy (state, data) {
+            var index = state.getIndex(state.lists, data.list_id, 'id');
+            state.lists[index].meta.privacy = data.privacy;
+        },
+
+        updateTaskPrivacy (state, data) {
+            var list_index = state.getIndex(state.lists, data.list_id, 'id');
+
+            if(typeof state.lists[list_index].incomplete_tasks !== 'undefined' ){
+                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task_id, 'id');
+                state.lists[list_index].incomplete_tasks.data[task_index].meta.privacy = data.privacy;
+            } 
+            
+            if(typeof state.task.meta != 'undefined') {
+                state.task.meta.privacy = data.privacy;
+            }
         }
     }
 };

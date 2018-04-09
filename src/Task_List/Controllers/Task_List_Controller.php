@@ -212,4 +212,12 @@ class Task_List_Controller {
 
         return $this->get_response( $resource );
     }
+
+    public function privacy( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $task_list_id = $request->get_param( 'task_list_id' );
+        $privacy = $request->get_param( 'is_private' );
+        pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
+        return $this->get_response( NULL);
+    }
 }

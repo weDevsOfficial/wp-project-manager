@@ -71,7 +71,7 @@
                                           
                                             <div class="clearfix pm-clear"></div>
                                         </span>
-
+                                        <a v-if="PM_Vars.is_pro && task.status=='0'" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
                                         <div class="clearfix pm-clear"></div>
                                     </h3>
                                     <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
@@ -128,14 +128,13 @@
 
                                             <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                                 <span 
-                                                    @click.prevent="isTaskDateEditMode()"
-                                                    v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
+                                                    @click.prevent="isTaskDateEditMode()">
                                                     <span v-if="task_start_field">
                                                         <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
                                                         {{ dateFormat( task.start_at.date ) }}
                                                     </span>
 
-                                                    <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
+                                                    <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                                     <span v-if="task.due_date">
                                                         <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
                                                         {{ dateFormat( task.due_date.date ) }}
@@ -398,13 +397,30 @@
 
             fromDate: function(date) {
                 if ( date.field == 'datepicker_from' ) {
-                    var task = this.task;
 
-                    task.start_at = date.date;
-                    this.updateTaskElement(task);
+                    var start = new Date(date.date);
+                    var end  = new Date(this.task.due_date.date);
+                    var compare = pm.Moment(end).isBefore(start);
+
+                    if(this.task_start_field && compare) {
+                        pm.Toastr.error('Invalid date range!');
+                        return;
+                    }
+
+                    this.task.start_at.date = date.date;
+
+                    this.updateTaskElement(this.task);
                 }
 
                 if ( date.field == 'datepicker_to' ) {
+                    var start = new Date(this.task.start_at.date);
+                    var end  = new Date(date.date);
+                    var compare = pm.Moment(end).isBefore(start);
+
+                    if(this.task_start_field && compare) {
+                        pm.Toastr.error('Invalid date range!');
+                        return;
+                    }
                     var task = this.task;
      
                     var start = new Date( task.start_at ),
@@ -452,7 +468,15 @@
             },
 
             updateTaskElement: function(task) {
-                
+                var start = new Date(task.start_at.date);
+                var end  = new Date(task.due_date.date);
+                var compare = pm.Moment(end).isBefore(start);
+
+                if(this.task_start_field && compare) {
+                    pm.Toastr.error('Invalid date range!');
+                    return;
+                }
+
                 var update_data  = {
                         'title': task.title,
                         'description': task.description,

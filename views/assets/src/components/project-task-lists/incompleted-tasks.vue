@@ -28,7 +28,7 @@
                         </a>
                     </span>
                     
-                    <span :class="taskDateWrap(task.due_date.date)">
+                    <span v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.date)">
                         <span v-if="task_start_field">{{ dateFormat( task.start_at.date ) }}</span>
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                         <span>{{ dateFormat(task.due_date.date) }}</span>
@@ -54,7 +54,7 @@
                                 </span>
                             </router-link>
                     </span>
-                    <span :class="privateClass( task.meta.privacy )"></span>
+                    <a v-if="PM_Vars.is_pro" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     <div class="pm-clearfix"></div>
 
@@ -109,7 +109,7 @@
             return {
                 doActionData: {
                     task: this.task,
-                    list: this.list
+                    list: this.list,
                 }
             }
         },
@@ -151,7 +151,6 @@
                                     
                 this.taskDoneUndone( args );
             }
-
         }
     }
 </script>
