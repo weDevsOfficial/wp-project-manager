@@ -14,7 +14,7 @@
             </div>
 
             <div class="pm-row pm-no-padding pm-priject-search-bar">
-                <div class="pm-new-project-btn pm-no-padding pm-no-margin" >
+                <div class="pm-new-project-btn pm-col-2 pm-sm-col-12  " >
                     <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
                 </div>
 
@@ -44,15 +44,6 @@
         </div> 
     </div>
 </template>
-
-<style>
-    .pm-new-project-btn {
-        width: 13.788285%;
-        float: left;
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
-</style>
 
 <script>
     import project_new_project_btn from './project-new-project-btn.vue';
