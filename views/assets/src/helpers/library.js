@@ -9,6 +9,7 @@ var commonComp      = require('./global-common-components');
 pm.commonComponents = commonComp.default;
 
 pm.Multiselect      = require('vue-multiselect');
+pm.color = require('vue-color/src/components/Sketch.vue');
 
 import Lists from '@components/project-task-lists/mixin'
 import Mixins from '@helpers/mixin/mixin'

@@ -46,7 +46,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             'pm_after_update_comment'
         ) );
 
-        if ( apply_filters( 'pm_transactional_emails', false ) ) {
+        if ( apply_filters( 'pm_transactional_emails', true ) ) {
             self::$background_emailer = new Background_Emailer();
 
             foreach ( $email_actions as $action ) {
