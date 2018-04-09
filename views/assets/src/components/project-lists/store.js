@@ -20,7 +20,7 @@ var Store = {
         assignees: [],
         isFetchProjects: false,
  
-        projects_view: '',
+        projects_view: 'grid_view',
         getIndex: function ( itemList, id, slug) {
             var index = false;
 

@@ -103,7 +103,7 @@ Class File_System {
         if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/image.php' );
         }
-        if ( $uploaded_file['error'] ) {
+        if ( isset( $uploaded_file['error'] ) ) {
             return;
         }
 
