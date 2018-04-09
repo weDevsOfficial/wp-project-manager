@@ -50,12 +50,12 @@
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
                                                 
-                                                <span  v-if="is_task_title_edit_mode && can_create_task">
+                                                <span v-if="is_task_title_edit_mode && can_create_task">
                                                     <input 
                                                         v-model="task.title"
                                                         @blur="updateTaskElement(task)" 
                                                         @keyup.enter="updateTaskElement(task)"
-                                                        v-value="task.title" 
+                                                        :value="task.title" 
                                                         class="pm-task-title-activity pm-task-title-field"
                                                         type="text">
                                                 </span>
@@ -260,6 +260,7 @@
                 }
             },
             task () {
+
              return this.$store.state.projectTaskLists.task;
             },
             project_users: function() {

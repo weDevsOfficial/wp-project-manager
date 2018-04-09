@@ -21,7 +21,6 @@
                     
                     </span>                 
 
-
                     <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
                         <a href="#" :title="user.display_name">
                             <img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
@@ -86,7 +85,8 @@
                         
                 </div>
             </div>
-            <do-action :hook="'after_task_content'" :actionData="doActionData"></do-action>
+            
+            <do-action v-if="!isSingleTask" :hook="'after_task_content'" :actionData="doActionData"></do-action>
         </div>
         <transition name="slide" v-if="can_create_task">
             <div class="pm-todo-form" v-if="task.edit_mode">
@@ -126,6 +126,10 @@
                 }
 
                 return 'lists_single_task'
+            },
+
+            isSingleTask () {
+                return this.$route.params.task_id ? true : false;
             }
         },
         
