@@ -25,7 +25,7 @@
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
-                            <span @click.prevent="lockUnlock(discuss)"  :class="privateClass( discuss )"></span>
+                            <span v-if="PM_Vars.is_pro" @click.prevent="lockUnlock(discuss)"  :class="privateClass( discuss )"></span>
                         </span>
 
                         <div class="pm-small-title">
@@ -92,7 +92,7 @@
                                 <ul class="pm-attachments" v-if="comment.files.data.length">
                                     <li v-for="commnetFile in comment.files.data">
                                         <a class="pm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
-                                            <img :src="commnetFile.thumb" :alt="commnetFile.name">
+                                            <img :class="commentImgSize(comment)" :src="commnetFile.thumb" :alt="commnetFile.name">
                                         </a>
                                     </li>
                                 </ul>
@@ -121,6 +121,16 @@
             
     </div>
 </template>
+
+<style lang="less">
+    .pm-comment-area {
+        .pm-comment-img-size {
+            height: 80px;
+            width: 80px;
+        }
+    }
+
+</style>
 
 <script>
     import header from './../common/header.vue';
@@ -210,6 +220,10 @@
                     }
                 }
                 self.getDiscuss(args);
+            },
+
+            commentImgSize (comment) {
+                return comment.edit_mode ? 'pm-comment-img-size' : '';
             }
         }
     }
