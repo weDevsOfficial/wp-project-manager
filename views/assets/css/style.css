@@ -4699,7 +4699,7 @@ a.pm-icon-tick.grey {
   }
   .pm .pm-project-group ul li a {
     background-position: 2% 50% !important;
-    border-bottom: solid 2px #eee;
+    /*border-bottom: solid 2px #eee;*/
   }
   .pm .pm-project-grid,
   .pm .pm-project-list {
