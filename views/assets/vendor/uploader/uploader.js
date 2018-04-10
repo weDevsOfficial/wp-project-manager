@@ -55,7 +55,7 @@
         },
 
         added: function (up, files) {
-
+            var single = this.component.single ? true : false;
             var $container = $('#' + this.container).find('.pm-upload-filelist');
             self = this;
             
@@ -68,7 +68,12 @@
                 preloader.onload = function() {
                     
                     file.thumb = preloader.result;
-                    self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
+                    if(single) {
+                        self.component.files.splice( 0, 1, JSON.parse( JSON.stringify( file ) ) );
+                    } else {
+                        self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
+                    }
+                    
                 };
             });
 

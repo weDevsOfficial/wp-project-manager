@@ -33,7 +33,24 @@
     });
 
     export default {
-        props: ['files', 'delete'],
+        props: {
+            files: {
+                type: Array,
+                default: function () {
+                    return []
+                }
+            },
+            delete: {
+                type: Array,
+                default: function () {
+                    return []
+                }
+            },
+            single: {
+                type: Boolean,
+                default: false,
+            }
+        },
 
         methods: {
             /**

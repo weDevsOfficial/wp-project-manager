@@ -127,7 +127,7 @@ export default {
     beforeRouteEnter (to, from, next) {
         if( PM_Vars.manage_capability !== '1' ) {
             next(false);
-        }else {
+        } else {
             next();
         }
       

@@ -4,7 +4,7 @@
  *
  * Requires jQuery
  */
-function menuFix(slug) {
+export var PMmenuFix = function (slug) {
     var $ = jQuery;
 
     let menuRoot = $('#toplevel_page_' + slug);

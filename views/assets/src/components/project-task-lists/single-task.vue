@@ -398,35 +398,41 @@
 
             fromDate: function(date) {
                 if ( date.field == 'datepicker_from' ) {
+                    
+                    if (this.task.due_date.date) {
+                        var start = new Date(date.date);
+                        var end  = new Date(this.task.due_date.date);
+                        var compare = pm.Moment(end).isBefore(start);
 
-                    var start = new Date(date.date);
-                    var end  = new Date(this.task.due_date.date);
-                    var compare = pm.Moment(end).isBefore(start);
-
-                    if(this.task_start_field && compare) {
-                        pm.Toastr.error('Invalid date range!');
-                        return;
+                        if(this.task_start_field && compare) {
+                            pm.Toastr.error('Invalid date range!');
+                            return;
+                        }
                     }
-
+                   
                     this.task.start_at.date = date.date;
 
                     this.updateTaskElement(this.task);
                 }
 
                 if ( date.field == 'datepicker_to' ) {
-                    var start = new Date(this.task.start_at.date);
-                    var end  = new Date(date.date);
-                    var compare = pm.Moment(end).isBefore(start);
 
-                    if(this.task_start_field && compare) {
-                        pm.Toastr.error('Invalid date range!');
-                        return;
+                    if(this.task.start_at.date) {
+                        var start = new Date(this.task.start_at.date);
+                        var end  = new Date(date.date);
+                        var compare = pm.Moment(end).isBefore(start);
+
+                        if(this.task_start_field && compare) {
+                            pm.Toastr.error('Invalid date range!');
+                            return;
+                        }
                     }
+                    
                     var task = this.task;
      
                     var start = new Date( task.start_at ),
                         due = new Date( date.date );
-
+                    
                     if ( !this.$store.state.projectTaskLists.permissions.task_start_field ) {
                         task.due_date.date = date.date;
                         this.updateTaskElement(task);
@@ -473,7 +479,15 @@
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
 
-                if(this.task_start_field && compare) {
+                if(
+                    task.start_at.date
+                        &&
+                    task.due_date.date
+                        &&
+                    this.task_start_field 
+                        && 
+                    compare
+                ) {
                     pm.Toastr.error('Invalid date range!');
                     return;
                 }
