@@ -40,7 +40,7 @@
                                    
                                     <div class="pm-right" v-if="can_create_list">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteList( list.id )" :title="__( 'Delete List', 'pm' )" ><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="__( 'Delete List', 'pm' )" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)"  v-if="PM_Vars.is_pro"><span :class="privateClass(list.meta.privacy)"></span> </a>
                                     </div>
                                 </h3>
@@ -200,6 +200,22 @@
             showEditForm (list ) {
                 list.edit_mode = list.edit_mode ? false : true;
             },
+
+            deleteSelfList () {
+                var args = {
+                    list_id: this.list_id,
+                    callback: function (res) {
+                        this.$router.push({
+                            name: 'task_lists', 
+                            params: { 
+                                project_id: this.project_id,
+                            }
+                        });
+                    }
+                }
+
+                this.deleteList(args);
+            }
         },
 
 

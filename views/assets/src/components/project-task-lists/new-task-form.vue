@@ -32,7 +32,7 @@
                         :clear-on-select="false"
                         :hide-selected="true"
                         :show-labels="false"
-                        placeholder="Select User"
+                        :placeholder="__( 'Select User', 'pm')"
                         label="display_name"
                         track-by="id">
                             
