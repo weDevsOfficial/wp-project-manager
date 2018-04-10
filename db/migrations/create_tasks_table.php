@@ -11,7 +11,7 @@ class Create_Tasks_Table extends Migration {
 
             $table->string( 'title' );
             $table->text( 'description' )->nullable();
-            $table->integer( 'estimation' )->nullable();
+            $table->integer( 'estimation' )->nullable()->default( 0 );
             $table->timestamp( 'start_at' )->nullable();
             $table->timestamp( 'due_date' )->nullable();
             $table->tinyInteger( 'complexity' )->nullable();
