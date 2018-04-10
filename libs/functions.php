@@ -31,7 +31,7 @@ function get_wp_timezone() {
 
 function tzcode_to_tzstring( $tzcode ) {
     $timezones = config( 'timezones' );
-    $timezone = '';
+    $timezone = $tzcode;
 
     if ( array_key_exists( $tzcode , $timezones ) ) {
         $timezone = $timezones[ $tzcode ];
@@ -41,7 +41,7 @@ function tzcode_to_tzstring( $tzcode ) {
 }
 
 function tzstring_to_tzcode( $tzstr ) {
-    $timezones = config( 'timesones' );
+    $timezones = config( 'timezones' );
     $default = '';
 
     foreach ( $timezones as $tzcode => $tzstring ) {
@@ -122,7 +122,7 @@ function pm_set_settings( $key, $value, $project_id = false ){
     }else {
         $settings = \WeDevs\PM\Settings\Models\Settings::updateOrCreate(['key' => $key, 'project_id' => $project_id ], ['value' => $value ]);
     }
-    pmpr($settings); die();
+
     return $settings;
 }
 
