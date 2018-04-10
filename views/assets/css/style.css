@@ -1682,6 +1682,7 @@ ul.pm-activity ul li:before {
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item textarea,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item textarea {
   width: 98%;
+  height: auto;
 }
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item .multiselect__tag,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item .multiselect__tag {

@@ -30,12 +30,12 @@ class Menu {
 
 		do_action( 'pm_menu_before_load_scripts', $home );
 		
-		add_action( 'admin_print_styles-' . $home, array( $this, 'scripts' ) );
+		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
 		do_action( 'pm_menu_after_load_scripts', $home );
 	}
 
-	public function scripts() {
+	public static function scripts() {
 		Enqueue_Scripts::scripts();
 		Enqueue_Scripts::styles();
 	}
