@@ -1053,8 +1053,8 @@ var PM_TaskList_Mixin = {
          */
         taskDateWrap ( due_date ) {
             if ( !due_date ) {
-                return false;
-            }
+                return 'pm-current-date';
+            } 
 
             due_date = new Date(due_date);
             due_date = pm.Moment(due_date).format('YYYY-MM-DD');

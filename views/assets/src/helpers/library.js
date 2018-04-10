@@ -2,6 +2,7 @@ __webpack_public_path__ = PM_Vars.dir_url + 'views/assets/js/';
 
 Vue.use(VAutocomplete.default);
 
+
 var color           = require('vue-color/src/components/Sketch.vue');
 pm.color            = color.default;
 

@@ -5,9 +5,7 @@ import Mixin from '@helpers/mixin/mixin'
 import ModuleMixin from '@helpers/mixin/module-mixin'
 import PM from './App.vue'
 import '@helpers/common-components'
-import '@helpers/menu-fix';
-
-
+import {PMmenuFix} from '@helpers/menu-fix';
 
 window.pmBus = new pm.Vue();
 
@@ -30,7 +28,7 @@ window.pmBus = new pm.Vue();
 
 	
 	// fix the admin menu for the slug "vue-app"
-	//menuFix('pm_projects');
+	PMmenuFix('pm_projects');
 //});
 
 

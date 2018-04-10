@@ -19,6 +19,7 @@ class Activity_Transformer extends TransformerAbstract {
         }else {
             $message = pm_get_text( "activities.{$item->action}" ); 
         }
+
         return [
             'id'            => (int) $item->id,
             'message'       => $message,
