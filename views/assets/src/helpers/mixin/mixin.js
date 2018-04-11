@@ -433,6 +433,7 @@ export default {
                 callback : function (res) {
                     this.addProjectMeta(res.data);
                     this.$root.$store.commit('setProject', res.data);
+                    this.$root.$store.commit('setProjectMeta', res.meta);
                     this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
                 }
             }

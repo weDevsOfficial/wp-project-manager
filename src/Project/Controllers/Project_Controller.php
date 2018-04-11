@@ -64,6 +64,7 @@ class Project_Controller {
 		$total_pending    = $eloquent_sql->where( 'status', Project::PENDING )->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
+		$user_id          = get_current_user_id();
 
 		$meta  = [
 			'total_projects'   => $total_projects,
@@ -108,8 +109,12 @@ class Project_Controller {
 
 	public function show( WP_REST_Request $request ) {
 		$id 	  = $request->get_param('id');
+		$user_id  = get_current_user_id();
 		$project  =  Project::find( $id );
 		$resource = new Item( $project, new Project_Transformer );
+		$resource->setMeta([
+			'list_view_type' => pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' )
+		]);
 
         return $this->get_response( $resource );
 	}
