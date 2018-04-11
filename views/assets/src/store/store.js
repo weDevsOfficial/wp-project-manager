@@ -10,6 +10,7 @@ export default new pm.Vuex.Store({
         projectMilestoneLoaded: false,
         projectFileLoaded: false,
         projectActivityLoaded: false,
+        isFetchCategories: false,
         projects: [],
         project: {},
         projectMeta: {},
@@ -72,8 +73,22 @@ export default new pm.Vuex.Store({
         setProjectUsers (state, users) {
             state.project_users = users;
         },
+        afterNewCategories (state, categories) {
+            state.categories.push(categories);
+        },
+
         setCategories (state, categories) {
             state.categories = categories;
+            state.isFetchCategories = true;
+        },
+
+        afterUpdateCategories (state, category) {
+            var category_index = state.getIndex(state.categories, category.id, 'id');
+            state.categories.splice(category_index,1, category);
+        },
+        afterDeleteCategory (state, id) {
+            var category_index = state.getIndex(state.categories, id, 'id');
+            state.categories.splice(category_index,1);
         },
         setRoles (state, roles) {
             state.roles = roles;

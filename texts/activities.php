@@ -108,11 +108,11 @@ return [
     ],
     'update_task_start_at_date'    => [
         __( '%1$s has updated the start date of a task, %2$s, from %3$s to %4$s.', 'pm' ),
-        ['actor.data.display_name', 'meta.task_title', 'meta.task_start_at_old', 'meta.task_start_at_old']
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_start_at_new', 'meta.task_start_at_old']
     ],
     'update_task_due_date'    => [
         __( '%1$s has updated the due date of a task, %2$s, from %3$s to %4$s.', 'pm' ),
-        ['actor.data.display_name', 'meta.task_title', 'meta.task_due_date_old', 'meta.task_due_date_old']
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_due_date_new', 'meta.task_due_date_old']
     ],
     'update_task_complexity'  => [
         __( '%1$s has updated the complexity of a task, %2$s, from %3$s to %4$s.', 'pm' ),

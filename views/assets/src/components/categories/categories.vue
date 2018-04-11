@@ -218,7 +218,7 @@
         },
         watch: {
             delete_items ( value ) {
-                if ( this.delete_items.length === this.$store.state.projectCategories.categories.length ) {
+                if ( this.delete_items.length === this.$root.$store.state.categories.length ) {
                     this.select_all = true;
                 }else{
                    this.select_all = false; 
@@ -228,11 +228,11 @@
 
         computed: {
             categories () {
-                return this.$store.state.projectCategories.categories;
+                return this.$root.$store.state.categories;
             },
 
             isFetchCategories () {
-                return this.$store.state.projectCategories.isFetchCategories;
+                return this.$root.$store.state.isFetchCategories;
             }
         },
 
@@ -242,7 +242,7 @@
                 var self = this;
                 self.delete_items =[];
                 if ( self.select_all === true ){
-                    this.$store.state.projectCategories.categories.map(function(category, index) {
+                    this.$root.$store.state.categories.map(function(category, index) {
                         self.delete_items.push(category.id);
                     });
                 }
