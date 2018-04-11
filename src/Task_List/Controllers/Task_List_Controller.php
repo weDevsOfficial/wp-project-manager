@@ -24,7 +24,7 @@ class Task_List_Controller {
         $per_page_from_settings = pm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page = $per_page ? $per_page : $per_page_from_settings;
-
+        
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 

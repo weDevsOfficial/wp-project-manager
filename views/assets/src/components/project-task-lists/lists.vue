@@ -1,7 +1,7 @@
 <template>
     <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
-
+        
         <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -13,7 +13,8 @@
                 </div>
             </div>
         </div>
-        <div v-if="isListFetch">
+
+        <div v-if="listViewType && isListFetch">
             <default-list-page v-if="is_blank_Template"></default-list-page>
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container">
@@ -206,7 +207,9 @@
 
         beforeRouteEnter (to, from, next) {
             next(vm => {
+                var self = vm;
                 
+               
             });
         }, 
         components: {
@@ -252,26 +255,28 @@
         created () {
             var self = this;
 
-            this.getViewType(function(res) {
-                if ( typeof res === 'undefined' ) {
-                    res ={ 'value' : 'list'}
-                }
-                if ( res.value == 'list' ) {
-                    self.$store.state.projectTaskLists.is_single_list = false;
-                    self.isSingleTask();
-                    self.getSelfLists();
-                    self.getGlobalMilestones();
+            // this.getViewType(function(res) {
+            //     if ( typeof res === 'undefined' ) {
+            //         res ={ 'value' : 'list'}
+            //     }
+            //     if ( res.value == 'list' ) {
+            //         self.$store.state.projectTaskLists.is_single_list = false;
+            //         self.isSingleTask();
+            //         self.getSelfLists();
+            //         self.getGlobalMilestones();
 
-                } else if ( res.value == 'kanboard' ) {
+            //     } else if ( res.value == 'kanboard' ) {
                     
-                    self.$router.push({
-                        name: 'kanboard'
-                    });
-                }
+            //         self.$router.push({
+            //             name: 'kanboard'
+            //         });
+            //     }
 
-            });
+            // });
             
-            
+           // console.log(this.$store.state.projectMeta);
+
+
             
         },
 
@@ -310,6 +315,31 @@
             },
             isListFetch () {
                 return this.$root.$store.state.projectTaskListLoaded; 
+            },
+
+            listViewType () {
+                let meta = this.$store.state.projectMeta; 
+                var self = this;
+                if(meta.hasOwnProperty('list_view_type') ) {
+                    if (
+                        !meta.list_view_type
+                            ||
+                        meta.list_view_type.meta_value == 'list'
+                    ) {
+                        self.$store.state.projectTaskLists.is_single_list = false;
+                        self.isSingleTask();
+                        self.getSelfLists();
+                        self.getGlobalMilestones();
+                    } else {
+                        self.$router.push({
+                            name: 'kanboard'
+                        });
+                    }
+
+                    return true;
+                }
+
+                return false;
             }
 
         },

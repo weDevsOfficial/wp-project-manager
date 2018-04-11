@@ -12,6 +12,7 @@ export default new pm.Vuex.Store({
         projectActivityLoaded: false,
         projects: [],
         project: {},
+        projectMeta: {},
         project_users: [],
         is_single_task: false,
         categories: [],
@@ -37,9 +38,22 @@ export default new pm.Vuex.Store({
     },
 
     mutations: {
-        listViewType (state, view_type) {
-            state.listView = view_type;
+        updateListViewType(state, view) {
+            if(
+                state.projectMeta.hasOwnProperty('list_view_type')
+                    &&
+                state.projectMeta.list_view_type
+            ) {
+                state.projectMeta.list_view_type.meta_value = view;
+            } else {
+                state.projectMeta['list_view_type']= {
+                    meta_value: view
+                }
+            }
         },
+        // listViewType (state, view_type) {
+        //     state.listView = view_type;
+        // },
         isSigleTask (state, status) {
             state.is_single_task = status;
         },
@@ -49,6 +63,10 @@ export default new pm.Vuex.Store({
         setProject (state, project) {
             state.projects.push(project);
             state.project = project;
+        },
+
+        setProjectMeta (state, projectMeta) {
+            state.projectMeta = projectMeta;
         },
 
         setProjectUsers (state, users) {
