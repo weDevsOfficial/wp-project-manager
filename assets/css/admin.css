@@ -808,10 +808,10 @@ ul.cpm-activity ul li:before {
   z-index: 0 !important;
 }
 .cpm-projects .cpm-project h5 {
-  font-size: 16px;
-  margin: 0;
-  word-wrap: break-word;
-  color: #000;
+    font-size: 16px;
+    word-wrap: break-word;
+    color: rgb(0, 0, 0);
+    margin: -5px 30px -5px -5px;
 }
 .cpm-projects .cpm-project .cpm-completed-wrap {
   width: 85px;
