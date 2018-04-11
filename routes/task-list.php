@@ -28,4 +28,5 @@ $router->put( 'projects/{project_id}/task-lists/{task_list_id}/attach-users', 'W
 $router->put( 'projects/{project_id}/task-lists/{task_list_id}/detach-users', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@detach_users' )
 ->permission([Create_Task_List::class]);
 
-$router->post( 'projects/{project_id}/task-lists/privacy/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@privacy' );
+$router->post( 'projects/{project_id}/task-lists/privacy/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@privacy' )
+->permission([Create_Task_List::class]);

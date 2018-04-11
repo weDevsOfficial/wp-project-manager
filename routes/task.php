@@ -37,5 +37,6 @@ $router->delete( 'projects/{project_id}/tasks/{task_id}/boards', 'WeDevs/PM/Task
 $router->put( 'projects/{project_id}/tasks/reorder', 'WeDevs/PM/Task/Controllers/Task_Controller@reorder' )
     ->permission([Create_Task::class]);
 
-$router->post( 'projects/{project_id}/tasks/privacy/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@privacy' );
+$router->post( 'projects/{project_id}/tasks/privacy/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@privacy' )
+->permission([Create_Task::class]);
 
