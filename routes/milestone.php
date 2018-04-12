@@ -21,3 +21,5 @@ $router->put( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Mile
 
 $router->delete( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@destroy' )
     ->permission([Create_Milestone::class]);
+$router->post( 'projects/{project_id}/milestones/privacy/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@privacy' )
+->permission([Create_Milestone::class]);

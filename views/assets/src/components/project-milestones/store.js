@@ -91,5 +91,9 @@ export default {
             state.meta.total = state.meta.total + 1;
             state.meta.total_pages = Math.ceil( state.meta.total / state.meta.per_page );
         },
+        updateMilestonePrivacy (state, data) {
+            var index = state.getIndex(state.milestones, data.milestone_id, 'id');
+            state.milestones[index].meta.privacy = data.privacy;
+        },
     }
 };
