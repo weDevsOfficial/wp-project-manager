@@ -3494,7 +3494,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links {
   margin: 0px;
-  margin-top: -15px;
+  margin-top: 0px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
   padding: 5px 15px;
