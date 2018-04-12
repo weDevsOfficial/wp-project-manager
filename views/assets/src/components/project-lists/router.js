@@ -45,6 +45,10 @@ weDevsPMRegisterChildrenRoute('projects',
             path: 'active', 
             component: project_lists,
             name: 'project_lists',
+            meta: {
+                label: 'Projects',
+                order: 1,
+            },
             children: [
                 {
                     path: 'pages/:current_page_number', 
@@ -92,10 +96,6 @@ weDevsPMRegisterChildrenRoute('project_root',
         {
             path: 'projects', 
             component: empty,
-            meta: {
-                label: "Projects",
-                order: 1,
-            },
             name: 'projects',
             children: wedevsPMGetRegisterChildrenRoute('projects'),
 
