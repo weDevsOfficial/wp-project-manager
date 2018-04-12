@@ -182,4 +182,11 @@ class Milestone_Controller {
 
         return $this->get_response(false, $message);
     }
+    public function privacy( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $milestone_id = $request->get_param( 'milestone_id' );
+        $privacy = $request->get_param( 'is_private' );
+        pm_update_meta( $milestone_id, $project_id, 'milestone', 'privacy', $privacy );
+        return $this->get_response( NULL);
+    }
 }
