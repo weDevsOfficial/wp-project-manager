@@ -392,12 +392,37 @@ export default {
         },
         privateClass ( privacy ){
             if( typeof privacy !== 'undefined' ){
-                if ( privacy === '1' ){
+                if ( privacy == '1' ){
                     return 'dashicons dashicons-lock'
                 }else {
                     return 'dashicons dashicons-unlock'
                 }
             }
+        },
+
+        milestoneLockUnlock (milestone) {
+            var self = this;
+            var data = {
+                is_private: milestone.meta.privacy == '0' ? 1 : 0
+            }
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/privacy/'+milestone.id,
+                type: 'POST',
+                data: data,
+                success (res) {
+                    self.$store.commit('projectMilestones/updateMilestonePrivacy', {
+                        privacy: data.is_private,
+                        project_id: self.project_id,
+                        milestone_id: milestone.id
+
+                    });
+                },
+
+                error (res) {
+                  
+                }
+            }
+            self.httpRequest(request_data);
         }
 
     },
