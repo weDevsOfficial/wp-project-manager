@@ -4811,3 +4811,10 @@ ul.cpm-files li .cpm-file-action .comment-number {
   margin: 0 0 0 2px;
   padding: 0;
 }
+.rtl .chosen-container .chosen-drop {
+    left: 0px;
+    display: none;
+}
+.rtl .chosen-container.chosen-with-drop .chosen-drop {
+    display: block;
+}
