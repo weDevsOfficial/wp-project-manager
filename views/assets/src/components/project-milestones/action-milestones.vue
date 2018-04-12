@@ -14,7 +14,7 @@
         <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="__( 'Mark as complete', 'pm' )" href="#"></a>
     </li>
     <li>
-        <span :class="privateClass( milestone.meta.privacy )"></span>
+        <a href="#" @click.prevent="milestoneLockUnlock(milestone)" v-if="PM_Vars.is_pro"><span :class="privateClass( milestone.meta.privacy )"></span></a>
     </li>
 </ul>
 </template>
