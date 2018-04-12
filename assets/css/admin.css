@@ -619,6 +619,7 @@ ul.cpm-nav li a {
   top: 29% !important;
 }
 .cpm-project-head {
+  overflow: hidden;
   display: block;
   margin-bottom: 15px;
 }
@@ -808,10 +809,10 @@ ul.cpm-activity ul li:before {
   z-index: 0 !important;
 }
 .cpm-projects .cpm-project h5 {
-    font-size: 16px;
-    word-wrap: break-word;
-    color: rgb(0, 0, 0);
-    margin: -5px 30px -5px -5px;
+  font-size: 16px;
+  margin: 0;
+  word-wrap: break-word;
+  color: #000;
 }
 .cpm-projects .cpm-project .cpm-completed-wrap {
   width: 85px;
@@ -3494,7 +3495,7 @@ ul.cpm-files li .cpm-file-action .comment-number {
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .milestone-head .cpm-links {
   margin: 0px;
-  margin-top: 0px;
+  margin-top: -15px;
 }
 .cpm #cpm-milestone-page .cpm-milestone-details .cpm-milestone .detail {
   padding: 5px 15px;
