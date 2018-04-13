@@ -49,7 +49,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         $this->isProcessRuning = true;
-        $this->upgrade_projects($item);
+        $this->upgrade_projects( $item );
         $this->upgrade_observe_migration( [
             'projects' => true
         ] );
@@ -64,8 +64,13 @@ class Upgrade_2_0 extends WP_Background_Process
     function complete() {
         parent::complete();
         $this->isProcessRuning = false;
+
         $this->migrate_category();
         $this->set_settings();
+
+        delete_option( 'pm_start_migration' );
+        update_option( 'pm_db_version', config('db_version') );
+        delete_option( 'cpm_db_version' );
         
         // upgrade complete function
     }
@@ -130,9 +135,6 @@ class Upgrade_2_0 extends WP_Background_Process
         ", $key ) );
     }
 
-    // public function admin_footer() {
-    //     add_action('admin_footer', array( $this, 'notification' ) );
-    // }
 
     public function notification() {
         $this->set_count();
@@ -256,13 +258,13 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
 
                 function pmRemoveNotice () {
-                    $('.pm-notice-dismiss').click(function() {
-                        $('.pm-update-progress-notice').slideUp( 300, function() {
+                    jQuery('.pm-notice-dismiss').click(function() {
+                        jQuery('.pm-update-progress-notice').slideUp( 300, function() {
                             
-                            $('.pm-update-progress-notice').remove();
+                            jQuery('.pm-update-progress-notice').remove();
                         });
                     
-                        $.ajax({
+                        jQuery.ajax({
                             type: 'POST',
                             url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
                             data: {
@@ -418,100 +420,79 @@ class Upgrade_2_0 extends WP_Background_Process
         global $wpdb;
 
         $has_migration = get_option( 'pm_observe_migration' );
+        $start_update = get_option( 'pm_start_migration', false );
 
-        if ( ! empty( $has_migration ) ) {
+        if ( ! empty( $has_migration ) || ! $start_update ) {
             return;
         }
+        // decleat variables;
+        $total_project   = 0;
+        $total_milestone = 0;
+        $total_message   = 0;
+        $total_task_list = 0;
+        $total_task      = 0;
+        $total_comment   = 0;
+        $comments_ids    = [];
 
-        $ids = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'cpm_project'", ARRAY_A );
-        $ids = wp_list_pluck($ids, 'ID'); 
-        
-        $lists = [];
-        $tasks = [];
-        $messages = [];
-        $milestons = [];
+        $projects = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'cpm_project'", ARRAY_A );
+        $total_project = $wpdb->num_rows;
 
-        foreach ( $ids as $key => $project_id ) {
-            $list_ids = $wpdb->get_results( 
-                "
-                SELECT ID FROM $wpdb->posts 
-                WHERE
-                post_parent = $project_id
-                AND
-                post_type = 'cpm_task_list'
-                AND
-                post_status = 'publish'
-                "
-            );
+        if ( $total_project ) {
+            $ids = wp_list_pluck( $projects, 'ID' );
+            $comments_ids = array_merge( $comments_ids, $ids );
+            $ids = implode( ',', $ids );
 
-            $list_ids = wp_list_pluck( $list_ids, 'ID' );
-            $lists    = array_merge( $list_ids, $lists );
-            $string_list_id = implode( ',', $list_ids );
+            //milestone query
+            $milestons = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", 'publish' ), ARRAY_A );
+            $total_milestone = $wpdb->num_rows;
 
-            $task_ids = $wpdb->get_results( 
-                "
-                SELECT ID FROM $wpdb->posts 
-                WHERE
-                post_parent IN ( $string_list_id )
-                AND
-                post_type = 'cpm_task'
-                AND
-                post_status = 'publish'
-                "
-            );
+            //message query
+            $message = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type=%s AND post_status=%s", 'cpm_message', 'publish' ), ARRAY_A );
+            $total_message = $wpdb->num_rows;
+            $comments_ids = array_merge( $comments_ids, wp_list_pluck( $message, 'ID' ) );
 
-            $task_ids = wp_list_pluck( $task_ids, 'ID' );
-            $tasks    = array_merge( $task_ids, $tasks );
+            // tasklist query
+            $tasklist = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type=%s AND post_status=%s", 'cpm_task_list', 'publish' ), ARRAY_A );
+            $total_task_list = $wpdb->num_rows;
 
-            $mileston_ids = $wpdb->get_results( 
-                "
-                SELECT ID FROM $wpdb->posts 
-                WHERE
-                post_parent = $project_id
-                AND
-                post_type = 'cpm_milestone'
-                AND
-                post_status = 'publish'
-                "
-            );
+            if ( $total_task_list ) {
+                $list_ids = wp_list_pluck( $tasklist, 'ID' );
+                $comments_ids = array_merge( $comments_ids, $list_ids );
+                $list_ids = implode( ',', $list_ids );
 
-            $mileston_ids = wp_list_pluck( $mileston_ids, 'ID' );
-            $milestons    = array_merge( $mileston_ids, $milestons );
+                // task query
+                $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($list_ids) AND post_type=%s AND post_status=%s", 'cpm_task', 'publish' ), ARRAY_A );
+                $total_task = $wpdb->num_rows;
 
-            $message_ids = $wpdb->get_results( 
-                "
-                SELECT ID FROM $wpdb->posts 
-                WHERE
-                post_parent = $project_id
-                AND
-                post_type = 'cpm_message'
-                AND
-                post_status = 'publish'
-                "
-            );
+                if ( $total_task ) {
+                    $task_ids = wp_list_pluck( $tasks, 'ID' );
+                    $comments_ids = array_merge( $comments_ids, $task_ids );
+                    $task_ids = implode( ',', $task_ids );
 
-            $message_ids = wp_list_pluck( $message_ids, 'ID' );
-            $messages    = array_merge( $message_ids, $messages );
+                    $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($task_ids) AND post_type=%s AND post_status=%s", 'cpm_sub_task', 'publish' ), ARRAY_A );
+                    $total_task =  $total_task + $wpdb->num_rows;
+
+                }
+
+            }
+
         }
 
-        $all_post_ids = array_merge( $lists, $tasks, $messages, $milestons );
-        $all_post_ids = implode(',', $all_post_ids);
-
-        $count_comments   = $wpdb->get_var( 
-            "
-            SELECT count(comment_ID) FROM $wpdb->comments
-            WHERE comment_post_ID IN ($all_post_ids)
-            "
-        );
+        if ( ! empty( $comments_ids ) ) {
+            $comments_ids = implode( ',', $comments_ids );
+            $total_comment   = $wpdb->get_var( 
+                "SELECT count(comment_ID) FROM {$wpdb->comments} WHERE comment_post_ID IN ($comments_ids)"
+            );
+        }
 
         $observe = [
             'count' => [
-                'projects'  => count( $ids ),
-                'lists'     => count( $lists ),
-                'tasks'     => count( $tasks ),
-                'messages'  => count( $messages ),
-                'milestons' => count( $milestons ),
-                'comments'  => $count_comments
+                'projects'  => $total_project,
+                'lists'     => $total_task_list,
+                'tasks'     => $total_task,
+                'messages'  => $total_message,
+                'milestons' => $total_milestone,
+                'comments'  => $total_comment
             ],
 
             'migrate' => [
@@ -560,7 +541,7 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     function create_project( $project_id ) {
         global $wpdb;
-        if( !$project_id && !is_int( $project_id ) ){
+        if ( !$project_id && !is_int( $project_id ) ) {
             return ;
         }
 
@@ -861,11 +842,10 @@ class Upgrade_2_0 extends WP_Background_Process
             
             if ( $post['post_type'] == 'cpm_task' ) {
                 $taskParent[$post['ID']] = $post['post_parent'];
-
-                $this->upgrade_observe_migration( [
-                    'tasks' => true
-                ] );
             }
+            $this->upgrade_observe_migration( [
+                'tasks' => true
+            ] );
             
         }
         return array( $tasks, $taskParent );
@@ -1491,9 +1471,9 @@ class Upgrade_2_0 extends WP_Background_Process
 
             foreach ( $attr as $key => $value ) {
 
-                if( !empty( $value['title'] ) ) {
+                if ( !empty( $value['title'] ) ) {
                     $title = $value['title'];
-                }else {
+                } else {
                     $title = '';
                 }
 
@@ -1557,6 +1537,10 @@ class Upgrade_2_0 extends WP_Background_Process
             'created_at'    => $activity['comment_date'],
             'updated_at'    => $activity['comment_date'],
         ] );
+
+        $this->upgrade_observe_migration( [
+            'comments' => true
+        ] );
     }
 
 
@@ -1570,14 +1554,12 @@ class Upgrade_2_0 extends WP_Background_Process
             'cpm_comment_url'  => '{{meta.comment_id}}'
         ];
         $text = $str;
-        $pattern = get_shortcode_regex();
-            
+        $pattern = '\[(\[?)(cpm_msg_url|cpm_user_url|cpm_task_url|cpm_tasklist_url|cpm_comment_url)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
         $sdf     = preg_replace_callback( "/$pattern/s", function ( $match ) use ( &$attr, $arr, &$text ) {
 
             $text = str_replace($match[0], $arr[$match[2]], $text );
 
             $attr[$match[2]] = shortcode_parse_atts( $match[3] );
-
             if( empty( $attr[$match[2]]['title'] )){
                 if( strpos($match[0], 'title=') !== false ){
                    $title = substr( $match[0], strpos($match[0], 'title=') + 7, -2);

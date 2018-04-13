@@ -17,9 +17,7 @@ class Upgrade {
      * @return void
      */
     function __construct() {
-        
-        //add_action( 'admin_notices', array($this, 'show_update_notice') );
-       
+        add_action( 'admin_notices', array($this, 'show_update_notice') );
         add_action( 'admin_init', array( $this, 'init_upgrades' ) );
         add_action( 'admin_init', array( $this, 'do_updates' ) );
         add_action( 'wp_ajax_do_updates', array( $this, 'do_updates' ) );
@@ -79,7 +77,6 @@ class Upgrade {
      * @return boolean
      */
     public function is_needs_update() {
-        return true;
         $installed_version = !empty( get_site_option( 'cpm_db_version' ) ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
         // may be it's the first install
@@ -124,24 +121,6 @@ class Upgrade {
                         //event.preventDefault();
 
                         return confirm( '<?php _e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'pm' ); ?>' );
-                        
-                        //     var form_data = {
-                        //         url: PM_Vars.ajaxurl,
-                        //         type: 'POST',
-                        //         data: {
-                        //             action: 'do_updates',
-                        //             pm_update: true,
-                        //             pm_nonce: PM_Vars.nonce
-                        //         },
-
-                        //         success: function(res) {
-                        //         },
-
-                        //         error: function(res) {
-                        //         }
-                        //     };
-                        //     jQuery.ajax(form_data);
-                        
                     });
                 </script>
             <?php
@@ -189,13 +168,13 @@ class Upgrade {
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
-                    //$object->upgrade_init();
+                    $object->upgrade_init();
                 }
                 
                 update_option( 'pm_db_version', $version );
             }
         }
-        update_option( 'pm_db_version', config('db_version') );
+        
         //delete_option( 'cpm_db_version' );
     }
 }
