@@ -118,6 +118,7 @@ class Commands extends Cli {
         delete_option('pm_observe_migration');
         delete_option('pm_migration_notice');
         delete_option('pm_task_migration');
+        delete_option('pm_db_version');
 
         \WP_CLI::success( "Table truncate successfully!" );
     }
