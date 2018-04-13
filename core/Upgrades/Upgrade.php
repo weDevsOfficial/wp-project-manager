@@ -56,7 +56,7 @@ class Upgrade {
     }
 
     public function init_upgrades() {
-        if( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ){
+        if( ! current_user_can( 'update_plugins' ) ){
             return ;
         }
 
@@ -79,9 +79,10 @@ class Upgrade {
     public function is_needs_update() {
         $installed_version = !empty( get_site_option( 'cpm_db_version' ) ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
+
         // may be it's the first install
         if ( ! $installed_version ) {
-            return false;
+            return true;
         }
 
         if ( version_compare( $installed_version, $updatable_versions , '<' ) ) {
@@ -101,6 +102,7 @@ class Upgrade {
         if ( ! current_user_can( 'update_plugins' ) || ! $this->is_needs_update() ) {
             return;
         }
+
         $installed_version  = get_option( 'cpm_db_version' );
         $updatable_versions = config('app.db_version');
         if ( ! is_null( $installed_version ) && version_compare( $installed_version, $updatable_versions, '<' ) ) {
@@ -156,7 +158,7 @@ class Upgrade {
      * @return void
      */
     public function perform_updates() {
-
+        
         if ( ! $this->is_needs_update() ) {
             return;
         }
@@ -164,7 +166,7 @@ class Upgrade {
         
         foreach (self::$updates as $version => $object ) {
 
-            // $object->upgrade_init();
+            
             if ( version_compare( $installed_version, $version, '<' ) ) {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
@@ -175,7 +177,8 @@ class Upgrade {
             }
         }
         
-        //delete_option( 'cpm_db_version' );
+        delete_option( 'cpm_db_version' );
+        update_option( 'pm_db_version', config('app.db_version') );
     }
 }
 

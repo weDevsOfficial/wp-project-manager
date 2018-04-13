@@ -47,7 +47,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( empty( absint( $item ) ) ) {
             return false;
         }
-
+        
         $this->isProcessRuning = true;
         $this->upgrade_projects( $item );
         $this->upgrade_observe_migration( [
@@ -243,7 +243,7 @@ class Upgrade_2_0 extends WP_Background_Process
                         cross+
                         tmplInside+'</div>';
 
-                    $('.pm-update-progress-notice').html(tmpl);
+                    jQuery('.pm-update-progress-notice').html(tmpl);
 
                     if (typeof callBack !== 'undefined') {
                         callBack();

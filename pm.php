@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: WP Project Manager new
  * Plugin URI : https://wordpress.org/plugins/wedevs-project-manager/
