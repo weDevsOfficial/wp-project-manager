@@ -69,7 +69,6 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->set_settings();
 
         delete_option( 'pm_start_migration' );
-        update_option( 'pm_db_version', config('db_version') );
         delete_option( 'cpm_db_version' );
         
         // upgrade complete function
@@ -137,16 +136,18 @@ class Upgrade_2_0 extends WP_Background_Process
 
 
     public function notification() {
-        $this->set_count();
-
-        $is_run_update    = get_option( 'pm_start_migration' );
+        
         $is_active_notice = get_option('pm_migration_notice');
 
-        if ( !empty( $is_active_notice ) || empty( $is_run_update ) ) {
+        if ( 
+            empty( $is_active_notice ) 
+                ||
+            $is_active_notice == 'complete'
+        ) {
            return;
         }
         
-        echo '<div class="updated pm-update-progress-notice"></div>';
+        echo '<div class="updated pm-update-progress-notice wrap"></div>';
         $db_observe = get_option( 'pm_observe_migration' );
 
         $observe = json_encode( $db_observe );
@@ -352,6 +353,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function start_update() {
         update_option( 'pm_start_migration', true );
+        update_option( 'pm_migration_notice', 'incomplete' );
     }
 
 
