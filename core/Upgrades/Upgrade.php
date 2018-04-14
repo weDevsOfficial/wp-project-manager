@@ -1,5 +1,6 @@
 <?php
 namespace WeDevs\PM\Core\Upgrades;
+set_time_limit(0);
 class Upgrade {
 
     /** @var array DB updates that need to be run */
@@ -171,14 +172,13 @@ class Upgrade {
 
                 if ( method_exists( $object, 'upgrade_init' ) ){
                     $object->upgrade_init();
+                    update_option( 'pm_db_version', $version );
                 }
-                
-                update_option( 'pm_db_version', $version );
             }
         }
         
         delete_option( 'cpm_db_version' );
-        update_option( 'pm_db_version', config('app.db_version') );
+       // update_option( 'pm_db_version', '2.0-beta' );
     }
 }
 
