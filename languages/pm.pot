@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pm\n"
-"POT-Creation-Date: 2018-04-16 03:05:53+00:00\n"
+"POT-Creation-Date: 2018-04-16 06:08:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,7 +30,6 @@ msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:63
 #: core/Notifications/Emails/Update_Comment_Notification.php:58
-#: texts/common.php:154
 #: views/assets/src/components/project-overview/directive.js:10
 msgid "Task"
 msgstr ""
@@ -107,8 +106,7 @@ msgstr ""
 msgid "Every %d Minutes PM schedule"
 msgstr ""
 
-#: core/WP/Menu.php:15 texts/common.php:30
-#: views/assets/src/components/project-lists/header.vue:7
+#: core/WP/Menu.php:15 views/assets/src/components/project-lists/header.vue:7
 msgid "Project Manager"
 msgstr ""
 
@@ -116,8 +114,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: core/WP/Menu.php:19 texts/common.php:363
-#: views/assets/src/components/categories/categories.vue:3
+#: core/WP/Menu.php:19 views/assets/src/components/categories/categories.vue:3
 msgid "Categories"
 msgstr ""
 
@@ -390,723 +387,6 @@ msgstr ""
 msgid "%1$s has duplicated project from , %2$s."
 msgstr ""
 
-#: texts/common.php:5
-#: views/assets/src/components/project-activities/activities.vue:46
-msgid "Load More ..."
-msgstr ""
-
-#: texts/common.php:8 views/assets/js/pm.js:1
-#: views/assets/src/components/categories/categories.vue:259
-#: views/assets/src/components/project-discussions/mixin.js:452
-#: views/assets/src/components/project-task-lists/list-comments.vue:103
-#: views/assets/src/components/project-task-lists/mixin.js:329
-#: views/assets/src/components/project-task-lists/mixin.js:517
-#: views/assets/src/components/project-task-lists/task-comments.vue:117
-msgid "Are you sure!"
-msgstr ""
-
-#: texts/common.php:11
-#: views/assets/src/components/categories/categories.vue:106
-#: views/assets/src/components/common/header.vue:10
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:79
-msgid "Edit"
-msgstr ""
-
-#: texts/common.php:14 views/assets/src/components/categories/categories.vue:57
-#: views/assets/src/components/categories/categories.vue:161
-#: views/assets/src/components/common/header.vue:29
-#: views/assets/src/components/project-lists/project-create-form.vue:36
-#: views/assets/src/components/project-lists/project-summary.vue:134
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:82
-msgid "Delete"
-msgstr ""
-
-#: texts/common.php:17
-#: views/assets/src/components/categories/edit-category-form.vue:23
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
-#: views/assets/src/components/project-lists/project-create-form.vue:57
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
-#: views/assets/src/components/project-task-lists/new-task-form.vue:47
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
-msgid "Cancel"
-msgstr ""
-
-#: texts/common.php:20 views/assets/src/components/common/header.vue:36
-#: views/assets/src/components/project-lists/project-summary.vue:141
-msgid "Complete"
-msgstr ""
-
-#: texts/common.php:23 views/assets/src/components/common/header.vue:39
-#: views/assets/src/components/project-lists/project-summary.vue:144
-msgid "Restore"
-msgstr ""
-
-#: texts/common.php:26
-msgid "at"
-msgstr ""
-
-#: texts/common.php:33
-msgid "Create A Project"
-msgstr ""
-
-#: texts/common.php:36
-msgid " – Project Category –"
-msgstr ""
-
-#: texts/common.php:39
-msgid "Search All..."
-msgstr ""
-
-#: texts/common.php:42
-msgid "Search By Client..."
-msgstr ""
-
-#: texts/common.php:45
-#: views/assets/src/components/project-lists/project-header-menu.vue:6
-msgid "Active"
-msgstr ""
-
-#: texts/common.php:48
-#: views/assets/src/components/project-lists/project-header-menu.vue:20
-msgid "All"
-msgstr ""
-
-#: texts/common.php:51 views/assets/src/components/common/header.vue:18
-#: views/assets/src/components/project-task-lists/lists.vue:106
-msgid "Incomplete"
-msgstr ""
-
-#: texts/common.php:54 views/assets/src/components/common/header.vue:17
-#: views/assets/src/components/project-lists/project-header-menu.vue:13
-#: views/assets/src/components/project-task-lists/lists.vue:96
-msgid "Completed"
-msgstr ""
-
-#: texts/common.php:57
-msgid "Start a new project"
-msgstr ""
-
-#: texts/common.php:60
-msgid "Name of the project"
-msgstr ""
-
-#: texts/common.php:63
-msgid "Some details about the project (optional)"
-msgstr ""
-
-#: texts/common.php:66
-msgid "Type 3 or more characters to search users..."
-msgstr ""
-
-#: texts/common.php:69
-#: views/assets/src/components/project-lists/project-create-form.vue:50
-msgid "Notify Co-Workers"
-msgstr ""
-
-#: texts/common.php:72 views/emails/html/update-project.php:9
-msgid "Update Project"
-msgstr ""
-
-#: texts/common.php:75
-#: views/assets/src/components/project-lists/directive.js:75
-msgid "Create a new user"
-msgstr ""
-
-#: texts/common.php:78
-msgid "No User Found"
-msgstr ""
-
-#: texts/common.php:81
-#: views/assets/src/components/project-lists/project-new-user-form.vue:7
-msgid "Username"
-msgstr ""
-
-#: texts/common.php:84
-#: views/assets/src/components/project-lists/project-new-user-form.vue:12
-msgid "First Name"
-msgstr ""
-
-#: texts/common.php:87
-#: views/assets/src/components/project-lists/project-new-user-form.vue:17
-msgid "Last Name"
-msgstr ""
-
-#: texts/common.php:90
-#: views/assets/src/components/project-lists/project-new-user-form.vue:22
-msgid "Email"
-msgstr ""
-
-#: texts/common.php:93
-msgid "Create User"
-msgstr ""
-
-#: texts/common.php:96
-msgid "Create a new user?"
-msgstr ""
-
-#: texts/common.php:99
-msgid "List View"
-msgstr ""
-
-#: texts/common.php:102
-msgid "Grid View"
-msgstr ""
-
-#: texts/common.php:105
-msgid "No project found"
-msgstr ""
-
-#: texts/common.php:108 views/assets/src/components/common/header.vue:130
-#: views/assets/src/components/project-discussions/discussions.vue:20
-#: views/assets/src/components/project-lists/project-summary.vue:32
-#: views/assets/src/components/project-milestones/completed-milestones.vue:32
-#: views/assets/src/components/project-milestones/late-milestones.vue:39
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:42
-#: views/assets/src/components/project-overview/overview.vue:31
-msgid "Discussions"
-msgstr ""
-
-#: texts/common.php:111 views/assets/src/components/common/header.vue:141
-#: views/assets/src/components/project-lists/project-summary.vue:48
-#: views/assets/src/components/project-milestones/completed-milestones.vue:23
-#: views/assets/src/components/project-milestones/late-milestones.vue:30
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:32
-#: views/assets/src/components/project-overview/overview.vue:46
-#: views/assets/src/components/project-task-lists/default-list-page.vue:4
-msgid "Task Lists"
-msgstr ""
-
-#: texts/common.php:114
-#: views/assets/src/components/project-lists/project-summary.vue:63
-#: views/assets/src/components/project-overview/overview.vue:57
-msgid "Tasks"
-msgstr ""
-
-#: texts/common.php:117 views/assets/src/components/common/header.vue:152
-#: views/assets/src/components/project-lists/project-summary.vue:78
-#: views/assets/src/components/project-milestones/milestones.vue:19
-#: views/assets/src/components/project-overview/overview.vue:97
-msgid "Milestones"
-msgstr ""
-
-#: texts/common.php:120 views/assets/src/components/common/header.vue:163
-#: views/assets/src/components/project-lists/project-summary.vue:93
-#: views/assets/src/components/project-overview/overview.vue:82
-msgid "Files"
-msgstr ""
-
-#: texts/common.php:123 texts/common.php:246
-#: views/assets/src/components/project-discussions/discussions.vue:109
-#: views/assets/src/components/project-discussions/individual-discussions.vue:56
-#: views/assets/src/components/project-lists/project-summary.vue:104
-#: views/assets/src/components/project-overview/overview.vue:68
-#: views/assets/src/components/project-task-lists/lists.vue:115
-#: views/assets/src/components/project-task-lists/single-task.vue:173
-msgid "Comments"
-msgstr ""
-
-#: texts/common.php:126
-msgid "Delete project"
-msgstr ""
-
-#: texts/common.php:129
-msgid "Are you sure! Want to delete the project?"
-msgstr ""
-
-#: texts/common.php:132
-msgid "Project Actions"
-msgstr ""
-
-#: texts/common.php:139 views/assets/src/components/common/header.vue:119
-msgid "Activities"
-msgstr ""
-
-#: texts/common.php:142 views/assets/src/components/common/header.vue:108
-msgid "Overview"
-msgstr ""
-
-#: texts/common.php:145
-msgid "This Month"
-msgstr ""
-
-#: texts/common.php:148
-#: views/assets/src/components/project-overview/overview.vue:116
-msgid "Users"
-msgstr ""
-
-#: texts/common.php:151
-#: views/assets/src/components/project-overview/directive.js:9
-msgid "Activity"
-msgstr ""
-
-#: texts/common.php:158
-#: views/assets/src/components/project-milestones/milestones.vue:21
-msgid ""
-"Create a lifecycle of your projects using milestones. Time mark the "
-"different stages of your project with multiple milestones and also it will "
-"help the assigned people to aim for a date to complete the project "
-"according to those steps."
-msgstr ""
-
-#: texts/common.php:161
-#: views/assets/src/components/project-milestones/milestones.vue:24
-#: views/assets/src/components/project-milestones/milestones.vue:52
-msgid "Add Milestone"
-msgstr ""
-
-#: texts/common.php:164
-#: views/assets/src/components/project-milestones/milestones.vue:37
-msgid "When to use Milestones?"
-msgstr ""
-
-#: texts/common.php:167
-#: views/assets/src/components/project-milestones/milestones.vue:40
-msgid "To set a target date for the project overall."
-msgstr ""
-
-#: texts/common.php:170
-#: views/assets/src/components/project-milestones/milestones.vue:41
-msgid "To divide a project into several development-time phases."
-msgstr ""
-
-#: texts/common.php:173
-#: views/assets/src/components/project-milestones/milestones.vue:42
-msgid "To coordinate projects and assigned persons timely."
-msgstr ""
-
-#: texts/common.php:176
-msgid "Milestone name"
-msgstr ""
-
-#: texts/common.php:179
-msgid "Update Milestone"
-msgstr ""
-
-#: texts/common.php:182
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
-msgid "Upcoming Milestones"
-msgstr ""
-
-#: texts/common.php:185
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:10
-msgid "left -"
-msgstr ""
-
-#: texts/common.php:188
-msgid "Edit Milestone"
-msgstr ""
-
-#: texts/common.php:191
-msgid "Delete Milestone"
-msgstr ""
-
-#: texts/common.php:194
-msgid "Mark as incomplete"
-msgstr ""
-
-#: texts/common.php:197
-msgid "Mark as complete"
-msgstr ""
-
-#: texts/common.php:200
-#: views/assets/src/components/project-milestones/completed-milestones.vue:3
-msgid "Completed Milestones"
-msgstr ""
-
-#: texts/common.php:203
-#: views/assets/src/components/project-milestones/completed-milestones.vue:43
-msgid "Completed on:"
-msgstr ""
-
-#: texts/common.php:206 texts/common.php:287
-#: views/assets/src/components/project-milestones/late-milestones.vue:3
-msgid "Late Milestones"
-msgstr ""
-
-#: texts/common.php:209 views/assets/js/pm.js:1
-#: views/assets/src/components/project-milestones/mixin.js:281
-msgid "Are you sure! Want to delete this milestones?"
-msgstr ""
-
-#: texts/common.php:213
-#: views/assets/src/components/project-discussions/discussions.vue:23
-msgid ""
-"Use our built in discussion panel to create an open discussion, a group "
-"discussion or a private conversation. Note that the Admin can always "
-"moderate these discussions."
-msgstr ""
-
-#: texts/common.php:216
-#: views/assets/src/components/project-discussions/discussions.vue:27
-#: views/assets/src/components/project-discussions/discussions.vue:54
-msgid "Add New Discussion"
-msgstr ""
-
-#: texts/common.php:219
-#: views/assets/src/components/project-discussions/discussions.vue:32
-#: views/assets/src/components/project-discussions/discussions.vue:59
-msgid "Create a new message"
-msgstr ""
-
-#: texts/common.php:222
-#: views/assets/src/components/project-discussions/discussions.vue:38
-msgid "When to use Discussions?"
-msgstr ""
-
-#: texts/common.php:225
-#: views/assets/src/components/project-discussions/discussions.vue:41
-msgid "To discuss a work matter privately."
-msgstr ""
-
-#: texts/common.php:228
-#: views/assets/src/components/project-discussions/discussions.vue:42
-msgid "To exchange files privately."
-msgstr ""
-
-#: texts/common.php:231
-#: views/assets/src/components/project-discussions/discussions.vue:43
-msgid "To discuss in a group."
-msgstr ""
-
-#: texts/common.php:234
-#: views/assets/src/components/project-discussions/discussions.vue:44
-msgid "To create an open discussion visible to all."
-msgstr ""
-
-#: texts/common.php:237
-#: views/assets/src/components/project-discussions/discussions.vue:68
-msgid "Discussion List"
-msgstr ""
-
-#: texts/common.php:240
-#: views/assets/src/components/project-discussions/discussions.vue:83
-#: views/assets/src/components/project-discussions/individual-discussions.vue:32
-#: views/assets/src/components/project-task-lists/list-comments.vue:15
-#: views/assets/src/components/project-task-lists/task-comments.vue:14
-msgid "By"
-msgstr ""
-
-#: texts/common.php:243
-#: views/assets/src/components/project-discussions/discussions.vue:87
-#: views/assets/src/components/project-discussions/individual-discussions.vue:35
-#: views/assets/src/components/project-discussions/individual-discussions.vue:72
-#: views/assets/src/components/project-task-lists/list-comments.vue:22
-#: views/assets/src/components/project-task-lists/task-comments.vue:20
-msgid "on"
-msgstr ""
-
-#: texts/common.php:249 views/assets/src/components/common/notify-user.vue:4
-msgid "Notify users"
-msgstr ""
-
-#: texts/common.php:252
-#: views/assets/src/components/categories/categories.vue:69
-#: views/assets/src/components/common/notify-user.vue:7
-msgid "Select all"
-msgstr ""
-
-#: texts/common.php:255
-msgid "Add Message"
-msgstr ""
-
-#: texts/common.php:258
-msgid "Update Message"
-msgstr ""
-
-#: texts/common.php:261 views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/mixin.js:491
-msgid "Are you sure to delete this comment?"
-msgstr ""
-
-#: texts/common.php:264
-msgid " - Milestone -"
-msgstr ""
-
-#: texts/common.php:267
-msgid "Enter message title"
-msgstr ""
-
-#: texts/common.php:272
-#: views/assets/src/components/project-task-lists/default-list-page.vue:6
-msgid ""
-"You can list all your Tasks in a single discussion using a Task list. Use "
-"these lists to divide a project into several sectors, assign co-workers and "
-"check progress."
-msgstr ""
-
-#: texts/common.php:275
-#: views/assets/src/components/project-task-lists/default-list-page.vue:14
-msgid "When to use Task Lists?"
-msgstr ""
-
-#: texts/common.php:278
-#: views/assets/src/components/project-task-lists/default-list-page.vue:17
-msgid "To partition a project internals."
-msgstr ""
-
-#: texts/common.php:281
-#: views/assets/src/components/project-task-lists/default-list-page.vue:18
-msgid "To mark milestone points."
-msgstr ""
-
-#: texts/common.php:284
-#: views/assets/src/components/project-task-lists/default-list-page.vue:19
-msgid "To assign people to tasks."
-msgstr ""
-
-#: texts/common.php:290
-#: views/assets/src/components/project-task-lists/list-comments.vue:4
-msgid "Discuss this task list"
-msgstr ""
-
-#: texts/common.php:293
-#: views/assets/src/components/project-task-lists/list-tasks.vue:9
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
-msgid "No tasks found."
-msgstr ""
-
-#: texts/common.php:296
-#: views/assets/src/components/project-task-lists/lists.vue:81
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
-msgid "More Tasks"
-msgstr ""
-
-#: texts/common.php:299
-#: views/assets/src/components/project-task-lists/new-task-btn.vue:3
-msgid "Add Task"
-msgstr ""
-
-#: texts/common.php:302
-msgid "Add a new task"
-msgstr ""
-
-#: texts/common.php:305
-msgid "Add extra details about this task (optional)"
-msgstr ""
-
-#: texts/common.php:308
-msgid "Update Task"
-msgstr ""
-
-#: texts/common.php:311
-#: views/assets/src/components/project-task-lists/new-task-list-btn.vue:7
-msgid "New Task List"
-msgstr ""
-
-#: texts/common.php:314
-msgid "Task list name"
-msgstr ""
-
-#: texts/common.php:317
-msgid "Task list details"
-msgstr ""
-
-#: texts/common.php:320
-#: views/assets/src/components/project-discussions/discussions.vue:16
-msgid "Add List"
-msgstr ""
-
-#: texts/common.php:323
-msgid "Update List"
-msgstr ""
-
-#: texts/common.php:326
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
-msgid "Incomplete Tasks"
-msgstr ""
-
-#: texts/common.php:329
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
-msgid "Completed Tasks"
-msgstr ""
-
-#: texts/common.php:332
-#: views/assets/src/components/project-task-lists/single-list.vue:28
-msgid "Back to Task Lists"
-msgstr ""
-
-#: texts/common.php:335
-msgid "Delete List"
-msgstr ""
-
-#: texts/common.php:338
-#: views/assets/src/components/project-task-lists/single-task.vue:186
-msgid "Update Description"
-msgstr ""
-
-#: texts/common.php:341
-#: views/assets/src/components/project-task-lists/single-task.vue:201
-msgid "Shift+Enter for line break"
-msgstr ""
-
-#: texts/common.php:344
-msgid "Add New Comment"
-msgstr ""
-
-#: texts/common.php:347 views/emails/html/update-comment.php:12
-msgid "Update Comment"
-msgstr ""
-
-#: texts/common.php:350
-#: views/assets/src/components/project-task-lists/task-comments.vue:4
-msgid "Discuss this task"
-msgstr ""
-
-#: texts/common.php:353 views/assets/src/components/common/text-editor.vue:34
-msgid "Write a comment..."
-msgstr ""
-
-#: texts/common.php:356 views/assets/src/components/common/file-uploader.vue:10
-msgid "Delete File"
-msgstr ""
-
-#: texts/common.php:359
-msgid ""
-" To attach, <a id=\"pm-upload-pickfiles\" href=\"#\">select files</a> from "
-"your computer."
-msgstr ""
-
-#: texts/common.php:366
-#: views/assets/src/components/categories/categories.vue:23
-msgid "Add New Category"
-msgstr ""
-
-#: texts/common.php:369
-#: views/assets/src/components/categories/categories.vue:27
-#: views/assets/src/components/categories/categories.vue:74
-#: views/assets/src/components/categories/categories.vue:135
-#: views/assets/src/components/categories/edit-category-form.vue:8
-msgid "Name"
-msgstr ""
-
-#: texts/common.php:372
-#: views/assets/src/components/categories/categories.vue:33
-#: views/assets/src/components/categories/categories.vue:79
-#: views/assets/src/components/categories/categories.vue:141
-#: views/assets/src/components/categories/edit-category-form.vue:14
-msgid "Description"
-msgstr ""
-
-#: texts/common.php:375
-#: views/assets/src/components/categories/categories.vue:54
-msgid "Select bulk action"
-msgstr ""
-
-#: texts/common.php:378
-#: views/assets/src/components/categories/categories.vue:56
-#: views/assets/src/components/categories/categories.vue:160
-msgid "Bulk Actions"
-msgstr ""
-
-#: texts/common.php:381
-msgid "Apply"
-msgstr ""
-
-#: texts/common.php:384
-#: views/assets/src/components/categories/edit-category-form.vue:5
-msgid "Quick Edit"
-msgstr ""
-
-#: texts/common.php:387
-msgid "Update Category"
-msgstr ""
-
-#: texts/common.php:391 views/assets/src/components/settings/email.vue:7
-#: views/assets/src/components/settings/header.vue:9
-msgid "E-Mail Settings"
-msgstr ""
-
-#: texts/common.php:394 views/assets/src/components/settings/email.vue:12
-msgid "From Email"
-msgstr ""
-
-#: texts/common.php:397 views/assets/src/components/settings/email.vue:20
-msgid "Links in the Email"
-msgstr ""
-
-#: texts/common.php:400 views/assets/src/components/settings/email.vue:25
-msgid "Link to Backend"
-msgstr ""
-
-#: texts/common.php:403 views/assets/src/components/settings/email.vue:28
-msgid ""
-"Select where do you want to take the user. Notification emails contain "
-"links."
-msgstr ""
-
-#: texts/common.php:406 views/assets/src/components/settings/email.vue:35
-msgid "E-Mail Type"
-msgstr ""
-
-#: texts/common.php:409 views/assets/src/components/settings/email.vue:39
-msgid "HTML Mail"
-msgstr ""
-
-#: texts/common.php:412 views/assets/src/components/settings/email.vue:40
-msgid "Plain Text"
-msgstr ""
-
-#: texts/common.php:415 views/assets/src/components/settings/email.vue:46
-msgid "Send email via Bcc"
-msgstr ""
-
-#: texts/common.php:418 views/assets/src/components/settings/email.vue:52
-msgid "Enable Bcc"
-msgstr ""
-
-#: texts/common.php:421
-msgid "Save Changes"
-msgstr ""
-
-#: texts/common.php:424 views/assets/src/components/settings/general.vue:7
-#: views/assets/src/components/settings/header.vue:5
-msgid "General Settings"
-msgstr ""
-
-#: texts/common.php:427 views/assets/src/components/settings/general.vue:12
-msgid "File Upload Limit"
-msgstr ""
-
-#: texts/common.php:430 views/assets/src/components/settings/general.vue:16
-msgid "File Size in Megabytes. e.g: 2"
-msgstr ""
-
-#: texts/common.php:433 views/assets/src/components/settings/general.vue:21
-msgid "Projects Per Page"
-msgstr ""
-
-#: texts/common.php:436 views/assets/src/components/settings/general.vue:25
-msgid "-1 for unlimited"
-msgstr ""
-
-#: texts/common.php:439 views/assets/src/components/settings/general.vue:53
-msgid "Task Lists Per Page"
-msgstr ""
-
-#: texts/common.php:442 views/assets/src/components/settings/general.vue:61
-msgid "Incomplete Tasks Per Page"
-msgstr ""
-
-#: texts/common.php:445 views/assets/src/components/settings/general.vue:69
-msgid "Completed Tasks Per Page"
-msgstr ""
-
-#: texts/common.php:448 views/assets/src/components/settings/general.vue:77
-msgid "Project Managing Capability"
-msgstr ""
-
-#: texts/common.php:451 texts/common.php:457
-#: views/assets/src/components/settings/general.vue:87
-#: views/assets/src/components/settings/general.vue:103
-msgid "Select the user roles who can see and manage all projects."
-msgstr ""
-
-#: texts/common.php:454 views/assets/src/components/settings/general.vue:93
-msgid "Project Creation Capability"
-msgstr ""
-
 #: texts/resource_types.php:5
 msgid "project"
 msgstr ""
@@ -1235,10 +515,89 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:641
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/categories/categories.vue:259
+#: views/assets/src/components/project-discussions/mixin.js:452
+#: views/assets/src/components/project-task-lists/list-comments.vue:103
+#: views/assets/src/components/project-task-lists/mixin.js:329
+#: views/assets/src/components/project-task-lists/mixin.js:517
+#: views/assets/src/components/project-task-lists/task-comments.vue:117
+msgid "Are you sure!"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-milestones/mixin.js:281
+msgid "Are you sure! Want to delete this milestones?"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/mixin.js:491
+msgid "Are you sure to delete this comment?"
+msgstr ""
+
+#: views/assets/js/pm.js:1 views/assets/src/helpers/mixin/mixin.js:641
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:23
+msgid "Add New Category"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:27
+#: views/assets/src/components/categories/categories.vue:74
+#: views/assets/src/components/categories/categories.vue:135
+#: views/assets/src/components/categories/edit-category-form.vue:8
+msgid "Name"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:33
+#: views/assets/src/components/categories/categories.vue:79
+#: views/assets/src/components/categories/categories.vue:141
+#: views/assets/src/components/categories/edit-category-form.vue:14
+msgid "Description"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:54
+msgid "Select bulk action"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:56
+#: views/assets/src/components/categories/categories.vue:160
+msgid "Bulk Actions"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:57
+#: views/assets/src/components/categories/categories.vue:161
+#: views/assets/src/components/common/header.vue:29
+#: views/assets/src/components/project-lists/project-create-form.vue:36
+#: views/assets/src/components/project-lists/project-summary.vue:134
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:82
+msgid "Delete"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:69
+#: views/assets/src/components/common/notify-user.vue:7
+msgid "Select all"
+msgstr ""
+
+#: views/assets/src/components/categories/categories.vue:106
+#: views/assets/src/components/common/header.vue:10
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:79
+msgid "Edit"
+msgstr ""
+
+#: views/assets/src/components/categories/edit-category-form.vue:5
+msgid "Quick Edit"
+msgstr ""
+
+#: views/assets/src/components/categories/edit-category-form.vue:23
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
+#: views/assets/src/components/project-lists/project-create-form.vue:57
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-task-lists/new-task-form.vue:47
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
+msgid "Cancel"
 msgstr ""
 
 #: views/assets/src/components/common/color-picker.vue:9
@@ -1253,6 +612,10 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: views/assets/src/components/common/file-uploader.vue:10
+msgid "Delete File"
+msgstr ""
+
 #: views/assets/src/components/common/file-uploader.vue:16
 msgid "To attach"
 msgstr ""
@@ -1265,8 +628,151 @@ msgstr ""
 msgid "from your computer."
 msgstr ""
 
+#: views/assets/src/components/common/header.vue:17
+#: views/assets/src/components/project-lists/project-header-menu.vue:13
+#: views/assets/src/components/project-task-lists/lists.vue:96
+msgid "Completed"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:18
+#: views/assets/src/components/project-task-lists/lists.vue:106
+msgid "Incomplete"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:36
+#: views/assets/src/components/project-lists/project-summary.vue:141
+msgid "Complete"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:39
+#: views/assets/src/components/project-lists/project-summary.vue:144
+msgid "Restore"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:108
+msgid "Overview"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:119
+msgid "Activities"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:130
+#: views/assets/src/components/project-discussions/discussions.vue:20
+#: views/assets/src/components/project-lists/project-summary.vue:32
+#: views/assets/src/components/project-milestones/completed-milestones.vue:32
+#: views/assets/src/components/project-milestones/late-milestones.vue:39
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:42
+#: views/assets/src/components/project-overview/overview.vue:31
+msgid "Discussions"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:141
+#: views/assets/src/components/project-lists/project-summary.vue:48
+#: views/assets/src/components/project-milestones/completed-milestones.vue:23
+#: views/assets/src/components/project-milestones/late-milestones.vue:30
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:32
+#: views/assets/src/components/project-overview/overview.vue:46
+#: views/assets/src/components/project-task-lists/default-list-page.vue:4
+msgid "Task Lists"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:152
+#: views/assets/src/components/project-lists/project-summary.vue:78
+#: views/assets/src/components/project-milestones/milestones.vue:19
+#: views/assets/src/components/project-overview/overview.vue:97
+msgid "Milestones"
+msgstr ""
+
+#: views/assets/src/components/common/header.vue:163
+#: views/assets/src/components/project-lists/project-summary.vue:93
+#: views/assets/src/components/project-overview/overview.vue:82
+msgid "Files"
+msgstr ""
+
+#: views/assets/src/components/common/notify-user.vue:4
+msgid "Notify users"
+msgstr ""
+
+#: views/assets/src/components/common/text-editor.vue:34
+msgid "Write a comment..."
+msgstr ""
+
+#: views/assets/src/components/project-activities/activities.vue:46
+msgid "Load More ..."
+msgstr ""
+
 #: views/assets/src/components/project-activities/activities.vue:48
 msgid "No activity fount"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:16
+msgid "Add List"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:23
+msgid ""
+"Use our built in discussion panel to create an open discussion, a group "
+"discussion or a private conversation. Note that the Admin can always "
+"moderate these discussions."
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:27
+#: views/assets/src/components/project-discussions/discussions.vue:54
+msgid "Add New Discussion"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:32
+#: views/assets/src/components/project-discussions/discussions.vue:59
+msgid "Create a new message"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:38
+msgid "When to use Discussions?"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:41
+msgid "To discuss a work matter privately."
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:42
+msgid "To exchange files privately."
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:43
+msgid "To discuss in a group."
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:44
+msgid "To create an open discussion visible to all."
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:68
+msgid "Discussion List"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:83
+#: views/assets/src/components/project-discussions/individual-discussions.vue:32
+#: views/assets/src/components/project-task-lists/list-comments.vue:15
+#: views/assets/src/components/project-task-lists/task-comments.vue:14
+msgid "By"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:87
+#: views/assets/src/components/project-discussions/individual-discussions.vue:35
+#: views/assets/src/components/project-discussions/individual-discussions.vue:72
+#: views/assets/src/components/project-task-lists/list-comments.vue:22
+#: views/assets/src/components/project-task-lists/task-comments.vue:20
+msgid "on"
+msgstr ""
+
+#: views/assets/src/components/project-discussions/discussions.vue:109
+#: views/assets/src/components/project-discussions/individual-discussions.vue:56
+#: views/assets/src/components/project-lists/project-summary.vue:104
+#: views/assets/src/components/project-overview/overview.vue:68
+#: views/assets/src/components/project-task-lists/lists.vue:115
+#: views/assets/src/components/project-task-lists/single-task.vue:173
+msgid "Comments"
 msgstr ""
 
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:16
@@ -1290,9 +796,25 @@ msgstr ""
 msgid "No users found."
 msgstr ""
 
+#: views/assets/src/components/project-lists/directive.js:75
+msgid "Create a new user"
+msgstr ""
+
 #: views/assets/src/components/project-lists/project-create-form.vue:13
 #: views/assets/src/components/project-lists/project-filter-by-category.vue:6
 msgid "- Project Category -"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-create-form.vue:50
+msgid "Notify Co-Workers"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-header-menu.vue:6
+msgid "Active"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-header-menu.vue:20
+msgid "All"
 msgstr ""
 
 #: views/assets/src/components/project-lists/project-new-project-btn.vue:3
@@ -1300,12 +822,250 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:7
+msgid "Username"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-new-user-form.vue:12
+msgid "First Name"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-new-user-form.vue:17
+msgid "Last Name"
+msgstr ""
+
+#: views/assets/src/components/project-lists/project-new-user-form.vue:22
+msgid "Email"
+msgstr ""
+
 #: views/assets/src/components/project-lists/project-summary.vue:4
 msgid "No projects found."
 msgstr ""
 
+#: views/assets/src/components/project-lists/project-summary.vue:63
+#: views/assets/src/components/project-overview/overview.vue:57
+msgid "Tasks"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/completed-milestones.vue:3
+msgid "Completed Milestones"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/completed-milestones.vue:43
+msgid "Completed on:"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/late-milestones.vue:3
+msgid "Late Milestones"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:21
+msgid ""
+"Create a lifecycle of your projects using milestones. Time mark the "
+"different stages of your project with multiple milestones and also it will "
+"help the assigned people to aim for a date to complete the project "
+"according to those steps."
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:24
+#: views/assets/src/components/project-milestones/milestones.vue:52
+msgid "Add Milestone"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:37
+msgid "When to use Milestones?"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:40
+msgid "To set a target date for the project overall."
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:41
+msgid "To divide a project into several development-time phases."
+msgstr ""
+
+#: views/assets/src/components/project-milestones/milestones.vue:42
+msgid "To coordinate projects and assigned persons timely."
+msgstr ""
+
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
+msgid "Upcoming Milestones"
+msgstr ""
+
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:10
+msgid "left -"
+msgstr ""
+
+#: views/assets/src/components/project-overview/directive.js:9
+msgid "Activity"
+msgstr ""
+
 #: views/assets/src/components/project-overview/overview.vue:107
 msgid "Last 30 days"
+msgstr ""
+
+#: views/assets/src/components/project-overview/overview.vue:116
+msgid "Users"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/default-list-page.vue:6
+msgid ""
+"You can list all your Tasks in a single discussion using a Task list. Use "
+"these lists to divide a project into several sectors, assign co-workers and "
+"check progress."
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/default-list-page.vue:14
+msgid "When to use Task Lists?"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/default-list-page.vue:17
+msgid "To partition a project internals."
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/default-list-page.vue:18
+msgid "To mark milestone points."
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/default-list-page.vue:19
+msgid "To assign people to tasks."
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/list-comments.vue:4
+msgid "Discuss this task list"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/list-tasks.vue:9
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
+msgid "No tasks found."
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/lists.vue:81
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
+msgid "More Tasks"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/new-task-btn.vue:3
+msgid "Add Task"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/new-task-list-btn.vue:7
+msgid "New Task List"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
+msgid "Incomplete Tasks"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
+msgid "Completed Tasks"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/single-list.vue:28
+msgid "Back to Task Lists"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/single-task.vue:186
+msgid "Update Description"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/single-task.vue:201
+msgid "Shift+Enter for line break"
+msgstr ""
+
+#: views/assets/src/components/project-task-lists/task-comments.vue:4
+msgid "Discuss this task"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:7
+#: views/assets/src/components/settings/header.vue:9
+msgid "E-Mail Settings"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:12
+msgid "From Email"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:20
+msgid "Links in the Email"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:25
+msgid "Link to Backend"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:28
+msgid ""
+"Select where do you want to take the user. Notification emails contain "
+"links."
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:35
+msgid "E-Mail Type"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:39
+msgid "HTML Mail"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:40
+msgid "Plain Text"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:46
+msgid "Send email via Bcc"
+msgstr ""
+
+#: views/assets/src/components/settings/email.vue:52
+msgid "Enable Bcc"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:7
+#: views/assets/src/components/settings/header.vue:5
+msgid "General Settings"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:12
+msgid "File Upload Limit"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:16
+msgid "File Size in Megabytes. e.g: 2"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:21
+msgid "Projects Per Page"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:25
+msgid "-1 for unlimited"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:53
+msgid "Task Lists Per Page"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:61
+msgid "Incomplete Tasks Per Page"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:69
+msgid "Completed Tasks Per Page"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:77
+msgid "Project Managing Capability"
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:87
+#: views/assets/src/components/settings/general.vue:103
+msgid "Select the user roles who can see and manage all projects."
+msgstr ""
+
+#: views/assets/src/components/settings/general.vue:93
+msgid "Project Creation Capability"
 msgstr ""
 
 #: views/emails/html/complete-task.php:12
@@ -1396,6 +1156,14 @@ msgstr ""
 
 #: views/emails/html/new-task.php:18
 msgid "Created By"
+msgstr ""
+
+#: views/emails/html/update-comment.php:12
+msgid "Update Comment"
+msgstr ""
+
+#: views/emails/html/update-project.php:9
+msgid "Update Project"
 msgstr ""
 
 #: views/emails/html/update-project.php:15

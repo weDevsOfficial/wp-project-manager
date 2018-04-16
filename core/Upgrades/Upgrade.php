@@ -83,7 +83,7 @@ class Upgrade {
 
         // may be it's the first install
         if ( ! $installed_version ) {
-            return true;
+            return false;
         }
 
         if ( version_compare( $installed_version, $updatable_versions , '<' ) ) {

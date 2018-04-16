@@ -48,7 +48,7 @@ class Frontend {
 
 
 	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'pm', false, config('frontend.patch') . '/languages/' );
+		load_plugin_textdomain( 'pm', false, config('frontend.basename') . '/languages/' );
 	}
 
 	public function includes() {
