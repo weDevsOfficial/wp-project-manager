@@ -4,7 +4,7 @@
 
             <div class="item project-name">
                 <!-- v-model="project_name" -->
-                <input type="text" v-model="project.title"  id="project_name" :placeholder="__( 'Name of the project', 'pm' )" value="" size="45" />
+                <input type="text" v-model="project.title"  id="project_name" :placeholder="__('Name of the project', 'pm')" value="" size="45" />
             </div>
 
             <div class="pm-form-item item project-category">
