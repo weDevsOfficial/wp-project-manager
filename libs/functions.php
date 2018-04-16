@@ -446,7 +446,7 @@ function pm_log( $type = '', $msg = '' ) {
 function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
 
     if ( $language_dir == null ) {
-        $language_dir      = config('frontend.patch') . '/languages/';
+        $language_dir  = config('frontend.patch') . '/languages/';
     }
     
     $languages     = get_available_languages( $language_dir );

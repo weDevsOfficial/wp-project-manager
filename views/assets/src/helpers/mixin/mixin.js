@@ -15,6 +15,10 @@ export default {
         }
     },
 
+    created () {
+        setLocaleData(PM_Vars.language.pm);
+    },
+
     methods: {
         __ (text, domain) {
             return __(text, domain);
