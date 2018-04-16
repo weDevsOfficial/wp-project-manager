@@ -11,7 +11,8 @@
     "build": "webpack-dev-server",
     "watch": "webpack --progress --colors --watch",
     "reset": "webpack --progress --colors",
-    "release": "webpack --progress --colors gurnt zip"
+    "release": "webpack --progress --colors gurnt zip",
+    "makepot": "wpvuei18n makepot"
   },
   "repository": {
     "type": "git",
@@ -73,7 +74,8 @@
     "vue-template-compiler": "^2.4.2",
     "watch": "^1.0.2",
     "webpack": "^2.7.0",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.7.1",
+    "wp-vue-i18n": "^1.0.0"
   },
   "dependencies": {
     "babel-preset-stage-2": "^6.24.1",

@@ -65,10 +65,16 @@ module.exports = function(grunt) {
         run: {
             options: {},
 
-            reset: {
+            reset:{
                 cmd: 'npm',
                 args: ['run', 'reset']
-            }
+            },
+
+            makepot:{
+                cmd: 'npm',
+                args: ['run', 'makepot']
+            },
+            
         }
     });
 

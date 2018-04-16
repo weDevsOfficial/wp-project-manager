@@ -1,6 +1,5 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
 const shell = require('shelljs');
 const outputPath = path.resolve( __dirname, 'views/assets/js')
 
@@ -84,7 +83,7 @@ module.exports = {
     },
 
     plugins: [
-        //new UglifyJsPlugin()
+        new UglifyJsPlugin()
     ]
 }
 
