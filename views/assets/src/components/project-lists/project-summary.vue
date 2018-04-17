@@ -123,7 +123,7 @@
 
             <div class="pm-project-action-icon">
                 <div class="pm-project-action">
-                    <span @click.prevent="settingsShowHide(project)" :title="__( 'Project Actions', 'pm' )" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                    <span @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
                     <ul v-if="project.settings_hide" class="pm-settings">
@@ -161,7 +161,8 @@
             return {
                 is_active_settings: false,
                 is_update: false,
-                project: {}
+                project: {},
+                project_action: __( 'Project Actions', 'pm' )
             }
         },
         computed: {

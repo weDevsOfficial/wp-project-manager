@@ -9,8 +9,8 @@
          <notify-user v-model="notify_users"></notify-user>
                
         <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Add New Comment', 'pm' )" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Update Comment', 'pm' )" id="" />
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="add_new_comment" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="update_comment" id="" />
             <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
     </form>
@@ -35,6 +35,8 @@
             task_id: this.$route.params.task_id,
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
+            add_new_comment: __( 'Add New Comment', 'pm' ),
+            update_comment: __( 'Update Comment', 'pm' ),
             notify_users: [],
         }
     },

@@ -40,7 +40,7 @@
                                    
                                     <div class="pm-right" v-if="can_create_list">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="__( 'Delete List', 'pm' )" ><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="delete_task_list" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)"  v-if="PM_Vars.is_pro"><span :class="privateClass(list.meta.privacy)"></span> </a>
                                     </div>
                                 </h3>
@@ -118,6 +118,7 @@
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
                 loading: true,
+                delete_task_list: __( 'Delete List', 'pm' ),
                
             }
         },

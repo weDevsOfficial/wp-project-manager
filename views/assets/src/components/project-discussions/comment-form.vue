@@ -10,8 +10,8 @@
             <notify-user v-model="notify_users"></notify-user>
 
             <div class="submit">
-                <input v-if="!comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="__( 'Add New Comment', 'pm' )" id="">
-                <input v-if="comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="__( 'Update Comment', 'pm' )" id="">
+                <input v-if="!comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="add_new_comment" id="">
+                <input v-if="comment.edit_mode" type="submit" class="button-primary" name="pm_new_comment" :value="Update_Comment" id="">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -35,6 +35,8 @@
                 submit_disabled: false,
                 show_spinner: false,
                 notify_users: [],
+                add_new_comment: __( 'Add New Comment', 'pm' ),
+                Update_Comment: __( 'Update Comment', 'pm' ),
                 deleted_files: [],
                 files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             }
