@@ -4,7 +4,7 @@
 
             <div class="item project-name">
                 <!-- v-model="project_name" -->
-                <input type="text" v-model="project.title"  id="project_name" :placeholder="__('Name of the project', 'pm')" value="" size="45" />
+                <input type="text" v-model="project.title"  id="project_name" :placeholder="name_of_the_project" size="45" />
             </div>
 
             <div class="pm-form-item item project-category">
@@ -17,7 +17,7 @@
 
             <div class="pm-form-item item project-detail">
                 <!-- v-model="project_description" -->
-                <textarea v-model="project.description"  class="pm-project-description" id="" rows="5" :placeholder="__( 'Some details about the project (optional)', 'pm' )"></textarea>
+                <textarea v-model="project.description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
             </div>
 
             <div class="pm-form-item pm-project-role" v-if="show_role_field">
@@ -41,7 +41,7 @@
             </div>
             
             <div class="pm-form-item item project-users" v-if="show_role_field">
-                <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="__( 'Type 3 or more characters to search users...', 'pm' )" size="45">
+                <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="search_user" size="45">
             </div>
 
             <div class="pm-form-item item project-notify">
@@ -52,15 +52,15 @@
             </div>
 
             <div class="submit">
-                <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="__( 'Update Project', 'pm' )">
-                <input v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="__( 'Add New Project', 'pm' )">
+                <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
+                <input v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
                 <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
                 <span v-show="show_spinner" class="pm-loading"></span>
 
             </div>
 
         </form>
-        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="__( 'Create a new user', 'pm' )">
+        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="create_new_user">
             <project-new-user-form></project-new-user-form>
         </div>
     </div>
@@ -83,7 +83,13 @@
                 project_description: '',
                 project_notify: false,
                 assignees: [],
-                show_spinner: false
+                show_spinner: false,
+                name_of_the_project: __('Name of the project', 'pm'),
+                details_of_project: __( 'Some details about the project (optional)', 'pm' ),
+                search_user: __( 'Type 3 or more characters to search users...', 'pm' ),
+                create_new_user: __( 'Create a new user', 'pm' ),
+                add_new_project: __( 'Add New Project', 'pm' ),
+                update_project: __( 'Update Project', 'pm' ),
             }
         },
         components: {

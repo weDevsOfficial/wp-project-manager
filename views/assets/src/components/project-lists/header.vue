@@ -38,7 +38,7 @@
             <div class="clearfix"> </div>
         </div>
 
-        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="__( 'Start a new project', 'pm' )" v-if="has_create_capability()">
+        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="start_new_project" v-if="has_create_capability()">
             <project-create-form :project="{}"></project-create-form>
                 
         </div> 
@@ -63,7 +63,13 @@
             'project-header-menu': project_header_menu,
             'project-view': project_view,
             'project-create-form': project_create_form,
+        },
+        data () {
+            return {
+                start_new_project: __( 'Start a new project', 'pm' ),
+            }
         }
+
     }
 </script>
 

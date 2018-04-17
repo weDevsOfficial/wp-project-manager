@@ -2,7 +2,7 @@
     <div  id="pm-single-todo-list-view">
         
         <div class="pm-incomplete-tasks">
-            <h3 class="pm-task-list-title pm-tag-gray"><a>{{ __( 'Incomplete Tasks', 'pm' ) }}</a></h3>
+            <h3 class="pm-task-list-title pm-tag-gray" style="margin-top:10px;"><a>{{ __( 'Incomplete Tasks', 'pm' ) }}</a></h3>
             <ul  class="pm-incomplete-task-list pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
 
                 <li class="pm-todo" :data-id="task.id" :data-order="task.menu_order" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.ID">

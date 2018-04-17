@@ -1,17 +1,17 @@
 <template>
  <ul class="pm-links pm-right" v-if="user_can('create_milestone')">
     <li>
-        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="__( 'Edit Milestone', 'pm' )"></a>
+        <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="edit_milestone"></a>
     </li>
     <li>
-        <a @click.prevent="deleteSelfMilestone()" class="pm-milestone-delete dashicons dashicons-trash" :title="__( 'Delete milestone', 'pm' )" href="#"></a>
+        <a @click.prevent="deleteSelfMilestone()" class="pm-milestone-delete dashicons dashicons-trash" :title="delete_milestone" href="#"></a>
     </li>
 
     <li>
-        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class="pm-milestone-open dashicons dashicons-update" :title="__( 'Mark as incomplete', 'pm' )" href="#"></a>
+        <a v-if="is_complete" @click.prevent="milestoneMarkUndone(milestone)" class="pm-milestone-open dashicons dashicons-update" :title="mark_as_incomplete" href="#"></a>
     </li>
     <li>
-        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="__( 'Mark as complete', 'pm' )" href="#"></a>
+        <a v-if="!is_complete" @click.prevent="milestoneMarkDone(milestone)" class="pm-milestone-complete dashicons dashicons-yes" :title="mark_as_complete" href="#"></a>
     </li>
     <li>
         <a href="#" @click.prevent="milestoneLockUnlock(milestone)" v-if="PM_Vars.is_pro"><span :class="privateClass( milestone.meta.privacy )"></span></a>
@@ -30,6 +30,12 @@
         data () {
             return {
                 due_date: this.milestone.achieve_date.date,
+                edit_milestone: __( 'Edit Milestone', 'pm' ),
+                delete_milestone: __( 'Delete milestone', 'pm' ),
+                mark_as_incomplete: __( 'Mark as incomplete', 'pm' ),
+                mark_as_complete: __( 'Mark as complete', 'pm' ),
+
+
             }
         },
 

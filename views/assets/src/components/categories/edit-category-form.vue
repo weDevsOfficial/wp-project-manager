@@ -21,7 +21,7 @@
 
             <p class="inline-edit-save submit">
                 <button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">{{ __( 'Cancel', 'pm' ) }}</button>
-                <input type="submit" class="save button button-primary alignright" :value="__( 'Update Category', 'pm' )">
+                <input type="submit" class="save button button-primary alignright" :value="update_category">
                 <span v-show="show_spinner" class="pm-spinner"></span>
                 <br class="clear">
             </p>
@@ -39,6 +39,7 @@
             return {
                 submit_disabled: false,
                 show_spinner:false,
+                update_category: __( 'Update Category', 'pm' ),
             }
         },
         methods: {

@@ -93,12 +93,12 @@
 
                                 <div class="pm-col-1" v-if="can_create_message">
                                     <span class="pm-message-action pm-right">
-                                        <a href="#" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
-                                        <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" :title="__('Delete this message', 'pm')">
+                                        <a :title="edit" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
+                                        <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" :title="delete_this_message">
                                             <span class="dashicons dashicons-trash"></span>
                                         </a>
 
-                                        <span v-if="PM_Vars.is_pro" @click.prevent="lockUnlock(discuss)" :class="privateClass( discuss )"></span>
+                                        <span :title="make_it_private" v-if="PM_Vars.is_pro" @click.prevent="lockUnlock(discuss)" :class="privateClass( discuss )"></span>
                                     </span>
                                 </div>
 
@@ -154,6 +154,9 @@
 
         data () {
             return {
+                edit: __('Edit', 'pm'),
+                delete_this_message: __('Delete this message', 'pm'),
+                make_it_private: __('Make it private', 'pm'),
                 current_page_number: 1,
             }
         },

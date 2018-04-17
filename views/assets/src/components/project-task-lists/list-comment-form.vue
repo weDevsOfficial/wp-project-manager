@@ -11,8 +11,8 @@
             <notify-user v-model="notify_users"></notify-user>
             
             <div class="submit">
-                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Add New Comment','pm' )" id="" />
-                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="__( 'Update Comment', 'pm') " id="" />
+                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="add_new_comment" id="" />
+                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="update_comment" id="" />
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -44,6 +44,8 @@
                 html: typeof this.comment.content === 'undefined' ? '' : this.comment.content,
             },
             notify_users: [],
+            add_new_comment: __( 'Add New Comment','pm' ),
+            update_comment: __( 'Update Comment', 'pm'),
             show_spinner: false,
             submit_disabled: false,
             list_id: this.$route.params.list_id

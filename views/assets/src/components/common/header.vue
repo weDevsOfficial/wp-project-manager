@@ -19,7 +19,7 @@
             </div>
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="has_create_capability()">
                 <div class="pm-project-action">
-                    <span @click.prevent="showProjectAction()" :title="__('Project Actions', 'pm')" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                    <span @click.prevent="showProjectAction()" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
@@ -77,7 +77,7 @@
     export default {
         data () {
             return {
-
+                project_action: __('Project Actions', 'pm')
             }
 
         },

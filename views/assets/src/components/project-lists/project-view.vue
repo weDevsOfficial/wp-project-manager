@@ -1,8 +1,8 @@
 <template>
 
     <ul class="pm-project-view ">
-        <li><a href="javascript:void(0)" :title="__( 'List View', 'pm' )" class="change-view" @click.prevent="setcookie('list_view')">  <span class=" dashicons dashicons-menu" v-bind:class="{'active': activeClass('list_view') }" ></span></a></li>
-        <li><a href="javascript:void(0)"  :title="__( 'Grid View', 'pm' )" class="change-view" @click.prevent="setcookie('grid_view')"> <span class=" dashicons dashicons-screenoptions" v-bind:class="{'active': activeClass('grid_view') }" ></span></a>
+        <li><a href="javascript:void(0)" :title="list_view" class="change-view" @click.prevent="setcookie('list_view')">  <span class=" dashicons dashicons-menu" v-bind:class="{'active': activeClass('list_view') }" ></span></a></li>
+        <li><a href="javascript:void(0)"  :title="grid_view" class="change-view" @click.prevent="setcookie('grid_view')"> <span class=" dashicons dashicons-screenoptions" v-bind:class="{'active': activeClass('grid_view') }" ></span></a>
         </li>
         <div class="clearfix"></div>
     </ul>
@@ -14,6 +14,8 @@
     export default{
         data(){
             return {
+                list_view: __( 'List View', 'pm' ),
+                grid_view: __( 'Grid View', 'pm' ),
                 //projects_view: this.$store.state.projects_view,
             }
         },

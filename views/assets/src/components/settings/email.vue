@@ -56,9 +56,9 @@
                             </tr>
                         </tbody>
                     </table>                            
-                    <div style="padding-left: 10px">
+                    <div>
                         <p class="submit">
-                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="__( 'Save Changes', 'pm' )">
+                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="save_change">
                             <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>                            
                     </div>
@@ -78,7 +78,8 @@
                 link_to_backend: this.getSettings('link_to_backend', false),
                 email_type: this.getSettings('email_type', 'text/html'),
                 enable_bcc: this.getSettings('enable_bcc', false),
-                show_spinner: false
+                show_spinner: false,
+                save_change: __( 'Save Changes', 'pm' )
             }
         },
         mixins: [Mixins],

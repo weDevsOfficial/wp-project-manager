@@ -3,7 +3,7 @@
         <div class="pm-message-form-wrap" >
             <form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
             <div class="item title">
-                <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="__( 'Enter message title', 'pm' )">
+                <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="Enter_Message_Title">
             </div>
 
             <div class="item detail">
@@ -27,8 +27,8 @@
             <notify-user v-model="notify_users"></notify-user>
 
             <div class="submit">
-                <input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="__( 'Add Message', 'pm' )">
-                <input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="__( 'Update Message', 'pm' )">
+                <input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="Add_message">
+                <input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="update_message">
                 <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{ __( 'Cancel', 'pm' ) }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>       
@@ -72,6 +72,9 @@
       return {
         submit_disabled: false,
         show_spinner: false,
+        Enter_Message_Title: __( 'Enter message title', 'pm' ),
+        Add_message: __( 'Add Message', 'pm' ),
+        update_message: __( 'Update Message', 'pm' ),
         content: {
             html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
         },

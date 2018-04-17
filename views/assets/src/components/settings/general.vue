@@ -111,7 +111,7 @@
 
                     <div style="padding-left: 10px">
                         <p class="submit">
-                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="__( 'Save Changes', 'pm' )">
+                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="save_changes">
                             <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>                            
                     </div>
@@ -135,6 +135,7 @@ export default {
             managing_capability: this.getSettings('managing_capability', []),
             project_create_capability: this.getSettings('project_create_capability', []),
             show_spinner: false,
+            save_changes: __( 'Save Changes', 'pm' )
         }
     },
     mixins: [Mixins],

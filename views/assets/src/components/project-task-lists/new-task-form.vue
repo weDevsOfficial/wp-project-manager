@@ -3,22 +3,22 @@
         <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
           
             <div class="item task-title">
-                <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="__( 'Add a new task', 'pm' )" value="" required="required">
+                <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task" value="" required="required">
             </div>
 
             <div class="item content">
-                <textarea v-model="task.description" name="task_text" class="todo_content" cols="40" :placeholder="__( 'Add extra details about this task (optional)', 'pm' )" rows="2"></textarea>
+                <textarea v-model="task.description" name="task_text" class="todo_content" cols="40" :placeholder="task_description" rows="2"></textarea>
             </div>
 
             <div class="item date">
                 
                 <div class="pm-task-start-field" v-if="task_start_field">
-                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to" :placeholder="__( 'Start Date', 'pm') "></pm-datepickter>
+                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to" :placeholder="task_start_date"></pm-datepickter>
                     
                 </div>
 
                 <div class="pm-task-due-field">
-                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="__( 'Due Date', 'pm' )"></pm-datepickter>
+                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                         :clear-on-select="false"
                         :hide-selected="true"
                         :show-labels="false"
-                        :placeholder="__( 'Select User', 'pm')"
+                        :placeholder="select_user_text"
                         label="display_name"
                         track-by="id">
                             
@@ -42,8 +42,8 @@
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
-                <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="__( 'Update Task', 'pm' )"></span>
-                <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="__( 'Add Task', 'pm' )"></span>
+                <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="update_task"></span>
+                <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="add_task"></span>
                 <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
@@ -89,7 +89,14 @@ export default {
             show_spinner: false,
             date_from: '',
             date_to: '',
-            assigned_to: []
+            assigned_to: [],
+            add_new_task: __( 'Add a new task', 'pm' ),
+            task_description: __( 'Add extra details about this task (optional)', 'pm' ),
+            task_start_date: __( 'Start Date', 'pm'),
+            task_due_date: __( 'Due Date', 'pm' ),
+            select_user_text: __( 'Select User', 'pm'),
+            update_task: __( 'Update Task', 'pm' ),
+            add_task: __( 'Add Task', 'pm' ),
         }
     },
     mixins: [Mixins],

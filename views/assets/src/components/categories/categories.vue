@@ -36,7 +36,7 @@
                             </div>
 
                             <p class="submit">
-                                <input type="submit" name="submit" id="submit" class="button button-primary" :value="__( 'Add New Category', 'pm' )">
+                                <input type="submit" name="submit" id="submit" class="button button-primary" :value="add_new_category">
                                 <span v-show="show_spinner" class="pm-spinner"></span>
                             </p>
                         </form>
@@ -214,6 +214,7 @@
                 bulk_action: '-1',
                 select_all: false,
                 show_spinner: false,
+                add_new_category: __( 'Add New Category', 'pm' ),
             }
         },
         watch: {

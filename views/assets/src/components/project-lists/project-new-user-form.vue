@@ -24,7 +24,7 @@
 
             </div>
             <div>
-                <input class="button-primary" type="submit" :value="__( 'Create User', 'pm' )" name="create_user">
+                <input class="button-primary" type="submit" :value="create_user" name="create_user">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -40,6 +40,7 @@
                 first_name: '',
                 last_name: '',
                 email: '',
+                create_user: __( 'Create User', 'pm' ),
                 show_spinner: false,
             }
         },
