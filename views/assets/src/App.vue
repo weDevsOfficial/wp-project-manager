@@ -1,5 +1,6 @@
 <template>
     <div class="wedevs-pm-wrap wrap pm" id="wedevs-project-manager">
+        <h1 class="hrm-h1"></h1>
         <do-action hook="pm-before-router-view"></do-action>
         <router-view></router-view>
 
@@ -7,7 +8,12 @@
         
     </div>
 </template>
-
+<style>
+    .hrm-h1 {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+</style>
 <script>
     import do_action from './components/common/do-action.vue';
     

@@ -108,17 +108,18 @@ class Upgrade {
         $updatable_versions = config('app.db_version');
         if ( ! is_null( $installed_version ) && version_compare( $installed_version, $updatable_versions, '<' ) ) {
             ?>
-                <div class="notice notice-warning">
-                   
+                <div class="wrap">
+                    <div class="notice notice-warning">
+                       
 
-                    <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'pm' ) ?></p>
+                        <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'pm' ) ?></p>
 
-                    <form action="" method="post" style="padding-bottom: 10px;" class="PmUpgradeFrom">
-                        <?php wp_nonce_field( '_nonce', 'pm_nonce' ); ?>
-                        <input type="submit" class="button button-primary" name="pm_update" value="<?php _e( 'Run the Update', 'pm' ); ?>">
-                    </form>
+                        <form action="" method="post" style="padding-bottom: 10px;" class="PmUpgradeFrom">
+                            <?php wp_nonce_field( '_nonce', 'pm_nonce' ); ?>
+                            <input type="submit" class="button button-primary" name="pm_update" value="<?php _e( 'Run the Update', 'pm' ); ?>">
+                        </form>
+                    </div>
                 </div>
-
                 <script type="text/javascript">
                     jQuery('form.PmUpgradeFrom').submit(function(event){
                         //event.preventDefault();
