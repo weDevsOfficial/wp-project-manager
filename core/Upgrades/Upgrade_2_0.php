@@ -602,10 +602,13 @@ class Upgrade_2_0 extends WP_Background_Process
         global $wpdb;
         $table    = $wpdb->prefix . 'cpm_user_role';
         $oldroles = $wpdb->get_results( $wpdb->prepare ( "SELECT * FROM $table WHERE project_id=%d", $oldProjectId ), ARRAY_A );
+
         if ( is_wp_error( $oldroles ) ) {
             return;
         }
+
         foreach ( $oldroles as $role ) {
+
             if ( $role['role']       == 'manager' ){
                 $role_id = 1;
             } else if ( $role['role'] == 'co_worker' ){
@@ -613,9 +616,21 @@ class Upgrade_2_0 extends WP_Background_Process
             } else {
                 $role_id = 3; 
             }
+
             $this->save_object( new User_Role, [
                 'user_id'       => $role['user_id'],
                 'role_id'       => $role_id,
+                'project_id'    => $newProjectID,
+                'assigned_by'   => $assigned_by,
+            ] );
+        }
+
+        // Assain project if not any user
+        if ( empty( $oldroles ) ) {
+
+            $this->save_object( new User_Role, [
+                'user_id'       => $assigned_by,
+                'role_id'       => 1,
                 'project_id'    => $newProjectID,
                 'assigned_by'   => $assigned_by,
             ] );
