@@ -1711,9 +1711,10 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         if( !empty( $page ) ) {
-            $this->set_new_setting( $newSettings, 'project', $page, 'project' );
-            $this->set_new_setting( $newSettings, 'my_task', $page, 'my_task' );
-            $this->set_new_setting( $newSettings, 'calendar', $page, 'calendar' );
+            update_site_option( 'pm_pages', $page );
+            // $this->set_new_setting( $newSettings, 'project', $page, 'project' );
+            // $this->set_new_setting( $newSettings, 'my_task', $page, 'my_task' );
+            // $this->set_new_setting( $newSettings, 'calendar', $page, 'calendar' );
         }
 
         if ( !empty( $cpm_integration ) ) {
