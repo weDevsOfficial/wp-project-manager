@@ -147,7 +147,7 @@ class Upgrade_2_0 extends WP_Background_Process
            return;
         }
         
-        echo '<div class="updated pm-update-progress-notice wrap"></div>';
+        echo '<div class="wrap"><div class="updated pm-update-progress-notice wrap"></div></div>';
         $db_observe = get_option( 'pm_observe_migration' );
 
         $observe = json_encode( $db_observe );
