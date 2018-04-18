@@ -30,7 +30,7 @@
 
                         <div class="pm-small-title">
                             {{ __( 'By', 'pm' ) }}
-                            <a href="#" :title="discuss.creator.data.display_name">
+                            <a @click.prevent="myTaskRedirect(discuss.creator.data.id)" href="#" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
                             </a> {{ __( 'on', 'pm' ) }} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
                         </div>
@@ -58,14 +58,14 @@
 
                     <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" :key="comment.id">
                         <div class="pm-avatar ">
-                            <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                            <a @click.prevent="myTaskRedirect(comment.creator.data.id)" :title="comment.creator.data.display_name">
                                 <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                             </a>
                         </div>
                         <div class="pm-comment-container">
                             <div class="pm-comment-meta">
                                 <span class="pm-author">
-                                    <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                                    <a @click.prevent="myTaskRedirect(comment.creator.data.id)" :title="comment.creator.data.display_name">
                                         {{ comment.creator.data.display_name }}
                                     </a>
                                 </span>
@@ -108,7 +108,7 @@
                 
                 <div class="pm-comment-form-wrap">
                     <div class="pm-avatar">
-                        <a :href="userTaskProfileUrl( current_user.ID )" :title="current_user.data.display_name">
+                        <a @click.prevent="myTaskRedirect(current_user.ID)" :title="current_user.data.display_name">
                             <img :alt="current_user.data.display_name" :src="avatar_url" :srcset="avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                         </a>
                     </div>

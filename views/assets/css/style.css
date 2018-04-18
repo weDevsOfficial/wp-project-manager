@@ -239,6 +239,9 @@ a:active {
        -o-transition: border linear 0.2s, box-shadow linear 0.2s;
           transition: border linear 0.2s, box-shadow linear 0.2s;
 }
+.pm textarea {
+  height: 80px;
+}
 .pm input[type="radio"],
 .pm input[type="checkbox"] {
   margin: 4px 0 0;

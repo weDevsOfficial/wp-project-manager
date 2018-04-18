@@ -72,18 +72,18 @@
                                         class="pm-col-9 pm-messge-link" 
                                         :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
                                     <div class="pm-message-inner">
-                                        <router-link :to="{ name:'user-tasks', params: { user_id: discuss.creator.data.id } }" :title="discuss.creator.data.display_name" >
+                                        <a @click.prevent="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                             <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                        </router-link>
+                                        </a>
                                         <div>
                                            {{ discuss.title }}                    
                                         </div>
                                         
                                         <div class="dicussion-meta">
                                             {{ __( 'By', 'pm' ) }}
-                                            <router-link :to="{ name:'user-tasks', params: { user_id: discuss.creator.data.id } }" :title="discuss.creator.data.display_name" >
+                                            <a @click.prevent="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                                 {{ discuss.creator.data.display_name }}
-                                            </router-link> 
+                                            </a> 
                                              {{ __( 'on', 'pm' ) }}
                                             {{ discuss.created_at.date }}                  
                                         </div>
