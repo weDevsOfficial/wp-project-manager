@@ -140,7 +140,22 @@
             },
 
             actor_url () {
-                return this.$router.resolve({ name : 'user-tasks' , params: { user_id: this.activity.actor.data.id }  }).href;
+                
+                var current_user = PM_Vars.current_user.ID;
+                var userid = this.activity.actor.data.id;
+
+                if (!PM_Vars.is_pro) {
+                    return this.$router.resolve({ name: 'my-tasks'}).href;
+                    
+                }
+
+                if (userid == current_user ) {
+                    return this.$router.resolve({name: 'mytask-tasks'}).href;
+                    
+                }
+
+                this.$router.resolve({name: 'user-tasks', params: {user_id: userid}}).href;
+                return;
             }
         }
     }

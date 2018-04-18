@@ -850,7 +850,26 @@ export default {
 
                 return roles.length ? true : false;
             });
+        },
+
+        myTaskRedirect (userid) {
+            var current_user = PM_Vars.current_user.ID;
+
+            if (!PM_Vars.is_pro) {
+                this.$router.push({ name: 'my-tasks'});
+                return;
+            }
+
+            if (userid == current_user ) {
+                this.$router.push({name: 'mytask-tasks'});
+                return;
+            }
+
+            this.$router.push({name: 'user-tasks', params: {user_id: userid}});
+            return;
+
         }
+
     }
 };
 
