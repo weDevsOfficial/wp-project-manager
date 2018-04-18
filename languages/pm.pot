@@ -4,11 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pm\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2018-04-17 10:09:33+00:00\n"
-=======
-"POT-Creation-Date: 2018-04-17 08:57:11+00:00\n"
->>>>>>> e6c357a4bb496862cbef38cf816a135b8c1c9c85
+"POT-Creation-Date: 2018-04-18 02:09:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -519,12 +515,6 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:641
-#: views/assets/vendor/mixin/mixin.js:636
-msgid "Are you sure to delete this project?"
-msgstr ""
-
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/categories/categories.vue:260
 #: views/assets/src/components/project-discussions/mixin.js:452
@@ -545,15 +535,12 @@ msgstr ""
 msgid "Are you sure to delete this comment?"
 msgstr ""
 
-<<<<<<< HEAD
 #: views/assets/js/pm.js:1 views/assets/src/helpers/mixin/mixin.js:641
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-=======
->>>>>>> e6c357a4bb496862cbef38cf816a135b8c1c9c85
 #: views/assets/src/components/categories/categories.vue:23
 #: views/assets/src/components/categories/categories.vue:217
 msgid "Add New Category"
