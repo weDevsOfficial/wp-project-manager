@@ -20,12 +20,11 @@
         }
     ],
     "require": {
-        "php": "<=5.6.10",
-        "illuminate/database": ">=5.4",
-        "illuminate/pagination": ">=5.4",
-        "illuminate/events": ">=5.4",
-        "league/fractal": ">=0.17.0",
-        "symfony/translation": ">=3.4.1",
+        "php": ">=5.6.4",
+        "illuminate/database": "5.4",
+        "illuminate/pagination": "5.4",
+        "illuminate/events": "5.4",
+        "league/fractal": "^0.17.0",
         "a5hleyrich/wp-background-processing": "^1.0"
     },
     "autoload": {
