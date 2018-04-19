@@ -22,8 +22,5 @@ migrate_db();
 view();
 load_routes();
 register_routes();
+seed_db();
 do_action( 'pm_loaded' );
-
-add_action( 'init', function() {
-	seed_db();
-} );

@@ -131,7 +131,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeAssignees( Task $item ) {
-        $user_ids = $item->assignees->pluck('assigned_to');
+        $user_ids = $item->assignees()->pluck('assigned_to');
         $users = User::whereIn( 'id', $user_ids )->get();
 
         return $this->collection( $users, new User_Transformer );
