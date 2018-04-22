@@ -107,10 +107,10 @@
 
         data () {
             return {
-                doActionData: {
-                    task: this.task,
-                    list: this.list,
-                }
+                // doActionData: {
+                //     task: this.task,
+                //     list: this.list,
+                // }
             }
         },
         
@@ -130,6 +130,13 @@
 
             isSingleTask () {
                 return this.$route.params.task_id ? true : false;
+            },
+
+            doActionData () {
+                return {
+                    task: this.task,
+                    list: this.list
+                }
             }
         },
         

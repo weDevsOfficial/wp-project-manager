@@ -1,0 +1,27 @@
+Project Manager Free
+	Source: Github
+	Branch: optimize
+	Install Process:
+
+	1. composer install
+	2. composer dumpautoload -o
+
+	3. npm install
+	4. npm run reset
+	5. npm run makepot
+
+	or
+	3+4+5 = grunt zip
+
+Project Manager Pro
+	Source: Bitbucket
+	Branch: pro-api
+	Install Process:
+
+	1. composer install
+	2. composer dumpautoload -o
+
+	3. npm install
+	4. npm run reset
+	5. npm run makepot
+

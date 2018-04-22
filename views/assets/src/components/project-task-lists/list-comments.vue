@@ -7,7 +7,7 @@
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
                <div class="pm-avatar">
-                     <a @click.prevent="myTaskRedirect(comment.creator.data.id)" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                     <a @click.prevent="myTaskRedirect(comment.creator.data.id)" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"/></a>
                 </div>
 
                 <div class="pm-comment-container">
@@ -58,7 +58,11 @@
         <div class="single-todo-comments">
             <div class="pm-comment-form-wrap">
 
-                <div class="pm-avatar"><a @click.prevent="myTaskRedirect(PM_Vars.current_user.ID)"><img :src="getCurrentUserAvatar" height="48" width="48"/></div>
+                <div class="pm-avatar">
+                    <a @click.prevent="myTaskRedirect(PM_Vars.current_user.ID)">
+                        <img :src="getCurrentUserAvatar" height="48" width="48"/>
+                    </a>
+                </div>
                 <list-comment-form :comment="{}" :list="list"></list-comment-form>
             </div>
         </div>
