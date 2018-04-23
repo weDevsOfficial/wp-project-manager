@@ -49,13 +49,13 @@
                         </li>
 
                         <li class="todos">
-                            <a href="javascript:void(0)">
+                            <a>
 
-                            <div class="icon"></div> 
-                            <div class="count">
-                                <span>{{ meta.total_tasks }}</span> 
-                                {{ __( 'Tasks', 'pm' ) }}
-                            </div> 
+                                <div class="icon"></div> 
+                                <div class="count">
+                                    <span>{{ meta.total_tasks }}</span> 
+                                    {{ __( 'Tasks', 'pm' ) }}
+                                </div> 
                             </a>
                             
                         </li>
@@ -117,7 +117,7 @@
                 <ul class="user_list">
                     <li v-for="user in users">
                         <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 
-                        <a href="#">
+                        <a  :href="myTaskRedirect(user.id)">
                             {{ user.display_name }}
                         </a>
                         <span v-for="role in user.roles.data">{{ role.title }}</span>

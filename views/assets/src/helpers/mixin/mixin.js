@@ -856,17 +856,17 @@ export default {
             var current_user = PM_Vars.current_user.ID;
 
             if (!PM_Vars.is_pro) {
-                this.$router.push({ name: 'my-tasks'});
-                return;
+                //this.$router.push({ name: 'my-tasks'});
+                return '#/my-tasks';
             }
 
             if (userid == current_user ) {
-                this.$router.push({name: 'mytask-tasks'});
-                return;
+                //this.$router.push({name: 'mytask-tasks'});
+                return '#/my-tasks';
             }
 
-            this.$router.push({name: 'user-tasks', params: {user_id: userid}});
-            return;
+            //this.$router.push({name: 'user-tasks', params: {user_id: userid}});
+            return '#/user-tasks/'+userid;
 
         }
 
