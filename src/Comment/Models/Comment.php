@@ -26,7 +26,7 @@ class Comment extends Eloquent {
     ];
 
     public function replies() {
-        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'comment' );
+        return $this->hasMany( $this, 'commentable_id' )->where( 'commentable_type', 'comment' );
     }
 
     public function files() {

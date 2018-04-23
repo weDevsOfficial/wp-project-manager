@@ -163,7 +163,8 @@ export default new pm.Vuex.Store({
 
                 state.projects[index].assignees.data.splice(user_index, 1);
             } else {
-                state.assignees.splice(user_index, 1);
+                let index = state.getIndex(state.assignees, data.user_id, 'id');
+                state.assignees.splice(index, 1);
             }
         },
 
