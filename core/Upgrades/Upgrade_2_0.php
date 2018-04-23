@@ -43,8 +43,9 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return 
      */
     function task( $item ) {
-
-        if ( empty( absint( $item ) ) ) {
+        $item = absint( $item );
+        
+        if ( empty( $item ) ) {
             return false;
         }
         
@@ -379,7 +380,8 @@ class Upgrade_2_0 extends WP_Background_Process
         $ids = wp_list_pluck($ids, 'ID'); 
         
         foreach ($ids as $id) {
-            if ( empty( absint( $id ) ) ) {
+            $id = absint( $id );
+            if ( empty( $id ) ) {
                 continue;
             }
             $this->push_to_queue( $id );

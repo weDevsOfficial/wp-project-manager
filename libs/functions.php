@@ -109,7 +109,8 @@ function pm_get_settings( $key = null, $project_id = false ) {
     }
 
     if ( $all_settings ) {
-        return $all_settings->pluck( 'value', 'key' )->all();
+        $settings =  $all_settings->toArray();
+        return wp_list_pluck( $settings, 'value', 'key' );
     }
 
     return null;

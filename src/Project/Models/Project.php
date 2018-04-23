@@ -53,48 +53,48 @@ class Project extends Eloquent {
     }
 
     public function categories() {
-        return $this->belongsToMany( Category::class, 'pm_category_project', 'project_id', 'category_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', 'pm_category_project', 'project_id', 'category_id' );
     }
 
     public function assignees() {
-        return $this->belongsToMany( User::class, 'pm_role_user', 'project_id', 'user_id' )
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', 'pm_role_user', 'project_id', 'user_id' )
             ->withPivot( 'project_id', 'role_id' );
     }
 
     public function task_lists() {
-        return $this->hasMany( Task_List::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Task_List\Models\Task_List', 'project_id' );
     }
 
     public function tasks() {
-        return $this->hasMany( Task::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Task\Models\Task', 'project_id' );
     }
 
     public function discussion_boards() {
-        return $this->hasMany( Discussion_Board::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Discussion_Board\Models\Discussion_Board', 'project_id' );
     }
 
     public function milestones() {
-        return $this->hasMany( Milestone::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Milestone\Models\Milestone', 'project_id' );
     }
 
     public function files() {
-        return $this->hasMany( File::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\File\Models\File', 'project_id' );
     }
 
     public function comments() {
-        return $this->hasMany( Comment::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'project_id' );
     }
 
     public function activities() {
-        return $this->hasMany( Activity::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'project_id' );
     }
 
     public function settings() {
-        return $this->hasMany( Settings::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Settings\Models\Settings', 'project_id' );
     }
 
     public function meta() {
-        return $this->hasMany( Meta::class, 'project_id' );
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'project_id' );
     }
 
     public function managers() {
