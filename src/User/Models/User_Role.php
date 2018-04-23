@@ -30,7 +30,7 @@ class User_Role extends Eloquent {
     }
 
     function role() {
-        return $this->hasOne( Role::class, 'id', 'role_id' );
+        return $this->hasOne( 'WeDevs\PM\Role\Models\Role', 'id', 'role_id' );
     }
 
 }

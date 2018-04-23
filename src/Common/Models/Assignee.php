@@ -29,6 +29,6 @@ class Assignee extends Eloquent {
     ];
 
     public function assigned_user() {
-        return $this->belongsTo( User::class, 'assigned_to' );
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'assigned_to' );
     }
 }

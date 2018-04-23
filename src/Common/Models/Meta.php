@@ -23,6 +23,6 @@ class Meta extends Eloquent {
     ];
 
     public function milestone() {
-        return $this->belongsTo( Milestone::class, 'entity_id' );
+        return $this->belongsTo( 'WeDevs\PM\Milestone\Models\Milestone', 'entity_id' );
     }
 }

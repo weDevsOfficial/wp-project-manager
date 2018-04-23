@@ -32,31 +32,31 @@ class Discussion_Board extends Eloquent {
     }
 
     public function comments() {
-        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'discussion_board' );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->where( 'commentable_type', 'discussion_board' );
     }
 
     public function files() {
-        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'discussion_board' );
+        return $this->hasMany( 'WeDevs\PM\File\Models\File', 'fileable_id' )->where( 'fileable_type', 'discussion_board' );
     }
 
     public function users() {
-        return $this->belongsToMany( User::class, 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion_board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( Milestone::class, 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }
 
     public function boardables() {
-        return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'discussion_board' );
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'boardable_id' )->where( 'boardable_type', 'discussion_board' );
     }
 
     public function metas() {
-        return $this->hasMany( Meta::class, 'entity_id' )
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->where( 'entity_type', 'discussion_board' );
     }
 
