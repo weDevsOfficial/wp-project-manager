@@ -38,7 +38,9 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function meta( Discussion_Board $item ) {
-        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        $meta = $item->metas()->get()->toArray();
+        $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
+
         return array_merge( $meta, [
             'total_comments' => $item->comments->count(),
             'total_users'    => $item->users->count(),

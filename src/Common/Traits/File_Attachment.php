@@ -29,10 +29,11 @@ trait File_Attachment {
 
     private function detach_files( $entity, $file_ids = [] ) {
         if ( empty( $file_ids ) ) {
-            $attachment_ids = empty($entity->files) ? [] : $entity->files->pluck('attachment_id')->all();
+            $attachment_ids = empty($entity->files) ? [] : $entity->files->toArray(); //pluck('attachment_id')->all();
         } else {
-            $attachment_ids = $entity->files->whereIn( 'id', $file_ids )->pluck( 'attachment_id' )->all();
+            $attachment_ids = $entity->files->whereIn( 'id', $file_ids )->get()->toArray();//pluck( 'attachment_id' )->all();
         }
+        $attachment_ids = wp_list_pluck( $attachment_ids, 'attachment_id' );
 
         foreach ($attachment_ids as $attachment_id) {
             File_System::delete( $attachment_id );
