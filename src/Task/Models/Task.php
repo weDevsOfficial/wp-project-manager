@@ -66,34 +66,34 @@ class Task extends Eloquent {
     }
 
     public function task_lists() {
-        return $this->belongsToMany( Task_List::class, 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', 'pm_boardables', 'boardable_id', 'board_id' )
             ->where('pm_boardables.board_type', 'task_list')
             ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boards() {
-        return $this->belongsToMany( Board::class, 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', 'pm_boardables', 'boardable_id', 'board_id' )
             ->where('pm_boardables.boardable_type', 'task');
     }
 
     public function boardables() {
-        return $this->hasMany( Boardable::class, 'boardable_id' )->where( 'boardable_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'boardable_id' )->where( 'boardable_type', 'task' );
     }
 
     public function files() {
-        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\File\Models\File', 'fileable_id' )->where( 'fileable_type', 'task' );
     }
 
     public function comments() {
-        return $this->hasMany( Comment::class, 'commentable_id' )->where( 'commentable_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->where( 'commentable_type', 'task' );
     }
 
     public function assignees() {
-        return $this->hasMany( Assignee::class, 'task_id' );
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Assignee', 'task_id' );
     }
 
     public function projects() {
-        return $this->belongsTo( Project::class, 'project_id');
+        return $this->belongsTo( 'WeDevs\PM\Project\Models\Project', 'project_id');
     }
 
     public function task_model( $key = '' ) {
@@ -101,7 +101,7 @@ class Task extends Eloquent {
     }
 
     public function metas() {
-        return $this->hasMany( Meta::class, 'entity_id' )
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->where( 'entity_type', 'task' );
     }
 
