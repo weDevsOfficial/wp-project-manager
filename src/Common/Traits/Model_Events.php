@@ -43,10 +43,10 @@ trait Model_Events {
     }
 
     public function creator() {
-        return $this->belongsTo( User::class, 'created_by' );
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'created_by' );
     }
 
     public function updater() {
-        return $this->belongsTo( User::class, 'updated_by' );
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'updated_by' );
     }
 }

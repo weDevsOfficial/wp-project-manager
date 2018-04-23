@@ -69,12 +69,13 @@ class Textdomain {
 
     private static function named_sprintf( $text = [] ) {
         if ( !is_array( $text ) ) {
-            return "";
+            return '';
         }
 
         $keys = array_keys( $text );
-        if ( !empty( array_diff( $keys, [0, 1] ) ) ) {
-            return "";
+        $arr_differ = array_diff( $keys, [0, 1] );
+        if ( !empty( $arr_differ ) ) {
+            return '';
         }
 
         $sprintf_args = [];

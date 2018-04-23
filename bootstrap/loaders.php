@@ -77,8 +77,8 @@ function load_routes() {
 
 function load_orm() {
     $capsule = new Capsule;
-
-    $status = $capsule->addConnection( config('db') );
+    $config_db = config('db');
+    $status = $capsule->addConnection( $config_db );
 
     // Setup eloquent model events
     $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher());

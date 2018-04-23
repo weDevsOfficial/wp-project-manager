@@ -9,12 +9,12 @@ use WeDevs\PM\Core\Permissions\Project_Manage_Capability;
 $router = Router::singleton();
 
 $router->get( 'roles', 'WeDevs/PM/Role/Controllers/Role_Controller@index' )
-->permission([Authentic::class]);
+->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 $router->post( 'roles', 'WeDevs/PM/Role/Controllers/Role_Controller@store' )
-->permission([Project_Manage_Capability::class]);
+->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
 $router->get( 'roles/{id}', 'WeDevs/PM/Role/Controllers/Role_Controller@show' )
-->permission([Authentic::class]);
+->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 $router->put( 'roles/{id}', 'WeDevs/PM/Role/Controllers/Role_Controller@update' )
-->permission([Project_Manage_Capability::class]);
+->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
 $router->delete( 'roles/{id}', 'WeDevs/PM/Role/Controllers/Role_Controller@destroy' )
-->permission([Project_Manage_Capability::class]);
+->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
