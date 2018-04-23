@@ -398,7 +398,8 @@ function pm_user_can_complete_task( $task, $user_id = false ) {
         return true;
     }
 
-    $assignees = $task->assignees->pluck( 'assigned_to' )->all();
+    $assignees = $task->assignees->toArray(); //pluck( 'assigned_to' )->all();
+    $assignees = wp_list_pluck( $assignees, 'assigned_to' );
     $in_array = in_array( $user_id, $assignees );
 
     if ( !empty( $in_array ) ) {

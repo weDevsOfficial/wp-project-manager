@@ -21,7 +21,7 @@ class Activity extends Eloquent {
     ];
 
     public function actor() {
-        return $this->belongsTo( 'WeDevs\PM\User\Models\Use', 'actor_id' );
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'actor_id' );
     }
 
     public function setMetaAttribute( $value ) {

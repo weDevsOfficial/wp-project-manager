@@ -39,7 +39,8 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function meta( Milestone $item ) {
-        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        $meta = $item->metas()->get()->toArray();
+        $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
         return array_merge( $meta, [
             'total_task_list'        => $item->task_lists->count(),
             'total_discussion_board' => $item->discussion_boards->count(),

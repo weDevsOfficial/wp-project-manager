@@ -1803,7 +1803,8 @@ class Upgrade_2_0 extends WP_Background_Process
             ]);
             $projects = get_site_option( "pm_db_migration", array() );
 
-            $pterm = $terms_releation->where( 'term_taxonomy_id', $term->term_taxonomy_id )->pluck('object_id')->all();
+            $pterm = $terms_releation->where( 'term_taxonomy_id', $term->term_taxonomy_id )->toArray();//pluck('object_id')->all();
+            $pterm = wp_list_pluck( $pterm, 'object_id' );
 
             $arr = array_filter( $projects, function( $key ) use ( $pterm ){
                 return in_array( $key, $pterm );

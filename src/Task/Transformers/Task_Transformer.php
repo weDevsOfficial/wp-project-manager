@@ -69,7 +69,9 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function meta( Task $item ) {
-        $meta = $item->metas()->pluck('meta_value', 'meta_key')->all();
+        $meta = $item->metas()->get()->toArray();
+        $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
+
         return array_merge( $meta, [
             'total_comment'  => $item->comments->count(),
             'total_files'    => $item->files->count(),
@@ -131,7 +133,8 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeAssignees( Task $item ) {
-        $user_ids = $item->assignees()->pluck('assigned_to');
+        $user_ids = $item->assignees()->get()->toArray();//->pluck('assigned_to');
+        $user_ids = wp_list_pluck( $user_ids, 'assigned_to' );
         $users = User::whereIn( 'id', $user_ids )->get();
 
         return $this->collection( $users, new User_Transformer );
