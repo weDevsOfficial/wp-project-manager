@@ -162,7 +162,7 @@
                 if ( this.is_project_creator(del_user.id) ) {
                     return;
                 }
-
+                
                 this.$root.$store.commit(
                     'afterDeleteUserFromProject', 
                     {

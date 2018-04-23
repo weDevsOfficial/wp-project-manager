@@ -6,7 +6,7 @@ function config( $key = null ) {
     return Config::get( $key );
 }
 
-function wp_config( $key ) {
+function pm_wp_config( $key ) {
     return constant( $key );
 }
 

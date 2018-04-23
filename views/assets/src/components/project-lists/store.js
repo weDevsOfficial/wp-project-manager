@@ -103,7 +103,7 @@ var Store = {
             var index = state.getIndex(state.projects, data.project_id, 'id');
             var users = state.projects[index].assignees.data;
             var user_index = state.getIndex(users, data.user_id, 'id');
-
+            
             state.projects[index].assignees.data.splice(user_index, 1);
         },
 
