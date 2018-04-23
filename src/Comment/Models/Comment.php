@@ -30,7 +30,7 @@ class Comment extends Eloquent {
     }
 
     public function files() {
-        return $this->hasMany( File::class, 'fileable_id' )->where( 'fileable_type', 'comment' );
+        return $this->hasMany( 'WeDevs\PM\File\Models\File', 'fileable_id' )->where( 'fileable_type', 'comment' );
     }
 
     public static function parent_comment( $comment_id ) {
@@ -44,14 +44,14 @@ class Comment extends Eloquent {
     }
 
     public function discussion_board() {
-        return $this->belongsTo(Discussion_Board::class, 'commentable_id');
+        return $this->belongsTo('WeDevs\PM\Discussion_Board\Models\Discussion_Board', 'commentable_id');
     }
 
     public function task_list() {
-        return $this->belongsTo(Task_List::class, 'commentable_id');
+        return $this->belongsTo( 'WeDevs\PM\Task_List\Models\Task_List', 'commentable_id');
     }
 
     public function task() {
-        return $this->belongsTo(Task::class, 'commentable_id');
+        return $this->belongsTo( 'WeDevs\PM\Task\Models\Task', 'commentable_id');
     }
 }

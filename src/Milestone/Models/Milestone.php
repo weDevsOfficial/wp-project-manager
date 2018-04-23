@@ -77,45 +77,45 @@ class Milestone extends Eloquent {
     }
 
     public function metas() {
-        return $this->hasMany( Meta::class, 'entity_id' )
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->where( 'entity_type', 'milestone' );
     }
 
     public function achieve_date_field() {
-        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+        return $this->belongsTo( 'WeDevs\PM\Common\Models\Meta', 'id', 'entity_id' )
             ->where( 'entity_type', 'milestone' )
             ->where( 'meta_key', 'achieve_date' );
     }
 
     public function status_field() {
-        return $this->belongsTo( Meta::class, 'id', 'entity_id' )
+        return $this->belongsTo( 'WeDevs\PM\Common\Models\Meta', 'id', 'entity_id' )
             ->where( 'entity_type', 'milestone' )
             ->where( 'meta_key', 'status' );
     }
 
     public function task_lists() {
-        return $this->belongsToMany( Task_List::class, 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task_list' )
             ->where( 'board_type', 'milestone' );
     }
 
     public function tasks() {
-        return $this->belongsToMany( Task::class, 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
             ->where( 'board_type', 'milestone' );
     }
 
     public function boardables() {
-        return $this->hasMany( Boardable::class, 'board_id' )->where( 'board_type', 'milestone' );
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'board_id' )->where( 'board_type', 'milestone' );
     }
 
     public function discussion_boards() {
-        return $this->belongsToMany( Discussion_Board::class, 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Discussion_Board\Models\Discussion_Board', 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }
 
     public function project() {
-        return $this->belongsTo( Project::class, 'project_id' );
+        return $this->belongsTo( 'WeDevs\PM\Project\Models\Project', 'project_id' );
     }
 }
