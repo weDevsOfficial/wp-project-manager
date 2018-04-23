@@ -78,7 +78,12 @@ return [
 		'dependency' => ['pm-preloader'],
 		'in_footer'  => true
 	],
-
+	'pm-locale' => [
+		'id'         => 'pm-locale',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/locale-all.js',
+		'dependency' => ['pm-fullcalendar'],
+		'in_footer'  => true
+	],
 	'pm-fullcalendar' => [
 		'id'         => 'pm-fullcalendar',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/fullcalendar'.$suffix.'.js',
@@ -89,7 +94,7 @@ return [
 	'pm-nprogress' => [
 		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-		'dependency' => ['pm-fullcalendar'],
+		'dependency' => ['pm-fullcalendar', 'pm-locale'],
 		'in_footer'  => true
 	],
 
