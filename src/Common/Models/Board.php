@@ -22,7 +22,7 @@ class Board extends Eloquent {
     ];
 
     public function metas() {
-        return $this->hasMany( Meta::class, 'entity_id' )
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->whereIn( 'entity_type', [ 'milestone', 'task_list', 'discussion_board' ] );
     }
 }

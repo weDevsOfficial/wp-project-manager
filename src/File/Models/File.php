@@ -26,6 +26,6 @@ class File extends Eloquent {
     ];
 
     public function comments() {
-        return $this->belongsToMany(Board::class, 'pm_comments', 'id', 'commentable_id', 'fileable_id');
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', 'pm_comments', 'id', 'commentable_id', 'fileable_id');
     }
 }
