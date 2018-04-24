@@ -54,6 +54,10 @@ function tzstring_to_tzcode( $tzstr ) {
 }
 
 function format_date( $date ) {
+    if ( !is_object($date) ) {
+        $date =  \Carbon\Carbon::parse($date);
+    }
+    
     $date_format = get_option( 'date_format' );
     $time_format = get_option( 'time_format' );
     $timezone    = get_wp_timezone();
