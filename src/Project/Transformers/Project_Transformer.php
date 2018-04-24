@@ -59,9 +59,6 @@ class Project_Transformer extends TransformerAbstract {
     public function includeOverviewGraph( Project $item ) {
         $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
         $first_day = date( 'Y-m-01', strtotime( current_time( 'mysql' ) ) );
-        $date1     = date_create($today);
-        $date2     = date_create($first_day);
-        $diff      = date_diff($date1,$date2);
         
         $graph_data = [];
 
