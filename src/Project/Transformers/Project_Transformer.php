@@ -89,11 +89,11 @@ class Project_Transformer extends TransformerAbstract {
             $activity_groups[$created_date][] = $activity;
         }
 
-        for ( $dt = $first_day; $diff; $dt->addDay() ) {
+        for ( $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
             $graph_data[] = [
                 'date_time'  => format_date( $dt ),
-                'tasks'      => $tasks->where( 'created_at', $dt )->count(),
-                'activities' => $activities->where( 'created_at', $dt )->count()
+                'tasks'      => empty( $task_groups[$dt] ) ? 0 : count( $task_groups[$dt] ),
+                'activities' => empty( $activity_groups[$dt] ) ? 0 : count( $activity_groups[$dt] )
             ];
         }
 
