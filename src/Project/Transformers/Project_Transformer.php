@@ -57,27 +57,39 @@ class Project_Transformer extends TransformerAbstract {
     }
 
     public function includeOverviewGraph( Project $item ) {
-        $today = Carbon::today()->addDay();
-        $first_day = Carbon::today()->startOfMonth();
+        $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $first_day = date( 'Y-m-01', strtotime( current_time( 'mysql' ) ) );
+        $date1     = date_create($today);
+        $date2     = date_create($first_day);
+        $diff      = date_diff($date1,$date2);
+        
         $graph_data = [];
 
-        $tasks = $item->tasks->where( 'created_at', '>=', $first_day )
-            ->map( function( $item, $key ) {
-                $date = $item->created_at->toDateString();
-                $item->created_at = make_carbon_date( $date );
+        $tasks = $item->tasks()
+            ->where( 'created_at', '>=', $first_day )
+            ->get()
+            ->toArray();
 
-                return $item;
-            });
+        $task_groups = [];
+        
+        foreach ( $tasks as $key => $task ) {
+            $created_date = date( 'Y-m-d', strtotime( $task['created_at'] ) );
+            $task_groups[$created_date][] = $task;
+        }
 
-        $activities = $item->activities->where( 'created_at', '>=', $first_day )
-            ->map( function( $item, $key ) {
-                $date = $item->created_at->toDateString();
-                $item->created_at = make_carbon_date( $date );
+        $activities = $item->activities()
+            ->where( 'created_at', '>=', $first_day )
+            ->get()
+            ->toArray();
 
-                return $item;
-            });
+        $activity_groups = [];
 
-        for ( $dt = $first_day; $today->diffInDays( $dt ); $dt->addDay() ) {
+        foreach ( $activities as $key => $activity ) {
+            $created_date = date( 'Y-m-d', strtotime( $activity['created_at'] ) );
+            $activity_groups[$created_date][] = $activity;
+        }
+
+        for ( $dt = $first_day; $diff; $dt->addDay() ) {
             $graph_data[] = [
                 'date_time'  => format_date( $dt ),
                 'tasks'      => $tasks->where( 'created_at', $dt )->count(),
