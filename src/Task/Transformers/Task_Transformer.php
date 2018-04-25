@@ -13,6 +13,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use Illuminate\Pagination\Paginator;
 
 
 class Task_Transformer extends TransformerAbstract {
@@ -105,9 +106,13 @@ class Task_Transformer extends TransformerAbstract {
     public function includeBoards( Task $item ) {
         $page = isset( $_GET['board_page'] ) ? $_GET['board_page'] : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $boards = $item->boards()
             ->orderBy( 'created_at', 'DESC' )
-            ->paginate( 10, ['*'], 'board_page', $page );
+            ->paginate( 10 );
 
         $board_collection = $boards->getCollection();
         $resource = $this->collection( $board_collection, new Board_Transformer );
@@ -120,9 +125,13 @@ class Task_Transformer extends TransformerAbstract {
     public function includeComments( Task $item ) {
         $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( 10, ['*'], 'comment_page', $page );
+            ->paginate( 10 );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -143,7 +152,11 @@ class Task_Transformer extends TransformerAbstract {
     public function includeFiles( Task $item ) {
         $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $files = $item->files()->paginate( 10 );
 
         $file_collection = $files->getCollection();
         $resource = $this->collection( $file_collection, new File_Transformer );

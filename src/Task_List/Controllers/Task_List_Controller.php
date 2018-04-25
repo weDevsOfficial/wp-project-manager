@@ -13,6 +13,7 @@ use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Milestone\Models\Milestone;
+use Illuminate\Pagination\Paginator;
 
 class Task_List_Controller {
 
@@ -28,10 +29,14 @@ class Task_List_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $task_lists = Task_List::where( 'project_id', $project_id);
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
         $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
-            ->paginate( $per_page, ['*'], 'page', $page );
+            ->paginate( $per_page );
 
         $task_list_collection = $task_lists->getCollection();
 

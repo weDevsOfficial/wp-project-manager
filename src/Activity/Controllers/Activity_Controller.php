@@ -31,11 +31,11 @@ class Activity_Controller {
         
         if ( empty( $project_id ) ) {
             $activities = Activity::orderBy( 'created_at', 'DESC' )
-            ->paginate( $per_page, ['*'], 'page', $page );
+            ->paginate( $per_page );
         } else {
             $activities = Activity::where( 'project_id', $project_id )
             ->orderBy( 'created_at', 'desc' )
-            ->paginate( $per_page, ['*'] );
+            ->paginate( $per_page );
         }
 
         $activity_collection = $activities->getCollection();

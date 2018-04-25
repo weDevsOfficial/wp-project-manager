@@ -13,6 +13,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use WeDevs\PM\Task\Models\Task;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Pagination\Paginator;
 
 class Task_List_Transformer extends TransformerAbstract {
 
@@ -67,9 +68,13 @@ class Task_List_Transformer extends TransformerAbstract {
     public function includeComments( Task_List $item ) {
         $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( 10, ['*'], 'comment_page', $page );
+            ->paginate( 10 );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -82,7 +87,11 @@ class Task_List_Transformer extends TransformerAbstract {
     public function includeFiles( Task_List $item ) {
         $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $files = $item->files()->paginate( 10 );
 
         $file_collection = $files->getCollection();
         $resource = $this->collection( $file_collection, new File_Transformer );
@@ -130,13 +139,18 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeIncompleteTasks( Task_List $item ) {
         $page = isset( $_GET['incomplete_task_page'] ) ? $_GET['incomplete_task_page'] : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         $tasks = $item->tasks()
             ->where( 'status', 0 );
         $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
         $tasks = $tasks->orderBy( 'pm_boardables.order', 'DESC' )
-            ->paginate( $per_page, ['*'], 'page', $page );
+            ->paginate( $per_page );
         return $this->make_paginated_tasks( $tasks );
     }
 
