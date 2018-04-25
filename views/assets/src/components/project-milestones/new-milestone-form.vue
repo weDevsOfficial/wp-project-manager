@@ -22,6 +22,14 @@
     </form>
 </template>
 
+<style>
+    .pm-milestone-form .detail {
+        border: none !important;
+        padding: 0 !important;
+    }
+</style>
+
+
 <script>
     import editor from './../common/text-editor.vue';
     import date_picker from './date-picker.vue';

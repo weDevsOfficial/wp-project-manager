@@ -27,7 +27,7 @@
                         <transition name="slide" v-if="can_create_milestone">
 
                             <div class="pm-new-milestone-form" v-if="is_milestone_form_active">
-                                <div class="pm-milestone-form-wrap"  >
+                                <div class="pm-milestone-form-wrap">
                                     <new-milestone-form section="milestones" :milestone="{}"></new-milestone-form>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                 </div>
 
             </div>
-            <div v-if="milestoneTemplate">
+            <div v-if="!blankTemplate">
                 <div class="pm-row pm-milestone-details" >
                     <div class="pm-milestone-link clearfix" v-if="can_create_milestone">
                         <a @click.prevent="showHideMilestoneForm('toggle')"  id="pm-add-milestone" href="#" class="pm-btn pm-btn-blue pm-plus-white pm-margin-bottom add-milestone pm-btn-uppercase">{{ __( 'Add Milestone', 'pm' ) }}</a>
@@ -124,7 +124,11 @@
                 return this.$store.state.projectMilestones.milestone_template;
             },
             blankTemplate () {
-                return this.$store.state.projectMilestones.blank_template;
+                if(!this.$store.state.projectMilestones.milestones.length) {
+                    return true;
+                }
+
+                return false;
             },
             is_milestone_form_active () {
                 return this.$store.state.projectMilestones.is_milestone_form_active;
@@ -142,7 +146,7 @@
             },
 
             isFetchMilestone () {
-                return this.$root.$store.state.projectMilestoneLoaded;
+                return this.$store.state.projectMilestones.isFetchMilestone;
             }
         },
         methods: {

@@ -37,6 +37,7 @@ export default {
         setMilestones (state, milestones) {
             state.milestones = milestones;
             state.isFetchMilestone = true;
+            state.blank_template = false;
         },
 
         setMilestonesMeta(state, data){
@@ -51,6 +52,7 @@ export default {
         afterDeleteMilestone (state, milestone_id) {
             var milestone_index = state.getIndex(state.milestones, milestone_id, 'id');
             state.milestones.splice(milestone_index,1);
+            state.milestone_meta.total = state.milestone_meta.total - 1;
         },
 
         updateMilestone (state, data) {
@@ -79,6 +81,12 @@ export default {
             }
         },
 
+        afterNewMilestoneUpdateMeta (state) {
+            state.milestone_meta.total = state.milestone_meta.total + 1;
+            state.milestone_meta.total_pages = Math.ceil( state.milestone_meta.total / state.milestone_meta.per_page );
+            console.log(state.milestone_meta);
+        },
+
         balankTemplateStatus (state, status) {
             state.blank_template = status;
         },
@@ -95,5 +103,9 @@ export default {
             var index = state.getIndex(state.milestones, data.milestone_id, 'id');
             state.milestones[index].meta.privacy = data.privacy;
         },
+
+        fetchMilestoneStatus (state, status) {
+            state.isFetchMilestone = status;
+        }
     }
 };
