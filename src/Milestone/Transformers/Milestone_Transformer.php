@@ -10,7 +10,6 @@ use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\Paginator;
 
 class Milestone_Transformer extends TransformerAbstract {
 

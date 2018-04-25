@@ -67,7 +67,9 @@
                 this.updateMilestone(args);
             },
             deleteSelfMilestone(){
+
                 var self = this;
+                var hasCurrentPage = self.$route.params.current_page_number;
                 var args = {
                     milestone_id: this.milestone.id,
                     callback: function(res){
@@ -78,6 +80,10 @@
                                     project_id: self.project_id 
                                 }
                             });
+                            if(hasCurrentPage) {
+                               self.$store.commit( 'projectMilestones/fetchMilestoneStatus', false ); 
+                            }
+                            
                         } else {
                             self.getSelfMilestones();
                         }

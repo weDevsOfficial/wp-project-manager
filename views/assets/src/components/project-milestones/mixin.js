@@ -39,7 +39,7 @@ export default {
          * @param {args} object [object with calback]
          */
         
-        getMilestone(args){
+        getMilestone(args) {
             var self = this,
             pre_define = {
                 conditions :{
@@ -75,7 +75,7 @@ export default {
             pre_define = {
                 conditions :{
                     with:'discussion_boards,task_lists',
-                    per_page:2,
+                    per_page: 20,
                     page:1,
                 },
                 callback: false
@@ -186,6 +186,8 @@ export default {
                     self.addMeta(res.data);
                     
                     self.$store.commit('projectMilestones/newMilestone', res.data);
+                    self.$store.commit('projectMilestones/afterNewMilestoneUpdateMeta');
+
                     self.$root.$store.state.milestones_load = false;
                     // Display a success toast, with a title
                     pm.Toastr.success(res.message);
