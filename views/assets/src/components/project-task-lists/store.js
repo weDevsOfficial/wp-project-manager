@@ -512,6 +512,7 @@ export default {
         afterDeleteList (state, list_id) {
             var list_index = state.getIndex(state.lists, list_id, 'id');
             state.lists.splice(list_index,1);
+            state.lists_meta.total = state.lists_meta.total - 1;
         },
 
         setListComments (state, comments) {
@@ -612,6 +613,9 @@ export default {
             if(typeof state.task.meta != 'undefined') {
                 state.task.meta.privacy = data.privacy;
             }
+        },
+        fetchListStatus (state, status) {
+            state.isListFetch = status;
         }
     }
 };

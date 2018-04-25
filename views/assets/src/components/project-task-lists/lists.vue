@@ -1,7 +1,6 @@
 <template>
     <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
-        
         <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -252,34 +251,6 @@
             }
         },
 
-        created () {
-            var self = this;
-
-            // this.getViewType(function(res) {
-            //     if ( typeof res === 'undefined' ) {
-            //         res ={ 'value' : 'list'}
-            //     }
-            //     if ( res.value == 'list' ) {
-            //         self.$store.state.projectTaskLists.is_single_list = false;
-            //         self.isSingleTask();
-            //         self.getSelfLists();
-            //         self.getGlobalMilestones();
-
-            //     } else if ( res.value == 'kanboard' ) {
-                    
-            //         self.$router.push({
-            //             name: 'kanboard'
-            //         });
-            //     }
-
-            // });
-            
-           // console.log(this.$store.state.projectMeta);
-
-
-            
-        },
-
         computed: {
             /**
              * Get lists from vuex store
@@ -314,7 +285,7 @@
                 return this.$store.state.projectTaskLists.listTemplateStatus; 
             },
             isListFetch () {
-                return this.$root.$store.state.projectTaskListLoaded; 
+                return this.$store.state.projectTaskLists.isListFetch; 
             },
 
             listViewType () {
@@ -369,6 +340,7 @@
 
             deleteSelfList ( list ) {
                 var self = this;
+                var hasCurrentPage = self.$route.params.current_page_number;
                 var args = {
                     list_id: list.id,
                     callback: function ( res ) {
@@ -379,6 +351,9 @@
                                     project_id: self.project_id 
                                 }
                             });
+                            if(hasCurrentPage) {
+                               self.$store.commit( 'projectTaskLists/fetchListStatus', false ); 
+                            }
                         } else {
 
                             self.getLists();

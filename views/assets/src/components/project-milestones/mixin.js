@@ -107,7 +107,7 @@ export default {
             args = {
                 conditions :{
                     with:'discussion_boards,task_lists',
-                    per_page:2,
+                    per_page: 20,
                     page:self.setCurrentPageNumber(),
                 },
                 callback: function(){
