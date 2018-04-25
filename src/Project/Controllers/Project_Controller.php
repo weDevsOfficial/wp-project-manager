@@ -15,6 +15,7 @@ use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Common\Traits\File_Attachment;
+use Illuminate\Pagination\Paginator;
 
 class Project_Controller {
 
@@ -32,6 +33,10 @@ class Project_Controller {
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
 		$page     = $page ? $page : 1;
 
+		Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
 		$projects = $this->fetch_projects( $category, $status );
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 		if( $per_page == 'all' ) {
@@ -41,7 +46,7 @@ class Project_Controller {
 			return $this->get_response( $resource );
 		}
 
-		$projects = $projects->paginate( $per_page, ['*'], 'page', $page );
+		$projects = $projects->paginate( $per_page );
 
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );

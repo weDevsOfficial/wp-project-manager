@@ -12,6 +12,7 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\File\Transformers\File_Transformer;
 use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\Common\Traits\Request_Filter;
+use Illuminate\Pagination\Paginator;
 
 class File_Controller {
 
@@ -25,8 +26,12 @@ class File_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $files = File::where( 'project_id', $project_id )
-            ->paginate( $per_page, ['*'], 'page', $page );
+            ->paginate( $per_page );
 
         $file_collection = $files->getCollection();
 

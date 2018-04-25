@@ -14,6 +14,7 @@ use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Common\Models\Meta;
 use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Pagination\Paginator;
 
 class Milestone_Controller {
 
@@ -26,11 +27,16 @@ class Milestone_Controller {
         
         $page       = $request->get_param( 'page' );
         $page       = $page ? $page : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
         $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
 
-        $milestones = $milestones->paginate( $per_page, ['*'], 'page', $page );
+        $milestones = $milestones->paginate( $per_page );
 
         $milestone_collection = $milestones->getCollection();
 

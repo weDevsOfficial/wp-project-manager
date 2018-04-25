@@ -18,6 +18,7 @@ use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use Carbon\Carbon;
 use WeDevs\PM\Common\Models\Assignee;
+use Illuminate\Pagination\Paginator;
 
 class Task_Controller {
 
@@ -29,6 +30,10 @@ class Task_Controller {
         $per_page   = $per_page ? $per_page : 5;
         $page       = $request->get_param( 'page' );
         $search     = $request->get_param( 's' );
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
 
         if ( $search ) {
             $tasks = Task::where( 'project_id', $project_id )
@@ -44,7 +49,7 @@ class Task_Controller {
                 ->parent();
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
-                ->paginate( $per_page, ['*'], 'page', $page );
+                ->paginate( $per_page );
 
             $task_collection = $tasks->getCollection();
             $resource = new Collection( $task_collection, new Task_Transformer );
