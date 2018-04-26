@@ -234,6 +234,8 @@ var PM_TaskList_Mixin = {
                     res.data.incomplete_tasks = {data: []};
                     self.$store.commit('projectTaskLists/afterNewList', res.data);
                     self.$store.commit('projectTaskLists/afterNewListupdateListsMeta');
+                    self.$store.commit('updateProjectMeta', 'total_task_lists');
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     self.showHideListForm(false);
                     pm.Toastr.success(res.message);
 
@@ -287,7 +289,7 @@ var PM_TaskList_Mixin = {
                     if( typeof args.callback === 'function' ) {
                         args.callback.call( self,  res );
                     }
-
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     pmBus.$emit('pm_after_update_list', res);
                 },
                 error (res) {
@@ -344,6 +346,8 @@ var PM_TaskList_Mixin = {
                     self.$store.commit( 'projectTaskLists/afterDeleteList', args.list_id );
                     pm.Toastr.success(res.message);
                     self.listTemplateAction();
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+                    self.$store.commit('decrementProjectMeta', 'total_task_lists');
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
                     }
@@ -419,6 +423,7 @@ var PM_TaskList_Mixin = {
                         }
                     );
 
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     // Display a success toast, with a title
                     pm.Toastr.success(res.message);                    
                     self.showHideTaskFrom(false, self.list, self.task );
@@ -471,7 +476,7 @@ var PM_TaskList_Mixin = {
                         list_id: args.data.list_id,
                         task: res.data
                     });
-
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     // Display a success toast, with a title
                     pm.Toastr.success(res.message);                    
                     self.showHideTaskFrom(false, self.list, self.task );
@@ -532,6 +537,7 @@ var PM_TaskList_Mixin = {
                         'task': args.task,
                         'list': args.list 
                     });
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     pm.Toastr.success(res.message);
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
@@ -578,6 +584,7 @@ var PM_TaskList_Mixin = {
                     self.addListCommentMeta(res.data);
                     self.$root.$emit( 'after_comment' );
                     pm.Toastr.success(res.message);
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
                     }
@@ -631,6 +638,7 @@ var PM_TaskList_Mixin = {
                     self.addListCommentMeta(res.data);
                     pm.Toastr.success(res.message);
                     self.$root.$emit( 'after_comment' );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
                     }
@@ -1135,7 +1143,8 @@ var PM_TaskList_Mixin = {
                 success ( res ) {
                     if( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
-                    }                    
+                    }
+                    self.$store.commit('updateProjectMeta', 'total_activities');                   
                 },
             }
             self.httpRequest( request_data );    

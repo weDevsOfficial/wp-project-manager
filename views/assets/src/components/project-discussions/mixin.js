@@ -165,6 +165,9 @@ export default {
                     self.$root.$emit( 'after_comment' );
                     self.$store.commit( 'projectDiscussions/newDiscuss', res.data );
                     self.$store.commit( 'projectDiscussions/updateMetaAfterNewDiscussion' );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+                    self.$store.commit('updateProjectMeta', 'total_discussion_boards');
+
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -237,6 +240,7 @@ export default {
 
                     self.$store.commit( 'projectDiscussions/updateDiscuss', res.data );
                     self.$root.$emit( 'after_comment' );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -343,6 +347,8 @@ export default {
                         }
                     );
 
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
                     }
@@ -424,6 +430,7 @@ export default {
                             'comment_id': args.comment_id
                         }
                     );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
@@ -476,6 +483,8 @@ export default {
                     } else {
                         self.getDiscussion();
                     }
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+                    self.$store.commit('decrementProjectMeta', 'total_discussion_boards');
                 
                     pm.Toastr.success(res.message);
                     if (typeof args.callback === 'function') {
@@ -509,7 +518,9 @@ export default {
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id
-                    } ); 
+                    } );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+   
                 }
             }
             

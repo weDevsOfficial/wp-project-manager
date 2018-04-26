@@ -518,6 +518,7 @@
                         self.is_task_title_edit_mode = false;
                         self.is_task_details_edit_mode = false;
                         self.is_enable_multi_select = false;
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                     }
                 }
                
