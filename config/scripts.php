@@ -4,7 +4,6 @@ $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
 	
-
 	'pm-config' => [
 		'id'         => 'pm-config',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/config.js',

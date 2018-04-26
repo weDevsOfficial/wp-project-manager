@@ -92,7 +92,7 @@ class Frontend {
             return  $icon = $folder . $exist_mime[$mime];
         }
        
-	    $icon   = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
+	    $icon = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
 
 	    return $icon;
 	}
