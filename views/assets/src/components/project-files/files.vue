@@ -96,7 +96,7 @@
 
         methods: {
             selfDownloadFile (file) {
-                this.fileDwnload( file.attachment_id );
+                this.fileDownload( file.attachment_id );
             },
             attachTo (file) {
                 if (file.fileable_type === 'discussion_board') {

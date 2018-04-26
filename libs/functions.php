@@ -312,7 +312,7 @@ function pm_get_role_caps( $project_id, $role ) {
 
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
-
+    
     // $cache_key  = 'pm_user_can-' . md5( serialize( [
     //  'cap'        => $cap,
     //  'project_id' => $project_id,
@@ -356,10 +356,11 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
 
 function pm_has_manage_capability( $user_id = false ) {
     
-    $user_id = $user_id ? $user_id : get_current_user_id();
+    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
     $manage_roles = (array) pm_get_settings( 'managing_capability' );
+    
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {

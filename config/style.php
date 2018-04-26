@@ -32,6 +32,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/jquery-ui/jquery-ui-1.12.1.custom.css',
 		'dependency' => false,
 	],
+	'pm-pretty-photo' => [
+		'id'         => 'pm-pretty-photo',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pretty-photo/prettyPhoto.css',
+		'dependency' => false,
+	],
 	'pm-tiny-mce' => [
 		'id'         => 'pm-tiny-mce',
 		'url'        => site_url( '/wp-includes/css/editor.css' ),
@@ -59,7 +64,8 @@ return [
 			'pm-fullcalendar',
 			'pm-tiny-mce',
 			'pm-loading',
-			'pm-loaautocompleteding'
+			'pm-loaautocompleteding',
+			'pm-pretty-photo'
 		],
 	],
 ];

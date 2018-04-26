@@ -4,7 +4,6 @@ $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
 	
-
 	'pm-config' => [
 		'id'         => 'pm-config',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/config.js',
@@ -119,10 +118,17 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-pretty-photo' => [
+		'id'         => 'pm-pretty-photo',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
+		'dependency' => ['pm-vue-library'],
+		'in_footer'  => true
+	],
+
 	'pm-uploader' => [
 		'id'         => 'pm-uploader',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
-		'dependency' => ['pm-vue-library'],
+		'dependency' => ['pm-pretty-photo'],
 		'in_footer'  => true
 	],
 
