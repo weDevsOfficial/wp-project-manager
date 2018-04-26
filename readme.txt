@@ -122,7 +122,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= 1.6.14 - April 25, 2018 =
+= 1.6.14 - April 26, 2018 =
 
  * [fixed] Task is not showing after clicking on a task from the calendar.
  * [fixed] Mail notificaation system not working.
