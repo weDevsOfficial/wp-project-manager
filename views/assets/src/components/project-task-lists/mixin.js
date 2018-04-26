@@ -1039,7 +1039,7 @@ var PM_TaskList_Mixin = {
             filtered_users = this.$store.state.projectTaskLists.projectTaskLists.project_users.filter( function (user) {
                 return ( assigned_to.indexOf( parseInt(user.id) ) >= 0 );
             });
-
+            console.log(filtered_users);
             return filtered_users;
         },
 

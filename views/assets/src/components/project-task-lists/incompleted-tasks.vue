@@ -21,8 +21,8 @@
                     
                     </span>                 
 
-                    <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.ID">
-                        <a href="#" :title="user.display_name">
+                    <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
+                        <a :href="myTaskRedirect(user.id)" :title="user.display_name">
                             <img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
                         </a>
                     </span>

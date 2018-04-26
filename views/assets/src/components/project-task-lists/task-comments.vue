@@ -6,14 +6,14 @@
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
                 <div class="pm-avatar">
-                     <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                     <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
                 </div>
 
                 <div class="pm-comment-container">
                     <div class="pm-comment-meta">
                         {{__( 'By', 'pm' )}}
                         <span class="pm-author">
-                            <a :href="userTaskProfileUrl ( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 {{ comment.creator.data.display_name }}
                             </a>
                         </span>
@@ -36,9 +36,13 @@
                     <div class="pm-comment-content">
                         <div v-html="comment.content"></div>
                         <ul class="pm-attachments" v-if="comment.files.data.length">
-                            <li v-for="commnetFile in comment.files.data">
-                                <a class="pm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
-                                    <img class="pm-task-comment-thumb" :src="commnetFile.thumb" :alt="commnetFile.name">
+                            <li v-for="file in comment.files.data">
+                                <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
+                                    <img :src="file.thumb" :alt="file.name">
+                                </a>
+
+                                <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
+                                    <img :src="file.thumb" :alt="file.name">
                                 </a>
                             </li>
                         </ul>
@@ -54,7 +58,11 @@
         <div class="single-todo-comments">
             <div class="pm-comment-form-wrap">
 
-                <div class="pm-avatar"><img :src="avatar_url" height="48" width="48"/></div>
+                <div class="pm-avatar">
+                    <a :href="myTaskRedirect(PM_Vars.current_user.ID)">
+                        <img :src="avatar_url" height="48" width="48"/>
+                    </a>
+                </div>
                 <div class="pm-new-doc-comment-form">
                     <task-comment-form :comment="{}" :comments="comments"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
@@ -85,15 +93,6 @@
                 currnet_user_id: 1,
                 avatar_url: PM_Vars.avatar_url
             }
-        },
-
-        computed: {
-            /**
-             * Get current user avatar
-             */
-            getCurrentUserAvatar: function() {
-                return '';
-            },
         },
 
         components: {

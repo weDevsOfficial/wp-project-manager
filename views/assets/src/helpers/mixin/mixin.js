@@ -848,17 +848,15 @@ export default {
             var current_user = PM_Vars.current_user.ID;
 
             if (!PM_Vars.is_pro) {
-                //this.$router.push({ name: 'my-tasks'});
-                return '#/my-tasks';
+                return this.$router.resolve({ name: 'my-tasks'}).href;
+
             }
 
             if (userid == current_user ) {
-                //this.$router.push({name: 'mytask-tasks'});
-                return '#/my-tasks';
+                return this.$router.resolve({name: 'mytask-tasks'}).href;
             }
 
-            //this.$router.push({name: 'user-tasks', params: {user_id: userid}});
-            return '#/user-tasks/'+userid;
+            return this.$router.resolve({name: 'user-tasks', params: {user_id: userid}}).href;
 
         },
 
