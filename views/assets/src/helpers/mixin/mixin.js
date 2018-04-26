@@ -279,6 +279,7 @@ export default {
                     self.showHideProjectForm(false);
                     jQuery( "#pm-project-dialog" ).dialog("close");
                     self.resetSelectedUsers();
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
                     }

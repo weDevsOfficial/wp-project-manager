@@ -70,6 +70,27 @@ export default new pm.Vuex.Store({
             state.projectMeta = projectMeta;
         },
 
+        updateProjectMeta (state, type) {
+            if ( typeof state.project.meta === 'undefined') {
+                return ;
+            }
+
+            if (state.project.meta.data.hasOwnProperty(type)) {
+                state.project.meta.data[type] ++;
+            }
+
+        },
+
+        decrementProjectMeta (state, type) {
+            if ( typeof state.project.meta === 'undefined') {
+                return ;
+            }
+
+            if (state.project.meta.data.hasOwnProperty(type)) {
+                state.project.meta.data[type] --;
+            }
+        },
+
         setProjectUsers (state, users) {
             state.project_users = users;
         },

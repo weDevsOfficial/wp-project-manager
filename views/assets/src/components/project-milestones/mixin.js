@@ -198,6 +198,8 @@ export default {
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
                     }  
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+                    self.$store.commit('updateProjectMeta', 'total_milestones');
 
                     if ( self.section === 'milestones' ) {
                         self.afterNewMilestone();
@@ -251,6 +253,7 @@ export default {
                     self.templateAction();
 
                     self.$root.$emit( 'after_comment' );
+                    self.$store.commit('updateProjectMeta', 'total_activities');
 
                     if(typeof args.callback === 'function'){
                         args.callback.call ( self, res );
@@ -297,6 +300,8 @@ export default {
                 success: function(res) {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+                    self.$store.commit('decrementProjectMeta', 'total_milestones');
                     pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
