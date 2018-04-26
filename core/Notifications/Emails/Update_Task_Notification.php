@@ -18,9 +18,9 @@ class Update_Task_Notification extends Email {
 
         $task->load('assignees.assigned_user', 'projects', 'creator');
         $users = array();
-        foreach ($task->assignees as $assignee ) {
-            if( $this->is_enable_user_notification( $assignee->assignee_to ) ){
-                $users[] = $assignee->assigned_user->user_email;
+        foreach ($task->assignees->toArray() as $assignee ) {
+            if( $this->is_enable_user_notification( $assignee['assigned_to'] ) ){
+                $users[] = $assignee['assigned_user']['user_email'];
             }
         }
 

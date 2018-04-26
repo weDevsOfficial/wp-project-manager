@@ -129,14 +129,24 @@ class Email {
 
     public function link_to_backend() {
         $link_to_backend = pm_get_settings('link_to_backend');
-        $link_to_backend = isset( $link_to_backend ) ? $link_to_backend : true;
+        $link_to_backend = ( isset( $link_to_backend ) && $link_to_backend == 'false' ) ? false : true;
         return apply_filters('pm_email_link_to_backend', $link_to_backend ) ;
     }
 
     public function pm_link() {
-        if( $this->link_to_backend() ) {
-            return admin_url( 'admin.php?page=pm_projects' );
+
+        if( !$this->link_to_backend() ) {
+             $pages   = get_site_option('pm_pages', []);
+            $project = isset( $pages['project'] ) ? intval( $pages['project'] ) : '';
+
+            if ( $project ) {
+                return get_permalink( $project );
+            }
         }
+
+        return admin_url( 'admin.php?page=pm_projects' );
+       
+
     }
     /**
      * Get WordPress blog name.

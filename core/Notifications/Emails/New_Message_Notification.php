@@ -32,9 +32,9 @@ class New_Message_Notification extends Email {
         }
 
         if( apply_filters('notify_project_managers', true) ){
-            foreach ($project->managers as $u) {
-                if(!in_array($u->user_email, $users)){
-                    $users[] = $u->user_email;
+            foreach ($project->managers->toArray() as $u) {
+                if(!in_array($u['user_email'], $users)){
+                    $users[] = $u['user_email'];
                 }
             }
         }
