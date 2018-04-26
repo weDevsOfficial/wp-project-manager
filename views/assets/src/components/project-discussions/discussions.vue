@@ -72,7 +72,7 @@
                                         class="pm-col-9 pm-messge-link" 
                                         :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
                                     <div class="pm-message-inner">
-                                        <a @click.prevent="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
+                                        <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                             <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                         </a>
                                         <div>
@@ -81,7 +81,7 @@
                                         
                                         <div class="dicussion-meta">
                                             {{ __( 'By', 'pm' ) }}
-                                            <a @click.prevent="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
+                                            <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                                 {{ discuss.creator.data.display_name }}
                                             </a> 
                                              {{ __( 'on', 'pm' ) }}
