@@ -20,16 +20,16 @@ class Complete_Task_Notification extends Email {
 
         $task->load('assignees.assigned_user', 'projects.managers', 'creator', 'updater');
         $users = array();
-        foreach ($task->assignees as $assignee ) {
-            if( $this->is_enable_user_notification( $assignee->assignee_to ) ){
-                $users[] = $assignee->assigned_user->user_email;
+        foreach ($task->assignees->toArray() as $assignee ) {
+            if( $this->is_enable_user_notification( $assignee['assigned_to'] ) ){
+                $users[] = $assignee['assigned_user']['user_email'];
             }
         }
 
         if( apply_filters( 'notify_project_managers', true ) ){
-            foreach ( $task->projects->managers as $u ) {
-                if( !in_array($u->user_email, $users )){
-                    $users[] = $u->user_email;
+            foreach ( $task->projects->managers->toArray() as $u ) {
+                if( !in_array($u['user_email'], $users )){
+                    $users[] = $u['user_email'];
                 }
             }
         }
