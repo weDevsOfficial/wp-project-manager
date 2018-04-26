@@ -1332,6 +1332,14 @@ var CPM_Task_Single = {
             }
         },
     },
+    watch: {
+        '$route' (route) {
+            this.getTask();
+            window.addEventListener('click', this.windowActivity);
+
+            this.$root.$on('cpm_date_picker', this.fromDate);
+        }
+    },
 
     created: function() {
         this.getTask();
