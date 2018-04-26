@@ -71,7 +71,6 @@ class Enqueue_Scripts {
 				),
 				'roles'                    => pm_get_wp_roles(),
 				'settings'                 => pm_get_settings(),
-				'pm_logo'					=> pm_get_logo(),
 				'text'                     => pm_get_text('common'),
 				'dir_url'                  => config('frontend.url'),
 				'is_pro'                   => $wedevs_pm_pro,

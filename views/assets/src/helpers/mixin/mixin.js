@@ -158,14 +158,6 @@ export default {
             }
             
         },
-        getLogo () {
-
-            if (jQuery.isEmptyObject(PM_Vars.pm_logo)){
-                return [];
-            } else {
-                return [PM_Vars.pm_logo]
-            }
-        },
         dataURLtoFile (dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);

@@ -29,7 +29,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
             </span>
             <span style="float: left; width: 430px;">
                 <strong style="font-family: lato; color: #7e7e7e;">
-                    <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $link. '#/'.$project_id.'/discussions/'.$id ?>">
+                    <a style="text-decoration: none; font-family: lato; color: #00b1e7;" href="<?php echo $link. '#/projects/'.$project_id.'/discussions/'.$id ?>">
 <?php echo $title; ?>
                     </a>
 
@@ -45,7 +45,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
     
         <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px; text-align: center;">
 
-            <a href="<?php echo $link. '#/'.$project_id.'/discussions/'.$id; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
+            <a href="<?php echo $link. '#/projects/'.$project_id.'/discussions/'.$id; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
 <?php _e( 'View Message', 'pm' ); ?>
             </a>
 

@@ -50,13 +50,13 @@ class Update_Comment_Notification extends Email {
         
         if( $request['commentable_type'] == 'discussion_board' ){
             $type = __( 'Message', 'pm' );
-            $comment_link = $this->pm_link() . '#/'.$project->id.'/discussions/'.$request['commentable_id'];
+            $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/discussions/'.$request['commentable_id'];
         }elseif ( $request['commentable_type'] == 'task_list' ) {
             $type = __( 'Task List', 'pm' );
-            $comment_link = $this->pm_link() . '#/'.$project->id.'/task-lists/'.$request['commentable_id'];
+            $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/task-lists/'.$request['commentable_id'];
         }else{
             $type        = __( 'Task', 'pm' );
-            $comment_link = $this->pm_link() . '#/'.$project->id.'/task/'.$request['commentable_id'];
+            $comment_link = $this->pm_link() . '#projects/'.$project->id.'/task/'.$request['commentable_id'];
         }
 
        

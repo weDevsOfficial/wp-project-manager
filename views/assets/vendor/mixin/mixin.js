@@ -153,10 +153,10 @@ export default {
         },
         getLogo () {
 
-            if (jQuery.isEmptyObject(PM_Vars.pm_logo)){
+            if (jQuery.isEmptyObject(PM_Pro_Vars.pm_logo)){
                 return false;
             } else {
-                return PM_Vars.pm_logo
+                return PM_Pro_Vars.pm_logo
             }
         },
         dataURLtoFile (dataurl, filename) {
