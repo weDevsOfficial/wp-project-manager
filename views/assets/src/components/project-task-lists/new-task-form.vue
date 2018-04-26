@@ -276,10 +276,19 @@ export default {
                 return false;
             }
 
-            // if(!this.task.due_date.date) {
-            //     pm.Toastr.error('Due date required!');
-            //     return false;
-            // }
+            var start = new Date(this.task.start_at.date);
+            var end  = new Date(this.task.due_date.date);
+            var compare = pm.Moment(end).isBefore(start);
+
+            if(this.task_start_field && compare) {
+                pm.Toastr.error('Invalid date range!');
+                return;
+            }
+
+            if(this.task_start_field && this.task.due_date.date == '') {
+                this.task.due_date.date = this.task.start_at.date;
+            }
+
             var self = this;
             this.submit_disabled = true;
             // Showing loading option 

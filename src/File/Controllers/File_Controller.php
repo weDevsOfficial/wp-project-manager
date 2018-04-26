@@ -103,14 +103,19 @@ class File_Controller {
 
         // serve the file with right header
         if ( is_readable( $path ) ) {
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
-            header("Content-Type: application/force-download");
-            header("Content-Type: application/octet-stream");
-            header("Content-Type: application/download");
-            header("Content-Disposition: attachment; filename=$file_name");
-            header("Content-Transfer-Encoding: binary ");
+            // header("Pragma: public");
+            // header("Expires: 0");
+            // header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+            // header("Content-Type: application/force-download");
+            // header("Content-Type: application/octet-stream");
+            // header("Content-Type: application/download");
+            // header("Content-Disposition: attachment; filename=$file_name");
+            // header("Content-Transfer-Encoding: binary ");
+            // readfile( $path );
+
+            header( 'Content-Type: ' . $mime_type );
+            header( 'Content-Transfer-Encoding: binary' );
+            header( 'Content-Disposition: inline; filename=' . basename( $path ) );
             readfile( $path );
         }
 

@@ -868,8 +868,15 @@ export default {
             //this.$router.push({name: 'user-tasks', params: {user_id: userid}});
             return '#/user-tasks/'+userid;
 
-        }
+        },
 
+        fileDownload (fileId) {
+            window.location.href = this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+        },
+
+        getDownloadUrl(fileId) {
+            return this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+        }
     }
 };
 

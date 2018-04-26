@@ -1578,13 +1578,16 @@ ul.pm-activity ul li:before {
 /*--------------------------------------------------
 :: Task List
 -------------------------------------------------- */
-.pm-new-todolist-form,
 .pm-update-todolist-form {
-  border: 1px solid #e5e5e5;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.pm-new-todolist-form {
   background: #fff;
+  border: 1px solid #e5e5e5;
   margin-top: 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   padding: 10px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 .pm-new-todolist-form .item,
 .pm-update-todolist-form .item {
@@ -2193,7 +2196,8 @@ a.pm-icon-tick.grey {
   -moz-border-radius: 5px;
   border-radius: 5px;
   background: #fff;
-  max-width: 150px;
+  max-width: 80px;
+  height: 80px
 }
 /*--------------------------------------------------
 :: Files
