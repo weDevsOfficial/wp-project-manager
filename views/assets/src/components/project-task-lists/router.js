@@ -53,13 +53,13 @@ weDevsPMRegisterChildrenRoute('projects',
 weDevsPMRegisterChildrenRoute('projects', 
     [
         { 
-            path: '/:project_id/task-lists/:list_id', 
+            path: ':project_id/task-lists/:list_id', 
             component: single_list_route,
             name: 'single_list',
 
             children: [
                 {
-                    path: '/:project_id/task-lists/:list_id/task/:task_id', 
+                    path: 'task/:task_id', 
                     components: { 
                         'single-task': single_task_route
                     },
