@@ -12,8 +12,9 @@ class Access_Project extends Abstract_Permission {
         if ( empty($project_id) ){
             $project_id = $this->request->get_param( 'id' );
         }
+        $user_id = $this->request->get_param( 'user_id' ); 
         
-        if ( pm_user_can( 'view_project', $project_id ) ){
+        if ( pm_user_can( 'view_project', $project_id, $user_id ) ){
             return true;
         }
 

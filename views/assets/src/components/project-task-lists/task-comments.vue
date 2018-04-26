@@ -38,7 +38,7 @@
                         <ul class="pm-attachments" v-if="comment.files.data.length">
                             <li v-for="commnetFile in comment.files.data">
                                 <a class="pm-colorbox-img" :href="commnetFile.url" :title="commnetFile.name" target="_blank">
-                                    <img :src="commnetFile.thumb" :alt="commnetFile.name">
+                                    <img class="pm-task-comment-thumb" :src="commnetFile.thumb" :alt="commnetFile.name">
                                 </a>
                             </li>
                         </ul>
@@ -62,6 +62,13 @@
         </div>
     </div>
 </template>
+
+<style>
+    .pm-task-comment-thumb {
+        height: 80px;
+        width: 80px;
+    }
+</style>
 
 <script>
     import comment_form from './task-comment-form.vue';
