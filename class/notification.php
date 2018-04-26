@@ -39,7 +39,7 @@ class CPM_Notification {
      * @since 1.4.0
      */
     public function check_email_url() {
-        if ( cpm_get_option( 'email_url_link', 'cpm_mails' ) == 'frontend' ) {
+        if ( (cpm_get_option( 'email_url_link', 'cpm_mails' ) == 'frontend') && class_exists('CPM_Frontend_URLs')  ) {
             new CPM_Frontend_URLs();
         }
     }
