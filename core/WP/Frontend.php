@@ -72,7 +72,29 @@ class Frontend {
 	 * @return void
 	 */
 	public function init_filters() {
-		
+		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
+		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
+	}
+
+	function cc_mime_types( $mimes ) {
+	    $mimes['svg'] = 'image/svg+xml';
+	    return $mimes;
+	}
+
+	function change_mime_icon( $icon, $mime = null, $post_id = null ) {
+		$assets_url = config('frontend.assets_url');
+	    $folder 	= $assets_url . 'images/icons/';
+	    $exist_mime = [
+	    	'application/pdf' => 'pdf.png'
+	    ];
+
+        if ( array_key_exists( $mime, $exist_mime ) ) {
+            return  $icon = $folder . $exist_mime[$mime];
+        }
+       
+	    $icon = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
+
+	    return $icon;
 	}
 
 	function cron_interval( $schedules ) {

@@ -10,3 +10,13 @@ pm.Vue.directive('pm-slide-up-down', {
 		
 	},
 });
+
+
+pm.Vue.directive('pm-pretty-photo', {
+	inserted: function(el) {
+		var node = jQuery(el);
+		
+		node.prettyPhoto();
+		
+	},
+});

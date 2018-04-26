@@ -12,10 +12,6 @@ export default {
                 }
             };
             self.httpRequest(request);
-        },
-
-        fileDwnload (fileId) {
-            window.location.href = this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/download';
         }, 
     }
 };
