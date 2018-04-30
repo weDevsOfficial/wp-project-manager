@@ -11,6 +11,7 @@ use WeDevs\PM\User\Transformers\User_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Milestone\Transformers\Milestone_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use Illuminate\Pagination\Paginator;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
 
@@ -57,14 +58,18 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     public function includeComments( Discussion_Board $item ) {
         $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
 
+        // Paginator::currentPageResolver(function () use ($page) {
+        //     return $page;
+        // });
+
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( 10, ['*'], 'comment_page', $page );
+            ->get();
 
-        $comment_collection = $comments->getCollection();
-        $resource = $this->collection( $comment_collection, new Comment_Transformer );
+        //$comment_collection = $comments->getCollection();
+        $resource = $this->collection( $comments, new Comment_Transformer );
 
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
+        //$resource->setPaginator( new IlluminatePaginatorAdapter( $comments ) );
         
         return $resource;
     }
@@ -72,9 +77,13 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     public function includeFiles( Discussion_Board $item ) {
         $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $files = $item->files()
             ->orderBy( 'created_at', 'DESC' )
-            ->paginate( 10, ['*'], 'file_page', $page );
+            ->paginate( 10 );
 
         $file_collection = $files->getCollection();
         $resource = $this->collection( $file_collection, new File_Transformer );
