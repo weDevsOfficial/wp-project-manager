@@ -25,7 +25,8 @@
         "illuminate/pagination": "<=5.4",
         "illuminate/events": "<=5.4",
         "league/fractal": "<=0.17.0",
-        "a5hleyrich/wp-background-processing": "<=1.0"
+        "a5hleyrich/wp-background-processing": "<=1.0",
+        "tareq1988/wp-eloquent": "0.9"
     },
     "autoload": {
         "classmap": [
