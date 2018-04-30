@@ -16,6 +16,7 @@ use WeDevs\PM\Milestone\Models\Milestone;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\Common\Traits\File_Attachment;
+use Illuminate\Pagination\Paginator;
 
 class Discussion_Board_Controller {
 
@@ -29,10 +30,14 @@ class Discussion_Board_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
 
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
         $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $project_id, $request );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
-                                ->paginate( $per_page, ['*'], 'page', $page );
+                                ->paginate( $per_page );
 
         $discussion_board_collection = $discussion_boards->getCollection();
 

@@ -21,7 +21,7 @@ trait File_Attachment {
                 'fileable_type' => $entity_type,
                 'attachment_id' => $attachment_id,
                 'project_id'    => $entity->project_id,
-                'parent'        => $entity->id,
+                'parent'        => 0,
                 'type'          => isset( $entity->type ) ? $entity->type : 'file'
             ]);
         }
