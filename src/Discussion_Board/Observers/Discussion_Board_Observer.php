@@ -10,6 +10,8 @@ use Reflection;
 class Discussion_Board_Observer extends Model_Observer {
 
     public function created( $resource ) {
+        
+        pmpr($resource->title); die();
         $meta = [
             'discussion_board_title' => $resource->title,
         ];
