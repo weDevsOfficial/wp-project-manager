@@ -13,13 +13,6 @@ class User extends Eloquent {
 
     public $timestamps = false;
 
-    protected $prefix;
-
-    public function __construct() {
-        global $wpdb;
-        $this->prefix = $wpdb->prefix;
-    }
-
     protected $fillable = [
         'user_login',
         'user_nicename',
@@ -34,7 +27,7 @@ class User extends Eloquent {
     protected $dates = ['user_registered'];
 
     public function roles() {
-        return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', $this->prefix . 'pm_role_user', 'user_id', 'role_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', pm_tb_prefix() . 'pm_role_user', 'user_id', 'role_id' )
             ->withPivot('project_id', 'role_id');
     }
 }

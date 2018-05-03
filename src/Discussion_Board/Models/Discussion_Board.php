@@ -16,13 +16,6 @@ class Discussion_Board extends Eloquent {
 
     protected $table = 'pm_boards';
 
-    protected $prefix;
-
-    public function __construct() {
-        global $wpdb;
-        $this->prefix = $wpdb->prefix;
-    }
-
     protected $fillable = [
         'title',
         'description',
@@ -47,13 +40,13 @@ class Discussion_Board extends Eloquent {
     }
 
     public function users() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', $this->prefix . 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion_board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', $this->prefix . 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }

@@ -508,4 +508,9 @@ function pm_get_jed_locale_data( $domain, $language_dir = null ) {
     return $locale;
 }
 
+function pm_tb_prefix() {
+    global $wpdb;
+
+    return $wpdb->prefix;
+}
 
