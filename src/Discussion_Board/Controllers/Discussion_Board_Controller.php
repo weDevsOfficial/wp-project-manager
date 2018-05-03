@@ -72,10 +72,6 @@ class Discussion_Board_Controller {
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         
         $milestone = Milestone::find( $milestone_id );
-
-        $user = wp_get_current_user();
-        $data['created_by'] = $user->ID;
-        $data['updated_by'] = $user->ID;
         $discussion_board = Discussion_Board::create( $data );
 
         if ( $milestone ) {
@@ -109,9 +105,6 @@ class Discussion_Board_Controller {
         $discussion_board = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
-
-        $user = wp_get_current_user();
-        $data['updated_by'] = $user->ID;
 
         $discussion_board->update_model( $data );
 
@@ -166,9 +159,6 @@ class Discussion_Board_Controller {
     }
 
     private function attach_milestone( Discussion_Board $board, Milestone $milestone ) {
-         $user = wp_get_current_user();
-        $$data['created_by'] = $user->ID;
-        $$data['updated_by'] = $user->ID;
         $boardable = Boardable::where( 'boardable_id', $board->id )
             ->where( 'boardable_type', 'discussion_board' )
             ->where( 'board_type', 'milestone' )
@@ -179,14 +169,11 @@ class Discussion_Board_Controller {
                 'boardable_id'   => $board->id,
                 'boardable_type' => 'discussion_board',
                 'board_id'       => $milestone->id,
-                'board_type'     => 'milestone',
-                'created_by'     => $user->ID,
-                'updated_by'     => $user->ID
+                'board_type'     => 'milestone'
             ]);
         } else {
             $boardable->update([
-                'board_id'   => $milestone->id,
-                'updated_by' => $user->ID
+                'board_id'   => $milestone->id
             ]);
         }
     }
