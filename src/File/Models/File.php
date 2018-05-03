@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\File\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Comment\Models\Comment;
@@ -12,6 +12,13 @@ class File extends Eloquent {
     use Model_Events;
 
     protected $table = 'pm_files';
+
+    protected $prefix;
+
+    public function __construct() {
+        global $wpdb;
+        $this->prefix = $wpdb->prefix;
+    }
 
     protected $fillable = [
         'fileable_id',
@@ -26,6 +33,6 @@ class File extends Eloquent {
     ];
 
     public function comments() {
-        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', 'pm_comments', 'id', 'commentable_id', 'fileable_id');
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', $this->prefix . 'pm_comments', 'id', 'commentable_id', 'fileable_id');
     }
 }

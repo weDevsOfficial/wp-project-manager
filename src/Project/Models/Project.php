@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Project\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Project\Project_Status;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Task_List\Models\Task_List;
@@ -28,6 +28,12 @@ class Project extends Eloquent {
     const ARCHIVED   = 3;
 
     protected $table = 'pm_projects';
+    protected $prefix;
+
+    public function __construct() {
+        global $wpdb;
+        $this->prefix = $wpdb->prefix;
+    }
 
     protected $fillable = [
 		'title',
@@ -53,11 +59,11 @@ class Project extends Eloquent {
     }
 
     public function categories() {
-        return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', 'pm_category_project', 'project_id', 'category_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', $this->prefix . 'pm_category_project', 'project_id', 'category_id' );
     }
 
     public function assignees() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', 'pm_role_user', 'project_id', 'user_id' )
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', $this->prefix . 'pm_role_user', 'project_id', 'user_id' )
             ->withPivot( 'project_id', 'role_id' );
     }
 

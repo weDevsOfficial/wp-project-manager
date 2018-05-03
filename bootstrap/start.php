@@ -17,10 +17,10 @@ global $wedevs_pm_pro;
 require __DIR__.'/../vendor/autoload.php';
 
 load_libs();
-load_orm();
-migrate_db();
+//load_orm();
+//migrate_db();
 view();
 load_routes();
 register_routes();
-seed_db();
+//seed_db();
 do_action( 'pm_loaded' );

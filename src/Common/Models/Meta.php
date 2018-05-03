@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Common\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Milestone\Models\Milestone;
 
