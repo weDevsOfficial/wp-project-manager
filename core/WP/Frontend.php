@@ -9,6 +9,7 @@ use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
+use WeDevs\PM\Discussion_Board\Observers\Discussion_Action;
 
 class Frontend {
 
@@ -115,6 +116,7 @@ class Frontend {
 	public function instantiate() {
         Notification::init_transactional_emails();
         new Upgrade();
+        new Discussion_Action();
 	}
 
 	public function register_scripts() {
