@@ -42,4 +42,17 @@ trait Transformer_Manager {
 
         return json_encode( array_merge( $extra, $response ) );
     }
+
+    public function set_created_by( $resource ) {
+        $user = wp_get_current_user();
+        $resource->created_by = $user->ID;
+        $resource->updated_by = $user->ID;
+        return $resource;
+    }
+
+    public function set_updated_by( $resource ) {
+        $user = wp_get_current_user();
+        $resource->updated_by = $user->ID;
+        return $resource;
+    }
 }
