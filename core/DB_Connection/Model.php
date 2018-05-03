@@ -41,10 +41,11 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
 
     protected function fireModelEvent($event, $halt = true) {
         $user = wp_get_current_user();
+        $fillable = $this->getFillable();
 
         switch ( $event ) {
             case 'creating':
-                if ( !empty( $this->created_by )  ) {
+                if ( in_array('created_by', $fillable) ) {
                     $this->created_by = $user->ID;
                     $this->updated_by = $user->ID;
                 }
@@ -55,7 +56,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
            
             case 'updating': 
-                if ( !empty( $this->updated_by )  ) {
+                if ( in_array('updated_by', $fillable) ) {
                     $this->updated_by = $user->ID;
                 }
                 break;
@@ -64,7 +65,6 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 Activity_Log::entry( $this, 'updated' );
                 break;
         }
-
         //Do not remove this line
         return parent::fireModelEvent($event, $halt);
     }
