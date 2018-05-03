@@ -117,7 +117,7 @@ export default {
         newDiscuss: function(args) {
             // Exit from this function, If submit button disabled 
             if ( this.submit_disabled ) {
-                return;
+                //return;
             }
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;

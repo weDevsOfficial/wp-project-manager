@@ -39,22 +39,33 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
         $this->{static::UPDATED_AT} = current_time( 'mysql' );
     }
 
-    protected function fireModelEvent($event, $halt = true){
-        $wp_event = 'pm_'. $event;
-        if ( $event == 'creating' ) {
-            $filable =  $this->getFillable();
+    protected function fireModelEvent($event, $halt = true) {
+        $user = wp_get_current_user();
 
-            if( in_array('created_by', $filable ) ) {
-                $user = get_current_user();
-                $this->created_by = $user->ID;
-                $this->updated_by = $user->ID;
-            }
+        switch ( $event ) {
+            case 'creating':
+                if ( !empty( $this->created_by )  ) {
+                    $this->created_by = $user->ID;
+                    $this->updated_by = $user->ID;
+                }
+                break;
+            
+            case 'created':
+                Activity_Log::entry( $this, 'created' );
+                break;
+           
+            case 'updating': 
+                if ( !empty( $this->updated_by )  ) {
+                    $this->updated_by = $user->ID;
+                }
+                break;
 
-        } elseif ( $event == 'created' ) {
-            Activity_Log::entry( $this, 'created' );
+            case 'updated':
+                Activity_Log::entry( $this, 'updated' );
+                break;
         }
 
-        //do_action( $wp_event, $this );
+        //Do not remove this line
         return parent::fireModelEvent($event, $halt);
     }
 }
