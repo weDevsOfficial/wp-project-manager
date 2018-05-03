@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Comment\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;

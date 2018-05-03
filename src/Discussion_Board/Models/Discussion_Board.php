@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Discussion_Board\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\File\Models\File;
@@ -15,6 +15,13 @@ class Discussion_Board extends Eloquent {
     use Model_Events;
 
     protected $table = 'pm_boards';
+
+    protected $prefix;
+
+    public function __construct() {
+        global $wpdb;
+        $this->prefix = $wpdb->prefix;
+    }
 
     protected $fillable = [
         'title',
@@ -40,13 +47,13 @@ class Discussion_Board extends Eloquent {
     }
 
     public function users() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', $this->prefix . 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion_board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', $this->prefix . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }

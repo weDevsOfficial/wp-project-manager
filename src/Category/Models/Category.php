@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Category\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Project\Models\Project;
 
@@ -13,6 +13,13 @@ class Category extends Eloquent {
 
     protected $table = 'pm_categories';
 
+    protected $prefix;
+
+    public function __construct() {
+        global $wpdb;
+        $this->prefix = $wpdb->prefix;
+    }
+
     protected $fillable = [
         'title',
         'description',
@@ -22,6 +29,6 @@ class Category extends Eloquent {
     ];
 
     public function projects() {
-        return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', 'pm_category_project', 'category_id', 'project_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', $this->prefix . 'pm_category_project', 'category_id', 'project_id' );
     }
 }

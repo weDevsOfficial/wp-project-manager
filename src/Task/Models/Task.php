@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Task\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 use WeDevs\PM\Task\Task_Model_Trait;
 use WeDevs\PM\Task_List\Models\Task_List;
@@ -24,6 +24,13 @@ class Task extends Eloquent {
     const INCOMPLETE = 0;
     const COMPLETE   = 1;
     const PENDING    = 2;
+
+    protected $prefix;
+
+    public function __construct() {
+        global $wpdb;
+        $this->prefix = $wpdb->prefix;
+    }
 
     protected $fillable = [
         'title',

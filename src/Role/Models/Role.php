@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Role\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\Common\Traits\Model_Events;
 
 class Role extends Eloquent {

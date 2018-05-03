@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Activity\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Project\Models\Project;
 
