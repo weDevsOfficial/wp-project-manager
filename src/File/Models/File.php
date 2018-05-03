@@ -13,13 +13,6 @@ class File extends Eloquent {
 
     protected $table = 'pm_files';
 
-    protected $prefix;
-
-    public function __construct() {
-        global $wpdb;
-        $this->prefix = $wpdb->prefix;
-    }
-
     protected $fillable = [
         'fileable_id',
         'fileable_type',
@@ -33,6 +26,6 @@ class File extends Eloquent {
     ];
 
     public function comments() {
-        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', $this->prefix . 'pm_comments', 'id', 'commentable_id', 'fileable_id');
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', pm_tb_prefix() . 'pm_comments', 'id', 'commentable_id', 'fileable_id');
     }
 }

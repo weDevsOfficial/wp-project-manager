@@ -28,12 +28,6 @@ class Project extends Eloquent {
     const ARCHIVED   = 3;
 
     protected $table = 'pm_projects';
-    protected $prefix;
-
-    public function __construct() {
-        global $wpdb;
-        $this->prefix = $wpdb->prefix;
-    }
 
     protected $fillable = [
 		'title',
@@ -59,11 +53,11 @@ class Project extends Eloquent {
     }
 
     public function categories() {
-        return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', $this->prefix . 'pm_category_project', 'project_id', 'category_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', pm_tb_prefix() . 'pm_category_project', 'project_id', 'category_id' );
     }
 
     public function assignees() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', $this->prefix . 'pm_role_user', 'project_id', 'user_id' )
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_role_user', 'project_id', 'user_id' )
             ->withPivot( 'project_id', 'role_id' );
     }
 

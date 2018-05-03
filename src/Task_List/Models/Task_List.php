@@ -41,7 +41,7 @@ class Task_List extends Eloquent {
     }
 
     public function tasks() {
-        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
             ->where( 'board_type', 'task_list' )
             ->withPivot( 'order' );
@@ -52,7 +52,7 @@ class Task_List extends Eloquent {
     }
 
     public function assignees() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'task_list' )
             ->where( 'boardable_type', 'user' );
     }
@@ -62,7 +62,7 @@ class Task_List extends Eloquent {
     }
 
     public function milestones() {
-        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'task_list' );
     }
