@@ -15,6 +15,8 @@ trait File_Attachment {
         
         $attachment_ids = File_System::multiple_upload( $files );
 
+        $user = wp_get_current_user();
+
         foreach ( $attachment_ids as $attachment_id ) {
             File::create([
                 'fileable_id'   => $entity->id,
@@ -22,7 +24,9 @@ trait File_Attachment {
                 'attachment_id' => $attachment_id,
                 'project_id'    => $entity->project_id,
                 'parent'        => 0,
-                'type'          => isset( $entity->type ) ? $entity->type : 'file'
+                'type'          => isset( $entity->type ) ? $entity->type : 'file',
+                'created_by'    => $user->ID,
+                'updated_by'    => $user->ID
             ]);
         }
     }
