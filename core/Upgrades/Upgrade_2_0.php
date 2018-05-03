@@ -762,7 +762,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     'fileable_id'   => $newDiscuss->id,
                     'fileable_type' => 'discussion_board',
                     'parent'        => 0,
-                    'type'          => 'file',
+                    'type'          => 'discussion_board',
                     'attachment_id' => $file,
                     'project_id'    => $newDiscuss->project_id,
                     'created_by'    => $newDiscuss->created_by,
@@ -1005,7 +1005,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 $this->add_file( [
                     'fileable_id'   => $newComment->id,
                     'fileable_type' => 'comment',
-                    'parent'        => $newComment->id,
+                    'parent'        => 0,
                     'type'          => 'file',
                     'attachment_id' => $file,
                     'project_id'    => $newComment->project_id,
