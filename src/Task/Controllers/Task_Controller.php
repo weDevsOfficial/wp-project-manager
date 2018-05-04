@@ -170,10 +170,7 @@ class Task_Controller {
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
         
-        $task = Task::with('assignees')
-            ->where( 'project_id', $project_id )
-            ->where( 'id', $task_id )
-            ->first();
+        $task = Task::with('assignees')->find( $task_id );
 
         if ( $task && pm_user_can_complete_task( $task ) ) {
             $task->status = $request->get_param( 'status' );
