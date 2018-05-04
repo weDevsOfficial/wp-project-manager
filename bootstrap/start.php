@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
@@ -13,8 +12,8 @@
 */
 global $wedevs_pm_pro;
 
-
 require __DIR__.'/../vendor/autoload.php';
+
 
 load_libs();
 //load_orm();
