@@ -10,6 +10,8 @@ use WeDevs\PM\Activity\Activity_Log;
  */
 class Model extends \WeDevs\ORM\Eloquent\Model {
 
+    protected static $pmFireEvent = true;
+
     /**
      * Get the table name with WP prefix
      *
@@ -40,12 +42,17 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
     }
 
     protected function fireModelEvent($event, $halt = true) {
+        
+        if ( !static::$pmFireEvent ) {
+            return true;
+        }
+
         $user = wp_get_current_user();
         $fillable = $this->getFillable();
 
         switch ( $event ) {
             case 'creating':
-                if ( in_array('created_by', $fillable) ) {
+                if ( in_array('created_by', $fillable, true) ) {
                     $this->created_by = $user->ID;
                     $this->updated_by = $user->ID;
                 }
@@ -56,7 +63,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
            
             case 'updating': 
-                if ( in_array('updated_by', $fillable) ) {
+                if ( in_array('updated_by', $fillable, true) ) {
                     $this->updated_by = $user->ID;
                 }
                 break;
@@ -67,5 +74,16 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
         }
         //Do not remove this line
         return parent::fireModelEvent($event, $halt);
+    }
+
+    /**
+     * Unset the event dispatcher for models.
+     *
+     * @return void
+     */
+    public static function unsetEventDispatcher() {
+        static::$pmFireEvent = false;
+
+        parent::unsetEventDispatcher();
     }
 }

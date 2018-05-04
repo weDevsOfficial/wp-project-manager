@@ -25,13 +25,6 @@ class Task extends Eloquent {
     const COMPLETE   = 1;
     const PENDING    = 2;
 
-    protected $prefix;
-
-    public function __construct() {
-        global $wpdb;
-        $this->prefix = $wpdb->prefix;
-    }
-
     protected $fillable = [
         'title',
         'description',
@@ -73,13 +66,13 @@ class Task extends Eloquent {
     }
 
     public function task_lists() {
-        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', $this->prefix . 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( pm_tb_prefix() . 'pm_boardables.board_type', 'task_list')
             ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
     }
 
     public function boards() {
-        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', $this->prefix . 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
     }
 
