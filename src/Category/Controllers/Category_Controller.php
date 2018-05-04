@@ -10,7 +10,8 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Category\Transformers\Category_Transformer;
-use Illuminate\Database\Capsule\Manager as DB;
+// use Illuminate\Database\Capsule\Manager as DB;
+use \WeDevs\ORM\Eloquent\Facades\DB;
 
 class Category_Controller {
 
@@ -100,7 +101,7 @@ class Category_Controller {
         $category_ids = $request->get_param( 'category_ids' );
         
         if ( is_array( $category_ids ) ) {
-            DB::table('pm_category_project')->whereIn( 'category_id', $category_ids )->delete();
+            DB::table( 'pm_category_project' )->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
         }
 

@@ -84,7 +84,6 @@ export default {
         afterNewMilestoneUpdateMeta (state) {
             state.milestone_meta.total = state.milestone_meta.total + 1;
             state.milestone_meta.total_pages = Math.ceil( state.milestone_meta.total / state.milestone_meta.per_page );
-            console.log(state.milestone_meta);
         },
 
         balankTemplateStatus (state, status) {
