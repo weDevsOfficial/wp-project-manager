@@ -11,6 +11,9 @@
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+define('PM_FILE', __FILE__);
+
 require __DIR__.'/bootstrap/start.php';
 
 

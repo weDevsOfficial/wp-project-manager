@@ -29,6 +29,13 @@ class Frontend {
 
         // Initialize the action hooks
         $this->init_filters();
+
+        //Execute only plugin install time
+		register_activation_hook( PM_FILE, array( $this, 'install' ) );
+	}
+
+	public function install() {
+		
 	}
 
 	/**
