@@ -9,6 +9,7 @@ use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
+use PM_Create_Table;
 
 class Frontend {
 
@@ -35,7 +36,8 @@ class Frontend {
 	}
 
 	public function install() {
-		
+		new PM_Create_Table;
+		(new \RoleTableSeeder())->run();
 	}
 
 	/**
