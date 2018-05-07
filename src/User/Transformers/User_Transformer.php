@@ -46,7 +46,9 @@ class User_Transformer extends TransformerAbstract {
             $roles = $user->roles->unique( 'id' )->all();
         } else {
             $project_id = (int) str_replace('projects/', '', $matches[0][0]);
-            $roles = $user->roles->where( 'pivot.project_id', $project_id );
+            $roles = $user->roles->filter( function( $role ) use ( $project_id ) {
+                return $role['pivot']['project_id'] == $project_id ;
+            });
         }
 
         return $this->collection( $roles, new Role_Transformer );
