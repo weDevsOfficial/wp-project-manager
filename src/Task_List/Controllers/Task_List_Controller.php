@@ -85,6 +85,7 @@ class Task_List_Controller {
             'message' => pm_get_text('success_messages.task_list_created')
         ];
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_tasklist_new', $task_list->id, $request->get_param( 'project_id' ), $request->get_params() );
         do_action( 'pm_after_new_task_list', $response, $request->get_params() );
         return $response;
     }
@@ -114,6 +115,7 @@ class Task_List_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
         do_action( 'pm_after_update_task_list', $response, $request->get_params() );
         return $response;
     }
@@ -127,12 +129,13 @@ class Task_List_Controller {
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        do_action( 'cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $this->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
+        do_action( 'cpm_delete_tasklist_after', $task_list_id );
         $message = [
             'message' => pm_get_text('success_messages.task_list_deleted')
         ];
