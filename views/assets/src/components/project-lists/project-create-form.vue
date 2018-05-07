@@ -237,7 +237,6 @@
             setProjectUser () {
                 var projects = this.$root.$store.state.projects;
                 var index = this.getIndex(projects, this.project_id, 'id');
-                
                 if ( index !== false && this.is_update ) {
                     this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
                 } else {
