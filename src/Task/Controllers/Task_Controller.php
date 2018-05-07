@@ -93,7 +93,7 @@ class Task_Controller {
             $task = Task::create( $data );
 
         }
-
+        do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
             $boardable    = Boardable::create([
@@ -108,6 +108,7 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
+        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
         do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
@@ -167,10 +168,12 @@ class Task_Controller {
     public function update( WP_REST_Request $request ) {
         $data       = $request->get_params();
         $project_id = $request->get_param( 'project_id' );
+        $list_id    = $request->get_param( 'list_id' );
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
         
         $task = Task::with('assignees')->find( $task_id );
+        do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
 
         if ( $task && pm_user_can_complete_task( $task ) ) {
             $task->status = $request->get_param( 'status' );
@@ -183,7 +186,7 @@ class Task_Controller {
                 $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
                 $this->attach_assignees( $task, $assignees );
             }
-            
+            do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
             do_action('pm_after_update_task', $task, $request->get_params() );
         }
         
@@ -205,6 +208,7 @@ class Task_Controller {
             ->where( 'project_id', $project_id )
             ->first();
         do_action("pm_before_delete_task", $task, $request->get_params() );
+        do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
         // Delete relations assoicated with the task
         $task->boardables()->delete();
         $task->files()->delete();
@@ -218,6 +222,7 @@ class Task_Controller {
 
         // Delete the task
         $task->delete();
+        do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
         $message = [
             'message' => pm_get_text('success_messages.task_deleted')
         ];

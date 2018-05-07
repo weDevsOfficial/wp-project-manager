@@ -88,6 +88,7 @@ class Discussion_Board_Controller {
         ];
         $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_message_new', $discussion_board->id, $request->get_params( 'project_id' ), $request->get_params() );
         do_action( 'pm_after_new_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
@@ -128,6 +129,7 @@ class Discussion_Board_Controller {
         
         $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
         do_action( 'pm_after_update_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
@@ -140,6 +142,7 @@ class Discussion_Board_Controller {
             ->where( 'project_id', $project_id )
             ->first();
         do_action( 'pm_before_delete_message', $discussion_board, $request->get_params() );
+        do_action( 'cpm_message_delete', $discussion_board_id, false );
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();

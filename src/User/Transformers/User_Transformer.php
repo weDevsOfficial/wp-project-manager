@@ -22,7 +22,7 @@ class User_Transformer extends TransformerAbstract {
         }
 
         $data = [
-            'id'           => $user->ID,
+            'id'           => (int) $user->ID,
             'username'     => $user->user_login,
             'nicename'     => $user->user_nicename,
             'email'        => $user->user_email,

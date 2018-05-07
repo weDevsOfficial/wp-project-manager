@@ -107,6 +107,7 @@ class Milestone_Controller {
             'message' => pm_get_text('success_messages.milestone_created')
         ];
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_milestone_new', $milestone->id, $request->get_param( 'project_id' ), $request->get_params() );
         do_action("pm_after_new_milestone", $response, $request->get_params() );
 
         return $response;
@@ -156,7 +157,9 @@ class Milestone_Controller {
 
             $meta->meta_value = $status;
             $meta->save();
+            do_action( 'cpm_milestone_complete', $milestone->id, $status );
         }
+        do_action( 'cpm_milestone_update', $milestone_id, $project_id, $request->get_params() );
         do_action("pm_update_milestone_before_response", $milestone, $request->get_params() );
         $resource = new Item( $milestone, new Milestone_Transformer );
 
@@ -185,6 +188,7 @@ class Milestone_Controller {
         $message = [
             'message' => pm_get_text('success_messages.milestone_deleted')
         ];
+        do_action( 'cpm_milestone_delete', $milestone_id, false );
 
         return $this->get_response(false, $message);
     }

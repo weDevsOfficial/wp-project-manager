@@ -86,7 +86,11 @@ class Comment_Controller {
         $message = [
             'message' => pm_get_text('success_messages.comment_created')
         ];
+
+        do_action( 'cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
+        
         $response = $this->get_response( $resource, $message );
+        
         do_action( 'pm_after_new_comment', $response, $request->get_params());
         return $response;
     }
@@ -123,6 +127,7 @@ class Comment_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
+        do_action( 'cpm_comment_update', $comment->id, $request->get_param('project_id'), $response );
         do_action( 'pm_after_update_comment', $response, $request->get_params());
         return $response;
     }
@@ -130,7 +135,7 @@ class Comment_Controller {
     public function destroy( WP_REST_Request $request ) {
         $comment_id = $request->get_param( 'comment_id' );
         $comment    = Comment::find( $comment_id );
-
+        do_action( 'cpm_comment_delete', $comment, false );
         $this->detach_files( $comment );
         $comment->replies()->delete();
         $comment->files()->delete();

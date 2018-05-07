@@ -13,6 +13,7 @@ Class File_System {
 
         $uploaded_file = wp_handle_upload( $file, array( 'test_form' => false ) );
         $attachment_id = self::attachment_id( $uploaded_file );
+        do_action( 'cpm_after_upload_file', $$attachment_id );
 
         return $attachment_id;
     }
@@ -158,6 +159,7 @@ Class File_System {
     }
 
     public static function delete( $file_id, $force = true ) {
+        do_action( 'cpm_delete_attachment', $file_id, $force );
         wp_delete_attachment( $file_id, $force );
     }
 

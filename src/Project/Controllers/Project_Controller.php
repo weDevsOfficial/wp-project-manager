@@ -148,7 +148,7 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
-
+		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated 
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
         return $response;
@@ -175,7 +175,7 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_updated');
-
+		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
 		
         return $response;
@@ -186,6 +186,8 @@ class Project_Controller {
 
 		// Find the requested resource
 		$project =  Project::find( $id );
+		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated 
+		do_action( 'cpm_project_delete', $id, true );
 		do_action( 'pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
@@ -203,6 +205,7 @@ class Project_Controller {
 		// Delete the main resource
 		$project->delete();
 		do_action( 'pm_after_delete_project', $request->get_params() );
+		do_action( 'cpm_delete_project_after', $id );
 		return [
 			'message' => pm_get_text('success_messages.project_deleted')
 		];
