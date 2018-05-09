@@ -5,7 +5,7 @@
         </div>
         
         <div class="item due">
-            <pm-datepickter v-model="due_date" class="pm-datepickter-to" dependency="pm-datepickter-from"></pm-datepickter>
+            <pm-datepickter v-model="due_date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="due_date_text"></pm-datepickter>
         </div>
 
         <div class="item detail">
@@ -41,6 +41,7 @@
             return {
                 submit_disabled: false,
                 show_spinner: false,
+                due_date_text: __( 'Due Date', 'pm' ),
                 milestone_name: __( 'Milestone name', 'pm' ),
                 add_milestone: __( 'Add Milestone', 'pm' ),
                 update_milestone: __( 'Update Milestone', 'pm' ),
