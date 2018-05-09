@@ -1333,7 +1333,7 @@ var CPM_Task_Single = {
         },
     },
     watch: {
-        '$route' (route) {
+        '$route': function (route) {
             this.getTask();
             window.addEventListener('click', this.windowActivity);
 
