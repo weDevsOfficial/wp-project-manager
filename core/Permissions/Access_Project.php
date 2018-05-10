@@ -9,6 +9,7 @@ class Access_Project extends Abstract_Permission {
    
     public function check() {
         $project_id = $this->request->get_param( 'project_id' );
+
         if ( empty($project_id) ){
             $project_id = $this->request->get_param( 'id' );
         }
