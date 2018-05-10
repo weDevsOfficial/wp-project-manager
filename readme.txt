@@ -122,6 +122,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.15 - May 10, 2018 =
+
+ * [fixed] Task list is not showing when using the Internet Explorer browser.
+ * [fixed] Projects dashboard display missing alignment.
+ * [Update] Improved plugins text domain.
+
 = 1.6.14 - April 26, 2018 =
 
  * [fixed] Task is not showing after clicking on a task from the calendar.
