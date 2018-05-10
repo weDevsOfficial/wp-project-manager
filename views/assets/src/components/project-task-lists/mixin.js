@@ -66,6 +66,30 @@ var PM_TaskList_Mixin = {
         can_complete_task (task) {
             return !task.meta.can_complete_task;
         },
+        can_edit_task_list (lsit) {
+            var user = PM_Vars.current_user;
+            if (this.is_manager()) {
+                return true;
+            }
+
+            if ( lsit.creator.data.id == user.ID ){
+                return true;
+            }
+
+            return false;
+        },
+        can_edit_task (task) {
+            var user = PM_Vars.current_user;
+            if (this.is_manager()) {
+                return true;
+            }
+
+            if ( task.creator.data.id == user.ID ){
+                return true;
+            }
+
+            return false;
+        },
         /**
          * Get task completed progress width
          * 
@@ -150,6 +174,11 @@ var PM_TaskList_Mixin = {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call (self, res.data);
                     }
+                },
+                error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             };
             self.httpRequest(request);
@@ -248,8 +277,8 @@ var PM_TaskList_Mixin = {
 
                 error (res) {
                     // Showing error
-                    res.data.error.map(function(value, index) {
-                      pm.Toastr.error(value);
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
                     });
 
                     if( typeof args.callback === 'function' ) {
@@ -294,7 +323,7 @@ var PM_TaskList_Mixin = {
                 },
                 error (res) {
                     // Showing error
-                    res.data.error.map(function(value, index) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
 
@@ -351,6 +380,11 @@ var PM_TaskList_Mixin = {
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
                     }
+                },
+                error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             if ( args.list_id ) {
@@ -437,7 +471,7 @@ var PM_TaskList_Mixin = {
 
                 error (res) {
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
 
@@ -489,7 +523,7 @@ var PM_TaskList_Mixin = {
 
                 error (res) {
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
 
@@ -542,6 +576,11 @@ var PM_TaskList_Mixin = {
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
+                },
+                error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             this.httpRequest(request_data);
@@ -591,6 +630,9 @@ var PM_TaskList_Mixin = {
                   
                 },
                 error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
                     }
@@ -645,6 +687,9 @@ var PM_TaskList_Mixin = {
                   
                 },
                 error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                     if( typeof args.callback === 'function'){
                         args.callback.call(self, res)
                     }
@@ -1251,7 +1296,9 @@ var PM_TaskList_Mixin = {
                 },
 
                 error (res) {
-                  
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             self.httpRequest(request_data);

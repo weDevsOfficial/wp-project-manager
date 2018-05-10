@@ -53,7 +53,7 @@
                                 </span>
                             </router-link>
                     </span>
-                    <a v-if="PM_Vars.is_pro" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+                    <a v-if="PM_Vars.is_pro && can_edit_task(task)" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     <div class="pm-clearfix"></div>
 
@@ -73,7 +73,7 @@
                 <div class="clearfix"></div>
 
                 <div class="pm-list-action-wrap">
-                    <div class="pm-list-action" v-if="can_create_task">
+                    <div class="pm-list-action" v-if="can_edit_task(task)">
 
                         <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
                             <span class="">{{ __('Edit', 'pm') }} |</span>
@@ -88,7 +88,7 @@
             
             <do-action v-if="!isSingleTask" :hook="'after_task_content'" :actionData="doActionData"></do-action>
         </div>
-        <transition name="slide" v-if="can_create_task">
+        <transition name="slide" v-if="can_edit_task(task)">
             <div class="pm-todo-form" v-if="task.edit_mode">
                 <new-task-form :task="task" :list="list"></new-task-form>
             </div>
