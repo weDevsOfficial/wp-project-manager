@@ -91,7 +91,7 @@
                                     </div>
                                 </router-link>
 
-                                <div class="pm-col-1" v-if="can_create_message">
+                                <div class="pm-col-1" v-if="can_edit_message(discuss)">
                                     <span class="pm-message-action pm-right">
                                         <a :title="edit" @click.prevent="showHideDiscussForm('toggle', discuss)" class="pm-msg-edit dashicons dashicons-edit"></a>
                                         <a href="" @click.prevent="deleteSelfDiscuss(discuss.id)" class="delete-message" :title="delete_this_message">

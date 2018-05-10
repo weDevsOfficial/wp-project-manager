@@ -51,6 +51,17 @@ export default {
             }
             return results;
         },
+        can_edit_comment (commnet) {
+            var user = PM_Vars.current_user;
+            if (this.is_manager()) {
+                return true;
+            }
+            if ( commnet.creator.data.id == user.ID ){
+                return true;
+            }
+
+            return false;
+        },
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
         },
