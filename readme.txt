@@ -129,6 +129,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fixed] Category menu selection while creating project not working on RLT.
  * [fixed] RTL display missing alignment on milestone.
 
+= 1.6.15 - May 10, 2018 =
+
+ * [fixed] Task list is not showing when using the Internet Explorer browser.
+ * [fixed] Projects dashboard display missing alignment.
+ * [Update] Improved plugin strings.
+
 = 1.6.13 - April 12, 2018 =
 
  * [fixed] RTL display missing alignment.
