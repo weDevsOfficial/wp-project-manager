@@ -18,9 +18,14 @@ class Edit_Task extends Abstract_Permission {
         	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
 	            return true;
 	        }
-	        if ( Task::find( $id )->created_by == $user_id ){
+            $task = Task::with('assignees')->find( $id );
+	        if ( $task->created_by == $user_id ){
 	        	return true;
 	        }
+
+            if ( pm_user_can_complete_task( $task, $user_id ) ) {
+                return true;
+            }
 
         }
 
