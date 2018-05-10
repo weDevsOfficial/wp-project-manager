@@ -48,13 +48,13 @@
                 </div>
 
 
-                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_create_task">
+                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task)">
                     <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
-         <transition name="slide" v-if="can_create_task">
+         <transition name="slide" v-if="can_edit_task(task)">
             <div class="pm-todo-form" v-if="task.edit_mode">
                 <new-task-form :task="task" :list="list"></new-task-form>
             </div>

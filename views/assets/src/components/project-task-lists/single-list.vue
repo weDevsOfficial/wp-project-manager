@@ -38,7 +38,7 @@
                                 <h3>
                                     {{ list.title }}
                                    
-                                    <div class="pm-right" v-if="can_create_list">
+                                    <div class="pm-right" v-if="can_edit_task_list(list)">
                                         <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="delete_task_list" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)"  v-if="PM_Vars.is_pro"><span :class="privateClass(list.meta.privacy)"></span> </a>

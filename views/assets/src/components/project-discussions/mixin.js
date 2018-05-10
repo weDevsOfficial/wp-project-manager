@@ -370,7 +370,7 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
                     self.submit_disabled = false;
@@ -453,7 +453,7 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
                     self.submit_disabled = false;
@@ -539,6 +539,11 @@ export default {
                     } );
                     self.$store.commit('updateProjectMeta', 'total_activities');
    
+                },
+                error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             

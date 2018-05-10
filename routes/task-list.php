@@ -17,16 +17,16 @@ $router->get( 'projects/{project_id}/task-lists/{task_list_id}', 'WeDevs/PM/Task
 ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->put( 'projects/{project_id}/task-lists/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@update' )
-->permission(['WeDevs\PM\Core\Permissions\Create_Task_List']);
+->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
 
 $router->delete( 'projects/{project_id}/task-lists/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@destroy' )
-->permission(['WeDevs\PM\Core\Permissions\Create_Task_List']);
+->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
 
 $router->put( 'projects/{project_id}/task-lists/{task_list_id}/attach-users', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@attach_users' )
-->permission(['WeDevs\PM\Core\Permissions\Create_Task_List']);
+->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
 
 $router->put( 'projects/{project_id}/task-lists/{task_list_id}/detach-users', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@detach_users' )
-->permission(['WeDevs\PM\Core\Permissions\Create_Task_List']);
+->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
 
 $router->post( 'projects/{project_id}/task-lists/privacy/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@privacy' )
-->permission(['WeDevs\PM\Core\Permissions\Create_Task_List']);
+->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
