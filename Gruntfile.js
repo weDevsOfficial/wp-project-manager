@@ -74,6 +74,11 @@ module.exports = function(grunt) {
                 cmd: 'npm',
                 args: ['run', 'makepot']
             },
+
+            dumpautoload:{
+                cmd: 'composer',
+                args: ['dumpautoload', '-o']
+            },
             
         }
     });
