@@ -1,5 +1,5 @@
 <template>
- <ul class="pm-links pm-right" v-if="user_can('create_milestone')">
+ <ul class="pm-links pm-right" v-if="can_edit_milestone(milestone)">
     <li>
         <a @click.prevent="showHideMilestoneForm('toggle', milestone)" class="pm-icon-edit dashicons dashicons-edit " :title="edit_milestone"></a>
     </li>
