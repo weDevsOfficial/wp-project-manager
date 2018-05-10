@@ -17,13 +17,16 @@ $router->post( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_
 
 $router->get( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@show' )
     ->permission([$access]);
+
 $router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@update' )
-    ->permission([$create_discuss]);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
-$router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' );
+$router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' )
+	->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
-$router->delete( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@destroy' )->permission([$create_discuss]);
+$router->delete( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@destroy' )
+	->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
-$router->put( 'projects/{project_id}/discussion-boards/{discussion_board_id}/attach-users', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@attach_users' )->permission([ $create_discuss]);
+$router->put( 'projects/{project_id}/discussion-boards/{discussion_board_id}/attach-users', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@attach_users' )->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
-$router->put( 'projects/{project_id}/discussion-boards/{discussion_board_id}/detach-users', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@detach_users' )->permission([$create_discuss]);
+$router->put( 'projects/{project_id}/discussion-boards/{discussion_board_id}/detach-users', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@detach_users' )->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);

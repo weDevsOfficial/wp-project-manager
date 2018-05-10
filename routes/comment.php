@@ -17,7 +17,7 @@ $router->get( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/
     ->permission([$access]);
 
 $router->post( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@update' )
-    ->permission([$access]);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment']);
 
 $router->delete( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@destroy' )
-    ->permission([$access]);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment']);

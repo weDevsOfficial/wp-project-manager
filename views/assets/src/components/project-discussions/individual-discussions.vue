@@ -21,7 +21,7 @@
                     <h3 class="pm-box-title">
                         {{discuss.title}}          
                         <span class="pm-right pm-edit-link">
-                            <span v-if="can_create_message" >
+                            <span v-if="can_edit_message(discuss)" >
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
@@ -51,7 +51,7 @@
                         </ul>
 
                     </div>
-                    <transition name="slide" v-if="can_create_message" >
+                    <transition name="slide" v-if="can_edit_message(discuss)" >
                         <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
                     </transition>
                 </div>
@@ -81,7 +81,7 @@
                                     
                                 </span>
 
-                                <div class="pm-comment-action">
+                                <div class="pm-comment-action" v-if="can_edit_comment(comment)" >
                                     <span class="pm-edit-link">
                                         <a @click.prevent="showHideDiscussCommentForm('toggle', comment)" href="#" class="pm-edit-comment-link dashicons dashicons-edit "></a>
                                     </span>
@@ -108,7 +108,7 @@
 
                             </div>
 
-                            <transition name="slide" >
+                            <transition name="slide" v-if="can_edit_comment(comment)" >
                                <comment-form v-if="comment.edit_mode" :comment="comment" :discuss="discuss"></comment-form> 
                             </transition>
                         </div>
