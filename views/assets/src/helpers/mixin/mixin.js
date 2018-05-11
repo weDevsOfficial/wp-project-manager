@@ -30,8 +30,9 @@ export default {
         is_user_in_project () {
             return pmIsUserInProject( this.$store.state.project );
         },
-        is_manager () {
-            return pmIsManager( this.$store.state.project )
+        is_manager (project) {
+            var project = project || this.$store.state.project
+            return pmIsManager(project);
         },
         has_manage_capability () {
             return pmHasManageCapability();

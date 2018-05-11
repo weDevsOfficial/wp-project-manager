@@ -122,7 +122,7 @@
             </footer>
 
             <div class="pm-project-action-icon">
-                <div class="pm-project-action">
+                <div class="pm-project-action" v-if="is_manager(project)">
                     <span @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
