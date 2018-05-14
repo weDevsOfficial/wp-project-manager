@@ -1490,8 +1490,6 @@ ul.pm-activity ul li:before {
 .pm-comment-form .item.detail,
 .pm-message-form .item.detail,
 .pm-milestone-form .item.detail {
-  border: 1px solid #ddd;
-  padding-top: 7px;
   margin-bottom: 15px;
 }
 .pm-comment-form .item.detail trix-editor,

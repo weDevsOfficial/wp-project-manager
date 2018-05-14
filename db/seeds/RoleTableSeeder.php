@@ -15,12 +15,16 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
+        $user = wp_get_current_user();
+
         if (!Role::count()) {
             Role::insert([
                 [
                     'title'       => 'Manager',
                     'slug'        => 'manager',
                     'description' => 'Manager is a person who manages the project.',
+                    'created_by'  => $user->ID,
+                    'updated_by'  => $user->ID,
                     'created_at'  => Carbon::now(),
                     'updated_at'  => Carbon::now(),
                 ],
@@ -28,6 +32,8 @@ class RoleTableSeeder extends Seeder
                     'title'       => 'Co Worker',
                     'slug'        => 'co_worker',
                     'description' => 'Co-worker is person who works under a project.',
+                    'created_by'  => $user->ID,
+                    'updated_by'  => $user->ID,
                     'created_at'  => Carbon::now(),
                     'updated_at'  => Carbon::now(),
                 ],

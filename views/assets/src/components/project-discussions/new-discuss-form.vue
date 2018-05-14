@@ -37,26 +37,6 @@
     </div>
 </template>
 
-<style>
-    .pm-msg-edit-form .item.detail {
-        border: 0;
-    }
-
-    .pm-msg-edit-form .notify-users {
-        box-shadow: none;
-    }
-    .pm-msg-edit-form .pm-user-list li {
-        border: none !important;
-        padding: 10px !important;
-    }
-    .pm-msg-edit-form .pm-user-list li:hover {
-        border: none !important;
-        padding: 10px !important;
-        background: #ffffff !important;
-    }
-
-</style>
-
 <script>
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader.vue';
