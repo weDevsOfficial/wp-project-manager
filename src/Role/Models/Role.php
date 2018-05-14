@@ -17,4 +17,8 @@ class Role extends Eloquent {
         'created_by',
         'updated_by',
     ];
+
+    public function newQuery( $except_deleted = true ) {
+        return parent::newQuery( $except_deleted )->where( 'status', 1 );
+    }
 }

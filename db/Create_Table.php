@@ -256,6 +256,7 @@ class PM_Create_Table {
 			  `title` varchar(255) NOT NULL,
 			  `slug` varchar(255) NOT NULL,
 			  `description` text,
+			  `status` tinyint(2) unsigned NOT NULL DEFAULT '1',
 			  `created_by` int(10) UNSIGNED DEFAULT NULL,
 			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
