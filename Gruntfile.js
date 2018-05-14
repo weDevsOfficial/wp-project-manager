@@ -34,6 +34,7 @@ module.exports = function(grunt) {
                     '!plugin-deploy.sh',
                     '!readme.md',
                     '!composer.json',
+                    '!composer.lock',
                     '!secret.json',
                     '!assets/less/**',
                     '!tests/**',
