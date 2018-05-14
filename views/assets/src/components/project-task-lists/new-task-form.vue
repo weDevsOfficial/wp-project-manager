@@ -313,7 +313,7 @@ export default {
             if ( typeof this.task.id !== 'undefined' ) {
                 self.updateTask ( args );
             }else{
-                self.addTask ( args );
+                self.addTask ( args, this.list );
             }
         }
     }
