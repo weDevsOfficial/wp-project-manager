@@ -69,7 +69,6 @@
                                     </div>
                                 </transition>
                             </header>
-
                             <!-- Todos component -->
                             <list-tasks :list="list"></list-tasks>
 

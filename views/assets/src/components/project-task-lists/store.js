@@ -193,6 +193,12 @@ export default {
             if ( data.task.status === 'incomplete' ) {
 
                 if(typeof state.lists[list_index].incomplete_tasks !== 'undefined'){
+
+                    if( typeof data.task.task_list === 'undefined') {
+                        data.task.task_list = {
+                            data: data.list 
+                        };
+                    }
                     state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
                 }else{
                     state.lists[list_index].incomplete_tasks = { data: data.task };
