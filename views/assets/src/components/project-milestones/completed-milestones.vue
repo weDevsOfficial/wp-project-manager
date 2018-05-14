@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="pm-milestone-edit-form" v-if="can_create_milestone">
+            <div class="pm-milestone-edit-form" v-if="can_edit_milestone(milestone)">
                 <transition name="slide">
                     <new-milestone-form section="milestones" v-if="milestone.edit_mode" :milestone="milestone"></new-milestone-form>
                 </transition>

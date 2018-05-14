@@ -22,7 +22,7 @@
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, task)" -->
-                        <div  class="pm-comment-action">
+                        <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
                             <span class="pm-edit-link">
                                 <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
                             </span>
@@ -47,7 +47,7 @@
                             </li>
                         </ul>
                     </div>
-                    <transition name="slide">
+                    <transition name="slide" v-if="can_edit_comment(comment)" >
                         <div class="pm-comment-edit-form" v-if="comment.edit_mode">
                             <task-comment-form :comment="comment" :comments="comments"></task-comment-form>
                         </div>

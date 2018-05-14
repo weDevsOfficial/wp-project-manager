@@ -5,7 +5,7 @@
             <div class="pm-col-6 pm-project-detail">
                 <h3>
                     <span class="pm-project-title">{{ project.title }}</span>
-                     <a @click.prevent="showHideProjectForm('toggle')" href="#" v-if="has_create_capability()" class="pm-icon-edit pm-project-edit-link small-text">
+                     <a @click.prevent="showHideProjectForm('toggle')" href="#" v-if="is_manager()" class="pm-icon-edit pm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
                         <span class="text">{{  __( 'Edit', 'pm' ) }}</span>
                      </a>
@@ -17,7 +17,7 @@
                 <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'pm' )}}</div>
                 <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'pm' ) }}</div>
             </div>
-            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="has_create_capability()">
+            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="is_manager()">
                 <div class="pm-project-action">
                     <span @click.prevent="showProjectAction()" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
                     <ul v-if="project.settings_hide" class="pm-settings">
@@ -44,7 +44,7 @@
             </div>
 
             <div class="clearfix"></div>
-             <transition name="slide" v-if="has_create_capability()">
+             <transition name="slide" v-if="is_manager()">
                 <div class="pm-edit-project" v-if="is_project_edit_mode">
                     <edit-project :is_update="true"></edit-project>
                 </div>
