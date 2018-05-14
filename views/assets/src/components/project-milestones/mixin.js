@@ -11,6 +11,18 @@ export default {
         }
     },
     methods: {
+        can_edit_milestone (milestone) {
+            var user = PM_Vars.current_user;
+            if (this.is_manager()) {
+                return true;
+            }
+
+            if ( milestone.creator.data.id == user.ID ){
+                return true;
+            }
+
+            return false;
+        },
         showHideMilestoneForm (status, milestone) {
             var milestone   = milestone || false,
                 milestone   = jQuery.isEmptyObject(milestone) ? false : milestone;

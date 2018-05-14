@@ -5,12 +5,22 @@ export default {
 
         }
     },
-    computed: {
+    methods: {
         can_create_message () {
             return this.user_can("create_message");
-        }
-    },
-    methods: {
+        },
+        can_edit_message (message) {
+            var user = PM_Vars.current_user;
+            if (this.is_manager()) {
+                return true;
+            }
+
+            if ( message.creator.data.id == user.ID ){
+                return true;
+            }
+
+            return false;
+        },
         showHideDiscussForm (status, discuss) {
             var discuss   = discuss || false,
                 discuss   = jQuery.isEmptyObject(discuss) ? false : discuss;
@@ -249,9 +259,8 @@ export default {
 
                 error (res) {
                     self.show_spinner = false;
-                    
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
                     self.submit_disabled = false;
@@ -284,6 +293,9 @@ export default {
                 },
 
                 error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                   
                 }
             }
@@ -358,7 +370,7 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
                     self.submit_disabled = false;
@@ -441,7 +453,7 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.data.error.map( function( value, index ) {
+                    res.responseJSON.message.map( function( value, index ) {
                         pm.Toastr.error(value);
                     });
                     self.submit_disabled = false;
@@ -470,7 +482,7 @@ export default {
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
                 type: 'DELETE',
-                success: function(res) {
+                success (res) {
                     self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
 
                     if (!self.$store.state.projectDiscussions.discussion.length) {
@@ -490,6 +502,12 @@ export default {
                     if (typeof args.callback === 'function') {
                         args.callback();
                     } 
+                },
+
+                error ( res ) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             
@@ -521,6 +539,11 @@ export default {
                     } );
                     self.$store.commit('updateProjectMeta', 'total_activities');
    
+                },
+                error (res) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
                 }
             }
             

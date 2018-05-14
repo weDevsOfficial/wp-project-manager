@@ -51,7 +51,7 @@
                                     </router-link>
                                     
                                     <!-- v-if="list.can_del_edit" -->
-                                    <div class="pm-right" v-if="can_create_list">
+                                    <div class="pm-right" v-if="can_edit_task_list(list)">
                                         <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro"><span :class="privateClass( list.meta.privacy )"></span></a>
@@ -62,7 +62,7 @@
                                     {{ list.description }}    
                                 </div>
                                 
-                                <transition name="slide" v-if="can_create_list">
+                                <transition name="slide" v-if="can_edit_task_list(list)">
                                     <div class="pm-update-todolist-form" v-if="list.edit_mode">
 
                                         <new-task-list-form section="lists" :list="list" ></new-task-list-form>
