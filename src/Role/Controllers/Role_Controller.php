@@ -16,7 +16,7 @@ class Role_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $roles = Role::paginate();
+        $roles = Role::where('status', 1)->paginate();
         $role_collection = $roles->getCollection();
         $resource = new Collection( $role_collection, new Role_Transformer );
 
@@ -27,7 +27,7 @@ class Role_Controller {
 
     public function show( WP_REST_Request $request ) {
         $id       = $request->get_param('id');
-        $role     = Role::find( $id );
+        $role     = Role::where('status', 1)->find( $id );
         $resource = new Item( $role, new Role_Transformer );
 
         return $this->get_response( $resource );
