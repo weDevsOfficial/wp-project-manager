@@ -149,6 +149,7 @@ var PM_TaskList_Mixin = {
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists?'+condition,
                 success (res) {
+
                     res.data.map(function(list,index) {
                         self.addMetaList(list);
 
@@ -434,8 +435,9 @@ var PM_TaskList_Mixin = {
          * 
          * @return void
          */
-        addTask ( args ) {
+        addTask ( args, list ) {
             var self      = this,
+            list = list || {},
             pre_define = {
                 data: {
                    
@@ -453,7 +455,8 @@ var PM_TaskList_Mixin = {
                     self.$store.commit( 'projectTaskLists/afterNewTask',
                         {
                             list_id: args.data.list_id,
-                            task: res.data
+                            task: res.data,
+                            list: list
                         }
                     );
 

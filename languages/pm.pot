@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pm\n"
-"POT-Creation-Date: 2018-05-08 03:57:15+00:00\n"
+"POT-Creation-Date: 2018-05-14 03:57:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:63
 #: core/Notifications/Emails/Update_Comment_Notification.php:58
-#: views/assets/js/pm.js:15747
+#: views/assets/js/pm.js:15750
 #: views/assets/src/components/project-overview/directive.js:10
 msgid "Task"
 msgstr ""
@@ -512,106 +512,106 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: views/assets/js/library.js:1346 views/assets/js/pm.js:3842
+#: views/assets/js/library.js:1346 views/assets/js/pm.js:3845
 #: views/assets/src/helpers/mixin/mixin.js:634
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
 
 #: views/assets/js/library.js:3708 views/assets/js/library.js:3899
-#: views/assets/js/library.js:5253 views/assets/js/library.js:5299
-#: views/assets/js/library.js:5437 views/assets/js/library.js:5543
-#: views/assets/js/library.js:6192 views/assets/js/pm.js:5418
-#: views/assets/js/pm.js:20276 views/assets/js/pm.js:21072
-#: views/assets/js/pm.js:21258 views/assets/js/pm.js:21371
-#: views/assets/js/pm.js:21607 views/assets/js/pm.js:21642
-#: views/assets/js/pm.js:21804 views/assets/js/pm.js:21903
-#: views/assets/js/pm.js:22055 views/assets/js/pm.js:22751
-#: views/assets/js/pm.js:22785 views/assets/js/pm.js:22845
-#: views/assets/js/pm.js:23286 views/assets/js/pm.js:23429
-#: views/assets/js/pm.js:23514 views/assets/js/pm.js:24045
-#: views/assets/js/pm.js:24401 views/assets/js/pm.js:24819
-#: views/assets/js/pm.js:25053 views/assets/js/pm.js:25541
-#: views/assets/js/pm.js:25601 views/assets/js/pm.js:25845
-#: views/assets/js/pm.js:25948 views/assets/js/pm.js:26028
-#: views/assets/js/pm.js:26066 views/assets/js/pm.js:26255
-#: views/assets/js/pm.js:26416 views/assets/js/pm.js:26589
-#: views/assets/js/pm.js:26632 views/assets/js/pm.js:26723
-#: views/assets/js/pm.js:26906 views/assets/js/pm.js:26940
-#: views/assets/js/pm.js:27031 views/assets/js/pm.js:27122
-#: views/assets/js/pm.js:27391 views/assets/js/pm.js:27425
-#: views/assets/js/pm.js:27465 views/assets/js/pm.js:27668
-#: views/assets/js/pm.js:27754 views/assets/js/pm.js:28272
-#: views/assets/js/pm.js:28482 views/assets/js/pm.js:28546
-#: views/assets/js/pm.js:28674 views/assets/js/pm.js:28915
-#: views/assets/js/pm.js:29077 views/assets/js/pm.js:29385
-#: views/assets/js/pm.js:29524 views/assets/js/pm.js:30009
-#: views/assets/js/pm.js:30043 views/assets/js/pm.js:30126
-#: views/assets/js/pm.js:30332 views/assets/js/pm.js:30658
-#: views/assets/js/pm.js:30904 views/assets/js/pm.js:30971
-#: views/assets/js/pm.js:31071 views/assets/js/pm.js:31163
-#: views/assets/js/pm.js:31339 views/assets/js/pm.js:31489
-#: views/assets/js/pm.js:31530 views/assets/js/pm.js:31573
-#: views/assets/js/pm.js:31981
+#: views/assets/js/library.js:5256 views/assets/js/library.js:5302
+#: views/assets/js/library.js:5440 views/assets/js/library.js:5546
+#: views/assets/js/library.js:6195 views/assets/js/pm.js:5421
+#: views/assets/js/pm.js:20285 views/assets/js/pm.js:21081
+#: views/assets/js/pm.js:21267 views/assets/js/pm.js:21380
+#: views/assets/js/pm.js:21616 views/assets/js/pm.js:21651
+#: views/assets/js/pm.js:21813 views/assets/js/pm.js:21912
+#: views/assets/js/pm.js:22064 views/assets/js/pm.js:22760
+#: views/assets/js/pm.js:22794 views/assets/js/pm.js:22854
+#: views/assets/js/pm.js:23295 views/assets/js/pm.js:23438
+#: views/assets/js/pm.js:23523 views/assets/js/pm.js:24054
+#: views/assets/js/pm.js:24410 views/assets/js/pm.js:24828
+#: views/assets/js/pm.js:25062 views/assets/js/pm.js:25550
+#: views/assets/js/pm.js:25610 views/assets/js/pm.js:25854
+#: views/assets/js/pm.js:25957 views/assets/js/pm.js:26037
+#: views/assets/js/pm.js:26075 views/assets/js/pm.js:26264
+#: views/assets/js/pm.js:26425 views/assets/js/pm.js:26598
+#: views/assets/js/pm.js:26641 views/assets/js/pm.js:26732
+#: views/assets/js/pm.js:26915 views/assets/js/pm.js:26949
+#: views/assets/js/pm.js:27040 views/assets/js/pm.js:27131
+#: views/assets/js/pm.js:27400 views/assets/js/pm.js:27434
+#: views/assets/js/pm.js:27474 views/assets/js/pm.js:27677
+#: views/assets/js/pm.js:27763 views/assets/js/pm.js:28281
+#: views/assets/js/pm.js:28494 views/assets/js/pm.js:28558
+#: views/assets/js/pm.js:28686 views/assets/js/pm.js:28927
+#: views/assets/js/pm.js:29089 views/assets/js/pm.js:29397
+#: views/assets/js/pm.js:29536 views/assets/js/pm.js:30021
+#: views/assets/js/pm.js:30055 views/assets/js/pm.js:30138
+#: views/assets/js/pm.js:30344 views/assets/js/pm.js:30670
+#: views/assets/js/pm.js:30916 views/assets/js/pm.js:30983
+#: views/assets/js/pm.js:31083 views/assets/js/pm.js:31175
+#: views/assets/js/pm.js:31351 views/assets/js/pm.js:31501
+#: views/assets/js/pm.js:31542 views/assets/js/pm.js:31585
+#: views/assets/js/pm.js:31993
 msgid "div"
 msgstr ""
 
-#: views/assets/js/library.js:4287 views/assets/js/library.js:4472
-#: views/assets/js/pm.js:829 views/assets/js/pm.js:1014
-#: views/assets/js/pm.js:2981 views/assets/js/pm.js:6563
-#: views/assets/js/pm.js:11832 views/assets/js/pm.js:14280
+#: views/assets/js/library.js:4288 views/assets/js/library.js:4475
+#: views/assets/js/pm.js:830 views/assets/js/pm.js:1017
+#: views/assets/js/pm.js:2984 views/assets/js/pm.js:6566
+#: views/assets/js/pm.js:11836 views/assets/js/pm.js:14283
 #: views/assets/src/components/categories/categories.vue:260
 #: views/assets/src/components/project-discussions/mixin.js:459
 #: views/assets/src/components/project-task-lists/list-comments.vue:111
-#: views/assets/src/components/project-task-lists/mixin.js:331
-#: views/assets/src/components/project-task-lists/mixin.js:522
+#: views/assets/src/components/project-task-lists/mixin.js:332
+#: views/assets/src/components/project-task-lists/mixin.js:525
 #: views/assets/src/components/project-task-lists/task-comments.vue:123
 msgid "Are you sure!"
 msgstr ""
 
-#: views/assets/js/library.js:6283 views/assets/js/pm.js:5508
-#: views/assets/js/pm.js:21204 views/assets/js/pm.js:25575
-#: views/assets/js/pm.js:28457 views/assets/js/pm.js:28949
-#: views/assets/js/pm.js:32204
+#: views/assets/js/library.js:6286 views/assets/js/pm.js:5511
+#: views/assets/js/pm.js:21213 views/assets/js/pm.js:25584
+#: views/assets/js/pm.js:28469 views/assets/js/pm.js:28961
+#: views/assets/js/pm.js:32216
 msgid "input"
 msgstr ""
 
-#: views/assets/js/pm.js:2127
+#: views/assets/js/pm.js:2130
 #: views/assets/src/components/project-milestones/mixin.js:286
 msgid "Are you sure! Want to delete this milestones?"
 msgstr ""
 
-#: views/assets/js/pm.js:3021
+#: views/assets/js/pm.js:3024
 #: views/assets/src/components/project-discussions/mixin.js:500
 msgid "Are you sure to delete this comment?"
 msgstr ""
 
-#: views/assets/js/pm.js:6524
+#: views/assets/js/pm.js:6527
 #: views/assets/src/components/categories/categories.vue:23
 #: views/assets/src/components/categories/categories.vue:217
 msgid "Add New Category"
 msgstr ""
 
-#: views/assets/js/pm.js:6643
+#: views/assets/js/pm.js:6646
 #: views/assets/src/components/categories/edit-category-form.vue:42
 msgid "Update Category"
 msgstr ""
 
-#: views/assets/js/pm.js:7300 views/assets/js/pm.js:9919
+#: views/assets/js/pm.js:7303 views/assets/js/pm.js:9922
 #: views/assets/src/components/common/header.vue:80
 #: views/assets/src/components/project-lists/project-summary.vue:165
 msgid "Project Actions"
 msgstr ""
 
-#: views/assets/js/pm.js:7325 views/assets/src/components/common/header.vue:108
+#: views/assets/js/pm.js:7328 views/assets/src/components/common/header.vue:108
 msgid "Overview"
 msgstr ""
 
-#: views/assets/js/pm.js:7334 views/assets/src/components/common/header.vue:119
+#: views/assets/js/pm.js:7337 views/assets/src/components/common/header.vue:119
 msgid "Activities"
 msgstr ""
 
-#: views/assets/js/pm.js:7343 views/assets/src/components/common/header.vue:130
+#: views/assets/js/pm.js:7346 views/assets/src/components/common/header.vue:130
 #: views/assets/src/components/project-discussions/discussions.vue:20
 #: views/assets/src/components/project-lists/project-summary.vue:32
 #: views/assets/src/components/project-milestones/completed-milestones.vue:32
@@ -621,7 +621,7 @@ msgstr ""
 msgid "Discussions"
 msgstr ""
 
-#: views/assets/js/pm.js:7352 views/assets/src/components/common/header.vue:141
+#: views/assets/js/pm.js:7355 views/assets/src/components/common/header.vue:141
 #: views/assets/src/components/project-lists/project-summary.vue:48
 #: views/assets/src/components/project-milestones/completed-milestones.vue:23
 #: views/assets/src/components/project-milestones/late-milestones.vue:30
@@ -631,34 +631,34 @@ msgstr ""
 msgid "Task Lists"
 msgstr ""
 
-#: views/assets/js/pm.js:7361 views/assets/src/components/common/header.vue:152
+#: views/assets/js/pm.js:7364 views/assets/src/components/common/header.vue:152
 #: views/assets/src/components/project-lists/project-summary.vue:78
 #: views/assets/src/components/project-milestones/milestones.vue:19
 #: views/assets/src/components/project-overview/overview.vue:97
 msgid "Milestones"
 msgstr ""
 
-#: views/assets/js/pm.js:7370 views/assets/src/components/common/header.vue:163
+#: views/assets/js/pm.js:7373 views/assets/src/components/common/header.vue:163
 #: views/assets/src/components/project-lists/project-summary.vue:93
 #: views/assets/src/components/project-overview/overview.vue:82
 msgid "Files"
 msgstr ""
 
-#: views/assets/js/pm.js:7542
+#: views/assets/js/pm.js:7545
 #: views/assets/src/components/common/text-editor.vue:34
 msgid "Write a comment..."
 msgstr ""
 
-#: views/assets/js/pm.js:7902 views/assets/js/pm.js:11576
-#: views/assets/js/pm.js:14057
+#: views/assets/js/pm.js:7905 views/assets/js/pm.js:11580
+#: views/assets/js/pm.js:14060
 #: views/assets/src/components/project-discussions/comment-form.vue:38
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:47
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:38
 msgid "Add New Comment"
 msgstr ""
 
-#: views/assets/js/pm.js:7903 views/assets/js/pm.js:11577
-#: views/assets/js/pm.js:14058
+#: views/assets/js/pm.js:7906 views/assets/js/pm.js:11581
+#: views/assets/js/pm.js:14061
 #: views/assets/src/components/project-discussions/comment-form.vue:39
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:48
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:39
@@ -666,7 +666,7 @@ msgstr ""
 msgid "Update Comment"
 msgstr ""
 
-#: views/assets/js/pm.js:8144
+#: views/assets/js/pm.js:8147
 #: views/assets/src/components/categories/categories.vue:106
 #: views/assets/src/components/common/header.vue:10
 #: views/assets/src/components/project-discussions/discussions.vue:157
@@ -674,228 +674,229 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: views/assets/js/pm.js:8145
+#: views/assets/js/pm.js:8148
 #: views/assets/src/components/project-discussions/discussions.vue:158
 msgid "Delete this message"
 msgstr ""
 
-#: views/assets/js/pm.js:8146
+#: views/assets/js/pm.js:8149
 #: views/assets/src/components/project-discussions/discussions.vue:159
 msgid "Make it private"
 msgstr ""
 
-#: views/assets/js/pm.js:8540
+#: views/assets/js/pm.js:8543
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:75
 msgid "Enter message title"
 msgstr ""
 
-#: views/assets/js/pm.js:8541
+#: views/assets/js/pm.js:8544
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:76
 msgid "Add Message"
 msgstr ""
 
-#: views/assets/js/pm.js:8542
+#: views/assets/js/pm.js:8545
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:77
 msgid "Update Message"
 msgstr ""
 
-#: views/assets/js/pm.js:9270
+#: views/assets/js/pm.js:9273
 #: views/assets/src/components/project-lists/header.vue:69
 msgid "Start a new project"
 msgstr ""
 
-#: views/assets/js/pm.js:9371
+#: views/assets/js/pm.js:9374
 #: views/assets/src/components/project-lists/project-create-form.vue:87
 msgid "Name of the project"
 msgstr ""
 
-#: views/assets/js/pm.js:9372
+#: views/assets/js/pm.js:9375
 #: views/assets/src/components/project-lists/project-create-form.vue:88
 msgid "Some details about the project (optional)"
 msgstr ""
 
-#: views/assets/js/pm.js:9373
+#: views/assets/js/pm.js:9376
 #: views/assets/src/components/project-lists/project-create-form.vue:89
 msgid "Type 3 or more characters to search users..."
 msgstr ""
 
-#: views/assets/js/pm.js:9374 views/assets/js/pm.js:15226
+#: views/assets/js/pm.js:9377 views/assets/js/pm.js:15229
 #: views/assets/src/components/project-lists/directive.js:75
 #: views/assets/src/components/project-lists/project-create-form.vue:90
 msgid "Create a new user"
 msgstr ""
 
-#: views/assets/js/pm.js:9375
+#: views/assets/js/pm.js:9378
 #: views/assets/src/components/project-lists/project-create-form.vue:91
 msgid "Add New Project"
 msgstr ""
 
-#: views/assets/js/pm.js:9376
+#: views/assets/js/pm.js:9379
 #: views/assets/src/components/project-lists/project-create-form.vue:92
 #: views/emails/html/update-project.php:9
 msgid "Update Project"
 msgstr ""
 
-#: views/assets/js/pm.js:9709
+#: views/assets/js/pm.js:9712
 #: views/assets/src/components/project-lists/project-new-user-form.vue:43
 msgid "Create User"
 msgstr ""
 
-#: views/assets/js/pm.js:9998
+#: views/assets/js/pm.js:10001
 #: views/assets/src/components/project-lists/project-view.vue:17
 msgid "List View"
 msgstr ""
 
-#: views/assets/js/pm.js:9999
+#: views/assets/js/pm.js:10002
 #: views/assets/src/components/project-lists/project-view.vue:18
 msgid "Grid View"
 msgstr ""
 
-#: views/assets/js/pm.js:10091
+#: views/assets/js/pm.js:10094
 #: views/assets/src/components/project-milestones/action-milestones.vue:33
 msgid "Edit Milestone"
 msgstr ""
 
-#: views/assets/js/pm.js:10092
+#: views/assets/js/pm.js:10095
 #: views/assets/src/components/project-milestones/action-milestones.vue:34
 msgid "Delete milestone"
 msgstr ""
 
-#: views/assets/js/pm.js:10093
+#: views/assets/js/pm.js:10096
 #: views/assets/src/components/project-milestones/action-milestones.vue:35
 msgid "Mark as incomplete"
 msgstr ""
 
-#: views/assets/js/pm.js:10094
+#: views/assets/js/pm.js:10097
 #: views/assets/src/components/project-milestones/action-milestones.vue:36
 msgid "Mark as complete"
 msgstr ""
 
-#: views/assets/js/pm.js:10710
+#: views/assets/js/pm.js:10713 views/assets/js/pm.js:12544
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
-msgid "Milestone name"
-msgstr ""
-
-#: views/assets/js/pm.js:10711
-#: views/assets/src/components/project-milestones/milestones.vue:24
-#: views/assets/src/components/project-milestones/milestones.vue:52
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:45
-msgid "Add Milestone"
-msgstr ""
-
-#: views/assets/js/pm.js:10712
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:46
-msgid "Update Milestone"
-msgstr ""
-
-#: views/assets/js/pm.js:12538
-#: views/assets/src/components/project-task-lists/new-task-form.vue:93
-msgid "Add a new task"
-msgstr ""
-
-#: views/assets/js/pm.js:12539
-#: views/assets/src/components/project-task-lists/new-task-form.vue:94
-msgid "Add extra details about this task (optional)"
-msgstr ""
-
-#: views/assets/js/pm.js:12540
-#: views/assets/src/components/project-task-lists/new-task-form.vue:95
-msgid "Start Date"
-msgstr ""
-
-#: views/assets/js/pm.js:12541
 #: views/assets/src/components/project-task-lists/new-task-form.vue:96
 msgid "Due Date"
 msgstr ""
 
+#: views/assets/js/pm.js:10714
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:45
+msgid "Milestone name"
+msgstr ""
+
+#: views/assets/js/pm.js:10715
+#: views/assets/src/components/project-milestones/milestones.vue:24
+#: views/assets/src/components/project-milestones/milestones.vue:52
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:46
+msgid "Add Milestone"
+msgstr ""
+
+#: views/assets/js/pm.js:10716
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:47
+msgid "Update Milestone"
+msgstr ""
+
+#: views/assets/js/pm.js:12541
+#: views/assets/src/components/project-task-lists/new-task-form.vue:93
+msgid "Add a new task"
+msgstr ""
+
 #: views/assets/js/pm.js:12542
+#: views/assets/src/components/project-task-lists/new-task-form.vue:94
+msgid "Add extra details about this task (optional)"
+msgstr ""
+
+#: views/assets/js/pm.js:12543
+#: views/assets/src/components/project-task-lists/new-task-form.vue:95
+msgid "Start Date"
+msgstr ""
+
+#: views/assets/js/pm.js:12545
 #: views/assets/src/components/project-task-lists/new-task-form.vue:97
 msgid "Select User"
 msgstr ""
 
-#: views/assets/js/pm.js:12543
+#: views/assets/js/pm.js:12546
 #: views/assets/src/components/project-task-lists/new-task-form.vue:98
 msgid "Update Task"
 msgstr ""
 
-#: views/assets/js/pm.js:12544
+#: views/assets/js/pm.js:12547
 #: views/assets/src/components/project-task-lists/new-task-btn.vue:3
 #: views/assets/src/components/project-task-lists/new-task-form.vue:99
 msgid "Add Task"
 msgstr ""
 
-#: views/assets/js/pm.js:12896
+#: views/assets/js/pm.js:12899
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:71
 msgid "Task list name"
 msgstr ""
 
-#: views/assets/js/pm.js:12897
+#: views/assets/js/pm.js:12900
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:72
 msgid "Task list details"
 msgstr ""
 
-#: views/assets/js/pm.js:12898
+#: views/assets/js/pm.js:12901
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:73
 msgid "Update List"
 msgstr ""
 
-#: views/assets/js/pm.js:12899
+#: views/assets/js/pm.js:12902
 #: views/assets/src/components/project-discussions/discussions.vue:16
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:74
 msgid "Add List"
 msgstr ""
 
-#: views/assets/js/pm.js:13334
+#: views/assets/js/pm.js:13337
 #: views/assets/src/components/project-task-lists/single-list.vue:121
 msgid "Delete List"
 msgstr ""
 
-#: views/assets/js/pm.js:14440 views/assets/js/pm.js:14610
+#: views/assets/js/pm.js:14443 views/assets/js/pm.js:14613
 #: views/assets/src/components/settings/email.vue:82
 #: views/assets/src/components/settings/general.vue:138
 msgid "Save Changes"
 msgstr ""
 
-#: views/assets/js/pm.js:15225
+#: views/assets/js/pm.js:15228
 #: views/assets/src/components/project-lists/directive.js:74
 msgid "No users found."
 msgstr ""
 
-#: views/assets/js/pm.js:15746
+#: views/assets/js/pm.js:15749
 #: views/assets/src/components/project-overview/directive.js:9
 msgid "Activity"
 msgstr ""
 
-#: views/assets/js/pm.js:21094 views/assets/js/pm.js:21236
+#: views/assets/js/pm.js:21103 views/assets/js/pm.js:21245
 msgid "span"
 msgstr ""
 
-#: views/assets/js/pm.js:21123 views/assets/js/pm.js:21946
-#: views/assets/js/pm.js:28976
+#: views/assets/js/pm.js:21132 views/assets/js/pm.js:21955
+#: views/assets/js/pm.js:28988
 msgid "ul"
 msgstr ""
 
-#: views/assets/js/pm.js:21349 views/assets/js/pm.js:27732
+#: views/assets/js/pm.js:21358 views/assets/js/pm.js:27741
 msgid "router-view"
 msgstr ""
 
-#: views/assets/js/pm.js:22014
+#: views/assets/js/pm.js:22023
 msgid "a"
 msgstr ""
 
-#: views/assets/js/pm.js:23955 views/assets/js/pm.js:28306
+#: views/assets/js/pm.js:23964 views/assets/js/pm.js:28315
 msgid "form"
 msgstr ""
 
-#: views/assets/js/pm.js:28589
+#: views/assets/js/pm.js:28601
 msgid "vue-content-loading"
 msgstr ""
 
-#: views/assets/js/pm.js:31811
+#: views/assets/js/pm.js:31823
 msgid "svg"
 msgstr ""
 
-#: views/assets/js/pm.js:32236
+#: views/assets/js/pm.js:32248
 msgid "textarea"
 msgstr ""
 
@@ -979,12 +980,12 @@ msgstr ""
 
 #: views/assets/src/components/common/header.vue:17
 #: views/assets/src/components/project-lists/project-header-menu.vue:13
-#: views/assets/src/components/project-task-lists/lists.vue:95
+#: views/assets/src/components/project-task-lists/lists.vue:94
 msgid "Completed"
 msgstr ""
 
 #: views/assets/src/components/common/header.vue:18
-#: views/assets/src/components/project-task-lists/lists.vue:105
+#: views/assets/src/components/project-task-lists/lists.vue:104
 msgid "Incomplete"
 msgstr ""
 
@@ -1070,7 +1071,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/individual-discussions.vue:61
 #: views/assets/src/components/project-lists/project-summary.vue:104
 #: views/assets/src/components/project-overview/overview.vue:68
-#: views/assets/src/components/project-task-lists/lists.vue:114
+#: views/assets/src/components/project-task-lists/lists.vue:113
 #: views/assets/src/components/project-task-lists/single-task.vue:173
 msgid "Comments"
 msgstr ""
@@ -1224,7 +1225,7 @@ msgstr ""
 msgid "No tasks found."
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/lists.vue:80
+#: views/assets/src/components/project-task-lists/lists.vue:79
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
 msgid "More Tasks"
