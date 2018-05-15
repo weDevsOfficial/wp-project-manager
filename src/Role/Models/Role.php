@@ -14,6 +14,8 @@ class Role extends Eloquent {
     protected $fillable = [
         'title',
         'description',
+        'slug',
+        'status',
         'created_by',
         'updated_by',
     ];
