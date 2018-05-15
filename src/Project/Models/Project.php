@@ -56,8 +56,13 @@ class Project extends Eloquent {
         return $this->belongsToMany( 'WeDevs\PM\Category\Models\Category', pm_tb_prefix() . 'pm_category_project', 'project_id', 'category_id' );
     }
 
+    /**
+     *  we join pm_roles table with pm_role_user 
+     */
     public function assignees() {
         return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_role_user', 'project_id', 'user_id' )
+            ->join( pm_tb_prefix() . 'pm_roles', pm_tb_prefix() . 'pm_role_user.role_id', '=', pm_tb_prefix() . 'pm_roles.id' )
+            ->where(pm_tb_prefix() . 'pm_roles.status', 1)
             ->withPivot( 'project_id', 'role_id' );
     }
 
