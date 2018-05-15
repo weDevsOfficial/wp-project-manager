@@ -117,11 +117,8 @@ function pm_apply_filters ( tag, value, options ) {
  * @param callback The callback function to remove
  */
 function pm_remove_filter( tag, callback ) {
-
-    WeDevsfilters[ tag ] = Hooks.filters[ tag ] || [];
-
     WeDevsfilters[ tag ].forEach( function( filter, i ) {
-        if( filter.callback === callback ) {
+        if( filter.callback.name === callback ) {
             WeDevsfilters[ tag ].splice(i, 1);
         }
     } );
