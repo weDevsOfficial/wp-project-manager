@@ -266,6 +266,7 @@ export default {
         },
 
         taskFormAction () {
+
             // Exit from this function, If submit button disabled 
             if ( this.submit_disabled ) {
                 return;
@@ -310,9 +311,10 @@ export default {
                     self.submit_disabled = false;
                 }
             }
+
             if ( typeof this.task.id !== 'undefined' ) {
                 self.updateTask ( args );
-            }else{
+            } else {
                 self.addTask ( args, this.list );
             }
         }

@@ -85,15 +85,15 @@ class Task_Controller {
         $project_id    = $request->get_param( 'project_id' );
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
-
         $project       = Project::find( $project_id );
         $board         = Board::find( $board_id );
 
         if ( $project ) {
             $task = Task::create( $data );
-
         }
+
         do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
+        
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
             $boardable    = Boardable::create([
