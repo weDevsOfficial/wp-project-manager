@@ -84,7 +84,6 @@
         },
 
         upload: function (uploader) {
-            //console.log(uploader);
            // this.uploader.start();
         },
 
