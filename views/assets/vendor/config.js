@@ -66,15 +66,13 @@ function weDevsPmProAddonRegisterModule(module, path) {
  * @param priority Priority of filter to apply. Default: 10 (like WordPress)
  */
 function pm_add_filter( tag, callback, priority ) {
-
     if( typeof priority === "undefined" ) {
         priority = 10;
     }
 
     // If the tag doesn't exist, create it.
-    WeDevsfilters[ tag ] = WeDevsfilters[ tag ] || [];
-    WeDevsfilters[ tag ].push( { priority: priority, callback: callback } );
-
+    WeDevsfilters[tag] = WeDevsfilters[ tag ] || [];
+    WeDevsfilters[tag].push( { priority: priority, callback: callback } );
 }
 
 /**
@@ -88,12 +86,12 @@ function pm_apply_filters ( tag, value, options ) {
 
     var filters = [];
 
-    if( typeof WeDevsfilters[ tag ] !== "undefined" && WeDevsfilters[ tag ].length > 0 ) {
+    if( typeof WeDevsfilters[tag] !== "undefined" && WeDevsfilters[tag].length > 0 ) {
 
-        WeDevsfilters[ tag ].forEach( function( hook ) {
+        WeDevsfilters[tag].forEach( function( hook ) {
 
-            filters[ hook.priority ] = filters[ hook.priority ] || [];
-            filters[ hook.priority ].push( hook.callback );
+            filters[hook.priority] = filters[hook.priority] || [];
+            filters[hook.priority].push( hook.callback );
         } );
 
         filters.forEach( function( hooks ) {
