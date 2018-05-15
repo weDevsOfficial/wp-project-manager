@@ -87,9 +87,9 @@ class Task_Transformer extends TransformerAbstract {
      * @param Task $item
      * @return \League\Fractal\Resource\Item
      */
-    public function includeTaskList( Task $item ) {
+    public function includeTaskList( Task $item ) { 
         $task_list = $item->task_lists->first();
-        
+
         if ( ! empty( $task_list ) ) {
             return $this->item( $task_list, new Task_List_Transformer );
         }
