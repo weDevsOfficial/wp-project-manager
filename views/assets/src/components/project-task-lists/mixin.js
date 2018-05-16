@@ -496,7 +496,7 @@ var PM_TaskList_Mixin = {
             var self      = this,
             pre_define = {
                 data: {
-                    project_id: self.project_id
+                    project_id: self.project_id ? self.project_id : '',
                 },
                 callback: false
             };
@@ -1178,7 +1178,7 @@ var PM_TaskList_Mixin = {
                 data: {
                     task_id: '',
                     status:0,
-                    project_id: self.project_id,
+                    project_id: self.project_id ? self.project_id: '',
                 },
                 callback: false,
             },
@@ -1190,7 +1190,7 @@ var PM_TaskList_Mixin = {
                 data: args.data,
                 success ( res ) {
                     if( typeof args.callback === 'function' ) {
-                        args.callback(self, res);
+                        args.callback.call(self, res);
                     }
                     self.$store.commit('updateProjectMeta', 'total_activities');                   
                 },
