@@ -869,7 +869,7 @@ export default {
                 return this.$router.resolve({name: 'mytask-tasks'}).href;
             }
 
-            return this.$router.resolve({name: 'user-tasks', params: {user_id: userid}}).href;
+            return this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;
 
         },
 
