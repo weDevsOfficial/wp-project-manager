@@ -36,7 +36,8 @@ class File_Transformer extends TransformerAbstract {
     public function get_fileabel( $item ) {
 
         if ( $item->fileable_type == 'comment') {
-            return $item->comments()->get()->toArray();
+            $result = $item->comment()->get()->first();
+            return $result->getAttributes(); 
         }
     }
 }

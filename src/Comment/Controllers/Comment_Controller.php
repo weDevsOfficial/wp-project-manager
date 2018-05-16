@@ -72,10 +72,15 @@ class Comment_Controller {
     public function store( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
-        
+        $type       = $request->get_param('type');
+    
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
         $comment = Comment::create( $data );
+
+        if ( $type ) {
+            $comment->type = $type;
+        }
 
         if ( $files ) {
             $this->attach_files( $comment, $files );
