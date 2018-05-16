@@ -248,10 +248,13 @@ export default {
                 }
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
                 
+                var task = state.lists[list_index].incomplete_tasks.data[task_index];
+                task.status = true;
+                
                 if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
-                    state.lists[list_index].complete_tasks.data.splice(0,0,data.task);
+                    state.lists[list_index].complete_tasks.data.splice(0,0,task);
                 } else {
-                    state.lists[list_index].complete_tasks = { data : [data.task] }
+                    state.lists[list_index].complete_tasks = { data : [task] }
                 }
 
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
@@ -264,11 +267,14 @@ export default {
                     return;
                 }
                 var task_index = state.getIndex( state.lists[list_index].complete_tasks.data, data.task_id, 'id' );
+
+                var task = state.lists[list_index].complete_tasks.data[task_index];
+                task.status = false;
                 
                 if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
-                    state.lists[list_index].incomplete_tasks.data.splice(0,0,data.task);
+                    state.lists[list_index].incomplete_tasks.data.splice(0,0,task);
                 } else {
-                    state.lists[list_index].incomplete_tasks = { data: [data.task] }
+                    state.lists[list_index].incomplete_tasks = { data: [task] }
                 }
 
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);

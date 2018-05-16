@@ -41,11 +41,11 @@
                         <ul class="pm-attachments" v-if="discuss.files.data.length">
                             <li v-for="file in discuss.files.data">
                                 <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img :src="file.thumb" :alt="file.name">
+                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
                                 </a>
 
                                 <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img :src="file.thumb" :alt="file.name">
+                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
                                 </a>
                             </li>
                         </ul>
@@ -97,11 +97,11 @@
                                 <ul class="pm-attachments" v-if="comment.files.data.length">
                                     <li v-for="file in comment.files.data">
                                         <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                            <img :src="file.thumb" :alt="file.name">
+                                            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
                                         </a>
 
                                         <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                            <img :src="file.thumb" :alt="file.name">
+                                            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
                                         </a>
                                     </li>
                                 </ul>
@@ -132,12 +132,12 @@
 </template>
 
 <style lang="less">
-    .pm-comment-area {
-        .pm-comment-img-size {
+    
+        .pm-content-img-size {
             height: 80px;
             width: 80px;
         }
-    }
+    
 
 </style>
 
