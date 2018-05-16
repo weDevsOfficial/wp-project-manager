@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <!-- Spinner before load task -->
         <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
             <div class="modal-wrapper">
@@ -341,7 +340,8 @@
                         task_id: this.task.id,
                         status : status,
                     },
-                    callback: function(res){
+                    callback: function(self, res){
+                        
                         self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                             status: status,
                             task: res.data,
