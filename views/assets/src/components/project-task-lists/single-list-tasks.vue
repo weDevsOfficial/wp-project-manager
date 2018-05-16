@@ -104,8 +104,10 @@
              */
             getIncompleteTasks: function() {
                 if ( this.list.incomplete_tasks ) {
-                    this.list.incomplete_tasks.data.map(function(task, index) {
-                        task.status = false;
+                    this.list.incomplete_tasks.data.forEach(function(task, index) {
+                        if(task) {
+                            task.status = false;
+                        }
                     });
 
                     return this.list.incomplete_tasks.data;
@@ -122,7 +124,9 @@
             getCompletedTask: function() {
                 if ( this.list.complete_tasks ) {
                     this.list.complete_tasks.data.map(function(task, index) {
-                        task.status = true;
+                        if(task) {
+                            task.status = true;
+                        }
                     });
 
                     return this.list.complete_tasks.data;
