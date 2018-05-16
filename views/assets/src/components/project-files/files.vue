@@ -44,9 +44,9 @@
 
                                 <div class="footer-section">
                                     
-                                    <a @click.prevent="selfDownloadFile(file)" href="#"><span class="dashicons dashicons-download"></span></a>
+                                    <a :href="getDownloadUrl(file.attachment_id)"><span class="dashicons dashicons-download"></span></a>
                                     <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
-                                    <a @click.prevent="" href="#" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
+                                    <a :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
                                 
                                 </div>
                             </div>
@@ -117,15 +117,15 @@
                 switch(file.fileable_type) {
                     
                     case 'discussion_board':
-                        return '#/'+self.project_id+'/discussions/'+file.fileable_id;
+                        return '#/projects/'+self.project_id+'/discussions/'+file.fileable_id;
                         break;
 
                     case 'task_list':
-                        return '#/'+self.project_id+'/task-lists/'+file.fileable_id;
+                        return '#/projects/'+self.project_id+'/task-lists/'+file.fileable_id;
                         break;
 
                     case 'task':
-                        return '#/'+self.project_id+'/task/'+file.fileable_id;
+                        return '#/projects/'+self.project_id+'/task/'+file.fileable_id;
                         break;
                     case 'comment':
                         return self.getCommentUrl(file);
@@ -139,13 +139,17 @@
             getCommentUrl (file) {
                 var self = this;
                 
-                switch(file.fileable[0].type) {
+                switch(file.fileable.commentable_type) {
                     case 'task_list':
-                        return '#/'+self.project_id+'/task-lists/'+file.fileable[0].id;
+                        return '#/projects/'+self.project_id+'/task-lists/'+file.fileable.commentable_id;
                         break;
 
                     case 'discussion_board':
-                        return '#/'+self.project_id+'/discussions/'+file.fileable[0].id;
+                        return '#/projects/'+self.project_id+'/discussions/'+file.fileable.commentable_id;
+                        break;
+
+                    case 'task':
+                        return '#/projects/'+self.project_id+'/task/'+file.fileable.commentable_id;
                         break;
                 }
             }
