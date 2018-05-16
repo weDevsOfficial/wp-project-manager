@@ -2197,6 +2197,17 @@ a.pm-icon-tick.grey {
   max-width: 80px;
   height: 80px
 }
+.pm-content-img-size {
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-right: 20px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fff;
+  max-width: 80px;
+  height: 80px
+}
 /*--------------------------------------------------
 :: Files
 -------------------------------------------------- */

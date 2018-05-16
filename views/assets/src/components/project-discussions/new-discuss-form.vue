@@ -123,7 +123,7 @@
             files: this.files,
             notify_users: this.notify_users,
         }
-
+        
         if (discuss_id) {
             args.discuss_id = discuss_id;
             self.updateDiscuss(args);

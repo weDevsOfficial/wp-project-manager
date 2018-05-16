@@ -341,7 +341,6 @@
                         status : status,
                     },
                     callback: function(self, res){
-                        
                         self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                             status: status,
                             task: res.data,
