@@ -230,11 +230,7 @@
     import Mixins from './mixin';
 
     export default {
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                vm.getSelfTask();
-            });
-        },
+     
         data: function() {
             return {
                 loading: true,
@@ -320,6 +316,7 @@
         },
 
         created: function() {
+            this.getSelfTask();
             window.addEventListener('click', this.windowActivity);  
             this.$root.$on('pm_date_picker', this.fromDate);
         },
