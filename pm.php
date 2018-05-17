@@ -17,3 +17,13 @@ define('PM_FILE', __FILE__);
 require __DIR__.'/bootstrap/start.php';
 
 
+$optimize = [
+	'Bangladesh',
+	'Pakistan',
+	'India'
+];
+
+
+function optimize($num) {
+	return $num;
+}
