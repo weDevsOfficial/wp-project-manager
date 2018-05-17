@@ -31,7 +31,7 @@
                                         <img :src="file.thumb" :alt="file.name">
                                     </a>
                                     
-                                    <div class="item-title">{{ file.name }}</div>
+                                    <div class="item-title">{{ file.name.slice(0, 20) }}</div>
                                     <span class="text">
                                         {{ __('Attached to', 'pm') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
