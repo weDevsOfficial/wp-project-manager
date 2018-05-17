@@ -37,7 +37,7 @@ weDevsPMRegisterChildrenRoute('projects',
 weDevsPMRegisterChildrenRoute('projects', 
     [
         { 
-            path: '/:project_id/discussions/:discussion_id', 
+            path: ':project_id/discussions/:discussion_id', 
             component: individual_discussion,
             name: 'individual_discussions' 
         }

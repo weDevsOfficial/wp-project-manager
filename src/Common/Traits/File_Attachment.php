@@ -12,6 +12,7 @@ trait File_Attachment {
         $reflector   = new ReflectionClass( $entity );
         $entity_type = $reflector->getShortName();
         $entity_type = strtolower( $entity_type );
+        $parent = isset( $entity->parent_id ) ? $entity->parent_id : 0; 
         
         $attachment_ids = File_System::multiple_upload( $files );
 
@@ -21,7 +22,7 @@ trait File_Attachment {
                 'fileable_type' => $entity_type,
                 'attachment_id' => $attachment_id,
                 'project_id'    => $entity->project_id,
-                'parent'        => 0,
+                'parent'        => $parent,
                 'type'          => isset( $entity->type ) ? $entity->type : 'file'
             ]);
         }
