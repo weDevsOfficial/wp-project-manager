@@ -2314,7 +2314,7 @@ a.pm-icon-tick.grey {
   margin-left: 5px;
 }
 .pm-folders-list .folder img {
-  padding: 35px 25px 33px;
+  /*padding: 35px 25px 33px;*/
 }
 .pm-folders-list .file .image-content img {
   border: #fdfdfd solid 1px;
