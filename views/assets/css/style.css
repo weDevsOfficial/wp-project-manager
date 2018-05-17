@@ -2293,6 +2293,7 @@ a.pm-icon-tick.grey {
   width: 100%;
   text-align: center;
   height: 42px;
+  margin-top: 15px;
 }
 .pm-folders-list li .footer-section a {
   color: #ccc;
