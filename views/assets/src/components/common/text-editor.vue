@@ -61,7 +61,7 @@
                     'Trebuchet MS=trebuchet ms,geneva;'+
                     'Verdana=verdana,geneva;',
                 plugins: 'placeholder textcolor colorpicker wplink wordpress',
-                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link wp_adv',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
             };
