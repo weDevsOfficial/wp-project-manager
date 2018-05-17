@@ -46,7 +46,7 @@
                                     
                                     <a :href="getDownloadUrl(file.attachment_id)"><span class="dashicons dashicons-download"></span></a>
                                     <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
-                                    <a :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count">0</span></a>
+                                    <a :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count"></span></a>
                                 
                                 </div>
                             </div>
