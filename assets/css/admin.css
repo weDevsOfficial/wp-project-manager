@@ -809,10 +809,10 @@ ul.cpm-activity ul li:before {
   z-index: 0 !important;
 }
 .cpm-projects .cpm-project h5 {
-  font-size: 16px;
-  margin: 0;
-  word-wrap: break-word;
-  color: #000;
+   font-size: 16px;
+    word-wrap: break-word;
+    color: rgb(0, 0, 0);
+    margin: -5px 30px -5px -5px;
 }
 .cpm-projects .cpm-project .cpm-completed-wrap {
   width: 85px;
@@ -4810,4 +4810,11 @@ ul.cpm-files li .cpm-file-action .comment-number {
   white-space: normal;
   margin: 0 0 0 2px;
   padding: 0;
+}
+.rtl .chosen-container .chosen-drop {
+    left: 0px;
+    display: none;
+}
+.rtl .chosen-container.chosen-with-drop .chosen-drop {
+    display: block;
 }
