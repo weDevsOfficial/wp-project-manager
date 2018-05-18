@@ -81,9 +81,9 @@
                     </li>
                 </ul>
 
-                <router-view name="single-task"></router-view>
 
                 <list-comments :comments="comments" :list="list"></list-comments>
+                <router-view name="single-task"></router-view>
             </div>
         </div>
     </div>
@@ -102,8 +102,7 @@
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.getIndividualList();
-                vm.getGlobalMilestones();
+                
             });
         },
         /**
@@ -124,12 +123,22 @@
         },
 
         mixins: [Mixins],
+        watch: {
+            '$route' (to, from) {
+                if(from.name == 'single_task') {
+                    this.getIndividualList();
+                    this.getGlobalMilestones();
+                }
+            }
+        },
         /**
          * Initial action for this component
          * 
          * @return void
          */
         created: function() {
+            this.getIndividualList();
+            this.getGlobalMilestones();
             this.$store.state.projectTaskLists.is_single_list = true; 
         },
 

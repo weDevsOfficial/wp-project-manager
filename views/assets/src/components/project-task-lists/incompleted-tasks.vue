@@ -1,5 +1,6 @@
 <template>
     <div class="pm-todo-wrap clearfix">
+        
         <div v-if="!task.edit_mode" class="pm-todo-content">
             <div class="pm-todo-inside">
                 <div class="pm-col-7">
@@ -54,6 +55,7 @@
                             </router-link>
                     </span>
                     <a v-if="PM_Vars.is_pro && can_edit_task(task)" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     <div class="pm-clearfix"></div>
 

@@ -1190,7 +1190,7 @@ var PM_TaskList_Mixin = {
                 data: args.data,
                 success ( res ) {
                     if( typeof args.callback === 'function' ) {
-                        args.callback.call(self, res);
+                        args.callback(self, res);
                     }
                     self.$store.commit('updateProjectMeta', 'total_activities');                   
                 },
