@@ -36,9 +36,8 @@
                                         {{ __('Attached to', 'pm') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
                                         {{ __('by', 'pm') }} 
-                                
                                         <a href="#/my-tasks" title="admin">
-                                            {{ file.creator.data.display_name }}
+                                            {{ __('admin', 'pm') }}
                                         </a>
                                     </span>
                                 </div>
