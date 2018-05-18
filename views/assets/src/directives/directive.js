@@ -1,3 +1,5 @@
+import clickOutside from '@helpers/click-outside';
+
 pm.Vue.directive('pm-slide-up-down', {
 	inserted: function(el) {
 		var node = jQuery(el);
@@ -20,3 +22,5 @@ pm.Vue.directive('pm-pretty-photo', {
 		
 	},
 });
+
+pm.Vue.directive('pm-click-outside', clickOutside);
