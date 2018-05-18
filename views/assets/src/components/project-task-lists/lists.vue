@@ -287,7 +287,7 @@
                 return this.$store.state.projectTaskLists.isListFetch; 
             },
 
-            listViewType () {
+            listViewType () { 
                 let meta = this.$store.state.projectMeta; 
                 var self = this;
                 if(meta.hasOwnProperty('list_view_type') ) {
