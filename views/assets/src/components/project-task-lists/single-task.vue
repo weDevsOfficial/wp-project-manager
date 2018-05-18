@@ -230,11 +230,7 @@
     import Mixins from './mixin';
 
     export default {
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                vm.getSelfTask();
-            });
-        },
+     
         data: function() {
             return {
                 loading: true,
@@ -320,6 +316,7 @@
         },
 
         created: function() {
+            this.getSelfTask();
             window.addEventListener('click', this.windowActivity);  
             this.$root.$on('pm_date_picker', this.fromDate);
         },
@@ -340,13 +337,19 @@
                         task_id: this.task.id,
                         status : status,
                     },
-                    callback: function(self, res){
-                        self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
-                            status: status,
-                            task: res.data,
-                            list_id: self.list.id,
-                            task_id: self.task.id
-                        });
+                    callback: function(resSelf, res) {
+                        if( status == '1' ) {
+                            self.task.status = true;
+                        } else {
+                            self.task.status = false;
+                        }
+
+                        // self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
+                        //     status: status,
+                        //     task: res.data,
+                        //     list_id: self.list.id,
+                        //     task_id: self.task.id
+                        // });
                     }
                 }                   
                 this.taskDoneUndone( args );
