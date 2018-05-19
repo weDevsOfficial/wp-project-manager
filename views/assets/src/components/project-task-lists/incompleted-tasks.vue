@@ -54,7 +54,9 @@
                                 </span>
                             </router-link>
                     </span>
+                    <span>
                     <a v-if="PM_Vars.is_pro && can_edit_task(task)" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+                    </span>
 
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     <div class="pm-clearfix"></div>
