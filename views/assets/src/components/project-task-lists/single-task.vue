@@ -571,6 +571,10 @@
                     this.is_task_date_edit_mode = false;
                 }
             }
+        },
+
+        beforeDestroy () {
+            this.$store.commit('isSigleTask', false);
         }
     }
 </script>

@@ -8,11 +8,7 @@
     window.PM_Uploader = function (browse_button, container, component) {
         this.container = container;
         this.browse_button = browse_button;
-
-        //if no element found on the page, bail out
-        if(!$('#'+browse_button).length) {
-            return;
-        }
+        
         
         this.component = component;
 

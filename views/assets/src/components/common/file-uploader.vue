@@ -1,6 +1,6 @@
 <template>
     <div class="pm-attachment-area">
-        <div v-pm-uploader id="pm-upload-container">
+        <div  id="pm-upload-container">
             <div class="pm-upload-filelist">
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
                     <a class="pm-uploaded-img" :href="file.url" target="_blank">
@@ -10,10 +10,13 @@
                     <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'pm' ) }}</a>
                         
                 </div>
-     
-                           
+                     
             </div>
-            <span> {{ __('To attach', 'pm') }} <a id="pm-upload-pickfiles"  href="#">{{ __('select files', 'pm') }}</a> {{ __('from your computer.', 'pm') }}</span>
+            <span> 
+                {{ __('To attach', 'pm') }} 
+                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">{{ __('select files', 'pm') }}</a> 
+                {{ __('from your computer.', 'pm') }}
+            </span>
         </div>
     </div>
 </template>
@@ -24,7 +27,7 @@
     // Register a global custom directive called v-pm-popup-box
     Vue.directive('pm-uploader', {
         inserted: function (el, binding, vnode) { 
-            new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
+            new PM_Uploader(el, 'pm-upload-container', vnode.context );
         },
 
         update: function (el, binding, vnode) { 

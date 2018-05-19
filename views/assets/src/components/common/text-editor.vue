@@ -8,8 +8,10 @@
         watch: {
             content: {
                 handler (html) {
-                    if ( html.html === '' ) {
+                    if ( html.html == '' ) {
+                        
                         tinymce.get(this.editor_id).setContent(html.html);
+                        tinymce.get(this.editor_id).save();
                     }
                     
                 },
@@ -24,8 +26,10 @@
         mounted: function() {
             var self = this;
 
-            // Remove the editor
-            tinymce.execCommand( 'mceRemoveEditor', false, self.editor_id );
+            if(tinymce.get(this.editor_id)) {
+                tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
+            }
+           
             
             // Instantiate the editor
             var settings = {
@@ -47,7 +51,7 @@
                 },
 
                 external_plugins: {
-                    'placeholder' : PM_Vars.assets_url + 'vendor/tinymce/plugins/placeholder/plugin.min.js',
+                    'placeholder': PM_Vars.assets_url + 'vendor/tinymce/plugins/placeholder/plugin.min.js',
                 },
 
                 fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
@@ -72,6 +76,12 @@
 
             tinymce.init(settings);
         },
+
+        beforeDestroy () {
+            
+             // Remove the editor
+            //tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
+        }
     }
 </script>
 
