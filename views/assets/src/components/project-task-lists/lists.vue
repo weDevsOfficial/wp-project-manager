@@ -137,7 +137,7 @@
                 </pm-pagination> 
             </div>
             <!-- v-if="lists.length" name="single-task" -->
-            <router-view name="single-task"></router-view>
+            
         </div>
         
     </div>
