@@ -33,21 +33,21 @@ var PM_Task = {
                    
 
                     var task_index = component.getIndex(component.list.incomplete_tasks.data, task_id,'id');
-                    if (task_index === false) {
-                        var task_index = component.getIndex(component.list.complete_tasks.data, task_id,'id');
-
-                    }
                     
-                    if (typeof component.list.incomplete_tasks !== 'undefined') {
+                    if (task_index !== false && typeof component.list.incomplete_tasks !== 'undefined') {
                         component.list.incomplete_tasks.data[task_index].order = order;
                     }
 
-                    if (typeof component.list.complete_tasks !== 'undefined') {
-                        component.list.complete_tasks.data[task_index].order = order;
+                    if (task_index === false) {
+                        var task_index = component.getIndex(component.list.complete_tasks.data, task_id,'id');
+
+                        if ( task_index !== false && typeof component.list.complete_tasks !== 'undefined') {
+                            component.list.complete_tasks.data[task_index].order = order;
+                        }
                     }
 
                 }); 
-              
+
                 var after_revers_order = orders.sort(),
                     after_revers_order = after_revers_order.reverse();
 
@@ -63,7 +63,6 @@ var PM_Task = {
                     board_id: component.list.id,
                     board_type: 'task_list'
                 }
-                
                 component.taskOrder(data);
             }
         });
