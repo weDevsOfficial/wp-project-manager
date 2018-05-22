@@ -11,13 +11,17 @@ $router->get( 'projects/{project_id}/comments', 'WeDevs/PM/Comment/Controllers/C
     ->permission([$access]);
 
 $router->post( 'projects/{project_id}/comments', 'WeDevs/PM/Comment/Controllers/Comment_Controller@store' )
-    ->permission([$access]);
+    ->permission([$access])
+    ->validator( 'WeDevs\PM\Comment\Validators\Create_Comment' );
+
 
 $router->get( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@show' )
     ->permission([$access]);
 
 $router->post( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@update' )
-    ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment']);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment'])
+    ->validator( 'WeDevs\PM\Comment\Validators\Update_Comment' );
+
 
 $router->delete( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment']);
