@@ -11,7 +11,8 @@ export default {
             text: PM_Vars.text,
             PM_Vars: PM_Vars,
             pm: pm,
-            taskLists: TaskLists
+            taskLists: TaskLists,
+            currentDate: pm.Moment(new Date()).format('YYYY-MM-DD')
         }
     },
 
