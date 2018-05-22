@@ -13,13 +13,17 @@ $router->get( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller@
     ->permission([$authentic]);
 
 $router->post( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller@store' )
-    ->permission([$project_manage_capability]);
+    ->permission([$project_manage_capability])
+    ->validator( 'WeDevs\PM\Category\Validators\Create_Category' );
+
 
 $router->get( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@show' )
     ->permission([$authentic]);
 
 $router->put( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@update' )
-    ->permission([$project_manage_capability]);
+    ->permission([$project_manage_capability])
+    ->validator( 'WeDevs\PM\Category\Validators\Update_Category' );
+
     
 $router->delete( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@destroy' )
     ->permission([$project_manage_capability]);

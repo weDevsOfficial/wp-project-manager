@@ -26,7 +26,7 @@ $router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@sto
 $router->put( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Create_Capability'])
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Project_Sanitizer' )
-    ->validator( 'WeDevs\PM\Project\Validators\Create_Project' );
+    ->validator( 'WeDevs\PM\Project\Validators\Update_Project' );
 
 $router->delete( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' )
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Delete_Sanitizer' )

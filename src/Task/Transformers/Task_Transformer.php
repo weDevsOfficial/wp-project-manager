@@ -14,6 +14,7 @@ use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Common\Models\Boardable;
 
 
 class Task_Transformer extends TransformerAbstract {
@@ -44,6 +45,17 @@ class Task_Transformer extends TransformerAbstract {
      * @return array
      */
     public function transform( Task $item ) {
+        
+        if ( $item->pivot ) {
+            $order = $item->pivot->order;
+        } else {
+            $orderObj =  Boardable::where(['boardable_id' => $item->id, 'boardable_type' => 'task'])->first();
+            if ( $orderObj ) {
+                $order = $orderObj->order;
+            } else {
+                $order = 0;
+            }
+        }
         return apply_filters( 
             'pm_task_transform', 
             [
@@ -55,7 +67,7 @@ class Task_Transformer extends TransformerAbstract {
                 'due_date'    => format_date( $item->due_date ),
                 'complexity'  => $item->complexity,
                 'priority'    => $item->priority,
-                'order'       => (int) ($item->pivot ? $item->pivot->order : 0),
+                'order'       => (int) $order,
                 'payable'     => $item->payable,
                 'recurrent'   => $item->recurrent,
                 'parent_id'   => $item->parent_id,     

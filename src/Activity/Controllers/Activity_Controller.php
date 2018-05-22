@@ -11,6 +11,7 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Activity_Controller {
 
@@ -28,16 +29,24 @@ class Activity_Controller {
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
-        
+
         if ( empty( $project_id ) ) {
             $activities = Activity::orderBy( 'created_at', 'DESC' )
             ->paginate( $per_page );
         } else {
-            $activities = Activity::where( 'project_id', $project_id )
-            ->orderBy( 'created_at', 'desc' )
+            $activities = Activity::where( pm_tb_prefix() .'pm_activities.project_id', $project_id )
+            // ->join( pm_tb_prefix() . 'pm_meta', function ($join) {
+            //     $join->on( pm_tb_prefix() . 'pm_meta.entity_type', '=', pm_tb_prefix() .'pm_activities.resource_type' );
+            // } )
+            // ->whereRaw( pm_tb_prefix() . 'pm_meta.entity_id'.'='. pm_tb_prefix() .'pm_activities.resource_id'  )
+            // ->where('meta_key', 'privacy')
+            // ->where('meta_value', )
+            ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )//->get();
             ->paginate( $per_page );
+            
         }
-
+        
+        //pmpr($activities->toArray()); die();
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );
 
@@ -46,3 +55,8 @@ class Activity_Controller {
         return $this->get_response( $resource );
     }
 }
+
+            
+
+
+            
