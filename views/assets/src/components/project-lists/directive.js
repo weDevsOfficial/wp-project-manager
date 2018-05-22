@@ -94,11 +94,16 @@ pm.Vue.directive('pm-users', {
         Project.coWorkerSearch(el, binding, vnode);
     }
 });
-var dilogbox = null;
+var dilogbox = false;
 // Register a global custom directive called v-pm-popup-box
 pm.Vue.directive('pm-popup-box', {
     inserted: function (el, buinding, vnode) {
-        if (dilogbox){
+
+        if (
+            dilogbox !== false
+                &&
+            typeof dilogbox.dialog( "instance" ) != 'undefined'
+        ){
             dilogbox.dialog( "destroy" );
         }
         dilogbox = jQuery(el).dialog({
