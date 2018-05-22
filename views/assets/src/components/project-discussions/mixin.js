@@ -188,9 +188,17 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.data.error.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
                     self.submit_disabled = false;
                 }
             }
@@ -260,9 +268,17 @@ export default {
                 error (res) {
                     self.show_spinner = false;
                     // Showing error
-                    res.responseJSON.message.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
                     self.submit_disabled = false;
                 }
             }
@@ -293,9 +309,11 @@ export default {
                 },
 
                 error (res) {
-                    res.responseJSON.message.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
                   
                 }
             }
@@ -370,9 +388,17 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.responseJSON.message.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
                     self.submit_disabled = false;
                 }
             }
@@ -453,9 +479,17 @@ export default {
                     self.show_spinner = false;
                     
                     // Showing error
-                    res.responseJSON.message.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
                     self.submit_disabled = false;
                 }
             }
@@ -541,9 +575,11 @@ export default {
    
                 },
                 error (res) {
-                    res.responseJSON.message.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
                 }
             }
             
