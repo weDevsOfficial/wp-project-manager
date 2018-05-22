@@ -13,13 +13,17 @@ $router->get( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_B
     ->permission([$access]);
 
 $router->post( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@store' )
-    ->permission([$create_discuss]);
+    ->permission([$create_discuss])
+    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' );
+
 
 $router->get( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@show' )
     ->permission([$access]);
 
 $router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@update' )
-    ->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss'])
+    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Update_Discussion_Board' );
+
 
 $router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' )
 	->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);

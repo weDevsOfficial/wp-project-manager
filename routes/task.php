@@ -11,13 +11,17 @@ $router->get( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Co
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->post( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@store' )
-    ->permission(['WeDevs\PM\Core\Permissions\Create_Task']);
+    ->permission(['WeDevs\PM\Core\Permissions\Create_Task'])
+    ->validator( 'WeDevs\PM\Task\Validators\Create_Task' );
+
 
 $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->put( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
-    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task'])
+    ->validator( 'WeDevs\PM\Task\Validators\Update_Task' );
+
 
 $router->delete( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
