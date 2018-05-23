@@ -117,8 +117,9 @@ class Project_Controller {
 		$user_id  = get_current_user_id();
 		$project  =  Project::find( $id );
 		$resource = new Item( $project, new Project_Transformer );
+		$list_view = pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
 		$resource->setMeta([
-			'list_view_type' => pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' )
+			'list_view_type' => $list_view ? $list_view->toArray() : null
 		]);
 
         return $this->get_response( $resource );

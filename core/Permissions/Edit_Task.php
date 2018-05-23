@@ -18,10 +18,14 @@ class Edit_Task extends Abstract_Permission {
         	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
 	            return true;
 	        }
-            $task = Task::with('assignees')->find( $id );
-	        if ( $task->created_by == $user_id ){
-	        	return true;
-	        }
+            
+            $task = Task::with('assignees')
+                ->where('id', $id)
+                ->first();
+
+            if ( isset( $task->created_by ) && $task->created_by == $user_id ){
+               return true;
+            }
 
             if ( pm_user_can_complete_task( $task, $user_id ) ) {
                 return true;
@@ -29,6 +33,6 @@ class Edit_Task extends Abstract_Permission {
 
         }
 
-        return new \WP_Error( 'TaskList', __( "You have no permission.", "pm" ) );
+        return new \WP_Error( 'Task', __( "You have no permission.", "pm" ) );
     }
 }

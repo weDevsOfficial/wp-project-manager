@@ -20,7 +20,7 @@ $router->get( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Mile
 
 $router->put( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Milestone'])
-    ->validator( 'WeDevs\PM\Milestone\Validators\Update_Milestone' );
+    ->validator( 'WeDevs\PM\Milestone\Validators\Create_Milestone' );
 
 
 $router->delete( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@destroy' )

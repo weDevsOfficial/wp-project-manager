@@ -18,7 +18,10 @@ class Edit_Discuss extends Abstract_Permission {
         	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
 	            return true;
 	        }
-	        if ( Discussion_Board::find( $id )->created_by == $user_id  ){
+
+            $discuss = Discussion_Board::find( $id );
+
+	        if ( $discuss && $discuss->created_by == $user_id  ){
 	        	return true;
 	        }
 

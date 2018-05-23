@@ -19,9 +19,7 @@ $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controlle
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->put( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
-    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task'])
-    ->validator( 'WeDevs\PM\Task\Validators\Update_Task' );
-
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
 
 $router->delete( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);

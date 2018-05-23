@@ -220,9 +220,19 @@ export default {
 
                 error (res) {
                     // Showing error
-                    res.data.error.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
                     }
@@ -278,9 +288,17 @@ export default {
 
                 error (res) {
                     // Showing error
-                    res.data.error.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    });
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
                     if(typeof args.callback === 'function'){
                         args.callback.call ( self, res );
                     }
