@@ -2,10 +2,21 @@
     <div :class="'pm-task-edit-form pm-slide-'+task.id">
         <div>
           <label class="typo__label">Simple select / dropdown</label>
-          <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
+          <multiselect 
+            v-model="value" 
+            :options="options" 
+            :multiple="true" 
+            :close-on-select="false" 
+            :clear-on-select="false" 
+            :hide-selected="true" 
+            :preserve-search="true" 
+            placeholder="Pick some" 
+            label="name" 
+            track-by="name" 
+            :preselect-first="true">
             <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.language }}</span><span class="custom__remove" @click="props.remove(props.option)">❌</span></span></template>
           </multiselect>
-          <pre class="language-json"><code>{{ value  }}</code></pre>
+
         </div>
 
 
@@ -33,6 +44,7 @@
 
             <div class="item user">
                 <div>
+                    <pre>{{ task_assign }}</pre>
                     <multiselect 
                         v-model="task_assign" 
                         :options="project_users" 
@@ -43,7 +55,9 @@
                         :show-labels="false"
                         :placeholder="select_user_text"
                         label="display_name"
-                        track-by="id">
+                        track-by="id"
+                        :preserve-search="true" 
+                        :preselect-first="true">
                             
                     </multiselect>
                 </div>
