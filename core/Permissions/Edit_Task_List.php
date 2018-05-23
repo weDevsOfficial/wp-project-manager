@@ -18,7 +18,10 @@ class Edit_Task_List extends Abstract_Permission {
         	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
 	            return true;
 	        }
-	        if ( Task_List::find( $id )->created_by == $user_id ){
+
+            $task_list = Task_List::find( $id );
+
+	        if ( $task_list && $task_list->created_by == $user_id ){
 	        	return true;
 	        }
 

@@ -173,6 +173,7 @@ class Task_Controller {
         $assignees  = $request->get_param( 'assignees' );
         
         $task = Task::with('assignees')->find( $task_id );
+        
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
 
         if ( $task && pm_user_can_complete_task( $task ) ) {
@@ -207,22 +208,28 @@ class Task_Controller {
         $task = Task::where( 'id', $task_id )
             ->where( 'project_id', $project_id )
             ->first();
+        
         do_action("pm_before_delete_task", $task, $request->get_params() );
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
+        
         // Delete relations assoicated with the task
         $task->boardables()->delete();
         $task->files()->delete();
         $comments = $task->comments;
+        
         foreach ($comments as $comment) {
             $comment->replies()->delete();
             $comment->files()->delete();
         }
+        
         $task->comments()->delete();
         $task->assignees()->delete();
 
         // Delete the task
         $task->delete();
+        
         do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
+        
         $message = [
             'message' => pm_get_text('success_messages.task_deleted')
         ];
