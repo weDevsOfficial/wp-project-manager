@@ -37,7 +37,7 @@
                 menubar: false,
                 placeholder: self.__( 'Write a comment...', 'pm' ),
                 branding: false,
-                
+                menubar: false,
                 setup: function (editor) {
                     editor.on('change', function () {
                         self.content.html = editor.getContent();
@@ -76,12 +76,6 @@
 
             tinymce.init(settings);
         },
-
-        beforeDestroy () {
-            
-             // Remove the editor
-            //tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
-        }
     }
 </script>
 
