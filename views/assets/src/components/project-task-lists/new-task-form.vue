@@ -1,5 +1,14 @@
 <template>
     <div :class="'pm-task-edit-form pm-slide-'+task.id">
+        <div>
+          <label class="typo__label">Simple select / dropdown</label>
+          <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
+            <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.language }}</span><span class="custom__remove" @click="props.remove(props.option)">❌</span></span></template>
+          </multiselect>
+          <pre class="language-json"><code>{{ value  }}</code></pre>
+        </div>
+
+
         <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
           
             <div class="item task-title">
@@ -97,6 +106,15 @@ export default {
             select_user_text: __( 'Select User', 'pm'),
             update_task: __( 'Update Task', 'pm' ),
             add_task: __( 'Add Task', 'pm' ),
+            value: [],
+              options: [
+                { name: 'Vue.js', language: 'JavaScript' },
+                { name: 'Adonis', language: 'JavaScript' },
+                { name: 'Rails', language: 'Ruby' },
+                { name: 'Sinatra', language: 'Ruby' },
+                { name: 'Laravel', language: 'PHP' },
+                { name: 'Phoenix', language: 'Elixir' }
+              ]
         }
     },
     mixins: [Mixins],
