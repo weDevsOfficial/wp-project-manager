@@ -1,24 +1,5 @@
 <template>
     <div :class="'pm-task-edit-form pm-slide-'+task.id">
-        <div>
-          <label class="typo__label">Simple select / dropdown</label>
-          <multiselect 
-            v-model="value" 
-            :options="options" 
-            :multiple="true" 
-            :close-on-select="false" 
-            :clear-on-select="false" 
-            :hide-selected="true" 
-            :preserve-search="true" 
-            placeholder="Pick some" 
-            label="name" 
-            track-by="name" 
-            :preselect-first="true">
-            <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.language }}</span><span class="custom__remove" @click="props.remove(props.option)">❌</span></span></template>
-          </multiselect>
-
-        </div>
-
 
         <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
           
@@ -44,9 +25,8 @@
 
             <div class="item user">
                 <div>
-                    <pre>{{ task_assign }}</pre>
                     <multiselect 
-                        v-model="task_assign" 
+                        v-model="task.assignees.data" 
                         :options="project_users" 
                         :multiple="true" 
                         :close-on-select="false"
@@ -55,9 +35,7 @@
                         :show-labels="false"
                         :placeholder="select_user_text"
                         label="display_name"
-                        track-by="id"
-                        :preserve-search="true" 
-                        :preselect-first="true">
+                        track-by="id">
                             
                     </multiselect>
                 </div>
@@ -93,7 +71,10 @@ export default {
             type: Object,
             default: function () {
                 return {
-                    due_date: {}
+                    due_date: {},
+                    assignees: {
+                        data: []
+                    }
                 }
             }
         }
@@ -121,14 +102,14 @@ export default {
             update_task: __( 'Update Task', 'pm' ),
             add_task: __( 'Add Task', 'pm' ),
             value: [],
-              options: [
-                { name: 'Vue.js', language: 'JavaScript' },
-                { name: 'Adonis', language: 'JavaScript' },
-                { name: 'Rails', language: 'Ruby' },
-                { name: 'Sinatra', language: 'Ruby' },
-                { name: 'Laravel', language: 'PHP' },
-                { name: 'Phoenix', language: 'Elixir' }
-              ]
+      options: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Adonis', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ]
         }
     },
     mixins: [Mixins],
@@ -238,7 +219,7 @@ export default {
 	    		this.task.assignees.data.map(function(user) {
 	    			self.assigned_to.push(user.id);
 	    		});
-    		}
+    		} 
     		
 
     		if (typeof this.task.start_at === 'undefined') {
@@ -330,7 +311,7 @@ export default {
                 data: {
                     task_id: this.task.id,
                     board_id: this.list.id,
-                    assignees: this.assigned_to,
+                    assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
                     description: this.task.description,
                     start_at: this.task.start_at.date,
@@ -349,6 +330,12 @@ export default {
             } else {
                 self.addTask ( args, this.list );
             }
+        },
+
+        filterUserId (users) {
+            return users.map(function (user) {
+                return user.id;
+            });
         }
     }
 }
