@@ -248,9 +248,17 @@ export default {
                 },
 
                 error: function(res) {
-                    res.responseJSON.message.map( function ( message ) {
-                        pm.Toastr.error( message );
-                    });
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
                     
                 }
             };
@@ -299,6 +307,17 @@ export default {
                 },
 
                 error: function(res) {
+                    if ( res.status == 400 ) {
+                        var params = res.responseJSON.data.params;
+                        for ( var obj in params ){
+                            pm.Toastr.error(params[obj][0]);
+                        }
+                    }
+                    if (res.status == 500 ) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);
                     }                    

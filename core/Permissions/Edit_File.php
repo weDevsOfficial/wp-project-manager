@@ -18,7 +18,9 @@ class Edit_File extends Abstract_Permission {
         	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
 	            return true;
 	        }
-	        if ( File::find( $id )->created_by == $user_id ){
+
+            $file =  File::find( $id );
+	        if ( $file && $file->created_by == $user_id ){
 	        	return true;
 	        }
 
