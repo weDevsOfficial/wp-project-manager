@@ -385,6 +385,9 @@ function pm_has_project_create_capability( $user_id = false ) {
 }
 
 function pm_user_can_complete_task( $task, $user_id = false ) {
+    if(!$task) {
+        return false;
+    }
     $user_id = $user_id ? $user_id: get_current_user_id();
 
     if ( pm_has_manage_capability( $user_id ) ) {
@@ -392,6 +395,10 @@ function pm_user_can_complete_task( $task, $user_id = false ) {
     }
 
     if ( pm_is_manager( $task->project_id, $user_id ) ) {
+        return true;
+    }
+
+    if ( $task->created_by == $user_id ) {
         return true;
     }
 
