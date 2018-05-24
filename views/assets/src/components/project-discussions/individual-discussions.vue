@@ -25,7 +25,7 @@
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>
                             </span>
                             
-                            <span v-if="PM_Vars.is_pro" @click.prevent="lockUnlock(discuss)"  :class="privateClass( discuss )"></span>
+                            <span v-if="PM_Vars.is_pro && user_can('view_private_message')" @click.prevent="lockUnlock(discuss)"  :class="privateClass( discuss )"></span>
                         </span>
 
                         <div class="pm-small-title">
