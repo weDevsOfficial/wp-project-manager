@@ -64,7 +64,7 @@ class Update_Comment_Notification extends Email {
         $message = $this->get_content_html( $template_name, [
             'id'                => $commentData['data']['id'],
             'content'           => $request['content'],
-            'creator'           => $commentData['data']['creator']['data']['display_name'],
+            'updater'           => $commentData['data']['updater']['data']['display_name'],
             'commnetable_title' => $title,
             'commnetable_type'  => $type,
             'comment_link'      => $comment_link

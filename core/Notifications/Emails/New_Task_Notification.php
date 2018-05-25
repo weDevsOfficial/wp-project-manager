@@ -16,7 +16,7 @@ class New_Task_Notification extends Email {
 
     public function trigger( $task, $data ) {
 
-        $task->load('assignees.assigned_user', 'projects', 'creator');
+        $task->load('assignees.assigned_user', 'projects', 'updater');
         $users = array();
 
         foreach ($task->assignees->toArray() as $assignee ) {
@@ -40,7 +40,7 @@ class New_Task_Notification extends Email {
             'project_id'  => $task->project_id,
             'due_date'    => format_date( $task->due_date ),
             'start_at'    => empty( $task->start_at ) ? null: format_date( $task->start ),
-            'creator'     => $task->creator->display_name,
+            'updater'     => $task->updater->display_name,
         ] );
 
         $this->send( $users, $subject, $message );

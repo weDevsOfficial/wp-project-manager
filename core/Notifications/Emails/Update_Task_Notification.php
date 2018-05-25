@@ -16,7 +16,7 @@ class Update_Task_Notification extends Email {
 
     public function trigger( $task, $data ) {
 
-        $task->load('assignees.assigned_user', 'projects', 'creator');
+        $task->load('assignees.assigned_user', 'projects', 'updater');
         $users = array();
         foreach ($task->assignees->toArray() as $assignee ) {
             if( $this->is_enable_user_notification( $assignee['assigned_to'] ) ){
@@ -28,7 +28,7 @@ class Update_Task_Notification extends Email {
             return ; 
         }
 
-        $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/new-task.php' ) );
+        $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/update-task.php' ) );
         $subject = sprintf( __( '[%s][%s] Update Task Assigned: %s', 'pm' ), $this->get_blogname(), $task->projects->title, $task->title );
 
 
@@ -37,7 +37,7 @@ class Update_Task_Notification extends Email {
             'title'       => $task->title,
             'description' => $task->description,
             'project_id'  => $task->project_id,
-            'creator'     => $task->creator->display_name,
+            'updater'     => $task->updater->display_name,
             'due_date'    => format_date( $task->due_date ),
             'start_at'    => empty( $task->start_at ) ? null: format_date( $task->start ),
         ] );
