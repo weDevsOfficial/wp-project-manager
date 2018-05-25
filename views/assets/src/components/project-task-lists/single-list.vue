@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
         <!-- Spinner before load task -->
       <div v-if="loading" class="pm-data-load-before" >
