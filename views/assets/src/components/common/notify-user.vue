@@ -12,7 +12,7 @@
             <li v-for="user in assain_users">
                 <label for="pm_notify_1">
                     <input type="checkbox" ref="users" v-model="notify_users" id="pm_notify_1"   :value="user.id"> 
-                    {{user.nicename}}
+                    {{user.display_name}}
                 </label>
             </li>
             <div class="clearfix"></div>
