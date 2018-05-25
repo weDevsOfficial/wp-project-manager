@@ -51,7 +51,7 @@ class New_Message_Notification extends Email {
             'id'          => $message['data']['id'],
             'title'       => $request['title'],
             'description' => $request['description'],
-            'creator'     => $message['data']['creator']['data']['display_name'],
+            'updater'     => $message['data']['updater']['data']['display_name'],
             'project_id'  => $project->id,
         ] );
 

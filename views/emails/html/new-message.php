@@ -18,7 +18,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         <div style="margin: 40px 0 10px; margin-bottom: 20px;">
             <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Message Created By', 'pm' ); ?></em>
             <strong style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
-<?php echo $creator ?>
+<?php echo $updater ?>
             </strong>
 
         </div>

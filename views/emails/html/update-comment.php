@@ -18,13 +18,13 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         <div style="margin: 40px 0 10px; margin-bottom: 20px;">
             <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Commented By', 'pm' ); ?></em>
             <strong style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
-<?php echo $creator; ?>
+<?php echo $updater; ?>
             </strong>
             <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'On', 'pm' ); ?></em>
             <strong style="font-family: lato; color: #7e7e7e;">
                 <span style="padding-right: 5px;"><?php echo $commnetable_type; ?></span><a style="text-decoration: none; font-family: lato; color: #00b1e7; " href="<?php echo $comment_link ?>"><?php echo $commnetable_title; ?></a>
             </strong>
-        </div>
+        </div>updater
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
            <?php echo $content; ?>
