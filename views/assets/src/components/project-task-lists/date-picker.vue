@@ -1,10 +1,23 @@
 <template>
-    <input type="text" class="pm-datepickter" :value="value">
+    <input type="text" class="pm-datepickter" :value="dateValue">
 </template>
 
 <script>
     export default {
         props: ['value', 'dependency'],
+        data () {
+            return {
+                dateValue: ''
+            }
+        },
+        created () {
+            if(!this.value) {
+                return '';
+            }
+            var date = new Date(this.value);
+            date = pm.Moment(date).format('YYYY-MM-DD');
+            this.dateValue = date;
+        },
         mounted: function() {
             var self = this,
                 limit_date = ( self.dependency == 'pm-datepickter-from' ) ? "maxDate" : "minDate";

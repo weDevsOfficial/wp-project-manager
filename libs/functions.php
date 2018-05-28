@@ -54,7 +54,8 @@ function tzstring_to_tzcode( $tzstr ) {
 }
 
 function format_date( $date ) {
-    if ( !is_object($date) ) {
+
+    if ( $date && !is_object($date) ) {
         $date =  \Carbon\Carbon::parse($date);
     }
     

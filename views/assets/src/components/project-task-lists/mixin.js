@@ -1204,9 +1204,10 @@ var PM_TaskList_Mixin = {
          * @return Boolean                  
          */
         isBetweenDate ( task_start_field, start_date, due_date ) {
-            if ( task_start_field && !start_date && !due_date ) {
+            if ( task_start_field && start_date && due_date ) {
                 return true;
             }
+
             return false;
         },
 
