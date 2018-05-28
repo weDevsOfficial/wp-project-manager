@@ -41,7 +41,7 @@ class PM_Create_Table {
 		  `updated_by` int(10) UNSIGNED DEFAULT NULL,
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
-		  PRIMARY KEY (`id`)
+		  PRIMARY KEY (`id`),
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 		dbDelta( $sql );
