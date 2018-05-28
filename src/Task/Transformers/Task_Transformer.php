@@ -101,7 +101,7 @@ class Task_Transformer extends TransformerAbstract {
      */
     public function includeTaskList( Task $item ) { 
         $task_list = $item->task_lists->first();
-
+        
         if ( ! empty( $task_list ) ) {
             return $this->item( $task_list, new Task_List_Transformer );
         }

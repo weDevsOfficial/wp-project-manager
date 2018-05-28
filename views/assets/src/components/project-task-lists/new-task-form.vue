@@ -22,7 +22,7 @@
                     <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
                 </div>
             </div>
-
+    
             <div class="item user">
                 <div>
                     <multiselect 
@@ -101,15 +101,6 @@ export default {
             select_user_text: __( 'Select User', 'pm'),
             update_task: __( 'Update Task', 'pm' ),
             add_task: __( 'Add Task', 'pm' ),
-            value: [],
-      options: [
-        { name: 'Vue.js', language: 'JavaScript' },
-        { name: 'Adonis', language: 'JavaScript' },
-        { name: 'Rails', language: 'Ruby' },
-        { name: 'Sinatra', language: 'Ruby' },
-        { name: 'Laravel', language: 'PHP' },
-        { name: 'Phoenix', language: 'Elixir' }
-      ]
         }
     },
     mixins: [Mixins],
@@ -219,7 +210,7 @@ export default {
 	    		this.task.assignees.data.map(function(user) {
 	    			self.assigned_to.push(user.id);
 	    		});
-    		} 
+    		}
     		
 
     		if (typeof this.task.start_at === 'undefined') {
@@ -324,7 +315,7 @@ export default {
                     self.submit_disabled = false;
                 }
             }
-
+            
             if ( typeof this.task.id !== 'undefined' ) {
                 self.updateTask ( args );
             } else {
