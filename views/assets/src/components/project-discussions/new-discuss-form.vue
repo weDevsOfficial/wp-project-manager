@@ -1,7 +1,7 @@
 <template>
     <div class="pm-msg-edit-form">
         <div class="pm-message-form-wrap" >
-            <form id="myForm" class="pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
+            <form class="pm-form pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
             <div class="item title">
                 <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="Enter_Message_Title">
             </div>
