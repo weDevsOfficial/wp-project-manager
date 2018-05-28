@@ -1805,7 +1805,10 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
             }, $terms_releation);
             
-            $cat->projects()->attach( $pid );
+            if( !empty( $pid ) ) {
+                $cat->projects()->attach( $pid );
+            }
+
             $categories[$term['term_taxonomy_id']] = $cat->id;
         }
         return $categories;
