@@ -1,7 +1,7 @@
 <template>
-    <div :class="'pm-task-edit-form pm-slide-'+task.id">
+    <div :class="'pm-task-form pm-slide-'+task.id">
 
-        <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-task-form">
+        <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
           
             <div class="item task-title">
                 <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task" value="" required="required">
