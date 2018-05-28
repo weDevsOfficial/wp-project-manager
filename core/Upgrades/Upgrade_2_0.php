@@ -65,7 +65,6 @@ class Upgrade_2_0 extends WP_Background_Process
     function complete() {
         parent::complete();
         $this->isProcessRuning = false;
-
         $this->migrate_category();
         $this->set_settings();
 
@@ -1776,42 +1775,38 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function migrate_category() {
         global $wpdb;
-        $terms = get_terms( 
-            [
-                'taxonomy' => 'cpm_project_category',
-                'hide_empty' => false,
-            ]
-        );
+        
+        $terms = $wpdb->get_results( "SELECT a.term_taxonomy_id, a.taxonomy, a.description, a.term_id, b.name FROM {$wpdb->term_taxonomy} AS a INNER JOIN {$wpdb->terms} AS b ON a.term_id = b.term_id WHERE a.taxonomy = 'cpm_project_category'", ARRAY_A );
 
         $categories = [];
-
-        if ( is_wp_error( $terms ) ) {
-            return;
-        }
 
         $object = wp_list_pluck($terms, 'term_taxonomy_id' );
         $object = implode(',', $object);
         
         $terms_releation = $wpdb->get_results( "SELECT * FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id in({$object})", ARRAY_A );
-        $terms_releation = collect( $terms_releation );
-
+        
+        $projects = get_site_option( "pm_db_migration", [] );
+        
+    
         foreach ( $terms as $term ) {
             $cat = Category::firstOrCreate( [
-                'title'            => $term->name , 
-                'description'      => $term->description, 
-                'categorible_type' =>'project',
+              'title'            => $term['name'], 
+              'description'      => $term['description'], 
+               'categorible_type' => 'project',
             ]);
-            $projects = get_site_option( "pm_db_migration", array() );
-
-            $pterm = $terms_releation->where( 'term_taxonomy_id', $term->term_taxonomy_id )->toArray();//pluck('object_id')->all();
-            $pterm = wp_list_pluck( $pterm, 'object_id' );
-
-            $arr = array_filter( $projects, function( $key ) use ( $pterm ){
-                return in_array( $key, $pterm );
-            }, ARRAY_FILTER_USE_KEY);
-
-            $cat->projects()->attach( array_values( $arr ) );
-            $categories[$term->term_taxonomy_id] = $cat->id;
+            
+            $pid = [];
+            array_map( function ( $item ) use ( $term, $projects, &$pid ) {
+                if($item['term_taxonomy_id'] == $term['term_taxonomy_id'] ) {
+                    if( !empty( $projects[$item['object_id']] ) ) {
+                        $pid[] =  $projects[$item['object_id']];
+                    }
+                    
+                }
+            }, $terms_releation);
+            
+            $cat->projects()->attach( $pid );
+            $categories[$term['term_taxonomy_id']] = $cat->id;
         }
         return $categories;
     }
