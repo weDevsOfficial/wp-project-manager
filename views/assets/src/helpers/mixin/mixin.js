@@ -662,7 +662,7 @@ export default {
             return pm.Moment( date).format();
         },
 
-        deleteProject (id) {
+        deleteProject (id, project) {
             if ( ! confirm( this.__( 'Are you sure to delete this project?', 'pm' ) ) ) {
                 return;
             }
@@ -671,14 +671,25 @@ export default {
                 url: self.base_url + '/pm/v2/projects/' + id,
                 type: 'DELETE',
                 success: function(res) {
-                    self.$root.$store.commit('afterDeleteProject', id);
+                    self.$store.commit('afterDeleteProject', id);
+                    self.$store.commit('afterDeleteProjectCount', {project: project});
                     pm.Toastr.success(res.message);
-                    if (!self.$root.$store.state.projects.length) {
+                    var total_page = self.$store.state.pagination.total_pages;
+                    
+                    if (!self.$store.state.projects.length) {
                         self.$router.push({
                             name: 'project_lists', 
                         });
+
+                        if (
+                            total_page > 1
+                            &&
+                            typeof self.$route.params.current_page_number == 'undefined'
+                        ) {
+                            self.getProjects();
+                        }
                     } else {
-                        self.getProjects();
+                        //self.getProjects();
                     }
                 }
             }

@@ -37,14 +37,14 @@
         mixins: [Mixins],
         computed: {
             activated () {
-                return this.$root.$store.state.projects_meta.total_incomplete;
+                return this.$store.state.projects_meta.total_incomplete;
             },
             completed () {
-                return this.$root.$store.state.projects_meta.total_complete;
+                return this.$store.state.projects_meta.total_complete;
             },
             allof () {
-                var incomplete = this.$root.$store.state.projects_meta.total_incomplete; 
-                var complete   = this.$root.$store.state.projects_meta.total_complete;
+                var incomplete = this.$store.state.projects_meta.total_incomplete; 
+                var complete   = this.$store.state.projects_meta.total_complete;
 
                 return incomplete + complete;
             }
