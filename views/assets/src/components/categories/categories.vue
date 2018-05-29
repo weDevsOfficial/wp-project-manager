@@ -175,10 +175,10 @@
         width: 40px;
     }
     .pm #tag-name {
-        height: 30px;
+        height: 28px;
     }
     .pm #tag-description {
-        min-height: 100px;
+        min-height: 84px;
     }
     .pm #bulk-action-selector-top,
     .pm #bulk-action-selector-bottom {

@@ -219,17 +219,17 @@ a:active {
 .pm input[type="color"],
 .pm .uneditable-input {
   display: inline-block;
-  height: 36px;
-  padding: 4px 6px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 20px;
+  height: 28px;
+  padding: 3px 8px;
+  margin-bottom: 0 0 10px;
+  font-size: 12px;
+  line-height: 100%;
   color: #555555;
   background: #ffffff;
   vertical-align: middle;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
   border: 1px solid #DDDDDD;
   -webkit-box-shadow: none;
      -moz-box-shadow: none;
@@ -644,14 +644,16 @@ ul.pm-attachments li {
 .pm-form .item select,
 .pm-form .item textarea {
   width: 100%;
-  padding: 4px 6px;
-  font-size: inherit;
+  height: 28px;
+  padding: 3px 8px;
+  font-size: 12px;
+  line-height: 100%;
   box-shadow: none;
   border: 1px solid #ddd;
   background: #fff;
 }
 .pm-form .item textarea {
-  height: auto;
+  height: 84px;
 }
 .pm-form .submit {
   padding: 0;
@@ -835,12 +837,7 @@ ul.pm-nav li a {
   text-indent: -9999px;
   display: inline-block;
 }
-.pm-ui-dialog .pm-project-form input[type=text],
-.pm-ui-dialog .pm-project-form textarea,
-.pm-ui-dialog .pm-project-form select {
-  border: 1px solid #F1F1F1;
-  padding: 10px;
-}
+
 .pm-ui-dialog .pm-project-form input[type=text]:-moz-placeholder,
 .pm-ui-dialog .pm-project-form textarea:-moz-placeholder,
 .pm-ui-dialog .pm-project-form select:-moz-placeholder {
@@ -1669,25 +1666,7 @@ ul.pm-activity ul li:before {
   width: 40%;
   background: #F8F8F8;
 }
-.pm-todolists .pm-todolist .pm-new-btn .pm-task-form .multiselect,
-.pm-todolists .pm-todolist .pm-todo-form .pm-task-form .multiselect {
-  width: 98%;
-}
-.pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item,
-.pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item {
-  margin-bottom: 10px;
-}
-.pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item input[type="text"],
-.pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item input[type="text"] {
-  height: 34px;
-}
-.pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item input[type="text"],
-.pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item input[type="text"],
-.pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item textarea,
-.pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item textarea {
-  width: 98%;
-  height: auto;
-}
+
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item .multiselect__tag,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item .multiselect__tag {
   background: #019dd6;
@@ -1705,7 +1684,7 @@ ul.pm-activity ul li:before {
   margin: 0;
   margin-top: -1px;
   padding: 0;
-  height: 30px !important;
+  height: 28px !important;
 }
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item .multiselect__element,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item .multiselect__element {
@@ -3574,10 +3553,6 @@ a.pm-icon-tick.grey {
   background: #ffffff;
   margin: 0;
 }
-.pm .pm-todolists .pm-todolist .pm-todos li div {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
 .pm .pm-todolists .pm-todolist .pm-todos li .pm-todo-content .pm-comment-count {
   background: url('../images/comment_gray.svg') no-repeat 0% 50%;
   background-size: 20px;
@@ -3747,6 +3722,9 @@ a.pm-icon-tick.grey {
   border-bottom: #eee solid 1px;
   cursor: pointer;
   padding: 15px 10px 0px;
+}
+.pm .pm-message-page .pm-message-list .pm-user-list li{
+  border-bottom: 0px;
 }
 .pm .pm-message-page .pm-message-list li .pm-col-9 {
   font-weight: bold;
@@ -4133,7 +4111,7 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-blank-template .pm-content {
   margin: auto;
-  max-width: 700px;
+  max-width: 600px;
   min-height: 450px;
   text-align: center;
   background-repeat: no-repeat;

@@ -20,9 +20,9 @@ class RoleTableSeeder extends Seeder
         if (!Role::count()) {
             Role::insert([
                 [
-                    'title'       => 'Manager',
+                    'title'       => __( 'Manager', 'pm' ),
                     'slug'        => 'manager',
-                    'description' => 'Manager is a person who manages the project.',
+                    'description' => __( 'Manager is a person who manages the project.', 'pm' ),
                     'status'      => 1,
                     'created_by'  => $user->ID,
                     'updated_by'  => $user->ID,
@@ -30,9 +30,9 @@ class RoleTableSeeder extends Seeder
                     'updated_at'  => Carbon::now(),
                 ],
                 [
-                    'title'       => 'Co Worker',
+                    'title'       => __( 'Co-Worker', 'pm' ),
                     'slug'        => 'co_worker',
-                    'description' => 'Co-worker is person who works under a project.',
+                    'description' => __( 'Co-worker is person who works under a project.', 'pm' ),
                     'status'      => 1,
                     'created_by'  => $user->ID,
                     'updated_by'  => $user->ID,
@@ -41,7 +41,7 @@ class RoleTableSeeder extends Seeder
                 ],
             ]);
         }
-        $mc = Settings::where( 'key', 'managing_capability')->get();
+        $mc = Settings::where( 'key', 'managing_capability' )->get();
         $pcc = Settings::where( 'key', 'project_create_capability' )->get();
         if ( $mc->isEmpty() ){
             Settings::firstOrCreate([
