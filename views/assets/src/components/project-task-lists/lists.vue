@@ -354,7 +354,6 @@
                                self.$store.commit( 'projectTaskLists/fetchListStatus', false ); 
                             }
                         } else {
-
                             self.getLists();
                         }   
                     }
