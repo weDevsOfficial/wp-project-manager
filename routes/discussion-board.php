@@ -22,7 +22,7 @@ $router->get( 'projects/{project_id}/discussion-boards/{discussion_board_id}', '
 
 $router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss'])
-    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Update_Discussion_Board' );
+    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' );
 
 
 $router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' )
