@@ -26,7 +26,7 @@ class Complete_Task_Notification extends Email {
             }
         }
 
-        if( apply_filters( 'notify_project_managers', true ) ){
+        if( $this->notify_manager() ){
             foreach ( $task->projects->managers->toArray() as $u ) {
                 if( !in_array($u['user_email'], $users )){
                     $users[] = $u['user_email'];
