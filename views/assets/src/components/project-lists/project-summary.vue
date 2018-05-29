@@ -129,7 +129,7 @@
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
-                            <a @click.prevent="deleteProject(project.id)" class="pm-project-delete-link" :title="__( 'Delete project', 'pm' )">
+                            <a @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'pm' )">
                                 <span class="dashicons dashicons-trash"></span>
                                 <span>{{ __( 'Delete', 'pm' ) }}</span>
                             </a>
