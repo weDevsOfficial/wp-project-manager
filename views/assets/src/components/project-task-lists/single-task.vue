@@ -334,6 +334,7 @@
                     status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
+                        title: this.task.title,
                         task_id: this.task.id,
                         status : status,
                     },
