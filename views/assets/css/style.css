@@ -1666,7 +1666,9 @@ ul.pm-activity ul li:before {
   width: 40%;
   background: #F8F8F8;
 }
-
+.pm-todo-form .pm-task-form .pm-task-start-field {
+    margin-bottom: 10px;
+}
 .pm-todolists .pm-todolist .pm-new-btn .pm-task-form .item .multiselect__tag,
 .pm-todolists .pm-todolist .pm-todo-form .pm-task-form .item .multiselect__tag {
   background: #019dd6;
