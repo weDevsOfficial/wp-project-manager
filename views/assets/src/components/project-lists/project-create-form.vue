@@ -9,7 +9,7 @@
 
             <div class="pm-form-item item project-category">
                 <!-- v-model="project_cat" -->
-                <select v-model="project_category"  id='project_cat' class='chosen-select' style="height: 35px;">
+                <select v-model="project_category"  id='project_cat' class='chosen-select'>
                     <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
                     <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
                 </select>
