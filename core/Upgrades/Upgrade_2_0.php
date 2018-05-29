@@ -1159,12 +1159,10 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( !class_exists( 'WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice' ) ) {
             return ;
         }
-        if ( function_exists('pm_pro_is_module_inactive') || pm_pro_is_module_inactive('invoice/invoice.php') ) {
-            return ;
-        }
+
         global $wpdb;
 
-        $oldInvoice   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s AND post_status=%s", $oldProjectId, 'cpm_invoice', 'publish' ), ARRAY_A );
+        $oldInvoice   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent=%d AND post_type=%s", $oldProjectId, 'cpm_invoice' ), ARRAY_A );
 
         $invoice  = [];
 
@@ -1596,10 +1594,6 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         if ( ! class_exists( 'WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker' ) ) {
-            return ;
-        }
-
-        if( function_exists('pm_pro_is_module_inactive') && pm_pro_is_module_inactive('time_tracker/time_tracker.php') ) {
             return ;
         }
 
