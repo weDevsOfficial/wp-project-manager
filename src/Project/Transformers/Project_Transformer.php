@@ -106,6 +106,6 @@ class Project_Transformer extends TransformerAbstract {
     public function includeAssignees( Project $item ) {
         $assignees = $item->assignees;
 
-        return $this->collection( $assignees, new User_Transformer );
+        return $this->collection( $assignees, new User_Transformer( $item->id ) );
     }
 }

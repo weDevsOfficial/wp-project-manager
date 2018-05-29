@@ -24,10 +24,10 @@ $router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@sto
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Project_Sanitizer' );
 
 $router->put( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@update' )
-    ->permission(['WeDevs\PM\Core\Permissions\Project_Create_Capability'])
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability'])
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Project_Sanitizer' )
     ->validator( 'WeDevs\PM\Project\Validators\Update_Project' );
 
 $router->delete( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' )
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Delete_Sanitizer' )
-    ->permission(['WeDevs\PM\Core\Permissions\Project_Create_Capability']);
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
