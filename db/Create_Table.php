@@ -26,7 +26,7 @@ class PM_Create_Table {
 		// `status` COMMENT '0: incomplete; 1: complete; 2: pending; 3: archived'
 		
 		$sql = "CREATE TABLE IF NOT EXISTS  {$table_name} (
-		  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `title` varchar(255) NOT NULL,
 		  `description` text,
 		  `status` tinyint(4) NOT NULL DEFAULT 0,
@@ -37,8 +37,8 @@ class PM_Create_Table {
 		  `order` tinyint(4) DEFAULT NULL,
 		  `projectable_type` varchar(255) DEFAULT NULL,
 		  `completed_at` timestamp NULL DEFAULT NULL,
-		  `created_by` int(10) UNSIGNED DEFAULT NULL,
-		  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+		  `created_by` int(11) UNSIGNED DEFAULT NULL,
+		  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`),
@@ -53,14 +53,14 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_activities';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `actor_id` int(10) UNSIGNED NOT NULL,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `actor_id` int(11) UNSIGNED NOT NULL,
 			  `action` varchar(255) NOT NULL,
 			  `action_type` varchar(255) NOT NULL,
-			  `resource_id` int(10) UNSIGNED DEFAULT NULL,
+			  `resource_id` int(11) UNSIGNED DEFAULT NULL,
 			  `resource_type` varchar(255) DEFAULT NULL,
 			  `meta` text,
-			  `project_id` int(10) UNSIGNED NOT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -77,16 +77,16 @@ class PM_Create_Table {
 		//`status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Not started; 1: Working; 2: Accomplished',
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `task_id` int(10) UNSIGNED NOT NULL,
-			  `assigned_to` int(10) UNSIGNED NOT NULL,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `task_id` int(11) UNSIGNED NOT NULL,
+			  `assigned_to` int(11) UNSIGNED NOT NULL,
 			  `status` tinyint(4) NOT NULL DEFAULT 0,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `assigned_at` timestamp NULL DEFAULT NULL,
-			  `stated_at` timestamp NULL DEFAULT NULL,
+			  `started_at` timestamp NULL DEFAULT NULL,
 			  `completed_at` timestamp NULL DEFAULT NULL,
-			  `project_id` int(10) UNSIGNED NOT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -101,14 +101,14 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_boardables';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `board_id` int(10) UNSIGNED NOT NULL,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `board_id` int(11) UNSIGNED NOT NULL,
 			  `board_type` varchar(255) NOT NULL,
-			  `boardable_id` int(10) UNSIGNED NOT NULL,
+			  `boardable_id` int(11) UNSIGNED NOT NULL,
 			  `boardable_type` varchar(255) NOT NULL,
 			  `order` int(11) NOT NULL DEFAULT 0,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -124,14 +124,14 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_boards';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  `title` varchar(255) NOT NULL,
 			  `description` text,
-			  `order` int(10) UNSIGNED DEFAULT NULL,
+			  `order` int(11) UNSIGNED DEFAULT NULL,
 			  `type` varchar(255) DEFAULT NULL,
-			  `project_id` int(10) UNSIGNED NOT NULL,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -147,12 +147,12 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_categories';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  `title` varchar(255) NOT NULL,
 			  `description` text,
 			  `categorible_type` varchar(255) DEFAULT NULL,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -168,8 +168,8 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_category_project';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `project_id` int(10) UNSIGNED NOT NULL,
-			  `category_id` int(10) UNSIGNED NOT NULL
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `category_id` int(11) UNSIGNED NOT NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 		
@@ -182,14 +182,14 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_comments';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  `content` text NOT NULL,
 			  `mentioned_users` varchar(255) DEFAULT NULL,
-			  `commentable_id` int(10) UNSIGNED NOT NULL,
+			  `commentable_id` int(11) UNSIGNED NOT NULL,
 			  `commentable_type` varchar(255) NOT NULL,
-			  `project_id` int(10) UNSIGNED NOT NULL,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -211,9 +211,9 @@ class PM_Create_Table {
 			  `type` varchar(255) NOT NULL DEFAULT 'file',
 			  `attachment_id` bigint(20) DEFAULT NULL,
 			  `parent` int(11) NOT NULL DEFAULT 0,
-			  `project_id` int(10) UNSIGNED DEFAULT NULL,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -229,14 +229,14 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_meta';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-		  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  `entity_id` int(10) UNSIGNED NOT NULL,
+		  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  `entity_id` int(11) UNSIGNED NOT NULL,
 		  `entity_type` varchar(255) NOT NULL,
 		  `meta_key` varchar(255) NOT NULL,
 		  `meta_value` text,
-		  `project_id` int(10) UNSIGNED DEFAULT NULL,
-		  `created_by` int(10) UNSIGNED DEFAULT NULL,
-		  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+		  `project_id` int(11) UNSIGNED DEFAULT NULL,
+		  `created_by` int(11) UNSIGNED DEFAULT NULL,
+		  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`)
@@ -257,8 +257,8 @@ class PM_Create_Table {
 			  `slug` varchar(255) NOT NULL,
 			  `description` text,
 			  `status` tinyint(2) unsigned NOT NULL DEFAULT '1',
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -275,10 +275,10 @@ class PM_Create_Table {
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `user_id` int(10) UNSIGNED NOT NULL,
-			  `role_id` int(10) UNSIGNED NOT NULL,
-			  `project_id` int(10) UNSIGNED DEFAULT NULL,
-			  `assigned_by` int(10) UNSIGNED NOT NULL,
+			  `user_id` int(11) UNSIGNED NOT NULL,
+			  `role_id` int(11) UNSIGNED NOT NULL,
+			  `project_id` int(11) UNSIGNED DEFAULT NULL,
+			  `assigned_by` int(11) UNSIGNED NOT NULL,
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
@@ -292,12 +292,12 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_settings';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  `key` varchar(255) NOT NULL,
 			  `value` text,
-			  `project_id` int(10) UNSIGNED DEFAULT NULL,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED DEFAULT NULL,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
@@ -330,10 +330,10 @@ class PM_Create_Table {
 			  `payable` tinyint(1) NOT NULL DEFAULT 0 ,
 			  `recurrent` tinyint(1) NOT NULL DEFAULT 0,
 			  `status` tinyint(4) NOT NULL DEFAULT 0,
-			  `project_id` int(10) UNSIGNED NOT NULL,
-			  `parent_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
-			  `created_by` int(10) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `parent_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)

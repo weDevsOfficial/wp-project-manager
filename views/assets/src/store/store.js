@@ -39,6 +39,14 @@ export default new pm.Vuex.Store({
     },
 
     mutations: {
+        afterDeleteProjectCount (state, project) {
+
+            if(project.project.status == 'incomplete') {
+                state.projects_meta.total_incomplete = parseInt(state.projects_meta.total_incomplete) - 1;
+            } else {
+               state.projects_meta.total_complete = parseInt(state.projects_meta.total_complete) - 1; 
+            }
+        },
         updateListViewType(state, view) {
             if(
                 state.projectMeta.hasOwnProperty('list_view_type')
