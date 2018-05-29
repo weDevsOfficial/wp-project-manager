@@ -148,6 +148,10 @@ class Email {
        
 
     }
+
+    function notify_manager() {
+        require apply_filters( 'notify_project_managers', false );
+    }
     /**
      * Get WordPress blog name.
      *
