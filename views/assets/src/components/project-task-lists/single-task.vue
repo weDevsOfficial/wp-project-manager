@@ -363,6 +363,11 @@
                     },
                     task_id : self.task_id,
                     callback : function (res) {
+                        if (typeof res.data === 'undefined' ) {
+                            pm.Toastr.error(res.message); 
+                            self.$router.go(-1);
+                            return;
+                        }
                         self.addMeta(res.data);
                         self.list = res.data.boards.data[0];
                         self.$store.commit('projectTaskLists/setSingleTask', res.data);
