@@ -137,11 +137,11 @@
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
-                                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
+                                <span v-if="project.status == 'incomplete'" class="dashicons dashicons-yes"></span>
+                                <span v-if="project.status == 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
 
-                                <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
+                                <span v-if="project.status == 'complete'" class="dashicons dashicons-undo"></span>
+                                <span v-if="project.status == 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
                                 
                             </a>
                         </li>
@@ -194,14 +194,34 @@
                         'status': project.status,
                     },
                     callback: function(project) {
-                        switch (self.$route.name) {
+
+                        switch (project.data.status) {
                             
-                            case 'project_lists':
-                                self.getProjects({conditions:{status: 'incomplete'}});
+                            case 'complete':
+                                self.getProjects({
+                                    conditions:{status: 'incomplete'},
+                                    callback () {
+                                        if(!self.$store.state.projects.length) {
+                                            self.$router.push({
+                                                name: 'project_lists'
+                                            })
+                                        }
+                                    }
+                                });
                                 break;
 
-                            case 'completed_projects':
-                                self.getProjects({conditions:{status: 'complete'}});
+                            case 'incomplete':
+                                
+                                self.getProjects({
+                                    conditions:{status: 'complete'},
+                                    callback () {
+                                        if(!self.$store.state.projects.length) {
+                                            self.$router.push({
+                                                name: 'completed_projects'
+                                            })
+                                        }
+                                    }
+                                });
                                 break;
 
                             default:

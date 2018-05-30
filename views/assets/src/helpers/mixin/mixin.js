@@ -353,10 +353,13 @@ export default {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });
-                    self.$root.$store.commit('setProjects', {'projects': res.data});
-                    self.$root.$store.commit('setProjectsMeta', res.meta );
+                    
+                    self.$store.commit('setProjects', {'projects': res.data});
+                    self.$store.commit('setProjectsMeta', res.meta );
+                    
                     pm.NProgress.done();
                     self.loading = false;
+                    
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
                     }

@@ -344,7 +344,8 @@
                         } else {
                             self.task.status = false;
                         }
-
+                        
+                        pmBus.$emit('pm_after_task_doneUndone', res);
                         // self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                         //     status: status,
                         //     task: res.data,
