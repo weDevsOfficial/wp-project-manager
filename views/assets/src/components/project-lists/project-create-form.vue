@@ -22,7 +22,7 @@
 
             <div class="pm-form-item pm-project-role" v-if="show_role_field">
                 <table>
-                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
+                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id" v-if="current_user.data.ID != projectUser.id">
                         <td>{{ projectUser.display_name }}</td>
                         <td>
                             <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
