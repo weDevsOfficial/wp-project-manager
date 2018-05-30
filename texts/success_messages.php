@@ -79,5 +79,8 @@ return [
     ],
     'no_element' => [
         __( 'No element found', 'pm' )
+    ],
+    'no_project' => [
+        __( 'No Project found', 'pm' )
     ]
 ];
