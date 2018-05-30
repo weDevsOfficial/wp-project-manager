@@ -88,8 +88,6 @@
                             </thead>
 
                             
-
-
                             <tbody id="the-list" data-wp-lists="list:tag">
 
                                 <tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)" :key="category.id">
@@ -98,7 +96,7 @@
                                     </th>
                                     <td v-if="!category.edit_mode" class="name column-name has-row-actions column-primary" data-colname="Name">
                                         <strong>
-                                            <a class="row-title" href="">{{ category.title }}</a>
+                                            <a class="row-title" :href="'#/projects/active?category='+category.id">{{ category.title }}</a>
                                         </strong>
                                     
                                         <div class="row-actions">
@@ -119,9 +117,6 @@
                                     <td class="colspanchange" colspan="3">No categories found.</td>
                                 </tr>
                             </tbody>
-
-
-
 
 
                             <tfoot>
