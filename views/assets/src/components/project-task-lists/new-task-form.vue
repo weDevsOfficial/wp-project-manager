@@ -117,7 +117,6 @@ export default {
     // Initial action for this component
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
-        
     },
 
     watch: {
@@ -187,7 +186,8 @@ export default {
                 //         return (assigned_to.indexOf(parseInt(user.id)) >= 0);
                 //     });
                 // }
-                return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
+                
+                return typeof this.task.assignees == 'undefined' ? [] : this.task.assignees.data;
             }, 
 
             /**
