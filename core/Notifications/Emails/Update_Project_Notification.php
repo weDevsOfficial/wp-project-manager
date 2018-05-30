@@ -25,8 +25,13 @@ class Update_Project_Notification extends Email {
         $assignees     = $project['data']['assignees']['data'];
         $users         = array();
 
+
         foreach ($assignees as $assignee ) {
-            if( $this->is_enable_user_notification( $assignee['id'] ) ){
+            if( $this->is_enable_user_notification( $assignee['id'] ) ) {
+                if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
+                    continue;
+                }
+
                 $users[] = $assignee['email'];
             }
         }
