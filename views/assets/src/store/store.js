@@ -35,7 +35,11 @@ export default new pm.Vuex.Store({
 
             return index;
         },
-        assignees: []
+        assignees: [],
+        history: {
+            to: {},
+            from: {}
+        }
     },
 
     mutations: {
@@ -44,7 +48,7 @@ export default new pm.Vuex.Store({
             if(project.project.status == 'incomplete') {
                 state.projects_meta.total_incomplete = parseInt(state.projects_meta.total_incomplete) - 1;
             } else {
-               state.projects_meta.total_complete = parseInt(state.projects_meta.total_complete) - 1; 
+               state.projects_meta.total_complete = parseInt(state.projects_meta.total_complete) - 1;
             }
         },
         updateListViewType(state, view) {
@@ -176,7 +180,7 @@ export default new pm.Vuex.Store({
 
         showHideProjectDropDownAction (state, data) {
             var index = state.getIndex(state.projects, data.project_id, 'id');
-            
+
             if (data.status === 'toggle') {
                 state.projects[index].settings_hide = state.projects[index].settings_hide ? false : true;
             } else {
@@ -229,7 +233,16 @@ export default new pm.Vuex.Store({
             state.projectMilesotneLoaded = false;
             state.projectFileLoaded = false;
             state.projectActivityLoaded = false;
+        },
+
+        recordHistory(state, history) {
+            const to = jQuery.extend(true, {}, history.to);
+            const from = jQuery.extend(true, {}, history.from);
+
+            state.history = {
+                to, from
+            };
         }
     }
-    
+
 });

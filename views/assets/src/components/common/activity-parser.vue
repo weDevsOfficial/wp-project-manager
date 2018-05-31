@@ -154,8 +154,7 @@
                     
                 }
 
-                this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;
-                return;
+                return this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;
             }
         }
     }
