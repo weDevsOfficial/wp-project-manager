@@ -744,11 +744,11 @@ function cpm_settings_label() {
             'create_message'   => __( 'Create', 'cpm' ),
             'msg_view_private' => __( 'View Private', 'cpm' ),
         ),
-        __('Todo List', 'cpm') => array(
+        __('Task List', 'cpm') => array(
             'create_todolist'      => __( 'Create', 'cpm' ),
             'tdolist_view_private' => __( 'View Private', 'cpm' ),
         ),
-        __('Todo', 'cpm')      => array(
+        __('Task', 'cpm')      => array(
             'create_todo'       => __( 'Create', 'cpm' ),
             'todo_view_private' => __( 'View Private', 'cpm' ),
         ),
