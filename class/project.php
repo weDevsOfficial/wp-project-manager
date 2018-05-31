@@ -67,8 +67,8 @@ class CPM_Project {
         $args = array (
             'hierarchical' => true,
             'labels'       => array(
-                'name'              => _x( 'Project Categories', 'taxonomy general name' ),
-                'singular_name'     => _x( 'Location', 'taxonomy singular name' ),
+                'name'              => _x( 'Project Categories', 'taxonomy general name', 'cpm' ),
+                'singular_name'     => _x( 'Project Category', 'taxonomy singular name', 'cpm' ),
                 'search_items'      => __( 'Search Project Categories', 'cpm' ),
                 'all_items'         => __( 'All Project Categories', 'cpm' ),
                 'parent_item'       => __( 'Parent Project Category', 'cpm' ),

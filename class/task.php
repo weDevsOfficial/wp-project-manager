@@ -1113,7 +1113,7 @@ class CPM_Task {
     function my_task_sub_nav() {
         $nav = array (
             __( 'Current Task', 'cpm' )     => cpm_url_my_task(),
-            __( 'Outstanding Task', 'cpm' ) => cpm_url_outstanding_task(),
+            __( 'Overdue Task', 'cpm' ) => cpm_url_outstanding_task(),
             __( 'Completed Task', 'cpm' )   => cpm_url_complete_task(),
         );
 
