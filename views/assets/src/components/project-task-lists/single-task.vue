@@ -316,6 +316,7 @@
         },
 
         created: function() {
+            
             this.getSelfTask();
             window.addEventListener('click', this.windowActivity);
             this.$root.$on('pm_date_picker', this.fromDate);
