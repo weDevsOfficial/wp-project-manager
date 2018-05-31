@@ -134,6 +134,22 @@ export default {
 
             return pm.Moment( date ).format(format);
         },
+
+                /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        taskDateFormat ( date ) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            return pm.Moment(date).format('MMMM DD');
+        },
         getSettings (key, pre_define, objKey ) {
 
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
