@@ -14,7 +14,6 @@
                                     list_id: list.id, 
                                     task_id: task.id, 
                                     project_id: project_id, 
-                                    task: task 
                             }}">
 
                             {{ task.title }}
@@ -46,7 +45,6 @@
                                         list_id: list.id, 
                                         task_id: task.id, 
                                         project_id: project_id, 
-                                        task: task 
                                 }}">
 
                                 <span class="pm-comment-count">
@@ -117,7 +115,7 @@
                 // }
             }
         },
-        
+
         components: {
             'new-task-form': new_task_form,
             'do-action': DoAction
