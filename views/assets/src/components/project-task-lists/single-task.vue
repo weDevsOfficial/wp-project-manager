@@ -5,13 +5,13 @@
             <div class="modal-wrapper">
                 <div class="modal-container" style="width: 700px; height: 20000px;">
                     <span class="close-vue-modal">
-                        
+
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
 
                     <div class="modal-body pm-todolist">
-                        
+
                         <!-- Spinner before load task -->
                         <div class="pm-data-load-before" >
                             <div class="loadmoreanimation">
@@ -28,8 +28,8 @@
                 </div>
             </div>
         </div>
-    
-        
+
+
         <div v-else class="modal-mask half-modal pm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
@@ -42,32 +42,32 @@
                         <div class="pm-col-12 pm-todo">
                             <div class="pm-modal-conetnt">
                                 <div class="cmp-task-header">
-                                    <h3 class="pm-task-title"> 
+                                    <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
                                             <input :disabled="can_complete_task(task)" v-model="task.status" @click="singleTaskDoneUndone()" class="" type="checkbox">
                                         </span>
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
-                                                
+
                                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
-                                                    <input 
+                                                    <input
                                                         v-model="task.title"
-                                                        @blur="updateTaskElement(task)" 
+                                                        @blur="updateTaskElement(task)"
                                                         @keyup.enter="updateTaskElement(task)"
-                                                        
+
                                                         class="pm-task-title-activity pm-task-title-field"
                                                         type="text">
                                                 </span>
-                                                
-                                                <span 
-                                                    :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'" 
-                                                    v-if="!is_task_title_edit_mode" 
+
+                                                <span
+                                                    :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
+                                                    v-if="!is_task_title_edit_mode"
                                                     @click.prevent="isTaskTitleEditMode()">
                                                     {{ task.title }}
                                                 </span>
-                                                
+
                                             </div>
-                                          
+
                                             <div class="clearfix pm-clear"></div>
                                         </span>
                                         <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
@@ -77,26 +77,26 @@
                                     <div  class="pm-task-meta">
 
                                         <span  class="pm-assigned-user-wrap">
-                                            <span v-if="task.assignees.data.length" class='pm-assigned-user' 
+                                            <span v-if="task.assignees.data.length" class='pm-assigned-user'
                                                 @click.prevent="isEnableMultiSelect()"
                                                 v-for="user in task.assignees.data">
-                                                
+
                                                 <a href="#" :title="user.display_name">
                                                     <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                                 </a>
                                             </span>
 
-                                            <span v-if="!task.assignees.data.length" class='pm-assigned-user' 
+                                            <span v-if="!task.assignees.data.length" class='pm-assigned-user'
                                                 @click.prevent="isEnableMultiSelect()">
                                                 <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
                                             </span>
-                                            
+
                                             <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
 
-                                                <multiselect 
-                                                    v-model="task_assign" 
-                                                    :options="project_users" 
-                                                    :multiple="true" 
+                                                <multiselect
+                                                    v-model="task_assign"
+                                                    :options="project_users"
+                                                    :multiple="true"
                                                     :close-on-select="false"
                                                     :clear-on-select="true"
                                                     :hide-selected="false"
@@ -119,14 +119,14 @@
                                                             </div>
                                                         </div>
                                                     </template>
-                                                        
-                                                </multiselect>               
+
+                                                </multiselect>
                                             </div>
 
                                             </span>
 
                                             <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-                                                <span 
+                                                <span
                                                     @click.prevent="isTaskDateEditMode()">
                                                     <span v-if="task_start_field">
                                                         <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
@@ -147,11 +147,11 @@
                                                     <div class="clearfix pm-clear"></div>
                                                 </div>
 
-                                                
+
                                             </span>
 
                                             <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
-                                                <span 
+                                                <span
                                                     @click.prevent="isTaskDateEditMode()"
                                                     v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
                                                     <span>
@@ -166,7 +166,7 @@
                                                     <div class="clearfix pm-clear"></div>
                                                 </div>
 
-                                                
+
                                             </span>
 
                                             <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'pm' ) }}</span>
@@ -175,9 +175,9 @@
 
 
                                 <div  class="task-details">
-                                                
+
                                     <!--v-if-->
-                                    
+
                                     <p class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
                                         <span v-if="task.description !== ''" v-html="task.description"></span>
                                         <span style="margin-left: -3px;" v-if="!task.description">
@@ -187,19 +187,19 @@
 
                                     </p>
                                     <!-- @keyup.enter="updateTaskElement(task)" -->
-                                    <textarea 
+                                    <textarea
                                         v-prevent-line-break
-                                        @blur="updateDescription(task, $event)" 
+                                        @blur="updateDescription(task, $event)"
                                         @keyup.enter="updateDescription(task, $event)"
-                                        class="pm-des-area pm-desc-field" 
+                                        class="pm-des-area pm-desc-field"
                                         v-if="is_task_details_edit_mode && can_edit_task(task)"
                                         v-model="task.description">
-                                            
+
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
                                         <span>{{ __( 'Shift+Enter for line break', 'pm' ) }}</span>
                                     </div>
-                                    
+
                                     <div class="clearfix pm-clear"></div>
                                     <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
                                 </div>
@@ -210,7 +210,7 @@
                                             <task-comments :comments="task.comments.data"></task-comments>
                                         </div>
                                     </div>
-                                </div>          
+                                </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -219,7 +219,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 </template>
@@ -230,7 +230,7 @@
     import Mixins from './mixin';
 
     export default {
-     
+
         data: function() {
             return {
                 loading: true,
@@ -272,7 +272,7 @@
             //  if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
             //      return [];
             //  }
-         
+
             //  return this.$store.state.projectTaskLists.task.comments.data;
             // },
 
@@ -290,12 +290,12 @@
                         return user.id;
                     });
                     return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
-                }, 
+                },
 
                 /**
                  * Set selected users at task insert or edit time
-                 * 
-                 * @param array selected_users 
+                 *
+                 * @param array selected_users
                  */
                 set: function ( selected_users ) {
                     this.assigned_to = selected_users.map(function (user) {
@@ -317,7 +317,7 @@
 
         created: function() {
             this.getSelfTask();
-            window.addEventListener('click', this.windowActivity);  
+            window.addEventListener('click', this.windowActivity);
             this.$root.$on('pm_date_picker', this.fromDate);
         },
 
@@ -353,9 +353,9 @@
                         //     task_id: self.task.id
                         // });
                     }
-                }                   
+                }
                 this.taskDoneUndone( args );
-                   
+
             },
             getSelfTask (){
                 var self = this;
@@ -366,7 +366,7 @@
                     task_id : self.task_id,
                     callback : function (res) {
                         if (typeof res.data === 'undefined' ) {
-                            pm.Toastr.error(res.message); 
+                            pm.Toastr.error(res.message);
                             self.$router.go(-1);
                             return;
                         }
@@ -379,7 +379,7 @@
                 }
 
                 this.getTask(args);
-                
+
             },
 
             addMeta (task) {
@@ -404,10 +404,10 @@
                     jQuery('.multiselect__input').focus();
                 });
             },
- 
+
             fromDate: function(date) {
                 if ( date.field == 'datepicker_from' ) {
-                    
+
                     if (this.task.due_date.date) {
                         var start = new Date(date.date);
                         var end  = new Date(this.task.due_date.date);
@@ -418,7 +418,7 @@
                             return;
                         }
                     }
-                   
+
                     this.task.start_at.date = date.date;
 
                     this.updateTaskElement(this.task);
@@ -436,12 +436,12 @@
                             return;
                         }
                     }
-                    
+
                     var task = this.task;
-     
+
                     var start = new Date( task.start_at ),
                         due = new Date( date.date );
-                    
+
                     if ( !this.$store.state.projectTaskLists.permissions.task_start_field ) {
                         task.due_date.date = date.date;
                         this.updateTaskElement(task);
@@ -476,7 +476,18 @@
             },
 
             closePopup: function() {
-                this.$router.go(-1)
+                const history = this.$store.state.history;
+
+                if (! history.from.name) {
+                    this.$router.push({
+                        name: 'task_lists',
+                        params: {
+                            project_id: this.$route.params.project_id
+                        }
+                    });
+                } else {
+                    this.$router.push(history.from);
+                }
             },
 
             singleTaskTitle: function(task) {
@@ -493,8 +504,8 @@
                         &&
                     task.due_date.date
                         &&
-                    this.task_start_field 
-                        && 
+                    this.task_start_field
+                        &&
                     compare
                 ) {
                     pm.Toastr.error('Invalid date range!');
@@ -535,7 +546,7 @@
                         });
                     }
                 }
-               
+
                 this.httpRequest(request_data);
             },
 
@@ -554,11 +565,11 @@
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
                     dscription_blur = jQuery(el.target).hasClass('pm-des-area'),
                     assign_user    =  jQuery(el.target).closest( '.pm-assigned-user-wrap' );
-                    
+
                 if ( ! title_blur ) {
                     this.is_task_title_edit_mode = false;
                 }
-                
+
                 if ( ! dscription_blur ) {
                     this.is_task_details_edit_mode = false;
                 }
@@ -568,12 +579,12 @@
                 }
 
                 this.datePickerDispaly(el);
-                
+
             },
 
             datePickerDispaly: function(el) {
                 var date_picker_blur       = jQuery(el.target).closest('.pm-task-date-wrap').hasClass('pm-date-window');
-                
+
                 if ( ! date_picker_blur ) {
                     this.is_task_date_edit_mode = false;
                 }
