@@ -23,7 +23,7 @@ class Comment_Transformer extends TransformerAbstract {
     ];
 
     protected $defaultIncludes = [
-        'files', 'creator'
+        'files', 'creator', 'updater'
     ];
 
     public function transform( Comment $item ) {
