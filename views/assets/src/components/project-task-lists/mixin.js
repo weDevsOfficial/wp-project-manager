@@ -756,10 +756,11 @@ var PM_TaskList_Mixin = {
          * @return {[type]}        [description]
          */
         showHideListForm ( status, list ) {
-            var list   = list || false,
-              list   = jQuery.isEmptyObject(list) ? false : list;
 
-            if ( list ) {
+            var list   = list || false,
+                list   = jQuery.isEmptyObject(list) ? false : list;
+
+            if ( list && typeof list.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
                     list.edit_mode = list.edit_mode ? false : true;
                 } else {

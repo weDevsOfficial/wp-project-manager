@@ -116,6 +116,11 @@ class Project_Controller {
 		$id 	  = $request->get_param('id');
 		$user_id  = get_current_user_id();
 		$project  =  Project::find( $id );
+
+		if ( !$project  ) {
+			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
+		}
+
 		$resource = new Item( $project, new Project_Transformer );
 		$list_view = pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
 		$resource->setMeta([
