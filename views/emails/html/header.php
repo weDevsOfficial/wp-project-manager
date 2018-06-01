@@ -5,7 +5,7 @@ if ( function_exists( 'pm_pro_get_logo' ) ) {
     $logo_path = $logo_path['url'];
 }
 
-$now      = Carbon\Carbon::now();
+$now      = format_date(current_time('mysql'));
 $calendar = config('frontend.assets_url')  . 'images/calendar.png';
 ?>
 
@@ -29,7 +29,7 @@ $calendar = config('frontend.assets_url')  . 'images/calendar.png';
                         </div>
                         <div style="float: right; margin-right: 5%; width: 45%; text-align: right;padding: 28px 0px;">
                             <img style="display: inline;vertical-align: middle;" src="<?php echo $calendar; ?>">
-                            <div style="display: inline;margin: 3px 10px; font-family: arial; font-size: 13px;"><?php  echo $now; ?></div>
+                            <div style="display: inline;margin: 3px 10px; font-family: arial; font-size: 13px;"><?php  echo $now['date'].' ' . $now['time']; ?></div>
                             <div style="clear: both;"></div>
                         </div>
                         <div style="clear: both;"></div>

@@ -64,24 +64,11 @@ class Commands extends Cli {
         return $a;
     }  
 
-    public function generate_random_password() {
-        $alphabet    = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass        = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        
-        for ($i = 0; $i < 8; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        
-        return implode($pass); //turn the array into a string
-    }
-
     public function create_users () {
         for ($i=0; $i <= 100; $i++) { 
             
-            $user_name  = $this->generate_random_string();
-            $password   = $this->generate_random_password();
+            $user_name  = wp_generate_password(8, false, false);
+            $password   = wp_generate_password(12, false, false);
             $user_email = $this->generate_random_email();
 
             wp_create_user( $user_name, $password, $user_email );
