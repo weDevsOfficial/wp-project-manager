@@ -27,7 +27,7 @@ export default {
             var milestone   = milestone || false,
                 milestone   = jQuery.isEmptyObject(milestone) ? false : milestone;
 
-            if ( milestone ) {
+            if ( milestone && typeof milestone.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
                     milestone.edit_mode = milestone.edit_mode ? false : true;
                 } else {

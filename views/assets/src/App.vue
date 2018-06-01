@@ -4,8 +4,8 @@
         <do-action hook="pm-before-router-view"></do-action>
         <router-view></router-view>
 
-        <do-action hook="addons-component"></do-action> 
-        
+        <do-action hook="addons-component"></do-action>
+
     </div>
 </template>
 <style>
@@ -16,7 +16,7 @@
 </style>
 <script>
     import do_action from './components/common/do-action.vue';
-    
+
     export default {
         components: {
             'do-action': do_action,
@@ -26,10 +26,18 @@
             this.registerModule();
         },
 
+        // watch: {
+        //     $route(to, from) {
+        //         this.$store.commit('recordHistory', {
+        //             to, from
+        //         });
+        //     }
+        // },
+
         methods: {
             registerModule () {
                 let self = this;
-                
+
                 weDevsPmModules.forEach(function(module) {
                     let store = require('./components/'+module.path+'/store.js');
                     self.registerStore(module.name, store.default );
@@ -42,7 +50,7 @@
                 is_pro: PM_Vars.is_pro
             }
         }
-        
+
     }
 </script>
 
@@ -52,5 +60,5 @@
         z-index: 99999;
     }
 
-</style> 
+</style>
 

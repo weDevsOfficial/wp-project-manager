@@ -134,6 +134,22 @@ export default {
 
             return pm.Moment( date ).format(format);
         },
+
+                /**
+         * WP settings date format convert to pm.Moment date format with time zone
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        taskDateFormat ( date ) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            return pm.Moment(date).format('MMMM DD');
+        },
         getSettings (key, pre_define, objKey ) {
 
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
@@ -235,7 +251,7 @@ export default {
                 type: 'POST',
                 url: this.base_url + '/pm/v2/projects/',
                 data: args.data,
-                success: function(res) {
+                success (res) {
                     jQuery( "#pm-project-dialog" ).dialog('destroy'); 
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
@@ -247,7 +263,7 @@ export default {
                     }
                 },
 
-                error: function(res) {
+                error (res) {
                     if ( res.status == 400 ) {
                         var params = res.responseJSON.data.params;
                         for ( var obj in params ){
@@ -293,7 +309,7 @@ export default {
                 type: 'PUT',
                 url: this.base_url + '/pm/v2/projects/'+ args.data.id,
                 data: args.data,
-                success: function(res) {
+                success (res) {
                     
                     self.$root.$store.commit('updateProject', res.data);
                     pm.Toastr.success(res.message);
@@ -306,7 +322,7 @@ export default {
                     }
                 },
 
-                error: function(res) {
+                error (res) {
                     if ( res.status == 400 ) {
                         var params = res.responseJSON.data.params;
                         for ( var obj in params ){
@@ -349,7 +365,7 @@ export default {
 
             var request_data = {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
-                success: function(res) {
+                success (res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });
@@ -396,10 +412,22 @@ export default {
 
             self.httpRequest({
                 url:self.base_url + '/pm/v2/projects/'+ args.project_id + '?' + conditions ,
-                success: function(res) {
-                     if (typeof args.callback === 'function' ) {
+                success (res) {
+                    
+
+                    if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
+                },
+                error (res) {
+                    if (res.status === 404){
+                        pm.Toastr.success(res.responseJSON.message);
+
+                    }
+
+                    self.$router.push({
+                        name: 'project_lists'
+                    });
                 }
             });
 
@@ -424,8 +452,8 @@ export default {
             }
 
             self.httpRequest({
-                url:self.base_url + '/pm/v2/users/'+ args.data.user_id + '?' + conditions ,
-                success: function(res) {
+                url: self.base_url + '/pm/v2/users/'+ args.data.user_id + '?' + conditions ,
+                success (res) {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
@@ -450,7 +478,7 @@ export default {
 
             var request = {
                 url: self.base_url + '/pm/v2/users/search?' + conditions ,
-                success: function(res) {
+                success (res) {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
@@ -462,7 +490,7 @@ export default {
 
         getGloabalProject(){
             var args ={
-                callback : function (res) {
+                callback (res) {
                     this.addProjectMeta(res.data);
                     this.$root.$store.commit('setProject', res.data);
                     this.$root.$store.commit('setProjectMeta', res.meta);
@@ -498,7 +526,7 @@ export default {
 
             this.httpRequest({
                 url: self.base_url + '/pm/v2/categories?type=project',
-                success: function(res) {
+                success (res) {
                     self.$root.$store.commit('setCategories', res.data);
 
                     if (callback) {
@@ -523,7 +551,7 @@ export default {
 
             self.httpRequest({
                 url: self.base_url + '/pm/v2/roles',
-                success: function(res) {
+                success (res) {
                     self.$root.$store.commit('setRoles', res.data);
 
                     if (callback) {
@@ -540,7 +568,7 @@ export default {
          *
          * @return  int
          */
-        getIndex: function ( itemList, id, slug) {
+        getIndex  ( itemList, id, slug) {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
@@ -563,7 +591,7 @@ export default {
             self.httpRequest({
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id,
                 type: 'DELETE',
-                success: function(res) {
+                success (res) {
                     
 
                     if (typeof callback !== 'undefined') {
@@ -659,7 +687,7 @@ export default {
          * 
          * @return string      
          */
-        pmDateISO8601Format: function( date, time ) {
+        pmDateISO8601Format ( date, time ) {
             var date = new Date(date +' '+ time);
             
             return pm.Moment( date).format();
@@ -673,7 +701,7 @@ export default {
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/' + id,
                 type: 'DELETE',
-                success: function(res) {
+                success (res) {
                     self.$store.commit('afterDeleteProject', id);
                     self.$store.commit('afterDeleteProjectCount', {project: project});
                     pm.Toastr.success(res.message);

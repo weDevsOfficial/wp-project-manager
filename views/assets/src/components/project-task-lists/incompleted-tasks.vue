@@ -14,7 +14,6 @@
                                     list_id: list.id, 
                                     task_id: task.id, 
                                     project_id: project_id, 
-                                    task: task 
                             }}">
 
                             {{ task.title }}
@@ -29,9 +28,9 @@
                     </span>
                     
                     <span v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.date)">
-                        <span v-if="task_start_field">{{ dateFormat( task.start_at.date ) }}</span>
+                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                        <span>{{ dateFormat(task.due_date.date) }}</span>
+                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </span>
                 </div>
                 
@@ -46,7 +45,6 @@
                                         list_id: list.id, 
                                         task_id: task.id, 
                                         project_id: project_id, 
-                                        task: task 
                                 }}">
 
                                 <span class="pm-comment-count">
@@ -117,7 +115,7 @@
                 // }
             }
         },
-        
+
         components: {
             'new-task-form': new_task_form,
             'do-action': DoAction

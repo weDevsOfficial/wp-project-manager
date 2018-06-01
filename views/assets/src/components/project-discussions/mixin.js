@@ -25,7 +25,7 @@ export default {
             var discuss   = discuss || false,
                 discuss   = jQuery.isEmptyObject(discuss) ? false : discuss;
 
-            if ( discuss ) {
+            if ( discuss && typeof discuss.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
                     discuss.edit_mode = discuss.edit_mode ? false : true;
                 } else {

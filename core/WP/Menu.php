@@ -12,6 +12,7 @@ class Menu {
 	public static function admin_menu() {
 		global $submenu;
 		$ismanager = pm_has_manage_capability();
+
 		$home = add_menu_page( __( 'Project Manager', 'pm' ), __( 'Project Manager', 'pm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
 
 		$submenu['pm_projects'][] = [ __( 'Projects', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
@@ -31,9 +32,9 @@ class Menu {
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
-		if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/settings' ];
-		}
+		//if ( $ismanager ) {
+			$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/settings' ];
+		//}
 
 		do_action( 'pm_menu_after_load_scripts', $home );
 	}
