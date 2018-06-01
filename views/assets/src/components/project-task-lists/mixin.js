@@ -1233,7 +1233,7 @@ var PM_TaskList_Mixin = {
             args = jQuery.extend(true, pre_define, args );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id,
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id +'/change-status',
                 type: 'PUT',
                 data: args.data,
                 success ( res ) {

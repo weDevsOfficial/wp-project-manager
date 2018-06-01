@@ -138,32 +138,32 @@ class Task_Controller {
         }
     }
 
-    // private function update_task_status( Task $task ){
-    //     $user = wp_get_current_user();
-    //     $data = [
-    //         'task_id'     => $task->id,
-    //         'assigned_to' => $user->ID,
-    //         'project_id'  => $task->project_id,
-    //     ];
+    private function update_task_status( Task $task ){
+        $user = wp_get_current_user();
+        $data = [
+            'task_id'     => $task->id,
+            'assigned_to' => $user->ID,
+            'project_id'  => $task->project_id,
+        ];
 
-    //     $assignee = Assignee::findOrFail( $data );
+        $assignee = Assignee::where( $data )->first();
 
-    //     if ( !$assignee) {
-    //         return false;
-    //     }
+        if ( !$assignee) {
+            return false;
+        }
 
-    //     if(  $task->status == 'complete' && !$assignee->completed_at ){
-    //         $assignee->completed_at = Carbon::now();
-    //         $assignee->status = 2;
-    //         $assignee->save();
-    //     }
+        if(  $task->status == 'complete' && !$assignee->completed_at ){
+            $assignee->completed_at = Carbon::now();
+            $assignee->status = 2;
+            $assignee->save();
+        }
 
-    //     if(  $task->status == 'incomplete' && $assignee->completed_at ){
-    //         $assignee->completed_at = null;
-    //         $assignee->status = 0;
-    //         $assignee->save();
-    //     }
-    // }
+        if(  $task->status == 'incomplete' && $assignee->completed_at ){
+            $assignee->completed_at = null;
+            $assignee->status = 0;
+            $assignee->save();
+        }
+    }
 
     public function update( WP_REST_Request $request ) {
         $data       = $request->get_params();
@@ -177,15 +177,16 @@ class Task_Controller {
         
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
 
-        if ( pm_user_can('create_task', $project_id) ) {
-            $task->update_model( $data );
-            if ( is_array( $assignees ) && $task ) {
-                $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
-                $this->attach_assignees( $task, $assignees );
-            }
-            do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
-            do_action('pm_after_update_task', $task, $request->get_params() );
+        $task->update_model( $data );
+
+        if ( is_array( $assignees ) && $task ) {
+            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+            $this->attach_assignees( $task, $assignees );
         }
+        
+        do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
+        do_action('pm_after_update_task', $task, $request->get_params() );
+        
         
         $resource = new Item( $task, new Task_Transformer );
 
@@ -196,13 +197,19 @@ class Task_Controller {
     }
 
     public function change_status( WP_REST_Request $request ) {
-        $task_id    = $request->get_param( 'task_id' );
-        $task = Task::with('assignees')->find( $task_id );
-        $status = $request->get_param( 'status' );
-
-        $task->status = $status
-        $task->save();
-
+        $task_id      = $request->get_param( 'task_id' );
+        $task         = Task::with('assignees')->find( $task_id );
+        $status       = $request->get_param( 'status' );
+        $old_value    = $task->status;
+        $task->status = $status;
+        
+        if ( $task->save() ) {
+            $this->update_task_status( $task );
+        }
+        
+        do_action( 'mark_task_complete', $task->project_id, $task->id );
+        do_action( 'pm_changed_task_status', $task, $old_value );
+        
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
