@@ -3444,6 +3444,7 @@ a.pm-icon-tick.grey {
 }
 .pm .project-overview .pm-right-part .user_list {
   margin-left: 10px;
+  margin-right: 10px;
 }
 .pm .project-overview .pm-right-part .user_list li {
   margin: 0 0 15px 0;
