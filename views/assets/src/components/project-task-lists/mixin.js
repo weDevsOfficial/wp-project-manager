@@ -419,12 +419,16 @@ var PM_TaskList_Mixin = {
          */
         getTask ( args ) {
             var self = this, 
-            pre_define = {
+                project_id = typeof this.$route.params.project_id == 'undefined' 
+                    ? this.project_id 
+                    : this.$route.params.project_id;
+
+            var pre_define = {
                 condition: {
                     with: '', 
                 },
                 task_id: false,
-                project_id: this.project_id,
+                project_id: project_id,
                 callback: false,
             };
 
