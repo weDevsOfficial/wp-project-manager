@@ -115,7 +115,6 @@
                                                             <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky"/>
                                                             <div class="option__desc">
                                                                 <span class="option__title">{{ props.option.display_name }}</span>
-                                                                <!-- <span class="option__small">{{ props.option.desc }}</span> -->
                                                             </div>
                                                         </div>
                                                     </template>
@@ -311,12 +310,11 @@
 
         components: {
             'task-comments': comments,
-            'multiselect': pm.Multiselect.Multiselect,
+            'multiselect': pm.Multiselect,
             'do-action': DoAction
         },
 
         created: function() {
-            
             this.getSelfTask();
             window.addEventListener('click', this.windowActivity);
             this.$root.$on('pm_date_picker', this.fromDate);
