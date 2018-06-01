@@ -50,7 +50,8 @@ class Complete_Task_Notification extends Email {
             'creator'     => $task->creator->display_name,
             'due_date'    => format_date( $task->due_date ),
             'start_at'    => empty( $task->start_at ) ? null: format_date( $task->start ),
-            'old_value'   => Task::$status[$old_value],
+            'old_value'   => $old_value,
+            'new_value'   => $task->status,
             'changed_by'  => $task->updater->display_name
         ] );
 
