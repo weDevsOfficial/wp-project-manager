@@ -177,11 +177,6 @@ class Task_Controller {
         
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
 
-        if ( $task && pm_user_can_complete_task( $task ) ) {
-            $task->status = $request->get_param( 'status' );
-            $task->save();
-        }
-
         if ( pm_user_can('create_task', $project_id) ) {
             $task->update_model( $data );
             if ( is_array( $assignees ) && $task ) {
@@ -197,6 +192,23 @@ class Task_Controller {
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
+        return $this->get_response( $resource, $message );
+    }
+
+    public function change_status( WP_REST_Request $request ) {
+        $task_id    = $request->get_param( 'task_id' );
+        $task = Task::with('assignees')->find( $task_id );
+        $status = $request->get_param( 'status' );
+
+        $task->status = $status
+        $task->save();
+
+        $resource = new Item( $task, new Task_Transformer );
+
+        $message = [
+            'message' => pm_get_text('success_messages.task_updated')
+        ];
+
         return $this->get_response( $resource, $message );
     }
 

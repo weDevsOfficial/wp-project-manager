@@ -22,6 +22,8 @@ $router->put( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controlle
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task'])
     ->validator( 'WeDevs\PM\Task\Validators\Create_Task' );
 
+$router->put( 'projects/{project_id}/tasks/{task_id}/change-status', 'WeDevs/PM/Task/Controllers/Task_Controller@change_status' )
+    ->permission(['WeDevs\PM\Core\Permissions\Complete_Task']);
 
 $router->delete( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);

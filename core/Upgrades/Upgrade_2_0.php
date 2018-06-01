@@ -617,8 +617,7 @@ class Upgrade_2_0 extends WP_Background_Process
             } else {
                 $role_id = 3; 
             }
-
-            $this->save_object( new User_Role, [
+            User_Role::firstOrCreate( [
                 'user_id'       => $role['user_id'],
                 'role_id'       => $role_id,
                 'project_id'    => $newProjectID,
@@ -628,8 +627,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         // Assain project if not any user
         if ( empty( $oldroles ) ) {
-
-            $this->save_object( new User_Role, [
+             User_Role::firstOrCreate( [
                 'user_id'       => $assigned_by,
                 'role_id'       => 1,
                 'project_id'    => $newProjectID,
