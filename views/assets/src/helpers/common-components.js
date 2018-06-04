@@ -9,6 +9,7 @@ import DoAction from '@components/common/do-action.vue';
 import ListForm from '@components/project-task-lists/new-task-list-form.vue';
 import TaskForm from '@components/project-task-lists/new-task-form.vue';
 
+
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
 pm.Vue.component('activityParser', activityParser);
@@ -19,5 +20,6 @@ pm.Vue.component('pm-color-picker', colorPicker);
 pm.Vue.component('pm-do-action', DoAction);
 pm.Vue.component('pm-new-list-form', ListForm);
 pm.Vue.component('pm-new-task-form', TaskForm);
+
 
 

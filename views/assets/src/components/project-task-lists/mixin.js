@@ -419,12 +419,16 @@ var PM_TaskList_Mixin = {
          */
         getTask ( args ) {
             var self = this, 
-            pre_define = {
+                project_id = typeof this.$route.params.project_id == 'undefined' 
+                    ? this.project_id 
+                    : this.$route.params.project_id;
+
+            var pre_define = {
                 condition: {
                     with: '', 
                 },
                 task_id: false,
-                project_id: this.project_id,
+                project_id: project_id,
                 callback: false,
             };
 
@@ -1234,7 +1238,7 @@ var PM_TaskList_Mixin = {
             args = jQuery.extend(true, pre_define, args );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id,
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id +'/change-status',
                 type: 'PUT',
                 data: args.data,
                 success ( res ) {
