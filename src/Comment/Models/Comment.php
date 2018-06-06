@@ -54,4 +54,12 @@ class Comment extends Eloquent {
     public function task() {
         return $this->belongsTo( 'WeDevs\PM\Task\Models\Task', 'commentable_id');
     }
+
+    public function setMentionedUsersAttribute( $value ) {
+        $this->attributes['mentioned_users'] = serialize( $value );
+    }
+
+    public function getMentionedUsersAttribute( $value ) {
+        return unserialize( $value );
+    }
 }
