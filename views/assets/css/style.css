@@ -2872,7 +2872,8 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-top-bar .pm-project-search input {
   float: left;
-  width: 100%;
+  width: 47%;
+  margin-left: 3%;
 }
 .pm .pm-top-bar .pm-project-group {
   padding: 0px;
