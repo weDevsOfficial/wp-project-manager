@@ -83,6 +83,7 @@ class Frontend {
 	public function init_filters() {
 		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
+		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -115,6 +116,12 @@ class Frontend {
 
 		return $schedules;
 	}
+
+function project_text_editor($config) {
+	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
+	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
+	return $config;
+}
 
 	/**
 	 * instantiate classes
