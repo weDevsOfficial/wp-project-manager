@@ -35,6 +35,7 @@
             task_id: this.$route.params.task_id,
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
+            mentioned_user_ids: null,
             add_new_comment: __( 'Add New Comment', 'pm' ),
             update_comment: __( 'Update Comment', 'pm' ),
             notify_users: [],
@@ -77,6 +78,9 @@
     methods: {
 
         taskCommentAction () {
+            var regEx = /data-pm-user-id=":(.+?):"/g;
+            this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
+
             // Prevent sending request when multiple click submit button 
             if ( this.submit_disabled ) {
                 return;
@@ -96,6 +100,7 @@
                     content: self.comment.content,
                     commentable_type: 'task',
                     deleted_files: self.deleted_files || [],
+                    mentioned_users: self.mentioned_user_ids,
                     files: self.files || [],
                     notify_users: this.notify_users
                 },

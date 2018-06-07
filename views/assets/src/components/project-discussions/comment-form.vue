@@ -34,6 +34,7 @@
                 },
                 submit_disabled: false,
                 show_spinner: false,
+                mentioned_user_ids: null,
                 notify_users: [],
                 add_new_comment: __( 'Add New Comment', 'pm' ),
                 Update_Comment: __( 'Update Comment', 'pm' ),
@@ -85,12 +86,16 @@
                 var self = this;
                 var comment_id = typeof self.comment.id == 'undefined' ? false : true;
 
+                var regEx = /data-pm-user-id=":(.+?):"/g;
+                this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
+
                 var args = {
                     content: this.comment.content,
                     commentable_id: this.discuss.id,
                     commentable_type: 'discussion_board',
                     deleted_files: this.deleted_files,
                     files: this.files,
+                    mentioned_users: this.mentioned_user_ids,
                     notify_users: this.notify_users,
 
                     callback: function() {
