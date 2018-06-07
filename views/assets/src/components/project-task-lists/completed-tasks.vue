@@ -7,7 +7,7 @@
 
                     <span class="task-title">
                         
-                            <router-link 
+                        <!-- <router-link 
                             :to="{ 
                                 name: route_name, 
                                 params: { 
@@ -18,8 +18,11 @@
                             }}">
 
                             <span class="pm-todo-text">{{ task.title }}</span>
-                        </router-link>
-                  
+                        </router-link> -->
+                        
+                        <a href="#" @click.prevent="getSingleTask(task)">
+                            <span class="pm-todo-text">{{ task.title }}</span>
+                        </a>
                      
                     </span> 
                   
@@ -59,6 +62,10 @@
                 <new-task-form :task="task" :list="list"></new-task-form>
             </div>
         </transition>
+
+        <div v-if="parseInt(taskId) && parseInt(projectId)">
+            <single-task :taskId="taskId" :projectId="projectId"></single-task>
+        </div>
     </div>
 </template>
 
@@ -70,8 +77,15 @@
     export default {
         props: ['task', 'list'],
         mixins: [Mixins],
+        data () {
+            return {
+                taskId: false,
+                projectId: false
+            }
+        },
         components: {
             'new-task-form': new_task_form,
+            'single-task': pm.SingleTask
         },
         computed: {
             route_name (){
@@ -82,7 +96,30 @@
                 return 'lists_single_task'
             }
         },
+        created () {
+            pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+        },
         methods: {
+            afterCloseSingleTaskModal () {
+                
+                if(this.$route.name == 'lists_single_task') {
+                    this.$router.push({
+                        name: 'task_lists'
+                    });
+                } else if(this.$route.name == 'single_task') {
+                    this.$router.push({
+                        name: 'single_list'
+                    });
+                } else {
+                    this.taskId = false;
+                    this.projectId = false;
+                }
+            },
+            getSingleTask (task) {
+                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
+                this.taskId = task.id;
+                this.projectId = task.project_id;
+            },
             is_assigned: function(task) {
                 return true;
                 var get_current_user_id = this.$store.state.projectTaskLists.get_current_user_id,

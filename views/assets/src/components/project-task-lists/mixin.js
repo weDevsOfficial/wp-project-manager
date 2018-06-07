@@ -420,7 +420,7 @@ var PM_TaskList_Mixin = {
         getTask ( args ) {
             var self = this, 
                 project_id = typeof this.$route.params.project_id == 'undefined' 
-                    ? this.project_id 
+                    ? args.project_id 
                     : this.$route.params.project_id;
 
             var pre_define = {
@@ -1390,7 +1390,7 @@ var PM_TaskList_Mixin = {
             }
             
             return true;
-        }
+        },
     }
 }
 
