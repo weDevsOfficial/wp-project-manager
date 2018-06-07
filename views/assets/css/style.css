@@ -2872,7 +2872,8 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-top-bar .pm-project-search input {
   float: left;
-  width: 100%;
+  width: 47%;
+  margin-left: 3%;
 }
 .pm .pm-top-bar .pm-project-group {
   padding: 0px;
@@ -3444,6 +3445,7 @@ a.pm-icon-tick.grey {
 }
 .pm .project-overview .pm-right-part .user_list {
   margin-left: 10px;
+  margin-right: 10px;
 }
 .pm .project-overview .pm-right-part .user_list li {
   margin: 0 0 15px 0;
@@ -5270,4 +5272,8 @@ a.pm-icon-tick.grey {
     padding-left: 10px;
     border-left: 2px solid #0073aa;
     max-width: 600px;
+}
+
+.pm .form-table td fieldset label{
+  margin: 0.25em 0.5em 0.5em !important;
 }

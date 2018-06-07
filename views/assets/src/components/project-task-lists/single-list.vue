@@ -26,7 +26,7 @@
                     }
                 }">
 
-                <i class="fa fa-angle-left"></i>{{ __( 'Back to Task Lists', 'pm' ) }}
+                <i class="fa fa-arrow-circle-o-left mr-5"></i>{{ __( 'Back to Task Lists', 'pm' ) }}
             </router-link>
             
             <div>
@@ -325,4 +325,10 @@
         }
     }
 </script>
+
+<style>
+    .mr-5{
+        margin-right: 5px;
+    }
+</style>
 

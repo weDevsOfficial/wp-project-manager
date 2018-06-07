@@ -41,6 +41,7 @@
                         </li>
                     </ul>
                 </div>
+                <pm-do-action hook="pm_project_header" ></pm-do-action>
             </div>
 
             <div class="clearfix"></div>

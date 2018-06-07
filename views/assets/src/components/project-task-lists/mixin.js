@@ -640,6 +640,7 @@ var PM_TaskList_Mixin = {
             var data = new FormData();
 
             data.append( 'content', args.data.content );
+            data.append( 'mentioned_users', args.data.mentioned_users );
             data.append( 'commentable_id', args.data.commentable_id );
             data.append( 'commentable_type', args.data.commentable_type );
             data.append( 'notify_users', args.data.notify_users );
@@ -705,6 +706,7 @@ var PM_TaskList_Mixin = {
             var data = new FormData();
 
             data.append( 'content', args.data.content );
+            data.append( 'mentioned_users', args.data.mentioned_users );
             data.append( 'commentable_id', args.data.commentable_id );
             data.append( 'commentable_type', args.data.commentable_type );
             data.append( 'notify_users', args.data.notify_users );
@@ -1391,6 +1393,18 @@ var PM_TaskList_Mixin = {
             
             return true;
         },
+
+        getMatches(string, regex, index) {
+            index || (index = 1);
+
+            var matches = [];
+            var match;
+            while (match = regex.exec(string)) {
+                matches.push(match[index]);
+            }
+
+            return matches;
+        }
     }
 }
 
