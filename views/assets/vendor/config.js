@@ -1,13 +1,14 @@
 window.pm = {};
 const PmMixin = {};
 const PmProMixin = {};
+const PmProComment = {};
 const weDevs_PM_Routers = [];
 const weDevs_PM_Components = [];
 const weDevsPMChildrenRouter = {};
 const weDevsPmModules = [];
 const weDevsPmProModules = [];
 const weDevsPmProAddonModules = [];
-const WeDevsfilters = {}; 
+const WeDevsfilters = {};
 var pmProjects = [];
 
 function weDevsPMRegisterChildrenRoute (parentRouteName, routes) {

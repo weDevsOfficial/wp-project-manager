@@ -26,11 +26,10 @@
         mounted: function() {
             var self = this;
 
-            if(tinymce.get(this.editor_id)) {
+            if (tinymce.get(this.editor_id)) {
                 tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
             }
-           
-            
+
             // Instantiate the editor
             var settings = {
                 selector: 'textarea#' + self.editor_id,
@@ -50,10 +49,7 @@
                     });
                 },
 
-                external_plugins: {
-                    'placeholder': PM_Vars.assets_url + 'vendor/tinymce/plugins/placeholder/plugin.min.js',
-                },
-
+                external_plugins: PM_Vars.todo_list_text_editor.external_plugins,
                 fontsize_formats: '10px 11px 13px 14px 16px 18px 22px 25px 30px 36px 40px 45px 50px 60px 65px 70px 75px 80px',
                 font_formats : 'Arial=arial,helvetica,sans-serif;'+
                     'Comic Sans MS=comic sans ms,sans-serif;'+
@@ -64,14 +60,15 @@
                     'Times New Roman=times new roman,times;'+
                     'Trebuchet MS=trebuchet ms,geneva;'+
                     'Verdana=verdana,geneva;',
-                plugins: 'placeholder textcolor colorpicker wplink wordpress',
+                plugins: PM_Vars.todo_list_text_editor.plugins,
                 toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link wp_adv',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
             };
 
-            if (self.tinyMCE_settings) {
-                settings = jQuery.extend(settings, self.tinyMCE_settings);
+            if (PmProComment) {
+                PmProComment.mentions['source'] = self.$store.state.project_users;
+                settings = jQuery.extend(settings, PmProComment);
             }
 
             tinymce.init(settings);

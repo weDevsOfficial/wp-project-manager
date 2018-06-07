@@ -335,6 +335,7 @@ export default {
             var data = new FormData();
 
             data.append('content', args.content );
+            data.append('mentioned_users', args.mentioned_users );
             data.append('commentable_id', args.commentable_id );
             data.append('commentable_type', args.commentable_type); //'discussion-board'
             data.append('notify_users', args.notify_users);
@@ -421,6 +422,7 @@ export default {
             var data = new FormData();
 
             data.append('content', args.content );
+            data.append('mentioned_users', args.mentioned_users );
             data.append('commentable_id', args.commentable_id );
             data.append('commentable_type', args.commentable_type); //'discussion-board'
             data.append('notify_users', args.notify_users);
@@ -612,8 +614,20 @@ export default {
                 }else {
                     return 'dashicons dashicons-unlock'
                 }
-                
             }
         },
+
+        getMatches(string, regex, index) {
+            index || (index = 1);
+
+            var matches = [];
+            var match;
+            while (match = regex.exec(string)) {
+                matches.push(match[index]);
+            }
+
+            return matches;
+        }
+
     },
 };
