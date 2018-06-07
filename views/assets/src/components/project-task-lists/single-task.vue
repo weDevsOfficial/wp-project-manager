@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="nonsortable">
         <!-- Spinner before load task -->
         <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
             <div class="modal-wrapper">
@@ -70,11 +70,17 @@
 
                                             <div class="clearfix pm-clear"></div>
                                         </span>
-                                        <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+                                        
+                                        <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
+                                            <span :class="privateClass( task.meta.privacy )"></span>
+                                        </a>
+                                        <a href="#" @click.prevent="copyUrl(task)">{{ __('Copy URL', 'pm') }}</a>
                                         <div class="clearfix pm-clear"></div>
+
                                     </h3>
                                     <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
-                                    <div  class="pm-task-meta">
+                                    
+                                    <div class="pm-task-meta">
 
                                         <span  class="pm-assigned-user-wrap">
                                             <span v-if="task.assignees.data.length" class='pm-assigned-user'
@@ -202,6 +208,7 @@
                                     <div class="clearfix pm-clear"></div>
                                     <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
                                 </div>
+
                                 <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
                                 <div class="pm-todo-wrap clearfix">
                                     <div class="pm-task-comment">
@@ -210,6 +217,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -227,9 +235,23 @@
     import comments from './task-comments.vue';
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
-
+    import Multiselect from 'vue-multiselect';
+    
     export default {
-
+        props: {
+            taskId: {
+                type: [Number, Boolean, String],
+                default () {
+                    return false
+                }
+            },
+            projectId: {
+                type: [Number, Boolean, String],
+                default () {
+                    return false
+                }
+            }
+        },
         data: function() {
             return {
                 loading: true,
@@ -239,7 +261,7 @@
                 is_enable_multi_select: false,
                 task_id: this.$route.params.task_id,
                 list: {},
-                //task: {},
+                task: {},
                 assigned_to: [],
             }
         },
@@ -253,10 +275,7 @@
                     list: this.list
                 }
             },
-            task () {
 
-             return this.$store.state.projectTaskLists.task;
-            },
             project_users: function() {
                 return this.$root.$store.state.project_users;
             },
@@ -266,14 +285,6 @@
                 }
                 return this.$store.state.projectTaskLists.task.assignees.data;
             },
-
-            // comments () {
-            //  if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
-            //      return [];
-            //  }
-
-            //  return this.$store.state.projectTaskLists.task.comments.data;
-            // },
 
             /**
              * Get and Set task users
@@ -310,7 +321,7 @@
 
         components: {
             'task-comments': comments,
-            'multiselect': pm.Multiselect,
+            'multiselect': Multiselect,
             'do-action': DoAction
         },
 
@@ -322,6 +333,12 @@
 
 
         methods: {
+            copyUrl (task) {
+                pmBus.$emit('pm_generate_task_url', task);
+                // var url  = PM_Vars.project_page + '#' + this.$route.path + '/tasks/' + task.id; 
+                // this.copy(url);
+            },
+
             lineThrough (task) {
                 if ( task.status ) {
                     return 'pm-line-through';
@@ -334,7 +351,7 @@
                 var args = {
                     data: {
                         title: this.task.title,
-                        task_id: this.task.id,
+                        task_id: this.task.id ? this.task.id : this.taskId,
                         status : status,
                     },
                     callback: function(resSelf, res) {
@@ -345,12 +362,6 @@
                         }
                         
                         pmBus.$emit('pm_after_task_doneUndone', res);
-                        // self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
-                        //     status: status,
-                        //     task: res.data,
-                        //     list_id: self.list.id,
-                        //     task_id: self.task.id
-                        // });
                     }
                 }
                 this.taskDoneUndone( args );
@@ -362,7 +373,8 @@
                     condition : {
                         with: 'boards,comments',
                     },
-                    task_id : self.task_id,
+                    task_id : self.task_id ? self.task_id : this.taskId,
+                    project_id: self.projectId ? self.projectId : self.project_id,
                     callback : function (res) {
                         if (typeof res.data === 'undefined' ) {
                             pm.Toastr.error(res.message);
@@ -370,18 +382,20 @@
                             return;
                         }
                         self.addMeta(res.data);
-                        self.list = res.data.boards.data[0];
-                        self.$store.commit('projectTaskLists/setSingleTask', res.data);
-                        //self.task = res.data;
+                        //self.list = res.data.boards.data[0];
+                        //self.$store.commit('projectTaskLists/setSingleTask', res.data);
+                        self.task = res.data;
                         self.loading = false;
                     }
                 }
-
+                
                 this.getTask(args);
 
             },
 
             addMeta (task) {
+                task.edit_mode = false;
+
                 if (task.status === 'complete') {
                     task.status = true;
                 } else {
@@ -475,6 +489,10 @@
             },
 
             closePopup: function() {
+                pmBus.$emit('pm_after_close_single_task_modal');
+                return;
+                this.$router.go(-1);
+                return;
                 const history = this.$store.state.history;
 
                 if (! history.from.name) {
@@ -497,6 +515,7 @@
                 var start = new Date(task.start_at.date);
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
+                var project_id = this.project_id ? this.project_id : task.project_id;
 
                 if(
                     task.start_at.date
@@ -522,18 +541,19 @@
                         'order': task.order,
                         'payable': task.payable,
                         'recurrent': task.recurrent,
-                        'status': task.status,
+                        'status': task.status ? 1 : 0,
                         'category_id': task.category_id,
                         'assignees': this.assigned_to
                     },
                     self = this,
-                    url = this.base_url + '/pm/v2/projects/'+this.project_id+'/tasks/'+task.id;
+                    url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id;
 
                 var request_data = {
                     url: url,
                     data: update_data,
                     type: 'PUT',
                     success (res) {
+                        pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;
                         self.is_task_details_edit_mode = false;
                         self.is_enable_multi_select = false;
@@ -545,7 +565,7 @@
                         });
                     }
                 }
-
+                
                 this.httpRequest(request_data);
             },
 
@@ -587,11 +607,34 @@
                 if ( ! date_picker_blur ) {
                     this.is_task_date_edit_mode = false;
                 }
-            }
+            },
+
+            singleTaskLockUnlock (task) {
+                var self = this;
+                var data = {
+                    is_private: task.meta.privacy == '0' ? 1 : 0
+                }
+                var request_data = {
+                    url: self.base_url + '/pm/v2/projects/'+task.project_id+'/tasks/privacy/'+task.id,
+                    type: 'POST',
+                    data: data,
+                    success (res) {
+                        task.meta.privacy = data.is_private;
+                    },
+
+                    error (res) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                }
+                self.httpRequest(request_data);
+            },
         },
 
-        beforeDestroy () {
+        destroyed () {
             this.$store.commit('isSigleTask', false);
+            pmBus.$emit('pm_before_destroy_single_task', this.task);
         }
     }
 </script>

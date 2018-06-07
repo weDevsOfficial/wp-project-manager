@@ -68,7 +68,7 @@ class Task_Controller {
             ->where( 'project_id', $project_id );
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
-
+        
         if ( $task == NULL ) {
             return $this->get_response( null,  [
                 'message' => pm_get_text('success_messages.no_element')

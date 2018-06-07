@@ -1,6 +1,7 @@
 <template>
     <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
+
         <!-- Spinner before load task -->
       <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -140,6 +141,8 @@
             this.getIndividualList();
             this.getGlobalMilestones();
             this.$store.state.projectTaskLists.is_single_list = true; 
+            pmBus.$on('pm_before_destroy_single_task', this.afterDestroySingleTask);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
         },
 
         computed: {
@@ -150,6 +153,7 @@
              */
             list: function () {
                 if( this.$store.state.projectTaskLists.lists.length) {
+                    console.log(this.$store.state.projectTaskLists.lists[0]);
                     return this.$store.state.projectTaskLists.lists[0];
                 }
             },
@@ -182,6 +186,88 @@
         },
 
         methods: {
+            generateTaskUrl (task) {
+                 var url = this.$router.resolve({
+                    name: 'single_task',
+                    params: {
+                        task_id: task.id,
+                        project_id: task.project_id,
+                        list_id: task.task_list.data.id
+                    }
+                }).href;
+                var url = PM_Vars.project_page + url;
+                
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/' +task.task_list.data.id+ '/tasks/' + task.id; 
+                this.copy(url);
+            },
+
+            afterTaskDoneUndone (task) {
+                this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
+                    status: task.status == 'complete' || task.status === true ? 1 : 0,
+                    task: task,
+                    list_id: task.task_list.data.id,
+                    task_id: task.id
+                });
+            },
+          
+            afterDestroySingleTask (task) {
+
+                this.setTaskDefaultData(task);
+                this.$store.commit('projectTaskLists/afterUpdateTask', {
+                    task: task,
+                    list_id: task.task_list.data.id
+                });
+             
+                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
+            },
+
+            setTaskDefaultData (task) {
+                var lists = this.$store.state.projectTaskLists.lists;
+                var list_index = this.getIndex( lists, task.task_list.data.id, 'id' );
+            
+                if (list_index === false) {
+                    return;
+                }
+                
+                if ( task.status == 'incomplete' || task.status === false ) {
+                    var task_index = this.getIndex( 
+                            lists[list_index].incomplete_tasks.data, 
+                            task.id, 
+                            'id' 
+                    );
+
+                    if(task_index === false ) {
+                        this.$store.commit('projectTaskLists/afterTaskDoneUndone', {
+                            list_id: task.task_list.data.id,
+                            task_id: task.id,
+                            status: 0
+                        });
+                    } else {
+                        var prevTask = lists[list_index].incomplete_tasks.data[task_index];
+
+                        task.sub_task_content = typeof prevTask.sub_task_content == 'undefined' 
+                            ? false : prevTask.sub_task_content;
+
+                        task.edit_mode = prevTask.edit_mode;
+                    }
+                }
+
+                if ( task.status == 'complete' || task.status === true ) {
+                    var task_index = this.getIndex( 
+                            lists[list_index].complete_tasks.data, 
+                            task.id, 
+                            'id' 
+                    );
+
+                    if(task_index === false) {
+                        this.$store.commit('projectTaskLists/afterTaskDoneUndone', {
+                            list_id: task.task_list.data.id,
+                            task_id: task.id,
+                            status: 1
+                        });
+                    } 
+                }
+            },
             
             /**
              * Get todo list for single todo list page

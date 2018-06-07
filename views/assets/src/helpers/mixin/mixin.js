@@ -941,7 +941,15 @@ export default {
 
         getDownloadUrl(fileId) {
             return this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
-        }
+        },
+
+        copy (text) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(text).select();
+            document.execCommand("copy");
+            $temp.remove();
+        },
     }
 };
 
