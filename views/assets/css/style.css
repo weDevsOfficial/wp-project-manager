@@ -879,7 +879,6 @@ ul.pm-nav li a {
   z-index: 99999;
 }
 .pm-project-head {
-  overflow: hidden;
   display: block;
   margin-bottom: 15px;
 }

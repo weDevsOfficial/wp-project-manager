@@ -30,6 +30,7 @@ class Comment_Transformer extends TransformerAbstract {
         return [
             'id'         => (int) $item->id,
             'content'    => $item->content,
+            'commentable_type' => $item->commentable_type,
             'created_at' => format_date( $item->created_at ),
             'meta'       => [
                 'total_replies' => $item->replies->count(),
