@@ -2,6 +2,7 @@
     <div class="pm-task-comment-wrap">
         
         <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'pm' ) }}</h3>
+
         <ul class="pm-comment-wrap">
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
@@ -49,7 +50,7 @@
                     </div>
                     <transition name="slide" v-if="can_edit_comment(comment)" >
                         <div class="pm-comment-edit-form" v-if="comment.edit_mode">
-                            <task-comment-form :comment="comment" :comments="comments"></task-comment-form>
+                            <task-comment-form :task="task" :comment="comment" :comments="comments"></task-comment-form>
                         </div>
                     </transition>
                 </div>
@@ -64,7 +65,7 @@
                     </a>
                 </div>
                 <div class="pm-new-doc-comment-form">
-                    <task-comment-form :comment="{}" :comments="comments"></task-comment-form>
+                    <task-comment-form :task="task" :comment="{}" :comments="comments"></task-comment-form>
                 </div><!--v-end--><!--v-component-->
             </div>
         </div>
@@ -84,7 +85,7 @@
     
     export default {
         // Get passing data for this component.
-        props: ['comments'],
+        props: ['comments', 'task'],
 
         mixins: [Mixins],
 
