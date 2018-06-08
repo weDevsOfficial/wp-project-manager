@@ -55,6 +55,9 @@ export default {
         },
         can_edit_comment (commnet) {
             var user = PM_Vars.current_user;
+            if (commnet.commentable_type == 'task_activity') {
+                return false;
+            }
             if (this.is_manager()) {
                 return true;
             }
