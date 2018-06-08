@@ -82,5 +82,11 @@ return [
     ],
     'no_project' => [
         __( 'No Project found', 'pm' )
-    ]
+    ],
+    'task_activity_done_comment' => [
+        __( "Task marked as done", 'pm' )
+    ],
+    'task_activity_undone_comment' => [
+        __( "Task reopened", 'pm' )
+    ],
 ];
