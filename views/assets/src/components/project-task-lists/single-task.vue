@@ -70,11 +70,14 @@
 
                                             <div class="clearfix pm-clear"></div>
                                         </span>
-                                        
-                                        <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
-                                            <span :class="privateClass( task.meta.privacy )"></span>
-                                        </a>
-                                        <a href="#" @click.prevent="copyUrl(task)">{{ __('Copy URL', 'pm') }}</a>
+                                        <div class="pm-task-title-right">
+                                            <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
+                                                <span :class="privateClass( task.meta.privacy )"></span>
+                                            </a>
+                                            <a href="#" @click.prevent="copyUrl(task)">
+                                                <i :title="__('Copy this task URL', 'pm')" class="fa fa-clipboard" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                         <div class="clearfix pm-clear"></div>
 
                                     </h3>
@@ -213,7 +216,7 @@
                                 <div class="pm-todo-wrap clearfix">
                                     <div class="pm-task-comment">
                                         <div class="comment-content">
-                                            <task-comments :comments="task.comments.data"></task-comments>
+                                            <task-comments :task="task" :comments="task.comments.data"></task-comments>
                                         </div>
                                     </div>
                                 </div>
@@ -230,6 +233,12 @@
     </div>
 
 </template>
+
+<style>
+    .pm-task-title-right {
+        float: right;
+    }
+</style>
 
 <script>
     import comments from './task-comments.vue';
@@ -345,7 +354,6 @@
                 }
             },
             singleTaskDoneUndone: function() {
-
                 var self = this,
                     status = !this.task.status ? 1: 0;
                 var args = {

@@ -23,16 +23,41 @@
   import Mixins from './mixin';
 
   export default {
-    props: ['comment', 'comments'],
+    props: {
+        comment: {
+            type: [Object],
+            default () {
+                return {}
+            }
+        },
+
+        comments: {
+            type: [Array],
+            default () {
+                return []
+            }
+        },
+
+        task: {
+            type: [Object],
+            default () {
+                return {
+                    id: false
+                }
+            }
+        }
+    },
+
     mixins: [Mixins],
+
     data () {
         return {
             submit_disabled: false,
             show_spinner: false,
             content: {
-                      html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
-                  },
-            task_id: this.$route.params.task_id,
+                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
+            },
+            task_id: typeof this.task.id == 'undefined' ? false : this.task.id,
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
             mentioned_user_ids: null,
@@ -41,6 +66,7 @@
             notify_users: [],
         }
     },
+
     components: {
         'text-editor': editor,
         'file-uploader': uploader,
