@@ -85,7 +85,7 @@ class Task extends Eloquent {
     }
 
     public function comments() {
-        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->where( 'commentable_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->whereIn( 'commentable_type', ['task', 'task_activity'] );
     }
 
     public function assignees() {
