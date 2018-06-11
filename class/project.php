@@ -564,8 +564,8 @@ class CPM_Project {
         if ( false === $ret ) {
             //get discussions
             $sql       = "SELECT ID, comment_count FROM $wpdb->posts WHERE `post_type` = '%s' AND `post_status` = 'publish' AND `post_parent` IN (%s);";
-            $sql_files = "SELECT COUNT(ID) FROM $wpdb->posts p INNER JOIN $wpdb->postmeta m ON (p.ID = m.post_id) WHERE p.post_type = 'attachment' AND (p.post_status = 'publish' OR p.post_status = 'inherit') AND ( (m.meta_key = '_project' AND CAST(m.meta_value AS CHAR) = '$project_id') )";
-
+            $sql_files = "SELECT COUNT(ID) FROM $wpdb->posts p INNER JOIN $wpdb->postmeta m ON (p.ID = m.post_id) WHERE p.post_type = 'attachment' AND (p.post_status = 'publish' OR p.post_status = 'inherit') AND m.meta_value = " . $project_id;
+            
             $discussions = $wpdb->get_results( sprintf( $sql, 'cpm_message', $project_id ) );
             $todolists   = $wpdb->get_results( sprintf( $sql, 'cpm_task_list', $project_id ) );
             $milestones  = $wpdb->get_results( sprintf( $sql, 'cpm_milestone', $project_id ) );
