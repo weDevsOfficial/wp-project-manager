@@ -122,6 +122,18 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= 1.6.16 - Jun 11, 2018 =
+
+ * [fixed] Project title is overlaping on RTL language.
+ * [fixed] Could not select project category while creating/editing a project.
+ * [fixed] Single task is not re-rendering
+
+= 1.6.15 - May 10, 2018 =
+
+ * [fixed] Task list is not showing when using the Internet Explorer browser.
+ * [fixed] Projects dashboard display missing alignment.
+ * [Update] Improved plugins text domain.
+
 = 1.6.14 - April 26, 2018 =
 
  * [fixed] Task is not showing after clicking on a task from the calendar.
