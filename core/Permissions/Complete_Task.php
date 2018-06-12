@@ -15,7 +15,7 @@ class Complete_Task extends Abstract_Permission {
 
         if ( $user_id ) {
 
-        	if ( $project_id && pm_is_manager( $project_id, $user_id ) ) {
+        	if ( $project_id && pm_has_project_managing_capability( $project_id, $user_id ) ) {
 	            return true;
 	        }
             

@@ -3520,8 +3520,11 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-todolists .pm-todolist {
   margin: 0px;
-  padding: 0px 0px 0px 10px;
+  padding: 0px;
   margin-top: 20px;
+}
+.pm .pm-todolists .modal-body.pm-todolist {
+  padding-left: 10px;
 }
 .pm .pm-todolists .pm-todolist header {
   padding: 10px 10px 3px 10px;
