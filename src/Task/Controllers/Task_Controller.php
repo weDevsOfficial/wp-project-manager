@@ -93,7 +93,7 @@ class Task_Controller {
             $task = Task::create( $data );
         }
 
-        do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
+        //do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
         
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
@@ -109,8 +109,8 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
-        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
-        do_action('pm_after_create_task', $task, $request->get_params() );
+        //do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        //do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
