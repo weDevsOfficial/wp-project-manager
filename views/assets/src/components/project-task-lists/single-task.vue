@@ -41,6 +41,7 @@
                     <div class="modal-body pm-todolist">
                         <div class="pm-col-12 pm-todo">
                             <div class="pm-modal-conetnt">
+
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
@@ -102,31 +103,24 @@
 
                                             <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
 
+
                                                 <multiselect
                                                     v-model="task_assign"
                                                     :options="project_users"
                                                     :multiple="true"
                                                     :close-on-select="false"
                                                     :clear-on-select="true"
-                                                    :hide-selected="false"
                                                     :show-labels="true"
+                                                    :searchable="true"
                                                     placeholder="Select User"
                                                     select-label=""
                                                     selected-label="selected"
                                                     deselect-label=""
-                                                    :taggable="true"
                                                     label="display_name"
                                                     track-by="id"
                                                     :allow-empty="true">
 
-                                                    <template  slot="tag" slot-scope="props">
-                                                        <div>
-                                                            <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky"/>
-                                                            <div class="option__desc">
-                                                                <span class="option__title">{{ props.option.display_name }}</span>
-                                                            </div>
-                                                        </div>
-                                                    </template>
+                                            
 
                                                 </multiselect>
                                             </div>
@@ -185,15 +179,15 @@
                                 <div  class="task-details">
 
                                     <!--v-if-->
-
-                                    <p class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
-                                        <span v-if="task.description !== ''" v-html="task.description"></span>
+                                    
+                                    <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
+                                        <div v-if="task.description != ''"><pre class="pm-task-description">{{ task.description }}</pre></div>
                                         <span style="margin-left: -3px;" v-if="!task.description">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                             &nbsp;{{ __( 'Update Description', 'pm' ) }}
                                         </span>
 
-                                    </p>
+                                    </div>
                                     <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea
                                         v-prevent-line-break
@@ -235,9 +229,34 @@
 </template>
 
 <style>
-    .pm-task-title-right {
+    .pm-todo .pm-modal-conetnt .pm-task-title-right {
         float: right;
     }
+    .pm-todo .pm-modal-conetnt .pm-task-description {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    textarea.pm-desc-field {
+        line-height: 1.6;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__input{
+        width: 100%;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__select {
+        display: none;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__tags {
+        padding: 8px 12px 0 8px;
+    }
+
+    .pm-task-modal .pm-multiselect-single-task .multiselect__tag {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+
 </style>
 
 <script>
@@ -276,6 +295,17 @@
         },
 
         mixins: [Mixins],
+
+        watch: {
+            is_enable_multi_select (val) {
+
+                if(val) {
+                    pm.Vue.nextTick(function() {
+                        jQuery('.multiselect__input').show().focus();
+                    });
+                }
+            }
+        },
 
         computed: {
             doActionData () {
@@ -393,6 +423,7 @@
                         //self.list = res.data.boards.data[0];
                         //self.$store.commit('projectTaskLists/setSingleTask', res.data);
                         self.task = res.data;
+
                         self.loading = false;
                     }
                 }
@@ -594,14 +625,14 @@
 
             windowActivity: function(el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
-                    dscription_blur = jQuery(el.target).hasClass('pm-des-area'),
+                    dscription_blur = jQuery(el.target).closest('.pm-des-area'),
                     assign_user    =  jQuery(el.target).closest( '.pm-assigned-user-wrap' );
 
                 if ( ! title_blur ) {
                     this.is_task_title_edit_mode = false;
                 }
-
-                if ( ! dscription_blur ) {
+                
+                if ( ! dscription_blur.length ) {
                     this.is_task_details_edit_mode = false;
                 }
 
@@ -657,6 +688,7 @@
     }
     .pm-multiselect-single-task {
         position: absolute;
+        width: 26%;
     }
 </style>
 
