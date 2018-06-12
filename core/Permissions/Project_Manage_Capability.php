@@ -16,7 +16,10 @@ class Project_Manage_Capability extends Abstract_Permission {
             $project_id = $id;
         }
         
-        if ( $user_id ) {            
+        if ( $user_id ) { 
+            if ( pm_has_manage_capability() )  {
+                return true;
+            }       
             if ( $project_id && pm_has_project_managing_capability( $project_id, $user_id ) ) {
                 return true;
             }
