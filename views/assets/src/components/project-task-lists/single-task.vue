@@ -3,7 +3,7 @@
         <!-- Spinner before load task -->
         <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
             <div class="modal-wrapper">
-                <div class="modal-container" style="width: 700px; height: 20000px;">
+                <div class="modal-container" style="height: 20000px;">
                     <span class="close-vue-modal">
 
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
@@ -33,7 +33,7 @@
         <div v-else class="modal-mask half-modal pm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
-                <div class="modal-container" style="width: 700px;">
+                <div class="modal-container" style="">
                     <span class="close-vue-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
@@ -477,10 +477,11 @@
                 this.updateTaskElement(task);
             },
             isTaskDetailsEditMode: function() {
-                if ( this.can_edit_task(this.task) ) {
+                if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
+                }else {
+                    this.is_task_details_edit_mode = true;
                 }
-                this.is_task_details_edit_mode = true;
 
                 pm.Vue.nextTick(function() {
                     jQuery('.pm-desc-field').focus();
@@ -578,14 +579,17 @@
             },
 
             isTaskTitleEditMode: function() {
-                this.is_task_title_edit_mode = true;
+                if ( !this.can_edit_task(this.task) ) {
+                    return this.is_task_title_edit_mode = false;
+                }
+                return this.is_task_title_edit_mode = true;
             },
 
             isTaskDateEditMode: function() {
-                if ( this.can_edit_task(this.task) ) {
-                    this.is_task_date_edit_mode = false;
+                if ( !this.can_edit_task(this.task) ) {
+                    return this.is_task_date_edit_mode = false;
                 }
-                this.is_task_date_edit_mode = true;
+                return this.is_task_date_edit_mode = true;
             },
 
             windowActivity: function(el) {
