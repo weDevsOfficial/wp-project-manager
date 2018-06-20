@@ -61,7 +61,7 @@ class New_Comment_Notification extends Email {
 
         } else if ( $request['commentable_type'] == 'task' ) {
             $type        = __( 'Task', 'pm' );
-            $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/task/'.$request['commentable_id'];
+            $comment_link = $this->pm_link() . '#/projects/'.$project->id. '/task-lists/tasks/'.$request['commentable_id'];
             $title = Task::find( $request['commentable_id'] )->title;
 
         } else if ( $request['commentable_type'] == 'file' ) {
