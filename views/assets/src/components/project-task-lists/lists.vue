@@ -58,9 +58,7 @@
                                     </div>
                                 </h3>
 
-                                <div class="pm-entry-detail" >
-                                    {{ list.description }}    
-                                </div>
+                                <pre class="pm-entry-detail" v-html="list.description"></pre>
                                 
                                 <transition name="slide" v-if="can_edit_task_list(list)">
                                     <div class="pm-update-todolist-form" v-if="list.edit_mode">
@@ -145,6 +143,11 @@
 </template>
     
 <style>
+    .pm-entry-detail {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
     .pm-inline-list-wrap .pm-right-inline-list-element {
         float: right;
     }

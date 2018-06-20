@@ -29,7 +29,7 @@ class Comment_Transformer extends TransformerAbstract {
     public function transform( Comment $item ) {
         return [
             'id'         => (int) $item->id,
-            'content'    => $item->content,
+            'content'    => pm_get_content( $item->content ),
             'commentable_type' => $item->commentable_type,
             'created_at' => format_date( $item->created_at ),
             'meta'       => [
