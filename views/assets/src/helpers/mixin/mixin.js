@@ -421,6 +421,8 @@ export default {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
+
+                    pmBus.$emit('pm_after_fetch_project', res);
                 },
                 error (res) {
                     if (res.status === 404){
