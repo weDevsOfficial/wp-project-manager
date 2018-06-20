@@ -181,7 +181,9 @@
                                     <!--v-if-->
                                     
                                     <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
-                                        <div v-if="task.description != ''"><pre class="pm-task-description">{{ task.description }}</pre></div>
+                                        <div v-if="task.description != ''">
+                                            <pre class="pm-task-description" v-html="task.description"></pre>
+                                        </div>
                                         <span style="margin-left: -3px;" v-if="!task.description">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                             &nbsp;{{ __( 'Update Description', 'pm' ) }}
@@ -237,6 +239,13 @@
         margin: 0;
         padding: 0;
     }
+
+    .pm-todo .pm-modal-conetnt .pm-task-description p {
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+    }
+    
     textarea.pm-desc-field {
         line-height: 1.6;
     }
@@ -597,6 +606,7 @@
                         self.is_task_title_edit_mode = false;
                         self.is_task_details_edit_mode = false;
                         self.is_enable_multi_select = false;
+                        self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
                     },
                     error (res) {
