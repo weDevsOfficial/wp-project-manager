@@ -530,3 +530,22 @@ function pm_tb_prefix() {
     return $wpdb->prefix;
 }
 
+/**
+ * Displays tasks, messages, milestones contents. Removed `the_content` filter
+ * and applied other filters due to conflicts created by other plugins.
+ *
+ * @param string $content
+ * @return string
+ */
+function pm_get_content( $content ) {
+    $content = apply_filters( 'pm_get_content', $content );
+
+    return $content;
+}
+
+function pm_filter_content_url( $content ) {
+    $content = apply_filters( 'pm_get_content_url', $content );
+    
+    return $content;
+}
+

@@ -29,7 +29,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => $item->description,
+            'description' => pm_get_content( $item->description ),
             'order'       => $item->order,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
