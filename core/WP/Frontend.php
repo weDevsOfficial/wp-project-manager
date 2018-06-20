@@ -52,9 +52,23 @@ class Frontend {
 		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
+		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
 	}
 
+	function pm_content_filter() {
+		add_filter( 'pm_get_content', 'wptexturize' );
+        add_filter( 'pm_get_content', 'convert_smilies' );
+        add_filter( 'pm_get_content', 'convert_chars' );
+        add_filter( 'pm_get_content', 'wpautop' );
+        add_filter( 'pm_get_content', 'shortcode_unautop' );
+        add_filter( 'pm_get_content', 'prepend_attachment' );
+        add_filter( 'pm_get_content', 'make_clickable' );
+	}
 
+	function pm_content_filter_url() {
+		add_filter( 'pm_get_content_url', 'make_clickable' );
+	}
 
 	function load_plugin_textdomain() {
 		load_plugin_textdomain( 'pm', false, config('frontend.basename') . '/languages/' );

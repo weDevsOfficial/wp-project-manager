@@ -190,7 +190,7 @@ class Task_Controller {
         
         
         $resource = new Item( $task, new Task_Transformer );
-
+        
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
