@@ -22,12 +22,12 @@
                     <p>
                         {{ __( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'pm' ) }} 
                     </p>
-                        <div v-if="can_create_message">
+                        <div v-if="can_create_message()">
                             <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                                 {{ __( 'Add New Discussion', 'pm' ) }} 
                             </a>
                         </div>
-                        <transition name="slide" v-if="can_create_message">
+                        <transition name="slide" v-if="can_create_message()">
                             <div class="pm-new-message-form" v-if="is_discuss_form_active">
                                 <h3>{{ __( 'Create a new message', 'pm' ) }}</h3>
                                 <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -49,12 +49,12 @@
             </div>
             <div v-if="discussTemplate">
                 <div class="pm-row discussion">
-                    <div v-if="can_create_message">
+                    <div v-if="can_create_message()">
                         <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
                             {{ __( 'Add New Discussion', 'pm' ) }} 
                         </a>
                     </div>
-                    <transition name="slide" v-if="can_create_message">
+                    <transition name="slide" v-if="can_create_message()">
                         <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
                             <h3>{{ __( 'Create a new message', 'pm' )}}</h3>
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
@@ -112,7 +112,7 @@
                                 </div>
 
                                 <div class="clear"></div>
-                                <transition name="slide" v-if="can_create_message">
+                                <transition name="slide" v-if="can_create_message()">
                                     <new-discuss-form v-if="discuss.edit_mode" :discuss="discuss"></new-discuss-form>
                                 </transition>
                                 

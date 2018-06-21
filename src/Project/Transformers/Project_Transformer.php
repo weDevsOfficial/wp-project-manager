@@ -42,13 +42,24 @@ class Project_Transformer extends TransformerAbstract {
     public function includeMeta (Project $item){
 
         return $this->item($item, function ($item) {
+            $list = $item->task_lists();
+            $list = apply_filters( 'pm_task_list_query', $list, $item->id );
+            $task = $item->tasks();
+            $task = apply_filters( 'pm_task_query', $task, $item->id );
+            $task_count = $task->count();
+            $complete_tasks_count = $task->where( 'status', Task::COMPLETE)->count();
+            $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
+            $discussion = $item->discussion_boards();
+            $discussion = apply_filters( 'pm_discuss_query', $discussion, $item->id);
+            $milestones = $item->milestones();
+            $milestones = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
             return[
-                'total_task_lists'        => $item->task_lists()->count(),
-                'total_tasks'             => $item->tasks()->count(),
-                'total_complete_tasks'    => $item->tasks()->where( 'status', Task::COMPLETE)->count(),
-                'total_incomplete_tasks'  => $item->tasks()->where( 'status', Task::INCOMPLETE)->count(),
-                'total_discussion_boards' => $item->discussion_boards()->count(),
-                'total_milestones'        => $item->milestones()->count(),
+                'total_task_lists'        => $list->count(),
+                'total_tasks'             => $task_count,
+                'total_complete_tasks'    => $complete_tasks_count,
+                'total_incomplete_tasks'  => $incomplete_tasks_count,
+                'total_discussion_boards' => $discussion->count(),
+                'total_milestones'        => $milestones->count(),
                 'total_comments'          => $item->comments()->count(),
                 'total_files'             => $item->files()->count(),
                 'total_activities'        => $item->activities()->count(),
