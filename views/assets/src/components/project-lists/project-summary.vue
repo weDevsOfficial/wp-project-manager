@@ -181,7 +181,15 @@
             },
 
             projectCompleteStatus (project) {
-                //return ((100 * $progress['completed']) /  $progress['total']) + '%';
+                var progress = 0;
+                if (typeof project.meta !== 'undefined') {
+                    var total_task = parseInt(project.meta.data.total_tasks, 10) || 0;
+                    var completed = parseInt(project.meta.data.total_complete_tasks, 10) || 0;
+                    progress = ((100 * completed) /  total_task);
+                }
+                return {
+                    width: progress + '%' 
+                };
             },
             projectMarkAsDoneUndone (project) {
                 var self = this;
