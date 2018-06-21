@@ -166,13 +166,14 @@ export default {
          * @return void
          */
         afterUpdateTask: function( state, data ) {
+
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
 
             if (list_index === false) {
                 return;
             }
-
-            if ( data.task.status === 'incomplete' ) {
+            
+            if ( data.task.status === 'incomplete' || data.task.status === false ) {
                 var task_index = state.getIndex( 
                         state.lists[list_index].incomplete_tasks.data, 
                         data.task.id, 
@@ -180,6 +181,16 @@ export default {
                 );
                 
                 state.lists[list_index].incomplete_tasks.data.splice( task_index, 1, data.task );
+            }
+
+            if ( data.task.status === 'complete' || data.task.status === true ) {
+                var task_index = state.getIndex( 
+                        state.lists[list_index].complete_tasks.data, 
+                        data.task.id, 
+                        'id' 
+                );
+                
+                state.lists[list_index].complete_tasks.data.splice( task_index, 1, data.task );
             }
         },
 
@@ -190,7 +201,7 @@ export default {
                 return false;
             }
 
-            if ( data.task.status === 'incomplete' ) {
+            if ( data.task.status === 'incomplete' || data.task.status === false ) {
 
                 if(typeof state.lists[list_index].incomplete_tasks !== 'undefined'){
 
@@ -247,7 +258,9 @@ export default {
                     return;
                 }
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
-                
+                if(task_index == false ) {
+                    return false;
+                }
                 var task = state.lists[list_index].incomplete_tasks.data[task_index];
                 task.status = true;
                 
@@ -384,8 +397,8 @@ export default {
          * 
          * @return void       
          */
-        close_single_task_popup: function( state ) {
-            state.is_single_task = false;
+        updateSingleTaskActiveMode: function( state, status ) {
+            state.is_single_task = status;
             //state.task = {};
         },
 

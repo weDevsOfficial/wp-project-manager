@@ -879,7 +879,6 @@ ul.pm-nav li a {
   z-index: 99999;
 }
 .pm-project-head {
-  overflow: hidden;
   display: block;
   margin-bottom: 15px;
 }
@@ -2872,7 +2871,8 @@ a.pm-icon-tick.grey {
 }
 .pm .pm-top-bar .pm-project-search input {
   float: left;
-  width: 100%;
+  width: 47%;
+  margin-left: 3%;
 }
 .pm .pm-top-bar .pm-project-group {
   padding: 0px;
@@ -3522,6 +3522,9 @@ a.pm-icon-tick.grey {
   margin: 0px;
   padding: 0px;
   margin-top: 20px;
+}
+.pm .pm-todolists .modal-body.pm-todolist {
+  padding-left: 10px;
 }
 .pm .pm-todolists .pm-todolist header {
   padding: 10px 10px 3px 10px;
@@ -4248,7 +4251,7 @@ a.pm-icon-tick.grey {
   float: right;
 }
 .pm .half-modal .modal-container {
-  width: 70%;
+  width: 57%;
   margin: 30px 0 0 auto;
   overflow: visible;
   display: compact;
@@ -4351,7 +4354,7 @@ a.pm-icon-tick.grey {
   width: 4%;
 }
 .pm .half-modal .pm-modal-conetnt .pm-task-title .pm-task-title-wrap {
-  width: 90%;
+  width: 70%;
   text-align: justify;
 }
 .pm .half-modal .pm-modal-conetnt .pm-task-title .pm-task-title-wrap,
@@ -4631,6 +4634,9 @@ a.pm-icon-tick.grey {
   }
   .pm #pm-report ul li a {
     padding: 15px;
+  }
+  .pm .half-modal .modal-container {
+    width: 90%;
   }
 }
 @media only screen and (max-width: 1166px) {

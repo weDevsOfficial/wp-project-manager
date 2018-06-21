@@ -46,22 +46,28 @@
         },
         methods:{
             milestoneMarkDone (milestone) {
-                milestone.status = 'complete';
                 var args = {
                     data: {
                         id: milestone.id,
+                        title: milestone.title,
                         status: 'complete'
+                    },
+                    callback (res) {
+                        milestone.status = 'complete';
                     }
                 }
                 this.updateMilestone(args);
             },
 
             milestoneMarkUndone (milestone) {
-                milestone.status = 'incomplete';
                 var args = {
                     data: {
                         id: milestone.id,
+                        title: milestone.title,
                         status: 'incomplete'
+                    },
+                    callback (res) {
+                        milestone.status = 'incomplete';
                     }
                 }
                 this.updateMilestone(args);

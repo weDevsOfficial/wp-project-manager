@@ -52,9 +52,23 @@ class Frontend {
 		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
+		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
 	}
 
+	function pm_content_filter() {
+		add_filter( 'pm_get_content', 'wptexturize' );
+        add_filter( 'pm_get_content', 'convert_smilies' );
+        add_filter( 'pm_get_content', 'convert_chars' );
+        add_filter( 'pm_get_content', 'wpautop' );
+        add_filter( 'pm_get_content', 'shortcode_unautop' );
+        add_filter( 'pm_get_content', 'prepend_attachment' );
+        add_filter( 'pm_get_content', 'make_clickable' );
+	}
 
+	function pm_content_filter_url() {
+		add_filter( 'pm_get_content_url', 'make_clickable' );
+	}
 
 	function load_plugin_textdomain() {
 		load_plugin_textdomain( 'pm', false, config('frontend.basename') . '/languages/' );
@@ -83,6 +97,7 @@ class Frontend {
 	public function init_filters() {
 		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
+		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -115,6 +130,12 @@ class Frontend {
 
 		return $schedules;
 	}
+
+function project_text_editor($config) {
+	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
+	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
+	return $config;
+}
 
 	/**
 	 * instantiate classes

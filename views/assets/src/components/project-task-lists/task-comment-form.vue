@@ -23,23 +23,50 @@
   import Mixins from './mixin';
 
   export default {
-    props: ['comment', 'comments'],
+    props: {
+        comment: {
+            type: [Object],
+            default () {
+                return {}
+            }
+        },
+
+        comments: {
+            type: [Array],
+            default () {
+                return []
+            }
+        },
+
+        task: {
+            type: [Object],
+            default () {
+                return {
+                    id: false
+                }
+            }
+        }
+    },
+
     mixins: [Mixins],
+
     data () {
         return {
             submit_disabled: false,
             show_spinner: false,
             content: {
-                      html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
-                  },
-            task_id: this.$route.params.task_id,
+                html: typeof this.comment.content == 'undefined' ? '' : this.comment.content,
+            },
+            task_id: typeof this.task.id == 'undefined' ? false : this.task.id,
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
+            mentioned_user_ids: null,
             add_new_comment: __( 'Add New Comment', 'pm' ),
             update_comment: __( 'Update Comment', 'pm' ),
             notify_users: [],
         }
     },
+
     components: {
         'text-editor': editor,
         'file-uploader': uploader,
@@ -77,6 +104,9 @@
     methods: {
 
         taskCommentAction () {
+            var regEx = /data-pm-user-id=":(.+?):"/g;
+            this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
+
             // Prevent sending request when multiple click submit button 
             if ( this.submit_disabled ) {
                 return;
@@ -96,6 +126,7 @@
                     content: self.comment.content,
                     commentable_type: 'task',
                     deleted_files: self.deleted_files || [],
+                    mentioned_users: self.mentioned_user_ids,
                     files: self.files || [],
                     notify_users: this.notify_users
                 },

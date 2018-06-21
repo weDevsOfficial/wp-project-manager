@@ -1,5 +1,5 @@
 <template>
-    <input type="text" :value="dateValue">
+    <input type="text" class="pm-datepicker" :value="dateValue">
 </template>
 
 <script>
@@ -33,6 +33,11 @@
                 onSelect: function(dateText) {
                    self.$emit('input', dateText);
                 }
+            });
+
+            jQuery(self.$el).on("change", function() {
+                var date = jQuery(self.$el).val();
+                self.$emit('input', date);
             });
         },
     }

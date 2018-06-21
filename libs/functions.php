@@ -384,7 +384,16 @@ function pm_has_project_create_capability( $user_id = false ) {
 
     return true;
 }
+function pm_has_project_managing_capability( $project_id, $user_id = false ) {
+    if ( pm_has_manage_capability( $user_id ) ) {
+        return true;
+    }
+    if ( pm_is_manager( $project_id, $user_id ) ) {
+        return true;
+    }
 
+    return false;
+}
 function pm_user_can_complete_task( $task, $user_id = false ) {
     if(!$task) {
         return false;
@@ -519,5 +528,24 @@ function pm_tb_prefix() {
     global $wpdb;
 
     return $wpdb->prefix;
+}
+
+/**
+ * Displays tasks, messages, milestones contents. Removed `the_content` filter
+ * and applied other filters due to conflicts created by other plugins.
+ *
+ * @param string $content
+ * @return string
+ */
+function pm_get_content( $content ) {
+    $content = apply_filters( 'pm_get_content', $content );
+
+    return $content;
+}
+
+function pm_filter_content_url( $content ) {
+    $content = apply_filters( 'pm_get_content_url', $content );
+    
+    return $content;
 }
 

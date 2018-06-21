@@ -36,7 +36,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => $item->description,
+            'description' => pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),

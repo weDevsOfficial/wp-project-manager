@@ -117,7 +117,7 @@ class Email {
 
     public function is_bcc_enable() {
         $enable_bcc = pm_get_settings( 'enable_bcc' );
-        $enable_bcc = isset( $enable_bcc ) ? $enable_bcc : false;
+        $enable_bcc = isset( $enable_bcc ) ? $enable_bcc == "true" : false;
         return apply_filters( 'pm_enable_bcc', $enable_bcc  ) ;
     }
 
@@ -134,7 +134,6 @@ class Email {
     }
 
     public function pm_link() {
-
         if( !$this->link_to_backend() ) {
              $pages   = get_site_option('pm_pages', []);
             $project = isset( $pages['project'] ) ? intval( $pages['project'] ) : '';
@@ -143,10 +142,7 @@ class Email {
                 return get_permalink( $project );
             }
         }
-
         return admin_url( 'admin.php?page=pm_projects' );
-       
-
     }
 
     function notify_manager() {

@@ -19,6 +19,7 @@ use WeDevs\PM\Common\Traits\Request_Filter;
 use Carbon\Carbon;
 use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Comment\Models\Comment;
 
 class Task_Controller {
 
@@ -68,7 +69,7 @@ class Task_Controller {
             ->where( 'project_id', $project_id );
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
-
+        
         if ( $task == NULL ) {
             return $this->get_response( null,  [
                 'message' => pm_get_text('success_messages.no_element')
@@ -189,7 +190,7 @@ class Task_Controller {
         
         
         $resource = new Item( $task, new Task_Transformer );
-
+        
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
@@ -205,6 +206,7 @@ class Task_Controller {
         
         if ( $task->save() ) {
             $this->update_task_status( $task );
+            $this->task_activity_comment($task, $status);
         }
         
         do_action( 'mark_task_complete', $task->project_id, $task->id );
@@ -217,6 +219,20 @@ class Task_Controller {
         ];
 
         return $this->get_response( $resource, $message );
+    }
+
+    private function task_activity_comment ($task, $status) {
+         $activity = ( (bool) $status) ? pm_get_text('success_messages.task_activity_done_comment') : pm_get_text('success_messages.task_activity_undone_comment');
+         $user_id = get_current_user_id();
+        $comment                   = new Comment;
+        $comment->content          = $activity;
+        $comment->commentable_id   = $task->id;
+        $comment->commentable_type = 'task_activity';
+        $comment->project_id       = $task->project_id;
+        $comment->created_by       = $user_id;
+        $comment->updated_by       = $user_id;
+        $comment->unsetEventDispatcher();
+        $comment->save();
     }
 
     public function destroy( WP_REST_Request $request ) {
