@@ -14,6 +14,9 @@ var PM_TaskList_Mixin = {
     computed: {
 
         task_start_field () {
+            if (!PM_Vars.is_pro) {
+                return false;
+            }
            return this.getSettings('task_start_field', false);
         },
 

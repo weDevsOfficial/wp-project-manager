@@ -66,7 +66,7 @@
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
             };
 
-            if (PmProComment) {
+            if (PmProComment.hasOwnProperty('source')) {
                 PmProComment.mentions['source'] = self.$store.state.project_users;
                 settings = jQuery.extend(settings, PmProComment);
             }

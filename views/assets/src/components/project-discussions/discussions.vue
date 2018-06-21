@@ -23,7 +23,7 @@
                         {{ __( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'pm' ) }} 
                     </p>
                         <div v-if="can_create_message()">
-                            <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
+                            <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> <i aria-hidden="true" class="fa fa-plus-circle"></i>
                                 {{ __( 'Add New Discussion', 'pm' ) }} 
                             </a>
                         </div>
@@ -50,7 +50,7 @@
             <div v-if="discussTemplate">
                 <div class="pm-row discussion">
                     <div v-if="can_create_message()">
-                        <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> 
+                        <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> <i aria-hidden="true" class="fa fa-plus-circle"></i>
                             {{ __( 'Add New Discussion', 'pm' ) }} 
                         </a>
                     </div>
