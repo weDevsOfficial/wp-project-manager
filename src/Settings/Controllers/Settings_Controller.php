@@ -60,9 +60,8 @@ class Settings_Controller {
 
             foreach ( $settings as $settings_data ) {
 
-                if ( $settings_data['key'] == 'logo' &&  $settings_data['value'] !== '0' ) {
-                    $logo_id = File_System::upload_base64_file($settings_data['value'][0]);
-                    $settings_data['value'] = $logo_id;
+                if ( $settings_data['key'] == 'logo' &&  empty($settings_data['value'])) {
+                    continue;
                 }
 
                 $settings_collection[] = $this->save_settings( $settings_data, $project_id );
