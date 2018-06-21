@@ -5276,3 +5276,15 @@ a.pm-icon-tick.grey {
 .pm .form-table td fieldset label{
   margin: 0.25em 0.5em 0.5em !important;
 }
+
+.logo-preview{
+  max-width: 75px;
+  max-height: 75px;
+  overflow: hidden;
+  margin-bottom: 10px !important;
+}
+
+.logo-preview img{
+  width: 100%;
+  height: auto;
+}
