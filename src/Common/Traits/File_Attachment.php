@@ -9,6 +9,7 @@ use WeDevs\PM\File\Models\File;
 trait File_Attachment {
 
     private function attach_files( $entity, $files ) {
+    	
         $reflector   = new ReflectionClass( $entity );
         $entity_type = $reflector->getShortName();
         $entity_type = strtolower( $entity_type );
