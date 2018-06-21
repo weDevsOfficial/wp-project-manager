@@ -7,7 +7,7 @@
                    <input :disabled="can_complete_task(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
-                        <router-link 
+                        <!-- <router-link 
                             :to="{ 
                                 name: route_name, 
                                 params: { 
@@ -17,7 +17,8 @@
                             }}">
 
                             {{ task.title }}
-                        </router-link>
+                        </router-link> -->
+                        <a href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
                     
                     </span>                 
 
@@ -53,7 +54,7 @@
                             </router-link>
                     </span>
                     <span>
-                    <a v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+                        <a v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
                     </span>
 
                     <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
@@ -61,17 +62,6 @@
 
                 </div>
 
-                <!-- v-if="task.can_del_edit" -->
-               <!--  <div class="pm-col-1 pm-todo-action-right pm-last-col">
-                    
-                    <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
-                        <span class="dashicons dashicons-edit"></span>
-                    </a>
-                    <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
-                        <span class="dashicons dashicons-trash"></span>
-                    </a>
-                        
-                </div> -->
                 <div class="clearfix"></div>
 
                 <div class="pm-list-action-wrap">
@@ -95,6 +85,10 @@
                 <new-task-form :task="task" :list="list"></new-task-form>
             </div>
         </transition>
+
+        <div v-if="parseInt(taskId) && parseInt(projectId)">
+            <single-task :taskId="taskId" :projectId="projectId"></single-task>
+        </div>
     </div>
 </template>
 <script>
@@ -109,16 +103,19 @@
 
         data () {
             return {
-                // doActionData: {
-                //     task: this.task,
-                //     list: this.list,
-                // }
+                taskId: false,
+                projectId: false
             }
+        },
+
+        created () {
+            pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
 
         components: {
             'new-task-form': new_task_form,
-            'do-action': DoAction
+            'do-action': DoAction,
+            'single-task': pm.SingleTask
         },
         
         computed: {
@@ -143,6 +140,26 @@
         },
         
         methods: {
+            afterCloseSingleTaskModal () {
+
+                if(this.$route.name == 'lists_single_task') {
+                    this.$router.push({
+                        name: 'task_lists'
+                    });
+                } else if(this.$route.name == 'single_task') {
+                    this.$router.push({
+                        name: 'single_list'
+                    });
+                } else {
+                    this.taskId = false;
+                    this.projectId = false;
+                }
+            },
+            getSingleTask (task) {
+                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
+                this.taskId = task.id;
+                this.projectId = task.project_id;
+            },
             doneUndone (){
                 var self = this,
                     status = !this.task.status ? 1: 0;

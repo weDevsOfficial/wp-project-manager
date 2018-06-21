@@ -132,6 +132,13 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-clipboard' => [
+		'id'         => 'pm-clipboard',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/clipboard/clipboard.min.js',
+		'dependency' => ['pm-uploader'],
+		'in_footer'  => true
+	],
+
 	'pm-const' => [
 		'id'         => 'pm-const',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/const.js',
@@ -145,7 +152,8 @@ return [
 			'jquery-ui-autocomplete',
 			'pm-tiny-mce',
 			'jquery-ui-sortable',
-			'pm-uploader'
+			'pm-uploader',
+			'pm-clipboard'
 		],
 		'in_footer'  => true
 	],

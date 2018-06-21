@@ -58,9 +58,7 @@
                                     </div>
                                 </h3>
 
-                                <div class="pm-entry-detail" >
-                                    {{ list.description }}    
-                                </div>
+                                <pre class="pm-entry-detail" v-html="list.description"></pre>
                                 
                                 <transition name="slide" v-if="can_edit_task_list(list)">
                                     <div class="pm-update-todolist-form" v-if="list.edit_mode">
@@ -136,7 +134,7 @@
                     
                 </pm-pagination> 
             </div>
-            <!-- <router-view name="lists_single_task"></router-view> -->
+            <router-view name="single-task"></router-view>
             
             
         </div>
@@ -145,6 +143,11 @@
 </template>
     
 <style>
+    .pm-entry-detail {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
     .pm-inline-list-wrap .pm-right-inline-list-element {
         float: right;
     }
@@ -218,7 +221,8 @@
             'pm-pagination': pagination,
             'pm-header': header,
             'list-tasks': tasks,
-            'default-list-page': default_page
+            'default-list-page': default_page,
+            
         },
 
         mixins: [Mixins],
@@ -315,7 +319,73 @@
 
         },
 
+        created () {
+            pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+        },
+
         methods: {
+            generateTaskUrl (task) {
+                var url = this.$router.resolve({
+                    name: 'lists_single_task',
+                    params: {
+                        task_id: task.id,
+                        project_id: task.project_id,
+                        list_id: task.task_list.data.id
+                    }
+                }).href;
+                var url = PM_Vars.project_page + url;
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
+                this.copy(url);
+            },
+            afterTaskDoneUndone (task) {
+
+                this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
+                    status: task.status == 'complete' || task.status === true ? 1 : 0,
+                    task: task,
+                    list_id: task.task_list.data.id,
+                    task_id: task.id
+                });
+            },
+          
+            updateSingleTask (task) {
+
+                if(task.status == 'complete' || task.status === true) {
+                    this.afterTaskDoneUndone(task);
+                } else {
+                    this.setTaskDefaultData(task);
+                    this.$store.commit('projectTaskLists/afterUpdateTask', {
+                        task: task,
+                        list_id: task.task_list.data.id
+                    });
+                }
+
+                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
+                
+            },
+
+            setTaskDefaultData (task) {
+                var lists = this.$store.state.projectTaskLists.lists;
+                var list_index = this.getIndex( lists, task.task_list.data.id, 'id' );
+            
+                if (list_index === false) {
+                    return;
+                }
+                
+                if ( task.status === 'incomplete' || task.status === false ) {
+                    var task_index = this.getIndex( 
+                            lists[list_index].incomplete_tasks.data, 
+                            task.id, 
+                            'id' 
+                    );
+
+                    var prevTask = lists[list_index].incomplete_tasks.data[task_index];
+
+                    task.sub_task_content = prevTask.sub_task_content;
+                    task.edit_mode = prevTask.edit_mode;
+                }
+            },
+           
             isSingleTask () {
                 if ( this.$route.name == 'lists_single_task' ) {
                     this.$store.commit('isSigleTask', true);

@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="nonsortable">
         <!-- Spinner before load task -->
         <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
             <div class="modal-wrapper">
-                <div class="modal-container" style="width: 700px; height: 20000px;">
+                <div class="modal-container" style="height: 20000px;">
                     <span class="close-vue-modal">
 
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
@@ -33,7 +33,7 @@
         <div v-else class="modal-mask half-modal pm-task-modal modal-transition" style="">
 
             <div class="modal-wrapper">
-                <div class="modal-container" style="width: 700px;">
+                <div class="modal-container" style="">
                     <span class="close-vue-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
@@ -41,6 +41,7 @@
                     <div class="modal-body pm-todolist">
                         <div class="pm-col-12 pm-todo">
                             <div class="pm-modal-conetnt">
+
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
@@ -70,11 +71,20 @@
 
                                             <div class="clearfix pm-clear"></div>
                                         </span>
-                                        <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
+                                        <div class="pm-task-title-right">
+                                            <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
+                                                <span :class="privateClass( task.meta.privacy )"></span>
+                                            </a>
+                                            <a href="#" @click.prevent="copyUrl(task)">
+                                                <i :title="__('Copy this task URL', 'pm')" class="fa fa-clipboard" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                         <div class="clearfix pm-clear"></div>
+
                                     </h3>
                                     <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
-                                    <div  class="pm-task-meta">
+                                    
+                                    <div class="pm-task-meta">
 
                                         <span  class="pm-assigned-user-wrap">
                                             <span v-if="task.assignees.data.length" class='pm-assigned-user'
@@ -93,31 +103,24 @@
 
                                             <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
 
+
                                                 <multiselect
                                                     v-model="task_assign"
                                                     :options="project_users"
                                                     :multiple="true"
                                                     :close-on-select="false"
                                                     :clear-on-select="true"
-                                                    :hide-selected="false"
                                                     :show-labels="true"
+                                                    :searchable="true"
                                                     placeholder="Select User"
                                                     select-label=""
                                                     selected-label="selected"
                                                     deselect-label=""
-                                                    :taggable="true"
                                                     label="display_name"
                                                     track-by="id"
                                                     :allow-empty="true">
 
-                                                    <template  slot="tag" slot-scope="props">
-                                                        <div>
-                                                            <img height="16" width="16" class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky"/>
-                                                            <div class="option__desc">
-                                                                <span class="option__title">{{ props.option.display_name }}</span>
-                                                            </div>
-                                                        </div>
-                                                    </template>
+                                            
 
                                                 </multiselect>
                                             </div>
@@ -176,15 +179,17 @@
                                 <div  class="task-details">
 
                                     <!--v-if-->
-
-                                    <p class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
-                                        <span v-if="task.description !== ''" v-html="task.description"></span>
+                                    
+                                    <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
+                                        <div v-if="task.description != ''">
+                                            <pre class="pm-task-description" v-html="task.description"></pre>
+                                        </div>
                                         <span style="margin-left: -3px;" v-if="!task.description">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                             &nbsp;{{ __( 'Update Description', 'pm' ) }}
                                         </span>
 
-                                    </p>
+                                    </div>
                                     <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea
                                         v-prevent-line-break
@@ -202,14 +207,16 @@
                                     <div class="clearfix pm-clear"></div>
                                     <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
                                 </div>
+
                                 <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
                                 <div class="pm-todo-wrap clearfix">
                                     <div class="pm-task-comment">
                                         <div class="comment-content">
-                                            <task-comments :comments="task.comments.data"></task-comments>
+                                            <task-comments :task="task" :comments="task.comments.data"></task-comments>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -223,13 +230,65 @@
 
 </template>
 
+<style>
+    .pm-todo .pm-modal-conetnt .pm-task-title-right {
+        float: right;
+    }
+    .pm-todo .pm-modal-conetnt .pm-task-description {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .pm-todo .pm-modal-conetnt .pm-task-description p {
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+    }
+    
+    textarea.pm-desc-field {
+        line-height: 1.6;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__input{
+        width: 100%;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__select {
+        display: none;
+    }
+    .pm-task-modal .pm-multiselect-single-task .multiselect__tags {
+        padding: 8px 12px 0 8px;
+    }
+
+    .pm-task-modal .pm-multiselect-single-task .multiselect__tag {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+
+</style>
+
 <script>
     import comments from './task-comments.vue';
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
-
+    import Multiselect from 'vue-multiselect';
+    
     export default {
-
+        props: {
+            taskId: {
+                type: [Number, Boolean, String],
+                default () {
+                    return false
+                }
+            },
+            projectId: {
+                type: [Number, Boolean, String],
+                default () {
+                    return false
+                }
+            }
+        },
         data: function() {
             return {
                 loading: true,
@@ -239,12 +298,23 @@
                 is_enable_multi_select: false,
                 task_id: this.$route.params.task_id,
                 list: {},
-                //task: {},
+                task: {},
                 assigned_to: [],
             }
         },
 
         mixins: [Mixins],
+
+        watch: {
+            is_enable_multi_select (val) {
+
+                if(val) {
+                    pm.Vue.nextTick(function() {
+                        jQuery('.multiselect__input').show().focus();
+                    });
+                }
+            }
+        },
 
         computed: {
             doActionData () {
@@ -253,10 +323,7 @@
                     list: this.list
                 }
             },
-            task () {
 
-             return this.$store.state.projectTaskLists.task;
-            },
             project_users: function() {
                 return this.$root.$store.state.project_users;
             },
@@ -266,14 +333,6 @@
                 }
                 return this.$store.state.projectTaskLists.task.assignees.data;
             },
-
-            // comments () {
-            //  if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
-            //      return [];
-            //  }
-
-            //  return this.$store.state.projectTaskLists.task.comments.data;
-            // },
 
             /**
              * Get and Set task users
@@ -310,7 +369,7 @@
 
         components: {
             'task-comments': comments,
-            'multiselect': pm.Multiselect,
+            'multiselect': Multiselect,
             'do-action': DoAction
         },
 
@@ -322,19 +381,24 @@
 
 
         methods: {
+            copyUrl (task) {
+                pmBus.$emit('pm_generate_task_url', task);
+                // var url  = PM_Vars.project_page + '#' + this.$route.path + '/tasks/' + task.id; 
+                // this.copy(url);
+            },
+
             lineThrough (task) {
                 if ( task.status ) {
                     return 'pm-line-through';
                 }
             },
             singleTaskDoneUndone: function() {
-
                 var self = this,
                     status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
                         title: this.task.title,
-                        task_id: this.task.id,
+                        task_id: this.task.id ? this.task.id : this.taskId,
                         status : status,
                     },
                     callback: function(resSelf, res) {
@@ -345,12 +409,6 @@
                         }
                         
                         pmBus.$emit('pm_after_task_doneUndone', res);
-                        // self.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
-                        //     status: status,
-                        //     task: res.data,
-                        //     list_id: self.list.id,
-                        //     task_id: self.task.id
-                        // });
                     }
                 }
                 this.taskDoneUndone( args );
@@ -362,7 +420,8 @@
                     condition : {
                         with: 'boards,comments',
                     },
-                    task_id : self.task_id,
+                    task_id : self.task_id ? self.task_id : this.taskId,
+                    project_id: self.projectId ? self.projectId : self.project_id,
                     callback : function (res) {
                         if (typeof res.data === 'undefined' ) {
                             pm.Toastr.error(res.message);
@@ -370,18 +429,21 @@
                             return;
                         }
                         self.addMeta(res.data);
-                        self.list = res.data.boards.data[0];
-                        self.$store.commit('projectTaskLists/setSingleTask', res.data);
-                        //self.task = res.data;
+                        //self.list = res.data.boards.data[0];
+                        //self.$store.commit('projectTaskLists/setSingleTask', res.data);
+                        self.task = res.data;
+
                         self.loading = false;
                     }
                 }
-
+                
                 this.getTask(args);
 
             },
 
             addMeta (task) {
+                task.edit_mode = false;
+
                 if (task.status === 'complete') {
                     task.status = true;
                 } else {
@@ -455,10 +517,11 @@
                 this.updateTaskElement(task);
             },
             isTaskDetailsEditMode: function() {
-                if ( this.can_edit_task(this.task) ) {
+                if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
+                }else {
+                    this.is_task_details_edit_mode = true;
                 }
-                this.is_task_details_edit_mode = true;
 
                 pm.Vue.nextTick(function() {
                     jQuery('.pm-desc-field').focus();
@@ -475,6 +538,10 @@
             },
 
             closePopup: function() {
+                pmBus.$emit('pm_after_close_single_task_modal');
+                return;
+                this.$router.go(-1);
+                return;
                 const history = this.$store.state.history;
 
                 if (! history.from.name) {
@@ -497,6 +564,7 @@
                 var start = new Date(task.start_at.date);
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
+                var project_id = this.project_id ? this.project_id : task.project_id;
 
                 if(
                     task.start_at.date
@@ -522,21 +590,23 @@
                         'order': task.order,
                         'payable': task.payable,
                         'recurrent': task.recurrent,
-                        'status': task.status,
+                        'status': task.status ? 1 : 0,
                         'category_id': task.category_id,
                         'assignees': this.assigned_to
                     },
                     self = this,
-                    url = this.base_url + '/pm/v2/projects/'+this.project_id+'/tasks/'+task.id;
+                    url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id;
 
                 var request_data = {
                     url: url,
                     data: update_data,
                     type: 'PUT',
                     success (res) {
+                        pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;
                         self.is_task_details_edit_mode = false;
                         self.is_enable_multi_select = false;
+                        self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
                     },
                     error (res) {
@@ -545,31 +615,34 @@
                         });
                     }
                 }
-
+                
                 this.httpRequest(request_data);
             },
 
             isTaskTitleEditMode: function() {
-                this.is_task_title_edit_mode = true;
+                if ( !this.can_edit_task(this.task) ) {
+                    return this.is_task_title_edit_mode = false;
+                }
+                return this.is_task_title_edit_mode = true;
             },
 
             isTaskDateEditMode: function() {
-                if ( this.can_edit_task(this.task) ) {
-                    this.is_task_date_edit_mode = false;
+                if ( !this.can_edit_task(this.task) ) {
+                    return this.is_task_date_edit_mode = false;
                 }
-                this.is_task_date_edit_mode = true;
+                return this.is_task_date_edit_mode = true;
             },
 
             windowActivity: function(el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
-                    dscription_blur = jQuery(el.target).hasClass('pm-des-area'),
+                    dscription_blur = jQuery(el.target).closest('.pm-des-area'),
                     assign_user    =  jQuery(el.target).closest( '.pm-assigned-user-wrap' );
 
                 if ( ! title_blur ) {
                     this.is_task_title_edit_mode = false;
                 }
-
-                if ( ! dscription_blur ) {
+                
+                if ( ! dscription_blur.length ) {
                     this.is_task_details_edit_mode = false;
                 }
 
@@ -587,11 +660,34 @@
                 if ( ! date_picker_blur ) {
                     this.is_task_date_edit_mode = false;
                 }
-            }
+            },
+
+            singleTaskLockUnlock (task) {
+                var self = this;
+                var data = {
+                    is_private: task.meta.privacy == '0' ? 1 : 0
+                }
+                var request_data = {
+                    url: self.base_url + '/pm/v2/projects/'+task.project_id+'/tasks/privacy/'+task.id,
+                    type: 'POST',
+                    data: data,
+                    success (res) {
+                        task.meta.privacy = data.is_private;
+                    },
+
+                    error (res) {
+                        res.responseJSON.message.map( function( value, index ) {
+                            pm.Toastr.error(value);
+                        });
+                    }
+                }
+                self.httpRequest(request_data);
+            },
         },
 
-        beforeDestroy () {
+        destroyed () {
             this.$store.commit('isSigleTask', false);
+            pmBus.$emit('pm_before_destroy_single_task', this.task);
         }
     }
 </script>
@@ -602,6 +698,7 @@
     }
     .pm-multiselect-single-task {
         position: absolute;
+        width: 26%;
     }
 </style>
 

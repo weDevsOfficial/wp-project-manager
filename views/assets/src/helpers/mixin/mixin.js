@@ -55,6 +55,9 @@ export default {
         },
         can_edit_comment (commnet) {
             var user = PM_Vars.current_user;
+            if (commnet.commentable_type == 'task_activity') {
+                return false;
+            }
             if (this.is_manager()) {
                 return true;
             }
@@ -418,6 +421,8 @@ export default {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
+
+                    pmBus.$emit('pm_after_fetch_project', res);
                 },
                 error (res) {
                     if (res.status === 404){
@@ -941,7 +946,15 @@ export default {
 
         getDownloadUrl(fileId) {
             return this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
-        }
+        },
+
+        copy (text) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(text).select();
+            document.execCommand("copy");
+            $temp.remove();
+        },
     }
 };
 

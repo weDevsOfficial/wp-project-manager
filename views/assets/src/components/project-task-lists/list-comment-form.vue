@@ -44,6 +44,7 @@
                 html: typeof this.comment.content === 'undefined' ? '' : this.comment.content,
             },
             notify_users: [],
+            mentioned_user_ids: null,
             add_new_comment: __( 'Add New Comment','pm' ),
             update_comment: __( 'Update Comment', 'pm'),
             show_spinner: false,
@@ -127,6 +128,9 @@
        * @return void
        */    
             listCommentAction () {
+                var regEx = /data-pm-user-id=":(.+?):"/g;
+                this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
+
                 // Prevent sending request when multiple click submit button 
             if ( this.submit_disabled ) {
                 return;
@@ -142,6 +146,7 @@
                 data: {
                     commentable_id: self.list_id,
                     content: self.comment.content,
+                    mentioned_users: self.mentioned_user_ids,
                     commentable_type: 'task_list',
                     deleted_files: self.deleted_files || [],
                     files: self.files || [],

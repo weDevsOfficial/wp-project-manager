@@ -962,7 +962,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $in        = implode(',', array_keys( $ids ) );
-        $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in})", ARRAY_A );
+        $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in}) AND comment_type = ''", ARRAY_A );
         
         $comments  = [];
 

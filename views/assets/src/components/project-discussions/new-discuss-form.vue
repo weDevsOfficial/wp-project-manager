@@ -15,7 +15,7 @@
                     <option value="-1">
                      {{ __( '- Milestone -', 'pm' ) }}
                     </option>
-                    <option v-for="milestone in milestones" :value="milestone.id">
+                    <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
                       {{ milestone.title }}
                     </option>
                 </select>

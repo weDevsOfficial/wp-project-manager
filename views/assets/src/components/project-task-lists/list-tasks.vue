@@ -12,7 +12,9 @@
                     <new-task-form :list="list"></new-task-form>
                 </li>
             </transition>
+
         </ul> 
+        
     </div>
 </template>
 
@@ -115,6 +117,7 @@
             'new-task-form': new_task_form,
             'incompleted-tasks': incompleted_tasks,
             'completed-tasks': completed_tasks,
+            'single-task': pm.SingleTask
         },
 
         methods: {
