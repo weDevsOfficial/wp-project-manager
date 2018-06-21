@@ -187,7 +187,7 @@
 
         methods: {
             generateTaskUrl (task) {
-                 var url = this.$router.resolve({
+                var url = this.$router.resolve({
                     name: 'single_task',
                     params: {
                         task_id: task.id,
