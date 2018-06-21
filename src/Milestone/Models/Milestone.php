@@ -44,7 +44,9 @@ class Milestone extends Eloquent {
     }
 
     public function getAchieveDateAttribute() {
-        return make_carbon_date( $this->achieve_date_field->meta_value );
+    	if( $this->achieve_date_field ) {
+    		return make_carbon_date( $this->achieve_date_field->meta_value );
+    	}
     }
 
     public function getAchievedAtAttribute() {
