@@ -397,9 +397,9 @@
                     status = !this.task.status ? 1: 0;
                 var args = {
                     data: {
-                        title: this.task.title,
                         task_id: this.task.id ? this.task.id : this.taskId,
                         status : status,
+                        project_id: this.task.project_id,
                     },
                     callback: function(resSelf, res) {
                         if( status == '1' ) {

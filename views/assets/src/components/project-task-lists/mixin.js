@@ -634,6 +634,7 @@ var PM_TaskList_Mixin = {
 
         addComment ( args ) {
             var self      = this,
+            project_id    = '',
             pre_define = {
                 data: {
                 },
@@ -641,6 +642,12 @@ var PM_TaskList_Mixin = {
             };
             var args = jQuery.extend(true, pre_define, args);
             var data = new FormData();
+
+            if (self.project_id){
+                project_id = self.project_id;
+            } else {
+                project_id = args.data.project_id;
+            }
 
             data.append( 'content', args.data.content );
             data.append( 'mentioned_users', args.data.mentioned_users );
@@ -660,7 +667,7 @@ var PM_TaskList_Mixin = {
             });
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments',
+                url: self.base_url + '/pm/v2/projects/'+ project_id +'/comments',
                 type: "POST",
                 data: data,
                 cache: false,
@@ -700,6 +707,7 @@ var PM_TaskList_Mixin = {
 
         updateComment ( args ) {
             var self      = this,
+            project_id = '';
             pre_define = {
                 data: {
                 },
@@ -707,7 +715,11 @@ var PM_TaskList_Mixin = {
             };
             var args = jQuery.extend(true, pre_define, args);
             var data = new FormData();
-
+            if (self.project_id){
+                project_id = self.project_id;
+            } else {
+                project_id = args.data.project_id;
+            }
             data.append( 'content', args.data.content );
             data.append( 'mentioned_users', args.data.mentioned_users );
             data.append( 'commentable_id', args.data.commentable_id );
@@ -727,7 +739,7 @@ var PM_TaskList_Mixin = {
 
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+args.data.id,
+                url: self.base_url + '/pm/v2/projects/'+project_id+'/comments/'+args.data.id,
                 type: "POST",
                 data: data,
                 cache: false,
