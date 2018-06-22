@@ -707,7 +707,7 @@ var PM_TaskList_Mixin = {
 
         updateComment ( args ) {
             var self      = this,
-            project_id = '';
+            project_id = '',
             pre_define = {
                 data: {
                 },
