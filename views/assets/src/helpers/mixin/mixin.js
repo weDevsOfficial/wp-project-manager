@@ -421,8 +421,6 @@ export default {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
-
-                    pmBus.$emit('pm_after_fetch_project', res);
                 },
                 error (res) {
                     if (res.status === 404){
@@ -500,6 +498,7 @@ export default {
                     this.$root.$store.commit('setProject', res.data);
                     this.$root.$store.commit('setProjectMeta', res.meta);
                     this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
+                    pmBus.$emit('pm_after_fetch_project', res.data);
                 }
             }
             this.$root.$store.state.project_switch = false;
@@ -507,7 +506,9 @@ export default {
             if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) {
                 this.$root.$store.commit('setDefaultLoaded');
                 this.getProject(args);
-            }
+            } else {
+                pmBus.$emit('pm_after_fetch_project', project);
+            } 
 
         },
 
