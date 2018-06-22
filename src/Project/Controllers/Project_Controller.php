@@ -199,7 +199,23 @@ class Project_Controller {
 		do_action( 'pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
+		$task_lists = $project->task_lists;
+		foreach ( $task_lists as $task_list ) {
+			$task_list->boardables()->delete();	        
+	        	        
+	        $task_list->assignees()->delete();
+	        $task_list->metas()->delete();
+	        $task_list->files()->delete();
+		}
 		$project->task_lists()->delete();
+		
+		$tasks = $project->tasks;
+        foreach ( $tasks as $task ) {
+            $task->files()->delete();
+            $task->assignees()->delete();
+            $task->metas()->delete();
+            Task::where('parent_id', $task->id)->delete();
+        }
 		$project->tasks()->delete();
 		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
