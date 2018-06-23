@@ -44,7 +44,9 @@ export default new pm.Vuex.Store({
 
     mutations: {
         afterDeleteProjectCount (state, project) {
-
+            if (typeof project.project === 'undefined') {
+                return;
+            }
             if(project.project.status == 'incomplete') {
                 state.projects_meta.total_incomplete = parseInt(state.projects_meta.total_incomplete) - 1;
             } else {

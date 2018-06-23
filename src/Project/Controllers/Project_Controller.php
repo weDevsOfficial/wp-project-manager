@@ -137,8 +137,9 @@ class Project_Controller {
 
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
-		$category_ids = array_filter( $category_ids );
-		$project->categories()->sync( $category_ids );
+		if ( $category_ids ) {
+			$project->categories()->sync( $category_ids );
+		}
 
 		$assignees = $request->get_param( 'assignees' );
 		$assignees[] = [

@@ -713,7 +713,7 @@ export default {
                     pm.Toastr.success(res.message);
                     var total_page = self.$store.state.pagination.total_pages;
                     
-                    if (!self.$store.state.projects.length) {
+                    if (self.project_id || !self.$store.state.projects.length) {
                         self.$router.push({
                             name: 'project_lists', 
                         });
