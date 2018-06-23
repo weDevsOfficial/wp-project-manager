@@ -4,6 +4,7 @@ class PM_Create_Table {
 	function __construct() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		$this->create_project_table();
+		$this->create_tasks_table();
 		$this->create_activity_table();
 		$this->create_assignees_table();
 		$this->create_boardables_table();
@@ -16,7 +17,7 @@ class PM_Create_Table {
 		$this->create_roles_table();
 		$this->create_role_user_table();
 		$this->create_settings_table();
-		$this->create_tasks_table();
+		$this->update_version();
 	}
 
 	function create_project_table() {
@@ -47,6 +48,42 @@ class PM_Create_Table {
 		dbDelta( $sql );
 	}
 
+	function create_tasks_table() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'pm_tasks';
+
+		 // `priority` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1: High; 2: Medium; 3: Low',
+		 //  `payable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: Not payable; 1: Payable',
+		 //  `recurrent` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: Not recurrent task; 1: Recurrent task',
+		 //  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Incomplete; 1: Complete; 2: Pending',
+			
+		
+		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `title` varchar(255) NOT NULL,
+			  `description` text,
+			  `estimation` int(11) DEFAULT '0',
+			  `start_at` timestamp NULL DEFAULT NULL,
+			  `due_date` timestamp NULL DEFAULT NULL,
+			  `complexity` tinyint(4) DEFAULT NULL,
+			  `priority` tinyint(4) NOT NULL DEFAULT 1,
+			  `payable` tinyint(1) NOT NULL DEFAULT 0,
+			  `recurrent` tinyint(1) NOT NULL DEFAULT 0,
+			  `status` tinyint(4) NOT NULL DEFAULT 0,
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `parent_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
+			  `created_at` timestamp NULL DEFAULT NULL,
+			  `updated_at` timestamp NULL DEFAULT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
+		dbDelta( $sql );
+	}
+
 
 	function create_activity_table() {
 		global $wpdb;
@@ -67,9 +104,8 @@ class PM_Create_Table {
 			  KEY `project_id` (`project_id`),
 			  KEY `actor_id` (`actor_id`),
 			  KEY `resource_id` (`resource_id`),
-  			  FOREIGN KEY (`project_id`) REFERENCES `pro_pm_projects` (`id`) ON DELETE CASCADE
+  			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-
 
 		dbDelta( $sql );
 	}
@@ -81,26 +117,25 @@ class PM_Create_Table {
 		//`status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Not started; 1: Working; 2: Accomplished',
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (  
-		  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  `task_id` int(11) UNSIGNED NOT NULL,
-		  `assigned_to` int(11) UNSIGNED NOT NULL,
-		  `status` tinyint(4) NOT NULL DEFAULT '0',
-		  `created_by` int(11) UNSIGNED DEFAULT NULL,
-		  `updated_by` int(11) UNSIGNED DEFAULT NULL,
-		  `assigned_at` timestamp NULL DEFAULT NULL,
-		  `started_at` timestamp NULL DEFAULT NULL,
-		  `completed_at` timestamp NULL DEFAULT NULL,
-		  `project_id` int(11) UNSIGNED NOT NULL,
-		  `created_at` timestamp NULL DEFAULT NULL,
-		  `updated_at` timestamp NULL DEFAULT NULL,
-		  PRIMARY KEY (`id`),
-		  KEY `task_id` (`task_id`),
-		  KEY `assigned_to` (`assigned_to`),
-		  KEY `project_id` (`project_id`),
-		  FOREIGN KEY (`task_id`) REFERENCES `pro_pm_tasks` (`id`) ON DELETE CASCADE,
-		  FOREIGN KEY (`project_id`) REFERENCES `pro_pm_projects` (`id`) ON DELETE CASCADE
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `task_id` int(11) UNSIGNED NOT NULL,
+			  `assigned_to` int(11) UNSIGNED NOT NULL,
+			  `status` tinyint(4) NOT NULL DEFAULT '0',
+			  `created_by` int(11) UNSIGNED DEFAULT NULL,
+			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
+			  `assigned_at` timestamp NULL DEFAULT NULL,
+			  `started_at` timestamp NULL DEFAULT NULL,
+			  `completed_at` timestamp NULL DEFAULT NULL,
+			  `project_id` int(11) UNSIGNED NOT NULL,
+			  `created_at` timestamp NULL DEFAULT NULL,
+			  `updated_at` timestamp NULL DEFAULT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `task_id` (`task_id`),
+			  KEY `assigned_to` (`assigned_to`),
+			  KEY `project_id` (`project_id`),
+			  FOREIGN KEY (`task_id`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE,
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-
 
 		dbDelta( $sql );
 	}
@@ -120,11 +155,13 @@ class PM_Create_Table {
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+			  PRIMARY KEY (`id`),
+			  KEY `board_id` (`board_id`),
+			  KEY `boardable_id` (`boardable_id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
+
 	}
 
 
@@ -143,10 +180,11 @@ class PM_Create_Table {
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -167,7 +205,6 @@ class PM_Create_Table {
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -178,10 +215,13 @@ class PM_Create_Table {
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `project_id` int(11) UNSIGNED NOT NULL,
-			  `category_id` int(11) UNSIGNED NOT NULL
+			  `category_id` int(11) UNSIGNED NOT NULL,
+			  KEY `project_id` (`project_id`),
+			  KEY `category_id` (`category_id`),
+			  FOREIGN KEY (`category_id`) REFERENCES `{$wpdb->prefix}pm_categories` (`id`) ON DELETE CASCADE,
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -201,10 +241,12 @@ class PM_Create_Table {
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  KEY `commentable_id` (`commentable_id`),
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -224,11 +266,13 @@ class PM_Create_Table {
 			  `created_by` int(11) UNSIGNED DEFAULT NULL,
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
-			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+			  `updated_at` timestamp NULL DEFAULT NULL,  
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  KEY `fileable_id` (`fileable_id`),
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -248,10 +292,12 @@ class PM_Create_Table {
 		  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
-		  PRIMARY KEY (`id`)
+		  PRIMARY KEY (`id`),
+		  KEY `entity_id` (`entity_id`),
+		  KEY `project_id` (`project_id`),
+		  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -261,7 +307,7 @@ class PM_Create_Table {
 		$table_name = $wpdb->prefix . 'pm_roles';
 		
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  `title` varchar(255) NOT NULL,
 			  `slug` varchar(255) NOT NULL,
 			  `description` text,
@@ -273,7 +319,6 @@ class PM_Create_Table {
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -288,10 +333,15 @@ class PM_Create_Table {
 			  `role_id` int(11) UNSIGNED NOT NULL,
 			  `project_id` int(11) UNSIGNED DEFAULT NULL,
 			  `assigned_by` int(11) UNSIGNED NOT NULL,
-			  PRIMARY KEY (`id`)
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  KEY `role_id` (`role_id`),
+			  KEY `user_id` (`user_id`),
+			  KEY `assigned_by` (`assigned_by`),
+			  FOREIGN KEY (`role_id`) REFERENCES `{$wpdb->prefix}pm_roles` (`id`) ON DELETE CASCADE,
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
@@ -309,47 +359,16 @@ class PM_Create_Table {
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-		
 		dbDelta( $sql );
 	}
 
-
-	function create_tasks_table() {
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'pm_tasks';
-
-		 // `priority` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1: High; 2: Medium; 3: Low',
-		 //  `payable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: Not payable; 1: Payable',
-		 //  `recurrent` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: Not recurrent task; 1: Recurrent task',
-		 //  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Incomplete; 1: Complete; 2: Pending',
-			
-		
-		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `title` varchar(255) NOT NULL,
-			  `description` text,
-			  `estimation` int(11) DEFAULT 0,
-			  `start_at` timestamp NULL DEFAULT NULL,
-			  `due_date` timestamp NULL DEFAULT NULL,
-			  `complexity` tinyint(4) DEFAULT NULL,
-			  `priority` tinyint(4) NOT NULL DEFAULT 1,
-			  `payable` tinyint(1) NOT NULL DEFAULT 0 ,
-			  `recurrent` tinyint(1) NOT NULL DEFAULT 0,
-			  `status` tinyint(4) NOT NULL DEFAULT 0,
-			  `project_id` int(11) UNSIGNED NOT NULL,
-			  `parent_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-			  `created_by` int(11) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
-			  `created_at` timestamp NULL DEFAULT NULL,
-			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-
-		
-		dbDelta( $sql );
+	function update_version () {
+		delete_site_option( 'cpm_version' );
+		update_site_option( 'pm_version', config( 'app.version' ) );
 	}
-
 }
