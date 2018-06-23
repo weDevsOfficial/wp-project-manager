@@ -42,7 +42,7 @@ class PM_Create_Table {
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		dbDelta( $sql );
 	}
@@ -63,8 +63,12 @@ class PM_Create_Table {
 			  `project_id` int(11) UNSIGNED NOT NULL,
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			  PRIMARY KEY (`id`),
+			  KEY `project_id` (`project_id`),
+			  KEY `actor_id` (`actor_id`),
+			  KEY `resource_id` (`resource_id`),
+  			  FOREIGN KEY (`project_id`) REFERENCES `pro_pm_projects` (`id`) ON DELETE CASCADE
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 
 		dbDelta( $sql );
@@ -76,21 +80,26 @@ class PM_Create_Table {
 
 		//`status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Not started; 1: Working; 2: Accomplished',
 		
-		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `task_id` int(11) UNSIGNED NOT NULL,
-			  `assigned_to` int(11) UNSIGNED NOT NULL,
-			  `status` tinyint(4) NOT NULL DEFAULT 0,
-			  `created_by` int(11) UNSIGNED DEFAULT NULL,
-			  `updated_by` int(11) UNSIGNED DEFAULT NULL,
-			  `assigned_at` timestamp NULL DEFAULT NULL,
-			  `started_at` timestamp NULL DEFAULT NULL,
-			  `completed_at` timestamp NULL DEFAULT NULL,
-			  `project_id` int(11) UNSIGNED NOT NULL,
-			  `created_at` timestamp NULL DEFAULT NULL,
-			  `updated_at` timestamp NULL DEFAULT NULL,
-			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (  
+		  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  `task_id` int(11) UNSIGNED NOT NULL,
+		  `assigned_to` int(11) UNSIGNED NOT NULL,
+		  `status` tinyint(4) NOT NULL DEFAULT '0',
+		  `created_by` int(11) UNSIGNED DEFAULT NULL,
+		  `updated_by` int(11) UNSIGNED DEFAULT NULL,
+		  `assigned_at` timestamp NULL DEFAULT NULL,
+		  `started_at` timestamp NULL DEFAULT NULL,
+		  `completed_at` timestamp NULL DEFAULT NULL,
+		  `project_id` int(11) UNSIGNED NOT NULL,
+		  `created_at` timestamp NULL DEFAULT NULL,
+		  `updated_at` timestamp NULL DEFAULT NULL,
+		  PRIMARY KEY (`id`),
+		  KEY `task_id` (`task_id`),
+		  KEY `assigned_to` (`assigned_to`),
+		  KEY `project_id` (`project_id`),
+		  FOREIGN KEY (`task_id`) REFERENCES `pro_pm_tasks` (`id`) ON DELETE CASCADE,
+		  FOREIGN KEY (`project_id`) REFERENCES `pro_pm_projects` (`id`) ON DELETE CASCADE
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 
 		dbDelta( $sql );
@@ -112,7 +121,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -135,7 +144,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -156,7 +165,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -170,7 +179,7 @@ class PM_Create_Table {
 		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `project_id` int(11) UNSIGNED NOT NULL,
 			  `category_id` int(11) UNSIGNED NOT NULL
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -193,7 +202,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -217,7 +226,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -240,7 +249,7 @@ class PM_Create_Table {
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -262,7 +271,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -280,7 +289,7 @@ class PM_Create_Table {
 			  `project_id` int(11) UNSIGNED DEFAULT NULL,
 			  `assigned_by` int(11) UNSIGNED NOT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -301,7 +310,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
@@ -337,7 +346,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
 		
 		dbDelta( $sql );
