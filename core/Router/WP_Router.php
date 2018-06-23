@@ -45,7 +45,7 @@ class WP_Router {
 			$permissions = $route['permission'];
 			$validator   = $route['validator'];
 			$sanitizer   = $route['sanitizer'];
-			$namespace   = config( 'app.slug' ) . '/v' . config( 'app.version' );
+			$namespace   = config( 'app.slug' ) . '/v' . config( 'app.api' );
 
 			register_rest_route( $namespace, $uri, array(
 				'methods'  => $http_verb,
