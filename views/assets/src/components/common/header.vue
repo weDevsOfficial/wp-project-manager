@@ -20,7 +20,7 @@
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="is_manager()">
                 <div class="pm-project-action">
                     <span @click.prevent="showProjectAction()" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
-                    <ul v-if="project.settings_hide" class="pm-settings">
+                    <ul v-if="settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
                             <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'pm' )">
@@ -78,7 +78,8 @@
     export default {
         data () {
             return {
-                project_action: __('Project Actions', 'pm')
+                project_action: __('Project Actions', 'pm'),
+                settings_hide: false,
             }
 
         },
@@ -182,13 +183,7 @@
 
         methods: {
             showProjectAction () {
-                this.$root.$store.commit(
-                    'showHideProjectDropDownAction', 
-                    {
-                        status: 'toggle', 
-                        project_id: this.project_id
-                    }
-                );
+                this.settings_hide = !this.settings_hide;
             },
 
             selfProjectMarkDone () {
