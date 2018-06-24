@@ -132,9 +132,9 @@ return [
 		'in_footer'  => true
 	],
 
-	'pm-clipboard' => [
-		'id'         => 'pm-clipboard',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/clipboard/clipboard.min.js',
+	'pm-tiptip' => [
+		'id'         => 'pm-tiptip',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
 		'dependency' => ['pm-uploader'],
 		'in_footer'  => true
 	],
@@ -150,10 +150,11 @@ return [
 			'jquery-ui-datepicker',
 			'jquery-ui-dialog', 
 			'jquery-ui-autocomplete',
+			'jquery-ui-tooltip',
 			'pm-tiny-mce',
 			'jquery-ui-sortable',
 			'pm-uploader',
-			'pm-clipboard'
+			'pm-tiptip'
 		],
 		'in_footer'  => true
 	],
