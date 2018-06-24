@@ -128,6 +128,7 @@
                     deleted_files: self.deleted_files || [],
                     mentioned_users: self.mentioned_user_ids,
                     files: self.files || [],
+                    project_id: self.task.project_id,
                     notify_users: this.notify_users
                 },
             }

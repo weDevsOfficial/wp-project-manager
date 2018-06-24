@@ -260,7 +260,8 @@ class Task_Controller {
         
         $task->comments()->delete();
         $task->assignees()->delete();
-
+        $task->metas()->delete();
+        Task::where('parent_id', $task->id)->delete();
         // Delete the task
         $task->delete();
         

@@ -72,6 +72,7 @@ class Settings_Controller {
             $settings = $this->save_settings( $data, $project_id );
             $resource = new Item( $settings, new Settings_Transformer );
         }
+        do_action( 'pm_after_save_settings', $settings );
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
         ];

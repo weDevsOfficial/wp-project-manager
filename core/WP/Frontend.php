@@ -54,6 +54,9 @@ class Frontend {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
+		if ( class_exists('WeDevs_CPM_Pro') ) {
+			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
+		}
 	}
 
 	function pm_content_filter() {
@@ -150,5 +153,8 @@ function project_text_editor($config) {
 	public function register_scripts() {
 		Register_Scripts::scripts();
 		Register_Scripts::styles();
+	}
+	public function pm_pro_notice() {
+		 echo sprintf( '<div class="error"><p><strong>WP Project Manager Pro</strong> required version 2.0 or above. Please update now. </p></div>');
 	}
 }
