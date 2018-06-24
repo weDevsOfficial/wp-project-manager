@@ -43,8 +43,8 @@
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
-                <span v-if="task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="update_task"></span>
-                <span v-if="!task.edit_mode"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="add_task"></span>
+                <span v-if="task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="update_task"></span>
+                <span v-if="!task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="add_task"></span>
                 <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
