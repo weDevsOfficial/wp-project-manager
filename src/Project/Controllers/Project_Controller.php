@@ -137,8 +137,9 @@ class Project_Controller {
 
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
-		$category_ids = array_filter( $category_ids );
-		$project->categories()->sync( $category_ids );
+		if ( $category_ids ) {
+			$project->categories()->sync( $category_ids );
+		}
 
 		$assignees = $request->get_param( 'assignees' );
 		$assignees[] = [
@@ -199,8 +200,23 @@ class Project_Controller {
 		do_action( 'pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
-		$project->task_lists()->delete();
+
+		$tasks = $project->tasks;
+        foreach ( $tasks as $task ) {
+            $task->files()->delete();
+            $task->assignees()->delete();
+            $task->metas()->delete();
+        }
 		$project->tasks()->delete();
+
+		$task_lists = $project->task_lists;
+		foreach ( $task_lists as $task_list ) {
+			$task_list->boardables()->delete();	        
+	        $task_list->metas()->delete();
+	        $task_list->files()->delete();
+		}
+		$project->task_lists()->delete();
+
 		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
 		$project->comments()->delete();

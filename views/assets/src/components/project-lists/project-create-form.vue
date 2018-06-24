@@ -200,7 +200,7 @@
                 var args = {
                     data: {
                         'title': this.project.title,
-                        'categories': [this.project_cat],
+                        'categories': this.project_cat ? [this.project_cat]: null,
                         'description': this.project.description,
                         'notify_users': this.project_notify,
                         'assignees': this.formatUsers(this.selectedUsers),

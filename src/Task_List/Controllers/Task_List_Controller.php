@@ -4,6 +4,7 @@ namespace WeDevs\PM\Task_List\Controllers;
 
 use WP_REST_Request;
 use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Task\Models\Task;
 use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
@@ -164,15 +165,23 @@ class Task_List_Controller {
     }
 
     private function detach_all_relations( Task_List $task_list ) {
-        $task_list->boardables()->delete();
-
         $comments = $task_list->comments;
         foreach ( $comments as $comment ) {
             $comment->replies()->delete();
             $comment->files()->delete();
         }
-
         $task_list->comments()->delete();
+        
+        $tasks = $task_list->tasks;
+        foreach ( $tasks as $task ) {
+            $task->files()->delete();
+            $task->comments()->delete();
+            $task->assignees()->delete();
+            $task->metas()->delete();
+            Task::where('parent_id', $task->id)->delete();
+            $task->delete();
+        }
+        $task_list->metas()->delete();
         $task_list->files()->delete();
         $task_list->milestones()->detach();
     }

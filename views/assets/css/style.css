@@ -2936,7 +2936,7 @@ a.pm-icon-tick.grey {
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a.pm-all-project {
   background-image: url('../images/all.svg');
   padding-left: 55px;
-  background-position: 35% 50%;
+  background-position: 27% 50%;
 }
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul .active .pm-all-project,
 .pm .pm-top-bar .pm-project-group ul.pm-project-group-ul a.pm-all-project:hover {
