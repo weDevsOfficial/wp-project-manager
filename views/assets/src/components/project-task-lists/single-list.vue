@@ -153,7 +153,6 @@
              */
             list: function () {
                 if( this.$store.state.projectTaskLists.lists.length) {
-                    console.log(this.$store.state.projectTaskLists.lists[0]);
                     return this.$store.state.projectTaskLists.lists[0];
                 }
             },
