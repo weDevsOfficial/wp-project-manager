@@ -23,4 +23,10 @@ pm.Vue.directive('pm-pretty-photo', {
 	},
 });
 
+pm.Vue.directive('pm-tooltip', {
+	inserted: function(el) {
+		jQuery(el).tipTip();
+	},
+});
+
 pm.Vue.directive('pm-click-outside', clickOutside);

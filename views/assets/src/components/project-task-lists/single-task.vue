@@ -75,8 +75,8 @@
                                             <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
                                                 <span :class="privateClass( task.meta.privacy )"></span>
                                             </a>
-                                            <a href="#" @click.prevent="copyUrl(task)">
-                                                <i :title="__('Copy this task URL', 'pm')" class="fa fa-clipboard" aria-hidden="true"></i>
+                                            <a v-pm-tooltip :title="__('Copy this task URL', 'pm')" href="#" @click.prevent="copyUrl(task)">
+                                                <i  class="fa fa-clipboard" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                         <div class="clearfix pm-clear"></div>
@@ -225,7 +225,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 </template>
