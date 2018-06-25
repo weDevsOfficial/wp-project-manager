@@ -400,7 +400,7 @@
                         status : status,
                         project_id: this.task.project_id,
                     },
-                    callback: function(resSelf, res) {
+                    callback: function(res) {
                         if( status == '1' ) {
                             self.task.status = true;
                         } else {

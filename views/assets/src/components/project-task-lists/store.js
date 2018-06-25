@@ -258,7 +258,7 @@ export default {
                     return;
                 }
                 var task_index = state.getIndex( state.lists[list_index].incomplete_tasks.data, data.task_id, 'id' );
-                if(task_index == false ) {
+                if(task_index === false ) {
                     return false;
                 }
                 var task = state.lists[list_index].incomplete_tasks.data[task_index];
