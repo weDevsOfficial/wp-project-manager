@@ -1773,6 +1773,9 @@ class Upgrade_2_0 extends WP_Background_Process
         $categories = [];
 
         $object = wp_list_pluck($terms, 'term_taxonomy_id' );
+        if ( empty( $object ) ) {
+            return;
+        }
         $object = implode(',', $object);
         
         $terms_releation = $wpdb->get_results( "SELECT * FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id in({$object})", ARRAY_A );
