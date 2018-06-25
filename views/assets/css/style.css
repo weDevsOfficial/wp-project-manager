@@ -1338,33 +1338,27 @@ ul.pm-activity ul li:before {
   padding: 1px 15px 15px 15px;
 }
 .pm-comment-wrap {
-  border: none;
+    border: 1px solid #dfdfdf;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.pm-todo .pm-task-comment-wrap {
+  margin-right: 10px;
 }
 .pm-comment-wrap .pm-comment-spinner {
   background: url("../images/loading.gif") no-repeat scroll center rgba(0, 0, 0, 0);
 }
+#pm-single-todo-list-view .pm-incomplete-tasks .pm-incomplete-task-list .pm-comment-wrap li.pm-comment,
 .pm-comment-wrap li.pm-comment {
   margin: 0;
   padding: 10px;
+  border-width: 0px;
   border-bottom: 1px solid #dfdfdf;
-  border-left: 1px solid #dfdfdf;
-  border-right: 1px solid #dfdfdf;
-  border-top: 1px solid #fff;
   position: relative;
 }
 .pm-comment-wrap li.pm-comment.odd {
   background-color: #fcfcfc;
-}
-.pm-comment-wrap li.pm-comment:first-child {
-  border-top: 1px solid #dfdfdf;
-  -webkit-border-radius: 3px 3px 0 0;
-  -moz-border-radius: 3px 3px 0 0;
-  border-radius: 3px 3px 0 0;
-}
-.pm-comment-wrap li.pm-comment:last-child {
-  -webkit-border-radius: 0 0 3px 3px;
-  -moz-border-radius: 0 0 3px 3px;
-  border-radius: 0 0 3px 3px;
 }
 .pm-comment-wrap li.pm-comment .pm-avatar {
   float: left;
@@ -3809,6 +3803,7 @@ a.pm-icon-tick.grey {
 }
 .pm .single-todo-comments {
   margin-bottom: 30px;
+  margin-top: 30px;
 }
 .pm .single-todo-comments .submit {
   padding-bottom: 0px;
