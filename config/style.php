@@ -52,6 +52,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/v-autocomplete/v-autocomplete.css',
 		'dependency' => false,
 	],
+	'pm-tiptip' => [
+		'id'         => 'pm-tiptip',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/tiptip/tipTip.css',
+		'dependency' => false,
+	],
 	'pm-style' => [
 		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
@@ -65,7 +70,8 @@ return [
 			'pm-tiny-mce',
 			'pm-loading',
 			'pm-loaautocompleteding',
-			'pm-pretty-photo'
+			'pm-pretty-photo',
+			'pm-tiptip'
 		],
 	],
 ];
