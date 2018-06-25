@@ -1,12 +1,12 @@
 <template>
-  <form class="pm-comment-form-vue" @submit.prevent="taskCommentAction()">
+  <form class="pm-comment-form-vue pm-comment-form" @submit.prevent="taskCommentAction()">
 
         <div class="item message pm-sm-col-12 ">
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
 
          <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-         <notify-user v-model="notify_users"></notify-user>
+         <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user>
                
         <div class="submit">
             <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="add_new_comment" id="" />

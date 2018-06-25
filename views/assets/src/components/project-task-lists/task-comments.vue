@@ -3,7 +3,7 @@
         
         <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'pm' ) }}</h3>
 
-        <ul class="pm-comment-wrap">
+        <ul class="pm-comment-wrap" v-if="comments.length">
             <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
                 <div class="pm-avatar">

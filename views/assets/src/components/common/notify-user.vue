@@ -1,5 +1,5 @@
 <template>
-    <div class="notify-users">    
+    <div class="notify-users" v-if="assain_users.length">    
         <h2 class="pm-box-title"> 
             {{ __( 'Notify users', 'pm' ) }}               
             <label class="pm-small-title" for="select-all"> 
@@ -38,6 +38,12 @@ export default {
             default () {
                 return [];
             }
+        },
+        users: {
+            type: [Array],
+            default () {
+                return this.$root.$store.state.project_users;
+            }
         }
     },
     data () {
@@ -62,7 +68,7 @@ export default {
     },
     computed: {
         assain_users () {
-            return this.$root.$store.state.project_users;
+            return this.users.filter( user => user.id !== this.current_user.ID );
         }
     },
     methods: {

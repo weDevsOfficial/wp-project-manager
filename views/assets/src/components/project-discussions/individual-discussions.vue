@@ -59,7 +59,7 @@
 
             <div v-if="discuss" class="pm-comment-area pm-box-shadow">
                 <h3> {{ discuss.meta.total_comments }} {{ __( 'Comments', 'pm' ) }}</h3>
-                <ul class="pm-comment-wrap">
+                <ul class="pm-comment-wrap" v-if="comments.length">
 
                     <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" :key="comment.id">
                         <div class="pm-avatar ">
