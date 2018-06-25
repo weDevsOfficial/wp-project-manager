@@ -75,7 +75,7 @@
     "watch": "^1.0.2",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.7.1",
-    "wp-vue-i18n": "^1.0.0"
+    "wp-vue-i18n": "^1.1.1"
   },
   "dependencies": {
     "babel-preset-stage-2": "^6.24.1",
