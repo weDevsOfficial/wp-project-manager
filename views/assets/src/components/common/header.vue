@@ -211,10 +211,3 @@
     }
 </script>
 
-<style>
-    .pm-project-header .router-link-active {
-        border-bottom: solid 2px #019dd6 !important;
-        color: #000000 !important;
-    }
-</style>
-
