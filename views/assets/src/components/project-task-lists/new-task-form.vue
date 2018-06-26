@@ -8,7 +8,7 @@
             </div>
 
             <div class="item content">
-                <textarea v-model="task.description" name="task_text" class="todo_content" cols="40" :placeholder="task_description" rows="2"></textarea>
+                <textarea v-model="task_description" name="task_text" class="todo_content" cols="40" :placeholder="task_description_placeholder" rows="2"></textarea>
             </div>
 
             <div class="item date">
@@ -71,6 +71,7 @@ export default {
             type: Object,
             default: function () {
                 return {
+                    description: {},
                     due_date: {},
                     assignees: {
                         data: []
@@ -90,12 +91,13 @@ export default {
             task_privacy: ( this.task.task_privacy == 'yes' ) ? true : false,
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
+            task_description: this.task.description.content,
             show_spinner: false,
             date_from: '',
             date_to: '',
             assigned_to: [],
             add_new_task: __( 'Add a new task', 'pm' ),
-            task_description: __( 'Add extra details about this task (optional)', 'pm' ),
+            task_description_placeholder: __( 'Add extra details about this task (optional)', 'pm' ),
             task_start_date: __( 'Start Date', 'pm'),
             task_due_date: __( 'Due Date', 'pm' ),
             select_user_text: __( 'Select User', 'pm'),
@@ -303,7 +305,7 @@ export default {
                     board_id: this.list.id,
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
-                    description: this.task.description,
+                    description: this.task_description,
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
@@ -312,6 +314,7 @@ export default {
                 callback: function( res ) {
                     self.show_spinner = false;
                     self.submit_disabled = false;
+                    self.task_description = res.data.description.content;
                 }
             }
             

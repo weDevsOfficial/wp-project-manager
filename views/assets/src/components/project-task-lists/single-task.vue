@@ -317,7 +317,8 @@
             doActionData () {
                 return {
                     task: this.task,
-                    list: this.list
+                    list: this.list,
+                    is_single_task_open: true,
                 }
             },
 
