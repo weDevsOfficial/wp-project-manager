@@ -180,15 +180,14 @@
 
                                     <!--v-if-->
                                     
-                                    <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode " @click.prevent="isTaskDetailsEditMode()">
-                                        <div v-if="task.description != ''">
-                                            <pre class="pm-task-description" v-html="task.description"></pre>
+                                    <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
+                                        <div v-if="task.description.content != ''">
+                                            <div class="pm-task-description" v-html="task.description.html"></div>
                                         </div>
-                                        <span style="margin-left: -3px;" v-if="!task.description">
+                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" href="">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-                                            &nbsp;{{ __( 'Update Description', 'pm' ) }}
-                                        </span>
-
+                                            
+                                        </a>
                                     </div>
                                     <!-- @keyup.enter="updateTaskElement(task)" -->
                                     <textarea
@@ -197,7 +196,7 @@
                                         @keyup.enter="updateDescription(task, $event)"
                                         class="pm-des-area pm-desc-field"
                                         v-if="is_task_details_edit_mode && can_edit_task(task)"
-                                        v-model="task.description">
+                                        v-model="task_description">
 
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
@@ -230,19 +229,11 @@
 </template>
 
 <style>
+    .pm-todo .pm-modal-conetnt .pm-desc-content{
+        position: relative;
+    }
     .pm-todo .pm-modal-conetnt .pm-task-title-right {
         float: right;
-    }
-    .pm-todo .pm-modal-conetnt .pm-task-description {
-        font-family: Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .pm-todo .pm-modal-conetnt .pm-task-description p {
-        margin: 0;
-        padding: 0;
-        line-height: 1;
     }
     
     textarea.pm-desc-field {
@@ -263,7 +254,12 @@
         margin: 0;
         padding: 0;
     }
-    
+    a.task-description-edit-icon {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 10px;
+    }
 
 </style>
 
@@ -295,6 +291,7 @@
                 is_task_details_edit_mode: false,
                 is_task_date_edit_mode: false,
                 is_enable_multi_select: false,
+                task_description: '',
                 task_id: this.$route.params.task_id,
                 list: {},
                 task: {},
@@ -519,6 +516,7 @@
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
                 }else {
+                    this.task_description  = this.task.description.content;
                     this.is_task_details_edit_mode = true;
                 }
 
@@ -532,6 +530,10 @@
                     return;
                 }
 
+                if ( this.task_description == task.description.content) {
+                    return;
+                }
+                task.description.content = this.task_description;
                 this.is_task_details_edit_mode = false,
                 this.updateTaskElement(task);
             },
@@ -580,7 +582,7 @@
 
                 var update_data  = {
                         'title': task.title,
-                        'description': task.description,
+                        'description': task.description.content,
                         'estimation': task.estimation,
                         'start_at': task.start_at ? task.start_at.date : '',
                         'due_date': task.due_date ? task.due_date.date : '',
