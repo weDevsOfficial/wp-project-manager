@@ -61,7 +61,7 @@ class Task_Transformer extends TransformerAbstract {
             [
                 'id'          => (int) $item->id,
                 'title'       => $item->title,
-                'description' => pm_filter_content_url( $item->description ),
+                'description' => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
                 'estimation'  => $item->estimation,
                 'start_at'    => format_date( $item->start_at ),
                 'due_date'    => format_date( $item->due_date ),
