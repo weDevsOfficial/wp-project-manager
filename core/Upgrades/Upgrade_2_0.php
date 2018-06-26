@@ -871,9 +871,12 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( !$post ) {
             return ;
         }
+        
+        $description = ($parent === null) ? $post['post_content'] : '';
+
         $newTask  = $this->save_object( new Task, [
             'title'       => $post['post_title'],
-            'description' => $post['post_content'],
+            'description' => $description,
             'status'      => get_post_meta( $post['ID'], '_completed', true),
             'project_id'  => $newProjectID, 
             'start_at'    => get_post_meta( $post['ID'], '_start', true),

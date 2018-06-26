@@ -4399,9 +4399,6 @@ a.pm-icon-tick.grey {
   width: 24px;
   height: 24px;
 }
-.pm .half-modal .pm-modal-conetnt .task-details:hover .pm-desc-content {
-  background: #eee;
-}
 .pm .half-modal .pm-modal-conetnt .task-details,
 .pm .half-modal .pm-modal-conetnt .pm-empty-task-details {
   margin-bottom: 15px;
