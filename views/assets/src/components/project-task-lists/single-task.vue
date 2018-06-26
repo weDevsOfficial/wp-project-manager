@@ -184,7 +184,7 @@
                                         <div v-if="task.description.content != ''">
                                             <div class="pm-task-description" v-html="task.description.html"></div>
                                         </div>
-                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" href="">
+                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                             
                                         </a>
@@ -256,7 +256,7 @@
     }
     a.task-description-edit-icon {
         position: absolute;
-        top: 0px;
+        top: -22px;
         right: 0px;
         padding: 10px;
     }
@@ -292,6 +292,7 @@
                 is_task_date_edit_mode: false,
                 is_enable_multi_select: false,
                 task_description: '',
+                update_description: __( 'Update Description', 'pm' ),
                 task_id: this.$route.params.task_id,
                 list: {},
                 task: {},
@@ -530,10 +531,10 @@
                     return;
                 }
 
-                if ( this.task_description == task.description.content) {
+                if ( this.task_description.trim() == task.description.content) {
                     return;
                 }
-                task.description.content = this.task_description;
+                task.description.content = this.task_description.trim();
                 this.is_task_details_edit_mode = false,
                 this.updateTaskElement(task);
             },
