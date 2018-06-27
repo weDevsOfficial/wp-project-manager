@@ -39,7 +39,7 @@ class Complete_Task_Notification extends Email {
         }
 
         $template_name = apply_filters( 'pm_complete_task_email_template_path', $this->get_template_path( '/html/complete-task.php' ) );
-        $subject = sprintf( __( '[%s] %s Task status has changed in %s', 'pm' ), $this->get_blogname(), $task->title, $task->projects->title );
+        $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'pm' ), $this->get_blogname(), $task->title, $old_value, $task->projects->title );
 
 
         $message = $this->get_content_html( $template_name, [
