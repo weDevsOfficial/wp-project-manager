@@ -4,6 +4,7 @@ use WP_Background_Process;
 use WP_Query;
 use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Role\Models\Role;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Milestone\Models\Milestone;
 use WeDevs\PM\Common\Models\Meta;
@@ -15,9 +16,6 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Activity\Models\Activity;
-use WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker;
-use WeDevs\PM_Pro\Modules\Gantt\src\Models\Gantt;
-use WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice;
 
 /**
 *   Upgrade project manager 2.0     
@@ -48,7 +46,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( empty( $item ) ) {
             return false;
         }
-        
+        error_log($item);
         $this->isProcessRuning = true;
         $this->upgrade_projects( $item );
         $this->upgrade_observe_migration( [
@@ -972,7 +970,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $in        = implode(',', array_keys( $ids ) );
-        $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in}) AND comment_type = ''", ARRAY_A );
+        $OComments = $wpdb->get_results( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN({$in})", ARRAY_A );
         
         $comments  = [];
 
@@ -990,6 +988,9 @@ class Upgrade_2_0 extends WP_Background_Process
     function create_comments( $comment, $newProjectID, $commentable_type, $commentable_id ) {
         if ( !$comment ) {
             return ;
+        }
+        if ( isset( $comment['comment_type'] ) && $comment['comment_type'] == 'cpm_activity' ) {
+            $commentable_type = 'task_activity';
         }
         $newComment = $this->save_object( new Comment, [
             'content'          => $comment['comment_content'],
@@ -1178,6 +1179,7 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function create_invoice( $post, $newProject ) {
+        global $wpdb;
         $invoiceArr =[
             'client_id'      => get_post_meta( $post['ID'], 'client_id', true ),
             'title'          => $post['post_title'] ,
@@ -1196,8 +1198,9 @@ class Upgrade_2_0 extends WP_Background_Process
             'created_at'     => $post['post_date'],
             'updated_at'     => $post['post_modified'],
         ];
-
-        $invoice = $this->save_object( new Invoice, $invoiceArr );
+        $inviceTable = $wpdb->prefix . 'pm_invoice';
+        $invoice = $wpdb->insert( $inviceTable, $invoiceArr );
+        $invoice_id = $wpdb->insert_id;
 
         $payments = get_post_meta( $post['ID'], 'cpmi_payment', true );
 
@@ -1206,7 +1209,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 $payment_date = empty( $payment['date'] ) ? $post['post_modified'] : $payment['date'];
 
                 $data = [
-                    'entity_id'   => $invoice->id,
+                    'entity_id'   => $invoice_id,
                     'entity_type' => 'invoice',
                     'meta_key'    => 'invoice_payment',
                     'meta_value'  => maybe_serialize([
@@ -1216,8 +1219,8 @@ class Upgrade_2_0 extends WP_Background_Process
                         'gateway' => $payment['method']
                     ]),
                     'project_id' => $newProject->id,
-                    'created_by'  => $invoice->client_id,
-                    'updated_by'  => $invoice->client_id,
+                    'created_by'  => $invoiceArr['client_id'],
+                    'updated_by'  => $invoiceArr['client_id'],
                     'created_at'  => $payment_date,
                     'updated_at'  => $payment_date,
                 ];
@@ -1226,9 +1229,7 @@ class Upgrade_2_0 extends WP_Background_Process
             }
         }
 
-        
-
-        return $invoice->id;
+        return $invoice_id;
     }
 
     function get_invoice_item( $post, $newProject ) {
@@ -1399,13 +1400,13 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function gantt_upgrate( $taskLists, $tasks, $taskParent ) {
-        $gantt = false;
-
-
-
-        // $this->set_gantt_data( $taskLists, $taskLists, $tasks );
-        // $this->set_gantt_data( $tasks, $taskLists, $tasks );
+        global $wpdb;
         if( is_array( $tasks ) ){
+
+            $ganttTable = $wpdb->prefix . 'pm_gantt_chart_links';
+            $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+            $user   = wp_get_current_user();
+
             foreach ( $tasks as $old => $new ) {
                 $links = get_post_meta( $old, '_link', true );
                 if( empty( $links ) ) {
@@ -1414,10 +1415,14 @@ class Upgrade_2_0 extends WP_Background_Process
                 
                 foreach ( $links as $link ) {
                     if ( array_key_exists( $link, $tasks ) ) {
-                        $this->save_object( new Gantt, [
-                            'source' => $new,
-                            'target' => $tasks[$link],
-                            'type'   => 1,
+                        $wpdb->insert( $ganttTable, [
+                            'source'     => $new,
+                            'target'     => $tasks[$link],
+                            'type'       => 1,
+                            'created_by' => $user->ID,
+                            'updated_by' => $user->ID,
+                            'created_at' => $now,
+                            'updated_at' => $now,
                         ]);
                     }
                 }
@@ -1586,17 +1591,26 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( is_wp_error( $timetracker ) ) {
             return;
         }
+        $timetrackerTable = $wpdb->prefix . 'pm_time_tracker';
+        $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
         foreach( $timetracker as $time ){
-            $this->save_object( new Time_Tracker, [
-                'user_id'    => $time['user_id'],
-                'project_id' => $newProjectID,
-                'list_id'    => $taskList[$time['tasklist_id']],
-                'task_id'    => $tasks[$time['task_id']],
-                'start'      => $time['start'],
-                'stop'       => $time['stop'],
-                'total'      => $time['total'],
-                'run_status' => $time['run_status'] == 'no' ? 0 : 1 
-            ] );
+            $wpdb->insert( 
+                $timetrackerTable, 
+                [
+                    'user_id'    => $time['user_id'],
+                    'project_id' => $newProjectID,
+                    'list_id'    => $taskList[$time['tasklist_id']],
+                    'task_id'    => $tasks[$time['task_id']],
+                    'start'      => $time['start'],
+                    'stop'       => $time['stop'],
+                    'total'      => $time['total'],
+                    'run_status' => $time['run_status'] == 'no' ? 0 : 1,
+                    'created_by' => $time['user_id'],
+                    'updated_by' => $time['user_id'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ] 
+            );
         }
     }
 
@@ -1894,7 +1908,7 @@ class Upgrade_2_0 extends WP_Background_Process
               PRIMARY KEY (`id`),
               KEY `task_id` (`task_id`),
               KEY `project_id` (`project_id`),
-              FOREIGN KEY (`task_id`) REFERENCES `pro_pm_tasks` (`id`) ON DELETE CASCADE
+              FOREIGN KEY (`task_id`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -1903,6 +1917,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function insert_client_role () {
         $user = wp_get_current_user();
+        $now  = date( 'Y-m-d', strtotime( current_time('mysql') ) );
         if ( ! Role::where('slug', 'client')->exists() ) {
             Role::insert([
                 [
@@ -1912,8 +1927,8 @@ class Upgrade_2_0 extends WP_Background_Process
                     'status'      => 0,
                     'created_by'  => $user->ID,
                     'updated_by'  => $user->ID,
-                    'created_at'  => Carbon::now(),
-                    'updated_at'  => Carbon::now(),
+                    'created_at'  => $now,
+                    'updated_at'  => $now,
                 ],
             ]);
             return  true;
