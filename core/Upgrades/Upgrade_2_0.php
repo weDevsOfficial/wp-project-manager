@@ -363,7 +363,11 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return [type] [description]
      */
     public function upgrade_init ( ) {
-
+        //create pro table 
+        $this->create_gantt_chart_table();
+        $this->create_invoice_table();
+        $this->create_time_tracker_table();
+        // end
         $this->start_update();
         $this->set_count();
         
@@ -607,14 +611,17 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( is_wp_error( $oldroles ) ) {
             return;
         }
-
+        $role_exit = $this->insert_client_role();
         foreach ( $oldroles as $role ) {
 
             if ( $role['role']       == 'manager' ){
                 $role_id = 1;
             } else if ( $role['role'] == 'co_worker' ){
                 $role_id = 2;
-            } else {
+            } else if ( $role['role'] == 'client'  ) {
+                if ( !$role_exit ) {
+                    continue;
+                }
                 $role_id = 3; 
             }
             User_Role::firstOrCreate( [
@@ -1157,9 +1164,6 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( !$oldProjectId ) {
             return ;
         }
-        if ( !class_exists( 'WeDevs\PM_Pro\Modules\invoice\src\Models\Invoice' ) ) {
-            return ;
-        }
 
         global $wpdb;
 
@@ -1397,14 +1401,7 @@ class Upgrade_2_0 extends WP_Background_Process
     function gantt_upgrate( $taskLists, $tasks, $taskParent ) {
         $gantt = false;
 
-        if ( 
-            function_exists('pm_pro_is_module_inactive') 
-                && 
-            pm_pro_is_module_inactive('gantt/gantt.php') 
-        ) {
-            pm_pro_activate_module('gantt/gantt.php');
-            $gantt = true;
-        }
+
 
         // $this->set_gantt_data( $taskLists, $taskLists, $tasks );
         // $this->set_gantt_data( $tasks, $taskLists, $tasks );
@@ -1426,18 +1423,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
             }
         }
-        // if( !empty( $taskParent ) ) {
-        //     foreach ( $taskParent as $task => $list ) {
-        //         $this->save_object( new Gantt, [
-        //             'source' => $taskLists[$list],
-        //             'target' => $tasks[$task],
-        //             'type'   => 2,
-        //         ]);
-        //     }
-        // }
-        if ( $gantt) {
-            pm_pro_deactivate_module('gantt/gantt.php');
-        }
+
     }
 
     function set_gantt_data( $items, $taskLists, $tasks  ) {
@@ -1591,10 +1577,6 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function add_time_tracker( $oldProjectId, $newProjectID, $taskList, $tasks ) {
         if ( !$oldProjectId ) {
-            return ;
-        }
-
-        if ( ! class_exists( 'WeDevs\PM_Pro\Modules\time_tracker\src\Models\Time_Tracker' ) ) {
             return ;
         }
 
@@ -1829,5 +1811,114 @@ class Upgrade_2_0 extends WP_Background_Process
             return $object;
         } 
     }
+
+    function create_invoice_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_invoice';
+        // `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Incomplete; 1: Complete; 2: Partial',
+        // `partial` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1: Partial; 0: Not Partial;',
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+          `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+          `title` varchar(255) NOT NULL,
+          `client_id` int(11) UNSIGNED NOT NULL,
+          `project_id` int(11) UNSIGNED NOT NULL,
+          `status` tinyint(4) NOT NULL DEFAULT 0,
+          `start_at` timestamp NULL DEFAULT NULL,
+          `due_date` timestamp NULL DEFAULT NULL,
+          `discount` double(8,2) NOT NULL DEFAULT '0.00',
+          `partial` tinyint(4) NOT NULL DEFAULT 0,
+          `partial_amount` double(8,2) NOT NULL DEFAULT '0.00',
+          `terms` text,
+          `client_note` text,
+          `items` longtext NOT NULL,
+          `created_by` int(11) UNSIGNED DEFAULT NULL,
+          `updated_by` int(11) UNSIGNED DEFAULT NULL,
+          `created_at` timestamp NULL DEFAULT NULL,
+          `updated_at` timestamp NULL DEFAULT NULL,
+          PRIMARY KEY (`id`),
+          KEY `project_id` (`project_id`),
+          KEY `client_id` (`client_id`),
+          FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
+        
+        dbDelta( $sql );
+    }
+
+    function create_gantt_chart_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_gantt_chart_links';
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `source` int(11) UNSIGNED NOT NULL,
+              `target` int(11) UNSIGNED NOT NULL,
+              `type` int(11) UNSIGNED NOT NULL,
+              `created_by` int(11) UNSIGNED DEFAULT NULL,
+              `updated_by` int(11) UNSIGNED DEFAULT NULL,
+              `created_at` timestamp NULL DEFAULT NULL,
+              `updated_at` timestamp NULL DEFAULT NULL,
+              PRIMARY KEY (`id`),
+              FOREIGN KEY (`source`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE,
+              FOREIGN KEY (`target`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+    }
     
+
+    function create_time_tracker_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_time_tracker';
+        
+         // `run_status` tinyint(4) NOT NULL COMMENT '1: Running; 0: Stop;',
+
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `user_id` int(11) UNSIGNED NOT NULL,
+              `project_id` int(11) UNSIGNED NOT NULL,
+              `list_id` int(11) UNSIGNED NOT NULL,
+              `task_id` int(11) UNSIGNED NOT NULL,
+              `start` int(11) UNSIGNED NOT NULL,
+              `stop` int(11) UNSIGNED NOT NULL,
+              `total` int(11) UNSIGNED NOT NULL,
+              `run_status` tinyint(4) NOT NULL,
+              `created_by` int(11) UNSIGNED DEFAULT NULL,
+              `updated_by` int(11) UNSIGNED DEFAULT NULL,
+              `created_at` timestamp NULL DEFAULT NULL,
+              `updated_at` timestamp NULL DEFAULT NULL,
+              PRIMARY KEY (`id`),
+              KEY `task_id` (`task_id`),
+              KEY `project_id` (`project_id`),
+              FOREIGN KEY (`task_id`) REFERENCES `pro_pm_tasks` (`id`) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+    }
+
+    function insert_client_role () {
+        $user = wp_get_current_user();
+        if ( ! Role::where('slug', 'client')->exists() ) {
+            Role::insert([
+                [
+                    'title'       => 'Client',
+                    'slug'        => 'client',
+                    'description' => 'Client is a person who provid the project.',
+                    'status'      => 0,
+                    'created_by'  => $user->ID,
+                    'updated_by'  => $user->ID,
+                    'created_at'  => Carbon::now(),
+                    'updated_at'  => Carbon::now(),
+                ],
+            ]);
+            return  true;
+        }
+
+        return true;
+    }
 }
