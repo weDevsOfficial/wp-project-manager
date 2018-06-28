@@ -1,46 +1,8 @@
+'use strict';
 module.exports = function(grunt) {
     var pkg = grunt.file.readJSON('package.json');
 
     grunt.initConfig({
-        // setting folder templates
-        dirs: {
-            css: 'assets/css',
-            images: 'assets/images',
-            js: 'assets/js'
-        },
-
-        less: {
-            development: {
-                options: {
-                    compress: false,
-                    yuicompress: false,
-                    optimization: 2
-                },
-                files: {
-                    '<%= dirs.css %>/admin.css': '<%= dirs.css %>/new-admin.less' // destination file and source file
-                }
-            }
-        },
-        browserify: {
-            dist: {
-                options: {
-                    transform: [['partialify']]
-                },
-                files: {
-                    '<%= dirs.js %>/cpm_common_js.js': ['<%= dirs.js %>/cpm_common_js_raw.js'] // For Commons JS
-                }
-            }
-        },
-        watch: {
-            styles: {
-                files: ['<%= dirs.css %>/*.less', '<%= dirs.js %>/*.js' ], // which files to watch
-                tasks: ['less'],
-                options: {
-                    nospawn: true
-                }
-            }
-        },
-
         // Clean up build directory
         clean: {
             main: ['build/']
@@ -58,6 +20,11 @@ module.exports = function(grunt) {
                     '!Gruntfile.js',
                     '!package.json',
                     '!package-lock.json',
+                    '!phpcs.ruleset.xml',
+                    '!phpunit.xml.dist',
+                    '!webpack.config.js',
+                    '!tmp/**',
+                    '!views/assets/src/**',
                     '!debug.log',
                     '!phpunit.xml',
                     '!export.sh',
@@ -67,6 +34,7 @@ module.exports = function(grunt) {
                     '!plugin-deploy.sh',
                     '!readme.md',
                     '!composer.json',
+                    '!composer.lock',
                     '!secret.json',
                     '!assets/less/**',
                     '!tests/**',
@@ -81,76 +49,72 @@ module.exports = function(grunt) {
             }
         },
 
-        concat: {
-            '<%= dirs.js %>/cpm-all.js': [
-                '<%= dirs.js %>/admin.js',
-                '<%= dirs.js %>/mytask.js',
-                '<%= dirs.js %>/task.js',
-                '<%= dirs.js %>/upload.js'
-            ]
-        },
-
         //Compress build directory into <name>.zip and <name>-<version>.zip
         compress: {
             main: {
                 options: {
                     mode: 'zip',
-                    archive: './build/wedevs-project-manager-v' + pkg.version + '.zip'
+                    archive: './build/pm-v' + pkg.version + '.zip'
                 },
                 expand: true,
                 cwd: 'build/',
                 src: ['**/*'],
-                dest: 'wedevs-project-manager'
+                dest: 'pm'
             }
         },
 
-        // Generate POT files.
-        makepot: {
-            target: {
+        addtextdomain: {
+            options: {
+                textdomain: 'wedevs-project-manager',
+            },
+            update_all_domains: {
                 options: {
-                    exclude: ['build/.*'],
-                    domainPath: '/languages/', // Where to save the POT file.
-                    potFilename: 'cpm.pot', // Name of the POT file.
-                    type: 'wp-plugin', // Type of project (wp-plugin or wp-theme).
-                    potHeaders: {
-                        'report-msgid-bugs-to': 'http://wedevs.com/support/forum/plugin-support/wp-project-manager/',
-                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>'
-                    }
-                }
+                    updateDomains: true
+                },
+                src: [ '*.php', '**/*.php', '!node_modules/**', '!php-tests/**', '!bin/**', '!build/**', '!vendor/**', '!assets/**', '!views/src/**' ]
             }
-        }
+        },
 
+        run: {
+            options: {},
+
+            reset:{
+                cmd: 'npm',
+                args: ['run', 'build']
+            },
+
+            makepot:{
+                cmd: 'npm',
+                args: ['run', 'makepot']
+            },
+
+            dumpautoload:{
+                cmd: 'composer',
+                args: ['dumpautoload', '-o']
+            },
+
+        }
     });
 
+
+    // Load NPM tasks to be used here
     grunt.loadNpmTasks( 'grunt-contrib-less' );
     grunt.loadNpmTasks( 'grunt-contrib-concat' );
     grunt.loadNpmTasks( 'grunt-contrib-jshint' );
     grunt.loadNpmTasks( 'grunt-wp-i18n' );
+    //grunt.loadNpmTasks( 'grunt-text-replace' );
+    //grunt.loadNpmTasks( 'grunt-contrib-uglify' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
-    grunt.loadNpmTasks( 'grunt-ssh' );
-    grunt.loadNpmTasks( 'grunt-browserify' );
-
-    grunt.registerTask('default', ['less', 'watch'] );
+    grunt.loadNpmTasks( 'grunt-run' );
 
 
-    grunt.registerTask( 'build', [ 'browserify' ] );
-
-    grunt.registerTask('release', [
-        'makepot',
-        'less',
-        'concat'
-    ]);
-
-    grunt.registerTask( 'zip', [
+    grunt.registerTask( 'release', [
         'clean',
+        'run',
         'copy',
         'compress'
     ])
-
-    grunt.registerTask( 'deploy', [
-        'sftp:upload', 'sshexec:updateVersion'
-    ]);
 };
