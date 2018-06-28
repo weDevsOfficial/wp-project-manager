@@ -7,10 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "pm": "webpack",
-    "build": "webpack-dev-server",
-    "watch": "webpack --progress --colors --watch",
-    "reset": "webpack --progress --colors",
+    "dev": "webpack --progress --colors --watch",
+    "build": "webpack --progress --colors",
     "release": "webpack --progress --colors gurnt zip",
     "makepot": "wpvuei18n makepot"
   },
