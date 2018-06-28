@@ -54,6 +54,7 @@ class Frontend {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
+		add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
 		if ( class_exists('WeDevs_CPM_Pro') ) {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
 		}
@@ -157,4 +158,23 @@ function project_text_editor($config) {
 	public function pm_pro_notice() {
 		 echo sprintf( '<div class="error"><p><strong>WP Project Manager Pro</strong> required version 2.0 or above. Please update now. </p></div>');
 	}
+
+	    /**
+     * Plugin action links
+     *
+     * @param  array  $links
+     *
+     * @since  2.4
+     *
+     * @return array
+     */
+    function plugin_action_links( $links ) {
+    	global $wedevs_pm_pro;
+        if ( !$wedevs_pm_pro  ) {
+            $links[] = '<a href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" style="color: #389e38;font-weight: bold;" target="_blank">' . __( 'Get Pro', 'pm' ) . '</a>';
+        }
+        $links[] = '<a href="' . admin_url( 'admin.php?page=pm_projects#/settings' ) . '">' . __( 'Settings', 'pm' ) . '</a>';
+        $links[] = '<a href="https://wedevs.com/docs/wp-project-manager/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" target="_blank">' . __( 'Documentation', 'pm' ) . '</a>';
+        return $links;
+    }
 }
