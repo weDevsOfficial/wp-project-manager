@@ -166,7 +166,7 @@ function project_text_editor($config) {
                 <img class="pm-logo" src="<?php echo config('frontend.url') . 'views/assets/images/pm-icon.png'; ?>" alt="">
                 <div class="pm-offer-msg-wrap"><?php echo $offer_msg; ?></div>
                 <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0-0-beta/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php _e( 'Read Docs', 'pm' ); ?></a>
+                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php _e( 'Read Docs', 'pm' ); ?></a>
             </div>
 
             <style>
