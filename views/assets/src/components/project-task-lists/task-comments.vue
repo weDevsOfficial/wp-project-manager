@@ -4,7 +4,7 @@
         <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'pm' ) }}</h3>
 
         <ul class="pm-comment-wrap" v-if="comments.length">
-            <li  v-for="comment in comments" :key="comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
+            <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
 
                 <div class="pm-avatar">
                      <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
@@ -20,7 +20,7 @@
                         </span>
                         <span>{{ __('on', 'pm')}}</span>
                         <span class="pm-date">
-                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
+                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, task)" -->
                         <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
@@ -101,6 +101,13 @@
         },
 
         methods: {
+            commentDate (comment) {
+                if (typeof comment.created_at != 'undefined') {
+                    return comment.created_at.date + ', ' + comment.created_at.time;
+                }
+
+                return '';
+            },
             showHideTaskCommentForm (comment) {
                 comment.edit_mode = comment.edit_mode ? false : true;
             },
