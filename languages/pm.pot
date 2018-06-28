@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.0-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-06-28 03:21:38+00:00\n"
+"POT-Creation-Date: 2018-06-28 09:47:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -109,8 +109,32 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: core/WP/Frontend.php:131
+#: core/WP/Frontend.php:132
 msgid "Every %d Minutes PM schedule"
+msgstr ""
+
+#: core/WP/Frontend.php:159
+msgid "<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>"
+msgstr ""
+
+#: core/WP/Frontend.php:160
+msgid "<p>To migrate version 2.0, Please read mmigration docs </p>"
+msgstr ""
+
+#: core/WP/Frontend.php:169
+msgid "Read Docs"
+msgstr ""
+
+#: core/WP/Frontend.php:277
+msgid "Get Pro"
+msgstr ""
+
+#: core/WP/Frontend.php:279 core/WP/Menu.php:36
+msgid "Settings"
+msgstr ""
+
+#: core/WP/Frontend.php:280
+msgid "Documentation"
 msgstr ""
 
 #: core/WP/Menu.php:16 views/assets/src/components/project-lists/header.vue:7
@@ -139,10 +163,6 @@ msgstr ""
 
 #: core/WP/Menu.php:27
 msgid "Progress"
-msgstr ""
-
-#: core/WP/Menu.php:36
-msgid "Settings"
 msgstr ""
 
 #: db/seeds/RoleTableSeeder.php:23
@@ -1487,7 +1507,9 @@ msgid "https://wedevs.com/wp-project-manager-pro/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Delightfull Project Management."
+msgid ""
+"WordPress Project Management plugin. Manage your projects and tasks, get "
+"things done."
 msgstr ""
 
 #. Author of the plugin/theme
