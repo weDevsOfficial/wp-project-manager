@@ -122,11 +122,29 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 1.6.15 - May 10, 2018 =
 
  * [fixed] Task list is not showing when using the Internet Explorer browser.
  * [fixed] Projects dashboard display missing alignment.
  * [Update] Improved plugin strings.
+
+= 1.6.14 - April 26, 2018 =
+=======
+= 1.6.16 - Jun 11, 2018 =
+>>>>>>> fb278c5ab8c372be34f285fd8f319b8f9262600b
+
+ * [fixed] Project title is overlaping on RTL language.
+ * [fixed] Could not select project category while creating/editing a project.
+ * [fixed] Single task is not re-rendering
+
+<<<<<<< HEAD
+=======
+= 1.6.15 - May 10, 2018 =
+
+ * [fixed] Task list is not showing when using the Internet Explorer browser.
+ * [fixed] Projects dashboard display missing alignment.
+ * [Update] Improved plugins text domain.
 
 = 1.6.14 - April 26, 2018 =
 
@@ -135,6 +153,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fixed] Category menu selection while creating project not working on RLT.
  * [fixed] RTL display missing alignment on milestone.
 
+>>>>>>> fb278c5ab8c372be34f285fd8f319b8f9262600b
 = 1.6.13 - April 12, 2018 =
 
  * [fixed] RTL display missing alignment.

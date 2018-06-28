@@ -688,8 +688,8 @@ class CPM_Task {
             'meta_query'     => array (
                 array (
                     'key'     => '_completed',
-                    'value'   => '0',
-                    'compare' => '='
+                    'value'   => '1',
+                    'compare' => '<'
                 )
             )
         );
