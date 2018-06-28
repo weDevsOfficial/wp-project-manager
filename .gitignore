@@ -17,4 +17,3 @@ composer.lock
 package-lock.json
 /tmp/
 /build/
-plugin-deploy.sh
