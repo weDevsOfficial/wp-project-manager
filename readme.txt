@@ -1,10 +1,10 @@
 === WP Project Manager ===
-Contributors: tareq1988, wedevs, asaquzzaman, wpasikur, mdmamun-1, mshossain110
+Contributors: tareq1988, wedevs, asaquzzaman, mshossain110
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
-Requires at least: 4.0
-Tested up to: 4.9.5
-Stable tag: trunk
+Requires at least: 4.4
+Tested up to: 4.9.6
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,24 +122,20 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-<<<<<<< HEAD
-= 1.6.15 - May 10, 2018 =
+= v2.0 - Jun 28, 2018 =
 
- * [fixed] Task list is not showing when using the Internet Explorer browser.
- * [fixed] Projects dashboard display missing alignment.
- * [Update] Improved plugin strings.
+ * **BREAKING**: This **v2.0** release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a **database backup** is adviced.
+ * **New:** REST API added. Now you can access everything of project manager via the API. Creating of mobile apps would be much easier.
+ * **New:** Moved from custom post type to custom database tables, which performs a lot faster.
+ * **New:** We have re-written the Project Management UI, powered by [Vue.js](https://vuejs.org/). This introduces a SPA (Single Page Application) with blazing fast page loading and a snappier user experience.
+ * **Bug Fixes:** We have also squashed a lot pesky bugs under the hood.
 
-= 1.6.14 - April 26, 2018 =
-=======
 = 1.6.16 - Jun 11, 2018 =
->>>>>>> fb278c5ab8c372be34f285fd8f319b8f9262600b
 
  * [fixed] Project title is overlaping on RTL language.
  * [fixed] Could not select project category while creating/editing a project.
  * [fixed] Single task is not re-rendering
 
-<<<<<<< HEAD
-=======
 = 1.6.15 - May 10, 2018 =
 
  * [fixed] Task list is not showing when using the Internet Explorer browser.
@@ -153,7 +149,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fixed] Category menu selection while creating project not working on RLT.
  * [fixed] RTL display missing alignment on milestone.
 
->>>>>>> fb278c5ab8c372be34f285fd8f319b8f9262600b
 = 1.6.13 - April 12, 2018 =
 
  * [fixed] RTL display missing alignment.
@@ -220,7 +215,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] When complete a task then this completed task shown double in the to-do list.
  * [fix] Double "New To-Do" button shown.
  * [update] 'Get porject id' function always return false.
- * [update] Design change for single task page. 
+ * [update] Design change for single task page.
 
 = 1.6.5 - July 6, 2017 =
 
@@ -503,4 +498,4 @@ Initial version released
 
 == Upgrade Notice ==
 
-Nothing here
+<strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is adviced.
