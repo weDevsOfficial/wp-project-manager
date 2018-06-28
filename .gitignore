@@ -1,5 +1,5 @@
 /node_modules/
-/vendor/
+vendor
 /views/assets/js/chunk/
 /views/assets/js/library.js
 /views/assets/js/pm.js
