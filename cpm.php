@@ -5,7 +5,7 @@
  * Description: Delightfull Project Management.
  * Author: weDevs
  * Author URI: https://wedevs.com
- * Version: 2.0-beta
+ * Version: 2.0.0-beta
  * Text Domain: pm
  * Domain Path: /languages
  * License: GPL2

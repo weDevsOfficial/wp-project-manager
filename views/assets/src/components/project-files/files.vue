@@ -16,7 +16,7 @@
 
 
             <div v-if="!loading">
-                <ul class="pm-folders-list">
+                <ul class="pm-folders-list" v-if="files.length">
                     <li class="file" v-for="file in files">
 
                         <div class="ff-content">
@@ -56,6 +56,10 @@
 
 
                     <div class="clearfix"></div>
+                </ul>
+
+                <ul v-if="!files.length">
+                    <li>{{ __('No result found!', 'pm') }}</li>
                 </ul>
 
             </div>
