@@ -121,6 +121,26 @@ function pm_get_settings( $key = null, $project_id = false ) {
     return null;
 }
 
+function pm_delete_settings( $key, $project_id = false ) {
+
+    if ( $project_id ) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->where('project_id', $project_id)
+            ->first();
+    } else {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->first();
+    }
+    
+    if ( $settings ) {
+        $settings->delete();
+
+        wp_send_json_success();
+    }
+
+    wp_send_json_error();
+}
+
 function pm_set_settings( $key, $value, $project_id = false ){
 
     if ( $project_id == false ){

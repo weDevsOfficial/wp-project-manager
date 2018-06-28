@@ -55,20 +55,22 @@ class Settings_Controller {
         $project_id = $request->get_param( 'project_id' );
         $settings   = $request->get_param( 'settings' );
         
+
         if ( is_array( $settings ) ) {
             $settings_collection = [];
 
             foreach ( $settings as $settings_data ) {
 
-                if ( $settings_data['key'] == 'logo' &&  empty($settings_data['value'])) {
-                    continue;
-                }
-
+                // if ( $settings_data['key'] == 'logo' &&  empty($settings_data['value'])) {
+                //     continue;
+                // }
+                
                 $settings_collection[] = $this->save_settings( $settings_data, $project_id );
             }
 
             $resource = new Collection( $settings_collection, new Settings_Transformer );
         } else {
+
             $settings = $this->save_settings( $data, $project_id );
             $resource = new Item( $settings, new Settings_Transformer );
         }
