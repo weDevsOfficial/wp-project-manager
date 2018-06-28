@@ -13,6 +13,6 @@ class Create_File extends Abstract_Permission {
             return true;
         }
 
-        return new \WP_Error( 'project', __( "You have no permission to create message.", "pm" ) );
+        return new \WP_Error( 'project', __( "You have no permission to create message.", "wedevs-project-manager" ) );
     }
 }

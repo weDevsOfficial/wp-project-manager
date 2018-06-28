@@ -7,8 +7,8 @@ use WeDevs\PM\Core\Validator\Abstract_Validator;
 class Create_Comment extends Abstract_Validator {
     public function messages() {
         return [
-            'content.required' => __( 'Comment title is required.', 'pm' ),
-            'project_id.required' => __( 'Project id is required.', 'pm' ),
+            'content.required' => __( 'Comment title is required.', 'wedevs-project-manager' ),
+            'project_id.required' => __( 'Project id is required.', 'wedevs-project-manager' ),
         ];
     }
 

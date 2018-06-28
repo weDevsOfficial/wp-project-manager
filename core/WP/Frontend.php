@@ -131,7 +131,7 @@ class Frontend {
 		// Adds every 5 minutes to the existing schedules.
 		$schedules[ 'pm_schedule' ] = array(
 			'interval' => MINUTE_IN_SECONDS * 1,
-			'display'  => sprintf( __( 'Every %d Minutes PM schedule' ), 1 ),
+			'display'  => sprintf( __( 'Every %d Minutes PM schedule', 'wedevs-project-manager' ), 1 ),
 		);
 
 		return $schedules;
@@ -158,8 +158,8 @@ function project_text_editor($config) {
 		Register_Scripts::styles();
 	}
 	public function pm_pro_notice() {
-		$offer  = __( '<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>', "pm" );
-        $offer .= __( '<p>To migrate version 2.0, Please read mmigration docs </p>', 'pm' );
+		$offer  = __( '<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>', "wedevs-project-manager" );
+        $offer .= __( '<p>To migrate version 2.0, Please read mmigration docs </p>', 'wedevs-project-manager' );
 
         $offer_msg = sprintf( '%s', $offer );
 		 ?>
@@ -168,7 +168,7 @@ function project_text_editor($config) {
                 <img class="pm-logo" src="<?php echo config('frontend.url') . 'views/assets/images/pm-icon.png'; ?>" alt="">
                 <div class="pm-offer-msg-wrap"><?php echo $offer_msg; ?></div>
                 <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php _e( 'Read Docs', 'pm' ); ?></a>
+                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php _e( 'Read Docs', 'wedevs-project-manager' ); ?></a>
             </div>
 
             <style>
@@ -275,11 +275,11 @@ function project_text_editor($config) {
     	global $wedevs_pm_pro;
 
         if ( !$wedevs_pm_pro  ) {
-            $links[] = '<a href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" style="color: #389e38;font-weight: bold;" target="_blank">' . __( 'Get Pro', 'pm' ) . '</a>';
+            $links[] = '<a href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" style="color: #389e38;font-weight: bold;" target="_blank">' . __( 'Get Pro', 'wedevs-project-manager' ) . '</a>';
         }
 
-        $links[] = '<a href="' . admin_url( 'admin.php?page=pm_projects#/settings' ) . '">' . __( 'Settings', 'pm' ) . '</a>';
-        $links[] = '<a href="https://wedevs.com/docs/wp-project-manager/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" target="_blank">' . __( 'Documentation', 'pm' ) . '</a>';
+        $links[] = '<a href="' . admin_url( 'admin.php?page=pm_projects#/settings' ) . '">' . __( 'Settings', 'wedevs-project-manager' ) . '</a>';
+        $links[] = '<a href="https://wedevs.com/docs/wp-project-manager/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" target="_blank">' . __( 'Documentation', 'wedevs-project-manager' ) . '</a>';
 
         return $links;
     }

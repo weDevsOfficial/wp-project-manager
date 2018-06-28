@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WeDevs\PM\Core\Notifications\Emails;
 
@@ -9,7 +9,7 @@ use WeDevs\PM\Core\Notifications\Email;
 use WeDevs\PM\Task\Models\Task;
 
 class Complete_Task_Notification extends Email {
-    
+
     function __construct() {
 
         add_action('pm_changed_task_status_notification', array($this, 'trigger'), 10, 2 );
@@ -26,7 +26,7 @@ class Complete_Task_Notification extends Email {
             }
         }
 
-        if( $this->notify_manager() ){
+        if ( $this->notify_manager() ) {
             foreach ( $task->projects->managers->toArray() as $u ) {
                 if( !in_array($u['user_email'], $users )){
                     $users[] = $u['user_email'];
@@ -34,13 +34,12 @@ class Complete_Task_Notification extends Email {
             }
         }
 
-        if( !$users ){
-            return ; 
+        if ( !$users ) {
+            return ;
         }
 
         $template_name = apply_filters( 'pm_complete_task_email_template_path', $this->get_template_path( '/html/complete-task.php' ) );
-        $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'pm' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
-
+        $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
 
         $message = $this->get_content_html( $template_name, [
             'id'          => $task->id,

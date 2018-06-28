@@ -24,6 +24,6 @@ class Edit_Comment extends Abstract_Permission {
 
         }
 
-        return new \WP_Error( 'Comment', __( "You have no permission.", "pm" ) );
+        return new \WP_Error( 'Comment', __( "You have no permission.", "wedevs-project-manager" ) );
     }
 }

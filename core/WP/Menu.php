@@ -13,18 +13,18 @@ class Menu {
 		global $submenu;
 		$ismanager = pm_has_manage_capability();
 
-		$home = add_menu_page( __( 'Project Manager', 'pm' ), __( 'Project Manager', 'pm' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
+		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), 'dashicons-networking', 3 );
 
-		$submenu['pm_projects'][] = [ __( 'Projects', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/' ];
+		$submenu['pm_projects'][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/' ];
 		if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Categories', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
+			$submenu['pm_projects'][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
 		}
-		$submenu['pm_projects']['my_task'] = [ __( 'My Tasks', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
-		$submenu['pm_projects']['calendar'] = [ __( 'Calendar', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/calendar' ];
+		$submenu['pm_projects']['my_task'] = [ __( 'My Tasks', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
+		$submenu['pm_projects']['calendar'] = [ __( 'Calendar', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/calendar' ];
 		//$submenu['pm_projects'][] = [ __( 'Add-ons', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/add-ons' ];
 		if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Reports', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
-			$submenu['pm_projects'][] = [ __( 'Progress', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
+			$submenu['pm_projects'][] = [ __( 'Reports', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
+			$submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		}
 		
 		do_action( 'pm_menu_before_load_scripts', $home );
@@ -33,7 +33,7 @@ class Menu {
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
 		//if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Settings', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/settings' ];
+			$submenu['pm_projects'][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', 'admin.php?page=pm_projects#/settings' ];
 		//}
 
 		do_action( 'pm_menu_after_load_scripts', $home );

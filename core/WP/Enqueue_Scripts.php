@@ -62,7 +62,7 @@ class Enqueue_Scripts {
 					'url'                      => admin_url( 'admin-ajax.php' ) . '?action=pm_ajax_upload&nonce=' . wp_create_nonce( 'pm_ajax_upload' ),
 					'flash_swf_url'            => includes_url( 'js/plupload/plupload.flash.swf' ),
 					'silverlight_xap_url'      => includes_url( 'js/plupload/plupload.silverlight.xap' ),
-					'filters'                  => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
+					'filters'                  => array( array( 'title' => __( 'Allowed Files', 'wedevs-project-manager' ), 'extensions' => '*' ) ),
 					'resize'                   => array( 
 						'width'   => ( int ) get_option( 'large_size_w' ),
 						'height'  => ( int ) get_option( 'large_size_h' ),

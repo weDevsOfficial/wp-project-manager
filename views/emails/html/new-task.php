@@ -9,24 +9,24 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
     <div style="width: 600px;">
         <div style="background-image: url('<?php echo $tpbk; ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
             <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center;">
-<?php _e( 'New task has been assigned to you', 'pm' ); ?>
+<?php _e( 'New task has been assigned to you', 'wedevs-project-manager' ); ?>
             </div>
         </div>
 
         <div style="padding: 0 50px; text-align: justify; background-repeat: no-repeat;">
             <div style="margin: 40px 0 20px;">
-                <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Created By', 'pm' ); ?></em>
+                <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php _e( 'Created By', 'wedevs-project-manager' ); ?></em>
                 <strong style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
                     <?php echo $updater; ?>
                 </strong>
             </div>
             <div style="margin: 20px 0 10px; ">
-                <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'due date', 'pm' ) ?></em>
+                <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'due date', 'wedevs-project-manager' ) ?></em>
                 <strong style="font-family: lato; color: #7e7e7e;">
                     <span style="padding-right: 5px;"><?php echo $due_date['date'] ?></span>
                 </strong>
                 <?php if( $start_at !== null ){ ?>
-                    <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'start at', 'pm' ) ?></em>
+                    <em style="font-family: lato; color: #B3B3B3; "><?php _e( 'start at', 'wedevs-project-manager' ) ?></em>
                     <strong style="font-family: lato; color: #7e7e7e;">
                         <span style="padding-right: 5px;"><?php echo $start_at['date'] ?></span>
                     </strong>
@@ -43,7 +43,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px; text-align: center;">
 
             <a href="<?php echo $link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id; ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
-<?php _e( 'View Task', 'pm' ); ?>
+<?php _e( 'View Task', 'wedevs-project-manager' ); ?>
             </a>
 
         </div>

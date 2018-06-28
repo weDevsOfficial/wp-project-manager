@@ -33,6 +33,6 @@ class Complete_Task extends Abstract_Permission {
 
         }
 
-        return new \WP_Error( 'Task', __( "You have no permission to change task status.", "pm" ) );
+        return new \WP_Error( 'Task', __( "You have no permission to change task status.", "wedevs-project-manager" ) );
     }
 }
