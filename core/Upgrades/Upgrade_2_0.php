@@ -46,7 +46,6 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( empty( $item ) ) {
             return false;
         }
-        error_log($item);
         $this->isProcessRuning = true;
         $this->upgrade_projects( $item );
         $this->upgrade_observe_migration( [
