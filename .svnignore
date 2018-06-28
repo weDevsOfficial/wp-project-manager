@@ -6,9 +6,10 @@ package.json
 plugin-deploy.sh
 readme.md
 webpack.config.js
-views/src
+views/assets/src
 build
 .idea
 .DS_Store
 npm-debug.log
 tests
+.svnignore
