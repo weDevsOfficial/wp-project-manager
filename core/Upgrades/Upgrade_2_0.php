@@ -238,7 +238,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     });
                     
                     var tmpl = '<div>'+
-                        '<p><strong>Migration Status<span class="'+is_loading_active+'"></span></strong></p>'+
+                        '<p><strong>WP Project Manager: Migration Status<span class="'+is_loading_active+'"></span></strong></p>'+
                         cross+
                         tmplInside+'</div>';
 
