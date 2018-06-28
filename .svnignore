@@ -1,7 +1,7 @@
 .babelrc
 .gitignore
 composer.json
-Gruntfile.json
+Gruntfile.js
 package.json
 plugin-deploy.sh
 readme.md
@@ -14,3 +14,9 @@ npm-debug.log
 tests
 .svnignore
 .travis.yml
+package-lock.json
+phpcs.ruleset.xml
+phpunit.xml.dist
+composer.lock
+bin
+tmp

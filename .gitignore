@@ -15,5 +15,5 @@ phpcs.ruleset.xml
 phpunit.xml.dist
 composer.lock
 package-lock.json
-/tmp/
+/tmp
 /build/
