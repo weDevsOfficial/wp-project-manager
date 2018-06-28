@@ -13,3 +13,4 @@ build
 npm-debug.log
 tests
 .svnignore
+.travis.yml
