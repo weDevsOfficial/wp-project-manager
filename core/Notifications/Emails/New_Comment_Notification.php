@@ -50,22 +50,22 @@ class New_Comment_Notification extends Email {
         }
 
         if ( $request['commentable_type'] == 'discussion_board' ) {
-            $type = __( 'Message', 'pm' );
+            $type = __( 'Message', 'wedevs-project-manager' );
             $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/discussions/'.$request['commentable_id'];
             $title = Discussion_Board::find( $request['commentable_id'] )->title;
 
         } else if ( $request['commentable_type'] == 'task_list' ) {
-            $type = __( 'Task List', 'pm' );
+            $type = __( 'Task List', 'wedevs-project-manager' );
             $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/task-lists/'.$request['commentable_id'];
             $title = Task_List::find( $request['commentable_id'] )->title;
 
         } else if ( $request['commentable_type'] == 'task' ) {
-            $type        = __( 'Task', 'pm' );
+            $type        = __( 'Task', 'wedevs-project-manager' );
             $comment_link = $this->pm_link() . '#/projects/'.$project->id. '/task-lists/tasks/'.$request['commentable_id'];
             $title = Task::find( $request['commentable_id'] )->title;
 
         } else if ( $request['commentable_type'] == 'file' ) {
-            $type        = __( 'File', 'pm' );
+            $type        = __( 'File', 'wedevs-project-manager' );
             $file = File::find($request['commentable_id']);
             $comment_link = $this->pm_link() . '#/projects/'. $project->id .'/files/'. $file->parent .'/'. $file->type .'/'. $request['commentable_id'];
             $filemeta = Meta::where( 'project_id', $request['project_id'] )
@@ -78,7 +78,7 @@ class New_Comment_Notification extends Email {
         }
 
         $template_name = apply_filters( 'pm_new_comment_email_template_path', $this->get_template_path( '/html/new-comment.php' ) );
-        $subject       = sprintf( __( '[%s][%s] New Comment on: %s', 'pm' ), $this->get_blogname(), $project->title , $title );       
+        $subject       = sprintf( __( '[%s][%s] New Comment on: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );       
         
         $message = $this->get_content_html( $template_name, [
             'id'                => $commentData['data']['id'],

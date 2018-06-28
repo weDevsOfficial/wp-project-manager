@@ -26,6 +26,6 @@ class Edit_File extends Abstract_Permission {
 
         }
 
-        return new \WP_Error( 'File', __( "You have no permission.", "pm" ) );
+        return new \WP_Error( 'File', __( "You have no permission.", "wedevs-project-manager" ) );
     }
 }

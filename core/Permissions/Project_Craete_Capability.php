@@ -14,6 +14,6 @@ class Project_Create_Capability extends Abstract_Permission {
         if ( pm_has_project_create_capability() ) {
             return true;  
         }
-        return new \WP_Error( 'project', __( "You have no permission to create project.", "pm" ) );
+        return new \WP_Error( 'project', __( "You have no permission to create project.", "wedevs-project-manager" ) );
     }
 }

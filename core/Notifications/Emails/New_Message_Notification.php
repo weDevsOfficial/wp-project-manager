@@ -44,7 +44,7 @@ class New_Message_Notification extends Email {
         }
 
         $template_name = apply_filters( 'pm_new_message_email_template_path', $this->get_template_path( '/html/new-message.php' ) );
-        $subject = sprintf( __( '[%s][%s] New Message: %s', 'pm' ), $this->get_blogname(), $project->title , $request['title'] );
+        $subject = sprintf( __( '[%s][%s] New Message: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $request['title'] );
         
         
         $message = $this->get_content_html( $template_name, [

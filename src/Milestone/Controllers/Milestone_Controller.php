@@ -51,7 +51,7 @@ class Milestone_Controller {
         foreach ($metas as $meta) {
             $milestones[] = $meta->milestone;
         }
-        echo __('this is mishu', 'pm');
+        echo __('this is mishu', 'wedevs-project-manager');
         return $milestones;
     }
 

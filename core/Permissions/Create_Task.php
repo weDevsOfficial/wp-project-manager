@@ -13,6 +13,6 @@ class Create_Task extends Abstract_Permission {
             return true;
         }
 
-        return new \WP_Error( 'project', __( "You have no permission.", "pm" ) );
+        return new \WP_Error( 'project', __( "You have no permission.", "wedevs-project-manager" ) );
     }
 }

@@ -7,8 +7,8 @@ use WeDevs\PM\Core\Validator\Abstract_Validator;
 class Create_Task extends Abstract_Validator {
     public function messages() {
         return [
-            'title.required' => __( 'Task title is required.', 'pm' ),
-            'project_id.required' => __( 'Project id is required.', 'pm' ),
+            'title.required' => __( 'Task title is required.', 'wedevs-project-manager' ),
+            'project_id.required' => __( 'Project id is required.', 'wedevs-project-manager' ),
         ];
     }
 

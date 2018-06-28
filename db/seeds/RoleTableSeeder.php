@@ -20,9 +20,9 @@ class RoleTableSeeder extends Seeder
         if (!Role::count()) {
             Role::insert([
                 [
-                    'title'       => __( 'Manager', 'pm' ),
+                    'title'       => __( 'Manager', 'wedevs-project-manager' ),
                     'slug'        => 'manager',
-                    'description' => __( 'Manager is a person who manages the project.', 'pm' ),
+                    'description' => __( 'Manager is a person who manages the project.', 'wedevs-project-manager' ),
                     'status'      => 1,
                     'created_by'  => $user->ID,
                     'updated_by'  => $user->ID,
@@ -30,9 +30,9 @@ class RoleTableSeeder extends Seeder
                     'updated_at'  => Carbon::now(),
                 ],
                 [
-                    'title'       => __( 'Co-Worker', 'pm' ),
+                    'title'       => __( 'Co-Worker', 'wedevs-project-manager' ),
                     'slug'        => 'co_worker',
-                    'description' => __( 'Co-worker is person who works under a project.', 'pm' ),
+                    'description' => __( 'Co-worker is person who works under a project.', 'wedevs-project-manager' ),
                     'status'      => 1,
                     'created_by'  => $user->ID,
                     'updated_by'  => $user->ID,

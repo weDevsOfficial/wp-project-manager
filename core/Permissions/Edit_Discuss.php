@@ -27,6 +27,6 @@ class Edit_Discuss extends Abstract_Permission {
 
         }
 
-        return new \WP_Error( 'Discuss', __( "You have no permission.", "pm" ) );
+        return new \WP_Error( 'Discuss', __( "You have no permission.", "wedevs-project-manager" ) );
     }
 }

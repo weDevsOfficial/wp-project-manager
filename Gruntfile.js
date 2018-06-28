@@ -63,6 +63,18 @@ module.exports = function(grunt) {
             }
         },
 
+        addtextdomain: {
+            options: {
+                textdomain: 'wedevs-project-manager',
+            },
+            update_all_domains: {
+                options: {
+                    updateDomains: true
+                },
+                src: [ '*.php', '**/*.php', '!node_modules/**', '!php-tests/**', '!bin/**', '!build/**', '!vendor/**', '!assets/**', '!views/src/**' ]
+            }
+        },
+
         run: {
             options: {},
 
@@ -80,7 +92,7 @@ module.exports = function(grunt) {
                 cmd: 'composer',
                 args: ['dumpautoload', '-o']
             },
-            
+
         }
     });
 
