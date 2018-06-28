@@ -19,9 +19,9 @@ class Frontend {
      * Sets up all the appropriate hooks and actions
      * within our plugin.
      */
-	public function __construct() {	
+	public function __construct() {
 		$this->includes();
-		
+
 		// instantiate classes
         $this->instantiate();
 
@@ -42,7 +42,7 @@ class Frontend {
 
 	/**
 	 * All actions
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init_actions() {
@@ -54,8 +54,10 @@ class Frontend {
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
-		add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
-		if ( class_exists('WeDevs_CPM_Pro') ) {
+        add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
+		add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
+
+        if ( class_exists('WeDevs_CPM_Pro') ) {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
 		}
 	}
@@ -86,7 +88,7 @@ class Frontend {
 		// cli command
         if ( defined('WP_CLI') && WP_CLI ) {
         	$file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
-        	
+
         	//if ( file_exists( $file ) ) {
         		new Commands();
         	//}
@@ -95,7 +97,7 @@ class Frontend {
 
 	/**
 	 * All filters
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init_filters() {
@@ -119,7 +121,7 @@ class Frontend {
         if ( array_key_exists( $mime, $exist_mime ) ) {
             return  $icon = $folder . $exist_mime[$mime];
         }
-       
+
 	    $icon = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
 
 	    return $icon;
@@ -143,7 +145,7 @@ function project_text_editor($config) {
 
 	/**
 	 * instantiate classes
-	 * 
+	 *
 	 * @return void
 	 */
 	public function instantiate() {
@@ -262,22 +264,39 @@ function project_text_editor($config) {
 		 <?php
 	}
 
-	    /**
+	/**
      * Plugin action links
      *
      * @param  array  $links
-     *
-     * @since  2.4
      *
      * @return array
      */
     function plugin_action_links( $links ) {
     	global $wedevs_pm_pro;
+
         if ( !$wedevs_pm_pro  ) {
             $links[] = '<a href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" style="color: #389e38;font-weight: bold;" target="_blank">' . __( 'Get Pro', 'pm' ) . '</a>';
         }
+
         $links[] = '<a href="' . admin_url( 'admin.php?page=pm_projects#/settings' ) . '">' . __( 'Settings', 'pm' ) . '</a>';
         $links[] = '<a href="https://wedevs.com/docs/wp-project-manager/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" target="_blank">' . __( 'Documentation', 'pm' ) . '</a>';
+
         return $links;
+    }
+
+    /**
+     * Upgrade notice
+     *
+     * @param  stdClass $current
+     * @param  stdClass $new
+     *
+     * @return void
+     */
+    public function upgrade_notice( $current, $new_version ) {
+
+        if ( isset( $new_version->upgrade_notice ) && strlen( trim( $new_version->upgrade_notice ) ) > 0 ) {
+            echo '<div style="background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px">';
+            echo $new_version->upgrade_notice . '</div>';
+        }
     }
 }
