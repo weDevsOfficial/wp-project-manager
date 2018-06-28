@@ -90,8 +90,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-concat' );
     grunt.loadNpmTasks( 'grunt-contrib-jshint' );
     grunt.loadNpmTasks( 'grunt-wp-i18n' );
-    grunt.loadNpmTasks( 'grunt-text-replace' );
-    grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+    //grunt.loadNpmTasks( 'grunt-text-replace' );
+    //grunt.loadNpmTasks( 'grunt-contrib-uglify' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
@@ -100,10 +100,6 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask( 'release', [
-        'concat'
-    ]);
-
-    grunt.registerTask( 'zip', [
         'clean',
         'run',
         'copy',

@@ -956,6 +956,17 @@ export default {
             document.execCommand("copy");
             $temp.remove();
         },
+
+        deleteSettings (key, pre_define ) {
+            var pre_define   = pre_define || false,
+                settings  = PM_Vars.settings;
+
+            if ( typeof PM_Vars.settings[key] === 'undefined' ) {
+                return pre_define;
+            }
+
+            return PM_Vars.settings[key];
+        }
     }
 };
 

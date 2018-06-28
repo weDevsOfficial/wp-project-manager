@@ -144,6 +144,7 @@ export default {
     },
     methods: {
         saveSelfSettings () {
+
             this.show_spinner = true;
             self = this;
             var data = {
@@ -157,7 +158,7 @@ export default {
                 project_create_capability: this.project_create_capability
             };
             data = pm_apply_filters('setting_data', data);
-
+            
             this.saveSettings(data, false, function(res) {
                 res.forEach( function( item ) {
                     PM_Vars.settings[item.key] =  item.value;
