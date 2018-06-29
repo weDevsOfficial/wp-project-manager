@@ -112,9 +112,13 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask( 'release', [
+        'run',
+    ]);
+
+    grunt.registerTask( 'zip', [
         'clean',
         'run',
         'copy',
         'compress'
-    ])
+    ]);
 };
