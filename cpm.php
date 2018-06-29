@@ -16,10 +16,3 @@ define ('PM_BASENAME', plugin_basename(__FILE__));
 
 require __DIR__.'/bootstrap/start.php';
 
-register_activation_hook( __FILE__, 'pm_activate' );
-
-function pm_activate () {
-	new PM_Create_Table;
-	(new \RoleTableSeeder())->run();
-}
-// register_deactivation_hook( __FILE__, 'pm_deactive' );
