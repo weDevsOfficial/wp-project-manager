@@ -46,6 +46,7 @@ class Frontend {
 	 * @return void
 	 */
 	public function init_actions() {
+        add_action( 'plugins_loaded', array( $this, 'seed' ), 10 );
 		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
 		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
@@ -61,6 +62,10 @@ class Frontend {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
 		}
 	}
+
+    function seed() {
+        Upgrade::create_tables();
+    }
 
 	function pm_content_filter() {
 		add_filter( 'pm_get_content', 'wptexturize' );

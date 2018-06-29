@@ -2,7 +2,14 @@
 
 use WeDevs\PM\Core\Config\Config;
 
-function config( $key = null ) {
+if ( ! function_exists( 'config' ) ) {
+		
+	function config( $key = null ) {
+	    return Config::get( $key );
+	}
+}
+
+function pm_config( $key = null ) {
     return Config::get( $key );
 }
 

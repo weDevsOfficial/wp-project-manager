@@ -16,6 +16,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Activity\Models\Activity;
+use PM_Create_Table;
 
 /**
 *   Upgrade project manager 2.0     
@@ -360,6 +361,8 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return [type] [description]
      */
     public function upgrade_init ( ) {
+        new PM_Create_Table;
+        (new \RoleTableSeeder())->run();
         //create pro table 
         $this->create_gantt_chart_table();
         $this->create_invoice_table();
