@@ -20,3 +20,4 @@ phpunit.xml.dist
 composer.lock
 bin
 tmp
+.editorconfig

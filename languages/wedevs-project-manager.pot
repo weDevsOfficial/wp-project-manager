@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 2.0\n"
+"Project-Id-Version: WP Project Manager 2.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-06-28 12:37:31+00:00\n"
+"POT-Creation-Date: 2018-06-29 06:28:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,15 +14,14 @@ msgstr ""
 "X-Generator: wp-vue-i18n 1.1.1\n"
 
 #: build/class/validator.php:66 build/class/validator.php:101
-#: class/validator.php:66 class/validator.php:101
 msgid " is required."
 msgstr ""
 
-#: build/class/validator.php:110 class/validator.php:110
+#: build/class/validator.php:110
 msgid " is email field."
 msgstr ""
 
-#: build/class/validator.php:122 class/validator.php:122
+#: build/class/validator.php:122
 msgid " is a date field and should be formated as Y-m-d."
 msgstr ""
 
@@ -38,7 +37,6 @@ msgstr ""
 #: core/Notifications/Emails/New_Comment_Notification.php:53
 #: core/Notifications/Emails/Update_Comment_Notification.php:52
 #: views/emails/html/new-message.php:39 views/emails/mention.php:13
-#: views/emails/update-comment.php:14
 msgid "Message"
 msgstr ""
 
@@ -48,8 +46,7 @@ msgstr ""
 #: build/views/js-templates/list-corner-menu.php:4
 #: core/Notifications/Emails/New_Comment_Notification.php:58
 #: core/Notifications/Emails/Update_Comment_Notification.php:55
-#: views/emails/mention.php:20 views/emails/update-comment.php:21
-#: views/js-templates/list-corner-menu.php:4
+#: views/emails/mention.php:20
 msgid "Task List"
 msgstr ""
 
@@ -60,7 +57,7 @@ msgstr ""
 #: core/Notifications/Emails/New_Comment_Notification.php:63
 #: core/Notifications/Emails/Update_Comment_Notification.php:58
 #: views/assets/src/components/project-overview/directive.js:10
-#: views/emails/mention.php:25 views/emails/update-comment.php:26
+#: views/emails/mention.php:25
 msgid "Task"
 msgstr ""
 
@@ -142,21 +139,21 @@ msgstr ""
 msgid "You have no permission to create project."
 msgstr ""
 
-#: build/core/Upgrades/Upgrade.php:115 core/Upgrades/Upgrade.php:115
+#: build/core/Upgrades/Upgrade.php:115 core/Upgrades/Upgrade.php:136
 msgid ""
 "<strong>WP Project Manager Data Update Required</strong> &#8211; Please "
 "click the button below to update to the latest version."
 msgstr ""
 
-#: build/core/Upgrades/Upgrade.php:118 core/Upgrades/Upgrade.php:118
+#: build/core/Upgrades/Upgrade.php:118 core/Upgrades/Upgrade.php:139
 msgid "Run the Update"
 msgstr ""
 
-#: build/core/Upgrades/Upgrade.php:119 core/Upgrades/Upgrade.php:119
+#: build/core/Upgrades/Upgrade.php:119 core/Upgrades/Upgrade.php:140
 msgid "Read More"
 msgstr ""
 
-#: build/core/Upgrades/Upgrade.php:127 core/Upgrades/Upgrade.php:127
+#: build/core/Upgrades/Upgrade.php:127 core/Upgrades/Upgrade.php:148
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
@@ -166,32 +163,32 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: build/core/WP/Frontend.php:134 core/WP/Frontend.php:134
+#: build/core/WP/Frontend.php:134 core/WP/Frontend.php:139
 msgid "Every %d Minutes PM schedule"
 msgstr ""
 
-#: build/core/WP/Frontend.php:161 core/WP/Frontend.php:161
+#: build/core/WP/Frontend.php:161 core/WP/Frontend.php:166
 msgid "<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>"
 msgstr ""
 
-#: build/core/WP/Frontend.php:162 core/WP/Frontend.php:162
+#: build/core/WP/Frontend.php:162 core/WP/Frontend.php:167
 msgid "<p>To migrate version 2.0, Please read mmigration docs </p>"
 msgstr ""
 
-#: build/core/WP/Frontend.php:171 core/WP/Frontend.php:171
+#: build/core/WP/Frontend.php:171 core/WP/Frontend.php:176
 msgid "Read Docs"
 msgstr ""
 
-#: build/core/WP/Frontend.php:278 core/WP/Frontend.php:278
+#: build/core/WP/Frontend.php:278 core/WP/Frontend.php:283
 msgid "Get Pro"
 msgstr ""
 
 #: build/core/WP/Frontend.php:281 build/core/WP/Menu.php:36
-#: core/WP/Frontend.php:281 core/WP/Menu.php:36
+#: core/WP/Frontend.php:286 core/WP/Menu.php:36
 msgid "Settings"
 msgstr ""
 
-#: build/core/WP/Frontend.php:282 core/WP/Frontend.php:282
+#: build/core/WP/Frontend.php:282 core/WP/Frontend.php:287
 msgid "Documentation"
 msgstr ""
 
@@ -242,19 +239,15 @@ msgid "Co-worker is person who works under a project."
 msgstr ""
 
 #: build/includes/lib/class-weforms-upsell.php:77
-#: includes/lib/class-weforms-upsell.php:77
 msgid "Install Now"
 msgstr ""
 
 #: build/includes/lib/class-weforms-upsell.php:80
 #: build/includes/lib/class-weforms-upsell.php:81
-#: includes/lib/class-weforms-upsell.php:80
-#: includes/lib/class-weforms-upsell.php:81
 msgid "Dismiss this notice."
 msgstr ""
 
 #: build/includes/lib/class-weforms-upsell.php:353
-#: includes/lib/class-weforms-upsell.php:353
 msgid "You don't have permission to install the plugins"
 msgstr ""
 
@@ -290,7 +283,6 @@ msgstr ""
 #: build/views/js-templates/task-single.php:180 views/assets/js/library.js:1
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/single-task.vue:295
-#: views/js-templates/task-single.php:180
 msgid "Update Description"
 msgstr ""
 
@@ -302,8 +294,6 @@ msgstr ""
 #: views/assets/src/components/project-discussions/comment-form.vue:39
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:48
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:64
-#: views/js-templates/list-comment-form.php:35
-#: views/js-templates/task-comment-form.php:35
 msgid "Add New Comment"
 msgstr ""
 
@@ -317,9 +307,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/comment-form.vue:40
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:49
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:65
-#: views/emails/html/update-comment.php:12 views/emails/update-comment.php:40
-#: views/js-templates/list-comment-form.php:36
-#: views/js-templates/task-comment-form.php:36
+#: views/emails/html/update-comment.php:12
 msgid "Update Comment"
 msgstr ""
 
@@ -340,7 +328,6 @@ msgstr ""
 #: views/assets/src/components/project-overview/overview.vue:68
 #: views/assets/src/components/project-task-lists/lists.vue:111
 #: views/assets/src/components/project-task-lists/single-task.vue:174
-#: views/js-templates/task-single.php:169 views/js-templates/todo-list.php:51
 msgid "Comments"
 msgstr ""
 
@@ -349,7 +336,6 @@ msgstr ""
 #: build/views/js-templates/task-single.php:193 views/assets/js/library.js:1
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/single-task.vue:203
-#: views/js-templates/task-single.php:193
 msgid "Shift+Enter for line break"
 msgstr ""
 
@@ -359,8 +345,6 @@ msgstr ""
 #: build/views/js-templates/task-comment-form.php:14
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/common/notify-user.vue:4
-#: views/js-templates/list-comment-form.php:13
-#: views/js-templates/task-comment-form.php:14
 msgid "Notify users"
 msgstr ""
 
@@ -371,8 +355,6 @@ msgstr ""
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/categories/categories.vue:69
 #: views/assets/src/components/common/notify-user.vue:7
-#: views/js-templates/list-comment-form.php:16
-#: views/js-templates/task-comment-form.php:17
 msgid "Select all"
 msgstr ""
 
@@ -381,7 +363,6 @@ msgstr ""
 #: build/views/js-templates/file-uploader.php:9 views/assets/js/library.js:1
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/common/file-uploader.vue:10
-#: views/js-templates/file-uploader.php:9
 msgid "Delete File"
 msgstr ""
 
@@ -411,7 +392,6 @@ msgstr ""
 #: build/views/js-templates/task-comments.php:3 views/assets/js/library.js:1
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/task-comments.vue:4
-#: views/js-templates/task-comments.php:3
 msgid "Discuss this task"
 msgstr ""
 
@@ -476,8 +456,6 @@ msgstr ""
 #: views/assets/src/components/categories/categories.vue:79
 #: views/assets/src/components/categories/categories.vue:136
 #: views/assets/src/components/categories/edit-category-form.vue:14
-#: views/js-templates/task-description.php:2
-#: views/js-templates/task-description.php:5
 msgid "Description"
 msgstr ""
 
@@ -524,8 +502,6 @@ msgstr ""
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:18
 #: views/assets/src/components/project-task-lists/new-task-form.vue:48
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
-#: views/js-templates/new-task-form.php:53
-#: views/js-templates/todo-list-form.php:29
 msgid "Cancel"
 msgstr ""
 
@@ -549,7 +525,6 @@ msgstr ""
 #: views/assets/src/components/common/header.vue:17
 #: views/assets/src/components/project-lists/project-header-menu.vue:13
 #: views/assets/src/components/project-task-lists/lists.vue:92
-#: views/js-templates/todo-list.php:40
 msgid "Completed"
 msgstr ""
 
@@ -557,7 +532,6 @@ msgstr ""
 #: build/views/js-templates/todo-list.php:46
 #: views/assets/src/components/common/header.vue:18
 #: views/assets/src/components/project-task-lists/lists.vue:102
-#: views/js-templates/todo-list.php:46
 msgid "Incomplete"
 msgstr ""
 
@@ -609,7 +583,6 @@ msgstr ""
 #: views/assets/src/components/project-milestones/upcoming-milestones.vue:32
 #: views/assets/src/components/project-overview/overview.vue:46
 #: views/assets/src/components/project-task-lists/default-list-page.vue:4
-#: views/js-templates/blanktemplate/todolist.php:3
 msgid "Task Lists"
 msgstr ""
 
@@ -619,7 +592,6 @@ msgstr ""
 #: views/assets/src/components/project-lists/project-summary.vue:78
 #: views/assets/src/components/project-milestones/milestones.vue:19
 #: views/assets/src/components/project-overview/overview.vue:97
-#: views/js-templates/blanktemplate/milestone.php:3
 msgid "Milestones"
 msgstr ""
 
@@ -650,7 +622,6 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:51
 #: build/views/js-templates/blanktemplate/discussion.php:6
 #: views/assets/src/components/project-discussions/discussions.vue:23
-#: views/js-templates/blanktemplate/discussion.php:6
 msgid ""
 "Use our built in discussion panel to create an open discussion, a group "
 "discussion or a private conversation. Note that the Admin can always "
@@ -661,7 +632,6 @@ msgstr ""
 #: build/views/js-templates/blanktemplate/discussion.php:15
 #: views/assets/src/components/project-discussions/discussions.vue:27
 #: views/assets/src/components/project-discussions/discussions.vue:54
-#: views/js-templates/blanktemplate/discussion.php:15
 msgid "Add New Discussion"
 msgstr ""
 
@@ -669,42 +639,36 @@ msgstr ""
 #: build/views/js-templates/blanktemplate/discussion.php:18
 #: views/assets/src/components/project-discussions/discussions.vue:32
 #: views/assets/src/components/project-discussions/discussions.vue:59
-#: views/js-templates/blanktemplate/discussion.php:18
 msgid "Create a new message"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:54
 #: build/views/js-templates/blanktemplate/discussion.php:25
 #: views/assets/src/components/project-discussions/discussions.vue:38
-#: views/js-templates/blanktemplate/discussion.php:25
 msgid "When to use Discussions?"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:55
 #: build/views/js-templates/blanktemplate/discussion.php:28
 #: views/assets/src/components/project-discussions/discussions.vue:41
-#: views/js-templates/blanktemplate/discussion.php:28
 msgid "To discuss a work matter privately."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:56
 #: build/views/js-templates/blanktemplate/discussion.php:29
 #: views/assets/src/components/project-discussions/discussions.vue:42
-#: views/js-templates/blanktemplate/discussion.php:29
 msgid "To exchange files privately."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:57
 #: build/views/js-templates/blanktemplate/discussion.php:30
 #: views/assets/src/components/project-discussions/discussions.vue:43
-#: views/js-templates/blanktemplate/discussion.php:30
 msgid "To discuss in a group."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:58
 #: build/views/js-templates/blanktemplate/discussion.php:31
 #: views/assets/src/components/project-discussions/discussions.vue:44
-#: views/js-templates/blanktemplate/discussion.php:31
 msgid "To create an open discussion visible to all."
 msgstr ""
 
@@ -728,8 +692,6 @@ msgstr ""
 #: build/views/js-templates/todo-list-form.php:16
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:16
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:16
-#: views/js-templates/milestone-dropdown.php:5
-#: views/js-templates/todo-list-form.php:16
 msgid "- Milestone -"
 msgstr ""
 
@@ -923,7 +885,6 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:100
 #: build/views/js-templates/blanktemplate/milestone.php:6
 #: views/assets/src/components/project-milestones/milestones.vue:21
-#: views/js-templates/blanktemplate/milestone.php:6
 msgid ""
 "Create a lifecycle of your projects using milestones. Time mark the "
 "different stages of your project with multiple milestones and also it will "
@@ -936,35 +897,30 @@ msgstr ""
 #: views/assets/src/components/project-milestones/milestones.vue:24
 #: views/assets/src/components/project-milestones/milestones.vue:52
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:46
-#: views/js-templates/blanktemplate/milestone.php:12
 msgid "Add Milestone"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:102
 #: build/views/js-templates/blanktemplate/milestone.php:21
 #: views/assets/src/components/project-milestones/milestones.vue:37
-#: views/js-templates/blanktemplate/milestone.php:21
 msgid "When to use Milestones?"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:103
 #: build/views/js-templates/blanktemplate/milestone.php:24
 #: views/assets/src/components/project-milestones/milestones.vue:40
-#: views/js-templates/blanktemplate/milestone.php:24
 msgid "To set a target date for the project overall."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:104
 #: build/views/js-templates/blanktemplate/milestone.php:25
 #: views/assets/src/components/project-milestones/milestones.vue:41
-#: views/js-templates/blanktemplate/milestone.php:25
 msgid "To divide a project into several development-time phases."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:105
 #: build/views/js-templates/blanktemplate/milestone.php:26
 #: views/assets/src/components/project-milestones/milestones.vue:42
-#: views/js-templates/blanktemplate/milestone.php:26
 msgid "To coordinate projects and assigned persons timely."
 msgstr ""
 
@@ -973,8 +929,6 @@ msgstr ""
 #: build/views/js-templates/task-end-date.php:4
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
 #: views/assets/src/components/project-task-lists/new-task-form.vue:102
-#: views/js-templates/new-task-form.php:22
-#: views/js-templates/task-end-date.php:4
 msgid "Due Date"
 msgstr ""
 
@@ -1016,7 +970,6 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:115
 #: build/views/js-templates/blanktemplate/todolist.php:6
 #: views/assets/src/components/project-task-lists/default-list-page.vue:6
-#: views/js-templates/blanktemplate/todolist.php:6
 msgid ""
 "You can list all your Tasks in a single discussion using a Task list. Use "
 "these lists to divide a project into several sectors, assign co-workers and "
@@ -1026,35 +979,30 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:116
 #: build/views/js-templates/blanktemplate/todolist.php:22
 #: views/assets/src/components/project-task-lists/default-list-page.vue:14
-#: views/js-templates/blanktemplate/todolist.php:22
 msgid "When to use Task Lists?"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:117
 #: build/views/js-templates/blanktemplate/todolist.php:25
 #: views/assets/src/components/project-task-lists/default-list-page.vue:17
-#: views/js-templates/blanktemplate/todolist.php:25
 msgid "To partition a project internals."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:118
 #: build/views/js-templates/blanktemplate/todolist.php:26
 #: views/assets/src/components/project-task-lists/default-list-page.vue:18
-#: views/js-templates/blanktemplate/todolist.php:26
 msgid "To mark milestone points."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:119
 #: build/views/js-templates/blanktemplate/todolist.php:27
 #: views/assets/src/components/project-task-lists/default-list-page.vue:19
-#: views/js-templates/blanktemplate/todolist.php:27
 msgid "To assign people to tasks."
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:120
 #: build/views/js-templates/list-comments.php:3
 #: views/assets/src/components/project-task-lists/list-comments.vue:4
-#: views/js-templates/list-comments.php:3
 msgid "Discuss this task list"
 msgstr ""
 
@@ -1063,7 +1011,6 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/list-tasks.vue:9
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
-#: views/js-templates/tasks.php:90 views/js-templates/tasks.php:303
 msgid "No tasks found."
 msgstr ""
 
@@ -1074,8 +1021,6 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/lists.vue:77
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
-#: views/js-templates/tasks.php:92 views/js-templates/tasks.php:183
-#: views/js-templates/tasks.php:309 views/js-templates/tasks.php:382
 msgid "More Tasks"
 msgstr ""
 
@@ -1088,14 +1033,12 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:124
 #: build/views/js-templates/new-task-form.php:5
 #: views/assets/src/components/project-task-lists/new-task-form.vue:99
-#: views/js-templates/new-task-form.php:5
 msgid "Add a new task"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:125
 #: build/views/js-templates/new-task-form.php:9
 #: views/assets/src/components/project-task-lists/new-task-form.vue:100
-#: views/js-templates/new-task-form.php:9
 msgid "Add extra details about this task (optional)"
 msgstr ""
 
@@ -1104,9 +1047,6 @@ msgstr ""
 #: build/views/js-templates/task-start-date.php:4
 #: build/views/js-templates/task-start-date.php:8
 #: views/assets/src/components/project-task-lists/new-task-form.vue:101
-#: views/js-templates/new-task-form.php:15
-#: views/js-templates/task-start-date.php:4
-#: views/js-templates/task-start-date.php:8
 msgid "Start Date"
 msgstr ""
 
@@ -1116,17 +1056,12 @@ msgstr ""
 #: build/views/js-templates/task-single.php:96
 #: build/views/js-templates/todo-lists-drop-down.php:20
 #: views/assets/src/components/project-task-lists/new-task-form.vue:103
-#: views/js-templates/assign-user.php:23
-#: views/js-templates/new-task-form.php:38
-#: views/js-templates/task-single.php:96
-#: views/js-templates/todo-lists-drop-down.php:20
 msgid "Select User"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:128
 #: build/views/js-templates/new-task-form.php:51
 #: views/assets/src/components/project-task-lists/new-task-form.vue:104
-#: views/js-templates/new-task-form.php:51
 msgid "Update Task"
 msgstr ""
 
@@ -1138,14 +1073,12 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:130
 #: build/views/js-templates/todo-list-form.php:6
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:71
-#: views/js-templates/todo-list-form.php:6
 msgid "Task list name"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:131
 #: build/views/js-templates/todo-list-form.php:10
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:72
-#: views/js-templates/todo-list-form.php:10
 msgid "Task list details"
 msgstr ""
 
@@ -1157,21 +1090,18 @@ msgstr ""
 #: build/languages/wedevs-project-manager.php:134
 #: build/views/js-templates/tasks.php:3
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
-#: views/js-templates/tasks.php:3
 msgid "Incomplete Tasks"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:135
 #: build/views/js-templates/tasks.php:99
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
-#: views/js-templates/tasks.php:99
 msgid "Completed Tasks"
 msgstr ""
 
 #: build/languages/wedevs-project-manager.php:136
 #: build/views/js-templates/todo-list-single.php:16
 #: views/assets/src/components/project-task-lists/single-list.vue:29
-#: views/js-templates/todo-list-single.php:16
 msgid "Back to Task Lists"
 msgstr ""
 
@@ -1863,7 +1793,6 @@ msgstr ""
 #: build/views/emails/html/update-comment.php:19
 #: build/views/emails/update-comment.php:47
 #: views/emails/html/new-comment.php:19 views/emails/html/update-comment.php:19
-#: views/emails/update-comment.php:47
 msgid "Commented By"
 msgstr ""
 
@@ -1873,8 +1802,6 @@ msgstr ""
 #: build/views/js-templates/list-comments.php:13
 #: build/views/js-templates/task-comments.php:13
 #: views/emails/html/new-comment.php:23 views/emails/html/update-comment.php:23
-#: views/emails/update-comment.php:51 views/js-templates/list-comments.php:13
-#: views/js-templates/task-comments.php:13
 msgid "On"
 msgstr ""
 
@@ -1882,7 +1809,7 @@ msgstr ""
 #: build/views/emails/html/update-comment.php:38
 #: build/views/emails/mention.php:47 build/views/emails/update-comment.php:69
 #: views/emails/html/new-comment.php:38 views/emails/html/update-comment.php:38
-#: views/emails/mention.php:47 views/emails/update-comment.php:69
+#: views/emails/mention.php:47
 msgid "View Comment"
 msgstr ""
 
@@ -1971,45 +1898,40 @@ msgstr ""
 msgid "Please click the link bellow to view the comment."
 msgstr ""
 
-#: build/views/emails/update-comment.php:59 views/emails/update-comment.php:59
+#: build/views/emails/update-comment.php:59
 msgid "Author:"
 msgstr ""
 
-#: build/views/emails/update-comment.php:60 views/emails/update-comment.php:60
+#: build/views/emails/update-comment.php:60
 msgid "Permalink:"
 msgstr ""
 
-#: build/views/emails/update-comment.php:60 views/emails/update-comment.php:60
+#: build/views/emails/update-comment.php:60
 msgid "Comment link"
 msgstr ""
 
-#: build/views/emails/update-comment.php:61 views/emails/update-comment.php:61
+#: build/views/emails/update-comment.php:61
 msgid "Comment:"
 msgstr ""
 
 #: build/views/js-templates/assign-user.php:5
-#: views/js-templates/assign-user.php:5
 msgid "Assign User"
 msgstr ""
 
 #: build/views/js-templates/assign-user.php:34
 #: build/views/js-templates/task-single.php:107
-#: views/js-templates/assign-user.php:34 views/js-templates/task-single.php:107
 msgid "No Man’s Sky"
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/discussion.php:3
-#: views/js-templates/blanktemplate/discussion.php:3
 msgid "Discussion"
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:3
-#: views/js-templates/blanktemplate/files.php:3
 msgid "Documents & Files"
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:6
-#: views/js-templates/blanktemplate/files.php:6
 msgid ""
 "Access all the files from all discussions in one place. Store your project "
 "related files, docs, images or any other files on-site. Makes sharing and "
@@ -2017,105 +1939,81 @@ msgid ""
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:12
-#: views/js-templates/blanktemplate/files.php:12
 msgid "Benefits of Documents"
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:15
-#: views/js-templates/blanktemplate/files.php:15
 msgid "Integrate easily with projects or tasks."
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:16
-#: views/js-templates/blanktemplate/files.php:16
 msgid "Shared storage keeps all data secure."
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/files.php:17
-#: views/js-templates/blanktemplate/files.php:17
 msgid "File sharing privacy."
 msgstr ""
 
 #: build/views/js-templates/blanktemplate/todolist.php:10
-#: views/js-templates/blanktemplate/todolist.php:10
 msgid "Add New Task List"
 msgstr ""
 
 #: build/views/js-templates/file-uploader.php:15
-#: views/js-templates/file-uploader.php:15
 msgid "To attach, %sselect files%s from your computer."
 msgstr ""
 
 #: build/views/js-templates/new-task-button.php:2
 #: build/views/js-templates/new-task-form.php:52
-#: views/js-templates/new-task-button.php:2
-#: views/js-templates/new-task-form.php:52
 msgid "New Task"
 msgstr ""
 
 #: build/views/js-templates/single-new-task-field.php:3
-#: views/js-templates/single-new-task-field.php:3
 msgid "Add New Task"
 msgstr ""
 
 #: build/views/js-templates/task-single.php:62
-#: views/js-templates/task-single.php:62
 msgid "Make public"
 msgstr ""
 
 #: build/views/js-templates/task-single.php:63
-#: views/js-templates/task-single.php:63
 msgid "Make private"
 msgstr ""
 
 #: build/views/js-templates/task-single.php:64
-#: views/js-templates/task-single.php:64
 msgid "Edit Task Title"
 msgstr ""
 
 #: build/views/js-templates/task-single.php:126
 #: build/views/js-templates/task-single.php:132
 #: build/views/js-templates/task-single.php:152
-#: views/js-templates/task-single.php:126
-#: views/js-templates/task-single.php:132
-#: views/js-templates/task-single.php:152
 msgid "Edit Task Description"
 msgstr ""
 
 #: build/views/js-templates/tasks.php:180
-#: build/views/js-templates/tasks.php:380 views/js-templates/tasks.php:180
-#: views/js-templates/tasks.php:380
+#: build/views/js-templates/tasks.php:380
 msgid "No completed tasks."
 msgstr ""
 
 #: build/views/js-templates/todo-list-single.php:29
 #: build/views/js-templates/todo-list.php:14
-#: views/js-templates/todo-list-single.php:29
-#: views/js-templates/todo-list.php:14
 msgid "Edit this List"
 msgstr ""
 
 #: build/views/js-templates/todo-list-single.php:30
 #: build/views/js-templates/todo-list.php:15
-#: views/js-templates/todo-list-single.php:30
-#: views/js-templates/todo-list.php:15
 msgid "Delete this List"
 msgstr ""
 
 #: build/views/js-templates/todo-list-single.php:30
 #: build/views/js-templates/todo-list.php:15
-#: views/js-templates/todo-list-single.php:30
-#: views/js-templates/todo-list.php:15
 msgid "Are you sure to delete this task list?"
 msgstr ""
 
 #: build/views/js-templates/todo-lists-drop-down.php:5
-#: views/js-templates/todo-lists-drop-down.php:5
 msgid "Lists"
 msgstr ""
 
 #: build/views/js-templates/todo-lists-drop-down.php:31
-#: views/js-templates/todo-lists-drop-down.php:31
 msgid "Select Task List"
 msgstr ""
 
