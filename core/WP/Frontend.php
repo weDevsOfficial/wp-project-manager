@@ -32,7 +32,7 @@ class Frontend {
         $this->init_filters();
 
         //Execute only plugin install time
-		// register_activation_hook( PM_FILE, array( $this, 'install' ) );
+		register_activation_hook( PM_FILE, array( $this, 'install' ) );
 	}
 
 	public function install() {
@@ -65,15 +65,6 @@ class Frontend {
 
     function seed() {
         Upgrade::create_tables();
-        // global $wpdb;
-        // $table_name = $wpdb->prefix . 'pm_roles';
-
-        // if(!$wpdb->get_var("SHOW TABLES LIKE '$table_name'")) {
-        //     new PM_Create_Table;
-        //     (new \RoleTableSeeder())->run();
-        //     wp_redirect(admin_url('admin.php?page=pm_projects'));
-        //     exit();
-        // }
     }
 
 	function pm_content_filter() {
