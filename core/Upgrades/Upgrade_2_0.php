@@ -524,20 +524,20 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     public function upgrade_projects( $project_id ) {
 
-        $project_ids = get_site_option( "pm_db_migration", [] );
+        $project_ids = get_option( "pm_db_migration", [] );
         
         if ( array_key_exists( $project_id, $project_ids ) ) {
             return false;
         }
 
         $project_ids[$project_id] = 0;
-        update_site_option("pm_db_migration", $project_ids);
+        update_option("pm_db_migration", $project_ids);
 
         $project = $this->create_project( $project_id ); 
         
         if ( $project ) {
             $project_ids[$project_id] = $project->id;
-            update_site_option( "pm_db_migration", $project_ids );
+            update_option( "pm_db_migration", $project_ids );
         }
     }
 
@@ -1661,13 +1661,13 @@ class Upgrade_2_0 extends WP_Background_Process
     }
 
     function set_settings() {
-        $genral          = get_site_option( 'cpm_general', array() );
-        $mail            = get_site_option( 'cpm_mails', array() );
-        $page            = get_site_option( 'cpm_page', array() );
-        $woo_projects    = get_site_option( 'cpmwoo_settings', array() );
-        $cpm_integration = get_site_option( 'cpm_integration', array() );
-        $projects        = get_site_option( 'pm_upgrade', array() );
-        $invoice         = get_site_option( 'cpm_invoice', array() );
+        $genral          = get_option( 'cpm_general', array() );
+        $mail            = get_option( 'cpm_mails', array() );
+        $page            = get_option( 'cpm_page', array() );
+        $woo_projects    = get_option( 'cpmwoo_settings', array() );
+        $cpm_integration = get_option( 'cpm_integration', array() );
+        $projects        = get_option( 'pm_upgrade', array() );
+        $invoice         = get_option( 'cpm_invoice', array() );
         $newSettings     = array();
         $woo_project     = array();
         
@@ -1720,7 +1720,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
 
         if( !empty( $page ) ) {
-            update_site_option( 'pm_pages', $page );
+            update_option( 'pm_pages', $page );
             // $this->set_new_setting( $newSettings, 'project', $page, 'project' );
             // $this->set_new_setting( $newSettings, 'my_task', $page, 'my_task' );
             // $this->set_new_setting( $newSettings, 'calendar', $page, 'calendar' );
@@ -1781,7 +1781,7 @@ class Upgrade_2_0 extends WP_Background_Process
         
         $terms_releation = $wpdb->get_results( "SELECT * FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id in({$object})", ARRAY_A );
         
-        $projects = get_site_option( "pm_db_migration", [] );
+        $projects = get_option( "pm_db_migration", [] );
         
     
         foreach ( $terms as $term ) {
