@@ -1,5 +1,6 @@
 <?php
 namespace WeDevs\PM\Core\Upgrades;
+use PM_Create_Table;
 set_time_limit(0);
 class Upgrade {
 
@@ -9,6 +10,16 @@ class Upgrade {
     ];
 
     public static $instance = null;
+
+    private static $_instance;
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
 
     /**
      * Binding all events
@@ -23,6 +34,16 @@ class Upgrade {
         add_action( 'admin_init', array( $this, 'do_updates' ) );
         add_action( 'wp_ajax_do_updates', array( $this, 'do_updates' ) );
         add_filter( 'heartbeat_received', array( $this, 'receive_heartbeat' ), 10, 2 );
+    }
+
+    public static function create_tables() {
+        
+        $is_need_update = self::is_needs_update();
+        
+        if (  $is_need_update ) {
+            new PM_Create_Table;
+            (new \RoleTableSeeder())->run();
+        }
     }
 
     public function receive_heartbeat($response, $data) {
@@ -77,7 +98,7 @@ class Upgrade {
      *
      * @return boolean
      */
-    public function is_needs_update() {
+    public static function is_needs_update() {
         $bd_version = get_site_option( 'cpm_db_version' );
         $installed_version = !empty( $bd_version ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
