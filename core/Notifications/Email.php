@@ -135,7 +135,7 @@ class Email {
 
     public function pm_link() {
         if( !$this->link_to_backend() ) {
-             $pages   = get_site_option('pm_pages', []);
+             $pages   = get_option('pm_pages', []);
             $project = isset( $pages['project'] ) ? intval( $pages['project'] ) : '';
 
             if ( $project ) {
