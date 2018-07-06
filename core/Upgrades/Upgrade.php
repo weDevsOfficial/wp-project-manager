@@ -99,8 +99,8 @@ class Upgrade {
      * @return boolean
      */
     public static function is_needs_update() {
-        $bd_version = get_site_option( 'cpm_db_version' );
-        $installed_version = !empty( $bd_version ) ? get_site_option( 'cpm_db_version' ) : get_site_option( 'pm_db_version' );
+        $bd_version = get_option( 'cpm_db_version' );
+        $installed_version = !empty( $bd_version ) ? get_option( 'cpm_db_version' ) : get_option( 'pm_db_version' );
         $updatable_versions = config('app.db_version');
 
         // may be it's the first install

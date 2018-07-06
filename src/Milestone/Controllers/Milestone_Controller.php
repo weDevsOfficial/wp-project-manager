@@ -35,6 +35,10 @@ class Milestone_Controller {
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
         $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
+        
+        if ( $per_page == '-1' ) {
+            $per_page = $milestones->count();
+        }
 
         $milestones = $milestones->paginate( $per_page );
 

@@ -49,6 +49,11 @@ class Task_Controller {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent();
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            
+            if ( $per_page == '-1' ) {
+                $per_page = $tasks->count();
+            }
+            
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->paginate( $per_page );
 
