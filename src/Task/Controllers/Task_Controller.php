@@ -88,7 +88,7 @@ class Task_Controller {
         $assignees     = $request->get_param( 'assignees' );
         $project       = Project::find( $project_id );
         $board         = Board::find( $board_id );
-
+        
         if ( $project ) {
             $task = Task::create( $data );
         }

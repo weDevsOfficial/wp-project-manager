@@ -40,6 +40,9 @@
                     </multiselect>
                 </div>
             </div>
+            <div class="item task-title">
+                <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="__('Estimated hour to complete the task', 'pm')" value="" required="required">
+            </div>
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
@@ -52,6 +55,12 @@
 
     </div>
 </template>
+
+<style>
+    .pm-task-estimation {
+        width: 100%;
+    }
+</style>
 
 <script>
 import date_picker from './date-picker.vue';
@@ -75,7 +84,8 @@ export default {
                     due_date: {},
                     assignees: {
                         data: []
-                    }
+                    },
+                    estimation: ''
                 }
             }
         }
@@ -310,6 +320,7 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     order: this.task.order,
+                    estimation: this.task.estimation
                 },
                 callback: function( res ) {
                     self.show_spinner = false;
