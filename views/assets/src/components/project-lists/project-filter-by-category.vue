@@ -5,7 +5,7 @@
                 <option value="-1">
                    {{ __( '- Project Category -', 'pm' ) }}
                 </option>
-                <option v-for="categorie in categories" :value="categorie.id">
+                <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
                     {{ categorie.title }}
                 </option>
             </select>

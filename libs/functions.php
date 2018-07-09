@@ -162,7 +162,6 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
     ]);
 }
 
-
 function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )

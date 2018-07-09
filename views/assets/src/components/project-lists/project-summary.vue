@@ -3,7 +3,7 @@
 
         <h3 v-if="!projects.length">{{ __( 'No projects found.', 'pm' ) }}</h3>
 
-        <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
+        <article class="pm-project pm-column-gap-left pm-sm-col-12" :key="project.id" v-for="project in projects">
             <router-link 
                 :title="project.title"
                 :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
@@ -117,7 +117,7 @@
 
             <footer class="pm-project-people">
                 <div class="pm-scroll">
-                    <img v-for="user in project.assignees.data" :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">  
+                    <img v-for="user in project.assignees.data" :alt="user.display_name" :key="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                 </div>
             </footer>
 
