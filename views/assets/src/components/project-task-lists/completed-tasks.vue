@@ -3,7 +3,7 @@
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
-                    <input :disabled="can_complete_task(task)" v-model="task.status" @click="doneUndone( )" class="" type="checkbox"  value="" name="" >
+                    <input :disabled="can_complete_task(task)"  @click="doneUndone( )" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         

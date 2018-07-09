@@ -45,7 +45,7 @@
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
-                                            <input :disabled="can_complete_task(task)" v-model="task.status" @click="singleTaskDoneUndone()" class="" type="checkbox">
+                                            <input :disabled="can_complete_task(task)"  @click="singleTaskDoneUndone()" class="" type="checkbox">
                                         </span>
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
