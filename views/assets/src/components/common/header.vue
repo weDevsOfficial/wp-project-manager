@@ -54,7 +54,7 @@
 
         <div class="pm-row pm-project-group">
             <ul v-if="menu.length">
-                <li v-for="item in menu"> 
+                <li v-for="item in menu" :key="item.name">
                     <router-link 
                         :class="item.class"
                         :to="item.route">

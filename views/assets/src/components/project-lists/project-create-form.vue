@@ -11,7 +11,7 @@
                 <!-- v-model="project_cat" -->
                 <select v-model="project_category"  id='project_cat' class='chosen-select'>
                     <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
-                    <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
+                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.title }}</option>
                 </select>
             </div>
 
@@ -26,10 +26,10 @@
                         <td>{{ projectUser.display_name }}</td>
                         <td>
                             <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
-                                <option v-for="role in roles" :value="role.id">{{ role.title }}</option>
+                                <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.title }}</option>
                             </select>
                         </td>
-                      
+
                         <td>
                             <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                 <span class="dashicons dashicons-trash"></span> 
@@ -43,6 +43,8 @@
             <div class="pm-form-item item project-users" v-if="show_role_field">
                 <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="search_user" size="45">
             </div>
+
+            <pm-do-action hook="pm_project_form" :actionData="project"></pm-do-action>
 
             <div class="pm-form-item item project-notify">
                 <label>
@@ -186,6 +188,7 @@
              * @return {[void]} 
              */
             projectFormAction () {
+
                 if ( this.show_spinner ) {
                     return;
                 }
@@ -205,6 +208,7 @@
                         'notify_users': this.project_notify,
                         'assignees': this.formatUsers(this.selectedUsers),
                         'status': this.project.status,
+                        'department_id': this.project.department_id
                     }   
                 }
 
