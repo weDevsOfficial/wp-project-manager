@@ -25,29 +25,7 @@
                                     <p class="description">{{ __( '-1 for unlimited', 'pm' ) }}</p>
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <th scope="row">
-                                    <label for="pm_general[todolist_show]">Task List Style</label>
-                                </th>
-                                <td>
-                                    <fieldset>
-                                        <label for="wpuf-pm_general[todolist_show][pagination]">
-                                            <input type="radio" class="radio" checked="checked">
-                                            Pagination
-                                        </label>
-                                        <br>
-                                         <label for="wpuf-pm_general[todolist_show][load_more]">
-                                            <input type="radio" class="radio" id="wpuf-pm_general[todolist_show][load_more]" name="pm_general[todolist_show]" value="load_more">
-                                            Load More...
-                                        </label>
-                                        <br>
-                                        <label for="wpuf-pm_general[todolist_show][lazy_load]">
-                                            <input type="radio" class="radio" id="wpuf-pm_general[todolist_show][lazy_load]" name="pm_general[todolist_show]" value="lazy_load">Lazy Load
-                                        </label>
-                                        <br>
-                                    </fieldset>
-                                </td>
-                            </tr> -->
+                 
                             <tr>
                                 <th scope="row">
                                     <label for="pm_general[show_todo]">{{ __( 'Task Lists Per Page', 'pm' ) }}</label>
