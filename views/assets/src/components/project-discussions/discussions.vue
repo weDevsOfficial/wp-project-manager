@@ -200,7 +200,7 @@
                 
                 var conditions = {
                     with: 'comments',
-                    per_page: 2,
+                    per_page: 20,
                     page: this.setCurrentPageNumber()
                 };
 
