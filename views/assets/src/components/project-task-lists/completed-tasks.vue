@@ -3,7 +3,7 @@
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
-                    <input :disabled="can_complete_task(task)"  @click="doneUndone( )" class="" type="checkbox"  value="" name="" >
+                    <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         
@@ -134,7 +134,7 @@
 
             doneUndone (){
                 var self = this,
-                 status = !this.task.status ? 1: 0;
+                 status = this.task.status ? 1: 0;
                 var args = {
                     data: {
                         title: this.task.title,

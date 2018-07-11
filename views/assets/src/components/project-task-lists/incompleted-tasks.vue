@@ -4,7 +4,7 @@
         <div v-if="!task.edit_mode" class="pm-todo-content">
             <div class="pm-todo-inside">
                 <div class="pm-col-7">
-                   <input :disabled="can_complete_task(task)"  @click="doneUndone()" type="checkbox"  value="" name="" >
+                   <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         <!-- <router-link 
@@ -162,7 +162,7 @@
             },
             doneUndone (){
                 var self = this,
-                    status = !this.task.status ? 1: 0;
+                    status = this.task.status ? 1: 0;
                 var args = {
                     data: {
                         title: this.task.title,
