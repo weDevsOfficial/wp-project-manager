@@ -1,7 +1,7 @@
 <template>
     <div class="pm-task-comment-wrap">
         
-        <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'pm' ) }}</h3>
+        <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'wedevs-project-manager') }}</h3>
 
         <ul class="pm-comment-wrap" v-if="comments.length">
             <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
@@ -12,13 +12,13 @@
 
                 <div class="pm-comment-container">
                     <div class="pm-comment-meta">
-                        {{__( 'By', 'pm' )}}
+                        {{__( 'By', 'wedevs-project-manager')}}
                         <span class="pm-author">
                             <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 {{ comment.creator.data.display_name }}
                             </a>
                         </span>
-                        <span>{{ __('on', 'pm')}}</span>
+                        <span>{{ __('on', 'wedevs-project-manager')}}</span>
                         <span class="pm-date">
                             <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
                         </span>
@@ -128,7 +128,7 @@
             },
 
             deleteTaskComment (id) {
-                if ( !confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
+                if ( !confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;

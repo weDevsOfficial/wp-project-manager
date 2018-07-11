@@ -13,7 +13,7 @@
             <div class="item milestone">
                 <select v-model="milestone_id">
                     <option value="-1">
-                     {{ __( '- Milestone -', 'pm' ) }}
+                     {{ __( '- Milestone -', 'wedevs-project-manager') }}
                     </option>
                     <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
                       {{ milestone.title }}
@@ -29,7 +29,7 @@
             <div class="submit">
                 <input v-if="!discuss.id" type="submit" name="create_message" id="create_message" class="button-primary" :value="Add_message">
                 <input v-if="discuss.id" type="submit" name="update_message" id="update_message" class="button-primary" :value="update_message">
-                <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{ __( 'Cancel', 'pm' ) }}</a>
+                <a href="" @click.prevent="showHideDiscussForm(false, discuss)" class="message-cancel button-secondary">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>       
             </form>
@@ -52,9 +52,9 @@
       return {
         submit_disabled: false,
         show_spinner: false,
-        Enter_Message_Title: __( 'Enter message title', 'pm' ),
-        Add_message: __( 'Add Message', 'pm' ),
-        update_message: __( 'Update Message', 'pm' ),
+        Enter_Message_Title: __( 'Enter message title', 'wedevs-project-manager'),
+        Add_message: __( 'Add Message', 'wedevs-project-manager'),
+        update_message: __( 'Update Message', 'wedevs-project-manager'),
         content: {
             html: typeof this.discuss.description == 'undefined' ? '' : this.discuss.description,
         },

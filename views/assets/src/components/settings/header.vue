@@ -2,11 +2,11 @@
     <div class="Settings-page-wrapper">
         <h2 class="pm-settings-nav-menu-wrap nav-tab-wrapper">
             <router-link class="nav-tab" :to="{name: 'general'}">
-                {{ __( 'General Settings', 'pm' ) }}
+                {{ __( 'General Settings', 'wedevs-project-manager') }}
             </router-link>
 
             <router-link class="nav-tab" :to="{name: 'email'}">
-                {{ __( 'E-Mail Settings', 'pm' ) }}
+                {{ __( 'E-Mail Settings', 'wedevs-project-manager') }}
             </router-link>
 
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>

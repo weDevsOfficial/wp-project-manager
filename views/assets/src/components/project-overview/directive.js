@@ -6,8 +6,8 @@
  */
 var PM_Overview = {
     chart: function(el, binding, vnode) {
-        var activity = vnode.context.__( 'Activity', 'pm' ),
-            Task = vnode.context.__( 'Task', 'pm' )
+        var activity = vnode.context.__( 'Activity', 'wedevs-project-manager'),
+            Task = vnode.context.__( 'Task', 'wedevs-project-manager')
         var data = {
             labels: PM_Overview.getLabels(vnode.context), //["Oct 05", "Oct 09", "Oct 15"],
             datasets: [

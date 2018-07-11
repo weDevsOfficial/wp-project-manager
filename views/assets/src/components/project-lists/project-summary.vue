@@ -1,7 +1,7 @@
 <template>
     <div class="pm-clearfix">
 
-        <h3 v-if="!projects.length">{{ __( 'No projects found.', 'pm' ) }}</h3>
+        <h3 v-if="!projects.length">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
 
         <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
             <router-link 
@@ -29,7 +29,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_discussion_boards) }}
                             </strong> 
-                                {{ __( 'Discussions', 'pm' ) }}
+                                {{ __( 'Discussions', 'wedevs-project-manager') }}
 
                         </router-link>
                     </li>
@@ -45,7 +45,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_task_lists) }}
                             </strong> 
-                                {{ __( 'Task Lists', 'pm' ) }}
+                                {{ __( 'Task Lists', 'wedevs-project-manager') }}
                         </router-link>
                     </li>
 
@@ -60,7 +60,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_tasks) }}
                             </strong> 
-                                {{ __( 'Tasks', 'pm' ) }}
+                                {{ __( 'Tasks', 'wedevs-project-manager') }}
                         </router-link>
                     </li>
 
@@ -75,7 +75,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_milestones) }}
                             </strong> 
-                                {{ __( 'Milestones', 'pm' ) }}
+                                {{ __( 'Milestones', 'wedevs-project-manager') }}
                         </router-link>
                     </li>   
 
@@ -90,7 +90,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_files) }}
                             </strong> 
-                                {{ __( 'Files', 'pm' ) }}
+                                {{ __( 'Files', 'wedevs-project-manager') }}
                         </router-link>
                     </li>
 
@@ -101,7 +101,7 @@
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 {{ parseInt(project.meta.data.total_comments) }}
                             </strong> 
-                                {{ __( 'Comments', 'pm' ) }}
+                                {{ __( 'Comments', 'wedevs-project-manager') }}
                         </a>
                     </li>
 
@@ -129,19 +129,19 @@
                     <ul v-if="project.settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
-                            <a @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'pm' )">
+                            <a @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>{{ __( 'Delete', 'pm' ) }}</span>
+                                <span>{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                             </a>
                         </li>
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
                                 <span v-if="project.status == 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status == 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
+                                <span v-if="project.status == 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
 
                                 <span v-if="project.status == 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status == 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
+                                <span v-if="project.status == 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
                                 
                             </a>
                         </li>
@@ -162,7 +162,7 @@
                 is_active_settings: false,
                 is_update: false,
                 project: {},
-                project_action: __( 'Project Actions', 'pm' )
+                project_action: __( 'Project Actions', 'wedevs-project-manager')
             }
         },
         computed: {
