@@ -633,7 +633,7 @@ export default {
         },
 
         deleteProject (id) {
-            if ( ! confirm( this.__( 'Are you sure to delete this project?', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure to delete this project?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this;

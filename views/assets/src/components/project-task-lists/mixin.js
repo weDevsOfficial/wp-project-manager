@@ -379,7 +379,7 @@ var PM_TaskList_Mixin = {
          * @return void         
          */
         deleteList ( args ) {
-            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this,
@@ -599,7 +599,7 @@ var PM_TaskList_Mixin = {
         },
 
         deleteTask (args) {
-            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
                 return;
             }
 

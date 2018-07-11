@@ -13,7 +13,7 @@
             <div class="item milestone">
                 <select v-model="milestone_id">
                     <option value="-1">
-                        {{ __( '- Milestone -', 'pm' ) }}
+                        {{ __( '- Milestone -', 'wedevs-project-manager') }}
                     </option>
                     <option v-for="milestone in milestones" :value="milestone.id">
                         {{ milestone.title }}
@@ -24,7 +24,7 @@
             <div class="item submit">
                 <input v-if="list.id" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="task_list_update">
                 <input v-if="!list.id" type="submit" class="button-primary" :disabled="submit_disabled" name="submit_todo" :value="add_list">
-                <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">{{__( 'Cancel', 'pm' )}}</a>
+                <a @click.prevent="showHideListForm(false, list)" class="button list-cancel" href="#">{{__( 'Cancel', 'wedevs-project-manager')}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -68,10 +68,10 @@
                 submit_disabled: false,
                 project_id: this.$route.params.project_id,
                 milestone_id: '-1',
-                task_list_name: __( 'Task list name', 'pm' ),
-                task_list_details: __( 'Task list details', 'pm' ),
-                task_list_update: __( 'Update List', 'pm' ),
-                add_list: __( 'Add List', 'pm' )
+                task_list_name: __( 'Task list name', 'wedevs-project-manager'),
+                task_list_details: __( 'Task list details', 'wedevs-project-manager'),
+                task_list_update: __( 'Update List', 'wedevs-project-manager'),
+                add_list: __( 'Add List', 'wedevs-project-manager')
             };
         },
 

@@ -26,7 +26,7 @@
                     }
                 }">
 
-                <i class="fa fa-arrow-circle-o-left mr-5"></i>{{ __( 'Back to Task Lists', 'pm' ) }}
+                <i class="fa fa-arrow-circle-o-left mr-5"></i>{{ __( 'Back to Task Lists', 'wedevs-project-manager') }}
             </router-link>
             
             <div>
@@ -118,7 +118,7 @@
                 render_tmpl: false,
                 task_id: parseInt(this.$route.params.task_id) ? this.$route.params.task_id : false, //for single task popup
                 loading: true,
-                delete_task_list: __( 'Delete List', 'pm' ),
+                delete_task_list: __( 'Delete List', 'wedevs-project-manager'),
                
             }
         },

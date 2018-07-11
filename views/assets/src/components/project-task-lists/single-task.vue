@@ -75,7 +75,7 @@
                                             <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
                                                 <span :class="privateClass( task.meta.privacy )"></span>
                                             </a>
-                                            <a v-pm-tooltip :title="__('Copy this task URL', 'pm')" href="#" @click.prevent="copyUrl(task)">
+                                            <a v-pm-tooltip :title="__('Copy this task URL', 'wedevs-project-manager')" href="#" @click.prevent="copyUrl(task)">
                                                 <i  class="fa fa-clipboard" aria-hidden="true"></i>
                                             </a>
                                         </div>
@@ -131,13 +131,13 @@
                                                 <span
                                                     @click.prevent="isTaskDateEditMode()">
                                                     <span v-if="task_start_field">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         {{ dateFormat( task.start_at.date ) }}
                                                     </span>
 
                                                     <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                                     <span v-if="task.due_date">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         {{ dateFormat( task.due_date.date ) }}
                                                     </span>
 
@@ -157,7 +157,7 @@
                                                     @click.prevent="isTaskDateEditMode()"
                                                     v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
                                                     <span>
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
                                                     </span>
                                                 </span>
@@ -171,7 +171,7 @@
 
                                             </span>
 
-                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'pm' ) }}</span>
+                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
                                     </div>
                                 </div>
 
@@ -200,7 +200,7 @@
 
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
-                                        <span>{{ __( 'Shift+Enter for line break', 'pm' ) }}</span>
+                                        <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
                                     </div>
 
                                     <div class="clearfix pm-clear"></div>
@@ -292,7 +292,7 @@
                 is_task_date_edit_mode: false,
                 is_enable_multi_select: false,
                 task_description: '',
-                update_description: __( 'Update Description', 'pm' ),
+                update_description: __( 'Update Description', 'wedevs-project-manager'),
                 task_id: this.$route.params.task_id,
                 list: {},
                 task: {},

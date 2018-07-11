@@ -61,8 +61,8 @@
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
             mentioned_user_ids: null,
-            add_new_comment: __( 'Add New Comment', 'pm' ),
-            update_comment: __( 'Update Comment', 'pm' ),
+            add_new_comment: __( 'Add New Comment', 'wedevs-project-manager'),
+            update_comment: __( 'Update Comment', 'wedevs-project-manager'),
             notify_users: [],
         }
     },

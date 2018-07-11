@@ -1,6 +1,6 @@
 <template>
     <div :class="newTaskBtnClass() + ' pm-new-task-button-icon'">
-        <a @click.prevent="showHideTaskFrom('toggle', list, false )" href="#">{{ __( 'Add Task', 'pm' ) }}</a>
+        <a @click.prevent="showHideTaskFrom('toggle', list, false )" href="#">{{ __( 'Add Task', 'wedevs-project-manager') }}</a>
     </div>
 </template>
 

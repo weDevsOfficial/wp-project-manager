@@ -34,7 +34,7 @@
             var settings = {
                 selector: 'textarea#' + self.editor_id,
                 menubar: false,
-                placeholder: self.__( 'Write a comment...', 'pm' ),
+                placeholder: self.__( 'Write a comment...', 'wedevs-project-manager'),
                 branding: false,
                 menubar: false,
                 setup: function (editor) {
