@@ -45,7 +45,7 @@
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
-                                            <input :disabled="can_complete_task(task)"  @click="singleTaskDoneUndone()" class="" type="checkbox">
+                                            <input :disabled="can_complete_task(task)" v-model="task.status"  @change="singleTaskDoneUndone()" class="" type="checkbox">
                                         </span>
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
@@ -392,7 +392,7 @@
             },
             singleTaskDoneUndone: function() {
                 var self = this,
-                    status = !this.task.status ? 1: 0;
+                    status = this.task.status ? 1: 0;
                 var args = {
                     data: {
                         task_id: this.task.id ? this.task.id : this.taskId,
