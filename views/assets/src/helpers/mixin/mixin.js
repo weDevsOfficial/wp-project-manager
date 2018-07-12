@@ -491,7 +491,7 @@ export default {
             return self.httpRequest(request);
         },
 
-        getGloabalProject(){
+        getGloabalProject (project_id){
             var args ={
                 callback (res) {
                     this.addProjectMeta(res.data);
@@ -500,6 +500,10 @@ export default {
                     this.$root.$store.commit('setProjectUsers', res.data.assignees.data);
                     pmBus.$emit('pm_after_fetch_project', res.data);
                 }
+            }
+            if (project_id) {
+                args.project_id = project_id;
+                this.project_id = project_id;
             }
             this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
