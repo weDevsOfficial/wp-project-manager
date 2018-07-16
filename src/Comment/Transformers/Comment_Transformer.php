@@ -28,10 +28,11 @@ class Comment_Transformer extends TransformerAbstract {
 
     public function transform( Comment $item ) {
         return [
-            'id'         => (int) $item->id,
-            'content'    => pm_get_content( $item->content ),
+            'id'               => (int) $item->id,
+            'content'          => pm_get_content( $item->content ),
             'commentable_type' => $item->commentable_type,
-            'created_at' => format_date( $item->created_at ),
+            'commentable_id'   => $item->commentable_id,
+            'created_at'       => format_date( $item->created_at ),
             'meta'       => [
                 'total_replies' => $item->replies->count(),
             ],
