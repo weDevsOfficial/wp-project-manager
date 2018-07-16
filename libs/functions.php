@@ -1,6 +1,11 @@
 <?php
 
 use WeDevs\PM\Core\Textdomain\Textdomain;
+use WeDevs\PM\Core\Notifications\Email;
+use League\Fractal;
+use League\Fractal\Resource\Item as Item;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Task\Models\Task;
 
 function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
@@ -567,5 +572,42 @@ function pm_filter_content_url( $content ) {
     $content = apply_filters( 'pm_get_content_url', $content );
     
     return $content;
+}
+http://pm.pm/wp-admin/admin.php?page=pm_projects#/projects/1/task-lists/1/tasks/86
+function pm_get_user_url( $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $pm_base  = Email::getInstance()->pm_link();
+    $user_url = $pm_base . '#/my-tasks/' . $user_id;
+
+    return $user_url;
+}
+
+function pm_get_task_url( $project_id, $list_id, $task_id ) {
+
+    $pm_base  = Email::getInstance()->pm_link();
+    $user_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id . '/tasks/' . $task_id;
+
+    return $user_url;
+}
+
+function pm_get_task( $task_id ) {
+    $task = Task::with('task_lists')
+        ->where( 'id', $task_id )
+        ->first();
+    
+    if ( $task == NULL ) {
+        return pm_get_response( null,  [
+            'message' => pm_get_text('success_messages.no_element')
+        ] );
+    }
+
+    $resource = new Item( $task, new Task_Transformer );
+
+    return pm_get_response( $resource );
+}
+
+function pm_get_file_download_url( $project_id, $user_id, $file_id ) {
+    return get_rest_url() . 'pm/v2/projects/' . $project_id . '/files/' . $file_id . '/users/' . $user_id . '/download';
 }
 

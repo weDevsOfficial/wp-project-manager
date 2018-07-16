@@ -501,8 +501,10 @@ export default {
                     pmBus.$emit('pm_after_fetch_project', res.data);
                 }
             }
+
             this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
+            
             if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) {
                 this.$root.$store.commit('setDefaultLoaded');
                 this.getProject(args);
