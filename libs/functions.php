@@ -226,8 +226,12 @@ function pm_get_response( $resource, $extra = [] ) {
     return array_merge( $extra, $response );
 }
 
-function pmpr($data) {
-    echo '<pre>'; print_r($data); '</pre>';
+function pmpr() {
+    $args = func_get_args();
+
+    foreach ( $args as $arg ) {
+        echo '<pre>'; print_r( $arg ); '</pre>';
+    }
 }
 
 function pm_default_co_caps() {

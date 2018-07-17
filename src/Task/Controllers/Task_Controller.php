@@ -184,15 +184,16 @@ class Task_Controller {
         $assignees  = $assignees ? $assignees : false;
         
         $task = Task::with('assignees')->find( $task_id );
-        
+
         if ( is_array( $assignees ) && $task ) {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
-
+        
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
         $task->update_model( $data );
         
+
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
         do_action('pm_after_update_task', $task, $request->get_params() );
         

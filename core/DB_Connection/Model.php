@@ -49,7 +49,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
 
         $user = wp_get_current_user();
         $fillable = $this->getFillable();
-
+        pm_log('lll',$event); 
         switch ( $event ) {
             case 'creating':
                 if ( in_array('created_by', $fillable, true) ) {
@@ -75,8 +75,9 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
 
             case 'deleted':
+                
                 do_action( 'pm_deleted', $this );
-                Activity_Log::entry( $this, 'deleted' );
+                //Activity_Log::entry( $this, 'deleted' );
                 break;
         }
         //Do not remove this line
